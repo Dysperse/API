@@ -260,7 +260,7 @@ export default function Prompt() {
               <TextField
                 disabled={buttonLoading}
                 label="Password"
-                placeholder="******"
+                placeholder="********"
                 value={password}
                 fullWidth
                 sx={authStyles.input}
@@ -290,7 +290,6 @@ export default function Prompt() {
               <Box
                 sx={{
                   display: "flex",
-                  mt: { sm: 2 },
                   position: { xs: "fixed", sm: "unset" },
                   bottom: 0,
                   left: 0,
@@ -302,7 +301,6 @@ export default function Prompt() {
                   width: { xs: "100vw", sm: "auto" },
                 }}
               >
-                <div />
                 <LoadingButton
                   loading={buttonLoading}
                   type="submit"

@@ -26,57 +26,80 @@ import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useSession } from "./_app";
 
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+
 function RecentItems() {
   const { data, url, error } = useApi("property/boards/recent");
+
+  const [emblaRef] = useEmblaCarousel(
+    {
+      dragFree: true,
+      align: "start",
+      containScroll: "trimSnaps",
+      loop: false,
+    },
+    [WheelGesturesPlugin()]
+  );
+
   return (
     <>
-      <Typography variant="h6" sx={{ mb: 2, ml: 1 }}>
+      <Typography variant="h6" sx={{ mb: 2, ml: 1 }} className="px-7">
         Recently edited
       </Typography>
       <Box
+        className="embla px-7"
+        ref={emblaRef}
         sx={{
-          overflow: "scroll",
-          display: "flex",
-          gap: 2,
+          width: "100%",
+          whiteSpace: "nowrap",
+          overflowX: "scroll",
+          overflowY: "visible",
           mb: 2,
         }}
       >
-        {data &&
-          data.map((item) => (
-            <TaskDrawer id={item.id} key={item.id} mutationUrl={url}>
-              <Card
-                sx={{ width: { xs: "90vw", sm: "300px" }, borderRadius: 5 }}
-                variant="outlined"
-              >
-                <CardActionArea sx={{ height: "100%" }}>
-                  <CardContent sx={{ height: "100%" }}>
-                    <Icon className="outlined">
-                      {item.pinned ? "push_pin" : "check_circle"}
-                    </Icon>
-                    <Typography
-                      sx={{
-                        fontWeight: 700,
-                        mb: 1,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.name}
-                    </Typography>
-                    {item.lastUpdated && (
-                      <Chip
-                        size="small"
-                        sx={{ mb: 0.5 }}
-                        icon={<Icon>history</Icon>}
-                        label={dayjs(item.lastUpdated).fromNow()}
-                      />
-                    )}
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </TaskDrawer>
-          ))}
+        <div className="embla__container" style={{ gap: "15px" }}>
+          {data &&
+            data.map((item) => (
+              <TaskDrawer id={item.id} mutationUrl={url} key={item.id}>
+                <Card
+                  sx={{
+                    width: "100%",
+                    flex: { xs: "0 0 90%", sm: "0 0 20%" },
+                    borderRadius: 5,
+                  }}
+                  variant="outlined"
+                >
+                  <CardActionArea sx={{ height: "100%" }}>
+                    <CardContent sx={{ height: "100%" }}>
+                      <Icon className="outlined">
+                        {item.pinned ? "push_pin" : "check_circle"}
+                      </Icon>
+                      <Typography
+                        sx={{
+                          fontWeight: 700,
+                          mb: 1,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {item.name}
+                      </Typography>
+                      {item.lastUpdated && (
+                        <Chip
+                          size="small"
+                          sx={{ mb: 0.5 }}
+                          icon={<Icon>history</Icon>}
+                          label={dayjs(item.lastUpdated).fromNow()}
+                        />
+                      )}
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </TaskDrawer>
+            ))}
+        </div>
       </Box>
     </>
   );
@@ -113,81 +136,81 @@ export default function Home() {
   });
   return (
     <>
-      <div className="px-7">
+      <Box
+        sx={{
+          mt: { xs: "calc(var(--navbar-height) * -1)", md: "-50px" },
+          pt: 8,
+        }}
+      >
         <Box
           sx={{
-            mt: { xs: "calc(var(--navbar-height) * -1)", md: "-50px" },
-            pt: 8,
+            display: "flex",
+            mb: 2,
+            alignItems: "center",
+            pr: 2,
+            gap: 1,
+            height: "var(--navbar-height)",
+            position: { xs: editMode ? "fixed" : "absolute", md: "static" },
+            background: session?.user?.darkMode
+              ? "hsla(240,11%,10%, .5)"
+              : "rgba(255,255,255,.5)",
+            top: 0,
+            backdropFilter: "blur(10px)",
+            zIndex: 9,
+            left: 0,
+            width: "100%",
           }}
         >
           <Box
             sx={{
-              display: "flex",
-              mb: 2,
-              alignItems: "center",
-              pr: 2,
-              gap: 1,
-              height: "var(--navbar-height)",
-              position: { xs: editMode ? "fixed" : "absolute", md: "static" },
-              background: session?.user?.darkMode
-                ? "hsla(240,11%,10%, .5)"
-                : "rgba(255,255,255,.5)",
-              top: 0,
-              backdropFilter: "blur(10px)",
-              zIndex: 9,
-              left: 0,
-              width: "100%",
+              ml: "auto",
             }}
           >
-            <Box
-              sx={{
-                ml: "auto",
-              }}
-            >
-              {!editMode && (
-                <Tooltip title="Jump to" placement="bottom-start">
-                  <IconButton
-                    onClick={() => {
-                      navigator.vibrate(50);
-                      openSpotlight();
-                    }}
-                  >
-                    <Icon className="outlined">bolt</Icon>
-                  </IconButton>
-                </Tooltip>
-              )}
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              mt: 15,
-              mb: 10,
-            }}
-          >
-            <Typography
-              className="font-heading"
-              sx={{
-                fontSize: {
-                  xs: "40px",
-                  sm: "50px",
-                },
-                userSelect: "none",
-                textAlign: { md: "center" },
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "100%",
-              }}
-              variant="h5"
-            >
-              {greeting}
-              {session?.user?.name.includes(" ")
-                ? session?.user?.name.split(" ")[0]
-                : session?.user?.name}
-              !
-            </Typography>
+            {!editMode && (
+              <Tooltip title="Jump to" placement="bottom-start">
+                <IconButton
+                  onClick={() => {
+                    navigator.vibrate(50);
+                    openSpotlight();
+                  }}
+                >
+                  <Icon className="outlined">bolt</Icon>
+                </IconButton>
+              </Tooltip>
+            )}
           </Box>
         </Box>
-        <RecentItems />
+        <Box
+          sx={{
+            mt: { xs: 3, sm: 15 },
+            mb: 10,
+          }}
+        >
+          <Typography
+            className="font-heading"
+            sx={{
+              fontSize: {
+                xs: "40px",
+                sm: "50px",
+              },
+              userSelect: "none",
+              textAlign: { md: "center" },
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "100%",
+            }}
+            variant="h5"
+          >
+            {greeting}
+            {session?.user?.name.includes(" ")
+              ? session?.user?.name.split(" ")[0]
+              : session?.user?.name}
+            !
+          </Typography>
+        </Box>
+      </Box>
+      <RecentItems />
+      <div className="px-7">
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
           <Box>
             <DailyCheckIn />
@@ -275,8 +298,8 @@ export default function Home() {
             </ListItemButton>
           </Box>
         </Masonry>
-        <Toolbar />
       </div>
+      <Toolbar />
     </>
   );
 }

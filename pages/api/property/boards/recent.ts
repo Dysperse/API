@@ -17,7 +17,7 @@ const handler = async (req, res) => {
     orderBy: {
       lastUpdated: "desc",
     },
-    take: 5,
+    take: 6,
   });
 
   res.json(data);
