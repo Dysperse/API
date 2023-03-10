@@ -2,7 +2,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Alert,
   Box,
-  Button,
   Chip,
   CircularProgress,
   Collapse,
@@ -449,7 +448,7 @@ export function CreateTask({
                     }}
                   />
                 </picture>
-                <Button
+                <IconButton
                   sx={{
                     position: "absolute",
                     top: 0,
@@ -458,8 +457,6 @@ export function CreateTask({
                     background: "rgba(0,0,0,0.7)!important",
                     color: "#fff!important",
                     minWidth: "unset",
-                    width: 25,
-                    height: 25,
                     borderRadius: 999,
                     zIndex: 999,
                   }}
@@ -467,15 +464,10 @@ export function CreateTask({
                     setImage(null);
                   }}
                 >
-                  <span
-                    className="material-symbols-outlined"
-                    style={{
-                      fontSize: "20px",
-                    }}
-                  >
-                    close
-                  </span>
-                </Button>
+                  <Icon className="outlined" sx={{ fontSize: "20px" }}>
+                    delete
+                  </Icon>
+                </IconButton>
               </Box>
             )}
             <TextField
