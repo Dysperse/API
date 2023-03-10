@@ -12,7 +12,7 @@ const handler = async (req, res) => {
       id: req.query.id,
     },
     data: {
-      lastModified: req.query.date(),
+      lastModified: req.query.date,
       ...(req.query.name && { name: req.query.name }),
       ...((req.query.description || req.query.description === "") && {
         description: req.query.description,
