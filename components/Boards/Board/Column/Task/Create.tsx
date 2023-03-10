@@ -450,9 +450,7 @@ export function CreateTask({
                     borderRadius: 999,
                     zIndex: 999,
                   }}
-                  onClick={() => {
-                    setImage(null);
-                  }}
+                  onClick={() => setImage(null)}W
                 >
                   <Icon className="outlined" sx={{ fontSize: "20px" }}>
                     delete
