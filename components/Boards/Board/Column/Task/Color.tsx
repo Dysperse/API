@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import dayjs from "dayjs";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
@@ -34,6 +35,7 @@ export function Color({
       onClick={() => {
         fetchApiWithoutHook("property/boards/column/task/edit", {
           color: color,
+          date: dayjs().toISOString(),
           id: task.id,
         }).then(() => {
           mutate(mutationUrl);

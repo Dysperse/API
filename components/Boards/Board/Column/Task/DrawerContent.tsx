@@ -83,6 +83,7 @@ export default function DrawerContent({
       setTaskData((prev) => ({ ...prev, [key]: value }));
       fetchApiWithoutHook("property/boards/column/task/edit", {
         id,
+        date: dayjs().toISOString(),
         [key]: [value],
       }).then(() => {
         mutate(mutationUrl);
