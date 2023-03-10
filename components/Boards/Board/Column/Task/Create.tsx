@@ -675,7 +675,7 @@ export function CreateTask({
           borderRadius: { xs: 0, sm: 3 },
           borderBottom: { xs: "1px solid", sm: "none" },
           borderColor: `hsl(240, 11%, ${
-            session?.user?.darkMode ? 80 : 95
+            session?.user?.darkMode ? 20 : 95
           }%) !important`,
           transition: "none",
           py: { xs: 2, sm: 1.5 },
@@ -685,7 +685,7 @@ export function CreateTask({
           ...(label && { mb: -0.5 }),
           "&:active": {
             background: `hsl(240, 11%, ${
-              session?.user?.darkMode ? 80 : 94
+              session?.user?.darkMode ? 15 : 94
             }%) !important`,
           },
         }}

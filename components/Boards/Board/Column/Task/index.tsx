@@ -209,7 +209,7 @@ export const Task: any = React.memo(function Task({
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
             borderColor: `hsl(240, 11%, ${
-              session?.user?.darkMode ? 80 : 95
+              session?.user?.darkMode ? 20 : 95
             }%) !important`,
             transition: "none",
             py: { xs: 0.7, sm: 0.5 },
@@ -218,7 +218,7 @@ export const Task: any = React.memo(function Task({
 
             "&:active": {
               background: `hsl(240, 11%, ${
-                session?.user?.darkMode ? 80 : 94
+                session?.user?.darkMode ? 15 : 94
               }%) !important`,
             },
           }}
