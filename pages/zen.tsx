@@ -1,4 +1,5 @@
 import { openSpotlight } from "@mantine/spotlight";
+import { Masonry } from "@mui/lab";
 import {
   Box,
   Icon,
@@ -98,21 +99,18 @@ export default function Home() {
           </Box>
           <Box
             sx={{
-              display: "flex",
-              gap: 4,
-              my: 4,
-              alignItems: { sm: "center" },
-              flexDirection: { xs: "column", sm: "row" },
+              mt: 15,
+              mb: 10,
             }}
           >
             <Typography
               className="font-heading"
               sx={{
-                flexGrow: 1,
                 fontSize: {
                   xs: "40px",
                   sm: "50px",
                 },
+                textAlign: "center",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: "100%",
@@ -127,13 +125,11 @@ export default function Home() {
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Masonry columns={2}>
           <DailyCheckIn />
           <DailyRoutine zen />
-
           <ListItemButton
             sx={{
-              width: "100%",
               px: "15px !important",
               background: session?.user?.darkMode
                 ? "hsl(240, 11%, 10%)"
@@ -190,7 +186,6 @@ export default function Home() {
           </ListItemButton>
           <ListItemButton
             sx={{
-              width: "100%",
               px: "15px !important",
               background: session?.user?.darkMode
                 ? "hsl(240, 11%, 10%)"
@@ -208,7 +203,7 @@ export default function Home() {
             <Icon>auto_mode</Icon>
             <b>Backlog</b>
           </ListItemButton>
-        </Box>
+        </Masonry>
         <Toolbar />
       </div>
     </>

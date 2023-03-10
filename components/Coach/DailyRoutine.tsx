@@ -185,7 +185,6 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     <>
       <ListItemButton
         sx={{
-          width: "100%",
           px: "15px !important",
           gap: 2,
           background: session?.user?.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
@@ -204,7 +203,16 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           }
         }}
       >
-        <Icon className="outlined">rocket_launch</Icon>
+        <CircularProgressWithLabel
+          value={
+            data
+              ? (doneTasks.length /
+                  data.filter((task) => task.durationDays - task.progress > 0)
+                    .length) *
+                100
+              : 0
+          }
+        />
         <ListItemText
           primary={
             <b>
