@@ -13,7 +13,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -40,10 +40,7 @@ function ImageModal({ image, setImage, styles }) {
     try {
       const res = await fetch(
         `https://api.imgbb.com/1/upload?name=image&key=${key}`,
-        {
-          method: "POST",
-          body: form,
-        }
+        { method: "POST", body: form }
       ).then((res) => res.json());
 
       setImage(JSON.stringify(res.data));
