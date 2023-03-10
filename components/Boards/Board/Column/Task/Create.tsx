@@ -628,7 +628,7 @@ export function CreateTask({
                 <div>
                   <LoadingButton
                     loading={loading}
-                    disabled={title.trim() === ""}
+                    disabled={title.trim() === "" || title.length > 200}
                     type="submit"
                     disableRipple
                     color="inherit"
