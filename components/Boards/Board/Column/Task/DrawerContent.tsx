@@ -395,22 +395,49 @@ export default function DrawerContent({
             <Puller />
             <MenuItem onClick={() => handlePostpone(1, "day")}>
               <Icon className="outlined">east</Icon>
-              Tomorrow
+              <span>
+                <Typography sx={{ fontWeight: 700 }}>In one day</Typography>
+                <Typography variant="body2">
+                  {dayjs(data.due).add(1, "day").format("MMMM D")}
+                </Typography>
+              </span>
             </MenuItem>
             <MenuItem onClick={() => handlePostpone(3, "day")}>
               <Icon className="outlined">view_week</Icon>
-              In 3 days
+              <span>
+                <Typography sx={{ fontWeight: 700 }}>In three days</Typography>
+                <Typography variant="body2">
+                  {dayjs(data.due).add(3, "day").format("MMMM D")}
+                </Typography>
+              </span>
             </MenuItem>
             <MenuItem onClick={() => handlePostpone(1, "week")}>
-              <Icon className="outlined">calendar_view_week</Icon>1 week
+              <Icon className="outlined">calendar_view_week</Icon>
+              <span>
+                <Typography sx={{ fontWeight: 700 }}>1 week</Typography>
+                <Typography variant="body2">
+                  {dayjs(data.due).add(1, "week").format("MMMM D")}
+                </Typography>
+              </span>
             </MenuItem>
             <MenuItem onClick={() => handlePostpone(1, "month")}>
-              <Icon className="outlined">calendar_view_month</Icon>1 month
+              <Icon className="outlined">calendar_view_month</Icon>
+              <span>
+                <Typography sx={{ fontWeight: 700 }}>1 month</Typography>
+                <Typography variant="body2">
+                  {dayjs(data.due).add(1, "month").format("MMMM D")}
+                </Typography>
+              </span>
             </MenuItem>
             <Divider />
             <MenuItem onClick={() => handlePostpone(-1, "day")}>
               <Icon className="outlined">west</Icon>
-              Yesterday
+              <span>
+                <Typography sx={{ fontWeight: 700 }}>Yesterday</Typography>
+                <Typography variant="body2">
+                  {dayjs(data.due).subtract(1, "week").format("MMMM D")}
+                </Typography>
+              </span>
             </MenuItem>
           </SwipeableDrawer>
           <Button

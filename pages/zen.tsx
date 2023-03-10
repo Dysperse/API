@@ -50,6 +50,9 @@ function RecentItems() {
               >
                 <CardActionArea sx={{ height: "100%" }}>
                   <CardContent sx={{ height: "100%" }}>
+                    <Icon className="outlined">
+                      {item.pinned ? "push_pin" : "check_circle"}
+                    </Icon>
                     <Typography
                       sx={{
                         fontWeight: 700,
@@ -61,8 +64,14 @@ function RecentItems() {
                     >
                       {item.name}
                     </Typography>
-                    {item.due && <Chip label={dayjs(item.due).fromNow()} />}
-                    {item.pinned && <Chip label="Important" />}
+                    {item.lastUpdated && (
+                      <Chip
+                        size="small"
+                        sx={{ mb: 0.5 }}
+                        icon={<Icon>history</Icon>}
+                        label={dayjs(item.lastUpdated).fromNow()}
+                      />
+                    )}
                   </CardContent>
                 </CardActionArea>
               </Card>
