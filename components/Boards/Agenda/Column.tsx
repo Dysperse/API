@@ -237,7 +237,6 @@ export const Column: any = memo(function Column({
                     "Set a goal to be achieved " +
                     placeholder.replace("in a day", "tomorrow")
                   }
-                  checkList={false}
                   mutationUrl={mutationUrl}
                   boardId={1}
                 />
@@ -257,7 +256,6 @@ export const Column: any = memo(function Column({
                 "Set a goal to be achieved " +
                 placeholder.replace("in a day", "tomorrow")
               }
-              checkList={false}
               mutationUrl={mutationUrl}
               boardId={1}
             />

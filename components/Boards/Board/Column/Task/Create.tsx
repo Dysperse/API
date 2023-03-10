@@ -109,20 +109,24 @@ export function CreateTask({
   mutationUrl,
   boardId,
   column,
-  checkList = false,
 }: any) {
+  const session = useSession();
   const storage = useAccountStorage();
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [pinned, setPinned] = useState<boolean>(false);
+  const [image, setImage] = useState<string | null>(null);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
-  const [pinned, setPinned] = useState<boolean>(false);
-  const [image, setImage] = useState<string | null>(null);
 
-  const [showDescription, setShowDescription] = useState<boolean>(false);
+  const trigger = useMediaQuery("(min-width: 600px)");
+  const titleRef = useRef<HTMLInputElement>(null);
+  const dateModalButtonRef = useRef<HTMLButtonElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
 
   useHotkeys(
     "alt+s",
@@ -132,9 +136,7 @@ export function CreateTask({
         document.getElementById("imageAttachment")?.click();
       }
     },
-    {
-      enableOnFormTags: ["INPUT", "TEXTAREA"],
-    }
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] }
   );
 
   useHotkeys(
@@ -149,14 +151,11 @@ export function CreateTask({
             descriptionRef.current?.select();
           } else {
             titleRef.current?.focus();
-            // titleRef.current?.select();
           }
         }, 50);
       }
     },
-    {
-      enableOnFormTags: ["INPUT", "TEXTAREA"],
-    }
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] }
   );
 
   useHotkeys(
@@ -167,9 +166,7 @@ export function CreateTask({
         setPinned(!pinned);
       }
     },
-    {
-      enableOnFormTags: ["INPUT", "TEXTAREA"],
-    }
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] }
   );
 
   useHotkeys(
@@ -180,12 +177,8 @@ export function CreateTask({
         document.getElementById("dateModal")?.click();
       }
     },
-    {
-      enableOnFormTags: ["INPUT", "TEXTAREA"],
-    }
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] }
   );
-
-  const session = useSession();
 
   const styles = {
     color: session?.user?.darkMode ? "hsl(240,11%,90%)" : "#505050",
@@ -232,10 +225,6 @@ export function CreateTask({
       setDate(nextMonth);
     }
   }, [title]);
-
-  const titleRef = useRef<HTMLInputElement>(null);
-  const dateModalButtonRef = useRef<HTMLButtonElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = useCallback(
     async (e) => {
@@ -310,10 +299,8 @@ export function CreateTask({
         titleRef.current?.select();
       }
       titleRef.current?.focus();
-    });
+    }, 100);
   }, [open, titleRef]);
-
-  const trigger = useMediaQuery("(min-width: 600px)");
 
   return (
     <>
