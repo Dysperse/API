@@ -77,7 +77,7 @@ function ImageModal({ image, setImage, styles }) {
           {imageUploading ? (
             <CircularProgress size={20} sx={{ mx: 0.5 }} />
           ) : (
-            <Icon {...(image && { className: "outlined" })}>image</Icon>
+            <Icon {...(!image && { className: "outlined" })}>image</Icon>
           )}
         </IconButton>
       </Tooltip>
@@ -297,6 +297,7 @@ export function CreateTask({
     setTimeout(() => {
       if (open) {
         titleRef.current?.select();
+        titleRef.current?.focus();
       }
       titleRef.current?.focus();
     }, 100);
