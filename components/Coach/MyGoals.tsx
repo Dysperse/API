@@ -233,10 +233,8 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       <button
         onClick={() => setOpen(true)}
         className={
-          "mb-3 flex w-full select-none items-center rounded-2xl border p-4 shadow-md transition-transform hover:bg-[hsl(240,11%,95%)] active:scale-[.98] active:transition-none dark:bg-gray-900" +
-          (data &&
-            data.length === 0 &&
-            "dark:hover:bg-gray-[hsl(240,11%,20%)] bg-gray-200")
+          "mb-3 flex w-full select-none items-center rounded-2xl border p-4 shadow-md transition-transform active:scale-[.98] active:transition-none dark:bg-gray-900" +
+          (data && data.length === 0 && " bg-gray-200")
         }
         style={{
           textAlign: "left",
