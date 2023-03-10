@@ -12,11 +12,17 @@ export default async function handler(req, res) {
   } else {
     const exists = await prisma.dailyCheckIn.findMany({
       where: {
-        date: new Date(req.query.date),
+        AND: [
+          {
+            date: new Date(req.query.date),
+          },
+          {
+            userId: req.query.userIdentifier,
+          },
+        ],
       },
       take: 1,
     });
-
     if (exists.length === 1) {
       const data = await prisma.dailyCheckIn.updateMany({
         where: {
@@ -34,7 +40,6 @@ export default async function handler(req, res) {
           reason: req.query.reason,
         },
       });
-      console.log(data);
       res.json(data);
     } else {
       const data = await prisma.dailyCheckIn.create({
