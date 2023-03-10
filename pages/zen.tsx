@@ -189,6 +189,7 @@ export default function Home() {
           <Typography
             className="font-heading"
             sx={{
+              px: 4,
               fontSize: {
                 xs: "40px",
                 sm: "50px",
