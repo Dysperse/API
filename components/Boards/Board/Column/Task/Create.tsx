@@ -499,6 +499,7 @@ export function CreateTask({
                 inputRef={descriptionRef}
                 variant="standard"
                 placeholder="Add description..."
+                multiline
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: 15, mt: 0.5, mb: 1 },
