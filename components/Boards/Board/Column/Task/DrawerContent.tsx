@@ -27,6 +27,7 @@ import { toastStyles } from "../../../../../lib/useCustomTheme";
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { Puller } from "../../../../Puller";
+import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 import { parseEmojis, TaskDrawer } from "./TaskDrawer";
@@ -272,10 +273,24 @@ export default function DrawerContent({
           ),
         }}
       />
-      <br />
-      <br />
+      {data.image && (
+        <>
+          <br />
+          <br />
+        </>
+      )}
       {data.image && <ImageViewer url={data.image} />}
 
+      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, mt: 3 }}>
+        {["red", "blue", "green", "grey"].map((color) => (
+          <Color
+            key={color}
+            color={color}
+            mutationUrl={mutationUrl}
+            task={data}
+          />
+        ))}
+      </Box>
       <Box
         sx={{
           display: "flex",
