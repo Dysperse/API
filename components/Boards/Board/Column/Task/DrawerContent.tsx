@@ -288,6 +288,7 @@ export default function DrawerContent({
               key={color}
               color={color}
               mutationUrl={mutationUrl}
+              setTaskData={setTaskData}
               task={data}
             />
           )

@@ -8,11 +8,13 @@ export function Color({
   task,
   mutationUrl,
   color,
+  setTaskData,
   small = false,
 }: {
   task;
   mutationUrl;
   color: string;
+  setTaskData: any;
   small?: boolean;
 }) {
   return (
@@ -33,6 +35,7 @@ export function Color({
         },
       }}
       onClick={() => {
+        setTaskData((item) => ({ ...item, color }));
         fetchApiWithoutHook("property/boards/column/task/edit", {
           color: color,
           date: dayjs().toISOString(),
