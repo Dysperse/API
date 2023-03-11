@@ -32,7 +32,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 function RecentItems() {
   const { data, url, error } = useApi("property/boards/recent");
 
-  const [emblaRef] = useEmblaCarousel(
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       dragFree: true,
       align: "start",
@@ -42,6 +42,9 @@ function RecentItems() {
     [WheelGesturesPlugin()]
   );
 
+  useEffect(() => {
+    emblaApi && emblaApi?.reInit();
+  }, [data]);
   return (
     <>
       <Typography variant="h6" sx={{ mb: 2, ml: 1 }} className="px-7">
