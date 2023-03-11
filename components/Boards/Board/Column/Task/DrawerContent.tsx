@@ -282,14 +282,16 @@ export default function DrawerContent({
       {data.image && <ImageViewer url={data.image} />}
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, mt: 3 }}>
-        {["red", "blue", "green", "grey"].map((color) => (
-          <Color
-            key={color}
-            color={color}
-            mutationUrl={mutationUrl}
-            task={data}
-          />
-        ))}
+        {["red", "pink", "purple", "indigo", "blue", "green", "grey"].map(
+          (color) => (
+            <Color
+              key={color}
+              color={color}
+              mutationUrl={mutationUrl}
+              task={data}
+            />
+          )
+        )}
       </Box>
       <Box
         sx={{
