@@ -761,7 +761,7 @@ const BoardInfo = ({
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
-        minWidth: !showInfo ? "auto" : "320px",
+        minWidth: { md: !showInfo ? "auto" : "320px" },
         maxWidth: { md: "300px" },
         backdropFilter: "blur(20px)!important",
       }}
@@ -985,30 +985,12 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   );
 
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
-  const storage = useAccountStorage();
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
-
-  const touchStartX: any = useRef(null);
-
-  function handleTouchStart(e) {
-    touchStartX.current = e.touches[0].clientX;
-  }
-
-  function handleTouchEnd(e) {
-    const touchEndX = e.changedTouches[0].clientX;
-    const touchDistance = touchEndX - touchStartX.current;
-    if (touchDistance > 50) {
-      setMobileOpen(true);
-      navigator.vibrate(50);
-    }
-  }
 
   return (
     <Box
       className="snap-x snap-mandatory sm:snap-none"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
       sx={{
         display: "flex",
         maxWidth: "100vw",
@@ -1082,16 +1064,17 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         />
       )}
       <SwipeableDrawer
-        swipeAreaWidth={30}
         open={mobileOpen}
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
-        sx={{ zIndex: 999 }}
+        sx={{ zIndex: 9999999 }}
+        hideBackdrop
         PaperProps={{
           sx: {
             borderRadius: "20px",
-            m: "30px",
-            maxHeight: "calc(100vh - 60px)",
+            m: "20px",
+            maxWidth: "calc(100vw - 40px)!important",
+            maxHeight: "calc(100vh - 40px)!important",
           },
         }}
       >

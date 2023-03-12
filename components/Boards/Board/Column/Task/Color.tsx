@@ -29,9 +29,9 @@ export function Color({
         alignItems: "center",
         justifyContent: "center",
         color: "#000",
-        background: `${colors[color]["A400"]}!important`,
+        background: `${colors[color]["400"]}!important`,
         "&:hover": {
-          background: `${colors[color]["A700"]}!important`,
+          background: `${colors[color]["500"]}!important`,
         },
       }}
       onClick={() => {

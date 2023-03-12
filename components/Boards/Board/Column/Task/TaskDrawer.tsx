@@ -8,7 +8,6 @@ import {
   neutralizeBack,
   revivalBack,
 } from "../../../../../hooks/useBackButton";
-import { useAccountStorage } from "../../../../../pages/_app";
 import { ErrorHandler } from "../../../../Error";
 import { Puller } from "../../../../Puller";
 import DrawerContent from "./DrawerContent";
@@ -97,7 +96,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         PaperProps={{ sx: drawerStyles }}
       >
         <Puller />
-        <Box sx={{ p: 5, pt: 0 }}>
+        <Box sx={{ p: { xs: 3, sm: 5 }, pt: 0 }}>
           {error && (
             <ErrorHandler error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support" />
           )}
