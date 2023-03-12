@@ -183,7 +183,7 @@ export default function DrawerContent({
           sx: {
             fontSize: "35px",
             textDecoration: "underline",
-            mt: { xs: -2, sm: 2 },
+            mt: -2,
             color: colors[data.color]["A700"],
           },
         }}
@@ -296,10 +296,10 @@ export default function DrawerContent({
           my: 2,
           py: 3,
           px: 3,
-          "& *:first-child": {
+          "& *:first-of-type": {
             ml: "auto",
           },
-          "& *:last-child": {
+          "& *:last-of-type": {
             mr: "auto",
           },
           overflowX: "scroll",
@@ -519,10 +519,10 @@ export default function DrawerContent({
           Subtasks
         </Typography>
         {data.parentTasks.length === 0 &&
-          data.subTasks.map((subTask) => (
+          data.subTasks.map((subTask, index) => (
             <TaskDrawer
               isAgenda={isAgenda}
-              key={subTask.id}
+              key={index}
               id={subTask.id}
               mutationUrl={mutationUrl}
             >
