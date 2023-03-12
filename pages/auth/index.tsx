@@ -8,6 +8,7 @@ import {
   InputAdornment,
   NoSsr,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
@@ -299,34 +300,66 @@ export default function Prompt() {
                     background: "hsl(240,11%,10%)",
                   },
                   width: { xs: "100vw", sm: "auto" },
+                  // "& .MuiTooltip-tooltip": {
+                  //   "& .MuiTooltip-arrow::before": {
+                  //     background: "hsl(240, 11%, 10%)",
+                  //   },
+                  //   borderRadius: "5px",
+                  //   fontSize: "14px",
+                  //   [`@media (prefers-color-scheme: dark)`]: {
+                  //     color: "hsl(240, 11%, 10%)",
+                  //     background: "hsl(240, 11%, 90%)",
+
+                  //     "& .MuiTooltip-arrow::before": {
+                  //       background: "hsl(240, 11%, 90%)",
+                  //     },
+                  //   },
+                  //   padding: "6px 14px",
+                  //   boxShadow:
+                  //     "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+                  // },
                 }}
               >
-                <LoadingButton
-                  loading={buttonLoading}
-                  type="submit"
-                  variant="contained"
-                  disableRipple
-                  disableElevation
-                  id="_loading"
-                  sx={authStyles.submit}
-                  size="large"
-                  disabled={
-                    !isEmail(email) ||
-                    email.trim() === "" ||
-                    password.length < 8 ||
-                    !/\d/.test(password) ||
-                    !/[a-z]/i.test(password)
+                <Tooltip
+                  title={
+                    !isEmail(email)
+                      ? "Please type a valid email address"
+                      : password.length < 8 ||
+                        !/\d/.test(password) ||
+                        !/[a-z]/i.test(password)
+                      ? "Your password looks incorrect"
+                      : ""
                   }
-                  onClick={() => setStep(2)}
                 >
-                  Continue
-                  <span
-                    style={{ marginLeft: "10px" }}
-                    className="material-symbols-rounded"
-                  >
-                    east
+                  <span style={{ marginLeft: "auto" }}>
+                    <LoadingButton
+                      loading={buttonLoading}
+                      type="submit"
+                      variant="contained"
+                      disableRipple
+                      disableElevation
+                      id="_loading"
+                      sx={authStyles.submit}
+                      size="large"
+                      disabled={
+                        !isEmail(email) ||
+                        email.trim() === "" ||
+                        password.length < 8 ||
+                        !/\d/.test(password) ||
+                        !/[a-z]/i.test(password)
+                      }
+                      onClick={() => setStep(2)}
+                    >
+                      Continue
+                      <span
+                        style={{ marginLeft: "10px" }}
+                        className="material-symbols-rounded"
+                      >
+                        east
+                      </span>
+                    </LoadingButton>
                   </span>
-                </LoadingButton>
+                </Tooltip>
               </Box>
             </Box>
           ) : step == 2 ? (
