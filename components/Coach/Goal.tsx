@@ -181,7 +181,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         >
           <Toolbar className="flex" sx={{ height: "70px" }}>
             <IconButton color="inherit" onClick={() => setOpen(false)}>
-              <Icon>west</Icon>
+              <Icon>expand_more</Icon>
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "600" }}>Goal</Typography>
             <MoreOptions

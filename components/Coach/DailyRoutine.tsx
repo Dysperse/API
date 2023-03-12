@@ -267,7 +267,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
   ) : (
     <Box
       id="routineTrigger"
-      className="shadow-md hover:shadow-lg"
+      className="shadow-sm hover:shadow-md"
       onClick={() => setOpen(true)}
       sx={{
         ...(!data && {
@@ -289,11 +289,11 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         alignItems: "center",
         background: session?.user?.darkMode
           ? "hsl(240,11%,16%)"
-          : "hsl(240,11%,95%)",
+          : "hsl(240,11%,97%)",
         "&:hover": {
           background: session?.user?.darkMode
             ? "hsl(240,11%,16%)"
-            : "hsl(240,11%,90%)",
+            : "hsl(240,11%,95%)",
         },
 
         gap: 5,
@@ -447,6 +447,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           sx: {
             border: 0,
             borderRadius: 0,
+            overflow: "visible",
             maxWidth: "600px",
             width: "100vw",
             "& *": {
@@ -455,6 +456,19 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
           },
         }}
       >
+        <Box
+          sx={{
+            position: "fixed",
+            top: open ? "-10px" : "0px",
+            transition: "all .2s",
+            left: "0px",
+            width: "100vw",
+            height: "10px",
+            borderRadius: "10px 10px 0 0",
+            background: "hsl(240, 11%, 10%)",
+            zIndex: 999,
+          }}
+        ></Box>
         <Stories
           storyContainerStyles={{
             background: "hsl(240, 11%, 10%)",

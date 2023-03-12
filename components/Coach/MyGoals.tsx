@@ -217,7 +217,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       ) : error ? (
         <ErrorHandler error="An error occured while trying to fetch your routines" />
       ) : (
-        <Box>
+        <Box sx={{ mt: 4 }}>
           {[...new Array(10)].map((_, i) => (
             <Skeleton
               variant="rectangular"
@@ -225,7 +225,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               key={i.toString()}
               height={70}
               animation="wave"
-              sx={{ borderRadius: 5, my: 4 }}
+              sx={{ borderRadius: 5, mb: 2 }}
             />
           ))}
         </Box>
