@@ -8,7 +8,7 @@ import {
   Icon,
   Skeleton,
   SwipeableDrawer,
-  Typography
+  Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
