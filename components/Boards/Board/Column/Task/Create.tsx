@@ -13,7 +13,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -652,7 +652,6 @@ export function CreateTask({
         disableRipple
         className="createTask"
         sx={{
-          ...(!label && { display: { xs: "none", sm: "flex" } }),
           color: `hsl(240, 11%, ${session?.user?.darkMode ? 90 : 40}%)`,
           fontWeight: 700,
           borderRadius: { xs: 0, sm: 3 },
@@ -664,7 +663,7 @@ export function CreateTask({
           py: { xs: 2, sm: 1.5 },
           px: { xs: 2.5, sm: 1.5 },
           gap: 1.5,
-          mt: { xs: -0.5, sm: label ? 0 : 2 },
+          mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },
           ...(label && { mb: -0.5 }),
           "&:active": {
             background: `hsl(240, 11%, ${

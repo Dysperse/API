@@ -16,9 +16,9 @@ export function BottomNav() {
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 9,
-    height: "35px",
+    height: "40px",
     fontSize: "27px",
-    flex: "0 0 35px",
+    flex: "0 0 40px",
     width: "60px",
   };
   const session = useSession();
@@ -57,7 +57,7 @@ export function BottomNav() {
           background: `${
             session?.user?.darkMode
               ? "hsl(240,11%,17%)"
-              : hexToRgba(colors[session?.themeColor || "grey"][300], 0.5)
+              : hexToRgba(colors[session?.themeColor || "grey"][200], 0.5)
           }!important`,
         },
       }),

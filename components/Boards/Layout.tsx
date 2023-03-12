@@ -55,13 +55,16 @@ export const boardSwitcherStyles = (v) => {
     "&:active": {
       transition: "none",
       transform: "scale(0.9)",
+      background: v
+        ? "hsla(240,11%,14%,0.8)!important"
+        : "rgba(200,200,200,.2)!important",
     },
     position: "fixed",
     bottom: {
-      xs: "65px",
+      xs: "70px",
       md: "30px",
     },
-    left: "10px",
+    left: "15px",
     zIndex: 9,
     background: v
       ? "hsla(240,11%,14%,0.5)!important"
@@ -76,7 +79,7 @@ export const boardSwitcherStyles = (v) => {
     fontWeight: "700",
     display: { md: "none" },
     fontSize: "15px",
-    color: v ? "#fff" : "#000",
+    color: v ? "#fff" : "#505050",
   };
 };
 

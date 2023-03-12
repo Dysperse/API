@@ -193,7 +193,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
             ? "hsl(240, 11%, 20%)"
             : "rgba(200, 200, 200, 0.3)",
         }}
-        className="shadow-md"
+        className="shadow-sm"
         disableRipple={editMode}
         onClick={() => {
           if (sortedTasks.length == 0) {

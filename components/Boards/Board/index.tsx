@@ -1022,7 +1022,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         sx={{
           position: "fixed",
           bottom: {
-            xs: "65px",
+            xs: "70px",
             md: "30px",
           },
           opacity: trigger ? 0 : 1,
@@ -1043,43 +1043,29 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           borderRadius: 999,
           borderColor: session?.user?.darkMode
             ? "hsla(240,11%,25%, 0.5)"
-            : "rgba(200,200,200, 0.5)",
+            : "rgba(200,200,200, 0.3)",
           right: 0,
           color: session?.user?.darkMode ? "#fff" : "#000",
           display: "flex",
           alignItems: "center",
           p: 0.5,
-          px: 1,
-          gap: 0.5,
         }}
       >
-        <IconButton onClick={handlePrev} disabled={currentColumn === 0}>
-          <Icon>west</Icon>
-        </IconButton>
-        <Button
-          onClick={() => {
-            const container: any = document.getElementById(
-              `container-${currentColumn}`
-            );
-            const el: any = container.querySelector(".createTask");
-            el?.click();
-          }}
-          disabled={storage?.isReached === true}
+        <IconButton
+          onClick={handlePrev}
+          disabled={currentColumn === 0}
           sx={{
-            display: { sm: "none" },
-            px: 1.5,
-            minWidth: "unset",
-            background: `${
-              session?.user?.darkMode
-                ? "hsla(240,11%,25%, 0.3)"
-                : "rgba(0,0,0,0.1)"
-            }!important`,
-            color: session?.user?.darkMode ? "#fff" : "#000",
+            width: 50,
+            borderRadius: 999,
           }}
         >
-          <Icon className="outlined">add</Icon>
-        </Button>
+          <Icon>west</Icon>
+        </IconButton>
         <IconButton
+          sx={{
+            width: 50,
+            borderRadius: 999,
+          }}
           onClick={handleNext}
           disabled={currentColumn === data.length - 1}
         >
@@ -1131,7 +1117,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         }}
         sx={boardSwitcherStyles(session?.user?.darkMode)}
       >
-        <Icon>menu</Icon>
+        <Icon className="outlined">menu</Icon>
       </IconButton>
 
       {data

@@ -46,13 +46,15 @@ function RecentItems() {
   useEffect(() => {
     emblaApi && emblaApi?.reInit();
   }, [data]);
+  const session = useSession();
+
   return (
     <>
-      <Typography variant="h6" sx={{ mb: 2, ml: 1 }} className="px-7">
+      <Typography variant="h6" sx={{ mb: 2, ml: 1 }} className="px-4 sm:px-7">
         Recently edited
       </Typography>
       <Box
-        className="embla px-7"
+        className="embla px-4 sm:px-7"
         ref={emblaRef}
         sx={{
           width: "100%",
@@ -62,13 +64,16 @@ function RecentItems() {
           mb: 2,
         }}
       >
-        <div className="embla__container" style={{ gap: "15px" }}>
+        <div
+          className="embla__container"
+          style={{ gap: "15px", paddingBottom: "10px" }}
+        >
           {!data && (
             <>
               {[...new Array(6)].map((_, index) => (
                 <Skeleton
                   variant="rectangular"
-                  height={150}
+                  height={120}
                   animation="wave"
                   sx={{
                     borderRadius: 5,
@@ -83,7 +88,12 @@ function RecentItems() {
             data.map((item) => (
               <TaskDrawer id={item.id} mutationUrl={url} key={item.id}>
                 <Card
+                  className="shadow-sm"
                   sx={{
+                    border: "1px solid",
+                    borderColor: session?.user?.darkMode
+                      ? "hsl(240, 11%, 20%)"
+                      : "rgba(200, 200, 200, 0.3)",
                     width: "100%",
                     flex: { xs: "0 0 90%", sm: "0 0 20%" },
                     borderRadius: 5,
@@ -209,7 +219,7 @@ export default function Home() {
           <Typography
             className="font-heading"
             sx={{
-              px: 4,
+              px: { xs: 2, sm: 4 },
               fontSize: {
                 xs: "40px",
                 sm: "50px",
@@ -232,7 +242,7 @@ export default function Home() {
       </Box>
       <RecentItems />
       <Box
-        className="px-7"
+        className="px-4 sm:px-7"
         sx={{
           mr: -2,
         }}
@@ -257,7 +267,7 @@ export default function Home() {
                   ? "hsl(240, 11%, 20%)"
                   : "rgba(200, 200, 200, 0.3)",
               }}
-              className="shadow-md"
+              className="shadow-sm"
               disableRipple={editMode}
               onClick={() => !editMode && router.push("/tasks/#/agenda/week")}
             >
@@ -315,7 +325,7 @@ export default function Home() {
                   ? "hsl(240, 11%, 20%)"
                   : "rgba(200, 200, 200, 0.3)",
               }}
-              className="shadow-md"
+              className="shadow-sm"
               disableRipple={editMode}
               onClick={() => !editMode && router.push("/tasks/#/backlog")}
             >
