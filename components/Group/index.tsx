@@ -47,7 +47,7 @@ function PropertyInfo({
           <IconButton onClick={handleClose} sx={{ mr: "auto" }}>
             <Icon>close</Icon>
           </IconButton>
-          <Typography sx={{ fontWeight: "700" }}>Group info</Typography>
+          <Typography sx={{ fontWeight: "700" }}>Group</Typography>
           <Changelog
             disabled={propertyData.profile.id !== session.property.propertyId}
           />
