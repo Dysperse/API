@@ -6,7 +6,7 @@ import {
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -362,11 +362,24 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
                 height={height}
                 style={{ zIndex: 1 }}
               />
-              <Typography variant="h1" gutterBottom>
-                🎉
-              </Typography>
-              <Typography variant="h6">
-                You worked towards all of your goals today!
+              <Box
+                sx={{
+                  textAlign: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                  mb: 2,
+                }}
+              >
+                <picture>
+                  <img
+                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
+                    alt="Tada"
+                  />
+                </picture>
+              </Box>
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                You worked towards
+                <br /> all of your goals today!
               </Typography>
               <Button
                 onClick={() => setOpen(false)}
@@ -428,6 +441,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
   return (
     <>
       <SwipeableDrawer
+        transitionDuration={250}
         disableSwipeToOpen
         anchor="bottom"
         open={open}
@@ -459,12 +473,12 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         <Box
           sx={{
             position: "fixed",
-            top: open ? "-10px" : "0px",
+            top: open ? "-17px" : "0px",
             transition: "all .2s",
             left: "0px",
-            width: "100vw",
-            height: "10px",
-            borderRadius: "10px 10px 0 0",
+            width: "100%",
+            height: "17px",
+            borderRadius: "50px 50px 0 0",
             background: "hsl(240, 11%, 10%)",
             zIndex: 999,
           }}
