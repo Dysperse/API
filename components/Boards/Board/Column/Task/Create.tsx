@@ -13,7 +13,7 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -660,9 +660,9 @@ export function CreateTask({
             session?.user?.darkMode ? 20 : 95
           }%) !important`,
           transition: "none",
+          gap: 1.5,
           py: { xs: 2, sm: 1.5 },
           px: { xs: 2.5, sm: 1.5 },
-          gap: 1.5,
           mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },
           ...(label && { mb: -0.5 }),
           "&:active": {
