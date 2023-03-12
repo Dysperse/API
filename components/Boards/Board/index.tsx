@@ -865,7 +865,7 @@ const BoardInfo = ({
                       new Promise(async (resolve, reject) => {
                         try {
                           await fetchApiWithoutHook(
-                            "property/integrations/run",
+                            "property/integrations/run/canvas",
                             {
                               boardId: board.id,
                             }
@@ -880,9 +880,11 @@ const BoardInfo = ({
                         loading: (
                           <div className="flex items-center gap-5">
                             <div>
-                              <Typography>Importing your Canvas...</Typography>
+                              <Typography>
+                                Importing your assignments...
+                              </Typography>
                               <Typography variant="body2">
-                                hang tight - this may take a while
+                                Hang tight - this may take a while
                               </Typography>
                             </div>
                             <picture>
