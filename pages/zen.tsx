@@ -214,7 +214,12 @@ export default function Home() {
         </Box>
       </Box>
       <RecentItems />
-      <div className="px-7">
+      <Box
+        className="px-7"
+        sx={{
+          mr: -2,
+        }}
+      >
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
           <Box>
             <DailyCheckIn />
@@ -302,7 +307,7 @@ export default function Home() {
             </ListItemButton>
           </Box>
         </Masonry>
-      </div>
+      </Box>
       <Toolbar />
     </>
   );
