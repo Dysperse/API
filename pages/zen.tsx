@@ -10,6 +10,7 @@ import {
   IconButton,
   ListItemButton,
   ListItemText,
+  Skeleton,
   Toolbar,
   Tooltip,
   Typography,
@@ -62,6 +63,22 @@ function RecentItems() {
         }}
       >
         <div className="embla__container" style={{ gap: "15px" }}>
+          {!data && (
+            <>
+              {[...new Array(6)].map((_, index) => (
+                <Skeleton
+                  variant="rectangular"
+                  height={150}
+                  animation="wave"
+                  sx={{
+                    borderRadius: 5,
+                    flex: { xs: "0 0 90%", sm: "0 0 20%" },
+                  }}
+                  key={index}
+                />
+              ))}
+            </>
+          )}
           {data &&
             data.map((item) => (
               <TaskDrawer id={item.id} mutationUrl={url} key={item.id}>
