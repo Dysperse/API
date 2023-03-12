@@ -34,7 +34,7 @@ function RecentItems() {
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
-      dragFree: true,
+      // dragFree: true,
       align: "start",
       containScroll: "trimSnaps",
       loop: false,
