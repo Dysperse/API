@@ -82,6 +82,7 @@ export default function Prompt() {
 
   const handleSubmit = async (e?: any) => {
     if (e) e.preventDefault();
+    console.log("Submitted");
     setButtonLoading(true);
 
     try {
@@ -116,17 +117,14 @@ export default function Prompt() {
       if (res.twoFactor) {
         setStep(3);
         setButtonLoading(false);
-        ref.current?.reset();
         return;
       } else if (res.error) {
         setStep(1);
-        ref.current?.reset();
         throw new Error(res.error);
       }
       if (res.message) {
         setStep(1);
         toast.error(res.message, toastStyles);
-        ref.current?.reset();
         setButtonLoading(false);
         return;
       }
@@ -141,7 +139,7 @@ export default function Prompt() {
           },
           toastStyles
         );
-        mutate("/api/user").then();
+        mutate("/api/user");
         return;
       }
       // Success
@@ -167,6 +165,8 @@ export default function Prompt() {
       }
     } catch (e) {
       setStep(1);
+      alert(1);
+      ref?.current?.reset();
       setButtonLoading(false);
     }
   };
@@ -181,7 +181,7 @@ export default function Prompt() {
   }, []);
 
   useEffect(() => {
-    if (captchaToken !== "" && !buttonLoading) handleSubmit();
+    if (captchaToken !== "" && !buttonLoading && step === 2) handleSubmit();
   }, [captchaToken, handleSubmit]);
 
   const [step, setStep] = useState(1);
