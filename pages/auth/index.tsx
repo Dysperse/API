@@ -293,7 +293,7 @@ export default function Prompt() {
                   position: { xs: "fixed", sm: "unset" },
                   bottom: 0,
                   left: 0,
-                  py: 1,
+                  py: { xs: 1, sm: 0 },
                   background: "hsl(240,11%,90%)",
                   [`@media (prefers-color-scheme: dark)`]: {
                     background: "hsl(240,11%,10%)",
