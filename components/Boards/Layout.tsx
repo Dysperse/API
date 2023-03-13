@@ -293,6 +293,26 @@ export function TasksLayout() {
           </Icon>
           Years
         </Button>
+
+        <Button
+          id="color-coded"
+          size="large"
+          disabled
+          sx={{
+            ...styles(activeTab === "color-coded"),
+            opacity: 0.6,
+          }}
+          onMouseDown={() => setActiveTab("color-coded")}
+          onClick={() => {
+            window.location.hash = "#/color-coded";
+            setActiveTab("color-coded");
+          }}
+        >
+          <Icon className={activeTab === "color-coded" ? "" : "outlined"}>
+            palette
+          </Icon>
+          Color-coded
+        </Button>
       </Box>
       <Divider
         sx={{
