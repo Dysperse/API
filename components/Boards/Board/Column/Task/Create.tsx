@@ -193,7 +193,7 @@ export function CreateTask({
       title.includes("!!") ||
       (title === title.toUpperCase() && title.length >= 3)
     ) {
-      setTitle(title.replace("!!", ""));
+      setTitle(title.replace("!! ", "").replace("!!", ""));
       setPinned(true);
     }
     if (title.toLowerCase().includes("today")) {
