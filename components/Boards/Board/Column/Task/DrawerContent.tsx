@@ -417,7 +417,10 @@ export default function DrawerContent({
             title="Delete task?"
             question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
             disabled={data.subTasks.length == 0}
-            callback={() => handleDelete(data.id)}
+            callback={() => {
+              handleParentClose();
+              handleDelete(data.id);
+            }}
           >
             <Button sx={iconStyles}>
               <Icon className="outlined shadow-md dark:shadow-xl">delete</Icon>
