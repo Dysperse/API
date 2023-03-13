@@ -115,6 +115,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           )}
           {data && !loading && data !== "deleted" && (
             <DrawerContent
+              handleParentClose={handleClose}
               isAgenda={isAgenda}
               data={data}
               mutationUrl={mutationUrl}

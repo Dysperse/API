@@ -5,6 +5,7 @@ import {
   Dialog,
   Divider,
   Icon,
+  IconButton,
   InputAdornment,
   ListItemButton,
   ListItemIcon,
@@ -33,6 +34,7 @@ import { ImageViewer } from "./ImageViewer";
 import { parseEmojis, TaskDrawer } from "./TaskDrawer";
 
 export default function DrawerContent({
+  handleParentClose,
   isAgenda,
   setTaskData,
   mutationUrl,
@@ -234,14 +236,14 @@ export default function DrawerContent({
         PaperProps={{ sx: { p: 3 } }}
       >
         <DatePicker
-          value={new Date(data.due)}
+          value={new Date(data.due || new Date().toISOString())}
           onChange={(e: any) => {
+            handleParentClose();
             setTaskData((prev) => ({
               ...prev,
               due: e ? null : e?.toISOString(),
             }));
             handleEdit(data.id, "due", e.toISOString());
-
             setOpen(false);
           }}
         />
@@ -279,6 +281,26 @@ export default function DrawerContent({
               <Icon>today</Icon>
             </InputAdornment>
           ),
+          ...(data.due && {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setTaskData((prev) => ({
+                      ...prev,
+                      due: false,
+                    }));
+                    handleParentClose();
+                    handleEdit(data.id, "due", "");
+                  }}
+                  size="small"
+                >
+                  <Icon>close</Icon>
+                </IconButton>
+              </InputAdornment>
+            ),
+          }),
         }}
       />
       {data.image && (

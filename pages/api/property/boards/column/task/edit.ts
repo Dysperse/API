@@ -2,10 +2,10 @@ import { prisma } from "../../../../../../lib/prismaClient";
 import { validatePermissions } from "../../../../../../lib/validatePermissions";
 
 const handler = async (req, res) => {
- await validatePermissions(res, {
-   minimum: "member",
-   credentials: [req.query.property, req.query.accessToken],
- });
+  await validatePermissions(res, {
+    minimum: "member",
+    credentials: [req.query.property, req.query.accessToken],
+  });
 
   const data = await prisma.task.update({
     where: {
@@ -17,8 +17,12 @@ const handler = async (req, res) => {
       ...((req.query.description || req.query.description === "") && {
         description: req.query.description,
       }),
-      ...((req.query.due || req.query.due === "") && {
-        due: req.query.due,
+      ...(req.query.due &&
+        req.query.due !== "" && {
+          due: req.query.due,
+        }),
+      ...(req.query.due === "" && {
+        due: null,
       }),
       ...(req.query.color && { color: req.query.color }),
     },
