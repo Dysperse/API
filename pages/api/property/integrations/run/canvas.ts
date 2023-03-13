@@ -1,15 +1,11 @@
 import iCalDateParser from "ical-date-parser";
 import ICalParser from "ical-js-parser";
-import { prisma } from "../../../../lib/prismaClient";
-import { validatePermissions } from "../../../../lib/validatePermissions";
+import { prisma } from "../../../../../lib/prismaClient";
+import { validatePermissions } from "../../../../../lib/validatePermissions";
 
 function extractTextInBrackets(text: any) {
   let match = text.match(/\[(.*?)\]/);
   return match ? match[1] : null;
-}
-function extractTextOutsideBrackets(text: any) {
-  let match = text.match(/\[(.*?)\]/);
-  return match ? match[0] : null;
 }
 
 const handler = async (req, res) => {

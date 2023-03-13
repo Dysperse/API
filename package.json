@@ -84,7 +84,7 @@
     "javascript",
     "css"
   ],
-  "description": "Next-gen home inventory",
+  "description": "A radically different unified productivity platform",
   "devDependencies": {
     "@capacitor/cli": "^4.7.0",
     "@next/eslint-plugin-next": "^13.2.1",

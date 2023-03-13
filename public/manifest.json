@@ -3,7 +3,7 @@
   "start_url": "/",
   "scope": "/",
   "background_color": "#200923",
-  "description": "Next-gen personal home inventory",
+  "description": "A radically different unified productivity platform",
   "dir": "ltr",
   "lang": "en-US",
   "display": "standalone",
@@ -12,9 +12,7 @@
   "theme_color": "#200923",
   "prefer_related_applications": true,
   "capture_links": "new-client",
-  "display_override": [
-    "window-controls-overlay"
-  ],
+  "display_override": ["window-controls-overlay"],
   "screenshots": [
     {
       "src": "https://assets.dysperse.com/screenshots/1.png",

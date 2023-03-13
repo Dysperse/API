@@ -270,7 +270,7 @@ export function Loading(): JSX.Element {
                       <Skeleton
                         variant="rectangular"
                         animation="wave"
-                        key={i}
+                        key={i + "_"}
                         height={50}
                         width={50}
                         sx={{ borderRadius: 3, mb: 2 }}

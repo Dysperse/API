@@ -129,10 +129,12 @@ export default function DrawerContent({
 
   const iconStyles = {
     width: "100%",
-    flexDirection: "column",
+    flexDirection: { sm: "column" },
+    justifyContent: { xs: "start", sm: "center" },
     borderRadius: 5,
-    gap: 1,
-    py: 2,
+    gap: { xs: 2, sm: 1 },
+    py: { xs: 1, sm: 2 },
+    px: { xs: 1.5, sm: 2 },
     color: session?.user?.darkMode ? "hsl(240,11%,80%)" : "hsl(240,11%,30%)",
     "&:hover": {
       background: session?.user?.darkMode
@@ -178,7 +180,12 @@ export default function DrawerContent({
         InputProps={{
           disableUnderline: true,
           className: "font-heading",
-          sx: { fontSize: "35px", textDecoration: "underline", mt: 2 },
+          sx: {
+            fontSize: "35px",
+            textDecoration: "underline",
+            mt: -2,
+            color: colors[data.color]["A700"],
+          },
         }}
       />
 
@@ -281,22 +288,49 @@ export default function DrawerContent({
       )}
       {data.image && <ImageViewer url={data.image} />}
 
-      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, mt: 3 }}>
-        {["red", "pink", "purple", "indigo", "blue", "green", "grey"].map(
-          (color) => (
-            <Color
-              key={color}
-              color={color}
-              mutationUrl={mutationUrl}
-              setTaskData={setTaskData}
-              task={data}
-            />
-          )
-        )}
-      </Box>
       <Box
         sx={{
           display: "flex",
+          alignItems: "center",
+          gap: 0.5,
+          my: 2,
+          py: 3,
+          px: 3,
+          "& *:first-of-type": {
+            ml: "auto",
+          },
+          "& *:last-of-type": {
+            mr: "auto",
+          },
+          overflowX: "scroll",
+          background: session?.user?.darkMode
+            ? "hsl(240,11%,20%)"
+            : "rgba(200,200,200,.3)",
+          borderRadius: 5,
+        }}
+      >
+        {[
+          "orange",
+          "red",
+          "pink",
+          "purple",
+          "indigo",
+          "teal",
+          "green",
+          "grey",
+        ].map((color) => (
+          <Color
+            key={color}
+            color={color}
+            mutationUrl={mutationUrl}
+            setTaskData={setTaskData}
+            task={data}
+          />
+        ))}
+      </Box>
+      <Box
+        sx={{
+          display: { sm: "flex" },
           background: session?.user?.darkMode
             ? "hsl(240,11%,20%)"
             : "rgba(200,200,200,.3)",
@@ -307,8 +341,8 @@ export default function DrawerContent({
       >
         <Box
           sx={{
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
+            display: { sm: "flex" },
+            flexDirection: "row",
             width: "100%",
           }}
         >
@@ -351,8 +385,8 @@ export default function DrawerContent({
         </Box>
         <Box
           sx={{
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
+            display: { sm: "flex" },
+            flexDirection: "row",
             width: "100%",
           }}
         >
@@ -485,10 +519,10 @@ export default function DrawerContent({
           Subtasks
         </Typography>
         {data.parentTasks.length === 0 &&
-          data.subTasks.map((subTask) => (
+          data.subTasks.map((subTask, index) => (
             <TaskDrawer
               isAgenda={isAgenda}
-              key={subTask.id}
+              key={index}
               id={subTask.id}
               mutationUrl={mutationUrl}
             >

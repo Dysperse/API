@@ -26,7 +26,7 @@ function Products({ styles }) {
       key: 1,
       href: "//my.dysperse.com",
       label: "Dysperse",
-      description: "Next-gen personal home inventory",
+      description: "A radically different unified productivity platform",
     },
     {
       key: 2,
