@@ -29,6 +29,7 @@ import { useSession } from "./_app";
 
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { colors } from "../lib/colors";
 
 function RecentItems() {
   const { data, url, error } = useApi("property/boards/recent");
@@ -102,7 +103,11 @@ function RecentItems() {
                 >
                   <CardActionArea sx={{ height: "100%" }}>
                     <CardContent sx={{ height: "100%" }}>
-                      <Icon className="outlined">
+                      <Icon
+                        sx={{
+                          color: colors[item.color]["A400"],
+                        }}
+                      >
                         {item.pinned ? "push_pin" : "check_circle"}
                       </Icon>
                       <Typography
@@ -241,99 +246,100 @@ export default function Home() {
         </Box>
       </Box>
       <RecentItems />
-      <Box
-        className="px-4 sm:px-7"
-        sx={{
-          mr: -2,
-        }}
-      >
-        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-          <Box>
-            <DailyCheckIn />
-          </Box>
-          <Box>
-            <DailyRoutine zen />
-          </Box>
-          <Box>
-            <ListItemButton
-              sx={{
-                px: "15px !important",
-                background: session?.user?.darkMode
-                  ? "hsl(240, 11%, 10%)"
-                  : "#fff",
-                gap: 2,
-                border: "1px solid",
-                borderColor: session?.user?.darkMode
-                  ? "hsl(240, 11%, 20%)"
-                  : "rgba(200, 200, 200, 0.3)",
-              }}
-              className="shadow-sm"
-              disableRipple={editMode}
-              onClick={() => !editMode && router.push("/tasks/#/agenda/week")}
-            >
-              <Icon sx={{ ml: 1 }}>task_alt</Icon>
-              <ListItemText
-                primary={<b>Today&apos;s agenda</b>}
-                secondary={
-                  !editMode && data
-                    ? data && data.length == 0
-                      ? "You don't have any tasks scheduled for today"
-                      : data &&
-                        data.length -
-                          data.filter((task) => task.completed).length ==
-                          0
-                      ? "Great job! You finished all your tasks today!"
-                      : `You have ${
-                          data &&
+      <Box className="px-4 sm:px-7">
+        <Box
+          sx={{
+            mr: -2,
+          }}
+        >
+          <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
+            <Box>
+              <DailyCheckIn />
+            </Box>
+            <Box>
+              <DailyRoutine zen />
+            </Box>
+            <Box>
+              <ListItemButton
+                sx={{
+                  px: "15px !important",
+                  background: session?.user?.darkMode
+                    ? "hsl(240, 11%, 10%)"
+                    : "#fff",
+                  gap: 2,
+                  border: "1px solid",
+                  borderColor: session?.user?.darkMode
+                    ? "hsl(240, 11%, 20%)"
+                    : "rgba(200, 200, 200, 0.3)",
+                }}
+                className="shadow-sm"
+                disableRipple={editMode}
+                onClick={() => !editMode && router.push("/tasks/#/agenda/week")}
+              >
+                <Icon sx={{ ml: 1 }}>task_alt</Icon>
+                <ListItemText
+                  primary={<b>Today&apos;s agenda</b>}
+                  secondary={
+                    !editMode && data
+                      ? data && data.length == 0
+                        ? "You don't have any tasks scheduled for today"
+                        : data &&
                           data.length -
-                            data.filter((task) => task.completed).length
-                        } ${
-                          data &&
-                          data.length -
-                            data.filter((task) => task.completed).length !==
-                            1
-                            ? "tasks"
-                            : "task"
-                        } left for today`
-                    : !editMode && "Loading..."
-                }
-              />
-              {data &&
-                data.length - data.filter((task) => task.completed).length ==
-                  0 && (
-                  <Icon
-                    sx={{
-                      color: green[session?.user?.darkMode ? "A400" : "A700"],
-                      fontSize: "30px!important",
-                    }}
-                  >
-                    check_circle
-                  </Icon>
-                )}
-            </ListItemButton>
-          </Box>
-          <Box>
-            <ListItemButton
-              sx={{
-                px: "15px !important",
-                background: session?.user?.darkMode
-                  ? "hsl(240, 11%, 10%)"
-                  : "#fff",
-                gap: 2,
-                border: "1px solid",
-                borderColor: session?.user?.darkMode
-                  ? "hsl(240, 11%, 20%)"
-                  : "rgba(200, 200, 200, 0.3)",
-              }}
-              className="shadow-sm"
-              disableRipple={editMode}
-              onClick={() => !editMode && router.push("/tasks/#/backlog")}
-            >
-              <Icon sx={{ ml: 1 }}>auto_mode</Icon>
-              <b>Backlog</b>
-            </ListItemButton>
-          </Box>
-        </Masonry>
+                            data.filter((task) => task.completed).length ==
+                            0
+                        ? "Great job! You finished all your tasks today!"
+                        : `You have ${
+                            data &&
+                            data.length -
+                              data.filter((task) => task.completed).length
+                          } ${
+                            data &&
+                            data.length -
+                              data.filter((task) => task.completed).length !==
+                              1
+                              ? "tasks"
+                              : "task"
+                          } left for today`
+                      : !editMode && "Loading..."
+                  }
+                />
+                {data &&
+                  data.length - data.filter((task) => task.completed).length ==
+                    0 && (
+                    <Icon
+                      sx={{
+                        color: green[session?.user?.darkMode ? "A400" : "A700"],
+                        fontSize: "30px!important",
+                      }}
+                    >
+                      check_circle
+                    </Icon>
+                  )}
+              </ListItemButton>
+            </Box>
+            <Box>
+              <ListItemButton
+                sx={{
+                  px: "15px !important",
+                  background: session?.user?.darkMode
+                    ? "hsl(240, 11%, 10%)"
+                    : "#fff",
+                  gap: 2,
+                  border: "1px solid",
+                  borderColor: session?.user?.darkMode
+                    ? "hsl(240, 11%, 20%)"
+                    : "rgba(200, 200, 200, 0.3)",
+                }}
+                className="shadow-sm"
+                disableRipple={editMode}
+                onClick={() => !editMode && router.push("/tasks/#/backlog")}
+              >
+                <Icon sx={{ ml: 1 }}>auto_mode</Icon>
+                <b>Backlog</b>
+              </ListItemButton>
+            </Box>
+          </Masonry>
+        </Box>
       </Box>
       <Toolbar />
     </>

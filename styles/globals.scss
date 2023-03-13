@@ -47,8 +47,11 @@ input {
 body {
   overflow-x: hidden;
   margin: 0;
+  width: 100vw;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 .material-symbols-outlined {
   font-family: "Material Symbols Rounded";
   font-weight: normal;
