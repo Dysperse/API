@@ -184,7 +184,8 @@ export default function DrawerContent({
             fontSize: "35px",
             textDecoration: "underline",
             mt: -2,
-            color: colors[data.color]["A700"],
+            color:
+              colors[data.color][session?.user?.darkMode ? "A200" : "A700"],
           },
         }}
       />

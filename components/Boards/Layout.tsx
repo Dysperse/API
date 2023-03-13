@@ -64,7 +64,7 @@ export const boardSwitcherStyles = (v) => {
       xs: "70px",
       md: "30px",
     },
-    left: "15px",
+    left: "17px",
     zIndex: 9,
     background: v
       ? "hsla(240,11%,14%,0.5)!important"
@@ -441,6 +441,9 @@ export function TasksLayout() {
             pb: 2,
             maxHeight: "90vh",
           },
+        }}
+        sx={{
+          zIndex: 999999999999,
         }}
       >
         <Puller />
