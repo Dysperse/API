@@ -431,7 +431,10 @@ export function TasksLayout() {
       >
         <Tooltip title="alt • c" placement="right">
           <Button
-            disabled={storage?.isReached === true}
+            disabled={
+              storage?.isReached === true ||
+              (data && data.filter((board) => !board.archived).length >= 5)
+            }
             ref={ref}
             size="large"
             onClick={() => {
@@ -441,7 +444,11 @@ export function TasksLayout() {
             sx={{
               ...styles(activeTab === "new"),
               px: 2,
-              ...(storage?.isReached === true && { opacity: 0.5 }),
+              ...((storage?.isReached === true ||
+                (data &&
+                  data.filter((board) => !board.archived).length >= 5)) && {
+                opacity: 0.5,
+              }),
               justifyContent: "start",
             }}
           >
