@@ -175,10 +175,7 @@ export default function Prompt() {
   useEffect(() => {
     document
       .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
-      );
+      ?.setAttribute("content", "hsl(240,11%,90%)");
   }, []);
 
   useEffect(() => {
