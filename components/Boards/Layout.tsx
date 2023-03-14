@@ -48,6 +48,13 @@ const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog), {
   loading: () => <DynamicLoader />,
   ssr: false,
 });
+const ColoredTasks = dynamic(
+  () => import("./ColoredTasks").then((mod) => mod.ColoredTasks),
+  {
+    loading: () => <DynamicLoader />,
+    ssr: false,
+  }
+);
 
 export const boardSwitcherStyles = (v) => {
   return {
@@ -126,6 +133,9 @@ export function TasksLayout() {
         break;
       case "#/agenda/backlog":
         setActiveTab("__agenda.backlog");
+        break;
+      case "#/colored-coded":
+        setActiveTab("colored-coded");
         break;
     }
   }, [data]);
@@ -297,11 +307,7 @@ export function TasksLayout() {
         <Button
           id="color-coded"
           size="large"
-          disabled
-          sx={{
-            ...styles(activeTab === "color-coded"),
-            opacity: 0.6,
-          }}
+          sx={styles(activeTab === "color-coded")}
           onMouseDown={() => setActiveTab("color-coded")}
           onClick={() => {
             window.location.hash = "#/color-coded";
@@ -517,6 +523,9 @@ export function TasksLayout() {
         )}
         {activeTab.includes("__agenda.backlog") && (
           <Backlog setDrawerOpen={setOpen} />
+        )}
+        {activeTab.includes("color-coded") && (
+          <ColoredTasks setDrawerOpen={setOpen} />
         )}
         {data &&
           data.map(
