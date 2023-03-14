@@ -23,7 +23,7 @@ import { toastStyles } from "../../lib/useCustomTheme";
 import { CircularProgressWithLabel } from "../../pages/coach";
 import { useSession } from "../../pages/_app";
 
-function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
+export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
   const handleClick = React.useCallback(() => {
     setCurrentIndex((index) => index + 1);
     fetchApiWithoutHook("user/routines/markAsDone", {
