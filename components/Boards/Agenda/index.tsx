@@ -224,7 +224,7 @@ export function Agenda({
       >
         {days.map((day) => (
           <Column
-          navigation={navigation}
+            navigation={navigation}
             key={day.day}
             day={day}
             view={view}
