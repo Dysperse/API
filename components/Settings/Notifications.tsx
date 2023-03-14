@@ -93,10 +93,6 @@ export default function Notifications() {
 
   const sendNotificationButtonOnClick = async (event) => {
     event.preventDefault();
-    if (subscription === null) {
-      console.error("web push not subscribed");
-      return;
-    }
 
     fetchApiWithoutHook("/test-notification", {
       subscription: session?.user?.notificationSubscription,
@@ -158,7 +154,9 @@ export default function Notifications() {
                 </span>
                 <Button
                   onClick={sendNotificationButtonOnClick}
-                  disabled={!isSubscribed}
+                  disabled={
+                    !isSubscribed && !session.user.notificationSubscription
+                  }
                   variant="outlined"
                   size="small"
                   sx={{
