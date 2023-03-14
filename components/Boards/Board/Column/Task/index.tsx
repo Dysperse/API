@@ -1,7 +1,6 @@
 import {
   Box,
   Checkbox,
-  Chip,
   Icon,
   ListItemButton,
   ListItemText,
@@ -18,7 +17,6 @@ import toast from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
-import Item from "../../../../ItemPopup";
 
 const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
@@ -148,46 +146,6 @@ export const Task: any = React.memo(function Task({
     [mutationUrl, toastStyles, taskData.id]
   );
 
-  const params = [
-    {
-      regex: /<items:(.*?):(.*?)>/,
-      element: (match) => {
-        const [, id, name] = match.split(":");
-
-        return (
-          <Item id={id}>
-            <Tooltip
-              title={"Linked to item " + id}
-              followCursor
-              onClick={(e) => e.stopPropagation()}
-              placement="bottom-start"
-            >
-              <Chip
-                size="small"
-                key={id}
-                label={name.slice(0, -1)}
-                icon={<Icon>link</Icon>}
-              />
-            </Tooltip>
-          </Item>
-        );
-      },
-    },
-    {
-      regex: /https?:\/\/\S+/g,
-      element: (matchedText) => (
-        <Chip
-          size="small"
-          label={new URL(matchedText).hostname}
-          onClick={(e) => {
-            e.stopPropagation();
-            window.open(matchedText);
-          }}
-          icon={<Icon>open_in_new</Icon>}
-        />
-      ),
-    },
-  ];
   return !taskData ? (
     <></>
   ) : (

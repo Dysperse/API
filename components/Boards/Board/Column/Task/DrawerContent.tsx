@@ -535,13 +535,14 @@ export default function DrawerContent({
             ? "hsl(240,11%,20%)"
             : "rgba(200,200,200,.3)",
           borderRadius: 5,
-          p: 3,
           ...(data.parentTasks.length !== 0 && {
             display: "none",
           }),
+          py: 3,
+          px: 1,
         }}
       >
-        <Typography variant="h6" sx={{ mb: 1.5, ml: 0.5 }}>
+        <Typography variant="h6" sx={{ mb: 0.5, ml: 0.5, px: 2 }}>
           Subtasks
         </Typography>
         {data.parentTasks.length === 0 &&
