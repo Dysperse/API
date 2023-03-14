@@ -205,6 +205,7 @@ export default function Home() {
           <Box
             sx={{
               ml: "auto",
+              mr: 2,
             }}
           >
             {!editMode && (
