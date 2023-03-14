@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { MyGoals } from "../components/Coach/MyGoals";
+import { Routines } from "../components/Coach/Routines";
 import { fetchApiWithoutHook } from "../hooks/useApi";
 import { toastStyles } from "../lib/useCustomTheme";
 import { useSession } from "./_app";
@@ -158,16 +159,6 @@ export const Task: any = React.memo(function Task({ task }: any) {
 
 export default function Render() {
   const time = new Date().getHours();
-  let greeting;
-  if (time < 10) {
-    greeting = "Morning, ";
-  } else if (time < 14) {
-    greeting = "Good afternoon, ";
-  } else if (time < 18) {
-    greeting = "Good evening, ";
-  } else {
-    greeting = "Good night, ";
-  }
 
   const [hideRoutine, setHideRoutine] = useState<boolean>(false);
   return (
@@ -181,6 +172,7 @@ export default function Render() {
           pb: 3,
         }}
       >
+        <Routines />
         <Box className="flex max-w-[100vw] flex-col gap-5 p-3 px-6 pt-2 sm:flex-row">
           {!hideRoutine && (
             <h1 className="font-heading my-3 text-4xl font-light underline">
