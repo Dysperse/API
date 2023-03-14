@@ -113,7 +113,7 @@ export function ColoredTasks({ setDrawerOpen }) {
             }}
           >
             <Image
-              src="/images/backlog.png"
+              src="/images/color-coded.png"
               width={256}
               height={256}
               alt="Backlog"
@@ -128,7 +128,7 @@ export function ColoredTasks({ setDrawerOpen }) {
                 Add some color!
               </Typography>
               <Typography variant="body1">
-                Try setting a color to an incomplete task, and it&apos;ll appear
+                Try adding a color to an incomplete task, and it&apos;ll appear
                 here.
               </Typography>
             </Box>
