@@ -44,9 +44,9 @@ export function Routines() {
             mb: 2,
           }}
         >
-          {data.map((goal) => (
+          {data.map((routine) => (
             <Box
-              key={goal.id}
+              key={routine.id}
               sx={{
                 flexShrink: 0,
                 flex: "0 0 65px",
@@ -66,7 +66,6 @@ export function Routines() {
               }}
             >
               <Box
-                key={goal.id}
                 sx={{
                   borderRadius: 9999,
                   width: 65,
@@ -78,7 +77,7 @@ export function Routines() {
                 }}
               >
                 <picture>
-                  <img src={goal.emoji} width="35px" height="35px" />
+                  <img src={routine.emoji} width="35px" height="35px" />
                 </picture>
               </Box>
               <Box sx={{ width: "100%" }}>
@@ -92,7 +91,7 @@ export function Routines() {
                     overflow: "hidden",
                   }}
                 >
-                  {goal.name}
+                  {routine.name}
                 </Typography>
               </Box>
             </Box>
