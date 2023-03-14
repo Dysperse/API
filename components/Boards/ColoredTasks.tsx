@@ -1,9 +1,9 @@
 import {
-    Box,
-    CircularProgress,
-    Icon,
-    IconButton,
-    Typography
+  Box,
+  CircularProgress,
+  Icon,
+  IconButton,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
