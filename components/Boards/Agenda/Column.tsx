@@ -1,10 +1,11 @@
-import { Box, Divider, Icon, Typography } from "@mui/material";
+import { Box, Divider, Icon, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { memo, useEffect } from "react";
 import { colors } from "../../../lib/colors";
 import { useSession } from "../../../pages/_app";
+import { capitalizeFirstLetter } from "../../ItemPopup";
 import { Task } from "../Board/Column/Task";
 import { CreateTask } from "../Board/Column/Task/Create";
 
@@ -128,56 +129,70 @@ export const Column: any = memo(function Column({
             : dayjs(day.unchanged).format(day.heading)}
         </Typography>
         {subheading !== "-" && (
-          <Typography
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              fontSize: "20px",
-            }}
+          <Tooltip
+            placement="left"
+            title={
+              <Typography>
+                <Typography sx={{ fontWeight: 700 }}>
+                  {capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
+                </Typography>
+                <Typography variant="body2">
+                  {dayjs(day.unchanged).format("dddd, MMMM D, YYYY")}
+                </Typography>
+              </Typography>
+            }
           >
-            <span
-              style={{
-                ...(isPast && {
-                  textDecoration: "line-through",
-                  ...(isPast && {
-                    opacity: 0.5,
-                  }),
-                }),
-              }}
-            >
-              {view === "month" &&
-              dayjs(day.unchanged).format("M") !== dayjs().format("M")
-                ? dayjs(day.unchanged).fromNow()
-                : dayjs(day.unchanged).format(subheading)}
-            </span>
             <Typography
-              variant="body2"
               sx={{
-                ml: "auto",
-                opacity:
-                  tasksWithinTimeRange.length == 0
-                    ? 0
-                    : tasksLeft === 0
-                    ? 1
-                    : 0.6,
+                display: "flex",
+                alignItems: "center",
+                fontSize: "20px",
               }}
             >
-              {tasksLeft !== 0 ? (
-                <>
-                  {tasksLeft} {isPast ? "unfinished" : "left"}
-                </>
-              ) : (
-                <Icon
-                  sx={{
-                    color: green[session?.user?.darkMode ? "A700" : "800"],
-                  }}
-                  className="outlined"
-                >
-                  check_circle
-                </Icon>
-              )}
+              <span
+                style={{
+                  ...(isPast && {
+                    textDecoration: "line-through",
+                    ...(isPast && {
+                      opacity: 0.5,
+                    }),
+                  }),
+                }}
+              >
+                {view === "month" &&
+                dayjs(day.unchanged).format("M") !== dayjs().format("M")
+                  ? dayjs(day.unchanged).fromNow()
+                  : dayjs(day.unchanged).format(subheading)}
+              </span>
+              <Typography
+                variant="body2"
+                sx={{
+                  ml: "auto",
+                  opacity:
+                    tasksWithinTimeRange.length == 0
+                      ? 0
+                      : tasksLeft === 0
+                      ? 1
+                      : 0.6,
+                }}
+              >
+                {tasksLeft !== 0 ? (
+                  <>
+                    {tasksLeft} {isPast ? "unfinished" : "left"}
+                  </>
+                ) : (
+                  <Icon
+                    sx={{
+                      color: green[session?.user?.darkMode ? "A700" : "800"],
+                    }}
+                    className="outlined"
+                  >
+                    check_circle
+                  </Icon>
+                )}
+              </Typography>
             </Typography>
-          </Typography>
+          </Tooltip>
         )}
       </Box>
       <Box
