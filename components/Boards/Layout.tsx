@@ -247,16 +247,6 @@ export function TasksLayout() {
             auto_mode
           </Icon>
           Backlog
-          <span style={{ marginLeft: "auto" }}>
-            <Chip
-              label="beta"
-              sx={{
-                color: "#000",
-                background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
-              }}
-              size="small"
-            />
-          </span>
         </Button>
         <Button
           id="__agenda.week"
@@ -302,22 +292,6 @@ export function TasksLayout() {
             calendar_month
           </Icon>
           Years
-        </Button>
-
-        <Button
-          id="color-coded"
-          size="large"
-          sx={styles(activeTab === "color-coded")}
-          onMouseDown={() => setActiveTab("color-coded")}
-          onClick={() => {
-            window.location.hash = "#/color-coded";
-            setActiveTab("color-coded");
-          }}
-        >
-          <Icon className={activeTab === "color-coded" ? "" : "outlined"}>
-            palette
-          </Icon>
-          Color-coded
         </Button>
       </Box>
       <Divider
@@ -367,51 +341,87 @@ export function TasksLayout() {
           opacity: 0.6,
         }}
       />
-      <Button
-        size="large"
-        disableRipple
-        onClick={() => setArchiveOpen(!archiveOpen)}
-        sx={{
-          ...styles(false),
-          ...(!data ||
-            (data &&
+      <Box>
+        <Button
+          size="large"
+          disableRipple
+          onClick={() => setArchiveOpen(!archiveOpen)}
+          sx={{
+            ...styles(false),
+            ...(!data ||
+              (data &&
+                (data.length === 0 ||
+                  !data.find((board) => board.archived)) && {
+                  display: "none",
+                })),
+          }}
+        >
+          Archived
+          <Icon sx={{ ml: "auto" }}>
+            {archiveOpen ? "expand_less" : "expand_more"}
+          </Icon>
+        </Button>
+        <Collapse in={archiveOpen} orientation="vertical">
+          {data &&
+            data
+              .filter((x) => x.archived)
+              .map((board) => (
+                <Tab
+                  setDrawerOpen={setOpen}
+                  key={board.id}
+                  styles={styles}
+                  activeTab={activeTab}
+                  board={board}
+                  setActiveTab={setActiveTab}
+                />
+              ))}
+        </Collapse>
+        <Divider
+          sx={{
+            display: { md: "none" },
+            ...(data &&
               (data.length === 0 || !data.find((board) => board.archived)) && {
                 display: "none",
-              })),
-        }}
-      >
-        Archived
-        <Icon sx={{ ml: "auto" }}>
-          {archiveOpen ? "expand_less" : "expand_more"}
-        </Icon>
-      </Button>
-      <Collapse in={archiveOpen} orientation="vertical">
-        {data &&
-          data
-            .filter((x) => x.archived)
-            .map((board) => (
-              <Tab
-                setDrawerOpen={setOpen}
-                key={board.id}
-                styles={styles}
-                activeTab={activeTab}
-                board={board}
-                setActiveTab={setActiveTab}
-              />
-            ))}
-      </Collapse>
-      <Divider
-        sx={{
-          display: { md: "none" },
-          ...(data &&
-            (data.length === 0 || !data.find((board) => board.archived)) && {
-              display: "none",
-            }),
-          width: "90%",
-          mx: "auto",
-          opacity: 0.6,
-        }}
-      />
+              }),
+            width: "90%",
+            mx: "auto",
+            opacity: 0.6,
+          }}
+        />
+        <Divider
+          sx={{
+            my: { xs: 2, md: 1 },
+            width: "90%",
+            mx: "auto",
+            opacity: 0.6,
+          }}
+        />
+        <Button
+          id="color-coded"
+          size="large"
+          sx={styles(activeTab === "color-coded")}
+          onMouseDown={() => setActiveTab("color-coded")}
+          onClick={() => {
+            window.location.hash = "#/color-coded";
+            setActiveTab("color-coded");
+          }}
+        >
+          <Icon className={activeTab === "color-coded" ? "" : "outlined"}>
+            palette
+          </Icon>
+          Color coded
+          <span style={{ marginLeft: "auto" }}>
+            <Chip
+              label="beta"
+              sx={{
+                color: "#000",
+                background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+              }}
+              size="small"
+            />
+          </span>
+        </Button>
+      </Box>
       <Box
         sx={{
           display: "flex",
