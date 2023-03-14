@@ -14,6 +14,7 @@ export const Column: any = memo(function Column({
   view,
   day,
   data,
+  navigation,
 }: any) {
   const subheading = view === "week" ? "dddd" : view === "month" ? "YYYY" : "-";
   const startOf = view === "week" ? "day" : view === "month" ? "month" : "year";
@@ -31,7 +32,8 @@ export const Column: any = memo(function Column({
     placeholder = "today";
   }
 
-  const isToday = day.date == dayjs().startOf(startOf).format(day.heading);
+  const isToday =
+    day.date == dayjs().startOf(startOf).format(day.heading) && navigation == 0;
 
   useEffect(() => {
     const activeHighlight = document.getElementById("activeHighlight");
@@ -39,6 +41,7 @@ export const Column: any = memo(function Column({
       activeHighlight.scrollIntoView({
         block: "nearest",
         inline: "start",
+        behavior: "smooth",
       });
     window.scrollTo(0, 0);
   }, []);
