@@ -105,8 +105,14 @@ function RecentItems() {
                     <CardContent sx={{ height: "100%" }}>
                       <Icon
                         sx={{
-                          color: colors[item.color]["A400"],
+                          color:
+                            colors[item.color][
+                              session?.user?.darkMode ? "A400" : 700
+                            ],
                         }}
+                        {...(item.color === "grey" && {
+                          className: "outlined",
+                        })}
                       >
                         {item.pinned ? "push_pin" : "check_circle"}
                       </Icon>
