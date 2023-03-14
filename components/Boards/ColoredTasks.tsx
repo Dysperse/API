@@ -1,9 +1,9 @@
 import {
-    Box,
-    CircularProgress,
-    Icon,
-    IconButton,
-    Typography
+  Box,
+  CircularProgress,
+  Icon,
+  IconButton,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -125,11 +125,11 @@ export function ColoredTasks({ setDrawerOpen }) {
             />
             <Box sx={{ width: "300px", maxWidth: "calc(100vw - 40px)", mb: 2 }}>
               <Typography variant="h6" gutterBottom sx={{ mt: -2 }}>
-                You&apos;re on top of it!
+                Add some color!
               </Typography>
               <Typography variant="body1">
-                The backlog is a place where you can see all your unfinished
-                tasks.
+                Try setting a color to an incomplete task, and it&apos;ll appear
+                here.
               </Typography>
             </Box>
           </Box>
