@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
@@ -56,6 +56,13 @@ function Routine({ routine }) {
     : data.items
         .filter((task) => task.durationDays - task.progress > 0)
         .filter((task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD"));
+
+  useEffect(() => {
+    if (!session?.user?.darkMode)
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
+  }, [session, open]);
 
   return (
     <>

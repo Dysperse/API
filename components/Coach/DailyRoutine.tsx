@@ -124,7 +124,7 @@ export function RoutineEnd({
             }}
             variant="contained"
           >
-            <span>🎯</span> Exit &rarr;
+            <span>🎯</span> Gotcha &rarr;
           </Button>
         </>
       )}
@@ -492,6 +492,13 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
       indexWhereUserLeftOff === -1 ? sortedTasks.length : indexWhereUserLeftOff
     );
   }, [indexWhereUserLeftOff, sortedTasks.length]);
+
+  useEffect(() => {
+    if (!session?.user?.darkMode)
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
+  }, [session, open]);
 
   return (
     <>
