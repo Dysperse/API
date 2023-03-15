@@ -162,7 +162,7 @@ function CreateRoutine({ mutationUrl }) {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      fetchApiWithoutHook("user/routines/custom-routines/create", {
+      await fetchApiWithoutHook("user/routines/custom-routines/create", {
         name,
         note,
         emoji,
@@ -260,6 +260,7 @@ function CreateRoutine({ mutationUrl }) {
             fullWidth
             margin="dense"
             label="Routine name"
+            autoFocus
             placeholder="Morning routine"
           />
           <TextField
