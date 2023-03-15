@@ -237,7 +237,7 @@ export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           fullWidth
           sx={{
             "&,&:hover": { background: "hsl(240,11%,14%)!important" },
-            color: "#fff",
+            color: "#fff!important",
           }}
           size="large"
           onClick={handleClick}
@@ -249,21 +249,6 @@ export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           ) : (
             <>
               <span>🎯</span> I worked towards it!
-            </>
-          )}
-        </Button>
-        <Button
-          sx={{ opacity: 0.6, color: "#fff" }}
-          size="large"
-          onClick={() => setCurrentIndex((i) => currentIndex + 1)}
-        >
-          {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
-            <>
-              <span>👀</span> Onwards! &rarr;
-            </>
-          ) : (
-            <>
-              <span>✍</span> Skip for now
             </>
           )}
         </Button>
