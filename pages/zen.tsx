@@ -13,7 +13,7 @@ import {
   Skeleton,
   Toolbar,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
