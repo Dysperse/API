@@ -79,7 +79,10 @@ function EditRoutine({ routine }) {
 
   return (
     <>
-      <ListItemButton onClick={handleOpen}>Edit routine</ListItemButton>
+      <ListItemButton onClick={handleOpen}>
+        <Icon className="outlined">edit</Icon>
+        Edit routine
+      </ListItemButton>
 
       <SwipeableDrawer
         open={open}
@@ -392,6 +395,7 @@ function RoutineOptions({ routine }) {
                 color: red["A200"],
               }}
             >
+              <Icon className="outlined">delete</Icon>
               Delete
             </ListItemButton>
           </ConfirmationModal>
