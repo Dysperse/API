@@ -358,6 +358,7 @@ function RoutineOptions({ mutationUrl, setData, editButtonRef, routine }) {
           background: "transparent",
           color: "#fff!important",
         }}
+        className="editTrigger"
       >
         <Icon>more_vert</Icon>
       </IconButton>
@@ -436,8 +437,9 @@ function Routine({ mutationUrl, routine }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState<null | any>(null);
   const session = useSession();
+  const ref: any = useRef();
 
-  const handleClick = async () => {
+  const handleClick = async (edit: any = false) => {
     try {
       navigator.vibrate(50);
       setCurrentIndex(0);
@@ -455,6 +457,10 @@ function Routine({ mutationUrl, routine }) {
       setData(res[0]);
       console.log(data);
       setTimeout(() => setShowIntro(false), 1000);
+      if (edit) {
+        const tag: any = ref?.current?.querySelector(".editTrigger");
+        tag?.click();
+      }
     } catch (e) {
       toast.error(
         "Yikes! An error occured while trying to get your routine! Please try again later.",
@@ -492,6 +498,7 @@ function Routine({ mutationUrl, routine }) {
         onOpen={handleOpen}
         disableSwipeToOpen
         PaperProps={{
+          ref,
           sx: {
             background: "hsl(240, 11%, 10%)",
             color: "hsl(240, 11%, 90%)",
@@ -635,6 +642,7 @@ function Routine({ mutationUrl, routine }) {
       </SwipeableDrawer>
       <Box
         onClick={handleClick}
+        onContextMenu={() => handleClick(true)}
         sx={{
           ...(disabled && {
             opacity: 0.6,
