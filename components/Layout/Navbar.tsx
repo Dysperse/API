@@ -63,7 +63,7 @@ export function Navbar(): JSX.Element {
             md: "0!important",
           },
         }),
-        transition: "top .4s",
+        transition: "none",
         "& *": {
           cursor: "unset!important",
         },
