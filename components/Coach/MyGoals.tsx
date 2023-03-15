@@ -125,13 +125,10 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               >
                 <picture>
                   <img
-                    src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
+                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
                     alt="trophy"
                     width={20}
                     height={20}
-                    style={{
-                      transform: "rotate(-15deg)",
-                    }}
                   />
                 </picture>
                 <span>{session?.user?.trophies}</span>
