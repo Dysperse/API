@@ -767,7 +767,7 @@ export function Routines() {
             display: "flex",
             alignItems: "center",
             ...(router.asPath === "/zen" && {
-              justifyContent: { sm: "center" },
+              justifyContent: { md: "center" },
             }),
             gap: 1,
             px: 2,
