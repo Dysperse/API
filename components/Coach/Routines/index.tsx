@@ -40,7 +40,7 @@ function Routine({ routine }) {
       setLoading(false);
       setData(res[0]);
       console.log(data);
-      setTimeout(() => setShowIntro(false), 700);
+      setTimeout(() => setShowIntro(false), 500);
     } catch (e) {
       toast.error(
         "Yikes! An error occured while trying to get your routine! Please try again later."

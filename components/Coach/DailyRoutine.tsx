@@ -415,7 +415,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
       }}
     >
       <Box sx={{ mr: "auto" }}>
-        <Typography sx={{ fontWeight: "900" }}>Daily routine</Typography>
+        <Typography sx={{ fontWeight: "900" }}>Everything</Typography>
         <Typography>
           {data ? (
             <>
