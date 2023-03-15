@@ -135,6 +135,7 @@ function Routine({ routine }) {
                           handleClose={() => setOpen(false)}
                           sortedTasks={data && data.items}
                           tasksRemaining={tasksRemaining}
+                          setCurrentIndex={setCurrentIndex}
                         />
                       ),
                     },

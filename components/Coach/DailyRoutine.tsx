@@ -23,7 +23,12 @@ import { toastStyles } from "../../lib/useCustomTheme";
 import { CircularProgressWithLabel } from "../../pages/coach";
 import { useSession } from "../../pages/_app";
 
-export function RoutineEnd({ sortedTasks, tasksRemaining, handleClose }) {
+export function RoutineEnd({
+  setCurrentIndex,
+  sortedTasks,
+  tasksRemaining,
+  handleClose,
+}) {
   const { width, height } = useWindowSize();
 
   return (
@@ -38,8 +43,27 @@ export function RoutineEnd({ sortedTasks, tasksRemaining, handleClose }) {
         alignItems: "center",
         justifyContent: "center",
       }}
-      onClick={handleClose}
     >
+      <Box
+        sx={{
+          height: "100vh",
+          width: "50%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
+        onClick={() => setCurrentIndex((i) => (i == 0 ? 0 : i - 1))}
+      />
+      <Box
+        sx={{
+          height: "100vh",
+          width: "50%",
+          position: "absolute",
+          top: 0,
+          right: 0,
+        }}
+        onClick={handleClose}
+      />
       {tasksRemaining == 0 ? (
         <>
           <Confetti
@@ -133,7 +157,29 @@ export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
   }, [task.durationDays, task.id, task.progress, mutationUrl, setCurrentIndex]);
 
   return (
-    <Box sx={{ p: 4 }} onClick={() => setCurrentIndex((i) => currentIndex + 1)}>
+    <Box sx={{ p: 4 }}>
+      <Box
+        sx={{
+          height: "100vh",
+          width: "50%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
+        onClick={() =>
+          setCurrentIndex((i) => (currentIndex == 0 ? 0 : currentIndex - 1))
+        }
+      />
+      <Box
+        sx={{
+          height: "100vh",
+          width: "50%",
+          position: "absolute",
+          top: 0,
+          right: 0,
+        }}
+        onClick={() => setCurrentIndex((i) => currentIndex + 1)}
+      />
       <Typography variant="h2" className="font-heading" gutterBottom>
         {task.stepName}
       </Typography>
@@ -441,6 +487,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         <RoutineEnd
           handleClose={() => setOpen(false)}
           tasksRemaining={tasksRemaining}
+          setCurrentIndex={setCurrentIndex}
           sortedTasks={sortedTasks}
         />
       ),
