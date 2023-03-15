@@ -227,7 +227,7 @@ export function Routine({ mutationUrl, routine }) {
         )}
       </SwipeableDrawer>
       <Box
-        onClick={handleClick}
+        onClick={() => handleClick(false)}
         onContextMenu={() => handleClick(true)}
         sx={{
           ...(disabled && {
