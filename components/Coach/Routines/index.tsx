@@ -64,7 +64,15 @@ function RoutineOptions({ routine }) {
           },
         }}
       >
-        <Puller />
+        <Box
+          sx={{
+            "& .puller": {
+              background: "hsl(240, 11%, 30%)",
+            },
+          }}
+        >
+          <Puller />
+        </Box>
         <Box sx={{ p: 2, pt: 0 }}>
           <ListItemButton>Edit routine</ListItemButton>
           <ListItemButton
