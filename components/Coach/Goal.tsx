@@ -7,7 +7,7 @@ import {
   Slider,
   SwipeableDrawer,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
