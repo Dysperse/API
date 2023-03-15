@@ -19,9 +19,10 @@ import {
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import Stories from "react-insta-stories";
+import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
 import { useSession } from "../../../pages/_app";
@@ -31,17 +32,26 @@ import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { RoutineEnd, Task } from "../DailyRoutine";
 
-function GoalCard({ routine, goal, goals }) {
+function GoalCard({ setData, routine, goal, goals }) {
   const disabled = goal.routineId;
   const included = Boolean(goals.find((g) => g.id == goal.id));
   const [added, setAdded] = useState(included);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setAdded(!added);
-    fetchApiWithoutHook("user/routines/assignToRoutine", {
+    toast.error("Added goal to routine!", toastStyles);
+    await fetchApiWithoutHook("user/routines/assignToRoutine", {
       id: goal.id,
       routineId: added ? routine.id : "-1",
     });
+
+    const res = await fetchApiWithoutHook(
+      "user/routines/custom-routines/items",
+      {
+        id: routine.id,
+      }
+    );
+    setData(res[0]);
   };
 
   return (
@@ -55,7 +65,7 @@ function GoalCard({ routine, goal, goals }) {
         disabled={disabled}
       >
         <CardContent>
-          <Typography>{goal.name}</Typography>
+          <Typography sx={{ fontWeight: 700 }}>{goal.name}</Typography>
           <Typography variant="body2">
             Last worked on {dayjs(goal.lastCompleted).fromNow()}
           </Typography>
@@ -71,7 +81,7 @@ function GoalCard({ routine, goal, goals }) {
   );
 }
 
-function EditRoutine({ routine }) {
+function EditRoutine({ setData, editButtonRef, routine }) {
   const { data, error } = useApi("user/routines");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -79,7 +89,7 @@ function EditRoutine({ routine }) {
 
   return (
     <>
-      <ListItemButton onClick={handleOpen} sx={{ gap: 2 }}>
+      <ListItemButton onClick={handleOpen} sx={{ gap: 2 }} ref={editButtonRef}>
         <Icon className="outlined">edit</Icon>
         Edit routine
       </ListItemButton>
@@ -107,6 +117,7 @@ function EditRoutine({ routine }) {
               )
               .map((goal) => (
                 <GoalCard
+                  setData={setData}
                   goal={goal}
                   key={goal.id}
                   goals={data}
@@ -122,7 +133,7 @@ function EditRoutine({ routine }) {
   );
 }
 
-function CreateRoutine() {
+function CreateRoutine({ mutationUrl }) {
   const session = useSession();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -151,18 +162,20 @@ function CreateRoutine() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const data = fetchApiWithoutHook("user/routines/custom-routines/create", {
+      fetchApiWithoutHook("user/routines/custom-routines/create", {
         name,
         note,
         emoji,
         daysOfWeek,
         time,
       });
-      toast.success("Created routine!");
+      await mutate(mutationUrl);
+      toast.success("Created routine!", toastStyles);
       handleClose();
     } catch (e) {
       toast.error(
-        "Yikes! An error occured while trying to create your routine! Please try again later."
+        "Yikes! An error occured while trying to create your routine! Please try again later.",
+        toastStyles
       );
     }
     setLoading(false);
@@ -297,8 +310,8 @@ function CreateRoutine() {
               19, 20, 21, 22, 23,
             ].map((hour) => (
               <MenuItem value={hour} key={hour}>
-                {hour == 0 ? "12" : hour}
-                {hour > 12 ? "PM" : "AM"}
+                {(hour + 1) % 12 || 12}
+                {hour >= 12 ? "PM" : "AM"}
               </MenuItem>
             ))}
           </Select>
@@ -321,7 +334,7 @@ function CreateRoutine() {
   );
 }
 
-function RoutineOptions({ routine }) {
+function RoutineOptions({ mutationUrl, setData, editButtonRef, routine }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -376,7 +389,11 @@ function RoutineOptions({ routine }) {
           <Puller />
         </Box>
         <Box sx={{ p: 2, pt: 0 }}>
-          <EditRoutine routine={routine} />
+          <EditRoutine
+            routine={routine}
+            editButtonRef={editButtonRef}
+            setData={setData}
+          />
           <ConfirmationModal
             title="Are you sure you want to delete this routine?"
             question="Your progress will stay safe and your goals won't be deleted"
@@ -387,6 +404,7 @@ function RoutineOptions({ routine }) {
                   id: routine.id,
                 }
               );
+              await mutate(mutationUrl);
               toast.success("Deleted!", toastStyles);
             }}
           >
@@ -406,7 +424,7 @@ function RoutineOptions({ routine }) {
   );
 }
 
-function Routine({ routine }) {
+function Routine({ mutationUrl, routine }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
@@ -430,10 +448,11 @@ function Routine({ routine }) {
       setLoading(false);
       setData(res[0]);
       console.log(data);
-      setTimeout(() => setShowIntro(false), 600);
+      setTimeout(() => setShowIntro(false), 1000);
     } catch (e) {
       toast.error(
-        "Yikes! An error occured while trying to get your routine! Please try again later."
+        "Yikes! An error occured while trying to get your routine! Please try again later.",
+        toastStyles
       );
     }
   };
@@ -453,6 +472,8 @@ function Routine({ routine }) {
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
   }, [session, open]);
+
+  const editButtonRef: any = useRef();
 
   return (
     <>
@@ -486,7 +507,12 @@ function Routine({ routine }) {
             zIndex: 999,
           }}
         ></Box>
-        <RoutineOptions routine={routine} />
+        <RoutineOptions
+          mutationUrl={mutationUrl}
+          routine={routine}
+          editButtonRef={editButtonRef}
+          setData={setData}
+        />
         <Backdrop
           open={showIntro}
           onClick={() => setShowIntro(false)}
@@ -522,9 +548,35 @@ function Routine({ routine }) {
                             display: "flex",
                             alignItems: "center",
                           }}
-                          onClick={() => setOpen(false)}
                         >
-                          You haven&apos;t added any goals to this routine yet
+                          <Box
+                            sx={{
+                              height: "100vh",
+                              width: "100%",
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                            }}
+                            onClick={() => setOpen(false)}
+                          />
+                          <Box sx={{ textAlign: "center" }}>
+                            <Typography gutterBottom>
+                              You haven&apos;t added any goals to this routine
+                              yet
+                            </Typography>
+                            <Button
+                              onClick={() => editButtonRef?.current?.click()}
+                              sx={{
+                                mt: 1,
+                                "&, &:hover": {
+                                  background: "hsl(240,11%,20%)!important",
+                                  color: "#fff!important",
+                                },
+                              }}
+                            >
+                              Add a goal
+                            </Button>
+                          </Box>
                         </Box>
                       ),
                     },
@@ -637,7 +689,7 @@ function Routine({ routine }) {
 }
 
 export function Routines() {
-  const { data, error } = useApi("user/routines/custom-routines");
+  const { data, url, error } = useApi("user/routines/custom-routines");
   const loading = (
     <Box
       sx={{
@@ -661,7 +713,6 @@ export function Routines() {
       ))}
     </Box>
   );
-  const session = useSession();
 
   return (
     <Box>
@@ -677,9 +728,9 @@ export function Routines() {
           }}
         >
           {data.map((routine) => (
-            <Routine routine={routine} key={routine.id} />
+            <Routine routine={routine} key={routine.id} mutationUrl={url} />
           ))}
-          <CreateRoutine />
+          <CreateRoutine mutationUrl={url} />
         </Box>
       ) : (
         loading
