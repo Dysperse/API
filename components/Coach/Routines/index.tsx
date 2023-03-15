@@ -476,6 +476,8 @@ function Routine({ mutationUrl, routine }) {
 
   const editButtonRef: any = useRef();
 
+  const disabled = !JSON.parse(routine.daysOfWeek)[dayjs().day()];
+
   return (
     <>
       <SwipeableDrawer
@@ -629,6 +631,10 @@ function Routine({ mutationUrl, routine }) {
       <Box
         onClick={handleClick}
         sx={{
+          ...(disabled && {
+            opacity: 0.6,
+            pointerEvents: "none",
+          }),
           flexShrink: 0,
           borderRadius: 5,
           flex: "0 0 70px",
@@ -736,7 +742,14 @@ export function Routines() {
             mb: 2,
           }}
         >
-          {data.map((routine) => (
+          {[
+            ...data.filter(
+              (routine) => JSON.parse(routine.daysOfWeek)[dayjs().day()]
+            ),
+            ...data.filter(
+              (routine) => !JSON.parse(routine.daysOfWeek)[dayjs().day()]
+            ),
+          ].map((routine) => (
             <Routine routine={routine} key={routine.id} mutationUrl={url} />
           ))}
           <CreateRoutine mutationUrl={url} />

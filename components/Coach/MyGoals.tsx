@@ -46,6 +46,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
+        disableSwipeToOpen
         PaperProps={{
           sx: {
             width: "100vw",

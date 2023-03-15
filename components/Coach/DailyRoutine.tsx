@@ -201,7 +201,7 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
         <Chip label={task.category} size="small" />
         <Chip
           size="small"
-          label={~~((task.progress / task.durationDays) * 100) + "% complete"}
+          label={`${~~((task.progress / task.durationDays) * 100)}% complete`}
         />
         <Chip
           size="small"
