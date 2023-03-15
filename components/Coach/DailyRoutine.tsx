@@ -10,7 +10,6 @@ import { mutate as mutateSWR } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { toastStyles } from "../../lib/useCustomTheme";
-import { CircularProgressWithLabel } from "../../pages/coach";
 import { useSession } from "../../pages/_app";
 
 export function RoutineEnd({
@@ -328,16 +327,14 @@ export function DailyRoutine() {
           position: "relative",
         }}
       >
-        <CircularProgressWithLabel
-          value={
-            data
-              ? (doneTasks.length /
-                  data.filter((task) => task.durationDays - task.progress > 0)
-                    .length) *
-                100
-              : 0
-          }
-        />
+        <picture>
+          <img
+            src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f449.png"
+            alt="Tada"
+            width="35px"
+            height="35px"
+          />
+        </picture>
       </Box>
       <Box sx={{ width: "100%" }}>
         <Typography

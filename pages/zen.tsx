@@ -51,7 +51,11 @@ function RecentItems() {
 
   return (
     <>
-      <Typography variant="h6" sx={{ mb: 2, ml: 1 }} className="px-4 sm:px-7">
+      <Typography
+        variant="h6"
+        sx={{ my: 2, ml: 0, mb: 1.5 }}
+        className="px-4 sm:px-7"
+      >
         Recently edited
       </Typography>
       <Box
@@ -233,7 +237,7 @@ export default function Home() {
             sx={{
               px: { xs: 2, sm: 4 },
               fontSize: {
-                xs: "40px",
+                xs: "37px",
                 sm: "50px",
               },
               userSelect: "none",
@@ -245,6 +249,7 @@ export default function Home() {
             variant="h5"
           >
             {greeting}
+            <br />
             {session?.user?.name.includes(" ")
               ? session?.user?.name.split(" ")[0]
               : session?.user?.name}
