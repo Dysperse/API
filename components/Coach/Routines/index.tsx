@@ -79,7 +79,7 @@ function EditRoutine({ routine }) {
 
   return (
     <>
-      <ListItemButton onClick={handleOpen}>
+      <ListItemButton onClick={handleOpen} sx={{ gap: 2 }}>
         <Icon className="outlined">edit</Icon>
         Edit routine
       </ListItemButton>
@@ -393,6 +393,7 @@ function RoutineOptions({ routine }) {
             <ListItemButton
               sx={{
                 color: red["A200"],
+                gap: 2,
               }}
             >
               <Icon className="outlined">delete</Icon>
