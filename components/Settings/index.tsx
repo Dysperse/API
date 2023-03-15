@@ -168,7 +168,7 @@ export default function FullScreenDialog({
 
   const trigger = cloneElement(children, {
     onClick: handleClickOpen,
-    onMouseDown : handleClickOpen,
+    onMouseDown: handleClickOpen,
     id: "settingsTrigger",
   });
 
