@@ -137,7 +137,7 @@ function EditRoutine({ setData, editButtonRef, routine }) {
   );
 }
 
-function CreateRoutine({ mutationUrl }) {
+function CreateRoutine({ emblaApi, mutationUrl }) {
   const session = useSession();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -175,6 +175,7 @@ function CreateRoutine({ mutationUrl }) {
         time,
       });
       await mutate(mutationUrl);
+      emblaApi?.reInit();
       toast.success("Created routine!", toastStyles);
       handleClose();
     } catch (e) {
@@ -795,7 +796,7 @@ export function Routines() {
             .map((routine) => (
               <Routine routine={routine} key={routine.id} mutationUrl={url} />
             ))}
-          <CreateRoutine mutationUrl={url} />
+          <CreateRoutine mutationUrl={url} emblaApi={emblaApi} />
         </Box>
       ) : (
         loading
