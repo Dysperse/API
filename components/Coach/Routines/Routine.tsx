@@ -38,7 +38,9 @@ export function Routine({ mutationUrl, routine }) {
         }
       );
       setLoading(true);
-      setOpen(true);
+      if (!edit) {
+        setOpen(true);
+      }
       setLoading(false);
       setData(res[0]);
       console.log(data);
