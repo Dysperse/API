@@ -148,12 +148,26 @@ function Routine({ routine }) {
           sx: {
             background: "hsl(240, 11%, 10%)",
             color: "hsl(240, 11%, 90%)",
+            overflow: "visible",
             height: "100vh",
             borderRadius: 0,
             userSelect: "none",
           },
         }}
       >
+        <Box
+          sx={{
+            position: "fixed",
+            top: open ? "-17px" : "0px",
+            transition: "all .2s",
+            left: "0px",
+            width: "100%",
+            height: "17px",
+            borderRadius: "50px 50px 0 0",
+            background: "hsl(240, 11%, 10%)",
+            zIndex: 999,
+          }}
+        ></Box>
         <RoutineOptions routine={routine} />
         <Backdrop
           open={showIntro}
