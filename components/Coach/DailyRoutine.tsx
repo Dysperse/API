@@ -15,7 +15,7 @@ import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { useWindowSize } from "react-use";
-import { mutate } from "swr";
+import { mutateSWR } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
@@ -132,7 +132,7 @@ export function RoutineEnd({
   );
 }
 
-export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
+export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
   const handleClick = React.useCallback(() => {
     setCurrentIndex((index) => index + 1);
     fetchApiWithoutHook("user/routines/markAsDone", {
@@ -146,7 +146,7 @@ export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
       id: task.id,
     })
       .then(() => {
-        mutate(mutationUrl);
+        mutate();
       })
       .catch(() => {
         toast.error(
@@ -154,7 +154,7 @@ export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           toastStyles
         );
       });
-  }, [task.durationDays, task.id, task.progress, mutationUrl, setCurrentIndex]);
+  }, [task.durationDays, task.id, task.progress, mutate, setCurrentIndex]);
 
   return (
     <Box sx={{ p: 4 }}>
@@ -460,7 +460,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         content: (props) => (
           <Task
             task={task}
-            mutationUrl={url}
+            mutate={async () => await mutateSWR(url)}
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
           />
@@ -509,7 +509,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         open={open}
         onOpen={() => {}}
         onClose={() => {
-          mutate(url);
+          mutateSWR(url);
           setOpen(false);
           setTimeout(() => {
             setCurrentIndex(

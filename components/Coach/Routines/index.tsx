@@ -588,7 +588,15 @@ function Routine({ mutationUrl, routine }) {
                         content: () => (
                           <Task
                             task={task}
-                            mutationUrl={""}
+                            mutate={async () => {
+                              const res = await fetchApiWithoutHook(
+                                "user/routines/custom-routines/items",
+                                {
+                                  id: routine.id,
+                                }
+                              );
+                              setData(res[0]);
+                            }}
                             currentIndex={currentIndex}
                             setCurrentIndex={setCurrentIndex}
                           />
