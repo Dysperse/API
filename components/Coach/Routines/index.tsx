@@ -1,12 +1,16 @@
 import {
   Backdrop,
   Box,
+  Button,
   CircularProgress,
   Icon,
   IconButton,
   ListItemButton,
+  MenuItem,
+  Select,
   Skeleton,
   SwipeableDrawer,
+  TextField,
   Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
@@ -21,6 +25,150 @@ import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { RoutineEnd, Task } from "../DailyRoutine";
+
+function CreateRoutine() {
+  const session = useSession();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
+  const [daysOfWeek, setDaysOfWeek] = useState(
+    `[false, false, false, false, false, false, false]`
+  );
+
+  const [time, setTime] = useState(12);
+
+  const handleChange = (event) => {
+    setTime(event.target.value);
+  };
+
+  return (
+    <>
+      <Box
+        onClick={handleOpen}
+        sx={{
+          flexShrink: 0,
+          borderRadius: 5,
+          flex: "0 0 70px",
+          gap: 0.4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          overflow: "hidden",
+          userSelect: "none",
+          p: 1,
+          transition: "transform .2s",
+          "&:hover": {
+            background: `hsl(240, 11%, ${session?.user?.darkMode ? 10 : 95}%)`,
+          },
+          "&:active": {
+            transition: "none",
+            transform: "scale(.95)",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            borderRadius: 9999,
+            width: 60,
+            height: 60,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(200,200,200,.3)",
+            position: "relative",
+          }}
+        >
+          <Icon className="outlined">add_circle</Icon>
+        </Box>
+        <Box sx={{ width: "100%" }}>
+          <Typography
+            variant="body2"
+            sx={{
+              whiteSpace: "nowrap",
+              textAlign: "center",
+              textOverflow: "ellipsis",
+              fontSize: "13px",
+              overflow: "hidden",
+            }}
+          >
+            Create
+          </Typography>
+        </Box>
+      </Box>
+
+      <SwipeableDrawer
+        open={open}
+        anchor="bottom"
+        onClose={handleClose}
+        onOpen={handleOpen}
+        disableSwipeToOpen
+        PaperProps={{
+          sx: {
+            userSelect: "none",
+          },
+        }}
+      >
+        <Puller />
+        <Box sx={{ p: 2, pt: 0 }}>
+          <Typography variant="h6" gutterBottom>
+            Create routine
+          </Typography>
+          <TextField fullWidth margin="dense" label="Routine name" />
+          <TextField
+            fullWidth
+            margin="dense"
+            multiline
+            rows={4}
+            label="Click to add a note"
+          />
+          <Typography sx={{ fontWeight: 700, my: 2 }}>
+            What days do you want to work on this routine?
+          </Typography>
+          <Box sx={{ display: "flex", overflow: "hidden", gap: 0.5 }}>
+            {JSON.parse(daysOfWeek).map((day, index) => (
+              <Button
+                key={index}
+                size="small"
+                sx={{ px: 1, minWidth: "auto" }}
+                onClick={() =>
+                  setDaysOfWeek((d) => {
+                    let t = JSON.parse(d);
+                    t[index] = !t[index];
+                    console.log(JSON.parse(d));
+                    return JSON.stringify(t);
+                  })
+                }
+                {...(JSON.parse(daysOfWeek)[index] && { variant: "contained" })}
+              >
+                {days[index]}
+              </Button>
+            ))}
+          </Box>
+          <Typography sx={{ fontWeight: 700, my: 2 }}>
+            What time do you want to start this routine?
+          </Typography>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={time}
+            onChange={handleChange}
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+          <Button variant="contained" fullWidth sx={{ mt: 2 }}>
+            Create
+          </Button>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 function RoutineOptions({ routine }) {
   const [open, setOpen] = useState(false);
@@ -370,59 +518,7 @@ export function Routines() {
           {data.map((routine) => (
             <Routine routine={routine} key={routine.id} />
           ))}
-          <Box
-            sx={{
-              flexShrink: 0,
-              borderRadius: 5,
-              flex: "0 0 70px",
-              gap: 0.4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              overflow: "hidden",
-              userSelect: "none",
-              p: 1,
-              transition: "transform .2s",
-              "&:hover": {
-                background: `hsl(240, 11%, ${
-                  session?.user?.darkMode ? 10 : 95
-                }%)`,
-              },
-              "&:active": {
-                transition: "none",
-                transform: "scale(.95)",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                borderRadius: 9999,
-                width: 60,
-                height: 60,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "rgba(200,200,200,.3)",
-                position: "relative",
-              }}
-            >
-              <Icon className="outlined">add_circle</Icon>
-            </Box>
-            <Box sx={{ width: "100%" }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  whiteSpace: "nowrap",
-                  textAlign: "center",
-                  textOverflow: "ellipsis",
-                  fontSize: "13px",
-                  overflow: "hidden",
-                }}
-              >
-                Create
-              </Typography>
-            </Box>
-          </Box>
+          <CreateRoutine />
         </Box>
       ) : (
         loading
