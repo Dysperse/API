@@ -101,7 +101,16 @@ function Routine({ routine }) {
                 ? [
                     {
                       content: () => (
-                        <Box>
+                        <Box
+                          sx={{
+                            justifyContent: "center",
+                            width: "100%",
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          onClick={() => setOpen(false)}
+                        >
                           You haven&apos;t added any goals to this routine yet
                         </Box>
                       ),
