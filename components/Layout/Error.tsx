@@ -19,7 +19,7 @@ export function Error({ message }) {
         background: "hsl(240,11%,90%)",
         height: "100%",
         width: "100%",
-        color: "#232323",
+        color: "#000",
         left: 0,
         zIndex: 999999999999999,
       }}

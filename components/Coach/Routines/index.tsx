@@ -1,3 +1,4 @@
+import { LoadingButton } from "@mui/lab";
 import {
   Backdrop,
   Box,
@@ -11,7 +12,7 @@ import {
   Skeleton,
   SwipeableDrawer,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
@@ -49,6 +50,26 @@ function CreateRoutine() {
 
   const handleChange = (event) => {
     setTime(event.target.value);
+  };
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const data = fetchApiWithoutHook("user/routines/custom-routines/create", {
+        name,
+        note,
+        emoji,
+        daysOfWeek,
+        time,
+      });
+    } catch (e) {
+      toast.error(
+        "Yikes! An error occured while trying to create your routine! Please try again later."
+      );
+    }
+    setLoading(false);
   };
 
   return (
@@ -185,17 +206,19 @@ function CreateRoutine() {
               </MenuItem>
             ))}
           </Select>
-          <Button
+          <LoadingButton
+            loading={loading}
             variant="contained"
             fullWidth
             sx={{ mt: 2 }}
+            onClick={handleSubmit}
             disabled={
               name.trim() == "" ||
               JSON.parse(daysOfWeek).filter((d) => d === true).length == 0
             }
           >
             Create
-          </Button>
+          </LoadingButton>
         </Box>
       </SwipeableDrawer>
     </>
@@ -365,6 +388,7 @@ function Routine({ routine }) {
           sx={{
             flexDirection: "column",
             gap: 2,
+            backdropFilter: "blur(10px)",
             zIndex: 999999,
           }}
           className="override-bg"
