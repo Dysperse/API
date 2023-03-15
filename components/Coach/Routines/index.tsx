@@ -15,7 +15,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
+import { toastStyles } from "../../../lib/useCustomTheme";
 import { useSession } from "../../../pages/_app";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { RoutineEnd, Task } from "../DailyRoutine";
@@ -75,13 +77,21 @@ function RoutineOptions({ routine }) {
         </Box>
         <Box sx={{ p: 2, pt: 0 }}>
           <ListItemButton>Edit routine</ListItemButton>
-          <ListItemButton
-            sx={{
-              color: red["A200"],
+          <ConfirmationModal
+            title="Are you sure you want to delete this routine?"
+            question="Your progress will stay safe and your goals won't be deleted"
+            callback={() => {
+              toast.success("Coming soon!", toastStyles);
             }}
           >
-            Delete
-          </ListItemButton>
+            <ListItemButton
+              sx={{
+                color: red["A200"],
+              }}
+            >
+              Delete
+            </ListItemButton>
+          </ConfirmationModal>
         </Box>
       </SwipeableDrawer>
     </>
