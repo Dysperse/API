@@ -185,7 +185,15 @@ function CreateRoutine() {
               </MenuItem>
             ))}
           </Select>
-          <Button variant="contained" fullWidth sx={{ mt: 2 }}>
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2 }}
+            disabled={
+              name.trim() == "" ||
+              JSON.parse(daysOfWeek).filter((d) => d === true).length == 0
+            }
+          >
             Create
           </Button>
         </Box>
