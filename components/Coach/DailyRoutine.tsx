@@ -329,7 +329,7 @@ export function DailyRoutine() {
       >
         <picture>
           <img
-            src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f449.png"
+            src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ab.png"
             alt="Tada"
             width="35px"
             height="35px"
