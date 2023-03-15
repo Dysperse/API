@@ -133,7 +133,7 @@ export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
   }, [task.durationDays, task.id, task.progress, mutationUrl, setCurrentIndex]);
 
   return (
-    <Box sx={{ p: 4 }}>
+    <Box sx={{ p: 4 }} onClick={() => setCurrentIndex((i) => currentIndex + 1)}>
       <Typography variant="h2" className="font-heading" gutterBottom>
         {task.stepName}
       </Typography>
@@ -198,7 +198,7 @@ export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
         >
           {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
             <>
-              <span>🔥</span> You worked on this goal today!
+              <span>🔥</span> Completed for today!
             </>
           ) : (
             <>
