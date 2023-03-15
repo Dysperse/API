@@ -82,14 +82,13 @@ export function Routines() {
             ),
           ]
             .sort((a, b) => {
-              if (a.timeOfDay < b.timeOfDay) {
-                return -1;
-              }
-              if (a.timeOfDay > b.timeOfDay) {
-                return 1;
-              }
-              return 0;
+              const currentHour = new Date().getHours();
+
+              const diffA = Math.abs(a.timeOfDay - currentHour);
+              const diffB = Math.abs(b.timeOfDay - currentHour);
+              return diffA - diffB;
             })
+
             .map((routine) => (
               <Routine routine={routine} key={routine.id} mutationUrl={url} />
             ))}
