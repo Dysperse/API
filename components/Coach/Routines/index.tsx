@@ -167,6 +167,7 @@ function CreateRoutine({ mutationUrl }) {
         note,
         emoji,
         daysOfWeek,
+        timeOfDay: time,
         time,
       });
       await mutate(mutationUrl);
@@ -749,9 +750,19 @@ export function Routines() {
             ...data.filter(
               (routine) => !JSON.parse(routine.daysOfWeek)[dayjs().day()]
             ),
-          ].map((routine) => (
-            <Routine routine={routine} key={routine.id} mutationUrl={url} />
-          ))}
+          ]
+            .sort((a, b) => {
+              if (a.timeOfDay < b.timeOfDay) {
+                return -1;
+              }
+              if (a.timeOfDay > b.timeOfDay) {
+                return 1;
+              }
+              return 0;
+            })
+            .map((routine) => (
+              <Routine routine={routine} key={routine.id} mutationUrl={url} />
+            ))}
           <CreateRoutine mutationUrl={url} />
         </Box>
       ) : (
