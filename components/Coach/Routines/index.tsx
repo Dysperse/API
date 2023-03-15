@@ -21,6 +21,7 @@ import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -751,7 +752,7 @@ export function Routines() {
     },
     [WheelGesturesPlugin()]
   );
-
+  const router = useRouter();
   return (
     <Box
       ref={emblaRef}
@@ -765,6 +766,9 @@ export function Routines() {
           sx={{
             display: "flex",
             alignItems: "center",
+            ...(router.asPath === "/zen" && {
+              justifyContent: { sm: "center" },
+            }),
             gap: 1,
             px: 2,
             mb: 2,
