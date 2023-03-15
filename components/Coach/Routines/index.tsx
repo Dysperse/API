@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useApi } from "../../../hooks/useApi";
 import { ErrorHandler } from "../../Error";
 import { DailyRoutine } from "../DailyRoutine";
