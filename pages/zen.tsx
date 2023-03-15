@@ -28,6 +28,7 @@ import { useSession } from "./_app";
 
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { Routines } from "../components/Coach/Routines";
 import { colors } from "../lib/colors";
 
 function RecentItems() {
@@ -204,7 +205,7 @@ export default function Home() {
           <Box
             sx={{
               ml: "auto",
-              mr: 2,
+              mr: { sm: 2 },
             }}
           >
             {!editMode && (
@@ -224,7 +225,7 @@ export default function Home() {
         <Box
           sx={{
             mt: { xs: 3, sm: 15 },
-            mb: 10,
+            mb: 2,
           }}
         >
           <Typography
@@ -251,6 +252,7 @@ export default function Home() {
           </Typography>
         </Box>
       </Box>
+      <Routines />
       <RecentItems />
       <Box className="px-4 sm:px-7">
         <Box
