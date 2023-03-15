@@ -358,6 +358,7 @@ function RoutineOptions({ routine }) {
           sx: {
             background: "hsl(240, 11%, 15%)",
             color: "hsl(240, 11%, 90%)",
+            maxWidth: "300px",
             userSelect: "none",
           },
         }}
