@@ -288,6 +288,7 @@ export function DailyRoutine() {
   const trigger = (
     <Box
       onClick={() => {
+        navigator.vibrate(50)
         if (sortedTasks.length == 0) {
           router.push("/coach");
         } else {

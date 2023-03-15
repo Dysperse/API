@@ -436,6 +436,7 @@ function Routine({ mutationUrl, routine }) {
 
   const handleClick = async () => {
     try {
+      navigator.vibrate(50);
       setCurrentIndex(0);
       setShowIntro(true);
       setLoading(true);
