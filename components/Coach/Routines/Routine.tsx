@@ -232,7 +232,6 @@ export function Routine({ mutationUrl, routine }) {
         sx={{
           ...(disabled && {
             opacity: 0.6,
-            pointerEvents: "none",
           }),
           flexShrink: 0,
           borderRadius: 5,
