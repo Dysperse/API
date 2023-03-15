@@ -12,7 +12,7 @@ import {
   Skeleton,
   SwipeableDrawer,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
@@ -388,7 +388,7 @@ function Routine({ routine }) {
           sx={{
             flexDirection: "column",
             gap: 2,
-            backdropFilter: "blur(10px)",
+            backdropFilter: "blur(5px)",
             zIndex: 999999,
           }}
           className="override-bg"
