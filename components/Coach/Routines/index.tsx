@@ -19,8 +19,11 @@ import {
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+
 import Stories from "react-insta-stories";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
@@ -731,14 +734,23 @@ export function Routines() {
     </Box>
   );
 
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      dragFree: true,
+      align: "start",
+      containScroll: "trimSnaps",
+      loop: false,
+    },
+    [WheelGesturesPlugin()]
+  );
+
   return (
-    <Box>
+    <Box ref={emblaRef}>
       {data ? (
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            overflowX: "scroll",
             gap: 1,
             px: 2,
             mb: 2,

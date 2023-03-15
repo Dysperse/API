@@ -53,7 +53,7 @@ function RecentItems() {
     <>
       <Typography
         variant="h6"
-        sx={{ my: 2, ml: 0, mb: 1.5 }}
+        sx={{ mt: 3, ml: 0, mb: 1.5 }}
         className="px-4 sm:px-7"
       >
         Recently edited
