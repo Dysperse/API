@@ -35,8 +35,8 @@ export function Error({ message }) {
           p: 5,
           borderRadius: 5,
           top: "50%",
-          background: "#200923",
-          color: "#fff",
+          background: "hsl(240,11%,90%)",
+          color: "#000",
           left: "50%",
           maxWidth: "calc(100vw - 20px)",
           width: "370px",
@@ -61,7 +61,7 @@ export function Error({ message }) {
             <MuiLink
               href="mailto:hello@dysperse.com"
               target="_blank"
-              sx={{ color: "#fff", textDecorationColor: "#fff" }}
+              sx={{ color: "#000", textDecorationColor: "#000" }}
             >
               hello@dysperse.com
             </MuiLink>
@@ -71,7 +71,7 @@ export function Error({ message }) {
           sx={{
             mt: 2,
             justifyContent: "start",
-            color: "#fff",
+            color: "#000",
             borderRadius: 9,
             ...(open && {
               background: "rgba(255,255,255,0.05)",
