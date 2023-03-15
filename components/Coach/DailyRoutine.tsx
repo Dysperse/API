@@ -15,7 +15,7 @@ import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { useWindowSize } from "react-use";
-import { mutateSWR } from "swr";
+import { mutate as mutateSWR } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { colors } from "../../lib/colors";
@@ -457,10 +457,10 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
   const stories = [
     ...sortedTasks.map((task) => {
       return {
-        content: (props) => (
+        content: () => (
           <Task
             task={task}
-            mutate={async () => await mutateSWR(url)}
+            mutate={() => mutateSWR(url)}
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
           />
