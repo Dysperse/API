@@ -30,6 +30,8 @@ import { RoutineEnd, Task } from "../DailyRoutine";
 function CreateRoutine() {
   const session = useSession();
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [note, setNote] = useState("");
   const [emoji, setEmoji] = useState(
     "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2615.png"
   );
@@ -123,12 +125,16 @@ function CreateRoutine() {
           </Typography>
           <EmojiPickerModal large setEmoji={setEmoji} emoji={emoji} />
           <TextField
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="dense"
             label="Routine name"
             placeholder="Morning routine"
           />
           <TextField
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
             fullWidth
             margin="dense"
             multiline
