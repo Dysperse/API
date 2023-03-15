@@ -7,13 +7,14 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { useSession } from "../../../pages/_app";
 import { ErrorHandler } from "../../Error";
-import { Task } from "../DailyRoutine";
+import { RoutineEnd, Task } from "../DailyRoutine";
 
 function Routine({ routine }) {
   const [loading, setLoading] = useState(false);
@@ -28,13 +29,17 @@ function Routine({ routine }) {
       setCurrentIndex(0);
       setShowIntro(true);
       setLoading(true);
-      const data = await fetchApiWithoutHook(
-        "user/routines/custom-routines/items"
+      const res = await fetchApiWithoutHook(
+        "user/routines/custom-routines/items",
+        {
+          id: routine.id,
+        }
       );
       setLoading(true);
       setOpen(true);
       setLoading(false);
-      setData(data);
+      setData(res[0]);
+      console.log(data);
       setTimeout(() => setShowIntro(false), 700);
     } catch (e) {
       toast.error(
@@ -45,6 +50,12 @@ function Routine({ routine }) {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const tasksRemaining = !data
+    ? []
+    : data.items
+        .filter((task) => task.durationDays - task.progress > 0)
+        .filter((task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD"));
 
   return (
     <>
@@ -85,18 +96,29 @@ function Routine({ routine }) {
               background: "hsl(240, 11%, 10%)",
               color: "hsl(240, 11%, 80%)",
             }}
-            stories={data.map((task) => {
-              return {
+            stories={[
+              ...data.items.map((task) => {
+                return {
+                  content: () => (
+                    <Task
+                      task={task}
+                      mutationUrl={""}
+                      currentIndex={currentIndex}
+                      setCurrentIndex={setCurrentIndex}
+                    />
+                  ),
+                };
+              }),
+              {
                 content: () => (
-                  <Task
-                    task={task}
-                    mutationUrl={""}
-                    currentIndex={currentIndex}
-                    setCurrentIndex={setCurrentIndex}
+                  <RoutineEnd
+                    handleClose={() => setOpen(false)}
+                    sortedTasks={data && data.items}
+                    tasksRemaining={tasksRemaining}
                   />
                 ),
-              };
-            })}
+              },
+            ]}
             // idk why the story doesnt pause in production but the line below works, OK?
             defaultInterval={69696969696969696969696969696969}
             width={"100%"}

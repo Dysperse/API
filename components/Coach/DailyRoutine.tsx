@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import Stories from "react-insta-stories";
-import useWindowSize from "react-use/lib/useWindowSize";
+import { useWindowSize } from "react-use";
 import { mutate } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
@@ -22,6 +22,91 @@ import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { CircularProgressWithLabel } from "../../pages/coach";
 import { useSession } from "../../pages/_app";
+
+export function RoutineEnd({ sortedTasks, tasksRemaining, handleClose }) {
+  const { width, height } = useWindowSize();
+
+  return (
+    <div
+      style={{
+        padding: 20,
+        textAlign: "center",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      onClick={handleClose}
+    >
+      {tasksRemaining == 0 ? (
+        <>
+          <Confetti
+            width={width > 600 ? 600 : width}
+            height={height}
+            style={{ zIndex: 1 }}
+          />
+          <Box
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              mb: 2,
+            }}
+          >
+            <picture>
+              <img
+                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
+                alt="Tada"
+              />
+            </picture>
+          </Box>
+          <Typography variant="h6" sx={{ mb: 1 }}>
+            You worked towards
+            <br /> {sortedTasks.length} goals!
+          </Typography>
+          <Button
+            onClick={handleClose}
+            sx={{
+              mt: 1,
+              "&, &:hover": {
+                background: "hsl(240,11%,20%)!important",
+                color: "#fff!important",
+              },
+            }}
+            variant="contained"
+          >
+            <span>✌</span> Let&apos;s go &rarr;
+          </Button>
+        </>
+      ) : (
+        <>
+          <Typography variant="h1" gutterBottom>
+            👉
+          </Typography>
+          <Typography variant="h6">
+            You have {tasksRemaining.length} goal
+            {tasksRemaining.length !== 1 && "s"} left to finish
+          </Typography>
+          <Button
+            onClick={handleClose}
+            sx={{
+              mt: 1,
+              "&, &:hover": {
+                background: "hsl(240,11%,20%)!important",
+                color: "#fff!important",
+              },
+            }}
+            variant="contained"
+          >
+            <span>🎯</span> Exit &rarr;
+          </Button>
+        </>
+      )}
+    </div>
+  );
+}
 
 export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
   const handleClick = React.useCallback(() => {
@@ -63,6 +148,7 @@ export function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           my: 2,
           "& .MuiChip-root": {
             background: "hsl(240,11%,20%)!important",
+            color: "hsl(240,11%,90%)!important",
           },
         }}
       >
@@ -152,8 +238,6 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     if (window.location.hash == "#daily-routine") setOpen(true);
   }, [setOpen]);
 
-  const { width, height } = useWindowSize();
-
   const doneTasks = !data
     ? []
     : data
@@ -230,7 +314,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
               ) : (
                 <>
                   {tasksRemaining.length == 0 ? (
-                    <>Hurray! You worked towards all of your goals today!</>
+                    <>Hurray! You worked towards all your goals today!</>
                   ) : (
                     <>
                       {tasksRemaining.length +
@@ -353,73 +437,12 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
       };
     }),
     {
-      content: (props) => (
-        <div style={{ padding: 20, textAlign: "center", width: "100%" }}>
-          {tasksRemaining == 0 ? (
-            <>
-              <Confetti
-                width={width > 600 ? 600 : width}
-                height={height}
-                style={{ zIndex: 1 }}
-              />
-              <Box
-                sx={{
-                  textAlign: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                  mb: 2,
-                }}
-              >
-                <picture>
-                  <img
-                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
-                    alt="Tada"
-                  />
-                </picture>
-              </Box>
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                You worked towards
-                <br /> all of your goals today!
-              </Typography>
-              <Button
-                onClick={() => setOpen(false)}
-                sx={{
-                  mt: 1,
-                  "&, &:hover": {
-                    background: "hsl(240,11%,20%)!important",
-                    color: "#fff!important",
-                  },
-                }}
-                variant="contained"
-              >
-                <span>✌</span> Let&apos;s go &rarr;
-              </Button>
-            </>
-          ) : (
-            <>
-              <Typography variant="h1" gutterBottom>
-                👉
-              </Typography>
-              <Typography variant="h6">
-                You have {tasksRemaining.length} goal
-                {tasksRemaining.length !== 1 && "s"} left to finish
-              </Typography>
-              <Button
-                onClick={() => setOpen(false)}
-                sx={{
-                  mt: 1,
-                  "&, &:hover": {
-                    background: "hsl(240,11%,20%)!important",
-                    color: "#fff!important",
-                  },
-                }}
-                variant="contained"
-              >
-                <span>🎯</span> Exit &rarr;
-              </Button>
-            </>
-          )}
-        </div>
+      content: () => (
+        <RoutineEnd
+          handleClose={() => setOpen(false)}
+          tasksRemaining={tasksRemaining}
+          sortedTasks={sortedTasks}
+        />
       ),
     },
   ];
