@@ -1,4 +1,4 @@
-import { Box, useScrollTrigger } from "@mui/material";
+import { Box } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
@@ -9,8 +9,6 @@ import { useSession } from "../../pages/_app";
  * @returns {any}
  */
 export function BottomNav() {
-  const trigger = useScrollTrigger({ threshold: 0 });
-
   const iconStyles = {
     display: "flex",
     alignItems: "center",
@@ -77,7 +75,7 @@ export function BottomNav() {
         sx={{
           width: "100%",
           position: "fixed",
-          bottom: trigger && router.asPath.includes("zen") ? -71 : 0,
+          bottom: 0,
           left: 0,
           transition: "bottom .3s",
           overflowX: "hidden",

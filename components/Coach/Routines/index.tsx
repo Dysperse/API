@@ -45,6 +45,11 @@ export function Routines() {
     [WheelGesturesPlugin()]
   );
   const router = useRouter();
+
+  useEffect(() => {
+    emblaApi?.reInit();
+  });
+
   return (
     <Box
       ref={emblaRef}
