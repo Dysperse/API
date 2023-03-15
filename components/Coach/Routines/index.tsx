@@ -31,7 +31,7 @@ function CreateRoutine() {
   const session = useSession();
   const [open, setOpen] = useState(false);
   const [emoji, setEmoji] = useState(
-    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
+    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2615.png"
   );
 
   const handleOpen = () => setOpen(true);
@@ -121,7 +121,7 @@ function CreateRoutine() {
           <Typography variant="h6" gutterBottom>
             Create routine
           </Typography>
-          <EmojiPickerModal setEmoji={setEmoji} emoji={emoji} />
+          <EmojiPickerModal large setEmoji={setEmoji} emoji={emoji} />
           <TextField
             fullWidth
             margin="dense"

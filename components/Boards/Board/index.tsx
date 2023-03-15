@@ -311,7 +311,7 @@ function ColumnSettings({
   );
 }
 
-export function EmojiPickerModal({ emoji, setEmoji }: any) {
+export function EmojiPickerModal({ large = false, emoji, setEmoji }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
 
@@ -351,13 +351,19 @@ export function EmojiPickerModal({ emoji, setEmoji }: any) {
       </SwipeableDrawer>
       <Button
         onClick={() => setOpen(true)}
+        size={large ? "large" : "medium"}
         sx={{
           minWidth: "unset",
           px: 1,
         }}
       >
         <picture>
-          <img src={emoji} alt="emoji" width="30" height="30" />
+          <img
+            src={emoji}
+            alt="emoji"
+            width={large ? 60 : 30}
+            height={large ? 60 : 30}
+          />
         </picture>
       </Button>
     </>
