@@ -476,7 +476,10 @@ export function TasksLayout() {
         disableBackdropTransition
         anchor="bottom"
         onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          navigator.vibrate(50);
+        }}
         open={open}
         disableSwipeToOpen
         PaperProps={{
