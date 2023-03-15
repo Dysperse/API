@@ -12,7 +12,7 @@ import {
   Skeleton,
   SwipeableDrawer,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
