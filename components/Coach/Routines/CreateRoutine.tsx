@@ -53,7 +53,6 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
         emoji,
         daysOfWeek,
         timeOfDay: time,
-        time,
       });
       await mutate(mutationUrl);
       emblaApi?.reInit();

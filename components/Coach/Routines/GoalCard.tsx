@@ -34,7 +34,15 @@ export function GoalCard({ setData, routine, goal, goals }) {
   };
 
   return (
-    <Card variant="outlined" sx={{ my: 1 }} onClick={handleClick}>
+    <Card
+      variant="outlined"
+      sx={{
+        my: 1,
+        background: "hsl(240, 11%, 18%)",
+        color: "hsl(240, 11%, 90%)",
+      }}
+      onClick={handleClick}
+    >
       <CardActionArea
         sx={{
           ...(disabled && { opacity: 0.5 }),

@@ -483,6 +483,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       primary: {
         main: colors[themeColor || "grey"][darkMode ? "A200" : "A700"],
       },
+      secondary: {
+        main: "#fff",
+      },
       mode: darkMode ? "dark" : "light",
       ...(darkMode && {
         background: {
