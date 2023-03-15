@@ -31,6 +31,12 @@ export function Routine({ mutationUrl, routine }) {
       setCurrentIndex(0);
       setShowIntro(true);
       setLoading(true);
+      if (edit) {
+        const tag: any = ref?.current?.querySelector(".editTrigger");
+        tag?.click();
+        return;
+      }
+
       const res = await fetchApiWithoutHook(
         "user/routines/custom-routines/items",
         {
@@ -38,17 +44,11 @@ export function Routine({ mutationUrl, routine }) {
         }
       );
       setLoading(true);
-      if (!edit) {
-        setOpen(true);
-      }
+      setOpen(true);
       setLoading(false);
       setData(res[0]);
       console.log(data);
       setTimeout(() => setShowIntro(false), 1000);
-      if (edit) {
-        const tag: any = ref?.current?.querySelector(".editTrigger");
-        tag?.click();
-      }
     } catch (e) {
       toast.error(
         "Yikes! An error occured while trying to get your routine! Please try again later.",
