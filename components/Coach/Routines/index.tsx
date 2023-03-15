@@ -117,13 +117,19 @@ function CreateRoutine() {
           <Typography variant="h6" gutterBottom>
             Create routine
           </Typography>
-          <TextField fullWidth margin="dense" label="Routine name" />
+          <TextField
+            fullWidth
+            margin="dense"
+            label="Routine name"
+            placeholder="Morning routine"
+          />
           <TextField
             fullWidth
             margin="dense"
             multiline
             rows={4}
             label="Click to add a note"
+            placeholder="(Optional)"
           />
           <Typography sx={{ fontWeight: 700, my: 2 }}>
             What days do you want to work on this routine?
@@ -155,11 +161,18 @@ function CreateRoutine() {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={time}
+            size="small"
             onChange={handleChange}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            {[
+              0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+              19, 20, 21, 22, 23,
+            ].map((hour) => (
+              <MenuItem value={hour} key={hour}>
+                {hour == 0 ? "12" : hour}
+                {hour > 12 ? "PM" : "AM"}
+              </MenuItem>
+            ))}
           </Select>
           <Button variant="contained" fullWidth sx={{ mt: 2 }}>
             Create
