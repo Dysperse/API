@@ -31,16 +31,41 @@ import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { RoutineEnd, Task } from "../DailyRoutine";
 
-function GoalCard({ goal }) {
+function GoalCard({ routine, goal, goals }) {
+  const disabled = goal.routineId;
+  const included = Boolean(goals.find((g) => g.id == goal.id));
+  const [added, setAdded] = useState(included);
+
+  const handleClick = () => {
+    setAdded(!added);
+    fetchApiWithoutHook("user/routines/assignToRoutine", {
+      id: goal.id,
+      routineId: added ? routine.id : "-1",
+    });
+  };
+
   return (
-    <Card>
-      <CardActionArea>
+    <Card variant="outlined" sx={{ my: 1 }} onClick={handleClick}>
+      <CardActionArea
+        sx={{
+          ...(disabled && { opacity: 0.5 }),
+          display: "flex",
+          alignItems: "center",
+        }}
+        disabled={disabled}
+      >
         <CardContent>
           <Typography>{goal.name}</Typography>
-          <Typography>
+          <Typography variant="body2">
             Last worked on {dayjs(goal.lastCompleted).fromNow()}
           </Typography>
         </CardContent>
+        <Icon
+          className="outlined"
+          sx={{ ml: "auto", mr: 2, opacity: included ? 1 : 0 }}
+        >
+          {disabled ? "cancel" : "check_circle"}
+        </Icon>
       </CardActionArea>
     </Card>
   );
@@ -65,6 +90,7 @@ function EditRoutine({ routine }) {
         PaperProps={{
           sx: {
             userSelect: "none",
+            maxWidth: "600px",
           },
         }}
       >
@@ -76,7 +102,14 @@ function EditRoutine({ routine }) {
               .filter(
                 (goal) => !goal.completed && goal.progress < goal.durationDays
               )
-              .map((goal) => <GoalCard goal={goal} key={goal.id} />)
+              .map((goal) => (
+                <GoalCard
+                  goal={goal}
+                  key={goal.id}
+                  goals={data}
+                  routine={routine}
+                />
+              ))
           ) : (
             <CircularProgress />
           )}
