@@ -295,7 +295,7 @@ export function Routine({ mutationUrl, routine }) {
               overflow: "hidden",
             }}
           >
-            {routine.name}
+            {routine.timeOfDay}
           </Typography>
         </Box>
       </Box>
