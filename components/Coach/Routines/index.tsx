@@ -3,10 +3,13 @@ import {
   Box,
   CircularProgress,
   Icon,
+  IconButton,
+  ListItemButton,
   Skeleton,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -14,7 +17,68 @@ import Stories from "react-insta-stories";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { useSession } from "../../../pages/_app";
 import { ErrorHandler } from "../../Error";
+import { Puller } from "../../Puller";
 import { RoutineEnd, Task } from "../DailyRoutine";
+
+function RoutineOptions({ routine }) {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  return (
+    <>
+      <IconButton
+        onClick={handleOpen}
+        sx={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          m: 2.5,
+          mt: 3,
+          zIndex: 99,
+          background: "transparent",
+          color: "#fff!important",
+        }}
+      >
+        <Icon>more_vert</Icon>
+      </IconButton>
+
+      <SwipeableDrawer
+        open={open}
+        anchor="bottom"
+        BackdropProps={{
+          className: "override-bg",
+          sx: {
+            backdropFilter: "blur(10px)",
+            background: "transparent",
+          },
+        }}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        disableSwipeToOpen
+        PaperProps={{
+          sx: {
+            background: "hsl(240, 11%, 15%)",
+            color: "hsl(240, 11%, 90%)",
+            userSelect: "none",
+          },
+        }}
+      >
+        <Puller />
+        <Box sx={{ p: 2, pt: 0 }}>
+          <ListItemButton>Edit routine</ListItemButton>
+          <ListItemButton
+            sx={{
+              color: red["A200"],
+            }}
+          >
+            Delete
+          </ListItemButton>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 function Routine({ routine }) {
   const [loading, setLoading] = useState(false);
@@ -82,6 +146,7 @@ function Routine({ routine }) {
           },
         }}
       >
+        <RoutineOptions routine={routine} />
         <Backdrop
           open={showIntro}
           onClick={() => setShowIntro(false)}
