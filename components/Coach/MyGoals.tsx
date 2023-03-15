@@ -56,7 +56,9 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           },
         }}
       >
-        <AppBar sx={{ background: "transparent", border: 0 }}>
+        <AppBar
+          sx={{ background: "transparent", border: 0, backdropFilter: "none" }}
+        >
           <Toolbar sx={{ height: "64px" }}>
             <IconButton color="inherit" onClick={() => setOpen(false)}>
               <span
