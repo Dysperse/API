@@ -28,14 +28,14 @@ export function Routine({ mutationUrl, routine }) {
   const handleClick = async (edit: any = false) => {
     try {
       navigator.vibrate(50);
-      setCurrentIndex(0);
-      setShowIntro(true);
-      setLoading(true);
       if (edit) {
         const tag: any = ref?.current?.querySelector(".editTrigger");
         tag?.click();
         return;
       }
+      setCurrentIndex(0);
+      setShowIntro(true);
+      setLoading(true);
 
       const res = await fetchApiWithoutHook(
         "user/routines/custom-routines/items",
