@@ -96,29 +96,41 @@ function Routine({ routine }) {
               background: "hsl(240, 11%, 10%)",
               color: "hsl(240, 11%, 80%)",
             }}
-            stories={[
-              ...data.items.map((task) => {
-                return {
-                  content: () => (
-                    <Task
-                      task={task}
-                      mutationUrl={""}
-                      currentIndex={currentIndex}
-                      setCurrentIndex={setCurrentIndex}
-                    />
-                  ),
-                };
-              }),
-              {
-                content: () => (
-                  <RoutineEnd
-                    handleClose={() => setOpen(false)}
-                    sortedTasks={data && data.items}
-                    tasksRemaining={tasksRemaining}
-                  />
-                ),
-              },
-            ]}
+            stories={
+              data.items.length == 0
+                ? [
+                    {
+                      content: () => (
+                        <Box>
+                          You haven&apos;t added any goals to this routine yet
+                        </Box>
+                      ),
+                    },
+                  ]
+                : [
+                    ...data.items.map((task) => {
+                      return {
+                        content: () => (
+                          <Task
+                            task={task}
+                            mutationUrl={""}
+                            currentIndex={currentIndex}
+                            setCurrentIndex={setCurrentIndex}
+                          />
+                        ),
+                      };
+                    }),
+                    {
+                      content: () => (
+                        <RoutineEnd
+                          handleClose={() => setOpen(false)}
+                          sortedTasks={data && data.items}
+                          tasksRemaining={tasksRemaining}
+                        />
+                      ),
+                    },
+                  ]
+            }
             // idk why the story doesnt pause in production but the line below works, OK?
             defaultInterval={69696969696969696969696969696969}
             width={"100%"}
