@@ -3,6 +3,9 @@ import {
   Backdrop,
   Box,
   Button,
+  Card,
+  CardActionArea,
+  CardContent,
   CircularProgress,
   Icon,
   IconButton,
@@ -27,6 +30,61 @@ import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { RoutineEnd, Task } from "../DailyRoutine";
+
+function GoalCard({ goal }) {
+  return (
+    <Card>
+      <CardActionArea>
+        <CardContent>
+          <Typography>{goal.name}</Typography>
+          <Typography>
+            Last worked on {dayjs(goal.lastCompleted).fromNow()}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+}
+
+function EditRoutine({ routine }) {
+  const { data, error } = useApi("user/routines");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <>
+      <ListItemButton onClick={handleOpen}>Edit routine</ListItemButton>
+
+      <SwipeableDrawer
+        open={open}
+        anchor="bottom"
+        onClose={handleClose}
+        onOpen={handleOpen}
+        disableSwipeToOpen
+        PaperProps={{
+          sx: {
+            userSelect: "none",
+          },
+        }}
+      >
+        <Puller />
+        <Box sx={{ p: 2, pt: 0 }}>
+          <Typography variant="h6">Add goals</Typography>
+          {data ? (
+            data
+              .filter(
+                (goal) => !goal.completed && goal.progress < goal.durationDays
+              )
+              .map((goal) => <GoalCard goal={goal} key={goal.id} />)
+          ) : (
+            <CircularProgress />
+          )}
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 function CreateRoutine() {
   const session = useSession();
@@ -64,6 +122,8 @@ function CreateRoutine() {
         daysOfWeek,
         time,
       });
+      toast.success("Created routine!");
+      handleClose();
     } catch (e) {
       toast.error(
         "Yikes! An error occured while trying to create your routine! Please try again later."
@@ -166,7 +226,7 @@ function CreateRoutine() {
           <Typography sx={{ fontWeight: 700, my: 2 }}>
             What days do you want to work on this routine?
           </Typography>
-          <Box sx={{ display: "flex", overflow: "hidden", gap: 0.5 }}>
+          <Box sx={{ display: "flex", overflowX: "scroll", gap: 0.5 }}>
             {JSON.parse(daysOfWeek).map((day, index) => (
               <Button
                 key={index}
@@ -279,12 +339,18 @@ function RoutineOptions({ routine }) {
           <Puller />
         </Box>
         <Box sx={{ p: 2, pt: 0 }}>
-          <ListItemButton>Edit routine</ListItemButton>
+          <EditRoutine routine={routine} />
           <ConfirmationModal
             title="Are you sure you want to delete this routine?"
             question="Your progress will stay safe and your goals won't be deleted"
-            callback={() => {
-              toast.success("Coming soon!", toastStyles);
+            callback={async () => {
+              await fetchApiWithoutHook(
+                "user/routines/custom-routines/delete",
+                {
+                  id: routine.id,
+                }
+              );
+              toast.success("Deleted!", toastStyles);
             }}
           >
             <ListItemButton
@@ -565,7 +631,7 @@ export function Routines() {
           sx={{
             display: "flex",
             alignItems: "center",
-            overflowX: "hidden",
+            overflowX: "scroll",
             gap: 1,
             px: 2,
             mb: 2,
