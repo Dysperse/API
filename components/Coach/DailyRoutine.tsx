@@ -88,7 +88,7 @@ export function RoutineEnd({
           </Box>
           <Typography variant="h6" sx={{ mb: 1 }}>
             You worked towards
-            <br /> {sortedTasks.length} goals!
+            <br /> {sortedTasks.length} goal{sortedTasks.length !== 1 && "s"}!
           </Typography>
           <Button
             onClick={handleClose}
