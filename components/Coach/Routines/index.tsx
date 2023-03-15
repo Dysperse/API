@@ -30,7 +30,7 @@ import { EmojiPickerModal } from "../../Boards/Board";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
-import { RoutineEnd, Task } from "../DailyRoutine";
+import { DailyRoutine, RoutineEnd, Task } from "../DailyRoutine";
 
 function GoalCard({ setData, routine, goal, goals }) {
   const disabled = goal.routineId;
@@ -743,6 +743,7 @@ export function Routines() {
             mb: 2,
           }}
         >
+          <DailyRoutine />
           {[
             ...data.filter(
               (routine) => JSON.parse(routine.daysOfWeek)[dayjs().day()]

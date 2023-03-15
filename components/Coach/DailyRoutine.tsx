@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Chip,
-  Icon,
-  ListItemButton,
-  ListItemText,
-  SwipeableDrawer,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Chip, SwipeableDrawer, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -18,7 +9,6 @@ import { useWindowSize } from "react-use";
 import { mutate as mutateSWR } from "swr";
 import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { colors } from "../../lib/colors";
 import { toastStyles } from "../../lib/useCustomTheme";
 import { CircularProgressWithLabel } from "../../pages/coach";
 import { useSession } from "../../pages/_app";
@@ -257,7 +247,7 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
   );
 }
 
-export function DailyRoutine({ zen = false, editMode = false }: any) {
+export function DailyRoutine() {
   const { data, url } = useApi("user/routines");
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
@@ -296,26 +286,46 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         });
 
   const router = useRouter();
-  const trigger = zen ? (
-    <>
-      <ListItemButton
+  const trigger = (
+    <Box
+      onClick={() => {
+        if (sortedTasks.length == 0) {
+          router.push("/coach");
+        } else {
+          setOpen(true);
+        }
+      }}
+      sx={{
+        flexShrink: 0,
+        borderRadius: 5,
+        flex: "0 0 70px",
+        gap: 0.4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        overflow: "hidden",
+        userSelect: "none",
+        p: 1,
+        transition: "transform .2s",
+        "&:hover": {
+          background: `hsl(240, 11%, ${session?.user?.darkMode ? 10 : 95}%)`,
+        },
+        "&:active": {
+          transition: "none",
+          transform: "scale(.95)",
+        },
+      }}
+    >
+      <Box
         sx={{
-          px: "15px !important",
-          gap: 2,
-          background: session?.user?.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
-          border: "1px solid",
-          borderColor: session?.user?.darkMode
-            ? "hsl(240, 11%, 20%)"
-            : "rgba(200, 200, 200, 0.3)",
-        }}
-        className="shadow-sm"
-        disableRipple={editMode}
-        onClick={() => {
-          if (sortedTasks.length == 0) {
-            router.push("/coach");
-          } else {
-            setOpen(true);
-          }
+          borderRadius: 9999,
+          width: 60,
+          height: 60,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(200,200,200,.3)",
+          position: "relative",
         }}
       >
         <CircularProgressWithLabel
@@ -328,129 +338,21 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
               : 0
           }
         />
-        <ListItemText
-          primary={
-            <b>
-              {sortedTasks.length == 0
-                ? "You don't have any goals set"
-                : "Daily routine"}
-            </b>
-          }
-          secondary={
-            editMode ? (
-              <></>
-            ) : data ? (
-              sortedTasks.length == 0 ? (
-                "Tap to set a goal"
-              ) : (
-                <>
-                  {tasksRemaining.length == 0 ? (
-                    <>Hurray! You worked towards all your goals today!</>
-                  ) : (
-                    <>
-                      {tasksRemaining.length +
-                        " task" +
-                        (tasksRemaining.length == 1 ? "" : "s") +
-                        " remaining"}{" "}
-                      &bull; Click to{" "}
-                      {doneTasks === 0
-                        ? "start"
-                        : tasksRemaining === 0
-                        ? "view"
-                        : "resume"}
-                    </>
-                  )}
-                </>
-              )
-            ) : (
-              "Loading..."
-            )
-          }
-        />
-        {tasksRemaining.length == 0 && sortedTasks.length !== 0 && (
-          <Icon
-            sx={{
-              color: colors.green[session?.user?.darkMode ? "A400" : "A700"],
-              fontSize: "30px!important",
-            }}
-          >
-            check_circle
-          </Icon>
-        )}
-      </ListItemButton>
-    </>
-  ) : (
-    <Box
-      id="routineTrigger"
-      className="shadow-sm hover:shadow-md"
-      onClick={() => setOpen(true)}
-      sx={{
-        ...(!data && {
-          filter: "blur(5px)",
-          pointerEvents: "none",
-          minWidth: { xs: "90%", sm: "unset" },
-        }),
-        ml: { sm: "auto" },
-        p: 2,
-        px: 3,
-        transition: "blur .2s, transform 0.2s",
-        "&:active": {
-          transform: "scale(0.98)",
-          transitionDuration: "0s",
-        },
-        userSelect: "none",
-        borderRadius: 5,
-        display: "flex",
-        alignItems: "center",
-        background: session?.user?.darkMode
-          ? "hsl(240,11%,16%)"
-          : "hsl(240,11%,97%)",
-        "&:hover": {
-          background: session?.user?.darkMode
-            ? "hsl(240,11%,16%)"
-            : "hsl(240,11%,95%)",
-        },
-
-        gap: 5,
-      }}
-    >
-      <Box sx={{ mr: "auto" }}>
-        <Typography sx={{ fontWeight: "900" }}>Everything</Typography>
-        <Typography>
-          {data ? (
-            <>
-              {tasksRemaining.length == 0 ? (
-                <>Hurray! You worked towards all of your goals today!</>
-              ) : (
-                <>
-                  {tasksRemaining.length +
-                    " task" +
-                    (tasksRemaining.length == 1 ? "" : "s") +
-                    " remaining"}{" "}
-                  &bull; Click to{" "}
-                  {doneTasks === 0
-                    ? "start"
-                    : tasksRemaining === 0
-                    ? "view"
-                    : "resume"}
-                </>
-              )}
-            </>
-          ) : (
-            "Loading..."
-          )}
+      </Box>
+      <Box sx={{ width: "100%" }}>
+        <Typography
+          variant="body2"
+          sx={{
+            whiteSpace: "nowrap",
+            textAlign: "center",
+            textOverflow: "ellipsis",
+            fontSize: "13px",
+            overflow: "hidden",
+          }}
+        >
+          All tasks
         </Typography>
       </Box>
-      <CircularProgressWithLabel
-        value={
-          data
-            ? (doneTasks.length /
-                data.filter((task) => task.durationDays - task.progress > 0)
-                  .length) *
-              100
-            : 0
-        }
-      />
     </Box>
   );
 

@@ -21,7 +21,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
-import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
@@ -262,9 +261,6 @@ export default function Home() {
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
             <Box>
               <DailyCheckIn />
-            </Box>
-            <Box>
-              <DailyRoutine zen />
             </Box>
             <Box>
               <ListItemButton

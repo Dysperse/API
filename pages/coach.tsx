@@ -10,7 +10,6 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { Routines } from "../components/Coach/Routines";
 import { fetchApiWithoutHook } from "../hooks/useApi";
@@ -178,7 +177,6 @@ export default function Render() {
               My goals
             </h1>
           )}
-          {!hideRoutine && <DailyRoutine />}
         </Box>
         <Routines />
         <Box className="max-w-[100vw] p-3 px-6 pt-0">
