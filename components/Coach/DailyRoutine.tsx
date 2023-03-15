@@ -2,7 +2,6 @@ import { Box, Button, Chip, SwipeableDrawer, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { useWindowSize } from "react-use";
@@ -55,11 +54,6 @@ export function RoutineEnd({
       />
       {tasksRemaining == 0 ? (
         <>
-          <Confetti
-            width={width > 600 ? 600 : width}
-            height={height}
-            style={{ zIndex: 1 }}
-          />
           <Box
             sx={{
               textAlign: "center",
