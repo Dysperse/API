@@ -3,9 +3,11 @@ import {
   Box,
   Button,
   CircularProgress,
+  Icon,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { lime } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -263,10 +265,29 @@ export function Routine({ mutationUrl, routine }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(200,200,200,.3)",
+            background: "rgba(200,200,200,.2)",
+            border: "2px solid transparent",
+            ...(tasksRemaining.length === 0 && {
+              borderColor: lime[800],
+              background: lime[50],
+            }),
             position: "relative",
           }}
         >
+          {tasksRemaining.length === 0 && (
+            <Icon
+              sx={{
+                color: lime[800],
+                background: lime[50],
+                borderRadius: "999px",
+                position: "absolute",
+                bottom: -5,
+                right: -5,
+              }}
+            >
+              check_circle
+            </Icon>
+          )}
           {loading && (
             <CircularProgress
               size={60}

@@ -5,6 +5,13 @@ export default async function handler(req, res) {
     where: {
       userId: req.query.userIdentifier,
     },
+    include: {
+      items: {
+        select: {
+          lastCompleted: true,
+        },
+      },
+    },
   });
   res.json(data);
 }

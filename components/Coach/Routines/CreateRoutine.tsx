@@ -100,7 +100,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(200,200,200,.3)",
+            background: "rgba(200,200,200,.2)",
             position: "relative",
           }}
         >
