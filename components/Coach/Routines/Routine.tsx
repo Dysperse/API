@@ -51,7 +51,7 @@ export function Routine({ mutationUrl, routine }) {
       setLoading(false);
       setData(res[0]);
       console.log(data);
-      setTimeout(() => setShowIntro(false), 10000);
+      setTimeout(() => setShowIntro(false), 2000);
     } catch (e) {
       toast.error(
         "Yikes! An error occured while trying to get your routine! Please try again later.",
@@ -122,6 +122,7 @@ export function Routine({ mutationUrl, routine }) {
         <Backdrop
           open={showIntro}
           onClick={() => setShowIntro(false)}
+          onTouchStart={() => setShowIntro(false)}
           sx={{
             flexDirection: "column",
             gap: 2,
@@ -141,28 +142,41 @@ export function Routine({ mutationUrl, routine }) {
               left: 0,
               width: "100%",
               borderTop: "1px solid",
-              borderColor: session?.user?.darkMode
-                ? "hsl(240,11%,40%,0.5)"
-                : "rgba(200,200,200,.3)",
-              p: 2,
+              borderColor: "hsl(240,11%,40%,0.3)",
+              px: 2,
+              py: 1,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: 0.1,
+              gap: 0.5,
             }}
           >
+            <Button
+              sx={{
+                minWidth: "unset",
+                px: 0,
+                py: 0.1,
+                color: "hsl(240,11%,90%)",
+              }}
+              size="small"
+            >
+              {(routine.timeOfDay + 1) % 12 || 12}{" "}
+              {routine.timeOfDay > 12 ? "pm" : "am"}
+            </Button>
             {days.map((day, index) => (
               <Button
                 key={day}
                 sx={{
                   minWidth: "unset",
-                  px: 0.5,
-                  py: 0.25,
+                  px: 0,
+                  py: 0.1,
+                  color: "hsl(240,11%,90%)",
+                  ...(JSON.parse(routine.daysOfWeek)[index] && {
+                    background: "hsl(240,11%,20%)!important",
+                    color: "#fff",
+                  }),
                 }}
                 size="small"
-                {...(JSON.parse(routine.daysOfWeek)[index] && {
-                  variant: "contained",
-                })}
               >
                 {day}
               </Button>
@@ -199,7 +213,7 @@ export function Routine({ mutationUrl, routine }) {
                             }}
                             onClick={() => setOpen(false)}
                           />
-                          <Box sx={{ textAlign: "center" }}>
+                          <Box sx={{ textAlign: "center", px: 3 }}>
                             <Typography gutterBottom>
                               You haven&apos;t added any goals to this routine
                               yet
