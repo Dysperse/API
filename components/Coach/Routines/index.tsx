@@ -52,6 +52,16 @@ export function Routines() {
     emblaApi?.reInit();
   });
 
+  const sorted =
+    data &&
+    data.sort((a, b) => {
+      const currentHour = new Date().getHours();
+
+      const diffA = Math.abs(a.timeOfDay - currentHour);
+      const diffB = Math.abs(b.timeOfDay - currentHour);
+      return diffA - diffB;
+    });
+
   return (
     <Box
       ref={emblaRef}
@@ -75,23 +85,15 @@ export function Routines() {
         >
           <DailyRoutine />
           {[
-            ...data.filter(
+            ...sorted.filter(
               (routine) => JSON.parse(routine.daysOfWeek)[dayjs().day()]
             ),
-            ...data.filter(
+            ...sorted.filter(
               (routine) => !JSON.parse(routine.daysOfWeek)[dayjs().day()]
             ),
-          ]
-            .sort((a, b) => {
-              const currentHour = new Date().getHours();
-
-              const diffA = Math.abs(a.timeOfDay - currentHour);
-              const diffB = Math.abs(b.timeOfDay - currentHour);
-              return diffA - diffB;
-            })
-            .map((routine) => (
-              <Routine routine={routine} key={routine.id} mutationUrl={url} />
-            ))}
+          ].map((routine) => (
+            <Routine routine={routine} key={routine.id} mutationUrl={url} />
+          ))}
           <CreateRoutine mutationUrl={url} emblaApi={emblaApi} />
         </Box>
       ) : (
