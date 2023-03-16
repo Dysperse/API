@@ -112,6 +112,9 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="dense"
+            InputProps={{ sx: { color: "#fff" } }}
+            InputLabelProps={{ sx: { color: "#eee" } }}
+            color="secondary"
             label="Routine name"
             autoFocus
             placeholder="Morning routine"
@@ -120,7 +123,10 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             value={note}
             onChange={(e) => setNote(e.target.value)}
             fullWidth
+            color="secondary"
             margin="dense"
+            InputProps={{ sx: { color: "#fff" } }}
+            InputLabelProps={{ sx: { color: "#eee" } }}
             multiline
             rows={4}
             label="Click to add a note"
