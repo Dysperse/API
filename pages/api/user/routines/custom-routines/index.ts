@@ -9,6 +9,8 @@ export default async function handler(req, res) {
       items: {
         select: {
           lastCompleted: true,
+          durationDays: true,
+          progress: true,
         },
       },
     },

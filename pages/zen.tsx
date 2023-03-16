@@ -14,6 +14,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
@@ -32,11 +33,15 @@ import { Routines } from "../components/Coach/Routines";
 import { colors } from "../lib/colors";
 
 function RecentItems() {
-  const { data, url, error } = useApi("property/boards/recent");
+  const trigger = useMediaQuery("(min-width: 600px)");
+
+  const { data, url, error } = useApi("property/boards/recent", {
+    take: trigger ? 12 : 6,
+  });
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
-      // dragFree: true,
+      dragFree: trigger,
       align: "start",
       containScroll: "trimSnaps",
       loop: false,
@@ -54,7 +59,7 @@ function RecentItems() {
       <Typography
         variant="h6"
         sx={{ mt: 3, ml: 0, mb: 1.5 }}
-        className="px-4 sm:px-7"
+        className="select-none px-4 sm:px-7"
       >
         Recently edited
       </Typography>

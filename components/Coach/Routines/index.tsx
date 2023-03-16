@@ -12,6 +12,7 @@ import { Routine } from "./Routine";
 
 export function Routines() {
   const { data, url, error } = useApi("user/routines/custom-routines");
+
   const loading = (
     <Box
       sx={{

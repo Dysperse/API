@@ -23,7 +23,8 @@ export function Routine({ mutationUrl, routine }) {
   const [open, setOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [data, setData] = useState<null | any>(null);
+  const [data, setData] = useState<null | any>(routine);
+
   const session = useSession();
   const ref: any = useRef();
 
@@ -279,11 +280,13 @@ export function Routine({ mutationUrl, routine }) {
           {tasksRemaining.length === 0 && (
             <Icon
               sx={{
+                opacity: loading ? 0 : 1,
                 color: lime[session?.user?.darkMode ? "A400" : 800],
                 background: session?.user?.darkMode
                   ? "hsl(240,11%,10%)"
                   : lime[50],
                 borderRadius: "999px",
+                transition: "opacity .2s",
                 position: "absolute",
                 bottom: -5,
                 right: -5,
@@ -299,8 +302,8 @@ export function Routine({ mutationUrl, routine }) {
               disableShrink={false}
               sx={{
                 position: "absolute",
-                top: 0,
-                left: 0,
+                top: -2,
+                left: -2,
                 animationDuration: "2s",
               }}
             />
