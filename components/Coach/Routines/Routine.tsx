@@ -51,7 +51,7 @@ export function Routine({ mutationUrl, routine }) {
       setLoading(false);
       setData(res[0]);
       console.log(data);
-      setTimeout(() => setShowIntro(false), 1000);
+      setTimeout(() => setShowIntro(false), 10000);
     } catch (e) {
       toast.error(
         "Yikes! An error occured while trying to get your routine! Please try again later.",
@@ -75,7 +75,7 @@ export function Routine({ mutationUrl, routine }) {
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
   }, [session, open]);
-
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const editButtonRef: any = useRef();
 
   const disabled = !JSON.parse(routine.daysOfWeek)[dayjs().day()];
@@ -134,6 +134,40 @@ export function Routine({ mutationUrl, routine }) {
             <img src={routine.emoji} width="35px" height="35px" alt="Emoji" />
           </picture>
           <Typography variant="h6">{routine.name}</Typography>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              borderTop: "1px solid",
+              borderColor: session?.user?.darkMode
+                ? "hsl(240,11%,40%,0.5)"
+                : "rgba(200,200,200,.3)",
+              p: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 0.1,
+            }}
+          >
+            {days.map((day, index) => (
+              <Button
+                key={day}
+                sx={{
+                  minWidth: "unset",
+                  px: 0.5,
+                  py: 0.25,
+                }}
+                size="small"
+                {...(JSON.parse(routine.daysOfWeek)[index] && {
+                  variant: "contained",
+                })}
+              >
+                {day}
+              </Button>
+            ))}
+          </Box>
         </Backdrop>
         {data && (
           <Stories

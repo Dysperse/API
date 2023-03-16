@@ -171,7 +171,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             ].map((hour) => (
               <MenuItem value={hour} key={hour}>
                 {(hour + 1) % 12 || 12}
-                {hour >= 12 ? "PM" : "AM"}
+                {hour >12 ? "PM" : "AM"}
               </MenuItem>
             ))}
           </Select>
