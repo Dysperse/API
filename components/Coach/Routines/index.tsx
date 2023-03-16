@@ -89,7 +89,6 @@ export function Routines() {
               const diffB = Math.abs(b.timeOfDay - currentHour);
               return diffA - diffB;
             })
-
             .map((routine) => (
               <Routine routine={routine} key={routine.id} mutationUrl={url} />
             ))}
