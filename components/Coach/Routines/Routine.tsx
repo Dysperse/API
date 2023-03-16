@@ -157,6 +157,7 @@ export function Routine({ mutationUrl, routine }) {
                 px: 0,
                 py: 0.1,
                 color: "hsl(240,11%,90%)",
+                mr: "auto",
               }}
               size="small"
             >
