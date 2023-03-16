@@ -156,6 +156,7 @@ export function Routine({ mutationUrl, routine }) {
                 minWidth: "unset",
                 px: 0,
                 py: 0.1,
+                whiteSpace: "nowrap",
                 color: "hsl(240,11%,90%)",
                 mr: "auto",
               }}
@@ -170,8 +171,10 @@ export function Routine({ mutationUrl, routine }) {
                 sx={{
                   minWidth: "unset",
                   px: 0,
+                  whiteSpace: "nowrap",
                   py: 0.1,
                   color: "hsl(240,11%,90%)",
+                  textTransform: "uppercase",
                   ...(JSON.parse(routine.daysOfWeek)[index] && {
                     background: "hsl(240,11%,20%)!important",
                     color: "#fff",
@@ -179,7 +182,7 @@ export function Routine({ mutationUrl, routine }) {
                 }}
                 size="small"
               >
-                {day}
+                {day.split("")[0]}
               </Button>
             ))}
           </Box>
@@ -357,7 +360,7 @@ export function Routine({ mutationUrl, routine }) {
                 color: orange[session?.user?.darkMode ? "A400" : 800],
                 background: session?.user?.darkMode
                   ? "hsl(240,11%,10%)"
-                  : orange[50],
+                  : "#fff",
                 borderRadius: "999px",
                 transition: "opacity .2s",
                 position: "absolute",
