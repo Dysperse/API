@@ -1,4 +1,12 @@
-import { Box, Button, Chip, SwipeableDrawer, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  Icon,
+  SwipeableDrawer,
+  Typography,
+} from "@mui/material";
+import { lime } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -318,10 +326,35 @@ export function DailyRoutine() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          border: "2px solid transparent",
           background: "rgba(200,200,200,.2)",
           position: "relative",
+          ...(tasksRemaining &&
+            tasksRemaining.length === 0 && {
+              borderColor: lime[session?.user?.darkMode ? "A400" : 800],
+              background: session?.user?.darkMode
+                ? "hsl(240,11%,10%)"
+                : lime[50],
+            }),
         }}
       >
+        {tasksRemaining && tasksRemaining.length === 0 && (
+          <Icon
+            sx={{
+              color: lime[session?.user?.darkMode ? "A400" : 800],
+              background: session?.user?.darkMode
+                ? "hsl(240,11%,10%)"
+                : lime[50],
+              borderRadius: "999px",
+              transition: "opacity .2s",
+              position: "absolute",
+              bottom: -5,
+              right: -5,
+            }}
+          >
+            check_circle
+          </Icon>
+        )}
         <picture>
           <img
             src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ab.png"
