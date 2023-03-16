@@ -268,8 +268,10 @@ export function Routine({ mutationUrl, routine }) {
             background: "rgba(200,200,200,.2)",
             border: "2px solid transparent",
             ...(tasksRemaining.length === 0 && {
-              borderColor: lime[800],
-              background: lime[50],
+              borderColor: lime[session?.user?.darkMode ? "A400" : 800],
+              background: session?.user?.darkMode
+                ? "hsl(240,11%,10%)"
+                : lime[50],
             }),
             position: "relative",
           }}
@@ -277,8 +279,10 @@ export function Routine({ mutationUrl, routine }) {
           {tasksRemaining.length === 0 && (
             <Icon
               sx={{
-                color: lime[800],
-                background: lime[50],
+                color: lime[session?.user?.darkMode ? "A400" : 800],
+                background: session?.user?.darkMode
+                  ? "hsl(240,11%,10%)"
+                  : lime[50],
                 borderRadius: "999px",
                 position: "absolute",
                 bottom: -5,
