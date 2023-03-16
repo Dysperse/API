@@ -7,7 +7,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import { lime } from "@mui/material/colors";
+import { lime, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -274,10 +274,16 @@ export function Routine({ mutationUrl, routine }) {
                 ? "hsl(240,11%,10%)"
                 : lime[50],
             }),
+            ...(data.items.length === 0 && {
+              borderColor: orange[session?.user?.darkMode ? "A200" : 800],
+              background: session?.user?.darkMode
+                ? "hsl(240,11%,10%)"
+                : orange[50],
+            }),
             position: "relative",
           }}
         >
-          {tasksRemaining.length === 0 && (
+          {tasksRemaining.length === 0 && data.items.length !== 0 && (
             <Icon
               sx={{
                 opacity: loading ? 0 : 1,
@@ -293,6 +299,24 @@ export function Routine({ mutationUrl, routine }) {
               }}
             >
               check_circle
+            </Icon>
+          )}
+          {data.items.length === 0 && (
+            <Icon
+              sx={{
+                opacity: loading ? 0 : 1,
+                color: orange[session?.user?.darkMode ? "A400" : 800],
+                background: session?.user?.darkMode
+                  ? "hsl(240,11%,10%)"
+                  : orange[50],
+                borderRadius: "999px",
+                transition: "opacity .2s",
+                position: "absolute",
+                bottom: -5,
+                right: -5,
+              }}
+            >
+              error
             </Icon>
           )}
           {loading && (
