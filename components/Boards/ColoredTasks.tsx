@@ -19,7 +19,7 @@ export function ColoredTasks({ setDrawerOpen }) {
   const { data, url, error } = useApi("property/boards/color-coded", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("all");
 
   const session = useSession();
 
