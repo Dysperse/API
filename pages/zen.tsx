@@ -14,7 +14,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
@@ -29,6 +29,7 @@ import { useSession } from "./_app";
 
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { Twemoji } from "react-emoji-render";
 import { Routines } from "../components/Coach/Routines";
 import { colors } from "../lib/colors";
 
@@ -134,7 +135,7 @@ function RecentItems() {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        {item.name}
+                        <Twemoji>{item.name || " "}</Twemoji>
                       </Typography>
                       {item.lastUpdated && (
                         <Chip

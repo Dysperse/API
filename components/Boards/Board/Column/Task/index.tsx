@@ -259,7 +259,7 @@ export const Task: any = React.memo(function Task({
                   }}
                 >
                   <span>
-                    <Twemoji>{taskData.name}</Twemoji>
+                    <Twemoji>{taskData.name || " "}</Twemoji>
                   </span>
                 </Box>
                 {taskData.pinned && (

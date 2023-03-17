@@ -172,10 +172,15 @@ export default function DrawerContent({
       <TextField
         disabled={storage?.isReached === true}
         multiline
+        placeholder="Task name"
         fullWidth
         defaultValue={parseEmojis(data.name.trim())}
         variant="standard"
-        onBlur={(e) => handleEdit(data.id, "name", e.target.value)}
+        onBlur={(e) => {
+          if (e.target.value.trim() !== "") {
+            handleEdit(data.id, "name", e.target.value);
+          }
+        }}
         onChange={(e) => (e.target.value = e.target.value.replaceAll("\n", ""))}
         onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
         margin="dense"
