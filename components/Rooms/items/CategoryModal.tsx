@@ -11,6 +11,7 @@ import {
 import { Item } from "@prisma/client";
 import React from "react";
 import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { useBackButton } from "../../../lib/client/useBackButton";
 import { useSession } from "../../../pages/_app";
 import { ItemCard } from "../ItemCard";
 
