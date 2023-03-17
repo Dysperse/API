@@ -1,7 +1,7 @@
 import Masonry from "@mui/lab/Masonry";
 import { useState } from "react";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { OptionsGroup } from "../../OptionsGroup";
 
 import {

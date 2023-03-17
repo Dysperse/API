@@ -9,7 +9,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import { useCallback, useState } from "react";
-import { useApi } from "../../../hooks/useApi";
+import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
 import { boardSwitcherStyles } from "../Layout";
 import { Column } from "./Column";

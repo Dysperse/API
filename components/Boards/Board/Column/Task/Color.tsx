@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
 import { colors } from "../../../../../lib/colors";
 
 export function Color({

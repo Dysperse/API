@@ -34,7 +34,7 @@ import { Color } from "../components/Onboarding/Color";
 import { InventoryList } from "../components/Onboarding/InventoryList";
 import { cards } from "../components/Rooms/CreateItem/cards";
 import { updateSettings } from "../components/Settings/updateSettings";
-import { fetchApiWithoutHook } from "../hooks/useApi";
+import { fetchApiWithoutHook } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
 import { useSession } from "./_app";
 

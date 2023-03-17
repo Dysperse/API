@@ -3,11 +3,11 @@ import { Box } from "@mui/system";
 import React, { cloneElement, useCallback, useEffect, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import {
   neutralizeBack,
   revivalBack,
 } from "../../../../../hooks/useBackButton";
+import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
 import { ErrorHandler } from "../../../../Error";
 import { Puller } from "../../../../Puller";
 import DrawerContent from "./DrawerContent";

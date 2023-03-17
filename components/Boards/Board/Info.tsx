@@ -9,8 +9,8 @@ import {
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../hooks/useApi";
-import { toastStyles } from "../../../lib/useCustomTheme";
+import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { toastStyles } from "../../../lib/client/useTheme";
 import { useSession } from "../../../pages/_app";
 import BoardSettings from "./Settings";
 

@@ -14,8 +14,8 @@ import {
 import dynamic from "next/dynamic";
 import React, { cloneElement, useEffect, useState } from "react";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";

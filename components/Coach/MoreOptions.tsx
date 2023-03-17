@@ -1,7 +1,7 @@
 import { Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { ConfirmationModal } from "../ConfirmationModal";
 
 export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {

@@ -4,7 +4,7 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
-import { toastStyles } from "../lib/useCustomTheme";
+import { toastStyles } from "../lib/client/useTheme";
 import { useSession } from "../pages/_app";
 import { Puller } from "./Puller";
 

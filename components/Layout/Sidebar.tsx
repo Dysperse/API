@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 import { updateSettings } from "../Settings/updateSettings";
 import InviteButton from "./UserMenu";

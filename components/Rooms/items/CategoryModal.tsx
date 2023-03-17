@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { Item } from "@prisma/client";
 import React, { useEffect } from "react";
-import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
+import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
 import { ItemCard } from "../ItemCard";
 

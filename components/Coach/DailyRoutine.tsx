@@ -14,9 +14,9 @@ import toast from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { useWindowSize } from "react-use";
 import { mutate as mutateSWR } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
 export function RoutineEnd({

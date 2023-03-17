@@ -3,7 +3,7 @@ import React from "react";
 import { ErrorHandler } from "../components/Error";
 import { OptionsGroup } from "../components/OptionsGroup";
 import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
-import { useApi } from "../hooks/useApi";
+import { useApi } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
 import type { ApiResponse } from "../types/client";
 

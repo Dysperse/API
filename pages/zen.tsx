@@ -23,8 +23,8 @@ import { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
 import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
-import { useApi } from "../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
+import { useApi } from "../lib/client/useApi";
 import { useSession } from "./_app";
 
 import useEmblaCarousel from "embla-carousel-react";

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { toastStyles } from "../lib/useCustomTheme";
+import { toastStyles } from "../lib/client/useTheme";
 
 export function ConfirmationModal({
   disabled = false,

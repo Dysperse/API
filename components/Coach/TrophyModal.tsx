@@ -11,9 +11,9 @@ import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { toastStyles } from "../../lib/useCustomTheme";
 
 export function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);

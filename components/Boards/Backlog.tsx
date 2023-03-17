@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { useApi } from "../../hooks/useApi";
+import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";

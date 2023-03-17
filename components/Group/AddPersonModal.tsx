@@ -2,8 +2,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { Prompt } from "../TwoStepVerificationPrompt";
@@ -21,7 +21,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
 function LinkToken({ color }) {

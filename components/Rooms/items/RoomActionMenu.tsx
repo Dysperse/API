@@ -2,7 +2,7 @@ import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { colors } from "../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";

@@ -9,7 +9,7 @@ import {
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../../hooks/useApi";
+import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
 import { Column } from "./Column";
 

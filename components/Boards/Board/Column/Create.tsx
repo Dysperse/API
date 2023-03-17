@@ -11,9 +11,9 @@ import EmojiPicker from "emoji-picker-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
+import { toastStyles } from "../../../../lib/client/useTheme";
 import { colors } from "../../../../lib/colors";
-import { toastStyles } from "../../../../lib/useCustomTheme";
 import { useAccountStorage, useSession } from "../../../../pages/_app";
 import { Puller } from "../../../Puller";
 

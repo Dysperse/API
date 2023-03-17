@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
 /**

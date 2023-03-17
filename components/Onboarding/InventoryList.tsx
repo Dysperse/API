@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
 
 import { Box, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { toastStyles } from "../../lib/useCustomTheme";
 
 /**
  * Inventory list

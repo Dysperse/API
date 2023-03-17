@@ -5,12 +5,12 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Loading } from "../../components/Layout/Loading";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
 
 import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../_app";
 
 export default function Onboarding() {

@@ -1,5 +1,5 @@
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
-import { useApi } from "../../hooks/useApi";
+import { useApi } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 import type { ApiResponse } from "../../types/client";

@@ -13,8 +13,8 @@ import {
 import { useCallback, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../hooks/useApi";
-import { toastStyles } from "../../../../lib/useCustomTheme";
+import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
+import { toastStyles } from "../../../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../../../pages/_app";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import { EmojiPickerModal } from "../EmojiPickerModal";

@@ -3,7 +3,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { categories, goals } from "./goalTemplates";
 
 import { LoadingButton } from "@mui/lab";
@@ -25,7 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
 interface TabPanelProps {

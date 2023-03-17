@@ -2,7 +2,7 @@ import { Box, Button, CssBaseline, Snackbar, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useApi } from "../../hooks/useApi";
+import { useApi } from "../../lib/client/useApi";
 import { useAccountStorage, useSession } from "../../pages/_app";
 import { ApiResponse } from "../../types/client";
 import Group from "../Group";

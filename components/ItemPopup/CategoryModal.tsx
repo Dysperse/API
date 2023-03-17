@@ -1,6 +1,6 @@
 import { Item as ItemType } from "@prisma/client";
 import { useRef, useState } from "react";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../pages/_app";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {

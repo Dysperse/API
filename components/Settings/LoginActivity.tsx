@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
 import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";

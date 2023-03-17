@@ -7,7 +7,7 @@ import { Prompt } from "../TwoStepVerificationPrompt";
 import { updateSettings } from "./updateSettings";
 
 import { Alert, Box, Link, TextField, Typography } from "@mui/material";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
 

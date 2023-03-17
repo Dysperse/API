@@ -14,8 +14,8 @@ import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
-import { fetchApiWithoutHook } from "../../../hooks/useApi";
-import { toastStyles } from "../../../lib/useCustomTheme";
+import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { toastStyles } from "../../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../../pages/_app";
 import { capitalizeFirstLetter } from "../../ItemPopup";
 

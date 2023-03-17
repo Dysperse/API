@@ -10,9 +10,9 @@ import {
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { toastStyles } from "../../lib/useCustomTheme";
 import { useSession } from "../../pages/_app";
 import type { ApiResponse } from "../../types/client";
 import type { Member as MemberType } from "../../types/houseProfile";

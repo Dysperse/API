@@ -24,7 +24,7 @@ import { Property, Session } from "../types/session";
 import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useCustomTheme } from "../lib/useCustomTheme";
+import { useCustomTheme } from "../lib/client/useTheme";
 
 const AuthLoading = dynamic(() => import("../components/Auth/AuthLoading"), {
   loading: () => <Loading />,

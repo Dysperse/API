@@ -14,7 +14,7 @@ import {
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../hooks/useApi";
+import { useApi } from "../../lib/client/useApi";
 import { useAccountStorage, useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";

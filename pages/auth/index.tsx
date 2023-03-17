@@ -20,7 +20,7 @@ import { mutate } from "swr";
 import { authStyles, Layout } from "../../components/Auth/Layout";
 import { isEmail } from "../../components/Group/MemberList";
 import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 
 const validateEmail = (email) => {
   return String(email)

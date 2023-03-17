@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { toastStyles } from "../../lib/client/useTheme";
 import { ErrorHandler } from "../Error";
 
 function Integration({ integration }) {
