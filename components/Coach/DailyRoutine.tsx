@@ -329,7 +329,8 @@ export function DailyRoutine() {
           border: "2px solid transparent",
           background: "rgba(200,200,200,.2)",
           position: "relative",
-          ...(tasksRemaining &&
+          ...(data &&
+            tasksRemaining &&
             tasksRemaining.length === 0 && {
               borderColor: lime[session?.user?.darkMode ? "A400" : 800],
               background: session?.user?.darkMode
@@ -338,7 +339,7 @@ export function DailyRoutine() {
             }),
         }}
       >
-        {tasksRemaining && tasksRemaining.length === 0 && (
+        {data && tasksRemaining && tasksRemaining.length === 0 && (
           <Icon
             sx={{
               color: lime[session?.user?.darkMode ? "A400" : 800],
