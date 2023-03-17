@@ -2,6 +2,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  CircularProgress,
   Icon,
   Typography,
 } from "@mui/material";
@@ -12,16 +13,25 @@ import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
 
 export function GoalCard({ setData, routine, goal, goals }) {
-  const disabled = goal.routineId;
-  const included = Boolean(goals.find((g) => g.id == goal.id));
+  const included = Boolean(
+    goals.find((g) => g.id == goal.id && goal.routineId === routine.id)
+  );
+  const addedOnAnotherRoutine =
+    goal.routineId !== routine.id && goal.routineId !== null;
+
   const [added, setAdded] = useState(included);
+  const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
-    setAdded(!added);
-    toast.error("Added goal to routine!", toastStyles);
+    setLoading(true);
+    toast.success(
+      !added ? "Added goal to routine!" : "Removed goal from routine!",
+      toastStyles
+    );
+
     await fetchApiWithoutHook("user/routines/assignToRoutine", {
       id: goal.id,
-      routineId: added ? routine.id : "-1",
+      routineId: !added ? routine.id : "-1",
     });
 
     const res = await fetchApiWithoutHook(
@@ -30,7 +40,9 @@ export function GoalCard({ setData, routine, goal, goals }) {
         id: routine.id,
       }
     );
+    setAdded(!added);
     setData(res[0]);
+    setLoading(false);
   };
 
   return (
@@ -41,15 +53,15 @@ export function GoalCard({ setData, routine, goal, goals }) {
         background: "hsl(240, 11%, 95%)",
         color: "hsl(240, 11%, 10%)",
       }}
-      onClick={handleClick}
     >
       <CardActionArea
         sx={{
-          ...(disabled && { opacity: 0.5 }),
+          ...(addedOnAnotherRoutine && { opacity: 0.5 }),
           display: "flex",
           alignItems: "center",
         }}
-        disabled={disabled}
+        disabled={addedOnAnotherRoutine}
+        onClick={handleClick}
       >
         <CardContent>
           <Typography sx={{ fontWeight: 700 }}>{goal.name}</Typography>
@@ -57,12 +69,17 @@ export function GoalCard({ setData, routine, goal, goals }) {
             Last worked on {dayjs(goal.lastCompleted).fromNow()}
           </Typography>
         </CardContent>
-        <Icon
-          className="outlined"
-          sx={{ ml: "auto", mr: 2, opacity: included ? 1 : 0 }}
-        >
-          {disabled ? "cancel" : "check_circle"}
-        </Icon>
+        {loading ? (
+          <CircularProgress sx={{ ml: "auto", mr: 2 }} />
+        ) : (
+          <Icon className="outlined" sx={{ ml: "auto", mr: 2 }}>
+            {addedOnAnotherRoutine
+              ? "error"
+              : added
+              ? "check_circle"
+              : "cancel"}
+          </Icon>
+        )}
       </CardActionArea>
     </Card>
   );
