@@ -339,6 +339,7 @@ export default function Home() {
                       check_circle
                     </Icon>
                   )}
+                <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
               </ListItemButton>
             </Box>
             <Box>
@@ -360,6 +361,7 @@ export default function Home() {
               >
                 <Icon sx={{ ml: 1 }}>auto_mode</Icon>
                 <b>Backlog</b>
+                <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
               </ListItemButton>
             </Box>
           </Masonry>
