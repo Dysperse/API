@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { cloneElement, useCallback } from "react";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { useSession } from "../../pages/_app";
 import { updateSettings } from "../Settings/updateSettings";
 import { Color } from "./Color";
