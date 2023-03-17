@@ -5,11 +5,31 @@ import {
   Link as MuiLink,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 export function Error({ message }) {
   const [open, setOpen] = React.useState<boolean>(false);
+  const buttonStyles = {
+    textTransform: "none",
+    justifyContent: "start",
+    color: "#000",
+    borderRadius: 9,
+    gap: 1.5,
+    px: 1.5,
+    background: "rgba(0,0,0,0.04)!important",
+    transition: "transform .2s",
+    "&:hover": {
+      background: "rgba(0,0,0,0.06)!important",
+    },
+    "&:active": {
+      transition: "none",
+      transform: "scale(.95)",
+      background: "rgba(0,0,0,0.08)!important",
+    },
+  };
+
   return (
     <Box
       sx={{
@@ -40,10 +60,23 @@ export function Error({ message }) {
           left: "50%",
           maxWidth: "calc(100vw - 20px)",
           width: "370px",
+          maxHeight: "calc(100vh - 20px)",
+          overflowY: "scroll",
           transform: "translate(-50%, -50%)",
-          textAlign: "left",
+          textAlign: "center",
         }}
       >
+        <Image
+          width={256}
+          height={256}
+          style={{
+            width: "100%",
+            maxWidth: "256px",
+            margin: "auto",
+          }}
+          src="/images/error.png"
+          alt="Error"
+        />
         <Typography
           variant="h4"
           gutterBottom
@@ -67,42 +100,53 @@ export function Error({ message }) {
             </MuiLink>
           </Link>
         </Typography>
-        <Button
+        <Box
           sx={{
+            gap: 2,
+            display: "flex",
+            alignItems: "center",
             mt: 2,
-            justifyContent: "start",
-            color: "#000",
-            borderRadius: 9,
-            ...(open && {
-              background: "rgba(255,255,255,0.05)",
-            }),
-          }}
-          fullWidth
-          onClick={() => {
-            setOpen(!open);
+            justifyContent: "center",
           }}
         >
-          Debug
-          <span
-            className="material-symbols-rounded"
-            style={{ marginLeft: "auto" }}
+          <Button
+            disableRipple
+            sx={buttonStyles}
+            target="_blank"
+            href="https://status.dysperse.com/"
           >
-            expand_more
-          </span>
-        </Button>
+            Server status
+            <span className="material-symbols-rounded">open_in_new</span>
+          </Button>
+          <Button
+            disableRipple
+            sx={buttonStyles}
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            Debug
+            <span className="material-symbols-rounded">
+              {open ? "expand_less" : "expand_more"}
+            </span>
+          </Button>
+        </Box>
         <Collapse in={open} orientation="vertical">
           <Box
             sx={{
-              background: "rgba(255,255,255,0.05)",
+              background: "rgba(0,0,0,0.05)",
               p: 2,
               borderRadius: 2,
               mt: 2,
+              textAlign: "left",
             }}
           >
-            <u style={{ marginBottom: "3px", display: "block" }}>
+            <u
+              style={{ marginBottom: "3px", display: "block", fontWeight: 700 }}
+            >
               Failed to fetch session data
             </u>
-            <b>{message.message}</b>
+            <span className="font-secondary">{message.message}</span>
           </Box>
         </Collapse>
       </Box>
