@@ -137,7 +137,9 @@ export const Column: any = memo(function Column({
             title={
               <Typography>
                 <Typography sx={{ fontWeight: 700 }}>
-                  {capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
+                  {isToday
+                    ? "Today"
+                    : capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
                 </Typography>
                 <Typography variant="body2">
                   {dayjs(day.unchanged).format("dddd, MMMM D, YYYY")}
