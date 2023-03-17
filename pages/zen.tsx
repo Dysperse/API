@@ -217,16 +217,16 @@ export default function Home() {
               mr: { sm: 2 },
             }}
           >
-              <Tooltip title="Jump to" placement="bottom-start">
-                <IconButton
-                  onClick={() => {
-                    navigator.vibrate(50);
-                    openSpotlight();
-                  }}
-                >
-                  <Icon className="outlined">bolt</Icon>
-                </IconButton>
-              </Tooltip>
+            <Tooltip title="Jump to" placement="bottom-start">
+              <IconButton
+                onClick={() => {
+                  navigator.vibrate(50);
+                  openSpotlight();
+                }}
+              >
+                <Icon className="outlined">bolt</Icon>
+              </IconButton>
+            </Tooltip>
           </Box>
         </Box>
         <Box
