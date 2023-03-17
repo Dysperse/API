@@ -85,8 +85,8 @@ export function TrophyModal({ goal, mutationUrl }) {
                         await mutate(mutationUrl);
                         setStepTwoOpen(false);
                         toast.success(
-                          "A trophy has been added to your account! Thanks for your feedback! 🎉",
-                          toastStyles
+                          "You earned a trophy! Thanks for your feedback!",
+                          { ...toastStyles, icon: "🎉" }
                         );
                       } catch (e) {
                         toast.error(
