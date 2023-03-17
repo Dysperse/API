@@ -30,9 +30,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
   );
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-  const [daysOfWeek, setDaysOfWeek] = useState(
-    `[false, false, false, false, false, false, false]`
-  );
+  const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
 
   const [time, setTime] = useState(12);
 
@@ -140,6 +138,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
               <Button
                 key={index}
                 size="small"
+                color="secondary"
                 sx={{ px: 1, minWidth: "auto" }}
                 onClick={() =>
                   setDaysOfWeek((d) => {
@@ -164,6 +163,9 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             value={time}
             size="small"
             onChange={handleChange}
+            sx={{
+              color: "#fff!important",
+            }}
           >
             {[
               0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
