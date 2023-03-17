@@ -477,7 +477,7 @@ export function CreateTask({
               autoFocus
               variant="standard"
               onKeyDown={(e) => {
-                if (e.key == "Enter") handleSubmit(e);
+                if (e.key == "Enter" && e.ctrlKey) handleSubmit(e);
               }}
               placeholder={
                 placeholder
@@ -499,6 +499,9 @@ export function CreateTask({
                 inputRef={descriptionRef}
                 variant="standard"
                 placeholder="Add description..."
+                onKeyDown={(e) => {
+                  if (e.key == "Enter" && e.ctrlKey) handleSubmit(e);
+                }}
                 multiline
                 InputProps={{
                   disableUnderline: true,
