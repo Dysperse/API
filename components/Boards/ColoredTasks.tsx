@@ -202,6 +202,48 @@ export function ColoredTasks({ setDrawerOpen }) {
               task={task}
             />
           ))}
+        {!data.find((task) => color === "all" || task.color === color) && (
+          <Box sx={{ textAlign: "center", mt: 5 }}>
+            <Box
+              sx={{
+                textAlign: "center",
+                display: "inline-flex",
+                mx: "auto",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                background: `hsl(240,11%,${
+                  session?.user?.darkMode ? 30 : 95
+                }%)`,
+                borderRadius: 5,
+                userSelect: "none",
+              }}
+            >
+              <Image
+                src="/images/color-coded.png"
+                width={256}
+                height={256}
+                alt="Backlog"
+                style={{
+                  ...(session?.user?.darkMode && {
+                    filter: "invert(100%)",
+                  }),
+                }}
+              />
+              <Box
+                sx={{ width: "300px", maxWidth: "calc(100vw - 40px)", mb: 2 }}
+              >
+                <Typography variant="h6" gutterBottom sx={{ mt: -2 }}>
+                  Add some color!
+                </Typography>
+                <Typography variant="body1">
+                  Try adding a color to an incomplete task, and it&apos;ll
+                  appear here.
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        )}
       </Box>
     </Box>
   );
