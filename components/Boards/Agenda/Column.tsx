@@ -89,7 +89,7 @@ export const Column: any = memo(function Column({
           px: 4,
           background: session?.user?.darkMode
             ? "hsla(240,11%,16%, 0.2)"
-            : "rgba(200,200,200,.05)",
+            : "rgba(255,255,255,.05)",
           borderBottom: "1px solid",
           borderColor: session?.user?.darkMode
             ? "hsla(240,11%,18%, 0.2)"
