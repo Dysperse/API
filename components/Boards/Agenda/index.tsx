@@ -177,8 +177,7 @@ export function Agenda({
           color: session?.user?.darkMode ? "#fff" : "#000",
           display: "flex",
           alignItems: "center",
-          p: 1,
-          py: 0.5,
+          p: 0.5,
         }}
       >
         <IconButton
@@ -224,7 +223,7 @@ export function Agenda({
       >
         {days.map((day) => (
           <Column
-          navigation={navigation}
+            navigation={navigation}
             key={day.day}
             day={day}
             view={view}
