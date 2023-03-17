@@ -90,6 +90,8 @@ export function Sidebar() {
       "&:hover .material-symbols-outlined": {
         background: session?.user?.darkMode
           ? "hsl(240,11%,14%)"
+          : router.asPath === "/zen" || router.asPath === "/coach"
+          ? "hsl(240,11%,93%)"
           : "hsl(240,11%,90%)",
         color: session?.user?.darkMode ? "#fff" : "#000",
       },
@@ -103,6 +105,8 @@ export function Sidebar() {
         " .material-symbols-outlined,  .material-symbols-rounded": {
           background: session?.user?.darkMode
             ? "hsl(240,11%,17%)"
+            : router.asPath === "/zen" || router.asPath === "/coach"
+            ? "hsl(240,11%,90%)"
             : "hsl(240,11%,85%)",
           color: session?.user?.darkMode
             ? "hsl(240,11%,95%)"
@@ -126,6 +130,8 @@ export function Sidebar() {
             ? router.asPath === "/zen" || router.asPath === "/coach"
               ? "hsla(240,11%,8%)"
               : "hsla(240,11%,5%)"
+            : router.asPath === "/zen" || router.asPath === "/coach"
+            ? "hsl(240,11%,97%)"
             : "hsl(240,11%,93%)",
         },
         height: "100vh",
