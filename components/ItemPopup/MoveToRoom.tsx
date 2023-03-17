@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { toastStyles } from "../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../pages/_app";
+import { useBackButton } from "../../lib/client/useBackButton";
 
 /**
  * @description A room
