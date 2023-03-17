@@ -114,9 +114,9 @@ export default function Inventory({ children = null }: any) {
           height: { sm: "100vh" },
           overflowY: { sm: "scroll" },
           background: {
-            sm: session?.user?.darkMode
+            sm: session.user.darkMode
               ? "hsl(240,11%,7%)"
-              : session?.user?.darkMode
+              : session.user.darkMode
               ? "hsl(240,11%,7%)"
               : "hsl(240,11%,95%)",
           },
@@ -152,9 +152,7 @@ export default function Inventory({ children = null }: any) {
             sx={{
               ...(viewBy === "room" && {
                 background:
-                  colors[session.themeColor][
-                    session?.user?.darkMode ? 700 : 300
-                  ],
+                  colors[session.themeColor][session.user.darkMode ? 700 : 300],
               }),
             }}
           >
@@ -168,9 +166,7 @@ export default function Inventory({ children = null }: any) {
             sx={{
               ...(viewBy === "Category" && {
                 background:
-                  colors[session.themeColor][
-                    session?.user?.darkMode ? 700 : 300
-                  ],
+                  colors[session.themeColor][session.user.darkMode ? 700 : 300],
               }),
             }}
           >
@@ -338,7 +334,7 @@ export default function Inventory({ children = null }: any) {
             fontWeight: "500",
             color:
               colors[session?.themeColor || "grey"][
-                session?.user?.darkMode ? 50 : 800
+                session.user.darkMode ? 50 : 800
               ],
           }}
         >

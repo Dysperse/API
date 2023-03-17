@@ -23,7 +23,7 @@ export default function AppearanceSettings() {
           primary={
             <TextField
               variant="filled"
-              defaultValue={session?.user && session?.user?.name}
+              defaultValue={session?.user && session.user.name}
               label="Name"
               onBlur={(e) => updateSettings("name", e.target.value)}
               onKeyDown={(e: any) => {
@@ -40,7 +40,7 @@ export default function AppearanceSettings() {
               disabled
               sx={{ mb: 2 }}
               variant="filled"
-              defaultValue={session?.user && session?.user?.email}
+              defaultValue={session?.user && session.user.email}
               label="Email"
             />
           }

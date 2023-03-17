@@ -82,7 +82,7 @@ export function ColumnSettings({
               py: 2,
               mb: 1,
               borderBottom: `1px solid ${
-                session?.user?.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+                session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
               }`,
             }}
           >
@@ -145,13 +145,11 @@ export function ColumnSettings({
         sx={{
           ...(Boolean(anchorEl) && {
             background: `${
-              session?.user?.darkMode
+              session.user.darkMode
                 ? "hsla(240,11%,25%, 0.3)"
                 : "rgba(0,0,0,0.05)"
             }!important`,
-            color: session?.user?.darkMode
-              ? "#fff!important"
-              : "#000!important",
+            color: session.user.darkMode ? "#fff!important" : "#000!important",
           }),
         }}
       >

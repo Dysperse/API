@@ -40,7 +40,7 @@ function LinkToken({ color }) {
         onClick={() => {
           setLoading(true);
           fetchApiWithoutHook("property/members/inviteLink/create", {
-            inviterName: session?.user?.name,
+            inviterName: session.user.name,
             timestamp: new Date().toISOString(),
           }).then((res) => {
             setLoading(false);
@@ -169,7 +169,7 @@ export function AddPersonModal({
             boxShadow: 0,
             ...(session.property.permission === "owner" && {
               backgroundColor: `${
-                colors[color][session?.user?.darkMode ? 800 : 900]
+                colors[color][session.user.darkMode ? 800 : 900]
               }!important`,
               color: `${colors[color][50]}!important`,
             }),
@@ -249,7 +249,7 @@ export function AddPersonModal({
               }
               if (isEmail(value)) {
                 fetchApiWithoutHook("property/members/add", {
-                  inviterName: session?.user?.name,
+                  inviterName: session.user.name,
                   name: session.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,

@@ -308,7 +308,7 @@ export function DailyRoutine() {
         p: 1,
         transition: "transform .2s",
         "&:hover": {
-          background: `hsl(240, 11%, ${session?.user?.darkMode ? 10 : 95}%)`,
+          background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
         },
         "&:active": {
           transition: "none",
@@ -330,20 +330,16 @@ export function DailyRoutine() {
           ...(data &&
             tasksRemaining &&
             tasksRemaining.length === 0 && {
-              borderColor: lime[session?.user?.darkMode ? "A400" : 800],
-              background: session?.user?.darkMode
-                ? "hsl(240,11%,10%)"
-                : lime[50],
+              borderColor: lime[session.user.darkMode ? "A400" : 800],
+              background: session.user.darkMode ? "hsl(240,11%,10%)" : lime[50],
             }),
         }}
       >
         {data && tasksRemaining && tasksRemaining.length === 0 && (
           <Icon
             sx={{
-              color: lime[session?.user?.darkMode ? "A400" : 800],
-              background: session?.user?.darkMode
-                ? "hsl(240,11%,10%)"
-                : lime[50],
+              color: lime[session.user.darkMode ? "A400" : 800],
+              background: session.user.darkMode ? "hsl(240,11%,10%)" : lime[50],
               borderRadius: "999px",
               transition: "opacity .2s",
               position: "absolute",
@@ -420,7 +416,7 @@ export function DailyRoutine() {
   }, [indexWhereUserLeftOff, sortedTasks.length]);
 
   useEffect(() => {
-    if (!session?.user?.darkMode)
+    if (!session.user.darkMode)
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");

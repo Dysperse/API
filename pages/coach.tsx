@@ -31,7 +31,7 @@ export function CircularProgressWithLabel(
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
             color:
-              session && session?.user && session?.user?.darkMode
+              session && session?.user && session.user.darkMode
                 ? "#fff"
                 : "#000",
             transition: "all .2s",

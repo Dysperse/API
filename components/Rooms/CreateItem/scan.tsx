@@ -195,7 +195,7 @@ export default function ImageRecognition({
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
     tag.content = open
       ? "#000000"
-      : session?.user?.darkMode
+      : session.user.darkMode
       ? "hsl(240,11%,10%)"
       : "#fff";
   }, [open]);

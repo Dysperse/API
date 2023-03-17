@@ -40,17 +40,17 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     py: 1.5,
     cursor: "unset!important",
     gap: 2,
-    color: session?.user?.darkMode
+    color: session.user.darkMode
       ? "hsl(240, 11%, 90%)"
       : colors[session?.themeColor || "grey"]["800"],
-    background: session?.user?.darkMode
+    background: session.user.darkMode
       ? "hsl(240, 11%, 20%)"
       : colors[session?.themeColor || "grey"][50],
     "&:hover, &:active, &:focus-within": {
-      background: session?.user?.darkMode
+      background: session.user.darkMode
         ? "hsl(240, 11%, 25%)"
         : colors[session?.themeColor || "grey"][100],
-      color: session?.user?.darkMode
+      color: session.user.darkMode
         ? "hsl(240, 11%, 95%)"
         : colors[session?.themeColor || "grey"][900],
     },
@@ -58,7 +58,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const inputStyles = {
     "&:hover, &:active, &:focus-within": {
-      background: session?.user?.darkMode
+      background: session.user.darkMode
         ? "hsl(240, 11%, 20%)"
         : colors[session?.themeColor || "grey"][100],
     },
@@ -200,7 +200,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
               key={category}
               sx={{
                 background:
-                  (session?.user?.darkMode
+                  (session.user.darkMode
                     ? "hsl(240,11%,25%)"
                     : colors[session?.themeColor || "grey"][100]) +
                   "!important",
@@ -232,7 +232,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
           py: 0,
           borderRadius: 5,
           overflow: "hidden",
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsl(240, 11%, 20%)"
             : colors[session?.themeColor || "grey"][200],
         }}
@@ -251,7 +251,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
         className="body2"
         sx={{
           my: 2,
-          color: session?.user?.darkMode ? "#aaa" : "hsl(240,11%,50%)",
+          color: session.user.darkMode ? "#aaa" : "hsl(240,11%,50%)",
         }}
       >
         <i>Last edit was {dayjs(itemData.lastModified).fromNow()}</i>

@@ -81,10 +81,10 @@ export function CreateItemModal({
         setOpen(false);
         mutate(
           `/api/property/inventory/list/?${new URLSearchParams({
-            sessionId: session?.user?.token,
+            sessionId: session.user.token,
             property: session.property.propertyId,
             accessToken: session.property.accessToken,
-            userIdentifier: session?.user?.identifier,
+            userIdentifier: session.user.identifier,
             room: room.toString().toLowerCase(),
           }).toString()}`
         );
@@ -111,7 +111,7 @@ export function CreateItemModal({
             width: "100vw",
             borderRadius: { xs: "0!important", sm: "20px 20px 0 0" },
             height: "100vh",
-            background: session?.user?.darkMode ? "hsl(240,11%,15%)" : "#fff",
+            background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
           },
         }}
         anchor="bottom"
@@ -122,12 +122,12 @@ export function CreateItemModal({
             borderTopLeftRadius: { xs: 0, sm: "20px" },
             borderTopRightRadius: { xs: 0, sm: "20px" },
             zIndex: 99,
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsla(240,11%,20%,0.1)"
               : "rgba(255,255,255,.3)",
-            color: session?.user?.darkMode ? "#fff" : "#000",
+            color: session.user.darkMode ? "#fff" : "#000",
             borderBottom: "1px solid",
-            borderColor: session?.user?.darkMode
+            borderColor: session.user.darkMode
               ? "hsla(240,11%,20%,0.8)"
               : "rgba(200,200,200,.3)",
           }}
@@ -220,7 +220,7 @@ export function CreateItemModal({
                     flex: "0 0 175px",
                     overflow: "hidden",
                     height: "150px",
-                    background: session?.user?.darkMode
+                    background: session.user.darkMode
                       ? "hsl(240, 11%, 20%)"
                       : colors[session?.themeColor || "grey"][50],
                     transition: "transform .2s",
@@ -236,7 +236,7 @@ export function CreateItemModal({
                   <Box
                     sx={{
                       height: "80px",
-                      background: session?.user?.darkMode
+                      background: session.user.darkMode
                         ? "hsl(240, 11%, 25%)"
                         : colors[session?.themeColor || "grey"][100],
                       display: "flex",

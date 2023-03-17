@@ -92,7 +92,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "false")}
-              checked={!session?.user?.darkMode}
+              checked={!session.user.darkMode}
             />
           }
           disablePadding
@@ -125,7 +125,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "true")}
-              checked={session?.user?.darkMode}
+              checked={session.user.darkMode}
             />
           }
           disablePadding

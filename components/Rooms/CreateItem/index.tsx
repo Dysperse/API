@@ -20,8 +20,8 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import { useSession } from "../../../pages/_app";
 import { useBackButton } from "../../../lib/client/useBackButton";
+import { useSession } from "../../../pages/_app";
 
 /**
  * Item popup option
@@ -63,18 +63,18 @@ function AddItemOption({
             disableRipple
             sx={{
               "&:hover": {
-                background: session?.user?.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,15%)!important"
                   : `${colors[session?.themeColor || "grey"][100]}!important`,
               },
               borderRadius: 6,
               "&:focus-within": {
-                background: session?.user?.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,18%)!important"
                   : `${colors[session?.themeColor || "grey"][100]}!important`,
               },
               "&:active": {
-                background: session?.user?.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,25%)!important"
                   : `${colors[session?.themeColor || "grey"][100]}!important`,
               },
@@ -216,7 +216,7 @@ function MoreRooms(): JSX.Element {
               "&:hover": {
                 background: `${
                   colors[session?.themeColor || "grey"][
-                    session?.user?.darkMode ? 900 : 100
+                    session.user.darkMode ? 900 : 100
                   ]
                 }!important`,
               },
@@ -224,14 +224,14 @@ function MoreRooms(): JSX.Element {
               "&:focus-within": {
                 background: `${
                   colors[session?.themeColor || "grey"][
-                    session?.user?.darkMode ? 900 : 100
+                    session.user.darkMode ? 900 : 100
                   ]
                 }!important`,
               },
               "&:active": {
                 background: `${
                   colors[session?.themeColor || "grey"][
-                    session?.user?.darkMode ? 900 : 100
+                    session.user.darkMode ? 900 : 100
                   ]
                 }!important`,
               },

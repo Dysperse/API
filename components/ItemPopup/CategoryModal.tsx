@@ -219,11 +219,11 @@ export default function CategoryModal({
         sx={{
           px: 1.5,
           mr: 1,
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsl(240,11%,20%)"
             : `${colors[session?.themeColor || "grey"][200]}!important`,
           "&:hover": {
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,25%)"
               : `${colors[session?.themeColor || "grey"][300]}!important`,
           },

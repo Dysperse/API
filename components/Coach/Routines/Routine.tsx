@@ -70,7 +70,7 @@ export function Routine({ mutationUrl, routine }) {
         .filter((task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD"));
 
   useEffect(() => {
-    if (!session?.user?.darkMode)
+    if (!session.user.darkMode)
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
@@ -302,7 +302,7 @@ export function Routine({ mutationUrl, routine }) {
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: `hsl(240, 11%, ${session?.user?.darkMode ? 10 : 95}%)`,
+            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
           },
           "&:active": {
             transition: "none",
@@ -321,14 +321,12 @@ export function Routine({ mutationUrl, routine }) {
             background: "rgba(200,200,200,.2)",
             border: "2px solid transparent",
             ...(tasksRemaining.length === 0 && {
-              borderColor: lime[session?.user?.darkMode ? "A400" : 800],
-              background: session?.user?.darkMode
-                ? "hsl(240,11%,10%)"
-                : lime[50],
+              borderColor: lime[session.user.darkMode ? "A400" : 800],
+              background: session.user.darkMode ? "hsl(240,11%,10%)" : lime[50],
             }),
             ...(data.items.length === 0 && {
-              borderColor: orange[session?.user?.darkMode ? "A200" : 800],
-              background: session?.user?.darkMode
+              borderColor: orange[session.user.darkMode ? "A200" : 800],
+              background: session.user.darkMode
                 ? "hsl(240,11%,10%)"
                 : orange[50],
             }),
@@ -339,8 +337,8 @@ export function Routine({ mutationUrl, routine }) {
             <Icon
               sx={{
                 opacity: loading ? 0 : 1,
-                color: lime[session?.user?.darkMode ? "A400" : 800],
-                background: session?.user?.darkMode
+                color: lime[session.user.darkMode ? "A400" : 800],
+                background: session.user.darkMode
                   ? "hsl(240,11%,10%)"
                   : lime[50],
                 borderRadius: "999px",
@@ -357,10 +355,8 @@ export function Routine({ mutationUrl, routine }) {
             <Icon
               sx={{
                 opacity: loading ? 0 : 1,
-                color: orange[session?.user?.darkMode ? "A400" : 800],
-                background: session?.user?.darkMode
-                  ? "hsl(240,11%,10%)"
-                  : "#fff",
+                color: orange[session.user.darkMode ? "A400" : 800],
+                background: session.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
                 borderRadius: "999px",
                 transition: "opacity .2s",
                 position: "absolute",

@@ -16,9 +16,9 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { toastStyles } from "../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../pages/_app";
-import { useBackButton } from "../../lib/client/useBackButton";
 
 /**
  * @description A room
@@ -108,7 +108,7 @@ export default function MoveToRoom({ item, styles }) {
             maxHeight: "95vh",
 
             mx: "auto",
-            ...(session?.user?.darkMode && {
+            ...(session.user.darkMode && {
               background: "hsl(240, 11%, 25%)",
             }),
           },

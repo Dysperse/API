@@ -64,7 +64,7 @@ export function Changelog({ disabled }) {
                 pb: 1,
                 zIndex: 9,
                 width: "100%",
-                background: session?.user?.darkMode
+                background: session.user.darkMode
                   ? "hsla(240,11%,15%)"
                   : "rgba(255,255,255,.9)",
               }}
@@ -78,7 +78,7 @@ export function Changelog({ disabled }) {
                 sx={{
                   color:
                     colors[session?.themeColor || "grey"][
-                      session?.user?.darkMode ? 50 : 900
+                      session.user.darkMode ? 50 : 900
                     ],
                 }}
               >
@@ -126,7 +126,7 @@ export function Changelog({ disabled }) {
                               sx={{
                                 background:
                                   colors[session?.themeColor || "grey"][
-                                    session?.user?.darkMode ? 900 : 200
+                                    session.user.darkMode ? 900 : 200
                                   ],
                               }}
                             />
@@ -134,7 +134,7 @@ export function Changelog({ disabled }) {
                               sx={{
                                 background:
                                   colors[session?.themeColor || "grey"][
-                                    session?.user?.darkMode ? 900 : 100
+                                    session.user.darkMode ? 900 : 100
                                   ],
                               }}
                             />
@@ -142,7 +142,7 @@ export function Changelog({ disabled }) {
                           <TimelineContent>
                             <Typography gutterBottom>
                               <b>
-                                {data[index].who === session?.user?.name
+                                {data[index].who === session.user.name
                                   ? "You"
                                   : data[index].who}
                               </b>{" "}

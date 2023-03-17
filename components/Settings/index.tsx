@@ -65,11 +65,11 @@ function SettingsMenu({
           transiton: { sm: "none!important" },
           "& *": { transiton: { sm: "none!important" } },
           "&:hover": {
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,25%)"
               : colors[session?.themeColor || "grey"][50],
             "& .MuiAvatar-root": {
-              background: session?.user?.darkMode
+              background: session.user.darkMode
                 ? "hsl(240,11%,35%)"
                 : colors[session?.themeColor || "grey"][100],
             },
@@ -79,9 +79,9 @@ function SettingsMenu({
         <ListItemAvatar>
           <Avatar
             sx={{
-              color: session?.user?.darkMode ? "#fff" : "#000",
+              color: session.user.darkMode ? "#fff" : "#000",
               borderRadius: 4,
-              background: session?.user?.darkMode
+              background: session.user.darkMode
                 ? "hsl(240,11%,30%)"
                 : colors[session?.themeColor || "grey"][100],
             }}
@@ -112,7 +112,7 @@ function SettingsMenu({
               maxHeight: "93vh",
 
               mx: "auto",
-              ...(session?.user?.darkMode && {
+              ...(session.user.darkMode && {
                 background: "hsl(240, 11%, 25%)",
               }),
             },
@@ -206,7 +206,7 @@ export default function FullScreenDialog({
             icon="format_paint"
             primary="Appearance"
             secondary={`Current theme: ${capitalizeFirstLetter(
-              session?.user?.color
+              session.user.color
             )}`}
           />
           <SettingsMenu
@@ -217,8 +217,8 @@ export default function FullScreenDialog({
             secondary={
               <>
                 2FA is currently{" "}
-                {session?.user?.twoFactorSecret &&
-                session?.user?.twoFactorSecret !== "false"
+                {session.user.twoFactorSecret &&
+                session.user.twoFactorSecret !== "false"
                   ? "enabled"
                   : "disabled"}
               </>
@@ -231,7 +231,7 @@ export default function FullScreenDialog({
             primary="Account"
             secondary={
               <>
-                {session?.user?.name} &bull; {session?.user?.email}
+                {session.user.name} &bull; {session.user.email}
               </>
             }
           />
@@ -269,7 +269,7 @@ export default function FullScreenDialog({
             }
             secondary={
               <>
-                {session?.user?.notificationSubscription
+                {session.user.notificationSubscription
                   ? "Notifications enabled for 1 device"
                   : "Notifications off"}
               </>
@@ -289,13 +289,13 @@ export default function FullScreenDialog({
                 "& *": { transiton: "none!important" },
                 borderRadius: 4,
                 "&:hover, &:focus": {
-                  background: session?.user?.darkMode
+                  background: session.user.darkMode
                     ? "hsl(240,11%,25%)"
                     : colors[session?.themeColor || "grey"][50],
                 },
                 userSelect: "none",
                 "& .MuiAvatar-root": {
-                  background: session?.user?.darkMode
+                  background: session.user.darkMode
                     ? "hsl(240,11%,35%)"
                     : colors[session?.themeColor || "grey"][100],
                 },
@@ -304,10 +304,10 @@ export default function FullScreenDialog({
               <ListItemAvatar>
                 <Avatar
                   sx={{
-                    color: session?.user?.darkMode ? "#fff" : "#000",
+                    color: session.user.darkMode ? "#fff" : "#000",
                     background:
                       colors[session?.themeColor || "grey"][
-                        session?.user?.darkMode ? 900 : 100
+                        session.user.darkMode ? 900 : 100
                       ],
                     borderRadius: 4,
                   }}

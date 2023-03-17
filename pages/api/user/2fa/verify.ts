@@ -27,7 +27,7 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const twoFactorSecret = session?.user?.twoFactorSecret;
+  const twoFactorSecret = session.user.twoFactorSecret;
   twofactor.generateToken(twoFactorSecret);
   const login: null | { delta: number } = twofactor.verifyToken(
     twoFactorSecret,

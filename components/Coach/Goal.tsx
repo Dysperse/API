@@ -29,12 +29,12 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         className="mb-5 border shadow-md active:scale-[.98] sm:mb-0"
         onClick={() => setOpen(true)}
         sx={{
-          ...(session?.user?.darkMode && {
+          ...(session.user.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
           }),
           borderRadius: 5,
           "&:hover": {
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240%,11%,20%)"
               : "hsl(240,11%,95%)",
           },
@@ -45,10 +45,10 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           transition: "transform .2s!important",
           px: 3,
           background: {
-            sm: session?.user?.darkMode ? "hsl(240,11%,13%)" : "#fff",
+            sm: session.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
           },
           borderBottom: {
-            xs: session?.user?.darkMode
+            xs: session.user.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid #ddd",
             sm: "none",
@@ -163,7 +163,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         PaperProps={{
           sx: {
             width: "100vw",
-            ...(session?.user?.darkMode && {
+            ...(session.user.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
             maxWidth: "500px",

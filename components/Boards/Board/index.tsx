@@ -63,7 +63,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             md: 3,
           },
           zIndex: 99,
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsla(240,11%,14%,0.5)"
             : "rgba(255,255,255,.5)",
           border: "1px solid",
@@ -72,11 +72,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
-          borderColor: session?.user?.darkMode
+          borderColor: session.user.darkMode
             ? "hsla(240,11%,25%, 0.5)"
             : "rgba(200,200,200, 0.3)",
           right: 0,
-          color: session?.user?.darkMode ? "#fff" : "#000",
+          color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",
           alignItems: "center",
           p: 0.5,
@@ -153,7 +153,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           navigator.vibrate(50);
           setMobileOpen(true);
         }}
-        sx={boardSwitcherStyles(session?.user?.darkMode)}
+        sx={boardSwitcherStyles(session.user.darkMode)}
       >
         <Icon className="outlined">menu</Icon>
       </IconButton>

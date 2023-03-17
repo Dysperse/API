@@ -80,14 +80,14 @@ const Action = React.memo(function Action({
         mb: 0.2,
         "&:hover": {
           background: {
-            sm: session?.user?.darkMode
+            sm: session.user.darkMode
               ? "hsl(240,11%,13%)!important"
               : "hsl(240,11%,90%)!important",
           },
         },
         cursor: "unset!important",
         "&:active": {
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsl(240,11%,13%)!important"
             : "hsl(240,11%,90%) !important",
         },
@@ -101,14 +101,14 @@ const Action = React.memo(function Action({
             primary.toLowerCase()
           ))
           ? {
-              background: session?.user?.darkMode
+              background: session.user.darkMode
                 ? "hsl(240,11%,13%)!important"
                 : "hsl(240,11%,90%)!important",
             }
           : {
               background: "transparent!important",
             }),
-        ...(session?.user?.darkMode && {
+        ...(session.user.darkMode && {
           "&:hover .MuiAvatar-root": {
             background: "hsl(240,11%,17%)",
           },
@@ -119,8 +119,8 @@ const Action = React.memo(function Action({
         <Avatar
           sx={{
             borderRadius: 4,
-            color: session?.user?.darkMode ? "#fff" : "#000",
-            background: session?.user?.darkMode
+            color: session.user.darkMode ? "#fff" : "#000",
+            background: session.user.darkMode
               ? "hsl(240,11%,17%)"
               : "hsl(240,11%,80%)",
           }}
@@ -166,7 +166,7 @@ const Action = React.memo(function Action({
           <CircularProgress
             size={15}
             sx={{
-              color: session?.user?.darkMode ? "#fff" : "#000",
+              color: session.user.darkMode ? "#fff" : "#000",
               ml: "auto",
               mt: "8px",
               mr: 1,

@@ -30,7 +30,7 @@ export function Puller() {
             mx: "auto",
             height: "2px",
             background: session?.user
-              ? session?.user?.darkMode
+              ? session.user.darkMode
                 ? "hsl(240, 11%, 35%)"
                 : "#ddd"
               : "#ddd",

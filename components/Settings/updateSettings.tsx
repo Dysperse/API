@@ -26,15 +26,15 @@ export async function updateSettings(
     new Promise(async (resolve, reject) => {
       try {
         let url = `/api/user/update?${new URLSearchParams({
-          sessionId: session?.user?.token,
-          token: session?.user?.token,
+          sessionId: session.user.token,
+          token: session.user.token,
           [key]: value,
         }).toString()}`;
         if (property) {
           url = `/api/property/update?${new URLSearchParams({
             property: session.property.propertyId,
             accessToken: session.property.accessToken,
-            userName: session?.user?.name,
+            userName: session.user.name,
             timestamp: new Date().toISOString(),
             [key]: value,
             changedKey: key,

@@ -19,12 +19,10 @@ import {
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import { useEffect } from "react";
 import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
 import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 import { useApi } from "../lib/client/useApi";
-import { neutralizeBack, revivalBack } from "../lib/client/useBackButton";
 import { useSession } from "./_app";
 
 import useEmblaCarousel from "embla-carousel-react";
@@ -102,7 +100,7 @@ function RecentItems() {
                   className="shadow-sm"
                   sx={{
                     border: "1px solid",
-                    borderColor: session?.user?.darkMode
+                    borderColor: session.user.darkMode
                       ? "hsl(240, 11%, 20%)"
                       : "rgba(200, 200, 200, 0.3)",
                     width: "100%",
@@ -117,7 +115,7 @@ function RecentItems() {
                         sx={{
                           color:
                             colors[item.color][
-                              session?.user?.darkMode ? "A400" : 700
+                              session.user.darkMode ? "A400" : 700
                             ],
                         }}
                         {...(item.color === "grey" && {
@@ -201,7 +199,7 @@ export default function Home() {
             gap: 1,
             height: "var(--navbar-height)",
             position: { xs: "absolute", md: "static" },
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsla(240,11%,10%, .5)"
               : "rgba(255,255,255,.5)",
             top: 0,
@@ -253,9 +251,9 @@ export default function Home() {
           >
             {greeting}
             <br />
-            {session?.user?.name.includes(" ")
-              ? session?.user?.name.split(" ")[0]
-              : session?.user?.name}
+            {session.user.name.includes(" ")
+              ? session.user.name.split(" ")[0]
+              : session.user.name}
             !
           </Typography>
         </Box>
@@ -276,12 +274,12 @@ export default function Home() {
               <ListItemButton
                 sx={{
                   px: "15px !important",
-                  background: session?.user?.darkMode
+                  background: session.user.darkMode
                     ? "hsl(240, 11%, 10%)"
                     : "#fff",
                   gap: 2,
                   border: "1px solid",
-                  borderColor: session?.user?.darkMode
+                  borderColor: session.user.darkMode
                     ? "hsl(240, 11%, 20%)"
                     : "rgba(200, 200, 200, 0.3)",
                 }}
@@ -320,7 +318,7 @@ export default function Home() {
                     0 && (
                     <Icon
                       sx={{
-                        color: green[session?.user?.darkMode ? "A400" : "A700"],
+                        color: green[session.user.darkMode ? "A400" : "A700"],
                         fontSize: "30px!important",
                       }}
                     >
@@ -334,12 +332,12 @@ export default function Home() {
               <ListItemButton
                 sx={{
                   px: "15px !important",
-                  background: session?.user?.darkMode
+                  background: session.user.darkMode
                     ? "hsl(240, 11%, 10%)"
                     : "#fff",
                   gap: 2,
                   border: "1px solid",
-                  borderColor: session?.user?.darkMode
+                  borderColor: session.user.darkMode
                     ? "hsl(240, 11%, 20%)"
                     : "rgba(200, 200, 200, 0.3)",
                 }}

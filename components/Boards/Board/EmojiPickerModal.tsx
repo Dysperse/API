@@ -30,7 +30,7 @@ export function EmojiPickerModal({ large = false, emoji, setEmoji }: any) {
         {open && (
           <EmojiPicker
             skinTonePickerLocation={"PREVIEW" as any}
-            theme={(session?.user?.darkMode ? "dark" : "light") as any}
+            theme={(session.user.darkMode ? "dark" : "light") as any}
             lazyLoadEmojis={true}
             width="100%"
             onEmojiClick={(event) => {

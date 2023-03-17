@@ -80,7 +80,7 @@ export function EditProperty({ children, color }: any) {
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: session?.user?.darkMode ? "hsl(240,11%,25%)" : "#fff",
+            background: session.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
             px: 3,
             width: { xs: "100vw", sm: "50vw" },
             py: 2,

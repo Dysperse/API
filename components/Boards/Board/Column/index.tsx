@@ -71,7 +71,7 @@ export function Column({ board, mutationUrls, column, index }) {
               py: 2,
               mb: 1,
               borderBottom: `1px solid ${
-                session?.user?.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+                session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
               }`,
             }}
           >
@@ -130,7 +130,7 @@ export function Column({ board, mutationUrls, column, index }) {
         className="snap-center"
         sx={{
           borderLeft: "1px solid",
-          borderColor: session?.user?.darkMode
+          borderColor: session.user.darkMode
             ? "hsl(240,11%,16%)"
             : "rgba(200,200,200,.2)",
           zIndex: 1,
@@ -146,14 +146,14 @@ export function Column({ board, mutationUrls, column, index }) {
       >
         <Box
           sx={{
-            color: session?.user?.darkMode ? "#fff" : "#000",
+            color: session.user.darkMode ? "#fff" : "#000",
             p: { xs: 2, sm: 3 },
             px: 4,
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsla(240,11%,16%, 0.2)"
               : "rgba(255,255,255,.05)",
             borderBottom: "1px solid",
-            borderColor: session?.user?.darkMode
+            borderColor: session.user.darkMode
               ? "hsla(240,11%,18%, 0.2)"
               : "rgba(200,200,200,.3)",
             userSelect: "none",
@@ -249,7 +249,7 @@ export function Column({ board, mutationUrls, column, index }) {
                 width={256}
                 height={256}
                 style={{
-                  ...(session?.user?.darkMode && {
+                  ...(session.user.darkMode && {
                     filter: "invert(100%)",
                   }),
                 }}
@@ -305,11 +305,11 @@ export function Column({ board, mutationUrls, column, index }) {
               mx: { xs: "20px", sm: 0 },
               width: "calc(100% - 40px)",
               ...(showCompleted && {
-                background: session?.user?.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,20%)!important"
                   : "rgba(200,200,200,.3)!important",
               }),
-              color: session?.user?.darkMode ? "#fff" : "hsl(240,11%,30%)",
+              color: session.user.darkMode ? "#fff" : "hsl(240,11%,30%)",
             }}
             onClick={toggleShowCompleted}
           >

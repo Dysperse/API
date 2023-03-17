@@ -98,7 +98,7 @@ function Member({
                 fetchApiWithoutHook("property/members/modifyPermissions", {
                   id: member.id,
                   permission: "read-only",
-                  changerName: session?.user?.name,
+                  changerName: session.user.name,
                   affectedName: member.user.name,
                   timestamp: new Date().toISOString(),
                 }).then(() => {
@@ -116,7 +116,7 @@ function Member({
                 fetchApiWithoutHook("property/members/modifyPermissions", {
                   id: member.id,
                   permission: "member",
-                  changerName: session?.user?.name,
+                  changerName: session.user.name,
                   affectedName: member.user.name,
                   timestamp: new Date().toISOString(),
                 }).then(() => {
@@ -134,7 +134,7 @@ function Member({
               <MenuItem
                 sx={{
                   color:
-                    colors.red[session?.user?.darkMode ? "A200" : "A400"] +
+                    colors.red[session.user.darkMode ? "A200" : "A400"] +
                     "!important",
                 }}
                 onClick={() => {
@@ -151,7 +151,7 @@ function Member({
                     setLoading(true);
                     fetchApiWithoutHook("property/members/remove", {
                       id: member.id,
-                      removerName: session?.user?.name,
+                      removerName: session.user.name,
                       removeeName: member.user.name,
                       timestamp: new Date().toISOString(),
                     }).then(() => {
@@ -174,11 +174,11 @@ function Member({
             disabled={
               propertyId !== session.property.propertyId ||
               session?.permission !== "owner" ||
-              member.user.email === session?.user?.email
+              member.user.email === session.user.email
             }
             sx={{
               ...((session?.permission !== "owner" ||
-                member.user.email === session?.user?.email) && {
+                member.user.email === session.user.email) && {
                 pointerEvents: "none",
               }),
               width: "100%",
@@ -217,7 +217,7 @@ function Member({
                 opacity:
                   propertyId !== session.property.propertyId ||
                   session?.permission !== "owner" ||
-                  member.user.email === session?.user?.email
+                  member.user.email === session.user.email
                     ? "0"
                     : "1",
               }}
@@ -319,7 +319,7 @@ export function MemberList({
             userSelect: "none",
             px: 2.5,
             borderRadius: 5,
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,20%)"
               : colors[color][50],
           }}

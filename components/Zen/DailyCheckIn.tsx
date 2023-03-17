@@ -140,14 +140,14 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
                       },
                       display: "flex",
                       background: `hsl(240,11%,${
-                        session?.user?.darkMode ? 10 : 97
+                        session.user.darkMode ? 10 : 97
                       }%)!important`,
                       gap: 2,
                       ...(currentReason === reason.name && {
                         borderColor: colors[session?.themeColor][700],
                         boxShadow:
                           "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-                        background: session?.user?.darkMode
+                        background: session.user.darkMode
                           ? "hsl(240,11%,10%) !important"
                           : "#fff !important",
                       }),
@@ -449,7 +449,7 @@ export function DailyCheckInDrawer() {
               style={{
                 stroke: colors[session?.themeColor || "grey"]["A400"],
                 strokeWidth: 3,
-                fill: session?.user?.darkMode ? "hsl(240,11%,15%)" : "white",
+                fill: session.user.darkMode ? "hsl(240,11%,15%)" : "white",
               }}
             />
           </Sparklines>
@@ -502,7 +502,7 @@ export function DailyCheckInDrawer() {
                       borderRadius: 9999,
                       height: "auto",
                       maxHeight: "unset",
-                      ...(session?.user?.darkMode && {
+                      ...(session.user.darkMode && {
                         background: "hsl(240,11%,20%)",
                       }),
                     }}
@@ -526,10 +526,10 @@ export function DailyCheckInDrawer() {
             sx={{
               ml: "auto",
               ...(showKey && {
-                background: session?.user?.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,30%)!important"
                   : "rgba(200,200,200,.3)!important",
-                color: session?.user?.darkMode
+                color: session.user.darkMode
                   ? "#fff!important"
                   : "#000!important",
               }),
@@ -724,9 +724,9 @@ export function DailyCheckIn() {
   return (
     <Box
       sx={{
-        background: session?.user?.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+        background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
         border: "1px solid",
-        borderColor: session?.user?.darkMode
+        borderColor: session.user.darkMode
           ? "hsl(240, 11%, 20%)"
           : "rgba(200, 200, 200, 0.3)",
         borderRadius: 5,

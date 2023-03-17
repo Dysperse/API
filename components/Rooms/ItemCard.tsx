@@ -36,24 +36,24 @@ export function ItemCard({
           maxWidth: "calc(100vw - 32.5px)",
           userSelect: "none",
           borderRadius: 5,
-          color: session?.user?.darkMode ? "hsl(240,11%,80%)" : "#303030",
+          color: session.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
           background: `${
-            session?.user?.darkMode
+            session.user.darkMode
               ? "hsl(240, 11%, 17%)"
               : "rgba(200,200,200,.3)"
           }!important`,
           "&:hover": {
-            color: session?.user?.darkMode ? "hsl(240,11%,90%)" : "#000",
+            color: session.user.darkMode ? "hsl(240,11%,90%)" : "#000",
             background: `${
-              session?.user?.darkMode
+              session.user.darkMode
                 ? "hsl(240, 11%, 20%)"
                 : "rgba(200,200,200,.4)"
             }!important`,
           },
           "&:active": {
-            color: session?.user?.darkMode ? "hsl(240,11%,95%)" : "#000",
+            color: session.user.darkMode ? "hsl(240,11%,95%)" : "#000",
             background: `${
-              session?.user?.darkMode
+              session.user.darkMode
                 ? "hsl(240, 11%, 23%)"
                 : "rgba(200,200,200,.6)"
             }!important`,
@@ -61,7 +61,7 @@ export function ItemCard({
           mb: { xs: 2, sm: 0 },
           border: "2px solid transparent",
           ...(item.starred && {
-            borderColor: colors.orange[session?.user?.darkMode ? "A400" : 900],
+            borderColor: colors.orange[session.user.darkMode ? "A400" : 900],
           }),
           "& *:not(.MuiTouchRipple-root *, .override *)": {
             background: "transparent",
@@ -118,7 +118,7 @@ export function ItemCard({
                             px: 1,
                             mr: 1,
                             color: "inherit",
-                            background: session?.user?.darkMode
+                            background: session.user.darkMode
                               ? "hsla(240,11%,40%,.3)"
                               : "rgba(200,200,200,.3)",
                             textTransform: "capitalize",

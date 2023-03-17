@@ -18,7 +18,7 @@ export default function App() {
   const session = useSession();
   const secret = twofactor.generateSecret({
     name: "Dysperse",
-    account: session?.user?.email,
+    account: session.user.email,
   });
   const [newSecret] = useState(secret);
   const [code, setCode] = useState("");
@@ -27,8 +27,8 @@ export default function App() {
 
   return (
     <Box>
-      {session?.user?.twoFactorSecret &&
-      session?.user?.twoFactorSecret !== "false" ? (
+      {session.user.twoFactorSecret &&
+      session.user.twoFactorSecret !== "false" ? (
         <Box>
           <Alert severity="info">
             2FA is enabled for your account &nbsp; 🎉
@@ -134,7 +134,7 @@ export default function App() {
                 `/api/user/2fa/setup?${new URLSearchParams({
                   ...newSecret,
                   code,
-                  token: session?.user?.token,
+                  token: session.user.token,
                 }).toString()}`,
                 {
                   method: "POST",

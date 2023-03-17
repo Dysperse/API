@@ -67,15 +67,15 @@ export function BoardInfo({
         minHeight: { xs: "100%", md: "unset" },
         background: {
           md: showInfo
-            ? session?.user?.darkMode
+            ? session.user.darkMode
               ? "hsla(240,11%,15%, 0.8)"
               : "hsla(240, 11%, 95%, 0.5)"
-            : session?.user?.darkMode
+            : session.user.darkMode
             ? "hsla(240,11%,13%, 0.8)"
             : "rgba(200,200,200,.1)",
         },
         border: { xs: "1px solid", md: "none" },
-        borderColor: session?.user?.darkMode
+        borderColor: session.user.darkMode
           ? "hsla(240,11%,13%, 0.8)!important"
           : "rgba(200,200,200,.4)!important",
         position: { md: "sticky" },
@@ -134,7 +134,7 @@ export function BoardInfo({
                   fontSize: "40px",
                   py: 0.5,
                   "&:focus-within": {
-                    background: session?.user?.darkMode
+                    background: session.user.darkMode
                       ? "hsl(240,11%,18%)"
                       : "rgba(200,200,200,.2)",
                   },
@@ -157,7 +157,7 @@ export function BoardInfo({
                   ml: -1,
                   py: 1,
                   "&:focus-within": {
-                    background: session?.user?.darkMode
+                    background: session.user.darkMode
                       ? "hsl(240,11%,18%)"
                       : "rgba(200,200,200,.2)",
                   },

@@ -95,7 +95,7 @@ export default function Notifications() {
     event.preventDefault();
 
     fetchApiWithoutHook("/test-notification", {
-      subscription: session?.user?.notificationSubscription,
+      subscription: session.user.notificationSubscription,
     });
   };
 
@@ -129,8 +129,8 @@ export default function Notifications() {
   };
 
   const enabledOnAnotherDevice =
-    (!isSubscribed && session?.user?.notificationSubscription) ||
-    session?.user?.notificationSubscription !== JSON.stringify(subscription);
+    (!isSubscribed && session.user.notificationSubscription) ||
+    session.user.notificationSubscription !== JSON.stringify(subscription);
 
   return isInPwa || process.env.NODE_ENV == "development" ? (
     data ? (

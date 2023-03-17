@@ -86,7 +86,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: `hsl(240, 11%, ${session?.user?.darkMode ? 10 : 95}%)`,
+            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
           },
           "&:active": {
             transition: "none",
@@ -139,7 +139,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: `hsl(240, 11%, ${session?.user?.darkMode ? 10 : 95}%)`,
+            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
           },
           "&:active": {
             transition: "none",
