@@ -233,8 +233,8 @@ export default function Home() {
         </Box>
         <Box
           sx={{
-            mt: { xs: 3, sm: 15 },
-            mb: 2,
+            mt: { xs: 3, sm: 10 },
+            mb: 4,
           }}
         >
           <Typography
