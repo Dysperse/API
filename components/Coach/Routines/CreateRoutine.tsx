@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
@@ -67,6 +68,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
     setLoading(false);
   };
 
+  const router = useRouter();
   return (
     <>
       <Box
@@ -104,7 +106,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             position: "relative",
           }}
         >
-          <Icon className="outlined">add_circle</Icon>
+          <Icon className="outlined">web_stories</Icon>
         </Box>
         <Box sx={{ width: "100%" }}>
           <Typography
@@ -117,7 +119,60 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
               overflow: "hidden",
             }}
           >
-            Create
+            Routine
+          </Typography>
+        </Box>
+      </Box>
+
+      <Box
+        onClick={() => router.push("/coach")}
+        sx={{
+          flexShrink: 0,
+          borderRadius: 5,
+          flex: "0 0 70px",
+          gap: 0.4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          overflow: "hidden",
+          userSelect: "none",
+          p: 1,
+          transition: "transform .2s",
+          "&:hover": {
+            background: `hsl(240, 11%, ${session?.user?.darkMode ? 10 : 95}%)`,
+          },
+          "&:active": {
+            transition: "none",
+            transform: "scale(.95)",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            borderRadius: 9999,
+            width: 60,
+            height: 60,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(200,200,200,.2)",
+            position: "relative",
+          }}
+        >
+          <Icon className="outlined">auto_awesome</Icon>
+        </Box>
+        <Box sx={{ width: "100%" }}>
+          <Typography
+            variant="body2"
+            sx={{
+              whiteSpace: "nowrap",
+              textAlign: "center",
+              textOverflow: "ellipsis",
+              fontSize: "13px",
+              overflow: "hidden",
+            }}
+          >
+            Goal
           </Typography>
         </Box>
       </Box>
