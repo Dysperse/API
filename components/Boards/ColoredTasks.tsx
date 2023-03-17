@@ -1,5 +1,6 @@
 import {
   Box,
+  CardActionArea,
   CircularProgress,
   Icon,
   IconButton,
@@ -7,7 +8,9 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
+import { useState } from "react";
 import { useApi } from "../../hooks/useApi";
+import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
@@ -16,6 +19,7 @@ export function ColoredTasks({ setDrawerOpen }) {
   const { data, url, error } = useApi("property/boards/color-coded", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
+  const [color, setColor] = useState("");
 
   const session = useSession();
 
@@ -86,7 +90,7 @@ export function ColoredTasks({ setDrawerOpen }) {
 
       {!data ||
         (data && data.length !== 0 && (
-          <Box sx={{ p: 3, pb: 0, pt: 5 }}>
+          <Box sx={{ p: 3, pb: 1, pt: 5 }}>
             <Typography className="font-heading" variant="h4" gutterBottom>
               Color coded
             </Typography>
@@ -94,9 +98,58 @@ export function ColoredTasks({ setDrawerOpen }) {
             {error && (
               <ErrorHandler error="Yikes! An error occured while trying to fetch your color coded tasks. Please try again later." />
             )}
+            {[
+              "all",
+              "orange",
+              "red",
+              "pink",
+              "purple",
+              "indigo",
+              "teal",
+              "green",
+              "grey",
+            ].map((c) => (
+              <CardActionArea
+                key={c}
+                onClick={() => setColor(c)}
+                sx={{
+                  width: 36,
+                  height: 36,
+                  cursor: "unset",
+                  borderRadius: "50%",
+                  display: "inline-flex",
+                  mr: 1,
+                  mb: 1,
+                  backgroundColor: `${
+                    colors[c === "all" ? "blueGrey" : c][
+                      c === "all" ? "100" : "400"
+                    ]
+                  }!important`,
+                  "&:hover": {
+                    backgroundColor: `${
+                      colors[c === "all" ? "blueGrey" : c][
+                        c === "all" ? "200" : "500"
+                      ]
+                    }!important`,
+                  },
+                }}
+              >
+                <span
+                  className="material-symbols-outlined"
+                  style={{
+                    margin: "auto",
+                    opacity:
+                      color === c || (color === "all" && c === "all") ? 1 : 0,
+                    color: "#000",
+                  }}
+                >
+                  {c === "all" ? "close" : "check"}
+                </span>
+              </CardActionArea>
+            ))}
           </Box>
         ))}
-      <Box sx={{ px: { sm: 3 }, pb: 15, maxWidth: "100vw" }}>
+      <Box sx={{ px: { sm: 2 }, pb: 15, maxWidth: "100vw" }}>
         {data.length == 0 && (
           <Box
             sx={{
@@ -137,16 +190,18 @@ export function ColoredTasks({ setDrawerOpen }) {
         {[
           ...data.filter((task) => task.pinned),
           ...data.filter((task) => !task.pinned),
-        ].map((task, index) => (
-          <Task
-            key={task.id}
-            board={task.board || false}
-            columnId={task.column ? task.column.id : -1}
-            isAgenda
-            mutationUrl={url}
-            task={task}
-          />
-        ))}
+        ]
+          .filter((task) => color === "all" || task.color === color)
+          .map((task, index) => (
+            <Task
+              key={task.id}
+              board={task.board || false}
+              columnId={task.column ? task.column.id : -1}
+              isAgenda
+              mutationUrl={url}
+              task={task}
+            />
+          ))}
       </Box>
     </Box>
   );
