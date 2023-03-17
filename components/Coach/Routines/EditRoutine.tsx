@@ -85,8 +85,6 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
           sx: {
             userSelect: "none",
             maxWidth: "600px",
-            background: "hsl(240, 11%, 15%)",
-            color: "hsl(240, 11%, 90%)",
             maxHeight: "90vh",
           },
         }}
@@ -110,9 +108,6 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="dense"
-            InputProps={{ sx: { color: "#fff" } }}
-            InputLabelProps={{ sx: { color: "#eee" } }}
-            color="secondary"
             label="Routine name"
             autoFocus
             placeholder="Morning routine"
@@ -121,10 +116,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             value={note}
             onChange={(e) => setNote(e.target.value)}
             fullWidth
-            color="secondary"
             margin="dense"
-            InputProps={{ sx: { color: "#fff" } }}
-            InputLabelProps={{ sx: { color: "#eee" } }}
             multiline
             rows={4}
             label="Click to add a note"
@@ -138,7 +130,6 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
               <Button
                 key={index}
                 size="small"
-                color="secondary"
                 sx={{ px: 1, minWidth: "auto" }}
                 onClick={() =>
                   setDaysOfWeek((d) => {
@@ -163,9 +154,6 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             value={time}
             size="small"
             onChange={handleChange}
-            sx={{
-              color: "#fff!important",
-            }}
           >
             {[
               0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
@@ -184,8 +172,8 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
               sx={{
                 ml: "auto",
                 "&, &:hover": {
-                  background: "hsl(240,11%,20%)!important",
-                  color: "#fff!important",
+                  background: "hsl(240,11%,95%)!important",
+                  color: "#000!important",
                 },
               }}
             >
