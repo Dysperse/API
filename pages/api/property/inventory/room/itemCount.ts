@@ -1,4 +1,4 @@
-import { prisma } from "../../../../../lib/prismaClient";
+import { prisma } from "../../../../../lib/server/prisma";
 import { validatePermissions } from "../../../../../lib/server/validatePermissions";
 
 export const getItemCount = async (res, property, accessToken, room) => {

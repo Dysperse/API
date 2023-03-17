@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prismaClient";
+import { prisma } from "../../lib/server/prisma";
 
 /**
  * API handler for the /api/login endpoint

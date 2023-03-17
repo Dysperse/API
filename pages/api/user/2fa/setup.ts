@@ -1,7 +1,7 @@
 // Update user settings
 import cacheData from "memory-cache";
 import * as twofactor from "node-2fa";
-import { prisma } from "../../../../lib/prismaClient";
+import { prisma } from "../../../../lib/server/prisma";
 
 /**
  * API handler for the /api/user/update endpoint

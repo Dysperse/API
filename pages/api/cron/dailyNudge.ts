@@ -1,6 +1,6 @@
 const webPush = require("web-push");
-import { DispatchNotification } from "../../../lib/notification";
-import { prisma } from "../../../lib/prismaClient";
+import { DispatchNotification } from "../../../lib/server/notification";
+import { prisma } from "../../../lib/server/prisma";
 
 const Notification = async (req, res) => {
   if (
