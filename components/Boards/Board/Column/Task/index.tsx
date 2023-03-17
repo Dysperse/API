@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
@@ -23,6 +24,7 @@ const ImageViewer = dynamic(() =>
 );
 
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
+import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { TaskDrawer } from "./TaskDrawer";
 
 const renderText = (
@@ -146,6 +148,34 @@ export const Task: any = React.memo(function Task({
     [mutationUrl, toastStyles, taskData.id]
   );
 
+  const handlePriorityChange = useCallback(async () => {
+    setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
+    toast.promise(
+      new Promise(async (resolve, reject) => {
+        try {
+          await fetchApiWithoutHook("property/boards/togglePin", {
+            id: taskData.id,
+            pinned: !taskData.pinned ? "true" : "false",
+          }).then(() => {
+            mutate(mutationUrl);
+          });
+          await mutate(mutationUrl);
+          resolve("");
+        } catch (e) {
+          reject(e);
+        }
+      }),
+      {
+        loading: taskData.pinned
+          ? "Changing priority..."
+          : "Marking important...",
+        success: taskData.pinned ? "Task unpinned!" : "Task pinned!",
+        error: "Failed to change priority",
+      },
+      toastStyles
+    );
+  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData]);
+
   return !taskData ? (
     <></>
   ) : (
@@ -234,35 +264,40 @@ export const Task: any = React.memo(function Task({
                 </Box>
                 {taskData.pinned && (
                   <Tooltip title="Important" placement="right">
-                    <Box
-                      sx={{
-                        borderRadius: 2,
-                        width: 20,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: 20,
-                        flexShrink: 0,
-                        ml: "auto",
-                        background:
-                          colors.orange[
-                            session?.user?.darkMode ? "A700" : "200"
-                          ],
-                      }}
+                    <ConfirmationModal
+                      title="Change priority?"
+                      question="You are about to unpin this task. You can always change the priority later"
+                      callback={handlePriorityChange}
                     >
-                      <Icon
-                        onClick={(e) => e.stopPropagation()}
+                      <Box
                         sx={{
-                          fontSize: "15px!important",
-                          color: session?.user?.darkMode
-                            ? "hsl(240,11%,10%)"
-                            : colors.orange[900],
-                          fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
+                          borderRadius: 2,
+                          width: 20,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: 20,
+                          flexShrink: 0,
+                          ml: "auto",
+                          background:
+                            colors.orange[
+                              session?.user?.darkMode ? "A700" : "200"
+                            ],
                         }}
                       >
-                        priority_high
-                      </Icon>
-                    </Box>
+                        <Icon
+                          sx={{
+                            fontSize: "15px!important",
+                            color: session?.user?.darkMode
+                              ? "hsl(240,11%,10%)"
+                              : colors.orange[900],
+                            fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
+                          }}
+                        >
+                          priority_high
+                        </Icon>
+                      </Box>
+                    </ConfirmationModal>
                   </Tooltip>
                 )}
               </Box>
