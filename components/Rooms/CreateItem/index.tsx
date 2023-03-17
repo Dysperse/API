@@ -21,6 +21,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useSession } from "../../../pages/_app";
+import { useBackButton } from "../../../lib/client/useBackButton";
 
 /**
  * Item popup option
