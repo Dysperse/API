@@ -1,11 +1,11 @@
 import { prisma } from "../../../../../../lib/prismaClient";
-import { validatePermissions } from "../../../../../../lib/validatePermissions";
+import { validatePermissions } from "../../../../../../lib/server/validatePermissions";
 
 const handler = async (req, res) => {
-await validatePermissions(res, {
-  minimum: "read-only",
-  credentials: [req.query.property, req.query.accessToken],
-});
+  await validatePermissions(res, {
+    minimum: "read-only",
+    credentials: [req.query.property, req.query.accessToken],
+  });
 
   const data = await prisma.task.findUnique({
     where: {

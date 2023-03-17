@@ -4,16 +4,17 @@ export function Loading() {
   return (
     <Box
       sx={{
-        display: "flex",
-        height: "100%",
         width: "100%",
-        minHeight: "500px",
+        height: {
+          xs: "calc(100vh - var(--navbar-height) - 55px)",
+          sm: "100vh",
+        },
+        display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <CircularProgress
-      />
+      <CircularProgress />
     </Box>
   );
 }

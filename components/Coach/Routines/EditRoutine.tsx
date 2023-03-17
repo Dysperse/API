@@ -14,7 +14,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
-import { EmojiPickerModal } from "../../Boards/Board";
+import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
 import { Puller } from "../../Puller";
 import { GoalCard } from "./GoalCard";
 

@@ -16,7 +16,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../hooks/useApi";
 import { toastStyles } from "../../../lib/useCustomTheme";
 import { useSession } from "../../../pages/_app";
-import { EmojiPickerModal } from "../../Boards/Board";
+import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
 import { Puller } from "../../Puller";
 
 export function CreateRoutine({ emblaApi, mutationUrl }) {

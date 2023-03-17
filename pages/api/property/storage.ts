@@ -1,5 +1,5 @@
 import { prisma } from "../../../lib/prismaClient";
-import { validatePermissions } from "../../../lib/validatePermissions";
+import { validatePermissions } from "../../../lib/server/validatePermissions";
 import { getItemCount } from "./inventory/room/itemCount";
 
 const handler = async (req, res) => {

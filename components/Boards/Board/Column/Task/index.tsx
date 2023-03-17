@@ -18,54 +18,13 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
 import { colors } from "../../../../../lib/colors";
 import { toastStyles } from "../../../../../lib/useCustomTheme";
-
-const ImageViewer = dynamic(() =>
-  import("./ImageViewer").then((mod) => mod.ImageViewer)
-);
-
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { TaskDrawer } from "./TaskDrawer";
 
-const renderText = (
-  txt: string,
-  rules: {
-    regex: RegExp;
-    element: any;
-  }[]
-) => {
-  let result: any = [];
-  let lastIndex = 0;
-  const regexes = rules.map((e) => e.regex);
-  const regex = new RegExp(regexes.map((r) => `(${r.source})`).join("|"), "g");
-
-  const matches = txt.match(regex);
-
-  if (!matches) {
-    return txt;
-  }
-
-  matches.forEach((match, index) => {
-    const matchIndex = txt.indexOf(match, lastIndex);
-
-    if (matchIndex > lastIndex) {
-      result.push(txt.slice(lastIndex, matchIndex));
-    }
-
-    const elementIndex = regexes.findIndex((r) => r.test(match));
-    const element = rules[elementIndex].element(match);
-
-    result.push(element);
-
-    lastIndex = matchIndex + match.length;
-  });
-
-  if (lastIndex < txt.length) {
-    result.push(txt.slice(lastIndex));
-  }
-
-  return result;
-};
+const ImageViewer = dynamic(() =>
+  import("./ImageViewer").then((mod) => mod.ImageViewer)
+);
 
 export const Task: any = React.memo(function Task({
   isSubTask = false,
