@@ -133,9 +133,17 @@ function RecentItems() {
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
+                          "& span img": {
+                            display: "inline-flex !important",
+                            width: "23px!important",
+                            height: "23px!important",
+                            verticalAlign: "top !important",
+                          },
                         }}
                       >
-                        <Twemoji>{item.name || " "}</Twemoji>
+                        <span>
+                          <Twemoji>{item.name || " "}</Twemoji>
+                        </span>
                       </Typography>
                       {item.lastUpdated && (
                         <Chip
