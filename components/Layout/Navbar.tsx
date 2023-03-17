@@ -124,9 +124,12 @@ export function Navbar(): JSX.Element {
               : window.location.href.includes("agenda")
               ? capitalizeFirstLetter(
                   isMobile &&
+                    window.location.hash.split("agenda/") &&
                     window.location.hash.split("agenda/")[1].includes("week")
                     ? "Day"
-                    : window.location.hash.split("agenda/")[1]
+                    : window.location.hash.split("agenda/")
+                    ? window.location.hash.split("agenda/")[1]
+                    : ""
                 )
               : router.asPath.includes("tasks")
               ? "Tasks"
