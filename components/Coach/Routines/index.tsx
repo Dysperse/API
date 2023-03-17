@@ -18,13 +18,14 @@ export function Routines() {
       sx={{
         display: "flex",
         alignItems: "center",
+        justifyContent: { sm: "center" },
         overflowX: "hidden",
         gap: 2,
         px: 2,
         mb: 2,
       }}
     >
-      {[...new Array(20)].map((_, index) => (
+      {[...new Array(7)].map((_, index) => (
         <Skeleton
           key={index}
           variant="circular"
