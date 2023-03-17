@@ -1,9 +1,9 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import toast from "react-hot-toast";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { Prompt } from "../TwoStepVerificationPrompt";
@@ -29,9 +29,8 @@ function LinkToken({ color }) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState("");
   const url = `https://${window.location.hostname}/invite/${token}`;
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const session = useSession();
 
   return (
@@ -153,9 +152,7 @@ export function AddPersonModal({
     []
   );
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  }, [open]);
+  useBackButton(() => setOpen(false));
 
   const ref: any = useRef();
   const session = useSession();

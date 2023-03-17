@@ -1,7 +1,6 @@
 import type { CustomRoom as Room } from "@prisma/client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
 import { useApi } from "../../../lib/client/useApi";
 import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
@@ -351,9 +350,7 @@ export default function AddPopup({
     document.getElementById("add_trigger")?.click();
   });
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   /**
    * Toggles the drawer's open state

@@ -14,8 +14,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import React, { cloneElement, useCallback, useEffect } from "react";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import React, { cloneElement, useCallback } from "react";
 import { useSession } from "../../pages/_app";
 import { updateSettings } from "../Settings/updateSettings";
 import { Color } from "./Color";
@@ -60,9 +59,7 @@ export function EditProperty({ children, color }: any) {
     [session.property.profile.name]
   );
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),

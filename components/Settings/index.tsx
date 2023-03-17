@@ -12,10 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React, { cloneElement, useEffect, useState } from "react";
+import React, { cloneElement, useState } from "react";
 import { mutate } from "swr";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
@@ -51,9 +51,8 @@ function SettingsMenu({
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const session = useSession();
 
   return (
@@ -162,9 +161,7 @@ export default function FullScreenDialog({
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() =>
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack()
-  );
+  useBackButton(() => setOpen(false));
 
   const trigger = cloneElement(children, {
     onClick: handleClickOpen,

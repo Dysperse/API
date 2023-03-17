@@ -1,9 +1,9 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
+import { useBackButton } from "../lib/client/useBackButton";
 import { toastStyles } from "../lib/client/useTheme";
 import { useSession } from "../pages/_app";
 import { Puller } from "./Puller";
@@ -61,10 +61,7 @@ export function Prompt({
       setButtonLoading(false);
     }
   };
-
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   return (
     <>

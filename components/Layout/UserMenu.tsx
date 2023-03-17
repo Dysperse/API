@@ -13,10 +13,9 @@ import {
   Tooltip,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { preload } from "swr";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
@@ -32,9 +31,7 @@ const Group = dynamic(() => import("../Group"));
 export default function InviteButton({ styles }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   useHotkeys(["ctrl+,"], (e) => {
     e.preventDefault();

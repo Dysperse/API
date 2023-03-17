@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { useWindowSize } from "react-use";
 import { mutate as mutateSWR } from "swr";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
@@ -252,9 +251,7 @@ export function DailyRoutine() {
   const { data, url } = useApi("user/routines");
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   useEffect(() => {
     if (window.location.hash == "#daily-routine") setOpen(true);

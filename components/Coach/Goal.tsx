@@ -10,8 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useEffect } from "react";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import React from "react";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 import { MoreOptions } from "./MoreOptions";
@@ -21,9 +20,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   return (
     <Box>

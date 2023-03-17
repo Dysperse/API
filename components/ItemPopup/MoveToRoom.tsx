@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
 import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { Puller } from "../Puller";
 
@@ -83,9 +82,8 @@ function Room({
 export default function MoveToRoom({ item, styles }) {
   const [open, setOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const storage = useAccountStorage();
   const session = useSession();
 

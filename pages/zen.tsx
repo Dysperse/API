@@ -23,8 +23,8 @@ import { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
 import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
-import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
 import { useApi } from "../lib/client/useApi";
+import { neutralizeBack, revivalBack } from "../lib/client/useBackButton";
 import { useSession } from "./_app";
 
 import useEmblaCarousel from "embla-carousel-react";
@@ -167,16 +167,7 @@ function RecentItems() {
 export default function Home() {
   const router = useRouter();
   const time = new Date().getHours();
-  const [editMode, setEditMode] = useState<boolean>(false);
-  useHotkeys("alt+e", (e) => {
-    e.preventDefault();
-    setEditMode((e) => !e);
-  });
   const session = useSession();
-
-  useEffect(() => {
-    editMode ? neutralizeBack(() => setEditMode(false)) : revivalBack();
-  });
 
   let greeting;
   if (time < 10) {
@@ -209,7 +200,7 @@ export default function Home() {
             pr: 2,
             gap: 1,
             height: "var(--navbar-height)",
-            position: { xs: editMode ? "fixed" : "absolute", md: "static" },
+            position: { xs: "absolute", md: "static" },
             background: session?.user?.darkMode
               ? "hsla(240,11%,10%, .5)"
               : "rgba(255,255,255,.5)",
@@ -226,7 +217,6 @@ export default function Home() {
               mr: { sm: 2 },
             }}
           >
-            {!editMode && (
               <Tooltip title="Jump to" placement="bottom-start">
                 <IconButton
                   onClick={() => {
@@ -237,7 +227,6 @@ export default function Home() {
                   <Icon className="outlined">bolt</Icon>
                 </IconButton>
               </Tooltip>
-            )}
           </Box>
         </Box>
         <Box
@@ -297,14 +286,13 @@ export default function Home() {
                     : "rgba(200, 200, 200, 0.3)",
                 }}
                 className="shadow-sm"
-                disableRipple={editMode}
-                onClick={() => !editMode && router.push("/tasks/#/agenda/week")}
+                onClick={() => router.push("/tasks/#/agenda/week")}
               >
                 <Icon sx={{ ml: 1 }}>task_alt</Icon>
                 <ListItemText
                   primary={<b>Today&apos;s agenda</b>}
                   secondary={
-                    !editMode && data
+                    data
                       ? data && data.length == 0
                         ? "You don't have any tasks scheduled for today"
                         : data &&
@@ -324,7 +312,7 @@ export default function Home() {
                               ? "tasks"
                               : "task"
                           } left for today`
-                      : !editMode && "Loading..."
+                      : "Loading"
                   }
                 />
                 {data &&
@@ -356,8 +344,7 @@ export default function Home() {
                     : "rgba(200, 200, 200, 0.3)",
                 }}
                 className="shadow-sm"
-                disableRipple={editMode}
-                onClick={() => !editMode && router.push("/tasks/#/backlog")}
+                onClick={() => router.push("/tasks/#/backlog")}
               >
                 <Icon sx={{ ml: 1 }}>auto_mode</Icon>
                 <b>Backlog</b>

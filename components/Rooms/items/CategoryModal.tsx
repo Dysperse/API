@@ -9,8 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
-import React, { useEffect } from "react";
-import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
+import React from "react";
 import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
 import { ItemCard } from "../ItemCard";
@@ -30,9 +29,8 @@ const CategoryModal = React.memo(function CategoryModal({
   const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState([]);
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const session = useSession();
 
   return (

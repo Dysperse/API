@@ -10,9 +10,9 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 
@@ -203,15 +203,9 @@ export default function AppsMenu({ styles }) {
    * @returns {any}
    */
   const handleClick = () => setOpen(true);
-  /**
-   * Closes the popup
-   * @returns void
-   */
-  const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    open ? neutralizeBack(handleClose) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const session = useSession();
   const appMenuStyles = {
     accordion: {
