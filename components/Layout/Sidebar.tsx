@@ -1,5 +1,5 @@
 import { openSpotlight } from "@mantine/spotlight";
-import { Box, Icon, Tooltip, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -164,7 +164,7 @@ export function Sidebar() {
           }),
         }}
       />
-      <Box sx={{ mt: "auto" }} />
+      <Box sx={{ mt: "auto", pt: 4 }} />
       <Box
         sx={styles(
           router.asPath === "/zen" ||
@@ -254,11 +254,15 @@ export function Sidebar() {
         }}
       >
         <SearchPopup styles={styles} />
-        <Tooltip title="Jump to" placement="right">
-          <Box onClick={() => openSpotlight()} sx={styles(false)}>
-            <Icon className="outlined">bolt</Icon>
-          </Box>
-        </Tooltip>
+        <Box
+          onClick={() => openSpotlight()}
+          onMouseDown={() => openSpotlight()}
+          sx={styles(false)}
+        >
+          <Tooltip title="Jump to" placement="right">
+            <span className="material-symbols-outlined">bolt</span>
+          </Tooltip>
+        </Box>
         <InviteButton styles={styles} />
       </Box>
     </Box>
