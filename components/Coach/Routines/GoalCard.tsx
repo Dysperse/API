@@ -38,8 +38,8 @@ export function GoalCard({ setData, routine, goal, goals }) {
       variant="outlined"
       sx={{
         my: 1,
-        background: "hsl(240, 11%, 18%)",
-        color: "hsl(240, 11%, 90%)",
+        background: "hsl(240, 11%, 95%)",
+        color: "hsl(240, 11%, 10%)",
       }}
       onClick={handleClick}
     >
