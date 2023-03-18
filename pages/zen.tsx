@@ -56,7 +56,12 @@ function RecentItems() {
     <>
       <Typography
         variant="h6"
-        sx={{ mt: 3, ml: 0, mb: 1.5 }}
+        sx={{
+          mt: 3,
+          ml: 0,
+          mb: 1.5,
+          ...(data.length === 0 && { display: "none" }),
+        }}
         className="select-none px-4 sm:px-7"
       >
         Recently edited
