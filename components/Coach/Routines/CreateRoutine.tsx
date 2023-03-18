@@ -119,13 +119,13 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
               overflow: "hidden",
             }}
           >
-            Routine
+            New routine
           </Typography>
         </Box>
       </Box>
 
       <Box
-        onClick={() => router.push("/coach")}
+        onClick={() => router.push("/coach#create")}
         sx={{
           flexShrink: 0,
           borderRadius: 5,
@@ -159,7 +159,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             position: "relative",
           }}
         >
-          <Icon className="outlined">auto_awesome</Icon>
+          <Icon className="outlined">loupe</Icon>
         </Box>
         <Box sx={{ width: "100%" }}>
           <Typography
@@ -172,7 +172,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
               overflow: "hidden",
             }}
           >
-            Goal
+            New goal
           </Typography>
         </Box>
       </Box>

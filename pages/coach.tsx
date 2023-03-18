@@ -157,9 +157,8 @@ export const Task: any = React.memo(function Task({ task }: any) {
 });
 
 export default function Render() {
-  const time = new Date().getHours();
-
   const [hideRoutine, setHideRoutine] = useState<boolean>(false);
+
   return (
     <Box sx={{ position: "relative" }}>
       <Head>

@@ -14,22 +14,21 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
-import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
-import { useApi } from "../lib/client/useApi";
-import { useSession } from "./_app";
-
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Twemoji } from "react-emoji-render";
+import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
 import { Routines } from "../components/Coach/Routines";
+import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
+import { useApi } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
+import { useSession } from "./_app";
 
 function RecentItems() {
   const trigger = useMediaQuery("(min-width: 600px)");

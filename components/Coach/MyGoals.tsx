@@ -39,12 +39,23 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       setHideRoutine(false);
     }
   }, [data, setHideRoutine]);
+
+  useEffect(() => {
+    if (window.location.hash && window.location.hash === "#create") {
+      window.location.hash = "";
+      setOpen(true);
+    }
+  });
+
   return (
     <>
       <SwipeableDrawer
         anchor="right"
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          window.location.hash = "";
+          setOpen(false);
+        }}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
