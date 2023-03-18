@@ -91,124 +91,110 @@ export function CreateGoal({ mutationUrl }) {
   return (
     <>
       <SwipeableDrawer
-        anchor="right"
+        anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
-        PaperProps={{
-          sx: {
-            backgroundColor: "hsl(240,11%,90%)",
-            color: "hsl(240,11%,10%)",
-            ...(session.user.darkMode && {
-              backgroundColor: "hsl(240,11%,10%)",
-              color: "hsl(240,11%,70%)",
-            }),
-          },
-        }}
       >
-        <Box sx={{ width: "100vw", maxWidth: "500px" }}>
-          <AppBar
-            elevation={0}
-            sx={{
-              zIndex: 10,
-              background: "transparent",
-              color: session.user.darkMode ? "#fff" : "hsl(240,11%,5%)",
-            }}
-            position="sticky"
-          >
-            <Toolbar sx={{ height: "64px" }}>
-              <IconButton color="inherit" onClick={() => setOpen(false)}>
-                <Icon>west</Icon>
-              </IconButton>
-              <Typography sx={{ mx: "auto", fontWeight: "600" }}>
-                Create goal
-              </Typography>
-              <IconButton
-                color="inherit"
-                sx={{
-                  visibility: "hidden",
-                }}
-                onClick={() => setOpen(false)}
-              >
-                <Icon>more_horiz</Icon>
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-
-          <Box sx={{ p: 5, pt: 3 }}>
-            <TextField
-              inputRef={titleRef}
-              variant="filled"
-              label="Goal name"
-              margin="dense"
-            />
-            <TextField
-              variant="filled"
-              multiline
-              rows={3}
-              inputRef={descriptionRef}
-              label="Add a description (optional)"
-              placeholder="Speak Spanish for 10 minutes, every day"
-              margin="dense"
-            />
-            <TextField
-              variant="filled"
-              inputRef={goalStepName}
-              margin="dense"
-              label="Goal step name"
-              helperText={`For example, if you want to learn a new language, the step name would be: "Practice for 30 minutes today"`}
-            />
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <TextField
-                variant="filled"
-                inputRef={durationRef}
-                margin="dense"
-                label="Goal duration (in days)"
-              />
-
-              <FormControl fullWidth variant="filled">
-                <InputLabel id="demo-simple-select-label">
-                  Time of day
-                </InputLabel>
-                <Select
-                  margin="dense"
-                  variant="filled"
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={time}
-                  label="Time of day"
-                  fullWidth
-                  onChange={handleChange}
-                >
-                  <MenuItem value={"any"}>Any time</MenuItem>
-                  <MenuItem value={"morning"}>Morning</MenuItem>
-                  <MenuItem value={"afternoon"}>Afternoon</MenuItem>
-                  <MenuItem value={"evening"}>Evening</MenuItem>
-                  <MenuItem value={"night"}>Night</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <LoadingButton
-              fullWidth
-              size="large"
-              variant="contained"
-              loading={loading}
+        <AppBar
+          elevation={0}
+          sx={{
+            zIndex: 10,
+            background: "transparent",
+            color: session.user.darkMode ? "#fff" : "hsl(240,11%,5%)",
+          }}
+          position="sticky"
+        >
+          <Toolbar sx={{ height: "64px" }}>
+            <IconButton color="inherit" onClick={() => setOpen(false)}>
+              <Icon>expand_more</Icon>
+            </IconButton>
+            <Typography sx={{ mx: "auto", fontWeight: "600" }}>
+              Create goal
+            </Typography>
+            <IconButton
+              color="inherit"
               sx={{
-                mt: 5,
+                visibility: "hidden",
               }}
-              onClick={handleSubmit}
+              onClick={() => setOpen(false)}
             >
-              Set goal
-              <Icon
-                sx={{
-                  marginLeft: "auto",
-                }}
+              <Icon>more_horiz</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+
+        <Box sx={{ p: 5, pt: 3 }}>
+          <TextField
+            inputRef={titleRef}
+            variant="filled"
+            label="Goal name"
+            margin="dense"
+          />
+          <TextField
+            variant="filled"
+            multiline
+            rows={3}
+            inputRef={descriptionRef}
+            label="Add a description (optional)"
+            placeholder="Speak Spanish for 10 minutes, every day"
+            margin="dense"
+          />
+          <TextField
+            variant="filled"
+            inputRef={goalStepName}
+            margin="dense"
+            label="Goal step name"
+            helperText={`For example, if you want to learn a new language, the step name would be: "Practice for 30 minutes today"`}
+          />
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <TextField
+              variant="filled"
+              inputRef={durationRef}
+              margin="dense"
+              label="Goal duration (in days)"
+            />
+
+            <FormControl fullWidth variant="filled">
+              <InputLabel id="demo-simple-select-label">Time of day</InputLabel>
+              <Select
+                margin="dense"
+                variant="filled"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={time}
+                label="Time of day"
+                fullWidth
+                onChange={handleChange}
               >
-                rocket_launch
-              </Icon>
-            </LoadingButton>
+                <MenuItem value={"any"}>Any time</MenuItem>
+                <MenuItem value={"morning"}>Morning</MenuItem>
+                <MenuItem value={"afternoon"}>Afternoon</MenuItem>
+                <MenuItem value={"evening"}>Evening</MenuItem>
+                <MenuItem value={"night"}>Night</MenuItem>
+              </Select>
+            </FormControl>
           </Box>
+          <LoadingButton
+            fullWidth
+            size="large"
+            variant="contained"
+            loading={loading}
+            sx={{
+              mt: 5,
+            }}
+            onClick={handleSubmit}
+          >
+            Set goal
+            <Icon
+              sx={{
+                marginLeft: "auto",
+              }}
+            >
+              rocket_launch
+            </Icon>
+          </LoadingButton>
         </Box>
       </SwipeableDrawer>
       <Button
