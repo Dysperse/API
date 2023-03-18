@@ -4,7 +4,7 @@ import {
   Icon,
   IconButton,
   useMediaQuery,
-  useScrollTrigger
+  useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
