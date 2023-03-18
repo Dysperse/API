@@ -40,13 +40,6 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
     }
   }, [data, setHideRoutine]);
 
-  useEffect(() => {
-    if (window.location.hash && window.location.hash === "#create") {
-      window.location.hash = "";
-      setOpen(true);
-    }
-  });
-
   return (
     <>
       <SwipeableDrawer

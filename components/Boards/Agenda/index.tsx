@@ -4,10 +4,10 @@ import {
   Icon,
   IconButton,
   useMediaQuery,
-  useScrollTrigger,
+  useScrollTrigger
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
@@ -99,6 +99,21 @@ export function Agenda({
     startTime: startOfWeek.toISOString(),
     endTime: endOfWeek.toISOString(),
   });
+
+  useEffect(() => {
+    if (navigation == 0 && data) {
+      setTimeout(() => {
+        const activeHighlight = document.getElementById("activeHighlight");
+        if (activeHighlight)
+          activeHighlight.scrollIntoView({
+            block: "nearest",
+            inline: "center",
+          });
+        window.scrollTo(0, 0);
+      }, 1);
+    }
+  });
+
   const session = useSession();
 
   return (

@@ -1,12 +1,5 @@
-import Masonry from "@mui/lab/Masonry";
-import { SelectChangeEvent } from "@mui/material/Select";
-import React from "react";
-import toast from "react-hot-toast";
-import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
-import { categories, goals } from "./goalTemplates";
-
 import { LoadingButton } from "@mui/lab";
+import Masonry from "@mui/lab/Masonry";
 import {
   AppBar,
   Box,
@@ -24,9 +17,15 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select";
 import Image from "next/image";
+import React from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
+import { categories, goals } from "./goalTemplates";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -34,7 +33,7 @@ interface TabPanelProps {
   value: number;
 }
 
-function CreateGoal({ mutationUrl }) {
+export function CreateGoal({ mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
   const [time, setTime] = React.useState("");
@@ -220,12 +219,13 @@ function CreateGoal({ mutationUrl }) {
       <Button
         onClick={() => setOpen(true)}
         id="createBlankGoalTrigger"
-        sx={{ transition: "none", mb: 2, ml: 5 }}
+        sx={{ transition: "none", ml: "auto" }}
         size="small"
+        variant="contained"
         disableRipple
       >
+        <Icon className="outlined">add</Icon>
         Create blank goal
-        <Icon className="outlined">add_circle</Icon>
       </Button>
     </>
   );

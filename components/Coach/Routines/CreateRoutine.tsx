@@ -1,23 +1,302 @@
-import { LoadingButton } from "@mui/lab";
+import { LoadingButton, Masonry } from "@mui/lab";
 import {
+  AppBar,
   Box,
   Button,
+  Chip,
   Icon,
+  IconButton,
   MenuItem,
   Select,
   SwipeableDrawer,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
+import { colors } from "../../../lib/colors";
 import { useSession } from "../../../pages/_app";
 import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
+import { CreateGoal as CreateCustomGoal } from "../../Coach/ExploreGoals";
 import { Puller } from "../../Puller";
+import { categories, goals } from "../goalTemplates";
+
+function FeaturedGoal({ goal }) {
+  const randomColors = [
+    "green",
+    "red",
+    "orange",
+    "pink",
+    "purple",
+    "deepOrange",
+    "blueGrey",
+    "lime",
+  ];
+  const randomColor =
+    randomColors[Math.floor(Math.random() * randomColors.length)];
+
+  return (
+    <Box
+      sx={{
+        background: `linear-gradient(45deg, ${colors[randomColor]["A200"]}, ${colors[randomColor]["A400"]})`,
+        p: 5,
+        borderRadius: 5,
+        pt: 20,
+        userSelect: "none",
+        color: "#000",
+      }}
+    >
+      <Chip
+        label="Featured"
+        sx={{
+          px: 1,
+          mb: 0.5,
+          color: "#000",
+          fontWeight: 700,
+          background: "rgba(0,0,0,0.1)",
+        }}
+      />
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box>
+          <Typography
+            variant="h2"
+            className="font-heading"
+            sx={{ fontSize: { xs: "40px", sm: "50px" } }}
+          >
+            {goal.name}
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+              mt: 1,
+            }}
+          >
+            <Typography variant="body2">{goal.category} &bull;</Typography>
+            <Typography variant="body2">
+              {goal.durationDays} days &bull;
+            </Typography>
+            <Typography variant="body2">
+              Every {goal.time === "any" ? "day" : goal.time}
+            </Typography>
+          </Box>
+        </Box>
+        <Icon
+          sx={{
+            ml: "auto",
+            display: { xs: "none!important", sm: "unset!important" },
+          }}
+        >
+          arrow_forward_ios
+        </Icon>
+      </Box>
+    </Box>
+  );
+}
+
+function ExploreGoalCard({ goal }) {
+  const session = useSession();
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <Box
+      onClick={async () => {
+        setLoading(true);
+        try {
+          await fetchApiWithoutHook("user/routines/create", {
+            name: goal.name,
+            stepName: goal.stepName,
+            category: goal.category,
+            durationDays: goal.durationDays,
+            time: goal.time,
+          });
+          setLoading(false);
+          // await mutate(mutationUrl);
+        } catch (e) {
+          setLoading(false);
+          toast.error(
+            "An error occurred while trying to set your goal. Please try again.",
+            toastStyles
+          );
+        }
+      }}
+      sx={{
+        ...(loading && {
+          pointerEvents: "none",
+          opacity: 0.5,
+        }),
+        background: session.user.darkMode
+          ? "hsl(240,11%,20%)"
+          : "rgba(200,200,200,.3)",
+        borderRadius: 5,
+        p: 2,
+        cursor: "pointer",
+        transition: "all .1s ease-in-out",
+        "&:active": {
+          transition: "none",
+          transform: "scale(.98)",
+        },
+        userSelect: "none",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <Box>
+        <Typography sx={{ fontWeight: "600" }}>{goal.name}</Typography>
+        <Typography variant="body2">{goal.description}</Typography>
+      </Box>
+      <Icon
+        sx={{
+          ml: "auto",
+        }}
+      >
+        east
+      </Icon>
+    </Box>
+  );
+}
+
+function CreateGoal() {
+  const session = useSession();
+  const router = useRouter();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = useCallback(() => setOpen(true), [setOpen]);
+  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+
+  const randomGoal = goals[Math.floor(Math.random() * goals.length)];
+  const shuffled = goals.sort(() => Math.random() - 0.5);
+
+  return (
+    <>
+      <SwipeableDrawer
+        disableSwipeToOpen
+        open={open}
+        onOpen={handleOpen}
+        onClose={handleClose}
+        anchor="bottom"
+        PaperProps={{
+          sx: {
+            width: "100vw",
+            height: "100vh",
+            maxWidth: "100vw",
+          },
+        }}
+      >
+        <AppBar
+          sx={{
+            background: "rgba(255,255,255,.8)",
+          }}
+        >
+          <Toolbar sx={{ gap: 2 }}>
+            <IconButton onClick={handleClose}>
+              <Icon>expand_more</Icon>
+            </IconButton>
+            <Typography sx={{ fontWeight: 700 }}>Explore</Typography>
+            <CreateCustomGoal mutationUrl="" />
+          </Toolbar>
+        </AppBar>
+        <Box
+          sx={{
+            p: { xs: 2, sm: 4 },
+          }}
+        >
+          <FeaturedGoal goal={randomGoal} />
+          <Box
+            sx={{
+              px: 3,
+            }}
+          >
+            <Typography variant="h4" sx={{ mb: 4, mt: 7 }}>
+              Freshly picked for <i>you</i>.
+            </Typography>
+            <Box sx={{ mr: -2 }}>
+              <Masonry spacing={2} columns={{ xs: 1, sm: 2, md: 3 }}>
+                {shuffled.slice(0, 6).map((goal, index) => (
+                  <ExploreGoalCard key={index} goal={goal} />
+                ))}
+              </Masonry>
+            </Box>
+
+            {categories.map((category) => (
+              <Box key={category}>
+                <Typography variant="h4" sx={{ mb: 4, mt: 7 }}>
+                  {category}
+                </Typography>
+                <Box sx={{ mr: -2 }}>
+                  <Masonry spacing={2} columns={{ xs: 1, sm: 2, md: 3 }}>
+                    {shuffled
+                      .filter((goal) => goal.category === category)
+                      .map((goal, index) => (
+                        <ExploreGoalCard key={index} goal={goal} />
+                      ))}
+                  </Masonry>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </SwipeableDrawer>
+      <Box
+        onClick={handleOpen}
+        sx={{
+          flexShrink: 0,
+          borderRadius: 5,
+          flex: "0 0 70px",
+          gap: 0.4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          overflow: "hidden",
+          userSelect: "none",
+          p: 1,
+          transition: "transform .2s",
+          "&:hover": {
+            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+          },
+          "&:active": {
+            transition: "none",
+            transform: "scale(.95)",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            borderRadius: 9999,
+            width: 60,
+            height: 60,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(200,200,200,.2)",
+            position: "relative",
+          }}
+        >
+          <Icon className="outlined">loupe</Icon>
+        </Box>
+        <Box sx={{ width: "100%" }}>
+          <Typography
+            variant="body2"
+            sx={{
+              whiteSpace: "nowrap",
+              textAlign: "center",
+              textOverflow: "ellipsis",
+              fontSize: "13px",
+              overflow: "hidden",
+            }}
+          >
+            New goal
+          </Typography>
+        </Box>
+      </Box>
+    </>
+  );
+}
 
 export function CreateRoutine({ emblaApi, mutationUrl }) {
   const session = useSession();
@@ -124,58 +403,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
         </Box>
       </Box>
 
-      <Box
-        onClick={() => router.push("/coach#create")}
-        sx={{
-          flexShrink: 0,
-          borderRadius: 5,
-          flex: "0 0 70px",
-          gap: 0.4,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          overflow: "hidden",
-          userSelect: "none",
-          p: 1,
-          transition: "transform .2s",
-          "&:hover": {
-            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
-          },
-          "&:active": {
-            transition: "none",
-            transform: "scale(.95)",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            borderRadius: 9999,
-            width: 60,
-            height: 60,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "rgba(200,200,200,.2)",
-            position: "relative",
-          }}
-        >
-          <Icon className="outlined">loupe</Icon>
-        </Box>
-        <Box sx={{ width: "100%" }}>
-          <Typography
-            variant="body2"
-            sx={{
-              whiteSpace: "nowrap",
-              textAlign: "center",
-              textOverflow: "ellipsis",
-              fontSize: "13px",
-              overflow: "hidden",
-            }}
-          >
-            New goal
-          </Typography>
-        </Box>
-      </Box>
+      <CreateGoal />
 
       <SwipeableDrawer
         open={open}
