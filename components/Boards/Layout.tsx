@@ -112,7 +112,7 @@ export function TasksLayout() {
       );
       if (hashBoard) {
         setActiveTab(window.location.hash?.replace("#", ""));
-      } else {
+      } else if (data[0]) {
         setActiveTab(data[0].id);
       }
     } else if (!data[0]) {
