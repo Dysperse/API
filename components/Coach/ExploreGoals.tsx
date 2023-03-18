@@ -225,7 +225,7 @@ export function CreateGoal({ mutationUrl }) {
         disableRipple
       >
         <Icon className="outlined">add</Icon>
-        Create blank goal
+        Blank goal
       </Button>
     </>
   );
