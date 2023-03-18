@@ -16,8 +16,6 @@ import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
 
-const ExploreGoals = dynamic(() => import("./ExploreGoals"));
-
 export function MyGoals({ setHideRoutine }): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
@@ -97,7 +95,6 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <ExploreGoals setOpen={setOpen} mutationUrl={url} />
       </SwipeableDrawer>
 
       {data ? (

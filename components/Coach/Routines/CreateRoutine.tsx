@@ -23,8 +23,8 @@ import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
 import { useSession } from "../../../pages/_app";
 import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
-import { CreateGoal as CreateCustomGoal } from "../../Coach/ExploreGoals";
 import { Puller } from "../../Puller";
+import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
 import { categories, goals } from "../goalTemplates";
 
 function FeaturedGoal({ goal }) {
@@ -45,11 +45,16 @@ function FeaturedGoal({ goal }) {
     <Box
       sx={{
         background: `linear-gradient(45deg, ${colors[randomColor]["A200"]}, ${colors[randomColor]["A400"]})`,
-        p: 5,
+        p: { xs: 3, sm: 5 },
         borderRadius: 5,
-        pt: 20,
+        pt: { xs: 15, sm: 20 },
         userSelect: "none",
         color: "#000",
+        transition: "all .2s",
+        "&:active": {
+          transform: "scale(.97)",
+          transition: "none",
+        },
       }}
     >
       <Chip
@@ -211,11 +216,19 @@ function CreateGoal() {
           <FeaturedGoal goal={randomGoal} />
           <Box
             sx={{
-              px: 3,
+              px: { xs: 1, sm: 3 },
             }}
           >
-            <Typography variant="h4" sx={{ mb: 4, mt: 7 }}>
-              Freshly picked for <i>you</i>.
+            <Typography
+              variant="h4"
+              sx={{
+                mb: { xs: 2, sm: 4 },
+                mt: { xs: 5, sm: 7 },
+                ml: { xs: 2, sm: 0 },
+                fontSize: { xs: 25, sm: 35 },
+              }}
+            >
+              Freshly picked for you
             </Typography>
             <Box sx={{ mr: -2 }}>
               <Masonry spacing={2} columns={{ xs: 1, sm: 2, md: 3 }}>
@@ -226,8 +239,16 @@ function CreateGoal() {
             </Box>
 
             {categories.map((category) => (
-              <Box key={category}>
-                <Typography variant="h4" sx={{ mb: 4, mt: 7 }}>
+              <Box
+                key={category}
+                sx={{
+                  px: { xs: 1, sm: 3 },
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{ mb: 4, mt: 7, fontSize: { xs: 30, sm: 25 } }}
+                >
                   {category}
                 </Typography>
                 <Box sx={{ mr: -2 }}>
