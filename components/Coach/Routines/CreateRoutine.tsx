@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Chip,
+  Drawer,
   Icon,
   IconButton,
   MenuItem,
@@ -174,10 +175,11 @@ function CreateGoal() {
 
   return (
     <>
-      <SwipeableDrawer
-        disableSwipeToOpen
+      <Drawer
+        ModalProps={{
+          keepMounted: false,
+        }}
         open={open}
-        onOpen={handleOpen}
         onClose={handleClose}
         anchor="bottom"
         PaperProps={{
@@ -241,7 +243,7 @@ function CreateGoal() {
             ))}
           </Box>
         </Box>
-      </SwipeableDrawer>
+      </Drawer>
       <Box
         onClick={handleOpen}
         sx={{
