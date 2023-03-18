@@ -27,7 +27,9 @@ import { Puller } from "../../Puller";
 import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
 import { categories, goals } from "../goalTemplates";
 
-function FeaturedGoal({ goal }) {
+function FeaturedGoal({ mutationUrl, setOpen, goal }) {
+  const [loading, setLoading] = useState(false);
+
   const randomColors = [
     "green",
     "red",
@@ -43,11 +45,33 @@ function FeaturedGoal({ goal }) {
 
   return (
     <Box
+      onClick={async () => {
+        setLoading(true);
+        try {
+          await fetchApiWithoutHook("user/routines/create", {
+            name: goal.name,
+            stepName: goal.stepName,
+            category: goal.category,
+            durationDays: goal.durationDays,
+            time: goal.time,
+          });
+          await mutate(mutationUrl);
+          setLoading(false);
+          setOpen(false);
+        } catch (e) {
+          setLoading(false);
+          toast.error(
+            "An error occurred while trying to set your goal. Please try again.",
+            toastStyles
+          );
+        }
+      }}
       sx={{
         background: `linear-gradient(45deg, ${colors[randomColor]["A200"]}, ${colors[randomColor]["A400"]})`,
         p: { xs: 3, sm: 5 },
         borderRadius: 5,
         pt: { xs: 15, sm: 20 },
+        ...(loading && { opacity: 0 }),
         userSelect: "none",
         color: "#000",
         transition: "all .2s",
@@ -213,7 +237,7 @@ function CreateGoal() {
             p: { xs: 2, sm: 4 },
           }}
         >
-          <FeaturedGoal goal={randomGoal} />
+          <FeaturedGoal goal={randomGoal} mutationUrl="" setOpen={setOpen} />
           <Box
             sx={{
               px: { xs: 1, sm: 2 },
