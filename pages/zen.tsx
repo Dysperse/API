@@ -14,7 +14,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
@@ -60,7 +60,7 @@ function RecentItems() {
           mt: 3,
           ml: 0,
           mb: 1.5,
-          ...(data.length === 0 && { display: "none" }),
+          ...(data && data.length === 0 && { display: "none" }),
         }}
         className="select-none px-4 sm:px-7"
       >
