@@ -216,7 +216,7 @@ function CreateGoal() {
           <FeaturedGoal goal={randomGoal} />
           <Box
             sx={{
-              px: { xs: 1, sm: 3 },
+              px: { xs: 1, sm: 2 },
             }}
           >
             <Typography
@@ -225,7 +225,7 @@ function CreateGoal() {
                 mb: { xs: 2, sm: 4 },
                 mt: { xs: 5, sm: 7 },
                 ml: { xs: 2, sm: 0 },
-                fontSize: { xs: 25, sm: 35 },
+                fontSize: { xs: 25, sm: 30 },
               }}
             >
               Freshly picked for you
@@ -242,12 +242,12 @@ function CreateGoal() {
               <Box
                 key={category}
                 sx={{
-                  px: { xs: 1, sm: 3 },
+                  px: { xs: 1, sm: 2 },
                 }}
               >
                 <Typography
                   variant="h4"
-                  sx={{ mb: 4, mt: 7, fontSize: { xs: 30, sm: 25 } }}
+                  sx={{ mb: 4, mt: 7, fontSize: { xs: 30, sm: 30 } }}
                 >
                   {category}
                 </Typography>
