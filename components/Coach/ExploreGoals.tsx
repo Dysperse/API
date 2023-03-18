@@ -219,7 +219,7 @@ export function CreateGoal({ mutationUrl }) {
       <Button
         onClick={() => setOpen(true)}
         id="createBlankGoalTrigger"
-        sx={{ transition: "none", ml: "auto" }}
+        sx={{ transition: "none", ml: "auto", pr: 2 }}
         size="small"
         variant="contained"
         disableRipple
