@@ -477,7 +477,7 @@ export function CreateTask({
               autoFocus
               variant="standard"
               onKeyDown={(e) => {
-                if (e.key == "Enter" && e.ctrlKey) handleSubmit(e);
+                if (e.key == "Enter") handleSubmit(e);
               }}
               placeholder={
                 placeholder
