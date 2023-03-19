@@ -11,9 +11,9 @@ import EmojiPicker from "emoji-picker-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
+import { toastStyles } from "../../../../lib/client/useTheme";
 import { colors } from "../../../../lib/colors";
-import { toastStyles } from "../../../../lib/useCustomTheme";
 import { useAccountStorage, useSession } from "../../../../pages/_app";
 import { Puller } from "../../../Puller";
 
@@ -101,13 +101,13 @@ export default function CreateColumn({
                 mb: 2,
               }
             : {
-                backgroundColor: session?.user?.darkMode
+                backgroundColor: session.user.darkMode
                   ? "hsl(240,11%,13%)"
                   : "rgba(200, 200, 200, 0.3)",
                 width: "400px",
                 flex: "0 0 auto",
                 mr: 2,
-                border: session?.user?.darkMode
+                border: session.user.darkMode
                   ? "1px solid hsl(240,11%,30%)!important"
                   : "1px solid rgba(200, 200, 200, 0.9)",
               }),
@@ -121,7 +121,7 @@ export default function CreateColumn({
             size="small"
             sx={{
               px: 1,
-              background: session?.user?.darkMode
+              background: session.user.darkMode
                 ? "hsl(240,11%,17%)"
                 : "rgba(200, 200, 200, 0.3)!important",
               borderRadius: 5,
@@ -149,7 +149,7 @@ export default function CreateColumn({
             InputProps={{
               disableUnderline: true,
               sx: {
-                background: session?.user?.darkMode
+                background: session.user.darkMode
                   ? "hsl(240,11%,20%)"
                   : "rgba(200, 200, 200, 0.3)",
                 fontWeight: "600",
@@ -226,7 +226,7 @@ export default function CreateColumn({
       >
         <EmojiPicker
           skinTonePickerLocation={"PREVIEW" as any}
-          theme={(session?.user?.darkMode ? "dark" : "light") as any}
+          theme={(session.user.darkMode ? "dark" : "light") as any}
           lazyLoadEmojis
           width="100%"
           onEmojiClick={(event) => {

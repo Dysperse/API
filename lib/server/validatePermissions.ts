@@ -1,5 +1,5 @@
 import cacheData from "memory-cache";
-import { prisma } from "./prismaClient";
+import { prisma } from "./prisma";
 const hours = 69;
 
 /**

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { toastStyles } from "../lib/useCustomTheme";
+import { toastStyles } from "../lib/client/useTheme";
 
 export function ConfirmationModal({
   disabled = false,
@@ -22,7 +22,10 @@ export function ConfirmationModal({
   const [loading, setLoading] = useState<boolean>(false);
 
   const trigger = React.cloneElement(children, {
-    onClick: () => setOpen(true),
+    onClick: (e) => {
+      e.stopPropagation();
+      setOpen(true);
+    },
   });
 
   const handleClick: any = useCallback(async () => {
@@ -48,6 +51,7 @@ export function ConfirmationModal({
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
+        onClick={(e) => e.stopPropagation()}
         sx={{
           zIndex: 9999,
         }}

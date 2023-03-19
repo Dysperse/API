@@ -7,9 +7,9 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../../hooks/useApi";
+import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
 import { Column } from "./Column";
 
@@ -99,6 +99,21 @@ export function Agenda({
     startTime: startOfWeek.toISOString(),
     endTime: endOfWeek.toISOString(),
   });
+
+  useEffect(() => {
+    if (navigation == 0 && data) {
+      setTimeout(() => {
+        const activeHighlight = document.getElementById("activeHighlight");
+        if (activeHighlight)
+          activeHighlight.scrollIntoView({
+            block: "nearest",
+            inline: "center",
+          });
+        window.scrollTo(0, 0);
+      }, 1);
+    }
+  });
+
   const session = useSession();
 
   return (
@@ -126,14 +141,14 @@ export function Agenda({
           },
           left: "10px",
           zIndex: 9,
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsla(240,11%,14%,0.5)!important"
             : "rgba(255,255,255,.5)!important",
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           backdropFilter: "blur(10px)",
           border: {
-            xs: session?.user?.darkMode
+            xs: session.user.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid rgba(200,200,200,.3)",
             md: "unset",
@@ -141,7 +156,7 @@ export function Agenda({
           fontWeight: "700",
           display: { md: "none" },
           fontSize: "15px",
-          color: session?.user?.darkMode ? "#fff" : "#000",
+          color: session.user.darkMode ? "#fff" : "#000",
         }}
       >
         <Icon>menu</Icon>
@@ -161,7 +176,7 @@ export function Agenda({
             md: 3,
           },
           zIndex: 9,
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsla(240,11%,14%,0.5)"
             : "rgba(255,255,255,.5)",
           border: "1px solid",
@@ -170,15 +185,14 @@ export function Agenda({
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
-          borderColor: session?.user?.darkMode
+          borderColor: session.user.darkMode
             ? "hsla(240,11%,25%, 0.5)"
             : "rgba(200,200,200, 0.5)",
           right: 0,
-          color: session?.user?.darkMode ? "#fff" : "#000",
+          color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",
           alignItems: "center",
-          p: 1,
-          py: 0.5,
+          p: 0.5,
         }}
       >
         <IconButton
@@ -194,12 +208,12 @@ export function Agenda({
           sx={{
             "&:active": {
               background: `${
-                session?.user?.darkMode
+                session.user.darkMode
                   ? "hsla(240,11%,25%, 0.3)"
                   : "rgba(0,0,0,0.1)"
               }`,
             },
-            color: session?.user?.darkMode ? "#fff" : "#000",
+            color: session.user.darkMode ? "#fff" : "#000",
             px: 1.7,
           }}
           color="inherit"
@@ -224,7 +238,7 @@ export function Agenda({
       >
         {days.map((day) => (
           <Column
-          navigation={navigation}
+            navigation={navigation}
             key={day.day}
             day={day}
             view={view}

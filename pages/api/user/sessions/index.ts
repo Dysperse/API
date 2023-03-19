@@ -1,4 +1,4 @@
-import { prisma } from "../../../../lib/prismaClient";
+import { prisma } from "../../../../lib/server/prisma";
 
 const handler = async (req, res) => {
   const session = await prisma.session.findMany({

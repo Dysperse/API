@@ -11,12 +11,10 @@ import {
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
-import { useApi } from "../../hooks/useApi";
+import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
-
-const ExploreGoals = dynamic(() => import("./ExploreGoals"));
 
 export function MyGoals({ setHideRoutine }): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -28,7 +26,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
     tag.setAttribute(
       "content",
-      open ? "#814f41" : session?.user?.darkMode ? "hsl(240,11%,10%)" : "#fff"
+      open ? "#814f41" : session.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
     );
   });
 
@@ -39,24 +37,31 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       setHideRoutine(false);
     }
   }, [data, setHideRoutine]);
+
   return (
     <>
       <SwipeableDrawer
         anchor="right"
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          window.location.hash = "";
+          setOpen(false);
+        }}
         onOpen={() => setOpen(true)}
+        disableSwipeToOpen
         PaperProps={{
           sx: {
             width: "100vw",
             maxWidth: "700px",
-            ...(session?.user?.darkMode && {
+            ...(session.user.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
           },
         }}
       >
-        <AppBar>
+        <AppBar
+          sx={{ background: "transparent", border: 0, backdropFilter: "none" }}
+        >
           <Toolbar sx={{ height: "64px" }}>
             <IconButton color="inherit" onClick={() => setOpen(false)}>
               <span
@@ -90,7 +95,6 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <ExploreGoals setOpen={setOpen} mutationUrl={url} />
       </SwipeableDrawer>
 
       {data ? (
@@ -115,23 +119,20 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                   py: 0.5,
                   borderRadius: 999,
                   gap: "10px",
-                  backgroundColor: session?.user?.darkMode
+                  backgroundColor: session.user.darkMode
                     ? "hsl(240,11%,14%)"
                     : "rgba(200,200,200,.3)",
                 }}
               >
                 <picture>
                   <img
-                    src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
+                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
                     alt="trophy"
                     width={20}
                     height={20}
-                    style={{
-                      transform: "rotate(-15deg)",
-                    }}
                   />
                 </picture>
-                <span>{session?.user?.trophies}</span>
+                <span>{session.user.trophies}</span>
               </Box>
             </Box>
           )}
@@ -239,10 +240,10 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         style={{
           textAlign: "left",
           cursor: "unset",
-          ...(session?.user?.darkMode && {
+          ...(session.user.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
           }),
-          color: session?.user?.darkMode ? "#fff" : "#000",
+          color: session.user.darkMode ? "#fff" : "#000",
         }}
       >
         <div>

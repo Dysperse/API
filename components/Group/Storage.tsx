@@ -1,5 +1,5 @@
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
-import { useApi } from "../../hooks/useApi";
+import { useApi } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 import type { ApiResponse } from "../../types/client";
@@ -56,7 +56,7 @@ export function Storage({
             userSelect: "none",
             px: 2.5,
             borderRadius: 5,
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,20%)"
               : colors[color][50],
           }}
@@ -84,9 +84,9 @@ export function Storage({
       <Box
         sx={{
           background: `${
-            session?.user?.darkMode ? "hsl(240,11%,20%)" : colors[color][50]
+            session.user.darkMode ? "hsl(240,11%,20%)" : colors[color][50]
           }`,
-          color: colors[color][session?.user?.darkMode ? 50 : 900].toString(),
+          color: colors[color][session.user.darkMode ? 50 : 900].toString(),
           borderRadius: 5,
           px: 3,
           mt: 2,
@@ -100,7 +100,7 @@ export function Storage({
             height: 20,
             borderRadius: 999,
             overflow: "hidden",
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,15%)"
               : colors[color][200],
             mb: 2,
@@ -109,14 +109,14 @@ export function Storage({
           <Box
             sx={{
               width: `${storage.items}%`,
-              background: colors[color][session?.user?.darkMode ? 500 : 700],
+              background: colors[color][session.user.darkMode ? 500 : 700],
               height: "100%",
             }}
           />
           <Box
             sx={{
               width: `${storage.tasks}%`,
-              background: colors[color][session?.user?.darkMode ? 200 : 800],
+              background: colors[color][session.user.darkMode ? 200 : 800],
               height: "100%",
               borderRadius: "0 99px 99px 0",
             }}

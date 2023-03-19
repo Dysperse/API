@@ -32,16 +32,16 @@ export function Navbar(): JSX.Element {
       borderRadius: 94,
       p: 0.8,
       m: 0,
-      color: session?.user?.darkMode ? "hsl(240,11%,90%)" : "#606060",
+      color: session.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
       transition: "opacity .2s",
       "&:hover": {
-        background: session?.user?.darkMode
+        background: session.user.darkMode
           ? "hsl(240,11%,15%)"
           : "rgba(200,200,200,.3)",
-        color: session?.user?.darkMode ? "hsl(240,11%,100%)" : "#000",
+        color: session.user.darkMode ? "hsl(240,11%,100%)" : "#000",
       },
       "&:active": {
-        background: session?.user?.darkMode
+        background: session.user.darkMode
           ? "hsl(240,11%,20%)"
           : "rgba(200,200,200,.5)",
         transition: "none",
@@ -63,18 +63,18 @@ export function Navbar(): JSX.Element {
             md: "0!important",
           },
         }),
-        transition: "top .4s",
+        transition: "none",
         "& *": {
           cursor: "unset!important",
         },
         color: {
-          xs: session?.user?.darkMode ? "white" : "black",
+          xs: session.user.darkMode ? "white" : "black",
         },
         pr: 0.4,
         height: "calc(70px + env(titlebar-area-height, 0px))",
         WebkitAppRegion: "drag",
         display: { md: "none" },
-        background: session?.user?.darkMode
+        background: session.user.darkMode
           ? "hsla(240,11%,10%, 0.5)"
           : "rgba(255,255,255,.5)",
       }}
@@ -106,7 +106,7 @@ export function Navbar(): JSX.Element {
             alt="Logo"
             style={{
               borderRadius: "999px",
-              ...(session?.user?.darkMode && {
+              ...(session.user.darkMode && {
                 filter: "invert(100%)",
               }),
             }}
@@ -124,9 +124,12 @@ export function Navbar(): JSX.Element {
               : window.location.href.includes("agenda")
               ? capitalizeFirstLetter(
                   isMobile &&
+                    window.location.hash.split("agenda/") &&
                     window.location.hash.split("agenda/")[1].includes("week")
                     ? "Day"
-                    : window.location.hash.split("agenda/")[1]
+                    : window.location.hash.split("agenda/")
+                    ? window.location.hash.split("agenda/")[1]
+                    : ""
                 )
               : router.asPath.includes("tasks")
               ? "Tasks"

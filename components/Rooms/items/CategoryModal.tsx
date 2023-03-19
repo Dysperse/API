@@ -9,9 +9,9 @@ import {
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
-import React, { useEffect } from "react";
-import { fetchApiWithoutHook } from "../../../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../../../hooks/useBackButton";
+import React from "react";
+import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { useBackButton } from "../../../lib/client/useBackButton";
 import { useSession } from "../../../pages/_app";
 import { ItemCard } from "../ItemCard";
 
@@ -30,9 +30,8 @@ const CategoryModal = React.memo(function CategoryModal({
   const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState([]);
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const session = useSession();
 
   return (
@@ -112,7 +111,7 @@ const CategoryModal = React.memo(function CategoryModal({
           borderRadius: 4,
           transition: "none!important",
           cursor: "unset!important",
-          ...(session?.user?.darkMode && {
+          ...(session.user.darkMode && {
             "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",
             },

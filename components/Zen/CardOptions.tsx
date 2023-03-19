@@ -23,11 +23,11 @@ export const CardOptions = memo(function CardOptions({
       onClick={handleDelete}
       sx={{
         mb: 1.5,
-        background: session?.user?.darkMode
+        background: session.user.darkMode
           ? "hsla(240,11%,60%,.1)!important"
           : "rgba(200,200,200,.3)!important",
         "&:hover": {
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsla(240,11%,90%,.1)!important"
             : "rgba(200,200,200,.5)!important",
         },

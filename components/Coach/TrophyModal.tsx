@@ -11,9 +11,9 @@ import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { toastStyles } from "../../lib/useCustomTheme";
 
 export function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -85,8 +85,8 @@ export function TrophyModal({ goal, mutationUrl }) {
                         await mutate(mutationUrl);
                         setStepTwoOpen(false);
                         toast.success(
-                          "A trophy has been added to your account! Thanks for your feedback! 🎉",
-                          toastStyles
+                          "You earned a trophy! Thanks for your feedback!",
+                          { ...toastStyles, icon: "🎉" }
                         );
                       } catch (e) {
                         toast.error(
@@ -134,7 +134,7 @@ export function TrophyModal({ goal, mutationUrl }) {
         <picture>
           <img
             alt="trophy"
-            src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
+            src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
             className="animate-trophy"
             id="trophy"
             style={{
@@ -220,7 +220,7 @@ export function TrophyModal({ goal, mutationUrl }) {
         </Box>
         <picture>
           <img
-            src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
+            src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
             alt="trophy"
             width={"100px"}
           />

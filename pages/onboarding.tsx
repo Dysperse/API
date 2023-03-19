@@ -34,7 +34,7 @@ import { Color } from "../components/Onboarding/Color";
 import { InventoryList } from "../components/Onboarding/InventoryList";
 import { cards } from "../components/Rooms/CreateItem/cards";
 import { updateSettings } from "../components/Settings/updateSettings";
-import { fetchApiWithoutHook } from "../hooks/useApi";
+import { fetchApiWithoutHook } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
 import { useSession } from "./_app";
 
@@ -490,11 +490,9 @@ export default function Onboarding() {
           overflowY: "auto",
           maxWidth: "calc(100vw - 40px)",
           width: "500px",
-          backgroundColor: session?.user?.darkMode
-            ? "hsl(240,11%,10%)"
-            : "#fff",
+          backgroundColor: session.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
-          color: session?.user?.darkMode ? "white" : "hsl(240,11%,10%)",
+          color: session.user.darkMode ? "white" : "hsl(240,11%,10%)",
           borderRadius: "20px",
           padding: { xs: "7px", sm: "28px" },
         }}

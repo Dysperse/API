@@ -5,12 +5,12 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Loading } from "../../components/Layout/Loading";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
 
 import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../_app";
 
 export default function Onboarding() {
@@ -132,8 +132,8 @@ export default function Onboarding() {
             loading={loading}
             disabled={
               session?.user &&
-              session?.user?.user &&
-              session?.user?.user.properties.find(
+              session.user.user &&
+              session.user.user.properties.find(
                 (p) => p.propertyId === data.property.id
               )
             }
@@ -152,12 +152,12 @@ export default function Onboarding() {
             }}
             onClick={() => {
               setLoading(true);
-              if (session?.user?.user && session?.user?.user.email) {
+              if (session.user.user && session.user.user.email) {
                 fetchApiWithoutHook(
                   "property/members/inviteLink/accept",
                   {
                     token: id as string,
-                    email: session?.user?.user.email,
+                    email: session.user.user.email,
                     property: data.property.id,
                   },
                   true
@@ -185,8 +185,8 @@ export default function Onboarding() {
             }}
           >
             {session?.user &&
-            session?.user?.user &&
-            session?.user?.user.properties.find(
+            session.user.user &&
+            session.user.user.properties.find(
               (p) => p.propertyId === data.property.id
             )
               ? "You're already in this group"

@@ -14,29 +14,32 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
-import { DailyRoutine } from "../components/Coach/DailyRoutine";
-import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
-import { useApi } from "../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../hooks/useBackButton";
-import { useSession } from "./_app";
-
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { Twemoji } from "react-emoji-render";
+import { TaskDrawer } from "../components/Boards/Board/Column/Task/TaskDrawer";
+import { Routines } from "../components/Coach/Routines";
+import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
+import { useApi } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
+import { useSession } from "./_app";
 
 function RecentItems() {
-  const { data, url, error } = useApi("property/boards/recent");
+  const trigger = useMediaQuery("(min-width: 600px)");
+
+  const { data, url, error } = useApi("property/boards/recent", {
+    take: trigger ? 12 : 6,
+  });
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
-      // dragFree: true,
+      dragFree: trigger,
       align: "start",
       containScroll: "trimSnaps",
       loop: false,
@@ -51,7 +54,16 @@ function RecentItems() {
 
   return (
     <>
-      <Typography variant="h6" sx={{ mb: 2, ml: 1 }} className="px-4 sm:px-7">
+      <Typography
+        variant="h6"
+        sx={{
+          mt: 3,
+          ml: 0,
+          mb: 1.5,
+          ...(data && data.length === 0 && { display: "none" }),
+        }}
+        className="select-none px-4 sm:px-7"
+      >
         Recently edited
       </Typography>
       <Box
@@ -92,7 +104,7 @@ function RecentItems() {
                   className="shadow-sm"
                   sx={{
                     border: "1px solid",
-                    borderColor: session?.user?.darkMode
+                    borderColor: session.user.darkMode
                       ? "hsl(240, 11%, 20%)"
                       : "rgba(200, 200, 200, 0.3)",
                     width: "100%",
@@ -107,7 +119,7 @@ function RecentItems() {
                         sx={{
                           color:
                             colors[item.color][
-                              session?.user?.darkMode ? "A400" : 700
+                              session.user.darkMode ? "A400" : 700
                             ],
                         }}
                         {...(item.color === "grey" && {
@@ -123,9 +135,17 @@ function RecentItems() {
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
+                          "& span img": {
+                            display: "inline-flex !important",
+                            width: "23px!important",
+                            height: "23px!important",
+                            verticalAlign: "top !important",
+                          },
                         }}
                       >
-                        {item.name}
+                        <span>
+                          <Twemoji>{item.name || " "}</Twemoji>
+                        </span>
                       </Typography>
                       {item.lastUpdated && (
                         <Chip
@@ -149,16 +169,7 @@ function RecentItems() {
 export default function Home() {
   const router = useRouter();
   const time = new Date().getHours();
-  const [editMode, setEditMode] = useState<boolean>(false);
-  useHotkeys("alt+e", (e) => {
-    e.preventDefault();
-    setEditMode((e) => !e);
-  });
   const session = useSession();
-
-  useEffect(() => {
-    editMode ? neutralizeBack(() => setEditMode(false)) : revivalBack();
-  });
 
   let greeting;
   if (time < 10) {
@@ -191,8 +202,8 @@ export default function Home() {
             pr: 2,
             gap: 1,
             height: "var(--navbar-height)",
-            position: { xs: editMode ? "fixed" : "absolute", md: "static" },
-            background: session?.user?.darkMode
+            position: { xs: "absolute", md: "static" },
+            background: session.user.darkMode
               ? "hsla(240,11%,10%, .5)"
               : "rgba(255,255,255,.5)",
             top: 0,
@@ -205,27 +216,25 @@ export default function Home() {
           <Box
             sx={{
               ml: "auto",
-              mr: 2,
+              mr: { sm: 2 },
             }}
           >
-            {!editMode && (
-              <Tooltip title="Jump to" placement="bottom-start">
-                <IconButton
-                  onClick={() => {
-                    navigator.vibrate(50);
-                    openSpotlight();
-                  }}
-                >
-                  <Icon className="outlined">bolt</Icon>
-                </IconButton>
-              </Tooltip>
-            )}
+            <Tooltip title="Jump to" placement="bottom-start">
+              <IconButton
+                onClick={() => {
+                  navigator.vibrate(50);
+                  openSpotlight();
+                }}
+              >
+                <Icon className="outlined">bolt</Icon>
+              </IconButton>
+            </Tooltip>
           </Box>
         </Box>
         <Box
           sx={{
-            mt: { xs: 3, sm: 15 },
-            mb: 10,
+            mt: { xs: 3, sm: 10 },
+            mb: 4,
           }}
         >
           <Typography
@@ -233,7 +242,7 @@ export default function Home() {
             sx={{
               px: { xs: 2, sm: 4 },
               fontSize: {
-                xs: "40px",
+                xs: "37px",
                 sm: "50px",
               },
               userSelect: "none",
@@ -245,13 +254,15 @@ export default function Home() {
             variant="h5"
           >
             {greeting}
-            {session?.user?.name.includes(" ")
-              ? session?.user?.name.split(" ")[0]
-              : session?.user?.name}
+            <br />
+            {session.user.name.includes(" ")
+              ? session.user.name.split(" ")[0]
+              : session.user.name}
             !
           </Typography>
         </Box>
       </Box>
+      <Routines />
       <RecentItems />
       <Box className="px-4 sm:px-7">
         <Box
@@ -264,30 +275,26 @@ export default function Home() {
               <DailyCheckIn />
             </Box>
             <Box>
-              <DailyRoutine zen />
-            </Box>
-            <Box>
               <ListItemButton
                 sx={{
                   px: "15px !important",
-                  background: session?.user?.darkMode
+                  background: session.user.darkMode
                     ? "hsl(240, 11%, 10%)"
                     : "#fff",
                   gap: 2,
                   border: "1px solid",
-                  borderColor: session?.user?.darkMode
+                  borderColor: session.user.darkMode
                     ? "hsl(240, 11%, 20%)"
                     : "rgba(200, 200, 200, 0.3)",
                 }}
                 className="shadow-sm"
-                disableRipple={editMode}
-                onClick={() => !editMode && router.push("/tasks/#/agenda/week")}
+                onClick={() => router.push("/tasks/#/agenda/week")}
               >
                 <Icon sx={{ ml: 1 }}>task_alt</Icon>
                 <ListItemText
                   primary={<b>Today&apos;s agenda</b>}
                   secondary={
-                    !editMode && data
+                    data
                       ? data && data.length == 0
                         ? "You don't have any tasks scheduled for today"
                         : data &&
@@ -307,7 +314,7 @@ export default function Home() {
                               ? "tasks"
                               : "task"
                           } left for today`
-                      : !editMode && "Loading..."
+                      : "Loading"
                   }
                 />
                 {data &&
@@ -315,34 +322,35 @@ export default function Home() {
                     0 && (
                     <Icon
                       sx={{
-                        color: green[session?.user?.darkMode ? "A400" : "A700"],
+                        color: green[session.user.darkMode ? "A400" : "A700"],
                         fontSize: "30px!important",
                       }}
                     >
                       check_circle
                     </Icon>
                   )}
+                <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
               </ListItemButton>
             </Box>
             <Box>
               <ListItemButton
                 sx={{
                   px: "15px !important",
-                  background: session?.user?.darkMode
+                  background: session.user.darkMode
                     ? "hsl(240, 11%, 10%)"
                     : "#fff",
                   gap: 2,
                   border: "1px solid",
-                  borderColor: session?.user?.darkMode
+                  borderColor: session.user.darkMode
                     ? "hsl(240, 11%, 20%)"
                     : "rgba(200, 200, 200, 0.3)",
                 }}
                 className="shadow-sm"
-                disableRipple={editMode}
-                onClick={() => !editMode && router.push("/tasks/#/backlog")}
+                onClick={() => router.push("/tasks/#/backlog")}
               >
                 <Icon sx={{ ml: 1 }}>auto_mode</Icon>
                 <b>Backlog</b>
+                <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
               </ListItemButton>
             </Box>
           </Masonry>

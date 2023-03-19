@@ -10,8 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useEffect } from "react";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import React from "react";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 import { MoreOptions } from "./MoreOptions";
@@ -21,9 +21,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   return (
     <Box>
@@ -31,12 +29,12 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         className="mb-5 border shadow-md active:scale-[.98] sm:mb-0"
         onClick={() => setOpen(true)}
         sx={{
-          ...(session?.user?.darkMode && {
+          ...(session.user.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
           }),
           borderRadius: 5,
           "&:hover": {
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240%,11%,20%)"
               : "hsl(240,11%,95%)",
           },
@@ -47,10 +45,10 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           transition: "transform .2s!important",
           px: 3,
           background: {
-            sm: session?.user?.darkMode ? "hsl(240,11%,13%)" : "#fff",
+            sm: session.user.darkMode ? "hsl(240,11%,13%)" : "#fff",
           },
           borderBottom: {
-            xs: session?.user?.darkMode
+            xs: session.user.darkMode
               ? "1px solid hsla(240,11%,15%)"
               : "1px solid #ddd",
             sm: "none",
@@ -148,7 +146,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
           />
           <picture>
             <img
-              src="https://ouch-cdn2.icons8.com/nTJ88iDOdCDP2Y6YoAuNS1gblZ8t0jwB_LVlkpkkBeo/rs:fit:256:321/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU0/L2RmYmM2MGJkLWUz/ZWMtNDVkMy04YWIy/LWJiYmY1YjM1ZDJm/NS5wbmc.png"
+              src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
               alt="trophy"
               width={20}
               height={20}
@@ -165,7 +163,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         PaperProps={{
           sx: {
             width: "100vw",
-            ...(session?.user?.darkMode && {
+            ...(session.user.darkMode && {
               backgroundColor: "hsl(240,11%,15%)",
             }),
             maxWidth: "500px",

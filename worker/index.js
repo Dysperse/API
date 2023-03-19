@@ -3,8 +3,6 @@
 self.__WB_DISABLE_DEV_LOGS = true;
 
 self.addEventListener("push", (event) => {
-  console.log("--------- push event received ----------");
-
   const title =
     (event.data && JSON.parse(event.data.text()).title) ||
     "You have a new notification • Carbon";
@@ -18,8 +16,7 @@ self.addEventListener("push", (event) => {
       tag,
       icon: "https://assets.dysperse.com/v5/ios/192.png",
       vibrate: [200, 100, 200],
-      badge:
-        "https://assets.dysperse.com/v6/20230123_114910_0000.png",
+      badge: "https://assets.dysperse.com/v6/20230123_114910_0000.png",
       actions: (event.data && JSON.parse(event.data.text()).actions) || [],
     })
   );
@@ -30,8 +27,8 @@ self.addEventListener("notificationclick", function (event) {
   let path = "/";
 
   switch (event.action) {
-    case 'startDailyRoutine':
-      path = "/coach#daily-routine"
+    case "startDailyRoutine":
+      path = "/coach#daily-routine";
       break;
   }
 

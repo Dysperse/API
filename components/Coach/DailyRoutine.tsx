@@ -3,27 +3,127 @@ import {
   Button,
   Chip,
   Icon,
-  ListItemButton,
-  ListItemText,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { lime } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import Stories from "react-insta-stories";
-import useWindowSize from "react-use/lib/useWindowSize";
-import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { colors } from "../../lib/colors";
-import { toastStyles } from "../../lib/useCustomTheme";
-import { CircularProgressWithLabel } from "../../pages/coach";
+import { useWindowSize } from "react-use";
+import { mutate as mutateSWR } from "swr";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { useBackButton } from "../../lib/client/useBackButton";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
-function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
+export function RoutineEnd({
+  setCurrentIndex,
+  sortedTasks,
+  tasksRemaining,
+  handleClose,
+}) {
+  const { width, height } = useWindowSize();
+
+  return (
+    <div
+      style={{
+        padding: 20,
+        textAlign: "center",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        sx={{
+          height: "100vh",
+          width: "50%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
+        onClick={() => setCurrentIndex((i) => (i == 0 ? 0 : i - 1))}
+      />
+      <Box
+        sx={{
+          height: "100vh",
+          width: "50%",
+          position: "absolute",
+          top: 0,
+          right: 0,
+        }}
+        onClick={handleClose}
+      />
+      {tasksRemaining == 0 ? (
+        <>
+          <Box
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              mb: 2,
+            }}
+          >
+            <picture>
+              <img
+                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
+                alt="Tada"
+              />
+            </picture>
+          </Box>
+          <Typography variant="h6" sx={{ mb: 1 }}>
+            You worked towards
+            <br /> {sortedTasks.length} goal{sortedTasks.length !== 1 && "s"}!
+          </Typography>
+          <Button
+            onClick={handleClose}
+            sx={{
+              mt: 1,
+              "&, &:hover": {
+                background: "hsl(240,11%,20%)!important",
+                color: "#fff!important",
+              },
+            }}
+            variant="contained"
+          >
+            <span>✌</span> Let&apos;s go &rarr;
+          </Button>
+        </>
+      ) : (
+        <>
+          <Typography variant="h1" gutterBottom>
+            👉
+          </Typography>
+          <Typography variant="h6">
+            You have {tasksRemaining.length} goal
+            {tasksRemaining.length !== 1 && "s"} left to finish
+          </Typography>
+          <Button
+            onClick={handleClose}
+            sx={{
+              mt: 1,
+              "&, &:hover": {
+                background: "hsl(240,11%,20%)!important",
+                color: "#fff!important",
+              },
+            }}
+            variant="contained"
+          >
+            <span>🎯</span> Gotcha &rarr;
+          </Button>
+        </>
+      )}
+    </div>
+  );
+}
+
+export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
   const handleClick = React.useCallback(() => {
     setCurrentIndex((index) => index + 1);
     fetchApiWithoutHook("user/routines/markAsDone", {
@@ -37,7 +137,7 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
       id: task.id,
     })
       .then(() => {
-        mutate(mutationUrl);
+        mutate();
       })
       .catch(() => {
         toast.error(
@@ -45,10 +145,32 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           toastStyles
         );
       });
-  }, [task.durationDays, task.id, task.progress, mutationUrl, setCurrentIndex]);
+  }, [task.durationDays, task.id, task.progress, mutate, setCurrentIndex]);
 
   return (
     <Box sx={{ p: 4 }}>
+      <Box
+        sx={{
+          height: "100vh",
+          width: "50%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
+        onClick={() =>
+          setCurrentIndex((i) => (currentIndex == 0 ? 0 : currentIndex - 1))
+        }
+      />
+      <Box
+        sx={{
+          height: "100vh",
+          width: "50%",
+          position: "absolute",
+          top: 0,
+          right: 0,
+        }}
+        onClick={() => setCurrentIndex((i) => currentIndex + 1)}
+      />
       <Typography variant="h2" className="font-heading" gutterBottom>
         {task.stepName}
       </Typography>
@@ -63,13 +185,14 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           my: 2,
           "& .MuiChip-root": {
             background: "hsl(240,11%,20%)!important",
+            color: "hsl(240,11%,90%)!important",
           },
         }}
       >
         <Chip label={task.category} size="small" />
         <Chip
           size="small"
-          label={~~((task.progress / task.durationDays) * 100) + "% complete"}
+          label={`${~~((task.progress / task.durationDays) * 100)}% complete`}
         />
         <Chip
           size="small"
@@ -105,33 +228,18 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
           fullWidth
           sx={{
             "&,&:hover": { background: "hsl(240,11%,14%)!important" },
-            color: "#fff",
+            color: "#fff!important",
           }}
           size="large"
           onClick={handleClick}
         >
           {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
             <>
-              <span>🔥</span> You worked on this goal today!
+              <span>🔥</span> Completed for today!
             </>
           ) : (
             <>
               <span>🎯</span> I worked towards it!
-            </>
-          )}
-        </Button>
-        <Button
-          sx={{ opacity: 0.6, color: "#fff" }}
-          size="large"
-          onClick={() => setCurrentIndex((i) => currentIndex + 1)}
-        >
-          {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
-            <>
-              <span>👀</span> Onwards! &rarr;
-            </>
-          ) : (
-            <>
-              <span>✍</span> Skip for now
             </>
           )}
         </Button>
@@ -140,19 +248,15 @@ function Task({ task, mutationUrl, currentIndex, setCurrentIndex }) {
   );
 }
 
-export function DailyRoutine({ zen = false, editMode = false }: any) {
+export function DailyRoutine() {
   const { data, url } = useApi("user/routines");
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   useEffect(() => {
     if (window.location.hash == "#daily-routine") setOpen(true);
   }, [setOpen]);
-
-  const { width, height } = useWindowSize();
 
   const doneTasks = !data
     ? []
@@ -181,171 +285,104 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         });
 
   const router = useRouter();
-  const trigger = zen ? (
-    <>
-      <ListItemButton
+  const trigger = (
+    <Box
+      onClick={() => {
+        navigator.vibrate(50);
+        if (sortedTasks.length == 0) {
+          router.push("/coach");
+        } else {
+          setOpen(true);
+        }
+      }}
+      sx={{
+        flexShrink: 0,
+        borderRadius: 5,
+        flex: "0 0 70px",
+        gap: 0.4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        overflow: "hidden",
+        userSelect: "none",
+        p: 1,
+        transition: "transform .2s",
+        "&:hover": {
+          background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+        },
+        "&:active": {
+          transition: "none",
+          transform: "scale(.95)",
+        },
+      }}
+    >
+      <Box
         sx={{
-          px: "15px !important",
-          gap: 2,
-          background: session?.user?.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
-          border: "1px solid",
-          borderColor: session?.user?.darkMode
-            ? "hsl(240, 11%, 20%)"
-            : "rgba(200, 200, 200, 0.3)",
-        }}
-        className="shadow-sm"
-        disableRipple={editMode}
-        onClick={() => {
-          if (sortedTasks.length == 0) {
-            router.push("/coach");
-          } else {
-            setOpen(true);
-          }
+          borderRadius: 9999,
+          width: 60,
+          height: 60,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          border: "2px solid transparent",
+          background: "rgba(200,200,200,.2)",
+          position: "relative",
+          ...(data &&
+            tasksRemaining &&
+            tasksRemaining.length === 0 && {
+              borderColor: lime[session.user.darkMode ? "A400" : 800],
+              background: session.user.darkMode ? "hsl(240,11%,10%)" : lime[50],
+            }),
         }}
       >
-        <CircularProgressWithLabel
-          value={
-            data
-              ? (doneTasks.length /
-                  data.filter((task) => task.durationDays - task.progress > 0)
-                    .length) *
-                100
-              : 0
-          }
-        />
-        <ListItemText
-          primary={
-            <b>
-              {sortedTasks.length == 0
-                ? "You don't have any goals set"
-                : "Daily routine"}
-            </b>
-          }
-          secondary={
-            editMode ? (
-              <></>
-            ) : data ? (
-              sortedTasks.length == 0 ? (
-                "Tap to set a goal"
-              ) : (
-                <>
-                  {tasksRemaining.length == 0 ? (
-                    <>Hurray! You worked towards all of your goals today!</>
-                  ) : (
-                    <>
-                      {tasksRemaining.length +
-                        " task" +
-                        (tasksRemaining.length == 1 ? "" : "s") +
-                        " remaining"}{" "}
-                      &bull; Click to{" "}
-                      {doneTasks === 0
-                        ? "start"
-                        : tasksRemaining === 0
-                        ? "view"
-                        : "resume"}
-                    </>
-                  )}
-                </>
-              )
-            ) : (
-              "Loading..."
-            )
-          }
-        />
-        {tasksRemaining.length == 0 && sortedTasks.length !== 0 && (
+        {data && tasksRemaining && tasksRemaining.length === 0 && (
           <Icon
             sx={{
-              color: colors.green[session?.user?.darkMode ? "A400" : "A700"],
-              fontSize: "30px!important",
+              color: lime[session.user.darkMode ? "A400" : 800],
+              background: session.user.darkMode ? "hsl(240,11%,10%)" : lime[50],
+              borderRadius: "999px",
+              transition: "opacity .2s",
+              position: "absolute",
+              bottom: -5,
+              right: -5,
             }}
           >
             check_circle
           </Icon>
         )}
-      </ListItemButton>
-    </>
-  ) : (
-    <Box
-      id="routineTrigger"
-      className="shadow-sm hover:shadow-md"
-      onClick={() => setOpen(true)}
-      sx={{
-        ...(!data && {
-          filter: "blur(5px)",
-          pointerEvents: "none",
-          minWidth: { xs: "90%", sm: "unset" },
-        }),
-        ml: { sm: "auto" },
-        p: 2,
-        px: 3,
-        transition: "blur .2s, transform 0.2s",
-        "&:active": {
-          transform: "scale(0.98)",
-          transitionDuration: "0s",
-        },
-        userSelect: "none",
-        borderRadius: 5,
-        display: "flex",
-        alignItems: "center",
-        background: session?.user?.darkMode
-          ? "hsl(240,11%,16%)"
-          : "hsl(240,11%,97%)",
-        "&:hover": {
-          background: session?.user?.darkMode
-            ? "hsl(240,11%,16%)"
-            : "hsl(240,11%,95%)",
-        },
-
-        gap: 5,
-      }}
-    >
-      <Box sx={{ mr: "auto" }}>
-        <Typography sx={{ fontWeight: "900" }}>Daily routine</Typography>
-        <Typography>
-          {data ? (
-            <>
-              {tasksRemaining.length == 0 ? (
-                <>Hurray! You worked towards all of your goals today!</>
-              ) : (
-                <>
-                  {tasksRemaining.length +
-                    " task" +
-                    (tasksRemaining.length == 1 ? "" : "s") +
-                    " remaining"}{" "}
-                  &bull; Click to{" "}
-                  {doneTasks === 0
-                    ? "start"
-                    : tasksRemaining === 0
-                    ? "view"
-                    : "resume"}
-                </>
-              )}
-            </>
-          ) : (
-            "Loading..."
-          )}
+        <picture>
+          <img
+            src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ab.png"
+            alt="Tada"
+            width="35px"
+            height="35px"
+          />
+        </picture>
+      </Box>
+      <Box sx={{ width: "100%" }}>
+        <Typography
+          variant="body2"
+          sx={{
+            whiteSpace: "nowrap",
+            textAlign: "center",
+            textOverflow: "ellipsis",
+            fontSize: "13px",
+            overflow: "hidden",
+          }}
+        >
+          All tasks
         </Typography>
       </Box>
-      <CircularProgressWithLabel
-        value={
-          data
-            ? (doneTasks.length /
-                data.filter((task) => task.durationDays - task.progress > 0)
-                  .length) *
-              100
-            : 0
-        }
-      />
     </Box>
   );
 
   const stories = [
     ...sortedTasks.map((task) => {
       return {
-        content: (props) => (
+        content: () => (
           <Task
             task={task}
-            mutationUrl={url}
+            mutate={() => mutateSWR(url)}
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
           />
@@ -353,73 +390,13 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
       };
     }),
     {
-      content: (props) => (
-        <div style={{ padding: 20, textAlign: "center", width: "100%" }}>
-          {tasksRemaining == 0 ? (
-            <>
-              <Confetti
-                width={width > 600 ? 600 : width}
-                height={height}
-                style={{ zIndex: 1 }}
-              />
-              <Box
-                sx={{
-                  textAlign: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                  mb: 2,
-                }}
-              >
-                <picture>
-                  <img
-                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
-                    alt="Tada"
-                  />
-                </picture>
-              </Box>
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                You worked towards
-                <br /> all of your goals today!
-              </Typography>
-              <Button
-                onClick={() => setOpen(false)}
-                sx={{
-                  mt: 1,
-                  "&, &:hover": {
-                    background: "hsl(240,11%,20%)!important",
-                    color: "#fff!important",
-                  },
-                }}
-                variant="contained"
-              >
-                <span>✌</span> Let&apos;s go &rarr;
-              </Button>
-            </>
-          ) : (
-            <>
-              <Typography variant="h1" gutterBottom>
-                👉
-              </Typography>
-              <Typography variant="h6">
-                You have {tasksRemaining.length} goal
-                {tasksRemaining.length !== 1 && "s"} left to finish
-              </Typography>
-              <Button
-                onClick={() => setOpen(false)}
-                sx={{
-                  mt: 1,
-                  "&, &:hover": {
-                    background: "hsl(240,11%,20%)!important",
-                    color: "#fff!important",
-                  },
-                }}
-                variant="contained"
-              >
-                <span>🎯</span> Exit &rarr;
-              </Button>
-            </>
-          )}
-        </div>
+      content: () => (
+        <RoutineEnd
+          handleClose={() => setOpen(false)}
+          tasksRemaining={tasksRemaining}
+          setCurrentIndex={setCurrentIndex}
+          sortedTasks={sortedTasks}
+        />
       ),
     },
   ];
@@ -438,6 +415,13 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
     );
   }, [indexWhereUserLeftOff, sortedTasks.length]);
 
+  useEffect(() => {
+    if (!session.user.darkMode)
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
+  }, [session, open]);
+
   return (
     <>
       <SwipeableDrawer
@@ -447,7 +431,7 @@ export function DailyRoutine({ zen = false, editMode = false }: any) {
         open={open}
         onOpen={() => {}}
         onClose={() => {
-          mutate(url);
+          mutateSWR(url);
           setOpen(false);
           setTimeout(() => {
             setCurrentIndex(

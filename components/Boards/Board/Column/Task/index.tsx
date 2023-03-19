@@ -14,56 +14,17 @@ import dynamic from "next/dynamic";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
+import { mutate } from "swr";
+import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
+import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
-import { toastStyles } from "../../../../../lib/useCustomTheme";
+import { useAccountStorage, useSession } from "../../../../../pages/_app";
+import { ConfirmationModal } from "../../../../ConfirmationModal";
+import { TaskDrawer } from "./TaskDrawer";
 
 const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
 );
-
-import { useAccountStorage, useSession } from "../../../../../pages/_app";
-import { TaskDrawer } from "./TaskDrawer";
-
-const renderText = (
-  txt: string,
-  rules: {
-    regex: RegExp;
-    element: any;
-  }[]
-) => {
-  let result: any = [];
-  let lastIndex = 0;
-  const regexes = rules.map((e) => e.regex);
-  const regex = new RegExp(regexes.map((r) => `(${r.source})`).join("|"), "g");
-
-  const matches = txt.match(regex);
-
-  if (!matches) {
-    return txt;
-  }
-
-  matches.forEach((match, index) => {
-    const matchIndex = txt.indexOf(match, lastIndex);
-
-    if (matchIndex > lastIndex) {
-      result.push(txt.slice(lastIndex, matchIndex));
-    }
-
-    const elementIndex = regexes.findIndex((r) => r.test(match));
-    const element = rules[elementIndex].element(match);
-
-    result.push(element);
-
-    lastIndex = matchIndex + match.length;
-  });
-
-  if (lastIndex < txt.length) {
-    result.push(txt.slice(lastIndex));
-  }
-
-  return result;
-};
 
 export const Task: any = React.memo(function Task({
   isSubTask = false,
@@ -86,7 +47,7 @@ export const Task: any = React.memo(function Task({
     width: 25,
     height: 25,
     boxShadow: `${
-      session?.user?.darkMode
+      session.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
         : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
     }`,
@@ -107,19 +68,19 @@ export const Task: any = React.memo(function Task({
 
   const BpCheckedIcon: any = styled(BpIcon)({
     boxShadow: `${
-      session?.user?.darkMode
+      session.user.darkMode
         ? "inset 0 0 0 2px rgba(255,255,255,.6)"
         : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
     }`,
     backgroundColor: `${
-      colors[taskData.color || "grey"][session?.user?.darkMode ? 50 : "A700"]
+      colors[taskData.color || "grey"][session.user.darkMode ? 50 : "A700"]
     }!important`,
     "&:before": {
       display: "block",
       width: 25,
       height: 25,
       backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 20' fill='none' stroke='%23${
-        session?.user?.darkMode ? "000" : "fff"
+        session.user.darkMode ? "000" : "fff"
       }' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")`,
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -146,6 +107,34 @@ export const Task: any = React.memo(function Task({
     [mutationUrl, toastStyles, taskData.id]
   );
 
+  const handlePriorityChange = useCallback(async () => {
+    setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
+    toast.promise(
+      new Promise(async (resolve, reject) => {
+        try {
+          await fetchApiWithoutHook("property/boards/togglePin", {
+            id: taskData.id,
+            pinned: !taskData.pinned ? "true" : "false",
+          }).then(() => {
+            mutate(mutationUrl);
+          });
+          await mutate(mutationUrl);
+          resolve("");
+        } catch (e) {
+          reject(e);
+        }
+      }),
+      {
+        loading: taskData.pinned
+          ? "Changing priority..."
+          : "Marking important...",
+        success: taskData.pinned ? "Task unpinned!" : "Task pinned!",
+        error: "Failed to change priority",
+      },
+      toastStyles
+    );
+  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData]);
+
   return !taskData ? (
     <></>
   ) : (
@@ -161,13 +150,13 @@ export const Task: any = React.memo(function Task({
               width: "calc(100% - 20px)",
             }),
             color:
-              colors[taskData.color][session?.user?.darkMode ? "A100" : "A700"],
+              colors[taskData.color][session.user.darkMode ? "A100" : "A700"],
 
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
             borderColor: `hsl(240, 11%, ${
-              session?.user?.darkMode ? 20 : 95
+              session.user.darkMode ? 20 : 95
             }%) !important`,
             transition: "none",
             py: { xs: 0.7, sm: 0.5 },
@@ -176,7 +165,7 @@ export const Task: any = React.memo(function Task({
 
             "&:active": {
               background: `hsl(240, 11%, ${
-                session?.user?.darkMode ? 15 : 94
+                session.user.darkMode ? 15 : 94
               }%) !important`,
             },
           }}
@@ -229,40 +218,45 @@ export const Task: any = React.memo(function Task({
                   }}
                 >
                   <span>
-                    <Twemoji>{taskData.name}</Twemoji>
+                    <Twemoji>{taskData.name || " "}</Twemoji>
                   </span>
                 </Box>
                 {taskData.pinned && (
                   <Tooltip title="Important" placement="right">
-                    <Box
-                      sx={{
-                        borderRadius: 2,
-                        width: 20,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: 20,
-                        flexShrink: 0,
-                        ml: "auto",
-                        background:
-                          colors.orange[
-                            session?.user?.darkMode ? "A700" : "200"
-                          ],
-                      }}
+                    <ConfirmationModal
+                      title="Change priority?"
+                      question="You are about to unpin this task. You can always change the priority later"
+                      callback={handlePriorityChange}
                     >
-                      <Icon
-                        onClick={(e) => e.stopPropagation()}
+                      <Box
                         sx={{
-                          fontSize: "15px!important",
-                          color: session?.user?.darkMode
-                            ? "hsl(240,11%,10%)"
-                            : colors.orange[900],
-                          fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
+                          borderRadius: 2,
+                          width: 20,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: 20,
+                          flexShrink: 0,
+                          ml: "auto",
+                          background:
+                            colors.orange[
+                              session.user.darkMode ? "A700" : "200"
+                            ],
                         }}
                       >
-                        priority_high
-                      </Icon>
-                    </Box>
+                        <Icon
+                          sx={{
+                            fontSize: "15px!important",
+                            color: session.user.darkMode
+                              ? "hsl(240,11%,10%)"
+                              : colors.orange[900],
+                            fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
+                          }}
+                        >
+                          priority_high
+                        </Icon>
+                      </Box>
+                    </ConfirmationModal>
                   </Tooltip>
                 )}
               </Box>

@@ -1,6 +1,6 @@
 import { Item as ItemType } from "@prisma/client";
 import { useRef, useState } from "react";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../pages/_app";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
@@ -219,11 +219,11 @@ export default function CategoryModal({
         sx={{
           px: 1.5,
           mr: 1,
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsl(240,11%,20%)"
             : `${colors[session?.themeColor || "grey"][200]}!important`,
           "&:hover": {
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,25%)"
               : `${colors[session?.themeColor || "grey"][300]}!important`,
           },

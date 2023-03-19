@@ -1,9 +1,9 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 import { Prompt } from "../TwoStepVerificationPrompt";
@@ -21,7 +21,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
 function LinkToken({ color }) {
@@ -29,9 +29,8 @@ function LinkToken({ color }) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState("");
   const url = `https://${window.location.hostname}/invite/${token}`;
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const session = useSession();
 
   return (
@@ -41,7 +40,7 @@ function LinkToken({ color }) {
         onClick={() => {
           setLoading(true);
           fetchApiWithoutHook("property/members/inviteLink/create", {
-            inviterName: session?.user?.name,
+            inviterName: session.user.name,
             timestamp: new Date().toISOString(),
           }).then((res) => {
             setLoading(false);
@@ -153,9 +152,7 @@ export function AddPersonModal({
     []
   );
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  }, [open]);
+  useBackButton(() => setOpen(false));
 
   const ref: any = useRef();
   const session = useSession();
@@ -172,7 +169,7 @@ export function AddPersonModal({
             boxShadow: 0,
             ...(session.property.permission === "owner" && {
               backgroundColor: `${
-                colors[color][session?.user?.darkMode ? 800 : 900]
+                colors[color][session.user.darkMode ? 800 : 900]
               }!important`,
               color: `${colors[color][50]}!important`,
             }),
@@ -252,7 +249,7 @@ export function AddPersonModal({
               }
               if (isEmail(value)) {
                 fetchApiWithoutHook("property/members/add", {
-                  inviterName: session?.user?.name,
+                  inviterName: session.user.name,
                   name: session.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,

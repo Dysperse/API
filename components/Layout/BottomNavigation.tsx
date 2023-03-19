@@ -1,4 +1,4 @@
-import { Box, useScrollTrigger } from "@mui/material";
+import { Box } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 import { colors } from "../../lib/colors";
@@ -9,8 +9,6 @@ import { useSession } from "../../pages/_app";
  * @returns {any}
  */
 export function BottomNav() {
-  const trigger = useScrollTrigger({ threshold: 0 });
-
   const iconStyles = {
     display: "flex",
     alignItems: "center",
@@ -26,7 +24,7 @@ export function BottomNav() {
   const styles = (active) => {
     return {
       textTransform: "none",
-      color: session?.user?.darkMode ? "hsl(240,11%,80%)" : "#303030",
+      color: session.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
       "& span": {
         transition: "opacity .2s",
       },
@@ -48,14 +46,14 @@ export function BottomNav() {
       ...(active && {
         fontWeight: 700,
         color: `${
-          session?.user?.darkMode
+          session.user.darkMode
             ? "#fff"
             : colors[session?.themeColor || "grey"][900]
         }!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           ...iconStyles,
           background: `${
-            session?.user?.darkMode
+            session.user.darkMode
               ? "hsl(240,11%,17%)"
               : hexToRgba(colors[session?.themeColor || "grey"][200], 0.5)
           }!important`,
@@ -77,7 +75,7 @@ export function BottomNav() {
         sx={{
           width: "100%",
           position: "fixed",
-          bottom: trigger && router.asPath.includes("zen") ? -71 : 0,
+          bottom: 0,
           left: 0,
           transition: "bottom .3s",
           overflowX: "hidden",
@@ -94,12 +92,12 @@ export function BottomNav() {
           "&, & *": {
             overflow: "hidden!important",
           },
-          background: session?.user?.darkMode
+          background: session.user.darkMode
             ? "hsla(240, 11%, 10%, .9)"
             : "rgba(255,255,255,.4)",
-          borderTop: session?.user?.darkMode
+          borderTop: session.user.darkMode
             ? "1px solid hsla(240, 11%, 20%, .8)"
-            : session?.user?.darkMode
+            : session.user.darkMode
             ? "1px solid hsla(240,11%,15%)"
             : "1px solid rgba(200,200,200,.3)",
           backdropFilter: "blur(10px)",

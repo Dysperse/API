@@ -10,9 +10,9 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 
@@ -79,7 +79,7 @@ function Products({ styles }) {
               fontWeight: "500",
               minHeight: "35px!important",
               maxHeight: "35px!important",
-              color: session?.user?.darkMode
+              color: session.user.darkMode
                 ? "hsl(240, 11%, 90%)"
                 : colors[session?.themeColor][900],
             }}
@@ -90,7 +90,7 @@ function Products({ styles }) {
             <Typography
               variant="body2"
               sx={{
-                color: session?.user?.darkMode
+                color: session.user.darkMode
                   ? "hsl(240, 11%, 80%)"
                   : colors[session?.themeColor][700],
               }}
@@ -151,7 +151,7 @@ function Apps({ styles }) {
               fontWeight: "500",
               minHeight: "35px!important",
               maxHeight: "35px!important",
-              color: session?.user?.darkMode
+              color: session.user.darkMode
                 ? "hsl(240, 11%, 90%)"
                 : colors[session?.themeColor][900],
             }}
@@ -163,7 +163,7 @@ function Apps({ styles }) {
               variant="body2"
               sx={{
                 maxWidth: "200px",
-                color: session?.user?.darkMode
+                color: session.user.darkMode
                   ? "hsl(240, 11%, 80%)"
                   : colors[session?.themeColor][700],
               }}
@@ -203,15 +203,9 @@ export default function AppsMenu({ styles }) {
    * @returns {any}
    */
   const handleClick = () => setOpen(true);
-  /**
-   * Closes the popup
-   * @returns void
-   */
-  const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    open ? neutralizeBack(handleClose) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const session = useSession();
   const appMenuStyles = {
     accordion: {
@@ -221,7 +215,7 @@ export default function AppsMenu({ styles }) {
       cursor: "pointer",
       background: "transparent",
       "&:hover, &.Mui-expanded": {
-        background: session?.user?.darkMode
+        background: session.user.darkMode
           ? "hsl(240,11%,30%)"
           : colors[session?.themeColor][50],
       },
@@ -255,7 +249,7 @@ export default function AppsMenu({ styles }) {
             py: 1.5,
             borderRadius: 0,
             gap: 2,
-            color: `hsl(240,11%,${session?.user?.darkMode ? 90 : 10}%)`,
+            color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
           }}
         >
           <Icon className="outlined">workspaces</Icon>
@@ -301,7 +295,7 @@ export default function AppsMenu({ styles }) {
             sx={{
               borderTop:
                 "1px solid " +
-                (session?.user?.darkMode
+                (session.user.darkMode
                   ? "hsl(240,11%,30%)"
                   : colors[session?.themeColor || "grey"][50]),
               mt: 2,

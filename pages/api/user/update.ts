@@ -1,6 +1,6 @@
 // Update user settings
 import cacheData from "memory-cache";
-import { prisma } from "../../../lib/prismaClient";
+import { prisma } from "../../../lib/server/prisma";
 
 /**
  * API handler for the /api/user/update endpoint
@@ -25,7 +25,7 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const userId = session?.user?.id;
+  const userId = session.user.id;
   console.log(req.query.zenCardOrder);
   const user = await prisma.user.update({
     where: {

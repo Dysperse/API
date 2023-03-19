@@ -6,8 +6,8 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../components/ConfirmationModal";
 import { ErrorHandler } from "../components/Error";
-import { fetchApiWithoutHook, useApi } from "../hooks/useApi";
-import { toastStyles } from "../lib/useCustomTheme";
+import { fetchApiWithoutHook, useApi } from "../lib/client/useApi";
+import { toastStyles } from "../lib/client/useTheme";
 import Categories from "./items";
 
 function DeleteCard({ item }) {

@@ -1,4 +1,4 @@
-import { prisma } from "../../../lib/prismaClient";
+import { prisma } from "../../../lib/server/prisma";
 
 /**
  * Get user data from sessions table using accessToken

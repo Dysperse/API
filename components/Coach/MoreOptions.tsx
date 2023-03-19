@@ -1,7 +1,7 @@
 import { Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { ConfirmationModal } from "../ConfirmationModal";
 
 export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
@@ -22,9 +22,9 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose} disabled>
           <Icon>share</Icon>
-          Share
+          Share (Coming soon!)
         </MenuItem>
         <ConfirmationModal
           title="Stop goal?"
@@ -44,7 +44,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
           </MenuItem>
         </ConfirmationModal>
       </Menu>
-      <IconButton color="inherit"  onClick={handleClick}>
+      <IconButton color="inherit" onClick={handleClick}>
         <Icon>more_horiz</Icon>
       </IconButton>
     </>

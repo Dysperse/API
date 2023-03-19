@@ -13,8 +13,8 @@ import {
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";
@@ -93,13 +93,9 @@ export default function Notifications() {
 
   const sendNotificationButtonOnClick = async (event) => {
     event.preventDefault();
-    if (subscription === null) {
-      console.error("web push not subscribed");
-      return;
-    }
 
     fetchApiWithoutHook("/test-notification", {
-      subscription: session?.user?.notificationSubscription,
+      subscription: session.user.notificationSubscription,
     });
   };
 
@@ -133,8 +129,8 @@ export default function Notifications() {
   };
 
   const enabledOnAnotherDevice =
-    (!isSubscribed && session?.user?.notificationSubscription) ||
-    session?.user?.notificationSubscription !== JSON.stringify(subscription);
+    (!isSubscribed && session.user.notificationSubscription) ||
+    session.user.notificationSubscription !== JSON.stringify(subscription);
 
   return isInPwa || process.env.NODE_ENV == "development" ? (
     data ? (
@@ -158,7 +154,9 @@ export default function Notifications() {
                 </span>
                 <Button
                   onClick={sendNotificationButtonOnClick}
-                  disabled={!isSubscribed}
+                  disabled={
+                    !isSubscribed && !session.user.notificationSubscription
+                  }
                   variant="outlined"
                   size="small"
                   sx={{

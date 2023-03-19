@@ -1,15 +1,10 @@
 import { Box, Button, Dialog, Icon, IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
-import {
-  neutralizeBack,
-  revivalBack,
-} from "../../../../../hooks/useBackButton";
+import { useState } from "react";
+import { useBackButton } from "../../../../../lib/client/useBackButton";
 
 export function ImageViewer({ url, trimHeight = false }) {
   const [open, setOpen] = useState<boolean>(false);
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   return (
     <>

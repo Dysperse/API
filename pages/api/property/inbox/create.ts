@@ -1,5 +1,5 @@
-import { prisma } from "../../../../lib/prismaClient";
-import { validatePermissions } from "../../../../lib/validatePermissions";
+import { prisma } from "../../../../lib/server/prisma";
+import { validatePermissions } from "../../../../lib/server/validatePermissions";
 const webPush = require("web-push");
 
 export const createInboxNotification = async (
@@ -8,7 +8,8 @@ export const createInboxNotification = async (
   when: Date,
   propertyId: string,
   accessToken: string,
-  req, res
+  req,
+  res
 ) => {
   await validatePermissions(res, {
     minimum: "member",

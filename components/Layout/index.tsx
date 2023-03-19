@@ -2,7 +2,7 @@ import { Box, Button, CssBaseline, Snackbar, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useApi } from "../../hooks/useApi";
+import { useApi } from "../../lib/client/useApi";
 import { useAccountStorage, useSession } from "../../pages/_app";
 import { ApiResponse } from "../../types/client";
 import Group from "../Group";
@@ -70,7 +70,7 @@ function ResponsiveDrawer({
             <Button
               size="small"
               color="inherit"
-              sx={{ color: session?.user?.darkMode ? "#000" : "#fff" }}
+              sx={{ color: session.user.darkMode ? "#000" : "#fff" }}
               onClick={() => setDismissed(true)}
             >
               Hide for now
@@ -84,7 +84,7 @@ function ResponsiveDrawer({
               <Button
                 color="inherit"
                 size="small"
-                sx={{ color: session?.user?.darkMode ? "#000" : "#fff" }}
+                sx={{ color: session.user.darkMode ? "#000" : "#fff" }}
               >
                 More info
               </Button>

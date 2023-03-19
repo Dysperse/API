@@ -2,8 +2,8 @@ import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../hooks/useApi";
-import { toastStyles } from "../../../lib/useCustomTheme";
+import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { toastStyles } from "../../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
@@ -91,7 +91,7 @@ export default function BoardSettings({ mutationUrl, board }) {
             id={board.id}
             mutationUrl={mutationUrl}
             hide={
-              session?.user?.email !== "manusvathgurudath@gmail.com" &&
+              session.user.email !== "manusvathgurudath@gmail.com" &&
               ((board && board.columns.length === 1) ||
                 (board && board.columns.length >= 5))
             }

@@ -1,6 +1,8 @@
+import { useEffect } from "react";
+
 /**
  * Overrides the default browser back button
- * @param {any} callback
+ * @param {Function} callback
  * @returns {void}
  */
 export const neutralizeBack = (callback: () => void): void => {
@@ -13,8 +15,23 @@ export const neutralizeBack = (callback: () => void): void => {
 
 /**
  * Restores the default browser back button
- * @returns {any}
+ * @returns {void}
  */
 export const revivalBack = (): void => {
   window.onpopstate = null;
+};
+
+/**
+ * Custom hook to handle browser back button functionality
+ * @param {Function} callback - Function to call when back button is pressed
+ * @returns {void}
+ */
+export const useBackButton = (callback: () => void): void => {
+  useEffect(() => {
+    neutralizeBack(callback);
+
+    return () => {
+      revivalBack();
+    };
+  }, [callback]);
 };

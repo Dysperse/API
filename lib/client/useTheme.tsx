@@ -1,6 +1,6 @@
 import { Grow, Slide } from "@mui/material";
 import React from "react";
-import { colors } from "./colors";
+import { colors } from "../colors";
 
 const Transition = React.forwardRef(function Transition(
   props: any,
@@ -482,6 +482,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
     palette: {
       primary: {
         main: colors[themeColor || "grey"][darkMode ? "A200" : "A700"],
+      },
+      secondary: {
+        main: "#fff",
       },
       mode: darkMode ? "dark" : "light",
       ...(darkMode && {

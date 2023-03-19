@@ -16,9 +16,9 @@ import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { toastStyles } from "../../lib/useCustomTheme";
 import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Changelog } from "./Changelog";
@@ -65,12 +65,12 @@ function PropertyInfo({
             severity="info"
             sx={{
               mb: 2,
-              background: !session?.user?.darkMode
+              background: !session.user.darkMode
                 ? "rgba(200,200,200,.3)"
                 : "hsl(240,11%,15%)",
-              color: session?.user?.darkMode ? "#fff" : "#000",
+              color: session.user.darkMode ? "#fff" : "#000",
               "& *": {
-                color: session?.user?.darkMode ? "#fff" : "#000",
+                color: session.user.darkMode ? "#fff" : "#000",
               },
             }}
             action={
@@ -78,17 +78,17 @@ function PropertyInfo({
                 loading={loading}
                 sx={{
                   "&:hover": {
-                    background: session?.user?.darkMode
+                    background: session.user.darkMode
                       ? "hsl(240,11%,20%)"
                       : "rgba(200,200,200,.3)",
                   },
-                  color: session?.user?.darkMode ? "#fff" : "#000",
+                  color: session.user.darkMode ? "#fff" : "#000",
                 }}
                 onClick={async () => {
                   try {
                     setLoading(true);
                     const res = await fetchApiWithoutHook("property/join", {
-                      email: session?.user?.email,
+                      email: session.user.email,
                       accessToken1: propertyData.accessToken,
                     });
                     await mutate("/api/user");
@@ -195,12 +195,12 @@ export default function Group({
     if (open) {
       tag?.setAttribute(
         "content",
-        session?.user?.darkMode ? "hsl(240,11%,15%)" : "#fff"
+        session.user.darkMode ? "hsl(240,11%,15%)" : "#fff"
       );
     } else {
       tag?.setAttribute(
         "content",
-        session?.user?.darkMode ? "hsl(240,11%,10%)" : "#fff"
+        session.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
       );
     }
   });
@@ -239,7 +239,7 @@ export default function Group({
         anchor={isDesktop ? "right" : "bottom"}
         PaperProps={{
           sx: {
-            background: session?.user?.darkMode ? "" : "#fff",
+            background: session.user.darkMode ? "" : "#fff",
             height: error ? "auto" : "100vh",
             width: "100%",
             maxWidth: "600px",

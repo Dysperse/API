@@ -2,7 +2,7 @@ import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { colors } from "../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
@@ -45,7 +45,7 @@ export function RoomActionMenu({
         }),
         ...(open && {
           background:
-            (session?.user?.darkMode
+            (session.user.darkMode
               ? "hsl(240,11%,20%)"
               : colors[session?.themeColor || "grey"][100]) + "!important",
         }),
@@ -97,7 +97,7 @@ export function RoomActionMenu({
           <Box
             sx={{
               display: { sm: "none!important" },
-              color: session?.user?.darkMode ? "#fff" : "#404040",
+              color: session.user.darkMode ? "#fff" : "#404040",
             }}
             className="material-symbols-rounded"
           >

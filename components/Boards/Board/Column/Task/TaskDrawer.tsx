@@ -1,13 +1,10 @@
 import { Alert, CircularProgress, SwipeableDrawer } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { cloneElement, useCallback, useEffect, useState } from "react";
+import React, { cloneElement, useCallback, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../hooks/useApi";
-import {
-  neutralizeBack,
-  revivalBack,
-} from "../../../../../hooks/useBackButton";
+import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
+import { useBackButton } from "../../../../../lib/client/useBackButton";
 import { ErrorHandler } from "../../../../Error";
 import { Puller } from "../../../../Puller";
 import DrawerContent from "./DrawerContent";
@@ -42,9 +39,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  }, [open]);
+  useBackButton(() => setOpen(false));
 
   // Fetch data when the trigger is clicked on
   const handleOpen = useCallback(async () => {

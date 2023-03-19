@@ -14,8 +14,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import React, { cloneElement, useCallback, useEffect } from "react";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import React, { cloneElement, useCallback } from "react";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { useSession } from "../../pages/_app";
 import { updateSettings } from "../Settings/updateSettings";
 import { Color } from "./Color";
@@ -60,9 +60,7 @@ export function EditProperty({ children, color }: any) {
     [session.property.profile.name]
   );
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
 
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),
@@ -82,7 +80,7 @@ export function EditProperty({ children, color }: any) {
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: session?.user?.darkMode ? "hsl(240,11%,25%)" : "#fff",
+            background: session.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
             px: 3,
             width: { xs: "100vw", sm: "50vw" },
             py: 2,

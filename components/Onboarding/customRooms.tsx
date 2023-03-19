@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
 
 import { Autocomplete, Chip, TextField } from "@mui/material";
 import { useSession } from "../../pages/_app";

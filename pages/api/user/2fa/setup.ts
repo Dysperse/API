@@ -1,7 +1,7 @@
 // Update user settings
 import cacheData from "memory-cache";
 import * as twofactor from "node-2fa";
-import { prisma } from "../../../../lib/prismaClient";
+import { prisma } from "../../../../lib/server/prisma";
 
 /**
  * API handler for the /api/user/update endpoint
@@ -28,7 +28,7 @@ const handler = async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
-  const userId = session?.user?.id;
+  const userId = session.user.id;
   twofactor.generateToken(req.query.secret);
   const login = twofactor.verifyToken(req.query.secret, req.query.code);
 

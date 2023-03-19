@@ -12,7 +12,7 @@ export function OptionsGroup({ currentOption, setOption, options }) {
         width: "100%",
         gap: 0.2,
         background: `${
-          session?.user?.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)"
+          session.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)"
         }!important`,
       }}
     >
@@ -25,24 +25,22 @@ export function OptionsGroup({ currentOption, setOption, options }) {
           className="w-1/2 overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[0.75rem!important] border-2 px-5 transition-none"
           sx={{
             transition: "none!important",
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,80%)!important"
               : "hsl(240,11%,20%)!important",
-            color: session?.user?.darkMode ? "#000" : "#fff",
+            color: session.user.darkMode ? "#000" : "#fff",
             ...(currentOption !== option && {
               background: `${
-                session?.user?.darkMode
-                  ? "hsl(240,11%,20%)"
-                  : "hsl(240,11%,90%)"
+                session.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)"
               }!important`,
               "&:hover": {
                 background: `${
-                  session?.user?.darkMode
+                  session.user.darkMode
                     ? "hsl(240,11%,20%)"
                     : "hsl(240,11%,90%)"
                 }!important`,
               },
-              color: session?.user?.darkMode
+              color: session.user.darkMode
                 ? `hsl(240,11%,80%) !important`
                 : `#303030 !important`,
             }),

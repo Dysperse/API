@@ -4,8 +4,8 @@ import { Divider, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
 import { updateSettings } from "../Settings/updateSettings";
@@ -160,14 +160,14 @@ export default function SearchPopup({ styles }) {
         })
       : []),
 
-    ...(session?.user && session?.user?.properties
-      ? session?.user?.properties.map((property: any) => {
+    ...(session?.user && session.user.properties
+      ? session.user.properties.map((property: any) => {
           return {
             title: property.profile.name,
             onTrigger: () => {
               router.push("/tasks");
               fetchApiWithoutHook("property/join", {
-                email: session?.user?.email,
+                email: session.user.email,
                 accessToken1: property.accessToken,
               }).then((res) => {
                 toast.success(
@@ -246,11 +246,11 @@ export default function SearchPopup({ styles }) {
           .querySelector(`meta[name="theme-color"]`)
           ?.setAttribute(
             "content",
-            session?.user?.darkMode ? "hsl(240,11%,10%)" : "#fff"
+            session.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
           );
       }}
       onSpotlightOpen={() => {
-        if (!session?.user?.darkMode) {
+        if (!session.user.darkMode) {
           document
             .querySelector(`meta[name="theme-color"]`)
             ?.setAttribute("content", "#c0c0c0");

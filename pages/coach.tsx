@@ -10,10 +10,10 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { DailyRoutine } from "../components/Coach/DailyRoutine";
 import { MyGoals } from "../components/Coach/MyGoals";
-import { fetchApiWithoutHook } from "../hooks/useApi";
-import { toastStyles } from "../lib/useCustomTheme";
+import { Routines } from "../components/Coach/Routines";
+import { fetchApiWithoutHook } from "../lib/client/useApi";
+import { toastStyles } from "../lib/client/useTheme";
 import { useSession } from "./_app";
 
 export function CircularProgressWithLabel(
@@ -31,7 +31,7 @@ export function CircularProgressWithLabel(
           "& .MuiCircularProgress-circle": {
             strokeLinecap: "round",
             color:
-              session && session?.user && session?.user?.darkMode
+              session && session?.user && session.user.darkMode
                 ? "#fff"
                 : "#000",
             transition: "all .2s",
@@ -157,19 +157,8 @@ export const Task: any = React.memo(function Task({ task }: any) {
 });
 
 export default function Render() {
-  const time = new Date().getHours();
-  let greeting;
-  if (time < 10) {
-    greeting = "Morning, ";
-  } else if (time < 14) {
-    greeting = "Good afternoon, ";
-  } else if (time < 18) {
-    greeting = "Good evening, ";
-  } else {
-    greeting = "Good night, ";
-  }
-
   const [hideRoutine, setHideRoutine] = useState<boolean>(false);
+
   return (
     <Box sx={{ position: "relative" }}>
       <Head>
@@ -187,8 +176,8 @@ export default function Render() {
               My goals
             </h1>
           )}
-          {!hideRoutine && <DailyRoutine />}
         </Box>
+        <Routines />
         <Box className="max-w-[100vw] p-3 px-6 pt-0">
           <MyGoals setHideRoutine={setHideRoutine} />
           {!hideRoutine && (

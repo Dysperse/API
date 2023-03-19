@@ -1,6 +1,6 @@
 import type { Item as ItemType } from "@prisma/client";
 import { useState } from "react";
-import { fetchApiWithoutHook, useApi } from "../../hooks/useApi";
+import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
 import type { ApiResponse } from "../../types/client";
 
 import {
@@ -17,7 +17,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { toastStyles } from "../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../pages/_app";
 
 function BoardModal({ itemId, title, list }) {

@@ -12,10 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React, { cloneElement, useEffect, useState } from "react";
+import React, { cloneElement, useState } from "react";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../hooks/useApi";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
+import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
@@ -51,9 +51,8 @@ function SettingsMenu({
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack();
-  });
+  useBackButton(() => setOpen(false));
+
   const session = useSession();
 
   return (
@@ -66,11 +65,11 @@ function SettingsMenu({
           transiton: { sm: "none!important" },
           "& *": { transiton: { sm: "none!important" } },
           "&:hover": {
-            background: session?.user?.darkMode
+            background: session.user.darkMode
               ? "hsl(240,11%,25%)"
               : colors[session?.themeColor || "grey"][50],
             "& .MuiAvatar-root": {
-              background: session?.user?.darkMode
+              background: session.user.darkMode
                 ? "hsl(240,11%,35%)"
                 : colors[session?.themeColor || "grey"][100],
             },
@@ -80,9 +79,9 @@ function SettingsMenu({
         <ListItemAvatar>
           <Avatar
             sx={{
-              color: session?.user?.darkMode ? "#fff" : "#000",
+              color: session.user.darkMode ? "#fff" : "#000",
               borderRadius: 4,
-              background: session?.user?.darkMode
+              background: session.user.darkMode
                 ? "hsl(240,11%,30%)"
                 : colors[session?.themeColor || "grey"][100],
             }}
@@ -113,7 +112,7 @@ function SettingsMenu({
               maxHeight: "93vh",
 
               mx: "auto",
-              ...(session?.user?.darkMode && {
+              ...(session.user.darkMode && {
                 background: "hsl(240, 11%, 25%)",
               }),
             },
@@ -162,13 +161,11 @@ export default function FullScreenDialog({
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() =>
-    open ? neutralizeBack(() => setOpen(false)) : revivalBack()
-  );
+  useBackButton(() => setOpen(false));
 
   const trigger = cloneElement(children, {
     onClick: handleClickOpen,
-    onmousedown: handleClickOpen,
+    onMouseDown: handleClickOpen,
     id: "settingsTrigger",
   });
 
@@ -209,7 +206,7 @@ export default function FullScreenDialog({
             icon="format_paint"
             primary="Appearance"
             secondary={`Current theme: ${capitalizeFirstLetter(
-              session?.user?.color
+              session.user.color
             )}`}
           />
           <SettingsMenu
@@ -220,8 +217,8 @@ export default function FullScreenDialog({
             secondary={
               <>
                 2FA is currently{" "}
-                {session?.user?.twoFactorSecret &&
-                session?.user?.twoFactorSecret !== "false"
+                {session.user.twoFactorSecret &&
+                session.user.twoFactorSecret !== "false"
                   ? "enabled"
                   : "disabled"}
               </>
@@ -234,7 +231,7 @@ export default function FullScreenDialog({
             primary="Account"
             secondary={
               <>
-                {session?.user?.name} &bull; {session?.user?.email}
+                {session.user.name} &bull; {session.user.email}
               </>
             }
           />
@@ -272,7 +269,7 @@ export default function FullScreenDialog({
             }
             secondary={
               <>
-                {session?.user?.notificationSubscription
+                {session.user.notificationSubscription
                   ? "Notifications enabled for 1 device"
                   : "Notifications off"}
               </>
@@ -292,13 +289,13 @@ export default function FullScreenDialog({
                 "& *": { transiton: "none!important" },
                 borderRadius: 4,
                 "&:hover, &:focus": {
-                  background: session?.user?.darkMode
+                  background: session.user.darkMode
                     ? "hsl(240,11%,25%)"
                     : colors[session?.themeColor || "grey"][50],
                 },
                 userSelect: "none",
                 "& .MuiAvatar-root": {
-                  background: session?.user?.darkMode
+                  background: session.user.darkMode
                     ? "hsl(240,11%,35%)"
                     : colors[session?.themeColor || "grey"][100],
                 },
@@ -307,10 +304,10 @@ export default function FullScreenDialog({
               <ListItemAvatar>
                 <Avatar
                   sx={{
-                    color: session?.user?.darkMode ? "#fff" : "#000",
+                    color: session.user.darkMode ? "#fff" : "#000",
                     background:
                       colors[session?.themeColor || "grey"][
-                        session?.user?.darkMode ? 900 : 100
+                        session.user.darkMode ? 900 : 100
                       ],
                     borderRadius: 4,
                   }}

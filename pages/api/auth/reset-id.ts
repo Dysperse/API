@@ -1,6 +1,6 @@
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
-import { prisma } from "../../../lib/prismaClient";
+import { prisma } from "../../../lib/server/prisma";
 
 /**
  * Creates a session and stores it in the database

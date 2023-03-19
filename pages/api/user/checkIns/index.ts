@@ -1,4 +1,4 @@
-import { prisma } from "../../../../lib/prismaClient";
+import { prisma } from "../../../../lib/server/prisma";
 
 // Checks if the user has already done today's daily check-in
 export default async function handler(req, res) {

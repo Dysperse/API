@@ -19,8 +19,8 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { authStyles, Layout } from "../../components/Auth/Layout";
 import { isEmail } from "../../components/Group/MemberList";
-import { neutralizeBack, revivalBack } from "../../hooks/useBackButton";
-import { toastStyles } from "../../lib/useCustomTheme";
+import { useBackButton } from "../../lib/client/useBackButton";
+import { toastStyles } from "../../lib/client/useTheme";
 
 const validateEmail = (email) => {
   return String(email)
@@ -70,11 +70,7 @@ export default function Prompt() {
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const [twoFactorModalOpen, setTwoFactorModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    twoFactorModalOpen
-      ? neutralizeBack(() => setTwoFactorModalOpen(false))
-      : revivalBack();
-  });
+  useBackButton(() => setTwoFactorModalOpen(false));
 
   const [captchaToken, setCaptchaToken] = useState("");
   const [email, setEmail] = useState("");
