@@ -69,25 +69,23 @@ const Notification = async (req, res) => {
       (routine) => routine.timeOfDay === currentTimeInUserTimeZone
     );
     if (currentRoutine) {
-
-    }
-
-    try {
-      await DispatchNotification({
-        title: "Let's work on your goals!",
-        icon:"",
-        body: "Tap to start your daily routine",
-        actions: [
-          {
-            title: "⚡ Start my daily routine",
-            action: "startDailyRoutine",
-          },
-        ],
-        subscription: notificationSubscription,
-      });
-    } catch (error) {
-      // If there's an error, log it
-      console.log(error);
+      try {
+        await DispatchNotification({
+          title: "Time to start your routine!",
+          icon: "",
+          body: currentRoutine.name,
+          actions: [
+            {
+              title: "⚡ Start",
+              action: "startDailyRoutine",
+            },
+          ],
+          subscription: notificationSubscription,
+        });
+      } catch (error) {
+        // If there's an error, log it
+        console.log(error);
+      }
     }
   }
 
