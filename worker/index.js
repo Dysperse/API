@@ -8,13 +8,17 @@ self.addEventListener("push", (event) => {
     "You have a new notification • Carbon";
   const body =
     (event.data && JSON.parse(event.data.text()).body) || "Tap to open";
+  const icon =
+    (event.data && JSON.parse(event.data.text()).icon) ||
+    "https://assets.dysperse.com/v5/ios/192.png";
+
   const tag = `dysperse-notification-${new Date().getTime()}`;
 
   event.waitUntil(
     self.registration.showNotification(title, {
       body,
       tag,
-      icon: "https://assets.dysperse.com/v5/ios/192.png",
+      icon,
       vibrate: [200, 100, 200],
       badge: "https://assets.dysperse.com/v6/20230123_114910_0000.png",
       actions: (event.data && JSON.parse(event.data.text()).actions) || [],
