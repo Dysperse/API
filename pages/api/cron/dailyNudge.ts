@@ -69,11 +69,14 @@ const Notification = async (req, res) => {
       (routine) => routine.timeOfDay === currentTimeInUserTimeZone
     );
     if (currentRoutine) {
+      console.log(currentRoutine);
       try {
         await DispatchNotification({
-          title: "Time to start your routine!",
-          icon: "",
-          body: currentRoutine.name,
+          title: `Let's work on your: ${currentRoutine.name}`,
+          icon:
+            currentRoutine.emoji ||
+            "https://assets.dysperse.com/v5/ios/192.png",
+          body: "It's time to start your routine! Tap to open",
           actions: [
             {
               title: "⚡ Start",
