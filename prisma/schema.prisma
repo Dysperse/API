@@ -23,6 +23,7 @@ model User {
   twoFactorSecret          String                @default("")
   notificationSubscription String?               @db.VarChar(500)
   zenCardOrder             String                @default("[\"goals.study_plan\", \"inventory.starred\", \"inventory.scan\"]")
+  timezone                 String                @default("America/Los_Angeles") @db.VarChar(255)
   CustomRoom               CustomRoom[]
   NotificationSettings     NotificationSettings?
   OAuthToken               OAuthToken[]
