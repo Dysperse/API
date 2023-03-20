@@ -69,13 +69,12 @@ const Notification = async (req, res) => {
       (routine) => routine.timeOfDay === currentTimeInUserTimeZone
     );
     if (currentRoutine) {
-
     }
 
     try {
       await DispatchNotification({
         title: "Let's work on your goals!",
-        icon:"",
+        icon: "",
         body: "Tap to start your daily routine",
         actions: [
           {
