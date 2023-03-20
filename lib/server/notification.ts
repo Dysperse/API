@@ -5,11 +5,13 @@ export const DispatchNotification = async ({
   title,
   body,
   actions,
+  icon = "https://assets.dysperse.com/v5/ios/192.png",
 }: {
   subscription: string;
   title: string;
   body?: string;
   actions?: { title: string; action: string }[];
+  icon: string;
 }) => {
   try {
     webPush.setVapidDetails(
@@ -24,6 +26,7 @@ export const DispatchNotification = async ({
         title: title,
         body,
         actions: actions ?? [{ title: "⚡ View", action: "view" }],
+        icon,
       })
     );
     return { success: true };

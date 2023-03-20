@@ -1,6 +1,13 @@
 const webPush = require("web-push");
+import dayjs from "dayjs";
 import { DispatchNotification } from "../../../lib/server/notification";
 import { prisma } from "../../../lib/server/prisma";
+
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const Notification = async (req, res) => {
   if (
@@ -16,28 +23,31 @@ const Notification = async (req, res) => {
   // Select user's push notification subscription URL, also asking one of their incompleted goals.
   let subscriptions = await prisma.notificationSettings.findMany({
     where: {
-      dailyRoutineNudge: true,
+      AND: [
+        {
+          dailyRoutineNudge: true,
+        },
+        {
+          user: {
+            email: "manusvathgurudath@gmail.com",
+          },
+        },
+      ],
     },
     select: {
       user: {
         select: {
           notificationSubscription: true,
-          RoutineItem: {
-            select: {
-              id: true,
-            },
-            where: {
-              completed: false,
-            },
-          },
+          timeZone: true,
+          Routine: true,
         },
       },
     },
   });
 
-  // Make sure that user actually has goals (which aren't completed!)
+  // Make sure that user actually has routines
   subscriptions = subscriptions.filter(
-    (subscription) => subscription.user.RoutineItem.length > 0
+    (subscription) => subscription.user.Routine.length > 0
   );
 
   webPush.setVapidDetails(
@@ -49,10 +59,23 @@ const Notification = async (req, res) => {
   // For each user
   for (let i = 0; i < subscriptions.length; i++) {
     const subscription = subscriptions[i];
-    const { notificationSubscription }: any = subscription.user;
+    const { notificationSubscription, timeZone, Routine }: any =
+      subscription.user;
+
+    // Current time in user's timezone
+    const currentTimeInUserTimeZone = dayjs().tz(timeZone).hour();
+
+    const currentRoutine = Routine.find(
+      (routine) => routine.timeOfDay === currentTimeInUserTimeZone
+    );
+    if (currentRoutine) {
+
+    }
+
     try {
       await DispatchNotification({
         title: "Let's work on your goals!",
+        icon:"",
         body: "Tap to start your daily routine",
         actions: [
           {
