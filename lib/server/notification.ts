@@ -11,7 +11,7 @@ export const DispatchNotification = async ({
   title: string;
   body?: string;
   actions?: { title: string; action: string }[];
-  icon: string;
+  icon?: string;
 }) => {
   try {
     webPush.setVapidDetails(
