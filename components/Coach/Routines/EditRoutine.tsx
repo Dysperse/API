@@ -25,14 +25,12 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
   const [name, setName] = useState(routine.name);
   const [note, setNote] = useState(routine.note);
 
-  const [emoji, setEmoji] = useState(
-    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2615.png"
-  );
+  const [emoji, setEmoji] = useState(routine.emoji);
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
   const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
 
-  const [time, setTime] = useState(12);
+  const [time, setTime] = useState(parseInt(routine.timeOfDay));
 
   const handleChange = (event) => {
     setTime(event.target.value);
