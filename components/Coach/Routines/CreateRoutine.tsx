@@ -3,7 +3,6 @@ import {
   AppBar,
   Box,
   Button,
-  Chip,
   Drawer,
   Icon,
   IconButton,
@@ -25,9 +24,9 @@ import { useSession } from "../../../pages/_app";
 import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
 import { Puller } from "../../Puller";
 import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
-import { categories, goals } from "../goalTemplates";
+import { categories, goals, routines } from "../goalTemplates";
 
-function FeaturedGoal({ mutationUrl, setOpen, goal }) {
+function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const [loading, setLoading] = useState(false);
 
   const randomColors = [
@@ -47,24 +46,24 @@ function FeaturedGoal({ mutationUrl, setOpen, goal }) {
     <Box
       onClick={async () => {
         setLoading(true);
-        try {
-          await fetchApiWithoutHook("user/routines/create", {
-            name: goal.name,
-            stepName: goal.stepName,
-            category: goal.category,
-            durationDays: goal.durationDays,
-            time: goal.time,
-          });
-          await mutate(mutationUrl);
-          setLoading(false);
-          setOpen(false);
-        } catch (e) {
-          setLoading(false);
-          toast.error(
-            "An error occurred while trying to set your goal. Please try again.",
-            toastStyles
-          );
-        }
+        // try {
+        //   await fetchApiWithoutHook("user/routines/create", {
+        //     name: routine.name,
+        //     stepName: routine.stepName,
+        //     category: routine.category,
+        //     durationDays: routine.durationDays,
+        //     time: routine.time,
+        //   });
+        //   await mutate(mutationUrl);
+        //   setLoading(false);
+        //   setOpen(false);
+        // } catch (e) {
+        //   setLoading(false);
+        //   toast.error(
+        //     "An error occurred while trying to set your goal. Please try again.",
+        //     toastStyles
+        //   );
+        // }
       }}
       sx={{
         background: `linear-gradient(45deg, ${colors[randomColor]["A200"]}, ${colors[randomColor]["A400"]})`,
@@ -81,24 +80,17 @@ function FeaturedGoal({ mutationUrl, setOpen, goal }) {
         },
       }}
     >
-      <Chip
-        label="Featured"
-        sx={{
-          px: 1,
-          mb: 0.5,
-          color: "#000",
-          fontWeight: 700,
-          background: "rgba(0,0,0,0.1)",
-        }}
-      />
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>
+        <picture>
+          <img src={routine.emoji} />
+        </picture>
         <Box>
           <Typography
             variant="h2"
             className="font-heading"
             sx={{ fontSize: { xs: "40px", sm: "50px" } }}
           >
-            {goal.name}
+            {routine.name}
           </Typography>
           <Box
             sx={{
@@ -107,12 +99,18 @@ function FeaturedGoal({ mutationUrl, setOpen, goal }) {
               mt: 1,
             }}
           >
-            <Typography variant="body2">{goal.category} &bull;</Typography>
+            <Typography variant="body2">{routine.category} &bull;</Typography>
             <Typography variant="body2">
-              {goal.durationDays} days &bull;
+              {routine.durationDays} days &bull;
             </Typography>
             <Typography variant="body2">
-              Every {goal.time === "any" ? "day" : goal.time}
+              {routine.items.length} tasks &bull;
+            </Typography>
+            <Typography variant="body2">
+              Every{" "}
+              {routine.daysOfWeek ==
+                "[true, true, true, true, true, true, true]" && "day"}{" "}
+              at {routine.timeOfDay}
             </Typography>
           </Box>
         </Box>
@@ -199,7 +197,7 @@ function CreateGoal() {
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const randomGoal = goals[Math.floor(Math.random() * goals.length)];
+  const randomRoutine = routines[Math.floor(Math.random() * routines.length)];
   const shuffled = goals.sort(() => Math.random() - 0.5);
 
   return (
@@ -237,7 +235,11 @@ function CreateGoal() {
             p: { xs: 2, sm: 4 },
           }}
         >
-          <FeaturedGoal goal={randomGoal} mutationUrl="" setOpen={setOpen} />
+          <FeaturedRoutine
+            routine={randomRoutine}
+            mutationUrl=""
+            setOpen={setOpen}
+          />
           <Box
             sx={{
               px: { xs: 1, sm: 2 },
