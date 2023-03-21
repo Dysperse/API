@@ -9,6 +9,7 @@ import {
   IconButton,
   ListItem,
   ListItemText,
+  Menu,
   MenuItem,
   Select,
   SwipeableDrawer,
@@ -28,6 +29,41 @@ import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
 import { Puller } from "../../Puller";
 import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
 import { categories, goals, routines } from "../goalTemplates";
+
+function DurationPicker({ duration, setDuration }) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <>
+      <Button size="small" variant="contained" onClick={handleClick}>
+        {duration}
+        <Icon className="outlined">expand_more</Icon>
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>10 days</MenuItem>
+        <MenuItem onClick={handleClose}>25 days</MenuItem>
+        <MenuItem onClick={handleClose}>50 days</MenuItem>
+        <MenuItem onClick={handleClose}>75 days</MenuItem>
+        <MenuItem onClick={handleClose}>100 days</MenuItem>
+        <MenuItem onClick={handleClose}>365 days</MenuItem>
+      </Menu>
+    </>
+  );
+}
 
 function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const [loading, setLoading] = useState(false);
@@ -51,6 +87,11 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   };
 
   const [open, setInfoOpen] = useState(false);
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
+  const [routineItems, setRoutineItems] = useState(routine.items);
+  const [duration, setDuration] = useState(routine.durationDays);
+  const [editDays, setEditDays] = useState(false);
 
   const handleClick = async () => {
     setLoading(true);
@@ -58,10 +99,10 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
       await fetchApiWithoutHook("user/routines/createFromTemplate", {
         name: routine.name,
         note: "",
-        daysOfWeek: routine.daysOfWeek,
+        daysOfWeek,
         emoji: routine.emoji,
         timeOfDay: routine.timeOfDay,
-        items: JSON.stringify(routine.items),
+        items: JSON.stringify(routineItems),
       });
       await mutate(mutationUrl);
       setLoading(false);
@@ -74,9 +115,6 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
       );
     }
   };
-  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-  const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
-  const [editDays, setEditDays] = useState(false);
 
   return (
     <>
@@ -122,14 +160,16 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               variant="contained"
               onClick={() => setEditDays(!editDays)}
             >
-              Every day
+              {JSON.parse(daysOfWeek).filter((day) => day === true).length == 7
+                ? "Every day"
+                : "On certain days"}
               <Icon className="outlined">edit</Icon>
             </Button>{" "}
             &nbsp; for &nbsp;
-            <Button size="small" variant="contained">
-              {routine.durationDays}
-              <Icon className="outlined">edit</Icon>
-            </Button>{" "}
+            <DurationPicker
+              duration={duration}
+              setDuration={setDuration}
+            />{" "}
             days
           </Typography>
           <Box
@@ -137,7 +177,7 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               my: 2,
               display: editDays ? "flex" : "none",
               gap: 1,
-              flexWrap: "wrap",
+              overflowX: "scroll",
               background: "rgba(200,200,200,.3)",
               borderRadius: 4,
               p: 3,
@@ -147,6 +187,10 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               <Button
                 key={index}
                 size="small"
+                disabled={
+                  JSON.parse(daysOfWeek).filter((day) => day === true).length ==
+                    1 && JSON.parse(daysOfWeek)[index]
+                }
                 sx={{ px: 1, minWidth: "auto" }}
                 onClick={() =>
                   setDaysOfWeek((d) => {
@@ -156,9 +200,12 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
                     return JSON.stringify(t);
                   })
                 }
-                {...(JSON.parse(daysOfWeek)[index] && { variant: "contained" })}
+                variant={
+                  JSON.parse(daysOfWeek)[index] ? "contained" : "outlined"
+                }
               >
                 {days[index]}
+                {JSON.parse(daysOfWeek)[index] && <Icon>check</Icon>}
               </Button>
             ))}
           </Box>
@@ -196,12 +243,48 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
           <Typography variant="h6" sx={{ mt: 3, sm: 1 }}>
             About this routine
           </Typography>
-          {routine.items.map((item, index) => (
-            <ListItem sx={{ gap: 2, alignItems: "start" }} key={index}>
-              <Typography className="font-heading" variant="h4">
+          {routineItems.map((item, index) => (
+            <ListItem
+              sx={{
+                gap: 2,
+                transition: "all .2s",
+                ...(item.disabled && {
+                  opacity: 0.5,
+                  transform: "scale(.95)",
+                }),
+              }}
+              key={index}
+            >
+              <Typography
+                className="font-heading"
+                variant="h4"
+                sx={{ flex: "0 0 40px" }}
+              >
                 #{index + 1}
               </Typography>
               <ListItemText primary={item.name} secondary={item.description} />
+              <IconButton
+                sx={{ ml: "auto" }}
+                size="small"
+                onClick={() =>
+                  setRoutineItems(
+                    routineItems.map((item1) => {
+                      if (item1 === item) {
+                        return {
+                          ...item1,
+                          disabled: item1.disabled ? false : true,
+                        };
+                      } else {
+                        return item1;
+                      }
+                    })
+                  )
+                }
+              >
+                <Icon className="outlined">
+                  {!item.disabled ? "check_circle" : "do_not_disturb_on"}
+                </Icon>
+              </IconButton>
             </ListItem>
           ))}
         </Box>
