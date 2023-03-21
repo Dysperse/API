@@ -5,7 +5,6 @@ import {
   Link as MuiLink,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -66,17 +65,19 @@ export function Error({ message }) {
           textAlign: "center",
         }}
       >
-        <Image
-          width={256}
-          height={256}
-          style={{
-            width: "100%",
-            maxWidth: "256px",
-            margin: "auto",
-          }}
-          src="/images/error.png"
-          alt="Error"
-        />
+        <picture>
+          <img
+            width={256}
+            height={256}
+            style={{
+              width: "100%",
+              maxWidth: "256px",
+              margin: "auto",
+            }}
+            src="https://my.dysperse.com/images/error.png"
+            alt="Error"
+          />
+        </picture>
         <Typography
           variant="h4"
           gutterBottom
