@@ -25,15 +25,6 @@ export function Routine({ mutationUrl, routine }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState<null | any>(routine);
 
-  useEffect(() => {
-    if (window && window.location.href.includes("#/routine-")) {
-      const match = window.location.hash.replace("#/routine-", "");
-      if (match) {
-        alert(match);
-      }
-    }
-  });
-
   const session = useSession();
   const ref: any = useRef();
 
@@ -68,6 +59,18 @@ export function Routine({ mutationUrl, routine }) {
       );
     }
   };
+
+  const [alreadyOpened, setAlreadyOpened] = useState(false);
+
+  useEffect(() => {
+    if (window && window.location.href.includes("#/routine-")) {
+      const match = window.location.hash.replace("#/routine-", "");
+      if (match && routine.id === match && !alreadyOpened) {
+        setAlreadyOpened(true);
+        handleClick();
+      }
+    }
+  }, [alreadyOpened]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
