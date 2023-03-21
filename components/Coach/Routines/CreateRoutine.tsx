@@ -3,6 +3,7 @@ import {
   AppBar,
   Box,
   Button,
+  Chip,
   Drawer,
   Icon,
   IconButton,
@@ -99,19 +100,11 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               mt: 1,
             }}
           >
-            <Typography variant="body2">{routine.category} &bull;</Typography>
-            <Typography variant="body2">
-              {routine.durationDays} days &bull;
-            </Typography>
-            <Typography variant="body2">
-              {routine.items.length} tasks &bull;
-            </Typography>
-            <Typography variant="body2">
-              Every{" "}
-              {routine.daysOfWeek ==
-                "[true, true, true, true, true, true, true]" && "day"}{" "}
-              at {routine.timeOfDay}
-            </Typography>
+            <Chip label={"Routine"} />
+            <Chip label={routine.category} />
+            <Chip label={`${routine.durationDays} days`} />
+            <Chip label={`${routine.items.length} tasks`} />
+            <Chip label={`Daily at ${routine.timeOfDay}:00`} />
           </Box>
         </Box>
         <Icon
@@ -128,9 +121,6 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
 }
 
 function ExploreGoalCard({ goal }) {
-  const session = useSession();
-  const [loading, setLoading] = useState(false);
-
   return (
     <Box
       onClick={async () => {

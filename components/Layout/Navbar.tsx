@@ -55,7 +55,7 @@ export function Navbar(): JSX.Element {
         position: "fixed",
         paddingTop: "env(titlebar-area-height, 0px)",
         ...((!router ||
-          router.asPath === "/zen" ||
+          router.asPath.includes("/zen" ||
           router.asPath === "" ||
           router.asPath === "/") && {
           top: {
