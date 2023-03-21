@@ -167,7 +167,7 @@ export function Sidebar() {
       <Box sx={{ mt: "auto", pt: 4 }} />
       <Box
         sx={styles(
-          router.asPath === "/zen" ||
+          router.asPath.includes("/zen") ||
             router.asPath === "/" ||
             router.asPath === ""
         )}
@@ -177,7 +177,7 @@ export function Sidebar() {
         <Tooltip title="Start" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath === "/zen" ||
+              router.asPath.includes("/zen") ||
               router.asPath === "/" ||
               router.asPath === ""
                 ? "rounded"
