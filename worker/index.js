@@ -38,7 +38,7 @@ self.addEventListener("notificationclick", function (event) {
       const regex = /^routine-(\d+)$/;
       const match = event.action.match(regex);
       if (match) {
-        path = `/zen/#/routines-${match[1]}`;
+        path = `/zen/#/routine-${match[1]}`;
       }
   }
 
