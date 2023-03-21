@@ -57,6 +57,7 @@ export function Error({ message }) {
           background: "hsl(240,11%,90%)",
           color: "#000",
           left: "50%",
+          userSelect: "none",
           maxWidth: "calc(100vw - 20px)",
           width: "370px",
           maxHeight: "calc(100vh - 20px)",
