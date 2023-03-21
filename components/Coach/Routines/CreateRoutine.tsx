@@ -36,14 +36,15 @@ function DurationPicker({ duration, setDuration }) {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (d) => {
+    setDuration(d);
     setAnchorEl(null);
   };
   return (
     <>
       <Button size="small" variant="contained" onClick={handleClick}>
         {duration}
-        <Icon className="outlined">expand_more</Icon>
+        <Icon className="outlined">edit</Icon>
       </Button>
       <Menu
         id="basic-menu"
@@ -54,12 +55,12 @@ function DurationPicker({ duration, setDuration }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>10 days</MenuItem>
-        <MenuItem onClick={handleClose}>25 days</MenuItem>
-        <MenuItem onClick={handleClose}>50 days</MenuItem>
-        <MenuItem onClick={handleClose}>75 days</MenuItem>
-        <MenuItem onClick={handleClose}>100 days</MenuItem>
-        <MenuItem onClick={handleClose}>365 days</MenuItem>
+        <MenuItem onClick={() => handleClose(10)}>10 days</MenuItem>
+        <MenuItem onClick={() => handleClose(25)}>25 days</MenuItem>
+        <MenuItem onClick={() => handleClose(50)}>50 days</MenuItem>
+        <MenuItem onClick={() => handleClose(75)}>75 days</MenuItem>
+        <MenuItem onClick={() => handleClose(100)}>100 days</MenuItem>
+        <MenuItem onClick={() => handleClose(365)}>365 days</MenuItem>
       </Menu>
     </>
   );
@@ -135,7 +136,7 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
             </IconButton>
             <Typography sx={{ mx: "auto", fontWeight: "700" }}>Goal</Typography>
             <IconButton onClick={handleClick}>
-              <Icon>add</Icon>
+              <Icon>check</Icon>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -165,11 +166,8 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
                 : "On certain days"}
               <Icon className="outlined">edit</Icon>
             </Button>{" "}
-            &nbsp; for &nbsp;
-            <DurationPicker
-              duration={duration}
-              setDuration={setDuration}
-            />{" "}
+            &nbsp; for &nbsp;{" "}
+            <DurationPicker duration={duration} setDuration={setDuration} />{" "}
             days
           </Typography>
           <Box
@@ -210,38 +208,7 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
             ))}
           </Box>
           <Typography variant="h6" sx={{ mt: 3, sm: 1 }}>
-            About this routine
-          </Typography>
-          <ListItem sx={{ gap: 2, alignItems: "start" }}>
-            <Icon className="outlined" sx={{ mt: 1.5 }}>
-              notifications
-            </Icon>
-            <ListItemText
-              primary="Recieve daily reminders"
-              secondary="If turned on, you'll recieve daily reminders to work on this routine"
-            />
-          </ListItem>
-          <ListItem sx={{ gap: 2, alignItems: "start" }}>
-            <Icon className="outlined" sx={{ mt: 1.5 }}>
-              today
-            </Icon>
-            <ListItemText
-              primary="Have a clear path"
-              secondary="You can customize this routine to fit your needs"
-            />
-          </ListItem>
-          <ListItem sx={{ gap: 2, alignItems: "start" }}>
-            <Icon className="outlined" sx={{ mt: 1.5 }}>
-              eco
-            </Icon>
-            <ListItemText
-              primary="Make small, valuable steps"
-              secondary="This course is built to fit overloaded schedule of busy and successful people. Every step requires less than 1 hour of your time per day."
-            />
-          </ListItem>
-
-          <Typography variant="h6" sx={{ mt: 3, sm: 1 }}>
-            About this routine
+            What?
           </Typography>
           {routineItems.map((item, index) => (
             <ListItem
@@ -287,6 +254,36 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               </IconButton>
             </ListItem>
           ))}
+          <Typography variant="h6" sx={{ mt: 3, sm: 1 }}>
+            About this routine
+          </Typography>
+          <ListItem sx={{ gap: 2, alignItems: "start" }}>
+            <Icon className="outlined" sx={{ mt: 1.5 }}>
+              notifications
+            </Icon>
+            <ListItemText
+              primary="Recieve daily reminders"
+              secondary="If turned on, you'll recieve daily reminders to work on this routine"
+            />
+          </ListItem>
+          <ListItem sx={{ gap: 2, alignItems: "start" }}>
+            <Icon className="outlined" sx={{ mt: 1.5 }}>
+              today
+            </Icon>
+            <ListItemText
+              primary="Have a clear path"
+              secondary="You can customize this routine to fit your needs"
+            />
+          </ListItem>
+          <ListItem sx={{ gap: 2, alignItems: "start" }}>
+            <Icon className="outlined" sx={{ mt: 1.5 }}>
+              eco
+            </Icon>
+            <ListItemText
+              primary="Make small, valuable steps"
+              secondary="This course is built to fit overloaded schedule of busy and successful people. Every step requires less than 1 hour of your time per day."
+            />
+          </ListItem>
         </Box>
       </SwipeableDrawer>
 
