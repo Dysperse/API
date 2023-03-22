@@ -80,7 +80,11 @@ function BoardModal({ itemId, title, list }) {
             >
               {list.columns.length !== 1 && (
                 <picture>
-                  <img src={column.emoji} alt={column.name} width={25} />
+                  <img
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+                    alt={column.name}
+                    width={25}
+                  />
                 </picture>
               )}
               <ListItemText

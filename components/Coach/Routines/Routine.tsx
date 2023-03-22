@@ -145,7 +145,12 @@ export function Routine({ mutationUrl, routine }) {
           className="override-bg"
         >
           <picture>
-            <img src={routine.emoji} width="35px" height="35px" alt="Emoji" />
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+              width="35px"
+              height="35px"
+              alt="Emoji"
+            />
           </picture>
           <Typography variant="h6">{routine.name}</Typography>
           <Box
@@ -394,7 +399,12 @@ export function Routine({ mutationUrl, routine }) {
             />
           )}
           <picture>
-            <img src={routine.emoji} width="35px" height="35px" alt="Emoji" />
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+              width="35px"
+              height="35px"
+              alt="Emoji"
+            />
           </picture>
         </Box>
         <Box sx={{ width: "100%" }}>

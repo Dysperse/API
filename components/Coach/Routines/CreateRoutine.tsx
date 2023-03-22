@@ -25,7 +25,7 @@ import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
 import { useSession } from "../../../pages/_app";
-import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
+import { EmojiPicker } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
 import { categories, goals, routines } from "../goalTemplates";
@@ -142,7 +142,10 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         </AppBar>
         <Box sx={{ p: 3 }}>
           <picture>
-            <img src={routine.emoji} alt="Emoji" />
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+              alt="Emoji"
+            />
           </picture>
           <Typography variant="h4" className="font-heading" sx={{ mt: 2 }}>
             {routine.name}
@@ -342,7 +345,10 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
             }}
           >
             <picture>
-              <img src={routine.emoji} alt="Emoji" />
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+                alt="Emoji"
+              />
             </picture>
           </Box>
           <Box>
@@ -651,7 +657,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
       await fetchApiWithoutHook("user/routines/custom-routines/create", {
         name,
         note,
-        emoji,
+        emoji: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`,
         daysOfWeek,
         timeOfDay: time,
       });
@@ -743,7 +749,15 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
           <Typography variant="h6" gutterBottom>
             Create routine
           </Typography>
-          <EmojiPickerModal large setEmoji={setEmoji} emoji={emoji} />
+          <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
+            <IconButton>
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                />
+              </picture>
+            </IconButton>
+          </EmojiPicker>
           <TextField
             value={name}
             onChange={(e) => setName(e.target.value)}

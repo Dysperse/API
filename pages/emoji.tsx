@@ -6,7 +6,11 @@ export default function App() {
 
   return (
     <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
-      <button>open</button>
+      <button>
+        <img
+          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+        />
+      </button>
     </EmojiPicker>
   );
 }

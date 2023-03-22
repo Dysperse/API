@@ -14,7 +14,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { fetchApiWithoutHook, useApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
+import { EmojiPicker } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 import { GoalCard } from "./GoalCard";
 
@@ -100,7 +100,13 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
           <Typography variant="h6" sx={{ mb: 2 }}>
             Routine
           </Typography>
-          <EmojiPickerModal large setEmoji={setEmoji} emoji={emoji} />
+          <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
+            <picture>
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+              />
+            </picture>
+          </EmojiPicker>
           <TextField
             value={name}
             onChange={(e) => setName(e.target.value)}

@@ -107,6 +107,12 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
         onOpen={handleOpen}
         disableSwipeToOpen
         anchor="bottom"
+        ModalProps={{
+          keepMounted: false,
+        }}
+        sx={{
+          zIndex: 99999999999,
+        }}
       >
         <Puller showOnDesktop />
         <Box sx={{ px: 2 }}>

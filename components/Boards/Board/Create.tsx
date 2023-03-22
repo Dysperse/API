@@ -81,7 +81,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                 >
                   <picture>
                     <img
-                      src={column.emoji}
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
                       width="30px"
                       height="30px"
                       alt="emoji"
@@ -200,7 +200,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                 >
                   <picture>
                     <img
-                      src={column.emoji}
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
                       width="30px"
                       height="30px"
                       alt="emoji"
