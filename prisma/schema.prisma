@@ -210,7 +210,7 @@ model Routine {
   id    String @id @unique @default(uuid())
   name  String
   note  String
-  emoji String @default("https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f331.png")
+  emoji String @default("1f331")
 
   timeOfDay  Int    @default(12)
   daysOfWeek String @default("[true, true, true, true, true, true, true]")
