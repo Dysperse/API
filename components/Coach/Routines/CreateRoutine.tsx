@@ -345,10 +345,7 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
             }}
           >
             <picture>
-              <img
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
-                alt="Emoji"
-              />
+              <img src={routine.emoji} alt="Emoji" />
             </picture>
           </Box>
           <Box>
