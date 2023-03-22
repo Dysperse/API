@@ -15,7 +15,8 @@ import Stories from "react-insta-stories";
 import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { useSession } from "../../../pages/_app";
-import { RoutineEnd, Task } from "../DailyRoutine";
+import { RoutineEnd } from "../Routine/RoutineEnd";
+import { Task } from "../Routine/Task";
 import { RoutineOptions } from "./RoutineOptions";
 
 export function Routine({ mutationUrl, routine }) {
@@ -59,6 +60,18 @@ export function Routine({ mutationUrl, routine }) {
       );
     }
   };
+
+  const [alreadyOpened, setAlreadyOpened] = useState(false);
+
+  useEffect(() => {
+    if (window && window.location.href.includes("#/routine-")) {
+      const match = window.location.hash.replace("#/routine-", "");
+      if (match && routine.id === match && !alreadyOpened) {
+        setAlreadyOpened(true);
+        handleClick();
+      }
+    }
+  }, [alreadyOpened]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -132,7 +145,12 @@ export function Routine({ mutationUrl, routine }) {
           className="override-bg"
         >
           <picture>
-            <img src={routine.emoji} width="35px" height="35px" alt="Emoji" />
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+              width="35px"
+              height="35px"
+              alt="Emoji"
+            />
           </picture>
           <Typography variant="h6">{routine.name}</Typography>
           <Box
@@ -381,7 +399,12 @@ export function Routine({ mutationUrl, routine }) {
             />
           )}
           <picture>
-            <img src={routine.emoji} width="35px" height="35px" alt="Emoji" />
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+              width="35px"
+              height="35px"
+              alt="Emoji"
+            />
           </picture>
         </Box>
         <Box sx={{ width: "100%" }}>

@@ -7,7 +7,6 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
-import EmojiPicker from "emoji-picker-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -15,6 +14,7 @@ import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { colors } from "../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../pages/_app";
+import { EmojiPicker } from "../../../EmojiPicker";
 import { Puller } from "../../../Puller";
 
 export default function CreateColumn({
@@ -28,12 +28,9 @@ export default function CreateColumn({
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
-  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const ref: any = useRef();
   const [loading, setLoading] = useState<boolean>(false);
-  const [emoji, setEmoji] = useState(
-    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
-  );
+  const [emoji, setEmoji] = useState("1f3af");
 
   const handleSubmit = useCallback(() => {
     setLoading(true);
@@ -44,7 +41,7 @@ export default function CreateColumn({
     }
     fetchApiWithoutHook("property/boards/column/create", {
       title: ref?.current?.value,
-      emoji,
+      emoji: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`,
       id: id,
     })
       .then(() => {
@@ -116,21 +113,25 @@ export default function CreateColumn({
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-          <Button
-            onClick={() => setShowEmojiPicker(true)}
-            size="small"
-            sx={{
-              px: 1,
-              background: session.user.darkMode
-                ? "hsl(240,11%,17%)"
-                : "rgba(200, 200, 200, 0.3)!important",
-              borderRadius: 5,
-            }}
-          >
-            <picture>
-              <img src={emoji} alt="emoji" />
-            </picture>
-          </Button>
+          <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+            <Button
+              size="small"
+              sx={{
+                px: 1,
+                background: session.user.darkMode
+                  ? "hsl(240,11%,17%)"
+                  : "rgba(200, 200, 200, 0.3)!important",
+                borderRadius: 5,
+              }}
+            >
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                  alt="emoji"
+                />
+              </picture>
+            </Button>
+          </EmojiPicker>
           <TextField
             onKeyDown={(e) => {
               e.stopPropagation();
@@ -205,45 +206,12 @@ export default function CreateColumn({
     <>
       <SwipeableDrawer
         anchor="bottom"
-        open={showEmojiPicker}
-        onClose={() => setShowEmojiPicker(false)}
-        onOpen={() => setShowEmojiPicker(true)}
-        disableSwipeToOpen
-        sx={{
-          zIndex: 999999,
-        }}
-        PaperProps={{
-          sx: {
-            width: "100%",
-            maxWidth: "400px",
-            mb: { sm: 2 },
-            borderRadius: { xs: "20px 20px 0 0", sm: 4 },
-          },
-        }}
-        ModalProps={{
-          keepMounted: false,
-        }}
-      >
-        <EmojiPicker
-          skinTonePickerLocation={"PREVIEW" as any}
-          theme={(session.user.darkMode ? "dark" : "light") as any}
-          lazyLoadEmojis
-          width="100%"
-          onEmojiClick={(event) => {
-            const url = `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${event.unified}.png`;
-            setEmoji(url);
-            setShowEmojiPicker(false);
-          }}
-        />
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor="bottom"
         open={mobileOpen}
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
         disableSwipeToOpen
         sx={{
-          zIndex: 999999,
+          zIndex: 9999999999,
         }}
       >
         <Puller />

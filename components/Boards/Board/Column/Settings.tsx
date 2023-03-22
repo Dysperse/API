@@ -17,16 +17,10 @@ import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../../../pages/_app";
 import { ConfirmationModal } from "../../../ConfirmationModal";
-import { EmojiPickerModal } from "../EmojiPickerModal";
+import { EmojiPicker } from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({
-  columnTasks,
-  setColumnTasks,
-  board,
-  mutationUrls,
-  column,
-}) {
+export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
   const storage = useAccountStorage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
@@ -86,11 +80,13 @@ export function ColumnSettings({
               }`,
             }}
           >
-            <EmojiPickerModal
-              emoji={emoji}
-              setEmoji={setEmoji}
-              lazyLoadEmojis={true}
-            />
+            <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                />
+              </picture>
+            </EmojiPicker>
             <TextField
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -209,6 +205,7 @@ export function ColumnSettings({
               id: column.id,
             });
             await mutate(mutationUrls.board);
+            await mutate(mutationUrls.boardData);
             handleClose();
           }}
         >

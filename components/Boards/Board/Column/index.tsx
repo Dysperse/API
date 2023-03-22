@@ -13,7 +13,7 @@ import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { useSession } from "../../../../pages/_app";
-import { EmojiPickerModal } from "../EmojiPickerModal";
+import { EmojiPicker } from "../../../EmojiPicker";
 import { ColumnSettings } from "./Settings";
 import { Task } from "./Task";
 import { CreateTask } from "./Task/Create";
@@ -75,11 +75,13 @@ export function Column({ board, mutationUrls, column, index }) {
               }`,
             }}
           >
-            <EmojiPickerModal
-              emoji={emoji}
-              setEmoji={setEmoji}
-              lazyLoadEmojis={true}
-            />
+            <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                />
+              </picture>
+            </EmojiPicker>
             <TextField
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -180,7 +182,11 @@ export function Column({ board, mutationUrls, column, index }) {
                 flexShrink: 0,
               }}
             >
-              <img src={column.emoji} width={50} height={50} />
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                width={50}
+                height={50}
+              />
             </picture>
             <Box sx={{ flexGrow: 1 }}>
               <Typography
@@ -216,11 +222,9 @@ export function Column({ board, mutationUrls, column, index }) {
             </Box>
             <Box sx={{ ml: "auto" }}>
               <ColumnSettings
-                columnTasks={columnTasks}
                 setColumnTasks={setColumnTasks}
                 column={column}
                 mutationUrls={mutationUrls}
-                board={board}
               />
             </Box>
           </Box>

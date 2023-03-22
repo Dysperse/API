@@ -34,6 +34,12 @@ self.addEventListener("notificationclick", function (event) {
     case "startDailyRoutine":
       path = "/coach#daily-routine";
       break;
+    default:
+      const regex = /^routine-(\d+)$/;
+      const match = event.action.match(regex);
+      if (match) {
+        path = `/zen/#/routine-${match[1]}`;
+      }
   }
 
   event.waitUntil(

@@ -7,6 +7,9 @@ import {
   Drawer,
   Icon,
   IconButton,
+  ListItem,
+  ListItemText,
+  Menu,
   MenuItem,
   Select,
   SwipeableDrawer,
@@ -22,12 +25,48 @@ import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
 import { useSession } from "../../../pages/_app";
-import { EmojiPickerModal } from "../../Boards/Board/EmojiPickerModal";
+import { EmojiPicker } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
-import { categories, goals } from "../goalTemplates";
+import { categories, goals, routines } from "../goalTemplates";
 
-function FeaturedGoal({ mutationUrl, setOpen, goal }) {
+function DurationPicker({ duration, setDuration }) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (d) => {
+    setDuration(d);
+    setAnchorEl(null);
+  };
+  return (
+    <>
+      <Button size="small" variant="contained" onClick={handleClick}>
+        {duration}
+        <Icon className="outlined">edit</Icon>
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={() => handleClose(10)}>10 days</MenuItem>
+        <MenuItem onClick={() => handleClose(25)}>25 days</MenuItem>
+        <MenuItem onClick={() => handleClose(50)}>50 days</MenuItem>
+        <MenuItem onClick={() => handleClose(75)}>75 days</MenuItem>
+        <MenuItem onClick={() => handleClose(100)}>100 days</MenuItem>
+        <MenuItem onClick={() => handleClose(365)}>365 days</MenuItem>
+      </Menu>
+    </>
+  );
+}
+
+function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const [loading, setLoading] = useState(false);
 
   const randomColors = [
@@ -43,95 +82,330 @@ function FeaturedGoal({ mutationUrl, setOpen, goal }) {
   const randomColor =
     randomColors[Math.floor(Math.random() * randomColors.length)];
 
+  const chipStyles = {
+    background: "rgba(0,0,0,0.1)",
+    color: "#000",
+  };
+
+  const [open, setInfoOpen] = useState(false);
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
+  const [routineItems, setRoutineItems] = useState(routine.items);
+  const [duration, setDuration] = useState(routine.durationDays);
+  const [editDays, setEditDays] = useState(false);
+
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+      await fetchApiWithoutHook("user/routines/createFromTemplate", {
+        name: routine.name,
+        note: "",
+        daysOfWeek,
+        emoji: routine.emoji,
+        timeOfDay: routine.timeOfDay,
+        items: JSON.stringify(routineItems),
+      });
+      await mutate(mutationUrl);
+      setLoading(false);
+      setOpen(false);
+    } catch (e) {
+      setLoading(false);
+      toast.error(
+        "An error occurred while trying to set your goal. Please try again.",
+        toastStyles
+      );
+    }
+  };
+
   return (
-    <Box
-      onClick={async () => {
-        setLoading(true);
-        try {
-          await fetchApiWithoutHook("user/routines/create", {
-            name: goal.name,
-            stepName: goal.stepName,
-            category: goal.category,
-            durationDays: goal.durationDays,
-            time: goal.time,
-          });
-          await mutate(mutationUrl);
-          setLoading(false);
-          setOpen(false);
-        } catch (e) {
-          setLoading(false);
-          toast.error(
-            "An error occurred while trying to set your goal. Please try again.",
-            toastStyles
-          );
-        }
-      }}
-      sx={{
-        background: `linear-gradient(45deg, ${colors[randomColor]["A200"]}, ${colors[randomColor]["A400"]})`,
-        p: { xs: 3, sm: 5 },
-        borderRadius: 5,
-        pt: { xs: 15, sm: 20 },
-        ...(loading && { opacity: 0 }),
-        userSelect: "none",
-        color: "#000",
-        transition: "all .2s",
-        "&:active": {
-          transform: "scale(.97)",
-          transition: "none",
-        },
-      }}
-    >
-      <Chip
-        label="Featured"
-        sx={{
-          px: 1,
-          mb: 0.5,
-          color: "#000",
-          fontWeight: 700,
-          background: "rgba(0,0,0,0.1)",
+    <>
+      <SwipeableDrawer
+        open={open}
+        onOpen={() => setInfoOpen(true)}
+        onClose={() => setInfoOpen(false)}
+        disableSwipeToOpen
+        anchor="bottom"
+        ModalProps={{
+          keepMounted: false,
         }}
-      />
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box>
-          <Typography
-            variant="h2"
-            className="font-heading"
-            sx={{ fontSize: { xs: "40px", sm: "50px" } }}
-          >
-            {goal.name}
+      >
+        <AppBar>
+          <Toolbar>
+            <IconButton onClick={() => setInfoOpen(false)}>
+              <Icon>close</Icon>
+            </IconButton>
+            <Typography sx={{ mx: "auto", fontWeight: "700" }}>Goal</Typography>
+            <IconButton onClick={handleClick}>
+              <Icon>check</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Box sx={{ p: 3 }}>
+          <picture>
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+              alt="Emoji"
+            />
+          </picture>
+          <Typography variant="h4" className="font-heading" sx={{ mt: 2 }}>
+            {routine.name}
+          </Typography>
+          <Box sx={{ py: 2, display: "flex", gap: 1, flexWrap: "wrap" }}>
+            <Chip sx={chipStyles} label="Routine" />
+            <Chip sx={chipStyles} label={routine.category} />
+            <Chip sx={chipStyles} label={`${routine.items.length} tasks`} />
+          </Box>
+          <Typography variant="h6" gutterBottom>
+            When?
+          </Typography>
+          <Typography>
+            <Button
+              size="small"
+              variant="contained"
+              onClick={() => setEditDays(!editDays)}
+            >
+              {JSON.parse(daysOfWeek).filter((day) => day === true).length == 7
+                ? "Every day"
+                : "On certain days"}
+              <Icon className="outlined">edit</Icon>
+            </Button>{" "}
+            &nbsp; for &nbsp;{" "}
+            <DurationPicker duration={duration} setDuration={setDuration} />{" "}
+            days
           </Typography>
           <Box
             sx={{
-              display: "flex",
+              my: 2,
+              display: editDays ? "flex" : "none",
               gap: 1,
-              mt: 1,
+              overflowX: "scroll",
+              background: "rgba(200,200,200,.3)",
+              borderRadius: 4,
+              p: 3,
             }}
           >
-            <Typography variant="body2">{goal.category} &bull;</Typography>
-            <Typography variant="body2">
-              {goal.durationDays} days &bull;
-            </Typography>
-            <Typography variant="body2">
-              Every {goal.time === "any" ? "day" : goal.time}
-            </Typography>
+            {JSON.parse(daysOfWeek).map((day, index) => (
+              <Button
+                key={index}
+                size="small"
+                disabled={
+                  JSON.parse(daysOfWeek).filter((day) => day === true).length ==
+                    1 && JSON.parse(daysOfWeek)[index]
+                }
+                sx={{ px: 1, minWidth: "auto" }}
+                onClick={() =>
+                  setDaysOfWeek((d) => {
+                    let t = JSON.parse(d);
+                    t[index] = !t[index];
+
+                    return JSON.stringify(t);
+                  })
+                }
+                variant={
+                  JSON.parse(daysOfWeek)[index] ? "contained" : "outlined"
+                }
+              >
+                {days[index]}
+                {JSON.parse(daysOfWeek)[index] && <Icon>check</Icon>}
+              </Button>
+            ))}
           </Box>
+          <Typography variant="h6" sx={{ mt: 3, sm: 1 }}>
+            What?
+          </Typography>
+          {routineItems.map((item, index) => (
+            <ListItem
+              sx={{
+                gap: 2,
+                transition: "all .2s",
+                ...(item.disabled && {
+                  opacity: 0.5,
+                  transform: "scale(.95)",
+                }),
+              }}
+              key={index}
+            >
+              <Typography
+                className="font-heading"
+                variant="h4"
+                sx={{ flex: "0 0 40px" }}
+              >
+                #{index + 1}
+              </Typography>
+              <ListItemText primary={item.name} secondary={item.description} />
+              <IconButton
+                sx={{ ml: "auto" }}
+                size="small"
+                onClick={() =>
+                  setRoutineItems(
+                    routineItems.map((item1) => {
+                      if (item1 === item) {
+                        return {
+                          ...item1,
+                          disabled: item1.disabled ? false : true,
+                        };
+                      } else {
+                        return item1;
+                      }
+                    })
+                  )
+                }
+              >
+                <Icon className="outlined">
+                  {!item.disabled ? "check_circle" : "do_not_disturb_on"}
+                </Icon>
+              </IconButton>
+            </ListItem>
+          ))}
+          <Typography variant="h6" sx={{ mt: 3, sm: 1 }}>
+            About this routine
+          </Typography>
+          <ListItem sx={{ gap: 2, alignItems: "start" }}>
+            <Icon className="outlined" sx={{ mt: 1.5 }}>
+              notifications
+            </Icon>
+            <ListItemText
+              primary="Recieve daily reminders"
+              secondary="If turned on, you'll recieve daily reminders to work on this routine"
+            />
+          </ListItem>
+          <ListItem sx={{ gap: 2, alignItems: "start" }}>
+            <Icon className="outlined" sx={{ mt: 1.5 }}>
+              today
+            </Icon>
+            <ListItemText
+              primary="Have a clear path"
+              secondary="You can customize this routine to fit your needs"
+            />
+          </ListItem>
+          <ListItem sx={{ gap: 2, alignItems: "start" }}>
+            <Icon className="outlined" sx={{ mt: 1.5 }}>
+              eco
+            </Icon>
+            <ListItemText
+              primary="Make small, valuable steps"
+              secondary="This course is built to fit overloaded schedule of busy and successful people. Every step requires less than 1 hour of your time per day."
+            />
+          </ListItem>
         </Box>
-        <Icon
+      </SwipeableDrawer>
+
+      <Box
+        onClick={() => setInfoOpen(true)}
+        sx={{
+          background: `linear-gradient(45deg, ${colors[randomColor]["A200"]}, ${colors[randomColor]["A400"]})`,
+          p: { xs: 3, sm: 5 },
+          borderRadius: 5,
+          pt: { xs: 15, sm: 20 },
+          ...(loading && { opacity: 0.9, transform: "scale(.97)" }),
+          userSelect: "none",
+          color: "#000",
+          transition: "all .2s",
+          "&:active": {
+            transform: "scale(.97)",
+            transition: "none",
+          },
+          position: "relative",
+        }}
+      >
+        <Chip
+          size="small"
+          label={"Routine"}
+          icon={
+            <Icon sx={{ color: "#000!important" }} className="outlined">
+              wb_cloudy
+            </Icon>
+          }
           sx={{
-            ml: "auto",
-            display: { xs: "none!important", sm: "unset!important" },
+            gap: 1,
+            ...chipStyles,
+            position: "absolute",
+            top: 0,
+            right: 0,
+            m: 3,
+            fontWeight: 700,
+          }}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { sm: "center" },
+            gap: { xs: 2, sm: 4 },
           }}
         >
-          arrow_forward_ios
-        </Icon>
+          <Box
+            sx={{
+              flexShrink: 0,
+              mt: 2,
+              "& img": {
+                width: { xs: 50, sm: 100 },
+                height: { xs: 50, sm: 100 },
+              },
+            }}
+          >
+            <picture>
+              <img src={routine.emoji} alt="Emoji" />
+            </picture>
+          </Box>
+          <Box>
+            <Typography
+              variant="h2"
+              className="font-heading"
+              sx={{
+                fontSize: { xs: "35px", sm: "50px" },
+                mb: { xs: 2, sm: 0 },
+              }}
+            >
+              {routine.name}
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                maxWidth: "100%",
+                gap: 1,
+                mt: 1,
+              }}
+            >
+              <Chip sx={chipStyles} size="small" label={routine.category} />
+              <Chip
+                sx={chipStyles}
+                size="small"
+                label={`${routine.durationDays} days`}
+              />
+              <Chip
+                sx={chipStyles}
+                size="small"
+                label={`${routine.items.length} tasks`}
+              />
+              <Chip
+                sx={chipStyles}
+                size="small"
+                label={`Daily at ${routine.timeOfDay % 12 || 12} ${
+                  routine.timeOfDay >= 12 ? "PM" : "AM"
+                }`}
+              />
+            </Box>
+          </Box>
+          <Icon
+            sx={{
+              ml: "auto",
+              flexShrink: 0,
+              mt: { xs: -5, sm: 0 },
+            }}
+          >
+            arrow_forward_ios
+          </Icon>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
 
 function ExploreGoalCard({ goal }) {
-  const session = useSession();
   const [loading, setLoading] = useState(false);
+  const session = useSession();
 
   return (
     <Box
@@ -199,7 +473,7 @@ function CreateGoal() {
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const randomGoal = goals[Math.floor(Math.random() * goals.length)];
+  const randomRoutine = routines[Math.floor(Math.random() * routines.length)];
   const shuffled = goals.sort(() => Math.random() - 0.5);
 
   return (
@@ -237,7 +511,11 @@ function CreateGoal() {
             p: { xs: 2, sm: 4 },
           }}
         >
-          <FeaturedGoal goal={randomGoal} mutationUrl="" setOpen={setOpen} />
+          <FeaturedRoutine
+            routine={randomRoutine}
+            mutationUrl=""
+            setOpen={setOpen}
+          />
           <Box
             sx={{
               px: { xs: 1, sm: 2 },
@@ -248,7 +526,6 @@ function CreateGoal() {
               sx={{
                 mb: { xs: 2, sm: 4 },
                 mt: { xs: 5, sm: 7 },
-                ml: { xs: 2, sm: 0 },
                 fontSize: { xs: 25, sm: 30 },
               }}
             >
@@ -350,9 +627,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
-  const [emoji, setEmoji] = useState(
-    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2615.png"
-  );
+  const [emoji, setEmoji] = useState("2615");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -377,7 +652,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
       await fetchApiWithoutHook("user/routines/custom-routines/create", {
         name,
         note,
-        emoji,
+        emoji: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`,
         daysOfWeek,
         timeOfDay: time,
       });
@@ -469,7 +744,15 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
           <Typography variant="h6" gutterBottom>
             Create routine
           </Typography>
-          <EmojiPickerModal large setEmoji={setEmoji} emoji={emoji} />
+          <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
+            <IconButton>
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                />
+              </picture>
+            </IconButton>
+          </EmojiPicker>
           <TextField
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -502,7 +785,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
                   setDaysOfWeek((d) => {
                     let t = JSON.parse(d);
                     t[index] = !t[index];
-                    console.log(JSON.parse(d));
+
                     return JSON.stringify(t);
                   })
                 }

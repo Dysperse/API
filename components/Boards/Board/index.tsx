@@ -117,7 +117,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         open={mobileOpen}
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
-        sx={{ zIndex: 9999999 }}
+        sx={{ zIndex: 999 }}
         BackdropProps={{
           sx: {
             backdropFilter: "blur(0px)!important",

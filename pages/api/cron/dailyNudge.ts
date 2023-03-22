@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { DispatchNotification } from "../../../lib/server/notification";
 import { prisma } from "../../../lib/server/prisma";
 
+import { Routine } from "@prisma/client";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
@@ -28,9 +29,11 @@ const Notification = async (req, res) => {
           dailyRoutineNudge: true,
         },
         {
-          user: {
-            email: "manusvathgurudath@gmail.com",
-          },
+          ...(process.env.NODE_ENV !== "production" && {
+            user: {
+              email: "manusvathgurudath@gmail.com",
+            },
+          }),
         },
       ],
     },
@@ -64,30 +67,35 @@ const Notification = async (req, res) => {
 
     // Current time in user's timezone
     const currentTimeInUserTimeZone = dayjs().tz(timeZone).hour();
+    const currentDayInUserTimeZone = dayjs().tz(timeZone).day();
 
     const currentRoutine = Routine.find(
-      (routine) => routine.timeOfDay === currentTimeInUserTimeZone
+      (routine: Routine) => routine.timeOfDay + 1 === currentTimeInUserTimeZone
     );
+
     if (currentRoutine) {
-      console.log(currentRoutine);
-      try {
-        await DispatchNotification({
-          title: `Let's work on your: ${currentRoutine.name}`,
-          icon:
-            currentRoutine.emoji ||
-            "https://assets.dysperse.com/v5/ios/192.png",
-          body: "It's time to start your routine! Tap to open",
-          actions: [
-            {
-              title: "⚡ Start",
-              action: "startDailyRoutine",
-            },
-          ],
-          subscription: notificationSubscription,
-        });
-      } catch (error) {
-        // If there's an error, log it
-        console.log(error);
+      const daysOfWeek = JSON.parse(currentRoutine.daysOfWeek);
+
+      // Check if user has enabled routine for that day
+      if (daysOfWeek[currentDayInUserTimeZone] === true) {
+        try {
+          await DispatchNotification({
+            title: `It's time to start "${currentRoutine.name.trim()}"!`,
+            icon:
+              currentRoutine.emoji ||
+              "https://assets.dysperse.com/v5/ios/192.png",
+            body: "Let's get started! Tap to open",
+            actions: [
+              {
+                title: "👉 Start",
+                action: `routine-${currentRoutine.id}`,
+              },
+            ],
+            subscription: notificationSubscription,
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }
