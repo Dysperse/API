@@ -30,9 +30,7 @@ export default function CreateColumn({
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const ref: any = useRef();
   const [loading, setLoading] = useState<boolean>(false);
-  const [emoji, setEmoji] = useState(
-    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
-  );
+  const [emoji, setEmoji] = useState("1f3af");
 
   const handleSubmit = useCallback(() => {
     setLoading(true);
