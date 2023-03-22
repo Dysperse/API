@@ -216,11 +216,9 @@ export function Column({ board, mutationUrls, column, index }) {
             </Box>
             <Box sx={{ ml: "auto" }}>
               <ColumnSettings
-                columnTasks={columnTasks}
                 setColumnTasks={setColumnTasks}
                 column={column}
                 mutationUrls={mutationUrls}
-                board={board}
               />
             </Box>
           </Box>

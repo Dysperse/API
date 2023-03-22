@@ -39,6 +39,9 @@ export default function BoardSettings({ mutationUrl, board }) {
           horizontal: "left",
           vertical: "bottom",
         }}
+        sx={{
+          zIndex: 9999999999,
+        }}
       >
         <ConfirmationModal
           title={board.pinned ? "Unpin?" : "Pin?"}

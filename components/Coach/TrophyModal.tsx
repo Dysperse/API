@@ -9,17 +9,17 @@ import {
 import React, { useEffect } from "react";
 import Confetti from "react-confetti";
 import toast from "react-hot-toast";
-import useWindowSize from "react-use/lib/useWindowSize";
 import { mutate } from "swr";
 import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
+import useWindowDimensions from "../../lib/client/useWindowDimensions";
 import { colors } from "../../lib/colors";
 
 export function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);
   const [stepTwoOpen, setStepTwoOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const { width, height } = useWindowSize();
+  const { width, height } = useWindowDimensions();
 
   useEffect(() => {
     if (open) {

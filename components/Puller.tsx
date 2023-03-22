@@ -5,7 +5,7 @@ import { useSession } from "../pages/_app";
  * @name Puller
  * @description A puller is a component that pulls in swipeable drawers from bottom of the screen.
  */
-export function Puller() {
+export function Puller({ showOnDesktop = false }: { showOnDesktop?: boolean }) {
   const session = useSession();
 
   return (
@@ -13,7 +13,7 @@ export function Puller() {
       <Box
         sx={{
           position: "sticky",
-          display: { sm: "none" },
+          ...(!showOnDesktop && { display: { sm: "none" } }),
           top: 0,
           zIndex: 1,
           left: 0,
@@ -37,7 +37,6 @@ export function Puller() {
           }}
         />
       </Box>
-      <Box sx={{ display: { xs: "none", sm: "block" }, mt: 4 }} />
     </>
   );
 }

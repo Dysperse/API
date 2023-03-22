@@ -21,9 +21,7 @@ import { EmojiPickerModal } from "../EmojiPickerModal";
 import { FilterMenu } from "./FilterMenu";
 
 export function ColumnSettings({
-  columnTasks,
   setColumnTasks,
-  board,
   mutationUrls,
   column,
 }) {
@@ -209,6 +207,7 @@ export function ColumnSettings({
               id: column.id,
             });
             await mutate(mutationUrls.board);
+            await mutate(mutationUrls.boardData);
             handleClose();
           }}
         >

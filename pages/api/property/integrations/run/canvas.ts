@@ -1,7 +1,19 @@
-import iCalDateParser from "ical-date-parser";
 import ICalParser from "ical-js-parser";
 import { prisma } from "../../../../../lib/server/prisma";
 import { validatePermissions } from "../../../../../lib/server/validatePermissions";
+
+function parseICalDate(icalDateStr) {
+  // Split the iCal date string into its components
+  const year = icalDateStr.substr(0, 4);
+  const month = parseInt(icalDateStr.substr(4, 2)) - 1; // Note: JavaScript months are zero-indexed
+  const day = icalDateStr.substr(6, 2);
+  const hour = icalDateStr.substr(9, 2);
+  const minute = icalDateStr.substr(11, 2);
+  const second = icalDateStr.substr(13, 2);
+
+  // Create a new Date object with the parsed components
+  return new Date(year, month, day, hour, minute, second);
+}
 
 function extractTextInBrackets(text: any) {
   let match = text.match(/\[(.*?)\]/);
@@ -72,7 +84,7 @@ const handler = async (req, res) => {
       update: {
         name,
         ...(due && {
-          due: iCalDateParser(due),
+          due: parseICalDate(due),
         }),
       },
       create: {
@@ -84,7 +96,7 @@ const handler = async (req, res) => {
         id: taskId,
         name,
         ...(due && {
-          due: iCalDateParser(due),
+          due: parseICalDate(due),
         }),
         description: item.url,
         column: {

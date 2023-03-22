@@ -1,252 +1,15 @@
-import {
-  Box,
-  Button,
-  Chip,
-  Icon,
-  SwipeableDrawer,
-  Typography,
-} from "@mui/material";
+import { Box, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import { lime } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import Stories from "react-insta-stories";
-import { useWindowSize } from "react-use";
 import { mutate as mutateSWR } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
-
-export function RoutineEnd({
-  setCurrentIndex,
-  sortedTasks,
-  tasksRemaining,
-  handleClose,
-}) {
-  const { width, height } = useWindowSize();
-
-  return (
-    <div
-      style={{
-        padding: 20,
-        textAlign: "center",
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}
-        onClick={() => setCurrentIndex((i) => (i == 0 ? 0 : i - 1))}
-      />
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-        onClick={handleClose}
-      />
-      {tasksRemaining == 0 ? (
-        <>
-          <Box
-            sx={{
-              textAlign: "center",
-              display: "flex",
-              justifyContent: "center",
-              mb: 2,
-            }}
-          >
-            <picture>
-              <img
-                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
-                alt="Tada"
-              />
-            </picture>
-          </Box>
-          <Typography variant="h6" sx={{ mb: 1 }}>
-            You worked towards
-            <br /> {sortedTasks.length} goal{sortedTasks.length !== 1 && "s"}!
-          </Typography>
-          <Button
-            onClick={handleClose}
-            sx={{
-              mt: 1,
-              "&, &:hover": {
-                background: "hsl(240,11%,20%)!important",
-                color: "#fff!important",
-              },
-            }}
-            variant="contained"
-          >
-            <span>✌</span> Let&apos;s go &rarr;
-          </Button>
-        </>
-      ) : (
-        <>
-          <Typography variant="h1" gutterBottom>
-            👉
-          </Typography>
-          <Typography variant="h6">
-            You have {tasksRemaining.length} goal
-            {tasksRemaining.length !== 1 && "s"} left to finish
-          </Typography>
-          <Button
-            onClick={handleClose}
-            sx={{
-              mt: 1,
-              "&, &:hover": {
-                background: "hsl(240,11%,20%)!important",
-                color: "#fff!important",
-              },
-            }}
-            variant="contained"
-          >
-            <span>🎯</span> Gotcha &rarr;
-          </Button>
-        </>
-      )}
-    </div>
-  );
-}
-
-export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
-  const handleClick = React.useCallback(() => {
-    setCurrentIndex((index) => index + 1);
-    fetchApiWithoutHook("user/routines/markAsDone", {
-      date: dayjs().format("YYYY-MM-DD"),
-      progress:
-        task.progress && parseInt(task.progress)
-          ? task.progress + 1 > task.durationDays
-            ? task.durationDays
-            : task.progress + 1
-          : 1,
-      id: task.id,
-    })
-      .then(() => {
-        mutate();
-      })
-      .catch(() => {
-        toast.error(
-          "Something went wrong while trying to mark your routine as done.",
-          toastStyles
-        );
-      });
-  }, [task.durationDays, task.id, task.progress, mutate, setCurrentIndex]);
-
-  return (
-    <Box sx={{ p: 4 }}>
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}
-        onClick={() =>
-          setCurrentIndex((i) => (currentIndex == 0 ? 0 : currentIndex - 1))
-        }
-      />
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-        onClick={() => setCurrentIndex((i) => currentIndex + 1)}
-      />
-      <Typography variant="h2" className="font-heading" gutterBottom>
-        {task.stepName}
-      </Typography>
-      <Typography>
-        <i>{task.name}</i>
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          my: 2,
-          "& .MuiChip-root": {
-            background: "hsl(240,11%,20%)!important",
-            color: "hsl(240,11%,90%)!important",
-          },
-        }}
-      >
-        <Chip label={task.category} size="small" />
-        <Chip
-          size="small"
-          label={`${~~((task.progress / task.durationDays) * 100)}% complete`}
-        />
-        <Chip
-          size="small"
-          label={
-            task.time === "any"
-              ? "Daily"
-              : task.time === "morning"
-              ? "Every morning"
-              : task.time === "afternoon"
-              ? "Every afternoon"
-              : task.time === "evening"
-              ? "Every evening"
-              : "Nightly"
-          }
-        />
-      </Box>
-      <Box
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          width: "100%",
-          left: 0,
-          gap: 1,
-          p: 4,
-          display: "flex",
-          flexDirection: "column",
-          pb: 2,
-        }}
-      >
-        <Button
-          disabled={task.lastCompleted === dayjs().format("YYYY-MM-DD")}
-          variant="contained"
-          fullWidth
-          sx={{
-            "&,&:hover": { background: "hsl(240,11%,14%)!important" },
-            color: "#fff!important",
-          }}
-          size="large"
-          onClick={handleClick}
-        >
-          {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
-            <>
-              <span>🔥</span> Completed for today!
-            </>
-          ) : (
-            <>
-              <span>🎯</span> I worked towards it!
-            </>
-          )}
-        </Button>
-      </Box>
-    </Box>
-  );
-}
+import { useApi } from "../../../lib/client/useApi";
+import { useBackButton } from "../../../lib/client/useBackButton";
+import { useSession } from "../../../pages/_app";
+import { RoutineEnd } from "./RoutineEnd";
+import { Task } from "./Task";
 
 export function DailyRoutine() {
   const { data, url } = useApi("user/routines");
@@ -466,15 +229,14 @@ export function DailyRoutine() {
             background: "hsl(240, 11%, 10%)",
             zIndex: 999,
           }}
-        ></Box>
+        />
         <Stories
           storyContainerStyles={{
             background: "hsl(240, 11%, 10%)",
             color: "hsl(240, 11%, 80%)",
           }}
           stories={stories}
-          // idk why the story doesnt pause in production but the line below works, OK?
-          defaultInterval={69696969696969696969696969696969}
+          defaultInterval={10000000000000000000000000000}
           width={"100%"}
           isPaused
           onStoryEnd={() => {}}

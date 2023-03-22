@@ -8,10 +8,10 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useMedia, useNetworkState } from "react-use";
 import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
 import { UpdateButton } from "./UpdateButton";
@@ -22,8 +22,7 @@ import InviteButton from "./UserMenu";
  * @returns {any}
  */
 export function Navbar(): JSX.Element {
-  const network = useNetworkState();
-  const isMobile = useMedia("(max-width:600px)");
+  const isMobile = useMediaQuery("(max-width:600px)");
   const session = useSession();
   const router = useRouter();
   const styles = () => {

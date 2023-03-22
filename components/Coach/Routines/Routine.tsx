@@ -15,7 +15,8 @@ import Stories from "react-insta-stories";
 import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { useSession } from "../../../pages/_app";
-import { RoutineEnd, Task } from "../DailyRoutine";
+import { RoutineEnd } from "../Routine/RoutineEnd";
+import { Task } from "../Routine/Task";
 import { RoutineOptions } from "./RoutineOptions";
 
 export function Routine({ mutationUrl, routine }) {
