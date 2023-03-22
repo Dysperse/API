@@ -39,7 +39,7 @@ const handler = async (req, res) => {
 
   const parsed = ical.parseICS(calendar);
 
-  // Let's create some columns
+  // Let's create some columns!
   let columns: string[] = [];
   for (const event in parsed) {
     if (parsed.hasOwnProperty(event)) {
