@@ -307,14 +307,8 @@ export default function DrawerContent({
           }),
         }}
       />
-      {data.image && (
-        <>
-          <br />
-          <br />
-        </>
-      )}
+      {data.image && <Box sx={{ mt: 4 }} />}
       {data.image && <ImageViewer url={data.image} />}
-
       <Box
         sx={{
           display: "flex",
@@ -323,12 +317,8 @@ export default function DrawerContent({
           my: 2,
           py: 3,
           px: 3,
-          "& *:first-of-type": {
-            ml: "auto",
-          },
-          "& *:last-of-type": {
-            mr: "auto",
-          },
+          "& *:first-of-type": { ml: "auto" },
+          "& *:last-of-type": { mr: "auto" },
           overflowX: "scroll",
           background: session.user.darkMode
             ? "hsl(240,11%,20%)"
