@@ -35,7 +35,10 @@ export default function CreateColumn({
   const handleSubmit = useCallback(() => {
     setLoading(true);
     if (ref?.current?.value.trim() === "") {
-      toast.error("Enter a name for this column 👀", toastStyles);
+      toast.error("Enter a name for this column", {
+        icon: "👀",
+        ...toastStyles,
+      });
       setLoading(false);
       return;
     }
