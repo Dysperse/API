@@ -197,7 +197,7 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
                   setDaysOfWeek((d) => {
                     let t = JSON.parse(d);
                     t[index] = !t[index];
-                    console.log(JSON.parse(d));
+                    
                     return JSON.stringify(t);
                   })
                 }
@@ -785,7 +785,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
                   setDaysOfWeek((d) => {
                     let t = JSON.parse(d);
                     t[index] = !t[index];
-                    console.log(JSON.parse(d));
+                    
                     return JSON.stringify(t);
                   })
                 }
