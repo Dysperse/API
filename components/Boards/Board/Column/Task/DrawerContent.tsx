@@ -584,7 +584,15 @@ export default function DrawerContent({
           boardId={1}
         />
       </Box>
-      <Box sx={{ textAlign: "center", mt: 4 }}>
+      <Box
+        sx={{
+          textAlign: "center",
+          mt: 4,
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
         {data.id.includes("-event-assignment") && (
           <Chip
             label="Synced to Canvas LMS"
@@ -595,6 +603,7 @@ export default function DrawerContent({
             }}
           />
         )}
+        <Chip label={`Last updated ${dayjs(data.lastUpdated).fromNow()}`} />
       </Box>
     </>
   );

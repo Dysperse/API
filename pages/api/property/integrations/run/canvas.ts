@@ -1,4 +1,4 @@
-import ICalParser from "ical-js-parser";
+import ical from "ical";
 import { prisma } from "../../../../../lib/server/prisma";
 import { validatePermissions } from "../../../../../lib/server/validatePermissions";
 
@@ -50,75 +50,89 @@ const handler = async (req, res) => {
     res.text()
   );
 
-  const parsed: any = ICalParser.toJSON(calendar).events;
-  let columns: any = [];
+  const parsed = ical.parseICS(calendar);
 
-  for (let i = 0; i < parsed.length; i++) {
-    const course: any = parsed[i].summary;
-    columns.push(extractTextInBrackets(course) as any);
+  // Let's create some columns
+  let columns: any = [];
+  for (const event in parsed) {
+    if (parsed.hasOwnProperty(event)) {
+      const ev = parsed[event];
+
+      const course: any = ev.summary;
+      columns.push(extractTextInBrackets(course) as any);
+    }
   }
 
   columns = [...new Set(columns)];
 
   // Now add the tasks
-  for (let i = 0; i < parsed.length; i++) {
-    const item = parsed[i];
-    const taskId = `${data1.boardId}-${item.uid}`;
-    const columnId = `${data1.boardId}-${extractTextInBrackets(item.summary)}`;
+  for (const event in parsed) {
+    if (parsed.hasOwnProperty(event)) {
+      const item = parsed[event];
 
-    const due = (item.dtstamp || item.dtstart || item.dtend || { value: null })
-      .value;
+      const taskId = `${data1.boardId}-${item.uid}`;
+      const columnId = `${data1.boardId}-${extractTextInBrackets(
+        item.summary
+      )}`;
 
-    let name: any = item.summary
-      ?.toString()
-      .split(" [")[0]
-      .replaceAll("\\", "");
+      let due = new Date();
 
-    if (name.includes("(")) {
-      name = name.split("(")[0];
-    }
-    const d = await prisma.task.upsert({
-      where: {
-        id: taskId,
-      },
-      update: {
-        name,
-        ...(due && {
-          due: parseICalDate(due),
-        }),
-      },
-      create: {
-        property: {
-          connect: {
-            id: req.query.property,
+      if (item.dtstamp || item.start)
+        due = (item.dtstamp || item.start).toISOString();
+
+      let name: any = item.summary
+        ?.toString()
+        .split(" [")[0]
+        .replaceAll("\\", "");
+
+      if (name.includes("(")) {
+        name = name.split("(")[0];
+      }
+
+      if (name) {
+        await prisma.task.upsert({
+          where: {
+            id: taskId,
           },
-        },
-        id: taskId,
-        name,
-        ...(due && {
-          due: parseICalDate(due),
-        }),
-        description: item.url,
-        column: {
-          connectOrCreate: {
-            where: {
-              id: columnId,
+          update: {
+            name,
+            ...(due && {
+              due: due,
+            }),
+          },
+          create: {
+            property: {
+              connect: {
+                id: req.query.property,
+              },
             },
-            create: {
-              emoji:
-                "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png",
-              name: extractTextInBrackets(item.summary),
-              id: columnId,
-              board: {
-                connect: {
-                  id: data1.boardId,
+            id: taskId,
+            name,
+            ...(due && {
+              due: due,
+            }),
+            description: item.url,
+            column: {
+              connectOrCreate: {
+                where: {
+                  id: columnId,
+                },
+                create: {
+                  emoji: "1f3af",
+                  name: extractTextInBrackets(item.summary),
+                  id: columnId,
+                  board: {
+                    connect: {
+                      id: data1.boardId,
+                    },
+                  },
                 },
               },
             },
           },
-        },
-      },
-    });
+        });
+      }
+    }
   }
 
   res.json(data);

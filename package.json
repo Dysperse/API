@@ -51,7 +51,6 @@
     "formik": "^2.2.9",
     "hex-to-rgba": "^2.0.1",
     "ical": "^0.8.0",
-    "ical-js-parser": "^0.6.12",
     "js-base64": "^3.7.5",
     "jsonwebtoken": "^9.0.0",
     "memory-cache": "^0.2.0",
