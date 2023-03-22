@@ -37,6 +37,9 @@ export function Puller({ showOnDesktop = false }: { showOnDesktop?: boolean }) {
           }}
         />
       </Box>
+      <Box
+        sx={{ display: { xs: "none", sm: "block" }, mt: showOnDesktop ? 0 : 4 }}
+      />
     </>
   );
 }

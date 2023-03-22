@@ -630,9 +630,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
-  const [emoji, setEmoji] = useState(
-    "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2615.png"
-  );
+  const [emoji, setEmoji] = useState("2615");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
