@@ -20,11 +20,7 @@ import { ConfirmationModal } from "../../../ConfirmationModal";
 import { EmojiPickerModal } from "../EmojiPickerModal";
 import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({
-  setColumnTasks,
-  mutationUrls,
-  column,
-}) {
+export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
   const storage = useAccountStorage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
