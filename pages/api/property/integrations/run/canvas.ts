@@ -30,7 +30,7 @@ const handler = async (req, res) => {
   if (!data[0]) {
     res.json({ error: true, message: "Integration does not exist" });
   }
-  const data1: any = data[0];
+  const data1 = data[0];
 
   const inputParams = JSON.parse(data1.inputParams);
   const calendar = await fetch(inputParams["Canvas feed URL"]).then((res) =>
@@ -40,12 +40,12 @@ const handler = async (req, res) => {
   const parsed = ical.parseICS(calendar);
 
   // Let's create some columns
-  let columns: any = [];
+  let columns: string[] = [];
   for (const event in parsed) {
     if (parsed.hasOwnProperty(event)) {
       const ev = parsed[event];
 
-      const course: any = ev.summary;
+      const course: string = ev.summary;
       columns.push(extractTextInBrackets(course) as any);
     }
   }
@@ -67,7 +67,7 @@ const handler = async (req, res) => {
       if (item.dtstamp || item.start)
         due = (item.dtstamp || item.start).toISOString();
 
-      let name: any = item.summary
+      let name: string = item.summary
         ?.toString()
         .split(" [")[0]
         .replaceAll("\\", "");
@@ -106,7 +106,7 @@ const handler = async (req, res) => {
                   id: columnId,
                   board: {
                     connect: {
-                      id: data1.boardId,
+                      id: data1.boardId as string,
                     },
                   },
                 },
