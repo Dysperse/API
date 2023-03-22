@@ -22,7 +22,7 @@ import {
   Stepper,
   styled,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
@@ -68,7 +68,7 @@ function BoardTemplate({ template }) {
           {template.columns.map((column, index) => (
             <picture key={index}>
               <img
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
                 width="25px"
                 height="25px"
                 alt="emoji"

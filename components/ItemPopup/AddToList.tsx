@@ -81,7 +81,7 @@ function BoardModal({ itemId, title, list }) {
               {list.columns.length !== 1 && (
                 <picture>
                   <img
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
                     alt={column.name}
                     width={25}
                   />
