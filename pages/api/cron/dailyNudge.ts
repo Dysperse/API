@@ -78,7 +78,6 @@ const Notification = async (req, res) => {
 
       // Check if user has enabled routine for that day
       if (daysOfWeek[currentDayInUserTimeZone] === true) {
-        
         try {
           await DispatchNotification({
             title: `It's time to start "${currentRoutine.name.trim()}"!`,
