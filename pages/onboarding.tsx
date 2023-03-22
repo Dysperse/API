@@ -22,7 +22,7 @@ import {
   Stepper,
   styled,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
