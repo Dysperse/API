@@ -2,9 +2,9 @@ import ical from "ical";
 import { prisma } from "../../../../../lib/server/prisma";
 import { validatePermissions } from "../../../../../lib/server/validatePermissions";
 
-function extractTextInBrackets(text: any) {
+function extractTextInBrackets(text: string): string {
   let match = text.match(/\[(.*?)\]/);
-  return match ? match[1] : null;
+  return match ? match[1] : "";
 }
 
 const handler = async (req, res) => {
