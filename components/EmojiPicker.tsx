@@ -44,9 +44,9 @@ const EmojiButton: any = ({ emoji, selectedEmoji, handleEmojiSelect }: any) => (
   </Tooltip>
 );
 
-function debounce(func: any, delay: number) {
+function debounce(func: (...args: any[]) => void, delay: number) {
   let timeout;
-  return function (...args) {
+  return function (this: any, ...args: any[]) {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       func.apply(this, args);
