@@ -309,11 +309,11 @@ export function Column({ board, mutationUrls, column, index }) {
               mx: { xs: "20px", sm: 0 },
               width: "calc(100% - 40px)",
               ...(showCompleted && {
-                background: session.user.darkMode
-                  ? "hsl(240,11%,20%)!important"
-                  : "rgba(200,200,200,.3)!important",
+                background: `hsl(240,11%,${
+                  session.user.darkMode ? 20 : 80
+                }%)!important`,
               }),
-              color: session.user.darkMode ? "#fff" : "hsl(240,11%,30%)",
+              color: `hsl(240,11%,${session.user.darkMode ? 100 : 30}%)`,
             }}
             onClick={toggleShowCompleted}
           >

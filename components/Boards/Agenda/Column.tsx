@@ -66,9 +66,7 @@ export const Column: any = memo(function Column({
       {...(isToday && { id: "activeHighlight" })}
       sx={{
         borderRight: "1px solid",
-        borderColor: session.user.darkMode
-          ? "hsl(240,11%,16%)"
-          : "rgba(200,200,200,.2)",
+        borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,

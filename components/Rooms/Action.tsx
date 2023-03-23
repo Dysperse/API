@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useCallback } from "react";
 import { useSession } from "../../pages/_app";
 import { RoomActionMenu } from "./items//RoomActionMenu";
 
@@ -56,26 +56,36 @@ const Action = React.memo(function Action({
       : -2
     : -1;
   const ref: any = React.useRef(null);
-  const handleClick = React.useCallback(() => {
+
+  const handleContextMenu = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    ref.current.click();
+    navigator.vibrate(50);
+  }, []);
+
+  const handleClick = useCallback(() => {
     if (href) router.push(href).then(() => setLoading(false));
     else {
       onClick && onClick();
     }
     setLoading(true);
   }, [href, onClick, router]);
+
   const session = useSession();
+  const isActive =
+    (!isCustom &&
+      router.asPath.toLowerCase().includes(primary.toLowerCase())) ||
+    (isCustom &&
+      router.asPath.split("rooms/")[1] &&
+      decode(router.asPath.split("rooms/")[1]).includes(primary.toLowerCase()));
 
   return (
     <ListItemButton
       disabled={disabled}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        ref.current.click();
-        navigator.vibrate(50);
-      }}
       onClick={handleClick}
       onMouseDown={handleClick}
+      onContextMenu={handleContextMenu}
       sx={{
         mb: 0.2,
         "&:hover": {
@@ -93,21 +103,10 @@ const Action = React.memo(function Action({
         },
         borderRadius: 5,
         transition: "none!important",
-        ...((!isCustom &&
-          router.asPath.toLowerCase().includes(primary.toLowerCase())) ||
-        (isCustom &&
-          router.asPath.split("rooms/")[1] &&
-          decode(router.asPath.split("rooms/")[1]).includes(
-            primary.toLowerCase()
-          ))
-          ? {
-              background: session.user.darkMode
-                ? "hsl(240,11%,13%)!important"
-                : "hsl(240,11%,90%)!important",
-            }
-          : {
-              background: "transparent!important",
-            }),
+        background: isActive
+          ? `hsl(240,11%,${session.user.darkMode ? 13 : 90}%)`
+          : "transparent!important",
+
         ...(session.user.darkMode && {
           "&:hover .MuiAvatar-root": {
             background: "hsl(240,11%,17%)",

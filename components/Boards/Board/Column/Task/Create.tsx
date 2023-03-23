@@ -67,9 +67,7 @@ function ImageModal({ image, setImage, styles }) {
             ...styles,
             mx: 0.5,
             ...(image && {
-              background: session.user.darkMode
-                ? "hsl(240,11%,20%)"
-                : "#ddd !important",
+              background: `hsl(240,11%,${session.user.darkMode ? 20 : 80}%)`,
             }),
           }}
         >
@@ -180,7 +178,7 @@ export function CreateTask({
   );
 
   const styles = {
-    color: session.user.darkMode ? "hsl(240,11%,90%)" : "#505050",
+    color: `hsl(240,11%,${session.user.darkMode ? 90 : 30}%)`,
     "&:hover": {
       color: session.user.darkMode ? "#fff" : "#000",
     },

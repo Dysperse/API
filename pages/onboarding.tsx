@@ -495,9 +495,9 @@ export default function Onboarding() {
           overflowY: "auto",
           maxWidth: "calc(100vw - 40px)",
           width: "500px",
-          backgroundColor: session.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+          backgroundColor: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
-          color: session.user.darkMode ? "white" : "hsl(240,11%,10%)",
+          color: `hsl(240,11%,${session.user.darkMode ? 100 : 10}%)`,
           borderRadius: "20px",
           padding: { xs: "7px", sm: "28px" },
         }}

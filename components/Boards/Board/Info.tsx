@@ -134,9 +134,9 @@ export function BoardInfo({
                   fontSize: "40px",
                   py: 0.5,
                   "&:focus-within": {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,18%)"
-                      : "rgba(200,200,200,.2)",
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 18 : 50
+                    }%)`,
                   },
                 },
               }}

@@ -158,9 +158,7 @@ export function TasksLayout() {
       color: "hsl(240,11%, 80%)",
     }),
     "&:hover, &:focus": {
-      background: session.user.darkMode
-        ? "hsl(240,11%,15%)"
-        : `hsl(240,11%,95%)!important`,
+      background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)!important`,
     },
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -168,26 +166,22 @@ export function TasksLayout() {
     ...(!condition
       ? {
           "&:hover": {
-            background: session.user.darkMode
-              ? "hsl(240,11%,20%)"
-              : `hsl(240,11%,93%)!important`,
+            background: `hsl(240,11%,${
+              session.user.darkMode ? 20 : 93
+            }%)!important`,
           },
-          color: session.user.darkMode
-            ? "hsl(240,11%,80%)!important"
-            : `hsl(240,11%,30%)!important`,
+          color: `hsl(240,11%,${session.user.darkMode ? 80 : 30}%)!important`,
         }
       : {
-          background: session.user.darkMode
-            ? "hsl(240,11%,20%)!important"
-            : `hsl(240,11%,85%)!important`,
+          background: `hsl(240,11%,${
+            session.user.darkMode ? 20 : 85
+          }%)!important`,
           "&:hover, &:focus": {
-            background: session.user.darkMode
-              ? "hsl(240,11%,20%)!important"
-              : `hsl(240,11%,85%)!important`,
+            background: `hsl(240,11%,${
+              session.user.darkMode ? 20 : 85
+            }%)!important`,
           },
-          color: session.user.darkMode
-            ? "hsl(240,11%,95%)!important"
-            : `hsl(240,11%,10%)!important`,
+          color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)!important`,
         }),
   });
   const [open, setOpen] = useState<boolean>(false);
@@ -469,7 +463,7 @@ export function TasksLayout() {
     <Box
       sx={{
         display: "flex",
-        background: session.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
+        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
       }}
     >
       <SwipeableDrawer
@@ -501,9 +495,7 @@ export function TasksLayout() {
           flex: { xs: "100%", md: "0 0 250px" },
           ml: -1,
           p: 3,
-          background: session.user.darkMode
-            ? "hsl(240,11%,7%)"
-            : "hsl(240,11%,95%)",
+          background: `hsl(240,11%,${session.user.darkMode ? 7 : 95}%)`,
           display: { xs: "none", md: "flex" },
           minHeight: "100vh",
           height: { md: "100vh" },

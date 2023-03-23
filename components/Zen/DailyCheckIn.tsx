@@ -720,7 +720,7 @@ export function DailyCheckIn() {
   return (
     <Box
       sx={{
-        background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
         border: "1px solid",
         borderColor: session.user.darkMode
           ? "hsl(240, 11%, 20%)"
