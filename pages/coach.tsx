@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { Routines } from "../components/Coach/Routines";
-import { useRawApi } from "../lib/client/useApi";
+import { fetchRawApi } from "../lib/client/useApi";
 import { toastStyles } from "../lib/client/useTheme";
 import { useSession } from "./_app";
 
@@ -74,7 +74,7 @@ export const Task: any = React.memo(function Task({ task }: any) {
 
   const handleClick = React.useCallback(() => {
     setLoading(true);
-    useRawApi("user/routines/markAsDone", {
+    fetchRawApi("user/routines/markAsDone", {
       date: dayjs().format("YYYY-MM-DD"),
       progress:
         task.progress && parseInt(task.progress)

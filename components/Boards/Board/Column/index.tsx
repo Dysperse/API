@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { useRawApi } from "../../../../lib/client/useApi";
+import { fetchRawApi } from "../../../../lib/client/useApi";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { useSession } from "../../../../pages/_app";
 import { EmojiPicker } from "../../../EmojiPicker";
@@ -109,7 +109,7 @@ export function Column({ board, mutationUrls, column, index }) {
               size="large"
               onClick={async () => {
                 toast.promise(
-                  useRawApi("property/boards/column/edit", {
+                  fetchRawApi("property/boards/column/edit", {
                     id: column.id,
                     name: title,
                     emoji: emoji,

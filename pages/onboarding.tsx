@@ -32,7 +32,7 @@ import { InventoryList } from "../components/Onboarding/InventoryList";
 import { StepIcon } from "../components/Onboarding/StepIcon";
 import { cards } from "../components/Rooms/CreateItem/cards";
 import { updateSettings } from "../components/Settings/updateSettings";
-import { useRawApi } from "../lib/client/useApi";
+import { fetchRawApi } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
 import { useSession } from "./_app";
 
@@ -297,7 +297,7 @@ export default function Onboarding() {
               "true",
               false,
               async () => {
-                await useRawApi("purge");
+                await fetchRawApi("purge");
                 router.push("/");
               },
               false

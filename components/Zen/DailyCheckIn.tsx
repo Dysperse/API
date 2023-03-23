@@ -25,7 +25,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
-import { useApi, useRawApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
@@ -698,7 +698,7 @@ export function DailyCheckIn() {
   const handleMoodChange: any = useCallback(
     async (emoji: string, reason: string) => {
       try {
-        await useRawApi("user/checkIns/setMood", {
+        await fetchRawApi("user/checkIns/setMood", {
           date: today,
           mood: emoji,
           reason,

@@ -2,7 +2,7 @@ import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useRawApi } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
@@ -50,7 +50,7 @@ export default function BoardSettings({ mutationUrl, board }) {
           }
           callback={() => {
             setTimeout(() => {
-              useRawApi("property/boards/pin", {
+              fetchRawApi("property/boards/pin", {
                 id: board.id,
                 pinned: !board.pinned ? "true" : "false",
               }).then(() => {
@@ -117,7 +117,7 @@ export default function BoardSettings({ mutationUrl, board }) {
               : "Are you sure you want to make this board private? Other members in your group won't be able to view/edit content within this board anymore."
           }
           callback={async () => {
-            await useRawApi("property/boards/setVisibility", {
+            await fetchRawApi("property/boards/setVisibility", {
               id: board.id,
               public: !board.public,
             });
@@ -140,7 +140,7 @@ export default function BoardSettings({ mutationUrl, board }) {
               : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
-            await useRawApi("property/boards/archive", {
+            await fetchRawApi("property/boards/archive", {
               id: board.id,
               archive: !board.archived,
             });
@@ -156,7 +156,7 @@ export default function BoardSettings({ mutationUrl, board }) {
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
-            await useRawApi("property/boards/delete", {
+            await fetchRawApi("property/boards/delete", {
               id: board.id,
             });
             await mutate(mutationUrl);

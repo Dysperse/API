@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
-import { useApi, useRawApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { ErrorHandler } from "../Error";
@@ -75,7 +75,7 @@ const Session: any = React.memo(function Session({
             title="Sign out of this device?"
             question="You'll be logged out of this device - perfect if you forgot to sign out on a public device"
             callback={async () => {
-              await useRawApi("user/sessions/delete", {
+              await fetchRawApi("user/sessions/delete", {
                 id: data[index].id,
               });
               await mutate(mutationUrl);
@@ -102,7 +102,7 @@ export default function LoginActivity() {
         title="Log out of all other devices?"
         question="You won't be logged out of the one you're on right now"
         callback={async () => {
-          await useRawApi("user/sessions/delete");
+          await fetchRawApi("user/sessions/delete");
           await mutate(url);
         }}
       >

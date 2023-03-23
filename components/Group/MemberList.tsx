@@ -11,7 +11,7 @@ import {
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useApi, useRawApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
@@ -91,7 +91,7 @@ function Member({
         <MenuItem
           disabled={member.permission === "read-only"}
           onClick={() => {
-            useRawApi("property/members/modifyPermissions", {
+            fetchRawApi("property/members/modifyPermissions", {
               id: member.id,
               permission: "read-only",
               changerName: session.user.name,
@@ -109,7 +109,7 @@ function Member({
         <MenuItem
           disabled={member.permission === "member"}
           onClick={() => {
-            useRawApi("property/members/modifyPermissions", {
+            fetchRawApi("property/members/modifyPermissions", {
               id: member.id,
               permission: "member",
               changerName: session.user.name,
@@ -144,7 +144,7 @@ function Member({
                 )
               ) {
                 setLoading(true);
-                useRawApi("property/members/remove", {
+                fetchRawApi("property/members/remove", {
                   id: member.id,
                   removerName: session.user.name,
                   removeeName: member.user.name,

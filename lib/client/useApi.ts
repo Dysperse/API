@@ -102,7 +102,7 @@ export function useApi(
  * @param removeDefaultParams - Change this to `true` if you want to prevent the default tokens and parameters from being passed to the server
  * @returns Promise<ApiResponse>
  */
-export async function useRawApi(
+export async function fetchRawApi(
   path,
   initialParams = {},
   removeDefaultParams = false

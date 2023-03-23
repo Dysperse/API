@@ -18,7 +18,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useRawApi } from "../../lib/client/useApi";
+import { fetchRawApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
@@ -61,7 +61,7 @@ export function CreateGoal({ mutationUrl }) {
     setLoading(true);
 
     try {
-      await useRawApi("user/routines/create", {
+      await fetchRawApi("user/routines/create", {
         name: titleRef.current.value,
         stepName: goalStepName.current.value,
         category: "Any",

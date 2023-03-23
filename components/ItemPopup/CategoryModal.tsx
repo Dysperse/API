@@ -1,6 +1,6 @@
 import { Item as ItemType } from "@prisma/client";
 import { useRef, useState } from "react";
-import { useApi, useRawApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
@@ -36,7 +36,7 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
       });
     }
     setTimeout(() => {
-      useRawApi("property/inventory/items/edit", {
+      fetchRawApi("property/inventory/items/edit", {
         category: item.category,
         id: item.id,
       });

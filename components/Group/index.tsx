@@ -16,7 +16,7 @@ import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useRawApi } from "../../lib/client/useApi";
+import { fetchRawApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
@@ -87,7 +87,7 @@ function PropertyInfo({
                 onClick={async () => {
                   try {
                     setLoading(true);
-                    const res = await useRawApi("property/join", {
+                    const res = await fetchRawApi("property/join", {
                       email: session.user.email,
                       accessToken1: propertyData.accessToken,
                     });
@@ -210,7 +210,7 @@ export default function Group({
       setOpen(true);
       try {
         setError(null);
-        const res = await useRawApi("property", {
+        const res = await fetchRawApi("property", {
           id: data.id,
           propertyAccessToken: data.accessToken,
         });

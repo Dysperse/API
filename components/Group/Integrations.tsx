@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { useApi, useRawApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { ErrorHandler } from "../Error";
 
@@ -42,7 +42,7 @@ function Integration({ integration }) {
       toast.error("Please select a board", toastStyles);
       return;
     }
-    await useRawApi("property/integrations/create", {
+    await fetchRawApi("property/integrations/create", {
       name: integration.name,
       inputParams: JSON.stringify(params),
       outputType: integration.type,

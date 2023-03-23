@@ -9,7 +9,7 @@ import {
 import dayjs from "dayjs";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useRawApi } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 
 export function GoalCard({ setData, routine, goal, goals }) {
@@ -29,12 +29,12 @@ export function GoalCard({ setData, routine, goal, goals }) {
       toastStyles
     );
 
-    await useRawApi("user/routines/assignToRoutine", {
+    await fetchRawApi("user/routines/assignToRoutine", {
       id: goal.id,
       routineId: !added ? routine.id : "-1",
     });
 
-    const res = await useRawApi("user/routines/custom-routines/items", {
+    const res = await fetchRawApi("user/routines/custom-routines/items", {
       id: routine.id,
     });
     setAdded(!added);

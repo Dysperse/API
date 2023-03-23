@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
-import { useRawApi } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../../pages/_app";
 import { capitalizeFirstLetter } from "../../ItemPopup";
@@ -57,7 +57,7 @@ const WebcamComponent = ({
       if (title.includes(", ")) title = title.split(", ")[0];
 
       if (forever) {
-        await useRawApi("property/inventory/items/create", {
+        await fetchRawApi("property/inventory/items/create", {
           room: room.toString().toLowerCase(),
           name: title,
           quantity: qty,

@@ -15,7 +15,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useRawApi } from "../../../../../lib/client/useApi";
+import { fetchRawApi } from "../../../../../lib/client/useApi";
 import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
@@ -95,7 +95,7 @@ export const Task: any = React.memo(function Task({
       navigator.vibrate(50);
       setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
       try {
-        await useRawApi("property/boards/column/task/mark", {
+        await fetchRawApi("property/boards/column/task/mark", {
           completed: e.target.checked ? "true" : "false",
           id: taskData.id,
         });
@@ -112,7 +112,7 @@ export const Task: any = React.memo(function Task({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          await useRawApi("property/boards/togglePin", {
+          await fetchRawApi("property/boards/togglePin", {
             id: taskData.id,
             pinned: !taskData.pinned ? "true" : "false",
           }).then(() => {

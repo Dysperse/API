@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { useRawApi } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
 import { useSession } from "../../../pages/_app";
@@ -97,7 +97,7 @@ function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const handleClick = async () => {
     setLoading(true);
     try {
-      await useRawApi("user/routines/createFromTemplate", {
+      await fetchRawApi("user/routines/createFromTemplate", {
         name: routine.name,
         note: "",
         daysOfWeek,
@@ -412,7 +412,7 @@ function ExploreGoalCard({ goal }) {
       onClick={async () => {
         setLoading(true);
         try {
-          await useRawApi("user/routines/create", {
+          await fetchRawApi("user/routines/create", {
             name: goal.name,
             stepName: goal.stepName,
             category: goal.category,
@@ -648,7 +648,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await useRawApi("user/routines/custom-routines/create", {
+      await fetchRawApi("user/routines/custom-routines/create", {
         name,
         note,
         emoji: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`,

@@ -10,7 +10,7 @@ import {
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useRawApi } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../pages/_app";
@@ -27,7 +27,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
 
   const handleSubmit = () => {
     setLoading(true);
-    useRawApi("property/inventory/room/create", {
+    fetchRawApi("property/inventory/room/create", {
       name: name,
       private: isPrivate ? "true" : "false",
     })

@@ -6,7 +6,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useState } from "react";
-import { useRawApi } from "../../lib/client/useApi";
+import { fetchRawApi } from "../../lib/client/useApi";
 
 export function BoardTemplate({ template }) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -16,7 +16,7 @@ export function BoardTemplate({ template }) {
     <ListItemButton
       onClick={() => {
         setLoading(true);
-        useRawApi("property/boards/create", {
+        fetchRawApi("property/boards/create", {
           board: JSON.stringify(template),
         }).then(async () => {
           setAdded(true);
