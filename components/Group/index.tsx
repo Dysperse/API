@@ -9,7 +9,7 @@ import {
   IconButton,
   Toolbar,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { Property } from "@prisma/client";
 import dynamic from "next/dynamic";
