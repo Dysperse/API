@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
-import React from "react";
+import { memo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { useBackButton } from "../../../lib/client/useBackButton";
@@ -28,9 +28,9 @@ const CategoryModal = memo(function CategoryModal({
   mutationUrl,
   category,
 }: CategoryModalProps) {
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [data, setData] = React.useState([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState([]);
 
   useBackButton(() => setOpen(false));
 
