@@ -24,7 +24,7 @@ interface CategoryModalProps {
  * Category modal
  * @param {string} category - The category name
  */
-const CategoryModal = React.memo(function CategoryModal({
+const CategoryModal = memo(function CategoryModal({
   mutationUrl,
   category,
 }: CategoryModalProps) {
