@@ -105,7 +105,7 @@ function RenderWithLayout({
   // If theme is dark, add `.dark` class to body
   useEffect(() => {
     document.body.classList[data.user.darkMode ? "add" : "remove"]("dark");
-  }, [theme]);
+  }, [theme, data.user.darkMode]);
 
   // Return an error if user doesn't have any properties attached to their account
   if (data.user.properties.length === 0) {

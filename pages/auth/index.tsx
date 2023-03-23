@@ -161,11 +161,12 @@ export default function Prompt() {
       ?.setAttribute("content", "hsl(240,11%,90%)");
   }, []);
 
+  const [step, setStep] = useState(1);
+
   useEffect(() => {
     if (captchaToken !== "" && !buttonLoading && step === 2) handleSubmit();
-  }, [captchaToken, handleSubmit]);
+  }, [captchaToken, handleSubmit, buttonLoading, step]);
 
-  const [step, setStep] = useState(1);
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
   const handleTogglePassword = useCallback(() => {
     if (!togglePassword) {
