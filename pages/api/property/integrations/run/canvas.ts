@@ -42,11 +42,11 @@ const handler = async (req, res) => {
   // Let's create some columns!
   let columns: string[] = [];
   for (const event in parsed) {
-    if (parsed.hasOwnProperty(event)) {
+    if (Object.prototype.hasOwnProperty.call(parsed, event)) {
       const ev = parsed[event];
 
       const course: string = ev.summary;
-      columns.push(extractTextInBrackets(course) as any);
+      columns.push(extractTextInBrackets(course));
     }
   }
 
@@ -54,7 +54,7 @@ const handler = async (req, res) => {
 
   // Now add the tasks
   for (const event in parsed) {
-    if (parsed.hasOwnProperty(event)) {
+    if (Object.prototype.hasOwnProperty.call(parsed, event)) {
       const item = parsed[event];
 
       const taskId = `${data1.boardId}-${item.uid}`;

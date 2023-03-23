@@ -16,6 +16,7 @@ export const Column: any = memo(function Column({
   data,
   navigation,
 }: any) {
+  const session = useSession();
   const subheading = view === "week" ? "dddd" : view === "month" ? "YYYY" : "-";
   const startOf = view === "week" ? "day" : view === "month" ? "month" : "year";
 
@@ -24,6 +25,9 @@ export const Column: any = memo(function Column({
     day.date !== dayjs().startOf(startOf).format(day.heading);
 
   let placeholder = dayjs(day.unchanged).from(dayjs().startOf(startOf));
+  const isToday =
+    day.date == dayjs().startOf(startOf).format(day.heading) && navigation == 0;
+
   if (placeholder === "a few seconds ago" && view === "month") {
     placeholder = "this month";
   } else if (placeholder === "a few seconds ago" && view === "year") {
@@ -31,9 +35,6 @@ export const Column: any = memo(function Column({
   } else if (placeholder === "a few seconds ago" && view === "week") {
     placeholder = "today";
   }
-
-  const isToday =
-    day.date == dayjs().startOf(startOf).format(day.heading) && navigation == 0;
 
   useEffect(() => {
     const activeHighlight = document.getElementById("activeHighlight");
@@ -58,8 +59,6 @@ export const Column: any = memo(function Column({
     tasksWithinTimeRange.length -
     tasksWithinTimeRange.filter((task) => task.completed).length;
 
-  const session = useSession();
-
   return (
     <Box
       className="snap-center"
@@ -75,9 +74,7 @@ export const Column: any = memo(function Column({
         minWidth: { xs: "100vw", sm: "320px" },
         transition: "filter .2s",
         filter: data ? "" : "blur(10px)",
-        ...(!data && {
-          pointerEvents: "none",
-        }),
+        ...(!data && { pointerEvents: "none" }),
       }}
     >
       <Box
@@ -85,13 +82,9 @@ export const Column: any = memo(function Column({
           color: session.user.darkMode ? "#fff" : "#000",
           py: 3.5,
           px: 4,
-          background: session.user.darkMode
-            ? "hsla(240,11%,16%, 0.2)"
-            : "rgba(255,255,255,.05)",
+          background: "transparent",
           borderBottom: "1px solid",
-          borderColor: session.user.darkMode
-            ? "hsla(240,11%,18%, 0.2)"
-            : "rgba(200,200,200,.3)",
+          borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
           userSelect: "none",
           zIndex: 9,
           backdropFilter: "blur(10px)",
@@ -107,7 +100,7 @@ export const Column: any = memo(function Column({
             ...(isToday && {
               color: "hsl(240,11%,10%)",
               background:
-                colors[session?.themeColor || "grey"][
+                colors[session.themeColor || "grey"][
                   session.user.darkMode ? "A200" : "A100"
                 ],
               px: 0.5,
@@ -119,9 +112,7 @@ export const Column: any = memo(function Column({
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            ...(isPast && {
-              opacity: 0.5,
-            }),
+            ...(isPast && { opacity: 0.5 }),
             mb: 0.7,
           }}
         >
@@ -156,9 +147,7 @@ export const Column: any = memo(function Column({
                 style={{
                   ...(isPast && {
                     textDecoration: "line-through",
-                    ...(isPast && {
-                      opacity: 0.5,
-                    }),
+                    ...(isPast && { opacity: 0.5 }),
                   }),
                 }}
               >
