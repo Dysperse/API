@@ -117,11 +117,9 @@ function BoardModal({ itemId, title, list }) {
 function RoomList({
   itemId,
   title,
-  handleClose,
 }: {
   itemId: string;
   title: string;
-  handleClose: () => void;
 }): JSX.Element {
   const { data, error }: ApiResponse = useApi("property/boards");
 
@@ -199,11 +197,7 @@ export default function AddToListModal({
           </DialogContentText>
         </DialogTitle>
         <DialogContent>
-          <RoomList
-            title={item.name}
-            handleClose={() => setOpen(false)}
-            itemId={item.id}
-          />
+          <RoomList title={item.name} itemId={item.id} />
         </DialogContent>
         <DialogActions>
           <Button

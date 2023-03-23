@@ -1,6 +1,7 @@
 import {
   Box,
   CardActionArea,
+  CircularProgress,
   Icon,
   Menu,
   MenuItem,
@@ -36,7 +37,6 @@ export function isEmail(email: string): boolean {
  * @returns {any}
  */
 function Member({
-  color,
   setOpen,
   propertyId,
   member,
@@ -165,7 +165,8 @@ function Member({
                   }
                 }}
               >
-                {"Remove"}
+                Remove
+                {loading && <CircularProgress sx={{ ml: "auto" }} />}
               </MenuItem>
             )}
           </Menu>

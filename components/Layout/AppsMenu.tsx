@@ -185,7 +185,7 @@ function Apps({ styles }) {
  * Apps menu
  * @returns {any}
  */
-export default function AppsMenu({ styles }) {
+export default function AppsMenu() {
   const [open, setOpen] = React.useState<boolean>(false);
 
   useHotkeys(

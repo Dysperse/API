@@ -22,8 +22,7 @@ const handler = async (req, res) => {
   const itemCount = await getItemCount(
     res,
     req.query.property,
-    req.query.accessToken,
-    ""
+    req.query.accessToken
   );
 
   res.json({

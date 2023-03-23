@@ -24,7 +24,7 @@ import {
 import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
-function LinkToken({ color }) {
+function LinkToken() {
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState("");
@@ -254,9 +254,7 @@ export function AddPersonModal({
                   timestamp: new Date().toISOString(),
                   permission: permission,
                   email: value,
-                }).then((res) => {
-                  toast.success("Invited!");
-                });
+                }).then(() => toast.success("Invited!"));
                 setLoading(true);
               } else {
                 toast.error("Please enter a valid email address", toastStyles);
@@ -274,7 +272,7 @@ export function AddPersonModal({
           >
             Send invitation
           </LoadingButton>
-          <LinkToken color={color} />
+          <LinkToken />
         </Box>
       </SwipeableDrawer>
     </>

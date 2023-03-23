@@ -12,9 +12,7 @@ import { updateSettings } from "../Settings/updateSettings";
 
 function CustomAction({
   action,
-  styles,
   classNames,
-  hovered,
   onTrigger,
   ...others
 }: SpotlightActionProps) {
@@ -58,7 +56,7 @@ function CustomAction({
   );
 }
 
-export default function SearchPopup({ styles }) {
+export default function SearchPopup() {
   const router = useRouter();
   const session = useSession();
 

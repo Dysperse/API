@@ -159,7 +159,6 @@ function PropertyInfo({
           accessToken={accessToken}
         />
         <MemberList
-          color={propertyData.profile.color}
           setOpen={() => {}}
           propertyId={propertyData.propertyId}
           accessToken={accessToken}

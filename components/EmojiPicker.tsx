@@ -2,7 +2,6 @@ import data from "@emoji-mart/data";
 import { Box, SwipeableDrawer, TextField, Tooltip } from "@mui/material";
 import { init, SearchIndex } from "emoji-mart";
 import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
-import { useSession } from "../pages/_app";
 import { Puller } from "./Puller";
 
 init({ data });
@@ -90,7 +89,6 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
     handleClose();
   }
 
-  const session = useSession();
   const ref: any = useRef();
 
   useEffect(() => {
@@ -168,7 +166,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
                 </Box>
               )}
             {results &&
-              results.map((thisEmoji, index) => (
+              results.map((thisEmoji) => (
                 <EmojiButton
                   handleEmojiSelect={handleEmojiSelect}
                   selectedEmoji={emoji}

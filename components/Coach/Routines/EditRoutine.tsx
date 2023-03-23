@@ -19,7 +19,7 @@ import { Puller } from "../../Puller";
 import { GoalCard } from "./GoalCard";
 
 export function EditRoutine({ setData, editButtonRef, routine }) {
-  const { data, error } = useApi("user/routines");
+  const { data } = useApi("user/routines");
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState(routine.name);

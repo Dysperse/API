@@ -40,7 +40,7 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
           left: 0,
         }}
         onClick={() =>
-          setCurrentIndex((i) => (currentIndex == 0 ? 0 : currentIndex - 1))
+          setCurrentIndex(() => (currentIndex == 0 ? 0 : currentIndex - 1))
         }
       />
       <Box
@@ -51,7 +51,7 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
           top: 0,
           right: 0,
         }}
-        onClick={() => setCurrentIndex((i) => currentIndex + 1)}
+        onClick={() => setCurrentIndex(() => currentIndex + 1)}
       />
       <Typography variant="h2" className="font-heading" gutterBottom>
         {task.stepName}

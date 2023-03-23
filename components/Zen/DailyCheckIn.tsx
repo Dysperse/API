@@ -295,7 +295,7 @@ export function DailyCheckInDrawer() {
     maxHeight: "100vh",
   };
 
-  const { data, error } = useApi("user/checkIns/count");
+  const { data } = useApi("user/checkIns/count");
   const [lastBy, setLastBy] = useState<number>(7);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -683,11 +683,7 @@ export function DailyCheckInDrawer() {
 export function DailyCheckIn() {
   const [mood, setMood] = useState<string | null>(null);
   const today = dayjs().startOf("day");
-  const {
-    data,
-    url: mutationUrl,
-    error,
-  } = useApi("user/checkIns", {
+  const { data, url: mutationUrl } = useApi("user/checkIns", {
     date: today,
   });
 

@@ -467,7 +467,6 @@ function ExploreGoalCard({ goal }) {
 
 function CreateGoal() {
   const session = useSession();
-  const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);

@@ -33,7 +33,7 @@ import { useSession } from "./_app";
 function RecentItems() {
   const trigger = useMediaQuery("(min-width: 600px)");
 
-  const { data, url, error } = useApi("property/boards/recent", {
+  const { data, url } = useApi("property/boards/recent", {
     take: trigger ? 12 : 6,
   });
 
@@ -182,7 +182,7 @@ export default function Home() {
     greeting = "Good night, ";
   }
 
-  const { data, url, error } = useApi("property/boards/agenda", {
+  const { data } = useApi("property/boards/agenda", {
     startTime: dayjs().startOf("day").toISOString(),
     endTime: dayjs().endOf("day").toISOString(),
   });

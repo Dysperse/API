@@ -81,11 +81,7 @@ const CategoryModal = React.memo(function CategoryModal({
             .filter((item) => item)
             .map((item: Item) => (
               <Box sx={{ mb: 1 }} key={item.id.toString()}>
-                <ItemCard
-                  item={item}
-                  displayRoom={false}
-                  mutationUrl={mutationUrl}
-                />
+                <ItemCard item={item} mutationUrl={mutationUrl} />
               </Box>
             ))}
           {data.length === 0 && <>No items</>}

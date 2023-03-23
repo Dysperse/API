@@ -22,12 +22,6 @@ import { fetchApiWithoutHook } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
 export function CreateGoal({ mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);
 

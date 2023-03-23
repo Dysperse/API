@@ -19,16 +19,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { authStyles, Layout } from "../../components/Auth/Layout";
 import { isEmail } from "../../components/Group/MemberList";
-import { useBackButton } from "../../lib/client/useBackButton";
 import { toastStyles } from "../../lib/client/useTheme";
-
-const validateEmail = (email) => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-};
 
 /**
  * Login prompt
@@ -68,10 +59,6 @@ export default function Prompt() {
 
   // Login form
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
-  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState<boolean>(false);
-
-  useBackButton(() => setTwoFactorModalOpen(false));
-
   const [captchaToken, setCaptchaToken] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

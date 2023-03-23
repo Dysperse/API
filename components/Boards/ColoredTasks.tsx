@@ -192,7 +192,7 @@ export function ColoredTasks({ setDrawerOpen }) {
           ...data.filter((task) => !task.pinned),
         ]
           .filter((task) => color === "all" || task.color === color)
-          .map((task, index) => (
+          .map((task) => (
             <Task
               key={task.id}
               board={task.board || false}

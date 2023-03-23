@@ -16,11 +16,9 @@ import { useSession } from "../../pages/_app";
  */
 export function ItemCard({
   mutationUrl,
-  displayRoom = false,
   item,
 }: {
   mutationUrl: string;
-  displayRoom?: boolean;
   item: ItemType;
 }) {
   const session = useSession();

@@ -21,12 +21,6 @@ export function DailyRoutine() {
     if (window.location.hash == "#daily-routine") setOpen(true);
   }, [setOpen]);
 
-  const doneTasks = !data
-    ? []
-    : data
-        .filter((task) => task.durationDays - task.progress > 0)
-        .filter((task) => task.lastCompleted === dayjs().format("YYYY-MM-DD"));
-
   const tasksRemaining = !data
     ? []
     : data
