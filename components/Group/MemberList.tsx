@@ -37,14 +37,12 @@ export function isEmail(email: string): boolean {
  * @returns {any}
  */
 function Member({
-  setOpen,
   propertyId,
   member,
   mutationUrl,
 }: {
   propertyId: string;
   color: string;
-  setOpen: (open: boolean) => void;
   member: MemberType;
   mutationUrl: any;
 }): JSX.Element {
@@ -138,7 +136,6 @@ function Member({
             onClick={() => {
               if (member.permission === "owner") {
                 document.getElementById("settingsTrigger")?.click();
-                setOpen(false);
                 return;
               }
               if (
@@ -233,12 +230,10 @@ function Member({
 
 export function MemberList({
   color,
-  setOpen,
   propertyId,
   accessToken,
 }: {
   color: string;
-  setOpen: (open: boolean) => void;
   propertyId: string;
   accessToken: string;
 }): JSX.Element {
@@ -261,7 +256,6 @@ export function MemberList({
                 <Member
                   propertyId={propertyId}
                   color={color}
-                  setOpen={setOpen}
                   member={member}
                   mutationUrl={url}
                 />

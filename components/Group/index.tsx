@@ -9,7 +9,7 @@ import {
   IconButton,
   Toolbar,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import { Property } from "@prisma/client";
 import dynamic from "next/dynamic";
@@ -160,7 +160,6 @@ function PropertyInfo({
         />
         <MemberList
           color="grey"
-          setOpen={() => {}}
           propertyId={propertyData.propertyId}
           accessToken={accessToken}
         />
