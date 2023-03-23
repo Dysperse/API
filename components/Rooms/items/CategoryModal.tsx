@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Item } from "@prisma/client";
 import React from "react";
+import { toast } from "react-hot-toast";
 import { fetchApiWithoutHook } from "../../../lib/client/useApi";
 import { useBackButton } from "../../../lib/client/useBackButton";
 import { useSession } from "../../../pages/_app";
@@ -24,117 +25,121 @@ interface CategoryModalProps {
  * Category modal
  * @param {string} category - The category name
  */
-const CategoryModal = React.memo(
-  ({ mutationUrl, category }: CategoryModalProps) => {
-    const [open, setOpen] = React.useState<boolean>(false);
-    const [loading, setLoading] = React.useState<boolean>(false);
-    const [data, setData] = React.useState([]);
+const CategoryModal = React.memo(function ({
+  mutationUrl,
+  category,
+}: CategoryModalProps) {
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [data, setData] = React.useState([]);
 
-    useBackButton(() => setOpen(false));
+  useBackButton(() => setOpen(false));
 
-    const session = useSession();
+  const session = useSession();
 
-    return (
-      <>
-        <Drawer
-          onClose={() => setOpen(false)}
-          open={open}
-          anchor="right"
-          ModalProps={{
-            keepMounted: false,
-          }}
-          PaperProps={{
-            sx: {
-              width: "100%",
-              maxWidth: "600px",
-              maxHeight: "100vh",
-            },
-          }}
-        >
-          <Box sx={{ p: 3, pt: 0 }}>
-            <Box
+  return (
+    <>
+      <Drawer
+        onClose={() => setOpen(false)}
+        open={open}
+        anchor="right"
+        ModalProps={{
+          keepMounted: false,
+        }}
+        PaperProps={{
+          sx: {
+            width: "100%",
+            maxWidth: "600px",
+            maxHeight: "100vh",
+          },
+        }}
+      >
+        <Box sx={{ p: 3, pt: 0 }}>
+          <Box
+            sx={{
+              my: 4,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Typography
               sx={{
-                my: 4,
-                display: "flex",
-                alignItems: "center",
+                textAlign: "center",
+                textTransform: "capitalize",
+              }}
+              variant="h5"
+            >
+              {category}
+            </Typography>
+            <IconButton
+              onClick={() => setOpen(false)}
+              sx={{
+                ml: "auto",
               }}
             >
-              <Typography
-                sx={{
-                  textAlign: "center",
-                  textTransform: "capitalize",
-                }}
-                variant="h5"
-              >
-                {category}
-              </Typography>
-              <IconButton
-                onClick={() => setOpen(false)}
-                sx={{
-                  ml: "auto",
-                }}
-              >
-                <Icon>close</Icon>
-              </IconButton>
-            </Box>
-            {data
-              .filter((item) => item)
-              .map((item: Item) => (
-                <Box sx={{ mb: 1 }} key={item.id.toString()}>
-                  <ItemCard item={item} mutationUrl={mutationUrl} />
-                </Box>
-              ))}
-            {data.length === 0 && <>No items</>}
+              <Icon>close</Icon>
+            </IconButton>
           </Box>
-        </Drawer>
-        <ListItemButton
-          onClick={() => {
-            setLoading(true);
-            fetchApiWithoutHook("property/inventory/categories/items", {
-              category,
-            })
-              .then((res) => {
-                setData(res);
-                setOpen(true);
-                setLoading(false);
-              })
-              .catch(() => {
-                setLoading(false);
-              });
-          }}
-          sx={{
-            gap: 2,
-            borderRadius: 4,
-            transition: "none!important",
-            cursor: "unset!important",
-            ...(session.user.darkMode && {
-              "&:hover .MuiAvatar-root": {
-                background: "hsl(240,11%,27%)",
-              },
-            }),
-          }}
-        >
-          <ListItemText
-            primary={
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                {category}{" "}
-                {loading && (
-                  <CircularProgress
-                    size={15}
-                    sx={{
-                      ml: "auto",
-                      animationDuration: ".4s",
-                      transitionDuration: ".4s",
-                    }}
-                    disableShrink
-                  />
-                )}
+          {data
+            .filter((item) => item)
+            .map((item: Item) => (
+              <Box sx={{ mb: 1 }} key={item.id.toString()}>
+                <ItemCard item={item} mutationUrl={mutationUrl} />
               </Box>
-            }
-          />
-        </ListItemButton>
-      </>
-    );
-  }
-);
+            ))}
+          {data.length === 0 && <>No items</>}
+        </Box>
+      </Drawer>
+      <ListItemButton
+        onClick={() => {
+          setLoading(true);
+          fetchApiWithoutHook("property/inventory/categories/items", {
+            category,
+          })
+            .then((res) => {
+              setData(res);
+              setOpen(true);
+              setLoading(false);
+            })
+            .catch(() => {
+              toast.error(
+                "An error occured while trying to get items with this category"
+              );
+              setLoading(false);
+            });
+        }}
+        sx={{
+          gap: 2,
+          borderRadius: 4,
+          transition: "none!important",
+          cursor: "unset!important",
+          ...(session.user.darkMode && {
+            "&:hover .MuiAvatar-root": {
+              background: "hsl(240,11%,27%)",
+            },
+          }),
+        }}
+      >
+        <ListItemText
+          primary={
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              {category}{" "}
+              {loading && (
+                <CircularProgress
+                  size={15}
+                  sx={{
+                    ml: "auto",
+                    animationDuration: ".4s",
+                    transitionDuration: ".4s",
+                  }}
+                  disableShrink
+                />
+              )}
+            </Box>
+          }
+        />
+      </ListItemButton>
+    </>
+  );
+});
 export default CategoryModal;
