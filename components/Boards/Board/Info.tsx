@@ -115,7 +115,7 @@ export function BoardInfo({
           <Box sx={{ mt: "auto" }}>
             <TextField
               defaultValue={board.name}
-              onChange={(e: any) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 e.target.value = e.target.value.replace(/\n|\r/g, "");
               }}
               inputRef={titleRef}
