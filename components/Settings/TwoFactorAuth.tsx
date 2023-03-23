@@ -119,7 +119,7 @@ export default function App() {
                 ? code.toString().substring(0, 6)
                 : code.toString()
             }
-            onChange={(e) => {
+            onChange={(e: React.KeyboardEvent<HTMLInputElement>) => {
               setCode(e.target.value.replace(" ", ""));
             }}
             sx={{ mt: 2 }}

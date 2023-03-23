@@ -89,7 +89,9 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
             </EmojiPicker>
             <TextField
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
+                setTitle(e.target.value)
+              }
               id={"renameInput"}
               inputRef={ref}
               disabled={storage?.isReached === true}

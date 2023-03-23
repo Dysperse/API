@@ -754,7 +754,9 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
           </EmojiPicker>
           <TextField
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
             fullWidth
             margin="dense"
             label="Routine name"
@@ -763,7 +765,9 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
           />
           <TextField
             value={note}
-            onChange={(e) => setNote(e.target.value)}
+            onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
+              setNote(e.target.value)
+            }
             fullWidth
             margin="dense"
             multiline

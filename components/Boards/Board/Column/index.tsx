@@ -84,7 +84,9 @@ export function Column({ board, mutationUrls, column, index }) {
             </EmojiPicker>
             <TextField
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
+                setTitle(e.target.value)
+              }
               id={"renameInput"}
               inputRef={ref}
               onKeyDown={(e) => {

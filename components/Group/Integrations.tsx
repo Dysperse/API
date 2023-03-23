@@ -73,7 +73,9 @@ function Integration({ integration }) {
               <TextField
                 size="small"
                 value={params[param.name]}
-                onChange={(e) => handleParamUpdate(param.name, e.target.value)}
+                onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
+                  handleParamUpdate(param.name, e.target.value)
+                }
                 placeholder={param.placeholder}
                 label={param.name}
                 fullWidth
@@ -90,7 +92,9 @@ function Integration({ integration }) {
                 sx={{ mt: 1 }}
                 fullWidth
                 required
-                onChange={(e) => setBoardId(e.target.value)}
+                onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
+                  setBoardId(e.target.value)
+                }
                 defaultValue="-1"
               >
                 <MenuItem value={-1} disabled>

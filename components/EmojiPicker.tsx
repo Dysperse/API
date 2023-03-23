@@ -134,7 +134,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
             autoFocus
             placeholder="Search..."
             inputRef={ref}
-            onChange={(e) => {
+            onChange={(e: React.KeyboardEvent<HTMLInputElement>) => {
               setInputValue(e.target.value);
               debouncedHandleSearch(e.target.value);
             }}
