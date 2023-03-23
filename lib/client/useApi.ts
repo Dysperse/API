@@ -28,7 +28,11 @@ const getInfo = (
   };
 };
 
-export function useApi(path, initialParams = {}, removeDefaultParams = false) {
+export function useApi(
+  path: string,
+  initialParams = {},
+  removeDefaultParams = false
+) {
   let session = useSession() || { property: "", user: "" };
 
   const { url } = useMemo(
@@ -43,8 +47,7 @@ export function useApi(path, initialParams = {}, removeDefaultParams = false) {
     [path, initialParams, removeDefaultParams, session.property, session?.user]
   );
 
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  // preload(url, fetcher);
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   const { data, error } = useSWR(url, fetcher);
 
