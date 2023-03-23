@@ -40,7 +40,7 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
           left: 0,
         }}
         onClick={() =>
-          setCurrentIndex(() => (currentIndex == 0 ? 0 : currentIndex - 1))
+          setCurrentIndex(() => (currentIndex === 0 ? 0 : currentIndex - 1))
         }
       />
       <Box

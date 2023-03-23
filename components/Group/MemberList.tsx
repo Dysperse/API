@@ -64,165 +64,163 @@ function Member({
     <>This user no longer has access to your home</>
   ) : (
     <Box>
-      <Box>
-        <Typography
-          sx={{
-            fontWeight: "600",
-            maxWidth: "100%",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
+      <Typography
+        sx={{
+          fontWeight: "600",
+          maxWidth: "100%",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {member.user.name}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          maxWidth: "100%",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {member.user.email}
+      </Typography>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        <MenuItem
+          disabled={member.permission === "read-only"}
+          onClick={() => {
+            fetchApiWithoutHook("property/members/modifyPermissions", {
+              id: member.id,
+              permission: "read-only",
+              changerName: session.user.name,
+              affectedName: member.user.name,
+              timestamp: new Date().toISOString(),
+            }).then(() => {
+              mutate(mutationUrl);
+              handleClose();
+              toast.success("Updated permissions!", toastStyles);
+            });
           }}
         >
-          {member.user.name}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            maxWidth: "100%",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
+          View only
+        </MenuItem>
+        <MenuItem
+          disabled={member.permission === "member"}
+          onClick={() => {
+            fetchApiWithoutHook("property/members/modifyPermissions", {
+              id: member.id,
+              permission: "member",
+              changerName: session.user.name,
+              affectedName: member.user.name,
+              timestamp: new Date().toISOString(),
+            }).then(() => {
+              mutate(mutationUrl);
+              handleClose();
+              toast.success("Updated permissions!", toastStyles);
+            });
           }}
         >
-          {member.user.email}
-        </Typography>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-        >
-          <MenuItem
-            disabled={member.permission === "read-only"}
-            onClick={() => {
-              fetchApiWithoutHook("property/members/modifyPermissions", {
-                id: member.id,
-                permission: "read-only",
-                changerName: session.user.name,
-                affectedName: member.user.name,
-                timestamp: new Date().toISOString(),
-              }).then(() => {
-                mutate(mutationUrl);
-                handleClose();
-                toast.success("Updated permissions!", toastStyles);
-              });
-            }}
-          >
-            View only
-          </MenuItem>
-          <MenuItem
-            disabled={member.permission === "member"}
-            onClick={() => {
-              fetchApiWithoutHook("property/members/modifyPermissions", {
-                id: member.id,
-                permission: "member",
-                changerName: session.user.name,
-                affectedName: member.user.name,
-                timestamp: new Date().toISOString(),
-              }).then(() => {
-                mutate(mutationUrl);
-                handleClose();
-                toast.success("Updated permissions!", toastStyles);
-              });
-            }}
-          >
-            Member
-          </MenuItem>
+          Member
+        </MenuItem>
 
-          {session.property.permission !== "owner" ||
-          member.permission === "owner" ? null : (
-            <MenuItem
-              sx={{
-                color:
-                  colors.red[session.user.darkMode ? "A200" : "A400"] +
-                  "!important",
-              }}
-              onClick={() => {
-                if (member.permission === "owner") {
-                  document.getElementById("settingsTrigger")?.click();
-                  setOpen(false);
-                  return;
-                }
-                if (
-                  confirm(
-                    "Remove member from your home? This person cannot join unless you invite them again."
-                  )
-                ) {
-                  setLoading(true);
-                  fetchApiWithoutHook("property/members/remove", {
-                    id: member.id,
-                    removerName: session.user.name,
-                    removeeName: member.user.name,
-                    timestamp: new Date().toISOString(),
-                  }).then(() => {
-                    toast.success("Removed person from your home", toastStyles);
-                    setLoading(false);
-                    setDeleted(true);
-                  });
-                }
-              }}
-            >
-              Remove
-              {loading && <CircularProgress sx={{ ml: "auto" }} />}
-            </MenuItem>
-          )}
-        </Menu>
-        <CardActionArea
-          onClick={handleClick}
-          disabled={
-            propertyId !== session.property.propertyId ||
-            session?.permission !== "owner" ||
-            member.user.email === session.user.email
-          }
-          sx={{
-            ...((session?.permission !== "owner" ||
-              member.user.email === session.user.email) && {
-              pointerEvents: "none",
-            }),
-            width: "100%",
-            overflow: "hidden",
-            fontWeight: "400",
-            borderRadius: 9,
-            mx: "auto",
-            textOverflow: "ellipsis",
-            display: "flex",
-            mt: 0.5,
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <Icon>
-            {member.permission === "member"
-              ? "group"
-              : member.permission === "owner"
-              ? "verified"
-              : "visibility"}
-          </Icon>
-          <span
-            style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
-          >
-            {member.permission === "member"
-              ? "Member"
-              : member.permission === "owner"
-              ? "Owner"
-              : "View-only"}
-          </span>
-
-          <span
-            className="material-symbols-rounded"
-            style={{
-              marginLeft: "auto",
-              opacity:
-                propertyId !== session.property.propertyId ||
-                session?.permission !== "owner" ||
-                member.user.email === session.user.email
-                  ? "0"
-                  : "1",
+        {session.property.permission !== "owner" ||
+        member.permission === "owner" ? null : (
+          <MenuItem
+            sx={{
+              color:
+                colors.red[session.user.darkMode ? "A200" : "A400"] +
+                "!important",
+            }}
+            onClick={() => {
+              if (member.permission === "owner") {
+                document.getElementById("settingsTrigger")?.click();
+                setOpen(false);
+                return;
+              }
+              if (
+                confirm(
+                  "Remove member from your home? This person cannot join unless you invite them again."
+                )
+              ) {
+                setLoading(true);
+                fetchApiWithoutHook("property/members/remove", {
+                  id: member.id,
+                  removerName: session.user.name,
+                  removeeName: member.user.name,
+                  timestamp: new Date().toISOString(),
+                }).then(() => {
+                  toast.success("Removed person from your home", toastStyles);
+                  setLoading(false);
+                  setDeleted(true);
+                });
+              }
             }}
           >
-            expand_more
-          </span>
-        </CardActionArea>
-      </Box>
+            Remove
+            {loading && <CircularProgress sx={{ ml: "auto" }} />}
+          </MenuItem>
+        )}
+      </Menu>
+      <CardActionArea
+        onClick={handleClick}
+        disabled={
+          propertyId !== session.property.propertyId ||
+          session?.permission !== "owner" ||
+          member.user.email === session.user.email
+        }
+        sx={{
+          ...((session?.permission !== "owner" ||
+            member.user.email === session.user.email) && {
+            pointerEvents: "none",
+          }),
+          width: "100%",
+          overflow: "hidden",
+          fontWeight: "400",
+          borderRadius: 9,
+          mx: "auto",
+          textOverflow: "ellipsis",
+          display: "flex",
+          mt: 0.5,
+          alignItems: "center",
+          gap: "10px",
+        }}
+      >
+        <Icon>
+          {member.permission === "member"
+            ? "group"
+            : member.permission === "owner"
+            ? "verified"
+            : "visibility"}
+        </Icon>
+        <span
+          style={{ marginTop: member.permission === "owner" ? "-4px" : "" }}
+        >
+          {member.permission === "member"
+            ? "Member"
+            : member.permission === "owner"
+            ? "Owner"
+            : "View-only"}
+        </span>
+
+        <span
+          className="material-symbols-rounded"
+          style={{
+            marginLeft: "auto",
+            opacity:
+              propertyId !== session.property.propertyId ||
+              session?.permission !== "owner" ||
+              member.user.email === session.user.email
+                ? "0"
+                : "1",
+          }}
+        >
+          expand_more
+        </span>
+      </CardActionArea>
     </Box>
   );
 }

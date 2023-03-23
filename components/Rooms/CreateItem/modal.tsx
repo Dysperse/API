@@ -72,7 +72,7 @@ export function CreateItemModal({
       room: room.toString().toLowerCase(),
       name: title,
       quantity: quantity,
-      category: category,
+      category,
       lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     })
       .then(() => {

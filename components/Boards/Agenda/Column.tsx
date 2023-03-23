@@ -9,285 +9,292 @@ import { capitalizeFirstLetter } from "../../ItemPopup";
 import { Task } from "../Board/Column/Task";
 import { CreateTask } from "../Board/Column/Task/Create";
 
-export const Column: any = memo(function Column({
-  mutationUrl,
-  view,
-  day,
-  data,
-  navigation,
-}: any) {
-  const session = useSession();
-  const subheading = view === "week" ? "dddd" : view === "month" ? "YYYY" : "-";
-  const startOf = view === "week" ? "day" : view === "month" ? "month" : "year";
+interface AgendaColumnProps {
+  mutationUrl: string;
+  view: string;
+  day: any;
+  data: any;
+  navigation: number;
+}
 
-  const isPast =
-    dayjs(day.unchanged).isBefore(dayjs().startOf(startOf)) &&
-    day.date !== dayjs().startOf(startOf).format(day.heading);
+export const Column: any = memo(
+  ({ mutationUrl, view, day, data, navigation }: AgendaColumnProps) => {
+    const session = useSession();
+    const subheading =
+      view === "week" ? "dddd" : view === "month" ? "YYYY" : "-";
+    const startOf =
+      view === "week" ? "day" : view === "month" ? "month" : "year";
 
-  let placeholder = dayjs(day.unchanged).from(dayjs().startOf(startOf));
-  const isToday =
-    day.date == dayjs().startOf(startOf).format(day.heading) && navigation == 0;
+    const isPast =
+      dayjs(day.unchanged).isBefore(dayjs().startOf(startOf)) &&
+      day.date !== dayjs().startOf(startOf).format(day.heading);
 
-  if (placeholder === "a few seconds ago" && view === "month") {
-    placeholder = "this month";
-  } else if (placeholder === "a few seconds ago" && view === "year") {
-    placeholder = "this year";
-  } else if (placeholder === "a few seconds ago" && view === "week") {
-    placeholder = "today";
-  }
+    let placeholder = dayjs(day.unchanged).from(dayjs().startOf(startOf));
+    const isToday =
+      day.date == dayjs().startOf(startOf).format(day.heading) &&
+      navigation == 0;
 
-  useEffect(() => {
-    const activeHighlight = document.getElementById("activeHighlight");
-    if (activeHighlight)
-      activeHighlight.scrollIntoView({
-        block: "nearest",
-        inline: "start",
-        behavior: "smooth",
-      });
-    window.scrollTo(0, 0);
-  }, []);
+    if (placeholder === "a few seconds ago" && view === "month") {
+      placeholder = "this month";
+    } else if (placeholder === "a few seconds ago" && view === "year") {
+      placeholder = "this year";
+    } else if (placeholder === "a few seconds ago" && view === "week") {
+      placeholder = "today";
+    }
 
-  const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
-  const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
+    useEffect(() => {
+      const activeHighlight = document.getElementById("activeHighlight");
+      if (activeHighlight)
+        activeHighlight.scrollIntoView({
+          block: "nearest",
+          inline: "start",
+          behavior: "smooth",
+        });
+      window.scrollTo(0, 0);
+    }, []);
 
-  const tasksWithinTimeRange = (data || []).filter((task) => {
-    const dueDate = new Date(task.due);
-    return dueDate >= startTime && dueDate <= endTime;
-  });
+    const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
+    const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
 
-  const tasksLeft =
-    tasksWithinTimeRange.length -
-    tasksWithinTimeRange.filter((task) => task.completed).length;
+    const tasksWithinTimeRange = (data || []).filter((task) => {
+      const dueDate = new Date(task.due);
+      return dueDate >= startTime && dueDate <= endTime;
+    });
 
-  return (
-    <Box
-      className="snap-center"
-      {...(isToday && { id: "activeHighlight" })}
-      sx={{
-        borderRight: "1px solid",
-        borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
-        zIndex: 1,
-        flexGrow: 1,
-        flexBasis: 0,
-        minHeight: { sm: "100vh" },
-        overflowY: "scroll",
-        minWidth: { xs: "100vw", sm: "320px" },
-        transition: "filter .2s",
-        filter: data ? "" : "blur(10px)",
-        ...(!data && { pointerEvents: "none" }),
-      }}
-    >
+    const tasksLeft =
+      tasksWithinTimeRange.length -
+      tasksWithinTimeRange.filter((task) => task.completed).length;
+
+    return (
       <Box
+        className="snap-center"
+        {...(isToday && { id: "activeHighlight" })}
         sx={{
-          color: session.user.darkMode ? "#fff" : "#000",
-          py: 3.5,
-          px: 4,
-          background: "transparent",
-          borderBottom: "1px solid",
+          borderRight: "1px solid",
           borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
-          userSelect: "none",
-          zIndex: 9,
-          backdropFilter: "blur(10px)",
-          position: "sticky",
-          top: 0,
+          zIndex: 1,
+          flexGrow: 1,
+          flexBasis: 0,
+          minHeight: { sm: "100vh" },
+          overflowY: "scroll",
+          minWidth: { xs: "100vw", sm: "320px" },
+          transition: "filter .2s",
+          filter: data ? "" : "blur(10px)",
+          ...(!data && { pointerEvents: "none" }),
         }}
       >
-        <Typography
-          variant="h4"
-          className="font-heading"
+        <Box
           sx={{
-            fontSize: "35px",
-            ...(isToday && {
-              color: "hsl(240,11%,10%)",
-              background:
-                colors[session.themeColor || "grey"][
-                  session.user.darkMode ? "A200" : "A100"
-                ],
-              px: 0.5,
-              ml: -0.5,
-            }),
-            borderRadius: 1,
-            width: "auto",
-            height: 45,
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            ...(isPast && { opacity: 0.5 }),
-            mb: 0.7,
+            color: session.user.darkMode ? "#fff" : "#000",
+            py: 3.5,
+            px: 4,
+            background: "transparent",
+            borderBottom: "1px solid",
+            borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
+            userSelect: "none",
+            zIndex: 9,
+            backdropFilter: "blur(10px)",
+            position: "sticky",
+            top: 0,
           }}
         >
-          {view === "week"
-            ? dayjs(day.unchanged).format(day.heading).padStart(2, "0")
-            : dayjs(day.unchanged).format(day.heading)}
-        </Typography>
-        {subheading !== "-" && (
-          <Tooltip
-            placement="left"
-            title={
-              <Typography>
-                <Typography sx={{ fontWeight: 700 }}>
-                  {isToday
-                    ? "Today"
-                    : capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
-                </Typography>
-                <Typography variant="body2">
-                  {dayjs(day.unchanged).format("dddd, MMMM D, YYYY")}
-                </Typography>
-              </Typography>
-            }
+          <Typography
+            variant="h4"
+            className="font-heading"
+            sx={{
+              fontSize: "35px",
+              ...(isToday && {
+                color: "hsl(240,11%,10%)",
+                background:
+                  colors[session.themeColor || "grey"][
+                    session.user.darkMode ? "A200" : "A100"
+                  ],
+                px: 0.5,
+                ml: -0.5,
+              }),
+              borderRadius: 1,
+              width: "auto",
+              height: 45,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              ...(isPast && { opacity: 0.5 }),
+              mb: 0.7,
+            }}
           >
-            <Typography
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "20px",
-              }}
-            >
-              <span
-                style={{
-                  ...(isPast && {
-                    textDecoration: "line-through",
-                    ...(isPast && { opacity: 0.5 }),
-                  }),
-                }}
-              >
-                {view === "month" &&
-                dayjs(day.unchanged).format("M") !== dayjs().format("M")
-                  ? dayjs(day.unchanged).fromNow()
-                  : dayjs(day.unchanged).format(subheading)}
-              </span>
-              <Typography
-                variant="body2"
-                sx={{
-                  ml: "auto",
-                  opacity:
-                    tasksWithinTimeRange.length == 0
-                      ? 0
-                      : tasksLeft === 0
-                      ? 1
-                      : 0.6,
-                }}
-              >
-                {tasksLeft !== 0 ? (
-                  <>
-                    {tasksLeft} {isPast ? "unfinished" : "left"}
-                  </>
-                ) : (
-                  <Icon
-                    sx={{
-                      color: green[session.user.darkMode ? "A700" : "800"],
-                    }}
-                    className="outlined"
-                  >
-                    check_circle
-                  </Icon>
-                )}
-              </Typography>
-            </Typography>
-          </Tooltip>
-        )}
-      </Box>
-      <Box
-        sx={{
-          px: { xs: 0, sm: 2 },
-          pt: { xs: 0, sm: 3 },
-          pb: { xs: 15, sm: 0 },
-        }}
-      >
-        <Box sx={{ my: 0.5 }}>
-          {tasksWithinTimeRange.filter((task) => !task.completed).length ===
-          0 ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                mx: "auto",
-                py: { sm: 2 },
-                alignItems: { xs: "center", sm: "start" },
-                textAlign: { xs: "center", sm: "left" },
-                flexDirection: "column",
-                "& img": {
-                  display: { sm: "none" },
-                },
-              }}
-            >
-              <Image
-                src="/images/noTasks.png"
-                width={256}
-                height={256}
-                style={{
-                  ...(session.user.darkMode && {
-                    filter: "invert(100%)",
-                  }),
-                }}
-                alt="No items found"
-              />
-
-              <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
-                <Typography variant="h6" gutterBottom>
-                  {tasksWithinTimeRange == 0
-                    ? "Nothing much here..."
-                    : "Let's go!"}
+            {view === "week"
+              ? dayjs(day.unchanged).format(day.heading).padStart(2, "0")
+              : dayjs(day.unchanged).format(day.heading)}
+          </Typography>
+          {subheading !== "-" && (
+            <Tooltip
+              placement="left"
+              title={
+                <Typography>
+                  <Typography sx={{ fontWeight: 700 }}>
+                    {isToday
+                      ? "Today"
+                      : capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
+                  </Typography>
+                  <Typography variant="body2">
+                    {dayjs(day.unchanged).format("dddd, MMMM D, YYYY")}
+                  </Typography>
                 </Typography>
-                <Typography gutterBottom>
-                  {tasksWithinTimeRange == 0
-                    ? "You haven't added any list items to this column"
-                    : "You finished all your goals for this time range!"}
-                </Typography>
-              </Box>
-              <Box sx={{ width: "100%", mt: 1 }}>
-                <CreateTask
-                  column={{ id: "-1", name: "" }}
-                  defaultDate={day.unchanged}
-                  label="Set a goal"
-                  placeholder={
-                    "Set a goal to be achieved " +
-                    placeholder.replace("in a day", "tomorrow")
-                  }
-                  mutationUrl={mutationUrl}
-                  boardId={1}
-                />
-                {tasksWithinTimeRange == 0 ? (
-                  <></>
-                ) : (
-                  <Divider sx={{ mt: 2, mb: -1 }} />
-                )}
-              </Box>
-            </Box>
-          ) : (
-            <CreateTask
-              column={{ id: "-1", name: "" }}
-              defaultDate={day.unchanged}
-              label="Set a goal"
-              placeholder={
-                "Set a goal to be achieved " +
-                placeholder.replace("in a day", "tomorrow")
               }
-              mutationUrl={mutationUrl}
-              boardId={1}
-            />
+            >
+              <Typography
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "20px",
+                }}
+              >
+                <span
+                  style={{
+                    ...(isPast && {
+                      textDecoration: "line-through",
+                      ...(isPast && { opacity: 0.5 }),
+                    }),
+                  }}
+                >
+                  {view === "month" &&
+                  dayjs(day.unchanged).format("M") !== dayjs().format("M")
+                    ? dayjs(day.unchanged).fromNow()
+                    : dayjs(day.unchanged).format(subheading)}
+                </span>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    ml: "auto",
+                    opacity:
+                      tasksWithinTimeRange.length == 0
+                        ? 0
+                        : tasksLeft === 0
+                        ? 1
+                        : 0.6,
+                  }}
+                >
+                  {tasksLeft !== 0 ? (
+                    <>
+                      {tasksLeft} {isPast ? "unfinished" : "left"}
+                    </>
+                  ) : (
+                    <Icon
+                      sx={{
+                        color: green[session.user.darkMode ? "A700" : "800"],
+                      }}
+                      className="outlined"
+                    >
+                      check_circle
+                    </Icon>
+                  )}
+                </Typography>
+              </Typography>
+            </Tooltip>
           )}
         </Box>
-        {[
-          ...tasksWithinTimeRange.filter(
-            (task) => !task.completed && task.pinned
-          ),
-          ...tasksWithinTimeRange.filter(
-            (task) => !task.completed && !task.pinned
-          ),
-          ...tasksWithinTimeRange.filter((task) => task.completed),
-        ].map((task) => (
-          <Task
-            key={task.id}
-            board={task.board || false}
-            columnId={task.column ? task.column.id : -1}
-            isAgenda
-            mutationUrl={mutationUrl}
-            task={task}
-          />
-        ))}
-        <Box sx={{ mb: 5 }} />
+        <Box
+          sx={{
+            px: { xs: 0, sm: 2 },
+            pt: { xs: 0, sm: 3 },
+            pb: { xs: 15, sm: 0 },
+          }}
+        >
+          <Box sx={{ my: 0.5 }}>
+            {tasksWithinTimeRange.filter((task) => !task.completed).length ===
+            0 ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  mx: "auto",
+                  py: { sm: 2 },
+                  alignItems: { xs: "center", sm: "start" },
+                  textAlign: { xs: "center", sm: "left" },
+                  flexDirection: "column",
+                  "& img": {
+                    display: { sm: "none" },
+                  },
+                }}
+              >
+                <Image
+                  src="/images/noTasks.png"
+                  width={256}
+                  height={256}
+                  style={{
+                    ...(session.user.darkMode && {
+                      filter: "invert(100%)",
+                    }),
+                  }}
+                  alt="No items found"
+                />
+
+                <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
+                  <Typography variant="h6" gutterBottom>
+                    {tasksWithinTimeRange == 0
+                      ? "Nothing much here..."
+                      : "Let's go!"}
+                  </Typography>
+                  <Typography gutterBottom>
+                    {tasksWithinTimeRange == 0
+                      ? "You haven't added any list items to this column"
+                      : "You finished all your goals for this time range!"}
+                  </Typography>
+                </Box>
+                <Box sx={{ width: "100%", mt: 1 }}>
+                  <CreateTask
+                    column={{ id: "-1", name: "" }}
+                    defaultDate={day.unchanged}
+                    label="Set a goal"
+                    placeholder={
+                      "Set a goal to be achieved " +
+                      placeholder.replace("in a day", "tomorrow")
+                    }
+                    mutationUrl={mutationUrl}
+                    boardId={1}
+                  />
+                  {tasksWithinTimeRange == 0 ? (
+                    <></>
+                  ) : (
+                    <Divider sx={{ mt: 2, mb: -1 }} />
+                  )}
+                </Box>
+              </Box>
+            ) : (
+              <CreateTask
+                column={{ id: "-1", name: "" }}
+                defaultDate={day.unchanged}
+                label="Set a goal"
+                placeholder={
+                  "Set a goal to be achieved " +
+                  placeholder.replace("in a day", "tomorrow")
+                }
+                mutationUrl={mutationUrl}
+                boardId={1}
+              />
+            )}
+          </Box>
+          {[
+            ...tasksWithinTimeRange.filter(
+              (task) => !task.completed && task.pinned
+            ),
+            ...tasksWithinTimeRange.filter(
+              (task) => !task.completed && !task.pinned
+            ),
+            ...tasksWithinTimeRange.filter((task) => task.completed),
+          ].map((task) => (
+            <Task
+              key={task.id}
+              board={task.board || false}
+              columnId={task.column ? task.column.id : -1}
+              isAgenda
+              mutationUrl={mutationUrl}
+              task={task}
+            />
+          ))}
+          <Box sx={{ mb: 5 }} />
+        </Box>
       </Box>
-    </Box>
-  );
-});
+    );
+  }
+);
