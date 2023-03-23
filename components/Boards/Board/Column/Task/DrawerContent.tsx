@@ -536,7 +536,7 @@ export default function DrawerContent({
           px: 1,
         }}
       >
-        <Typography variant="h6" sx={{ mb: 0.5, ml: 0.5, px: 2 }}>
+        <Typography variant="h6" sx={{ mb: 0.5, ml: -0.5, px: 2 }}>
           Subtasks
         </Typography>
         {data.parentTasks.length === 0 &&
@@ -579,6 +579,7 @@ export default function DrawerContent({
           textAlign: "center",
           mt: 4,
           display: "flex",
+          alignItems: "center",
           flexWrap: "wrap",
           gap: 2,
         }}
