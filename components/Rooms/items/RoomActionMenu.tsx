@@ -2,7 +2,7 @@ import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { useRawApi } from "../../../lib/client/useApi";
 import { colors } from "../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
@@ -72,7 +72,7 @@ export function RoomActionMenu({
           title="Delete room?"
           question="Are you sure you want to delete this room? This will delete all items in it, and CANNOT be undone!"
           callback={async () => {
-            await fetchApiWithoutHook("property/inventory/room/delete", {
+            await useRawApi("property/inventory/room/delete", {
               id: roomId,
             });
             await mutate(mutationUrl);

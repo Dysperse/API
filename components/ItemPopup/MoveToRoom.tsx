@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useRawApi } from "../../lib/client/useApi";
 import { Puller } from "../Puller";
 
 import {
@@ -41,7 +41,7 @@ function Room({
     <ListItemButton
       onClick={() => {
         setDisabled(true);
-        fetchApiWithoutHook("property/inventory/items/move", {
+        useRawApi("property/inventory/items/move", {
           id: id.toString(),
           room: room.toLowerCase().replace(" room", ""),
           lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),

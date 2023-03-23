@@ -22,7 +22,7 @@ import { useCallback, useState } from "react";
 import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
+import { useRawApi } from "../../../../../lib/client/useApi";
 import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
@@ -48,7 +48,7 @@ export default function DrawerContent({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          await fetchApiWithoutHook("property/boards/togglePin", {
+          await useRawApi("property/boards/togglePin", {
             id: data.id,
             pinned: !data.pinned ? "true" : "false",
           }).then(() => {
@@ -72,7 +72,7 @@ export default function DrawerContent({
   const handleDelete = useCallback(
     function handleDelete(taskId) {
       setTaskData("deleted");
-      fetchApiWithoutHook("property/boards/column/task/delete", {
+      useRawApi("property/boards/column/task/delete", {
         id: taskId,
       }).then(() => {
         mutate(mutationUrl);
@@ -84,7 +84,7 @@ export default function DrawerContent({
   const handleEdit = useCallback(
     function handleEdit(id, key, value) {
       setTaskData((prev) => ({ ...prev, [key]: value }));
-      fetchApiWithoutHook("property/boards/column/task/edit", {
+      useRawApi("property/boards/column/task/edit", {
         id,
         date: dayjs().toISOString(),
         [key]: [value],
@@ -102,7 +102,7 @@ export default function DrawerContent({
       return { ...prev, completed };
     });
 
-    fetchApiWithoutHook("property/boards/column/task/mark", {
+    useRawApi("property/boards/column/task/mark", {
       completed: completed ? "true" : "false",
       id: data.id,
     })

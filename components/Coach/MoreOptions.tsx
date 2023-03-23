@@ -1,7 +1,7 @@
 import { Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useRawApi } from "../../lib/client/useApi";
 import { ConfirmationModal } from "../ConfirmationModal";
 
 export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
@@ -31,7 +31,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
           question="Are you sure you want to stop working towards this goal? ALL your progress will be lost FOREVER. You won't be able to undo this action!"
           callback={() => {
             handleClose();
-            fetchApiWithoutHook("user/routines/delete", {
+            useRawApi("user/routines/delete", {
               id: goal.id,
             }).then(async () => {
               await mutate(mutationUrl);

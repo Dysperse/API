@@ -15,7 +15,7 @@ import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useRawApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 import { useAccountStorage, useSession } from "../../pages/_app";
@@ -70,7 +70,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const handleItemChange = async (key: string, value: string) => {
     toast.promise(
-      fetchApiWithoutHook("property/inventory/items/edit", {
+      useRawApi("property/inventory/items/edit", {
         id: itemData.id.toString(),
         [key]: value,
         lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
@@ -101,7 +101,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   };
 
   const handleItemDelete = () => {
-    fetchApiWithoutHook("property/inventory/trash/item", {
+    useRawApi("property/inventory/trash/item", {
       id: itemData.id.toString(),
       lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     });
@@ -122,7 +122,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
             }}
             onClick={() => {
               toast.dismiss(t.id);
-              fetchApiWithoutHook("property/inventory/restore", {
+              useRawApi("property/inventory/restore", {
                 id: itemData.id.toString(),
                 lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               });
@@ -280,7 +280,7 @@ export default function ItemDrawer({
       setOpen(true);
       setError(false);
       try {
-        const data = await fetchApiWithoutHook("property/inventory/items", {
+        const data = await useRawApi("property/inventory/items", {
           id,
         });
         setItemData(data);

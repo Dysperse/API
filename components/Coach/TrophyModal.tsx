@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useRawApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import useWindowDimensions from "../../lib/client/useWindowDimensions";
 import { colors } from "../../lib/colors";
@@ -75,7 +75,7 @@ export function TrophyModal({ goal, mutationUrl }) {
                 key={icon}
                 onClick={() => {
                   setLoading(true);
-                  fetchApiWithoutHook("user/routines/complete", {
+                  useRawApi("user/routines/complete", {
                     daysLeft: goal.durationDays - goal.progress,
                     feedback: icon,
                     id: goal.id,

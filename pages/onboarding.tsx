@@ -3,21 +3,17 @@ import {
   Box,
   Button,
   Chip,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
   Icon,
   InputLabel,
-  ListItemButton,
-  ListItemText,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
   Step,
   StepConnector,
-  StepIconProps,
   StepLabel,
   Stepper,
   styled,
@@ -30,103 +26,15 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { templates } from "../components/Boards/Board/Create";
 import { Loading } from "../components/Layout/Loading";
+import { BoardTemplate } from "../components/Onboarding/BoardTemplate";
 import { Color } from "../components/Onboarding/Color";
 import { InventoryList } from "../components/Onboarding/InventoryList";
+import { StepIcon } from "../components/Onboarding/StepIcon";
 import { cards } from "../components/Rooms/CreateItem/cards";
 import { updateSettings } from "../components/Settings/updateSettings";
-import { fetchApiWithoutHook } from "../lib/client/useApi";
+import { useRawApi } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
 import { useSession } from "./_app";
-
-function BoardTemplate({ template }) {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [added, setAdded] = useState<boolean>(false);
-
-  return (
-    <ListItemButton
-      onClick={() => {
-        setLoading(true);
-        fetchApiWithoutHook("property/boards/create", {
-          board: JSON.stringify(template),
-        }).then(async () => {
-          setAdded(true);
-          setLoading(false);
-        });
-      }}
-      key={template.name}
-      disabled={added}
-      sx={{ mt: 1, transition: "none" }}
-    >
-      <Box>
-        <Box>
-          <ListItemText
-            primary={template.name}
-            secondary={template.description.replace("NEW: ", "")}
-          />
-        </Box>
-        <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
-          {template.columns.map((column, index) => (
-            <picture key={index}>
-              <img
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                width="25px"
-                height="25px"
-                alt="emoji"
-              />
-            </picture>
-          ))}
-        </Box>
-      </Box>
-      {loading && <CircularProgress sx={{ ml: "auto" }} />}
-      {added && <Icon sx={{ ml: "auto" }}>check_circle</Icon>}
-    </ListItemButton>
-  );
-}
-
-function QontoStepIcon(props: StepIconProps) {
-  const { active, completed, className } = props;
-  const session = useSession();
-
-  const QontoStepIconRoot = styled("div")<{
-    ownerState: { active?: boolean };
-  }>(({ theme, ownerState }) => ({
-    color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",
-    display: "flex",
-    height: 22,
-    alignItems: "center",
-    ...(ownerState.active && {
-      color: colors[session.themeColor || "brown"][500],
-    }),
-    "& .QontoStepIcon-completedIcon": {
-      color: colors[session.themeColor || "brown"][500],
-      zIndex: 1,
-      fontSize: 18,
-    },
-    "& .QontoStepIcon-circle": {
-      width: 8,
-      height: 8,
-      borderRadius: "50%",
-      marginLeft: "10px",
-      backgroundColor: "currentColor",
-    },
-  }));
-  return (
-    <QontoStepIconRoot ownerState={{ active }} className={className}>
-      {completed ? (
-        <span
-          className="material-symbols-rounded"
-          style={{
-            color: colors[session?.themeColor ?? "brown"][500],
-          }}
-        >
-          check
-        </span>
-      ) : (
-        <div className="QontoStepIcon-circle" />
-      )}
-    </QontoStepIconRoot>
-  );
-}
 
 export default function Onboarding() {
   const router = useRouter();
@@ -389,7 +297,7 @@ export default function Onboarding() {
               "true",
               false,
               async () => {
-                await fetchApiWithoutHook("purge");
+                await useRawApi("purge");
                 router.push("/");
               },
               false
@@ -435,7 +343,7 @@ export default function Onboarding() {
     ) : null;
   }
 
-  const QontoConnector = styled(StepConnector)(({ theme }) => ({
+  const Connector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
       top: 10,
       left: "calc(-50% + 16px)",
@@ -515,11 +423,11 @@ export default function Onboarding() {
             width: "100%",
           }}
           activeStep={step}
-          connector={<QontoConnector />}
+          connector={<Connector />}
         >
           {steps.map((label) => (
             <Step key={label}>
-              <StepLabel StepIconComponent={QontoStepIcon} />
+              <StepLabel StepIconComponent={StepIcon} />
             </Step>
           ))}
         </Stepper>

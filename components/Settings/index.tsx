@@ -14,7 +14,7 @@ import {
 import dynamic from "next/dynamic";
 import React, { cloneElement, useState } from "react";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useRawApi } from "../../lib/client/useApi";
 import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
@@ -280,7 +280,7 @@ export default function FullScreenDialog({
             question="Are you sure you want to sign out?"
             buttonText="Sign out"
             callback={() =>
-              fetchApiWithoutHook("auth/logout").then(() => mutate("/api/user"))
+              useRawApi("auth/logout").then(() => mutate("/api/user"))
             }
           >
             <ListItem

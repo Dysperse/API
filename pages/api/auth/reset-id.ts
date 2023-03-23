@@ -67,7 +67,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
 
-  const id: any = user.id;
+  const id: string = user.id;
 
   //   Send an email with a link to reset the password
   const token = await prisma.passwordResetToken.create({

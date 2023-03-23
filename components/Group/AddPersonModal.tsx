@@ -2,7 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { useRef } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useRawApi } from "../../lib/client/useApi";
 import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
@@ -39,7 +39,7 @@ function LinkToken() {
         loading={loading}
         onClick={() => {
           setLoading(true);
-          fetchApiWithoutHook("property/members/inviteLink/create", {
+          useRawApi("property/members/inviteLink/create", {
             inviterName: session.user.name,
             timestamp: new Date().toISOString(),
           }).then((res) => {
@@ -248,7 +248,7 @@ export function AddPersonModal({
                 return;
               }
               if (isEmail(value)) {
-                fetchApiWithoutHook("property/members/add", {
+                useRawApi("property/members/add", {
                   inviterName: session.user.name,
                   name: session.property.profile.name,
                   timestamp: new Date().toISOString(),

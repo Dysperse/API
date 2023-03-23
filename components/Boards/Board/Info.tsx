@@ -9,7 +9,7 @@ import {
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { useRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { useSession } from "../../../pages/_app";
 import BoardSettings from "./Settings";
@@ -40,7 +40,7 @@ export function BoardInfo({
       )
     ) {
       toast.promise(
-        fetchApiWithoutHook("property/boards/edit", {
+        useRawApi("property/boards/edit", {
           id: board.id,
           name: titleRef.current.value,
           description: descriptionRef.current.value,
@@ -194,12 +194,9 @@ export function BoardInfo({
                     toast.promise(
                       new Promise(async (resolve, reject) => {
                         try {
-                          await fetchApiWithoutHook(
-                            "property/integrations/run/canvas",
-                            {
-                              boardId: board.id,
-                            }
-                          );
+                          await useRawApi("property/integrations/run/canvas", {
+                            boardId: board.id,
+                          });
                           await mutate(mutationUrls.tasks);
                           resolve("Success");
                         } catch (e: any) {

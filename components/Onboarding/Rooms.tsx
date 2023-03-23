@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { useRawApi } from "../../lib/client/useApi";
 
 import { Autocomplete, Chip, TextField } from "@mui/material";
 import { useSession } from "../../pages/_app";
@@ -38,7 +38,7 @@ export function CustomRooms({ houseType }: { houseType: string }) {
         (option: string) => fixedOptions.indexOf(option) === -1
       ),
     ]);
-    fetchApiWithoutHook("property/inventory/room/create", {
+    useRawApi("property/inventory/room/create", {
       property: session.property.propertyId,
       accessToken: session.property.accessToken,
       name: newValue
@@ -77,7 +77,6 @@ export function CustomRooms({ houseType }: { houseType: string }) {
                   display: "none!important",
                 },
               }}
-              // disabled={fixedOptions.indexOf(option.toString()) !== -1}
               disabled
             />
           </React.Fragment>

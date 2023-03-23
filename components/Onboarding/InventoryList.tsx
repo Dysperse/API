@@ -1,9 +1,8 @@
+import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
-
-import { Box, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { useRawApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 
@@ -17,9 +16,8 @@ export function InventoryList({ data }: { data: Array<any> }) {
   return (
     <Box>
       {data.map((item) => (
-        <ListItem
+        <ListItemButton
           key={item.name.toString()}
-          button
           sx={{
             borderRadius: 5,
             transition: "none",
@@ -29,8 +27,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
           }}
           onClick={() => {
             setInventory([...inventory, item.name]);
-
-            fetchApiWithoutHook("property/inventory/items/create", {
+            useRawApi("property/inventory/items/create", {
               name: item.name,
               qty: "1",
               category: JSON.stringify([]),
@@ -61,7 +58,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
             }}
             primary={item.name}
           />
-        </ListItem>
+        </ListItemButton>
       ))}
     </Box>
   );

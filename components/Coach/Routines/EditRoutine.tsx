@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchApiWithoutHook, useApi } from "../../../lib/client/useApi";
+import { useApi, useRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { EmojiPicker } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
@@ -40,7 +40,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
   const handleClose = () => setOpen(false);
 
   const handleSave = async () => {
-    await fetchApiWithoutHook("user/routines/custom-routines/edit", {
+    await useRawApi("user/routines/custom-routines/edit", {
       id: routine.id,
       name,
       note,
@@ -49,12 +49,9 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
       timeOfDay: time,
     });
 
-    const res = await fetchApiWithoutHook(
-      "user/routines/custom-routines/items",
-      {
-        id: routine.id,
-      }
-    );
+    const res = await useRawApi("user/routines/custom-routines/items", {
+      id: routine.id,
+    });
     setData(res[0]);
     toast.success("Saved!", toastStyles);
   };

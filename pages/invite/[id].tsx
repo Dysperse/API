@@ -5,7 +5,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Loading } from "../../components/Layout/Loading";
-import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { useApi, useRawApi } from "../../lib/client/useApi";
 import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
 
@@ -153,7 +153,7 @@ export default function Onboarding() {
             onClick={() => {
               setLoading(true);
               if (session.user.user && session.user.user.email) {
-                fetchApiWithoutHook(
+                useRawApi(
                   "property/members/inviteLink/accept",
                   {
                     token: id as string,

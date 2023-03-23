@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
+import { useRawApi } from "../../../../../lib/client/useApi";
 import { colors } from "../../../../../lib/colors";
 
 export function Color({
@@ -36,7 +36,7 @@ export function Color({
       }}
       onClick={() => {
         setTaskData((item) => ({ ...item, color }));
-        fetchApiWithoutHook("property/boards/column/task/edit", {
+        useRawApi("property/boards/column/task/edit", {
           color: color,
           date: dayjs().toISOString(),
           id: task.id,

@@ -9,7 +9,7 @@ import { red } from "@mui/material/colors";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { useRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
@@ -85,12 +85,9 @@ export function RoutineOptions({
             title="Are you sure you want to delete this routine?"
             question="Your progress will stay safe and your goals won't be deleted"
             callback={async () => {
-              await fetchApiWithoutHook(
-                "user/routines/custom-routines/delete",
-                {
-                  id: routine.id,
-                }
-              );
+              await useRawApi("user/routines/custom-routines/delete", {
+                id: routine.id,
+              });
               await mutate(mutationUrl);
               toast.success("Deleted!", toastStyles);
             }}

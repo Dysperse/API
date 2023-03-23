@@ -69,7 +69,7 @@ export function useApi(path, initialParams = {}, removeDefaultParams = false) {
   return response;
 }
 
-export async function fetchApiWithoutHook(
+export async function useRawApi(
   path,
   initialParams = {},
   removeDefaultParams = false

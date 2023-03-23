@@ -10,7 +10,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
+import { useRawApi } from "../../../../lib/client/useApi";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { colors } from "../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../pages/_app";
@@ -42,7 +42,7 @@ export default function CreateColumn({
       setLoading(false);
       return;
     }
-    fetchApiWithoutHook("property/boards/column/create", {
+    useRawApi("property/boards/column/create", {
       title: ref?.current?.value,
       emoji: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`,
       id: id,

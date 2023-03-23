@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import Stories from "react-insta-stories";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { useRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { useSession } from "../../../pages/_app";
 import { RoutineEnd } from "../Routine/RoutineEnd";
@@ -41,12 +41,9 @@ export function Routine({ mutationUrl, routine }) {
       setShowIntro(true);
       setLoading(true);
 
-      const res = await fetchApiWithoutHook(
-        "user/routines/custom-routines/items",
-        {
-          id: routine.id,
-        }
-      );
+      const res = await useRawApi("user/routines/custom-routines/items", {
+        id: routine.id,
+      });
       setLoading(true);
       setOpen(true);
       setLoading(false);
@@ -264,7 +261,7 @@ export function Routine({ mutationUrl, routine }) {
                           <Task
                             task={task}
                             mutate={async () => {
-                              const res = await fetchApiWithoutHook(
+                              const res = await useRawApi(
                                 "user/routines/custom-routines/items",
                                 {
                                   id: routine.id,

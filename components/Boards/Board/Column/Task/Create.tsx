@@ -20,7 +20,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
+import { useRawApi } from "../../../../../lib/client/useApi";
 import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
@@ -232,7 +232,7 @@ export function CreateTask({
       }
       navigator.vibrate(50);
       setLoading(true);
-      fetchApiWithoutHook("property/boards/column/task/create", {
+      useRawApi("property/boards/column/task/create", {
         title,
         description,
         ...(image && { image: JSON.parse(image).url }),
