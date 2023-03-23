@@ -5,7 +5,6 @@ import {
   Icon,
   IconButton,
   ListItemButton,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
@@ -120,24 +119,20 @@ const CategoryModal = React.memo(function ({
           }),
         }}
       >
-        <ListItemText
-          primary={
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              {category}{" "}
-              {loading && (
-                <CircularProgress
-                  size={15}
-                  sx={{
-                    ml: "auto",
-                    animationDuration: ".4s",
-                    transitionDuration: ".4s",
-                  }}
-                  disableShrink
-                />
-              )}
-            </Box>
-          }
-        />
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          {category}
+          {loading && (
+            <CircularProgress
+              size={15}
+              sx={{
+                ml: "auto",
+                animationDuration: ".4s",
+                transitionDuration: ".4s",
+              }}
+              disableShrink
+            />
+          )}
+        </Box>
       </ListItemButton>
     </>
   );
