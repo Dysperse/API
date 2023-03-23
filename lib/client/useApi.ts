@@ -4,11 +4,11 @@ import useSWR from "swr";
 import { useSession } from "../../pages/_app";
 
 const getInfo = (
-  path,
-  initialParams,
-  property,
-  user,
-  removeDefaultParams = false
+  path: string,
+  initialParams: any,
+  property: any,
+  user: any,
+  removeDefaultParams: boolean = false
 ) => {
   const params = removeDefaultParams
     ? {
