@@ -2,13 +2,13 @@ import { Box, Button, Chip, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 
 export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
   const handleClick = React.useCallback(() => {
     setCurrentIndex((index) => index + 1);
-    fetchApiWithoutHook("user/routines/markAsDone", {
+    fetchRawApi("user/routines/markAsDone", {
       date: dayjs().format("YYYY-MM-DD"),
       progress:
         task.progress && parseInt(task.progress)
@@ -40,7 +40,7 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
           left: 0,
         }}
         onClick={() =>
-          setCurrentIndex((i) => (currentIndex == 0 ? 0 : currentIndex - 1))
+          setCurrentIndex(() => (currentIndex === 0 ? 0 : currentIndex - 1))
         }
       />
       <Box
@@ -51,7 +51,7 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
           top: 0,
           right: 0,
         }}
-        onClick={() => setCurrentIndex((i) => currentIndex + 1)}
+        onClick={() => setCurrentIndex(() => currentIndex + 1)}
       />
       <Typography variant="h2" className="font-heading" gutterBottom>
         {task.stepName}

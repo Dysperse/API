@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import { lime, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import Stories from "react-insta-stories";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { useSession } from "../../../pages/_app";
 import { RoutineEnd } from "../Routine/RoutineEnd";
@@ -29,37 +29,37 @@ export function Routine({ mutationUrl, routine }) {
   const session = useSession();
   const ref: any = useRef();
 
-  const handleClick = async (edit: any = false) => {
-    try {
-      navigator.vibrate(50);
-      if (edit) {
-        const tag: any = ref?.current?.querySelector(".editTrigger");
-        tag?.click();
-        return;
-      }
-      setCurrentIndex(0);
-      setShowIntro(true);
-      setLoading(true);
-
-      const res = await fetchApiWithoutHook(
-        "user/routines/custom-routines/items",
-        {
-          id: routine.id,
+  const handleClick = useCallback(
+    async (edit: any = false) => {
+      try {
+        navigator.vibrate(50);
+        if (edit) {
+          const tag: any = ref?.current?.querySelector(".editTrigger");
+          tag?.click();
+          return;
         }
-      );
-      setLoading(true);
-      setOpen(true);
-      setLoading(false);
-      setData(res[0]);
-      console.log(data);
-      setTimeout(() => setShowIntro(false), 2000);
-    } catch (e) {
-      toast.error(
-        "Yikes! An error occured while trying to get your routine! Please try again later.",
-        toastStyles
-      );
-    }
-  };
+        setCurrentIndex(0);
+        setShowIntro(true);
+        setLoading(true);
+
+        const res = await fetchRawApi("user/routines/custom-routines/items", {
+          id: routine.id,
+        });
+        setLoading(true);
+        setOpen(true);
+        setLoading(false);
+        setData(res[0]);
+        console.log(data);
+        setTimeout(() => setShowIntro(false), 2000);
+      } catch (e) {
+        toast.error(
+          "Yikes! An error occured while trying to get your routine! Please try again later.",
+          toastStyles
+        );
+      }
+    },
+    [data, routine.id]
+  );
 
   const [alreadyOpened, setAlreadyOpened] = useState(false);
 
@@ -71,7 +71,7 @@ export function Routine({ mutationUrl, routine }) {
         handleClick();
       }
     }
-  }, [alreadyOpened]);
+  }, [alreadyOpened, handleClick, routine.id]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -125,7 +125,7 @@ export function Routine({ mutationUrl, routine }) {
             background: "hsl(240, 11%, 10%)",
             zIndex: 999,
           }}
-        ></Box>
+        />
         <RoutineOptions
           mutationUrl={mutationUrl}
           routine={routine}
@@ -264,7 +264,7 @@ export function Routine({ mutationUrl, routine }) {
                           <Task
                             task={task}
                             mutate={async () => {
-                              const res = await fetchApiWithoutHook(
+                              const res = await fetchRawApi(
                                 "user/routines/custom-routines/items",
                                 {
                                   id: routine.id,

@@ -9,7 +9,7 @@ import {
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { useSession } from "../../../pages/_app";
 import BoardSettings from "./Settings";
@@ -40,7 +40,7 @@ export function BoardInfo({
       )
     ) {
       toast.promise(
-        fetchApiWithoutHook("property/boards/edit", {
+        fetchRawApi("property/boards/edit", {
           id: board.id,
           name: titleRef.current.value,
           description: descriptionRef.current.value,
@@ -53,7 +53,14 @@ export function BoardInfo({
         toastStyles
       );
     }
-  }, [titleRef, descriptionRef]);
+  }, [
+    titleRef,
+    descriptionRef,
+    board.description,
+    board.id,
+    board.name,
+    mutationUrls.boardData,
+  ]);
   const session = useSession();
 
   return (
@@ -134,9 +141,9 @@ export function BoardInfo({
                   fontSize: "40px",
                   py: 0.5,
                   "&:focus-within": {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,18%)"
-                      : "rgba(200,200,200,.2)",
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 18 : 50
+                    }%)`,
                   },
                 },
               }}
@@ -194,7 +201,7 @@ export function BoardInfo({
                     toast.promise(
                       new Promise(async (resolve, reject) => {
                         try {
-                          await fetchApiWithoutHook(
+                          await fetchRawApi(
                             "property/integrations/run/canvas",
                             {
                               boardId: board.id,

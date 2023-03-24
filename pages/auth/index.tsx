@@ -19,16 +19,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { authStyles, Layout } from "../../components/Auth/Layout";
 import { isEmail } from "../../components/Group/MemberList";
-import { useBackButton } from "../../lib/client/useBackButton";
 import { toastStyles } from "../../lib/client/useTheme";
-
-const validateEmail = (email) => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-};
 
 /**
  * Login prompt
@@ -68,66 +59,80 @@ export default function Prompt() {
 
   // Login form
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
-  const [twoFactorModalOpen, setTwoFactorModalOpen] = useState<boolean>(false);
-
-  useBackButton(() => setTwoFactorModalOpen(false));
-
   const [captchaToken, setCaptchaToken] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [twoFactorCode, setTwoFactorCode] = useState("");
 
-  const handleSubmit = async (e?: any) => {
-    if (e) e.preventDefault();
-    console.log("Submitted");
-    setButtonLoading(true);
+  const handleSubmit = useCallback(
+    async (e?: any) => {
+      if (e) e.preventDefault();
+      console.log("Submitted");
+      setButtonLoading(true);
 
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          Credentials: "same-origin",
-        },
-        body: new URLSearchParams({
-          appId: window.location.pathname.split("oauth/")[1],
-          email,
-          password,
-          twoFactorCode,
-          token: captchaToken,
-          ...(router.pathname.includes("?application=") && {
-            application: router.pathname.split("?application=")[1],
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            Credentials: "same-origin",
+          },
+          body: new URLSearchParams({
+            appId: window.location.pathname.split("oauth/")[1],
+            email,
+            password,
+            twoFactorCode,
+            token: captchaToken,
+            ...(router.pathname.includes("?application=") && {
+              application: router.pathname.split("?application=")[1],
+            }),
           }),
-        }),
-      }).then((res) => res.json());
+        }).then((res) => res.json());
 
-      if (res.message && res.message.includes(`Can't reach database server`)) {
-        toast.error(
-          "Oh no! Our servers are down. Please try again later!",
-          toastStyles
-        );
-        setButtonLoading(false);
-        setStep(1);
-        ref.current?.reset();
-        return;
-      }
+        if (
+          res.message &&
+          res.message.includes(`Can't reach database server`)
+        ) {
+          toast.error(
+            "Oh no! Our servers are down. Please try again later!",
+            toastStyles
+          );
+          setButtonLoading(false);
+          setStep(1);
+          ref.current?.reset();
+          return;
+        }
 
-      if (res.twoFactor) {
-        setStep(3);
-        setButtonLoading(false);
-        return;
-      } else if (res.error) {
-        setStep(1);
-        throw new Error(res.error);
-      }
-      if (res.message) {
-        setStep(1);
-        toast.error(res.message, toastStyles);
-        setButtonLoading(false);
-        return;
-      }
-      if (router && router.pathname.includes("?close=true")) {
+        if (res.twoFactor) {
+          setStep(3);
+          setButtonLoading(false);
+          return;
+        } else if (res.error) {
+          setStep(1);
+          throw new Error(res.error);
+        }
+        if (res.message) {
+          setStep(1);
+          toast.error(res.message, toastStyles);
+          setButtonLoading(false);
+          return;
+        }
+        if (router && router.pathname.includes("?close=true")) {
+          // Success
+          toast.promise(
+            new Promise(() => {}),
+            {
+              loading: "Logging you in...",
+              success: "Success!",
+              error: "An error occured. Please try again later",
+            },
+            toastStyles
+          );
+          mutate("/api/user");
+          return;
+        }
         // Success
         toast.promise(
+          // thou shalt load forever
           new Promise(() => {}),
           {
             loading: "Logging you in...",
@@ -136,37 +141,25 @@ export default function Prompt() {
           },
           toastStyles
         );
-        mutate("/api/user");
-        return;
-      }
-      // Success
-      toast.promise(
-        // thou shalt load forever
-        new Promise(() => {}),
-        {
-          loading: "Logging you in...",
-          success: "Success!",
-          error: "An error occured. Please try again later",
-        },
-        toastStyles
-      );
 
-      if (router.pathname.includes("?application=")) {
-        router.pathname =
-          "https://availability.dysperse.com/api/oauth/redirect?token=" +
-          res.accessToken;
-      } else {
-        mutate("/api/user");
-        router.push("/");
-        router.pathname = "/";
+        if (router.pathname.includes("?application=")) {
+          router.pathname =
+            "https://availability.dysperse.com/api/oauth/redirect?token=" +
+            res.accessToken;
+        } else {
+          mutate("/api/user");
+          router.push("/");
+          router.pathname = "/";
+        }
+      } catch (e) {
+        setStep(1);
+        alert(1);
+        ref?.current?.reset();
+        setButtonLoading(false);
       }
-    } catch (e) {
-      setStep(1);
-      alert(1);
-      ref?.current?.reset();
-      setButtonLoading(false);
-    }
-  };
+    },
+    [captchaToken, email, password, router, twoFactorCode]
+  );
 
   useEffect(() => {
     document
@@ -174,11 +167,12 @@ export default function Prompt() {
       ?.setAttribute("content", "hsl(240,11%,90%)");
   }, []);
 
+  const [step, setStep] = useState(1);
+
   useEffect(() => {
     if (captchaToken !== "" && !buttonLoading && step === 2) handleSubmit();
-  }, [captchaToken, handleSubmit]);
+  }, [captchaToken, handleSubmit, buttonLoading, step]);
 
-  const [step, setStep] = useState(1);
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
   const handleTogglePassword = useCallback(() => {
     if (!togglePassword) {
@@ -449,7 +443,7 @@ export default function Prompt() {
             });
           }}
           sx={{
-            cursor: "pointer",
+            cursor: "unset !important",
             transition: "all .2s",
             "&:active": {
               transform: "scale(.98)",

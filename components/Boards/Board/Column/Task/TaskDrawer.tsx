@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React, { cloneElement, useCallback, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
+import { fetchRawApi } from "../../../../../lib/client/useApi";
 import { useBackButton } from "../../../../../lib/client/useBackButton";
 import { ErrorHandler } from "../../../../Error";
 import { Puller } from "../../../../Puller";
@@ -46,7 +46,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     setOpen(true);
     setLoading(true);
     try {
-      const data = await fetchApiWithoutHook("property/boards/column/task", {
+      const data = await fetchRawApi("property/boards/column/task", {
         id,
       });
       setData(data);

@@ -25,7 +25,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 import { useSession } from "../../pages/_app";
@@ -295,7 +295,7 @@ export function DailyCheckInDrawer() {
     maxHeight: "100vh",
   };
 
-  const { data, error } = useApi("user/checkIns/count");
+  const { data } = useApi("user/checkIns/count");
   const [lastBy, setLastBy] = useState<number>(7);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -485,7 +485,7 @@ export function DailyCheckInDrawer() {
               className="embla__container"
               style={{ gap: "10px", paddingLeft: "20px", marginTop: "10px" }}
             >
-              <div></div>
+              <div>&nbsp;</div>
               {data &&
                 data.slice(0, lastBy).map(({ date, mood }, index) => (
                   <Chip
@@ -683,11 +683,7 @@ export function DailyCheckInDrawer() {
 export function DailyCheckIn() {
   const [mood, setMood] = useState<string | null>(null);
   const today = dayjs().startOf("day");
-  const {
-    data,
-    url: mutationUrl,
-    error,
-  } = useApi("user/checkIns", {
+  const { data, url: mutationUrl } = useApi("user/checkIns", {
     date: today,
   });
 
@@ -702,7 +698,7 @@ export function DailyCheckIn() {
   const handleMoodChange: any = useCallback(
     async (emoji: string, reason: string) => {
       try {
-        await fetchApiWithoutHook("user/checkIns/setMood", {
+        await fetchRawApi("user/checkIns/setMood", {
           date: today,
           mood: emoji,
           reason,
@@ -724,7 +720,7 @@ export function DailyCheckIn() {
   return (
     <Box
       sx={{
-        background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
         border: "1px solid",
         borderColor: session.user.darkMode
           ? "hsl(240, 11%, 20%)"

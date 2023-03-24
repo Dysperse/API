@@ -1,23 +1,10 @@
-import ICalParser from "ical-js-parser";
+import ical from "ical";
 import { prisma } from "../../../../../lib/server/prisma";
 import { validatePermissions } from "../../../../../lib/server/validatePermissions";
 
-function parseICalDate(icalDateStr) {
-  // Split the iCal date string into its components
-  const year = icalDateStr.substr(0, 4);
-  const month = parseInt(icalDateStr.substr(4, 2)) - 1; // Note: JavaScript months are zero-indexed
-  const day = icalDateStr.substr(6, 2);
-  const hour = icalDateStr.substr(9, 2);
-  const minute = icalDateStr.substr(11, 2);
-  const second = icalDateStr.substr(13, 2);
-
-  // Create a new Date object with the parsed components
-  return new Date(year, month, day, hour, minute, second);
-}
-
-function extractTextInBrackets(text: any) {
+function extractTextInBrackets(text: string): string {
   let match = text.match(/\[(.*?)\]/);
-  return match ? match[1] : null;
+  return match ? match[1] : "";
 }
 
 const handler = async (req, res) => {
@@ -43,82 +30,92 @@ const handler = async (req, res) => {
   if (!data[0]) {
     res.json({ error: true, message: "Integration does not exist" });
   }
-  const data1: any = data[0];
+  const data1 = data[0];
 
   const inputParams = JSON.parse(data1.inputParams);
   const calendar = await fetch(inputParams["Canvas feed URL"]).then((res) =>
     res.text()
   );
 
-  const parsed: any = ICalParser.toJSON(calendar).events;
-  let columns: any = [];
+  const parsed = ical.parseICS(calendar);
 
-  for (let i = 0; i < parsed.length; i++) {
-    const course: any = parsed[i].summary;
-    columns.push(extractTextInBrackets(course) as any);
+  // Let's create some columns!
+  let columns: string[] = [];
+  for (const event in parsed) {
+    if (Object.prototype.hasOwnProperty.call(parsed, event)) {
+      const ev = parsed[event];
+
+      const course: string = ev.summary;
+      columns.push(extractTextInBrackets(course));
+    }
   }
 
   columns = [...new Set(columns)];
 
   // Now add the tasks
-  for (let i = 0; i < parsed.length; i++) {
-    const item = parsed[i];
-    const taskId = `${data1.boardId}-${item.uid}`;
-    const columnId = `${data1.boardId}-${extractTextInBrackets(item.summary)}`;
+  for (const event in parsed) {
+    if (Object.prototype.hasOwnProperty.call(parsed, event)) {
+      const item = parsed[event];
 
-    const due = (item.dtstamp || item.dtstart || item.dtend || { value: null })
-      .value;
+      const taskId = `${data1.boardId}-${item.uid}`;
+      const columnId = `${data1.boardId}-${extractTextInBrackets(
+        item.summary
+      )}`;
 
-    let name: any = item.summary
-      ?.toString()
-      .split(" [")[0]
-      .replaceAll("\\", "");
+      let due = new Date();
 
-    if (name.includes("(")) {
-      name = name.split("(")[0];
-    }
-    const d = await prisma.task.upsert({
-      where: {
-        id: taskId,
-      },
-      update: {
-        name,
-        ...(due && {
-          due: parseICalDate(due),
-        }),
-      },
-      create: {
-        property: {
-          connect: {
-            id: req.query.property,
+      if (item.dtstamp || item.start)
+        due = (item.dtstamp || item.start).toISOString();
+
+      let name: string = item.summary
+        ?.toString()
+        .split(" [")[0]
+        .replaceAll("\\", "");
+
+      if (name.includes("(")) {
+        name = name.split("(")[0];
+      }
+
+      if (name) {
+        await prisma.task.upsert({
+          where: {
+            id: taskId,
           },
-        },
-        id: taskId,
-        name,
-        ...(due && {
-          due: parseICalDate(due),
-        }),
-        description: item.url,
-        column: {
-          connectOrCreate: {
-            where: {
-              id: columnId,
+          update: {
+            name,
+            ...(due && { due }),
+          },
+          create: {
+            property: {
+              connect: {
+                id: req.query.property,
+              },
             },
-            create: {
-              emoji:
-                "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png",
-              name: extractTextInBrackets(item.summary),
-              id: columnId,
-              board: {
-                connect: {
-                  id: data1.boardId,
+            id: taskId,
+            name,
+            ...(due && { due }),
+            description: item.url,
+            column: {
+              connectOrCreate: {
+                where: {
+                  id: columnId,
+                },
+                create: {
+                  emoji: "1f3af",
+                  name: extractTextInBrackets(item.summary),
+                  id: columnId,
+                  board: {
+                    connect: {
+                      id: data1.boardId as string,
+                    },
+                  },
                 },
               },
             },
           },
-        },
-      },
-    });
+        });
+      }
+    }
   }
 
   res.json(data);

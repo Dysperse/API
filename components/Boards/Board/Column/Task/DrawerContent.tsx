@@ -22,7 +22,7 @@ import { useCallback, useState } from "react";
 import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
+import { fetchRawApi } from "../../../../../lib/client/useApi";
 import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
@@ -48,7 +48,7 @@ export default function DrawerContent({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          await fetchApiWithoutHook("property/boards/togglePin", {
+          await fetchRawApi("property/boards/togglePin", {
             id: data.id,
             pinned: !data.pinned ? "true" : "false",
           }).then(() => {
@@ -72,7 +72,7 @@ export default function DrawerContent({
   const handleDelete = useCallback(
     function handleDelete(taskId) {
       setTaskData("deleted");
-      fetchApiWithoutHook("property/boards/column/task/delete", {
+      fetchRawApi("property/boards/column/task/delete", {
         id: taskId,
       }).then(() => {
         mutate(mutationUrl);
@@ -84,7 +84,7 @@ export default function DrawerContent({
   const handleEdit = useCallback(
     function handleEdit(id, key, value) {
       setTaskData((prev) => ({ ...prev, [key]: value }));
-      fetchApiWithoutHook("property/boards/column/task/edit", {
+      fetchRawApi("property/boards/column/task/edit", {
         id,
         date: dayjs().toISOString(),
         [key]: [value],
@@ -102,7 +102,7 @@ export default function DrawerContent({
       return { ...prev, completed };
     });
 
-    fetchApiWithoutHook("property/boards/column/task/mark", {
+    fetchRawApi("property/boards/column/task/mark", {
       completed: completed ? "true" : "false",
       id: data.id,
     })
@@ -181,7 +181,9 @@ export default function DrawerContent({
             handleEdit(data.id, "name", e.target.value);
           }
         }}
-        onChange={(e) => (e.target.value = e.target.value.replaceAll("\n", ""))}
+        onChange={(e: any) =>
+          (e.target.value = e.target.value.replaceAll("\n", ""))
+        }
         onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
         margin="dense"
         InputProps={{
@@ -307,14 +309,8 @@ export default function DrawerContent({
           }),
         }}
       />
-      {data.image && (
-        <>
-          <br />
-          <br />
-        </>
-      )}
+      {data.image && <Box sx={{ mt: 4 }} />}
       {data.image && <ImageViewer url={data.image} />}
-
       <Box
         sx={{
           display: "flex",
@@ -323,12 +319,8 @@ export default function DrawerContent({
           my: 2,
           py: 3,
           px: 3,
-          "& *:first-of-type": {
-            ml: "auto",
-          },
-          "& *:last-of-type": {
-            mr: "auto",
-          },
+          "& *:first-of-type": { ml: "auto" },
+          "& *:last-of-type": { mr: "auto" },
           overflowX: "scroll",
           background: session.user.darkMode
             ? "hsl(240,11%,20%)"
@@ -546,7 +538,7 @@ export default function DrawerContent({
           px: 1,
         }}
       >
-        <Typography variant="h6" sx={{ mb: 0.5, ml: 0.5, px: 2 }}>
+        <Typography variant="h6" sx={{ mb: 0.5, ml: -0.5, px: 2 }}>
           Subtasks
         </Typography>
         {data.parentTasks.length === 0 &&
@@ -584,7 +576,16 @@ export default function DrawerContent({
           boardId={1}
         />
       </Box>
-      <Box sx={{ textAlign: "center", mt: 4 }}>
+      <Box
+        sx={{
+          textAlign: "center",
+          mt: 4,
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
         {data.id.includes("-event-assignment") && (
           <Chip
             label="Synced to Canvas LMS"
@@ -595,6 +596,7 @@ export default function DrawerContent({
             }}
           />
         )}
+        <Chip label={`Last updated ${dayjs(data.lastUpdated).fromNow()}`} />
       </Box>
     </>
   );

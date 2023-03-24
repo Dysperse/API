@@ -55,7 +55,7 @@ export default function Prompt() {
           toast.error(err.message, toastStyles);
         });
     },
-    [name, email, password, confirmPassword]
+    [name, email, password, confirmPassword, mutate, router]
   );
 
   useEffect(() => {

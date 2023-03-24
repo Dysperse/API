@@ -78,7 +78,7 @@ export default function InviteButton({ styles }) {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (e) => setAnchorEl(e.target);
-  const handleClose = (e) => setAnchorEl(null);
+  const handleClose = () => setAnchorEl(null);
 
   return (
     <>
@@ -163,7 +163,7 @@ export default function InviteButton({ styles }) {
           <ErrorHandler error="An error occured while trying to fetch your other groups" />
         )}
         <Divider />
-        <AppsMenu styles={styles} />
+        <AppsMenu />
         <Settings>
           <Button
             size="large"

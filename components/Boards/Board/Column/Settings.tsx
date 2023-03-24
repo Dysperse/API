@@ -13,7 +13,7 @@ import {
 import { useCallback, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
+import { fetchRawApi } from "../../../../lib/client/useApi";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { useAccountStorage, useSession } from "../../../../pages/_app";
 import { ConfirmationModal } from "../../../ConfirmationModal";
@@ -83,13 +83,14 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
             <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
               <picture>
                 <img
+                  alt="Emoji"
                   src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
                 />
               </picture>
             </EmojiPicker>
             <TextField
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e: any) => setTitle(e.target.value)}
               id={"renameInput"}
               inputRef={ref}
               disabled={storage?.isReached === true}
@@ -114,7 +115,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
               disabled={storage?.isReached === true}
               onClick={async () => {
                 toast.promise(
-                  fetchApiWithoutHook("property/boards/column/edit", {
+                  fetchRawApi("property/boards/column/edit", {
                     id: column.id,
                     name: title,
                     emoji: emoji,
@@ -201,7 +202,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
           title="Delete column?"
           question="Are you sure you want to delete this column? This action annot be undone."
           callback={async () => {
-            await fetchApiWithoutHook("property/boards/column/delete", {
+            await fetchRawApi("property/boards/column/delete", {
               id: column.id,
             });
             await mutate(mutationUrls.board);

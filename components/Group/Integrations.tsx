@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { ErrorHandler } from "../Error";
 
@@ -42,7 +42,7 @@ function Integration({ integration }) {
       toast.error("Please select a board", toastStyles);
       return;
     }
-    await fetchApiWithoutHook("property/integrations/create", {
+    await fetchRawApi("property/integrations/create", {
       name: integration.name,
       inputParams: JSON.stringify(params),
       outputType: integration.type,
@@ -73,7 +73,9 @@ function Integration({ integration }) {
               <TextField
                 size="small"
                 value={params[param.name]}
-                onChange={(e) => handleParamUpdate(param.name, e.target.value)}
+                onChange={(e: any) =>
+                  handleParamUpdate(param.name, e.target.value)
+                }
                 placeholder={param.placeholder}
                 label={param.name}
                 fullWidth
@@ -90,7 +92,7 @@ function Integration({ integration }) {
                 sx={{ mt: 1 }}
                 fullWidth
                 required
-                onChange={(e) => setBoardId(e.target.value)}
+                onChange={(e: any) => setBoardId(e.target.value)}
                 defaultValue="-1"
               >
                 <MenuItem value={-1} disabled>

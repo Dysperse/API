@@ -2,11 +2,11 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { useRef } from "react";
 import toast from "react-hot-toast";
-import { fetchApiWithoutHook } from "../../lib/client/useApi";
+import { fetchRawApi } from "../../lib/client/useApi";
 import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
-import { Prompt } from "../TwoStepVerificationPrompt";
+import { Prompt } from "../TwoFactorModal";
 import { isEmail } from "./MemberList";
 
 import {
@@ -24,7 +24,7 @@ import {
 import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 
-function LinkToken({ color }) {
+function LinkToken() {
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState("");
@@ -39,7 +39,7 @@ function LinkToken({ color }) {
         loading={loading}
         onClick={() => {
           setLoading(true);
-          fetchApiWithoutHook("property/members/inviteLink/create", {
+          fetchRawApi("property/members/inviteLink/create", {
             inviterName: session.user.name,
             timestamp: new Date().toISOString(),
           }).then((res) => {
@@ -248,15 +248,13 @@ export function AddPersonModal({
                 return;
               }
               if (isEmail(value)) {
-                fetchApiWithoutHook("property/members/add", {
+                fetchRawApi("property/members/add", {
                   inviterName: session.user.name,
                   name: session.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,
                   email: value,
-                }).then((res) => {
-                  toast.success("Invited!");
-                });
+                }).then(() => toast.success("Invited!"));
                 setLoading(true);
               } else {
                 toast.error("Please enter a valid email address", toastStyles);
@@ -274,7 +272,7 @@ export function AddPersonModal({
           >
             Send invitation
           </LoadingButton>
-          <LinkToken color={color} />
+          <LinkToken />
         </Box>
       </SwipeableDrawer>
     </>

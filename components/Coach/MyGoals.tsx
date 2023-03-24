@@ -9,7 +9,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../pages/_app";

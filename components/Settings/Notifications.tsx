@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
@@ -94,7 +94,7 @@ export default function Notifications() {
   const sendNotificationButtonOnClick = async (event) => {
     event.preventDefault();
 
-    fetchApiWithoutHook("/test-notification", {
+    fetchRawApi("/test-notification", {
       subscription: session.user.notificationSubscription,
     });
   };
@@ -106,7 +106,7 @@ export default function Notifications() {
   const handleNotificationChange = async (name, value) => {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        await fetchApiWithoutHook("user/handleNotificationChange", {
+        await fetchRawApi("user/handleNotificationChange", {
           name: name,
           value: value,
         });
@@ -173,7 +173,7 @@ export default function Notifications() {
             style={{ display: "none" }}
             id="enable-notifications"
             onClick={(event) => subscribeButtonOnClick(event)}
-          ></button>
+          />
           {enabledOnAnotherDevice ? (
             <>
               <ConfirmationModal

@@ -20,7 +20,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../../lib/client/useApi";
+import { fetchRawApi } from "../../../../../lib/client/useApi";
 import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../../pages/_app";
@@ -67,9 +67,7 @@ function ImageModal({ image, setImage, styles }) {
             ...styles,
             mx: 0.5,
             ...(image && {
-              background: session.user.darkMode
-                ? "hsl(240,11%,20%)"
-                : "#ddd !important",
+              background: `hsl(240,11%,${session.user.darkMode ? 20 : 80}%)`,
             }),
           }}
         >
@@ -180,7 +178,7 @@ export function CreateTask({
   );
 
   const styles = {
-    color: session.user.darkMode ? "hsl(240,11%,90%)" : "#505050",
+    color: `hsl(240,11%,${session.user.darkMode ? 90 : 30}%)`,
     "&:hover": {
       color: session.user.darkMode ? "#fff" : "#000",
     },
@@ -234,7 +232,7 @@ export function CreateTask({
       }
       navigator.vibrate(50);
       setLoading(true);
-      fetchApiWithoutHook("property/boards/column/task/create", {
+      fetchRawApi("property/boards/column/task/create", {
         title,
         description,
         ...(image && { image: JSON.parse(image).url }),

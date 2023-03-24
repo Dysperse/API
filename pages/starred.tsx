@@ -24,7 +24,7 @@ export default function Trash() {
         {!error && data ? (
           data.map((item) => (
             <ItemDrawer id={item.id} key={item.id} mutationUrl={url}>
-              <ItemCard item={item} mutationUrl={url} displayRoom={false} />
+              <ItemCard item={item} mutationUrl={url} />
             </ItemDrawer>
           ))
         ) : (

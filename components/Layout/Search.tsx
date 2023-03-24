@@ -4,7 +4,7 @@ import { Divider, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook, useApi } from "../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../lib/client/useApi";
 import { toastStyles } from "../../lib/client/useTheme";
 import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
@@ -12,9 +12,7 @@ import { updateSettings } from "../Settings/updateSettings";
 
 function CustomAction({
   action,
-  styles,
   classNames,
-  hovered,
   onTrigger,
   ...others
 }: SpotlightActionProps) {
@@ -58,7 +56,7 @@ function CustomAction({
   );
 }
 
-export default function SearchPopup({ styles }) {
+export default function SearchPopup() {
   const router = useRouter();
   const session = useSession();
 
@@ -166,7 +164,7 @@ export default function SearchPopup({ styles }) {
             title: property.profile.name,
             onTrigger: () => {
               router.push("/tasks");
-              fetchApiWithoutHook("property/join", {
+              fetchRawApi("property/join", {
                 email: session.user.email,
                 accessToken1: property.accessToken,
               }).then((res) => {
@@ -212,7 +210,7 @@ export default function SearchPopup({ styles }) {
       title: "Sign out",
       onTrigger: () => {
         toast.promise(
-          fetchApiWithoutHook("auth/logout").then(() => mutate("/api/user")),
+          fetchRawApi("auth/logout").then(() => mutate("/api/user")),
           {
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",

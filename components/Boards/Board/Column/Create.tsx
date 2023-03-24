@@ -10,7 +10,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
+import { fetchRawApi } from "../../../../lib/client/useApi";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { colors } from "../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../pages/_app";
@@ -42,7 +42,7 @@ export default function CreateColumn({
       setLoading(false);
       return;
     }
-    fetchApiWithoutHook("property/boards/column/create", {
+    fetchRawApi("property/boards/column/create", {
       title: ref?.current?.value,
       emoji: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`,
       id: id,
@@ -74,7 +74,7 @@ export default function CreateColumn({
           toastStyles
         );
       });
-  }, []);
+  }, [emoji, id, mutationUrl, setCurrentColumn]);
 
   useEffect(() => {
     if (open || mobileOpen) {
@@ -101,15 +101,13 @@ export default function CreateColumn({
                 mb: 2,
               }
             : {
-                backgroundColor: session.user.darkMode
-                  ? "hsl(240,11%,13%)"
-                  : "rgba(200, 200, 200, 0.3)",
+                backgroundColor: `hsl(240,11%,${
+                  session.user.darkMode ? 13 : 40
+                }%)`,
                 width: "400px",
                 flex: "0 0 auto",
                 mr: 2,
-                border: session.user.darkMode
-                  ? "1px solid hsl(240,11%,30%)!important"
-                  : "1px solid rgba(200, 200, 200, 0.9)",
+                border: `hsl(240,11%,${session.user.darkMode ? 30 : 60}%)`,
               }),
           height: "auto",
           borderRadius: 5,
@@ -121,9 +119,7 @@ export default function CreateColumn({
               size="small"
               sx={{
                 px: 1,
-                background: session.user.darkMode
-                  ? "hsl(240,11%,17%)"
-                  : "rgba(200, 200, 200, 0.3)!important",
+                background: `hsl(240,11%,${session.user.darkMode ? 17 : 70}%)`,
                 borderRadius: 5,
               }}
             >
@@ -153,9 +149,7 @@ export default function CreateColumn({
             InputProps={{
               disableUnderline: true,
               sx: {
-                background: session.user.darkMode
-                  ? "hsl(240,11%,20%)"
-                  : "rgba(200, 200, 200, 0.3)",
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 80}%)`,
                 fontWeight: "600",
                 fontSize: 20,
                 px: 2,

@@ -11,9 +11,9 @@ export function OptionsGroup({ currentOption, setOption, options }) {
       sx={{
         width: "100%",
         gap: 0.2,
-        background: `${
-          session.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)"
-        }!important`,
+        background: `hsl(240,11%,${
+          session.user.darkMode ? 20 : 90
+        }%)!important`,
       }}
     >
       {options.map((option) => (
@@ -25,20 +25,18 @@ export function OptionsGroup({ currentOption, setOption, options }) {
           className="w-1/2 overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[0.75rem!important] border-2 px-5 transition-none"
           sx={{
             transition: "none!important",
-            background: session.user.darkMode
-              ? "hsl(240,11%,80%)!important"
-              : "hsl(240,11%,20%)!important",
+            background: `hsl(240,11%,${
+              session.user.darkMode ? 80 : 20
+            }%)!important`,
             color: session.user.darkMode ? "#000" : "#fff",
             ...(currentOption !== option && {
-              background: `${
-                session.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)"
-              }!important`,
+              background: `hsl(240,11%,${
+                session.user.darkMode ? 20 : 90
+              }%) !important`,
               "&:hover": {
-                background: `${
-                  session.user.darkMode
-                    ? "hsl(240,11%,20%)"
-                    : "hsl(240,11%,90%)"
-                }!important`,
+                background: `hsl(240,11%,${
+                  session.user.darkMode ? 20 : 90
+                }%)!important`,
               },
               color: session.user.darkMode
                 ? `hsl(240,11%,80%) !important`

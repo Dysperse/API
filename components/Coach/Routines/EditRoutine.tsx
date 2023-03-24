@@ -12,14 +12,14 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchApiWithoutHook, useApi } from "../../../lib/client/useApi";
+import { fetchRawApi, useApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { EmojiPicker } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 import { GoalCard } from "./GoalCard";
 
 export function EditRoutine({ setData, editButtonRef, routine }) {
-  const { data, error } = useApi("user/routines");
+  const { data } = useApi("user/routines");
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState(routine.name);
@@ -40,7 +40,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
   const handleClose = () => setOpen(false);
 
   const handleSave = async () => {
-    await fetchApiWithoutHook("user/routines/custom-routines/edit", {
+    await fetchRawApi("user/routines/custom-routines/edit", {
       id: routine.id,
       name,
       note,
@@ -49,12 +49,9 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
       timeOfDay: time,
     });
 
-    const res = await fetchApiWithoutHook(
-      "user/routines/custom-routines/items",
-      {
-        id: routine.id,
-      }
-    );
+    const res = await fetchRawApi("user/routines/custom-routines/items", {
+      id: routine.id,
+    });
     setData(res[0]);
     toast.success("Saved!", toastStyles);
   };
@@ -103,13 +100,14 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
           <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
             <picture>
               <img
+                alt="emoji"
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
               />
             </picture>
           </EmojiPicker>
           <TextField
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e: any) => setName(e.target.value)}
             fullWidth
             margin="dense"
             label="Routine name"
@@ -118,7 +116,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
           />
           <TextField
             value={note}
-            onChange={(e) => setNote(e.target.value)}
+            onChange={(e: any) => setNote(e.target.value)}
             fullWidth
             margin="dense"
             multiline
@@ -130,7 +128,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             What days do you want to work on this routine?
           </Typography>
           <Box sx={{ display: "flex", overflowX: "scroll", gap: 0.5 }}>
-            {JSON.parse(daysOfWeek).map((day, index) => (
+            {JSON.parse(daysOfWeek).map((_, index) => (
               <Button
                 key={index}
                 size="small"

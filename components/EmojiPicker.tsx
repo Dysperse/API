@@ -1,8 +1,7 @@
 import data from "@emoji-mart/data";
 import { Box, SwipeableDrawer, TextField, Tooltip } from "@mui/material";
 import { init, SearchIndex } from "emoji-mart";
-import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
-import { useSession } from "../pages/_app";
+import { cloneElement, useEffect, useRef, useState } from "react";
 import { Puller } from "./Puller";
 
 init({ data });
@@ -66,7 +65,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
     onClick: handleOpen,
   });
 
-  const debouncedHandleSearch = useCallback(debounce(handleSearch, 500), []);
+  const debouncedHandleSearch = debounce(handleSearch, 500);
 
   useEffect(() => {
     debouncedHandleSearch(inputValue);
@@ -82,7 +81,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
       handleSearch("face");
       setInputValue("");
     }
-  }, []);
+  }, [inputValue.length]);
 
   function handleEmojiSelect(emoji) {
     const code = emoji.skins[0].unified;
@@ -90,7 +89,6 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
     handleClose();
   }
 
-  const session = useSession();
   const ref: any = useRef();
 
   useEffect(() => {
@@ -136,7 +134,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
             autoFocus
             placeholder="Search..."
             inputRef={ref}
-            onChange={(e) => {
+            onChange={(e: any) => {
               setInputValue(e.target.value);
               debouncedHandleSearch(e.target.value);
             }}
@@ -168,7 +166,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
                 </Box>
               )}
             {results &&
-              results.map((thisEmoji, index) => (
+              results.map((thisEmoji) => (
                 <EmojiButton
                   handleEmojiSelect={handleEmojiSelect}
                   selectedEmoji={emoji}

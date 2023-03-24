@@ -253,7 +253,7 @@ export function Sidebar() {
           flexDirection: "column",
         }}
       >
-        <SearchPopup styles={styles} />
+        <SearchPopup />
         <Box
           onClick={() => openSpotlight()}
           onMouseDown={() => openSpotlight()}

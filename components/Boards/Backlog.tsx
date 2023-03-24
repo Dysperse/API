@@ -138,7 +138,7 @@ export function Backlog({ setDrawerOpen }) {
         {[
           ...data.filter((task) => task.pinned),
           ...data.filter((task) => !task.pinned),
-        ].map((task, index) => (
+        ].map((task) => (
           <Task
             key={task.id}
             board={task.board || false}

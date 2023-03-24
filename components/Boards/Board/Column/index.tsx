@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../../lib/client/useApi";
+import { fetchRawApi } from "../../../../lib/client/useApi";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { useSession } from "../../../../pages/_app";
 import { EmojiPicker } from "../../../EmojiPicker";
@@ -78,13 +78,14 @@ export function Column({ board, mutationUrls, column, index }) {
             <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
               <picture>
                 <img
+                  alt="emoji"
                   src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
                 />
               </picture>
             </EmojiPicker>
             <TextField
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e: any) => setTitle(e.target.value)}
               id={"renameInput"}
               inputRef={ref}
               onKeyDown={(e) => {
@@ -107,7 +108,7 @@ export function Column({ board, mutationUrls, column, index }) {
               size="large"
               onClick={async () => {
                 toast.promise(
-                  fetchApiWithoutHook("property/boards/column/edit", {
+                  fetchRawApi("property/boards/column/edit", {
                     id: column.id,
                     name: title,
                     emoji: emoji,
@@ -183,6 +184,7 @@ export function Column({ board, mutationUrls, column, index }) {
               }}
             >
               <img
+                alt="Emoji"
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
                 width={50}
                 height={50}
@@ -309,11 +311,11 @@ export function Column({ board, mutationUrls, column, index }) {
               mx: { xs: "20px", sm: 0 },
               width: "calc(100% - 40px)",
               ...(showCompleted && {
-                background: session.user.darkMode
-                  ? "hsl(240,11%,20%)!important"
-                  : "rgba(200,200,200,.3)!important",
+                background: `hsl(240,11%,${
+                  session.user.darkMode ? 20 : 80
+                }%)!important`,
               }),
-              color: session.user.darkMode ? "#fff" : "hsl(240,11%,30%)",
+              color: `hsl(240,11%,${session.user.darkMode ? 100 : 30}%)`,
             }}
             onClick={toggleShowCompleted}
           >

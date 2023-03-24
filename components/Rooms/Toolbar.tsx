@@ -20,7 +20,7 @@ function SearchBar({
   /**
    * Handles blur event
    */
-  const handleBlurEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleBlurEvent = (e: any) => {
     const target = e.target as HTMLInputElement;
     if (e.code === "Enter") target.blur();
     if (e.code === "Escape") {

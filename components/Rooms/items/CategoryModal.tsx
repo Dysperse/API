@@ -5,30 +5,32 @@ import {
   Icon,
   IconButton,
   ListItemButton,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
-import React from "react";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { memo, useState } from "react";
+import { toast } from "react-hot-toast";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { useBackButton } from "../../../lib/client/useBackButton";
 import { useSession } from "../../../pages/_app";
 import { ItemCard } from "../ItemCard";
+
+interface CategoryModalProps {
+  mutationUrl: string;
+  category: string;
+}
 
 /**
  * Category modal
  * @param {string} category - The category name
  */
-const CategoryModal = React.memo(function CategoryModal({
+const CategoryModal = memo(function CategoryModal({
   mutationUrl,
   category,
-}: {
-  mutationUrl: string;
-  category: string;
-}) {
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [data, setData] = React.useState([]);
+}: CategoryModalProps) {
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState([]);
 
   useBackButton(() => setOpen(false));
 
@@ -81,11 +83,7 @@ const CategoryModal = React.memo(function CategoryModal({
             .filter((item) => item)
             .map((item: Item) => (
               <Box sx={{ mb: 1 }} key={item.id.toString()}>
-                <ItemCard
-                  item={item}
-                  displayRoom={false}
-                  mutationUrl={mutationUrl}
-                />
+                <ItemCard item={item} mutationUrl={mutationUrl} />
               </Box>
             ))}
           {data.length === 0 && <>No items</>}
@@ -94,8 +92,8 @@ const CategoryModal = React.memo(function CategoryModal({
       <ListItemButton
         onClick={() => {
           setLoading(true);
-          fetchApiWithoutHook("property/inventory/categories/items", {
-            category: category,
+          fetchRawApi("property/inventory/categories/items", {
+            category,
           })
             .then((res) => {
               setData(res);
@@ -103,6 +101,9 @@ const CategoryModal = React.memo(function CategoryModal({
               setLoading(false);
             })
             .catch(() => {
+              toast.error(
+                "An error occured while trying to get items with this category"
+              );
               setLoading(false);
             });
         }}
@@ -118,24 +119,20 @@ const CategoryModal = React.memo(function CategoryModal({
           }),
         }}
       >
-        <ListItemText
-          primary={
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              {category}{" "}
-              {loading && (
-                <CircularProgress
-                  size={15}
-                  sx={{
-                    ml: "auto",
-                    animationDuration: ".4s",
-                    transitionDuration: ".4s",
-                  }}
-                  disableShrink
-                />
-              )}
-            </Box>
-          }
-        />
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          {category}
+          {loading && (
+            <CircularProgress
+              size={15}
+              sx={{
+                ml: "auto",
+                animationDuration: ".4s",
+                transitionDuration: ".4s",
+              }}
+              disableShrink
+            />
+          )}
+        </Box>
       </ListItemButton>
     </>
   );

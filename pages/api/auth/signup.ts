@@ -49,7 +49,7 @@ export default async function handler(req, res) {
   const user = await prisma.user.create({
     data: {
       name,
-      email: body.email.toLowerCase(),
+      email: email.toLowerCase(),
       password: hashedPassword,
     },
   });

@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../components/ConfirmationModal";
 import { ErrorHandler } from "../components/Error";
-import { fetchApiWithoutHook, useApi } from "../lib/client/useApi";
+import { fetchRawApi, useApi } from "../lib/client/useApi";
 import { toastStyles } from "../lib/client/useTheme";
 import Categories from "./items";
 
@@ -42,7 +42,7 @@ function DeleteCard({ item }) {
         variant="contained"
         onClick={() => {
           setHidden(true);
-          fetchApiWithoutHook("property/inventory/trash/item", {
+          fetchRawApi("property/inventory/trash/item", {
             id: item.id,
             forever: true,
           }).catch(() => {
@@ -77,7 +77,7 @@ export default function Trash() {
           title="Empty Trash?"
           question="Are you sure you want to empty your trash? This action cannot be undone."
           callback={async () => {
-            await fetchApiWithoutHook("property/inventory/trash/clear")
+            await fetchRawApi("property/inventory/trash/clear")
               .catch(() => {
                 toast.error(
                   "An error occured while trying to empty your trash. Please try again later",

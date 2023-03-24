@@ -32,7 +32,7 @@ function ResponsiveDrawer({
   const router = useRouter();
 
   // Check if user has reached storage limits
-  const { data, error, url }: ApiResponse = useApi("property/storage");
+  const { data, error }: ApiResponse = useApi("property/storage");
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
 
   const storage = useAccountStorage();

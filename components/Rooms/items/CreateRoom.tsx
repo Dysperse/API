@@ -10,7 +10,7 @@ import {
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchApiWithoutHook } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../pages/_app";
@@ -27,7 +27,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
 
   const handleSubmit = () => {
     setLoading(true);
-    fetchApiWithoutHook("property/inventory/room/create", {
+    fetchRawApi("property/inventory/room/create", {
       name: name,
       private: isPrivate ? "true" : "false",
     })
@@ -71,7 +71,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
           </Typography>
           <TextField
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e: any) => setName(e.target.value)}
             label={
               session.property.profile.type === "study group"
                 ? "Container name (Example: backpack, drawer, etc.)"
@@ -85,7 +85,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 2 }}>
             <Switch
               checked={isPrivate}
-              onChange={(e) => setIsPrivate(e.target.checked)}
+              onChange={(e: any) => setIsPrivate(e.target.checked)}
             />
             <FormLabel>
               <b>{isPrivate ? "Private" : "Public"}</b>
