@@ -249,7 +249,7 @@ export function Agenda({
             key={day.day}
             day={day}
             view={view}
-            data={useMemo(() => {
+            data={() => {
               const startOf =
                 view === "week" ? "day" : view === "month" ? "month" : "year";
               const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
@@ -259,7 +259,7 @@ export function Agenda({
                 const dueDate = new Date(task.due);
                 return dueDate >= startTime && dueDate <= endTime;
               });
-            }, [data, day.unchanged, view])}
+            }}
             mutationUrl={url}
           />
         ))}
