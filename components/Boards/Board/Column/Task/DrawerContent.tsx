@@ -243,7 +243,7 @@ export default function DrawerContent({
       >
         <DatePicker
           value={new Date(data.due || new Date().toISOString())}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(e: any) => {
             handleParentClose();
             setTaskData((prev) => ({
               ...prev,

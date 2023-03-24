@@ -241,9 +241,7 @@ export default function Prompt() {
                 spellCheck={false}
                 fullWidth
                 name="email"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
-                }
+                onChange={(e: any) => setEmail(e.target.value)}
                 sx={authStyles.input}
                 variant="outlined"
               />
@@ -255,9 +253,7 @@ export default function Prompt() {
                 fullWidth
                 sx={authStyles.input}
                 name="password"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPassword(e.target.value)
-                }
+                onChange={(e: any) => setPassword(e.target.value)}
                 type={togglePassword ? "text" : "password"}
                 variant="outlined"
                 InputProps={{

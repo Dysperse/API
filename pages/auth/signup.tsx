@@ -124,9 +124,7 @@ export default function Prompt() {
                 value={name}
                 name="name"
                 fullWidth
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setName(e.target.value)
-                }
+                onChange={(e: any) => setName(e.target.value)}
                 sx={authStyles.input}
                 variant="outlined"
               />
@@ -137,9 +135,7 @@ export default function Prompt() {
                 placeholder="jeffbezos@gmail.com"
                 value={email}
                 name="email"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
-                }
+                onChange={(e: any) => setEmail(e.target.value)}
                 fullWidth
                 sx={authStyles.input}
                 variant="outlined"
@@ -170,9 +166,7 @@ export default function Prompt() {
                     </Typography>
                   ),
                 })}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPassword(e.target.value)
-                }
+                onChange={(e: any) => setPassword(e.target.value)}
                 variant="outlined"
               />
               <TextField
@@ -185,9 +179,7 @@ export default function Prompt() {
                 value={confirmPassword}
                 sx={authStyles.input}
                 name="confirmPassword"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setConfirmPassword(e.target.value)
-                }
+                onChange={(e: any) => setConfirmPassword(e.target.value)}
                 variant="outlined"
                 {...(password !== confirmPassword && {
                   helperText: (
