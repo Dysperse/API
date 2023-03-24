@@ -78,15 +78,14 @@ export function Column({ board, mutationUrls, column, index }) {
             <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
               <picture>
                 <img
+                  alt="emoji"
                   src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
                 />
               </picture>
             </EmojiPicker>
             <TextField
               value={title}
-              onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
-                setTitle(e.target.value)
-              }
+              onChange={(e: any) => setTitle(e.target.value)}
               id={"renameInput"}
               inputRef={ref}
               onKeyDown={(e) => {
@@ -185,6 +184,7 @@ export function Column({ board, mutationUrls, column, index }) {
               }}
             >
               <img
+                alt="Emoji"
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
                 width={50}
                 height={50}

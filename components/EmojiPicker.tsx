@@ -81,7 +81,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
       handleSearch("face");
       setInputValue("");
     }
-  }, []);
+  }, [inputValue.length]);
 
   function handleEmojiSelect(emoji) {
     const code = emoji.skins[0].unified;
@@ -134,7 +134,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
             autoFocus
             placeholder="Search..."
             inputRef={ref}
-            onChange={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            onChange={(e: any) => {
               setInputValue(e.target.value);
               debouncedHandleSearch(e.target.value);
             }}

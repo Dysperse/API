@@ -38,7 +38,7 @@ export function ConfirmationModal({
       setLoading(false);
       toast.error(`An error occured: ${e.message}`, toastStyles);
     }
-  }, []);
+  }, [callback]);
 
   useEffect(() => {
     if (open && disabled) {

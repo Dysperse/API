@@ -104,7 +104,7 @@ export const Task: any = React.memo(function Task({
         toast.error("An error occured while updating the task", toastStyles);
       }
     },
-    [mutationUrl, toastStyles, taskData.id]
+    [taskData.id]
   );
 
   const handlePriorityChange = useCallback(async () => {

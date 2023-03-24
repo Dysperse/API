@@ -100,15 +100,14 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
           <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
             <picture>
               <img
+                alt="emoji"
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
               />
             </picture>
           </EmojiPicker>
           <TextField
             value={name}
-            onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
-              setName(e.target.value)
-            }
+            onChange={(e: any) => setName(e.target.value)}
             fullWidth
             margin="dense"
             label="Routine name"

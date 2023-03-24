@@ -4,7 +4,7 @@ import {
   Icon,
   IconButton,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
@@ -53,7 +53,7 @@ export function BoardInfo({
         toastStyles
       );
     }
-  }, [titleRef, descriptionRef]);
+  }, [titleRef, descriptionRef, board.description, board.id, board.name, mutationUrls.boardData]);
   const session = useSession();
 
   return (

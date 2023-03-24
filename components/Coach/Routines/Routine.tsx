@@ -68,7 +68,7 @@ export function Routine({ mutationUrl, routine }) {
         handleClick();
       }
     }
-  }, [alreadyOpened]);
+  }, [alreadyOpened, handleClick, routine.id]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

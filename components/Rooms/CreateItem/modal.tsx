@@ -96,7 +96,16 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, [category, quantity, room, title]);
+  }, [
+    category,
+    quantity,
+    room,
+    title,
+    session.property.accessToken,
+    session.property.propertyId,
+    session.user.identifier,
+    session.user.token,
+  ]);
 
   const storage = useAccountStorage();
 

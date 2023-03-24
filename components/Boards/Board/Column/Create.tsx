@@ -74,7 +74,7 @@ export default function CreateColumn({
           toastStyles
         );
       });
-  }, []);
+  }, [emoji, id, mutationUrl, setCurrentColumn]);
 
   useEffect(() => {
     if (open || mobileOpen) {

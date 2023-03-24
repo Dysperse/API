@@ -38,7 +38,7 @@ export function RecentItems() {
 
   useEffect(() => {
     emblaApi && emblaApi?.reInit();
-  }, [data]);
+  }, [data, emblaApi]);
   const session = useSession();
 
   return (
