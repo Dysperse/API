@@ -173,7 +173,7 @@ export default function Notifications() {
             style={{ display: "none" }}
             id="enable-notifications"
             onClick={(event) => subscribeButtonOnClick(event)}
-          ></button>
+          />
           {enabledOnAnotherDevice ? (
             <>
               <ConfirmationModal

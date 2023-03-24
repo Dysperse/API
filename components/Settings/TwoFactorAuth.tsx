@@ -3,7 +3,7 @@ import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { Prompt } from "../TwoStepVerificationPrompt";
+import { Prompt } from "../TwoFactorModal";
 import { updateSettings } from "./updateSettings";
 
 import { Alert, Box, Link, TextField, Typography } from "@mui/material";

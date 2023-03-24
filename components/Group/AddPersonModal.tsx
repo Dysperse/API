@@ -6,7 +6,7 @@ import { fetchRawApi } from "../../lib/client/useApi";
 import { useBackButton } from "../../lib/client/useBackButton";
 import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
-import { Prompt } from "../TwoStepVerificationPrompt";
+import { Prompt } from "../TwoFactorModal";
 import { isEmail } from "./MemberList";
 
 import {

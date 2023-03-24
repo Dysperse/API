@@ -122,7 +122,7 @@ export function Routine({ mutationUrl, routine }) {
             background: "hsl(240, 11%, 10%)",
             zIndex: 999,
           }}
-        ></Box>
+        />
         <RoutineOptions
           mutationUrl={mutationUrl}
           routine={routine}

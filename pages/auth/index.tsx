@@ -441,7 +441,7 @@ export default function Prompt() {
             });
           }}
           sx={{
-            cursor: "pointer",
+            cursor: "unset !important",
             transition: "all .2s",
             "&:active": {
               transform: "scale(.98)",

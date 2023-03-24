@@ -485,7 +485,7 @@ export function DailyCheckInDrawer() {
               className="embla__container"
               style={{ gap: "10px", paddingLeft: "20px", marginTop: "10px" }}
             >
-              <div></div>
+              <div>&nbsp;</div>
               {data &&
                 data.slice(0, lastBy).map(({ date, mood }, index) => (
                   <Chip
