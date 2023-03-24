@@ -83,7 +83,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
             <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
               <picture>
                 <img
-                alt="Emoji"
+                  alt="Emoji"
                   src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
                 />
               </picture>
