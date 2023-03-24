@@ -106,7 +106,7 @@ export async function fetchRawApi(
   path,
   initialParams = {},
   removeDefaultParams = false
-): Promise<ApiResponse> {
+) {
   const session = useSession();
 
   const { url } = getInfo(
