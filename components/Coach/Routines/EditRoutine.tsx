@@ -116,9 +116,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
           />
           <TextField
             value={note}
-            onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
-              setNote(e.target.value)
-            }
+            onChange={(e: any) => setNote(e.target.value)}
             fullWidth
             margin="dense"
             multiline
