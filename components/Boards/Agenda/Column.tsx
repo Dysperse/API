@@ -2,7 +2,7 @@ import { Box, Divider, Icon, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useMemo } from "react";
 import { colors } from "../../../lib/colors";
 import { useSession } from "../../../pages/_app";
 import { capitalizeFirstLetter } from "../../ItemPopup";
@@ -29,11 +29,23 @@ export const Column: any = memo(function Column({
   const startOf = view === "week" ? "day" : view === "month" ? "month" : "year";
   const startOfRange = dayjs().startOf(startOf);
 
+  const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
+  const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
+
+  data = useMemo(
+    () =>
+      (data || []).filter((task) => {
+        const dueDate = new Date(task.due);
+        return dueDate >= startTime && dueDate <= endTime;
+      }),
+    [data, startTime, endTime]
+  );
+
   const isPast =
     dayjs(day.unchanged).isBefore(startOfRange) &&
     day.date !== startOfRange.format(day.heading);
 
-  const placeholder = (() => {
+  const placeholder = useMemo(() => {
     let e = dayjs(day.unchanged).from(startOfRange);
     if ("a few seconds ago" === e) {
       if ("month" === view) return "this month";
@@ -41,7 +53,7 @@ export const Column: any = memo(function Column({
       if ("week" === view) return "today";
     }
     return e;
-  })();
+  }, [view]);
 
   const isToday =
     day.date == startOfRange.format(day.heading) && navigation == 0;
@@ -61,7 +73,7 @@ export const Column: any = memo(function Column({
   /**
    * Sort the tasks in a "[pinned, incompleted, completed]" order
    */
-  const sortedTasks = [...data].sort((e, d) =>
+  const sortedTasks = data.sort((e, d) =>
     e.completed && !d.completed
       ? 1
       : (!e.completed && d.completed) || (e.pinned && !d.pinned)

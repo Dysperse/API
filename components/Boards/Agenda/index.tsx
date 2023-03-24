@@ -249,17 +249,7 @@ export function Agenda({
             key={day.day}
             day={day}
             view={view}
-            data={() => {
-              const startOf =
-                view === "week" ? "day" : view === "month" ? "month" : "year";
-              const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
-              const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
-
-              return (data || []).filter((task) => {
-                const dueDate = new Date(task.due);
-                return dueDate >= startTime && dueDate <= endTime;
-              });
-            }}
+            data={data}
             mutationUrl={url}
           />
         ))}

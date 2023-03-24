@@ -11,7 +11,13 @@ import {
 import dayjs from "dayjs";
 import hexToRgba from "hex-to-rgba";
 import dynamic from "next/dynamic";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -35,60 +41,68 @@ export const Task: any = React.memo(function Task({
   mutationUrl,
   task,
 }: any): JSX.Element {
-  const storage = useAccountStorage();
   const [taskData, setTaskData] = useState(task);
 
-  useEffect(() => setTaskData(task), [task]);
-  const session = useSession();
-
-  const BpIcon: any = styled("span")(() => ({
-    borderRadius: 10,
-    transform: "translateX(-7px)",
-    width: 25,
-    height: 25,
-    boxShadow: `${
-      session.user.darkMode
-        ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
-    }`,
-    backgroundColor: "transparent",
-    ".Mui-focusVisible &": {
-      boxShadow: `0px 0px 0px 2px inset ${
-        colors[taskData.color ?? "grey"][700]
-      }, 0px 0px 0px 15px inset ${hexToRgba(
-        colors[taskData.color ?? "grey"][900],
-        0.1
-      )}`,
-    },
-    "input:disabled ~ &": {
-      cursor: "not-allowed",
-      opacity: 0.5,
-    },
-  }));
-
-  const BpCheckedIcon: any = styled(BpIcon)({
-    boxShadow: `${
-      session.user.darkMode
-        ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-        : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
-    }`,
-    backgroundColor: `${
-      colors[taskData.color || "grey"][session.user.darkMode ? 50 : "A700"]
-    }!important`,
-    "&:before": {
-      display: "block",
-      width: 25,
-      height: 25,
-      backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 20' fill='none' stroke='%23${
-        session.user.darkMode ? "000" : "fff"
-      }' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")`,
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      content: '""',
-    },
-  });
-
   const ref: any = useRef();
+  const session = useSession();
+  const storage = useAccountStorage();
+
+  useEffect(() => setTaskData(task), [task]);
+
+  const BpIcon: any = useMemo(
+    () =>
+      styled("span")(() => ({
+        borderRadius: 10,
+        transform: "translateX(-7px)",
+        width: 25,
+        height: 25,
+        boxShadow: `${
+          session.user.darkMode
+            ? "inset 0 0 0 2px rgba(255,255,255,.6)"
+            : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
+        }`,
+        backgroundColor: "transparent",
+        ".Mui-focusVisible &": {
+          boxShadow: `0px 0px 0px 2px inset ${
+            colors[taskData.color ?? "grey"][700]
+          }, 0px 0px 0px 15px inset ${hexToRgba(
+            colors[taskData.color ?? "grey"][900],
+            0.1
+          )}`,
+        },
+        "input:disabled ~ &": {
+          cursor: "not-allowed",
+          opacity: 0.5,
+        },
+      })),
+    [taskData.color, session.user.darkMode]
+  );
+
+  const BpCheckedIcon: any = useMemo(
+    () =>
+      styled(BpIcon)({
+        boxShadow: `${
+          session.user.darkMode
+            ? "inset 0 0 0 2px rgba(255,255,255,.6)"
+            : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
+        }`,
+        backgroundColor: `${
+          colors[taskData.color || "grey"][session.user.darkMode ? 50 : "A700"]
+        }!important`,
+        "&:before": {
+          display: "block",
+          width: 25,
+          height: 25,
+          backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 20' fill='none' stroke='%23${
+            session.user.darkMode ? "000" : "fff"
+          }' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          content: '""',
+        },
+      }),
+    [taskData.color, session.user.darkMode]
+  );
 
   const handleCompletion = useCallback(
     async (e) => {
@@ -176,7 +190,6 @@ export const Task: any = React.memo(function Task({
               <Box
                 sx={{
                   display: "flex",
-                  // background: "red",
                   alignItems: "center",
                 }}
               >
@@ -222,42 +235,38 @@ export const Task: any = React.memo(function Task({
                   </span>
                 </Box>
                 {taskData.pinned && (
-                  <Tooltip title="Important" placement="right">
-                    <ConfirmationModal
-                      title="Change priority?"
-                      question="You are about to unpin this task. You can always change the priority later"
-                      callback={handlePriorityChange}
+                  <ConfirmationModal
+                    title="Change priority?"
+                    question="You are about to unpin this task. You can always change the priority later"
+                    callback={handlePriorityChange}
+                  >
+                    <Box
+                      sx={{
+                        borderRadius: 2,
+                        width: 20,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: 20,
+                        flexShrink: 0,
+                        ml: "auto",
+                        background:
+                          colors.orange[session.user.darkMode ? "A700" : "200"],
+                      }}
                     >
-                      <Box
+                      <Icon
                         sx={{
-                          borderRadius: 2,
-                          width: 20,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          height: 20,
-                          flexShrink: 0,
-                          ml: "auto",
-                          background:
-                            colors.orange[
-                              session.user.darkMode ? "A700" : "200"
-                            ],
+                          fontSize: "15px!important",
+                          color: session.user.darkMode
+                            ? "hsl(240,11%,10%)"
+                            : colors.orange[900],
+                          fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
                         }}
                       >
-                        <Icon
-                          sx={{
-                            fontSize: "15px!important",
-                            color: session.user.darkMode
-                              ? "hsl(240,11%,10%)"
-                              : colors.orange[900],
-                            fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
-                          }}
-                        >
-                          priority_high
-                        </Icon>
-                      </Box>
-                    </ConfirmationModal>
-                  </Tooltip>
+                        priority_high
+                      </Icon>
+                    </Box>
+                  </ConfirmationModal>
                 )}
               </Box>
             }
