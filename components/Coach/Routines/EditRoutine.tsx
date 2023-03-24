@@ -128,7 +128,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
             What days do you want to work on this routine?
           </Typography>
           <Box sx={{ display: "flex", overflowX: "scroll", gap: 0.5 }}>
-            {JSON.parse(daysOfWeek).map((day, index) => (
+            {JSON.parse(daysOfWeek).map((_, index) => (
               <Button
                 key={index}
                 size="small"
