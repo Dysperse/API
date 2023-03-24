@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { lime, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import Stories from "react-insta-stories";
 import { fetchRawApi } from "../../../lib/client/useApi";
@@ -29,34 +29,37 @@ export function Routine({ mutationUrl, routine }) {
   const session = useSession();
   const ref: any = useRef();
 
-  const handleClick = async (edit: any = false) => {
-    try {
-      navigator.vibrate(50);
-      if (edit) {
-        const tag: any = ref?.current?.querySelector(".editTrigger");
-        tag?.click();
-        return;
-      }
-      setCurrentIndex(0);
-      setShowIntro(true);
-      setLoading(true);
+  const handleClick = useCallback(
+    async (edit: any = false) => {
+      try {
+        navigator.vibrate(50);
+        if (edit) {
+          const tag: any = ref?.current?.querySelector(".editTrigger");
+          tag?.click();
+          return;
+        }
+        setCurrentIndex(0);
+        setShowIntro(true);
+        setLoading(true);
 
-      const res = await fetchRawApi("user/routines/custom-routines/items", {
-        id: routine.id,
-      });
-      setLoading(true);
-      setOpen(true);
-      setLoading(false);
-      setData(res[0]);
-      console.log(data);
-      setTimeout(() => setShowIntro(false), 2000);
-    } catch (e) {
-      toast.error(
-        "Yikes! An error occured while trying to get your routine! Please try again later.",
-        toastStyles
-      );
-    }
-  };
+        const res = await fetchRawApi("user/routines/custom-routines/items", {
+          id: routine.id,
+        });
+        setLoading(true);
+        setOpen(true);
+        setLoading(false);
+        setData(res[0]);
+        console.log(data);
+        setTimeout(() => setShowIntro(false), 2000);
+      } catch (e) {
+        toast.error(
+          "Yikes! An error occured while trying to get your routine! Please try again later.",
+          toastStyles
+        );
+      }
+    },
+    [data, routine.id]
+  );
 
   const [alreadyOpened, setAlreadyOpened] = useState(false);
 

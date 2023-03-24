@@ -190,6 +190,7 @@ export default function ImageRecognition({
 }) {
   const [open, setOpen] = React.useState(foreverRequired);
   const [facingMode, setFacingMode] = React.useState("environment");
+  const session = useSession();
 
   useEffect(() => {
     const tag: any = document.querySelector(`meta[name="theme-color"]`);
@@ -198,9 +199,8 @@ export default function ImageRecognition({
       : session.user.darkMode
       ? "hsl(240,11%,10%)"
       : "#fff";
-  }, [open]);
+  }, [open, session.user.darkMode]);
 
-  const session = useSession();
   const storage = useAccountStorage();
 
   return (

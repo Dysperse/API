@@ -1,7 +1,7 @@
 import data from "@emoji-mart/data";
 import { Box, SwipeableDrawer, TextField, Tooltip } from "@mui/material";
 import { init, SearchIndex } from "emoji-mart";
-import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
+import { cloneElement, useEffect, useRef, useState } from "react";
 import { Puller } from "./Puller";
 
 init({ data });
@@ -65,7 +65,7 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
     onClick: handleOpen,
   });
 
-  const debouncedHandleSearch = useCallback(debounce(handleSearch, 500), []);
+  const debouncedHandleSearch = debounce(handleSearch, 500);
 
   useEffect(() => {
     debouncedHandleSearch(inputValue);

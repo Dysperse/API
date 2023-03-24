@@ -64,57 +64,75 @@ export default function Prompt() {
   const [password, setPassword] = useState("");
   const [twoFactorCode, setTwoFactorCode] = useState("");
 
-  const handleSubmit = async (e?: any) => {
-    if (e) e.preventDefault();
-    console.log("Submitted");
-    setButtonLoading(true);
+  const handleSubmit = useCallback(
+    async (e?: any) => {
+      if (e) e.preventDefault();
+      console.log("Submitted");
+      setButtonLoading(true);
 
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          Credentials: "same-origin",
-        },
-        body: new URLSearchParams({
-          appId: window.location.pathname.split("oauth/")[1],
-          email,
-          password,
-          twoFactorCode,
-          token: captchaToken,
-          ...(router.pathname.includes("?application=") && {
-            application: router.pathname.split("?application=")[1],
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            Credentials: "same-origin",
+          },
+          body: new URLSearchParams({
+            appId: window.location.pathname.split("oauth/")[1],
+            email,
+            password,
+            twoFactorCode,
+            token: captchaToken,
+            ...(router.pathname.includes("?application=") && {
+              application: router.pathname.split("?application=")[1],
+            }),
           }),
-        }),
-      }).then((res) => res.json());
+        }).then((res) => res.json());
 
-      if (res.message && res.message.includes(`Can't reach database server`)) {
-        toast.error(
-          "Oh no! Our servers are down. Please try again later!",
-          toastStyles
-        );
-        setButtonLoading(false);
-        setStep(1);
-        ref.current?.reset();
-        return;
-      }
+        if (
+          res.message &&
+          res.message.includes(`Can't reach database server`)
+        ) {
+          toast.error(
+            "Oh no! Our servers are down. Please try again later!",
+            toastStyles
+          );
+          setButtonLoading(false);
+          setStep(1);
+          ref.current?.reset();
+          return;
+        }
 
-      if (res.twoFactor) {
-        setStep(3);
-        setButtonLoading(false);
-        return;
-      } else if (res.error) {
-        setStep(1);
-        throw new Error(res.error);
-      }
-      if (res.message) {
-        setStep(1);
-        toast.error(res.message, toastStyles);
-        setButtonLoading(false);
-        return;
-      }
-      if (router && router.pathname.includes("?close=true")) {
+        if (res.twoFactor) {
+          setStep(3);
+          setButtonLoading(false);
+          return;
+        } else if (res.error) {
+          setStep(1);
+          throw new Error(res.error);
+        }
+        if (res.message) {
+          setStep(1);
+          toast.error(res.message, toastStyles);
+          setButtonLoading(false);
+          return;
+        }
+        if (router && router.pathname.includes("?close=true")) {
+          // Success
+          toast.promise(
+            new Promise(() => {}),
+            {
+              loading: "Logging you in...",
+              success: "Success!",
+              error: "An error occured. Please try again later",
+            },
+            toastStyles
+          );
+          mutate("/api/user");
+          return;
+        }
         // Success
         toast.promise(
+          // thou shalt load forever
           new Promise(() => {}),
           {
             loading: "Logging you in...",
@@ -123,37 +141,25 @@ export default function Prompt() {
           },
           toastStyles
         );
-        mutate("/api/user");
-        return;
-      }
-      // Success
-      toast.promise(
-        // thou shalt load forever
-        new Promise(() => {}),
-        {
-          loading: "Logging you in...",
-          success: "Success!",
-          error: "An error occured. Please try again later",
-        },
-        toastStyles
-      );
 
-      if (router.pathname.includes("?application=")) {
-        router.pathname =
-          "https://availability.dysperse.com/api/oauth/redirect?token=" +
-          res.accessToken;
-      } else {
-        mutate("/api/user");
-        router.push("/");
-        router.pathname = "/";
+        if (router.pathname.includes("?application=")) {
+          router.pathname =
+            "https://availability.dysperse.com/api/oauth/redirect?token=" +
+            res.accessToken;
+        } else {
+          mutate("/api/user");
+          router.push("/");
+          router.pathname = "/";
+        }
+      } catch (e) {
+        setStep(1);
+        alert(1);
+        ref?.current?.reset();
+        setButtonLoading(false);
       }
-    } catch (e) {
-      setStep(1);
-      alert(1);
-      ref?.current?.reset();
-      setButtonLoading(false);
-    }
-  };
+    },
+    [captchaToken, email, password, router, twoFactorCode]
+  );
 
   useEffect(() => {
     document
