@@ -41,7 +41,7 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
         </Box>
         <DatePicker
           value={new Date(date)}
-          onChange={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          onChange={(e: any) => {
             setDate(e);
             setOpen(false);
           }}

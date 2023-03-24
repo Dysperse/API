@@ -71,9 +71,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
           </Typography>
           <TextField
             value={name}
-            onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
-              setName(e.target.value)
-            }
+            onChange={(e: any) => setName(e.target.value)}
             label={
               session.property.profile.type === "study group"
                 ? "Container name (Example: backpack, drawer, etc.)"
@@ -87,9 +85,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 2 }}>
             <Switch
               checked={isPrivate}
-              onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
-                setIsPrivate(e.target.checked)
-              }
+              onChange={(e: any) => setIsPrivate(e.target.checked)}
             />
             <FormLabel>
               <b>{isPrivate ? "Private" : "Public"}</b>

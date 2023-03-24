@@ -181,7 +181,7 @@ export default function DrawerContent({
             handleEdit(data.id, "name", e.target.value);
           }
         }}
-        onChange={(e: React.KeyboardEvent<HTMLInputElement>) =>
+        onChange={(e: any) =>
           (e.target.value = e.target.value.replaceAll("\n", ""))
         }
         onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
