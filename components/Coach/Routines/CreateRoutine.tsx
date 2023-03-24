@@ -51,7 +51,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
       await fetchRawApi("user/routines/custom-routines/create", {
         name,
         note,
-        emoji: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`,
+        emoji,
         daysOfWeek,
         timeOfDay: time,
       });

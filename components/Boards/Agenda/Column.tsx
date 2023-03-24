@@ -27,45 +27,52 @@ export const Column: any = memo(function Column({
   const session = useSession();
   const subheading = view === "week" ? "dddd" : view === "month" ? "YYYY" : "-";
   const startOf = view === "week" ? "day" : view === "month" ? "month" : "year";
+  const startOfRange = dayjs().startOf(startOf);
 
   const isPast =
-    dayjs(day.unchanged).isBefore(dayjs().startOf(startOf)) &&
-    day.date !== dayjs().startOf(startOf).format(day.heading);
+    dayjs(day.unchanged).isBefore(startOfRange) &&
+    day.date !== startOfRange.format(day.heading);
 
-  let placeholder = dayjs(day.unchanged).from(dayjs().startOf(startOf));
+  const placeholder = (() => {
+    let e = dayjs(day.unchanged).from(startOfRange);
+    if ("a few seconds ago" === e) {
+      if ("month" === view) return "this month";
+      if ("year" === view) return "this year";
+      if ("week" === view) return "today";
+    }
+    return e;
+  })();
+
   const isToday =
-    day.date == dayjs().startOf(startOf).format(day.heading) && navigation == 0;
-
-  if (placeholder === "a few seconds ago" && view === "month") {
-    placeholder = "this month";
-  } else if (placeholder === "a few seconds ago" && view === "year") {
-    placeholder = "this year";
-  } else if (placeholder === "a few seconds ago" && view === "week") {
-    placeholder = "today";
-  }
+    day.date == startOfRange.format(day.heading) && navigation == 0;
 
   useEffect(() => {
     const activeHighlight = document.getElementById("activeHighlight");
-    if (activeHighlight)
+    if (activeHighlight) {
       activeHighlight.scrollIntoView({
         block: "nearest",
         inline: "start",
         behavior: "smooth",
       });
+    }
     window.scrollTo(0, 0);
   }, []);
 
-  const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
-  const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
+  /**
+   * Sort the tasks in a "[pinned, incompleted, completed]" order
+   */
+  const sortedTasks = [...data].sort((e, d) =>
+    e.completed && !d.completed
+      ? 1
+      : (!e.completed && d.completed) || (e.pinned && !d.pinned)
+      ? -1
+      : !e.pinned && d.pinned
+      ? 1
+      : 0
+  );
 
-  const tasksWithinTimeRange = (data || []).filter((task) => {
-    const dueDate = new Date(task.due);
-    return dueDate >= startTime && dueDate <= endTime;
-  });
-
-  const tasksLeft =
-    tasksWithinTimeRange.length -
-    tasksWithinTimeRange.filter((task) => task.completed).length;
+  const completedTasks = sortedTasks.filter((task) => task.completed);
+  const tasksLeft = sortedTasks.length - completedTasks.length;
 
   return (
     <Box
@@ -81,8 +88,6 @@ export const Column: any = memo(function Column({
         overflowY: "scroll",
         minWidth: { xs: "100vw", sm: "320px" },
         transition: "filter .2s",
-        filter: data ? "" : "blur(10px)",
-        ...(!data && { pointerEvents: "none" }),
       }}
     >
       <Box
@@ -168,12 +173,7 @@ export const Column: any = memo(function Column({
                 variant="body2"
                 sx={{
                   ml: "auto",
-                  opacity:
-                    tasksWithinTimeRange.length == 0
-                      ? 0
-                      : tasksLeft === 0
-                      ? 1
-                      : 0.6,
+                  opacity: data.length == 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
                 }}
               >
                 {tasksLeft !== 0 ? (
@@ -203,8 +203,7 @@ export const Column: any = memo(function Column({
         }}
       >
         <Box sx={{ my: 0.5 }}>
-          {tasksWithinTimeRange.filter((task) => !task.completed).length ===
-          0 ? (
+          {data.filter((task) => !task.completed).length === 0 ? (
             <Box
               sx={{
                 display: "flex",
@@ -233,12 +232,10 @@ export const Column: any = memo(function Column({
 
               <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
-                  {tasksWithinTimeRange == 0
-                    ? "Nothing much here..."
-                    : "Let's go!"}
+                  {data.length == 0 ? "Nothing much here..." : "Let's go!"}
                 </Typography>
                 <Typography gutterBottom>
-                  {tasksWithinTimeRange == 0
+                  {data.length == 0
                     ? "You haven't added any list items to this column"
                     : "You finished all your goals for this time range!"}
                 </Typography>
@@ -255,11 +252,7 @@ export const Column: any = memo(function Column({
                   mutationUrl={mutationUrl}
                   boardId={1}
                 />
-                {tasksWithinTimeRange == 0 ? (
-                  <></>
-                ) : (
-                  <Divider sx={{ mt: 2, mb: -1 }} />
-                )}
+                {data.length == 0 ? <></> : <Divider sx={{ mt: 2, mb: -1 }} />}
               </Box>
             </Box>
           ) : (
@@ -276,15 +269,7 @@ export const Column: any = memo(function Column({
             />
           )}
         </Box>
-        {[
-          ...tasksWithinTimeRange.filter(
-            (task) => !task.completed && task.pinned
-          ),
-          ...tasksWithinTimeRange.filter(
-            (task) => !task.completed && !task.pinned
-          ),
-          ...tasksWithinTimeRange.filter((task) => task.completed),
-        ].map((task) => (
+        {sortedTasks.map((task) => (
           <Task
             key={task.id}
             board={task.board || false}

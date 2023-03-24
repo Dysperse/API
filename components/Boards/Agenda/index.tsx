@@ -7,7 +7,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
@@ -39,24 +39,32 @@ export function Agenda({
   });
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const e = view === "week" ? "day" : view === "month" ? "month" : "year";
+  const e = useMemo(() => {
+    if (view === "week") return "day";
+    if (view === "month") return "month";
+    return "year";
+  }, [view]);
 
-  let startOfWeek = dayjs()
-    .add(navigation, isMobile ? e : view)
-    .startOf(isMobile ? e : view);
+  const startOfWeek = useMemo(() => {
+    const modifier = isMobile ? e : view;
+    return dayjs().add(navigation, modifier).startOf(modifier);
+  }, [navigation, e, isMobile, view]);
 
-  let endOfWeek = dayjs()
-    .add(navigation, isMobile ? e : view)
-    .endOf(isMobile ? e : view);
+  const endOfWeek = useMemo(() => {
+    const modifier = isMobile ? e : view;
+    let endOfWeek = dayjs().add(navigation, modifier).endOf(modifier);
 
-  switch (view) {
-    case "month":
-      endOfWeek = endOfWeek.add(isMobile ? 0 : 2, "month");
-      break;
-    case "year":
-      endOfWeek = endOfWeek.add(isMobile ? 0 : 3, "year");
-      break;
-  }
+    switch (view) {
+      case "month":
+        endOfWeek = endOfWeek.add(isMobile ? 0 : 2, "month");
+        break;
+      case "year":
+        endOfWeek = endOfWeek.add(isMobile ? 0 : 3, "year");
+        break;
+    }
+
+    return endOfWeek;
+  }, [navigation, e, isMobile, view]);
 
   const days: any = [];
 
@@ -115,19 +123,17 @@ export function Agenda({
   });
 
   const session = useSession();
+  const handleOpen = () => {
+    navigator.vibrate(50);
+    setDrawerOpen(true);
+  };
 
   return (
     <>
       <IconButton
         size="large"
-        onClick={() => {
-          navigator.vibrate(50);
-          setDrawerOpen(true);
-        }}
-        onContextMenu={() => {
-          navigator.vibrate(50);
-          setDrawerOpen(true);
-        }}
+        onClick={handleOpen}
+        onContextMenu={handleOpen}
         sx={{
           position: "fixed",
           bottom: {
@@ -234,6 +240,7 @@ export function Agenda({
           overflowX: "scroll",
           height: { md: "100vh" },
           mt: { xs: -2, md: 0 },
+          ...(!data && { pointerEvents: "none", filter: "blur(10px)" }),
         }}
       >
         {days.map((day) => (
@@ -242,7 +249,17 @@ export function Agenda({
             key={day.day}
             day={day}
             view={view}
-            data={data}
+            data={() => {
+              const startOf =
+                view === "week" ? "day" : view === "month" ? "month" : "year";
+              const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
+              const startTime = dayjs(day.unchanged).startOf(startOf).toDate();
+
+              return (data || []).filter((task) => {
+                const dueDate = new Date(task.due);
+                return dueDate >= startTime && dueDate <= endTime;
+              });
+            }}
             mutationUrl={url}
           />
         ))}

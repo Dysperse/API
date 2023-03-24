@@ -1,33 +1,14 @@
 import { Masonry } from "@mui/lab";
-import {
-  AppBar,
-  Box,
-  Icon,
-  IconButton,
-  Skeleton,
-  SwipeableDrawer,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, Skeleton, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
 
 export function MyGoals({ setHideRoutine }): JSX.Element {
-  const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
-
-  //
   const { data, error, url } = useApi("user/routines");
-  useEffect(() => {
-    const tag: any = document.querySelector(`meta[name="theme-color"]`);
-    tag.setAttribute(
-      "content",
-      open ? "#814f41" : session.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
-    );
-  });
 
   useEffect(() => {
     if (data && data.length === 0) {
@@ -39,63 +20,6 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
 
   return (
     <>
-      <SwipeableDrawer
-        anchor="right"
-        open={open}
-        onClose={() => {
-          window.location.hash = "";
-          setOpen(false);
-        }}
-        onOpen={() => setOpen(true)}
-        disableSwipeToOpen
-        PaperProps={{
-          sx: {
-            width: "100vw",
-            maxWidth: "700px",
-            ...(session.user.darkMode && {
-              backgroundColor: "hsl(240,11%,15%)",
-            }),
-          },
-        }}
-      >
-        <AppBar
-          sx={{ background: "transparent", border: 0, backdropFilter: "none" }}
-        >
-          <Toolbar sx={{ height: "64px" }}>
-            <IconButton color="inherit" onClick={() => setOpen(false)}>
-              <span
-                className="material-symbols-rounded"
-                style={{ color: "#fff" }}
-              >
-                west
-              </span>
-            </IconButton>
-            <Typography
-              sx={{
-                mx: "auto",
-                fontWeight: "600",
-                color: "#fff",
-              }}
-            >
-              Explore
-            </Typography>
-            <IconButton
-              color="inherit"
-              onClick={() =>
-                document.getElementById("createBlankGoalTrigger")?.click()
-              }
-            >
-              <span
-                className="material-symbols-outlined"
-                style={{ color: "#fff" }}
-              >
-                add_circle
-              </span>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </SwipeableDrawer>
-
       {data ? (
         <>
           {data.length !== 0 && (
@@ -230,31 +154,6 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           ))}
         </Box>
       )}
-      <button
-        onClick={() => setOpen(true)}
-        className={
-          "mb-3 flex w-full select-none items-center rounded-2xl border p-4 shadow-md transition-transform active:scale-[.98] active:transition-none dark:bg-gray-900" +
-          (data && data.length === 0 && " bg-gray-200")
-        }
-        style={{
-          textAlign: "left",
-          cursor: "unset",
-          ...(session.user.darkMode && {
-            border: "1px solid hsl(240,11%,20%)",
-          }),
-          color: session.user.darkMode ? "#fff" : "#000",
-        }}
-      >
-        <div>
-          <h3 className="font-bold">Set a goal</h3>
-          <h4 className="font-sm font-light">
-            Set a goal to get started with your routine
-          </h4>
-        </div>
-        <Icon className="outlined" sx={{ ml: "auto" }}>
-          add_circle
-        </Icon>
-      </button>
     </>
   );
 }
