@@ -71,7 +71,8 @@ export function CreateTask({
         document.getElementById("imageAttachment")?.click();
       }
     },
-    { enableOnFormTags: ["INPUT", "TEXTAREA"] }
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open]
   );
 
   useHotkeys(
@@ -90,7 +91,8 @@ export function CreateTask({
         }, 50);
       }
     },
-    { enableOnFormTags: ["INPUT", "TEXTAREA"] }
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open, showDescription, setShowDescription, descriptionRef, titleRef]
   );
 
   useHotkeys(
@@ -101,7 +103,8 @@ export function CreateTask({
         setPinned(!pinned);
       }
     },
-    { enableOnFormTags: ["INPUT", "TEXTAREA"] }
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open, pinned]
   );
 
   useHotkeys(
@@ -112,7 +115,8 @@ export function CreateTask({
         document.getElementById("dateModal")?.click();
       }
     },
-    { enableOnFormTags: ["INPUT", "TEXTAREA"] }
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open]
   );
 
   const styles = {
@@ -276,6 +280,7 @@ export function CreateTask({
             mb: { sm: 5 },
             border: "0!important",
             background: "transparent!important",
+            borderRadius: 0,
             mx: "auto",
           },
         }}
@@ -350,7 +355,7 @@ export function CreateTask({
                     .toISOString() ==
                     dayjs().startOf("day").add(365, "day").toISOString()
                 ),
-                mr: 3,
+                mr: { xs: 1, sm: 3 },
               }}
               icon={<Icon>today</Icon>}
               onClick={() => {
