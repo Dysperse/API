@@ -49,7 +49,6 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const handleClick = async () => {
     setLoading(true);
     try {
-      alert(routine.name);
       await fetchRawApi("user/routines/createFromTemplate", {
         name: routine.name,
         note: "",
