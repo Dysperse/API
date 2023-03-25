@@ -49,11 +49,17 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const handleClick = async () => {
     setLoading(true);
     try {
+      alert(routine.name);
       await fetchRawApi("user/routines/createFromTemplate", {
         name: routine.name,
         note: "",
         daysOfWeek,
-        emoji: routine.emoji,
+        emoji: routine.emoji
+          .replace(".png", "")
+          .replace(
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/",
+            ""
+          ),
         timeOfDay: routine.timeOfDay,
         items: JSON.stringify(routineItems),
       });
@@ -94,10 +100,7 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         </AppBar>
         <Box sx={{ p: 3 }}>
           <picture>
-            <img
-              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
-              alt="Emoji"
-            />
+            <img src={routine.emoji} alt="Emoji" />
           </picture>
           <Typography variant="h4" className="font-heading" sx={{ mt: 2 }}>
             {routine.name}
