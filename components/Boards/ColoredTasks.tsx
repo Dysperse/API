@@ -166,7 +166,7 @@ export function ColoredTasks({ setDrawerOpen }) {
             }}
           >
             <Image
-              src="/images/color-coded.png"
+              src="/images/colorCoded.png"
               width={256}
               height={256}
               alt="Backlog"
@@ -218,7 +218,7 @@ export function ColoredTasks({ setDrawerOpen }) {
               }}
             >
               <Image
-                src="/images/color-coded.png"
+                src="/images/colorCoded.png"
                 width={256}
                 height={256}
                 alt="Backlog"
