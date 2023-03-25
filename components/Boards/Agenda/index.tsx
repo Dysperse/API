@@ -128,7 +128,7 @@ export function Agenda({
         window.scrollTo(0, 0);
       }, 1);
     }
-  }, []);
+  }, [data, navigation]);
 
   const session = useSession();
   const handleOpen = () => {

@@ -53,7 +53,7 @@ export const Column: any = memo(function Column({
       if ("week" === view) return "today";
     }
     return e;
-  }, [view]);
+  }, [view, day.unchanged]);
 
   const isToday =
     day.date == startOfRange.format(day.heading) && navigation == 0;
