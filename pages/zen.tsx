@@ -142,7 +142,7 @@ export default function Home() {
               >
                 <Icon sx={{ ml: 1 }}>task_alt</Icon>
                 <ListItemText
-                  primary={<b>Today&apos;s agenda</b>}
+                  primary={<b>Agenda</b>}
                   secondary={
                     data
                       ? data && data.length == 0
