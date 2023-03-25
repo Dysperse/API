@@ -24,13 +24,10 @@ export function CreateGoal({ mutationUrl }) {
 
   const randomRoutine = useMemo(
     () => routines[Math.floor(Math.random() * routines.length)],
-    [routines]
+    []
   );
 
-  const shuffled = useMemo(
-    () => goals.sort(() => Math.random() - 0.5),
-    [goals]
-  );
+  const shuffled = useMemo(() => goals.sort(() => Math.random() - 0.5), []);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { CircularProgress, Icon, IconButton, Tooltip } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { useSession } from "../../../../../../pages/_app";
 
@@ -7,28 +7,31 @@ export function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const session = useSession();
 
-  const handleUpload = async (e: any) => {
-    const key = "9fb5ded732b6b50da7aca563dbe66dec";
-    const form = new FormData();
-    form.append("image", e.target.files[0]);
-    setImageUploading(true);
+  const handleUpload = useCallback(
+    async (e: any) => {
+      const key = "9fb5ded732b6b50da7aca563dbe66dec";
+      const form = new FormData();
+      form.append("image", e.target.files[0]);
+      setImageUploading(true);
 
-    try {
-      const res = await fetch(
-        `https://api.imgbb.com/1/upload?name=image&key=${key}`,
-        { method: "POST", body: form }
-      ).then((res) => res.json());
+      try {
+        const res = await fetch(
+          `https://api.imgbb.com/1/upload?name=image&key=${key}`,
+          { method: "POST", body: form }
+        ).then((res) => res.json());
 
-      setImage(JSON.stringify(res.data));
-      console.log("Image uploaded!!!", res.data);
-      setImageUploading(false);
-    } catch (e) {
-      toast.error(
-        "Yikes! An error occured while trying to upload your image. Please try again later"
-      );
-      setImageUploading(false);
-    }
-  };
+        setImage(JSON.stringify(res.data));
+        console.log("Image uploaded!!!", res.data);
+        setImageUploading(false);
+      } catch (e) {
+        toast.error(
+          "Yikes! An error occured while trying to upload your image. Please try again later"
+        );
+        setImageUploading(false);
+      }
+    },
+    [setImage]
+  );
 
   return (
     <>

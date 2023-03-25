@@ -30,21 +30,19 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
 
   const chipStyles = { background: "rgba(0,0,0,0.1)", color: "#000" };
 
-  const randomColors = [
-    "green",
-    "red",
-    "orange",
-    "pink",
-    "purple",
-    "deepOrange",
-    "blueGrey",
-    "lime",
-  ];
-
-  const randomColor = useMemo(
-    () => randomColors[Math.floor(Math.random() * randomColors.length)],
-    [randomColors]
-  );
+  const randomColor = useMemo(() => {
+    const randomColors = [
+      "green",
+      "red",
+      "orange",
+      "pink",
+      "purple",
+      "deepOrange",
+      "blueGrey",
+      "lime",
+    ];
+    return randomColors[Math.floor(Math.random() * randomColors.length)];
+  }, []);
 
   const handleClick = async () => {
     setLoading(true);

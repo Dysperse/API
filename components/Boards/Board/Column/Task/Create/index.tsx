@@ -205,7 +205,7 @@ export function CreateTask({
       mutationUrl,
       parent,
       pinned,
-      title,
+      deferredTitle,
     ]
   );
 
