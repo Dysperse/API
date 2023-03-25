@@ -1,9 +1,4 @@
 import Masonry from "@mui/lab/Masonry";
-import { useState } from "react";
-import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { OptionsGroup } from "../../OptionsGroup";
-
 import {
   Alert,
   Box,
@@ -16,8 +11,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
+import { useState } from "react";
+import { mutate } from "swr";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
+import { OptionsGroup } from "../../OptionsGroup";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
@@ -43,7 +41,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               pointerEvents: "none",
             }),
             width: "100%!important",
-            background: `hsl(240,11%,${session.user.darkMode ? 13 : 60}%)`,
+            background: `hsl(240,11%,${session.user.darkMode ? 13 : 95}%)`,
             transition: "transform 0.2s",
             userSelect: "none",
           }}
@@ -51,7 +49,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
           <Box>
             <Box
               sx={{
-                background: `hsl(240,11%,${session.user.darkMode ? 17 : 60}%)`,
+                background: `hsl(240,11%,${session.user.darkMode ? 17 : 90}%)`,
                 color: session.user.darkMode ? "#fff" : "#000",
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
@@ -77,7 +75,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                 >
                   <picture>
                     <img
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                      src={column.emoji}
                       width="30px"
                       height="30px"
                       alt="emoji"
@@ -144,13 +142,13 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             }),
             mb: 2,
             width: "100%!important",
-            background: `hsl(240,11%,${session.user.darkMode ? 13 : 60}%)`,
+            background: `hsl(240,11%,${session.user.darkMode ? 13 : 95}%)`,
             borderRadius: 5,
             transition: "transform 0.2s",
             cursor: "pointer",
             userSelect: "none",
             "&:hover": {
-              background: `hsl(240,11%,${session.user.darkMode ? 16 : 35}%)`,
+              background: `hsl(240,11%,${session.user.darkMode ? 16 : 90}%)`,
             },
             "&:active": {
               background: session.user.darkMode
@@ -192,7 +190,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
                 >
                   <picture>
                     <img
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                      src={column.emoji}
                       width="30px"
                       height="30px"
                       alt="emoji"
@@ -544,25 +542,10 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           mx: { sm: 1 },
           overflow: "hidden",
           py: 5,
+          background: "black",
           position: "relative",
         }}
       >
-        <Image
-          src="/images/board-header.png"
-          alt="Banner"
-          width={1500}
-          height={500}
-          style={{
-            filter: "brightness(60%)",
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            position: "absolute",
-            zIndex: 0,
-            top: 0,
-            left: 0,
-          }}
-        />
         <Box sx={{ zIndex: 9, position: "sticky" }}>
           <Typography
             variant="h5"

@@ -105,7 +105,8 @@ export function TasksLayout() {
     if (
       pinnedBoard ||
       (!window.location.hash.includes("agenda") &&
-        !window.location.hash.includes("backlog"))
+        !window.location.hash.includes("backlog") &&
+        data[0])
     ) {
       const hashBoard = data.find(
         (x) => x.id === window.location.hash?.replace("#", "")
