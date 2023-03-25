@@ -540,7 +540,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
         }}
         onClick={() => {
           navigator.vibrate(50);
-          setMobileOpen(true);
+          setDrawerOpen(true);
         }}
         sx={boardSwitcherStyles(session.user.darkMode)}
       >

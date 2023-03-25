@@ -399,6 +399,7 @@ export function TasksLayout() {
           onClick={() => {
             window.location.hash = "#/color-coded";
             setActiveTab("color-coded");
+            setOpen(false);
           }}
         >
           <Icon className={activeTab === "color-coded" ? "" : "outlined"}>
