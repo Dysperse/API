@@ -507,9 +507,7 @@ export function CreateTask({
                   emoji={""}
                   useNativeEmoji
                   setEmoji={(emoji) => {
-                    setTitle(
-                      (t) => t + emoji
-                    );
+                    setTitle((t) => t + emoji);
                     setTimeout(() => {
                       const input: any = titleRef.current;
                       titleRef.current?.focus();
