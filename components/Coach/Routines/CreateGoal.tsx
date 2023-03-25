@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useSession } from "../../../pages/_app";
 import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
 import { categories, goals, routines } from "../goalTemplates";
@@ -22,8 +22,15 @@ export function CreateGoal() {
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const randomRoutine = routines[Math.floor(Math.random() * routines.length)];
-  const shuffled = goals.sort(() => Math.random() - 0.5);
+  const randomRoutine = useMemo(
+    () => routines[Math.floor(Math.random() * routines.length)],
+    [routines]
+  );
+
+  const shuffled = useMemo(
+    () => goals.sort(() => Math.random() - 0.5),
+    [goals]
+  );
 
   return (
     <>
@@ -116,6 +123,7 @@ export function CreateGoal() {
         </Box>
       </Drawer>
       <Box
+        id="createGoalTrigger"
         onClick={handleOpen}
         sx={{
           flexShrink: 0,

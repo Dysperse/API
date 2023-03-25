@@ -13,6 +13,7 @@ import {
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
 import { Routines } from "../components/Coach/Routines";
 import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 import { RecentItems } from "../components/Zen/RecentItems";
@@ -21,19 +22,15 @@ import { useSession } from "./_app";
 
 export default function Home() {
   const router = useRouter();
-  const time = new Date().getHours();
   const session = useSession();
+  const time = new Date().getHours();
 
-  let greeting;
-  if (time < 10) {
-    greeting = "Good morning, ";
-  } else if (time < 14) {
-    greeting = "Good afternoon, ";
-  } else if (time < 18) {
-    greeting = "Good evening, ";
-  } else {
-    greeting = "Good night, ";
-  }
+  const greeting = useMemo(() => {
+    if (time < 10) return "Good morning, ";
+    else if (time < 14) return "Good afternoon, ";
+    else if (time < 18) return "Good evening, ";
+    else return "Good night, ";
+  }, [time]);
 
   const { data } = useApi("property/boards/agenda", {
     startTime: dayjs().startOf("day").toISOString(),
@@ -87,7 +84,7 @@ export default function Home() {
         <Box
           sx={{
             mt: { xs: 3, sm: 10 },
-            mb: 4,
+            mb: 2,
           }}
         >
           <Typography

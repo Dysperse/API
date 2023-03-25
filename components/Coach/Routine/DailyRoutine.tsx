@@ -1,7 +1,6 @@
 import { Box, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import { lime } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Stories from "react-insta-stories";
 import { mutate as mutateSWR } from "swr";
@@ -41,13 +40,12 @@ export function DailyRoutine() {
           );
         });
 
-  const router = useRouter();
   const trigger = (
     <Box
       onClick={() => {
         navigator.vibrate(50);
         if (sortedTasks.length == 0) {
-          router.push("/coach");
+          document.getElementById("createGoalTrigger")?.click();
         } else {
           setOpen(true);
         }
@@ -71,6 +69,9 @@ export function DailyRoutine() {
           transition: "none",
           transform: "scale(.95)",
         },
+        ...(sortedTasks.length == 0 && {
+          opacity: 0.8,
+        }),
       }}
     >
       <Box
@@ -85,6 +86,7 @@ export function DailyRoutine() {
           background: "rgba(200,200,200,.2)",
           position: "relative",
           ...(data &&
+            data.length !== 0 &&
             tasksRemaining &&
             tasksRemaining.length === 0 && {
               borderColor: lime[session.user.darkMode ? "A400" : 800],
@@ -92,21 +94,26 @@ export function DailyRoutine() {
             }),
         }}
       >
-        {data && tasksRemaining && tasksRemaining.length === 0 && (
-          <Icon
-            sx={{
-              color: lime[session.user.darkMode ? "A400" : 800],
-              background: session.user.darkMode ? "hsl(240,11%,10%)" : lime[50],
-              borderRadius: "999px",
-              transition: "opacity .2s",
-              position: "absolute",
-              bottom: -5,
-              right: -5,
-            }}
-          >
-            check_circle
-          </Icon>
-        )}
+        {data &&
+          data.length !== 0 &&
+          tasksRemaining &&
+          tasksRemaining.length === 0 && (
+            <Icon
+              sx={{
+                color: lime[session.user.darkMode ? "A400" : 800],
+                background: session.user.darkMode
+                  ? "hsl(240,11%,10%)"
+                  : lime[50],
+                borderRadius: "999px",
+                transition: "opacity .2s",
+                position: "absolute",
+                bottom: -5,
+                right: -5,
+              }}
+            >
+              check_circle
+            </Icon>
+          )}
         <picture>
           <img
             src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ab.png"
