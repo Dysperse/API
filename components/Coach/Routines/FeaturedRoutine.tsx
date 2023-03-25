@@ -11,7 +11,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
@@ -21,6 +21,14 @@ import { DurationPicker } from "./DurationPicker";
 
 export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const [loading, setLoading] = useState(false);
+  const [open, setInfoOpen] = useState(false);
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
+  const [routineItems, setRoutineItems] = useState(routine.items);
+  const [duration, setDuration] = useState(routine.durationDays);
+  const [editDays, setEditDays] = useState(false);
+
+  const chipStyles = { background: "rgba(0,0,0,0.1)", color: "#000" };
 
   const randomColors = [
     "green",
@@ -32,20 +40,11 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
     "blueGrey",
     "lime",
   ];
-  const randomColor =
-    randomColors[Math.floor(Math.random() * randomColors.length)];
 
-  const chipStyles = {
-    background: "rgba(0,0,0,0.1)",
-    color: "#000",
-  };
-
-  const [open, setInfoOpen] = useState(false);
-  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-  const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
-  const [routineItems, setRoutineItems] = useState(routine.items);
-  const [duration, setDuration] = useState(routine.durationDays);
-  const [editDays, setEditDays] = useState(false);
+  const randomColor = useMemo(
+    () => randomColors[Math.floor(Math.random() * randomColors.length)],
+    [randomColors]
+  );
 
   const handleClick = async () => {
     setLoading(true);
