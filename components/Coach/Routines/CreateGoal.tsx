@@ -15,7 +15,7 @@ import { categories, goals, routines } from "../goalTemplates";
 import { ExploreGoalCard } from "./ExploreGoalCard";
 import { FeaturedRoutine } from "./FeaturedRoutine";
 
-export function CreateGoal() {
+export function CreateGoal({ mutationUrl }) {
   const session = useSession();
 
   const [open, setOpen] = useState(false);
@@ -49,27 +49,19 @@ export function CreateGoal() {
           },
         }}
       >
-        <AppBar
-          sx={{
-            background: "rgba(255,255,255,.8)",
-          }}
-        >
+        <AppBar sx={{ background: "rgba(255,255,255,.8)" }}>
           <Toolbar sx={{ gap: 2 }}>
             <IconButton onClick={handleClose}>
               <Icon>expand_more</Icon>
             </IconButton>
             <Typography sx={{ fontWeight: 700 }}>Explore</Typography>
-            <CreateCustomGoal mutationUrl="" />
+            <CreateCustomGoal mutationUrl={mutationUrl} />
           </Toolbar>
         </AppBar>
-        <Box
-          sx={{
-            p: { xs: 2, sm: 4 },
-          }}
-        >
+        <Box sx={{ p: { xs: 2, sm: 4 } }}>
           <FeaturedRoutine
             routine={randomRoutine}
-            mutationUrl=""
+            mutationUrl={mutationUrl}
             setOpen={setOpen}
           />
           <Box
