@@ -1,6 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
-  Alert,
   Box,
   Chip,
   Collapse,
@@ -14,8 +13,16 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import dayjs from "dayjs";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
@@ -48,6 +55,8 @@ export function CreateTask({
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
+  const deferredDate = useDeferredValue(date);
+  const deferredTitle = useDeferredValue(title);
 
   const trigger = useMediaQuery("(min-width: 600px)");
   const titleRef = useRef<HTMLInputElement>(null);
@@ -117,16 +126,17 @@ export function CreateTask({
 
   useEffect(() => {
     if (
-      title.includes("!!") ||
-      (title === title.toUpperCase() && title.length >= 3)
+      deferredTitle.includes("!!") ||
+      (deferredTitle === deferredTitle.toUpperCase() &&
+        deferredTitle.trim().length >= 3)
     ) {
       setPinned(true);
     }
-    if (title.toLowerCase().includes("today")) {
+    if (deferredTitle.toLowerCase().includes("today")) {
       setDate(new Date());
     } else if (
       [" tomorrow", " tmrw", " tmr", " tmw"].some((keyword) =>
-        title.toLowerCase().includes(keyword)
+        deferredTitle.toLowerCase().includes(keyword)
       )
     ) {
       const tomorrow = new Date();
@@ -139,28 +149,28 @@ export function CreateTask({
           .replace(" tmr", " ")
           .replace(" tmw", " ")
       );
-    } else if (title.toLowerCase().includes("next week")) {
+    } else if (deferredTitle.toLowerCase().includes("next week")) {
       const nextWeek = new Date();
       nextWeek.setDate(nextWeek.getDate() + 7);
       setDate(nextWeek);
-    } else if (title.toLowerCase().includes("next month")) {
+    } else if (deferredTitle.toLowerCase().includes("next month")) {
       const nextMonth = new Date();
       nextMonth.setDate(nextMonth.getDate() + 30);
       setDate(nextMonth);
     }
-  }, [title]);
+  }, [deferredTitle]);
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (title.trim() === "") {
+      if (deferredTitle.trim() === "") {
         toast.error("You can't have an empty task... 🤦", toastStyles);
         return;
       }
       navigator.vibrate(50);
       setLoading(true);
       fetchRawApi("property/boards/column/task/create", {
-        title,
+        title: deferredTitle,
         description,
         ...(image && { image: JSON.parse(image).url }),
         date,
@@ -195,22 +205,35 @@ export function CreateTask({
     ]
   );
 
-  const chipStyles = {
-    border: "1px solid",
-    borderColor: session.user.darkMode
-      ? "hsl(240, 11%, 25%)"
-      : "rgba(200,200,200,.5)",
-    background: session.user.darkMode
-      ? "hsl(240,11%,20%)!important"
-      : "#fff !important",
-    transition: "all .2s",
-    "&:active": {
-      transition: "none",
-      transform: "scale(.95)",
-    },
-    boxShadow: "none!important",
-    px: 1,
-    mr: 1,
+  const chipStyles = (condition: boolean) => {
+    return {
+      border: "1px solid",
+      cursor: "unset!important",
+      borderColor: session.user.darkMode
+        ? "hsl(240, 11%, 25%)"
+        : "rgba(200,200,200,.5)",
+      background: session.user.darkMode ? "hsl(240,11%,20%)" : "#fff",
+      "&:hover": {
+        background: session.user.darkMode ? "hsl(240,11%,23%)" : "#eee ",
+      },
+      transition: "transform .2s",
+      "&:active": {
+        transition: "none",
+        transform: "scale(.95)",
+      },
+      boxShadow: "none!important",
+      px: 1,
+      mr: 1,
+      fontWeight: 600,
+      ...(condition && {
+        background:
+          colors[session?.themeColor || "grey"]["A200"] + "!important",
+        color: "#000 !important",
+        "& *": {
+          color: "#000 !important",
+        },
+      }),
+    };
   };
 
   useEffect(() => {
@@ -222,6 +245,16 @@ export function CreateTask({
       titleRef.current?.focus();
     }, 100);
   }, [open, titleRef]);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      dragFree: true,
+      align: "start",
+      containScroll: "trimSnaps",
+      loop: false,
+    },
+    [WheelGesturesPlugin()]
+  );
 
   return (
     <>
@@ -253,72 +286,81 @@ export function CreateTask({
             overflowX: "scroll",
             whiteSpace: "nowrap",
           }}
+          ref={emblaRef}
           onClick={() => titleRef.current?.focus()}
         >
-          <Chip
-            label="Important"
-            sx={{
-              ...chipStyles,
-              ml: { xs: 1, sm: 0.3 },
-              transition: "transform .2s",
-              ...(pinned && {
-                background:
-                  colors[session?.themeColor || "grey"]["900"] + "!important",
-                color: "#fff!important",
-              }),
-            }}
-            icon={
-              <Icon
-                sx={{
-                  ...(pinned && {
-                    color: "#fff!important",
-                  }),
-                }}
-              >
-                priority
-              </Icon>
-            }
-            onClick={() => navigator.vibrate(50) && setPinned(!pinned)}
-          />
-          <Chip
-            label="Today"
-            sx={chipStyles}
-            icon={<Icon>today</Icon>}
-            onClick={() => navigator.vibrate(50) && setDate(new Date())}
-          />
-          <Chip
-            label="Tomorrow"
-            sx={chipStyles}
-            icon={<Icon>today</Icon>}
-            onClick={() => {
-              navigator.vibrate(50);
-              const tomorrow = new Date();
-              tomorrow.setDate(tomorrow.getDate() + 1);
-              setDate(tomorrow);
-            }}
-          />
-          <Chip
-            label="In one month"
-            sx={chipStyles}
-            icon={<Icon>today</Icon>}
-            onClick={() => {
-              navigator.vibrate(50);
-              const tomorrow = new Date();
-              tomorrow.setDate(tomorrow.getDate() + 30);
-              setDate(tomorrow);
-            }}
-          />
-          <Chip
-            label="In one year"
-            sx={chipStyles}
-            icon={<Icon>today</Icon>}
-            onClick={() => {
-              navigator.vibrate(50);
-              const tomorrow = new Date();
-              tomorrow.setDate(tomorrow.getDate() + 365);
-              setDate(tomorrow);
-            }}
-          />
+          <div>
+            <Chip
+              label="Important"
+              sx={{
+                ...chipStyles(pinned),
+                ml: { xs: 1, sm: 0.3 },
+              }}
+              icon={<Icon>priority</Icon>}
+              onClick={() => navigator.vibrate(50) && setPinned(!pinned)}
+            />
+            <Chip
+              label="Today"
+              sx={chipStyles(
+                dayjs(deferredDate.toISOString())
+                  .startOf("day")
+                  .toISOString() == dayjs().startOf("day").toISOString()
+              )}
+              icon={<Icon>today</Icon>}
+              onClick={() => navigator.vibrate(50) && setDate(new Date())}
+            />
+            <Chip
+              label="Tomorrow"
+              sx={chipStyles(
+                dayjs(deferredDate.toISOString())
+                  .startOf("day")
+                  .toISOString() ==
+                  dayjs().startOf("day").add(1, "day").toISOString()
+              )}
+              icon={<Icon>today</Icon>}
+              onClick={() => {
+                navigator.vibrate(50);
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                setDate(tomorrow);
+              }}
+            />
+            <Chip
+              label="In one month"
+              sx={chipStyles(
+                dayjs(deferredDate.toISOString())
+                  .startOf("day")
+                  .toISOString() ==
+                  dayjs().startOf("day").add(30, "day").toISOString()
+              )}
+              icon={<Icon>today</Icon>}
+              onClick={() => {
+                navigator.vibrate(50);
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 30);
+                setDate(tomorrow);
+              }}
+            />
+            <Chip
+              label="In one year"
+              sx={{
+                ...chipStyles(
+                  dayjs(deferredDate.toISOString())
+                    .startOf("day")
+                    .toISOString() ==
+                    dayjs().startOf("day").add(365, "day").toISOString()
+                ),
+                mr: 3,
+              }}
+              icon={<Icon>today</Icon>}
+              onClick={() => {
+                navigator.vibrate(50);
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 365);
+                setDate(tomorrow);
+              }}
+            />
+          </div>
         </Box>
         <Box
           sx={{
@@ -430,43 +472,6 @@ export function CreateTask({
                 }}
               />
             </Collapse>
-            {title.toLowerCase().includes("study ") && (
-              <Alert
-                severity="info"
-                sx={{
-                  mt: 1,
-                  mb: 2,
-                  borderRadius: 5,
-                  background:
-                    colors[session?.themeColor || "grey"][
-                      session.user.darkMode ? 900 : 100
-                    ],
-                  color:
-                    colors[session?.themeColor || "grey"][
-                      !session.user.darkMode ? 900 : 100
-                    ],
-                }}
-                icon={
-                  <span
-                    className="material-symbols-rounded"
-                    style={{
-                      color:
-                        colors[session?.themeColor || "grey"][
-                          session.user.darkMode ? 100 : 800
-                        ],
-                    }}
-                  >
-                    info
-                  </span>
-                }
-              >
-                Do you want to create{" "}
-                <Link href="/coach" style={{ textDecoration: "underline" }}>
-                  goal
-                </Link>{" "}
-                instead?
-              </Alert>
-            )}
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <Tooltip title="Mark as important (alt • a)" placement="top">
                 <IconButton
@@ -542,12 +547,14 @@ export function CreateTask({
                 <div>
                   <LoadingButton
                     loading={loading}
-                    disabled={title.trim() === "" || title.length > 200}
+                    disabled={
+                      deferredTitle.trim() === "" || deferredTitle.length > 200
+                    }
                     type="submit"
                     disableRipple
                     color="inherit"
                     sx={{
-                      ...(title.trim() !== "" && {
+                      ...(deferredTitle.trim() !== "" && {
                         color: session.user.darkMode ? "#fff" : "#000",
                       }),
                       "&:active": {
