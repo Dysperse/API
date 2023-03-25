@@ -6,6 +6,7 @@ import {
   Card,
   Dialog,
   Icon,
+  IconButton,
   InputAdornment,
   Skeleton,
   TextField,
@@ -16,6 +17,7 @@ import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
 import { OptionsGroup } from "../../OptionsGroup";
+import { boardSwitcherStyles } from "../Layout";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
@@ -530,6 +532,20 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
 
   return (
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
+      <IconButton
+        size="large"
+        onContextMenu={() => {
+          navigator.vibrate(50);
+          setDrawerOpen(true);
+        }}
+        onClick={() => {
+          navigator.vibrate(50);
+          setMobileOpen(true);
+        }}
+        sx={boardSwitcherStyles(session.user.darkMode)}
+      >
+        <Icon className="outlined">menu</Icon>
+      </IconButton>
       <Box
         sx={{
           backgroundRepeat: "no-repeat",
