@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  useMediaQuery,
-  useScrollTrigger,
-} from "@mui/material";
+import { Box, Button, Icon, IconButton, useMediaQuery } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -33,10 +26,7 @@ export function Agenda({
     e.preventDefault();
     setNavigation(0);
   });
-  const trigger = useScrollTrigger({
-    threshold: 0,
-    target: window ? window : undefined,
-  });
+
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const e = useMemo(() => {
@@ -120,7 +110,7 @@ export function Agenda({
         window.scrollTo(0, 0);
       }, 1);
     }
-  });
+  }, []);
 
   const session = useSession();
   const handleOpen = () => {
@@ -175,8 +165,6 @@ export function Agenda({
             xs: "65px",
             md: "30px",
           },
-          opacity: trigger ? 0 : 1,
-          transform: trigger ? "scale(0.9)" : "scale(1)",
           mr: {
             xs: 1.5,
             md: 3,

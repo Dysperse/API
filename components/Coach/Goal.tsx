@@ -23,6 +23,15 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
 
   useBackButton(() => setOpen(false));
 
+  const repeatText =
+    goal.time === "any"
+      ? "Daily"
+      : goal.time === "morning"
+      ? "Every morning"
+      : goal.time === "afternoon"
+      ? "Every afternoon"
+      : "Nightly";
+
   return (
     <Box>
       <Box
@@ -83,14 +92,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         >
           {goal.progress !== goal.durationDays ? (
             <>
-              {goal.time === "any"
-                ? "Daily"
-                : goal.time === "morning"
-                ? "Every morning"
-                : goal.time === "afternoon"
-                ? "Every afternoon"
-                : "Nightly"}{" "}
-              &bull; {goal.durationDays - goal.progress} days left
+              {repeatText} &bull; {goal.durationDays - goal.progress} days left
             </>
           ) : goal.completed ? (
             "Goal complete!"
@@ -160,15 +162,6 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
-        PaperProps={{
-          sx: {
-            width: "100vw",
-            ...(session.user.darkMode && {
-              backgroundColor: "hsl(240,11%,15%)",
-            }),
-            maxWidth: "500px",
-          },
-        }}
       >
         <AppBar
           sx={{
@@ -245,14 +238,7 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
             </Box>
           )}
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
-            <Icon>access_time</Icon>{" "}
-            {goal.time === "any"
-              ? "Daily"
-              : goal.time === "morning"
-              ? "Every morning"
-              : goal.time === "afternoon"
-              ? "Every afternoon"
-              : "Nightly"}
+            <Icon>access_time</Icon> {repeatText}
           </Typography>
           <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
             <Icon>date_range</Icon> {goal.durationDays} days

@@ -82,7 +82,7 @@ const Notification = async (req, res) => {
           await DispatchNotification({
             title: `It's time to start "${currentRoutine.name.trim()}"!`,
             icon:
-              currentRoutine.emoji ||
+              `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${currentRoutine.emoji}.png` ||
               "https://assets.dysperse.com/v5/ios/192.png",
             body: "Let's get started! Tap to open",
             actions: [
