@@ -103,7 +103,7 @@ export const Task: any = React.memo(function Task({
           content: '""',
         },
       }),
-    [taskData.color, session.user.darkMode]
+    [taskData.color, session.user.darkMode, BpIcon]
   );
 
   const handleCompletion = useCallback(
