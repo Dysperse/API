@@ -130,6 +130,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
         }
         count={{
           byRoom: {
+            "new container": -3,
             "new room": -3,
           },
         }}

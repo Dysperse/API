@@ -1,8 +1,10 @@
 import {
   Box,
   Checkbox,
+  Chip,
   Icon,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   styled,
   Tooltip,
@@ -101,7 +103,7 @@ export const Task: any = React.memo(function Task({
           content: '""',
         },
       }),
-    [taskData.color, session.user.darkMode]
+    [taskData.color, session.user.darkMode, BpIcon]
   );
 
   const handleCompletion = useCallback(
@@ -165,18 +167,16 @@ export const Task: any = React.memo(function Task({
             }),
             color:
               colors[taskData.color][session.user.darkMode ? "A100" : "A700"],
-
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
             borderColor: `hsl(240, 11%, ${
-              session.user.darkMode ? 20 : 95
+              session.user.darkMode ? 15 : 95
             }%) !important`,
             transition: "none",
-            py: { xs: 0.7, sm: 0.5 },
-            px: { xs: 2.5, sm: 1.5 },
+            py: { xs: 1, sm: 0.7 },
+            px: { xs: 3.6, sm: 2.5 },
             gap: 1.5,
-
             "&:active": {
               background: `hsl(240, 11%, ${
                 session.user.darkMode ? 15 : 94
@@ -184,114 +184,55 @@ export const Task: any = React.memo(function Task({
             },
           }}
         >
+          <ListItemIcon sx={{ minWidth: "unset", p: 0 }}>
+            <Checkbox
+              sx={{
+                p: 0,
+              }}
+              disabled={
+                (board && board.archived) ||
+                session?.permission === "read-only" ||
+                storage?.isReached === true
+              }
+              disableRipple
+              checked={taskData.completed}
+              onChange={handleCompletion}
+              onClick={(e) => e.stopPropagation()}
+              color="default"
+              checkedIcon={<BpCheckedIcon />}
+              icon={<BpIcon />}
+            />
+          </ListItemIcon>
           <ListItemText
-            sx={{ m: 0, p: "0!important" }}
+            sx={{ ml: "-2px" }}
             primary={
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  "& span img": {
+                    display: "inline-flex !important",
+                    width: "23px!important",
+                    height: "23px!important",
+                    verticalAlign: "top !important",
+                  },
+                  ...(taskData.completed && { opacity: 0.7 }),
                 }}
               >
-                <Checkbox
-                  disabled={
-                    (board && board.archived) ||
-                    session?.permission === "read-only" ||
-                    storage?.isReached === true
-                  }
-                  disableRipple
-                  checked={taskData.completed}
-                  onChange={handleCompletion}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  sx={{
-                    "&:hover": { bgcolor: "transparent" },
-                    cursor: "unset",
-                  }}
-                  color="default"
-                  checkedIcon={<BpCheckedIcon />}
-                  icon={<BpIcon />}
-                />
-
-                <Box
-                  sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    "& span img": {
-                      display: "inline-flex !important",
-                      width: "23px!important",
-                      height: "23px!important",
-                      verticalAlign: "top !important",
-                    },
-                    ...(taskData.completed && {
-                      opacity: 0.7,
-                    }),
-                  }}
-                >
-                  <span>
-                    <Twemoji>{taskData.name || " "}</Twemoji>
-                  </span>
-                </Box>
-                {taskData.pinned && (
-                  <ConfirmationModal
-                    title="Change priority?"
-                    question="You are about to unpin this task. You can always change the priority later"
-                    callback={handlePriorityChange}
-                  >
-                    <Box
-                      sx={{
-                        borderRadius: 2,
-                        width: 20,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        height: 20,
-                        flexShrink: 0,
-                        ml: "auto",
-                        background:
-                          colors.orange[session.user.darkMode ? "A700" : "200"],
-                      }}
-                    >
-                      <Icon
-                        sx={{
-                          fontSize: "15px!important",
-                          color: session.user.darkMode
-                            ? "hsl(240,11%,10%)"
-                            : colors.orange[900],
-                          fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
-                        }}
-                      >
-                        priority_high
-                      </Icon>
-                    </Box>
-                  </ConfirmationModal>
-                )}
+                <span>
+                  <Twemoji>{taskData.name || " "}</Twemoji>
+                </span>
               </Box>
             }
             secondary={
-              <Typography
-                style={{
-                  marginLeft: "45px",
-                  display: "block",
-                  position: "relative",
-                  top: taskData.image ? "-3px" : "-7px",
-                  ...(taskData.image && {
-                    marginBottom: "7px",
-                  }),
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                }}
-              >
-                {taskData.image && (
-                  <ImageViewer trimHeight url={taskData.image} />
-                )}
+              <>
                 <Typography
                   variant="body2"
                   sx={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                     "& img": {
                       display: "inline-flex !important",
                       width: "20px!important",
@@ -306,34 +247,70 @@ export const Task: any = React.memo(function Task({
                 >
                   <Twemoji>{taskData.description || " "}</Twemoji>
                 </Typography>
+                {taskData.image && (
+                  <ImageViewer trimHeight url={taskData.image} />
+                )}
                 {taskData.due && !isAgenda && (
                   <Tooltip
                     title={dayjs(taskData.due).format("MMMM D, YYYY")}
                     followCursor
                     placement="bottom-start"
                   >
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "2px",
-                        marginTop: "3px",
-                        marginLeft: "-5px",
-                      }}
-                    >
-                      <Icon
-                        sx={{ ml: 0.1, transform: "scale(.8)" }}
-                        className="outlined"
-                      >
-                        schedule
-                      </Icon>
-                      {dayjs(taskData.due).fromNow()}
-                    </span>
+                    <Chip
+                      size="small"
+                      sx={{ mt: 0.7 }}
+                      label={dayjs(taskData.due).fromNow()}
+                      icon={
+                        <>
+                          <Icon
+                            className="outlined"
+                            sx={{ fontSize: "20px!important", ml: 1 }}
+                          >
+                            schedule
+                          </Icon>
+                        </>
+                      }
+                    />
                   </Tooltip>
                 )}
-              </Typography>
+              </>
             }
           />
+          {taskData.pinned && (
+            <ConfirmationModal
+              title="Change priority?"
+              question="You are about to unpin this task. You can always change the priority later"
+              callback={handlePriorityChange}
+            >
+              <ListItemIcon sx={{ ml: "auto", minWidth: "auto" }}>
+                <Box
+                  sx={{
+                    borderRadius: 2,
+                    width: 20,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: 20,
+                    flexShrink: 0,
+                    background:
+                      colors.orange[session.user.darkMode ? "A700" : "200"],
+                  }}
+                >
+                  <Icon
+                    sx={{
+                      fontSize: "15px!important",
+                      color: session.user.darkMode
+                        ? "hsl(240,11%,10%)"
+                        : colors.orange[900],
+                      fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
+                    }}
+                  >
+                    priority_high
+                  </Icon>
+                </Box>
+              </ListItemIcon>
+            </ConfirmationModal>
+          )}
         </ListItemButton>
       </TaskDrawer>
       {taskData &&

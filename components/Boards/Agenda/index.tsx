@@ -7,7 +7,13 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../pages/_app";
@@ -33,10 +39,12 @@ export function Agenda({
     e.preventDefault();
     setNavigation(0);
   });
-  const trigger = useScrollTrigger({
+  const trigger1 = useScrollTrigger({
     threshold: 0,
     target: window ? window : undefined,
   });
+  const trigger = useDeferredValue(trigger1);
+
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const e = useMemo(() => {
@@ -120,7 +128,7 @@ export function Agenda({
         window.scrollTo(0, 0);
       }, 1);
     }
-  });
+  }, [data, navigation]);
 
   const session = useSession();
   const handleOpen = () => {

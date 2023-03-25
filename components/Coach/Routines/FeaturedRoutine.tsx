@@ -11,7 +11,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
@@ -21,31 +21,28 @@ import { DurationPicker } from "./DurationPicker";
 
 export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const [loading, setLoading] = useState(false);
-
-  const randomColors = [
-    "green",
-    "red",
-    "orange",
-    "pink",
-    "purple",
-    "deepOrange",
-    "blueGrey",
-    "lime",
-  ];
-  const randomColor =
-    randomColors[Math.floor(Math.random() * randomColors.length)];
-
-  const chipStyles = {
-    background: "rgba(0,0,0,0.1)",
-    color: "#000",
-  };
-
   const [open, setInfoOpen] = useState(false);
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
   const [routineItems, setRoutineItems] = useState(routine.items);
   const [duration, setDuration] = useState(routine.durationDays);
   const [editDays, setEditDays] = useState(false);
+
+  const chipStyles = { background: "rgba(0,0,0,0.1)", color: "#000" };
+
+  const randomColor = useMemo(() => {
+    const randomColors = [
+      "green",
+      "red",
+      "orange",
+      "pink",
+      "purple",
+      "deepOrange",
+      "blueGrey",
+      "lime",
+    ];
+    return randomColors[Math.floor(Math.random() * randomColors.length)];
+  }, []);
 
   const handleClick = async () => {
     setLoading(true);
@@ -54,7 +51,12 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         name: routine.name,
         note: "",
         daysOfWeek,
-        emoji: routine.emoji,
+        emoji: routine.emoji
+          .replace(".png", "")
+          .replace(
+            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/",
+            ""
+          ),
         timeOfDay: routine.timeOfDay,
         items: JSON.stringify(routineItems),
       });
@@ -95,10 +97,7 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         </AppBar>
         <Box sx={{ p: 3 }}>
           <picture>
-            <img
-              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
-              alt="Emoji"
-            />
+            <img src={routine.emoji} alt="Emoji" />
           </picture>
           <Typography variant="h4" className="font-heading" sx={{ mt: 2 }}>
             {routine.name}

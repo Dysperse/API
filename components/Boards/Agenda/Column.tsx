@@ -53,7 +53,7 @@ export const Column: any = memo(function Column({
       if ("week" === view) return "today";
     }
     return e;
-  }, [view]);
+  }, [view, day.unchanged, startOfRange]);
 
   const isToday =
     day.date == startOfRange.format(day.heading) && navigation == 0;
@@ -73,14 +73,18 @@ export const Column: any = memo(function Column({
   /**
    * Sort the tasks in a "[pinned, incompleted, completed]" order
    */
-  const sortedTasks = data.sort((e, d) =>
-    e.completed && !d.completed
-      ? 1
-      : (!e.completed && d.completed) || (e.pinned && !d.pinned)
-      ? -1
-      : !e.pinned && d.pinned
-      ? 1
-      : 0
+  const sortedTasks = useMemo(
+    () =>
+      data.sort((e, d) =>
+        e.completed && !d.completed
+          ? 1
+          : (!e.completed && d.completed) || (e.pinned && !d.pinned)
+          ? -1
+          : !e.pinned && d.pinned
+          ? 1
+          : 0
+      ),
+    [data]
   );
 
   const completedTasks = sortedTasks.filter((task) => task.completed);

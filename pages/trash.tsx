@@ -1,7 +1,8 @@
 import { Masonry } from "@mui/lab";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
-import React from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../components/ConfirmationModal";
@@ -11,7 +12,8 @@ import { toastStyles } from "../lib/client/useTheme";
 import Categories from "./items";
 
 function DeleteCard({ item }) {
-  const [hidden, setHidden] = React.useState<boolean>(false);
+  const [hidden, setHidden] = useState<boolean>(false);
+
   return hidden ? null : (
     <Box
       key={item.id}
@@ -67,10 +69,20 @@ function DeleteCard({ item }) {
 
 export default function Trash() {
   const { data, url, error } = useApi("property/inventory/trash");
+  const router = useRouter();
 
   return (
     <Categories>
       <Box sx={{ p: 5 }}>
+        <Button
+          onClick={() => router.push("/items")}
+          size="small"
+          variant="contained"
+          sx={{ display: { sm: "none" }, mb: 2 }}
+        >
+          <Icon>west</Icon>
+          Back to items
+        </Button>
         <Typography variant="h5">Trash</Typography>
         <Typography variant="body2">{data ? data.length : 0} items</Typography>
         <ConfirmationModal
@@ -94,6 +106,7 @@ export default function Trash() {
             disabled={!data || (data || []).length === 0}
             sx={{
               background: `${red["900"]}!important`,
+              color: `${red["50"]}!important`,
               borderRadius: 99,
               mt: 1,
               mb: 3,
@@ -109,10 +122,15 @@ export default function Trash() {
             }
           />
         )}
-        <Masonry columns={3}>
-          {data &&
-            data.map((item: any) => <DeleteCard item={item} key={item.id} />)}
-        </Masonry>
+        {data ? (
+          <Masonry columns={3}>
+            {data.map((item: any) => (
+              <DeleteCard item={item} key={item.id} />
+            ))}
+          </Masonry>
+        ) : (
+          <CircularProgress />
+        )}
       </Box>
     </Categories>
   );

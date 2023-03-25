@@ -84,19 +84,16 @@ export default function BoardSettings({ mutationUrl, board }) {
             {board.pinned ? "Unpin" : "Pin"}
           </MenuItem>
         </ConfirmationModal>
-        {board && Boolean(anchorEl) && board.columns.length !== 1 && (
-          <CreateColumn
-            setCurrentColumn={(e: any) => e}
-            mobile={true}
-            id={board.id}
-            mutationUrl={mutationUrl}
-            hide={
-              session.user.email !== "manusvathgurudath@gmail.com" &&
-              ((board && board.columns.length === 1) ||
-                (board && board.columns.length >= 5))
-            }
-          />
-        )}
+        <CreateColumn
+          setCurrentColumn={(e: any) => e}
+          mobile={true}
+          id={board.id}
+          mutationUrl={mutationUrl}
+          hide={
+            (board && board.columns.length === 1) ||
+            (board && board.columns.length >= 5)
+          }
+        />
         <MenuItem
           disabled={board.archived}
           onClick={() => {

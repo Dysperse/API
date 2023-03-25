@@ -10,7 +10,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
@@ -68,7 +67,6 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
     setLoading(false);
   };
 
-  const router = useRouter();
   return (
     <>
       <Box
@@ -124,7 +122,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
         </Box>
       </Box>
 
-      <CreateGoal />
+      <CreateGoal mutationUrl={mutationUrl} />
 
       <SwipeableDrawer
         open={open}

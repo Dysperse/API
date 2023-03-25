@@ -176,7 +176,7 @@ export function BoardInfo({
               <Chip
                 sx={{ mr: 1, mb: 1 }}
                 label={board.public ? "Public" : "Private"}
-                icon={<Icon>{board.public ? "public " : "lock"}</Icon>}
+                icon={<Icon>{board.public ? "group " : "lock"}</Icon>}
               />
               {board.pinned && (
                 <Chip

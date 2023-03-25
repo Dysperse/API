@@ -1,4 +1,11 @@
-import { Box, Button, Icon, SwipeableDrawer, Tooltip } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  SwipeableDrawer,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import DatePicker from "react-calendar";
@@ -115,7 +122,12 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
           onClick={() => setOpen(!open)}
         >
           <Icon>today</Icon>
-          <span style={{ fontSize: "15px" }}>
+          <Typography
+            sx={{
+              fontSize: "15px",
+              display: { xs: "none", sm: "inline-flex" },
+            }}
+          >
             {today === formatDate(date) && "Today"}
             {dayjs(today).add(1, "day").format("MM-DD-YYYY") ===
               formatDate(date) && "Tomorrow"}
@@ -126,7 +138,7 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
                 dayjs(today).add(1, "day").format("MM-DD-YYYY") !==
                   formatDate(date) &&
                 dayjs(date).format("MMM D")}
-          </span>
+          </Typography>
         </Button>
       </Tooltip>
     </>

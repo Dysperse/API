@@ -173,7 +173,7 @@ function RenderWithLayout({
                   router.push("/onboarding");
                 }}
               >
-                Click here if you&apos;re not being redirected
+                Tap if you&apos;re not being redirected
               </Button>
             )
           }
