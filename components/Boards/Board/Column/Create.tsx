@@ -149,7 +149,7 @@ export default function CreateColumn({
             InputProps={{
               disableUnderline: true,
               sx: {
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 80}%)`,
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
                 fontWeight: "600",
                 fontSize: 20,
                 px: 2,
