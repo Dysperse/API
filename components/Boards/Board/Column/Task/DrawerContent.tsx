@@ -582,6 +582,7 @@ export default function DrawerContent({
           mt: 4,
           display: "flex",
           alignItems: "center",
+          justifyContent: "center",
           flexWrap: "wrap",
           gap: 2,
         }}

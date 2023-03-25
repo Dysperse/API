@@ -3,7 +3,6 @@ import {
   Alert,
   Box,
   Chip,
-  CircularProgress,
   Collapse,
   Grow,
   Icon,
@@ -20,83 +19,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../../../lib/client/useApi";
-import { toastStyles } from "../../../../../lib/client/useTheme";
-import { colors } from "../../../../../lib/colors";
-import { useAccountStorage, useSession } from "../../../../../pages/_app";
-import { capitalizeFirstLetter } from "../../../../ItemPopup";
-import { SelectDateModal } from "./SelectDateModal";
-
-function ImageModal({ image, setImage, styles }) {
-  const [imageUploading, setImageUploading] = useState<boolean>(false);
-  const session = useSession();
-
-  const handleUpload = async (e: any) => {
-    const key = "9fb5ded732b6b50da7aca563dbe66dec";
-    const form = new FormData();
-    form.append("image", e.target.files[0]);
-    setImageUploading(true);
-
-    try {
-      const res = await fetch(
-        `https://api.imgbb.com/1/upload?name=image&key=${key}`,
-        { method: "POST", body: form }
-      ).then((res) => res.json());
-
-      setImage(JSON.stringify(res.data));
-      console.log("Image uploaded!!!", res.data);
-      setImageUploading(false);
-    } catch (e) {
-      toast.error(
-        "Yikes! An error occured while trying to upload your image. Please try again later"
-      );
-      setImageUploading(false);
-    }
-  };
-
-  return (
-    <>
-      <Tooltip title="Attach an image (alt • s)" placement="top">
-        <IconButton
-          size="small"
-          onClick={() => {
-            navigator.vibrate(50);
-            document.getElementById("imageAttachment")?.click();
-          }}
-          sx={{
-            ...styles,
-            mx: 0.5,
-            ...(image && {
-              background: `hsl(240,11%,${session.user.darkMode ? 20 : 80}%)`,
-            }),
-          }}
-        >
-          {imageUploading ? (
-            <CircularProgress size={20} sx={{ mx: 0.5 }} />
-          ) : (
-            <Icon {...(!image && { className: "outlined" })}>image</Icon>
-          )}
-        </IconButton>
-      </Tooltip>
-      <input
-        type="file"
-        id="imageAttachment"
-        name="imageAttachment"
-        style={{
-          opacity: 0,
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: 0,
-          height: 0,
-          pointerEvents: "none",
-        }}
-        onChange={handleUpload}
-        accept="image/png, image/jpeg"
-      />
-    </>
-  );
-}
+import { fetchRawApi } from "../../../../../../lib/client/useApi";
+import { toastStyles } from "../../../../../../lib/client/useTheme";
+import { colors } from "../../../../../../lib/colors";
+import { useAccountStorage, useSession } from "../../../../../../pages/_app";
+import { capitalizeFirstLetter } from "../../../../../ItemPopup";
+import { SelectDateModal } from "../SelectDateModal";
+import { ImageModal } from "./ImageModal";
 
 export function CreateTask({
   label = false,
@@ -191,16 +120,14 @@ export function CreateTask({
       title.includes("!!") ||
       (title === title.toUpperCase() && title.length >= 3)
     ) {
-      setTitle(title.replace("!! ", "").replace("!!", ""));
       setPinned(true);
     }
     if (title.toLowerCase().includes("today")) {
       setDate(new Date());
     } else if (
-      title.toLowerCase().includes(" tomorrow") ||
-      title.toLowerCase().includes(" tmrw") ||
-      title.toLowerCase().includes(" tmr") ||
-      title.toLowerCase().includes(" tmw")
+      [" tomorrow", " tmrw", " tmr", " tmw"].some((keyword) =>
+        title.toLowerCase().includes(keyword)
+      )
     ) {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
@@ -256,19 +183,15 @@ export function CreateTask({
       titleRef.current?.focus();
     },
     [
-      title,
-      setTitle,
-      description,
-      setDescription,
-      image,
-      setImage,
-      pinned,
-      setPinned,
       boardId,
       column,
       date,
+      description,
+      image,
       mutationUrl,
       parent,
+      pinned,
+      title,
     ]
   );
 
@@ -658,7 +581,7 @@ export function CreateTask({
           borderRadius: { xs: 0, sm: 3 },
           borderBottom: { xs: "1px solid", sm: "none" },
           borderColor: `hsl(240, 11%, ${
-            session.user.darkMode ? 20 : 95
+            session.user.darkMode ? 15 : 95
           }%) !important`,
           transition: "none",
           gap: 1.5,

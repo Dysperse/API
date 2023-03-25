@@ -171,11 +171,11 @@ export const Task: any = React.memo(function Task({
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
             borderColor: `hsl(240, 11%, ${
-              session.user.darkMode ? 20 : 95
+              session.user.darkMode ? 15 : 95
             }%) !important`,
             transition: "none",
-            py: 0.7,
-            px: 2.5,
+            py: { xs: 1, sm: 0.7 },
+            px: { xs: 3.6, sm: 2.5 },
             gap: 1.5,
             "&:active": {
               background: `hsl(240, 11%, ${
@@ -204,6 +204,7 @@ export const Task: any = React.memo(function Task({
             />
           </ListItemIcon>
           <ListItemText
+            sx={{ ml: "-2px" }}
             primary={
               <Box
                 sx={{
