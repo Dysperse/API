@@ -32,9 +32,7 @@ export function CreateGoal({ mutationUrl }) {
   return (
     <>
       <Drawer
-        ModalProps={{
-          keepMounted: false,
-        }}
+        ModalProps={{ keepMounted: false }}
         open={open}
         onClose={handleClose}
         anchor="bottom"
