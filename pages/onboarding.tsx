@@ -343,7 +343,7 @@ export default function Onboarding() {
     contentLength,
   }) {
     return forStep === currentStep ? (
-      <Box sx={{ pb: 10 }}>
+      <Box sx={{ pb: { xs: 10, sm: 0 } }}>
         {content}
         <Box
           sx={{
@@ -462,8 +462,8 @@ export default function Onboarding() {
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
           color: `hsl(240,11%,${session.user.darkMode ? 100 : 10}%)`,
           borderRadius: { xs: 0, sm: "20px" },
-          padding: { xs: "7px", sm: "28px" },
-          pt: { xs: 0, sm: "25px" },
+          p: { xs: "7px", sm: "28px" },
+          pt: { xs: 0, sm: "20px" },
         }}
         id="onboardingContainer"
       >
