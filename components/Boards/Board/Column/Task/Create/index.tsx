@@ -30,6 +30,7 @@ import { fetchRawApi } from "../../../../../../lib/client/useApi";
 import { toastStyles } from "../../../../../../lib/client/useTheme";
 import { colors } from "../../../../../../lib/colors";
 import { useAccountStorage, useSession } from "../../../../../../pages/_app";
+import { EmojiPicker } from "../../../../../EmojiPicker";
 import { capitalizeFirstLetter } from "../../../../../ItemPopup";
 import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
@@ -501,6 +502,33 @@ export function CreateTask({
                 </IconButton>
               </Tooltip>
               <ImageModal styles={styles} image={image} setImage={setImage} />
+              <Tooltip title="Insert emoji (alt • e)" placement="top">
+                <EmojiPicker
+                  emoji={""}
+                  useNativeEmoji
+                  setEmoji={(emoji) => {
+                    setTitle(
+                      (t) => t + emoji
+                    );
+                    setTimeout(() => {
+                      const input: any = titleRef.current;
+                      titleRef.current?.focus();
+                      input.selectionStart = input.selectionEnd =
+                        input.value.length;
+                    }, 100);
+                  }}
+                >
+                  <IconButton
+                    onClick={() => {
+                      navigator.vibrate(50);
+                    }}
+                    sx={styles}
+                    size="small"
+                  >
+                    <Icon className="outlined">mood</Icon>
+                  </IconButton>
+                </EmojiPicker>
+              </Tooltip>
               <Tooltip title="Description (alt • d)" placement="top">
                 <IconButton
                   onClick={() => {
@@ -528,7 +556,6 @@ export function CreateTask({
                   <Icon>notes</Icon>
                 </IconButton>
               </Tooltip>
-
               <Box
                 sx={{
                   ml: "auto",

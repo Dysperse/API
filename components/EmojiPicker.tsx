@@ -53,7 +53,17 @@ function debounce(func: (...args: any[]) => void, delay: number) {
   };
 }
 
-export function EmojiPicker({ children, emoji, setEmoji }) {
+export function EmojiPicker({
+  children,
+  emoji,
+  setEmoji,
+  useNativeEmoji = false,
+}: {
+  children: JSX.Element;
+  emoji: string;
+  setEmoji: (emoji: string) => void;
+  useNativeEmoji?: boolean;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   const [results, setResults] = useState<Array<any>>([]);
   const [inputValue, setInputValue] = useState("");
@@ -84,7 +94,9 @@ export function EmojiPicker({ children, emoji, setEmoji }) {
   }, [inputValue.length]);
 
   function handleEmojiSelect(emoji) {
-    const code = emoji.skins[0].unified;
+    const code = useNativeEmoji
+      ? emoji.skins[0].native
+      : emoji.skins[0].unified;
     setEmoji(code);
     handleClose();
   }
