@@ -37,12 +37,7 @@ export function BoardTemplate({ template }) {
         <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
           {template.columns.map((column, index) => (
             <picture key={index}>
-              <img
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                width="25px"
-                height="25px"
-                alt="emoji"
-              />
+              <img src={column.emoji} width="25px" height="25px" alt="emoji" />
             </picture>
           ))}
         </Box>

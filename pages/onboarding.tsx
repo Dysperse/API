@@ -1,8 +1,8 @@
+import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   Box,
   Button,
-  Chip,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -50,6 +50,7 @@ export default function Onboarding() {
   const [type, setType] = useState(
     session.property.profile.type || "apartment"
   );
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [bestDescription, setBestDescription] = useState("Student");
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -63,19 +64,29 @@ export default function Onboarding() {
     );
   };
 
+  const styles = {
+    title: {
+      fontSize: { xs: 50, sm: 30 },
+      mt: { xs: 5, sm: 0 },
+      mb: 2,
+    },
+  };
+
   const content = [
     <>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h3" className="font-heading" sx={styles.title}>
         Welcome to Dysperse!
       </Typography>
-      <Typography variant="body1" sx={{ fontWeight: 400 }}>
-        Thank you for choosing Dysperse! We&apos;re excited to have you here.
-        Let&apos;s get started by customizing your group and dashboard 🔥
+      <Typography variant="body1">
+        We&apos;re excited to have you here. Let&apos;s get started by
+        customizing your group and dashboard! ✨
       </Typography>
     </>,
     <>
-      <Typography variant="h5">Choose your look and feel</Typography>
-      <Typography variant="h6" sx={{ mt: 4 }}>
+      <Typography variant="h5" sx={styles.title} className="font-heading">
+        Choose your look &amp; feel
+      </Typography>
+      <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#1 </span>
         What&apos;s your favorite color?
       </Typography>
@@ -93,14 +104,17 @@ export default function Onboarding() {
         <Color handleNext={() => null} color={color} key={color} />
       ))}
 
-      <Typography variant="h6" sx={{ mt: 4 }}>
+      <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#2 </span>
-        Select a theme
+        Night or Day?
       </Typography>
       <Color handleNext={() => setStep(step + 1)} color="grey" />
       <Color handleNext={() => setStep(step + 1)} color="white" />
     </>,
     <>
+      <Typography variant="h5" sx={styles.title} className="font-heading">
+        About you
+      </Typography>
       <Typography variant="h6" sx={{ mt: 0, mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#3 </span>
         What best describes <i>you</i>?
@@ -185,10 +199,7 @@ export default function Onboarding() {
           variant="filled"
           onChange={handleChange}
         >
-          <MenuItem value="study group">
-            Study group
-            <Chip label="NEW" color="error" size="small" />
-          </MenuItem>
+          <MenuItem value="study group">Study group</MenuItem>
           <MenuItem value="dorm">Dorm</MenuItem>
           <MenuItem value="apartment">Apartment</MenuItem>
           <MenuItem value="home">Home</MenuItem>
@@ -221,11 +232,14 @@ export default function Onboarding() {
         }}
         margin="dense"
       />
+      <Alert icon={<Icon>lightbulb</Icon>} severity="warning" sx={{ mt: 2 }}>
+        Once you&apos;re done, you&apos;ll be able to invite up to five members
+        to your group.
+      </Alert>
     </>,
     <>
-      <Typography variant="h6" sx={{ mb: 1 }}>
-        <span style={{ opacity: 0.6 }}>#5 </span>
-        Let&apos;s create some boards
+      <Typography variant="h5" sx={styles.title} className="font-heading">
+        Boards
       </Typography>
       <Typography>
         Boards are sweet places where you can plan &amp; organize anything, from
@@ -249,26 +263,18 @@ export default function Onboarding() {
         ))}
     </>,
     <>
-      <Typography variant="h6" sx={{ mb: 1 }}>
-        <span style={{ opacity: 0.6 }}>#6 </span>
-        Add some items
+      <Typography variant="h5" sx={styles.title} className="font-heading">
+        Items
       </Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          fontWeight: 400,
-          marginTop: 2,
-          mb: 1.5,
-        }}
-      >
-        Let&apos;s build up your inventory. Scroll down and click
-        &quot;Next&quot; when you&apos;re done!
+      <Typography variant="body1" sx={{ fontWeight: 400, mt: 2, mb: 1.5 }}>
+        Let&apos;s build up your inventory. Once you&apos;re done, you can
+        quickly build up your inventory by scanning items on with your
+        phone&apos;s camera
       </Typography>
-
       <InventoryList data={[...cards]} />
     </>,
     <>
-      <Typography gutterBottom variant="h5">
+      <Typography variant="h5" sx={styles.title} className="font-heading">
         You&apos;re all set!
       </Typography>
       <Typography
@@ -282,8 +288,21 @@ export default function Onboarding() {
         &quot;Onboarding&quot; button in the sidebar.
       </Typography>
 
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
+      <Box sx={{ display: "flex", justifyContent: "end", gap: 2 }}>
         <Button
+          variant="outlined"
+          size="large"
+          sx={{
+            borderRadius: 99999,
+            mt: 2,
+            px: 3,
+          }}
+          onClick={() => setStep((s) => s - 1)}
+        >
+          Back
+        </Button>
+        <LoadingButton
+          loading={submitLoading}
           variant="contained"
           size="large"
           sx={{
@@ -292,6 +311,7 @@ export default function Onboarding() {
             px: 3,
           }}
           onClick={() => {
+            setSubmitLoading(true);
             updateSettings(
               "onboardingComplete",
               "true",
@@ -305,7 +325,7 @@ export default function Onboarding() {
           }}
         >
           Let&apos;s go <Icon>east</Icon>
-        </Button>
+        </LoadingButton>
       </Box>
     </>,
   ];
@@ -315,17 +335,50 @@ export default function Onboarding() {
     container.scrollTo({ top: 0 });
   }, [step]);
 
-  function StepContent({ forStep, currentStep, setCurrentStep, content }) {
+  function StepContent({
+    forStep,
+    currentStep,
+    setCurrentStep,
+    content,
+    contentLength,
+  }) {
     return forStep === currentStep ? (
-      <Box>
+      <Box sx={{ pb: 10 }}>
         {content}
         <Box
           sx={{
-            display: currentStep === 1 || currentStep === 5 ? "none" : "flex",
             justifyContent: "flex-end",
             mt: 2,
+            position: { xs: "fixed", sm: "unset" },
+            zIndex: 99999,
+            bottom: 0,
+            left: 0,
+            width: { xs: "100%" },
+            backdropFilter: "blur(10px)",
+            p: { xs: 2, sm: 0 },
+            display: "flex",
+            ...(currentStep + 1 === contentLength && {
+              display: "none",
+            }),
+            alignItems: "center",
+            gap: 2,
           }}
         >
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              display: currentStep === 0 ? "none" : "inline-flex",
+              borderRadius: 9999,
+              px: 2,
+              minWidth: "auto",
+            }}
+            onClick={() => {
+              setStep(currentStep - 1);
+            }}
+          >
+            <Icon>west</Icon>
+          </Button>
           <Button
             onClick={() => setCurrentStep(currentStep + 1)}
             variant="contained"
@@ -333,10 +386,11 @@ export default function Onboarding() {
             sx={{
               borderRadius: 9999,
               px: 3,
+              width: { xs: "100%", sm: "auto" },
             }}
           >
-            Next
-            <Icon>east</Icon>
+            Continue
+            <Icon sx={{ ml: "auto" }}>east</Icon>
           </Button>
         </Box>
       </Box>
@@ -395,19 +449,21 @@ export default function Onboarding() {
       <Box
         sx={{
           position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+          top: { xs: 0, sm: "50%" },
+          left: { xs: 0, sm: "50%" },
+          transform: { xs: 0, sm: "translate(-50%, -50%)" },
           zIndex: 2,
-          maxHeight: "80vh",
+          maxHeight: { xs: "100vh", sm: "80vh" },
+          height: { xs: "100vh", sm: "auto" },
           overflowY: "auto",
-          maxWidth: "calc(100vw - 40px)",
-          width: "500px",
+          maxWidth: { xs: "100vw", sm: "calc(100vw - 40px)" },
+          width: { xs: "100vw", sm: "500px" },
           backgroundColor: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
           color: `hsl(240,11%,${session.user.darkMode ? 100 : 10}%)`,
-          borderRadius: "20px",
+          borderRadius: { xs: 0, sm: "20px" },
           padding: { xs: "7px", sm: "28px" },
+          pt: { xs: 0, sm: "25px" },
         }}
         id="onboardingContainer"
       >
@@ -434,6 +490,7 @@ export default function Onboarding() {
         <Box sx={{ p: 2, px: 3 }}>
           {content.map((_, i) => (
             <StepContent
+              contentLength={content.length}
               key={i}
               forStep={i}
               currentStep={step}
@@ -441,21 +498,6 @@ export default function Onboarding() {
               content={content[i]}
             />
           ))}
-          {step !== 0 && step !== content.length - 1 && (
-            <Button
-              size="small"
-              sx={{
-                mt: 2,
-                px: 1,
-                py: 0,
-              }}
-              onClick={() => {
-                setStep(step - 1);
-              }}
-            >
-              &larr; Back
-            </Button>
-          )}
         </Box>
       </Box>
     </Box>
