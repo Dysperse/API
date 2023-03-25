@@ -61,6 +61,7 @@ export function ImageModal({ image, setImage, styles }) {
         type="file"
         id="imageAttachment"
         name="imageAttachment"
+        aria-label="attach an image"
         style={{
           opacity: 0,
           position: "absolute",
