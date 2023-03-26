@@ -24,11 +24,7 @@ const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
  * @param {any} {children} Children
  * @returns {any}
  */
-function ResponsiveDrawer({
-  children,
-}: {
-  children: JSX.Element;
-}): JSX.Element {
+function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const router = useRouter();
 
   // Check if user has reached storage limits
@@ -154,4 +150,4 @@ function ResponsiveDrawer({
   );
 }
 
-export default ResponsiveDrawer;
+export default AppLayout;
