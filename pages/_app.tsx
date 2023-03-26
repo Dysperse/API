@@ -66,9 +66,7 @@ function RenderWithLayout({
     boolean | "error" | "loading"
   >("loading");
 
-  modifyAccountStorageHook(() => {
-    return { isReached, setIsReached };
-  });
+  modifyAccountStorageHook(() => ({ isReached, setIsReached }));
 
   useEffect(() => {
     if (data.user.darkMode) {
@@ -112,14 +110,12 @@ function RenderWithLayout({
     data.user.properties.find((property: Property) => property.selected) ||
     data.user.properties[0];
 
-  modifySessionHook(() => {
-    return {
-      user: data.user,
-      property: selectedProperty,
-      permission: selectedProperty.permission,
-      themeColor,
-    };
-  });
+  modifySessionHook(() => ({
+    user: data.user,
+    property: selectedProperty,
+    permission: selectedProperty.permission,
+    themeColor,
+  }));
 
   // Used in `globals.scss`
   document.documentElement.style.setProperty(
