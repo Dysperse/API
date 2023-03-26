@@ -22,11 +22,13 @@ import { Property, Session } from "../types/session";
 import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+
+// Hooks
 import {
   AccountStorageState,
   modifyAccountStorageHook,
 } from "../lib/client/useAccountStorage";
-import { modifySessionHook } from "../lib/client/useSession";
+import { modifySessionHook,useUser } from "../lib/client/useSession";
 import { useCustomTheme } from "../lib/client/useTheme";
 
 const AuthLoading = dynamic(() => import("../components/Auth/AuthLoading"), {
@@ -171,29 +173,6 @@ function RenderWithLayout({
       </ThemeProvider>
     </>
   );
-}
-
-/**
- * Fetches user session data
- * @returns {any}
- */
-function useUser(): {
-  data: any;
-  isLoading: boolean;
-  isError: boolean;
-  error: any;
-} {
-  const url = "/api/user";
-  const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
-  );
-
-  return {
-    data: data,
-    isLoading: !error && !data,
-    isError: error,
-    error: error,
-  };
 }
 
 /**
