@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
-import { updateSettings } from "../Settings/updateSettings";
+import { useSession } from "../../../lib/client/useSession";
+import { toastStyles } from "../../../lib/client/useTheme";
+import { updateSettings } from "../../Settings/updateSettings";
 import InviteButton from "./UserMenu";
 const SearchPopup = dynamic(() => import("./Search"));
 

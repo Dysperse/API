@@ -7,12 +7,12 @@ import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../lib/client/useSession";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
-import { BottomNav } from "./BottomNavigation";
-import { Navbar } from "./Navbar";
-import { Sidebar } from "./Sidebar";
+import { Navbar } from "./Navigation/AppBar";
+import { BottomNav } from "./Navigation/BottomNavigation";
+import { Sidebar } from "./Navigation/Sidebar";
 
 const KeyboardShortcutsModal = dynamic(
-  () => import("./KeyboardShortcutsModal")
+  () => import("./Navigation/KeyboardShortcutsModal")
 );
 
 const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {

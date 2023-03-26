@@ -16,14 +16,14 @@ import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { preload } from "swr";
-import { useApi } from "../../lib/client/useApi";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../lib/client/useSession";
-import { ErrorHandler } from "../Error";
-import Settings from "../Settings/index";
+import { useApi } from "../../../lib/client/useApi";
+import { useBackButton } from "../../../lib/client/useBackButton";
+import { useSession } from "../../../lib/client/useSession";
+import { ErrorHandler } from "../../Error";
+import Settings from "../../Settings/index";
 import AppsMenu from "./AppsMenu";
 
-const Group = dynamic(() => import("../Group"));
+const Group = dynamic(() => import("../../Group"));
 
 /**
  * Invite button to trigger property list
