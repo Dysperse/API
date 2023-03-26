@@ -5,7 +5,6 @@ import { OptionsGroup } from "../components/OptionsGroup";
 import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
 import { useApi } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
-import type { ApiResponse } from "../types/client";
 
 import {
   Alert,
@@ -32,9 +31,7 @@ const CategoryModal = dynamic(
  * Component to dispay items by category
  */
 const CategoryList = React.memo(function CategoryList() {
-  const { error, url, data }: ApiResponse = useApi(
-    "property/inventory/categories"
-  );
+  const { error, url, data } = useApi("property/inventory/categories");
 
   return (
     <>

@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useApi } from "../../lib/client/useApi";
 import { useAccountStorage, useSession } from "../../pages/_app";
-import { ApiResponse } from "../../types/client";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
 import { BottomNav } from "./BottomNavigation";
@@ -32,7 +31,7 @@ function ResponsiveDrawer({
   const router = useRouter();
 
   // Check if user has reached storage limits
-  const { data, error }: ApiResponse = useApi("property/storage");
+  const { data, error } = useApi("property/storage");
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
 
   const storage = useAccountStorage();

@@ -1,7 +1,6 @@
 import type { Item as ItemType } from "@prisma/client";
 import { useState } from "react";
 import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import type { ApiResponse } from "../../types/client";
 
 import {
   Button,
@@ -121,7 +120,7 @@ function RoomList({
   itemId: string;
   title: string;
 }): JSX.Element {
-  const { data, error }: ApiResponse = useApi("property/boards");
+  const { data, error } = useApi("property/boards");
 
   if (error) {
     return (
