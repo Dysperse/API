@@ -11,7 +11,7 @@ export function UpdateButton() {
       "serviceWorker" in navigator &&
       window.workbox !== undefined
     ) {
-      const wb = window.workbox;
+      const wb: any = window.workbox;
       wb.addEventListener("installed", (event) => {
         console.log(`Event ${event.type} is triggered.`);
         console.log(event);
