@@ -9,13 +9,11 @@ import { Error } from "../components/Layout/Error";
 import { Loading } from "../components/Layout/Loading";
 import { colors } from "../lib/colors";
 
-const Layout = dynamic(() => import("../components/Layout"), {
-  loading: () => <Loading />,
-});
-
 // CSS files
 import "../styles/calendar.scss";
+import "../styles/coach.scss";
 import "../styles/globals.scss";
+import "../styles/spotlight.scss";
 
 // Types
 import { Property, Session } from "../types/session";
@@ -34,6 +32,11 @@ import { useCustomTheme } from "../lib/client/useTheme";
 const AuthLoading = dynamic(() => import("../components/Auth/AuthLoading"), {
   loading: () => <Loading />,
 });
+
+const Layout = dynamic(() => import("../components/Layout"), {
+  loading: () => <Loading />,
+});
+
 dayjs.extend(relativeTime);
 
 /**
