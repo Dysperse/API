@@ -28,7 +28,7 @@ import {
   AccountStorageState,
   modifyAccountStorageHook,
 } from "../lib/client/useAccountStorage";
-import { modifySessionHook,useUser } from "../lib/client/useSession";
+import { modifySessionHook, useUser } from "../lib/client/useSession";
 import { useCustomTheme } from "../lib/client/useTheme";
 
 const AuthLoading = dynamic(() => import("../components/Auth/AuthLoading"), {
