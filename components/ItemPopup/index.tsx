@@ -7,7 +7,7 @@ import {
   List,
   SwipeableDrawer,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { Item } from "@prisma/client";
 import dayjs from "dayjs";
@@ -22,15 +22,13 @@ import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
+import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
 
 const AddToListModal = dynamic(() => import("./AddToList"));
 const CategoryModal = dynamic(() => import("./CategoryModal"));
 const DeleteButton = dynamic(() => import("./DeleteButton"));
 const MoveToRoom = dynamic(() => import("./MoveToRoom"));
 const StarButton = dynamic(() => import("./StarButton"));
-
-export const capitalizeFirstLetter = (str: string): string =>
-  str.charAt(0).toUpperCase() + str.slice(1);
 
 function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   const session = useSession();

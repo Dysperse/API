@@ -26,13 +26,13 @@ import {
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
+import { capitalizeFirstLetter } from "../../../../../../lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "../../../../../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../../../../../lib/client/useApi";
 import { useSession } from "../../../../../../lib/client/useSession";
 import { toastStyles } from "../../../../../../lib/client/useTheme";
 import { colors } from "../../../../../../lib/colors";
 import { EmojiPicker } from "../../../../../EmojiPicker";
-import { capitalizeFirstLetter } from "../../../../../ItemPopup";
 import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
 

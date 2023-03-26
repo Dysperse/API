@@ -5,8 +5,8 @@ import Image from "next/image";
 import { memo, useEffect, useMemo } from "react";
 import { useSession } from "../../../lib/client/useSession";
 import { colors } from "../../../lib/colors";
-import { capitalizeFirstLetter } from "../../ItemPopup";
 import { Task } from "../Board/Column/Task";
+import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { CreateTask } from "../Board/Column/Task/Create";
 
 interface AgendaColumnProps {

@@ -4,10 +4,10 @@ import { Divider, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { fetchRawApi, useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { capitalizeFirstLetter } from "../../ItemPopup";
 import { updateSettings } from "../../Settings/updateSettings";
 
 function CustomAction({

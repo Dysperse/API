@@ -14,11 +14,11 @@ import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
+import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "../../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { capitalizeFirstLetter } from "../../ItemPopup";
 
 const WebcamComponent = ({
   setTitle,

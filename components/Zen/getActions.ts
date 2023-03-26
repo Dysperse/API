@@ -1,5 +1,5 @@
 import router from "next/router";
-import { capitalizeFirstLetter } from "../ItemPopup";
+import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
 
 export const getActions = (type) => {
   return {
