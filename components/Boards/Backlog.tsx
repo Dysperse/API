@@ -8,7 +8,7 @@ import {
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
 

@@ -10,8 +10,8 @@ import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { useSession } from "../../../pages/_app";
 import BoardSettings from "./Settings";
 
 export function BoardInfo({

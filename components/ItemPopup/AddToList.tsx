@@ -16,8 +16,9 @@ import {
   Skeleton,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
+import { useAccountStorage } from "../../lib/client/useAccountStorage";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useAccountStorage, useSession } from "../../pages/_app";
 
 function BoardModal({ itemId, title, list }) {
   const [open, setOpen] = useState<boolean>(false);

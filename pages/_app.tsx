@@ -24,34 +24,14 @@ import { Property, Session } from "../types/session";
 import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { modifyAccountStorageHook } from "../lib/client/useAccountStorage";
+import { modifySessionHook } from "../lib/client/useSession";
 import { useCustomTheme } from "../lib/client/useTheme";
 
 const AuthLoading = dynamic(() => import("../components/Auth/AuthLoading"), {
   loading: () => <Loading />,
 });
 dayjs.extend(relativeTime);
-
-/**
- * Hook to check if the account storage limits have been reached
- * @returns {object}
- */
-export let useAccountStorage: () => null | {
-  isReached: boolean | "error" | "loading";
-  setIsReached: (newValue: boolean | "error" | "loading") => any;
-} = () => null;
-
-/**
- * Hook to get the user session data
- * @returns {object}
- */
-export let useSession: () =>
-  | any
-  | {
-      user: any;
-      property: any;
-      permission: string;
-      themeColor: string;
-    } = () => null;
 
 /**
  * Main function, including layout and theme.
@@ -85,9 +65,10 @@ function RenderWithLayout({
   const [isReached, setIsReached]: any = useState<
     boolean | "error" | "loading"
   >("loading");
-  useAccountStorage = () => {
+
+  modifyAccountStorageHook(() => {
     return { isReached, setIsReached };
-  };
+  });
 
   useEffect(() => {
     if (data.user.darkMode) {
@@ -131,14 +112,14 @@ function RenderWithLayout({
     data.user.properties.find((property: Property) => property.selected) ||
     data.user.properties[0];
 
-  useSession = () => {
+  modifySessionHook(() => {
     return {
       user: data.user,
       property: selectedProperty,
       permission: selectedProperty.permission,
       themeColor,
     };
-  };
+  });
 
   // Used in `globals.scss`
   document.documentElement.style.setProperty(

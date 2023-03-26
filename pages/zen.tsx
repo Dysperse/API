@@ -18,7 +18,7 @@ import { Routines } from "../components/Coach/Routines";
 import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
 import { RecentItems } from "../components/Zen/RecentItems";
 import { useApi } from "../lib/client/useApi";
-import { useSession } from "./_app";
+import { useSession } from "../lib/client/useSession";
 
 export default function Home() {
   const router = useRouter();

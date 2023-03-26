@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 import { capitalizeFirstLetter } from "../ItemPopup";
 import { UpdateButton } from "./UpdateButton";
 import InviteButton from "./UserMenu";

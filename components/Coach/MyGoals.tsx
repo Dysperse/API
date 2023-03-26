@@ -2,7 +2,7 @@ import { Masonry } from "@mui/lab";
 import { Box, Skeleton, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
 

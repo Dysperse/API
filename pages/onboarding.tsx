@@ -33,8 +33,8 @@ import { StepIcon } from "../components/Onboarding/StepIcon";
 import { cards } from "../components/Rooms/CreateItem/cards";
 import { updateSettings } from "../components/Settings/updateSettings";
 import { fetchRawApi } from "../lib/client/useApi";
+import { useSession } from "../lib/client/useSession";
 import { colors } from "../lib/colors";
-import { useSession } from "./_app";
 
 export default function Onboarding() {
   const router = useRouter();

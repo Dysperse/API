@@ -7,8 +7,8 @@ import { Prompt } from "../TwoFactorModal";
 import { updateSettings } from "./updateSettings";
 
 import { Alert, Box, Link, TextField, Typography } from "@mui/material";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
 
 /**

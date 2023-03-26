@@ -10,8 +10,8 @@ import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
 
 import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../_app";
 
 export default function Onboarding() {
   const router = useRouter();

@@ -19,7 +19,7 @@ import {
 import dynamic from "next/dynamic";
 import { CreateRoom } from "../components/Rooms/items/CreateRoom";
 import { Rooms } from "../components/Rooms/items/Rooms";
-import { useSession } from "./_app";
+import { useSession } from "../lib/client/useSession";
 
 const Action = dynamic(() => import("../components/Rooms/Action"));
 

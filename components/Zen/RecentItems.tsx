@@ -15,8 +15,8 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useEffect } from "react";
 import { Twemoji } from "react-emoji-render";
 import { useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 import { TaskDrawer } from "../Boards/Board/Column/Task/TaskDrawer";
 
 export function RecentItems() {

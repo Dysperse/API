@@ -26,9 +26,9 @@ import { toast } from "react-hot-toast";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
 import { fetchRawApi, useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
 import { Puller } from "../Puller";
 

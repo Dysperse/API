@@ -21,8 +21,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
 
 function LinkToken() {
   const [open, setOpen] = React.useState<boolean>(false);

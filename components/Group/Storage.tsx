@@ -1,7 +1,7 @@
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
 import { useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 
 export const max = 500;

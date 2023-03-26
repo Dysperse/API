@@ -2,7 +2,7 @@ import React from "react";
 import { fetchRawApi } from "../../lib/client/useApi";
 
 import { Autocomplete, Chip, TextField } from "@mui/material";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 
 /**
  * Custom rooms add component

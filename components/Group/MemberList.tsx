@@ -12,9 +12,9 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi, useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { AddPersonModal } from "./AddPersonModal";
 

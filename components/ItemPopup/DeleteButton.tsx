@@ -5,7 +5,7 @@
  * @returns {any}
  */
 import { Icon, ListItemButton } from "@mui/material";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 
 export default function DeleteButton({
   handleItemDelete,

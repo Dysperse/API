@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useSession } from "../pages/_app";
+import { useSession } from "../lib/client/useSession";
 
 /**
  * @name Puller

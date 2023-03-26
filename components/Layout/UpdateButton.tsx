@@ -1,7 +1,7 @@
 import { Icon, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 
 export function UpdateButton() {
   const [button, setButton] = useState<boolean>(false);

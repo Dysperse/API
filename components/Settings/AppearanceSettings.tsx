@@ -10,8 +10,8 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 
 /**
  * Function to change theme color (Not dark mode!)

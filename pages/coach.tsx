@@ -13,8 +13,8 @@ import toast from "react-hot-toast";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { Routines } from "../components/Coach/Routines";
 import { fetchRawApi } from "../lib/client/useApi";
+import { useSession } from "../lib/client/useSession";
 import { toastStyles } from "../lib/client/useTheme";
-import { useSession } from "./_app";
 
 export function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }

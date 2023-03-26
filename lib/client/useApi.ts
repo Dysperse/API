@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
-import { useSession } from "../../pages/_app";
+import { useSession } from "./useSession";
 
 const getInfo = (
   path: string,

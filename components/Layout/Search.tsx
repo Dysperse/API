@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi, useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
 import { capitalizeFirstLetter } from "../ItemPopup";
 import { updateSettings } from "../Settings/updateSettings";
 

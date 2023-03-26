@@ -5,7 +5,7 @@ import { useBackButton } from "../../lib/client/useBackButton";
 import { Box, Button, Icon, Menu, MenuItem, TextField } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 
 /**
  * Search bar

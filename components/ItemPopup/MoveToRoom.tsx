@@ -16,9 +16,10 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
+import { useAccountStorage } from "../../lib/client/useAccountStorage";
 import { useBackButton } from "../../lib/client/useBackButton";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useAccountStorage, useSession } from "../../pages/_app";
 
 /**
  * @description A room

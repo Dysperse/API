@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../pages/_app";
+import { useSession } from "../../../lib/client/useSession";
 import { OptionsGroup } from "../../OptionsGroup";
 import { boardSwitcherStyles } from "../Layout";
 

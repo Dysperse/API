@@ -17,8 +17,9 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import { useAccountStorage } from "../../lib/client/useAccountStorage";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useAccountStorage, useSession } from "../../pages/_app";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();

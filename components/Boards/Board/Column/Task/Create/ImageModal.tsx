@@ -1,7 +1,7 @@
 import { CircularProgress, Icon, IconButton, Tooltip } from "@mui/material";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { useSession } from "../../../../../../pages/_app";
+import { useSession } from "../../../../../../lib/client/useSession";
 
 export function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState<boolean>(false);

@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
 
 /**
  * Function to update a user's setting and save it to the database.

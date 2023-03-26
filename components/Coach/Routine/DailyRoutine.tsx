@@ -6,7 +6,7 @@ import Stories from "react-insta-stories";
 import { mutate as mutateSWR } from "swr";
 import { useApi } from "../../../lib/client/useApi";
 import { useBackButton } from "../../../lib/client/useBackButton";
-import { useSession } from "../../../pages/_app";
+import { useSession } from "../../../lib/client/useSession";
 import { RoutineEnd } from "./RoutineEnd";
 import { Task } from "./Task";
 

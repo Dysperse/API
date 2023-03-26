@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import { useSession } from "../../../pages/_app";
+import { useSession } from "../../../lib/client/useSession";
 import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
 import { categories, goals, routines } from "../goalTemplates";
 import { ExploreGoalCard } from "./ExploreGoalCard";

@@ -14,8 +14,9 @@ import {
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useAccountStorage } from "../../lib/client/useAccountStorage";
 import { useApi } from "../../lib/client/useApi";
-import { useAccountStorage, useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 import { CreateBoard } from "./Board/Create";

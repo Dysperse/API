@@ -18,7 +18,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { preload } from "swr";
 import { useApi } from "../../lib/client/useApi";
 import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 import { ErrorHandler } from "../Error";
 import Settings from "../Settings/index";
 import AppsMenu from "./AppsMenu";
