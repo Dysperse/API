@@ -16,7 +16,7 @@ export function Sidebar() {
   const router = useRouter();
   const [clickCount, setClickCount] = useState(0);
 
-  // easter egg #1
+  // Easter egg #1
   const handleClick = () => {
     setClickCount(clickCount + 1);
     if (clickCount === 9) {
