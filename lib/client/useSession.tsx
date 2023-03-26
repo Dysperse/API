@@ -1,6 +1,5 @@
 /**
  * Hook to get the user session data
- * @returns {object}
  */
 export let useSession: () =>
   | any
@@ -11,6 +10,11 @@ export let useSession: () =>
       themeColor: string;
     } = () => null;
 
+/**
+ * Changes the function value of `useSession`
+ * * Used in `pages/_app.tsx`
+ * @param e New value of `useSession`
+ */
 export const modifySessionHook = (e) => {
   useSession = e;
 };

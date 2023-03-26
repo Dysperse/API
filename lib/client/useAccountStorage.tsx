@@ -1,12 +1,18 @@
+export type AccountStorageState = boolean | "error" | "loading";
+
 /**
  * Hook to check if the account storage limits have been reached
- * @returns {object}
  */
 export let useAccountStorage: () => null | {
-  isReached: boolean | "error" | "loading";
-  setIsReached: (newValue: boolean | "error" | "loading") => any;
+  isReached: AccountStorageState;
+  setIsReached: (newValue: AccountStorageState) => any;
 } = () => null;
 
+/**
+ * Changes the function value of `useAccountStorage`
+ * * Used in `pages/_app.tsx`
+ * @param e New value of `useAccountStorage`
+ */
 export const modifyAccountStorageHook = (e) => {
   useAccountStorage = e;
 };

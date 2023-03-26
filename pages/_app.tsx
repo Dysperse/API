@@ -24,7 +24,10 @@ import { Property, Session } from "../types/session";
 import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { modifyAccountStorageHook } from "../lib/client/useAccountStorage";
+import {
+  AccountStorageState,
+  modifyAccountStorageHook,
+} from "../lib/client/useAccountStorage";
 import { modifySessionHook } from "../lib/client/useSession";
 import { useCustomTheme } from "../lib/client/useTheme";
 
@@ -62,9 +65,8 @@ function RenderWithLayout({
 
   const themeColor = data.user.color;
 
-  const [isReached, setIsReached]: any = useState<
-    boolean | "error" | "loading"
-  >("loading");
+  const [isReached, setIsReached]: any =
+    useState<AccountStorageState>("loading");
 
   modifyAccountStorageHook(() => ({ isReached, setIsReached }));
 
