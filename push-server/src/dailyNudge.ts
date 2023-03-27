@@ -14,6 +14,18 @@ const handler = {
       },
     }).then((res) => res.json());
     console.log(data);
+
+    // Daily check in nudge
+    const dailyCheckIn = await fetch(
+      "https://my.dysperse.com/api/cron/dailyCheckInNudge",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.COACH_CRON_API_KEY}`,
+        },
+      }
+    ).then((res) => res.json());
+
     await SentryFinish(id);
     return new Response("\u{1F389} Push server is running!");
   },
