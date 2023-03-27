@@ -15,10 +15,10 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { Routines } from "../components/Coach/Routines";
-import { DailyCheckIn } from "../components/Zen/DailyCheckIn";
+import { DailyCheckIn } from "../components/Zen/CheckIns";
 import { RecentItems } from "../components/Zen/RecentItems";
 import { useApi } from "../lib/client/useApi";
-import { useSession } from "./_app";
+import { useSession } from "../lib/client/useSession";
 
 export default function Home() {
   const router = useRouter();

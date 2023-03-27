@@ -1,7 +1,7 @@
 import { Alert, Box, Button, Link, TextField } from "@mui/material";
 import { useCallback, useState } from "react";
-import { useSession } from "../../pages/_app";
-import { updateSettings } from "./updateSettings";
+import { useSession } from "../../../lib/client/useSession";
+import { updateSettings } from "../updateSettings";
 
 /**
  * Top-level component for the account settings page.

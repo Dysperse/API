@@ -18,8 +18,8 @@ import dayjs from "dayjs";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 
 export function Changelog({ disabled }) {

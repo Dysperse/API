@@ -16,7 +16,7 @@ import {
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../pages/_app";
+import { useSession } from "../../../lib/client/useSession";
 import { Column } from "./Column";
 
 export function Agenda({

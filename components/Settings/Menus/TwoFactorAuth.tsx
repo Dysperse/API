@@ -3,13 +3,13 @@ import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { Prompt } from "../TwoFactorModal";
-import { updateSettings } from "./updateSettings";
+import { Prompt } from "../../TwoFactorModal";
+import { updateSettings } from "../updateSettings";
 
 import { Alert, Box, Link, TextField, Typography } from "@mui/material";
-import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
-import { ConfirmationModal } from "../ConfirmationModal";
+import { useSession } from "../../../lib/client/useSession";
+import { toastStyles } from "../../../lib/client/useTheme";
+import { ConfirmationModal } from "../../ConfirmationModal";
 
 /**
  * Top-level component for the two-factor authentication settings page.

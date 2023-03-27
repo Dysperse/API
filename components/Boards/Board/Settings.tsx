@@ -2,9 +2,10 @@ import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { useAccountStorage } from "../../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { useAccountStorage, useSession } from "../../../pages/_app";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
 

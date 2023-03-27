@@ -13,12 +13,12 @@ import {
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
-import { ConfirmationModal } from "../ConfirmationModal";
-import { ErrorHandler } from "../Error";
-import { updateSettings } from "./updateSettings";
+import { fetchRawApi, useApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
+import { toastStyles } from "../../../lib/client/useTheme";
+import { ConfirmationModal } from "../../ConfirmationModal";
+import { ErrorHandler } from "../../Error";
+import { updateSettings } from "../updateSettings";
 
 const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);

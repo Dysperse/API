@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../pages/_app";
+import { useSession } from "../../../lib/client/useSession";
 import { boardSwitcherStyles } from "../Layout";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";

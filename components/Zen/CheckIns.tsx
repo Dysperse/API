@@ -25,11 +25,11 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
+import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
 import { fetchRawApi, useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
-import { capitalizeFirstLetter } from "../ItemPopup";
 import { Puller } from "../Puller";
 
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];

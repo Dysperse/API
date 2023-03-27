@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 import { CreateItemModal } from "./CreateItem/modal";
 /**
  * Header component for the room

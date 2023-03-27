@@ -16,14 +16,14 @@ import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { preload } from "swr";
-import { useApi } from "../../lib/client/useApi";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../pages/_app";
-import { ErrorHandler } from "../Error";
-import Settings from "../Settings/index";
+import { useApi } from "../../../lib/client/useApi";
+import { useBackButton } from "../../../lib/client/useBackButton";
+import { useSession } from "../../../lib/client/useSession";
+import { ErrorHandler } from "../../Error";
+import Settings from "../../Settings/index";
 import AppsMenu from "./AppsMenu";
 
-const Group = dynamic(() => import("../Group"));
+const Group = dynamic(() => import("../../Group"));
 
 /**
  * Invite button to trigger property list
@@ -77,7 +77,10 @@ export default function InviteButton({ styles }) {
   preload(url, fetcher);
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const handleClick = (e) => setAnchorEl(e.target);
+  const handleClick = (e) => {
+    e.stopPropagation();
+    setAnchorEl(e.target);
+  };
   const handleClose = () => setAnchorEl(null);
 
   return (
@@ -86,6 +89,7 @@ export default function InviteButton({ styles }) {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        onClick={(e) => e.stopPropagation()}
         transformOrigin={{
           vertical: "bottom",
           horizontal: "left",

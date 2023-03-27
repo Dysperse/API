@@ -2,7 +2,6 @@ import { Container } from "@mui/material";
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import { useApi } from "../../lib/client/useApi";
-import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../Error";
 import { LoadingScreen } from "./LoadingScreen";
 import { RenderRoom } from "./RenderRoom";
@@ -15,14 +14,11 @@ import { RenderRoom } from "./RenderRoom";
 
 export function RoomComponent({ index }: { index: string }): JSX.Element {
   const router = useRouter();
-  const { error, url, loading, data }: ApiResponse = useApi(
-    "property/inventory/room",
-    {
-      room: router.query.custom
-        ? decode(index).split(",")[0]
-        : index.toLowerCase().replaceAll("-", ""),
-    }
-  );
+  const { error, url, loading, data } = useApi("property/inventory/room", {
+    room: router.query.custom
+      ? decode(index).split(",")[0]
+      : index.toLowerCase().replaceAll("-", ""),
+  });
 
   return error ? (
     <Container sx={{ mt: 1 }}>

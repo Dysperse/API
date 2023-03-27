@@ -6,161 +6,39 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemButton,
   ListItemText,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React, { cloneElement, useState } from "react";
+import React, { cloneElement } from "react";
 import { mutate } from "swr";
+import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
 import { fetchRawApi } from "../../lib/client/useApi";
 import { useBackButton } from "../../lib/client/useBackButton";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 import { ConfirmationModal } from "../ConfirmationModal";
-import { capitalizeFirstLetter } from "../ItemPopup";
 import { Puller } from "../Puller";
-const AccountSettings = dynamic(() => import("./AccountSettings"));
-const AppearanceSettings = dynamic(() => import("./AppearanceSettings"));
-const LoginActivity = dynamic(() => import("./LoginActivity"));
-const Notifications = dynamic(() => import("./Notifications"));
-const TwoFactorAuth = dynamic(() => import("./TwoFactorAuth"));
+import { SettingsMenu } from "./Menus";
 
-/**
- * Top-level component for the settings page.
- * @param content content
- * @param icon Icon
- * @param primary Settings option heading
- * @param secondary Secondary text for the settings option
- */
-function SettingsMenu({
-  parentOpen,
-  content,
-  icon,
-  primary,
-  secondary,
-  disabled = false,
-}: {
-  parentOpen: boolean;
-  content: React.ReactNode;
-  icon: React.ReactNode;
-  primary: string | React.ReactNode;
-  secondary: string | React.ReactNode;
-  disabled?: boolean;
-}) {
-  const [open, setOpen] = useState<boolean>(false);
-
-  useBackButton(() => setOpen(false));
-
-  const session = useSession();
-
-  return (
-    <>
-      <ListItemButton
-        disableRipple
-        disabled={disabled}
-        onClick={() => setOpen(true)}
-        sx={{
-          transiton: { sm: "none!important" },
-          "& *": { transiton: { sm: "none!important" } },
-          "&:hover": {
-            background: session.user.darkMode
-              ? "hsl(240,11%,25%)"
-              : colors[session?.themeColor || "grey"][50],
-            "& .MuiAvatar-root": {
-              background: session.user.darkMode
-                ? "hsl(240,11%,35%)"
-                : colors[session?.themeColor || "grey"][100],
-            },
-          },
-        }}
-      >
-        <ListItemAvatar>
-          <Avatar
-            sx={{
-              color: session.user.darkMode ? "#fff" : "#000",
-              borderRadius: 4,
-              background: session.user.darkMode
-                ? "hsl(240,11%,30%)"
-                : colors[session?.themeColor || "grey"][100],
-            }}
-          >
-            <Icon className="outlined">{icon}</Icon>
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={
-            <Typography sx={{ fontWeight: "600" }}>{primary}</Typography>
-          }
-          secondary={secondary}
-        />
-      </ListItemButton>
-      {parentOpen && (
-        <SwipeableDrawer
-          open={open}
-          anchor="bottom"
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(false)}
-          PaperProps={{
-            sx: {
-              width: {
-                sm: "50vw",
-              },
-              maxWidth: "650px",
-              overflow: "scroll",
-              maxHeight: "93vh",
-
-              mx: "auto",
-              ...(session.user.darkMode && {
-                background: "hsl(240, 11%, 25%)",
-              }),
-            },
-          }}
-          sx={{
-            zIndex: 9999,
-          }}
-          disableSwipeToOpen
-        >
-          <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
-            <Puller />
-            <Box sx={{ px: 5 }}>
-              <Typography
-                sx={{
-                  flex: 1,
-                  fontWeight: "900",
-                  mt: 5,
-                  mb: 3,
-                }}
-                variant="h5"
-                component="div"
-              >
-                {primary}
-              </Typography>
-              {content}
-            </Box>
-          </Box>
-        </SwipeableDrawer>
-      )}
-    </>
-  );
-}
+const AccountSettings = dynamic(() => import("./Menus/Account"));
+const AppearanceSettings = dynamic(() => import("./Menus/Appearance"));
+const LoginActivity = dynamic(() => import("./Menus/LoginActivity"));
+const Notifications = dynamic(() => import("./Menus/Notifications"));
+const TwoFactorAuth = dynamic(() => import("./Menus/TwoFactorAuth"));
 
 /**
  * Settings drawer component
  * @param {any} {children} - Children to add in trigger component
  * @returns {any}
  */
-export default function FullScreenDialog({
-  children,
-}: {
-  children: JSX.Element;
-}) {
-  const [open, setOpen] = React.useState<boolean>(false);
+export default function Settings({ children }: { children: JSX.Element }) {
   const session = useSession();
+  const [open, setOpen] = React.useState<boolean>(false);
+
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   useBackButton(() => setOpen(false));
 
   const trigger = cloneElement(children, {
@@ -172,7 +50,6 @@ export default function FullScreenDialog({
   return (
     <>
       {trigger}
-
       <SwipeableDrawer
         anchor="bottom"
         PaperProps={{ sx: { maxWidth: "600px", maxHeight: "95vh" } }}
@@ -183,18 +60,9 @@ export default function FullScreenDialog({
         onOpen={handleClickOpen}
         disableSwipeToOpen
       >
-        <Puller />
+        <Puller showOnDesktop />
         <Box sx={{ px: 4 }}>
-          <Typography
-            sx={{
-              flex: 1,
-              mb: 1,
-              mt: 3,
-            }}
-            className="font-heading"
-            variant="h4"
-            component="div"
-          >
+          <Typography className="font-heading" variant="h4">
             Settings
           </Typography>
         </Box>

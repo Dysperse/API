@@ -17,13 +17,13 @@ import { cloneElement, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 import { ErrorHandler } from "../Error";
 import { Changelog } from "./Changelog";
-import { EditProperty } from "./EditProperty";
-import { MemberList } from "./MemberList";
+import { EditProperty } from "./Edit";
+import { MemberList } from "./Members";
 import { Storage } from "./Storage";
 
 const Integrations = dynamic(() => import("./Integrations"));

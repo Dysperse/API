@@ -2,12 +2,12 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { useRef } from "react";
 import toast from "react-hot-toast";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { colors } from "../../lib/colors";
-import { Puller } from "../Puller";
-import { Prompt } from "../TwoFactorModal";
-import { isEmail } from "./MemberList";
+import { isEmail } from ".";
+import { fetchRawApi } from "../../../lib/client/useApi";
+import { useBackButton } from "../../../lib/client/useBackButton";
+import { colors } from "../../../lib/colors";
+import { Puller } from "../../Puller";
+import { Prompt } from "../../TwoFactorModal";
 
 import {
   Alert,
@@ -21,8 +21,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../../lib/client/useSession";
+import { toastStyles } from "../../../lib/client/useTheme";
 
 function LinkToken() {
   const [open, setOpen] = React.useState<boolean>(false);

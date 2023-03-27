@@ -1,10 +1,11 @@
 import { Icon, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
-import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../../lib/client/useSession";
+import { colors } from "../../../lib/colors";
 
 export function UpdateButton() {
   const [button, setButton] = useState<boolean>(false);
+
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -49,7 +50,10 @@ export function UpdateButton() {
     <Tooltip title="A newer version of this app is available. Click to download">
       <IconButton
         color="inherit"
-        onClick={() => window.location.reload()}
+        onClick={(e) => {
+          e.stopPropagation();
+          window.location.reload();
+        }}
         sx={{
           mr: -1,
           color: session.user.darkMode

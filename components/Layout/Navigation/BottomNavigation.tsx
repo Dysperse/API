@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
-import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../../lib/client/useSession";
+import { colors } from "../../../lib/colors";
 
 /**
  * Bottom navigation bar

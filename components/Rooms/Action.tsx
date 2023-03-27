@@ -10,7 +10,7 @@ import {
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import React, { useCallback } from "react";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 import { RoomActionMenu } from "./items//RoomActionMenu";
 
 interface RoomActionButtonProps {

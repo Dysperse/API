@@ -7,7 +7,7 @@ import {
   ThemeProvider,
   Toolbar,
 } from "@mui/material";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 
 /**
  * Loading screen

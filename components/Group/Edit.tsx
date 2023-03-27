@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import React, { cloneElement, useCallback } from "react";
 import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 import { updateSettings } from "../Settings/updateSettings";
 import { Color } from "./Color";
 

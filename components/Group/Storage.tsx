@@ -1,8 +1,7 @@
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
 import { useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
-import type { ApiResponse } from "../../types/client";
 import { ErrorHandler } from "../Error";
 
 export const max = 500;
@@ -25,7 +24,7 @@ export function Storage({
   propertyId: string;
   color: string;
 }) {
-  const { data, error, url }: ApiResponse = useApi("property/storage", {
+  const { data, error, url } = useApi("property/storage", {
     property: propertyId,
     accessToken,
   });

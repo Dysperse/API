@@ -4,8 +4,8 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useBackButton } from "../lib/client/useBackButton";
+import { useSession } from "../lib/client/useSession";
 import { toastStyles } from "../lib/client/useTheme";
-import { useSession } from "../pages/_app";
 import { Puller } from "./Puller";
 
 /**

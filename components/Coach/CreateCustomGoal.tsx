@@ -19,8 +19,8 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../../pages/_app";
 
 export function CreateGoal({ mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);

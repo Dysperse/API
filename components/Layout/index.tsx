@@ -2,17 +2,17 @@ import { Box, Button, CssBaseline, Snackbar, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useAccountStorage } from "../../lib/client/useAccountStorage";
 import { useApi } from "../../lib/client/useApi";
-import { useAccountStorage, useSession } from "../../pages/_app";
-import { ApiResponse } from "../../types/client";
+import { useSession } from "../../lib/client/useSession";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
-import { BottomNav } from "./BottomNavigation";
-import { Navbar } from "./Navbar";
-import { Sidebar } from "./Sidebar";
+import { Navbar } from "./Navigation/AppBar";
+import { BottomNav } from "./Navigation/BottomNavigation";
+import { Sidebar } from "./Navigation/Sidebar";
 
 const KeyboardShortcutsModal = dynamic(
-  () => import("./KeyboardShortcutsModal")
+  () => import("./Navigation/KeyboardShortcutsModal")
 );
 
 const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
@@ -24,15 +24,11 @@ const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
  * @param {any} {children} Children
  * @returns {any}
  */
-function ResponsiveDrawer({
-  children,
-}: {
-  children: JSX.Element;
-}): JSX.Element {
+function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const router = useRouter();
 
   // Check if user has reached storage limits
-  const { data, error }: ApiResponse = useApi("property/storage");
+  const { data, error } = useApi("property/storage");
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
 
   const storage = useAccountStorage();
@@ -154,4 +150,4 @@ function ResponsiveDrawer({
   );
 }
 
-export default ResponsiveDrawer;
+export default AppLayout;

@@ -1,4 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
@@ -6,12 +7,10 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Loading } from "../../components/Layout/Loading";
 import { fetchRawApi, useApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
+import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
-
-import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
-import { toastStyles } from "../../lib/client/useTheme";
-import { useSession } from "../_app";
 
 export default function Onboarding() {
   const router = useRouter();

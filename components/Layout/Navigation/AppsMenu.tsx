@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
+import { useBackButton } from "../../../lib/client/useBackButton";
+import { useSession } from "../../../lib/client/useSession";
+import { colors } from "../../../lib/colors";
 
 /**
  * Product list

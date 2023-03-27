@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import type { Item as ItemType } from "@prisma/client";
 import Item from "../../components/ItemPopup";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 
 /**
  * Item card

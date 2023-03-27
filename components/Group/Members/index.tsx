@@ -11,14 +11,12 @@ import {
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import { toastStyles } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
-import type { ApiResponse } from "../../types/client";
-import type { Member as MemberType } from "../../types/houseProfile";
-import { ErrorHandler } from "../Error";
-import { AddPersonModal } from "./AddPersonModal";
+import { fetchRawApi, useApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
+import { toastStyles } from "../../../lib/client/useTheme";
+import { colors } from "../../../lib/colors";
+import { ErrorHandler } from "../../Error";
+import { AddPersonModal } from "./Add";
 
 /**
  * Check if a string is a valid email address
@@ -43,7 +41,7 @@ function Member({
 }: {
   propertyId: string;
   color: string;
-  member: MemberType;
+  member: any;
   mutationUrl: any;
 }): JSX.Element {
   const [deleted, setDeleted] = React.useState<boolean>(false);
@@ -237,13 +235,10 @@ export function MemberList({
   propertyId: string;
   accessToken: string;
 }): JSX.Element {
-  const { error, loading, data, url }: ApiResponse = useApi(
-    "property/members",
-    {
-      propertyId: propertyId,
-      propertyAccessToken: accessToken,
-    }
-  );
+  const { error, loading, data, url } = useApi("property/members", {
+    propertyId: propertyId,
+    propertyAccessToken: accessToken,
+  });
   const session = useSession();
   const images =
     data && !data.error

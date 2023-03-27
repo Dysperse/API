@@ -13,10 +13,10 @@ import dayjs from "dayjs";
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import { useSession } from "../../pages/_app";
-import { ConfirmationModal } from "../ConfirmationModal";
-import { ErrorHandler } from "../Error";
+import { fetchRawApi, useApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
+import { ConfirmationModal } from "../../ConfirmationModal";
+import { ErrorHandler } from "../../Error";
 
 const Session: any = React.memo(function Session({
   mutationUrl,

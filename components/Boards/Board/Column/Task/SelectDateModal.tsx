@@ -9,8 +9,8 @@ import {
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import DatePicker from "react-calendar";
+import { useSession } from "../../../../../lib/client/useSession";
 import { colors } from "../../../../../lib/colors";
-import { useSession } from "../../../../../pages/_app";
 import { Puller } from "../../../../Puller";
 import { formatDate } from "./formatDate";
 

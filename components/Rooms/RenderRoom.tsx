@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { useSession } from "../../pages/_app";
+import { useSession } from "../../lib/client/useSession";
 
 /**
  * Renders a room based on the inventory data passed in the data object

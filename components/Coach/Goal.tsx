@@ -12,8 +12,8 @@ import {
 import dayjs from "dayjs";
 import React from "react";
 import { useBackButton } from "../../lib/client/useBackButton";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
-import { useSession } from "../../pages/_app";
 import { MoreOptions } from "./MoreOptions";
 import { TrophyModal } from "./TrophyModal";
 
