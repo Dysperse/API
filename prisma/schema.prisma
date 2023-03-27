@@ -60,6 +60,7 @@ model NotificationSettings {
   id                String  @id @unique @default(uuid())
   todoListUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
+  dailyCheckInNudge Boolean @default(true)
   userId            String  @unique
   user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }

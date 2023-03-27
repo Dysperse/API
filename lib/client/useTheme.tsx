@@ -6,14 +6,7 @@ const Transition = React.forwardRef(function Transition(
   props: any,
   ref: React.Ref<unknown>
 ) {
-  return (
-    <Grow
-      in={props.open}
-      ref={ref}
-      {...props}
-      easing="cubic-bezier(.17,.67,.2,1.29)"
-    />
-  );
+  return <Grow in={props.open} ref={ref} {...props} />;
 });
 
 const DrawerTransition = React.forwardRef(function Transition(
