@@ -21,7 +21,6 @@ import {
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
@@ -61,8 +60,6 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
   // for push notification
   const [alreadyTriggered, setAlreadyTriggered] = useState<boolean>(false);
 
-  const router = useRouter();
-
   /**
    * If the notification action button === the emoji, open the modal
    */
@@ -76,6 +73,7 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
       if (match) {
         if (match === emoji && !alreadyTriggered) {
           setOpen(true);
+          window.location.hash = "";
           setAlreadyTriggered(true);
         }
       }
