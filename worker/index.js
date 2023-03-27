@@ -40,6 +40,10 @@ self.addEventListener("notificationclick", function (event) {
       if (match) {
         path = `/zen/#/routine-${match[1]}`;
       }
+
+      if (event.action.match(/^dailyCheckIn-(\d+)$/)) {
+        path = `/zen/#/dailyCheckIn-${match[1]}`;
+      }
   }
 
   event.waitUntil(
