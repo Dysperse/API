@@ -353,7 +353,7 @@ export default function Prompt() {
             <Box>
               <Typography
                 variant="h3"
-                sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
+                sx={{ mb: 1, mt: { xs: 6, sm: 0 } }}
                 className="font-heading"
               >
                 Verifying...

@@ -10,7 +10,7 @@
   "private": true,
   "scripts": {
     "start": "wrangler dev src/dailyNudge.ts --test-scheduled",
-    "deploy": "wrangler publish src/dailyNudge.ts",
+    "deploy": "wrangler publish src/dailyNudge.ts --compatibility-date 2023-03-27 --name push-server",
     "test": "vitest"
   }
 }
