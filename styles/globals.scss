@@ -83,9 +83,9 @@ img {
   user-drag: none;
 }
 
-:not(.font-heading):not(.MuiIcon-root):not(.material-symbols-outlined):not(
-    .outlined
-  ):not(.material-symbols-rounded) {
+:not(.font-heading, .font-heading *):not(.MuiIcon-root):not(
+    .material-symbols-outlined
+  ):not(.outlined):not(.material-symbols-rounded) {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "DM Sans", sans-serif !important;
