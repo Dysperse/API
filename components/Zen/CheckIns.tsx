@@ -21,6 +21,7 @@ import {
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
@@ -33,6 +34,7 @@ import { colors } from "../../lib/colors";
 import { Puller } from "../Puller";
 
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
+
 export const reasons = [
   { icon: "favorite", name: "Relationships" },
   { icon: "work", name: "Work" },
@@ -44,6 +46,7 @@ export const reasons = [
   { icon: "payments", name: "Finances" },
   { icon: "pending", name: "Something else", w: 12 },
 ];
+
 function Emoji({ emoji, mood, data, handleMoodChange }) {
   const [open, setOpen] = useState(false);
 
@@ -54,6 +57,30 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
   const [currentReason, setCurrentReason] = useState<null | string>(
     (data && data[0] && data[0].reason) || null
   );
+
+  // for push notification
+  const [alreadyTriggered, setAlreadyTriggered] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  /**
+   * If the notification action button === the emoji, open the modal
+   */
+  useEffect(() => {
+    if (window.location.hash && window.location.hash.includes("#/")) {
+      let match = window.location.hash.split("#/")[1];
+      if (match.includes("-")) {
+        match = match.split("-")[1];
+      }
+
+      if (match) {
+        if (match === emoji && !alreadyTriggered) {
+          setOpen(true);
+          setAlreadyTriggered(true);
+        }
+      }
+    }
+  }, [emoji, alreadyTriggered]);
 
   return (
     <>
