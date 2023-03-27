@@ -18,7 +18,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { authStyles, Layout } from "../../components/Auth/Layout";
-import { isEmail } from "../../components/Group/MemberList";
+import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
 
 /**

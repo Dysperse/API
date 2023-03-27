@@ -49,7 +49,10 @@ export function UpdateButton() {
     <Tooltip title="A newer version of this app is available. Click to download">
       <IconButton
         color="inherit"
-        onClick={() => window.location.reload()}
+        onClick={(e) => {
+          e.stopPropagation();
+          window.location.reload();
+        }}
         sx={{
           mr: -1,
           color: session.user.darkMode

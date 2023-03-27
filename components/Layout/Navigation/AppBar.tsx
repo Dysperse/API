@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useSession } from "../../../lib/client/useSession";
 import { UpdateButton } from "./UpdateButton";
-import InviteButton from "./UserMenu";
+import UserMenu from "./UserMenu";
 
 /**
  * Navbar component for layout
@@ -77,6 +77,12 @@ export function Navbar(): JSX.Element {
           ? "hsla(240,11%,10%, 0.5)"
           : "rgba(255,255,255,.5)",
       }}
+      onClick={() =>
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        })
+      }
     >
       <CssBaseline />
       <Toolbar sx={{ height: "100%", gap: 1 }}>
@@ -88,12 +94,6 @@ export function Navbar(): JSX.Element {
             gap: 2,
             WebkitAppRegion: "no-drag",
           }}
-          onClick={() =>
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            })
-          }
         >
           <Image
             draggable="false"
@@ -157,7 +157,8 @@ export function Navbar(): JSX.Element {
             }}
           >
             <IconButton
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 navigator.vibrate(50);
                 openSpotlight();
               }}
@@ -171,7 +172,7 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
           <UpdateButton />
         </Box>
-        <InviteButton styles={styles} />
+        <UserMenu styles={styles} />
       </Toolbar>
     </AppBar>
   );

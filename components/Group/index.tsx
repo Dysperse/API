@@ -22,8 +22,8 @@ import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Changelog } from "./Changelog";
-import { EditProperty } from "./EditProperty";
-import { MemberList } from "./MemberList";
+import { EditProperty } from "./Edit";
+import { MemberList } from "./Members";
 import { Storage } from "./Storage";
 
 const Integrations = dynamic(() => import("./Integrations"));

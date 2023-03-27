@@ -1,4 +1,4 @@
-import { updateSettings } from "./updateSettings";
+import { updateSettings } from "./../updateSettings";
 
 import {
   Box,
@@ -10,8 +10,8 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
+import { useSession } from "../../../lib/client/useSession";
+import { colors } from "../../../lib/colors";
 
 /**
  * Function to change theme color (Not dark mode!)

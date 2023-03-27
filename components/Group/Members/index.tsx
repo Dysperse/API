@@ -11,12 +11,12 @@ import {
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
-import { ErrorHandler } from "../Error";
-import { AddPersonModal } from "./AddPersonModal";
+import { fetchRawApi, useApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
+import { toastStyles } from "../../../lib/client/useTheme";
+import { colors } from "../../../lib/colors";
+import { ErrorHandler } from "../../Error";
+import { AddPersonModal } from "./Add";
 
 /**
  * Check if a string is a valid email address
