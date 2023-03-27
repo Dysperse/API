@@ -64,14 +64,18 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
    * If the notification action button === the emoji, open the modal
    */
   useEffect(() => {
-    if (window.location.hash && window.location.hash.includes("#/")) {
+    if (
+      !alreadyTriggered &&
+      window.location.hash &&
+      window.location.hash.includes("#/")
+    ) {
       let match = window.location.hash.split("#/")[1];
       if (match.includes("-")) {
         match = match.split("-")[1];
       }
 
       if (match) {
-        if (match === emoji && !alreadyTriggered) {
+        if (match === emoji) {
           setOpen(true);
           window.location.hash = "";
           setAlreadyTriggered(true);
