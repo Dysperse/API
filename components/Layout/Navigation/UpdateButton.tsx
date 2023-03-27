@@ -5,6 +5,7 @@ import { colors } from "../../../lib/colors";
 
 export function UpdateButton() {
   const [button, setButton] = useState<boolean>(false);
+
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
