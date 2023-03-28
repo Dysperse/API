@@ -71,6 +71,9 @@ export function Integration({ integration }) {
               <TextField
                 size="small"
                 value={params[param.name]}
+                onKeyDown={(e) => {
+                  e.stopPropagation();
+                }}
                 onChange={(e: any) =>
                   handleParamUpdate(param.name, e.target.value)
                 }
