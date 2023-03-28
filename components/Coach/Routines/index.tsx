@@ -64,13 +64,7 @@ export function Routines() {
     });
 
   return (
-    <Box
-      ref={emblaRef}
-      sx={{
-        maxWidth: "100vw",
-      }}
-      className="embla"
-    >
+    <Box ref={emblaRef} sx={{ maxWidth: "100vw" }} className="embla">
       {data ? (
         <Box
           sx={{

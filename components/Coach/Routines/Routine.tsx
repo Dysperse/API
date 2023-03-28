@@ -88,6 +88,7 @@ export function Routine({ mutationUrl, routine }) {
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
   }, [session, open]);
+
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const editButtonRef: any = useRef();
 
@@ -347,6 +348,10 @@ export function Routine({ mutationUrl, routine }) {
               background: session.user.darkMode
                 ? "hsl(240,11%,10%)"
                 : orange[50],
+            }),
+            ...(loading && {
+              transition: "border-color .2s",
+              borderColor: session.user.darkMode ? "hsl(240,11%,30%)" : "#ccc",
             }),
             position: "relative",
           }}

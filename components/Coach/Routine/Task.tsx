@@ -1,12 +1,12 @@
 import { Box, Button, Chip, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import React from "react";
+import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 
 export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
-  const handleClick = React.useCallback(() => {
+  const handleClick = useCallback(() => {
     setCurrentIndex((index) => index + 1);
     fetchRawApi("user/routines/markAsDone", {
       date: dayjs().format("YYYY-MM-DD"),
@@ -18,15 +18,13 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
           : 1,
       id: task.id,
     })
-      .then(() => {
-        mutate();
-      })
-      .catch(() => {
+      .then(() => mutate())
+      .catch(() =>
         toast.error(
-          "Something went wrong while trying to mark your routine as done.",
+          "Yikes! Something went wrong while trying to mark your routine as done",
           toastStyles
-        );
-      });
+        )
+      );
   }, [task.durationDays, task.id, task.progress, mutate, setCurrentIndex]);
 
   return (
@@ -117,7 +115,7 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
         >
           {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
             <>
-              <span>🔥</span> Completed for today!
+              <span>🔥</span> Completed today!
             </>
           ) : (
             <>
