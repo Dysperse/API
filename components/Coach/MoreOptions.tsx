@@ -159,7 +159,7 @@ function ShareGoal({ handleMenuClose, goal }) {
               sx={{ color: "inherit!important" }}
               disabled={exportFooterOpen}
             >
-              <Icon className="outlined">edit</Icon>
+              <Icon className="outlined">palette</Icon>
             </IconButton>
           </Toolbar>
         </AppBar>
