@@ -21,7 +21,7 @@ export function ImageModal({ image, setImage, styles }) {
         ).then((res) => res.json());
 
         setImage(JSON.stringify(res.data));
-        console.log("Image uploaded!!!", res.data);
+
         setImageUploading(false);
       } catch (e) {
         toast.error(

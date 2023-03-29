@@ -54,7 +54,7 @@ export async function createSession(id: any, res, ip: any) {
  */
 export default async function handler(req, res) {
   // FIRST, Validate the captcha
-  console.log("Token: " + req.body.token);
+
   const endpoint = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
   const secret: any = process.env.CAPTCHA_KEY;
   const body = `secret=${encodeURIComponent(
@@ -69,10 +69,7 @@ export default async function handler(req, res) {
     },
   });
 
-  console.log(req.body.token);
-
   const data = await captchaRequest.json();
-  console.log(data);
 
   if (!data.success && data.error !== "internal_error") {
     return res.status(401).json({ message: "Invalid Captcha" });
@@ -105,7 +102,7 @@ export default async function handler(req, res) {
     if (!validPassword) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    console.log(user.notificationSubscription);
+
     if (
       !req.body.twoFactorCode &&
       user.twoFactorSecret !== "" &&
@@ -113,7 +110,6 @@ export default async function handler(req, res) {
     ) {
       const newToken = twofactor.generateToken(user.twoFactorSecret);
 
-      console.log(user);
       await DispatchNotification({
         subscription: user.notificationSubscription as string,
         title: `${newToken?.token} is your Dysperse login code`,
