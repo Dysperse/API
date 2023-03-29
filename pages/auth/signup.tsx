@@ -61,7 +61,7 @@ export default function Prompt() {
   useEffect(() => {
     if (typeof document !== "undefined")
       document
-        .querySelector(`meta[name="theme-color"]`)
+        .querySelector('meta[name="theme-color"]')
         ?.setAttribute(
           "content",
           window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
@@ -75,7 +75,7 @@ export default function Prompt() {
           <Box
             sx={{
               color: "#202020",
-              [`@media (prefers-color-scheme: dark)`]: {
+              ["@media (prefers-color-scheme: dark)"]: {
                 color: "hsl(240,11%,90%)",
                 "&:hover": {
                   color: "hsl(240,11%,100%)",
@@ -156,7 +156,7 @@ export default function Prompt() {
                   helperText: (
                     <Typography
                       sx={{
-                        [`@media (prefers-color-scheme: dark)`]: {
+                        ["@media (prefers-color-scheme: dark)"]: {
                           color: "hsl(240,11%,90%)",
                         },
                       }}
@@ -185,7 +185,7 @@ export default function Prompt() {
                   helperText: (
                     <Typography
                       sx={{
-                        [`@media (prefers-color-scheme: dark)`]: {
+                        ["@media (prefers-color-scheme: dark)"]: {
                           color: "hsl(240,11%,90%)",
                         },
                       }}
@@ -209,7 +209,7 @@ export default function Prompt() {
                   zIndex: 1,
                   py: 1,
                   background: "hsl(240,11%,90%)",
-                  [`@media (prefers-color-scheme: dark)`]: {
+                  ["@media (prefers-color-scheme: dark)"]: {
                     background: "hsl(240,11%,10%)",
                   },
                   width: { xs: "100vw", sm: "100%" },
