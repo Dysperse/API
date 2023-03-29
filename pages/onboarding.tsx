@@ -47,6 +47,7 @@ export default function Onboarding() {
   ];
   const session = useSession();
 
+  const [step, setStep] = useState(0);
   const [type, setType] = useState(
     session.property.profile.type || "apartment"
   );
@@ -329,7 +330,6 @@ export default function Onboarding() {
       </Box>
     </>,
   ];
-  const [step, setStep] = useState(0);
   useEffect(() => {
     const container: any = document.getElementById("onboardingContainer");
     container.scrollTo({ top: 0 });

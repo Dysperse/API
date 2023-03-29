@@ -33,8 +33,12 @@ export function CreateItemModal({
   room: any;
   children: JSX.Element;
 }) {
+  const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [title, setTitle] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [category, setCategory] = useState("[]");
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => {
@@ -44,14 +48,7 @@ export function CreateItemModal({
     setCategory("[]");
   }, []);
 
-  const session = useSession();
-  const [title, setTitle] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [category, setCategory] = useState("[]");
-
-  const trigger = cloneElement(children, {
-    onClick: handleOpen,
-  });
+  const trigger = cloneElement(children, { onClick: handleOpen });
 
   const [emblaRef] = useEmblaCarousel(
     {
