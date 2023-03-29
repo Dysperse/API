@@ -136,11 +136,9 @@ export default function Settings({ children }: { children: JSX.Element }) {
               </span>
             }
             secondary={
-              <>
-                {session.user.notificationSubscription
-                  ? "Notifications enabled for 1 device"
-                  : "Notifications off"}
-              </>
+              session.user.notificationSubscription
+                ? "Notifications enabled for 1 device"
+                : "Notifications off"
             }
           />
           <ConfirmationModal

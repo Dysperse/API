@@ -191,15 +191,13 @@ export default function Inventory({ children = null }: any) {
         {viewBy === "Room" ? (
           <>
             {session.property.profile.type === "study group" ? (
-              <>
-                <Action
-                  mutationUrl={url}
-                  href="/rooms/backpack"
-                  icon="backpack"
-                  primary="Backpack"
-                  count={data}
-                />
-              </>
+              <Action
+                mutationUrl={url}
+                href="/rooms/backpack"
+                icon="backpack"
+                primary="Backpack"
+                count={data}
+              />
             ) : (
               <>
                 <Action

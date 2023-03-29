@@ -268,7 +268,7 @@ export const Column: any = memo(function Column({
                   mutationUrl={mutationUrl}
                   boardId={1}
                 />
-                {data.length === 0 ? <></> : <Divider sx={{ mt: 2, mb: -1 }} />}
+                {data.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
               </Box>
             </Box>
           ) : (
