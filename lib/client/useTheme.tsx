@@ -28,13 +28,13 @@ export const toastStyles = {
   style: {
     borderRadius: "25px",
     paddingLeft: "15px",
-    background: `hsla(240,11%,20%, 0.9)`,
+    background: "hsla(240,11%,20%, 0.9)",
     backdropFilter: "blur(10px)",
-    color: `hsl(240,11%,90%)`,
+    color: "hsl(240,11%,90%)",
   },
   iconTheme: {
-    primary: `hsl(240,11%,90%)`,
-    secondary: `hsl(240,11%,30%)`,
+    primary: "hsl(240,11%,90%)",
+    secondary: "hsl(240,11%,30%)",
   },
 };
 

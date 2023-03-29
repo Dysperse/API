@@ -128,8 +128,8 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
           position: "relative",
           width: {
             xs: "100%",
-            sm: `calc(100% - 65px)`,
-            md: `calc(100% - 85px)`,
+            sm: "calc(100% - 65px)",
+            md: "calc(100% - 85px)",
           },
         }}
       >

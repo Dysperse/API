@@ -241,7 +241,7 @@ export default function SearchPopup() {
       limit={7}
       onSpotlightClose={() => {
         document
-          .querySelector(`meta[name="theme-color"]`)
+          .querySelector('meta[name="theme-color"]')
           ?.setAttribute(
             "content",
             session.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
@@ -250,7 +250,7 @@ export default function SearchPopup() {
       onSpotlightOpen={() => {
         if (!session.user.darkMode) {
           document
-            .querySelector(`meta[name="theme-color"]`)
+            .querySelector('meta[name="theme-color"]')
             ?.setAttribute("content", "#c0c0c0");
         }
       }}

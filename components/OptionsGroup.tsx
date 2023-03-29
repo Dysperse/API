@@ -39,8 +39,8 @@ export function OptionsGroup({ currentOption, setOption, options }) {
                 }%)!important`,
               },
               color: session.user.darkMode
-                ? `hsl(240,11%,80%) !important`
-                : `#303030 !important`,
+                ? "hsl(240,11%,80%) !important"
+                : "#303030 !important",
             }),
           }}
         >
