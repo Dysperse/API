@@ -33,7 +33,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
   const [daysOfWeek, setDaysOfWeek] = useState(
-    `[false, false, false, false, false, false, false]`
+    "[false, false, false, false, false, false, false]"
   );
 
   const [time, setTime] = useState(12);

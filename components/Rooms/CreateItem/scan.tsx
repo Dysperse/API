@@ -194,7 +194,7 @@ export default function ImageRecognition({
   const session = useSession();
 
   useEffect(() => {
-    const tag: any = document.querySelector(`meta[name="theme-color"]`);
+    const tag: any = document.querySelector('meta[name="theme-color"]');
     tag.content = open
       ? "#000000"
       : session.user.darkMode
