@@ -63,6 +63,7 @@ export default function Prompt() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [twoFactorCode, setTwoFactorCode] = useState("");
+  const [step, setStep] = useState(1);
 
   const handleSubmit = useCallback(
     async (e?: any) => {
@@ -165,8 +166,6 @@ export default function Prompt() {
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", "hsl(240,11%,90%)");
   }, []);
-
-  const [step, setStep] = useState(1);
 
   useEffect(() => {
     if (captchaToken !== "" && !buttonLoading && step === 2) handleSubmit();

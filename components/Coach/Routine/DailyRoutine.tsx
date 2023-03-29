@@ -140,6 +140,13 @@ export function DailyRoutine() {
     </Box>
   );
 
+  const indexWhereUserLeftOff = sortedTasks
+    ? sortedTasks.findIndex(
+        (task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD")
+      )
+    : 0;
+  const [currentIndex, setCurrentIndex] = useState(indexWhereUserLeftOff);
+
   const stories = [
     ...sortedTasks.map((task) => {
       return {
@@ -164,14 +171,6 @@ export function DailyRoutine() {
       ),
     },
   ];
-
-  const indexWhereUserLeftOff = sortedTasks
-    ? sortedTasks.findIndex(
-        (task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD")
-      )
-    : 0;
-
-  const [currentIndex, setCurrentIndex] = useState(indexWhereUserLeftOff);
 
   useEffect(() => {
     setCurrentIndex(
