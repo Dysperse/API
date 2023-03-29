@@ -16,9 +16,10 @@ import {
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import html2canvas from "html2canvas";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../lib/client/useApi";
+import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
 import { ConfirmationModal } from "../ConfirmationModal";
 
@@ -42,12 +43,22 @@ const downloadImage = (blob, fileName) => {
 };
 
 function ShareGoal({ handleMenuClose, goal }) {
+  const session = useSession();
+  const exportRef = useRef();
+
   const [open, setOpen] = useState<boolean>(false);
-  const [exportFooterOpen, setExportFooterOpen] = useState<boolean>(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [exportFooterOpen, setExportFooterOpen] = useState<boolean>(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const exportRef = useRef();
+  useEffect(() => {
+    if (!session.user.darkMode)
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
+  }, [session, open]);
 
   const colorChoices = [
     "red",
@@ -115,11 +126,19 @@ function ShareGoal({ handleMenuClose, goal }) {
     [WheelGesturesPlugin()]
   );
 
+  useEffect(() => {
+    if (emblaCardApi) {
+      emblaCardApi.on("select", () => {
+        console.log(`Current index is ${emblaCardApi?.selectedScrollSnap()}`);
+      });
+    }
+  }, [emblaCardApi]);
+
   const footerCardStyles = {
     transition: "all .2s",
     transformOrigin: "top center",
     ...(exportFooterOpen && {
-      transform: "scale(0.8)",
+      transform: "scale(0.9)",
     }),
   };
   return (
@@ -149,26 +168,44 @@ function ShareGoal({ handleMenuClose, goal }) {
           <Toolbar>
             <IconButton
               onClick={handleClose}
-              sx={{ color: "inherit!important" }}
+              sx={{
+                color: "inherit!important",
+                opacity: exportFooterOpen ? 0 : 1,
+                transform: exportFooterOpen ? "scale(0.7)" : "",
+                transition: "transform .2s,opacity .2s",
+              }}
+              disabled={exportFooterOpen}
             >
               <Icon>close</Icon>
             </IconButton>
-            <Typography sx={{ mx: "auto" }}>Share</Typography>
-            <IconButton
-              onClick={() => setExportFooterOpen(true)}
-              sx={{ color: "inherit!important" }}
-              disabled={exportFooterOpen}
+            <Typography
+              sx={{
+                mx: "auto",
+                ml: exportFooterOpen ? "-20px" : "15px",
+                transition: "margin .2s",
+                fontWeight: 700,
+              }}
             >
-              <Icon className="outlined">palette</Icon>
+              Share
+            </Typography>
+            <IconButton
+              onClick={() => setExportFooterOpen(!exportFooterOpen)}
+              sx={{ color: "inherit!important" }}
+            >
+              <Icon className="outlined">
+                {exportFooterOpen ? "close" : "palette"}
+              </Icon>
             </IconButton>
           </Toolbar>
         </AppBar>
+        <Box>{currentIndex}</Box>
 
         <Box ref={emblaCardRef} className="embla">
           <Box
             sx={{
               p: { xs: 2, sm: 3 },
               display: "flex",
+              alignItems: "center",
               gap: 2,
             }}
           >
@@ -349,12 +386,8 @@ function ShareGoal({ handleMenuClose, goal }) {
 
         <SwipeableDrawer
           open={exportFooterOpen}
-          onOpen={() => {
-            setExportFooterOpen(true);
-          }}
-          onClose={() => {
-            setExportFooterOpen(false);
-          }}
+          onOpen={() => setExportFooterOpen(true)}
+          onClose={() => setExportFooterOpen(false)}
           sx={{
             zIndex: 9999999999,
             height: "0px!important",
@@ -425,7 +458,7 @@ function ShareGoal({ handleMenuClose, goal }) {
                 mb: 2,
               }}
             >
-              Download <Icon>download</Icon>
+              Save to gallery <Icon>download</Icon>
             </Button>
           </Box>
         </SwipeableDrawer>
