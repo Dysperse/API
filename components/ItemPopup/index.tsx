@@ -326,7 +326,7 @@ export default function ItemDrawer({
             setItemData={setItemData}
             mutationUrl={mutationUrl}
           />
-        ) : !loading && itemData == null ? (
+        ) : !loading && itemData === null ? (
           <Box sx={{ p: 3 }}>
             <Alert severity="error">Item does not exist</Alert>
           </Box>
