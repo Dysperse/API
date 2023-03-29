@@ -153,7 +153,6 @@ export default function Prompt() {
         }
       } catch (e) {
         setStep(1);
-        alert(1);
         ref?.current?.reset();
         setButtonLoading(false);
       }
