@@ -48,6 +48,7 @@
     "eslint-config-next": "^13.2.1",
     "formik": "^2.2.9",
     "hex-to-rgba": "^2.0.1",
+    "html2canvas": "^1.4.1",
     "ical": "^0.8.0",
     "js-base64": "^3.7.5",
     "jsonwebtoken": "^9.0.0",

@@ -1,12 +1,9 @@
 import {
-  AppBar,
   Box,
   Chip,
-  Icon,
-  IconButton,
+  LinearProgress,
   Slider,
   SwipeableDrawer,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -14,6 +11,7 @@ import React from "react";
 import { useBackButton } from "../../lib/client/useBackButton";
 import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
+import { Puller } from "../Puller";
 import { MoreOptions } from "./MoreOptions";
 import { TrophyModal } from "./TrophyModal";
 
@@ -162,93 +160,100 @@ export function Goal({ goal, mutationUrl }: any): JSX.Element {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
+        PaperProps={{
+          sx: {
+            p: 3,
+            pt: 0,
+            maxHeight: "80vh",
+          },
+        }}
       >
-        <AppBar
-          sx={{
-            border: 0,
-            background: "transparent",
-            color: "#000",
-          }}
-        >
-          <Toolbar className="flex" sx={{ height: "70px" }}>
-            <IconButton color="inherit" onClick={() => setOpen(false)}>
-              <Icon>expand_more</Icon>
-            </IconButton>
-            <Typography sx={{ mx: "auto", fontWeight: "600" }}>Goal</Typography>
-            <MoreOptions
-              goal={goal}
-              mutationUrl={mutationUrl}
-              setOpen={setOpen}
-            />
-          </Toolbar>
-        </AppBar>
+        <Puller />
         <Box
           sx={{
-            mt: "-70px",
             background: `linear-gradient(45deg, ${
               colors[session?.themeColor || "grey"]["A400"]
             }, ${colors[session?.themeColor || "grey"]["A100"]})`,
-            height: "300px",
-            minHeight: "300px",
-            mb: 5,
             color: colors[session?.themeColor || "grey"][50],
-            p: 5,
+            p: { xs: 3, sm: 5 },
+            position: "relative",
+            pt: { xs: 10 },
+            borderRadius: 5,
           }}
           className="flex"
         >
+          <MoreOptions
+            goal={goal}
+            setOpen={setOpen}
+            mutationUrl={mutationUrl}
+          />
           <Box sx={{ mt: "auto" }}>
-            <Chip
-              label={goal.category}
-              sx={{
-                mb: 1,
-                color: "#000",
-                background: "rgba(0,0,0,.1)",
-              }}
-            />
             <Typography
-              variant="h4"
+              variant="h3"
+              className="font-heading"
               sx={{
-                fontWeight: "900",
                 color: "#000",
-                textDecoration: "underline",
               }}
             >
               {goal.name}
             </Typography>
+            <Box sx={{ display: "flex", gap: 1, mt: 1.5 }}>
+              <Chip
+                label={goal.category}
+                size="small"
+                sx={{
+                  px: 1,
+                  color: "#000",
+                  fontWeight: 700,
+                  background: "rgba(0,0,0,.1)",
+                }}
+              />
+              <Chip
+                label={repeatText}
+                size="small"
+                sx={{
+                  px: 1,
+                  color: "#000",
+                  fontWeight: 700,
+                  background: "rgba(0,0,0,.1)",
+                }}
+              />
+            </Box>
           </Box>
         </Box>
-        <Box sx={{ px: 5 }}>
-          {!goal.completed && goal.progress === goal.durationDays && (
-            <TrophyModal goal={goal} mutationUrl={mutationUrl} />
-          )}
-          {goal.completed && (
-            <Box
-              sx={{
-                p: 3,
-                background: "rgba(0,0,0,.1)",
-                borderRadius: 5,
-                mb: 4,
-              }}
-            >
-              <Typography variant="h5">Completed</Typography>
-              <Typography variant="body2">
-                You completed this goal on{" "}
-                {dayjs(goal.lastDone).format("MMM DD, YYYY")}.
-              </Typography>
-            </Box>
-          )}
-          <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
-            <Icon>access_time</Icon> {repeatText}
+        {goal.completed && (
+          <Box
+            sx={{
+              p: 3,
+              background: "rgba(0,0,0,.1)",
+              borderRadius: 5,
+              mb: 4,
+            }}
+          >
+            <Typography variant="h5">Completed</Typography>
+            <Typography variant="body2">
+              You completed this goal on{" "}
+              {dayjs(goal.lastDone).format("MMM DD, YYYY")}.
+            </Typography>
+          </Box>
+        )}
+        {!goal.completed && goal.progress === goal.durationDays && (
+          <TrophyModal goal={goal} mutationUrl={mutationUrl} />
+        )}
+        <Box
+          sx={{ p: 4, background: "rgba(0,0,0,0.1)", borderRadius: 5, mt: 3 }}
+        >
+          <Typography variant="h4" sx={{ mb: 0.5 }}>
+            {goal.progress} out of {goal.durationDays}
           </Typography>
-          <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
-            <Icon>date_range</Icon> {goal.durationDays} days
+          <Typography gutterBottom sx={{ mb: 1.5 }}>
+            days completed &bull; {goal.durationDays - goal.progress} remaining
           </Typography>
-          <Typography className="flex items-center" sx={{ gap: 2, mb: 2 }}>
-            <Icon>today</Icon> {goal.durationDays - goal.progress} days left
-          </Typography>
-          <Typography className="flex items-center" sx={{ gap: 2, mb: 5 }}>
-            <Icon>check_circle</Icon> {goal.progress} days completed
-          </Typography>
+          <LinearProgress
+            sx={{ height: 25, borderRadius: 999 }}
+            variant="determinate"
+            value={(goal.progress / goal.durationDays) * 100}
+          />
         </Box>
       </SwipeableDrawer>
     </Box>
