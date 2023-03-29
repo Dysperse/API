@@ -67,7 +67,7 @@ export default function Prompt() {
   const handleSubmit = useCallback(
     async (e?: any) => {
       if (e) e.preventDefault();
-      
+
       setButtonLoading(true);
 
       try {

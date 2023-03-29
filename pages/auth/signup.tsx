@@ -34,7 +34,7 @@ export default function Prompt() {
         password,
         confirmPassword,
       };
-      
+
       fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify(body),

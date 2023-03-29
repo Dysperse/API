@@ -7,7 +7,6 @@ const handler = async (req, res) => {
     credentials: [req.query.property, req.query.accessToken],
   });
   const board = JSON.parse(req.query.board);
-  
 
   const data = await prisma.board.create({
     data: {

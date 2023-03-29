@@ -29,8 +29,6 @@ export function Storage({
     accessToken,
   });
 
-  
-
   const storage = {
     items:
       ((((data && data.items) || { count: 0 }).count * multipliers.items) /

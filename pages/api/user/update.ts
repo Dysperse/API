@@ -26,7 +26,7 @@ const handler = async (req, res) => {
     return;
   }
   const userId = session.user.id;
-  
+
   const user = await prisma.user.update({
     where: {
       id: userId,

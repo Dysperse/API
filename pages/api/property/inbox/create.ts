@@ -64,10 +64,7 @@ export const createInboxNotification = async (
           })
         )
         .then(() => {})
-        .catch((err) => {
-          
-          
-        });
+        .catch((err) => {});
     }
   }
 

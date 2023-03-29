@@ -78,7 +78,6 @@ export default function Notifications() {
     setSubscription(sub);
     setIsSubscribed(true);
     updateSettings("notificationSubscription", JSON.stringify(sub));
-    
   };
   const session = useSession();
 
@@ -88,7 +87,6 @@ export default function Notifications() {
     updateSettings("notificationSubscription", "");
     setSubscription(null);
     setIsSubscribed(false);
-    
   };
 
   const sendNotificationButtonOnClick = async (event) => {

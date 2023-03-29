@@ -13,20 +13,11 @@ export function UpdateButton() {
       window.workbox !== undefined
     ) {
       const wb: any = window.workbox;
-      wb.addEventListener("installed", (event) => {
-        
-        
-      });
+      wb.addEventListener("installed", (event) => {});
 
-      wb.addEventListener("controlling", (event) => {
-        
-        
-      });
+      wb.addEventListener("controlling", (event) => {});
 
-      wb.addEventListener("activated", (event) => {
-        
-        
-      });
+      wb.addEventListener("activated", (event) => {});
 
       const promptNewVersionAvailable = () => {
         setButton(true);
@@ -36,10 +27,7 @@ export function UpdateButton() {
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
-      wb.addEventListener("message", (event) => {
-        
-        
-      });
+      wb.addEventListener("message", (event) => {});
 
       wb.register();
     }

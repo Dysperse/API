@@ -1,8 +1,6 @@
 import { DispatchNotification } from "../../lib/server/notification";
 
 export default async function handler(req, res) {
-  
-
   await DispatchNotification({
     subscription: req.query.subscription,
     title: "Swoosh!",

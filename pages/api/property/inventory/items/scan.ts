@@ -31,6 +31,6 @@ export default async function handler(req: any, res: NextApiResponse<Data>) {
   const { imageUrl } = JSON.parse(req.body);
 
   const response = await query(imageUrl);
-  
+
   res.json(response);
 }
