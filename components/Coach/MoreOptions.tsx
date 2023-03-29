@@ -50,10 +50,12 @@ function ShareGoal({ handleMenuClose, goal }) {
     "red",
     "teal",
     "green",
-    "blue",
+    "cyan",
     "pink",
     "lime",
     "orange",
+    "deepOrange",
+    "blueGrey",
   ];
   const [color, setColor] = useState("red");
 
@@ -144,8 +146,9 @@ function ShareGoal({ handleMenuClose, goal }) {
               {goal.name}
             </Typography>
             <Typography>
-              <b>{goal.progress}</b> out of <b>{goal.durationDays}</b> days
-              complete
+              Only <b>{goal.durationDays - goal.progress}</b> days left to go!
+              I&apos;ve been working on this goal for <b>{goal.progress}</b>{" "}
+              days so far.
             </Typography>
             <LinearProgress
               value={(goal.progress / goal.durationDays) * 100}
