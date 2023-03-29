@@ -82,8 +82,6 @@ export default async function handler(req, res) {
 
   const url = `https://my.dysperse.com/auth/reset-password/${token.token}`;
 
-  console.log(url);
-
   // const templateParams = {
   //   to: email,
   //   link: url,
@@ -112,8 +110,8 @@ export default async function handler(req, res) {
 
   await fetch("https://api.emailjs.com/api/v1.0/email/send", requestOptions)
     .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log("error", error));
+    .then((result) => {})
+    .catch((error) => {});
 
   res.json({ success: true });
 }

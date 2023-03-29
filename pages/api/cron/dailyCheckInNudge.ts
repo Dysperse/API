@@ -64,11 +64,11 @@ const Notification = async (req, res) => {
           actions: [
             {
               title: "Great!",
-              action: `dailyCheckIn-1f601`,
+              action: "dailyCheckIn-1f601",
             },
             {
               title: "Not so great...",
-              action: `dailyCheckIn-1f614`,
+              action: "dailyCheckIn-1f614",
             },
           ],
           subscription: notificationSubscription,
