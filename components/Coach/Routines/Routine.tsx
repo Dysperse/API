@@ -213,7 +213,7 @@ export function Routine({ mutationUrl, routine }) {
               color: "hsl(240, 11%, 80%)",
             }}
             stories={
-              data.items.length == 0
+              data.items.length === 0
                 ? [
                     {
                       content: () => (

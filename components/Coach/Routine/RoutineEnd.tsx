@@ -27,7 +27,7 @@ export function RoutineEnd({
           top: 0,
           left: 0,
         }}
-        onClick={() => setCurrentIndex((i) => (i == 0 ? 0 : i - 1))}
+        onClick={() => setCurrentIndex((i) => (i === 0 ? 0 : i - 1))}
       />
       <Box
         sx={{
@@ -39,7 +39,7 @@ export function RoutineEnd({
         }}
         onClick={handleClose}
       />
-      {tasksRemaining == 0 ? (
+      {tasksRemaining === 0 ? (
         <>
           <Box
             sx={{

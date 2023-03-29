@@ -413,7 +413,7 @@ export default function DrawerContent({
           <ConfirmationModal
             title="Delete task?"
             question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
-            disabled={data.subTasks.length == 0}
+            disabled={data.subTasks.length === 0}
             callback={() => {
               handleParentClose();
               handleDelete(data.id);

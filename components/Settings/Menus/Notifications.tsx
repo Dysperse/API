@@ -132,7 +132,7 @@ export default function Notifications() {
     (!isSubscribed && session.user.notificationSubscription) ||
     session.user.notificationSubscription !== JSON.stringify(subscription);
 
-  return isInPwa || process.env.NODE_ENV == "development" ? (
+  return isInPwa || process.env.NODE_ENV === "development" ? (
     data ? (
       <Box sx={{ mb: 2 }}>
         <Alert severity="info" sx={{ borderRadius: 4, mb: 1 }}>

@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       AND: [{ userId: req.query.userIdentifier }, { id: req.query.id }],
     },
     data: {
-      routineId: req.query.routineId == "-1" ? null : req.query.routineId,
+      routineId: req.query.routineId === "-1" ? null : req.query.routineId,
     },
   });
   console.log(data);

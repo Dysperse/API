@@ -349,7 +349,7 @@ export default function Prompt() {
                 </Tooltip>
               </Box>
             </Box>
-          ) : step == 2 ? (
+          ) : step === 2 ? (
             <Box>
               <Typography
                 variant="h3"
@@ -407,7 +407,7 @@ export default function Prompt() {
                   float: "right",
                   mt: 3,
                   borderRadius: 99,
-                  ...(twoFactorCode.length == 6 && {
+                  ...(twoFactorCode.length === 6 && {
                     background: `#200923!important`,
                   }),
                   textTransform: "none",

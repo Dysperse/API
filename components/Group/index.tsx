@@ -164,7 +164,7 @@ function PropertyInfo({
           accessToken={accessToken}
         />
         {propertyData &&
-          propertyData.profile.id == session.property.propertyId && (
+          propertyData.profile.id === session.property.propertyId && (
             <Integrations />
           )}
       </Box>

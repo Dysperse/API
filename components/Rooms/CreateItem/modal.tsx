@@ -64,7 +64,7 @@ export function CreateItemModal({
   );
 
   const handleSubmit = useCallback(() => {
-    if (title.trim() == "") {
+    if (title.trim() === "") {
       toast.error("Please enter a title", toastStyles);
       return;
     }

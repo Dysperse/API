@@ -444,25 +444,25 @@ export function DailyCheckInDrawer() {
               onClose={() => handleMenuClose(-1)}
             >
               <MenuItem
-                selected={lastBy == 7}
+                selected={lastBy === 7}
                 onClick={() => handleMenuClose(7)}
               >
                 7 days
               </MenuItem>
               <MenuItem
-                selected={lastBy == 14}
+                selected={lastBy === 14}
                 onClick={() => handleMenuClose(14)}
               >
                 14 days
               </MenuItem>
               <MenuItem
-                selected={lastBy == 30}
+                selected={lastBy === 30}
                 onClick={() => handleMenuClose(30)}
               >
                 30 days
               </MenuItem>
               <MenuItem
-                selected={lastBy == 365}
+                selected={lastBy === 365}
                 onClick={() => handleMenuClose(365)}
               >
                 365 days

@@ -120,7 +120,7 @@ export function EditProperty({ children, color }: any) {
             id="nameInput"
             label="Home name / Family name / Address"
             onKeyDown={(e: any) => {
-              if (e.key == "Enter") e.target.blur();
+              if (e.key === "Enter") e.target.blur();
             }}
             placeholder="1234 Rainbow Road"
             onBlur={(e: React.FocusEvent<HTMLInputElement>) =>

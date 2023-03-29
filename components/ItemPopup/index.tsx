@@ -15,6 +15,7 @@ import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../lib/client/useApi";
 import { useSession } from "../../lib/client/useSession";
@@ -22,7 +23,6 @@ import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
-import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
 
 const AddToListModal = dynamic(() => import("./AddToList"));
 const CategoryModal = dynamic(() => import("./CategoryModal"));
@@ -326,7 +326,7 @@ export default function ItemDrawer({
             setItemData={setItemData}
             mutationUrl={mutationUrl}
           />
-        ) : !loading && itemData == null ? (
+        ) : !loading && itemData === null ? (
           <Box sx={{ p: 3 }}>
             <Alert severity="error">Item does not exist</Alert>
           </Box>

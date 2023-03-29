@@ -58,7 +58,7 @@ function BoardModal({ itemId, title, list }) {
         }}
       >
         <DialogTitle sx={{ fontWeight: "800" }}>
-          {list.columns.length == 1 ? "Confirm creation" : "Select a column"}
+          {list.columns.length === 1 ? "Confirm creation" : "Select a column"}
           <DialogContentText
             id="alert-dialog-slide-description"
             sx={{ mt: 1, mb: 2 }}
@@ -90,7 +90,7 @@ function BoardModal({ itemId, title, list }) {
               <ListItemText
                 primary={
                   column.name ||
-                  (list.columns.length == 1 && <>Add to list &rarr;</>)
+                  (list.columns.length === 1 && <>Add to list &rarr;</>)
                 }
               />
             </ListItemButton>

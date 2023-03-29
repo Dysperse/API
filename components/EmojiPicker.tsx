@@ -161,7 +161,7 @@ export function EmojiPicker({
             }}
           >
             {(!results || (results && results.length === 0)) &&
-              inputValue.length != 0 && (
+              inputValue.length !== 0 && (
                 <Box
                   sx={{
                     mb: 2,

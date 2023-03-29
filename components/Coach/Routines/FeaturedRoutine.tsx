@@ -116,7 +116,7 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               variant="contained"
               onClick={() => setEditDays(!editDays)}
             >
-              {JSON.parse(daysOfWeek).filter((day) => day === true).length == 7
+              {JSON.parse(daysOfWeek).filter((day) => day === true).length === 7
                 ? "Every day"
                 : "On certain days"}
               <Icon className="outlined">edit</Icon>

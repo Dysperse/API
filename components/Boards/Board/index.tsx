@@ -159,7 +159,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
       </IconButton>
 
       {data
-        .filter((_, index: number) => index == currentColumn || !isMobile)
+        .filter((_, index: number) => index === currentColumn || !isMobile)
         .map((column, index: number) => (
           <Column
             index={index}

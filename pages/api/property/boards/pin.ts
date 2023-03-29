@@ -18,7 +18,7 @@ const handler = async (req, res) => {
 
   const data = await prisma.board.update({
     data: {
-      pinned: req.query.pinned == "true",
+      pinned: req.query.pinned === "true",
     },
     where: {
       id: req.query.id,

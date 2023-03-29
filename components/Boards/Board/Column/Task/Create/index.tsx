@@ -311,7 +311,7 @@ export function CreateTask({
               sx={chipStyles(
                 dayjs(deferredDate.toISOString())
                   .startOf("day")
-                  .toISOString() == dayjs().startOf("day").toISOString()
+                  .toISOString() === dayjs().startOf("day").toISOString()
               )}
               icon={<Icon>today</Icon>}
               onClick={() => navigator.vibrate(50) && setDate(new Date())}
@@ -436,7 +436,7 @@ export function CreateTask({
               id="title"
               value={title}
               onChange={(e) => {
-                if (e.target.value.length == 1) {
+                if (e.target.value.length === 1) {
                   setTitle(
                     capitalizeFirstLetter(e.target.value.replace(/\n/g, ""))
                   );
@@ -447,7 +447,7 @@ export function CreateTask({
               autoFocus
               variant="standard"
               onKeyDown={(e) => {
-                if (e.key == "Enter") handleSubmit(e);
+                if (e.key === "Enter") handleSubmit(e);
               }}
               placeholder={
                 placeholder
@@ -470,7 +470,7 @@ export function CreateTask({
                 variant="standard"
                 placeholder="Add description..."
                 onKeyDown={(e) => {
-                  if (e.key == "Enter" && e.ctrlKey) handleSubmit(e);
+                  if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
                 }}
                 multiline
                 InputProps={{

@@ -86,7 +86,7 @@ export function Integration({ integration }) {
                 key={param.name}
               />
             ))}
-            {integration.type == "board" && (
+            {integration.type === "board" && (
               <Select
                 value={boardId}
                 size="small"
