@@ -153,7 +153,6 @@ export default function Prompt() {
         }
       } catch (e) {
         setStep(1);
-        alert(1);
         ref?.current?.reset();
         setButtonLoading(false);
       }
@@ -349,7 +348,7 @@ export default function Prompt() {
                 </Tooltip>
               </Box>
             </Box>
-          ) : step == 2 ? (
+          ) : step === 2 ? (
             <Box>
               <Typography
                 variant="h3"

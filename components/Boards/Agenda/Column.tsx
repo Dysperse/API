@@ -3,10 +3,10 @@ import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { memo, useEffect, useMemo } from "react";
+import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useSession } from "../../../lib/client/useSession";
 import { colors } from "../../../lib/colors";
 import { Task } from "../Board/Column/Task";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { CreateTask } from "../Board/Column/Task/Create";
 
 interface AgendaColumnProps {
@@ -47,16 +47,16 @@ export const Column: any = memo(function Column({
 
   const placeholder = useMemo(() => {
     let e = dayjs(day.unchanged).from(startOfRange);
-    if ("a few seconds ago" === e) {
-      if ("month" === view) return "this month";
-      if ("year" === view) return "this year";
-      if ("week" === view) return "today";
+    if (e === "a few seconds ago") {
+      if (view == "month") return "this month";
+      if (view == "year") return "this year";
+      if (view == "week") return "today";
     }
     return e;
   }, [view, day.unchanged, startOfRange]);
 
   const isToday =
-    day.date == startOfRange.format(day.heading) && navigation == 0;
+    day.date === startOfRange.format(day.heading) && navigation === 0;
 
   useEffect(() => {
     const activeHighlight = document.getElementById("activeHighlight");
@@ -189,7 +189,7 @@ export const Column: any = memo(function Column({
                 variant="body2"
                 sx={{
                   ml: "auto",
-                  opacity: data.length == 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
+                  opacity: data.length === 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
                 }}
               >
                 {tasksLeft !== 0 ? (
@@ -248,10 +248,10 @@ export const Column: any = memo(function Column({
 
               <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
-                  {data.length == 0 ? "Nothing much here..." : "Let's go!"}
+                  {data.length === 0 ? "Nothing much here..." : "Let's go!"}
                 </Typography>
                 <Typography gutterBottom>
-                  {data.length == 0
+                  {data.length === 0
                     ? "You haven't added any list items to this column"
                     : "You finished all your goals for this time range!"}
                 </Typography>
@@ -268,7 +268,7 @@ export const Column: any = memo(function Column({
                   mutationUrl={mutationUrl}
                   boardId={1}
                 />
-                {data.length == 0 ? <></> : <Divider sx={{ mt: 2, mb: -1 }} />}
+                {data.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
               </Box>
             </Box>
           ) : (

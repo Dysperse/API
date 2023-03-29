@@ -37,7 +37,7 @@ const handler = async (req, res) => {
       twoFactorSecret: req.query.twoFactorSecret === "" ? "" : undefined,
       zenCardOrder: req.query.zenCardOrder || undefined,
       notificationSubscription:
-        req.query.notificationSubscription == ""
+        req.query.notificationSubscription === ""
           ? ""
           : req.query.notificationSubscription || undefined,
       ...(req.query.darkMode && {

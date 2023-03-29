@@ -145,7 +145,7 @@ const Action = React.memo(function Action({
             className="sm text-sm font-normal"
             sx={{
               ...((isCustom || itemCount === -3) && { display: "none" }),
-              ...(itemCount == -1 && {
+              ...(itemCount === -1 && {
                 filter: "blur(3px)!important",
               }),
             }}

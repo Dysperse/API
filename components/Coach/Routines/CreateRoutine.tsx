@@ -220,8 +220,8 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             sx={{ mt: 2 }}
             onClick={handleSubmit}
             disabled={
-              name.trim() == "" ||
-              JSON.parse(daysOfWeek).filter((d) => d === true).length == 0
+              name.trim() === "" ||
+              JSON.parse(daysOfWeek).filter((d) => d === true).length === 0
             }
           >
             Create

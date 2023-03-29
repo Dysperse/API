@@ -53,7 +53,7 @@ const Notification = async (req, res) => {
 
     // Check if user has enabled routine for that day
     if (
-      currentTimeInUserTimeZone == 11 ||
+      currentTimeInUserTimeZone === 11 ||
       process.env.NODE_ENV !== "production"
     ) {
       try {

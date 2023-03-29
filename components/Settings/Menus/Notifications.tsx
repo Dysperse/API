@@ -130,7 +130,7 @@ export default function Notifications() {
     (!isSubscribed && session.user.notificationSubscription) ||
     session.user.notificationSubscription !== JSON.stringify(subscription);
 
-  return isInPwa || process.env.NODE_ENV == "development" ? (
+  return isInPwa || process.env.NODE_ENV === "development" ? (
     data ? (
       <Box sx={{ mb: 2 }}>
         <Alert severity="info" sx={{ borderRadius: 4, mb: 1 }}>
@@ -173,17 +173,15 @@ export default function Notifications() {
             onClick={(event) => subscribeButtonOnClick(event)}
           />
           {enabledOnAnotherDevice ? (
-            <>
-              <ConfirmationModal
-                title="Recieve notifications on this device?"
-                question="If you've enabled notifications on another device, enabling them here will disable them on the other device."
-                callback={() =>
-                  document.getElementById("enable-notifications")?.click()
-                }
-              >
-                <Button variant="contained">Enable</Button>
-              </ConfirmationModal>
-            </>
+            <ConfirmationModal
+              title="Recieve notifications on this device?"
+              question="If you've enabled notifications on another device, enabling them here will disable them on the other device."
+              callback={() =>
+                document.getElementById("enable-notifications")?.click()
+              }
+            >
+              <Button variant="contained">Enable</Button>
+            </ConfirmationModal>
           ) : (
             <Switch
               checked={isSubscribed}

@@ -14,7 +14,7 @@ import { toastStyles } from "../../../lib/client/useTheme";
 
 export function GoalCard({ setData, routine, goal, goals }) {
   const included = Boolean(
-    goals.find((g) => g.id == goal.id && goal.routineId === routine.id)
+    goals.find((g) => g.id === goal.id && goal.routineId === routine.id)
   );
   const addedOnAnotherRoutine =
     goal.routineId !== routine.id && goal.routineId !== null;

@@ -73,7 +73,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const drawerStyles = {
     width: "100vw",
     maxWidth:
-      data && data !== "deleted" && data.parentTasks.length == 1
+      data && data !== "deleted" && data.parentTasks.length === 1
         ? "600px"
         : "650px",
     maxHeight: "80vh",
@@ -117,7 +117,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               setTaskData={setData}
             />
           )}
-          {data == "deleted" && (
+          {data === "deleted" && (
             <Alert severity="info" icon="💥">
               This task has &quot;mysteriously&quot; vanished into thin air
             </Alert>

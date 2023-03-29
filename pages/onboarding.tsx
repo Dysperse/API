@@ -218,7 +218,7 @@ export default function Onboarding() {
             : "My study group"
         }
         onKeyDown={(e: any) => {
-          if (e.key == "Enter") e.target.blur();
+          if (e.key === "Enter") e.target.blur();
         }}
         defaultValue={session.property.profile.name}
         onBlur={(event) => {
@@ -247,7 +247,7 @@ export default function Onboarding() {
       </Typography>
       <Alert icon={<Icon>lightbulb</Icon>} severity="warning" sx={{ mt: 2 }}>
         You told us you were{" "}
-        {bestDescription == "Adult" || bestDescription == "Educator"
+        {bestDescription === "Adult" || bestDescription === "Educator"
           ? "an"
           : "a"}{" "}
         <u>

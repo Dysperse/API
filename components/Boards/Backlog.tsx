@@ -98,7 +98,7 @@ export function Backlog({ setDrawerOpen }) {
           </Box>
         ))}
       <Box sx={{ px: { sm: 3 }, pb: 15, maxWidth: "100vw" }}>
-        {data.length == 0 && (
+        {data.length === 0 && (
           <Box
             sx={{
               textAlign: "center",

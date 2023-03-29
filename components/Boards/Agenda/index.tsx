@@ -117,7 +117,7 @@ export function Agenda({
   });
 
   useEffect(() => {
-    if (navigation == 0 && data) {
+    if (navigation === 0 && data) {
       setTimeout(() => {
         const activeHighlight = document.getElementById("activeHighlight");
         if (activeHighlight)
@@ -211,7 +211,7 @@ export function Agenda({
       >
         <IconButton
           onClick={handlePrev}
-          disabled={navigation === 0 && view == "month"}
+          disabled={navigation === 0 && view === "month"}
         >
           <Icon>west</Icon>
         </IconButton>

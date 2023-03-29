@@ -119,41 +119,39 @@ export function Changelog({ disabled }) {
                     style={{ height: "400px", width: "100%" }}
                     totalCount={data.length}
                     itemContent={(index) => (
-                      <>
-                        <TimelineItem key={data[index].id}>
-                          <TimelineSeparator>
-                            <TimelineDot
-                              sx={{
-                                background:
-                                  colors[session?.themeColor || "grey"][
-                                    session.user.darkMode ? 900 : 200
-                                  ],
-                              }}
-                            />
-                            <TimelineConnector
-                              sx={{
-                                background:
-                                  colors[session?.themeColor || "grey"][
-                                    session.user.darkMode ? 900 : 100
-                                  ],
-                              }}
-                            />
-                          </TimelineSeparator>
-                          <TimelineContent>
-                            <Typography gutterBottom>
-                              <b>
-                                {data[index].who === session.user.name
-                                  ? "You"
-                                  : data[index].who}
-                              </b>{" "}
-                              {data[index].what}
-                            </Typography>
-                            <Typography variant="body2">
-                              {dayjs(data[index].when).fromNow()}
-                            </Typography>
-                          </TimelineContent>
-                        </TimelineItem>
-                      </>
+                      <TimelineItem key={data[index].id}>
+                        <TimelineSeparator>
+                          <TimelineDot
+                            sx={{
+                              background:
+                                colors[session?.themeColor || "grey"][
+                                  session.user.darkMode ? 900 : 200
+                                ],
+                            }}
+                          />
+                          <TimelineConnector
+                            sx={{
+                              background:
+                                colors[session?.themeColor || "grey"][
+                                  session.user.darkMode ? 900 : 100
+                                ],
+                            }}
+                          />
+                        </TimelineSeparator>
+                        <TimelineContent>
+                          <Typography gutterBottom>
+                            <b>
+                              {data[index].who === session.user.name
+                                ? "You"
+                                : data[index].who}
+                            </b>{" "}
+                            {data[index].what}
+                          </Typography>
+                          <Typography variant="body2">
+                            {dayjs(data[index].when).fromNow()}
+                          </Typography>
+                        </TimelineContent>
+                      </TimelineItem>
                     )}
                   />
                 )}

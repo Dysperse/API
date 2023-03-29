@@ -153,7 +153,7 @@ export const Task: any = React.memo(function Task({
   }, [taskData.pinned, taskData.id, mutationUrl, setTaskData]);
 
   return !taskData ? (
-    <></>
+    <div />
   ) : (
     <>
       <TaskDrawer id={taskData.id} mutationUrl={mutationUrl} isAgenda>
@@ -262,14 +262,12 @@ export const Task: any = React.memo(function Task({
                       sx={{ mt: 0.7 }}
                       label={dayjs(taskData.due).fromNow()}
                       icon={
-                        <>
-                          <Icon
-                            className="outlined"
-                            sx={{ fontSize: "20px!important", ml: 1 }}
-                          >
-                            schedule
-                          </Icon>
-                        </>
+                        <Icon
+                          className="outlined"
+                          sx={{ fontSize: "20px!important", ml: 1 }}
+                        >
+                          schedule
+                        </Icon>
                       }
                     />
                   </Tooltip>
@@ -303,7 +301,8 @@ export const Task: any = React.memo(function Task({
                       color: session.user.darkMode
                         ? "hsl(240,11%,10%)"
                         : colors.orange[900],
-                      fontVariationSettings: "'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important",
+                      fontVariationSettings:
+                        "'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important",
                     }}
                   >
                     priority_high

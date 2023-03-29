@@ -224,8 +224,8 @@ export default function Prompt() {
                   disableRipple
                   sx={authStyles.submit}
                   disabled={
-                    name.trim() == "" ||
-                    email.trim() == "" ||
+                    name.trim() === "" ||
+                    email.trim() === "" ||
                     password.length < 8 ||
                     !/\d/.test(password) ||
                     !/[a-z]/i.test(password) ||

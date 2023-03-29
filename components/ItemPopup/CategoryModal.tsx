@@ -78,7 +78,7 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
             inputRef={ref}
             autoFocus
             onKeyDown={(e) => {
-              if (e.key == "Enter") {
+              if (e.key === "Enter") {
                 handleSubmit();
               }
             }}

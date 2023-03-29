@@ -87,7 +87,7 @@ export default function BoardSettings({ mutationUrl, board }) {
         </ConfirmationModal>
         <CreateColumn
           setCurrentColumn={(e: any) => e}
-          mobile={true}
+          mobile
           id={board.id}
           mutationUrl={mutationUrl}
           hide={

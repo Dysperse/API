@@ -11,7 +11,7 @@ const handler = async (req, res) => {
       id: req.query.id,
     },
     data: {
-      pinned: req.query.pinned == "true",
+      pinned: req.query.pinned === "true",
     },
   });
 

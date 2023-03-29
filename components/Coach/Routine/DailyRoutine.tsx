@@ -17,7 +17,7 @@ export function DailyRoutine() {
   useBackButton(() => setOpen(false));
 
   useEffect(() => {
-    if (window.location.hash == "#daily-routine") setOpen(true);
+    if (window.location.hash === "#daily-routine") setOpen(true);
   }, [setOpen]);
 
   const tasksRemaining = !data
@@ -44,7 +44,7 @@ export function DailyRoutine() {
     <Box
       onClick={() => {
         navigator.vibrate(50);
-        if (sortedTasks.length == 0) {
+        if (sortedTasks.length === 0) {
           document.getElementById("createGoalTrigger")?.click();
         } else {
           setOpen(true);
@@ -69,7 +69,7 @@ export function DailyRoutine() {
           transition: "none",
           transform: "scale(.95)",
         },
-        ...(sortedTasks.length == 0 && {
+        ...(sortedTasks.length === 0 && {
           opacity: 0.8,
         }),
       }}

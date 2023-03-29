@@ -34,9 +34,9 @@ export function BoardInfo({
   const handleSave = useCallback(() => {
     if (
       !(
-        (titleRef.current.value == board.name &&
+        (titleRef.current.value === board.name &&
           descriptionRef.current.value === board.description) ||
-        titleRef.current.value.trim() == ""
+        titleRef.current.value.trim() === ""
       )
     ) {
       toast.promise(
@@ -193,7 +193,7 @@ export function BoardInfo({
                 />
               )}
               {board.integrations.find(
-                (integration) => integration.name == "Canvas LMS"
+                (integration) => integration.name === "Canvas LMS"
               ) && (
                 <Chip
                   onClick={async () => {
