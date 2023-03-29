@@ -78,7 +78,7 @@ export default function Notifications() {
     setSubscription(sub);
     setIsSubscribed(true);
     updateSettings("notificationSubscription", JSON.stringify(sub));
-    console.log("web push subscribed!");
+    
   };
   const session = useSession();
 
@@ -88,7 +88,7 @@ export default function Notifications() {
     updateSettings("notificationSubscription", "");
     setSubscription(null);
     setIsSubscribed(false);
-    console.log("web push unsubscribed!");
+    
   };
 
   const sendNotificationButtonOnClick = async (event) => {

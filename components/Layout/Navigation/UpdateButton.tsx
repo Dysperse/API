@@ -14,18 +14,18 @@ export function UpdateButton() {
     ) {
       const wb: any = window.workbox;
       wb.addEventListener("installed", (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
+        
+        
       });
 
       wb.addEventListener("controlling", (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
+        
+        
       });
 
       wb.addEventListener("activated", (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
+        
+        
       });
 
       const promptNewVersionAvailable = () => {
@@ -37,8 +37,8 @@ export function UpdateButton() {
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
       wb.addEventListener("message", (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
+        
+        
       });
 
       wb.register();

@@ -2,7 +2,7 @@ import { prisma } from "../../../../lib/server/prisma";
 
 export default async function handler(req, res) {
   const routine = req.query;
-  console.log(routine);
+  
 
   const data = await prisma.routine.create({
     data: {

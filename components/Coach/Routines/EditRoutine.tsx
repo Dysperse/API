@@ -137,7 +137,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
                   setDaysOfWeek((d) => {
                     let t = JSON.parse(d);
                     t[index] = !t[index];
-                    console.log(JSON.parse(d));
+                    
                     return JSON.stringify(t);
                   })
                 }

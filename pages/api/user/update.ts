@@ -26,7 +26,7 @@ const handler = async (req, res) => {
     return;
   }
   const userId = session.user.id;
-  console.log(req.query.zenCardOrder);
+  
   const user = await prisma.user.update({
     where: {
       id: userId,

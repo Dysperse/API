@@ -63,10 +63,10 @@ export const createInboxNotification = async (
             actions: [{ title: "⚡ View", action: "viewGroupModification" }],
           })
         )
-        .then(() => console.log("Sent"))
+        .then(() => {})
         .catch((err) => {
-          console.log(err);
-          console.log("Error");
+          
+          
         });
     }
   }

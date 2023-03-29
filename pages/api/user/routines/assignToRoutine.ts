@@ -9,6 +9,6 @@ export default async function handler(req, res) {
       routineId: req.query.routineId == "-1" ? null : req.query.routineId,
     },
   });
-  console.log(data);
+  
   res.json(data);
 }

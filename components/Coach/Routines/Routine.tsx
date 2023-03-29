@@ -49,7 +49,7 @@ export function Routine({ mutationUrl, routine }) {
         setOpen(true);
         setLoading(false);
         setData(res[0]);
-        console.log(data);
+        
         setTimeout(() => setShowIntro(false), 2000);
       } catch (e) {
         toast.error(

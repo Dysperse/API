@@ -13,7 +13,7 @@ const handler = {
         Authorization: `Bearer ${env.COACH_CRON_API_KEY}`,
       },
     }).then((res) => res.json());
-    console.log(data);
+    
 
     // Daily check in nudge
     const dailyCheckIn = await fetch(
