@@ -67,7 +67,7 @@ export default function Prompt() {
   const handleSubmit = useCallback(
     async (e?: any) => {
       if (e) e.preventDefault();
-      console.log("Submitted");
+
       setButtonLoading(true);
 
       try {
@@ -90,7 +90,7 @@ export default function Prompt() {
 
         if (
           res.message &&
-          res.message.includes(`Can't reach database server`)
+          res.message.includes("Can't reach database server")
         ) {
           toast.error(
             "Oh no! Our servers are down. Please try again later!",
@@ -162,7 +162,7 @@ export default function Prompt() {
 
   useEffect(() => {
     document
-      .querySelector(`meta[name="theme-color"]`)
+      .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", "hsl(240,11%,90%)");
   }, []);
 
@@ -192,7 +192,7 @@ export default function Prompt() {
         <Box
           sx={{
             color: "#202020",
-            [`@media (prefers-color-scheme: dark)`]: {
+            ["@media (prefers-color-scheme: dark)"]: {
               color: "hsl(240,11%,90%)",
               "&:hover": {
                 color: "hsl(240,11%,100%)",
@@ -261,7 +261,7 @@ export default function Prompt() {
                       <IconButton
                         onClick={handleTogglePassword}
                         sx={{
-                          [`@media (prefers-color-scheme: dark)`]: {
+                          ["@media (prefers-color-scheme: dark)"]: {
                             color: "hsl(240,11%,70%)",
                           },
                         }}
@@ -282,7 +282,7 @@ export default function Prompt() {
                   left: 0,
                   py: { xs: 1, sm: 0 },
                   background: "hsl(240,11%,90%)",
-                  [`@media (prefers-color-scheme: dark)`]: {
+                  ["@media (prefers-color-scheme: dark)"]: {
                     background: "hsl(240,11%,10%)",
                   },
                   width: { xs: "100vw", sm: "auto" },
@@ -406,8 +406,8 @@ export default function Prompt() {
                   float: "right",
                   mt: 3,
                   borderRadius: 99,
-                  ...(twoFactorCode.length === 6 && {
-                    background: `#200923!important`,
+                  ...(twoFactorCode.length == 6 && {
+                    background: "#200923!important",
                   }),
                   textTransform: "none",
                   gap: 2,
@@ -450,7 +450,7 @@ export default function Prompt() {
             },
             userSelect: "none",
             background: "hsl(240,11%,90%)",
-            [`@media (prefers-color-scheme: dark)`]: {
+            ["@media (prefers-color-scheme: dark)"]: {
               background: "hsl(240,11%,10%)",
               color: "hsl(240,11%,90%)",
             },

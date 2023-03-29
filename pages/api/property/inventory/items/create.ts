@@ -42,7 +42,7 @@ const handler = async (req, res) => {
       property: true,
     },
   });
-  console.log(data);
+
   res.json(data);
 };
 export default handler;

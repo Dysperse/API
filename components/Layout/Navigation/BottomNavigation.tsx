@@ -83,7 +83,7 @@ export function BottomNav() {
             xs: "flex",
             md: "none",
           },
-          [`@media (max-height: 500px)`]: {
+          ["@media (max-height: 500px)"]: {
             display: "none",
           },
           zIndex: 999,

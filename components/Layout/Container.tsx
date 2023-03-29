@@ -50,10 +50,10 @@ export function RenderWithLayout({
   useEffect(() => {
     if (data.user.darkMode) {
       document
-        .querySelector(`meta[name="theme-color"]`)
+        .querySelector('meta[name="theme-color"]')
         ?.setAttribute("content", "hsl(240, 11%, 10%)");
       document
-        .querySelector(`link[rel="shortcut icon"]`)
+        .querySelector('link[rel="shortcut icon"]')
         ?.setAttribute(
           "href",
           "https://assets.dysperse.com/v6/dark-rounded.png"

@@ -662,7 +662,8 @@ export function CreateTask({
             style={{
               color: `hsl(240, 11%, ${session.user.darkMode ? 60 : 40}%)`,
               fontSize: "21px",
-              fontVariationSettings: `'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important`,
+              fontVariationSettings:
+                "'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important",
             }}
           >
             add

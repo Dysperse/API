@@ -19,7 +19,7 @@ const handler = async (req, res) => {
       }),
     },
   });
-  console.log(data);
+
   res.json(data);
 };
 export default handler;

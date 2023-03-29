@@ -303,7 +303,7 @@ export const Task: any = React.memo(function Task({
                       color: session.user.darkMode
                         ? "hsl(240,11%,10%)"
                         : colors.orange[900],
-                      fontVariationSettings: `'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important`,
+                      fontVariationSettings: "'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important",
                     }}
                   >
                     priority_high

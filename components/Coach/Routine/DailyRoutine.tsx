@@ -182,7 +182,7 @@ export function DailyRoutine() {
   useEffect(() => {
     if (!session.user.darkMode)
       document
-        .querySelector(`meta[name="theme-color"]`)
+        .querySelector('meta[name="theme-color"]')
         ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
   }, [session, open]);
 

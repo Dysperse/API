@@ -12,7 +12,6 @@ export const SentryInit = async () => {
     body: JSON.stringify({ status: "in_progress" }),
   })
     .then((response) => {
-      console.log(response.status);
       return response.json();
     })
     .catch((err) => {
@@ -35,7 +34,6 @@ export const SentryFinish = async (id: string) => {
     body: JSON.stringify({ status: "ok", duration: 3000 }),
   })
     .then((response) => {
-      console.log(response.status);
       return response.json();
     })
     .catch((err) => {

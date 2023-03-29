@@ -190,7 +190,7 @@ export default function Group({
   const session = useSession();
 
   useEffect(() => {
-    const tag: any = document.querySelector(`meta[name="theme-color"]`);
+    const tag: any = document.querySelector('meta[name="theme-color"]');
     if (open) {
       tag?.setAttribute(
         "content",
