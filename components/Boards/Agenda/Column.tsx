@@ -47,10 +47,10 @@ export const Column: any = memo(function Column({
 
   const placeholder = useMemo(() => {
     let e = dayjs(day.unchanged).from(startOfRange);
-    if ("a few seconds ago" === e) {
-      if ("month" === view) return "this month";
-      if ("year" === view) return "this year";
-      if ("week" === view) return "today";
+    if (e === "a few seconds ago") {
+      if (view == "month") return "this month";
+      if (view == "year") return "this year";
+      if (view == "week") return "today";
     }
     return e;
   }, [view, day.unchanged, startOfRange]);
