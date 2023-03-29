@@ -140,7 +140,9 @@ export function CreateGoal({ mutationUrl }) {
             inputRef={goalStepName}
             margin="dense"
             label="Goal step name"
-            helperText={'For example, if you want to learn a new language, the step name would be: "Practice for 30 minutes today"'}
+            helperText={
+              'For example, if you want to learn a new language, the step name would be: "Practice for 30 minutes today"'
+            }
           />
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <TextField
