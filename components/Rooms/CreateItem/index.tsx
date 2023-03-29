@@ -1,5 +1,5 @@
 import type { CustomRoom as Room } from "@prisma/client";
-import React from "react";
+import React, { cloneElement } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useApi } from "../../../lib/client/useApi";
 import { colors } from "../../../lib/colors";
@@ -348,7 +348,7 @@ export default function AddPopup({
 
   useHotkeys("ctrl+s", (e) => {
     e.preventDefault();
-    document.getElementById("add_trigger")?.click();
+    setOpen(true);
   });
 
   useBackButton(() => setOpen(false));
@@ -371,12 +371,14 @@ export default function AddPopup({
     }
   };
 
+  const trigger = cloneElement(children, {
+    onclick: handleAddItemDrawerOpen,
+  });
+
   return (
     <>
       <CssBaseline />
-      <div id="add_trigger" onClick={handleAddItemDrawerOpen}>
-        {children}
-      </div>
+      {trigger}
 
       <SwipeableDrawer
         anchor="bottom"

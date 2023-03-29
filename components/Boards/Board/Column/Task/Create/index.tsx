@@ -534,11 +534,9 @@ export function CreateTask({
                     navigator.vibrate(50);
                     setShowDescription(!showDescription);
                     setTimeout(() => {
-                      {
-                        if (!showDescription)
-                          document.getElementById("description")?.focus();
-                        else document.getElementById("title")?.focus();
-                      }
+                      if (!showDescription)
+                        document.getElementById("description")?.focus();
+                      else document.getElementById("title")?.focus();
                     }, 100);
                   }}
                   sx={{
