@@ -44,7 +44,12 @@ const downloadImage = (blob, fileName) => {
 
 function ShareGoal({ handleMenuClose, goal }) {
   const session = useSession();
-  const exportRef = useRef();
+
+  const exportRefs = {
+    "0": useRef(),
+    "1": useRef(),
+    "2": useRef(),
+  };
 
   const [open, setOpen] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -88,27 +93,18 @@ function ShareGoal({ handleMenuClose, goal }) {
     </picture>
   );
 
-  const repeatText =
-    goal.time === "any"
-      ? "Daily"
-      : goal.time === "morning"
-      ? "Every morning"
-      : goal.time === "afternoon"
-      ? "Every afternoon"
-      : "Nightly";
   const progressBarStyles = {
     background: "rgba(0,0,0,0.1)",
     "& *": {
       background: "#000",
-      borderRadius: 999,
+      borderRadius: 2,
     },
     height: 10,
-    mt: 2,
-    borderRadius: 999,
+    borderRadius: 2,
   };
 
   const [color, setColor] = useState("red");
-
+  const [screenshotting, setScreenshotting] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       dragFree: true,
@@ -129,7 +125,7 @@ function ShareGoal({ handleMenuClose, goal }) {
   useEffect(() => {
     if (emblaCardApi) {
       emblaCardApi.on("select", () => {
-        console.log(`Current index is ${emblaCardApi?.selectedScrollSnap()}`);
+        setCurrentIndex(emblaCardApi?.selectedScrollSnap());
       });
     }
   }, [emblaCardApi]);
@@ -190,7 +186,12 @@ function ShareGoal({ handleMenuClose, goal }) {
             </Typography>
             <IconButton
               onClick={() => setExportFooterOpen(!exportFooterOpen)}
-              sx={{ color: "inherit!important" }}
+              sx={{
+                color: "inherit!important",
+                ...(exportFooterOpen && {
+                  background: "hsl(240,11%,14%)!important",
+                }),
+              }}
             >
               <Icon className="outlined">
                 {exportFooterOpen ? "close" : "palette"}
@@ -198,7 +199,22 @@ function ShareGoal({ handleMenuClose, goal }) {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Box>{currentIndex}</Box>
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            opacity: exportFooterOpen ? 0 : 1,
+            transition: "opacity .2s",
+            background: "hsla(240,11%,40%,0.3)",
+            p: 1,
+            px: 3,
+            borderRadius: 999,
+          }}
+        >
+          {currentIndex + 1} / 3
+        </Box>
 
         <Box ref={emblaCardRef} className="embla">
           <Box
@@ -215,7 +231,7 @@ function ShareGoal({ handleMenuClose, goal }) {
               }}
             >
               <Box
-                ref={exportRef}
+                ref={exportRefs[0]}
                 sx={{
                   background: colors[color]["A400"],
                   color: "#000",
@@ -234,7 +250,11 @@ function ShareGoal({ handleMenuClose, goal }) {
                 >
                   {goal.name}
                 </Typography>
-                <Typography>
+                <Typography
+                  style={{
+                    marginBottom: "20px",
+                  }}
+                >
                   Only <b>{goal.durationDays - goal.progress}</b> days left to
                   go! I&apos;ve been working on this goal for{" "}
                   <b>{goal.progress}</b> days so far.
@@ -252,6 +272,7 @@ function ShareGoal({ handleMenuClose, goal }) {
               }}
             >
               <Box
+                ref={exportRefs[1]}
                 sx={{
                   background: colors[color]["A400"],
                   color: "#000",
@@ -269,18 +290,21 @@ function ShareGoal({ handleMenuClose, goal }) {
                 >
                   {goal.name}
                 </Typography>
-                <Typography variant="h4" sx={{ my: 0.5 }}>
+                <div style={{ height: "2px" }} />
+                <Typography variant="h4">
                   {goal.progress} out of {goal.durationDays}
                 </Typography>
+                <div style={{ marginTop: "2px" }} />
                 <Typography
                   variant="body2"
-                  sx={{ color: "rgba(0,0,0,0.7)", mb: 2 }}
+                  style={{
+                    color: "rgba(0,0,0,0.7)",
+                    marginBottom: "20px",
+                    marginTop: screenshotting ? "10px" : "0px",
+                  }}
                 >
                   {goal.progress !== goal.durationDays ? (
-                    <>
-                      {goal.durationDays - goal.progress} days left &bull;{" "}
-                      {repeatText}
-                    </>
+                    <>days worked on</>
                   ) : (
                     "I completed this goal!"
                   )}
@@ -299,6 +323,7 @@ function ShareGoal({ handleMenuClose, goal }) {
               }}
             >
               <Box
+                ref={exportRefs[2]}
                 sx={{
                   background: colors[color]["A400"],
                   color: "#000",
@@ -318,7 +343,10 @@ function ShareGoal({ handleMenuClose, goal }) {
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2 }}>
                   <Box>
-                    <Typography variant="h4" sx={{ my: 0.5 }}>
+                    <Typography
+                      variant="h4"
+                      sx={{ my: 0.5, mb: screenshotting ? 1.5 : 0.5 }}
+                    >
                       {goal.name}
                     </Typography>
                     <Typography
@@ -350,7 +378,8 @@ function ShareGoal({ handleMenuClose, goal }) {
                         top: 0,
                         left: 0,
                         "& *": {
-                          stroke: "rgba(0,0,0,0.5)",
+                          stroke: "#000",
+                          strokeOpacity: 0.2,
                           strokeLinecap: "round",
                         },
                       }}
@@ -358,9 +387,12 @@ function ShareGoal({ handleMenuClose, goal }) {
                     <Typography
                       component="div"
                       variant="h6"
-                      sx={{
+                      style={{
                         width: 80,
                         textAlign: "center",
+                        ...(screenshotting && {
+                          marginTop: "-17px",
+                        }),
                       }}
                     >
                       {Math.round((goal.progress / goal.durationDays) * 100)}%
@@ -393,6 +425,7 @@ function ShareGoal({ handleMenuClose, goal }) {
             height: "0px!important",
           }}
           hideBackdrop
+          swipeAreaWidth={40}
           BackdropProps={{
             className: "override-bg",
             sx: {
@@ -421,17 +454,17 @@ function ShareGoal({ handleMenuClose, goal }) {
           />
           <Box
             ref={emblaRef}
-            sx={{ maxWidth: "100vw", p: 3, py: 0 }}
+            sx={{ maxWidth: "100vw", p: 3, py: 0, my: 1.5, mb: 3 }}
             className="embla"
           >
-            <Box sx={{ display: "flex", gap: 2, mb: 2, overflow: "visible" }}>
+            <Box sx={{ display: "flex", gap: 2, mb: 3, overflow: "visible" }}>
               {colorChoices.map((choice) => (
                 <Box
                   key={choice}
                   sx={{
                     flexShrink: 0,
-                    width: 35,
-                    height: 35,
+                    width: 40,
+                    height: 40,
                     background: `linear-gradient(45deg, ${colors[choice]["A400"]}, ${colors[choice]["A100"]})`,
                     borderRadius: 999,
                     color: "#000",
@@ -446,7 +479,14 @@ function ShareGoal({ handleMenuClose, goal }) {
               ))}
             </Box>
             <Button
-              onClick={() => exportAsImage(exportRef.current, "test")}
+              onClick={() => {
+                setExportFooterOpen(false);
+                setScreenshotting(true);
+                setTimeout(() => {
+                  exportAsImage(exportRefs[currentIndex].current, "test");
+                  setScreenshotting(false);
+                }, 400);
+              }}
               variant="contained"
               fullWidth
               sx={{
@@ -455,7 +495,6 @@ function ShareGoal({ handleMenuClose, goal }) {
                   background: "hsla(240,11%,10%,0.8)!important",
                 },
                 color: "hsl(240,11%,90%)",
-                mb: 2,
               }}
             >
               Save to gallery <Icon>download</Icon>
