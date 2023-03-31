@@ -216,9 +216,10 @@ export default function Spotlight() {
 
   const debouncedHandleSearch = debounce(handleSearch, 500);
 
-  useEffect(() => {
-    debouncedHandleSearch(inputValue);
-  }, [inputValue, debouncedHandleSearch]);
+  useEffect(
+    () => debouncedHandleSearch(inputValue),
+    [inputValue, debouncedHandleSearch]
+  );
 
   return (
     <SwipeableDrawer
