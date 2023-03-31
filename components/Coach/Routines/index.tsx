@@ -50,7 +50,15 @@ export function Routines() {
   const router = useRouter();
 
   useEffect(() => {
-    emblaApi?.reInit();
+    emblaApi?.reInit(
+      {
+        dragFree: true,
+        align: "start",
+        containScroll: "trimSnaps",
+        loop: false,
+      },
+      [WheelGesturesPlugin()]
+    );
   });
 
   const sorted =
