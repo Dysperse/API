@@ -1,69 +1,32 @@
-import { Badge, Group, UnstyledButton } from "@mantine/core";
-import { SpotlightActionProps, SpotlightProvider } from "@mantine/spotlight";
-import { Divider, Icon, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import toast from "react-hot-toast";
+import {
+  Box,
+  Chip,
+  Icon,
+  ListItemButton,
+  ListItemText,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Router, { useRouter } from "next/router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
+import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { fetchRawApi, useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
+import { debounce } from "../../EmojiPicker";
+import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
 
-function CustomAction({
-  action,
-  classNames,
-  onTrigger,
-  ...others
-}: SpotlightActionProps) {
-  return (
-    <UnstyledButton
-      onMouseDown={(event) => event.preventDefault()}
-      onClick={onTrigger}
-      {...others}
-      sx={{
-        userSelect: "none",
-        "&:hover": {
-          background: "#eee",
-          color: "#000",
-        },
-        "&:active, &:focus": {
-          background: "#ddd",
-          color: "#000",
-        },
-        color: "#505050",
-        fontWeight: 400,
-      }}
-    >
-      {action.divider ? (
-        <Group noWrap>
-          <Divider sx={{ my: 2 }} />
-        </Group>
-      ) : (
-        <Group noWrap>
-          {action.icon}
-          <div style={{ flex: 1 }}>
-            <Typography>{action.title}</Typography>
-            {action.description && (
-              <Typography>{action.description}</Typography>
-            )}
-          </div>
+export let openSpotlight = () => {};
 
-          {action.badge && <Badge>{action.badge}</Badge>}
-        </Group>
-      )}
-    </UnstyledButton>
-  );
-}
+export let getSpotlightActions = async (roomData, boardData, session) => {
+  const router = Router;
 
-export default function SearchPopup() {
-  const router = useRouter();
-  const session = useSession();
-
-  const { data: roomData } = useApi("property/rooms");
-  const { data: boardData } = useApi("property/boards");
-
-  const actions: any = [
+  return [
     {
       title: "Boards",
       onTrigger: () => router.push("/tasks"),
@@ -183,29 +146,6 @@ export default function SearchPopup() {
         })
       : []),
 
-    ...(session.property.profile.type !== "study group"
-      ? [
-          "Kitchen:blender",
-          "Bedroom:bedroom_parent",
-          "Bathroom:bathroom",
-          "Garage:garage",
-          "Dining room:dining",
-          "Living room:living",
-          "Laundry room:local_laundry_service",
-          "Storage room:inventory_2",
-          "Garden:yard",
-          "Camping:camping",
-        ]
-      : ["Backpack:backpack"].map((room) => {
-          const [name, icon] = room.split(":");
-          return {
-            title: name,
-            onTrigger: () =>
-              router.push(`/rooms/${name.toLowerCase().replace(" ", "-")}`),
-            icon: <Icon className="outlined">{icon}</Icon>,
-            badge: "Room",
-          };
-        })),
     {
       title: "Sign out",
       onTrigger: () => {
@@ -235,31 +175,152 @@ export default function SearchPopup() {
       icon: <Icon className="outlined">chat_bubble</Icon>,
     },
   ];
+};
+
+export default function Spotlight() {
+  // Primarily state management and callback functions for opening/closing the modal
+  const ref: any = useRef();
+  const router = useRouter();
+  const session: any = useSession();
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [results, setResults] = useState<Array<any>>([]);
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const handleOpen = useCallback(() => setOpen(true), []);
+  const handleClose = useCallback(() => setOpen(false), []);
+
+  useEffect(() => {
+    if (open) {
+      ref?.current?.focus();
+    }
+  }, [open]);
+
+  openSpotlight = handleOpen;
+
+  const { data: roomData } = useApi("property/rooms");
+  const { data: boardData } = useApi("property/boards");
+
+  // Input event handling
+  const handleSearch = async (value) => {
+    let results = await getSpotlightActions(roomData, boardData, session);
+
+    console.log(results);
+
+    results = results.filter((result) =>
+      result.title.toLowerCase().includes(value.toLowerCase())
+    );
+
+    setResults(results);
+  };
+
+  const debouncedHandleSearch = debounce(handleSearch, 500);
+
+  useEffect(() => {
+    debouncedHandleSearch(inputValue);
+  }, [inputValue, debouncedHandleSearch]);
 
   return (
-    <SpotlightProvider
-      limit={7}
-      onSpotlightClose={() => {
-        document
-          .querySelector('meta[name="theme-color"]')
-          ?.setAttribute(
-            "content",
-            session.user.darkMode ? "hsl(240,11%,10%)" : "#fff"
-          );
-      }}
-      onSpotlightOpen={() => {
-        if (!session.user.darkMode) {
-          document
-            .querySelector('meta[name="theme-color"]')
-            ?.setAttribute("content", "#c0c0c0");
-        }
-      }}
-      actions={actions}
-      shortcut={["mod + K", "/"]}
-      searchIcon={<Icon className="outlined">bolt</Icon>}
-      searchPlaceholder="Find anything →"
-      actionComponent={CustomAction}
-      nothingFoundMessage="😭 Nothing found..."
-    />
+    <SwipeableDrawer
+      open={open}
+      onOpen={handleOpen}
+      onClose={handleClose}
+      anchor="bottom"
+      disableSwipeToOpen
+    >
+      <Puller showOnDesktop />
+      <Box sx={{ px: 2 }}>
+        <TextField
+          onKeyDown={(e) => {
+            if (e.code === "Enter") {
+              const tag = document.querySelector(`#activeSearchHighlight`);
+              if (tag) tag.click();
+            }
+          }}
+          type="text"
+          size="small"
+          variant="standard"
+          sx={{ mb: 2 }}
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              px: 2,
+              py: 1,
+              borderRadius: 3,
+              background: "rgba(200, 200, 200, .3)",
+              "&:focus": {
+                background: "rgba(200, 200, 200, .4)",
+              },
+            },
+          }}
+          autoFocus
+          placeholder="Jump to..."
+          inputRef={ref}
+          onChange={(e: any) => {
+            setInputValue(e.target.value);
+            debouncedHandleSearch(e.target.value);
+          }}
+          value={inputValue}
+        />
+
+        <Virtuoso
+          style={{ height: "400px", maxHeight: "calc(100vh - 40px)" }}
+          totalCount={results.length === 0 ? 1 : results.length}
+          itemContent={(index) => {
+            if (results.length === 0) {
+              return (
+                <Box
+                  sx={{
+                    height: "400px",
+                    maxHeight: "calc(100vh - 40px)",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <picture>
+                    <img
+                      src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
+                      alt="Crying emoji"
+                    />
+                  </picture>
+                  <Typography sx={{ mt: 2 }} variant="h6">
+                    No results found
+                  </Typography>
+                </Box>
+              );
+            }
+            const result = results[index];
+            return (
+              <ListItemButton
+                key={index}
+                {...(index == 0 && { id: "activeSearchHighlight" })}
+                sx={{
+                  gap: 2,
+                  mb: 0.2,
+                  transition: "none",
+                  ...(index == 0 && {
+                    background: session.user.darkMode
+                      ? "hsl(240,11%,15%)"
+                      : "#eee",
+                  }),
+                }}
+                onClick={() => {
+                  handleClose();
+                  setTimeout(() => {
+                    result.onTrigger();
+                  }, 500);
+                }}
+              >
+                <Icon>{result.icon}</Icon>
+                <ListItemText primary={result.title} />
+                {result.badge && <Chip size="small" label={result.badge} />}
+              </ListItemButton>
+            );
+          }}
+        />
+      </Box>
+    </SwipeableDrawer>
   );
 }

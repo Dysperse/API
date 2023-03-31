@@ -1,4 +1,3 @@
-import { openSpotlight } from "@mantine/spotlight";
 import { Masonry } from "@mui/lab";
 import {
   Box,
@@ -15,6 +14,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { Routines } from "../components/Coach/Routines";
+import { openSpotlight } from "../components/Layout/Navigation/Search";
 import { DailyCheckIn } from "../components/Zen/CheckIns";
 import { RecentItems } from "../components/Zen/RecentItems";
 import { useApi } from "../lib/client/useApi";
