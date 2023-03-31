@@ -1,4 +1,3 @@
-import { openSpotlight } from "@mantine/spotlight";
 import { Box, Tooltip, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -9,6 +8,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { updateSettings } from "../../Settings/updateSettings";
+import { openSpotlight } from "./Search";
 import InviteButton from "./UserMenu";
 const SearchPopup = dynamic(() => import("./Search"));
 
