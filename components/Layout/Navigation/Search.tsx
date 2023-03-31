@@ -233,7 +233,7 @@ export default function Spotlight() {
         <TextField
           onKeyDown={(e) => {
             if (e.code === "Enter") {
-              const tag = document.querySelector(`#activeSearchHighlight`);
+              const tag: any = document.querySelector(`#activeSearchHighlight`);
               if (tag) tag.click();
             }
           }}
