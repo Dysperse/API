@@ -10,7 +10,7 @@ import { Loading } from "../components/Layout/Loading";
 import "../styles/calendar.scss";
 import "../styles/coach.scss";
 import "../styles/globals.scss";
-import "../styles/spotlight.scss";
+
 
 // Day.JS
 import dayjs from "dayjs";
