@@ -11,7 +11,6 @@ import "../styles/calendar.scss";
 import "../styles/coach.scss";
 import "../styles/globals.scss";
 
-
 // Day.JS
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
