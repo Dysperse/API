@@ -425,7 +425,7 @@ function ShareGoal({ handleMenuClose, goal }) {
             height: "0px!important",
           }}
           hideBackdrop
-          swipeAreaWidth={40}
+          swipeAreaWidth={150}
           BackdropProps={{
             className: "override-bg",
             sx: {
