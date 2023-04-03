@@ -1,13 +1,16 @@
 import { Box, Button, Chip, Icon, IconButton, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { ShareGoal } from "../Goal/ShareGoal";
 
 export function Task({ task, currentIndex, setCurrentIndex }) {
+  const [completed, setCompleted] = useState(false);
+
   const handleClick = useCallback(() => {
+    setCompleted(true);
     setCurrentIndex((index) => index + 1);
     fetchRawApi("user/routines/markAsDone", {
       date: dayjs().format("YYYY-MM-DD"),
@@ -117,7 +120,9 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
         }}
       >
         <Button
-          disabled={task.lastCompleted === dayjs().format("YYYY-MM-DD")}
+          disabled={
+            completed || task.lastCompleted === dayjs().format("YYYY-MM-DD")
+          }
           variant="contained"
           fullWidth
           sx={{
@@ -127,7 +132,7 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
           size="large"
           onClick={handleClick}
         >
-          {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
+          {completed || task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
             <>
               <span>🔥</span> Completed today!
             </>

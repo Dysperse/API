@@ -30,46 +30,46 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     {
       title: "Boards",
       onTrigger: () => router.push("/tasks"),
-      icon: <Icon className="outlined">verified</Icon>,
+      icon: "verified",
     },
     {
       title: "Weekly agenda",
       onTrigger: () => router.push("/tasks#/agenda/week"),
-      icon: <Icon className="outlined">view_week</Icon>,
+      icon: "view_week",
       badge: "Agenda",
     },
     {
       title: "Monthly agenda",
       onTrigger: () => router.push("/tasks#/agenda/month"),
-      icon: <Icon className="outlined">calendar_view_month</Icon>,
+      icon: "calendar_view_month",
       badge: "Agenda",
     },
     {
       title: "Yearly agenda",
       onTrigger: () => router.push("/tasks#/agenda/year"),
-      icon: <Icon className="outlined">calendar_month</Icon>,
+      icon: "calendar_month",
       badge: "Agenda",
     },
     {
       title: "Backlog",
       onTrigger: () => router.push("/tasks#/agenda/backlog"),
-      icon: <Icon className="outlined">auto_mode</Icon>,
+      icon: "auto_mode",
       badge: "Agenda",
     },
     {
       title: "Coach",
       onTrigger: () => router.push("/coach"),
-      icon: <Icon className="outlined">rocket_launch</Icon>,
+      icon: "rocket_launch",
     },
     {
       title: "Items",
       onTrigger: () => router.push("/items"),
-      icon: <Icon className="outlined">category</Icon>,
+      icon: "category",
     },
     {
       title: "Start",
       onTrigger: () => router.push("/zen"),
-      icon: <Icon className="outlined">change_history</Icon>,
+      icon: "change_history",
     },
     {
       title: "Light theme",
@@ -77,21 +77,21 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         mutate("/api/user");
         updateSettings("darkMode", "false");
       },
-      icon: <Icon className="outlined">light_mode</Icon>,
+      icon: "light_mode",
     },
     {
       title: "Dark theme",
       onTrigger: () => {
         updateSettings("darkMode", "true");
       },
-      icon: <Icon className="outlined">dark_mode</Icon>,
+      icon: "dark_mode",
     },
 
     ...["week", "month", "year"].map((e) => {
       return {
         title: capitalizeFirstLetter(e),
         onTrigger: () => router.push(`/tasks/#/agenda/${e}`),
-        icon: <Icon className="outlined">today</Icon>,
+        icon: "today",
         badge: "agenda",
       };
     }),
@@ -100,7 +100,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           return {
             title: room.name,
             onTrigger: () => router.push(`/rooms/${room.id}`),
-            icon: <Icon className="outlined">category</Icon>,
+            icon: "category",
             badge: "Room",
           };
         })
@@ -140,7 +140,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                 mutate("/api/user");
               });
             },
-            icon: <Icon className="outlined">home</Icon>,
+            icon: "home",
             badge: "Group",
           };
         })
@@ -158,21 +158,21 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           }
         );
       },
-      icon: <Icon className="outlined">logout</Icon>,
+      icon: "logout",
     },
     {
       title: "Feedback center",
       onTrigger: () => {
         router.push("/feedback");
       },
-      icon: <Icon className="outlined">chat_bubble</Icon>,
+      icon: "chat_bubble",
     },
     {
       title: "Discord",
       onTrigger: () => {
         window.open("https://discord.gg/fvngmDzh77");
       },
-      icon: <Icon className="outlined">chat_bubble</Icon>,
+      icon: "chat_bubble",
     },
   ];
 };
@@ -308,6 +308,9 @@ export default function Spotlight() {
                     background: session.user.darkMode
                       ? "hsl(240,11%,15%)"
                       : "#eee",
+                    "& *": {
+                      fontWeight: 700,
+                    },
                   }),
                 }}
                 onClick={() => {
@@ -317,7 +320,9 @@ export default function Spotlight() {
                   }, 500);
                 }}
               >
-                <Icon>{result.icon}</Icon>
+                <Icon {...(index !== 0 && { className: "outlined" })}>
+                  {result.icon}
+                </Icon>
                 <ListItemText primary={result.title} />
                 {result.badge && <Chip size="small" label={result.badge} />}
               </ListItemButton>
