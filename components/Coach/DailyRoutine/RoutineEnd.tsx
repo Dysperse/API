@@ -119,9 +119,17 @@ export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
         alignItems: "center",
         justifyContent: "center",
         color: "#fff",
+        width: "100%",
       }}
     >
-      <CircularProgress color="inherit" />
+      <CircularProgress
+        color="inherit"
+        sx={{
+          "&, & *": {
+            stroke: "#fff",
+          },
+        }}
+      />
     </Box>
   );
 }
