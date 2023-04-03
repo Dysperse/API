@@ -324,7 +324,13 @@ export default function Spotlight() {
                   {result.icon}
                 </Icon>
                 <ListItemText primary={result.title} />
-                {result.badge && <Chip size="small" label={result.badge} />}
+                {result.badge ||
+                  (index == 0 && (
+                    <Chip
+                      size="small"
+                      label={index == 0 ? "↵ enter" : result.badge}
+                    />
+                  ))}
               </ListItemButton>
             );
           }}
