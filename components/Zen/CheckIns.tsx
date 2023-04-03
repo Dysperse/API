@@ -92,7 +92,6 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
         onClose={handleClose}
         anchor="bottom"
         disableSwipeToOpen
-        PaperProps={{}}
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>
@@ -211,14 +210,6 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
             disableRipple
             size="large"
             variant="contained"
-            disabled={
-              mood !== emoji &&
-              (!currentReason ||
-                (data &&
-                  data[0] &&
-                  data[0].reason &&
-                  currentReason === data[0].reason))
-            }
             onClick={() => {
               handleClose();
               handleMoodChange(emoji, currentReason);
