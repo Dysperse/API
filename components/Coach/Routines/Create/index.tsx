@@ -13,12 +13,12 @@ import {
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { EmojiPicker } from "../../EmojiPicker";
-import { Puller } from "../../Puller";
-import { CreateGoal } from "./CreateGoal";
+import { fetchRawApi } from "../../../../lib/client/useApi";
+import { useSession } from "../../../../lib/client/useSession";
+import { toastStyles } from "../../../../lib/client/useTheme";
+import { EmojiPicker } from "../../../EmojiPicker";
+import { Puller } from "../../../Puller";
+import { CreateGoal } from "../../Goal/Create";
 
 export function CreateRoutine({ emblaApi, mutationUrl }) {
   const session = useSession();

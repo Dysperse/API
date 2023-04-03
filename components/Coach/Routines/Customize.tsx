@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { useApi } from "../../../lib/client/useApi";
 import { Puller } from "../../Puller";
-import { GoalCard } from "./GoalCard";
+import { GoalCard } from "./Card";
 
 export function CustomizeRoutine({ setData, editButtonRef, routine }) {
   const { data } = useApi("user/routines");

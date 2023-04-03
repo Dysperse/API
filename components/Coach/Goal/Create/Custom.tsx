@@ -18,9 +18,9 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
+import { fetchRawApi } from "../../../../lib/client/useApi";
+import { useSession } from "../../../../lib/client/useSession";
+import { toastStyles } from "../../../../lib/client/useTheme";
 
 export function CreateGoal({ mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -140,7 +140,9 @@ export function CreateGoal({ mutationUrl }) {
             inputRef={goalStepName}
             margin="dense"
             label="Goal step name"
-            helperText={'For example, if you want to learn a new language, the step name would be: "Practice for 30 minutes today"'}
+            helperText={
+              'For example, if you want to learn a new language, the step name would be: "Practice for 30 minutes today"'
+            }
           />
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <TextField

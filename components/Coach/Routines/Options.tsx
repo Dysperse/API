@@ -13,8 +13,8 @@ import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
-import { CustomizeRoutine } from "./CustomizeRoutine";
-import { EditRoutine } from "./EditRoutine";
+import { CustomizeRoutine } from "./Customize";
+import { EditRoutine } from "./Edit";
 
 export function RoutineOptions({
   mutationUrl,

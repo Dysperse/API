@@ -9,11 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import { useSession } from "../../../lib/client/useSession";
-import { CreateGoal as CreateCustomGoal } from "../CreateCustomGoal";
-import { categories, goals, routines } from "../goalTemplates";
-import { ExploreGoalCard } from "./ExploreGoalCard";
-import { FeaturedRoutine } from "./FeaturedRoutine";
+import { useSession } from "../../../../lib/client/useSession";
+import { ExploreGoalCard } from "../../Routines/Create/ExploreGoalCard";
+import { FeaturedRoutine } from "../../Routines/Create/FeaturedRoutine";
+import { CreateGoal as CreateCustomGoal } from "./Custom";
+import { categories, goals, routines } from "./goalTemplates";
 
 export function CreateGoal({ mutationUrl }) {
   const session = useSession();

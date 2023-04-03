@@ -2,8 +2,8 @@ import { Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import html2canvas from "html2canvas";
 import React from "react";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { ConfirmationModal } from "../ConfirmationModal";
+import { fetchRawApi } from "../../../lib/client/useApi";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { ShareGoal } from "./ShareGoal";
 
 export const exportAsImage = async (el, imageFileName) => {

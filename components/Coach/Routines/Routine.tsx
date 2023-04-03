@@ -15,9 +15,9 @@ import Stories from "react-insta-stories";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { RoutineEnd } from "../Routine/RoutineEnd";
-import { Task } from "../Routine/Task";
-import { RoutineOptions } from "./RoutineOptions";
+import { RoutineEnd } from "../DailyRoutine/RoutineEnd";
+import { Task } from "../DailyRoutine/Task";
+import { RoutineOptions } from "./Options";
 
 export function Routine({ mutationUrl, routine }) {
   const [loading, setLoading] = useState(false);
