@@ -13,6 +13,7 @@ import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
+import { CustomizeRoutine } from "./CustomizeRoutine";
 import { EditRoutine } from "./EditRoutine";
 
 export function RoutineOptions({
@@ -50,7 +51,7 @@ export function RoutineOptions({
         BackdropProps={{
           className: "override-bg",
           sx: {
-            backdropFilter: "blur(10px)",
+            backdropFilter: "blur(5px)",
             background: "transparent",
           },
         }}
@@ -61,21 +62,26 @@ export function RoutineOptions({
           sx: {
             background: "hsl(240, 11%, 15%)",
             color: "hsl(240, 11%, 90%)",
-            maxWidth: "300px",
+            maxWidth: { sm: "300px" },
+            borderRadius: 5,
+            m: 2,
             userSelect: "none",
           },
         }}
       >
         <Box
           sx={{
-            "& .puller": {
-              background: "hsl(240, 11%, 30%)",
-            },
+            "& .puller": { background: "hsl(240, 11%, 30%)" },
           }}
         >
           <Puller />
         </Box>
-        <Box sx={{ p: 2, pt: 0 }}>
+        <Box sx={{ p: 2, pt: 0, mt: -2 }}>
+          <CustomizeRoutine
+            routine={routine}
+            editButtonRef={editButtonRef}
+            setData={setData}
+          />
           <EditRoutine
             routine={routine}
             editButtonRef={editButtonRef}

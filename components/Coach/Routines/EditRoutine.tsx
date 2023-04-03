@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CircularProgress,
   Icon,
   ListItemButton,
   MenuItem,
@@ -16,7 +15,6 @@ import { fetchRawApi, useApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { EmojiPicker } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
-import { GoalCard } from "./GoalCard";
 
 export function EditRoutine({ setData, editButtonRef, routine }) {
   const { data } = useApi("user/routines");
@@ -59,8 +57,8 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
   return (
     <>
       <ListItemButton onClick={handleOpen} sx={{ gap: 2 }} ref={editButtonRef}>
-        <Icon className="outlined">edit</Icon>
-        Edit routine
+        <Icon className="outlined">settings</Icon>
+        Settings
       </ListItemButton>
 
       <SwipeableDrawer
@@ -182,26 +180,6 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
               Save
             </Button>
           </Box>
-          <Typography variant="h6" sx={{ mt: 4 }}>
-            Add goals
-          </Typography>
-          {data ? (
-            data
-              .filter(
-                (goal) => !goal.completed && goal.progress < goal.durationDays
-              )
-              .map((goal) => (
-                <GoalCard
-                  setData={setData}
-                  goal={goal}
-                  key={goal.id}
-                  goals={data}
-                  routine={routine}
-                />
-              ))
-          ) : (
-            <CircularProgress />
-          )}
         </Box>
       </SwipeableDrawer>
     </>
