@@ -1,4 +1,4 @@
-import { Box, Button, Icon, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { mutate } from "swr";
 import { useApi } from "../../../lib/client/useApi";
@@ -20,7 +20,7 @@ export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
     ? []
     : data[0].items.filter((task) => task.durationDays - task.progress > 0);
 
-  return (
+  return data ? (
     <div
       style={{
         padding: 20,
@@ -83,7 +83,7 @@ export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
           </>
         )}
       </Typography>
-      {!error && (
+      {error && (
         <ErrorHandler
           error="Yikes! An error occured while trying to check your progress. Please try again later."
           callback={() => mutate(url)}
@@ -112,5 +112,16 @@ export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
         )}
       </Button>
     </div>
+  ) : (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#fff",
+      }}
+    >
+      <CircularProgress color="inherit" />
+    </Box>
   );
 }
