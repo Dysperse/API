@@ -153,7 +153,6 @@ export function DailyRoutine() {
         content: () => (
           <Task
             task={task}
-            mutate={() => mutateSWR(url)}
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
           />
@@ -236,7 +235,7 @@ export function DailyRoutine() {
             color: "hsl(240, 11%, 80%)",
           }}
           stories={stories}
-          defaultInterval={10000000000000000000000000000}
+          defaultInterval={1e23}
           width={"100%"}
           isPaused
           onStoryEnd={() => {}}

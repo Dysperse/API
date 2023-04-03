@@ -18,7 +18,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { RenderWithLayout } from "../components/Layout/Container";
 import { useUser } from "../lib/client/useSession";
 
-const AuthLoading = dynamic(() => import("../components/Auth/AuthLoading"), {
+const AuthLoading = dynamic(() => import("../components/Auth/Loading"), {
   loading: () => <Loading />,
 });
 

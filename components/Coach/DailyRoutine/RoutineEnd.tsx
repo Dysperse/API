@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Icon, Typography } from "@mui/material";
 
 export function RoutineEnd({
   setCurrentIndex,
@@ -39,65 +39,58 @@ export function RoutineEnd({
         }}
         onClick={handleClose}
       />
-      {tasksRemaining === 0 ? (
-        <>
-          <Box
-            sx={{
-              textAlign: "center",
-              display: "flex",
-              justifyContent: "center",
-              mb: 2,
-            }}
-          >
-            <picture>
-              <img
-                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png"
-                alt="Tada"
-              />
-            </picture>
-          </Box>
-          <Typography variant="h6" sx={{ mb: 1 }}>
+      <Box
+        sx={{
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          mb: 2,
+        }}
+      >
+        <picture>
+          <img
+            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+              tasksRemaining.length === 0 ? "1f389" : "1f449"
+            }.png`}
+            alt="Tada"
+          />
+        </picture>
+      </Box>
+      <Typography variant="h6" sx={{ mb: 1 }}>
+        {tasksRemaining.length === 0 ? (
+          <>
             You worked towards
             <br /> {sortedTasks.length} goal{sortedTasks.length !== 1 && "s"}!
-          </Typography>
-          <Button
-            onClick={handleClose}
-            sx={{
-              mt: 1,
-              "&, &:hover": {
-                background: "hsl(240,11%,20%)!important",
-                color: "#fff!important",
-              },
-            }}
-            variant="contained"
-          >
-            <span>✌</span> Let&apos;s go &rarr;
-          </Button>
-        </>
-      ) : (
-        <>
-          <Typography variant="h1" gutterBottom>
-            👉
-          </Typography>
-          <Typography variant="h6">
+          </>
+        ) : (
+          <>
             You have {tasksRemaining.length} goal
             {tasksRemaining.length !== 1 && "s"} left to finish
-          </Typography>
-          <Button
-            onClick={handleClose}
-            sx={{
-              mt: 1,
-              "&, &:hover": {
-                background: "hsl(240,11%,20%)!important",
-                color: "#fff!important",
-              },
-            }}
-            variant="contained"
-          >
-            <span>🎯</span> Gotcha &rarr;
-          </Button>
-        </>
-      )}
+          </>
+        )}
+      </Typography>
+      <Button
+        onClick={handleClose}
+        sx={{
+          mt: 1,
+          "&, &:hover": {
+            background: "hsl(240,11%,20%)!important",
+            color: "#fff!important",
+          },
+        }}
+        variant="contained"
+      >
+        {tasksRemaining.length == 0 ? (
+          <>
+            <span>✌</span> Let&apos;s go &rarr;
+          </>
+        ) : (
+          <>
+            Gotcha!
+            <Icon>east</Icon>
+          </>
+        )}
+      </Button>
     </div>
   );
 }

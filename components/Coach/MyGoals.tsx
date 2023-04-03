@@ -11,12 +11,12 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
   const { data, error, url } = useApi("user/routines");
 
   useEffect(() => {
-    if (data && data.length === 0) {
-      setHideRoutine(true);
-    } else {
-      setHideRoutine(false);
-    }
+    data && 0 === data.length ? setHideRoutine(true) : setHideRoutine(false);
   }, [data, setHideRoutine]);
+
+  const completedGoals = data.filter(
+    (goal) => goal.progress >= goal.durationDays && !goal.completed
+  ).length;
 
   return data ? (
     <>
@@ -93,19 +93,8 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                   mb: 2,
                 }}
               >
-                You completed{" "}
-                {
-                  data.filter(
-                    (goal) =>
-                      goal.progress >= goal.durationDays && !goal.completed
-                  ).length
-                }{" "}
-                goal
-                {data.filter(
-                  (goal) =>
-                    goal.progress >= goal.durationDays && !goal.completed
-                ).length > 1 && "s"}
-                ! Scroll down to claim your trophy.
+                You completed {completedGoals} goal
+                {completedGoals > 1 && "s"}! Scroll down to claim your trophy.
               </Typography>
             )
           }
@@ -114,17 +103,14 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               {
                 // Sort goals by days left (goal.progress  / goal.durationDays). Sort in reverse order, and move `goal.progress === goal.durationDays` to the end
                 data
-                  .sort((a, b) => {
-                    if (a.progress === a.durationDays) {
-                      return 1;
-                    }
-                    if (b.progress === b.durationDays) {
-                      return -1;
-                    }
-                    return (
-                      b.progress / b.durationDays - a.progress / a.durationDays
-                    );
-                  })
+                  .sort((r, s) =>
+                    r.progress === r.durationDays
+                      ? 1
+                      : s.progress === s.durationDays
+                      ? -1
+                      : s.progress / s.durationDays -
+                        r.progress / r.durationDays
+                  )
                   .map((goal) => (
                     <Goal key={goal.id} goal={goal} mutationUrl={url} />
                   ))

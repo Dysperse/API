@@ -1,11 +1,4 @@
 import Masonry from "@mui/lab/Masonry";
-import type { Item } from "@prisma/client";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Header } from "./Header";
-import { ItemCard } from "./ItemCard";
-import { Toolbar } from "./Toolbar";
-
 import {
   Box,
   Card,
@@ -14,8 +7,14 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import type { Item } from "@prisma/client";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useSession } from "../../lib/client/useSession";
+import { Header } from "./Header";
+import { ItemCard } from "./ItemCard";
+import { Toolbar } from "./Toolbar";
 
 /**
  * Renders a room based on the inventory data passed in the data object

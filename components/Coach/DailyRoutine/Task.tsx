@@ -1,11 +1,12 @@
-import { Box, Button, Chip, Typography } from "@mui/material";
+import { Box, Button, Chip, Icon, IconButton, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
+import { ShareGoal } from "../Goal/ShareGoal";
 
-export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
+export function Task({ task, currentIndex, setCurrentIndex }) {
   const handleClick = useCallback(() => {
     setCurrentIndex((index) => index + 1);
     fetchRawApi("user/routines/markAsDone", {
@@ -17,18 +18,34 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
             : task.progress + 1
           : 1,
       id: task.id,
-    })
-      .then(() => mutate())
-      .catch(() =>
-        toast.error(
-          "Yikes! Something went wrong while trying to mark your routine as done",
-          toastStyles
-        )
-      );
-  }, [task.durationDays, task.id, task.progress, mutate, setCurrentIndex]);
+    }).catch(() =>
+      toast.error(
+        "Yikes! Something went wrong while trying to mark your routine as done",
+        toastStyles
+      )
+    );
+  }, [task.durationDays, task.id, task.progress, setCurrentIndex]);
 
   return (
     <Box sx={{ p: 4 }}>
+      <ShareGoal goal={task}>
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: 23,
+            zIndex: 9999,
+            right: 60,
+            "&, & *": {
+              color: "#fff",
+            },
+            "&:active": {
+              background: "hsl(240,11%,14%)",
+            },
+          }}
+        >
+          <Icon>ios_share</Icon>
+        </IconButton>
+      </ShareGoal>
       <Box
         sx={{
           height: "100vh",
@@ -53,9 +70,6 @@ export function Task({ task, mutate, currentIndex, setCurrentIndex }) {
       />
       <Typography variant="h2" className="font-heading" gutterBottom>
         {task.stepName}
-      </Typography>
-      <Typography>
-        <i>{task.name}</i>
       </Typography>
       <Box
         sx={{

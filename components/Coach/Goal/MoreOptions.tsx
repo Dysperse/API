@@ -40,7 +40,12 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
         open={open}
         onClose={handleClose}
       >
-        <ShareGoal handleMenuClose={handleClose} goal={goal} />
+        <ShareGoal goal={goal}>
+          <MenuItem>
+            <Icon>ios_share</Icon>
+            Share
+          </MenuItem>
+        </ShareGoal>
         <ConfirmationModal
           title="Stop goal?"
           question="Are you sure you want to stop working towards this goal? ALL your progress will be lost FOREVER. You won't be able to undo this action!"

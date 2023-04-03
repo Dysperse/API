@@ -7,19 +7,18 @@ import {
   Icon,
   IconButton,
   LinearProgress,
-  MenuItem,
   SwipeableDrawer,
   Toolbar,
   Typography,
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { useEffect, useRef, useState } from "react";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
+import { cloneElement, useEffect, useRef, useState } from "react";
+import { useSession } from "../../../lib/client/useSession";
+import { colors } from "../../../lib/colors";
 import { exportAsImage } from "./MoreOptions";
 
-export function ShareGoal({ handleMenuClose, goal }) {
+export function ShareGoal({ children, goal }) {
   const session = useSession();
 
   const exportRefs = {
@@ -114,12 +113,13 @@ export function ShareGoal({ handleMenuClose, goal }) {
       transform: "scale(0.9)",
     }),
   };
+
+  const trigger = cloneElement(children, {
+    onClick: handleOpen,
+  });
   return (
     <>
-      <MenuItem onClick={handleOpen}>
-        <Icon>share</Icon>
-        Share
-      </MenuItem>
+      {trigger}
 
       <Drawer
         open={open}
@@ -402,7 +402,7 @@ export function ShareGoal({ handleMenuClose, goal }) {
             height: "0px!important",
           }}
           hideBackdrop
-          swipeAreaWidth={150}
+          swipeAreaWidth={300}
           BackdropProps={{
             className: "override-bg",
             sx: {

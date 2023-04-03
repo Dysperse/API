@@ -104,7 +104,7 @@ export default function BoardSettings({ mutationUrl, board }) {
             });
           }}
         >
-          <Icon className="outlined">share</Icon>
+          <Icon className="outlined">ios_share</Icon>
           Share
         </MenuItem>
         <ConfirmationModal
