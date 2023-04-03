@@ -273,10 +273,9 @@ export function Routine({ mutationUrl, routine }) {
                     {
                       content: () => (
                         <RoutineEnd
-                          handleClose={() => setOpen(false)}
-                          sortedTasks={data && data.items}
-                          tasksRemaining={tasksRemaining}
+                          routineId={routine.id}
                           setCurrentIndex={setCurrentIndex}
+                          handleClose={() => setOpen(false)}
                         />
                       ),
                     },

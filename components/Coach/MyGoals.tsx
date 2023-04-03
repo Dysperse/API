@@ -14,9 +14,11 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
     data && 0 === data.length ? setHideRoutine(true) : setHideRoutine(false);
   }, [data, setHideRoutine]);
 
-  const completedGoals = data.filter(
-    (goal) => goal.progress >= goal.durationDays && !goal.completed
-  ).length;
+  const completedGoals = data
+    ? data.filter(
+        (goal) => goal.progress >= goal.durationDays && !goal.completed
+      ).length
+    : 0;
 
   return data ? (
     <>

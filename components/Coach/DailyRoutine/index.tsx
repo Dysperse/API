@@ -163,9 +163,7 @@ export function DailyRoutine() {
       content: () => (
         <RoutineEnd
           handleClose={() => setOpen(false)}
-          tasksRemaining={tasksRemaining}
           setCurrentIndex={setCurrentIndex}
-          sortedTasks={sortedTasks}
         />
       ),
     },

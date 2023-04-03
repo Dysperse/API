@@ -30,6 +30,8 @@ const getInfo = (
 
 export interface ApiResponse {
   /**
+   * `Promise<ApiResponse>`
+   * 
    * Data returned from the API
    */
   data: any;
