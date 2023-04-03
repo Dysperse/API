@@ -205,8 +205,6 @@ export default function Spotlight() {
   const handleSearch = async (value) => {
     let results = await getSpotlightActions(roomData, boardData, session);
 
-    console.log(results);
-
     results = results.filter((result) =>
       result.title.toLowerCase().includes(value.toLowerCase())
     );
@@ -234,8 +232,13 @@ export default function Spotlight() {
         <TextField
           onKeyDown={(e) => {
             if (e.code === "Enter") {
-              const tag: any = document.querySelector(`#activeSearchHighlight`);
-              if (tag) tag.click();
+              setOpen(false);
+              setTimeout(() => {
+                const tag: any = document.querySelector(
+                  `#activeSearchHighlight`
+                );
+                if (tag) tag.click();
+              }, 500);
             }
           }}
           type="text"

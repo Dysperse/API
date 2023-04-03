@@ -212,13 +212,26 @@ export default function Notifications() {
 
         <ListItem>
           <ListItemText
-            primary="Daily Coach reminders"
-            secondary="Get a nudge to complete your daily routine every day"
+            primary="Coach"
+            secondary="Get reminders to work on your daily routines"
           />
           <Switch
             checked={data.dailyRoutineNudge}
             onClick={(e: any) =>
               handleNotificationChange("dailyRoutineNudge", e.target.checked)
+            }
+          />
+        </ListItem>
+
+        <ListItem>
+          <ListItemText
+            primary="Daily check-in"
+            secondary="Recieve daily reminders to check-in on how you're feeling"
+          />
+          <Switch
+            checked={data.dailyCheckInNudge}
+            onClick={(e: any) =>
+              handleNotificationChange("dailyCheckInNudge", e.target.checked)
             }
           />
         </ListItem>
