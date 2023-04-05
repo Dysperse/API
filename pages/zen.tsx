@@ -69,7 +69,15 @@ export default function Home() {
               mr: { sm: 2 },
             }}
           >
-            <Tooltip title="Jump to" placement="bottom-start">
+            <Tooltip
+              title={
+                <>
+                  <Typography sx={{ fontWeight: 700 }}>Spotlight</Typography>
+                  <Typography>ctrl &bull; k</Typography>
+                </>
+              }
+              placement="bottom-start"
+            >
               <IconButton
                 onClick={() => {
                   navigator.vibrate(50);

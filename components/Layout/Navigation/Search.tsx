@@ -1,7 +1,9 @@
 import {
+  Alert,
   Box,
   Chip,
   Icon,
+  IconButton,
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
@@ -193,7 +195,7 @@ export default function Spotlight() {
 
   useEffect(() => {
     if (open) {
-      ref?.current?.focus();
+      setTimeout(() => ref?.current?.focus(), 200);
     }
   }, [open]);
 
@@ -220,6 +222,8 @@ export default function Spotlight() {
     [inputValue, debouncedHandleSearch]
   );
   const routines = useMemo(() => (open ? <Routines /> : <></>), [open]);
+  const [showBanner, setShowBanner] = useState<boolean>(true);
+
   return (
     <SwipeableDrawer
       open={open}
@@ -230,6 +234,27 @@ export default function Spotlight() {
     >
       <Puller showOnDesktop />
       <Box sx={{ px: 2 }}>
+        {showBanner && process.env.NODE_ENV !== "development" && (
+          <Alert
+            severity="info"
+            sx={{ mb: 2 }}
+            action={
+              <IconButton>
+                <Icon>close</Icon>
+              </IconButton>
+            }
+            onClick={() => setShowBanner(false)}
+          >
+            <Typography sx={{ fontWeight: 900 }}>
+              We&apos;ve moved things around
+            </Typography>
+            <Typography>
+              You can now search anything, from goals, to agendas by pressing{" "}
+              <b>ctrl &bull; k</b> on your keyboard, in a much more simplified
+              view
+            </Typography>
+          </Alert>
+        )}
         <TextField
           onKeyDown={(e) => {
             if (e.code === "Enter") {
