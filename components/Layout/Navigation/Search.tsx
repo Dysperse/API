@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import Router, { useRouter } from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
@@ -17,6 +17,7 @@ import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter
 import { fetchRawApi, useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
+import { Routines } from "../../Coach/Routines";
 import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
@@ -218,7 +219,7 @@ export default function Spotlight() {
     () => debouncedHandleSearch(inputValue),
     [inputValue, debouncedHandleSearch]
   );
-
+  const routines = useMemo(() => (open ? <Routines /> : <></>), [open]);
   return (
     <SwipeableDrawer
       open={open}
@@ -266,9 +267,11 @@ export default function Spotlight() {
           }}
           value={inputValue}
         />
-
+      </Box>
+      {routines}
+      <Box sx={{ px: 2 }}>
         <Virtuoso
-          style={{ height: "400px", maxHeight: "calc(100vh - 40px)" }}
+          style={{ height: "400px", maxHeight: "calc(100vh - 100px)" }}
           totalCount={results.length === 0 ? 1 : results.length}
           itemContent={(index) => {
             if (results.length === 0) {
@@ -276,7 +279,7 @@ export default function Spotlight() {
                 <Box
                   sx={{
                     height: "400px",
-                    maxHeight: "calc(100vh - 40px)",
+                    maxHeight: "calc(100vh - 100px)",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
