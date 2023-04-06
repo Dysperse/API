@@ -77,6 +77,7 @@ export function Routine({ mutationUrl, routine }) {
 
   const editButtonRef: any = useRef();
   const customizeButtonRef: any = useRef();
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
   const disabled = !JSON.parse(routine.daysOfWeek)[dayjs().day()];
 
@@ -91,7 +92,70 @@ export function Routine({ mutationUrl, routine }) {
       />
       <Stories
         onOpen={handleClick}
-        overlay={<>hi</>}
+        overlay={
+          <>
+            <picture>
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+                width="35px"
+                height="35px"
+                alt="Emoji"
+              />
+            </picture>
+            <Typography variant="h6">{routine.name}</Typography>
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                borderTop: "1px solid",
+                borderColor: "hsl(240,11%,40%,0.3)",
+                px: 2,
+                py: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 0.5,
+              }}
+            >
+              <Button
+                sx={{
+                  minWidth: "unset",
+                  px: 0,
+                  py: 0.1,
+                  whiteSpace: "nowrap",
+                  color: "hsl(240,11%,90%)",
+                  mr: "auto",
+                }}
+                size="small"
+              >
+                {(routine.timeOfDay + 1) % 12 || 12}
+                {routine.timeOfDay > 12 ? "PM" : "AM"}
+              </Button>
+              {days.map((day, index) => (
+                <Button
+                  key={day}
+                  sx={{
+                    minWidth: "unset",
+                    px: 0,
+                    whiteSpace: "nowrap",
+                    py: 0.1,
+                    color: "hsl(240,11%,90%)",
+                    textTransform: "uppercase",
+                    ...(JSON.parse(routine.daysOfWeek)[index] && {
+                      background: "hsl(240,11%,20%)!important",
+                      color: "#fff",
+                    }),
+                  }}
+                  size="small"
+                >
+                  {day.split("")[0]}
+                </Button>
+              ))}
+            </Box>
+          </>
+        }
         ref={ref}
         stories={
           data.items.length === 0
