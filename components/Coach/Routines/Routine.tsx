@@ -23,25 +23,22 @@ export function Routine({ mutationUrl, routine }) {
   const session = useSession();
   const ref: any = useRef();
 
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState<null | any>(routine);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [alreadyOpened, setAlreadyOpened] = useState<boolean>(false);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const handleClick = useCallback(async () => {
     try {
       navigator.vibrate(50);
       setCurrentIndex(0);
       setLoading(true);
-
       const res = await fetchRawApi("user/routines/custom-routines/items", {
         id: routine.id,
       });
       setLoading(true);
-      setOpen(true);
       setLoading(false);
       setData(res[0]);
-      console.log(res[0]);
     } catch (e) {
       toast.error(
         "Yikes! An error occured while trying to get your routine! Please try again later.",
@@ -49,8 +46,6 @@ export function Routine({ mutationUrl, routine }) {
       );
     }
   }, [routine.id]);
-
-  const [alreadyOpened, setAlreadyOpened] = useState(false);
 
   useEffect(() => {
     if (window && window.location.href.includes("#/routine-")) {
@@ -67,13 +62,6 @@ export function Routine({ mutationUrl, routine }) {
     : data.items
         .filter((task) => task.durationDays - task.progress > 0)
         .filter((task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD"));
-
-  useEffect(() => {
-    if (!session.user.darkMode)
-      document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
-  }, [session, open]);
 
   const editButtonRef: any = useRef();
   const customizeButtonRef: any = useRef();
@@ -179,7 +167,6 @@ export function Routine({ mutationUrl, routine }) {
                           top: 0,
                           left: 0,
                         }}
-                        onClick={() => setOpen(false)}
                       />
                       <Box sx={{ textAlign: "center", px: 3 }}>
                         <Typography gutterBottom>
@@ -276,7 +263,7 @@ export function Routine({ mutationUrl, routine }) {
                     <RoutineEnd
                       routineId={routine.id}
                       setCurrentIndex={setCurrentIndex}
-                      handleClose={() => setOpen(false)}
+                      handleClose={() => {}}
                     />
                   ),
                 },

@@ -68,7 +68,7 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
       <Box
         sx={{
           position: "fixed",
-          bottom: 0,
+          bottom: "70px",
           width: "100%",
           left: 0,
           gap: 1,
