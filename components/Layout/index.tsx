@@ -15,10 +15,6 @@ const KeyboardShortcutsModal = dynamic(
   () => import("./Navigation/KeyboardShortcutsModal")
 );
 
-const PWAPrompt: any = dynamic(() => import("react-ios-pwa-prompt"), {
-  ssr: false,
-});
-
 /**
  * Drawer component
  * @param {any} {children} Children
@@ -104,12 +100,6 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
         message="An error occured while trying to get your account storage information"
       />
       <Navbar />
-      {router && (
-        <PWAPrompt
-          copyBody="Add Dysperse to your home screen to have easy access, recieve push notifications, and more!"
-          copyTitle="Add Dysperse to your home screen!"
-        />
-      )}
       <KeyboardShortcutsModal />
       <Box
         sx={{
