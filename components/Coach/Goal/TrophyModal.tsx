@@ -10,10 +10,10 @@ import React, { useEffect } from "react";
 import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { toastStyles } from "../../lib/client/useTheme";
-import useWindowDimensions from "../../lib/client/useWindowDimensions";
-import { colors } from "../../lib/colors";
+import { fetchRawApi } from "../../../lib/client/useApi";
+import { toastStyles } from "../../../lib/client/useTheme";
+import useWindowDimensions from "../../../lib/client/useWindowDimensions";
+import { colors } from "../../../lib/colors";
 
 export function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);

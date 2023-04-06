@@ -8,10 +8,10 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
-import { Puller } from "../Puller";
+import { useBackButton } from "../../../lib/client/useBackButton";
+import { useSession } from "../../../lib/client/useSession";
+import { colors } from "../../../lib/colors";
+import { Puller } from "../../Puller";
 import { MoreOptions } from "./MoreOptions";
 import { TrophyModal } from "./TrophyModal";
 

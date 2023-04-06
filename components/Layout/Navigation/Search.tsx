@@ -1,7 +1,9 @@
 import {
+  Alert,
   Box,
   Chip,
   Icon,
+  IconButton,
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
@@ -9,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import Router, { useRouter } from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
@@ -17,6 +19,7 @@ import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter
 import { fetchRawApi, useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
+import { Routines } from "../../Coach/Routines";
 import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 import { updateSettings } from "../../Settings/updateSettings";
@@ -30,46 +33,46 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     {
       title: "Boards",
       onTrigger: () => router.push("/tasks"),
-      icon: <Icon className="outlined">verified</Icon>,
+      icon: "verified",
     },
     {
       title: "Weekly agenda",
       onTrigger: () => router.push("/tasks#/agenda/week"),
-      icon: <Icon className="outlined">view_week</Icon>,
+      icon: "view_week",
       badge: "Agenda",
     },
     {
       title: "Monthly agenda",
       onTrigger: () => router.push("/tasks#/agenda/month"),
-      icon: <Icon className="outlined">calendar_view_month</Icon>,
+      icon: "calendar_view_month",
       badge: "Agenda",
     },
     {
       title: "Yearly agenda",
       onTrigger: () => router.push("/tasks#/agenda/year"),
-      icon: <Icon className="outlined">calendar_month</Icon>,
+      icon: "calendar_month",
       badge: "Agenda",
     },
     {
       title: "Backlog",
       onTrigger: () => router.push("/tasks#/agenda/backlog"),
-      icon: <Icon className="outlined">auto_mode</Icon>,
+      icon: "auto_mode",
       badge: "Agenda",
     },
     {
       title: "Coach",
       onTrigger: () => router.push("/coach"),
-      icon: <Icon className="outlined">rocket_launch</Icon>,
+      icon: "rocket_launch",
     },
     {
       title: "Items",
       onTrigger: () => router.push("/items"),
-      icon: <Icon className="outlined">category</Icon>,
+      icon: "category",
     },
     {
       title: "Start",
       onTrigger: () => router.push("/zen"),
-      icon: <Icon className="outlined">change_history</Icon>,
+      icon: "change_history",
     },
     {
       title: "Light theme",
@@ -77,21 +80,21 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         mutate("/api/user");
         updateSettings("darkMode", "false");
       },
-      icon: <Icon className="outlined">light_mode</Icon>,
+      icon: "light_mode",
     },
     {
       title: "Dark theme",
       onTrigger: () => {
         updateSettings("darkMode", "true");
       },
-      icon: <Icon className="outlined">dark_mode</Icon>,
+      icon: "dark_mode",
     },
 
     ...["week", "month", "year"].map((e) => {
       return {
         title: capitalizeFirstLetter(e),
         onTrigger: () => router.push(`/tasks/#/agenda/${e}`),
-        icon: <Icon className="outlined">today</Icon>,
+        icon: "today",
         badge: "agenda",
       };
     }),
@@ -100,7 +103,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           return {
             title: room.name,
             onTrigger: () => router.push(`/rooms/${room.id}`),
-            icon: <Icon className="outlined">category</Icon>,
+            icon: "category",
             badge: "Room",
           };
         })
@@ -140,7 +143,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                 mutate("/api/user");
               });
             },
-            icon: <Icon className="outlined">home</Icon>,
+            icon: "home",
             badge: "Group",
           };
         })
@@ -158,21 +161,21 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           }
         );
       },
-      icon: <Icon className="outlined">logout</Icon>,
+      icon: "logout",
     },
     {
       title: "Feedback center",
       onTrigger: () => {
         router.push("/feedback");
       },
-      icon: <Icon className="outlined">chat_bubble</Icon>,
+      icon: "chat_bubble",
     },
     {
       title: "Discord",
       onTrigger: () => {
         window.open("https://discord.gg/fvngmDzh77");
       },
-      icon: <Icon className="outlined">chat_bubble</Icon>,
+      icon: "chat_bubble",
     },
   ];
 };
@@ -192,7 +195,7 @@ export default function Spotlight() {
 
   useEffect(() => {
     if (open) {
-      ref?.current?.focus();
+      setTimeout(() => ref?.current?.focus(), 200);
     }
   }, [open]);
 
@@ -204,8 +207,6 @@ export default function Spotlight() {
   // Input event handling
   const handleSearch = async (value) => {
     let results = await getSpotlightActions(roomData, boardData, session);
-
-    console.log(results);
 
     results = results.filter((result) =>
       result.title.toLowerCase().includes(value.toLowerCase())
@@ -220,6 +221,8 @@ export default function Spotlight() {
     () => debouncedHandleSearch(inputValue),
     [inputValue, debouncedHandleSearch]
   );
+  const routines = useMemo(() => (open ? <Routines /> : <></>), [open]);
+  const [showBanner, setShowBanner] = useState<boolean>(true);
 
   return (
     <SwipeableDrawer
@@ -231,11 +234,37 @@ export default function Spotlight() {
     >
       <Puller showOnDesktop />
       <Box sx={{ px: 2 }}>
+        {showBanner && process.env.NODE_ENV !== "development" && (
+          <Alert
+            severity="info"
+            sx={{ mb: 2 }}
+            action={
+              <IconButton>
+                <Icon>close</Icon>
+              </IconButton>
+            }
+            onClick={() => setShowBanner(false)}
+          >
+            <Typography sx={{ fontWeight: 900 }}>
+              We&apos;ve moved things around
+            </Typography>
+            <Typography>
+              You can now search anything, from goals, to agendas by pressing{" "}
+              <b>ctrl &bull; k</b> on your keyboard, in a much more simplified
+              view
+            </Typography>
+          </Alert>
+        )}
         <TextField
           onKeyDown={(e) => {
             if (e.code === "Enter") {
-              const tag: any = document.querySelector(`#activeSearchHighlight`);
-              if (tag) tag.click();
+              setOpen(false);
+              setTimeout(() => {
+                const tag: any = document.querySelector(
+                  `#activeSearchHighlight`
+                );
+                if (tag) tag.click();
+              }, 500);
             }
           }}
           type="text"
@@ -263,9 +292,11 @@ export default function Spotlight() {
           }}
           value={inputValue}
         />
-
+      </Box>
+      {routines}
+      <Box sx={{ px: 2 }}>
         <Virtuoso
-          style={{ height: "400px", maxHeight: "calc(100vh - 40px)" }}
+          style={{ height: "400px", maxHeight: "calc(100vh - 100px)" }}
           totalCount={results.length === 0 ? 1 : results.length}
           itemContent={(index) => {
             if (results.length === 0) {
@@ -273,7 +304,7 @@ export default function Spotlight() {
                 <Box
                   sx={{
                     height: "400px",
-                    maxHeight: "calc(100vh - 40px)",
+                    maxHeight: "calc(100vh - 100px)",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -305,6 +336,9 @@ export default function Spotlight() {
                     background: session.user.darkMode
                       ? "hsl(240,11%,15%)"
                       : "#eee",
+                    "& *": {
+                      fontWeight: 700,
+                    },
                   }),
                 }}
                 onClick={() => {
@@ -314,9 +348,17 @@ export default function Spotlight() {
                   }, 500);
                 }}
               >
-                <Icon>{result.icon}</Icon>
+                <Icon {...(index !== 0 && { className: "outlined" })}>
+                  {result.icon}
+                </Icon>
                 <ListItemText primary={result.title} />
-                {result.badge && <Chip size="small" label={result.badge} />}
+                {result.badge ||
+                  (index == 0 && (
+                    <Chip
+                      size="small"
+                      label={index == 0 ? "↵ enter" : result.badge}
+                    />
+                  ))}
               </ListItemButton>
             );
           }}

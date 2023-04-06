@@ -92,7 +92,6 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
         onClose={handleClose}
         anchor="bottom"
         disableSwipeToOpen
-        PaperProps={{}}
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>
@@ -211,14 +210,6 @@ function Emoji({ emoji, mood, data, handleMoodChange }) {
             disableRipple
             size="large"
             variant="contained"
-            disabled={
-              mood !== emoji &&
-              (!currentReason ||
-                (data &&
-                  data[0] &&
-                  data[0].reason &&
-                  currentReason === data[0].reason))
-            }
             onClick={() => {
               handleClose();
               handleMoodChange(emoji, currentReason);
@@ -311,7 +302,7 @@ function InfoModal() {
   );
 }
 
-export function DailyCheckInDrawer() {
+export function DailyCheckInDrawer({ mood }) {
   const [open, setOpen] = useState<boolean>(false);
   const handleClose = useCallback(() => setOpen(false), []);
   const handleOpen = useCallback(() => setOpen(true), []);
@@ -367,7 +358,26 @@ export function DailyCheckInDrawer() {
         }}
       >
         <Box sx={{ width: "100%" }}>
-          <Typography sx={{ fontWeight: "900", mb: 0.4 }}>
+          <Typography
+            sx={{
+              fontWeight: "900",
+              mb: 0.4,
+              display: "flex",
+              alignItems: "center",
+              gap: 1.5,
+            }}
+          >
+            {!mood && (
+              <Box
+                sx={{
+                  width: 10,
+                  height: 10,
+                  background:
+                    "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
+                  borderRadius: 99,
+                }}
+              />
+            )}
             How are you feeling today?
           </Typography>
           <Typography
@@ -815,7 +825,7 @@ export function DailyCheckIn() {
       }}
       className="shadow-sm"
     >
-      <DailyCheckInDrawer />
+      <DailyCheckInDrawer mood={mood} />
       <Box
         sx={{
           display: "flex",

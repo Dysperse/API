@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useApi } from "../../../lib/client/useApi";
 import { ErrorHandler } from "../../Error";
-import { DailyRoutine } from "../Routine/DailyRoutine";
-import { CreateRoutine } from "./CreateRoutine";
+import { DailyRoutine } from "../DailyRoutine";
+import { CreateRoutine } from "./Create";
 import { Routine } from "./Routine";
 
 export function Routines() {

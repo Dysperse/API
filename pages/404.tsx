@@ -1,7 +1,7 @@
 /**
  * Offline page
  */
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export function OfflineBox() {
   return (
@@ -19,8 +19,9 @@ export function OfflineBox() {
         p: 1,
         boxSizing: "border-box",
         fontSize: "15px",
-        color: "#200923",
-        background: "linear-gradient(45deg, #DB94CA, #6E79C9)",
+        color: "hsl(240,11%,10%)",
+        background:
+          "linear-gradient(45deg, hsl(240,11%,90%), hsl(240,11%,95%))",
       }}
     >
       <Box
@@ -31,6 +32,7 @@ export function OfflineBox() {
           p: 5,
           display: "flex",
           gap: "10px",
+          fontWeight: 700,
           pointerEvents: "none",
         }}
       >
@@ -45,7 +47,10 @@ export function OfflineBox() {
           maxHeight: "calc(100vh - 40px)",
         }}
       >
-        404 &nbsp;&bull;&nbsp; This page does not exist
+        <Typography className="font-heading" variant="h1">
+          404
+        </Typography>
+        <Typography variant="h6">This page does not exist</Typography>
       </Box>
     </Box>
   );

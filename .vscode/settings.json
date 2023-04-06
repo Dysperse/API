@@ -10,5 +10,9 @@
     "source.sortMembers": true,
     "source.fixAll.eslint": true
   },
-  "eslint.validate": ["typescript"]
+  "eslint.validate": ["typescript"],
+  "docwriter.style": "JSDoc",
+  "docwriter.progress.trackFunctions": false,
+  "docwriter.progress.trackMethods": true,
+  "docwriter.progress.trackClasses": true
 }

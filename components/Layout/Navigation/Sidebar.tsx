@@ -259,7 +259,15 @@ export function Sidebar() {
           onMouseDown={() => openSpotlight()}
           sx={styles(false)}
         >
-          <Tooltip title="Jump to" placement="right">
+          <Tooltip
+            title={
+              <>
+                <Typography sx={{ fontWeight: 700 }}>Spotlight</Typography>
+                <Typography>ctrl &bull; k</Typography>
+              </>
+            }
+            placement="right"
+          >
             <span className="material-symbols-outlined">bolt</span>
           </Tooltip>
         </Box>

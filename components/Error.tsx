@@ -3,14 +3,16 @@
  * @returns {JSX.Element} JSX element
  */
 import { Alert, Icon, IconButton } from "@mui/material";
+import { useState } from "react";
 
-export function ErrorHandler({ error }: { error: string }): JSX.Element {
-  /**
-   * Reload the page
-   */
-  const reloadWindow = () => {
-    window.location.reload();
-  };
+export function ErrorHandler({
+  error,
+  callback = () => window.location.reload(),
+}: {
+  error: string;
+  callback?: () => void;
+}): JSX.Element {
+  const [loading, setLoading] = useState(false);
 
   return (
     <Alert
@@ -20,13 +22,23 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
         display: "flex",
         userSelect: "none",
         gap: 2,
+        transition: "all .2s",
         alignItems: "center",
+        textAlign: "left",
+        ...(loading && {
+          transform: "scale(.95)",
+          opacity: 0.8,
+        }),
       }}
       action={
         <IconButton
           color="inherit"
           size="small"
-          onClick={reloadWindow}
+          onClick={async () => {
+            setLoading(true);
+            await callback();
+            setLoading(false);
+          }}
           sx={{
             borderRadius: 5,
             ml: "auto",
@@ -39,9 +51,9 @@ export function ErrorHandler({ error }: { error: string }): JSX.Element {
                 transform: "rotate(360deg)",
               },
             },
-            "&:hover": {
-              animation: "a .5s forwards",
-            },
+            ...(loading && {
+              animation: "a .5s forwards infinite",
+            }),
           }}
         >
           <Icon>refresh</Icon>

@@ -14,9 +14,9 @@ import {
 import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { colors } from "../../../lib/colors";
+import { fetchRawApi } from "../../../../lib/client/useApi";
+import { toastStyles } from "../../../../lib/client/useTheme";
+import { colors } from "../../../../lib/colors";
 import { DurationPicker } from "./DurationPicker";
 
 export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {

@@ -14,12 +14,12 @@ import {
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useAccountStorage } from "../../lib/client/useAccountStorage";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { ErrorHandler } from "../Error";
-import { Puller } from "../Puller";
-import { CreateBoard } from "./Board/Create";
+import { useAccountStorage } from "../../../lib/client/useAccountStorage";
+import { useApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
+import { ErrorHandler } from "../../Error";
+import { Puller } from "../../Puller";
+import { CreateBoard } from "../Board/Create";
 import { Loading } from "./Loading";
 import { Tab } from "./Tab";
 
@@ -37,20 +37,20 @@ const DynamicLoader = () => (
   </Box>
 );
 
-const Agenda = dynamic(() => import("./Agenda").then((mod) => mod.Agenda), {
+const Agenda = dynamic(() => import("../Agenda").then((mod) => mod.Agenda), {
   loading: () => <DynamicLoader />,
   ssr: false,
 });
-const Board = dynamic(() => import("./Board").then((mod) => mod.Board), {
+const Board = dynamic(() => import("../Board").then((mod) => mod.Board), {
   loading: () => <DynamicLoader />,
   ssr: false,
 });
-const Backlog = dynamic(() => import("./Backlog").then((mod) => mod.Backlog), {
+const Backlog = dynamic(() => import("../Backlog").then((mod) => mod.Backlog), {
   loading: () => <DynamicLoader />,
   ssr: false,
 });
 const ColoredTasks = dynamic(
-  () => import("./ColoredTasks").then((mod) => mod.ColoredTasks),
+  () => import("../ColoredTasks").then((mod) => mod.ColoredTasks),
   {
     loading: () => <DynamicLoader />,
     ssr: false,

@@ -15,19 +15,19 @@ import Stories from "react-insta-stories";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { RoutineEnd } from "../Routine/RoutineEnd";
-import { Task } from "../Routine/Task";
-import { RoutineOptions } from "./RoutineOptions";
+import { RoutineEnd } from "../DailyRoutine/RoutineEnd";
+import { Task } from "../DailyRoutine/Task";
+import { RoutineOptions } from "./Options";
 
 export function Routine({ mutationUrl, routine }) {
+  const session = useSession();
+  const ref: any = useRef();
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState<null | any>(routine);
-
-  const session = useSession();
-  const ref: any = useRef();
 
   const handleClick = useCallback(
     async (edit: any = false) => {
@@ -58,7 +58,7 @@ export function Routine({ mutationUrl, routine }) {
         );
       }
     },
-    [data, routine.id]
+    [routine.id]
   );
 
   const [alreadyOpened, setAlreadyOpened] = useState(false);
@@ -264,15 +264,6 @@ export function Routine({ mutationUrl, routine }) {
                         content: () => (
                           <Task
                             task={task}
-                            mutate={async () => {
-                              const res = await fetchRawApi(
-                                "user/routines/custom-routines/items",
-                                {
-                                  id: routine.id,
-                                }
-                              );
-                              setData(res[0]);
-                            }}
                             currentIndex={currentIndex}
                             setCurrentIndex={setCurrentIndex}
                           />
@@ -282,17 +273,15 @@ export function Routine({ mutationUrl, routine }) {
                     {
                       content: () => (
                         <RoutineEnd
-                          handleClose={() => setOpen(false)}
-                          sortedTasks={data && data.items}
-                          tasksRemaining={tasksRemaining}
+                          routineId={routine.id}
                           setCurrentIndex={setCurrentIndex}
+                          handleClose={() => setOpen(false)}
                         />
                       ),
                     },
                   ]
             }
-            // idk why the story doesnt pause in production but the line below works, OK?
-            defaultInterval={69696969696969696969696969696969}
+            defaultInterval={1e23}
             width={"100%"}
             isPaused
             onStoryEnd={() => {}}
