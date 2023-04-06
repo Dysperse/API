@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Icon,
   ListItemButton,
   MenuItem,
   Select,
@@ -56,10 +55,11 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
 
   return (
     <>
-      <ListItemButton onClick={handleOpen} sx={{ gap: 2 }} ref={editButtonRef}>
-        <Icon className="outlined">settings</Icon>
-        Settings
-      </ListItemButton>
+      <ListItemButton
+        onClick={handleOpen}
+        sx={{ gap: 2 }}
+        ref={editButtonRef}
+      />
 
       <SwipeableDrawer
         open={open}
@@ -105,6 +105,7 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
           </EmojiPicker>
           <TextField
             value={name}
+            sx={{ mt: 4 }}
             onChange={(e: any) => setName(e.target.value)}
             fullWidth
             margin="dense"

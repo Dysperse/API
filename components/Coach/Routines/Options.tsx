@@ -1,10 +1,4 @@
-import {
-  Box,
-  Icon,
-  IconButton,
-  ListItemButton,
-  SwipeableDrawer,
-} from "@mui/material";
+import { Box, Icon, ListItemButton, SwipeableDrawer } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -20,31 +14,16 @@ export function RoutineOptions({
   mutationUrl,
   setData,
   editButtonRef,
+  customizeButtonRef,
   routine,
 }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   return (
     <>
-      <IconButton
-        onClick={handleOpen}
-        sx={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          m: 2.5,
-          mt: 3,
-          zIndex: 99,
-          background: "transparent",
-          color: "#fff!important",
-        }}
-        className="editTrigger"
-      >
-        <Icon>more_vert</Icon>
-      </IconButton>
-
       <SwipeableDrawer
         open={open}
         anchor="bottom"
@@ -79,7 +58,7 @@ export function RoutineOptions({
         <Box sx={{ p: 2, pt: 0, mt: -2 }}>
           <CustomizeRoutine
             routine={routine}
-            editButtonRef={editButtonRef}
+            customizeButtonRef={customizeButtonRef}
             setData={setData}
           />
           <EditRoutine

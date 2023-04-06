@@ -35,26 +35,6 @@ export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
     >
       <Box
         sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}
-        onClick={() => setCurrentIndex((i) => (i === 0 ? 0 : i - 1))}
-      />
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-        onClick={handleClose}
-      />
-      <Box
-        sx={{
           textAlign: "center",
           display: "flex",
           justifyContent: "center",

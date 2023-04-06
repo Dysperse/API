@@ -11,7 +11,7 @@ import { useApi } from "../../../lib/client/useApi";
 import { Puller } from "../../Puller";
 import { GoalCard } from "./Card";
 
-export function CustomizeRoutine({ setData, editButtonRef, routine }) {
+export function CustomizeRoutine({ setData, customizeButtonRef, routine }) {
   const { data } = useApi("user/routines");
   const [open, setOpen] = useState(false);
 
@@ -20,10 +20,7 @@ export function CustomizeRoutine({ setData, editButtonRef, routine }) {
 
   return (
     <>
-      <ListItemButton onClick={handleOpen} sx={{ gap: 2 }} ref={editButtonRef}>
-        <Icon className="outlined">edit</Icon>
-        Customize
-      </ListItemButton>
+      <ListItemButton onClick={handleOpen} ref={customizeButtonRef} />
 
       <SwipeableDrawer
         open={open}
@@ -58,9 +55,6 @@ export function CustomizeRoutine({ setData, editButtonRef, routine }) {
         <Box sx={{ p: 2, pt: 0 }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
             Routine
-          </Typography>
-          <Typography variant="h6" sx={{ mt: 4 }}>
-            Add goals
           </Typography>
           {data ? (
             data

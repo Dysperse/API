@@ -1,22 +1,22 @@
 import {
-  Backdrop,
   Box,
   Button,
   CircularProgress,
   Icon,
-  SwipeableDrawer,
+  IconButton,
   Typography,
 } from "@mui/material";
 import { lime, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import Stories from "react-insta-stories";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
+import { Stories } from "../../../pages/stories";
 import { RoutineEnd } from "../DailyRoutine/RoutineEnd";
 import { Task } from "../DailyRoutine/Task";
+import { ShareGoal } from "../Goal/ShareGoal";
 import { RoutineOptions } from "./Options";
 
 export function Routine({ mutationUrl, routine }) {
@@ -25,41 +25,30 @@ export function Routine({ mutationUrl, routine }) {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [showIntro, setShowIntro] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState<null | any>(routine);
 
-  const handleClick = useCallback(
-    async (edit: any = false) => {
-      try {
-        navigator.vibrate(50);
-        if (edit) {
-          const tag: any = ref?.current?.querySelector(".editTrigger");
-          tag?.click();
-          return;
-        }
-        setCurrentIndex(0);
-        setShowIntro(true);
-        setLoading(true);
+  const handleClick = useCallback(async () => {
+    try {
+      navigator.vibrate(50);
+      setCurrentIndex(0);
+      setLoading(true);
 
-        const res = await fetchRawApi("user/routines/custom-routines/items", {
-          id: routine.id,
-        });
-        setLoading(true);
-        setOpen(true);
-        setLoading(false);
-        setData(res[0]);
-
-        setTimeout(() => setShowIntro(false), 2000);
-      } catch (e) {
-        toast.error(
-          "Yikes! An error occured while trying to get your routine! Please try again later.",
-          toastStyles
-        );
-      }
-    },
-    [routine.id]
-  );
+      const res = await fetchRawApi("user/routines/custom-routines/items", {
+        id: routine.id,
+      });
+      setLoading(true);
+      setOpen(true);
+      setLoading(false);
+      setData(res[0]);
+      console.log(res[0]);
+    } catch (e) {
+      toast.error(
+        "Yikes! An error occured while trying to get your routine! Please try again later.",
+        toastStyles
+      );
+    }
+  }, [routine.id]);
 
   const [alreadyOpened, setAlreadyOpened] = useState(false);
 
@@ -72,9 +61,6 @@ export function Routine({ mutationUrl, routine }) {
       }
     }
   }, [alreadyOpened, handleClick, routine.id]);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const tasksRemaining = !data
     ? []
@@ -89,333 +75,282 @@ export function Routine({ mutationUrl, routine }) {
         ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
   }, [session, open]);
 
-  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const editButtonRef: any = useRef();
+  const customizeButtonRef: any = useRef();
 
   const disabled = !JSON.parse(routine.daysOfWeek)[dayjs().day()];
 
   return (
     <>
-      <SwipeableDrawer
-        open={open}
-        anchor="bottom"
-        onClose={handleClose}
-        onOpen={handleOpen}
-        disableSwipeToOpen
-        PaperProps={{
-          ref,
-          sx: {
-            background: "hsl(240, 11%, 10%)",
-            color: "hsl(240, 11%, 90%)",
-            overflow: "visible",
-            height: "100vh",
-            borderRadius: 0,
-            userSelect: "none",
-          },
-        }}
+      <RoutineOptions
+        mutationUrl={mutationUrl}
+        routine={routine}
+        editButtonRef={editButtonRef}
+        customizeButtonRef={customizeButtonRef}
+        setData={setData}
+      />
+      <Stories
+        onOpen={handleClick}
+        overlay={<>hi</>}
+        ref={ref}
+        stories={
+          data.items.length === 0
+            ? [
+                {
+                  content: (
+                    <Box
+                      sx={{
+                        justifyContent: "center",
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          height: "100vh",
+                          width: "100%",
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                        }}
+                        onClick={() => setOpen(false)}
+                      />
+                      <Box sx={{ textAlign: "center", px: 3 }}>
+                        <Typography gutterBottom>
+                          You haven&apos;t added any goals to this routine yet
+                        </Typography>
+                        <Button
+                          onClick={() => editButtonRef?.current?.click()}
+                          sx={{
+                            mt: 1,
+                            "&, &:hover": {
+                              background: "hsl(240,11%,20%)!important",
+                              color: "#fff!important",
+                            },
+                          }}
+                        >
+                          Add a goal
+                        </Button>
+                      </Box>
+                    </Box>
+                  ),
+                },
+              ]
+            : [
+                ...data.items.map((task) => {
+                  return {
+                    content: (
+                      <Task
+                        task={task}
+                        currentIndex={currentIndex}
+                        setCurrentIndex={setCurrentIndex}
+                      />
+                    ),
+
+                    footer: (
+                      <Box
+                        sx={{
+                          background: "hsl(240,11%,5%)",
+                          mt: "auto",
+                          p: 2,
+                          zIndex: 999999,
+                          display: "flex",
+                          transition: "all .2s",
+                        }}
+                      >
+                        <Button
+                          size="small"
+                          sx={{ color: "#fff", opacity: 0.6 }}
+                          onClick={() => toast("Coming soon!", toastStyles)}
+                        >
+                          <Icon className="outlined" sx={{ mt: "-5px" }}>
+                            local_fire_department
+                          </Icon>
+                          Activity
+                        </Button>
+                        <Box
+                          sx={{
+                            ml: "auto",
+                            display: "flex",
+                            gap: 1,
+                            "& .MuiIconButton-root": {
+                              "&:hover": { color: "#fff!important" },
+                              "&:active": {
+                                background: "hsl(240,11%,10%)!important",
+                              },
+                            },
+                          }}
+                        >
+                          <ShareGoal goal={task}>
+                            <IconButton color="inherit" size="small">
+                              <Icon>ios_share</Icon>
+                            </IconButton>
+                          </ShareGoal>
+                          <IconButton
+                            color="inherit"
+                            size="small"
+                            onClick={() => customizeButtonRef?.current?.click()}
+                          >
+                            <Icon className="outlined">edit</Icon>
+                          </IconButton>
+                          <IconButton
+                            color="inherit"
+                            size="small"
+                            onClick={() => editButtonRef?.current?.click()}
+                          >
+                            <Icon className="outlined">settings</Icon>
+                          </IconButton>
+                        </Box>
+                      </Box>
+                    ),
+                  };
+                }),
+                {
+                  content: (
+                    <RoutineEnd
+                      routineId={routine.id}
+                      setCurrentIndex={setCurrentIndex}
+                      handleClose={() => setOpen(false)}
+                    />
+                  ),
+                },
+              ]
+        }
+        currentIndex={currentIndex}
+        setCurrentIndex={setCurrentIndex}
       >
         <Box
           sx={{
-            position: "fixed",
-            top: open ? "-17px" : "0px",
-            transition: "all .2s",
-            left: "0px",
-            width: "100%",
-            height: "17px",
-            borderRadius: "50px 50px 0 0",
-            background: "hsl(240, 11%, 10%)",
-            zIndex: 999,
-          }}
-        />
-        <RoutineOptions
-          mutationUrl={mutationUrl}
-          routine={routine}
-          editButtonRef={editButtonRef}
-          setData={setData}
-        />
-        <Backdrop
-          open={showIntro}
-          onClick={() => setShowIntro(false)}
-          onTouchStart={() => setShowIntro(false)}
-          sx={{
+            ...(disabled && {
+              opacity: 0.6,
+            }),
+            flexShrink: 0,
+            borderRadius: 5,
+            flex: "0 0 70px",
+            gap: 0.4,
+            display: "flex",
             flexDirection: "column",
-            gap: 2,
-            backdropFilter: "blur(5px)",
-            zIndex: 999999,
+            alignItems: "center",
+            overflow: "hidden",
+            userSelect: "none",
+            p: 1,
+            transition: "transform .2s",
+            "&:hover": {
+              background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+            },
+            "&:active": {
+              transition: "none",
+              transform: "scale(.95)",
+            },
           }}
-          className="override-bg"
         >
-          <picture>
-            <img
-              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
-              width="35px"
-              height="35px"
-              alt="Emoji"
-            />
-          </picture>
-          <Typography variant="h6">{routine.name}</Typography>
           <Box
             sx={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              borderTop: "1px solid",
-              borderColor: "hsl(240,11%,40%,0.3)",
-              px: 2,
-              py: 1,
+              borderRadius: 9999,
+              width: 60,
+              height: 60,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: 0.5,
-            }}
-          >
-            <Button
-              sx={{
-                minWidth: "unset",
-                px: 0,
-                py: 0.1,
-                whiteSpace: "nowrap",
-                color: "hsl(240,11%,90%)",
-                mr: "auto",
-              }}
-              size="small"
-            >
-              {(routine.timeOfDay + 1) % 12 || 12}
-              {routine.timeOfDay > 12 ? "PM" : "AM"}
-            </Button>
-            {days.map((day, index) => (
-              <Button
-                key={day}
-                sx={{
-                  minWidth: "unset",
-                  px: 0,
-                  whiteSpace: "nowrap",
-                  py: 0.1,
-                  color: "hsl(240,11%,90%)",
-                  textTransform: "uppercase",
-                  ...(JSON.parse(routine.daysOfWeek)[index] && {
-                    background: "hsl(240,11%,20%)!important",
-                    color: "#fff",
-                  }),
-                }}
-                size="small"
-              >
-                {day.split("")[0]}
-              </Button>
-            ))}
-          </Box>
-        </Backdrop>
-        {data && (
-          <Stories
-            storyContainerStyles={{
-              background: "hsl(240, 11%, 10%)",
-              color: "hsl(240, 11%, 80%)",
-            }}
-            stories={
-              data.items.length === 0
-                ? [
-                    {
-                      content: () => (
-                        <Box
-                          sx={{
-                            justifyContent: "center",
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              height: "100vh",
-                              width: "100%",
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                            }}
-                            onClick={() => setOpen(false)}
-                          />
-                          <Box sx={{ textAlign: "center", px: 3 }}>
-                            <Typography gutterBottom>
-                              You haven&apos;t added any goals to this routine
-                              yet
-                            </Typography>
-                            <Button
-                              onClick={() => editButtonRef?.current?.click()}
-                              sx={{
-                                mt: 1,
-                                "&, &:hover": {
-                                  background: "hsl(240,11%,20%)!important",
-                                  color: "#fff!important",
-                                },
-                              }}
-                            >
-                              Add a goal
-                            </Button>
-                          </Box>
-                        </Box>
-                      ),
-                    },
-                  ]
-                : [
-                    ...data.items.map((task) => {
-                      return {
-                        content: () => (
-                          <Task
-                            task={task}
-                            currentIndex={currentIndex}
-                            setCurrentIndex={setCurrentIndex}
-                          />
-                        ),
-                      };
-                    }),
-                    {
-                      content: () => (
-                        <RoutineEnd
-                          routineId={routine.id}
-                          setCurrentIndex={setCurrentIndex}
-                          handleClose={() => setOpen(false)}
-                        />
-                      ),
-                    },
-                  ]
-            }
-            defaultInterval={1e23}
-            width={"100%"}
-            isPaused
-            onStoryEnd={() => {}}
-            preventDefault
-            currentIndex={currentIndex}
-            height={"100vh"}
-          />
-        )}
-      </SwipeableDrawer>
-      <Box
-        onClick={() => handleClick(false)}
-        onContextMenu={() => handleClick(true)}
-        sx={{
-          ...(disabled && {
-            opacity: 0.6,
-          }),
-          flexShrink: 0,
-          borderRadius: 5,
-          flex: "0 0 70px",
-          gap: 0.4,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          overflow: "hidden",
-          userSelect: "none",
-          p: 1,
-          transition: "transform .2s",
-          "&:hover": {
-            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
-          },
-          "&:active": {
-            transition: "none",
-            transform: "scale(.95)",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            borderRadius: 9999,
-            width: 60,
-            height: 60,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "rgba(200,200,200,.2)",
-            border: "2px solid transparent",
-            ...(tasksRemaining.length === 0 && {
-              borderColor: lime[session.user.darkMode ? "A400" : 800],
-              background: session.user.darkMode ? "hsl(240,11%,10%)" : lime[50],
-            }),
-            ...(data.items.length === 0 && {
-              borderColor: orange[session.user.darkMode ? "A200" : 800],
-              background: session.user.darkMode
-                ? "hsl(240,11%,10%)"
-                : orange[50],
-            }),
-            ...(loading && {
-              transition: "border-color .2s",
-              borderColor: session.user.darkMode ? "hsl(240,11%,30%)" : "#ccc",
-            }),
-            position: "relative",
-          }}
-        >
-          {tasksRemaining.length === 0 && data.items.length !== 0 && (
-            <Icon
-              sx={{
-                opacity: loading ? 0 : 1,
-                color: lime[session.user.darkMode ? "A400" : 800],
+              background: "rgba(200,200,200,.2)",
+              border: "2px solid transparent",
+              ...(tasksRemaining.length === 0 && {
+                borderColor: lime[session.user.darkMode ? "A400" : 800],
                 background: session.user.darkMode
                   ? "hsl(240,11%,10%)"
                   : lime[50],
-                borderRadius: "999px",
-                transition: "opacity .2s",
-                position: "absolute",
-                bottom: -5,
-                right: -5,
-              }}
-            >
-              check_circle
-            </Icon>
-          )}
-          {data.items.length === 0 && (
-            <Icon
-              sx={{
-                opacity: loading ? 0 : 1,
-                color: orange[session.user.darkMode ? "A400" : 800],
-                background: session.user.darkMode ? "hsl(240,11%,10%)" : "#fff",
-                borderRadius: "999px",
-                transition: "opacity .2s",
-                position: "absolute",
-                bottom: -5,
-                right: -5,
-              }}
-            >
-              error
-            </Icon>
-          )}
-          {loading && (
-            <CircularProgress
-              size={60}
-              thickness={1}
-              disableShrink={false}
-              sx={{
-                position: "absolute",
-                top: -2,
-                left: -2,
-                animationDuration: "2s",
-              }}
-            />
-          )}
-          <picture>
-            <img
-              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
-              width="35px"
-              height="35px"
-              alt="Emoji"
-            />
-          </picture>
-        </Box>
-        <Box sx={{ width: "100%" }}>
-          <Typography
-            variant="body2"
-            sx={{
-              whiteSpace: "nowrap",
-              textAlign: "center",
-              textOverflow: "ellipsis",
-              fontSize: "13px",
-              overflow: "hidden",
+              }),
+              ...(data.items.length === 0 && {
+                borderColor: orange[session.user.darkMode ? "A200" : 800],
+                background: session.user.darkMode
+                  ? "hsl(240,11%,10%)"
+                  : orange[50],
+              }),
+              ...(loading && {
+                transition: "border-color .2s",
+                borderColor: session.user.darkMode
+                  ? "hsl(240,11%,30%)"
+                  : "#ccc",
+              }),
+              position: "relative",
             }}
           >
-            {routine.name}
-          </Typography>
+            {tasksRemaining.length === 0 && data.items.length !== 0 && (
+              <Icon
+                sx={{
+                  opacity: loading ? 0 : 1,
+                  color: lime[session.user.darkMode ? "A400" : 800],
+                  background: session.user.darkMode
+                    ? "hsl(240,11%,10%)"
+                    : lime[50],
+                  borderRadius: "999px",
+                  transition: "opacity .2s",
+                  position: "absolute",
+                  bottom: -5,
+                  right: -5,
+                }}
+              >
+                check_circle
+              </Icon>
+            )}
+            {data.items.length === 0 && (
+              <Icon
+                sx={{
+                  opacity: loading ? 0 : 1,
+                  color: orange[session.user.darkMode ? "A400" : 800],
+                  background: session.user.darkMode
+                    ? "hsl(240,11%,10%)"
+                    : "#fff",
+                  borderRadius: "999px",
+                  transition: "opacity .2s",
+                  position: "absolute",
+                  bottom: -5,
+                  right: -5,
+                }}
+              >
+                error
+              </Icon>
+            )}
+            {loading && (
+              <CircularProgress
+                size={60}
+                thickness={1}
+                disableShrink={false}
+                sx={{
+                  position: "absolute",
+                  top: -2,
+                  left: -2,
+                  animationDuration: "2s",
+                }}
+              />
+            )}
+            <picture>
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
+                width="35px"
+                height="35px"
+                alt="Emoji"
+              />
+            </picture>
+          </Box>
+          <Box sx={{ width: "100%" }}>
+            <Typography
+              variant="body2"
+              sx={{
+                whiteSpace: "nowrap",
+                textAlign: "center",
+                textOverflow: "ellipsis",
+                fontSize: "13px",
+                overflow: "hidden",
+              }}
+            >
+              {routine.name}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
+      </Stories>
     </>
   );
 }
