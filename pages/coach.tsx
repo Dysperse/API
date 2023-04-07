@@ -20,7 +20,7 @@ export default function Render() {
       >
         <Box className="flex max-w-[100vw] flex-col gap-5 p-3 px-6 pt-2 sm:flex-row">
           <h1 className="font-heading my-3 text-4xl font-light underline">
-            My goals
+            Routines
           </h1>
         </Box>
         <Routines />

@@ -1,5 +1,6 @@
 import { LoadingButton } from "@mui/lab";
 import {
+  AppBar,
   Box,
   Button,
   Icon,
@@ -8,6 +9,7 @@ import {
   Select,
   SwipeableDrawer,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -17,14 +19,12 @@ import { fetchRawApi } from "../../../../lib/client/useApi";
 import { useSession } from "../../../../lib/client/useSession";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { EmojiPicker } from "../../../EmojiPicker";
-import { Puller } from "../../../Puller";
 import { CreateGoal } from "../../Goal/Create";
 
 export function CreateRoutine({ emblaApi, mutationUrl }) {
   const session = useSession();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [note, setNote] = useState("");
   const [emoji, setEmoji] = useState("2615");
 
   const handleOpen = () => setOpen(true);
@@ -49,7 +49,6 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
     try {
       await fetchRawApi("user/routines/custom-routines/create", {
         name,
-        note,
         emoji,
         daysOfWeek,
         timeOfDay: time,
@@ -133,47 +132,91 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
         PaperProps={{
           sx: {
             userSelect: "none",
+            height: "100vh",
           },
         }}
       >
-        <Puller />
-        <Box sx={{ p: 2, pt: 0 }}>
-          <Typography variant="h6" gutterBottom>
-            Create routine
-          </Typography>
-          <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
-            <IconButton>
-              <picture>
-                <img
-                  alt="Emoji"
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                />
-              </picture>
+        <AppBar sx={{ mb: 5 }}>
+          <Toolbar>
+            <Typography sx={{ fontWeight: 700 }}>Create routine</Typography>
+            <IconButton sx={{ ml: "auto" }} onClick={handleClose}>
+              <Icon>close</Icon>
             </IconButton>
-          </EmojiPicker>
+          </Toolbar>
+        </AppBar>
+        <Box sx={{ p: 2, pt: 0 }}>
+          <Box sx={{ textAlign: "center" }}>
+            <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
+              <IconButton
+                sx={{
+                  border: "2px dashed",
+                  borderColor: `hsl(240,11%,${
+                    session.user.darkMode ? 30 : 80
+                  }%)`,
+                  p: 2,
+                }}
+              >
+                <picture>
+                  <img
+                    width="60px"
+                    height="60px"
+                    alt="Emoji"
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                  />
+                </picture>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    width: 30,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: 30,
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 90 : 30
+                    }%)`,
+                    color: "#fff",
+                    borderRadius: 999,
+                  }}
+                >
+                  <Icon sx={{}}>edit</Icon>
+                </Box>
+              </IconButton>
+            </EmojiPicker>
+          </Box>
+          <Typography
+            variant="body2"
+            sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
+          >
+            ROUTINE NAME
+          </Typography>
           <TextField
             value={name}
             onChange={(e: any) => setName(e.target.value)}
             fullWidth
             margin="dense"
-            label="Routine name"
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+                py: 1,
+                px: 2,
+                borderRadius: 3,
+              },
+            }}
             autoFocus
             placeholder="Morning routine"
           />
-          <TextField
-            value={note}
-            onChange={(e: any) => setNote(e.target.value)}
-            fullWidth
-            margin="dense"
-            multiline
-            rows={4}
-            label="Click to add a note"
-            placeholder="(Optional)"
-          />
-          <Typography sx={{ fontWeight: 700, my: 2 }}>
-            What days do you want to work on this routine?
+          <Typography
+            variant="body2"
+            sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
+          >
+            SELECT DAYS TO WORK ON
           </Typography>
-          <Box sx={{ display: "flex", overflowX: "scroll", gap: 0.5 }}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 1 }}>
             {JSON.parse(daysOfWeek).map((day, index) => (
               <Button
                 key={index}
@@ -193,14 +236,26 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
               </Button>
             ))}
           </Box>
-          <Typography sx={{ fontWeight: 700, my: 2 }}>
-            What time do you want to start this routine?
+          <Typography
+            variant="body2"
+            sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
+          >
+            SELECT TIME TO WORK ON
           </Typography>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={time}
+            variant="standard"
             size="small"
+            disableUnderline
+            sx={{
+              background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+              py: 1,
+              px: 2,
+              mt: 1,
+              borderRadius: 3,
+            }}
             onChange={handleChange}
           >
             {[
@@ -209,7 +264,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             ].map((hour) => (
               <MenuItem value={hour} key={hour}>
                 {(hour + 1) % 12 || 12}
-                {hour >= 12 ? "PM" : "AM"}
+                {hour >= 11 ? "PM" : "AM"}
               </MenuItem>
             ))}
           </Select>
