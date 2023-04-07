@@ -7,7 +7,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
+import { cloneElement, useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Task } from "../components/Coach/DailyRoutine/Task";
 import { useSession } from "../lib/client/useSession";
@@ -17,7 +17,6 @@ export function Stories({
   overlay,
   currentIndex,
   setCurrentIndex,
-  ref,
   children,
   stories,
 }) {
@@ -67,7 +66,6 @@ export function Stories({
         disableSwipeToOpen
         anchor="bottom"
         PaperProps={{
-          ref,
           sx: {
             background: "hsl(240, 11%, 10%)",
             color: "hsl(240, 11%, 90%)",
@@ -168,7 +166,6 @@ export function Stories({
 }
 
 export default function App() {
-  const ref = useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const footer = (
@@ -214,7 +211,6 @@ export default function App() {
       <Stories
         onOpen={() => {}}
         overlay={<>hi</>}
-        ref={ref}
         currentIndex={currentIndex}
         setCurrentIndex={setCurrentIndex}
         stories={[

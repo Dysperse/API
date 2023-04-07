@@ -10,13 +10,7 @@ import { Puller } from "../../Puller";
 import { CustomizeRoutine } from "./Customize";
 import { EditRoutine } from "./Edit";
 
-export function RoutineOptions({
-  mutationUrl,
-  setData,
-  editButtonRef,
-  customizeButtonRef,
-  routine,
-}) {
+export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -24,6 +18,7 @@ export function RoutineOptions({
 
   return (
     <>
+      <div ref={optionsRef} onClick={handleOpen} style={{ display: "none" }} />
       <SwipeableDrawer
         open={open}
         anchor="bottom"
@@ -33,6 +28,9 @@ export function RoutineOptions({
             backdropFilter: "blur(5px)",
             background: "transparent",
           },
+        }}
+        sx={{
+          zIndex: 99999999999999999999999999,
         }}
         onClose={handleClose}
         onOpen={handleOpen}
@@ -56,16 +54,8 @@ export function RoutineOptions({
           <Puller />
         </Box>
         <Box sx={{ p: 2, pt: 0, mt: -2 }}>
-          <CustomizeRoutine
-            routine={routine}
-            customizeButtonRef={customizeButtonRef}
-            setData={setData}
-          />
-          <EditRoutine
-            routine={routine}
-            editButtonRef={editButtonRef}
-            setData={setData}
-          />
+          <CustomizeRoutine routine={routine} setData={setData} />
+          <EditRoutine routine={routine} setData={setData} />
           <ConfirmationModal
             title="Are you sure you want to delete this routine?"
             question="Your progress will stay safe and your goals won't be deleted"

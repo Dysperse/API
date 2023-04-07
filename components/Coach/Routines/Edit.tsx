@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Icon,
   ListItemButton,
   MenuItem,
   Select,
@@ -10,13 +11,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchRawApi, useApi } from "../../../lib/client/useApi";
+import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { EmojiPicker } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 
-export function EditRoutine({ setData, editButtonRef, routine }) {
-  const { data } = useApi("user/routines");
+export function EditRoutine({ setData, routine }) {
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState(routine.name);
@@ -55,11 +55,10 @@ export function EditRoutine({ setData, editButtonRef, routine }) {
 
   return (
     <>
-      <ListItemButton
-        onClick={handleOpen}
-        sx={{ gap: 2 }}
-        ref={editButtonRef}
-      />
+      <ListItemButton onClick={handleOpen} sx={{ gap: 2 }}>
+        <Icon className="outlined">settings</Icon>
+        Edit
+      </ListItemButton>
 
       <SwipeableDrawer
         open={open}

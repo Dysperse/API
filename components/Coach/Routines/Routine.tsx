@@ -22,6 +22,7 @@ import { RoutineOptions } from "./Options";
 export function Routine({ mutationUrl, routine }) {
   const session = useSession();
   const ref: any = useRef();
+  const optionsRef: any = useRef();
 
   const [data, setData] = useState<null | any>(routine);
   const [loading, setLoading] = useState<boolean>(false);
@@ -74,8 +75,7 @@ export function Routine({ mutationUrl, routine }) {
       <RoutineOptions
         mutationUrl={mutationUrl}
         routine={routine}
-        editButtonRef={editButtonRef}
-        customizeButtonRef={customizeButtonRef}
+        optionsRef={optionsRef}
         setData={setData}
       />
       <Stories
@@ -144,7 +144,6 @@ export function Routine({ mutationUrl, routine }) {
             </Box>
           </>
         }
-        ref={ref}
         stories={
           data.items.length === 0
             ? [
@@ -242,14 +241,7 @@ export function Routine({ mutationUrl, routine }) {
                           <IconButton
                             color="inherit"
                             size="small"
-                            onClick={() => customizeButtonRef?.current?.click()}
-                          >
-                            <Icon className="outlined">edit</Icon>
-                          </IconButton>
-                          <IconButton
-                            color="inherit"
-                            size="small"
-                            onClick={() => editButtonRef?.current?.click()}
+                            onClick={() => optionsRef?.current?.click()}
                           >
                             <Icon className="outlined">settings</Icon>
                           </IconButton>
@@ -296,6 +288,7 @@ export function Routine({ mutationUrl, routine }) {
               transform: "scale(.95)",
             },
           }}
+          onContextMenu={() => optionsRef?.current?.click()}
         >
           <Box
             sx={{
