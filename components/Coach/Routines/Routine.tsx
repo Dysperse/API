@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { lime, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
@@ -63,10 +64,7 @@ export function Routine({ mutationUrl, routine }) {
         .filter((task) => task.durationDays - task.progress > 0)
         .filter((task) => task.lastCompleted !== dayjs().format("YYYY-MM-DD"));
 
-  const editButtonRef: any = useRef();
-  const customizeButtonRef: any = useRef();
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-
   const disabled = !JSON.parse(routine.daysOfWeek)[dayjs().day()];
 
   return (
@@ -171,7 +169,7 @@ export function Routine({ mutationUrl, routine }) {
                           You haven&apos;t added any goals to this routine yet
                         </Typography>
                         <Button
-                          onClick={() => editButtonRef?.current?.click()}
+                          onClick={() => optionsRef?.current?.click()}
                           sx={{
                             mt: 1,
                             "&, &:hover": {
@@ -250,13 +248,7 @@ export function Routine({ mutationUrl, routine }) {
                   };
                 }),
                 {
-                  content: (
-                    <RoutineEnd
-                      routineId={routine.id}
-                      setCurrentIndex={setCurrentIndex}
-                      handleClose={() => {}}
-                    />
-                  ),
+                  content: <RoutineEnd routineId={routine.id} />,
                 },
               ]
         }
@@ -264,10 +256,9 @@ export function Routine({ mutationUrl, routine }) {
         setCurrentIndex={setCurrentIndex}
       >
         <Box
+          onContextMenu={() => optionsRef?.current?.click()}
           sx={{
-            ...(disabled && {
-              opacity: 0.6,
-            }),
+            ...(disabled && { opacity: 0.6 }),
             flexShrink: 0,
             borderRadius: 5,
             flex: "0 0 70px",
@@ -287,7 +278,6 @@ export function Routine({ mutationUrl, routine }) {
               transform: "scale(.95)",
             },
           }}
-          onContextMenu={() => optionsRef?.current?.click()}
         >
           <Box
             sx={{
@@ -370,10 +360,10 @@ export function Routine({ mutationUrl, routine }) {
               />
             )}
             <picture>
-              <img
+              <Image
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
-                width="35px"
-                height="35px"
+                width={35}
+                height={35}
                 alt="Emoji"
               />
             </picture>

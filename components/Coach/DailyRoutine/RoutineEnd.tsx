@@ -4,7 +4,7 @@ import { mutate } from "swr";
 import { useApi } from "../../../lib/client/useApi";
 import { ErrorHandler } from "../../Error";
 
-export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
+export function RoutineEnd({ routineId = "-1" }) {
   const { data, url, error } = useApi("user/routines/custom-routines/items", {
     ...(routineId !== "-1" && { id: routineId }),
   });
