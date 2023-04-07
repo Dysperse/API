@@ -21,7 +21,6 @@ import { RoutineOptions } from "./Options";
 
 export function Routine({ mutationUrl, routine }) {
   const session = useSession();
-  const ref: any = useRef();
   const optionsRef: any = useRef();
 
   const [data, setData] = useState<null | any>(routine);

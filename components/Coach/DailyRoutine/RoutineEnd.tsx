@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { mutate } from "swr";
 import { useApi } from "../../../lib/client/useApi";
@@ -69,28 +69,6 @@ export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
           callback={() => mutate(url)}
         />
       )}
-      <Button
-        onClick={handleClose}
-        sx={{
-          mt: 1,
-          "&, &:hover": {
-            background: "hsl(240,11%,20%)!important",
-            color: "#fff!important",
-          },
-        }}
-        variant="contained"
-      >
-        {tasksRemaining.length == 0 ? (
-          <>
-            <span>✌</span> Let&apos;s go &rarr;
-          </>
-        ) : (
-          <>
-            Gotcha!
-            <Icon>east</Icon>
-          </>
-        )}
-      </Button>
     </div>
   ) : (
     <Box

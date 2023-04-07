@@ -76,6 +76,19 @@ export function Stories({
           },
         }}
       >
+        <Box
+          sx={{
+            position: "fixed",
+            top: open ? "-9px" : "0px",
+            transition: "all .2s",
+            left: "0px",
+            width: "100%",
+            height: "10px",
+            borderRadius: "50px 50px 0 0",
+            background: "hsl(240, 11%, 10%)",
+            zIndex: 999,
+          }}
+        />
         <Backdrop
           open={showOverlay}
           onClick={() => setShowOverlay(false)}
@@ -113,6 +126,21 @@ export function Stories({
                 : "0px",
             }}
           >
+            <IconButton
+              onClick={handleClose}
+              sx={{
+                position: "absolute",
+                top: 20,
+                color: "hsl(240,11%,90%)",
+                "&:hover": {
+                  color: "#fff",
+                },
+                zIndex: 9,
+                right: 10,
+              }}
+            >
+              <Icon>close</Icon>
+            </IconButton>
             <Box
               sx={{
                 width: "50%",

@@ -18,7 +18,6 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
 
   return (
     <>
-      <div ref={optionsRef} onClick={handleOpen} style={{ display: "none" }} />
       <SwipeableDrawer
         open={open}
         anchor="bottom"
@@ -46,6 +45,11 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
           },
         }}
       >
+        <div
+          ref={optionsRef}
+          onClick={handleOpen}
+          style={{ display: "none" }}
+        />
         <Box
           sx={{
             "& .puller": { background: "hsl(240, 11%, 30%)" },
