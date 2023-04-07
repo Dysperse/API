@@ -12,7 +12,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../../lib/client/useApi";
@@ -23,13 +23,18 @@ import { CreateGoal } from "../../Goal/Create";
 
 export function CreateRoutine({ emblaApi, mutationUrl }) {
   const session = useSession();
+  const titleRef: any = useRef();
+
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("2615");
   const [time, setTime] = useState(12);
   const [loading, setLoading] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+    setTimeout(() => titleRef?.current?.focus(), 100);
+  };
   const handleClose = () => setOpen(false);
 
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
@@ -38,11 +43,9 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
     "[false, false, false, false, false, false, false]"
   );
 
-
   const handleChange = (event) => {
     setTime(event.target.value);
   };
-
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -133,6 +136,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
           sx: {
             userSelect: "none",
             height: "100vh",
+            borderRadius: 0,
           },
         }}
       >
@@ -181,7 +185,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
                     borderRadius: 999,
                   }}
                 >
-                  <Icon sx={{}}>edit</Icon>
+                  <Icon>edit</Icon>
                 </Box>
               </IconButton>
             </EmojiPicker>
@@ -193,6 +197,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             ROUTINE NAME
           </Typography>
           <TextField
+            inputRef={titleRef}
             value={name}
             onChange={(e: any) => setName(e.target.value)}
             fullWidth
@@ -207,7 +212,6 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
                 borderRadius: 3,
               },
             }}
-            autoFocus
             placeholder="Morning routine"
           />
           <Typography

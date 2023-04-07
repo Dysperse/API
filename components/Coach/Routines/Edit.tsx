@@ -1,20 +1,23 @@
 import {
+  AppBar,
   Box,
   Button,
   Icon,
+  IconButton,
   ListItemButton,
   MenuItem,
   Select,
   SwipeableDrawer,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { EmojiPicker } from "../../EmojiPicker";
-import { Puller } from "../../Puller";
 
 export function EditRoutine({ setData, routine }) {
   const [open, setOpen] = useState(false);
@@ -52,6 +55,7 @@ export function EditRoutine({ setData, routine }) {
     setData(res[0]);
     toast.success("Saved!", toastStyles);
   };
+  const session = useSession();
 
   return (
     <>
@@ -77,41 +81,94 @@ export function EditRoutine({ setData, routine }) {
           sx: {
             userSelect: "none",
             maxWidth: "600px",
-            maxHeight: "90vh",
+            height: "100vh",
+            borderRadius: 0,
           },
         }}
+        sx={{
+          zIndex: "9999999!important",
+        }}
       >
-        <Box
-          sx={{
-            "& .puller": {
-              background: "hsl(240, 11%, 30%)",
-            },
-          }}
-        >
-          <Puller />
-        </Box>
+        <AppBar sx={{ mb: 5 }}>
+          <Toolbar>
+            <Typography sx={{ fontWeight: 700 }}>Create routine</Typography>
+            <IconButton sx={{ ml: "auto" }} onClick={handleClose}>
+              <Icon>close</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
         <Box sx={{ p: 2, pt: 0 }}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Routine
+          <Box sx={{ textAlign: "center" }}>
+            <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
+              <IconButton
+                sx={{
+                  border: "2px dashed",
+                  borderColor: `hsl(240,11%,${
+                    session.user.darkMode ? 30 : 80
+                  }%)`,
+                  p: 2,
+                }}
+              >
+                <picture>
+                  <img
+                    alt="emoji"
+                    width="60px"
+                    height="60px"
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                  />
+
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      width: 30,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: 30,
+                      background: `hsl(240,11%,${
+                        session.user.darkMode ? 90 : 30
+                      }%)`,
+                      color: "#fff",
+                      borderRadius: 999,
+                    }}
+                  >
+                    <Icon>edit</Icon>
+                  </Box>
+                </picture>
+              </IconButton>
+            </EmojiPicker>
+          </Box>
+          <Typography
+            variant="body2"
+            sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
+          >
+            ROUTINE NAME
           </Typography>
-          <EmojiPicker setEmoji={setEmoji} emoji={emoji}>
-            <picture>
-              <img
-                alt="emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-              />
-            </picture>
-          </EmojiPicker>
           <TextField
             value={name}
-            sx={{ mt: 4 }}
             onChange={(e: any) => setName(e.target.value)}
             fullWidth
             margin="dense"
-            label="Routine name"
-            autoFocus
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+                py: 1,
+                px: 2,
+                borderRadius: 3,
+              },
+            }}
             placeholder="Morning routine"
           />
+          <Typography
+            variant="body2"
+            sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
+          >
+            ADD A NOTE
+          </Typography>
           <TextField
             value={note}
             onChange={(e: any) => setNote(e.target.value)}
@@ -119,13 +176,25 @@ export function EditRoutine({ setData, routine }) {
             margin="dense"
             multiline
             rows={4}
-            label="Click to add a note"
             placeholder="(Optional)"
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+                py: 1,
+                px: 2,
+                borderRadius: 3,
+              },
+            }}
           />
-          <Typography sx={{ fontWeight: 700, my: 2 }}>
-            What days do you want to work on this routine?
+          <Typography
+            variant="body2"
+            sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
+          >
+            SELECT DAYS TO WORK ON
           </Typography>
-          <Box sx={{ display: "flex", overflowX: "scroll", gap: 0.5 }}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 1 }}>
             {JSON.parse(daysOfWeek).map((_, index) => (
               <Button
                 key={index}
@@ -145,15 +214,27 @@ export function EditRoutine({ setData, routine }) {
               </Button>
             ))}
           </Box>
-          <Typography sx={{ fontWeight: 700, my: 2 }}>
-            What time do you want to start this routine?
+          <Typography
+            variant="body2"
+            sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
+          >
+            SELECT TIME TO WORK ON
           </Typography>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={time}
+            variant="standard"
             size="small"
             onChange={handleChange}
+            disableUnderline
+            sx={{
+              background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+              py: 1,
+              px: 2,
+              mt: 1,
+              borderRadius: 3,
+            }}
           >
             {[
               0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,

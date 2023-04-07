@@ -29,7 +29,7 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
           },
         }}
         sx={{
-          zIndex: 99999999999999999999999999,
+          zIndex: "999999!important",
         }}
         onClose={handleClose}
         onOpen={handleOpen}
@@ -41,6 +41,7 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
             maxWidth: { sm: "300px" },
             borderRadius: 5,
             m: 2,
+            mx: { sm: "auto" },
             userSelect: "none",
           },
         }}

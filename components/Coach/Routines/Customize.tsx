@@ -45,6 +45,9 @@ export function CustomizeRoutine({ setData, routine }) {
             maxHeight: "90vh",
           },
         }}
+        sx={{
+          zIndex: "9999999!important",
+        }}
       >
         <Box
           sx={{
