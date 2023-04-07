@@ -38,11 +38,9 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
     "[false, false, false, false, false, false, false]"
   );
 
-
   const handleChange = (event) => {
     setTime(event.target.value);
   };
-
 
   const handleSubmit = async () => {
     setLoading(true);
