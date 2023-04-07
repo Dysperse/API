@@ -26,6 +26,8 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState("2615");
+  const [time, setTime] = useState(12);
+  const [loading, setLoading] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -36,13 +38,11 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
     "[false, false, false, false, false, false, false]"
   );
 
-  const [time, setTime] = useState(12);
 
   const handleChange = (event) => {
     setTime(event.target.value);
   };
 
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
