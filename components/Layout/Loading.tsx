@@ -74,7 +74,7 @@ export function Loading(): JSX.Element {
           }}
           elevation={0}
         >
-          <Toolbar>
+          <Toolbar sx={{ mt: -1 }}>
             <Skeleton
               animation="wave"
               height={30}

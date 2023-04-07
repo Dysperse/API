@@ -116,7 +116,7 @@ export function Routine({ mutationUrl, routine }) {
                 size="small"
               >
                 {(routine.timeOfDay + 1) % 12 || 12}
-                {routine.timeOfDay > 12 ? "PM" : "AM"}
+                {routine.timeOfDay >= 11 ? "PM" : "AM"}
               </Button>
               {days.map((day, index) => (
                 <Button

@@ -1,4 +1,4 @@
-import { Alert, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import Head from "next/head";
 import { useState } from "react";
 import { MyGoals } from "../components/Coach/MyGoals";
@@ -26,11 +26,6 @@ export default function Render() {
         <Routines />
         <Box className="max-w-[100vw] p-3 px-6 pt-0">
           <MyGoals setHideRoutine={setHideRoutine} />
-          {!hideRoutine && (
-            <Alert severity="info" icon="🔥" sx={{ mb: 15 }}>
-              Your goals are only visible to you
-            </Alert>
-          )}
         </Box>
       </Box>
     </Box>

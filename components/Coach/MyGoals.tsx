@@ -1,5 +1,5 @@
 import { Masonry } from "@mui/lab";
-import { Box, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Tooltip, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../lib/client/useSession";
@@ -23,7 +23,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
   return data ? (
     <>
       {data.length !== 0 && (
-        <Box sx={{ display: "flex", alignItems: "center", mt: 7, mb: 3 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mt: 5, mb: 3 }}>
           <Typography
             variant="h5"
             sx={{
@@ -31,32 +31,34 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               mb: 1,
             }}
           >
-            Progress
+            My goals
           </Typography>
-          <Box
-            sx={{
-              ml: "auto",
-              display: "flex",
-              alignItems: "center",
-              px: 2,
-              py: 0.5,
-              borderRadius: 999,
-              gap: "10px",
-              backgroundColor: session.user.darkMode
-                ? "hsl(240,11%,14%)"
-                : "rgba(200,200,200,.3)",
-            }}
-          >
-            <picture>
-              <img
-                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
-                alt="trophy"
-                width={20}
-                height={20}
-              />
-            </picture>
-            <span>{session.user.trophies}</span>
-          </Box>
+          <Tooltip title="Earn tropies by completing goals">
+            <Box
+              sx={{
+                ml: "auto",
+                display: "flex",
+                alignItems: "center",
+                px: 2,
+                py: 0.5,
+                borderRadius: 999,
+                gap: "10px",
+                backgroundColor: session.user.darkMode
+                  ? "hsl(240,11%,14%)"
+                  : "rgba(200,200,200,.3)",
+              }}
+            >
+              <picture>
+                <img
+                  src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
+                  alt="trophy"
+                  width={20}
+                  height={20}
+                />
+              </picture>
+              <span>{session.user.trophies}</span>
+            </Box>
+          </Tooltip>
         </Box>
       )}
       {data.length === 0 ? (
