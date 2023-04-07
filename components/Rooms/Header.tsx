@@ -38,7 +38,8 @@ export function Header({
           ? "hsl(240,11%,15%, 0.6)!important"
           : "hsla(240,11%,96%, 0.6)!important",
         position: "sticky",
-        top: "0px",
+        top: { xs: "var(--navbar-height)", sm: "0px" },
+        mt: { xs: -2, sm: 0 },
         mb: 2,
         zIndex: 99,
         backdropFilter: "blur(10px)",

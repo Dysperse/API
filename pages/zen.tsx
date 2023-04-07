@@ -36,6 +36,18 @@ export default function Home() {
     startTime: dayjs().startOf("day").toISOString(),
     endTime: dayjs().endOf("day").toISOString(),
   });
+
+  const listItemStyles = {
+    background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+    gap: 2,
+    px: 3,
+    py: 1.5,
+    border: "1px solid",
+    borderColor: session.user.darkMode
+      ? "hsl(240, 11%, 20%)"
+      : "rgba(200, 200, 200, 0.3)",
+  };
+
   return (
     <>
       <Box
@@ -134,21 +146,10 @@ export default function Home() {
             </Box>
             <Box>
               <ListItemButton
-                sx={{
-                  px: "15px !important",
-                  background: session.user.darkMode
-                    ? "hsl(240, 11%, 10%)"
-                    : "#fff",
-                  gap: 2,
-                  border: "1px solid",
-                  borderColor: session.user.darkMode
-                    ? "hsl(240, 11%, 20%)"
-                    : "rgba(200, 200, 200, 0.3)",
-                }}
+                sx={listItemStyles}
                 className="shadow-sm"
                 onClick={() => router.push("/tasks/#/agenda/week")}
               >
-                <Icon sx={{ ml: 1 }}>task_alt</Icon>
                 <ListItemText
                   primary={<b>Agenda</b>}
                   secondary={
@@ -192,21 +193,10 @@ export default function Home() {
             </Box>
             <Box>
               <ListItemButton
-                sx={{
-                  px: "15px !important",
-                  background: session.user.darkMode
-                    ? "hsl(240, 11%, 10%)"
-                    : "#fff",
-                  gap: 2,
-                  border: "1px solid",
-                  borderColor: session.user.darkMode
-                    ? "hsl(240, 11%, 20%)"
-                    : "rgba(200, 200, 200, 0.3)",
-                }}
+                sx={listItemStyles}
                 className="shadow-sm"
                 onClick={() => router.push("/tasks/#/backlog")}
               >
-                <Icon sx={{ ml: 1 }}>auto_mode</Icon>
                 <b>Backlog</b>
                 <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
               </ListItemButton>
