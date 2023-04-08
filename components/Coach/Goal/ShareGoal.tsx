@@ -402,7 +402,7 @@ export function ShareGoal({ children, goal }) {
             height: "0px!important",
           }}
           hideBackdrop
-          swipeAreaWidth={300}
+          swipeAreaWidth={200}
           BackdropProps={{
             className: "override-bg",
             sx: {

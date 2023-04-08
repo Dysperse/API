@@ -1,16 +1,12 @@
-import { Box, Button, Chip, Icon, IconButton, Typography } from "@mui/material";
+import { Box, Button, Chip, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { ShareGoal } from "../Goal/ShareGoal";
 
 export function Task({ task, currentIndex, setCurrentIndex }) {
-  const [completed, setCompleted] = useState(false);
-
   const handleClick = useCallback(() => {
-    setCompleted(true);
     setCurrentIndex((index) => index + 1);
     fetchRawApi("user/routines/markAsDone", {
       date: dayjs().format("YYYY-MM-DD"),
@@ -31,46 +27,6 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
 
   return (
     <Box sx={{ p: 4 }}>
-      <ShareGoal goal={task}>
-        <IconButton
-          sx={{
-            position: "absolute",
-            top: 23,
-            zIndex: 9999,
-            right: 60,
-            "&, & *": {
-              color: "#fff",
-            },
-            "&:active": {
-              background: "hsl(240,11%,14%)",
-            },
-          }}
-        >
-          <Icon>ios_share</Icon>
-        </IconButton>
-      </ShareGoal>
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}
-        onClick={() =>
-          setCurrentIndex(() => (currentIndex === 0 ? 0 : currentIndex - 1))
-        }
-      />
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-        onClick={() => setCurrentIndex(() => currentIndex + 1)}
-      />
       <Typography variant="h2" className="font-heading" gutterBottom>
         {task.stepName}
       </Typography>
@@ -109,7 +65,7 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
       <Box
         sx={{
           position: "fixed",
-          bottom: 0,
+          bottom: "70px",
           width: "100%",
           left: 0,
           gap: 1,
@@ -120,9 +76,7 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
         }}
       >
         <Button
-          disabled={
-            completed || task.lastCompleted === dayjs().format("YYYY-MM-DD")
-          }
+          disabled={task.lastCompleted === dayjs().format("YYYY-MM-DD")}
           variant="contained"
           fullWidth
           sx={{
@@ -132,7 +86,7 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
           size="large"
           onClick={handleClick}
         >
-          {completed || task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
+          {task.lastCompleted === dayjs().format("YYYY-MM-DD") ? (
             <>
               <span>🔥</span> Completed today!
             </>

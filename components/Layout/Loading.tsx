@@ -7,6 +7,7 @@ import {
   ThemeProvider,
   Toolbar,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useSession } from "../../lib/client/useSession";
 
 /**
@@ -16,11 +17,17 @@ import { useSession } from "../../lib/client/useSession";
 
 export function Loading(): JSX.Element {
   const session = useSession();
-  const defaultDarkMode =
-    (!session &&
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches) ||
-    (session && session.user && session.user.darkMode);
+
+  const [defaultDarkMode, setDefaultDarkMode] = useState(false);
+
+  useEffect(() => {
+    setDefaultDarkMode(
+      (!session &&
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+        (session && session.user && session.user.darkMode)
+    );
+  }, [setDefaultDarkMode, session]);
 
   return (
     <ThemeProvider
@@ -67,7 +74,7 @@ export function Loading(): JSX.Element {
           }}
           elevation={0}
         >
-          <Toolbar>
+          <Toolbar sx={{ mt: -1 }}>
             <Skeleton
               animation="wave"
               height={30}

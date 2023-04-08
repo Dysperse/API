@@ -1,10 +1,4 @@
-import {
-  Box,
-  Icon,
-  IconButton,
-  ListItemButton,
-  SwipeableDrawer,
-} from "@mui/material";
+import { Box, Icon, ListItemButton, SwipeableDrawer } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -16,35 +10,14 @@ import { Puller } from "../../Puller";
 import { CustomizeRoutine } from "./Customize";
 import { EditRoutine } from "./Edit";
 
-export function RoutineOptions({
-  mutationUrl,
-  setData,
-  editButtonRef,
-  routine,
-}) {
+export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   return (
     <>
-      <IconButton
-        onClick={handleOpen}
-        sx={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          m: 2.5,
-          mt: 3,
-          zIndex: 99,
-          background: "transparent",
-          color: "#fff!important",
-        }}
-        className="editTrigger"
-      >
-        <Icon>more_vert</Icon>
-      </IconButton>
-
       <SwipeableDrawer
         open={open}
         anchor="bottom"
@@ -54,6 +27,9 @@ export function RoutineOptions({
             backdropFilter: "blur(5px)",
             background: "transparent",
           },
+        }}
+        sx={{
+          zIndex: "999999!important",
         }}
         onClose={handleClose}
         onOpen={handleOpen}
@@ -65,10 +41,16 @@ export function RoutineOptions({
             maxWidth: { sm: "300px" },
             borderRadius: 5,
             m: 2,
+            mx: { sm: "auto" },
             userSelect: "none",
           },
         }}
       >
+        <div
+          ref={optionsRef}
+          onClick={handleOpen}
+          style={{ display: "none" }}
+        />
         <Box
           sx={{
             "& .puller": { background: "hsl(240, 11%, 30%)" },
@@ -77,16 +59,8 @@ export function RoutineOptions({
           <Puller />
         </Box>
         <Box sx={{ p: 2, pt: 0, mt: -2 }}>
-          <CustomizeRoutine
-            routine={routine}
-            editButtonRef={editButtonRef}
-            setData={setData}
-          />
-          <EditRoutine
-            routine={routine}
-            editButtonRef={editButtonRef}
-            setData={setData}
-          />
+          <CustomizeRoutine routine={routine} setData={setData} />
+          <EditRoutine routine={routine} setData={setData} />
           <ConfirmationModal
             title="Are you sure you want to delete this routine?"
             question="Your progress will stay safe and your goals won't be deleted"

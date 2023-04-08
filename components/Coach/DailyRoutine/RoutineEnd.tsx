@@ -1,10 +1,10 @@
-import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { mutate } from "swr";
 import { useApi } from "../../../lib/client/useApi";
 import { ErrorHandler } from "../../Error";
 
-export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
+export function RoutineEnd({ routineId = "-1" }) {
   const { data, url, error } = useApi("user/routines/custom-routines/items", {
     ...(routineId !== "-1" && { id: routineId }),
   });
@@ -33,26 +33,6 @@ export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
         justifyContent: "center",
       }}
     >
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}
-        onClick={() => setCurrentIndex((i) => (i === 0 ? 0 : i - 1))}
-      />
-      <Box
-        sx={{
-          height: "100vh",
-          width: "50%",
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-        onClick={handleClose}
-      />
       <Box
         sx={{
           textAlign: "center",
@@ -89,28 +69,6 @@ export function RoutineEnd({ routineId = "-1", setCurrentIndex, handleClose }) {
           callback={() => mutate(url)}
         />
       )}
-      <Button
-        onClick={handleClose}
-        sx={{
-          mt: 1,
-          "&, &:hover": {
-            background: "hsl(240,11%,20%)!important",
-            color: "#fff!important",
-          },
-        }}
-        variant="contained"
-      >
-        {tasksRemaining.length == 0 ? (
-          <>
-            <span>✌</span> Let&apos;s go &rarr;
-          </>
-        ) : (
-          <>
-            Gotcha!
-            <Icon>east</Icon>
-          </>
-        )}
-      </Button>
     </div>
   ) : (
     <Box

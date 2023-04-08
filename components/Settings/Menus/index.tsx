@@ -78,7 +78,9 @@ export function SettingsMenu({
         </ListItemAvatar>
         <ListItemText
           primary={
-            <Typography sx={{ fontWeight: "600" }}>{primary}</Typography>
+            <Typography sx={{ fontWeight: "600" }} component="div">
+              {primary}
+            </Typography>
           }
           secondary={secondary}
         />
