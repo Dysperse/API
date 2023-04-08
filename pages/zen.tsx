@@ -26,9 +26,9 @@ export default function Home() {
   const time = new Date().getHours();
 
   const greeting = useMemo(() => {
-    if (time < 10) return "Good morning, ";
-    else if (time < 14) return "Good afternoon, ";
-    else if (time < 18) return "Good evening, ";
+    if (time < 12) return "Good morning, ";
+    else if (time < 17) return "Good afternoon, ";
+    else if (time < 20) return "Good evening, ";
     else return "Good night, ";
   }, [time]);
 
