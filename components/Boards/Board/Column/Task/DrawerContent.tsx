@@ -198,6 +198,33 @@ export default function DrawerContent({
           },
         }}
       />
+      <Box
+        sx={{
+          display: "flex",
+          gap: 0.5,
+          overflowX: "scroll",
+        }}
+      >
+        {[
+          "orange",
+          "red",
+          "brown",
+          "pink",
+          "purple",
+          "indigo",
+          "teal",
+          "green",
+          "grey",
+        ].map((color) => (
+          <Color
+            key={color}
+            color={color}
+            mutationUrl={mutationUrl}
+            setTaskData={setTaskData}
+            task={data}
+          />
+        ))}
+      </Box>
 
       {/* Description */}
       <TextField
@@ -221,7 +248,7 @@ export default function DrawerContent({
             "&, & *": {
               cursor: "unset",
             },
-            mt: 2,
+            mt: 3,
             borderRadius: 5,
             background: session.user.darkMode
               ? "hsl(240,11%,20%)"
@@ -312,42 +339,6 @@ export default function DrawerContent({
       />
       {data.image && <Box sx={{ mt: 4 }} />}
       {data.image && <ImageViewer url={data.image} />}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 0.5,
-          my: 2,
-          py: 3,
-          px: 3,
-          "& *:first-of-type": { ml: "auto" },
-          "& *:last-of-type": { mr: "auto" },
-          overflowX: "scroll",
-          background: session.user.darkMode
-            ? "hsl(240,11%,20%)"
-            : "rgba(200,200,200,.3)",
-          borderRadius: 5,
-        }}
-      >
-        {[
-          "orange",
-          "red",
-          "pink",
-          "purple",
-          "indigo",
-          "teal",
-          "green",
-          "grey",
-        ].map((color) => (
-          <Color
-            key={color}
-            color={color}
-            mutationUrl={mutationUrl}
-            setTaskData={setTaskData}
-            task={data}
-          />
-        ))}
-      </Box>
       <Box
         sx={{
           display: { sm: "flex" },

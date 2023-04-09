@@ -4,7 +4,11 @@ import { prisma } from "../../../../lib/server/prisma";
 export default async function handler(req, res) {
   const data = await prisma.dailyCheckIn.findMany({
     where: {
-      userId: req.query.userIdentifier,
+      AND: [
+        { userId: req.query.userIdentifier },
+        { date: { gte: new Date(req.query.gte) } },
+        { date: { lte: new Date(req.query.lte) } },
+      ],
     },
     select: {
       mood: true,

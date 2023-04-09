@@ -303,9 +303,20 @@ function InfoModal() {
 }
 
 export function DailyCheckInDrawer({ mood }) {
+  const session = useSession();
+
+  const [showKey, setShowKey] = useState(false);
+  const [lastBy, setLastBy] = useState<number>(7);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState<boolean>(false);
+
   const handleClose = useCallback(() => setOpen(false), []);
   const handleOpen = useCallback(() => setOpen(true), []);
+
+  const { data } = useApi("user/checkIns/count", {
+    lte: dayjs().add(1, "day"),
+    gte: dayjs().subtract(lastBy, "day"),
+  });
 
   const drawerStyles = {
     width: "100%",
@@ -315,13 +326,9 @@ export function DailyCheckInDrawer({ mood }) {
     maxHeight: "100vh",
   };
 
-  const { data } = useApi("user/checkIns/count");
-  const [lastBy, setLastBy] = useState<number>(7);
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget);
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       dragFree: true,
@@ -337,10 +344,6 @@ export function DailyCheckInDrawer({ mood }) {
     setAnchorEl(null);
     setTimeout(() => emblaApi?.reInit(), 100);
   };
-
-  const [showKey, setShowKey] = useState(false);
-
-  const session = useSession();
 
   return (
     <>
