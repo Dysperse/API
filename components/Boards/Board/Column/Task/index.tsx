@@ -167,7 +167,7 @@ export const Task: any = React.memo(function Task({
               width: "calc(100% - 20px)",
             }),
             color:
-              colors[taskData.color][session.user.darkMode ? "A100" : "A700"],
+              colors[taskData.color][session.user.darkMode ? "A100" : "800"],
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
@@ -240,6 +240,11 @@ export const Task: any = React.memo(function Task({
                       height: "20px!important",
                       verticalAlign: "top !important",
                     },
+                    color:
+                      colors[taskData.color][
+                        session.user.darkMode ? "A200" : "600"
+                      ],
+
                     ...(taskData.completed && {
                       textDecoration: "line-through",
                       opacity: 0.7,

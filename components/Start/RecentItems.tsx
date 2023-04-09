@@ -111,9 +111,7 @@ export function RecentItems() {
                               session.user.darkMode ? "A400" : 700
                             ],
                         }}
-                        {...(item.color === "grey" && {
-                          className: "outlined",
-                        })}
+                        className="outlined"
                       >
                         {item.pinned ? "push_pin" : "check_circle"}
                       </Icon>

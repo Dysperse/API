@@ -10,9 +10,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
@@ -155,6 +156,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         toast.promise(
           fetchRawApi("auth/logout").then(() => mutate("/api/user")),
           {
+            ...toastStyles,
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",
             success: "Redirecting you...",
@@ -183,15 +185,20 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
 export default function Spotlight() {
   // Primarily state management and callback functions for opening/closing the modal
   const ref: any = useRef();
-  const router = useRouter();
   const session: any = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
+  const [showBanner, setShowBanner] = useState<boolean>(true);
   const [results, setResults] = useState<Array<any>>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);
+
+  useHotkeys("ctrl+k", (e) => {
+    e.preventDefault();
+    setOpen(true);
+  });
 
   useEffect(() => {
     if (open) {
@@ -221,8 +228,8 @@ export default function Spotlight() {
     () => debouncedHandleSearch(inputValue),
     [inputValue, debouncedHandleSearch]
   );
+
   const routines = useMemo(() => (open ? <Routines /> : <></>), [open]);
-  const [showBanner, setShowBanner] = useState<boolean>(true);
 
   return (
     <SwipeableDrawer

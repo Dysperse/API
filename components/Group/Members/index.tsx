@@ -15,6 +15,7 @@ import { fetchRawApi, useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { AddPersonModal } from "./Add";
 
@@ -125,39 +126,38 @@ function Member({
 
         {session.property.permission !== "owner" ||
         member.permission === "owner" ? null : (
-          <MenuItem
-            sx={{
-              color:
-                colors.red[session.user.darkMode ? "A200" : "A400"] +
-                "!important",
-            }}
-            onClick={() => {
+          <ConfirmationModal
+            title="Remove member from your home?"
+            question="This person cannot join unless you invite them again"
+            callback={() => {
               if (member.permission === "owner") {
                 document.getElementById("settingsTrigger")?.click();
                 return;
               }
-              if (
-                confirm(
-                  "Remove member from your home? This person cannot join unless you invite them again."
-                )
-              ) {
-                setLoading(true);
-                fetchRawApi("property/members/remove", {
-                  id: member.id,
-                  removerName: session.user.name,
-                  removeeName: member.user.name,
-                  timestamp: new Date().toISOString(),
-                }).then(() => {
-                  toast.success("Removed person from your home", toastStyles);
-                  setLoading(false);
-                  setDeleted(true);
-                });
-              }
+              setLoading(true);
+              fetchRawApi("property/members/remove", {
+                id: member.id,
+                removerName: session.user.name,
+                removeeName: member.user.name,
+                timestamp: new Date().toISOString(),
+              }).then(() => {
+                toast.success("Removed person from your home", toastStyles);
+                setLoading(false);
+                setDeleted(true);
+              });
             }}
           >
-            Remove
-            {loading && <CircularProgress sx={{ ml: "auto" }} />}
-          </MenuItem>
+            <MenuItem
+              sx={{
+                color:
+                  colors.red[session.user.darkMode ? "A200" : "A400"] +
+                  "!important",
+              }}
+            >
+              Remove
+              {loading && <CircularProgress sx={{ ml: "auto" }} />}
+            </MenuItem>
+          </ConfirmationModal>
         )}
       </Menu>
       <CardActionArea

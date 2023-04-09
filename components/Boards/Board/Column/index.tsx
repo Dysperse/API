@@ -250,6 +250,13 @@ export function Column({ board, mutationUrls, column, index }) {
                 },
               }}
             >
+              <Box sx={{ width: "100%" }}>
+                <CreateTask
+                  mutationUrl={mutationUrls.tasks}
+                  boardId={board.id}
+                  column={column}
+                />
+              </Box>
               <Image
                 src="/images/noTasks.png"
                 width={256}
@@ -261,20 +268,14 @@ export function Column({ board, mutationUrls, column, index }) {
                 }}
                 alt="No items found"
               />
-
               <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
                   Nothing much here...
                 </Typography>
-                <Typography gutterBottom sx={{ mb: -1.5 }}>
+                <Typography gutterBottom>
                   You haven&apos;t added any list items to this column
                 </Typography>
               </Box>
-              <CreateTask
-                mutationUrl={mutationUrls.tasks}
-                boardId={board.id}
-                column={column}
-              />
             </Box>
           ) : (
             <CreateTask

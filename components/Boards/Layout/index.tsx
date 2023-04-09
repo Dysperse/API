@@ -325,18 +325,6 @@ export function TasksLayout() {
               setActiveTab={setActiveTab}
             />
           ))}
-      <Divider
-        sx={{
-          mb: { xs: 2, md: 1 },
-          ...(data &&
-            (data.length === 0 || !data.find((board) => board.archived)) && {
-              display: "none",
-            }),
-          width: "90%",
-          mx: "auto",
-          opacity: 0.6,
-        }}
-      />
       <Box>
         <Button
           size="large"
@@ -372,18 +360,6 @@ export function TasksLayout() {
                 />
               ))}
         </Collapse>
-        <Divider
-          sx={{
-            display: { md: "none" },
-            ...(data &&
-              (data.length === 0 || !data.find((board) => board.archived)) && {
-                display: "none",
-              }),
-            width: "90%",
-            mx: "auto",
-            opacity: 0.6,
-          }}
-        />
         <Divider
           sx={{
             my: { xs: 2, md: 1 },

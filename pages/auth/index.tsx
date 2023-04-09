@@ -18,6 +18,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { authStyles, Layout } from "../../components/Auth/Layout";
+import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
 
@@ -172,18 +173,11 @@ export default function Prompt() {
   }, [captchaToken, handleSubmit, buttonLoading, step]);
 
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
-  const handleTogglePassword = useCallback(() => {
-    if (!togglePassword) {
-      if (
-        confirm(
-          "Are you sure you want to show your password? Make sure nobody is around you 🤫"
-        )
-      )
-        setTogglePassword((e) => !e);
-    } else {
-      setTogglePassword((e) => !e);
-    }
-  }, [togglePassword, setTogglePassword]);
+
+  const handleTogglePassword = useCallback(
+    () => setTogglePassword((e) => !e),
+    [setTogglePassword]
+  );
 
   return (
     <Layout>
@@ -257,18 +251,24 @@ export default function Prompt() {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleTogglePassword}
-                        sx={{
-                          ["@media (prefers-color-scheme: dark)"]: {
-                            color: "hsl(240,11%,70%)",
-                          },
-                        }}
+                      <ConfirmationModal
+                        title="Are you sure you want to show your password? "
+                        disabled={!togglePassword}
+                        question="Make sure nobody is around you 🤫"
+                        callback={handleTogglePassword}
                       >
-                        <span className="material-symbols-outlined">
-                          {togglePassword ? "visibility_off" : "visibility"}
-                        </span>
-                      </IconButton>
+                        <IconButton
+                          sx={{
+                            ["@media (prefers-color-scheme: dark)"]: {
+                              color: "hsl(240,11%,70%)",
+                            },
+                          }}
+                        >
+                          <span className="material-symbols-outlined">
+                            {togglePassword ? "visibility_off" : "visibility"}
+                          </span>
+                        </IconButton>
+                      </ConfirmationModal>
                     </InputAdornment>
                   ),
                 }}
