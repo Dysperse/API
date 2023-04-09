@@ -104,8 +104,10 @@ export function Integration({ integration }) {
                     <MenuItem
                       value={board.id}
                       key={board.id}
-                      disabled={board.integrations.find(
-                        (integration) => integration.name === "Canvas LMS"
+                      disabled={Boolean(
+                        board.integrations.find(
+                          (integration) => integration.name === "Canvas LMS"
+                        )
                       )}
                     >
                       {board.name}
