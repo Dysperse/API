@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../../lib/client/useApi";
@@ -35,6 +35,11 @@ export function Column({ board, mutationUrls, column, index }) {
   const buttonRef: any = useRef();
   const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
+
+  const incompleteLength = useMemo(
+    () => columnTasks.filter((t) => !t.completed).length,
+    [columnTasks]
+  );
 
   return (
     <>
@@ -145,6 +150,7 @@ export function Column({ board, mutationUrls, column, index }) {
           overflowY: "scroll",
           minWidth: { xs: "100vw", md: "340px" },
           transition: "filter .2s",
+          maxWidth: "100vw",
         }}
       >
         <Box
@@ -197,7 +203,7 @@ export function Column({ board, mutationUrls, column, index }) {
                 sx={{
                   "& span": {
                     overflow: "hidden",
-                    maxWidth: { xs: "100%", sm: "140px" },
+                    maxWidth: { xs: "calc(100vw - 150px)", sm: "140px" },
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                   },
@@ -219,7 +225,7 @@ export function Column({ board, mutationUrls, column, index }) {
                   fontSize: { xs: "15px", sm: "18px" },
                 }}
               >
-                {columnTasks.length} tasks
+                {incompleteLength} tasks
               </Typography>
             </Box>
             <Box sx={{ ml: "auto" }}>
@@ -250,7 +256,7 @@ export function Column({ board, mutationUrls, column, index }) {
                 },
               }}
             >
-              <Box sx={{ width: "100%" }}>
+              <Box sx={{ width: "100%", mt: { sm: -3 }, mb: { sm: 2 } }}>
                 <CreateTask
                   mutationUrl={mutationUrls.tasks}
                   boardId={board.id}
@@ -310,10 +316,9 @@ export function Column({ board, mutationUrls, column, index }) {
               }),
               mt: 2,
               mx: { xs: "20px", sm: 0 },
-              width: "calc(100% - 40px)",
               ...(showCompleted && {
                 background: `hsl(240,11%,${
-                  session.user.darkMode ? 20 : 80
+                  session.user.darkMode ? 20 : 90
                 }%)!important`,
               }),
               color: `hsl(240,11%,${session.user.darkMode ? 100 : 30}%)`,

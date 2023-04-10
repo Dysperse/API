@@ -308,7 +308,8 @@ export function BoardInfo({
               fontWeight: "700",
             }}
           >
-            Board info
+            {board.name.substring(0, 15)}
+            {board.name.length > 15 && "..."}
           </Typography>
           <IconButton onClick={() => setShowInfo(true)}>
             <Icon className="outlined">menu</Icon>
