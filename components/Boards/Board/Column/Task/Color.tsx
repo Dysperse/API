@@ -30,7 +30,7 @@ export function Color({
             session.user.darkMode ? "hsl(240,11%,20%)" : "#fff"
           } inset`,
         }),
-        transition: "box-shadow .2s",
+        transition: "box-shadow .4s",
         alignItems: "center",
         justifyContent: "center",
         color: "#000",

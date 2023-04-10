@@ -225,7 +225,7 @@ export function Column({ board, mutationUrls, column, index }) {
                   fontSize: { xs: "15px", sm: "18px" },
                 }}
               >
-                {incompleteLength} tasks
+                {incompleteLength} task{incompleteLength !== 1 && "s"}
               </Typography>
             </Box>
             <Box sx={{ ml: "auto" }}>

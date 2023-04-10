@@ -259,8 +259,7 @@ export const Task: any = React.memo(function Task({
                 {taskData.due && !isAgenda && (
                   <Tooltip
                     title={dayjs(taskData.due).format("MMMM D, YYYY")}
-                    followCursor
-                    placement="bottom-start"
+                    placement="top"
                   >
                     <Chip
                       size="small"
