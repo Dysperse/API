@@ -193,7 +193,10 @@ export default function Spotlight() {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleOpen = useCallback(() => setOpen(true), []);
-  const handleClose = useCallback(() => setOpen(false), []);
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    setInputValue("");
+  }, []);
 
   useHotkeys("ctrl+k", (e) => {
     e.preventDefault();
