@@ -15,7 +15,7 @@ import { FeaturedRoutine } from "../../Routines/Create/FeaturedRoutine";
 import { CreateGoal as CreateCustomGoal } from "./Custom";
 import { categories, goals, routines } from "./goalTemplates";
 
-export function CreateGoal({ mutationUrl }) {
+export function CreateGoal({ mutationUrl, isCoach }) {
   const session = useSession();
 
   const [open, setOpen] = useState(false);
@@ -118,14 +118,21 @@ export function CreateGoal({ mutationUrl }) {
           flex: "0 0 70px",
           gap: 0.4,
           display: "flex",
-          flexDirection: "column",
+          ...(!isCoach && { flexDirection: "column" }),
+          ...(isCoach && {
+            width: "100%",
+            flex: "0 0 auto",
+          }),
+
           alignItems: "center",
           overflow: "hidden",
           userSelect: "none",
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+            background: `hsl(240, 11%, ${
+              session.user.darkMode ? 10 : isCoach ? 90 : 95
+            }%)`,
           },
           "&:active": {
             transition: "none",
@@ -137,6 +144,7 @@ export function CreateGoal({ mutationUrl }) {
           sx={{
             borderRadius: 9999,
             width: 60,
+            flexShrink: 0,
             height: 60,
             display: "flex",
             alignItems: "center",
@@ -152,10 +160,15 @@ export function CreateGoal({ mutationUrl }) {
             variant="body2"
             sx={{
               whiteSpace: "nowrap",
-              textAlign: "center",
+              textAlign: isCoach ? "left" : "center",
               textOverflow: "ellipsis",
               fontSize: "13px",
               overflow: "hidden",
+              ...(isCoach && {
+                ml: 3,
+                fontSize: "20px",
+                fontWeight: 700,
+              }),
             }}
           >
             New goal

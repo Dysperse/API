@@ -20,7 +20,7 @@ import { Task } from "../DailyRoutine/Task";
 import { ShareGoal } from "../Goal/ShareGoal";
 import { RoutineOptions } from "./Options";
 
-export function Routine({ mutationUrl, routine }) {
+export function Routine({ isCoach = false, mutationUrl, routine }) {
   const session = useSession();
   const optionsRef: any = useRef();
 
@@ -264,14 +264,20 @@ export function Routine({ mutationUrl, routine }) {
             flex: "0 0 70px",
             gap: 0.4,
             display: "flex",
-            flexDirection: "column",
+            ...(!isCoach && { flexDirection: "column" }),
+            ...(isCoach && {
+              width: "100%",
+              flex: "0 0 auto",
+            }),
             alignItems: "center",
             overflow: "hidden",
             userSelect: "none",
             p: 1,
             transition: "transform .2s",
             "&:hover": {
-              background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+              background: `hsl(240, 11%, ${
+                session.user.darkMode ? 10 : isCoach ? 90 : 95
+              }%)`,
             },
             "&:active": {
               transition: "none",
@@ -285,6 +291,7 @@ export function Routine({ mutationUrl, routine }) {
               width: 60,
               height: 60,
               display: "flex",
+              flexShrink: 0,
               alignItems: "center",
               justifyContent: "center",
               background: "rgba(200,200,200,.2)",
@@ -293,13 +300,13 @@ export function Routine({ mutationUrl, routine }) {
                 borderColor: lime[session.user.darkMode ? "A400" : 800],
                 background: session.user.darkMode
                   ? "hsl(240,11%,10%)"
-                  : lime[50],
+                  : lime[isCoach ? 100 : 50],
               }),
               ...(data.items.length === 0 && {
                 borderColor: orange[session.user.darkMode ? "A200" : 800],
                 background: session.user.darkMode
                   ? "hsl(240,11%,10%)"
-                  : orange[50],
+                  : orange[isCoach ? 100 : 50],
               }),
               ...(loading && {
                 transition: "border-color .2s",
@@ -317,7 +324,7 @@ export function Routine({ mutationUrl, routine }) {
                   color: lime[session.user.darkMode ? "A400" : 800],
                   background: session.user.darkMode
                     ? "hsl(240,11%,10%)"
-                    : lime[50],
+                    : lime[isCoach ? 100 : 50],
                   borderRadius: "999px",
                   transition: "opacity .2s",
                   position: "absolute",
@@ -335,7 +342,7 @@ export function Routine({ mutationUrl, routine }) {
                   color: orange[session.user.darkMode ? "A400" : 800],
                   background: session.user.darkMode
                     ? "hsl(240,11%,10%)"
-                    : "#fff",
+                    : orange[isCoach ? 100 : 50],
                   borderRadius: "999px",
                   transition: "opacity .2s",
                   position: "absolute",
@@ -373,10 +380,15 @@ export function Routine({ mutationUrl, routine }) {
               variant="body2"
               sx={{
                 whiteSpace: "nowrap",
-                textAlign: "center",
+                textAlign: isCoach ? "left" : "center",
                 textOverflow: "ellipsis",
                 fontSize: "13px",
                 overflow: "hidden",
+                ...(isCoach && {
+                  ml: 3,
+                  fontSize: "20px",
+                  fontWeight: 700,
+                }),
               }}
             >
               {routine.name}

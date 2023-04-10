@@ -21,7 +21,7 @@ import { toastStyles } from "../../../../lib/client/useTheme";
 import { EmojiPicker } from "../../../EmojiPicker";
 import { CreateGoal } from "../../Goal/Create";
 
-export function CreateRoutine({ emblaApi, mutationUrl }) {
+export function CreateRoutine({ isCoach, emblaApi, mutationUrl }) {
   const session = useSession();
   const titleRef: any = useRef();
 
@@ -79,14 +79,20 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
           flex: "0 0 70px",
           gap: 0.4,
           display: "flex",
-          flexDirection: "column",
+          ...(!isCoach && { flexDirection: "column" }),
+          ...(isCoach && {
+            width: "100%",
+            flex: "0 0 auto",
+          }),
           alignItems: "center",
           overflow: "hidden",
           userSelect: "none",
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+            background: `hsl(240, 11%, ${
+              session.user.darkMode ? 10 : isCoach ? 90 : 95
+            }%)`,
           },
           "&:active": {
             transition: "none",
@@ -99,6 +105,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             borderRadius: 9999,
             width: 60,
             height: 60,
+            flexShrink: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -113,10 +120,15 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             variant="body2"
             sx={{
               whiteSpace: "nowrap",
-              textAlign: "center",
+              textAlign: isCoach ? "left" : "center",
               textOverflow: "ellipsis",
               fontSize: "13px",
               overflow: "hidden",
+              ...(isCoach && {
+                ml: 3,
+                fontSize: "20px",
+                fontWeight: 700,
+              }),
             }}
           >
             New routine
@@ -124,7 +136,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
         </Box>
       </Box>
 
-      <CreateGoal mutationUrl={mutationUrl} />
+      <CreateGoal mutationUrl={mutationUrl} isCoach={isCoach} />
 
       <SwipeableDrawer
         open={open}

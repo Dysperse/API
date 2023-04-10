@@ -1,6 +1,6 @@
-import { Masonry } from "@mui/lab";
-import { Box, Skeleton, Tooltip, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { Box, Skeleton, TextField, Typography } from "@mui/material";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../lib/client/useSession";
 import { ErrorHandler } from "../Error";
@@ -9,58 +9,69 @@ import { Goal } from "./Goal";
 export function MyGoals({ setHideRoutine }): JSX.Element {
   const session = useSession();
   const { data, error, url } = useApi("user/routines");
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     data && 0 === data.length ? setHideRoutine(true) : setHideRoutine(false);
   }, [data, setHideRoutine]);
 
-  const completedGoals = data
-    ? data.filter(
-        (goal) => goal.progress >= goal.durationDays && !goal.completed
-      ).length
-    : 0;
+  const completedGoals = useMemo(
+    () =>
+      data
+        ? data.filter(
+            (goal) => goal.progress >= goal.durationDays && !goal.completed
+          ).length
+        : 0,
+    [data]
+  );
+  const deferredQuery = useDeferredValue(query);
+  const sortedGoals = useMemo(
+    () =>
+      (data
+        ? data.sort((r, s) =>
+            r.progress === r.durationDays
+              ? 1
+              : s.progress === s.durationDays
+              ? -1
+              : s.progress / s.durationDays - r.progress / r.durationDays
+          )
+        : []
+      ).filter(
+        (e) =>
+          e.name.toLowerCase().includes(deferredQuery.toLowerCase()) ||
+          e.stepName.toLowerCase().includes(deferredQuery.toLowerCase())
+      ),
+    [data, deferredQuery]
+  );
 
   return data ? (
-    <>
-      {data.length !== 0 && (
-        <Box sx={{ display: "flex", alignItems: "center", mt: 5, mb: 3 }}>
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: "900",
-              mb: 1,
-            }}
-          >
-            My goals
-          </Typography>
-          <Tooltip title="Earn tropies by completing goals">
-            <Box
-              sx={{
-                ml: "auto",
-                display: "flex",
-                alignItems: "center",
-                px: 2,
-                py: 0.5,
-                borderRadius: 999,
-                gap: "10px",
-                backgroundColor: session.user.darkMode
-                  ? "hsl(240,11%,14%)"
-                  : "rgba(200,200,200,.3)",
-              }}
-            >
-              <picture>
-                <img
-                  src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
-                  alt="trophy"
-                  width={20}
-                  height={20}
-                />
-              </picture>
-              <span>{session.user.trophies}</span>
-            </Box>
-          </Tooltip>
-        </Box>
-      )}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        flexGrow: 1,
+      }}
+    >
+      <Box>
+        <TextField
+          variant="standard"
+          placeholder="Search..."
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              borderRadius: 2,
+              background: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
+              px: 3,
+              py: 1,
+              mb: 2,
+            },
+          }}
+          value={query}
+          onChange={(e: any) => setQuery(e.target.value)}
+        />
+      </Box>
       {data.length === 0 ? (
         <div
           className="mb-10 flex w-full flex-col items-center rounded-xl bg-gray-200 p-8 px-5 text-gray-900 dark:bg-gray-900 dark:text-white sm:flex-row"
@@ -102,28 +113,22 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               </Typography>
             )
           }
-          <Box sx={{ mr: { sm: -2 } }}>
-            <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
-              {
-                // Sort goals by days left (goal.progress  / goal.durationDays). Sort in reverse order, and move `goal.progress === goal.durationDays` to the end
-                data
-                  .sort((r, s) =>
-                    r.progress === r.durationDays
-                      ? 1
-                      : s.progress === s.durationDays
-                      ? -1
-                      : s.progress / s.durationDays -
-                        r.progress / r.durationDays
-                  )
-                  .map((goal) => (
-                    <Goal key={goal.id} goal={goal} mutationUrl={url} />
-                  ))
-              }
-            </Masonry>
-          </Box>
+          <Virtuoso
+            isScrolling={setIsScrolling}
+            style={{ flexGrow: 1, borderRadius: "20px" }}
+            totalCount={sortedGoals.length}
+            itemContent={(index) => (
+              <Goal
+                isScrolling={isScrolling}
+                key={sortedGoals[index].id}
+                goal={sortedGoals[index]}
+                mutationUrl={url}
+              />
+            )}
+          />
         </>
       )}
-    </>
+    </Box>
   ) : error ? (
     <ErrorHandler error="An error occured while trying to fetch your routines" />
   ) : (

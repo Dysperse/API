@@ -9,7 +9,7 @@ import { ErrorHandler } from "../../Error";
 import { CreateRoutine } from "./Create";
 import { Routine } from "./Routine";
 
-export function Routines() {
+export function Routines({ isCoach = false }: any) {
   const { data, url, error } = useApi("user/routines/custom-routines");
 
   const loading = (
@@ -43,6 +43,9 @@ export function Routines() {
       align: "start",
       containScroll: "trimSnaps",
       loop: false,
+      ...(isCoach && {
+        axis: "y",
+      }),
     },
     [WheelGesturesPlugin()]
   );
@@ -71,7 +74,11 @@ export function Routines() {
     });
 
   return (
-    <Box ref={emblaRef} sx={{ maxWidth: "100vw" }} className="embla">
+    <Box
+      ref={emblaRef}
+      sx={{ maxWidth: "100vw", flexGrow: 1, borderRadius: 5 }}
+      className="embla"
+    >
       {data ? (
         <Box
           sx={{
@@ -80,8 +87,11 @@ export function Routines() {
             ...(router.asPath === "/zen" && {
               justifyContent: { md: "center" },
             }),
+            ...(isCoach && {
+              flexDirection: "column",
+            }),
             gap: 1,
-            px: 2,
+            px: isCoach ? { xs: 2, sm: 0 } : 2,
             mb: 2,
           }}
         >
@@ -93,9 +103,18 @@ export function Routines() {
               (routine) => !JSON.parse(routine.daysOfWeek)[dayjs().day()]
             ),
           ].map((routine) => (
-            <Routine routine={routine} key={routine.id} mutationUrl={url} />
+            <Routine
+              routine={routine}
+              key={routine.id}
+              mutationUrl={url}
+              isCoach={isCoach}
+            />
           ))}
-          <CreateRoutine mutationUrl={url} emblaApi={emblaApi} />
+          <CreateRoutine
+            mutationUrl={url}
+            emblaApi={emblaApi}
+            isCoach={isCoach}
+          />
         </Box>
       ) : (
         loading
