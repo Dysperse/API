@@ -175,6 +175,7 @@ export function CreateGoal({ mutationUrl, isCoach }) {
           </Typography>
         </Box>
       </Box>
+      <Box sx={{ px: 1, flex: "0 0 40px", height: 3 }}></Box>
     </>
   );
 }

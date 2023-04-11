@@ -63,11 +63,11 @@ export function Routines({ isCoach = false }: any) {
   return (
     <Box
       sx={{
-        overflow: { md: "scroll" },
+        overflow: isCoach ? { md: "scroll" } : "scroll",
+        maxWidth: "100vw",
         flexGrow: 1,
         postition: "relative",
         borderRadius: 3,
-        pb: { xs: 10, sm: 0 },
       }}
     >
       <Box

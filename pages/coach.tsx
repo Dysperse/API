@@ -1,4 +1,4 @@
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import Head from "next/head";
 import { useState } from "react";
 import { MyGoals } from "../components/Coach/MyGoals";
@@ -8,22 +8,31 @@ import { useSession } from "../lib/client/useSession";
 export default function Render() {
   const session = useSession();
   const [hideRoutine, setHideRoutine] = useState<boolean>(false);
+  const trigger = useMediaQuery("(min-width: 600px)");
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box
+      sx={{
+        position: "relative",
+        maxWidth: "100vw",
+        overflowX: "hidden",
+        ml: { md: -1 },
+        pb: { xs: 15, sm: 0 },
+      }}
+    >
       <Head>
         <title>Coach &bull; Dysperse</title>
       </Head>
       <Box
         sx={{
           pb: 3,
-          display: "flex",
+          display: { md: "flex" },
+          flexDirection: { xs: "column", sm: "row" },
           height: {
-            xs: "calc(calc(100vh - 55px) - var(--navbar-height))",
+            xs: "auto",
             md: "100vh",
           },
           background: { md: `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)` },
-          ml: { md: -1 },
           p: { xs: 0, sm: 2 },
           gap: { md: 2 },
         }}
@@ -33,20 +42,27 @@ export default function Render() {
             background: {
               md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
             },
-            flex: { xs: "0 0 100vw", md: "0 0 400px" },
+            flex: { xs: "0 0 auto", md: "0 0 400px" },
             overflow: "scroll",
-            p: 2,
+            p: { md: 2 },
             position: "relative",
             borderRadius: 5,
+            mt: { xs: "-14.4px", md: 0 },
             display: "flex",
             flexDirection: "column",
             width: "400px",
           }}
         >
-          <Typography className="font-heading mt-3 text-4xl underline">
+          <Typography
+            className="font-heading mt-3 text-4xl underline"
+            sx={{
+              p: { xs: 3, sm: 0 },
+              pb: "0!important",
+            }}
+          >
             Routines
           </Typography>
-          <Routines isCoach />
+          <Routines isCoach={trigger} />
           <Tooltip title="Earn tropies by completing goals">
             <Box
               sx={{
@@ -61,11 +77,12 @@ export default function Render() {
                 borderRadius: 5,
                 mt: "auto",
                 width: { xs: "calc(100vw - 40px)", md: "100%" },
-                gap: 4,
+                gap: 3,
                 "& img": {
-                  width: { xs: 27, sm: 60 },
-                  height: { xs: 27, sm: 60 },
+                  width: { xs: 27, sm: 55 },
+                  height: { xs: 27, sm: 55 },
                 },
+                zIndex: 999,
 
                 position: { xs: "fixed", sm: "unset" },
                 bottom: "65px",
@@ -84,7 +101,7 @@ export default function Render() {
                 <Typography
                   variant="h3"
                   sx={{
-                    fontSize: { xs: 25, sm: 50 },
+                    fontSize: { xs: 25, sm: 40 },
                     fontWeight: 700,
                     display: "flex",
                     gap: 1,
@@ -107,8 +124,10 @@ export default function Render() {
         </Box>
         <Box
           sx={{
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
-            p: 2,
+            background: {
+              md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
+            },
+            p: { xs: 3, sm: 2 },
             display: "flex",
             flexDirection: "column",
             borderRadius: 5,

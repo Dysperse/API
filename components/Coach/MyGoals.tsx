@@ -1,4 +1,10 @@
-import { Box, Skeleton, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Skeleton,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { useApi } from "../../lib/client/useApi";
@@ -11,6 +17,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
   const { data, error, url } = useApi("user/routines");
   const [isScrolling, setIsScrolling] = useState(false);
   const [query, setQuery] = useState("");
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     data && 0 === data.length ? setHideRoutine(true) : setHideRoutine(false);
@@ -125,19 +132,32 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             )
           }
           {sortedGoals.length >= 1 ? (
-            <Virtuoso
-              isScrolling={setIsScrolling}
-              style={{ flexGrow: 1, borderRadius: "20px" }}
-              totalCount={sortedGoals.length}
-              itemContent={(index) => (
-                <Goal
-                  isScrolling={isScrolling}
-                  key={sortedGoals[index].id}
-                  goal={sortedGoals[index]}
-                  mutationUrl={url}
+            <>
+              {isMobile ? (
+                sortedGoals.map((goal) => (
+                  <Goal
+                    isScrolling={isScrolling}
+                    key={goal.id}
+                    goal={goal}
+                    mutationUrl={url}
+                  />
+                ))
+              ) : (
+                <Virtuoso
+                  isScrolling={setIsScrolling}
+                  style={{ flexGrow: 1, borderRadius: "20px" }}
+                  totalCount={sortedGoals.length}
+                  itemContent={(index) => (
+                    <Goal
+                      isScrolling={isScrolling}
+                      key={sortedGoals[index].id}
+                      goal={sortedGoals[index]}
+                      mutationUrl={url}
+                    />
+                  )}
                 />
               )}
-            />
+            </>
           ) : (
             <Box
               sx={{

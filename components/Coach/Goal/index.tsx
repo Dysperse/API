@@ -80,6 +80,9 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
             ...(goal.completed && {
               opacity: 0.6,
             }),
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
           }}
         >
           {goal.name}
@@ -121,10 +124,6 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           <Slider
             value={goal.progress}
             max={goal.durationDays}
-            step={
-              goal.durationDays > 30 ? Math.round(goal.durationDays / 30) : 2
-            }
-            marks
             sx={{
               pointerEvents: "none",
               "& .MuiSlider-thumb": {
@@ -144,16 +143,8 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
                 height: 12,
                 overflow: "hidden!important",
               },
-              "& .MuiSlider-mark": {
-                width: { xs: 0, sm: 2 },
-                display: goal.progress === goal.durationDays ? "none" : "block",
-                height: 6,
-                ml: -1,
-                borderRadius: 5,
-              },
             }}
           />
-          <div style={{ width: 20, height: 20 }} />
           <picture>
             <img
               src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
