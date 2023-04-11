@@ -127,7 +127,6 @@ export default function Render() {
             background: {
               md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
             },
-            p: { xs: 3, sm: 2 },
             display: "flex",
             flexDirection: "column",
             borderRadius: 5,

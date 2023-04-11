@@ -65,12 +65,14 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         flexDirection: "column",
         height: "100%",
         flexGrow: 1,
+        p: { xs: 3, sm: 0 },
+        pb: "0!important",
       }}
     >
       <Box>
-        <h1 className="font-heading mt-3 mb-2 text-4xl font-light underline">
+        <Typography className="font-heading mb-2 text-4xl font-light underline sm:mt-3">
           Progress
-        </h1>
+        </Typography>
         <Typography>{data.length - completedGoals} goals</Typography>
         <TextField
           variant="standard"
@@ -80,7 +82,10 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
             sx: {
               mt: 1,
               borderRadius: 2,
-              background: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
+              background: {
+                xs: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+                sm: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
+              },
               px: 3,
               py: 1,
               mb: 2,
