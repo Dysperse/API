@@ -134,9 +134,25 @@ export default function Render() {
                   background: "linear-gradient(45deg, #CD7F32, #7a4d20)",
                   backgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                Bronze II
+                <Box>Bronze II</Box>
+                <Box sx={{ display: "flex", ml: "auto" }}>
+                  {[false, true, true].map((life, index) => (
+                    <picture key={index}>
+                      <img
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+                          life ? "2764" : "1f494"
+                        }.png`}
+                        alt="heart"
+                        width={25}
+                        height={25}
+                      />
+                    </picture>
+                  ))}
+                </Box>
               </Typography>
               <LinearProgress
                 variant="determinate"
@@ -146,22 +162,18 @@ export default function Render() {
               />
               <b>40</b> more days until{" "}
               <b>
-                <span style={{ color: "#7d7f80" }}>Silver III</span>
+                <span
+                  style={{
+                    color: "#7d7f80",
+                    border: "2px solid",
+                    padding: "1px 5px",
+                    borderRadius: "4px",
+                    borderColor: "#7d7f80",
+                  }}
+                >
+                  Silver III
+                </span>
               </b>
-              <Box sx={{ mt: 1, display: "flex" }}>
-                {[false, true, true].map((life, index) => (
-                  <picture key={index}>
-                    <img
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
-                        life ? "2764" : "1f494"
-                      }.png`}
-                      alt="heart"
-                      width={30}
-                      height={30}
-                    />
-                  </picture>
-                ))}
-              </Box>
             </Box>
           </Box>
         </Box>
