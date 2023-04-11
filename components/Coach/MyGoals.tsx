@@ -65,22 +65,20 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         flexDirection: "column",
         height: "100%",
         flexGrow: 1,
-        p: { xs: 3, sm: 0 },
         pb: "0!important",
+        px: 2,
       }}
     >
       <Box>
-        <Typography className="font-heading mb-2 text-4xl font-light underline sm:mt-3">
-          Progress
+        <Typography variant="h5" sx={{ mt: 3, mb: 2 }}>
+          My progress
         </Typography>
-        <Typography>{data.length - completedGoals} goals</Typography>
         <TextField
           variant="standard"
           placeholder="Search..."
           InputProps={{
             disableUnderline: true,
             sx: {
-              mt: 1,
               borderRadius: 2,
               background: {
                 xs: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
@@ -176,7 +174,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
               <picture>
                 <img
                   src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
-                    query == "" ? "1f62d" : "1f615"
+                    query !== "" ? "1f62d" : "1f615"
                   }.png`}
                   alt="Crying emoji"
                 />

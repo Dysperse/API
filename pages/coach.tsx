@@ -1,4 +1,13 @@
-import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Icon,
+  LinearProgress,
+  Skeleton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { orange, red } from "@mui/material/colors";
 import Head from "next/head";
 import { useState } from "react";
 import { MyGoals } from "../components/Coach/MyGoals";
@@ -14,6 +23,7 @@ export default function Render() {
     <Box
       sx={{
         position: "relative",
+        mt: { xs: "-14.4px", md: 0 },
         maxWidth: "100vw",
         overflowX: "hidden",
         ml: { md: -1 },
@@ -44,97 +54,162 @@ export default function Render() {
             },
             flex: { xs: "0 0 auto", md: "0 0 400px" },
             overflow: "scroll",
-            p: { md: 2 },
             position: "relative",
-            borderRadius: 5,
-            mt: { xs: "-14.4px", md: 0 },
+            borderRadius: { md: 5 },
+            userSelect: "none",
             display: "flex",
             flexDirection: "column",
-            width: "400px",
+            width: { xs: "100vw", sm: "400px" },
           }}
         >
-          <Typography
-            className="font-heading mt-3 text-4xl underline"
+          <Box sx={{ position: "relative" }}>
+            <Skeleton
+              sx={{ opacity: 0.5 }}
+              variant="rectangular"
+              height={200}
+              animation={false}
+              width="100%"
+            />
+            <Chip
+              sx={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                m: 2,
+                background: red["A700"],
+                color: "#fff",
+              }}
+              size="small"
+              label="preview"
+            />
+          </Box>
+          <Box
             sx={{
-              p: { xs: 3, sm: 0 },
-              pb: "0!important",
+              flexGrow: 1,
+              p: 3,
             }}
           >
-            Routines
-          </Typography>
-          <Routines isCoach={trigger} />
-          <Tooltip title="Earn tropies by completing goals">
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                background: `hsla(240,11%,${
-                  session.user.darkMode ? 25 : 90
-                }%, 0.5)`,
-                backdropFilter: "blur(10px)",
-                px: 3,
-                py: 2,
+                width: "100%",
+                px: 2,
+                border: "2px solid",
+                borderColor: orange["A700"],
+                color: orange["A700"],
+                p: 3,
+                mb: 2,
                 borderRadius: 5,
-                mt: "auto",
-                width: { xs: "calc(100vw - 40px)", md: "100%" },
-                gap: 3,
-                "& img": {
-                  width: { xs: 27, sm: 55 },
-                  height: { xs: 27, sm: 55 },
-                },
-                zIndex: 999,
-
-                position: { xs: "fixed", sm: "unset" },
-                bottom: "65px",
-                left: 0,
-                m: { xs: "20px", sm: "0px" },
-                mb: "0!important",
               }}
             >
-              <picture>
-                <img
-                  src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
-                  alt="trophy"
-                />
-              </picture>
-              <Box>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    fontSize: { xs: 25, sm: 40 },
-                    fontWeight: 700,
-                    display: "flex",
-                    gap: 1,
-                    "& span": {
-                      display: { xs: "inline", md: "none" },
-                    },
-                  }}
-                >
-                  {session.user.trophies}
-                  <span> trophies</span>
-                </Typography>
-                <Typography
-                  sx={{ display: { xs: "none", sm: "unset" }, fontWeight: 700 }}
-                >
-                  trophies
-                </Typography>
+              <Typography
+                variant="h4"
+                sx={{
+                  color: orange["A700"],
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.5,
+                }}
+              >
+                <Icon sx={{ fontSize: "30px!important" }} className="outlined">
+                  local_fire_department
+                </Icon>
+                127
+              </Typography>
+              coach streak
+            </Box>
+            <Box
+              sx={{
+                width: "100%",
+                px: 2,
+                border: "2px solid #CD7F32",
+                color: "#CD7F32",
+                p: 3,
+                borderRadius: 5,
+              }}
+            >
+              <Typography variant="body2">Current league</Typography>
+              <Typography
+                variant="h4"
+                sx={{
+                  background: "linear-gradient(45deg, #CD7F32, #7a4d20)",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Bronze II
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={75}
+                sx={{ height: 20, borderRadius: 9, mb: 2, mt: 1 }}
+                color="inherit"
+              />
+              <b>40</b> more days until{" "}
+              <b>
+                <span style={{ color: "#7d7f80" }}>Silver III</span>
+              </b>
+              <Box sx={{ mt: 1, display: "flex" }}>
+                {[false, true, true].map((life, index) => (
+                  <picture key={index}>
+                    <img
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+                        life ? "2764" : "1f494"
+                      }.png`}
+                      alt="heart"
+                      width={30}
+                      height={30}
+                    />
+                  </picture>
+                ))}
               </Box>
             </Box>
-          </Tooltip>
+          </Box>
         </Box>
         <Box
           sx={{
             background: {
               md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
             },
+            overflow: "scroll",
+            position: "relative",
+            borderRadius: 5,
             display: "flex",
             flexDirection: "column",
-            borderRadius: 5,
             flexGrow: 1,
           }}
         >
+          {!trigger && (
+            <>
+              <Typography variant="h5" sx={{ mt: 2, ml: 2 }}>
+                Routines
+              </Typography>
+              <Routines isCoach={trigger} />
+            </>
+          )}
           <MyGoals setHideRoutine={setHideRoutine} />
         </Box>
+        {trigger && (
+          <Box
+            sx={{
+              background: {
+                md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
+              },
+              overflow: "scroll",
+              p: { md: 2 },
+              py: { md: 1 },
+              position: "relative",
+              borderRadius: 5,
+              display: "flex",
+              flexDirection: "column",
+              flexGrow: 1,
+            }}
+          >
+            <Typography variant="h5" sx={{ mt: 2 }}>
+              Routines
+            </Typography>
+            <Routines isCoach={trigger} />
+          </Box>
+        )}
       </Box>
     </Box>
   );
