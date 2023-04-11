@@ -1,13 +1,5 @@
-import {
-  Box,
-  Chip,
-  Icon,
-  LinearProgress,
-  Skeleton,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-import { orange, red } from "@mui/material/colors";
+import { Box, LinearProgress, Typography, useMediaQuery } from "@mui/material";
+import { orange } from "@mui/material/colors";
 import Head from "next/head";
 import { useState } from "react";
 import { MyGoals } from "../components/Coach/MyGoals";
@@ -63,25 +55,39 @@ export default function Render() {
           }}
         >
           <Box sx={{ position: "relative" }}>
-            <Skeleton
-              sx={{ opacity: 0.5 }}
-              variant="rectangular"
-              height={200}
-              animation={false}
-              width="100%"
-            />
-            <Chip
+            <Box
               sx={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                m: 2,
-                background: red["A700"],
-                color: "#fff",
+                width: "100%",
+                px: 2,
+                color: {
+                  xs: orange[400],
+                  sm: orange[900],
+                },
+                background: {
+                  xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
+                  sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
+                },
+                p: 3,
+                py: 6,
+                textAlign: "center",
               }}
-              size="small"
-              label="preview"
-            />
+            >
+              <Typography
+                variant="h1"
+                sx={{
+                  background: {
+                    xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
+                    sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
+                  },
+                  backgroundClip: "text!important",
+                  fontWeight: 700,
+                  WebkitTextFillColor: "transparent!important",
+                }}
+              >
+                127
+              </Typography>
+              coach streak
+            </Box>
           </Box>
           <Box
             sx={{
@@ -92,34 +98,7 @@ export default function Render() {
             <Box
               sx={{
                 width: "100%",
-                px: 2,
-                border: "2px solid",
-                borderColor: orange["A700"],
-                color: orange["A700"],
-                p: 3,
                 mb: 2,
-                borderRadius: 5,
-              }}
-            >
-              <Typography
-                variant="h4"
-                sx={{
-                  color: orange["A700"],
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 0.5,
-                }}
-              >
-                <Icon sx={{ fontSize: "30px!important" }} className="outlined">
-                  local_fire_department
-                </Icon>
-                127
-              </Typography>
-              coach streak
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
                 px: 2,
                 border: "2px solid #CD7F32",
                 color: "#CD7F32",
@@ -147,8 +126,8 @@ export default function Render() {
                           life ? "2764" : "1f494"
                         }.png`}
                         alt="heart"
-                        width={25}
-                        height={25}
+                        width={20}
+                        height={20}
                       />
                     </picture>
                   ))}
