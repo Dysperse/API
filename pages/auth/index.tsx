@@ -252,10 +252,10 @@ export default function Prompt() {
                   endAdornment: (
                     <InputAdornment position="end">
                       <ConfirmationModal
-                        title="Are you sure you want to show your password? "
-                        disabled={!togglePassword}
+                        rawStyles
+                        title="Are you sure you want to toggle your password's visibility?"
                         question="Make sure nobody is around you 🤫"
-                        callback={handleTogglePassword}
+                        callback={() => setTogglePassword(!togglePassword)}
                       >
                         <IconButton
                           sx={{

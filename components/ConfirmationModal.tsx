@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { toastStyles } from "../lib/client/useTheme";
 
 export function ConfirmationModal({
+  rawStyles = false,
   disabled = false,
   title,
   question,
@@ -57,6 +58,10 @@ export function ConfirmationModal({
         }}
         PaperProps={{
           sx: {
+            ...(rawStyles && {
+              boxShadow: "none",
+              borderRadius: 5,
+            }),
             userSelect: "none",
             width: "400px",
             maxWidth: "calc(100vw - 20px)",
@@ -78,6 +83,13 @@ export function ConfirmationModal({
             variant="outlined"
             size="large"
             onClick={() => setOpen(false)}
+            {...(rawStyles && {
+              sx: {
+                borderRadius: 9,
+                textTransform: "none",
+                boxShadow: "none",
+              },
+            })}
           >
             Cancel
           </Button>
@@ -86,6 +98,14 @@ export function ConfirmationModal({
             size="large"
             loading={loading}
             onClick={handleClick}
+            {...(rawStyles && {
+              sx: {
+                borderRadius: 9,
+                textTransform: "none",
+                boxShadow: "none",
+                background: "#000!important",
+              },
+            })}
           >
             {buttonText}
           </LoadingButton>
