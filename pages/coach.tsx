@@ -1,21 +1,26 @@
-import { Box, LinearProgress, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Chip,
+  LinearProgress,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { orange } from "@mui/material/colors";
 import Head from "next/head";
-import { useState } from "react";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { Routines } from "../components/Coach/Routines";
 import { useSession } from "../lib/client/useSession";
+import { Navbar } from "./zen";
 
 export default function Render() {
   const session = useSession();
-  const [hideRoutine, setHideRoutine] = useState<boolean>(false);
   const trigger = useMediaQuery("(min-width: 600px)");
 
   return (
     <Box
       sx={{
         position: "relative",
-        mt: { xs: "-14.4px", md: 0 },
+        mt: { xs: "calc(-1 * calc(var(--navbar-height) + 14.4px))", sm: 0 },
         maxWidth: "100vw",
         overflowX: "hidden",
         ml: { md: -1 },
@@ -55,6 +60,18 @@ export default function Render() {
           }}
         >
           <Box sx={{ position: "relative" }}>
+            <Chip
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                m: 3,
+                background: orange["300"],
+                color: "#000",
+              }}
+              size="small"
+              label="Preview"
+            />
             <Box
               sx={{
                 width: "100%",
@@ -69,9 +86,11 @@ export default function Render() {
                 },
                 p: 3,
                 py: 6,
+                pt: "calc(var(--navbar-height) + 14.4px)",
                 textAlign: "center",
               }}
             >
+              <Navbar />
               <Typography
                 variant="h1"
                 sx={{
@@ -177,7 +196,7 @@ export default function Render() {
               <Routines isCoach={trigger} />
             </>
           )}
-          <MyGoals setHideRoutine={setHideRoutine} />
+          <MyGoals />
         </Box>
         {trigger && (
           <Box

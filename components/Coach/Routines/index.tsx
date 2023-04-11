@@ -70,39 +70,43 @@ export function Routines({ isCoach = false }: any) {
         borderRadius: 3,
       }}
     >
-      <Box
-        sx={{
-          width: "100%",
-          display: { xs: "none!important", sm: "block!important" },
-          height: 25,
-          background: `linear-gradient(180deg, hsl(240,11%,${
-            session.user.darkMode ? 15 : 93
-          }%), transparent)`,
-          zIndex: 999,
-          position: "sticky",
-          top: 0,
-          left: 0,
-        }}
-      />
-      <Box
-        sx={{
-          width: "100%",
-          display: { xs: "none!important", sm: "block!important" },
-          height: 25,
-          background: `linear-gradient(180deg, transparent, hsl(240,11%,${
-            session.user.darkMode ? 15 : 93
-          }%))`,
-          zIndex: 999,
-          position: "sticky",
-          top: "calc(100% - 25px)",
-          left: 0,
-        }}
-      />
+      {isCoach && (
+        <Box
+          sx={{
+            width: "100%",
+            display: { xs: "none!important", sm: "block!important" },
+            height: 25,
+            background: `linear-gradient(180deg, hsl(240,11%,${
+              session.user.darkMode ? 15 : 93
+            }%), transparent)`,
+            zIndex: 999,
+            position: "sticky",
+            top: 0,
+            left: 0,
+          }}
+        />
+      )}
+      {isCoach && (
+        <Box
+          sx={{
+            width: "100%",
+            display: { xs: "none!important", sm: "block!important" },
+            height: 25,
+            background: `linear-gradient(180deg, transparent, hsl(240,11%,${
+              session.user.darkMode ? 15 : 93
+            }%))`,
+            zIndex: 999,
+            position: "sticky",
+            top: "calc(100% - 25px)",
+            left: 0,
+          }}
+        />
+      )}
       {data ? (
         <Box
           sx={{
             display: "flex",
-            mt: { xs: 2, md: -5 },
+            ...(isCoach && { mt: { xs: 2, md: -5 } }),
             alignItems: "center",
             ...(router.asPath === "/zen" && {
               justifyContent: { md: "center" },

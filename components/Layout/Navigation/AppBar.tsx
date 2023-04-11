@@ -55,12 +55,10 @@ export function Navbar(): JSX.Element {
         paddingTop: "env(titlebar-area-height, 0px)",
         ...((!router ||
           router.asPath.includes("/zen") ||
+          router.asPath.includes("/coach") ||
           router.asPath === "" ||
           router.asPath === "/") && {
-          top: {
-            xs: "calc(var(--navbar-height) * -1) !important",
-            md: "0!important",
-          },
+          top: "calc(var(--navbar-height) * -1) !important",
         }),
         transition: "none",
         "& *": {

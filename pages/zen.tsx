@@ -15,10 +15,85 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { Routines } from "../components/Coach/Routines";
 import { openSpotlight } from "../components/Layout/Navigation/Search";
+import UserMenu from "../components/Layout/Navigation/UserMenu";
 import { DailyCheckIn } from "../components/Start/CheckIns";
 import { RecentItems } from "../components/Start/RecentItems";
 import { useApi } from "../lib/client/useApi";
 import { useSession } from "../lib/client/useSession";
+
+export function Navbar() {
+  const session = useSession();
+
+  const styles = () => {
+    return {
+      WebkitAppRegion: "no-drag",
+      borderRadius: 94,
+      p: 0.8,
+      m: 0,
+      color: session.user.darkMode ? "hsl(240,11%,90%)" : "#606060",
+      transition: "opacity .2s",
+      "&:hover": {
+        background: session.user.darkMode
+          ? "hsl(240,11%,15%)"
+          : "rgba(200,200,200,.3)",
+        color: session.user.darkMode ? "hsl(240,11%,100%)" : "#000",
+      },
+      "&:active": {
+        background: session.user.darkMode
+          ? "hsl(240,11%,20%)"
+          : "rgba(200,200,200,.5)",
+        transition: "none",
+      },
+    };
+  };
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        mb: 2,
+        alignItems: "center",
+        pr: 2,
+        gap: 1,
+        height: "var(--navbar-height)",
+        background: "transparent",
+        position: { xs: "absolute", md: "static" },
+        top: 0,
+        zIndex: 9,
+        left: 0,
+        width: "100%",
+      }}
+    >
+      <Box
+        sx={{
+          ml: "auto",
+          mr: { xs: 0, sm: 2 },
+          gap: 1,
+          display: "flex",
+        }}
+      >
+        <Tooltip
+          title={
+            <>
+              <Typography sx={{ fontWeight: 700 }}>Spotlight</Typography>
+              <Typography>ctrl &bull; k</Typography>
+            </>
+          }
+          placement="bottom-start"
+        >
+          <IconButton
+            onClick={() => {
+              navigator.vibrate(50);
+              openSpotlight();
+            }}
+          >
+            <Icon className="outlined">bolt</Icon>
+          </IconButton>
+        </Tooltip>
+        <UserMenu styles={styles} />
+      </Box>
+    </Box>
+  );
+}
 
 export default function Home() {
   const router = useRouter();
@@ -56,51 +131,7 @@ export default function Home() {
           pt: 8,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            mb: 2,
-            alignItems: "center",
-            pr: 2,
-            gap: 1,
-            height: "var(--navbar-height)",
-            position: { xs: "absolute", md: "static" },
-            background: session.user.darkMode
-              ? "hsla(240,11%,10%, .5)"
-              : "rgba(255,255,255,.5)",
-            top: 0,
-            backdropFilter: "blur(10px)",
-            zIndex: 9,
-            left: 0,
-            width: "100%",
-          }}
-        >
-          <Box
-            sx={{
-              ml: "auto",
-              mr: { sm: 2 },
-            }}
-          >
-            <Tooltip
-              title={
-                <>
-                  <Typography sx={{ fontWeight: 700 }}>Spotlight</Typography>
-                  <Typography>ctrl &bull; k</Typography>
-                </>
-              }
-              placement="bottom-start"
-            >
-              <IconButton
-                onClick={() => {
-                  navigator.vibrate(50);
-                  openSpotlight();
-                }}
-              >
-                <Icon className="outlined">bolt</Icon>
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Box>
+        <Navbar />
         <Box
           sx={{
             mt: { xs: 3, sm: 10 },

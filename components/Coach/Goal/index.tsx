@@ -229,7 +229,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
                 p: 3,
                 background: "rgba(0,0,0,.1)",
                 borderRadius: 5,
-                mb: 4,
+                my: 2,
               }}
             >
               <Typography variant="h5">Completed</Typography>

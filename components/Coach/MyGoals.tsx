@@ -5,23 +5,19 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../lib/client/useSession";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
 
-export function MyGoals({ setHideRoutine }): JSX.Element {
+export function MyGoals(): JSX.Element {
   const session = useSession();
   const { data, error, url } = useApi("user/routines");
   const [isScrolling, setIsScrolling] = useState(false);
   const [query, setQuery] = useState("");
   const isMobile = useMediaQuery("(max-width: 600px)");
-
-  useEffect(() => {
-    data && 0 === data.length ? setHideRoutine(true) : setHideRoutine(false);
-  }, [data, setHideRoutine]);
 
   const completedGoals = useMemo(
     () => (data ? data.filter((goal) => goal.completed).length : 0),
@@ -136,30 +132,19 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
           }
           {sortedGoals.length >= 1 ? (
             <>
-              {isMobile ? (
-                sortedGoals.map((goal) => (
+              <Virtuoso
+                isScrolling={setIsScrolling}
+                style={{ flexGrow: 1, borderRadius: "20px" }}
+                totalCount={sortedGoals.length}
+                itemContent={(index) => (
                   <Goal
                     isScrolling={isScrolling}
-                    key={goal.id}
-                    goal={goal}
+                    key={sortedGoals[index].id}
+                    goal={sortedGoals[index]}
                     mutationUrl={url}
                   />
-                ))
-              ) : (
-                <Virtuoso
-                  isScrolling={setIsScrolling}
-                  style={{ flexGrow: 1, borderRadius: "20px" }}
-                  totalCount={sortedGoals.length}
-                  itemContent={(index) => (
-                    <Goal
-                      isScrolling={isScrolling}
-                      key={sortedGoals[index].id}
-                      goal={sortedGoals[index]}
-                      mutationUrl={url}
-                    />
-                  )}
-                />
-              )}
+                )}
+              />
             </>
           ) : (
             <Box
