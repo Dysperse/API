@@ -3,8 +3,8 @@ import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
 import { ErrorHandler } from "../../Error";
 import { CreateRoutine } from "./Create";
 import { Routine } from "./Routine";
@@ -43,25 +43,10 @@ export function Routines({ isCoach = false }: any) {
       align: "start",
       containScroll: "trimSnaps",
       loop: false,
-      ...(isCoach && {
-        axis: "y",
-      }),
     },
     [WheelGesturesPlugin()]
   );
   const router = useRouter();
-
-  useEffect(() => {
-    emblaApi?.reInit(
-      {
-        dragFree: true,
-        align: "start",
-        containScroll: "trimSnaps",
-        loop: false,
-      },
-      [WheelGesturesPlugin()]
-    );
-  });
 
   const sorted =
     data &&
@@ -73,16 +58,50 @@ export function Routines({ isCoach = false }: any) {
       return diffA - diffB;
     });
 
+  const session = useSession();
+
   return (
     <Box
-      ref={emblaRef}
-      sx={{ maxWidth: "100vw", flexGrow: 1, borderRadius: 5 }}
-      className="embla"
+      sx={{
+        overflow: { md: "scroll" },
+        flexGrow: 1,
+        postition: "relative",
+        borderRadius: 3,
+      }}
     >
+      <Box
+        sx={{
+          width: "100%",
+          display: { xs: "none!important", sm: "block!important" },
+          height: 25,
+          background: `linear-gradient(180deg, hsl(240,11%,${
+            session.user.darkMode ? 15 : 93
+          }%), transparent)`,
+          zIndex: 999,
+          position: "sticky",
+          top: 0,
+          left: 0,
+        }}
+      />
+      <Box
+        sx={{
+          width: "100%",
+          display: { xs: "none!important", sm: "block!important" },
+          height: 25,
+          background: `linear-gradient(180deg, transparent, hsl(240,11%,${
+            session.user.darkMode ? 15 : 93
+          }%))`,
+          zIndex: 999,
+          position: "sticky",
+          top: "calc(100% - 25px)",
+          left: 0,
+        }}
+      />
       {data ? (
         <Box
           sx={{
             display: "flex",
+            mt: { xs: 2, md: -5 },
             alignItems: "center",
             ...(router.asPath === "/zen" && {
               justifyContent: { md: "center" },
@@ -90,8 +109,8 @@ export function Routines({ isCoach = false }: any) {
             ...(isCoach && {
               flexDirection: "column",
             }),
-            gap: 1,
-            px: isCoach ? { xs: 2, sm: 0 } : 2,
+            gap: isCoach ? 0 : 1,
+            px: isCoach ? 0 : 2,
             mb: 2,
           }}
         >

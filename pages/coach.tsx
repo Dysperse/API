@@ -18,17 +18,23 @@ export default function Render() {
         sx={{
           pb: 3,
           display: "flex",
-          height: "100vh",
-          background: `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)`,
-          ml: -1,
-          p: 2,
-          gap: 2,
+          height: {
+            xs: "calc(calc(100vh - 55px) - var(--navbar-height))",
+            md: "100vh",
+          },
+          background: { md: `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)` },
+          ml: { md: -1 },
+          p: { xs: 0, sm: 2 },
+          gap: { md: 2 },
         }}
       >
         <Box
           sx={{
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
-            flex: "0 0 400px",
+            background: {
+              md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
+            },
+            flex: { xs: "0 0 100vw", md: "0 0 400px" },
+            overflow: "scroll",
             p: 2,
             position: "relative",
             borderRadius: 5,
@@ -37,9 +43,9 @@ export default function Render() {
             width: "400px",
           }}
         >
-          <h1 className="font-heading my-3 text-4xl font-light underline">
+          <Typography className="font-heading mt-3 text-4xl underline">
             Routines
-          </h1>
+          </Typography>
           <Routines isCoach />
           <Tooltip title="Earn tropies by completing goals">
             <Box
@@ -50,26 +56,51 @@ export default function Render() {
                   session.user.darkMode ? 25 : 90
                 }%, 0.5)`,
                 backdropFilter: "blur(10px)",
-                width: "100%",
-                p: 3,
+                px: 3,
+                py: 2,
                 borderRadius: 5,
                 mt: "auto",
+                width: { xs: "calc(100vw - 40px)", md: "100%" },
                 gap: 4,
+                "& img": {
+                  width: { xs: 27, sm: 60 },
+                  height: { xs: 27, sm: 60 },
+                },
+
+                position: { xs: "fixed", sm: "unset" },
+                bottom: "65px",
+                left: 0,
+                m: { xs: "20px", sm: "0px" },
+                mb: "0!important",
               }}
             >
               <picture>
                 <img
                   src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
                   alt="trophy"
-                  width={70}
-                  height={70}
                 />
               </picture>
               <Box>
-                <Typography variant="h3" className="font-heading">
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontSize: { xs: 25, sm: 50 },
+                    fontWeight: 700,
+                    display: "flex",
+                    gap: 1,
+                    "& span": {
+                      display: { xs: "inline", md: "none" },
+                    },
+                  }}
+                >
                   {session.user.trophies}
+                  <span> trophies</span>
                 </Typography>
-                <Typography sx={{ fontWeight: 700 }}>trophies</Typography>
+                <Typography
+                  sx={{ display: { xs: "none", sm: "unset" }, fontWeight: 700 }}
+                >
+                  trophies
+                </Typography>
               </Box>
             </Box>
           </Tooltip>
@@ -84,9 +115,6 @@ export default function Render() {
             flexGrow: 1,
           }}
         >
-          <h1 className="font-heading my-3 text-4xl font-light underline">
-            Progress
-          </h1>
           <MyGoals setHideRoutine={setHideRoutine} />
         </Box>
       </Box>

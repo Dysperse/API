@@ -17,6 +17,11 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
   }, [data, setHideRoutine]);
 
   const completedGoals = useMemo(
+    () => (data ? data.filter((goal) => goal.completed).length : 0),
+    [data]
+  );
+
+  const unclaimedGoals = useMemo(
     () =>
       data
         ? data.filter(
@@ -25,6 +30,7 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
         : 0,
     [data]
   );
+
   const deferredQuery = useDeferredValue(query);
   const sortedGoals = useMemo(
     () =>
@@ -55,12 +61,17 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
       }}
     >
       <Box>
+        <h1 className="font-heading mt-3 mb-2 text-4xl font-light underline">
+          Progress
+        </h1>
+        <Typography>{data.length - completedGoals} goals</Typography>
         <TextField
           variant="standard"
           placeholder="Search..."
           InputProps={{
             disableUnderline: true,
             sx: {
+              mt: 1,
               borderRadius: 2,
               background: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
               px: 3,
@@ -108,24 +119,48 @@ export function MyGoals({ setHideRoutine }): JSX.Element {
                   mb: 2,
                 }}
               >
-                You completed {completedGoals} goal
-                {completedGoals > 1 && "s"}! Scroll down to claim your trophy.
+                You completed {unclaimedGoals} goal
+                {unclaimedGoals > 1 && "s"}! Scroll down to claim your trophy.
               </Typography>
             )
           }
-          <Virtuoso
-            isScrolling={setIsScrolling}
-            style={{ flexGrow: 1, borderRadius: "20px" }}
-            totalCount={sortedGoals.length}
-            itemContent={(index) => (
-              <Goal
-                isScrolling={isScrolling}
-                key={sortedGoals[index].id}
-                goal={sortedGoals[index]}
-                mutationUrl={url}
-              />
-            )}
-          />
+          {sortedGoals.length >= 1 ? (
+            <Virtuoso
+              isScrolling={setIsScrolling}
+              style={{ flexGrow: 1, borderRadius: "20px" }}
+              totalCount={sortedGoals.length}
+              itemContent={(index) => (
+                <Goal
+                  isScrolling={isScrolling}
+                  key={sortedGoals[index].id}
+                  goal={sortedGoals[index]}
+                  mutationUrl={url}
+                />
+              )}
+            />
+          ) : (
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+                    query == "" ? "1f62d" : "1f615"
+                  }.png`}
+                  alt="Crying emoji"
+                />
+              </picture>
+              <Typography sx={{ mt: 2 }} variant="h6">
+                No results found
+              </Typography>
+            </Box>
+          )}
         </>
       )}
     </Box>
