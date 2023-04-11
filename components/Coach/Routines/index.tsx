@@ -67,6 +67,7 @@ export function Routines({ isCoach = false }: any) {
         flexGrow: 1,
         postition: "relative",
         borderRadius: 3,
+        pb: { xs: 20, sm: 0 },
       }}
     >
       <Box
