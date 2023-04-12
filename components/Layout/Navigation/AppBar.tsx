@@ -55,7 +55,6 @@ export function Navbar(): JSX.Element {
         paddingTop: "env(titlebar-area-height, 0px)",
         ...((!router ||
           router.asPath.includes("/zen") ||
-          router.asPath.includes("/coach") ||
           router.asPath === "" ||
           router.asPath === "/") && {
           top: "calc(var(--navbar-height) * -1) !important",
@@ -83,7 +82,7 @@ export function Navbar(): JSX.Element {
       }
     >
       <CssBaseline />
-      <Toolbar sx={{ height: "100%", gap: 1 }}>
+      <Toolbar sx={{ height: "100%", gap: 0.5 }}>
         <Box
           sx={{
             mr: "auto",

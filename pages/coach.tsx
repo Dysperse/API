@@ -10,7 +10,6 @@ import Head from "next/head";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { Routines } from "../components/Coach/Routines";
 import { useSession } from "../lib/client/useSession";
-import { Navbar } from "./zen";
 
 export default function Render() {
   const session = useSession();
@@ -19,10 +18,6 @@ export default function Render() {
   return (
     <Box
       sx={{
-        position: "relative",
-        mt: { xs: "calc(-1 * calc(var(--navbar-height) + 14.4px))", sm: 0 },
-        maxWidth: "100vw",
-        overflowX: "hidden",
         ml: { md: -1 },
         pb: { xs: 15, sm: 0 },
       }}
@@ -53,6 +48,7 @@ export default function Render() {
             overflow: "scroll",
             position: "relative",
             borderRadius: { md: 5 },
+            px: 3,
             userSelect: "none",
             display: "flex",
             flexDirection: "column",
@@ -86,11 +82,11 @@ export default function Render() {
                 },
                 p: 3,
                 py: 6,
-                pt: "calc(var(--navbar-height) + 14.4px)",
+                pt: 7.5,
+                borderRadius: { xs: 5, sm: 0 },
                 textAlign: "center",
               }}
             >
-              <Navbar />
               <Typography
                 variant="h1"
                 sx={{
@@ -111,7 +107,7 @@ export default function Render() {
           <Box
             sx={{
               flexGrow: 1,
-              p: 3,
+              pt: 3,
             }}
           >
             <Box
@@ -190,7 +186,7 @@ export default function Render() {
         >
           {!trigger && (
             <>
-              <Typography variant="h5" sx={{ mt: 2, ml: 2 }}>
+              <Typography variant="h5" sx={{ mt: 2, ml: 3 }}>
                 Routines
               </Typography>
               <Routines isCoach={trigger} />

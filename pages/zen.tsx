@@ -53,7 +53,7 @@ export function Navbar() {
         mb: 2,
         alignItems: "center",
         pr: 2,
-        gap: 1,
+        gap: 0.5,
         height: "var(--navbar-height)",
         background: "transparent",
         position: { xs: "absolute", md: "static" },
@@ -67,7 +67,7 @@ export function Navbar() {
         sx={{
           ml: "auto",
           mr: { xs: 0, sm: 2 },
-          gap: 1,
+          gap: 0.5,
           display: "flex",
         }}
       >
@@ -89,7 +89,7 @@ export function Navbar() {
             <Icon className="outlined">bolt</Icon>
           </IconButton>
         </Tooltip>
-        <UserMenu styles={styles} />
+        <UserMenu styles={styles} useMobile />
       </Box>
     </Box>
   );

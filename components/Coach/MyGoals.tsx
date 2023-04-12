@@ -1,6 +1,12 @@
 import {
   Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  Icon,
+  IconButton,
   Skeleton,
+  SwipeableDrawer,
   TextField,
   Typography,
   useMediaQuery,
@@ -54,17 +60,8 @@ export function MyGoals(): JSX.Element {
     [data, deferredQuery]
   );
 
-  return data ? (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        flexGrow: 1,
-        pb: "0!important",
-        px: 2,
-      }}
-    >
+  const children = data ? (
+    <>
       <Box>
         <Typography variant="h5" sx={{ mt: 3, mb: 2 }}>
           My progress
@@ -170,6 +167,79 @@ export function MyGoals(): JSX.Element {
             </Box>
           )}
         </>
+      )}
+    </>
+  ) : (
+    <></>
+  );
+
+  const trigger = useMediaQuery("(max-width: 600px)");
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  return data ? (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        flexGrow: 1,
+        pb: "0!important",
+        px: 3,
+      }}
+    >
+      {!trigger && children}
+      {trigger && (
+        <Card
+          onClick={() => setMobileOpen(true)}
+          sx={{
+            background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+            borderRadius: 5,
+            mt: 2,
+            transition: "transform .2s",
+            "&:active": {
+              transform: "scale(.97)",
+            },
+          }}
+        >
+          <CardActionArea>
+            <CardContent sx={{ display: "flex", alignItems: "center" }}>
+              <Box>
+                <Typography variant="h5" sx={{ mb: 0.5 }}>
+                  My progress
+                </Typography>
+                <Typography>{data.length} goals</Typography>
+              </Box>
+              <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      )}
+      {trigger && (
+        <SwipeableDrawer
+          disableSwipeToOpen
+          onOpen={() => setMobileOpen(true)}
+          onClose={() => setMobileOpen(false)}
+          open={mobileOpen}
+          anchor="right"
+          PaperProps={{
+            sx: {
+              display: "flex",
+              flexDirection: "column",
+              height: "100vh",
+              width: "100vw",
+              p: 2,
+              flexGrow: 1,
+            },
+          }}
+        >
+          <IconButton
+            sx={{ position: "fixed", top: 0, right: 0, m: 3, mt: 5 }}
+            onClick={() => setMobileOpen(false)}
+          >
+            <Icon>close</Icon>
+          </IconButton>
+          {children}
+        </SwipeableDrawer>
       )}
     </Box>
   ) : error ? (
