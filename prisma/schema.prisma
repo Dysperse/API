@@ -10,31 +10,33 @@ datasource db {
 // Models for user accounts
 // TODO: Add separate table for user settings, such as theme colors, dark mode, etc. 
 model User {
-  id                       String                @id @unique @default(uuid())
-  identifier               String                @unique @default(uuid())
+  id                       String  @id @unique @default(uuid())
+  identifier               String  @unique @default(uuid())
   name                     String
-  email                    String                @unique
+  email                    String  @unique
   password                 String
-  darkMode                 Boolean               @default(false)
-  color                    String                @default("lime")
-  onboardingComplete       Boolean               @default(false)
-  verifiedEmail            Boolean               @default(false)
-  trophies                 Int                   @default(0)
-  twoFactorSecret          String                @default("")
-  notificationSubscription String?               @db.VarChar(500)
-  zenCardOrder             String                @default("[\"goals.study_plan\", \"inventory.starred\", \"inventory.scan\"]")
-  timeZone                 String                @default("America/Los_Angeles") @db.VarChar(255)
-  CustomRoom               CustomRoom[]
-  NotificationSettings     NotificationSettings?
-  OAuthToken               OAuthToken[]
-  PasswordResetToken       PasswordResetToken[]
-  properties               PropertyInvite[]
-  RoutineItem              RoutineItem[]
-  sessions                 Session[]
-  Board                    Board[]
-  Integration              Integration[]
-  DailyCheckIn             DailyCheckIn[]
-  Routine                  Routine[]
+  darkMode                 Boolean @default(false)
+  color                    String  @default("lime")
+  onboardingComplete       Boolean @default(false)
+  verifiedEmail            Boolean @default(false)
+  trophies                 Int     @default(0)
+  twoFactorSecret          String  @default("")
+  notificationSubscription String? @db.VarChar(500)
+  zenCardOrder             String  @default("[\"goals.study_plan\", \"inventory.starred\", \"inventory.scan\"]")
+  timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
+
+  CustomRoom           CustomRoom[]
+  NotificationSettings NotificationSettings?
+  CoachData            CoachData?
+  OAuthToken           OAuthToken[]
+  PasswordResetToken   PasswordResetToken[]
+  properties           PropertyInvite[]
+  RoutineItem          RoutineItem[]
+  sessions             Session[]
+  Board                Board[]
+  Integration          Integration[]
+  DailyCheckIn         DailyCheckIn[]
+  Routine              Routine[]
 }
 
 model Integration {
@@ -63,6 +65,15 @@ model NotificationSettings {
   dailyCheckInNudge Boolean @default(true)
   userId            String  @unique
   user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+model CoachData {
+  id             String   @id @unique @default(uuid())
+  lastStreakDate DateTime @default(now())
+  streakCount    Int      @default(0)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 // User sessions are stored on the server

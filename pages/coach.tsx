@@ -7,13 +7,18 @@ import {
 } from "@mui/material";
 import { orange } from "@mui/material/colors";
 import Head from "next/head";
+import { mutate } from "swr";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { Routines } from "../components/Coach/Routines";
+import { ErrorHandler } from "../components/Error";
+import { useApi } from "../lib/client/useApi";
 import { useSession } from "../lib/client/useSession";
 
 export default function Render() {
   const session = useSession();
   const trigger = useMediaQuery("(min-width: 600px)");
+
+  const { data, url, error } = useApi("user/routines/streaks");
 
   return (
     <Box
@@ -68,18 +73,28 @@ export default function Render() {
               size="small"
               label="Preview"
             />
+            {error && (
+              <ErrorHandler
+                error="Yikes! We couldn't load your streak. Please try again later"
+                callback={() => mutate(url)}
+              />
+            )}
             <Box
               sx={{
                 width: "100%",
                 px: 2,
-                color: {
-                  xs: orange[400],
-                  sm: orange[900],
-                },
-                background: {
-                  xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
-                  sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
-                },
+                color: data
+                  ? {
+                      xs: orange[400],
+                      sm: orange[900],
+                    }
+                  : "#aaa",
+                background: data
+                  ? {
+                      xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
+                      sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
+                    }
+                  : "#eee",
                 p: 3,
                 py: 6,
                 pt: 7.5,
@@ -90,16 +105,18 @@ export default function Render() {
               <Typography
                 variant="h1"
                 sx={{
-                  background: {
-                    xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
-                    sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
-                  },
+                  background: data
+                    ? {
+                        xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
+                        sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
+                      }
+                    : "#303030",
                   backgroundClip: "text!important",
                   fontWeight: 700,
                   WebkitTextFillColor: "transparent!important",
                 }}
               >
-                127
+                {data ? JSON.stringify(data) : 0}
               </Typography>
               coach streak
             </Box>
