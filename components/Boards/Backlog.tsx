@@ -97,7 +97,9 @@ export function Backlog({ setDrawerOpen }) {
             )}
           </Box>
         ))}
-      <Box sx={{ px: { sm: 3 }, pb: 15, maxWidth: "100vw" }}>
+      <Box
+        sx={{ px: { sm: 3 }, pb: data.length == 0 ? 0 : 15, maxWidth: "100vw" }}
+      >
         {data.length === 0 && (
           <Box
             sx={{

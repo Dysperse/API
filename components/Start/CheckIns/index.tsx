@@ -3,11 +3,8 @@ import {
   AppBar,
   Avatar,
   Box,
-  Button,
   CardActionArea,
   Chip,
-  Dialog,
-  Grid,
   Icon,
   IconButton,
   LinearProgress,
@@ -25,12 +22,13 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
-import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
-import { Puller } from "../Puller";
+import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
+import { fetchRawApi, useApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
+import { toastStyles } from "../../../lib/client/useTheme";
+import { colors } from "../../../lib/colors";
+import { Emoji } from "./Emoji";
+import { InfoModal } from "./InfoModal";
 
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
 
@@ -45,262 +43,6 @@ export const reasons = [
   { icon: "payments", name: "Finances" },
   { icon: "pending", name: "Something else", w: 12 },
 ];
-
-function Emoji({ emoji, mood, data, handleMoodChange }) {
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = useCallback(() => setOpen(true), [setOpen]);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
-
-  const session = useSession();
-  const [currentReason, setCurrentReason] = useState<null | string>(
-    (data && data[0] && data[0].reason) || null
-  );
-
-  // for push notification
-  const [alreadyTriggered, setAlreadyTriggered] = useState<boolean>(false);
-
-  /**
-   * If the notification action button === the emoji, open the modal
-   */
-  useEffect(() => {
-    if (
-      !alreadyTriggered &&
-      window.location.hash &&
-      window.location.hash.includes("#/")
-    ) {
-      let match = window.location.hash.split("#/")[1];
-      if (match.includes("-")) {
-        match = match.split("-")[1];
-      }
-
-      if (match) {
-        if (match === emoji) {
-          setOpen(true);
-          window.location.hash = "";
-          setAlreadyTriggered(true);
-        }
-      }
-    }
-  }, [emoji, alreadyTriggered]);
-
-  return (
-    <>
-      <SwipeableDrawer
-        open={open}
-        onOpen={handleOpen}
-        onClose={handleClose}
-        anchor="bottom"
-        disableSwipeToOpen
-      >
-        <Puller />
-        <Box sx={{ p: 3, pt: 0 }}>
-          <Typography
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              pb: 2,
-            }}
-          >
-            <picture style={{ flexShrink: 0, flexGrow: 0 }}>
-              <img
-                alt="emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                width="40px"
-                height="40px"
-              />
-            </picture>
-            <Box>
-              <Typography sx={{ fontWeight: 700 }}>
-                {data && data[0] && mood === emoji
-                  ? "Your mood"
-                  : "What is making you feel this way?"}
-              </Typography>
-              <Typography variant="body2">
-                {data && data[0] && mood === emoji
-                  ? ""
-                  : "Select the most relevant option."}
-              </Typography>
-            </Box>
-          </Typography>
-          {!(data && data[0] && mood === emoji) && (
-            <LinearProgress
-              value={75}
-              variant="determinate"
-              sx={{ borderRadius: 999, mb: 2, height: 2 }}
-            />
-          )}
-          {!(data && data[0] && mood === emoji) && (
-            <Grid
-              container
-              spacing={{
-                xs: 1,
-                sm: 2,
-              }}
-            >
-              {reasons.map((reason) => (
-                <Grid
-                  item
-                  xs={reason.w || 6}
-                  sm={reason.w || 4}
-                  key={reason.name}
-                >
-                  <Box
-                    onClick={() =>
-                      setCurrentReason(
-                        currentReason && reason.name === currentReason
-                          ? null
-                          : reason.name
-                      )
-                    }
-                    sx={{
-                      border: "2px solid transparent",
-                      userSelect: "none",
-                      py: 2,
-                      borderRadius: 4,
-                      px: 2,
-                      transition: "transform .2s",
-                      alignItems: "center",
-                      "&:active": {
-                        transform: "scale(0.95)",
-                        transition: "none",
-                      },
-                      display: "flex",
-                      background: `hsl(240,11%,${
-                        session.user.darkMode ? 10 : 97
-                      }%)!important`,
-                      gap: 2,
-                      ...(currentReason === reason.name && {
-                        borderColor: colors[session?.themeColor][700],
-                        boxShadow:
-                          "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-                        background: session.user.darkMode
-                          ? "hsl(240,11%,10%) !important"
-                          : "#fff !important",
-                      }),
-                    }}
-                  >
-                    <Icon
-                      sx={{
-                        fontSize: "26px!important",
-                      }}
-                      className="outlined"
-                    >
-                      {reason.icon}
-                    </Icon>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        flexGrow: 1,
-                      }}
-                    >
-                      {reason.name}
-                    </Typography>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-          <Button
-            fullWidth
-            disableRipple
-            size="large"
-            variant="contained"
-            onClick={() => {
-              handleClose();
-              handleMoodChange(emoji, currentReason);
-            }}
-            sx={{
-              mt: 2,
-              transition: "opacity .2s!important",
-              "&:active": { opacity: 0.5, transition: "none!important" },
-            }}
-          >
-            {data && data[0] && mood === emoji ? "Delete" : "Done"}
-          </Button>
-        </Box>
-      </SwipeableDrawer>
-      <IconButton
-        key={emoji}
-        sx={{
-          p: 0,
-          width: 35,
-          height: 35,
-          cursor: "pointer!important",
-          ...((mood || !data) && {
-            opacity: mood === emoji ? 1 : 0.5,
-          }),
-          ...(mood === emoji && {
-            transform: "scale(1.1)",
-          }),
-          "&:active": {
-            transition: "none",
-            transform: "scale(0.9)",
-          },
-          transition: "transform .2s",
-        }}
-        onClick={handleOpen}
-      >
-        <picture>
-          <img
-            alt="emoji"
-            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-          />
-        </picture>
-      </IconButton>
-    </>
-  );
-}
-
-function InfoModal() {
-  const [open, setOpen] = useState<boolean>(false);
-  const handleClose = useCallback(() => setOpen(false), []);
-  const handleOpen = useCallback(() => setOpen(true), []);
-
-  return (
-    <>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            p: 3,
-          },
-        }}
-      >
-        <Typography variant="h5" sx={{ mb: 2 }}>
-          Mental health{" "}
-          <Chip
-            sx={{
-              ml: 1.5,
-              background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
-              color: "#000",
-            }}
-            size="small"
-            label="BETA"
-          />
-        </Typography>
-        <Alert severity="info" sx={{ mb: 1 }}>
-          Dysperse mental health is a tool to help track your mood over time
-        </Alert>
-        <Alert severity="info" sx={{ mb: 1 }}>
-          Your mood is only visible to you, meaning that other members in your
-          groyp won&apos;t be able to see how you&apos;re feeling
-        </Alert>
-        <Alert severity="warning" sx={{ mb: 1 }}>
-          Mood data is only stared for 1 year
-        </Alert>
-      </Dialog>
-      <IconButton onClick={handleOpen}>
-        <Icon className="outlined">info</Icon>
-      </IconButton>
-    </>
-  );
-}
 
 export function DailyCheckInDrawer({ mood }) {
   const session = useSession();
@@ -642,112 +384,125 @@ export function DailyCheckInDrawer({ mood }) {
               </Box>
             )}
 
-            {moodOptions.map((emoji) => (
-              <Box
-                key={emoji}
-                sx={{
-                  px: 4,
-                  py: 1,
-                  display: "flex",
-                  gap: 2,
-                  mb: 2,
-                }}
-              >
-                <IconButton
+            {moodOptions
+              .filter((emoji) =>
+                reasons.find(
+                  (reason) =>
+                    data &&
+                    data.find(
+                      (a) => a.reason === reason.name && a.mood === emoji
+                    )
+                )
+              )
+              .map((emoji) => (
+                <Box
                   key={emoji}
                   sx={{
-                    p: 0,
-                    width: 35,
-                    height: 35,
+                    px: 4,
+                    py: 1,
+                    display: "flex",
+                    gap: 2,
+                    mb: 2,
                   }}
                 >
-                  <picture>
-                    <img
-                      alt="emoji"
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                    />
-                  </picture>
-                </IconButton>
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    pt: 0.8,
-                  }}
-                >
-                  {reasons
-                    .filter(
-                      (reason) =>
-                        data &&
-                        data.find(
-                          (a) => a.reason === reason.name && a.mood === emoji
-                        )
-                    )
-                    .sort((prevReason, reason) => {
-                      const prevLength = data
-                        ? (data.filter(
-                            (a) =>
-                              a.reason === prevReason.name && a.mood === emoji
-                          ).length /
-                            data.filter((a) => a.mood === emoji).length) *
-                          100
-                        : 0;
-
-                      const nextLength = data
-                        ? (data.filter(
+                  <IconButton
+                    key={emoji}
+                    sx={{
+                      p: 0,
+                      width: 35,
+                      height: 35,
+                    }}
+                  >
+                    <picture>
+                      <img
+                        alt="emoji"
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                      />
+                    </picture>
+                  </IconButton>
+                  <Box
+                    sx={{
+                      flexGrow: 1,
+                      pt: 0.8,
+                    }}
+                  >
+                    {reasons
+                      .filter(
+                        (reason) =>
+                          data &&
+                          data.find(
                             (a) => a.reason === reason.name && a.mood === emoji
-                          ).length /
-                            data.filter((a) => a.mood === emoji).length) *
-                          100
-                        : 0;
+                          )
+                      )
+                      .sort((prevReason, reason) => {
+                        const prevLength = data
+                          ? (data.filter(
+                              (a) =>
+                                a.reason === prevReason.name && a.mood === emoji
+                            ).length /
+                              data.filter((a) => a.mood === emoji).length) *
+                            100
+                          : 0;
 
-                      if (prevLength > nextLength) {
-                        return -1;
-                      }
-                      if (prevLength < nextLength) {
-                        return 1;
-                      }
+                        const nextLength = data
+                          ? (data.filter(
+                              (a) =>
+                                a.reason === reason.name && a.mood === emoji
+                            ).length /
+                              data.filter((a) => a.mood === emoji).length) *
+                            100
+                          : 0;
 
-                      // names must be equal
-                      return 0;
-                    })
-                    .map((reason) => (
-                      <Box
-                        key={reason.name}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                          mb: 1,
-                        }}
-                      >
-                        <Tooltip title={reason.name} placement="right">
-                          <Icon className="outlined">{reason.icon}</Icon>
-                        </Tooltip>
-                        <LinearProgress
-                          variant="determinate"
+                        if (prevLength > nextLength) {
+                          return -1;
+                        }
+                        if (prevLength < nextLength) {
+                          return 1;
+                        }
+
+                        // names must be equal
+                        return 0;
+                      })
+                      .map((reason) => (
+                        <Box
+                          key={reason.name}
                           sx={{
-                            width: "100%",
-                            "&, & *": {
-                              borderRadius: 999,
-                            },
-                            height: 5,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mb: 1,
                           }}
-                          value={
-                            data
-                              ? (data.filter(
-                                  (a) =>
-                                    a.reason === reason.name && a.mood === emoji
-                                ).length /
-                                  data.filter((a) => a.mood === emoji).length) *
-                                100
-                              : 0
-                          }
-                        />
-                      </Box>
-                    ))}
+                        >
+                          <Tooltip title={reason.name} placement="right">
+                            <Icon className="outlined">{reason.icon}</Icon>
+                          </Tooltip>
+                          <LinearProgress
+                            variant="determinate"
+                            sx={{
+                              width: "100%",
+                              "&, & *": {
+                                borderRadius: 999,
+                              },
+                              height: 5,
+                            }}
+                            value={
+                              data
+                                ? (data.filter(
+                                    (a) =>
+                                      a.reason === reason.name &&
+                                      a.mood === emoji
+                                  ).length /
+                                    data.filter((a) => a.mood === emoji)
+                                      .length) *
+                                  100
+                                : 0
+                            }
+                          />
+                        </Box>
+                      ))}
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
           </div>
           {data && data.length < 4 && (
             <Box
