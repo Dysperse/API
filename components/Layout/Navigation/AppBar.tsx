@@ -48,7 +48,7 @@ export function Navbar(): JSX.Element {
     };
   };
 
-  const [title, setTitle] = useState("Dysperse");
+  const [title, setTitle] = useState("Loading");
 
   useEffect(() => {
     const updateTitle = () => setTitle(document.title);
