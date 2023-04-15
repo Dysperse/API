@@ -51,12 +51,7 @@ export function Navbar(): JSX.Element {
   const [title, setTitle] = useState("Dysperse");
 
   useEffect(() => {
-    const updateTitle = () =>
-      setTitle(
-        document.title.includes(" •")
-          ? document.title.split(" •")[0]
-          : document.title
-      );
+    const updateTitle = () => setTitle(document.title);
 
     updateTitle();
 
@@ -110,6 +105,7 @@ export function Navbar(): JSX.Element {
             mr: "auto",
             display: "flex",
             alignItems: "center",
+            overflow: "hidden",
             gap: 2,
             WebkitAppRegion: "no-drag",
           }}
@@ -129,16 +125,30 @@ export function Navbar(): JSX.Element {
               }),
             }}
           />
-          <Typography
+          <Box
             sx={{
-              fontWeight: 700,
-              fontSize: "18px",
-              userSelect: "none",
+              minWidth: 0,
             }}
-            variant="h6"
           >
-            {title}
-          </Typography>
+            <Typography
+              sx={{
+                fontWeight: 700,
+                fontSize: "18px",
+                mb: title.includes(" •") ? -0.5 : -0,
+                whiteSpace: "nowrap",
+                minWidth: 0,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                userSelect: "none",
+              }}
+              variant="h6"
+            >
+              {title.includes(" •") ? title.split(" •")[0] : title}
+            </Typography>
+            {title.includes(" •") && (
+              <Typography variant="body2">{title.split(" •")[1]}</Typography>
+            )}
+          </Box>
         </Box>
         <Box
           sx={{

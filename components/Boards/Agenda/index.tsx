@@ -7,6 +7,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Head from "next/head";
 import {
   useCallback,
   useDeferredValue,
@@ -15,6 +16,7 @@ import {
   useState,
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { Column } from "./Column";
@@ -138,6 +140,11 @@ export function Agenda({
 
   return (
     <>
+      <Head>
+        <title>
+          {capitalizeFirstLetter(view == "week" ? "day" : view)} &bull; Agenda
+        </title>
+      </Head>
       <IconButton
         size="large"
         onClick={handleOpen}

@@ -196,27 +196,24 @@ export function Column({ board, mutationUrls, column, index }) {
                 height={50}
               />
             </picture>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
               <Typography
                 variant="h4"
                 className="font-heading"
                 sx={{
-                  "& span": {
-                    overflow: "hidden",
-                    maxWidth: { xs: "calc(100vw - 150px)", sm: "140px" },
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                  },
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100%",
+                  minWidth: 0,
                   fontSize: { xs: "25px", sm: "30px" },
                   borderRadius: 1,
                   width: "auto",
                   mb: 0.7,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  display: "block",
                 }}
               >
-                <span>{column.name}</span>
+                {column.name}
               </Typography>
               <Typography
                 sx={{

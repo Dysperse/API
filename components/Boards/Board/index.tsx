@@ -8,7 +8,9 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
+import Head from "next/head";
 import { useCallback, useState } from "react";
+import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { boardSwitcherStyles } from "../Layout";
@@ -205,14 +207,19 @@ export function Board({ mutationUrl, board, setDrawerOpen }) {
   }
 
   return (
-    <RenderBoard
-      data={data}
-      mutationUrls={{
-        boardData: mutationUrl,
-        tasks: url,
-      }}
-      board={board}
-      setDrawerOpen={setDrawerOpen}
-    />
+    <>
+      <Head>
+        <title>{capitalizeFirstLetter(board.name)} &bull; Board</title>
+      </Head>
+      <RenderBoard
+        data={data}
+        mutationUrls={{
+          boardData: mutationUrl,
+          tasks: url,
+        }}
+        board={board}
+        setDrawerOpen={setDrawerOpen}
+      />
+    </>
   );
 }
