@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Head from "next/head";
 import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
@@ -564,6 +565,9 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           position: "relative",
         }}
       >
+        <Head>
+          <title>Explore &bull; {currentOption}s</title>
+        </Head>
         <Box sx={{ zIndex: 9, position: "sticky" }}>
           <Typography
             variant="h5"

@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Head from "next/head";
 import Image from "next/image";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../lib/client/useSession";
@@ -39,6 +40,9 @@ export function Backlog({ setDrawerOpen }) {
 
   return (
     <Box>
+      <Head>
+        <title>Backlog</title>
+      </Head>
       <IconButton
         size="large"
         onContextMenu={() => {
