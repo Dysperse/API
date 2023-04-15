@@ -365,7 +365,7 @@ export function TasksLayout() {
           in={archiveOpen}
           orientation="vertical"
           sx={{
-            mb: {sm:5},
+            mb: { sm: 5 },
             borderRadius: 5,
           }}
         >
