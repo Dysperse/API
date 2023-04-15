@@ -51,7 +51,8 @@ export function Navbar(): JSX.Element {
   const [title, setTitle] = useState("Loading");
 
   useEffect(() => {
-    const updateTitle = () => setTitle(document.title);
+    const updateTitle = () =>
+      setTitle(document.title == "Dysperse" ? "Loading" : document.title);
 
     updateTitle();
 
