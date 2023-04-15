@@ -53,7 +53,7 @@ export default function Render() {
             overflow: "scroll",
             position: "relative",
             borderRadius: { md: 5 },
-            px: 3,
+            px: { xs: 3, sm: 0 },
             userSelect: "none",
             display: "flex",
             flexDirection: "column",
@@ -88,13 +88,13 @@ export default function Render() {
                       xs: orange[400],
                       sm: orange[900],
                     }
-                  : "#aaa",
+                  : "hsl(240,11%,10%,0.7)",
                 background: data
                   ? {
                       xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
                       sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
                     }
-                  : "#eee",
+                  : "hsl(240,11%,90%,0.5)",
                 p: 3,
                 py: 6,
                 pt: 7.5,
@@ -125,6 +125,7 @@ export default function Render() {
             sx={{
               flexGrow: 1,
               pt: 3,
+              px: { sm: 3 },
             }}
           >
             <Box

@@ -5,6 +5,7 @@ import {
   CardContent,
   Icon,
   IconButton,
+  InputAdornment,
   Skeleton,
   SwipeableDrawer,
   TextField,
@@ -70,8 +71,14 @@ export function MyGoals(): JSX.Element {
           variant="standard"
           placeholder="Search..."
           InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Icon sx={{ ml: -1.5 }}>search</Icon>
+              </InputAdornment>
+            ),
             disableUnderline: true,
             sx: {
+              userSelect: "none",
               borderRadius: 2,
               background: {
                 xs: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,

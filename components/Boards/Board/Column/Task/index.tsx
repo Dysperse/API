@@ -152,6 +152,14 @@ export const Task: any = React.memo(function Task({
     );
   }, [taskData.pinned, taskData.id, mutationUrl, setTaskData]);
 
+  const isDisabled = useMemo(
+    () =>
+      (board && board.archived) ||
+      session?.permission === "read-only" ||
+      storage?.isReached === true,
+    [board, session, storage]
+  );
+
   return !taskData ? (
     <div />
   ) : (
@@ -166,8 +174,7 @@ export const Task: any = React.memo(function Task({
               ml: "20px",
               width: "calc(100% - 20px)",
             }),
-            color:
-              colors[taskData.color][session.user.darkMode ? "A100" : "800"],
+            color: colors["grey"][session.user.darkMode ? "A100" : "800"],
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
@@ -187,14 +194,8 @@ export const Task: any = React.memo(function Task({
         >
           <ListItemIcon sx={{ minWidth: "unset", p: 0 }}>
             <Checkbox
-              sx={{
-                p: 0,
-              }}
-              disabled={
-                (board && board.archived) ||
-                session?.permission === "read-only" ||
-                storage?.isReached === true
-              }
+              sx={{ p: 0 }}
+              disabled={isDisabled}
               disableRipple
               checked={taskData.completed}
               onChange={handleCompletion}
@@ -240,11 +241,6 @@ export const Task: any = React.memo(function Task({
                       height: "20px!important",
                       verticalAlign: "top !important",
                     },
-                    color:
-                      colors[taskData.color][
-                        session.user.darkMode ? "A200" : "600"
-                      ],
-
                     ...(taskData.completed && {
                       textDecoration: "line-through",
                       opacity: 0.7,
@@ -256,65 +252,80 @@ export const Task: any = React.memo(function Task({
                 {taskData.image && (
                   <ImageViewer trimHeight url={taskData.image} />
                 )}
-                {taskData.due && !isAgenda && (
-                  <Tooltip
-                    title={dayjs(taskData.due).format("MMMM D, YYYY")}
-                    placement="top"
-                  >
-                    <Chip
-                      size="small"
-                      sx={{ mt: 0.7 }}
-                      label={dayjs(taskData.due).fromNow()}
-                      icon={
-                        <Icon
-                          className="outlined"
-                          sx={{ fontSize: "20px!important", ml: 1 }}
-                        >
-                          schedule
-                        </Icon>
-                      }
-                    />
-                  </Tooltip>
-                )}
+                <Box
+                  sx={{ mt: 0.5, display: "flex", gap: 1, flexWrap: "wrap" }}
+                >
+                  {taskData.pinned && (
+                    <ConfirmationModal
+                      title="Change priority?"
+                      question="You are about to unpin this task. You can always change the priority later"
+                      callback={handlePriorityChange}
+                    >
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <Box>
+                            <Typography variant="body2">
+                              <b>Task marked as important</b>
+                            </Typography>
+                            <Typography variant="body2">
+                              Tap to change
+                            </Typography>
+                          </Box>
+                        }
+                      >
+                        <Chip
+                          size="small"
+                          sx={{
+                            background:
+                              colors.orange[
+                                session.user.darkMode ? "A700" : "100"
+                              ] + "!important",
+                            color:
+                              colors.orange[
+                                session.user.darkMode ? "200" : "900"
+                              ] + "!important",
+                          }}
+                          label="Urgent"
+                          icon={
+                            <Icon
+                              className="outlined"
+                              sx={{
+                                fontSize: "20px!important",
+                                color: "inherit!important",
+                                ml: 1,
+                              }}
+                            >
+                              priority_high
+                            </Icon>
+                          }
+                        />
+                      </Tooltip>
+                    </ConfirmationModal>
+                  )}
+                  {taskData.due && !isAgenda && (
+                    <Tooltip
+                      title={dayjs(taskData.due).format("MMMM D, YYYY")}
+                      placement="top"
+                    >
+                      <Chip
+                        size="small"
+                        label={dayjs(taskData.due).fromNow()}
+                        icon={
+                          <Icon
+                            className="outlined"
+                            sx={{ fontSize: "20px!important", ml: 1 }}
+                          >
+                            schedule
+                          </Icon>
+                        }
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
               </>
             }
           />
-          {taskData.pinned && (
-            <ConfirmationModal
-              title="Change priority?"
-              question="You are about to unpin this task. You can always change the priority later"
-              callback={handlePriorityChange}
-            >
-              <ListItemIcon sx={{ ml: "auto", minWidth: "auto" }}>
-                <Box
-                  sx={{
-                    borderRadius: 2,
-                    width: 20,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: 20,
-                    flexShrink: 0,
-                    background:
-                      colors.orange[session.user.darkMode ? "A700" : "200"],
-                  }}
-                >
-                  <Icon
-                    sx={{
-                      fontSize: "15px!important",
-                      color: session.user.darkMode
-                        ? "hsl(240,11%,10%)"
-                        : colors.orange[900],
-                      fontVariationSettings:
-                        "'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important",
-                    }}
-                  >
-                    priority_high
-                  </Icon>
-                </Box>
-              </ListItemIcon>
-            </ConfirmationModal>
-          )}
         </ListItemButton>
       </TaskDrawer>
       {taskData &&

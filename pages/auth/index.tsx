@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { authStyles, Layout } from "../../components/Auth/Layout";
+import { Layout, authStyles } from "../../components/Auth/Layout";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
@@ -424,7 +424,7 @@ export default function Prompt() {
             <Link href="/signup?close=true" legacyBehavior>
               <Button sx={authStyles.link}>Create an account</Button>
             </Link>
-            <Link href="/auth-reset-id?close=true" legacyBehavior>
+            <Link href="/auth/reset-id?close=true" legacyBehavior>
               <Button sx={authStyles.link}>I forgot my ID</Button>
             </Link>
           </Box>
