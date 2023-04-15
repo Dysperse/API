@@ -28,7 +28,7 @@ export default function Render() {
       }}
     >
       <Head>
-        <title>Coach &bull; Dysperse</title>
+        <title>Coach</title>
       </Head>
       <Box
         sx={{

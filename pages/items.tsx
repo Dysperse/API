@@ -98,7 +98,7 @@ export default function Inventory({ children = null }: any) {
       }}
     >
       <Head>
-        <title>Items &bull; Dysperse</title>
+        <title>Items</title>
       </Head>
       <Box
         sx={{

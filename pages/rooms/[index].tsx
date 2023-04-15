@@ -18,8 +18,7 @@ export default function Room() {
           {(router.query.custom ? decode(index).split(",")[1] : index).replace(
             /./,
             (c) => c.toUpperCase()
-          )}{" "}
-          &bull; Dysperse
+          )}
         </title>
       </Head>
       <Categories>

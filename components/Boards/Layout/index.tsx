@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Chip,
   CircularProgress,
   Collapse,
   Divider,
@@ -289,6 +288,23 @@ export function TasksLayout() {
           </Icon>
           Years
         </Button>
+
+        <Button
+          id="color-coded"
+          size="large"
+          sx={styles(activeTab === "color-coded")}
+          onMouseDown={() => setActiveTab("color-coded")}
+          onClick={() => {
+            window.location.hash = "#/color-coded";
+            setActiveTab("color-coded");
+            setOpen(false);
+          }}
+        >
+          <Icon className={activeTab === "color-coded" ? "" : "outlined"}>
+            palette
+          </Icon>
+          Color coded
+        </Button>
       </Box>
       <Divider
         sx={{
@@ -345,7 +361,14 @@ export function TasksLayout() {
             {archiveOpen ? "expand_less" : "expand_more"}
           </Icon>
         </Button>
-        <Collapse in={archiveOpen} orientation="vertical">
+        <Collapse
+          in={archiveOpen}
+          orientation="vertical"
+          sx={{
+            mb: {sm:5},
+            borderRadius: 5,
+          }}
+        >
           {data &&
             data
               .filter((x) => x.archived)
@@ -360,46 +383,16 @@ export function TasksLayout() {
                 />
               ))}
         </Collapse>
-        <Divider
-          sx={{
-            my: { xs: 2, md: 1 },
-            width: "90%",
-            mx: "auto",
-            opacity: 0.6,
-          }}
-        />
-        <Button
-          id="color-coded"
-          size="large"
-          sx={styles(activeTab === "color-coded")}
-          onMouseDown={() => setActiveTab("color-coded")}
-          onClick={() => {
-            window.location.hash = "#/color-coded";
-            setActiveTab("color-coded");
-            setOpen(false);
-          }}
-        >
-          <Icon className={activeTab === "color-coded" ? "" : "outlined"}>
-            palette
-          </Icon>
-          Color coded
-          <span style={{ marginLeft: "auto" }}>
-            <Chip
-              label="beta"
-              sx={{
-                color: "#000",
-                background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
-              }}
-              size="small"
-            />
-          </span>
-        </Button>
       </Box>
       <Box
         sx={{
           display: "flex",
           mt: "auto",
-          mb: -2,
+          mb: { sm: -2 },
+          position: { sm: "sticky" },
+          bottom: 0,
+          backdropFilter: { sm: "blur(10px)" },
+          zIndex: 999,
         }}
       >
         <Tooltip title="alt • c" placement="right">

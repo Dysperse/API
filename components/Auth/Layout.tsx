@@ -135,7 +135,7 @@ export function Layout({ children }): JSX.Element {
   return (
     <>
       <Head>
-        <title>Login &bull; Dysperse</title>
+        <title>Login</title>
       </Head>
       <ThemeProvider theme={darkTheme}>
         <Box

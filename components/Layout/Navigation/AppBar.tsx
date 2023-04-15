@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
+import { useEffect, useState } from "react";
 import { useSession } from "../../../lib/client/useSession";
 import { openSpotlight } from "./Search";
 import { UpdateButton } from "./UpdateButton";
@@ -47,6 +47,28 @@ export function Navbar(): JSX.Element {
       },
     };
   };
+
+  const [title, setTitle] = useState("Dysperse");
+
+  useEffect(() => {
+    const updateTitle = () =>
+      setTitle(
+        document.title.includes(" •")
+          ? document.title.split(" •")[0]
+          : document.title
+      );
+
+    updateTitle();
+
+    const observer = new MutationObserver(updateTitle);
+    const tag: any = document.querySelector("title");
+
+    observer.observe(tag, { childList: true });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <AppBar
@@ -115,28 +137,7 @@ export function Navbar(): JSX.Element {
             }}
             variant="h6"
           >
-            {router.asPath.includes("backlog")
-              ? "Backlog"
-              : window.location.href.includes("agenda")
-              ? capitalizeFirstLetter(
-                  isMobile &&
-                    window.location.hash.split("agenda/") &&
-                    window.location.hash.split("agenda/")[1].includes("week")
-                    ? "Day"
-                    : window.location.hash.split("agenda/")
-                    ? window.location.hash.split("agenda/")[1]
-                    : ""
-                )
-              : router.asPath.includes("tasks")
-              ? "Tasks"
-              : router.asPath.includes("items") ||
-                router.asPath.includes("trash") ||
-                router.asPath.includes("starred") ||
-                router.asPath.includes("rooms")
-              ? "Items"
-              : router.asPath.includes("coach")
-              ? "Coach"
-              : "Overview"}
+            {title}
           </Typography>
         </Box>
         <Box

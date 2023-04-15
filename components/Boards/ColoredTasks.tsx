@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { useApi } from "../../lib/client/useApi";
@@ -44,6 +45,9 @@ export function ColoredTasks({ setDrawerOpen }) {
 
   return (
     <Box>
+      <Head>
+        <title>Color coded</title>
+      </Head>
       <IconButton
         size="large"
         onContextMenu={() => {

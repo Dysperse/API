@@ -395,8 +395,14 @@ export function ShareGoal({ children, goal }) {
 
         <SwipeableDrawer
           open={exportFooterOpen}
-          onOpen={() => setExportFooterOpen(true)}
-          onClose={() => setExportFooterOpen(false)}
+          onOpen={() => {
+            setExportFooterOpen(true);
+            navigator.vibrate(50);
+          }}
+          onClose={() => {
+            setExportFooterOpen(false);
+            navigator.vibrate(50);
+          }}
           sx={{
             zIndex: 9999999999,
             height: "0px!important",

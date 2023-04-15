@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
@@ -504,6 +504,8 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+
   const checklists = [
     "Shopping list",
     "Simple checklist",
@@ -628,7 +630,9 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
       {currentOption === "Checklist" ? (
         <>
           {checklists.filter((checklist) =>
-            checklist.name.toLowerCase().includes(searchQuery.toLowerCase())
+            checklist.name
+              .toLowerCase()
+              .includes(deferredSearchQuery.toLowerCase())
           ).length === 0 && (
             <Alert sx={{ mt: 2 }} severity="info">
               No checklists found 😭
@@ -637,7 +641,9 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
             {checklists
               .filter((checklist) =>
-                checklist.name.toLowerCase().includes(searchQuery.toLowerCase())
+                checklist.name
+                  .toLowerCase()
+                  .includes(deferredSearchQuery.toLowerCase())
               )
               .map((template) => (
                 <Box
@@ -704,10 +710,12 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
           {templates.filter(
             (template) =>
-              template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              template.name
+                .toLowerCase()
+                .includes(deferredSearchQuery.toLowerCase()) ||
               template.description
                 .toLowerCase()
-                .includes(searchQuery.toLowerCase())
+                .includes(deferredSearchQuery.toLowerCase())
           ).length === 0 && (
             <Alert sx={{ mt: 2 }} severity="info">
               No boards found 😭
@@ -718,10 +726,10 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
               (template) =>
                 template.name
                   .toLowerCase()
-                  .includes(searchQuery.toLowerCase()) ||
+                  .includes(deferredSearchQuery.toLowerCase()) ||
                 template.description
                   .toLowerCase()
-                  .includes(searchQuery.toLowerCase())
+                  .includes(deferredSearchQuery.toLowerCase())
             )
             .map((template) => (
               <Template
