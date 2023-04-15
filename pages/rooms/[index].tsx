@@ -1,5 +1,3 @@
-import { decode } from "js-base64";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { RoomComponent } from "../../components/Rooms/RoomComponent";
 import Categories from "../items";
@@ -12,18 +10,8 @@ export default function Room() {
   const router = useRouter();
 
   return (
-    <>
-      <Head>
-        <title>
-          {(router.query.custom ? decode(index).split(",")[1] : index).replace(
-            /./,
-            (c) => c.toUpperCase()
-          )}
-        </title>
-      </Head>
-      <Categories>
-        <RoomComponent index={index} key={index} />
-      </Categories>
-    </>
+    <Categories>
+      <RoomComponent index={index} key={index} />
+    </Categories>
   );
 }

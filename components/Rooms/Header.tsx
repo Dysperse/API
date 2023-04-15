@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { decode } from "js-base64";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "../../lib/client/useSession";
 import { CreateItemModal } from "./CreateItem/modal";
@@ -28,6 +29,11 @@ export function Header({
 }) {
   const router = useRouter();
   const session = useSession();
+
+  const title = ((room: string) =>
+    room.charAt(0).toUpperCase() + room.slice(1))(
+    useAlias ? decode(room).split(",")[1] : room.replaceAll("-", " ")
+  );
 
   return (
     <ListItem
@@ -51,6 +57,9 @@ export function Header({
         },
       }}
     >
+      <Head>
+        <title>{title} &bull; Room</title>
+      </Head>
       <Box
         sx={{
           zIndex: 9,
@@ -87,11 +96,7 @@ export function Header({
               gutterBottom
               variant="h4"
             >
-              {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
-                useAlias
-                  ? decode(room).split(",")[1]
-                  : room.replaceAll("-", " ")
-              )}
+              {title}
             </Typography>
           }
           secondary={
