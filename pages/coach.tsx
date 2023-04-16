@@ -155,6 +155,21 @@ export default function Render() {
               px: { sm: 3 },
             }}
           >
+            <Typography
+              sx={{
+                textAlign: "center",
+                p: 3,
+                background: "rgba(200,200,200,.3)",
+                mb: 2,
+                borderRadius: 5,
+              }}
+            >
+              <b>Leagues coming soon</b>
+              <Typography>
+                Leagues let you compete with friends and family to work on your
+                goals
+              </Typography>
+            </Typography>
             <Box
               sx={{
                 width: "100%",
@@ -163,6 +178,8 @@ export default function Render() {
                 border: "2px solid #CD7F32",
                 color: "#CD7F32",
                 p: 3,
+                filter: "blur(10px)",
+                opacity: 0.6,
                 borderRadius: 5,
               }}
             >
