@@ -3,19 +3,20 @@ import {
   Icon,
   IconButton,
   LinearProgress,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { orange } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Head from "next/head";
+import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { MyGoals } from "../components/Coach/MyGoals";
 import { Routines } from "../components/Coach/Routines";
 import { ErrorHandler } from "../components/Error";
 import { useApi } from "../lib/client/useApi";
 import { useSession } from "../lib/client/useSession";
+import { toastStyles } from "../lib/client/useTheme";
 
 export default function Render() {
   const session = useSession();
@@ -76,28 +77,27 @@ export default function Render() {
         >
           <Box sx={{ position: "relative" }}>
             {data && (
-              <Tooltip
-                placement="top"
-                title={
-                  hasCompletedForToday
-                    ? "You completed at least one task today to maintain your streak!"
-                    : isTimeRunningOut
-                    ? "Time's running out! Make sure to complete at least one task to keep your streak alive!"
-                    : "Complete at least one task to keep your streak alive"
-                }
-              >
-                <IconButton
-                  sx={{ position: "absolute", bottom: 0, right: 0, m: 2 }}
-                >
-                  <Icon>
-                    {hasCompletedForToday
-                      ? "check"
+              <IconButton
+                onClick={() =>
+                  toast(
+                    hasCompletedForToday
+                      ? "You completed at least one task today to maintain your streak!"
                       : isTimeRunningOut
-                      ? "hourglass_empty"
-                      : ""}
-                  </Icon>
-                </IconButton>
-              </Tooltip>
+                      ? "Time's running out! Make sure to complete at least one task to keep your streak alive!"
+                      : "Complete at least one task to keep your streak alive",
+                    toastStyles
+                  )
+                }
+                sx={{ position: "absolute", bottom: 0, right: 0, m: 2 }}
+              >
+                <Icon>
+                  {hasCompletedForToday
+                    ? "check"
+                    : isTimeRunningOut
+                    ? "hourglass_empty"
+                    : ""}
+                </Icon>
+              </IconButton>
             )}
             {error && (
               <ErrorHandler
@@ -157,7 +157,6 @@ export default function Render() {
           >
             <Typography
               sx={{
-                textAlign: "center",
                 p: 3,
                 background: "rgba(200,200,200,.3)",
                 mb: 2,
@@ -165,9 +164,9 @@ export default function Render() {
               }}
             >
               <b>Leagues coming soon</b>
-              <Typography>
-                Leagues let you compete with friends and family to work on your
-                goals
+              <Typography variant="body2">
+                Leagues allow you to track progress and compete with friends and
+                family to achieve your goals.
               </Typography>
             </Typography>
             <Box

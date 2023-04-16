@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAccountStorage } from "../../lib/client/useAccountStorage";
 import { useApi } from "../../lib/client/useApi";
+import { useOnlineStatus } from "../../lib/client/useOnlineStatus";
 import { useSession } from "../../lib/client/useSession";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
@@ -28,6 +29,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
 
   const storage = useAccountStorage();
+  const isOnline = useOnlineStatus();
 
   useEffect(() => {
     if (error) {
@@ -86,7 +88,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
         message="You've reached the storage limits for this group."
       />
       <Snackbar
-        open={!navigator.onLine}
+        open={!isOnline}
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
