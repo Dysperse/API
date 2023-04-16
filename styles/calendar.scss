@@ -16,7 +16,6 @@
     color: #fff !important;
     &.react-calendar__tile--now {
       background-color: #200923 !important;
-      color: #fff !important;
     }
   }
 
@@ -24,7 +23,8 @@
     border-color: #200923;
   }
 
-  &__navigation button {
+  &__navigation button,
+  &calendar__tile {
     background-color: transparent;
     border: none;
     color: #200923;
