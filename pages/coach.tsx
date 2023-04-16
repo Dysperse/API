@@ -1,11 +1,14 @@
 import {
   Box,
-  Chip,
+  Icon,
+  IconButton,
   LinearProgress,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { orange } from "@mui/material/colors";
+import dayjs from "dayjs";
 import Head from "next/head";
 import { mutate } from "swr";
 import { MyGoals } from "../components/Coach/MyGoals";
@@ -19,6 +22,17 @@ export default function Render() {
   const trigger = useMediaQuery("(min-width: 600px)");
 
   const { data, url, error } = useApi("user/routines/streaks");
+
+  const isTimeRunningOut = dayjs().hour() > 18;
+  const hasCompletedForToday =
+    dayjs().startOf("day").day ===
+    dayjs(data ? data.lastStreakUpdated : new Date()).startOf("day").day;
+
+  const isStreakBroken =
+    dayjs().diff(dayjs(data ? data.lastStreakUpdated : new Date()), "day") >= 2;
+
+  const useStreakStyles =
+    data && data.streakCount && data.streakCount > 1 && !isStreakBroken;
 
   return (
     <Box
@@ -61,18 +75,30 @@ export default function Render() {
           }}
         >
           <Box sx={{ position: "relative" }}>
-            <Chip
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                m: 3,
-                background: orange["300"],
-                color: "#000",
-              }}
-              size="small"
-              label="Preview"
-            />
+            {data && (
+              <Tooltip
+                placement="top"
+                title={
+                  hasCompletedForToday
+                    ? "You completed at least one task today to maintain your streak!"
+                    : isTimeRunningOut
+                    ? "Time's running out! Make sure to complete at least one task to keep your streak alive!"
+                    : "Complete at least one task to keep your streak alive"
+                }
+              >
+                <IconButton
+                  sx={{ position: "absolute", bottom: 0, right: 0, m: 2 }}
+                >
+                  <Icon>
+                    {hasCompletedForToday
+                      ? "check"
+                      : isTimeRunningOut
+                      ? "hourglass_empty"
+                      : ""}
+                  </Icon>
+                </IconButton>
+              </Tooltip>
+            )}
             {error && (
               <ErrorHandler
                 error="Yikes! We couldn't load your streak. Please try again later"
@@ -83,13 +109,13 @@ export default function Render() {
               sx={{
                 width: "100%",
                 px: 2,
-                color: data
+                color: useStreakStyles
                   ? {
                       xs: orange[400],
                       sm: orange[900],
                     }
                   : "hsl(240,11%,10%,0.7)",
-                background: data
+                background: useStreakStyles
                   ? {
                       xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
                       sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
@@ -97,7 +123,6 @@ export default function Render() {
                   : "hsl(240,11%,90%,0.5)",
                 p: 3,
                 py: 6,
-                pt: 7.5,
                 borderRadius: { xs: 5, sm: 0 },
                 textAlign: "center",
               }}
@@ -105,7 +130,7 @@ export default function Render() {
               <Typography
                 variant="h1"
                 sx={{
-                  background: data
+                  background: useStreakStyles
                     ? {
                         xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
                         sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
@@ -116,7 +141,9 @@ export default function Render() {
                   WebkitTextFillColor: "transparent!important",
                 }}
               >
-                {data ? JSON.stringify(data) : 0}
+                {data && !isStreakBroken && data.streakCount
+                  ? data.streakCount
+                  : 0}
               </Typography>
               coach streak
             </Box>

@@ -14,7 +14,11 @@ export default async function handler(req, res) {
     },
     take: 1,
     include: {
-      items: true,
+      items: {
+        orderBy: {
+          id: "asc",
+        },
+      },
     },
   });
   res.json(data);
