@@ -4,9 +4,9 @@ import {
   AppBar,
   Box,
   CircularProgress,
-  Drawer,
   Icon,
   IconButton,
+  SwipeableDrawer,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -232,7 +232,9 @@ export default function Group({
 
   return (
     <>
-      <Drawer
+      <SwipeableDrawer
+        disableSwipeToOpen
+        onOpen={() => {}}
         onClose={handleDrawerClose}
         open={open}
         anchor={isDesktop ? "right" : "bottom"}
@@ -271,7 +273,7 @@ export default function Group({
             )
           )}
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
       {trigger}
     </>
   );

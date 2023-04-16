@@ -1,10 +1,10 @@
 import {
   Box,
   CircularProgress,
-  Drawer,
   Icon,
   IconButton,
   ListItemButton,
+  SwipeableDrawer,
   Typography,
 } from "@mui/material";
 import { Item } from "@prisma/client";
@@ -38,13 +38,13 @@ const CategoryModal = memo(function CategoryModal({
 
   return (
     <>
-      <Drawer
+      <SwipeableDrawer
         onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
         open={open}
         anchor="right"
-        ModalProps={{
-          keepMounted: false,
-        }}
+        ModalProps={{ keepMounted: false }}
         PaperProps={{
           sx: {
             width: "100%",
@@ -88,7 +88,7 @@ const CategoryModal = memo(function CategoryModal({
             ))}
           {data.length === 0 && <>No items</>}
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
       <ListItemButton
         onClick={() => {
           setLoading(true);

@@ -1,9 +1,9 @@
 import {
   AppBar,
   CircularProgress,
-  Drawer,
   Icon,
   IconButton,
+  SwipeableDrawer,
   TextField,
   Toolbar,
   Typography,
@@ -110,9 +110,11 @@ export function CreateItemModal({
   return (
     <>
       {trigger}
-      <Drawer
+      <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        disableSwipeToOpen
         PaperProps={{
           sx: {
             width: "100vw",
@@ -282,7 +284,7 @@ export function CreateItemModal({
           setTitle={setTitle}
           setQuantity={setQuantity}
         />
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 }
