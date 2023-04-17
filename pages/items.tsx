@@ -2,15 +2,13 @@ import {
   Alert,
   Box,
   Divider,
-  Menu,
-  MenuItem,
   Skeleton,
   Toolbar,
   Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import React, { useCallback } from "react";
+import React, { useState } from "react";
 import { ErrorHandler } from "../components/Error";
 import { OptionsGroup } from "../components/OptionsGroup";
 import { CreateRoom } from "../components/Rooms/items/CreateRoom";
@@ -75,11 +73,7 @@ const CategoryList = React.memo(function CategoryList() {
  */
 export default function Inventory({ children = null }: any) {
   const session = useSession();
-  const [viewBy, setViewBy] = React.useState("Room");
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const open = Boolean(anchorEl);
-  const handleClose = useCallback(() => setAnchorEl(null), []);
+  const [viewBy, setViewBy] = useState("Room");
 
   const { data } = useApi("property/inventory/room/itemCount");
   const { data: dataRooms, url, error } = useApi("property/rooms");
@@ -162,49 +156,6 @@ export default function Inventory({ children = null }: any) {
           ml: { sm: -1 },
         }}
       >
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-        >
-          <MenuItem
-            onClick={() => {
-              setViewBy("room");
-              handleClose();
-            }}
-            sx={{
-              ...(viewBy === "room" && {
-                background:
-                  colors[session.themeColor][session.user.darkMode ? 700 : 300],
-              }),
-            }}
-          >
-            Room
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setViewBy("Category");
-              handleClose();
-            }}
-            sx={{
-              ...(viewBy === "Category" && {
-                background:
-                  colors[session.themeColor][session.user.darkMode ? 700 : 300],
-              }),
-            }}
-          >
-            Category
-          </MenuItem>
-        </Menu>
         <Box
           sx={{
             my: 4,
