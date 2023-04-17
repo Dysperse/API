@@ -271,7 +271,7 @@ export const Task: any = React.memo(function Task({
                             background:
                               (session.user.darkMode
                                 ? "#642302"
-                                : colors.orange[50]) + "!important",
+                                : colors.orange[100]) + "!important",
                             color:
                               colors.orange[
                                 session.user.darkMode ? "50" : "900"
