@@ -2,7 +2,6 @@ import { Box, Skeleton } from "@mui/material";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { useRouter } from "next/router";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { ErrorHandler } from "../../Error";
@@ -18,24 +17,34 @@ export function Routines({ isCoach = false }: any) {
         display: "flex",
         alignItems: { xs: "center", sm: "" },
         overflowX: "hidden",
-        flexDirection: { sm: "column" },
+        ...(isCoach && { flexDirection: { sm: "column" }, mt: { sm: -4 } }),
         gap: 2,
-        px: { xs: 2, sm: 1 },
-        mt: { sm: -4 },
+        px: { xs: 2, sm: isCoach ? 1 : 4 },
         mb: 2,
       }}
     >
-      {[...new Array(7)].map((_, index) => (
-        <Box
-          key={index}
-          sx={{
-            display: "flex",
-            gap: 2,
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
+      {[...new Array(7)].map((_, index) =>
+        isCoach ? (
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              gap: 2,
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            <Skeleton
+              variant="circular"
+              animation="wave"
+              height={65}
+              width={65}
+              sx={{ flexShrink: 0 }}
+            />
+            <Skeleton sx={{ width: "100%" }} animation="wave" />
+          </Box>
+        ) : (
           <Skeleton
             variant="circular"
             animation="wave"
@@ -43,9 +52,8 @@ export function Routines({ isCoach = false }: any) {
             width={65}
             sx={{ flexShrink: 0 }}
           />
-          <Skeleton sx={{ width: "100%" }} animation="wave" />
-        </Box>
-      ))}
+        )
+      )}
     </Box>
   );
 
@@ -58,13 +66,11 @@ export function Routines({ isCoach = false }: any) {
     },
     [WheelGesturesPlugin()]
   );
-  const router = useRouter();
 
   const sorted =
     data &&
     data.sort((a, b) => {
       const currentHour = new Date().getHours();
-
       const diffA = Math.abs(a.timeOfDay - currentHour);
       const diffB = Math.abs(b.timeOfDay - currentHour);
       return diffA - diffB;

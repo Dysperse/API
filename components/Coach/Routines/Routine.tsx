@@ -276,7 +276,7 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
             transition: "transform .2s",
             "&:hover": {
               background: `hsl(240, 11%, ${
-                session.user.darkMode ? 10 : isCoach ? 90 : 95
+                session.user.darkMode ? 15 : isCoach ? 90 : 95
               }%)`,
             },
             "&:active": {
