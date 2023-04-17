@@ -147,15 +147,13 @@ export default function Home() {
                 sm: "50px",
               },
               userSelect: "none",
-              textAlign: { md: "center" },
               overflow: "hidden",
               textOverflow: "ellipsis",
               maxWidth: "100%",
             }}
             variant="h5"
           >
-            {greeting}
-            <br />
+            {greeting}{" "}
             {session.user.name.includes(" ")
               ? session.user.name.split(" ")[0]
               : session.user.name}

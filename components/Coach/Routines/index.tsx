@@ -16,23 +16,35 @@ export function Routines({ isCoach = false }: any) {
     <Box
       sx={{
         display: "flex",
-        alignItems: "center",
-        justifyContent: { sm: "center" },
+        alignItems: { xs: "center", sm: "" },
         overflowX: "hidden",
+        flexDirection: { sm: "column" },
         gap: 2,
-        px: 2,
+        px: { xs: 2, sm: 1 },
+        mt: { sm: -4 },
         mb: 2,
       }}
     >
       {[...new Array(7)].map((_, index) => (
-        <Skeleton
+        <Box
           key={index}
-          variant="circular"
-          animation="wave"
-          height={65}
-          width={65}
-          sx={{ flexShrink: 0 }}
-        />
+          sx={{
+            display: "flex",
+            gap: 2,
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <Skeleton
+            variant="circular"
+            animation="wave"
+            height={65}
+            width={65}
+            sx={{ flexShrink: 0 }}
+          />
+          <Skeleton sx={{ width: "100%" }} animation="wave" />
+        </Box>
       ))}
     </Box>
   );
@@ -108,9 +120,6 @@ export function Routines({ isCoach = false }: any) {
             display: "flex",
             ...(isCoach && { mt: { xs: 2, md: -5 } }),
             alignItems: "center",
-            ...(router.asPath === "/zen" && {
-              justifyContent: { md: "center" },
-            }),
             ...(isCoach && {
               flexDirection: "column",
             }),

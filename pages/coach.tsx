@@ -3,6 +3,7 @@ import {
   Icon,
   IconButton,
   LinearProgress,
+  Skeleton,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -22,7 +23,7 @@ export default function Render() {
   const session = useSession();
   const trigger = useMediaQuery("(min-width: 600px)");
 
-  const { data, url, error } = useApi("user/routines/streaks");
+  const { data, loading, url, error } = useApi("user/routines/streaks");
 
   const isTimeRunningOut = dayjs().hour() > 18;
   const hasCompletedForToday =
@@ -76,7 +77,7 @@ export default function Render() {
           }}
         >
           <Box sx={{ position: "relative" }}>
-            {data && (
+            {data && !loading && (
               <IconButton
                 onClick={() =>
                   toast(
@@ -127,25 +128,43 @@ export default function Render() {
                 textAlign: "center",
               }}
             >
-              <Typography
-                variant="h1"
-                sx={{
-                  background: useStreakStyles
-                    ? {
-                        xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
-                        sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
-                      }
-                    : "#303030",
-                  backgroundClip: "text!important",
-                  fontWeight: 700,
-                  WebkitTextFillColor: "transparent!important",
-                }}
-              >
-                {data && !isStreakBroken && data.streakCount
-                  ? data.streakCount
-                  : 0}
-              </Typography>
-              coach streak
+              {loading ? (
+                <Skeleton
+                  variant="rectangular"
+                  animation="wave"
+                  height={80}
+                  width={80}
+                  sx={{
+                    borderRadius: 5,
+                    mx: "auto",
+                    my: 2,
+                  }}
+                />
+              ) : (
+                <Typography
+                  variant="h1"
+                  sx={{
+                    background: useStreakStyles
+                      ? {
+                          xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
+                          sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
+                        }
+                      : "#303030",
+                    backgroundClip: "text!important",
+                    fontWeight: 700,
+                    WebkitTextFillColor: "transparent!important",
+                  }}
+                >
+                  {data && !isStreakBroken && data.streakCount
+                    ? data.streakCount
+                    : 0}
+                </Typography>
+              )}
+              {loading ? (
+                <Skeleton sx={{ mx: "auto" }} width={100} animation="wave" />
+              ) : (
+                "coach streak"
+              )}
             </Box>
           </Box>
           <Box
@@ -238,6 +257,7 @@ export default function Render() {
               md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
             },
             overflow: "scroll",
+            width: "100%",
             position: "relative",
             borderRadius: 5,
             display: "flex",
@@ -266,6 +286,7 @@ export default function Render() {
               py: { md: 1 },
               position: "relative",
               borderRadius: 5,
+              width: "100%",
               display: "flex",
               flexDirection: "column",
               flexGrow: 1,

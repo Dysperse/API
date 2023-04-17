@@ -252,7 +252,10 @@ export function MyGoals(): JSX.Element {
   ) : error ? (
     <ErrorHandler error="An error occured while trying to fetch your routines" />
   ) : (
-    <Box sx={{ mt: 4 }}>
+    <Box sx={{ mt: 3, px: 3 }}>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        My progress
+      </Typography>
       {[...new Array(10)].map((_, i) => (
         <Skeleton
           variant="rectangular"
