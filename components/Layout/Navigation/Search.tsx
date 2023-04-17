@@ -288,7 +288,7 @@ export default function Spotlight() {
               py: 1,
               borderRadius: 3,
               background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
-              "&:focus": {
+              "&:focus-within": {
                 background: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
               },
             },
