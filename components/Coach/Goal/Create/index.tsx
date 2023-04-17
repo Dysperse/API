@@ -131,7 +131,7 @@ export function CreateGoal({ mutationUrl, isCoach }) {
           transition: "transform .2s",
           "&:hover": {
             background: `hsl(240, 11%, ${
-              session.user.darkMode ? 10 : isCoach ? 90 : 95
+              session.user.darkMode ? 15 : isCoach ? 90 : 95
             }%)`,
           },
           "&:active": {
@@ -149,7 +149,9 @@ export function CreateGoal({ mutationUrl, isCoach }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(200,200,200,.2)",
+            background: session.user.darkMode
+              ? "hsla(240,11%,50%,0.2)"
+              : "rgba(200,200,200,.2)",
             position: "relative",
           }}
         >

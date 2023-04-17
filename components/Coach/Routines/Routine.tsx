@@ -294,7 +294,9 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
               flexShrink: 0,
               alignItems: "center",
               justifyContent: "center",
-              background: "rgba(200,200,200,.2)",
+              background: session.user.darkMode
+                ? "hsla(240,11%,50%,0.2)"
+                : "rgba(200,200,200,.2)",
               border: "2px solid transparent",
               ...(tasksRemaining.length === 0 && {
                 borderColor: lime[session.user.darkMode ? "A400" : 800],
