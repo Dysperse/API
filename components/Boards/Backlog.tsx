@@ -3,7 +3,7 @@ import {
   CircularProgress,
   Icon,
   IconButton,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Head from "next/head";
