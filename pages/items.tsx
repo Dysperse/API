@@ -1,10 +1,3 @@
-import Head from "next/head";
-import React from "react";
-import { ErrorHandler } from "../components/Error";
-import { OptionsGroup } from "../components/OptionsGroup";
-import { useApi } from "../lib/client/useApi";
-import { colors } from "../lib/colors";
-
 import {
   Alert,
   Box,
@@ -16,9 +9,15 @@ import {
   Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
+import Head from "next/head";
+import React, { useCallback } from "react";
+import { ErrorHandler } from "../components/Error";
+import { OptionsGroup } from "../components/OptionsGroup";
 import { CreateRoom } from "../components/Rooms/items/CreateRoom";
 import { Rooms } from "../components/Rooms/items/Rooms";
+import { useApi } from "../lib/client/useApi";
 import { useSession } from "../lib/client/useSession";
+import { colors } from "../lib/colors";
 
 const Action = dynamic(() => import("../components/Rooms/Action"));
 
@@ -75,27 +74,71 @@ const CategoryList = React.memo(function CategoryList() {
  * Top-level component for the items page
  */
 export default function Inventory({ children = null }: any) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  /**
-   * Closes the popup
-   * @returns void
-   */
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const [viewBy, setViewBy] = React.useState("Room");
-  const { data } = useApi("property/inventory/room/itemCount");
   const session = useSession();
+  const [viewBy, setViewBy] = React.useState("Room");
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+  const open = Boolean(anchorEl);
+  const handleClose = useCallback(() => setAnchorEl(null), []);
+
+  const { data } = useApi("property/inventory/room/itemCount");
   const { data: dataRooms, url, error } = useApi("property/rooms");
 
+  const actions = [
+    {
+      href: "/rooms/kitchen",
+      icon: "blender",
+      primary: "Kitchen",
+    },
+    {
+      href: "/rooms/bedroom",
+      icon: "bedroom_parent",
+      primary: "Bedroom",
+    },
+    {
+      href: "/rooms/bathroom",
+      icon: "bathroom",
+      primary: "Bathroom",
+    },
+    {
+      href: "/rooms/garage",
+      icon: "garage",
+      primary: "Garage",
+    },
+    {
+      href: "/rooms/dining",
+      icon: "dining",
+      primary: "Dining room",
+    },
+    {
+      href: "/rooms/living",
+      icon: "living",
+      primary: "Living room",
+    },
+    {
+      href: "/rooms/laundry",
+      icon: "local_laundry_service",
+      primary: "Laundry room",
+    },
+    {
+      href: "/rooms/storage",
+      icon: "inventory_2",
+      primary: "Storage room",
+    },
+    {
+      href: "/rooms/garden",
+      icon: "yard",
+      primary: "Garden",
+    },
+    {
+      href: "/rooms/camping",
+      icon: "camping",
+      primary: "Camping",
+    },
+  ];
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       <Head>
         <title>Items</title>
       </Head>
@@ -192,76 +235,14 @@ export default function Inventory({ children = null }: any) {
               />
             ) : (
               <>
-                <Action
-                  href="/rooms/kitchen"
-                  mutationUrl={url}
-                  icon="blender"
-                  primary="Kitchen"
-                  count={data}
-                />
-                <Action
-                  href="/rooms/bedroom"
-                  icon="bedroom_parent"
-                  mutationUrl={url}
-                  primary="Bedroom"
-                  count={data}
-                />
-                <Action
-                  count={data}
-                  href="/rooms/bathroom"
-                  icon="bathroom"
-                  mutationUrl={url}
-                  primary="Bathroom"
-                />
-                <Action
-                  count={data}
-                  href="/rooms/garage"
-                  mutationUrl={url}
-                  icon="garage"
-                  primary="Garage"
-                />
-                <Action
-                  count={data}
-                  href="/rooms/dining"
-                  icon="dining"
-                  mutationUrl={url}
-                  primary="Dining room"
-                />
-                <Action
-                  count={data}
-                  href="/rooms/living"
-                  icon="living"
-                  mutationUrl={url}
-                  primary="Living room"
-                />
-                <Action
-                  href="/rooms/laundry"
-                  mutationUrl={url}
-                  count={data}
-                  icon="local_laundry_service"
-                  primary="Laundry room"
-                />
-                <Action
-                  mutationUrl={url}
-                  href="/rooms/storage"
-                  count={data}
-                  icon="inventory_2"
-                  primary="Storage room"
-                />
-                <Action
-                  href="/rooms/garden"
-                  count={data}
-                  icon="yard"
-                  mutationUrl={url}
-                  primary="Garden"
-                />
-                <Action
-                  href="/rooms/camping"
-                  count={data}
-                  mutationUrl={url}
-                  icon="camping"
-                  primary="Camping"
-                />
+                {actions.map((action: any) => (
+                  <Action
+                    key={action.primary}
+                    {...action}
+                    mutationUrl={url}
+                    count={data}
+                  />
+                ))}
               </>
             )}
             <Divider sx={{ my: 1.5, opacity: 0.7 }} />
@@ -274,9 +255,7 @@ export default function Inventory({ children = null }: any) {
               icon="star"
               primary="Starred"
               count={{
-                byRoom: {
-                  starred: -3,
-                },
+                byRoom: { starred: -3 },
               }}
             />
             <Action
@@ -285,9 +264,7 @@ export default function Inventory({ children = null }: any) {
               mutationUrl={url}
               primary="Trash"
               count={{
-                byRoom: {
-                  trash: -3,
-                },
+                byRoom: { trash: -3 },
               }}
             />
             <Toolbar />
@@ -316,31 +293,15 @@ export default function Inventory({ children = null }: any) {
             flexDirection: "column",
             gap: 2,
             alignItems: "center",
-            height: "calc(100vh - 70px)",
+            height: "100vh",
             width: "100%",
-            fontWeight: "500",
             color:
               colors[session?.themeColor || "grey"][
                 session.user.darkMode ? 50 : 800
               ],
           }}
         >
-          <Box
-            sx={{
-              gap: 2,
-              borderRadius: 5,
-              p: 3,
-              py: 2,
-              textAlign: "center",
-            }}
-          >
-            <Typography
-              variant="h6"
-              sx={{ ...(session?.permission !== "read-only" && { mb: 2 }) }}
-            >
-              <u>No room selected</u>
-            </Typography>
-          </Box>
+          <Typography variant="h6">No room selected</Typography>
         </Box>
       )}
     </Box>
