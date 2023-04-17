@@ -196,8 +196,8 @@ export default function Render() {
                 border: "2px solid #CD7F32",
                 color: "#CD7F32",
                 p: 3,
-                filter: "blur(10px)",
                 opacity: 0.6,
+                display: "none",
                 borderRadius: 5,
               }}
             >
