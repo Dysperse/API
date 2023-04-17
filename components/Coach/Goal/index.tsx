@@ -43,11 +43,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
       <Box
         onClick={() => setOpen(true)}
         sx={{
-          border: "1px solid",
           height: 120,
-          ...(session.user.darkMode && {
-            border: "1px solid hsl(240,11%,20%)",
-          }),
           borderRadius: 5,
           "&:hover": {
             background: session.user.darkMode
