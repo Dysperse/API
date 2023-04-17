@@ -9,6 +9,7 @@ import { Loading } from "../components/Layout/Loading";
 // CSS files
 import "../styles/calendar.scss";
 import "../styles/coach.scss";
+import "../styles/normalize.scss";
 import "../styles/globals.scss";
 // Day.JS
 import dayjs from "dayjs";

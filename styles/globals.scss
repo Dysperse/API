@@ -1,16 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// @tailwind base;
+
 
 :root {
   --navbar-height: calc(70px + env(titlebar-area-height, 0px));
 }
 
-@layer components {
+.kbd {
+  margin-right: 0.375rem;
+  -webkit-user-select: none;
+  user-select: none;
+  border-radius: 0.75rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+/* __play_start_utilities__ */
+
+@media (prefers-color-scheme: dark) {
   .kbd {
-    @apply mr-1.5 select-none rounded-xl bg-gray-200 px-2 py-1 text-sm font-semibold dark:bg-gray-800;
+    --tw-bg-opacity: 1;
+    background-color: rgb(31 41 55 / var(--tw-bg-opacity));
   }
 }
+
+/* __play_end_utilities__ */
 
 a,
 img {

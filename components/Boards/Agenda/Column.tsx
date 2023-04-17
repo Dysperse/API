@@ -92,9 +92,9 @@ export const Column: any = memo(function Column({
 
   return (
     <Box
-      className="snap-center"
       {...(isToday && { id: "activeHighlight" })}
       sx={{
+        scrollSnapAlign: "center",
         borderRight: "1px solid",
         borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
         zIndex: 1,

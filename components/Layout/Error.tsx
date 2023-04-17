@@ -148,7 +148,7 @@ export function Error({ message }) {
             >
               Failed to fetch session data
             </u>
-            <span className="font-secondary">{message.message}</span>
+            <span>{message.message}</span>
           </Box>
         </Collapse>
       </Box>

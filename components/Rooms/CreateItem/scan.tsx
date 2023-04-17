@@ -227,7 +227,6 @@ export default function ImageRecognition({
             textTransform: "none",
             m: 3,
           }}
-          className="shadow-lg hover:shadow-xl"
           variant="extended"
         >
           <Icon className="outlined">photo_camera</Icon>
@@ -257,8 +256,8 @@ export default function ImageRecognition({
           }}
         >
           <Toolbar
-            className="flex"
             sx={{
+              display: "flex",
               height: "var(--navbar-height)",
             }}
           >

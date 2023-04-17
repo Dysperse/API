@@ -65,8 +65,8 @@ export function BoardInfo({
 
   return (
     <Box
-      className="snap-center"
       sx={{
+        scrollSnapType: { xs: "x mandatory", sm: "unset" },
         borderRadius: 5,
         mt: { xs: 0, md: "10px" },
         ml: { xs: 0, md: "10px" },
@@ -215,7 +215,13 @@ export function BoardInfo({
                       }),
                       {
                         loading: (
-                          <div className="flex items-center gap-5">
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "15px",
+                              alignItems: "center",
+                            }}
+                          >
                             <div>
                               <Typography>
                                 Importing your assignments...
@@ -228,7 +234,9 @@ export function BoardInfo({
                               <img
                                 src="https://i.ibb.co/4sNZm4T/image.png"
                                 alt="Canvas logo"
-                                className="h-7 w-7 rounded-full"
+                                height={25}
+                                style={{ borderRadius: "100%" }}
+                                width={25}
                               />
                             </picture>
                           </div>

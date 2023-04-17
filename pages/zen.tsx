@@ -169,7 +169,7 @@ export default function Home() {
       </Box>
       <Routines />
       <RecentItems />
-      <Box className="px-4 sm:px-7">
+      <Box sx={{ px: { xs: 2, sm: 3.5 } }}>
         <Box
           sx={{
             mr: -2,
@@ -182,7 +182,6 @@ export default function Home() {
             <Box>
               <ListItemButton
                 sx={listItemStyles}
-                className="shadow-sm"
                 onClick={() => router.push("/tasks/#/agenda/week")}
               >
                 <ListItemText
@@ -229,7 +228,6 @@ export default function Home() {
             <Box>
               <ListItemButton
                 sx={listItemStyles}
-                className="shadow-sm"
                 onClick={() => router.push("/tasks/#/agenda/backlog")}
               >
                 <ListItemText

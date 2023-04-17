@@ -50,15 +50,17 @@ export function RecentItems() {
           ml: 0,
           mb: 1.5,
           ...(data && data.length === 0 && { display: "none" }),
+          userSelect: "none",
+          px: { xs: 3, sm: 4 },
         }}
-        className="select-none px-4 sm:px-7"
       >
         Recently edited
       </Typography>
       <Box
-        className="embla px-4 sm:px-7"
+        className="embla"
         ref={emblaRef}
         sx={{
+          px: { xs: 2, sm: 3.5 },
           width: "100%",
           whiteSpace: "nowrap",
           overflowX: "scroll",
@@ -90,7 +92,6 @@ export function RecentItems() {
             data.map((item) => (
               <TaskDrawer id={item.id} mutationUrl={url} key={item.id}>
                 <Card
-                  className="shadow-sm"
                   sx={{
                     border: "1px solid",
                     borderColor: session.user.darkMode

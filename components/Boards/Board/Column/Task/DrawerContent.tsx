@@ -363,7 +363,6 @@ export default function DrawerContent({
             disabled={storage?.isReached === true}
           >
             <Icon
-              className="shadow-md dark:shadow-xl"
               sx={{
                 ...(data.completed && {
                   background: green[900],

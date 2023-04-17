@@ -64,7 +64,7 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
             pb: 3,
           }}
         >
-          <Typography variant="h6" className="font-bold">
+          <Typography variant="h6">
             Create{" "}
             {session.property.profile.type === "study group"
               ? "container"

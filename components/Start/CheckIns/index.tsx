@@ -416,6 +416,8 @@ export function DailyCheckInDrawer({ mood }) {
                     <picture>
                       <img
                         alt="emoji"
+                        width="100%"
+                        height="100%"
                         src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
                       />
                     </picture>
@@ -582,7 +584,6 @@ export function DailyCheckIn() {
           : "rgba(200, 200, 200, 0.3)",
         borderRadius: 5,
       }}
-      className="shadow-sm"
     >
       <DailyCheckInDrawer mood={mood} />
       <Box

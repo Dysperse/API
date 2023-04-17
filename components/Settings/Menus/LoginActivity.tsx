@@ -46,7 +46,12 @@ const Session: any = React.memo(function Session({
           "dddd, MMMM D, YYYY h:mm A"
         )}
         secondary={
-          <span className="flex items-center">
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             IP address: {data[index].ip}
             {data[index].id === session.user.token && (
               <Chip

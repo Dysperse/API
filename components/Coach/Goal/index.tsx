@@ -41,9 +41,9 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
   ) : (
     <Box sx={{ mb: 2, height: 122, overflow: "hidden" }}>
       <Box
-        className="border active:scale-[.98]"
         onClick={() => setOpen(true)}
         sx={{
+          border: "1px solid",
           height: 120,
           ...(session.user.darkMode && {
             border: "1px solid hsl(240,11%,20%)",
@@ -55,6 +55,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
               : "hsl(240,11%,85%)",
           },
           "&:active": {
+            transform: "scale(.98)",
             transition: { sm: "none!important" },
           },
           py: 2,
@@ -74,7 +75,6 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
         }}
       >
         <Typography
-          className="font-semibold"
           variant="h6"
           sx={{
             ...(goal.completed && {
@@ -89,7 +89,6 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
         </Typography>
         <Typography
           variant="body2"
-          className="text-gray-500"
           style={{
             ...(goal.completed && {
               opacity: 0.6,
@@ -111,8 +110,10 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           )}
         </Typography>
         <div
-          className="flex items-center gap-3"
           style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
             ...(goal.progress === goal.durationDays && {
               color: colors[goal.completed ? "green" : "deepOrange"]["800"],
             }),
@@ -181,8 +182,8 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
               position: "relative",
               pt: { xs: 15 },
               borderRadius: 5,
+              display: "flex",
             }}
-            className="flex"
           >
             <MoreOptions
               goal={goal}

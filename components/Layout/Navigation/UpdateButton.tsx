@@ -51,7 +51,7 @@ export function UpdateButton() {
           WebkitAppRegion: "no-drag",
         }}
       >
-        <Icon className="rounded">download</Icon>
+        <Icon>download</Icon>
       </IconButton>
     </Tooltip>
   ) : null;

@@ -94,10 +94,7 @@ export function MyGoals(): JSX.Element {
         />
       </Box>
       {data.length === 0 ? (
-        <div
-          className="mb-10 flex w-full flex-col items-center rounded-xl bg-gray-200 p-8 px-5 text-gray-900 dark:bg-gray-900 dark:text-white sm:flex-row"
-          style={{ gap: "30px" }}
-        >
+        <Box style={{ gap: "30px" }}>
           <picture>
             <img
               src="https://i.ibb.co/ZS3YD9C/casual-life-3d-target-and-dart.png"
@@ -114,7 +111,7 @@ export function MyGoals(): JSX.Element {
               to enrich your daily routine.
             </Typography>
           </Box>
-        </div>
+        </Box>
       ) : (
         <>
           {

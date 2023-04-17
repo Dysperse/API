@@ -41,8 +41,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
 
   return (
     <Box
-      className="snap-x snap-mandatory sm:snap-none"
       sx={{
+        scrollSnapType: { xs: "x mandatory", sm: "unset" },
         display: "flex",
         maxWidth: "100vw",
         overflowX: "scroll",

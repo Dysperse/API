@@ -135,8 +135,8 @@ export function Column({ board, mutationUrls, column, index }) {
         </>
       </SwipeableDrawer>
       <Box
-        className="snap-center"
         sx={{
+          scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
           borderColor: session.user.darkMode
             ? "hsl(240,11%,16%)"

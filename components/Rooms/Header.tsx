@@ -75,7 +75,6 @@ export function Header({
               display: { sm: "none" },
               background: "transparent",
             }}
-            className="avatar"
           >
             <Icon>west</Icon>
           </IconButton>

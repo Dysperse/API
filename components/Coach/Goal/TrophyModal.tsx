@@ -166,7 +166,7 @@ export function TrophyModal({ goal, mutationUrl }) {
           >
             Congratulations!
           </Typography>
-          <Typography variant="body1" className="mt-1">
+          <Typography variant="body1" sx={{ mt: "4px" }}>
             After spending{" "}
             <b>
               <u>{goal.durationDays} days</u>

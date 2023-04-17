@@ -247,7 +247,6 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       </List>
 
       <Typography
-        className="body2"
         sx={{
           my: 2,
           color: session.user.darkMode ? "#aaa" : "hsl(240,11%,50%)",

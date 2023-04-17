@@ -142,7 +142,7 @@ const Action = React.memo(function Action({
         }
         secondary={
           <Typography
-            className="sm text-sm font-normal"
+            variant="body2"
             sx={{
               ...((isCustom || itemCount === -3) && { display: "none" }),
               ...(itemCount === -1 && {
