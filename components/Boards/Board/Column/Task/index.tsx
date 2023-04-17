@@ -174,6 +174,11 @@ export const Task: any = React.memo(function Task({
             py: { xs: 1, sm: 0.7 },
             px: { xs: 2.6, sm: 1.7 },
             gap: 1.5,
+            "&:hover": {
+              background: `hsl(240, 11%, ${
+                session.user.darkMode ? 13 : 97
+              }%) !important`,
+            },
             "&:active": {
               background: `hsl(240, 11%, ${
                 session.user.darkMode ? 15 : 94
