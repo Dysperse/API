@@ -298,9 +298,6 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
               border: "2px solid transparent",
               ...(tasksRemaining.length === 0 && {
                 borderColor: lime[session.user.darkMode ? "A400" : 800],
-                background: session.user.darkMode
-                  ? "hsl(240,11%,10%)"
-                  : lime[isCoach ? 100 : 50],
               }),
               ...(data.items.length === 0 && {
                 borderColor: orange[session.user.darkMode ? "A200" : 800],
@@ -324,7 +321,7 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
                   color: lime[session.user.darkMode ? "A400" : 800],
                   background: session.user.darkMode
                     ? "hsl(240,11%,10%)"
-                    : lime[isCoach ? 100 : 50],
+                    : "hsl(240,11%,93%)",
                   borderRadius: "999px",
                   transition: "opacity .2s",
                   position: "absolute",

@@ -142,7 +142,7 @@ export function BoardInfo({
                   py: 0.5,
                   "&:focus-within": {
                     background: `hsl(240,11%,${
-                      session.user.darkMode ? 18 : 50
+                      session.user.darkMode ? 18 : 90
                     }%)`,
                   },
                 },
@@ -164,9 +164,9 @@ export function BoardInfo({
                   ml: -1,
                   py: 1,
                   "&:focus-within": {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,18%)"
-                      : "rgba(200,200,200,.2)",
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 18 : 90
+                    }%)`,
                   },
                 },
               }}

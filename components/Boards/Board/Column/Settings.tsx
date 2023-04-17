@@ -10,7 +10,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useDeferredValue, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { useAccountStorage } from "../../../../lib/client/useAccountStorage";
@@ -37,6 +37,9 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
 
   const [title, setTitle] = useState(column.name);
   const [emoji, setEmoji] = useState(column.emoji);
+
+  const deferredTitle = useDeferredValue(title);
+
   const ref: any = useRef();
   const buttonRef: any = useRef();
   const [open, setOpen] = useState<boolean>(false);
@@ -61,7 +64,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
             maxWidth: "400px",
             maxHeight: "400px",
             width: "auto",
-            p: 1,
+            p: 2,
             borderRadius: { xs: "20px 20px 0 0", md: 5 },
             mb: { md: 5 },
           },
@@ -74,20 +77,17 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
               alignItems: "center",
               justifyContent: "center",
               gap: 1.5,
-              py: 2,
-              mb: 1,
-              borderBottom: `1px solid ${
-                session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
-              }`,
             }}
           >
             <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
-              <picture>
-                <img
-                  alt="Emoji"
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                />
-              </picture>
+              <Button variant="outlined" sx={{ py: 0, px: 1.5 }}>
+                <picture>
+                  <img
+                    alt="Emoji"
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                  />
+                </picture>
+              </Button>
             </EmojiPicker>
             <TextField
               value={title}
@@ -100,20 +100,18 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
                   buttonRef.current.click();
                 }
               }}
+              InputProps={{ sx: { fontWeight: 700 } }}
+              placeholder="Column name"
               size="small"
-              InputProps={{
-                sx: {
-                  fontWeight: "700",
-                },
-              }}
             />
-          </Box>
-
-          <Box sx={{ display: "flex" }}>
-            <Button
+            <IconButton
               ref={buttonRef}
               size="large"
-              disabled={storage?.isReached === true}
+              disabled={
+                storage?.isReached === true ||
+                deferredTitle.trim() == "" ||
+                deferredTitle.length > 25
+              }
               onClick={async () => {
                 toast.promise(
                   fetchRawApi("property/boards/column/edit", {
@@ -131,9 +129,8 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
                 setOpen(false);
               }}
             >
-              <Icon className="outlined">save</Icon>
-              Save
-            </Button>
+              <Icon className="outlined">check</Icon>
+            </IconButton>
           </Box>
         </>
       </SwipeableDrawer>

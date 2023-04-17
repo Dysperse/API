@@ -1,14 +1,11 @@
 import { LoadingButton } from "@mui/lab";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useSession } from "../lib/client/useSession";
 import { toastStyles } from "../lib/client/useTheme";
+import { Puller } from "./Puller";
 
 export function ConfirmationModal({
   rawStyles = false,
@@ -19,6 +16,8 @@ export function ConfirmationModal({
   callback,
   buttonText = "Continue",
 }: any) {
+  const session = useSession();
+
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -41,6 +40,12 @@ export function ConfirmationModal({
     }
   }, [callback]);
 
+  useHotkeys("enter", () => {
+    if (open) {
+      handleClick();
+    }
+  });
+
   useEffect(() => {
     if (open && disabled) {
       handleClick();
@@ -49,69 +54,70 @@ export function ConfirmationModal({
 
   return (
     <>
-      <Dialog
+      {trigger}
+      <SwipeableDrawer
         open={open}
+        anchor="bottom"
+        disableSwipeToOpen
+        onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         onClick={(e) => e.stopPropagation()}
-        sx={{
-          zIndex: 9999,
-        }}
+        sx={{ zIndex: 9999 }}
         PaperProps={{
           sx: {
             ...(rawStyles && {
               boxShadow: "none",
               borderRadius: 5,
             }),
+            border: "none",
             userSelect: "none",
-            width: "400px",
+            width: "350px",
             maxWidth: "calc(100vw - 20px)",
-            p: 1.5,
           },
         }}
       >
-        <DialogTitle className="font-[800]">
-          {title}
-          <DialogContentText
-            id="alert-dialog-slide-description"
-            className="mt-1.5"
-          >
-            {question}
-          </DialogContentText>
-        </DialogTitle>
-        <DialogActions>
-          <Button
-            variant="outlined"
-            size="large"
-            onClick={() => setOpen(false)}
-            {...(rawStyles && {
-              sx: {
-                borderRadius: 9,
-                textTransform: "none",
-                boxShadow: "none",
-              },
-            })}
-          >
-            Cancel
-          </Button>
-          <LoadingButton
-            variant="contained"
-            size="large"
-            loading={loading}
-            onClick={handleClick}
-            {...(rawStyles && {
-              sx: {
-                borderRadius: 9,
-                textTransform: "none",
-                boxShadow: "none",
-                background: "#000!important",
-              },
-            })}
-          >
-            {buttonText}
-          </LoadingButton>
-        </DialogActions>
-      </Dialog>
-      {trigger}
+        <Puller showOnDesktop />
+        <Box sx={{ px: 3, pb: 2 }}>
+          <Typography variant="h6" gutterBottom>
+            {title}
+          </Typography>
+          <Typography color="text.secondary">{question}</Typography>
+          <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+            <Button
+              variant="outlined"
+              fullWidth
+              size="large"
+              onClick={() => setOpen(false)}
+              sx={{
+                ...(rawStyles && {
+                  borderRadius: 9,
+                  textTransform: "none",
+                  boxShadow: "none",
+                }),
+              }}
+            >
+              Cancel
+            </Button>
+            <LoadingButton
+              variant="contained"
+              fullWidth
+              size="large"
+              loading={loading}
+              onClick={handleClick}
+              sx={{
+                ...(rawStyles && {
+                  borderRadius: 9,
+                  textTransform: "none",
+                  boxShadow: "none",
+                  background: "#000!important",
+                }),
+              }}
+            >
+              {buttonText}
+            </LoadingButton>
+          </Box>
+        </Box>
+      </SwipeableDrawer>
     </>
   );
 }
