@@ -1,7 +1,6 @@
 import {
   Box,
   Icon,
-  IconButton,
   LinearProgress,
   Skeleton,
   Typography,
@@ -81,29 +80,6 @@ export default function Render() {
           }}
         >
           <Box sx={{ position: "relative" }}>
-            {data && !loading && (
-              <IconButton
-                onClick={() =>
-                  toast(
-                    hasCompletedForToday
-                      ? "You completed at least one task today to maintain your streak!"
-                      : isTimeRunningOut
-                      ? "Time's running out! Make sure to complete at least one task to keep your streak alive!"
-                      : "Complete at least one task to keep your streak alive",
-                    toastStyles
-                  )
-                }
-                sx={{ position: "absolute", bottom: 0, right: 0, m: 2 }}
-              >
-                <Icon sx={{ color: "#000" }}>
-                  {hasCompletedForToday
-                    ? "check"
-                    : isTimeRunningOut
-                    ? "hourglass_empty"
-                    : ""}
-                </Icon>
-              </IconButton>
-            )}
             {error && (
               <ErrorHandler
                 error="Yikes! We couldn't load your streak. Please try again later"
@@ -154,6 +130,16 @@ export default function Render() {
                 />
               ) : (
                 <Typography
+                  onClick={() =>
+                    toast(
+                      hasCompletedForToday
+                        ? "You completed at least one task today to maintain your streak!"
+                        : isTimeRunningOut
+                        ? "Time's running out! Make sure to complete at least one task to keep your streak alive!"
+                        : "Complete at least one task to keep your streak alive",
+                      toastStyles
+                    )
+                  }
                   variant="h1"
                   sx={{
                     background: useStreakStyles
@@ -179,7 +165,16 @@ export default function Render() {
               {loading ? (
                 <Skeleton sx={{ mx: "auto" }} width={100} animation="wave" />
               ) : (
-                "coach streak"
+                <>
+                  coach streak
+                  <Icon sx={{ mb: -1 }}>
+                    {hasCompletedForToday
+                      ? "check"
+                      : isTimeRunningOut
+                      ? "hourglass_empty"
+                      : ""}
+                  </Icon>
+                </>
               )}
             </Box>
           </Box>
