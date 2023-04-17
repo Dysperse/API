@@ -62,10 +62,17 @@ const handler = async (req, res) => {
         },
       ],
     },
-    include: {
-      subTasks: true,
-      parentTasks: true,
-    },
+    ...(!req.query.count && {
+      include: {
+        subTasks: true,
+        parentTasks: true,
+      },
+    }),
+    ...(req.query.count && {
+      select: {
+        completed: true,
+      },
+    }),
   });
   res.json(data);
 };

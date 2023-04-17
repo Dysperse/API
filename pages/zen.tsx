@@ -110,6 +110,12 @@ export default function Home() {
   const { data } = useApi("property/boards/agenda", {
     startTime: dayjs().startOf("day").toISOString(),
     endTime: dayjs().endOf("day").toISOString(),
+    count: true,
+  });
+
+  const { data: backlogData } = useApi("property/boards/backlog", {
+    count: true,
+    date: dayjs().startOf("day").toISOString(),
   });
 
   const listItemStyles = {
@@ -226,7 +232,10 @@ export default function Home() {
                 className="shadow-sm"
                 onClick={() => router.push("/tasks/#/backlog")}
               >
-                <b>Backlog</b>
+                <ListItemText
+                  primary={<b>Backlog</b>}
+                  secondary={`${(backlogData || []).length} tasks`}
+                />
                 <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
               </ListItemButton>
             </Box>

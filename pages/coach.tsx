@@ -121,6 +121,8 @@ export default function Render() {
                       xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
                       sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
                     }
+                  : session.user.darkMode
+                  ? "hsla(240,11%,50%,0.2)"
                   : "hsl(240,11%,90%,0.5)",
                 p: 3,
                 py: 6,
@@ -177,7 +179,9 @@ export default function Render() {
             <Typography
               sx={{
                 p: 3,
-                background: "rgba(200,200,200,.3)",
+                background: session.user.darkMode
+                  ? "hsla(240,11%,50%,0.2)"
+                  : "rgba(200,200,200,.3)",
                 mb: 2,
                 borderRadius: 5,
               }}
