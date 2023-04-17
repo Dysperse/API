@@ -115,7 +115,7 @@ export default function Home() {
 
   const { data: backlogData } = useApi("property/boards/backlog", {
     count: true,
-    date: dayjs().startOf("day").toISOString(),
+    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
 
   const listItemStyles = {
@@ -230,7 +230,7 @@ export default function Home() {
               <ListItemButton
                 sx={listItemStyles}
                 className="shadow-sm"
-                onClick={() => router.push("/tasks/#/backlog")}
+                onClick={() => router.push("/tasks/#/agenda/backlog")}
               >
                 <ListItemText
                   primary={<b>Backlog</b>}
