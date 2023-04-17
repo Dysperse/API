@@ -68,7 +68,9 @@ export function ConfirmationModal({
             ...(rawStyles && {
               boxShadow: "none",
               borderRadius: 5,
+              mb: 2,
             }),
+            mx: "auto",
             border: "none",
             userSelect: "none",
             width: "350px",

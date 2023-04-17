@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { Layout, authStyles } from "../../components/Auth/Layout";
+import { authStyles, Layout } from "../../components/Auth/Layout";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
@@ -90,6 +90,8 @@ export default function Prompt() {
           }),
         }).then((res) => res.json());
 
+        setCaptchaToken("");
+
         if (
           res.message &&
           res.message.includes("Can't reach database server")
@@ -116,20 +118,6 @@ export default function Prompt() {
           setStep(1);
           toast.error(res.message, toastStyles);
           setButtonLoading(false);
-          return;
-        }
-        if (router && router.pathname.includes("?close=true")) {
-          // Success
-          toast.promise(
-            new Promise(() => {}),
-            {
-              loading: "Logging you in...",
-              success: "Success!",
-              error: "An error occured. Please try again later",
-            },
-            toastStyles
-          );
-          mutate("/api/user");
           return;
         }
         // Success

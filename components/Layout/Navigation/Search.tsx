@@ -156,11 +156,11 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         toast.promise(
           fetchRawApi("auth/logout").then(() => mutate("/api/user")),
           {
-            ...toastStyles,
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",
             success: "Redirecting you...",
-          }
+          },
+          toastStyles
         );
       },
       icon: "logout",
