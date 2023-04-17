@@ -2,7 +2,6 @@ import Head from "next/head";
 import React from "react";
 import { ErrorHandler } from "../components/Error";
 import { OptionsGroup } from "../components/OptionsGroup";
-import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
 import { useApi } from "../lib/client/useApi";
 import { colors } from "../lib/colors";
 
@@ -120,13 +119,6 @@ export default function Inventory({ children = null }: any) {
           ml: { sm: -1 },
         }}
       >
-        <Box
-          sx={{
-            display: { sm: "none" },
-          }}
-        >
-          <FloatingActionButton />
-        </Box>
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
@@ -348,7 +340,6 @@ export default function Inventory({ children = null }: any) {
             >
               <u>No room selected</u>
             </Typography>
-            {session?.permission !== "read-only" && <FloatingActionButton sm />}
           </Box>
         </Box>
       )}
