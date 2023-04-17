@@ -287,9 +287,9 @@ export default function Spotlight() {
               px: 2,
               py: 1,
               borderRadius: 3,
-              background: "rgba(200, 200, 200, .3)",
+              background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
               "&:focus": {
-                background: "rgba(200, 200, 200, .4)",
+                background: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
               },
             },
           }}
