@@ -113,7 +113,7 @@ export function RecentItems() {
                         }}
                         className="outlined"
                       >
-                        {item.pinned ? "push_pin" : "check_circle"}
+                        check_circle
                       </Icon>
                       <Typography
                         sx={{
@@ -134,6 +134,14 @@ export function RecentItems() {
                           <Twemoji>{item.name || " "}</Twemoji>
                         </span>
                       </Typography>
+                      {item.pinned && (
+                        <Chip
+                          size="small"
+                          sx={{ mb: 0.5, mr: 0.5 }}
+                          icon={<Icon>priority_high</Icon>}
+                          label={"Urgent"}
+                        />
+                      )}
                       {item.lastUpdated && (
                         <Chip
                           size="small"
