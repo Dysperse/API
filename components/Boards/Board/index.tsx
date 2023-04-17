@@ -79,7 +79,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             : "rgba(200,200,200, 0.3)",
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
-          display: "flex",
+          display: { xs: "flex", sm: "none" },
           alignItems: "center",
           p: 0.5,
         }}

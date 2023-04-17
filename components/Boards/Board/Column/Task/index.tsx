@@ -4,14 +4,12 @@ import {
   Chip,
   Icon,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   styled,
   Tooltip,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import hexToRgba from "hex-to-rgba";
 import dynamic from "next/dynamic";
 import React, {
   useCallback,
@@ -56,23 +54,14 @@ export const Task: any = React.memo(function Task({
     () =>
       styled("span")(() => ({
         borderRadius: 10,
-        transform: "translateX(-7px)",
         width: 25,
         height: 25,
         boxShadow: `${
           session.user.darkMode
-            ? "inset 0 0 0 2px rgba(255,255,255,.6)"
+            ? `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A200"]}`
             : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
         }`,
         backgroundColor: "transparent",
-        ".Mui-focusVisible &": {
-          boxShadow: `0px 0px 0px 2px inset ${
-            colors[taskData.color ?? "grey"][700]
-          }, 0px 0px 0px 15px inset ${hexToRgba(
-            colors[taskData.color ?? "grey"][900],
-            0.1
-          )}`,
-        },
         "input:disabled ~ &": {
           cursor: "not-allowed",
           opacity: 0.5,
@@ -183,7 +172,7 @@ export const Task: any = React.memo(function Task({
             }%) !important`,
             transition: "none",
             py: { xs: 1, sm: 0.7 },
-            px: { xs: 3.6, sm: 2.5 },
+            px: { xs: 2.6, sm: 1.7 },
             gap: 1.5,
             "&:active": {
               background: `hsl(240, 11%, ${
@@ -192,21 +181,19 @@ export const Task: any = React.memo(function Task({
             },
           }}
         >
-          <ListItemIcon sx={{ minWidth: "unset", p: 0 }}>
-            <Checkbox
-              sx={{ p: 0 }}
-              disabled={isDisabled}
-              disableRipple
-              checked={taskData.completed}
-              onChange={handleCompletion}
-              onClick={(e) => e.stopPropagation()}
-              color="default"
-              checkedIcon={<BpCheckedIcon />}
-              icon={<BpIcon />}
-            />
-          </ListItemIcon>
+          <Checkbox
+            sx={{ p: 0 }}
+            disabled={isDisabled}
+            disableRipple
+            checked={taskData.completed}
+            onChange={handleCompletion}
+            onClick={(e) => e.stopPropagation()}
+            color="default"
+            checkedIcon={<BpCheckedIcon />}
+            icon={<BpIcon />}
+          />
           <ListItemText
-            sx={{ ml: "-2px" }}
+            sx={{ ml: 0.7 }}
             primary={
               <Box
                 sx={{
@@ -252,9 +239,7 @@ export const Task: any = React.memo(function Task({
                 {taskData.image && (
                   <ImageViewer trimHeight url={taskData.image} />
                 )}
-                <Box
-                  sx={{ mt: 0.5, display: "flex", gap: 1, flexWrap: "wrap" }}
-                >
+                <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
                   {taskData.pinned && (
                     <ConfirmationModal
                       title="Change priority?"
@@ -277,13 +262,14 @@ export const Task: any = React.memo(function Task({
                         <Chip
                           size="small"
                           sx={{
+                            mt: 0.5,
                             background:
-                              colors.orange[
-                                session.user.darkMode ? "A700" : "100"
-                              ] + "!important",
+                              (session.user.darkMode
+                                ? "#642302"
+                                : colors.orange[50]) + "!important",
                             color:
                               colors.orange[
-                                session.user.darkMode ? "200" : "900"
+                                session.user.darkMode ? "50" : "900"
                               ] + "!important",
                           }}
                           label="Urgent"
@@ -311,6 +297,7 @@ export const Task: any = React.memo(function Task({
                       <Chip
                         size="small"
                         label={dayjs(taskData.due).fromNow()}
+                        sx={{ mt: 0.5 }}
                         icon={
                           <Icon
                             className="outlined"
@@ -328,6 +315,7 @@ export const Task: any = React.memo(function Task({
           />
         </ListItemButton>
       </TaskDrawer>
+
       {taskData &&
         taskData.subTasks &&
         taskData.subTasks.map((subtask) => (

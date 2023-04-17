@@ -3,7 +3,7 @@ import {
   CircularProgress,
   Icon,
   IconButton,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import Head from "next/head";
@@ -149,7 +149,6 @@ export function Backlog({ setDrawerOpen }) {
             key={task.id}
             board={task.board || false}
             columnId={task.column ? task.column.id : -1}
-            isAgenda
             mutationUrl={url}
             task={task}
           />

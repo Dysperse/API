@@ -57,6 +57,7 @@ export function CreateTask({
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
+
   const deferredDate = useDeferredValue(date);
   const deferredTitle = useDeferredValue(title);
 
@@ -301,72 +302,37 @@ export function CreateTask({
               label="Important"
               sx={{
                 ...chipStyles(pinned),
-                ml: { xs: 1, sm: 0.3 },
               }}
               icon={<Icon>priority</Icon>}
-              onClick={() => navigator.vibrate(50) && setPinned(!pinned)}
+              onClick={() => setPinned(!pinned)}
             />
-            <Chip
-              label="Today"
-              sx={chipStyles(
-                dayjs(deferredDate.toISOString())
-                  .startOf("day")
-                  .toISOString() === dayjs().startOf("day").toISOString()
-              )}
-              icon={<Icon>today</Icon>}
-              onClick={() => navigator.vibrate(50) && setDate(new Date())}
-            />
-            <Chip
-              label="Tomorrow"
-              sx={chipStyles(
+            {[
+              { label: "Today", days: 0 },
+              { label: "Tomorrow", days: 1 },
+              { label: "In one month", days: 30 },
+              { label: "In one year", days: 365 },
+            ].map(({ label, days }) => {
+              const isActive =
                 dayjs(deferredDate.toISOString())
                   .startOf("day")
                   .toISOString() ==
-                  dayjs().startOf("day").add(1, "day").toISOString()
-              )}
-              icon={<Icon>today</Icon>}
-              onClick={() => {
-                navigator.vibrate(50);
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                setDate(tomorrow);
-              }}
-            />
-            <Chip
-              label="In one month"
-              sx={chipStyles(
-                dayjs(deferredDate.toISOString())
-                  .startOf("day")
-                  .toISOString() ==
-                  dayjs().startOf("day").add(30, "day").toISOString()
-              )}
-              icon={<Icon>today</Icon>}
-              onClick={() => {
-                navigator.vibrate(50);
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 30);
-                setDate(tomorrow);
-              }}
-            />
-            <Chip
-              label="In one year"
-              sx={{
-                ...chipStyles(
-                  dayjs(deferredDate.toISOString())
-                    .startOf("day")
-                    .toISOString() ==
-                    dayjs().startOf("day").add(365, "day").toISOString()
-                ),
-                mr: { xs: 1, sm: 3 },
-              }}
-              icon={<Icon>today</Icon>}
-              onClick={() => {
-                navigator.vibrate(50);
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 365);
-                setDate(tomorrow);
-              }}
-            />
+                dayjs().startOf("day").add(days, "day").toISOString();
+
+              return (
+                <Chip
+                  key={label}
+                  label={label}
+                  sx={chipStyles(isActive)}
+                  icon={<Icon>today</Icon>}
+                  onClick={() => {
+                    navigator.vibrate(50);
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + days);
+                    setDate(tomorrow);
+                  }}
+                />
+              );
+            })}
           </div>
         </Box>
         <Box
