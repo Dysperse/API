@@ -26,12 +26,16 @@ export default function Render() {
   const { data, loading, url, error } = useApi("user/routines/streaks");
 
   const isTimeRunningOut = dayjs().hour() > 18;
+
   const hasCompletedForToday =
-    dayjs().startOf("day").day ===
-    dayjs(data ? data.lastStreakUpdated : new Date()).startOf("day").day;
+    dayjs().startOf("day").toDate().getTime() ===
+    dayjs(data ? data.lastStreakDate : new Date())
+      .startOf("day")
+      .toDate()
+      .getTime();
 
   const isStreakBroken =
-    dayjs().diff(dayjs(data ? data.lastStreakUpdated : new Date()), "day") >= 2;
+    dayjs().diff(dayjs(data ? data.lastStreakDate : new Date()), "day") >= 2;
 
   const useStreakStyles =
     data && data.streakCount && data.streakCount > 1 && !isStreakBroken;
@@ -91,7 +95,7 @@ export default function Render() {
                 }
                 sx={{ position: "absolute", bottom: 0, right: 0, m: 2 }}
               >
-                <Icon>
+                <Icon sx={{ color: "#000" }}>
                   {hasCompletedForToday
                     ? "check"
                     : isTimeRunningOut
@@ -111,16 +115,22 @@ export default function Render() {
                 width: "100%",
                 px: 2,
                 color: useStreakStyles
-                  ? {
-                      xs: orange[400],
-                      sm: orange[900],
-                    }
-                  : "hsl(240,11%,10%,0.7)",
+                  ? session.user.darkMode
+                    ? "rgba(0,0,0,0.5)"
+                    : {
+                        xs: orange[400],
+                        sm: orange[900],
+                      }
+                  : `hsl(240,11%,${session.user.darkMode ? 90 : 10}%,0.7)`,
                 background: useStreakStyles
-                  ? {
-                      xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
-                      sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
-                    }
+                  ? session.user.darkMode
+                    ? {
+                        xs: `linear-gradient(45deg, #642302, ${orange[900]})`,
+                      }
+                    : {
+                        xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
+                        sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
+                      }
                   : session.user.darkMode
                   ? "hsla(240,11%,50%,0.2)"
                   : "hsl(240,11%,90%,0.5)",
@@ -147,10 +157,14 @@ export default function Render() {
                   variant="h1"
                   sx={{
                     background: useStreakStyles
-                      ? {
-                          xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
-                          sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
-                        }
+                      ? session.user.darkMode
+                        ? {
+                            xs: `linear-gradient(45deg, #452d21, #642302)`,
+                          }
+                        : {
+                            xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
+                            sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
+                          }
                       : "#303030",
                     backgroundClip: "text!important",
                     fontWeight: 700,
