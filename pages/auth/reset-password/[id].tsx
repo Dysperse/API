@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useSWRConfig } from "swr";
-import { authStyles, Layout } from "../../../components/Auth/Layout";
+import { Layout, authStyles } from "../../../components/Auth/Layout";
 import { toastStyles } from "../../../lib/client/useTheme";
 
 /**
@@ -20,35 +20,38 @@ export default function Prompt() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    fetch("/api/auth/change-password", {
-      method: "POST",
-      body: JSON.stringify({
-        token: router.query.id,
-        password: password,
-      }),
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success("Successfully changed your password!", toastStyles);
-          router.push("/tasks");
-        } else {
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      fetch("/api/auth/change-password", {
+        method: "POST",
+        body: JSON.stringify({
+          token: router.query.id,
+          password: password,
+        }),
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success("Successfully changed your password!", toastStyles);
+            router.push("/tasks");
+          } else {
+            toast.error(
+              "An error occurred while trying to change your password.",
+              toastStyles
+            );
+            setButtonLoading(false);
+          }
+        })
+        .catch(() => {
           toast.error(
-            "An error occurred while trying to change your password.",
+            "An error occurred while trying to change your password",
             toastStyles
           );
           setButtonLoading(false);
-        }
-      })
-      .catch(() => {
-        toast.error(
-          "An error occurred while trying to change your password",
-          toastStyles
-        );
-        setButtonLoading(false);
-      });
-  }, []);
+        });
+    },
+    [router, password]
+  );
 
   useEffect(() => {
     if (typeof document !== "undefined")
