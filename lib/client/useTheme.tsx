@@ -122,7 +122,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "&:focus-visible": {
                 boxShadow: darkMode
                   ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-                  : "0px 0px 0px 1.5px var(--themeDark) !important",
+                  : "0px 0px 0px 1.5px #000 !important",
               },
             }),
         },

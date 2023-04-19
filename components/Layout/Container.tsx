@@ -9,7 +9,6 @@ import {
 } from "../../lib/client/useAccountStorage";
 import { modifySessionHook } from "../../lib/client/useSession";
 import { useCustomTheme } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
 import { Layout } from "../../pages/_app";
 import { Property, Session } from "../../types/session";
 
@@ -95,16 +94,6 @@ export function RenderWithLayout({
     permission: selectedProperty.permission,
     themeColor,
   }));
-
-  // Used in `globals.scss`
-  document.documentElement.style.setProperty(
-    "--backdropTheme",
-    data.user.darkMode ? "rgba(23, 23, 28, .4)" : "rgba(255,255,255,.3)"
-  );
-  document.documentElement.style.setProperty(
-    "--themeDark",
-    colors[themeColor ?? "brown"][900]
-  );
 
   const children = <Component {...pageProps} />;
 

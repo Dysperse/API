@@ -98,7 +98,7 @@ export function Sidebar() {
       "&:focus-visible span": {
         boxShadow: session.user.darkMode
           ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-          : "0px 0px 0px 1.5px var(--themeDark) !important",
+          : "0px 0px 0px 1.5px #000 !important",
       },
       userSelect: "none",
       ...(active && {

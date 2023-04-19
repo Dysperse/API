@@ -32,7 +32,7 @@ import { Puller } from "../../../../Puller";
 import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
-import { parseEmojis, TaskDrawer } from "./TaskDrawer";
+import { TaskDrawer, parseEmojis } from "./TaskDrawer";
 
 export default function DrawerContent({
   handleParentClose,
@@ -194,7 +194,7 @@ export default function DrawerContent({
             fontSize: "35px",
             textDecoration: "underline",
             mt: -2,
-            color: colors[data.color][session.user.darkMode ? "A200" : "A700"],
+            color: colors[data.color][session.user.darkMode ? "A200" : 800],
           },
         }}
       />

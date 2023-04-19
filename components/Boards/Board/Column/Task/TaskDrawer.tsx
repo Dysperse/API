@@ -1,6 +1,6 @@
 import { Alert, CircularProgress, SwipeableDrawer } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { cloneElement, useCallback, useState } from "react";
+import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../../../lib/client/useApi";
@@ -40,6 +40,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const [error, setError] = useState<null | string>(null);
 
   useBackButton(() => setOpen(false));
+  const ref: any = useRef();
 
   // Fetch data when the trigger is clicked on
   const handleOpen = useCallback(async () => {
@@ -52,6 +53,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       setData(data);
       setLoading(false);
       setError(null);
+      ref.current.scrollTop = 0;
     } catch (e: any) {
       setError(e.message);
       setLoading(false);
@@ -88,14 +90,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         onOpen={handleOpen}
         disableSwipeToOpen
         anchor="bottom"
-        PaperProps={{ sx: drawerStyles }}
+        PaperProps={{ sx: drawerStyles, ref }}
       >
-        <Puller />
-        <Box sx={{ p: { xs: 3, sm: 5 }, pt: 0 }}>
+        <Puller showOnDesktop />
+        <Box sx={{ p: 3, pt: { xs: 0, sm: 3 } }}>
           {error && (
             <ErrorHandler error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support" />
           )}
-          {loading && (
+          {loading && !data && (
             <Box
               sx={{
                 textAlign: "center",
@@ -108,15 +110,23 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               />
             </Box>
           )}
-          {data && !loading && data !== "deleted" && (
-            <DrawerContent
-              handleParentClose={handleClose}
-              isAgenda={isAgenda}
-              data={data}
-              mutationUrl={mutationUrl}
-              setTaskData={setData}
-            />
-          )}
+          <Box
+            sx={{
+              opacity: loading ? 0.5 : 1,
+              transition: "all .2s",
+              transform: `scale(${loading && data ? 0.98 : 1})`,
+            }}
+          >
+            {data && data !== "deleted" && (
+              <DrawerContent
+                handleParentClose={handleClose}
+                isAgenda={isAgenda}
+                data={data}
+                mutationUrl={mutationUrl}
+                setTaskData={setData}
+              />
+            )}
+          </Box>
           {data === "deleted" && (
             <Alert severity="info" icon="💥">
               This task has &quot;mysteriously&quot; vanished into thin air
