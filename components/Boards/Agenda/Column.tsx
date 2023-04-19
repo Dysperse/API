@@ -100,7 +100,7 @@ export const Column: any = memo(function Column({
         });
       }, 50);
     };
-  }, [])
+  }, []);
 
   const completedTasks = sortedTasks.filter((task) => task.completed);
   const tasksLeft = sortedTasks.length - completedTasks.length;
