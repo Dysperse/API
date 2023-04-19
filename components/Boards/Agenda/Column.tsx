@@ -2,7 +2,7 @@ import { Box, Divider, Icon, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { memo, useEffect, useMemo, useRef } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useSession } from "../../../lib/client/useSession";
 import { colors } from "../../../lib/colors";
@@ -89,16 +89,18 @@ export const Column: any = memo(function Column({
 
   const ref: any = useRef();
 
-  const scrollToColumn = () => {
-    ref.current?.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => {
-      ref.current?.scrollIntoView({
-        block: "nearest",
-        inline: "center",
-        behavior: "smooth",
-      });
-    }, 50);
-  };
+  const scrollIntoView = useCallback(() => {
+    () => {
+      ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        ref.current?.scrollIntoView({
+          block: "nearest",
+          inline: "center",
+          behavior: "smooth",
+        });
+      }, 50);
+    };
+  }, [ref])
 
   const completedTasks = sortedTasks.filter((task) => task.completed);
   const tasksLeft = sortedTasks.length - completedTasks.length;
@@ -122,7 +124,7 @@ export const Column: any = memo(function Column({
       }}
     >
       <Box
-        onClick={scrollToColumn}
+        onClick={scrollIntoView}
         sx={{
           color: session.user.darkMode ? "#fff" : "#000",
           py: 3.5,
