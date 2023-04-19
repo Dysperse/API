@@ -146,6 +146,7 @@ export function Backlog({ setDrawerOpen }) {
           ...data.filter((task) => !task.pinned),
         ].map((task) => (
           <Task
+            isDateDependent={true}
             key={task.id}
             board={task.board || false}
             columnId={task.column ? task.column.id : -1}

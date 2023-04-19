@@ -32,6 +32,7 @@ import { RescheduleModal } from "./RescheduleModal";
 import { TaskDrawer, parseEmojis } from "./TaskDrawer";
 
 export default function DrawerContent({
+  isDateDependent,
   handleParentClose,
   isAgenda,
   setTaskData,
@@ -112,6 +113,9 @@ export default function DrawerContent({
 
   const handlePostpone: any = useCallback(
     (count, type) => {
+      if (isDateDependent) {
+        handleParentClose();
+      }
       setTaskData((prev) => ({
         ...prev,
         due: dayjs(data.due).add(count, type).toISOString(),
@@ -122,7 +126,14 @@ export default function DrawerContent({
         dayjs(data.due).add(count, type).toISOString()
       );
     },
-    [data.id, setTaskData, data.due, handleEdit]
+    [
+      data.id,
+      setTaskData,
+      data.due,
+      handleEdit,
+      isDateDependent,
+      handleParentClose,
+    ]
   );
 
   const [open, setOpen] = useState<boolean>(false);
@@ -439,6 +450,7 @@ export default function DrawerContent({
               isAgenda={isAgenda}
               key={index}
               id={subTask.id}
+              isDateDependent={isDateDependent}
               mutationUrl={mutationUrl}
             >
               <ListItemButton

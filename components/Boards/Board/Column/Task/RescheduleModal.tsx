@@ -151,7 +151,10 @@ export function RescheduleModal({ data, children, handlePostpone }) {
           .filter((action) => (value == 0 ? action.days > 0 : action.days < 0))
           .map((action, index) => (
             <MenuItem
-              onClick={() => handlePostpone(action.days, "day")}
+              onClick={() => {
+                handleClose();
+                handlePostpone(action.days, "day");
+              }}
               key={index}
             >
               <Icon className="outlined">{action.icon}</Icon>

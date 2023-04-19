@@ -34,6 +34,7 @@ const ImageViewer = dynamic(() =>
 );
 
 export const Task: any = React.memo(function Task({
+  isDateDependent = false,
   isSubTask = false,
   isAgenda = false,
   checkList = false,
@@ -153,7 +154,12 @@ export const Task: any = React.memo(function Task({
     <div />
   ) : (
     <>
-      <TaskDrawer id={taskData.id} mutationUrl={mutationUrl} isAgenda>
+      <TaskDrawer
+        id={taskData.id}
+        mutationUrl={mutationUrl}
+        isAgenda
+        isDateDependent={isDateDependent}
+      >
         <ListItemButton
           itemRef={ref}
           disableRipple
