@@ -2,7 +2,7 @@ import { Box, Divider, Icon, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { memo, useEffect, useMemo } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useSession } from "../../../lib/client/useSession";
 import { colors } from "../../../lib/colors";
@@ -63,7 +63,7 @@ export const Column: any = memo(function Column({
     if (activeHighlight) {
       activeHighlight.scrollIntoView({
         block: "nearest",
-        inline: "start",
+        inline: "center",
         behavior: "smooth",
       });
     }
@@ -86,12 +86,14 @@ export const Column: any = memo(function Column({
       ),
     [data]
   );
+  const ref: any = useRef();
 
   const completedTasks = sortedTasks.filter((task) => task.completed);
   const tasksLeft = sortedTasks.length - completedTasks.length;
 
   return (
     <Box
+      ref={ref}
       {...(isToday && { id: "activeHighlight" })}
       sx={{
         scrollSnapAlign: "center",
@@ -107,6 +109,13 @@ export const Column: any = memo(function Column({
       }}
     >
       <Box
+        onClick={(e) => {
+          ref.current?.scrollIntoView({
+            block: "nearest",
+            inline: "center",
+            behavior: "smooth",
+          });
+        }}
         sx={{
           color: session.user.darkMode ? "#fff" : "#000",
           py: 3.5,
