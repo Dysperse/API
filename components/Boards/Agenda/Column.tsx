@@ -2,7 +2,7 @@ import { Box, Divider, Icon, Tooltip, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { memo, useEffect, useMemo, useRef } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useSession } from "../../../lib/client/useSession";
 import { colors } from "../../../lib/colors";
@@ -86,7 +86,21 @@ export const Column: any = memo(function Column({
       ),
     [data]
   );
+
   const ref: any = useRef();
+
+  const scrollIntoView = useCallback(() => {
+    () => {
+      ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        ref.current?.scrollIntoView({
+          block: "nearest",
+          inline: "center",
+          behavior: "smooth",
+        });
+      }, 50);
+    };
+  }, [])
 
   const completedTasks = sortedTasks.filter((task) => task.completed);
   const tasksLeft = sortedTasks.length - completedTasks.length;
@@ -99,6 +113,7 @@ export const Column: any = memo(function Column({
         scrollSnapAlign: "center",
         borderRight: "1px solid",
         borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
+
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
@@ -109,13 +124,7 @@ export const Column: any = memo(function Column({
       }}
     >
       <Box
-        onClick={(e) => {
-          ref.current?.scrollIntoView({
-            block: "nearest",
-            inline: "center",
-            behavior: "smooth",
-          });
-        }}
+        onClick={scrollIntoView}
         sx={{
           color: session.user.darkMode ? "#fff" : "#000",
           py: 3.5,
@@ -125,6 +134,11 @@ export const Column: any = memo(function Column({
           borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
           userSelect: "none",
           zIndex: 9,
+          "&:hover": {
+            background: {
+              sm: `hsla(240,11%,${session.user.darkMode ? 16 : 95}%, 0.1)`,
+            },
+          },
           backdropFilter: "blur(10px)",
           position: "sticky",
           top: 0,
@@ -159,27 +173,27 @@ export const Column: any = memo(function Column({
             : dayjs(day.unchanged).format(day.heading)}
         </Typography>
         {subheading !== "-" && (
-          <Tooltip
-            placement="left"
-            title={
-              <Typography>
-                <Typography sx={{ fontWeight: 700 }}>
-                  {isToday
-                    ? "Today"
-                    : capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
-                </Typography>
-                <Typography variant="body2">
-                  {dayjs(day.unchanged).format("dddd, MMMM D, YYYY")}
-                </Typography>
-              </Typography>
-            }
+          <Typography
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "20px",
+            }}
           >
-            <Typography
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "20px",
-              }}
+            <Tooltip
+              placement="bottom-start"
+              title={
+                <Typography>
+                  <Typography sx={{ fontWeight: 700 }}>
+                    {isToday
+                      ? "Today"
+                      : capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
+                  </Typography>
+                  <Typography variant="body2">
+                    {dayjs(day.unchanged).format("dddd, MMMM D, YYYY")}
+                  </Typography>
+                </Typography>
+              }
             >
               <span
                 style={{
@@ -194,30 +208,30 @@ export const Column: any = memo(function Column({
                   ? dayjs(day.unchanged).fromNow()
                   : dayjs(day.unchanged).format(subheading)}
               </span>
-              <Typography
-                variant="body2"
-                sx={{
-                  ml: "auto",
-                  opacity: data.length === 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
-                }}
-              >
-                {tasksLeft !== 0 ? (
-                  <>
-                    {tasksLeft} {isPast ? "unfinished" : "left"}
-                  </>
-                ) : (
-                  <Icon
-                    sx={{
-                      color: green[session.user.darkMode ? "A700" : "800"],
-                    }}
-                    className="outlined"
-                  >
-                    check_circle
-                  </Icon>
-                )}
-              </Typography>
+            </Tooltip>
+            <Typography
+              variant="body2"
+              sx={{
+                ml: "auto",
+                opacity: data.length === 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
+              }}
+            >
+              {tasksLeft !== 0 ? (
+                <>
+                  {tasksLeft} {isPast ? "unfinished" : "left"}
+                </>
+              ) : (
+                <Icon
+                  sx={{
+                    color: green[session.user.darkMode ? "A700" : "800"],
+                  }}
+                  className="outlined"
+                >
+                  check_circle
+                </Icon>
+              )}
             </Typography>
-          </Tooltip>
+          </Typography>
         )}
       </Box>
       <Box
