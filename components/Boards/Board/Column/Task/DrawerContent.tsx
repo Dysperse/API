@@ -3,15 +3,12 @@ import {
   Checkbox,
   Chip,
   Dialog,
-  Divider,
   Icon,
   IconButton,
   InputAdornment,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  MenuItem,
-  SwipeableDrawer,
   TextField,
   Typography,
 } from "@mui/material";
@@ -28,10 +25,10 @@ import { useSession } from "../../../../../lib/client/useSession";
 import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
-import { Puller } from "../../../../Puller";
 import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
+import { RescheduleModal } from "./RescheduleModal";
 import { TaskDrawer, parseEmojis } from "./TaskDrawer";
 
 export default function DrawerContent({
@@ -162,10 +159,6 @@ export default function DrawerContent({
         : "rgba(200, 200, 200, .3)",
     },
   };
-
-  const [postponeOpen, setPostponeOpen] = useState<boolean>(false);
-  const handleClick = () => setPostponeOpen(true);
-  const handleClose = () => setPostponeOpen(false);
 
   return (
     <>
@@ -414,106 +407,14 @@ export default function DrawerContent({
               Delete
             </Button>
           </ConfirmationModal>
-          <SwipeableDrawer
-            disableSwipeToOpen
-            open={postponeOpen}
-            onClose={handleClose}
-            onOpen={handleClick}
-            anchor="bottom"
-            PaperProps={{
-              sx: {
-                p: 1,
-                pt: 0,
-                "& .MuiMenuItem-root": {
-                  cursor: "unset",
-                  gap: 2,
-                  "&:focus-visible, &:hover": {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,30%)"
-                      : "rgba(200,200,200,.3)",
-                    color: session.user.darkMode
-                      ? colors[session?.themeColor || "grey"][100]
-                      : "#000",
-                    "& .MuiSvgIcon-root": {
-                      color: session.user.darkMode
-                        ? colors[session?.themeColor || "grey"][200]
-                        : colors[session?.themeColor || "grey"][800],
-                    },
-                  },
-                  padding: "8.5px 12px",
-                  minHeight: 0,
-                  borderRadius: "10px",
-                  marginBottom: "1px",
-                  "& .MuiSvgIcon-root": {
-                    fontSize: 25,
-                    color: colors[session?.themeColor || "grey"][700],
-                    marginRight: 1.9,
-                  },
-                  "&:active": {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,35%)"
-                      : "#eee",
-                  },
-                },
-              },
-            }}
-          >
-            <Puller />
-            <MenuItem onClick={() => handlePostpone(1, "day")}>
-              <Icon className="outlined">east</Icon>
-              <span>
-                <Typography sx={{ fontWeight: 700 }}>In one day</Typography>
-                <Typography variant="body2">
-                  {dayjs(data.due).add(1, "day").format("MMMM D")}
-                </Typography>
-              </span>
-            </MenuItem>
-            <MenuItem onClick={() => handlePostpone(3, "day")}>
-              <Icon className="outlined">view_week</Icon>
-              <span>
-                <Typography sx={{ fontWeight: 700 }}>In three days</Typography>
-                <Typography variant="body2">
-                  {dayjs(data.due).add(3, "day").format("MMMM D")}
-                </Typography>
-              </span>
-            </MenuItem>
-            <MenuItem onClick={() => handlePostpone(1, "week")}>
-              <Icon className="outlined">calendar_view_week</Icon>
-              <span>
-                <Typography sx={{ fontWeight: 700 }}>1 week</Typography>
-                <Typography variant="body2">
-                  {dayjs(data.due).add(1, "week").format("MMMM D")}
-                </Typography>
-              </span>
-            </MenuItem>
-            <MenuItem onClick={() => handlePostpone(1, "month")}>
-              <Icon className="outlined">calendar_view_month</Icon>
-              <span>
-                <Typography sx={{ fontWeight: 700 }}>1 month</Typography>
-                <Typography variant="body2">
-                  {dayjs(data.due).add(1, "month").format("MMMM D")}
-                </Typography>
-              </span>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={() => handlePostpone(-1, "day")}>
-              <Icon className="outlined">west</Icon>
-              <span>
-                <Typography sx={{ fontWeight: 700 }}>Yesterday</Typography>
-                <Typography variant="body2">
-                  {dayjs(data.due).subtract(1, "week").format("MMMM D")}
-                </Typography>
-              </span>
-            </MenuItem>
-          </SwipeableDrawer>
-          <Button
-            sx={iconStyles}
-            onClick={handleClick}
-            disabled={storage?.isReached === true}
-          >
-            <Icon className="outlined shadow-md dark:shadow-xl">schedule</Icon>
-            Reschedule
-          </Button>
+          <RescheduleModal handlePostpone={handlePostpone} data={data}>
+            <Button sx={iconStyles} disabled={storage?.isReached === true}>
+              <Icon className="outlined shadow-md dark:shadow-xl">
+                schedule
+              </Icon>
+              Reschedule
+            </Button>
+          </RescheduleModal>
         </Box>
       </Box>
       <Box
