@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Icon,
   LinearProgress,
   Skeleton,
@@ -130,16 +131,6 @@ export default function Render() {
                 />
               ) : (
                 <Typography
-                  onClick={() =>
-                    toast(
-                      hasCompletedForToday
-                        ? "You completed at least one task today to maintain your streak!"
-                        : isTimeRunningOut
-                        ? "Time's running out! Make sure to complete at least one task to keep your streak alive!"
-                        : "Complete at least one task to keep your streak alive",
-                      toastStyles
-                    )
-                  }
                   variant="h1"
                   sx={{
                     background: useStreakStyles
@@ -165,16 +156,38 @@ export default function Render() {
               {loading ? (
                 <Skeleton sx={{ mx: "auto" }} width={100} animation="wave" />
               ) : (
-                <>
+                <Button
+                  sx={{
+                    p: "0!important",
+                    transition: "none",
+                    color: "inherit",
+                    minWidth: 0,
+                  }}
+                  size="small"
+                  onClick={() => {
+                    toast.dismiss();
+
+                    toast(
+                      hasCompletedForToday
+                        ? "You completed at least one task today to maintain your streak!"
+                        : isTimeRunningOut
+                        ? "Time's running out! Make sure to complete at least one task to keep your streak alive!"
+                        : "Complete at least one task to keep your streak alive",
+                      toastStyles
+                    );
+                  }}
+                >
                   coach streak
-                  <Icon sx={{ mb: -1 }}>
+                  <Icon
+                    sx={{ background: "rgba(0,0,0,0.05)", borderRadius: 999 }}
+                  >
                     {hasCompletedForToday
                       ? "check"
                       : isTimeRunningOut
                       ? "hourglass_empty"
-                      : ""}
+                      : "warning"}
                   </Icon>
-                </>
+                </Button>
               )}
             </Box>
           </Box>

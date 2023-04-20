@@ -99,7 +99,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           {error && (
             <ErrorHandler error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support" />
           )}
-          {loading && !data && (
+          {loading && !data && open && (
             <Box
               sx={{
                 textAlign: "center",

@@ -38,6 +38,9 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
           },
         }}
+        ModalProps={{
+          keepMounted: false,
+        }}
       >
         <Box
           sx={{

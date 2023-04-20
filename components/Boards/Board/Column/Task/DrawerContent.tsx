@@ -272,19 +272,22 @@ export default function DrawerContent({
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{ sx: { p: 3 } }}
+        keepMounted={false}
       >
-        <DatePicker
-          value={new Date(data.due || new Date().toISOString())}
-          onChange={(e: any) => {
-            handleParentClose();
-            setTaskData((prev) => ({
-              ...prev,
-              due: e ? null : e?.toISOString(),
-            }));
-            handleEdit(data.id, "due", e.toISOString());
-            setOpen(false);
-          }}
-        />
+        {open && (
+          <DatePicker
+            value={new Date(data.due || new Date().toISOString())}
+            onChange={(e: any) => {
+              handleParentClose();
+              setTaskData((prev) => ({
+                ...prev,
+                due: e ? null : e?.toISOString(),
+              }));
+              handleEdit(data.id, "due", e.toISOString());
+              setOpen(false);
+            }}
+          />
+        )}
       </Dialog>
       <TextField
         fullWidth
