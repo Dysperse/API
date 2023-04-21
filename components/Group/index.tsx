@@ -29,10 +29,12 @@ import { Storage } from "./Storage";
 const Integrations = dynamic(() => import("./Integrations"));
 
 function PropertyInfo({
+  mutatePropertyData,
   handleClose,
   accessToken,
   propertyData,
 }: {
+  mutatePropertyData: any;
   handleClose: any;
   accessToken: string;
   propertyData: any;
@@ -127,7 +129,11 @@ function PropertyInfo({
             color: "#000",
           }}
         >
-          <EditProperty color={propertyData.profile.color}>
+          <EditProperty
+            propertyData={propertyData}
+            color={propertyData.profile.color}
+            mutatePropertyData={mutatePropertyData}
+          >
             <IconButton
               sx={{
                 position: "absolute",
@@ -146,7 +152,14 @@ function PropertyInfo({
           </EditProperty>
           <Typography
             variant="h4"
-            sx={{ mt: 15, mb: 0.5, fontSize: "40px" }}
+            sx={{
+              mt: 15,
+              mb: 0.5,
+              fontSize: "40px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
             className="font-heading"
           >
             {propertyData.profile.name}
@@ -224,6 +237,14 @@ export default function Group({
     [data.accessToken, data.id]
   );
 
+  const mutatePropertyData = async () => {
+    const res = await fetchRawApi("property", {
+      id: data.id,
+      propertyAccessToken: data.accessToken,
+    });
+    setPropertyData(res);
+  };
+
   const handleDrawerClose = () => setOpen(false);
 
   const trigger = cloneElement(children, {
@@ -234,6 +255,7 @@ export default function Group({
     <>
       <SwipeableDrawer
         disableSwipeToOpen
+        onKeyDown={(e) => e.stopPropagation()}
         onOpen={() => {}}
         onClose={handleDrawerClose}
         open={open}
@@ -251,6 +273,7 @@ export default function Group({
       >
         {propertyData && (
           <PropertyInfo
+            mutatePropertyData={mutatePropertyData}
             propertyData={propertyData as Property}
             accessToken={data.accessToken}
             handleClose={handleDrawerClose}

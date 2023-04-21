@@ -24,10 +24,11 @@ export function Prompt({
     onClick: () => setOpen(true),
   });
   const session = useSession();
+
   const userHasEnabled2fa =
     session &&
     session?.user.twoFactorSecret !== "" &&
-    session?.user.twoFactorSecret !== "false";
+    session?.user.twoFactorSecret !== "false"; // Yes, it can be a string, "false" since it stores the code
 
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const [code, setCode] = useState("");

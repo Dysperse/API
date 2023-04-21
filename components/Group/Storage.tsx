@@ -24,7 +24,7 @@ export function Storage({
   propertyId: string;
   color: string;
 }) {
-  const { data, error, url } = useApi("property/storage", {
+  const { data, error } = useApi("property/storage", {
     property: propertyId,
     accessToken,
   });
@@ -37,6 +37,7 @@ export function Storage({
     tasks: ((((data && data.tasks) || 0) * multipliers.tasks) / max) * 100,
   };
   const session = useSession();
+
   return error || !data ? (
     <Box>
       <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
