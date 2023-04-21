@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import { isEmail } from ".";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useBackButton } from "../../../lib/client/useBackButton";
-import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
 import { Prompt } from "../../TwoFactorModal";
 
@@ -64,14 +63,12 @@ function LinkToken() {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        PaperProps={{
-          sx: { maxWidth: "400px" },
-        }}
       >
         <Puller />
         <Box
           sx={{
-            p: 5,
+            p: 3,
+            pt: 0,
           }}
         >
           <Typography gutterBottom variant="h6">
@@ -89,34 +86,29 @@ function LinkToken() {
             }}
             label="Invite URL"
           />
-          <Button
-            variant="outlined"
-            size="large"
-            sx={{ mt: 2, borderRadius: 999 }}
-            onClick={() => {
-              navigator.clipboard.writeText(url);
-              toast.success("Copied to clipboard", toastStyles);
-            }}
-          >
-            Copy
-          </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            size="large"
-            sx={{
-              mt: 1,
-              borderRadius: 999,
-              background: `${
-                colors[session?.themeColor || "grey"][900]
-              }!important`,
-            }}
-            onClick={() => {
-              window.open(url, "_blank");
-            }}
-          >
-            Open
-          </Button>
+          <Box sx={{ display: "flex", mt: 2, alignItems: "center", gap: 2 }}>
+            <Button
+              variant="outlined"
+              size="large"
+              fullWidth
+              onClick={() => {
+                navigator.clipboard.writeText(url);
+                toast.success("Copied to clipboard", toastStyles);
+              }}
+            >
+              Copy
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={() => {
+                window.open(url, "_blank");
+              }}
+            >
+              Open
+            </Button>
+          </Box>
         </Box>
       </SwipeableDrawer>
     </>
@@ -166,13 +158,6 @@ export function AddPersonModal({
           sx={{
             px: 2,
             ml: "auto",
-            boxShadow: 0,
-            ...(session.property.permission === "owner" && {
-              backgroundColor: `${
-                colors[color][session.user.darkMode ? 800 : 900]
-              }!important`,
-              color: `${colors[color][50]}!important`,
-            }),
           }}
         >
           <Icon>add</Icon>
