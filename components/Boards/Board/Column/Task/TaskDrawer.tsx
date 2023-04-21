@@ -92,6 +92,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         onOpen={handleOpen}
         disableSwipeToOpen
         anchor="bottom"
+        disableBackdropTransition
         PaperProps={{ sx: drawerStyles, ref }}
       >
         <Puller showOnDesktop />

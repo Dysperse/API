@@ -256,23 +256,29 @@ export default function Group({
             handleClose={handleDrawerClose}
           />
         )}
-        <Box
-          sx={{
-            p: 4,
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {loading ? (
-            <CircularProgress />
-          ) : (
-            error && (
-              <ErrorHandler error="An error occured while trying to load your group" />
-            )
-          )}
-        </Box>
+        {open && (
+          <Box
+            sx={{
+              p: 4,
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              ...(!loading &&
+                !error && {
+                  display: "none",
+                }),
+            }}
+          >
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              error && (
+                <ErrorHandler error="An error occured while trying to load your group" />
+              )
+            )}
+          </Box>
+        )}
       </SwipeableDrawer>
       {trigger}
     </>

@@ -4,7 +4,6 @@ import {
   Button,
   CircularProgress,
   colors,
-  Divider,
   Icon,
   IconButton,
   ListItemButton,
@@ -21,7 +20,6 @@ import { useBackButton } from "../../../lib/client/useBackButton";
 import { useSession } from "../../../lib/client/useSession";
 import { ErrorHandler } from "../../Error";
 import Settings from "../../Settings/index";
-import AppsMenu from "./AppsMenu";
 
 const Group = dynamic(() => import("../../Group"));
 
@@ -80,9 +78,10 @@ export default function InviteButton({ useMobile = false, styles }: any) {
   const handleClick = (e) => {
     e.stopPropagation();
     setAnchorEl(e.target);
+    navigator.vibrate(50);
   };
   const handleClose = () => setAnchorEl(null);
-
+  const [view, setView] = useState(0);
   return (
     <>
       <Menu
@@ -112,115 +111,202 @@ export default function InviteButton({ useMobile = false, styles }: any) {
             overflow: "hidden",
           },
         }}
-        keepMounted
         sx={{
-          "& .MuiMenu-list": {
-            p: "0!important",
-          },
           zIndex: 999,
         }}
       >
-        {loading && <CircularProgress />}
-        {properties.map((group: any) => (
-          <Group
-            key={group.propertyId}
-            data={{
-              id: group.propertyId,
-              accessToken: group.accessToken,
-            }}
-          >
-            <ListItemButton
-              {...(group.propertyId === session.property.propertyId && {
-                id: "activeProperty",
-              })}
+        {view == 0 && (
+          <>
+            {loading && <CircularProgress />}
+            {properties.map((group: any) => (
+              <Group
+                key={group.propertyId}
+                data={{
+                  id: group.propertyId,
+                  accessToken: group.accessToken,
+                }}
+              >
+                <ListItemButton
+                  {...(group.propertyId === session.property.propertyId && {
+                    id: "activeProperty",
+                  })}
+                  sx={{
+                    gap: 2,
+                    borderRadius: "28px",
+                    transition: "none",
+                    background: "transparent!important",
+                    ...(group.propertyId === session.property.propertyId && {
+                      background: session.user.darkMode
+                        ? "hsla(240,11%,20%)"
+                        : "rgba(200,200,200,.4)!important",
+                    }),
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 20,
+                      height: 20,
+                      background: colors[group.profile.color]["A700"],
+                      borderRadius: 99,
+                    }}
+                  />
+                  <ListItemText
+                    primary={<b>{group.profile.name}</b>}
+                    secondary={group.profile.type}
+                    sx={{
+                      color: session.user.darkMode ? "#fff" : "#000",
+                      textTransform: "capitalize",
+                    }}
+                  />
+                </ListItemButton>
+              </Group>
+            ))}
+            {error && (
+              <ErrorHandler error="An error occured while trying to fetch your other groups" />
+            )}
+            <Button
+              size="large"
+              color="inherit"
+              fullWidth
+              onClick={() => setView(1)}
               sx={{
+                justifyContent: "start",
+                p: 2,
+                py: 1.5,
+                borderRadius: "28px",
                 gap: 2,
-                borderRadius: 0,
-                transition: "none",
-                ...(group.propertyId === session.property.propertyId && {
-                  background: session.user.darkMode
-                    ? "hsla(240,11%,20%)"
-                    : "rgba(200,200,200,.4)!important",
-                }),
+                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
               }}
             >
-              <Box
+              <Icon className="outlined">smart_button</Icon>
+              Apps &amp; support
+            </Button>
+            <Settings>
+              <Button
+                size="large"
+                color="inherit"
+                fullWidth
                 sx={{
-                  width: 20,
-                  height: 20,
-                  background: colors[group.profile.color]["A700"],
-                  borderRadius: 99,
+                  justifyContent: "start",
+                  p: 2,
+                  py: 1.5,
+                  borderRadius: "28px",
+                  gap: 2,
+                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
                 }}
-              />
-              <ListItemText
-                primary={<b>{group.profile.name}</b>}
-                secondary={group.profile.type}
-                sx={{
-                  color: session.user.darkMode ? "#fff" : "#000",
-                  textTransform: "capitalize",
-                }}
-              />
-            </ListItemButton>
-          </Group>
-        ))}
-        {error && (
-          <ErrorHandler error="An error occured while trying to fetch your other groups" />
+              >
+                <Icon className="outlined">account_circle</Icon>
+                My account
+              </Button>
+            </Settings>
+          </>
         )}
-        <Divider />
-        <AppsMenu />
-        <Settings>
-          <Button
-            size="large"
-            color="inherit"
-            fullWidth
-            sx={{
-              justifyContent: "start",
-              p: 2,
-              py: 1.5,
-              borderRadius: 0,
-              gap: 2,
-              color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
-            }}
-          >
-            <Icon className="outlined">account_circle</Icon>
-            My account
-          </Button>
-        </Settings>
+        {view == 1 && (
+          <>
+            <Button
+              onClick={() => setView(0)}
+              sx={{
+                m: 1,
+                mb: 0,
+                background: `hsl(240,11%,${
+                  session.user.darkMode ? 20 : 90
+                }%)!important`,
+                transition: "all .2s!important",
+                "&:active": {
+                  transform: "scale(0.95)",
+                },
+              }}
+              size="small"
+            >
+              <Icon>west</Icon>
+              Back
+            </Button>
+
+            {[
+              {
+                label: "Help",
+                icon: "help",
+                href: "https://blog.dysperse.com/support",
+              },
+              {
+                label: "Dysperse Availability",
+                icon: "auto_schedule",
+                href: "https://availability.dysperse.com?utm_source=dysperse-user-dashboard",
+              },
+              {
+                label: "Twitter",
+                icon: "link",
+                href: "https://twitter.com/getdysperse",
+              },
+              {
+                label: "Instagram",
+                icon: "link",
+                href: "https://instagram.com/dysperse",
+              },
+              {
+                label: "Official community",
+                icon: "link",
+                href: "https://discord.gg/fvngmDzh77",
+              },
+            ].map((link) => (
+              <Button
+                key={link.href}
+                size="large"
+                color="inherit"
+                fullWidth
+                onClick={() => window.open(link.href)}
+                sx={{
+                  justifyContent: "start",
+                  p: 2,
+                  py: 1.5,
+                  borderRadius: "28px",
+                  gap: 2,
+                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                }}
+              >
+                <Icon className="outlined">{link.icon}</Icon>
+                {link.label}
+              </Button>
+            ))}
+          </>
+        )}
       </Menu>
 
-      <Box
-        sx={{
-          ...styles(false),
-          display: useMobile ? "none" : { xs: "none", md: "block" },
-          mb: 2,
-        }}
-        id="houseProfileTrigger"
-        onClick={handleClick}
-      >
-        <Avatar
+      <Tooltip title="My account" placement="right">
+        <Box
           sx={{
-            background:
-              colors[session.property.profile.color][
-                session.user.darkMode ? "A400" : 200
-              ],
-            "&:hover": {
-              background:
-                colors[session.property.profile.color][
-                  session.user.darkMode ? "A700" : 300
-                ],
-            },
-            ...(Boolean(anchorEl) && {
-              background:
-                colors[session.property.profile.color][
-                  session.user.darkMode ? "A700" : 300
-                ],
-            }),
-            color: session.user.darkMode ? "#000" : "#000",
+            ...styles(false),
+            display: useMobile ? "none" : { xs: "none", md: "block" },
+            mb: 2,
           }}
+          id="houseProfileTrigger"
+          onClick={handleClick}
         >
-          <Icon className="outlined">hive</Icon>
-        </Avatar>
-      </Box>
+          <Avatar
+            sx={{
+              background:
+                colors[session.property.profile.color][
+                  session.user.darkMode ? "A400" : 200
+                ],
+              "&:hover": {
+                background:
+                  colors[session.property.profile.color][
+                    session.user.darkMode ? "A700" : 300
+                  ],
+              },
+              ...(Boolean(anchorEl) && {
+                background:
+                  colors[session.property.profile.color][
+                    session.user.darkMode ? "A700" : 300
+                  ],
+              }),
+              color: session.user.darkMode ? "#000" : "#000",
+            }}
+          >
+            <Icon className="outlined">hive</Icon>
+          </Avatar>
+        </Box>
+      </Tooltip>
       <IconButton
         sx={{
           ...styles(Boolean(anchorEl)),

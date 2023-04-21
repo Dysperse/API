@@ -85,6 +85,9 @@ export function Navbar() {
               navigator.vibrate(50);
               openSpotlight();
             }}
+            sx={{
+              display: { sm: "none" },
+            }}
           >
             <Icon className="outlined">bolt</Icon>
           </IconButton>

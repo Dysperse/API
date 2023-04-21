@@ -57,7 +57,7 @@ export function Integration({ integration }) {
         <ErrorHandler error="Yikes! An error occured while trying to get your boards! Please try again later..." />
       )}
       <ListItemButton sx={{ mb: 1, gap: 2 }} onClick={() => setOpen(true)}>
-        <Avatar src={integration.image} />
+        <Avatar src={integration.image} sx={{ borderRadius: 3 }} />
         <ListItemText
           primary={integration.name}
           secondary={integration.description}
