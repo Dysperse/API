@@ -123,11 +123,6 @@ export default function Document() {
             __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPH4TH4" height="0" width="0" style="display: none; visibility: hidden;" />`,
           }}
         />
-        <Script
-          defer
-          src="/prevent-navigate-history.js"
-          strategy="afterInteractive"
-        />
       </body>
     </Html>
   );

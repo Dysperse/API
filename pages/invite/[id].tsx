@@ -2,7 +2,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Loading } from "../../components/Layout/Loading";
@@ -13,19 +13,22 @@ import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
 
 export default function Onboarding() {
+  const session = useSession();
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
+
   const id =
     typeof window !== "undefined"
       ? window.location.pathname.split("/invite/")[1]
       : "";
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const session = useSession();
 
   const { data } = useApi(
     "property/members/inviteLink/info",
     { token: id as string },
     true
   );
+
+  console.log(session);
 
   return (
     <NoSsr>
@@ -131,12 +134,13 @@ export default function Onboarding() {
             loading={loading}
             disabled={
               session?.user &&
-              session.user.user &&
-              session.user.user.properties.find(
+              session.user &&
+              session.user.properties.find(
                 (p) => p.propertyId === data.property.id
               )
             }
             variant="contained"
+            disableElevation
             size="large"
             sx={{
               mt: 2,
@@ -151,12 +155,12 @@ export default function Onboarding() {
             }}
             onClick={() => {
               setLoading(true);
-              if (session.user.user && session.user.user.email) {
+              if (session.user && session.user.email) {
                 fetchRawApi(
                   "property/members/inviteLink/accept",
                   {
                     token: id as string,
-                    email: session.user.user.email,
+                    email: session.user.email,
                     property: data.property.id,
                   },
                   true
@@ -184,8 +188,8 @@ export default function Onboarding() {
             }}
           >
             {session?.user &&
-            session.user.user &&
-            session.user.user.properties.find(
+            session.user &&
+            session.user.properties.find(
               (p) => p.propertyId === data.property.id
             )
               ? "You're already in this group"
