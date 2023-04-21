@@ -77,14 +77,17 @@ export default function InviteButton({ useMobile = false, styles }: any) {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (e) => {
     e.stopPropagation();
-    setAnchorEl(e.target);
-    navigator.vibrate(50);
+    if (!loading) {
+      setAnchorEl(e.target);
+      navigator.vibrate(50);
+    }
   };
   const handleClose = () => setAnchorEl(null);
   const [view, setView] = useState(0);
   return (
     <>
       <Menu
+        keepMounted
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
@@ -99,7 +102,7 @@ export default function InviteButton({ useMobile = false, styles }: any) {
         }}
         BackdropProps={{
           sx: {
-            opacity: { xs: "1!important", md: "0!important" },
+            opacity: "0!important",
           },
         }}
         transitionDuration={300}
@@ -108,6 +111,7 @@ export default function InviteButton({ useMobile = false, styles }: any) {
             borderRadius: "28px!important",
             width: "300px",
             ml: { md: "60px!important" },
+            mt: { xs: 2, sm: 0 },
             overflow: "hidden",
           },
         }}
@@ -284,6 +288,7 @@ export default function InviteButton({ useMobile = false, styles }: any) {
         >
           <Avatar
             sx={{
+              opacity: loading ? 0.5 : 1,
               background:
                 colors[session.property.profile.color][
                   session.user.darkMode ? "A400" : 200
@@ -308,6 +313,7 @@ export default function InviteButton({ useMobile = false, styles }: any) {
         </Box>
       </Tooltip>
       <IconButton
+        disabled={loading}
         sx={{
           ...styles(Boolean(anchorEl)),
           display: { md: "none" },

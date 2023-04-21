@@ -114,9 +114,7 @@ export function EditProperty({
             >
               <Icon>close</Icon>
             </IconButton>
-            <Typography sx={{ fontWeight: "900", mx: "auto" }}>
-              Edit group
-            </Typography>
+            <Typography sx={{ fontWeight: "900", mx: "auto" }}>Edit</Typography>
             <IconButton edge="start" color="inherit" sx={{ opacity: 0 }}>
               <Icon>close</Icon>
             </IconButton>
