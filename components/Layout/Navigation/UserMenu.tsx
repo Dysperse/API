@@ -137,8 +137,11 @@ export default function InviteButton({ useMobile = false, styles }: any) {
                   sx={{
                     gap: 2,
                     borderRadius: "28px",
-                    transition: "none",
+                    transition: "transform .2s",
                     background: "transparent!important",
+                    "&:active": {
+                      transform: "scale(0.97)",
+                    },
                     ...(group.propertyId === session.property.propertyId && {
                       background: session.user.darkMode
                         ? "hsla(240,11%,20%)"
