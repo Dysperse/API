@@ -179,13 +179,13 @@ export default function Render() {
                 >
                   coach streak
                   <Icon
-                    sx={{ background: "rgba(0,0,0,0.05)", borderRadius: 999 }}
+                    sx={{ background: "rgba(0,0,0,0.02)", borderRadius: 999 }}
                   >
                     {hasCompletedForToday
                       ? "check"
                       : isTimeRunningOut
                       ? "hourglass_empty"
-                      : "warning"}
+                      : "priority_high"}
                   </Icon>
                 </Button>
               )}

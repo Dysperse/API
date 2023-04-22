@@ -90,15 +90,19 @@ export const Column: any = memo(function Column({
   const ref: any = useRef();
 
   const scrollIntoView = () => {
-    document.body.scrollTop = 0;
-    ref.current?.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => {
-      ref.current?.scrollIntoView({
-        block: "nearest",
-        inline: "center",
-        behavior: "smooth",
-      });
-    }, 50);
+    if (window.innerWidth > 600) {
+      document.body.scrollTop = 0;
+      ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        ref.current?.scrollIntoView({
+          block: "nearest",
+          inline: "center",
+          behavior: "smooth",
+        });
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const completedTasks = sortedTasks.filter((task) => task.completed);

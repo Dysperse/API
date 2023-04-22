@@ -45,6 +45,12 @@ export function Agenda({
     threshold: 0,
     target: window ? window : undefined,
   });
+  const isScrolledDown = useScrollTrigger({
+    threshold: 0,
+    disableHysteresis: true,
+    target: window ? window : undefined,
+  });
+
   const trigger = useDeferredValue(trigger1);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -101,6 +107,10 @@ export function Agenda({
   }, [navigation]);
 
   const handleToday = useCallback(() => {
+    if (navigation == 0 && window.innerWidth <= 600) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     setNavigation(0);
     setTimeout(() => {
       const activeHighlight = document.getElementById("activeHighlight");
@@ -225,7 +235,7 @@ export function Agenda({
         </IconButton>
         <Button
           onClick={handleToday}
-          disabled={navigation === 0}
+          disabled={!isScrolledDown}
           disableRipple
           sx={{
             "&:active": {
@@ -236,11 +246,21 @@ export function Agenda({
               }`,
             },
             color: session.user.darkMode ? "#fff" : "#000",
-            px: 1.7,
+            px: navigation == 0 ? 1 : 1.7,
+            minWidth: "unset",
           }}
           color="inherit"
         >
-          Today
+          {navigation == 0 ? (
+            <Icon
+              className="outlined"
+              sx={{ transform: isScrolledDown ? "rotate(180deg)" : "" }}
+            >
+              {isScrolledDown ? "expand_circle_down" : "check_circle"}
+            </Icon>
+          ) : (
+            "Today"
+          )}
         </Button>
         <IconButton onClick={handleNext}>
           <Icon>east</Icon>

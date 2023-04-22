@@ -120,6 +120,7 @@ export function DailyCheckInDrawer({ mood }) {
                   background:
                     "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
                   borderRadius: 99,
+                  flexShrink: 0,
                 }}
               />
             )}
@@ -415,6 +416,7 @@ export function DailyCheckInDrawer({ mood }) {
                   >
                     <picture>
                       <img
+                        loading="lazy"
                         alt="emoji"
                         width="100%"
                         height="100%"

@@ -215,7 +215,8 @@ export default function Home() {
                 />
                 {data &&
                   data.length - data.filter((task) => task.completed).length ==
-                    0 && (
+                    0 &&
+                  data.length !== 0 && (
                     <Icon
                       sx={{
                         color: green[session.user.darkMode ? "A400" : "A700"],
@@ -235,7 +236,9 @@ export default function Home() {
               >
                 <ListItemText
                   primary={<b>Backlog</b>}
-                  secondary={`${(backlogData || []).length} tasks`}
+                  secondary={`${(backlogData || []).length} task${
+                    (backlogData || []).length !== 1 ? "s" : ""
+                  }`}
                 />
                 <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
               </ListItemButton>
