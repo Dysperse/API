@@ -14,7 +14,7 @@ import { toast } from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { Stories } from "../../../pages/stories";
+import { Stories } from "../../Stories";
 import { RoutineEnd } from "../DailyRoutine/RoutineEnd";
 import { Task } from "../DailyRoutine/Task";
 import { ShareGoal } from "../Goal/ShareGoal";
@@ -210,7 +210,15 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
                         <Button
                           size="small"
                           sx={{ color: "#fff", opacity: 0.6 }}
-                          onClick={() => toast("Coming soon!", toastStyles)}
+                          onClick={() => {
+                            toast.dismiss();
+                            toast(
+                              <Typography>
+                                <b>Activity</b> coming soon!
+                              </Typography>,
+                              toastStyles
+                            );
+                          }}
                         >
                           <Icon className="outlined" sx={{ mt: "-5px" }}>
                             local_fire_department
@@ -370,6 +378,9 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
                 width={35}
                 height={35}
+                style={{
+                  marginBottom: "-5px",
+                }}
                 alt="Emoji"
               />
             </picture>

@@ -1,15 +1,12 @@
 import {
   Backdrop,
   Box,
-  Button,
   Icon,
   IconButton,
   SwipeableDrawer,
-  Typography,
 } from "@mui/material";
 import { cloneElement, useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { Task } from "../components/Coach/DailyRoutine/Task";
 import { useSession } from "../lib/client/useSession";
 
 export function Stories({
@@ -60,6 +57,7 @@ export function Stories({
     <>
       {trigger}
       <SwipeableDrawer
+        disableBackdropTransition
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
@@ -137,6 +135,9 @@ export function Stories({
                 },
                 zIndex: 9,
                 right: 10,
+                "&:active": {
+                  background: "hsl(240,11%,15%)",
+                },
               }}
             >
               <Icon>close</Icon>
@@ -189,93 +190,6 @@ export function Stories({
           {stories[currentIndex].footer && stories[currentIndex].footer}
         </Box>
       </SwipeableDrawer>
-    </>
-  );
-}
-
-export default function App() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const footer = (
-    <Box
-      sx={{
-        background: "hsl(240,11%,5%)",
-        mt: "auto",
-        p: 2,
-        zIndex: 999999,
-        display: "flex",
-        transition: "all .2s",
-      }}
-    >
-      <Button size="small" sx={{ color: "#fff" }}>
-        <Icon className="outlined" sx={{ mt: "-5px" }}>
-          local_fire_department
-        </Icon>
-        Activity
-      </Button>
-      <Box
-        sx={{
-          ml: "auto",
-          display: "flex",
-          gap: 1,
-          "& .MuiIconButton-root": {
-            "&:hover": { color: "#fff!important" },
-            "&:active": { background: "hsl(240,11%,10%)!important" },
-          },
-        }}
-      >
-        <IconButton color="inherit" size="small">
-          <Icon>ios_share</Icon>
-        </IconButton>
-        <IconButton color="inherit" size="small">
-          <Icon>more_vert</Icon>
-        </IconButton>
-      </Box>
-    </Box>
-  );
-
-  return (
-    <>
-      <Stories
-        onOpen={() => {}}
-        overlay={<>hi</>}
-        currentIndex={currentIndex}
-        setCurrentIndex={setCurrentIndex}
-        stories={[
-          {
-            content: (
-              <Task
-                task={{
-                  stepName: "hi",
-                  lastCompleted: "2023-04-04",
-                  durationDays: 100,
-                  progress: 8,
-                }}
-                currentIndex={0}
-                setCurrentIndex={() => {}}
-              />
-            ),
-            footer,
-          },
-          {
-            content: (
-              <Typography variant="h1" key={1}>
-                slide 2
-              </Typography>
-            ),
-            footer,
-          },
-          {
-            content: (
-              <Typography variant="h1" key={1}>
-                slide 3
-              </Typography>
-            ),
-          },
-        ]}
-      >
-        <Button>open 1</Button>
-      </Stories>
     </>
   );
 }

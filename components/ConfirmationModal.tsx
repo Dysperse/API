@@ -62,7 +62,7 @@ export function ConfirmationModal({
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         onClick={(e) => e.stopPropagation()}
-        sx={{ zIndex: 9999 }}
+        sx={{ zIndex: 9999999 }}
         PaperProps={{
           sx: {
             ...(rawStyles && {
