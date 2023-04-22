@@ -1,10 +1,20 @@
-import { Box, Divider, Icon, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  Icon,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { memo, useEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
+import { mutate } from "swr";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useSession } from "../../../lib/client/useSession";
+import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
 import { Task } from "../Board/Column/Task";
 import { CreateTask } from "../Board/Column/Task/Create";
@@ -89,7 +99,8 @@ export const Column: any = memo(function Column({
 
   const ref: any = useRef();
 
-  const scrollIntoView = () => {
+  const [loading, setLoading] = useState(false);
+  const scrollIntoView = async () => {
     if (window.innerWidth > 600) {
       document.body.scrollTop = 0;
       ref.current?.scrollTo({ top: 0, behavior: "smooth" });
@@ -102,6 +113,17 @@ export const Column: any = memo(function Column({
       }, 50);
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    try {
+      setLoading(true);
+      await mutate(mutationUrl);
+      setLoading(false);
+    } catch (e) {
+      toast.error(
+        "Yikes! We couldn't get your tasks. Please try again later",
+        toastStyles
+      );
     }
   };
 
@@ -116,16 +138,36 @@ export const Column: any = memo(function Column({
         scrollSnapAlign: "center",
         borderRight: "1px solid",
         borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
-
         zIndex: 1,
         flexGrow: 1,
+        ...(loading && {
+          opacity: 0.7,
+          paddingTop: "100px",
+        }),
         flexBasis: 0,
         minHeight: { sm: "100vh" },
         overflowY: "scroll",
         minWidth: { xs: "100vw", sm: "320px" },
+        position: "relative",
         transition: "filter .2s",
       }}
     >
+      {loading && (
+        <Box
+          sx={{
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            top: "-40px",
+            zIndex: 9999,
+            height: "100px",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
       <Box
         onClick={scrollIntoView}
         sx={{
