@@ -233,7 +233,7 @@ export default function InviteButton({ useMobile = false, styles }: any) {
               {
                 label: "Help",
                 icon: "help",
-                href: "https://blog.dysperse.com/support",
+                href: "https://blog.dysperse.com/series/support",
               },
               {
                 label: "Dysperse Availability",
