@@ -13,10 +13,11 @@ import { getTotal, max } from "../Group/Storage";
 import { Navbar } from "./Navigation/AppBar";
 import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
-
 const KeyboardShortcutsModal = dynamic(
   () => import("./Navigation/KeyboardShortcutsModal")
 );
+
+const ReleaseModal = dynamic(() => import("./ReleaseModal"));
 
 /**
  * Drawer component
@@ -74,6 +75,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
         display: "flex",
       }}
     >
+      <ReleaseModal />
       <Snackbar
         open={!dismissed && hasReachedLimit && !error}
         autoHideDuration={6000}

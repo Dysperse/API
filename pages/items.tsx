@@ -163,11 +163,11 @@ export default function Inventory({ children = null }: any) {
             borderRadius: "15px!important",
           }}
         >
-          <h1 className="font-heading my-10 text-4xl font-light underline sm:hidden">
+          <Typography variant="h4" className="font-heading" sx={{ mb: 2 }}>
             {session.property.profile.type === "study group"
               ? "Belongings"
               : "Inventory"}
-          </h1>
+          </Typography>
           <OptionsGroup
             currentOption={viewBy}
             setOption={setViewBy}

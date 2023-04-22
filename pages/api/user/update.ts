@@ -33,6 +33,8 @@ const handler = async (req, res) => {
     },
     data: {
       name: req.query.name || undefined,
+      lastReleaseVersionViewed:
+        parseInt(req.query.lastReleaseVersionViewed) || undefined,
       email: req.query.email || undefined,
       twoFactorSecret: req.query.twoFactorSecret === "" ? "" : undefined,
       zenCardOrder: req.query.zenCardOrder || undefined,

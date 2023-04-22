@@ -16,6 +16,7 @@ export const getUserData = async (token: string) => {
           id: false,
           identifier: true,
           name: true,
+          lastReleaseVersionViewed: true,
           email: true,
           twoFactorSecret: true,
           darkMode: true,

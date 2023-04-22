@@ -17,43 +17,50 @@ export async function updateSettings(
   value: string,
   debug = false,
   callback: null | (() => void) = null,
-  property = false
+  property = false,
+  hideToast = false
 ) {
   // eslint-disable-next-line
   const session = useSession();
 
-  toast.promise(
-    new Promise(async (resolve, reject) => {
-      try {
-        let url = `/api/user/update?${new URLSearchParams({
-          sessionId: session.user.token,
-          token: session.user.token,
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      let url = `/api/user/update?${new URLSearchParams({
+        sessionId: session.user.token,
+        token: session.user.token,
+        [key]: value,
+      }).toString()}`;
+      if (property) {
+        url = `/api/property/update?${new URLSearchParams({
+          property: session.property.propertyId,
+          accessToken: session.property.accessToken,
+          userName: session.user.name,
+          timestamp: new Date().toISOString(),
           [key]: value,
+          changedKey: key,
+          changedValue: value,
         }).toString()}`;
-        if (property) {
-          url = `/api/property/update?${new URLSearchParams({
-            property: session.property.propertyId,
-            accessToken: session.property.accessToken,
-            userName: session.user.name,
-            timestamp: new Date().toISOString(),
-            [key]: value,
-            changedKey: key,
-            changedValue: value,
-          }).toString()}`;
-        }
-        let res: any = await fetch(url, {
-          method: "POST",
-        });
-        res = await res.json();
-        callback && callback();
-        mutate("/api/user").then(() => resolve("Saved!"));
-        if (debug) {
-          resolve(JSON.stringify(res));
-        }
-      } catch (err: any) {
-        reject(err.message);
       }
-    }),
+      let res: any = await fetch(url, {
+        method: "POST",
+      });
+      res = await res.json();
+      callback && callback();
+      mutate("/api/user").then(() => resolve("Saved!"));
+      if (debug) {
+        resolve(JSON.stringify(res));
+      }
+    } catch (err: any) {
+      reject(err.message);
+    }
+  });
+
+  if (hideToast) {
+    await promise;
+    return;
+  }
+  toast.promise(
+    promise,
     {
       loading: "Saving...",
       success: (message: any) => message,

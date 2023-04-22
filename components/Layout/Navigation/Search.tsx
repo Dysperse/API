@@ -144,7 +144,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                 mutate("/api/user");
               });
             },
-            icon: "home",
+            icon: "tag",
             badge: "Group",
           };
         })

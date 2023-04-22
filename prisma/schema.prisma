@@ -25,6 +25,8 @@ model User {
   zenCardOrder             String  @default("[\"goals.study_plan\", \"inventory.starred\", \"inventory.scan\"]")
   timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
 
+  lastReleaseVersionViewed Int @default(77711209)
+
   CustomRoom           CustomRoom[]
   NotificationSettings NotificationSettings?
   CoachData            CoachData?
