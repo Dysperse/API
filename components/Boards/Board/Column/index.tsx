@@ -312,7 +312,7 @@ export function Column({ board, mutationUrls, column, index }) {
                 display: "none",
               }),
               mt: 2,
-              mx: { xs: "20px", sm: 0 },
+              borderRadius: { xs: 0, sm: 4 },
               ...(showCompleted && {
                 background: `hsl(240,11%,${
                   session.user.darkMode ? 20 : 90

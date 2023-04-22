@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  Collapse,
   Divider,
   Icon,
   Tooltip,
@@ -115,16 +116,21 @@ export const Column: any = memo(function Column({
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    setLoading(true);
     try {
-      setLoading(true);
       await mutate(mutationUrl);
-      setLoading(false);
+      await new Promise((r) =>
+        setTimeout(() => {
+          r("");
+        }, 500)
+      );
     } catch (e) {
       toast.error(
         "Yikes! We couldn't get your tasks. Please try again later",
         toastStyles
       );
     }
+    setLoading(false);
   };
 
   const completedTasks = sortedTasks.filter((task) => task.completed);
@@ -140,10 +146,6 @@ export const Column: any = memo(function Column({
         borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
         zIndex: 1,
         flexGrow: 1,
-        ...(loading && {
-          opacity: 0.7,
-          paddingTop: "100px",
-        }),
         flexBasis: 0,
         minHeight: { sm: "100vh" },
         overflowY: "scroll",
@@ -152,22 +154,20 @@ export const Column: any = memo(function Column({
         transition: "filter .2s",
       }}
     >
-      {loading && (
+      <Collapse in={loading} orientation="vertical">
         <Box
           sx={{
-            position: "absolute",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
-            top: "-40px",
-            zIndex: 9999,
             height: "100px",
+            background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
           }}
         >
-          <CircularProgress />
+          {loading && <CircularProgress />}
         </Box>
-      )}
+      </Collapse>
       <Box
         onClick={scrollIntoView}
         sx={{

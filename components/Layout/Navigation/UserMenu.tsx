@@ -120,7 +120,7 @@ export default function InviteButton({ useMobile = false, styles }: any) {
         }}
       >
         {view == 0 && (
-          <>
+          <div>
             {loading && <CircularProgress />}
             {properties.map((group: any) => (
               <Group
@@ -206,10 +206,10 @@ export default function InviteButton({ useMobile = false, styles }: any) {
                 My account
               </Button>
             </Settings>
-          </>
+          </div>
         )}
         {view == 1 && (
-          <>
+          <div>
             <Button
               onClick={() => setView(0)}
               sx={{
@@ -275,7 +275,7 @@ export default function InviteButton({ useMobile = false, styles }: any) {
                 {link.label}
               </Button>
             ))}
-          </>
+          </div>
         )}
       </Menu>
 
