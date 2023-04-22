@@ -245,7 +245,18 @@ export const Column: any = memo(function Column({
         }}
       >
         <Box sx={{ my: 0.5 }}>
-          {data.filter((task) => !task.completed).length === 0 ? (
+          <CreateTask
+            column={{ id: "-1", name: "" }}
+            defaultDate={day.unchanged}
+            label="Set a goal"
+            placeholder={
+              "Set a goal to be achieved " +
+              placeholder.replace("in a day", "tomorrow")
+            }
+            mutationUrl={mutationUrl}
+            boardId={1}
+          />
+          {data.filter((task) => !task.completed).length === 0 && (
             <Box
               sx={{
                 display: "flex",
@@ -278,37 +289,14 @@ export const Column: any = memo(function Column({
                 </Typography>
                 <Typography gutterBottom>
                   {data.length === 0
-                    ? "You haven't added any list items to this column"
-                    : "You finished all your goals for this time range!"}
+                    ? "You haven't added any tasks to this column"
+                    : "You finished all your tasks for this time range!"}
                 </Typography>
               </Box>
               <Box sx={{ width: "100%", mt: 1 }}>
-                <CreateTask
-                  column={{ id: "-1", name: "" }}
-                  defaultDate={day.unchanged}
-                  label="Set a goal"
-                  placeholder={
-                    "Set a goal to be achieved " +
-                    placeholder.replace("in a day", "tomorrow")
-                  }
-                  mutationUrl={mutationUrl}
-                  boardId={1}
-                />
                 {data.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
               </Box>
             </Box>
-          ) : (
-            <CreateTask
-              column={{ id: "-1", name: "" }}
-              defaultDate={day.unchanged}
-              label="Set a goal"
-              placeholder={
-                "Set a goal to be achieved " +
-                placeholder.replace("in a day", "tomorrow")
-              }
-              mutationUrl={mutationUrl}
-              boardId={1}
-            />
           )}
         </Box>
         {sortedTasks.map((task) => (
