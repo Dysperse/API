@@ -68,7 +68,6 @@ export default function Document() {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content"
         />
-
         <link
           rel="apple-touch-icon"
           href="https://assets.dysperse.com/v6/ios/57.png"
