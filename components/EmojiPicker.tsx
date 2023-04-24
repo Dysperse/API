@@ -1,7 +1,8 @@
 import data from "@emoji-mart/data";
 import { Box, SwipeableDrawer, TextField, Tooltip } from "@mui/material";
-import { init, SearchIndex } from "emoji-mart";
+import { SearchIndex, init } from "emoji-mart";
 import { cloneElement, useEffect, useRef, useState } from "react";
+import { useSession } from "../lib/client/useSession";
 import { Puller } from "./Puller";
 
 init({ data });
@@ -13,6 +14,7 @@ const EmojiButton: any = ({ emoji, selectedEmoji, handleEmojiSelect }: any) => (
     PopperProps={{
       sx: {
         pointerEvents: "none",
+        zIndex: 9999999999999,
       },
     }}
   >
@@ -64,6 +66,7 @@ export function EmojiPicker({
   setEmoji: (emoji: string) => void;
   useNativeEmoji?: boolean;
 }) {
+  const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [results, setResults] = useState<Array<any>>([]);
   const [inputValue, setInputValue] = useState("");
@@ -105,7 +108,7 @@ export function EmojiPicker({
 
   useEffect(() => {
     if (open) {
-      ref?.current?.focus();
+      setTimeout(() => ref?.current?.focus(), 100);
     }
   }, [open]);
 
@@ -137,9 +140,11 @@ export function EmojiPicker({
                 px: 2,
                 py: 1,
                 borderRadius: 3,
-                background: "rgba(200, 200, 200, .3)",
-                "&:focus": {
-                  background: "rgba(200, 200, 200, .4)",
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+                "&:focus-within": {
+                  background: `hsl(240,11%,${
+                    session.user.darkMode ? 25 : 90
+                  }%)`,
                 },
               },
             }}
