@@ -1,5 +1,4 @@
 {
-  "github": { "silent": true },
   "regions": ["pdx1"],
   "functions": {
     "pages/api/user.ts": {
