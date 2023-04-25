@@ -270,18 +270,26 @@ export function BoardInfo({
             </Box>
           </Box>
 
-          <Box sx={{ mt: "auto", display: "flex", width: "100%" }}>
+          <Box
+            sx={{
+              mt: "auto",
+              display: "flex",
+              width: "100%",
+            }}
+          >
             <IconButton
               sx={{ mr: "auto", display: { md: "none" } }}
+              size="large"
               onClick={() => {
                 setDrawerOpen(true);
                 navigator.vibrate(50);
               }}
             >
-              <Icon className="outlined">unfold_more</Icon>
+              <Icon className="outlined">menu</Icon>
             </IconButton>
             <BoardSettings mutationUrl={mutationUrls.boardData} board={board} />
             <IconButton
+              size="large"
               sx={{
                 ml: "auto",
                 display: { xs: "none", md: "flex" },
@@ -304,6 +312,7 @@ export function BoardInfo({
           <IconButton
             onClick={() => setShowInfo(true)}
             sx={{ opacity: 0, pointerEvents: "none" }}
+            size="large"
           >
             <Icon className="outlined">menu</Icon>
           </IconButton>

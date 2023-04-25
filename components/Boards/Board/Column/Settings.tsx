@@ -26,6 +26,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
       navigator.vibrate(50);
       setAnchorEl(event.currentTarget);
     },
@@ -69,6 +70,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
             mb: { md: 5 },
           },
         }}
+        onClick={(event) => event.stopPropagation()}
       >
         <>
           <Box
@@ -159,6 +161,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
         </Icon>
       </IconButton>
       <Menu
+        onClick={(event) => event.stopPropagation()}
         id="basic-menu"
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}

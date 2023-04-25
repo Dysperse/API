@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  CircularProgress,
+  Collapse,
   Icon,
   SwipeableDrawer,
   TextField,
@@ -31,6 +33,8 @@ export function Column({ board, mutationUrls, column, index }) {
 
   const [title, setTitle] = useState(column.name);
   const [emoji, setEmoji] = useState(column.emoji);
+  const [loading, setLoading] = useState(false);
+
   const ref: any = useRef();
   const buttonRef: any = useRef();
   const [open, setOpen] = useState<boolean>(false);
@@ -40,6 +44,39 @@ export function Column({ board, mutationUrls, column, index }) {
     () => columnTasks.filter((t) => !t.completed).length,
     [columnTasks]
   );
+
+  const scrollIntoView = async () => {
+    if (window.innerWidth > 600) {
+      document.body.scrollTop = 0;
+      ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        ref.current?.scrollIntoView({
+          block: "nearest",
+          inline: "center",
+          behavior: "smooth",
+        });
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    setLoading(true);
+    try {
+      await mutate(mutationUrls.tasks);
+      await mutate(mutationUrls.boardData);
+      await new Promise((r) =>
+        setTimeout(() => {
+          r("");
+        }, 500)
+      );
+    } catch (e) {
+      toast.error(
+        "Yikes! We couldn't get your tasks. Please try again later",
+        toastStyles
+      );
+    }
+    setLoading(false);
+  };
 
   return (
     <>
@@ -152,7 +189,22 @@ export function Column({ board, mutationUrls, column, index }) {
           transition: "filter .2s",
           maxWidth: "100vw",
         }}
+        onClick={scrollIntoView}
       >
+        <Collapse in={loading} orientation="vertical">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "100px",
+              background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+            }}
+          >
+            {loading && <CircularProgress />}
+          </Box>
+        </Collapse>
         <Box
           sx={{
             color: session.user.darkMode ? "#fff" : "#000",

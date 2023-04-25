@@ -157,7 +157,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         }}
         sx={boardSwitcherStyles(session.user.darkMode)}
       >
-        <Icon className="outlined">menu</Icon>
+        <Icon className="outlined">info</Icon>
       </IconButton>
 
       {data
