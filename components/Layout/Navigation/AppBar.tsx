@@ -4,6 +4,7 @@ import {
   CssBaseline,
   Icon,
   IconButton,
+  Skeleton,
   Toolbar,
   Tooltip,
   Typography,
@@ -143,7 +144,13 @@ export function Navbar(): JSX.Element {
               }}
               variant="h6"
             >
-              {title.includes(" •") ? title.split(" •")[0] : title}
+              {title === "Loading" ? (
+                <Skeleton width={75} animation="wave" />
+              ) : title.includes(" •") ? (
+                title.split(" •")[0]
+              ) : (
+                title
+              )}
             </Typography>
             {title.includes(" •") && (
               <Typography variant="body2">{title.split(" •")[1]}</Typography>
