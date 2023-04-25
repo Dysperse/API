@@ -45,11 +45,6 @@ export function Agenda({
     threshold: 0,
     target: window ? window : undefined,
   });
-  const isScrolledDown = useScrollTrigger({
-    threshold: 0,
-    disableHysteresis: true,
-    target: window ? window : undefined,
-  });
 
   const trigger = useDeferredValue(trigger1);
 
@@ -235,7 +230,7 @@ export function Agenda({
         </IconButton>
         <Button
           onClick={handleToday}
-          disabled={!isScrolledDown}
+          disabled={navigation == 0}
           disableRipple
           sx={{
             "&:active": {
@@ -251,16 +246,7 @@ export function Agenda({
           }}
           color="inherit"
         >
-          {navigation == 0 ? (
-            <Icon
-              className="outlined"
-              sx={{ transform: isScrolledDown ? "rotate(180deg)" : "" }}
-            >
-              {isScrolledDown ? "expand_circle_down" : "check_circle"}
-            </Icon>
-          ) : (
-            "Today"
-          )}
+          Today
         </Button>
         <IconButton onClick={handleNext}>
           <Icon>east</Icon>
