@@ -189,7 +189,6 @@ export function Column({ board, mutationUrls, column, index }) {
           transition: "filter .2s",
           maxWidth: "100vw",
         }}
-        onClick={scrollIntoView}
       >
         <Collapse in={loading} orientation="vertical">
           <Box
@@ -206,6 +205,7 @@ export function Column({ board, mutationUrls, column, index }) {
           </Box>
         </Collapse>
         <Box
+          onClick={scrollIntoView}
           sx={{
             color: session.user.darkMode ? "#fff" : "#000",
             p: { xs: 2, sm: 3 },
