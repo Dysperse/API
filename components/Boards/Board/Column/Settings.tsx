@@ -85,6 +85,8 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
               <Button variant="outlined" sx={{ py: 0, px: 1.5 }}>
                 <picture>
                   <img
+                    width={40}
+                    height={40}
                     alt="Emoji"
                     src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
                   />
