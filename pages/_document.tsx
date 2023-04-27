@@ -21,9 +21,6 @@ export default function Document() {
             gtag('config', 'G-KFJ4BEE09N');
         `}
         </Script>
-        <Script id="cache" strategy="afterInteractive">
-          {`navigator.serviceWorker.register('cache.js');`}
-        </Script>
 
         {/* Preconnect */}
         <link rel="preconnect" href="https://assets.dysperse.com" />
