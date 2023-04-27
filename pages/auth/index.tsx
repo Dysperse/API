@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { authStyles, Layout } from "../../components/Auth/Layout";
+import { Layout, authStyles } from "../../components/Auth/Layout";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
@@ -317,9 +317,7 @@ export default function Prompt() {
                       disabled={
                         !isEmail(email) ||
                         email.trim() === "" ||
-                        password.length < 8 ||
-                        !/\d/.test(password) ||
-                        !/[a-z]/i.test(password)
+                        password.length < 8
                       }
                       onClick={() => setStep(2)}
                     >
