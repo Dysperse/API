@@ -241,6 +241,11 @@ export default function Spotlight() {
       onClose={handleClose}
       anchor="bottom"
       disableSwipeToOpen
+      PaperProps={{
+        sx: {
+          minHeight: "calc(100vh - 25px)",
+        },
+      }}
     >
       {mount && (
         <>

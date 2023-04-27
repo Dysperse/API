@@ -83,6 +83,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         ? "600px"
         : "650px",
     maxHeight: "80vh",
+    minHeight: "80vh",
   };
 
   return (
