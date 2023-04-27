@@ -57,7 +57,6 @@ export default function Document() {
           rel="stylesheet"
         />
 
-        <meta http-equiv="Cache-Control" content="max-age=31536000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />
