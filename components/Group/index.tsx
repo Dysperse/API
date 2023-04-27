@@ -17,6 +17,7 @@ import { cloneElement, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../lib/client/useApi";
+import { useDelayedMount } from "../../lib/client/useDelayedMount";
 import { useSession } from "../../lib/client/useSession";
 import { toastStyles } from "../../lib/client/useTheme";
 import { colors } from "../../lib/colors";
@@ -250,6 +251,7 @@ export default function Group({
   const trigger = cloneElement(children, {
     onClick: handleOpen,
   });
+  const mount = useDelayedMount(open, 1000);
 
   return (
     <>
@@ -271,7 +273,7 @@ export default function Group({
           },
         }}
       >
-        {propertyData && (
+        {mount && propertyData && (
           <PropertyInfo
             mutatePropertyData={mutatePropertyData}
             propertyData={propertyData as Property}
