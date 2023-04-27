@@ -24,7 +24,6 @@ import { CreateTask } from "./Task/Create";
 export function Column({ board, mutationUrls, column, index }) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
-  const mount = useDelayedMount(loading, 1000);
 
   useEffect(() => setColumnTasks(column.tasks), [column.tasks]);
 
@@ -46,6 +45,8 @@ export function Column({ board, mutationUrls, column, index }) {
     () => columnTasks.filter((t) => !t.completed).length,
     [columnTasks]
   );
+
+  const mount = useDelayedMount(loading, 1000);
 
   const scrollIntoView = async () => {
     if (window.innerWidth > 600) {
