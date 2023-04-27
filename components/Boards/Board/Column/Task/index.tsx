@@ -28,6 +28,7 @@ import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { TaskDrawer } from "./TaskDrawer";
+import { useDelayedMount } from "../../../../../lib/client/useDelayedMount";
 
 const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
@@ -50,6 +51,7 @@ export const Task: any = React.memo(function Task({
   const storage = useAccountStorage();
 
   useEffect(() => setTaskData(task), [task]);
+
 
   const BpIcon: any = useMemo(
     () =>

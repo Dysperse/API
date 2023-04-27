@@ -14,11 +14,11 @@ export default function Document() {
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
-          gtag('config', 'G-KFJ4BEE09N');
+            gtag('config', 'G-KFJ4BEE09N');
         `}
         </Script>
         <Script id="cache" strategy="afterInteractive">
@@ -28,7 +28,6 @@ export default function Document() {
         {/* Preconnect */}
         <link rel="preconnect" href="https://assets.dysperse.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <meta http-equiv="Cache-Control" content="max-age=31536000" />
 
         <link
           rel="preconnect"
@@ -60,6 +59,8 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display&display=swap"
           rel="stylesheet"
         />
+
+        <meta http-equiv="Cache-Control" content="max-age=31536000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />

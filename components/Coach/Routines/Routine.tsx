@@ -288,7 +288,6 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
               }%)`,
             },
             "&:active": {
-              transition: "none",
               transform: "scale(.95)",
             },
           }}

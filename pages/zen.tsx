@@ -46,6 +46,7 @@ export function Navbar() {
       },
     };
   };
+
   return (
     <Box
       sx={{

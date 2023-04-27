@@ -130,7 +130,7 @@ export function Routines({ isCoach = false }: any) {
               flexDirection: "column",
             }),
             gap: isCoach ? 0 : 1,
-            px: isCoach ? 0 : 3,
+            px: isCoach ? 0 : 2,
             mb: 2,
           }}
         >

@@ -95,7 +95,6 @@ export function CreateRoutine({ isCoach, emblaApi, mutationUrl }) {
             }%)`,
           },
           "&:active": {
-            transition: "none",
             transform: "scale(.95)",
           },
         }}

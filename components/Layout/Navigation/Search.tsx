@@ -11,13 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import Router from "next/router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { fetchRawApi, useApi } from "../../../lib/client/useApi";
+import { useDelayedMount } from "../../../lib/client/useDelayedMount";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { Routines } from "../../Coach/Routines";
@@ -231,8 +232,7 @@ export default function Spotlight() {
     () => debouncedHandleSearch(inputValue),
     [inputValue, debouncedHandleSearch]
   );
-
-  const routines = useMemo(() => (open ? <Routines /> : <></>), [open]);
+  const mount = useDelayedMount(open, 1000);
 
   return (
     <SwipeableDrawer
@@ -242,138 +242,146 @@ export default function Spotlight() {
       anchor="bottom"
       disableSwipeToOpen
     >
-      <Puller showOnDesktop />
-      <Box sx={{ px: 2 }}>
-        {showBanner && process.env.NODE_ENV !== "development" && (
-          <Alert
-            severity="info"
-            sx={{ mb: 2 }}
-            action={
-              <IconButton>
-                <Icon>close</Icon>
-              </IconButton>
-            }
-            onClick={() => setShowBanner(false)}
-          >
-            <Typography sx={{ fontWeight: 900 }}>
-              We&apos;ve moved things around
-            </Typography>
-            <Typography>
-              You can now search anything, from goals, to agendas by pressing{" "}
-              <b>ctrl &bull; k</b> on your keyboard, in a much more simplified
-              view
-            </Typography>
-          </Alert>
-        )}
-        <TextField
-          onKeyDown={(e) => {
-            if (e.code === "Enter") {
-              setOpen(false);
-              setTimeout(() => {
-                const tag: any = document.querySelector(
-                  `#activeSearchHighlight`
-                );
-                if (tag) tag.click();
-              }, 500);
-            }
-          }}
-          type="text"
-          size="small"
-          variant="standard"
-          sx={{ mb: 2 }}
-          InputProps={{
-            disableUnderline: true,
-            sx: {
-              px: 2,
-              py: 1,
-              borderRadius: 3,
-              background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
-              "&:focus-within": {
-                background: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
-              },
-            },
-          }}
-          autoFocus
-          placeholder="Jump to..."
-          inputRef={ref}
-          onChange={(e: any) => {
-            setInputValue(e.target.value);
-            debouncedHandleSearch(e.target.value);
-          }}
-          value={inputValue}
-        />
-      </Box>
-      {routines}
-      <Box sx={{ px: 2 }}>
-        <Virtuoso
-          style={{ height: "400px", maxHeight: "calc(100vh - 100px)" }}
-          totalCount={results.length === 0 ? 1 : results.length}
-          itemContent={(index) => {
-            if (results.length === 0) {
-              return (
-                <Box
-                  sx={{
-                    height: "400px",
-                    maxHeight: "calc(100vh - 100px)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <picture>
-                    <img
-                      src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
-                      alt="Crying emoji"
-                    />
-                  </picture>
-                  <Typography sx={{ mt: 2 }} variant="h6">
-                    No results found
-                  </Typography>
-                </Box>
-              );
-            }
-            const result = results[index];
-            return (
-              <ListItemButton
-                key={index}
-                {...(index == 0 && { id: "activeSearchHighlight" })}
-                sx={{
-                  gap: 2,
-                  mb: 0.2,
-                  transition: "none",
-                  ...(index == 0 && {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,15%)"
-                      : "#eee",
-                    "& *": {
-                      fontWeight: 700,
-                    },
-                  }),
-                }}
-                onClick={() => {
-                  handleClose();
-                  setTimeout(() => {
-                    result.onTrigger();
-                  }, 500);
-                }}
+      {mount && (
+        <>
+          <Puller showOnDesktop />
+          <Box sx={{ px: 2 }}>
+            {showBanner && process.env.NODE_ENV !== "development" && (
+              <Alert
+                severity="info"
+                sx={{ mb: 2 }}
+                action={
+                  <IconButton>
+                    <Icon>close</Icon>
+                  </IconButton>
+                }
+                onClick={() => setShowBanner(false)}
               >
-                <Icon {...(index !== 0 && { className: "outlined" })}>
-                  {result.icon}
-                </Icon>
-                <ListItemText primary={result.title} />
-                {result.badge ||
-                  (index == 0 && (
-                    <Chip
-                      size="small"
-                      label={index == 0 ? "↵ enter" : result.badge}
-                    />
-                  ))}
-              </ListItemButton>
-            );
-          }}
-        />
-      </Box>
+                <Typography sx={{ fontWeight: 900 }}>
+                  We&apos;ve moved things around
+                </Typography>
+                <Typography>
+                  You can now search anything, from goals, to agendas by
+                  pressing <b>ctrl &bull; k</b> on your keyboard, in a much more
+                  simplified view
+                </Typography>
+              </Alert>
+            )}
+            <TextField
+              onKeyDown={(e) => {
+                if (e.code === "Enter") {
+                  setOpen(false);
+                  setTimeout(() => {
+                    const tag: any = document.querySelector(
+                      `#activeSearchHighlight`
+                    );
+                    if (tag) tag.click();
+                  }, 500);
+                }
+              }}
+              type="text"
+              size="small"
+              variant="standard"
+              sx={{ mb: 2 }}
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  px: 2,
+                  py: 1,
+                  borderRadius: 3,
+                  background: `hsl(240,11%,${
+                    session.user.darkMode ? 20 : 95
+                  }%)`,
+                  "&:focus-within": {
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 25 : 90
+                    }%)`,
+                  },
+                },
+              }}
+              autoFocus
+              placeholder="Jump to..."
+              inputRef={ref}
+              onChange={(e: any) => {
+                setInputValue(e.target.value);
+                debouncedHandleSearch(e.target.value);
+              }}
+              value={inputValue}
+            />
+          </Box>
+          <Routines />
+          <Box sx={{ px: 2 }}>
+            <Virtuoso
+              style={{ height: "400px", maxHeight: "calc(100vh - 100px)" }}
+              totalCount={results.length === 0 ? 1 : results.length}
+              itemContent={(index) => {
+                if (results.length === 0) {
+                  return (
+                    <Box
+                      sx={{
+                        height: "400px",
+                        maxHeight: "calc(100vh - 100px)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <picture>
+                        <img
+                          src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
+                          alt="Crying emoji"
+                        />
+                      </picture>
+                      <Typography sx={{ mt: 2 }} variant="h6">
+                        No results found
+                      </Typography>
+                    </Box>
+                  );
+                }
+                const result = results[index];
+                return (
+                  <ListItemButton
+                    key={index}
+                    {...(index == 0 && { id: "activeSearchHighlight" })}
+                    sx={{
+                      gap: 2,
+                      mb: 0.2,
+                      transition: "none",
+                      ...(index == 0 && {
+                        background: session.user.darkMode
+                          ? "hsl(240,11%,15%)"
+                          : "#eee",
+                        "& *": {
+                          fontWeight: 700,
+                        },
+                      }),
+                    }}
+                    onClick={() => {
+                      handleClose();
+                      setTimeout(() => {
+                        result.onTrigger();
+                      }, 500);
+                    }}
+                  >
+                    <Icon {...(index !== 0 && { className: "outlined" })}>
+                      {result.icon}
+                    </Icon>
+                    <ListItemText primary={result.title} />
+                    {result.badge ||
+                      (index == 0 && (
+                        <Chip
+                          size="small"
+                          label={index == 0 ? "↵ enter" : result.badge}
+                        />
+                      ))}
+                  </ListItemButton>
+                );
+              }}
+            />
+          </Box>
+        </>
+      )}
     </SwipeableDrawer>
   );
 }

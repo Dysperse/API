@@ -2,9 +2,9 @@ import { Masonry } from "@mui/lab";
 import {
   AppBar,
   Box,
-  Drawer,
   Icon,
   IconButton,
+  SwipeableDrawer,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -31,7 +31,9 @@ export function CreateGoal({ mutationUrl, isCoach }) {
 
   return (
     <>
-      <Drawer
+      <SwipeableDrawer
+        disableSwipeToOpen
+        onOpen={() => {}}
         ModalProps={{ keepMounted: false }}
         open={open}
         onClose={handleClose}
@@ -41,10 +43,17 @@ export function CreateGoal({ mutationUrl, isCoach }) {
             width: "100vw",
             height: "100vh",
             maxWidth: "100vw",
+            borderRadius: 0,
           },
         }}
       >
-        <AppBar sx={{ background: "rgba(255,255,255,.8)" }}>
+        <AppBar
+          sx={{
+            background: session.user.darkMode
+              ? "hsla(240,11%,15%,.8)"
+              : "rgba(255,255,255,.8)",
+          }}
+        >
           <Toolbar sx={{ gap: 2 }}>
             <IconButton onClick={handleClose}>
               <Icon>expand_more</Icon>
@@ -108,7 +117,7 @@ export function CreateGoal({ mutationUrl, isCoach }) {
             ))}
           </Box>
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
       <Box
         id="createGoalTrigger"
         onClick={handleOpen}
@@ -135,7 +144,6 @@ export function CreateGoal({ mutationUrl, isCoach }) {
             }%)`,
           },
           "&:active": {
-            transition: "none",
             transform: "scale(.95)",
           },
         }}
