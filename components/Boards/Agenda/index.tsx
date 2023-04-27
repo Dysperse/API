@@ -102,10 +102,6 @@ export function Agenda({
   }, [navigation]);
 
   const handleToday = useCallback(() => {
-    if (navigation == 0 && window.innerWidth <= 600) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
     setNavigation(0);
     setTimeout(() => {
       const activeHighlight = document.getElementById("activeHighlight");
