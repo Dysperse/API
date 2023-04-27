@@ -52,7 +52,6 @@ export const Task: any = React.memo(function Task({
 
   useEffect(() => setTaskData(task), [task]);
 
-
   const BpIcon: any = useMemo(
     () =>
       styled("span")(() => ({
