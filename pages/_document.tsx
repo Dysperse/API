@@ -21,10 +21,15 @@ export default function Document() {
           gtag('config', 'G-KFJ4BEE09N');
         `}
         </Script>
+        <Script id="cache" strategy="afterInteractive">
+          {`navigator.serviceWorker.register('cache.js');`}
+        </Script>
 
         {/* Preconnect */}
         <link rel="preconnect" href="https://assets.dysperse.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <meta http-equiv="Cache-Control" content="max-age=31536000" />
+
         <link
           rel="preconnect"
           href="https://fonts.googleapis.com"
@@ -41,7 +46,7 @@ export default function Document() {
         <link
           rel="preload"
           as="style"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
 
         {/* DNS prefetch */}
@@ -49,7 +54,7 @@ export default function Document() {
 
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
         <link
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display&display=swap"
