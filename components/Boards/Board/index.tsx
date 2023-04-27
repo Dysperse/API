@@ -12,6 +12,7 @@ import Head from "next/head";
 import { useCallback, useState } from "react";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useApi } from "../../../lib/client/useApi";
+import { useDelayedMount } from "../../../lib/client/useDelayedMount";
 import { useSession } from "../../../lib/client/useSession";
 import { boardSwitcherStyles } from "../Layout";
 import { Column } from "./Column";
@@ -38,6 +39,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
+  const mount = useDelayedMount(mobileOpen, 1000);
 
   return (
     <Box
@@ -134,7 +136,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           },
         }}
       >
-        {isMobile && (
+        {isMobile && mount && (
           <BoardInfo
             setMobileOpen={setMobileOpen}
             setShowInfo={setShowInfo}
