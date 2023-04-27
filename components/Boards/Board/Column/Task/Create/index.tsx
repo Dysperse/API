@@ -29,6 +29,7 @@ import { mutate } from "swr";
 import { capitalizeFirstLetter } from "../../../../../../lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "../../../../../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../../../../../lib/client/useApi";
+import { useBackButton } from "../../../../../../lib/client/useBackButton";
 import { useSession } from "../../../../../../lib/client/useSession";
 import { toastStyles } from "../../../../../../lib/client/useTheme";
 import { colors } from "../../../../../../lib/colors";
@@ -65,6 +66,8 @@ export function CreateTask({
   const titleRef = useRef<HTMLInputElement>(null);
   const dateModalButtonRef = useRef<HTMLButtonElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
+
+  useBackButton(() => setOpen(false));
 
   useHotkeys(
     "alt+s",

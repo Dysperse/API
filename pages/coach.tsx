@@ -142,6 +142,8 @@ export default function Render() {
                             xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
                             sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
                           }
+                      : session.user.darkMode
+                      ? "#eee"
                       : "#303030",
                     backgroundClip: "text!important",
                     fontWeight: 700,
@@ -161,6 +163,7 @@ export default function Render() {
                     p: "0!important",
                     transition: "none",
                     color: "inherit",
+                    background: "rgba(200,200,200,.06)",
                     minWidth: 0,
                   }}
                   size="small"
