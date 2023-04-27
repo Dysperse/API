@@ -344,6 +344,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiDialog: {
         defaultProps: {
           TransitionComponent: Transition,
+          keepMounted: false,
         },
         styleOverrides: {
           paper: {
