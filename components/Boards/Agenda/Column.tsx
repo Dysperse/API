@@ -14,6 +14,7 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
+import { useDelayedMount } from "../../../lib/client/useDelayedMount";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
@@ -136,6 +137,8 @@ export const Column: any = memo(function Column({
   const completedTasks = sortedTasks.filter((task) => task.completed);
   const tasksLeft = sortedTasks.length - completedTasks.length;
 
+  const mount = useDelayedMount(loading, 1000);
+
   return (
     <Box
       ref={ref}
@@ -165,7 +168,7 @@ export const Column: any = memo(function Column({
             background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
           }}
         >
-          {loading && <CircularProgress />}
+          {mount && <CircularProgress />}
         </Box>
       </Collapse>
       <Box

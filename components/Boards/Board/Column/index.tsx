@@ -13,6 +13,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../../lib/client/useApi";
+import { useDelayedMount } from "../../../../lib/client/useDelayedMount";
 import { useSession } from "../../../../lib/client/useSession";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { EmojiPicker } from "../../../EmojiPicker";
@@ -23,6 +24,7 @@ import { CreateTask } from "./Task/Create";
 export function Column({ board, mutationUrls, column, index }) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
+  const mount = useDelayedMount(loading, 1000);
 
   useEffect(() => setColumnTasks(column.tasks), [column.tasks]);
 
@@ -201,7 +203,7 @@ export function Column({ board, mutationUrls, column, index }) {
               background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
             }}
           >
-            {loading && <CircularProgress />}
+            {mount && <CircularProgress />}
           </Box>
         </Collapse>
         <Box
