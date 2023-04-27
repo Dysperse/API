@@ -370,6 +370,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiDrawer: {
         defaultProps: {
+          ModalProps: { keepMounted: false },
           elevation: 0,
           TransitionComponent: DrawerTransition,
         },
