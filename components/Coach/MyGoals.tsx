@@ -12,6 +12,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { useApi } from "../../lib/client/useApi";
@@ -94,23 +95,22 @@ export function MyGoals(): JSX.Element {
         />
       </Box>
       {data.length === 0 ? (
-        <Box style={{ gap: "30px" }}>
+        <Box style={{ gap: "30px", textAlign: "center" }}>
           <picture>
-            <img
-              src="https://i.ibb.co/ZS3YD9C/casual-life-3d-target-and-dart.png"
-              alt="casual-life-3d-target-and-dart"
-              width="100px"
+            <Image
+              src="/images/no-goals.png"
+              alt="No goals created"
+              width={256}
+              height={256}
             />
           </picture>
-          <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
-            <Typography variant="h5" gutterBottom>
-              You haven&apos;t created any goals yet.
-            </Typography>
-            <Typography variant="body1">
-              Dysperse Coach helps you achieve your goals by adding small tasks
-              to enrich your daily routine.
-            </Typography>
-          </Box>
+          <Typography variant="h6" gutterBottom>
+            You haven&apos;t set any goals (yet!)
+          </Typography>
+          <Typography variant="body1">
+            Coach helps you achieve your goals by adding small tasks to enrich
+            your daily routine.
+          </Typography>
         </Box>
       ) : (
         <>
