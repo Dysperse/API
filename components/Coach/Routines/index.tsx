@@ -1,7 +1,6 @@
-import { Box, Skeleton } from "@mui/material";
+import { Box, Button, Skeleton, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { useRef } from "react";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { ErrorHandler } from "../../Error";
@@ -10,6 +9,7 @@ import { Routine } from "./Routine";
 
 export function Routines({ isCoach = false }: any) {
   const { data, url, error } = useApi("user/routines/custom-routines");
+  const ref: any = useRef();
 
   const loading = (
     <Box
@@ -55,16 +55,6 @@ export function Routines({ isCoach = false }: any) {
         )
       )}
     </Box>
-  );
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      dragFree: true,
-      align: "start",
-      containScroll: "trimSnaps",
-      loop: false,
-    },
-    [WheelGesturesPlugin()]
   );
 
   const sorted =
@@ -130,10 +120,69 @@ export function Routines({ isCoach = false }: any) {
               flexDirection: "column",
             }),
             gap: isCoach ? 0 : 1,
-            px: isCoach ? 0 : 2,
+            px: isCoach ? 0 : { xs: 2, sm: 4 },
             mb: 2,
           }}
         >
+          {data && data.length == 0 && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  width: "100%",
+                  flexDirection: "column",
+                  display: "flex",
+                  zIndex: 9,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 700,
+                  transform: "translate(-50%,-50%)",
+                }}
+              >
+                Routines will appear here
+                <Button
+                  size="small"
+                  sx={{ color: "inherit" }}
+                  onClick={() => ref.current?.click()}
+                >
+                  Create one
+                </Button>
+              </Typography>
+              {[...new Array(4)].map((_, i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    p: 1,
+                  }}
+                >
+                  <Skeleton
+                    variant="circular"
+                    width={58}
+                    height={58}
+                    animation={false}
+                    sx={{ filter: "blur(5px)" }}
+                  />
+                  <Skeleton
+                    width={60}
+                    animation={false}
+                    sx={{ filter: "blur(5px)" }}
+                  />
+                </Box>
+              ))}
+            </Box>
+          )}
           {[
             ...sorted.filter(
               (routine) => JSON.parse(routine.daysOfWeek)[dayjs().day()]
@@ -149,11 +198,7 @@ export function Routines({ isCoach = false }: any) {
               isCoach={isCoach}
             />
           ))}
-          <CreateRoutine
-            mutationUrl={url}
-            emblaApi={emblaApi}
-            isCoach={isCoach}
-          />
+          <CreateRoutine mutationUrl={url} isCoach={isCoach} buttonRef={ref} />
         </Box>
       ) : (
         loading

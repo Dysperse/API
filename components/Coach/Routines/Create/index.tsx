@@ -21,7 +21,7 @@ import { toastStyles } from "../../../../lib/client/useTheme";
 import { EmojiPicker } from "../../../EmojiPicker";
 import { CreateGoal } from "../../Goal/Create";
 
-export function CreateRoutine({ isCoach, emblaApi, mutationUrl }) {
+export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
   const session = useSession();
   const titleRef: any = useRef();
 
@@ -57,7 +57,6 @@ export function CreateRoutine({ isCoach, emblaApi, mutationUrl }) {
         timeOfDay: time,
       });
       await mutate(mutationUrl);
-      emblaApi?.reInit();
       toast.success("Created routine!", toastStyles);
       handleClose();
     } catch (e) {
@@ -73,6 +72,7 @@ export function CreateRoutine({ isCoach, emblaApi, mutationUrl }) {
     <>
       <Box
         onClick={handleOpen}
+        ref={buttonRef}
         sx={{
           flexShrink: 0,
           borderRadius: 5,

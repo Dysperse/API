@@ -38,6 +38,7 @@ import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
 
 export function CreateTask({
+  closeOnCreate = false,
   label = false,
   placeholder = false,
   defaultDate = false,
@@ -173,6 +174,9 @@ export function CreateTask({
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+      if (closeOnCreate) {
+        setOpen(false);
+      }
       if (deferredTitle.trim() === "") {
         toast.error("You can't have an empty task... 🤦", toastStyles);
         return;
@@ -204,6 +208,7 @@ export function CreateTask({
     },
     [
       boardId,
+      closeOnCreate,
       column,
       date,
       description,

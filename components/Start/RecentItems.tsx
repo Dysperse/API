@@ -17,6 +17,7 @@ import { Twemoji } from "react-emoji-render";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
+import { CreateTask } from "../Boards/Board/Column/Task/Create";
 import { TaskDrawer } from "../Boards/Board/Column/Task/TaskDrawer";
 
 export function RecentItems() {
@@ -43,9 +44,38 @@ export function RecentItems() {
 
   return (
     <>
+      {data && data.length == 0 && (
+        <Box sx={{ px: { xs: 2, sm: 4 } }}>
+          <Box
+            sx={{
+              border: "1px solid",
+              borderColor: "rgba(200,200,200,.3)",
+              overflow: "hidden",
+              borderRadius: 5,
+              p: { sm: 2 },
+            }}
+          >
+            <Box sx={{ p: { xs: 3, sm: 1.5 }, pb: { xs: 0, sm: 0 }, mb: -1 }}>
+              <Typography sx={{ fontWeight: 700 }}>Recently edited</Typography>
+              <Typography gutterBottom>
+                You don&apos;t have any unfinished tasks!
+              </Typography>
+            </Box>
+            <CreateTask
+              closeOnCreate
+              column={{ id: "-1", name: "" }}
+              defaultDate={new Date()}
+              label="Set a goal"
+              placeholder="Create a task..."
+              mutationUrl={url}
+              boardId={1}
+            />
+          </Box>
+        </Box>
+      )}
       <Typography
-        variant="h6"
         sx={{
+          fontWeight: 700,
           mt: 3,
           ml: 0,
           mb: 1.5,
@@ -105,17 +135,6 @@ export function RecentItems() {
                 >
                   <CardActionArea sx={{ height: "100%" }}>
                     <CardContent sx={{ height: "100%" }}>
-                      <Icon
-                        sx={{
-                          color:
-                            colors[item.color][
-                              session.user.darkMode ? "A400" : 700
-                            ],
-                        }}
-                        className="outlined"
-                      >
-                        check_circle
-                      </Icon>
                       <Typography
                         sx={{
                           fontWeight: 700,
@@ -129,6 +148,10 @@ export function RecentItems() {
                             height: "23px!important",
                             verticalAlign: "top !important",
                           },
+                          color:
+                            colors[item.color][
+                              session.user.darkMode ? "A400" : 700
+                            ],
                         }}
                       >
                         <span>
