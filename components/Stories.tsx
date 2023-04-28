@@ -73,6 +73,7 @@ export function Stories({
             userSelect: "none",
           },
         }}
+       ModalProps={{ keepMounted: false }}
       >
         <Box
           sx={{
