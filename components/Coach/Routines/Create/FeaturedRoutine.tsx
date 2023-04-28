@@ -171,9 +171,16 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
                 gap: 2,
                 transition: "all .2s",
                 ...(item.disabled && {
-                  opacity: 0.5,
+                  opacity:
+                    routineItems.filter((item) => !item.disabled).length == 1
+                      ? 0.8
+                      : 0.5,
                   transform: "scale(.95)",
                 }),
+                ...(routineItems.filter((item) => !item.disabled).length == 1 &&
+                  !item.disabled && {
+                    opacity: 0.3,
+                  }),
               }}
               key={index}
             >
@@ -187,6 +194,10 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               <ListItemText primary={item.name} secondary={item.description} />
               <IconButton
                 sx={{ ml: "auto" }}
+                disabled={
+                  routineItems.filter((item) => !item.disabled).length == 1 &&
+                  !item.disabled
+                }
                 size="small"
                 onClick={() =>
                   setRoutineItems(

@@ -170,6 +170,8 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
                   borderColor: `hsl(240,11%,${
                     session.user.darkMode ? 30 : 80
                   }%)`,
+                  width: "100px",
+                  height: "100px",
                   p: 2,
                 }}
               >
@@ -219,7 +221,7 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
             InputProps={{
               disableUnderline: true,
               sx: {
-                background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+                background: `hsl(240,11%,${session.user.darkMode ? 30 : 95}%)`,
                 py: 1,
                 px: 2,
                 borderRadius: 3,
@@ -227,6 +229,16 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
             }}
             placeholder="Morning routine"
           />
+          <Typography variant="body2" sx={{ opacity: 0.5 }}>
+            A{" "}
+            <i>
+              <u>routine</u>
+            </i>{" "}
+            is a set of{" "}
+            <i>
+              <u>goals</u>
+            </i>
+          </Typography>
           <Typography
             variant="body2"
             sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
@@ -253,6 +265,9 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
               </Button>
             ))}
           </Box>
+          <Typography variant="body2" sx={{ opacity: 0.5, mt: 0.5 }}>
+            You&apos;ll receive one notification reminder every day
+          </Typography>
           <Typography
             variant="body2"
             sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
@@ -267,7 +282,7 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
             size="small"
             disableUnderline
             sx={{
-              background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+              background: `hsl(240,11%,${session.user.darkMode ? 30 : 95}%)`,
               py: 1,
               px: 2,
               mt: 1,

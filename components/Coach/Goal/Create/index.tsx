@@ -33,7 +33,7 @@ export function CreateGoal({ mutationUrl, isCoach }) {
     <>
       <SwipeableDrawer
         disableSwipeToOpen
-        onOpen={() => {}}
+        onOpen={handleOpen}
         ModalProps={{ keepMounted: false }}
         open={open}
         onClose={handleClose}
