@@ -237,7 +237,7 @@ export const templates = [
   {
     for: ["Student", "College student"],
     name: "School planner",
-    description: "NEW: School planner to help organize your assignments",
+    description: "School planner to help organize your assignments",
     color: "blue",
     columns: [
       {
@@ -288,7 +288,7 @@ export const templates = [
   {
     for: ["Student", "College student"],
     name: "Tests, homework, and projects",
-    description: "NEW: School planner to help organize your assignments",
+    description: "School planner to help organize your assignments",
     color: "blue",
     columns: [
       {
@@ -555,13 +555,13 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: 5,
-          mt: 3,
+          mt: 6,
           p: 4,
-          mb: 7,
+          mb: 3,
           mx: { sm: 1 },
           overflow: "hidden",
           py: 5,
-          background: "black",
+          background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
           position: "relative",
         }}
       >
@@ -569,40 +569,10 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           <title>Explore &bull; {currentOption}s</title>
         </Head>
         <Box sx={{ zIndex: 9, position: "sticky" }}>
-          <Typography
-            variant="h5"
-            onClick={() => length !== 0 && setDrawerOpen(true)}
-            sx={{
-              zIndex: 9,
-              pointerEvents: { sm: "none" },
-              lineHeight: 1.5,
-              letterSpacing: 0.15,
-              borderRadius: 2,
-              overflow: "hidden",
-              maxWidth: "100%",
-              px: 1,
-              mb: 2,
-              ml: -1,
-              color: "hsl(240,11%,90%)!important",
-              cursor: "unset!important",
-              userSelect: "none",
-              "&:hover": {
-                color: "hsl(240,11%,80%)",
-                background: "hsl(240,11%,13%)",
-              },
-              "&:active": {
-                color: "hsl(240,11%,95%)",
-                background: "hsl(240,11%,16%)",
-              },
-
-              display: { xs: "inline-flex", md: "inline-flex" },
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
-            Create a board {length !== 0 && <Icon>expand_more</Icon>}
+          <Typography variant="h5" sx={{ mb: 1 }}>
+            Create a board
           </Typography>
-          <Typography sx={{ mb: 2, color: "#fff", zIndex: 9 }}>
+          <Typography sx={{ mb: 2, zIndex: 9 }}>
             Boards are sweet places where you can keep track of almost anything,
             from tasks, to shopping lists, to even product planning. You can
             always edit templates after creating.
