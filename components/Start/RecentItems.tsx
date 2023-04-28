@@ -131,7 +131,7 @@ export function RecentItems() {
                         },
                         color:
                           colors[item.color][
-                            session.user.darkMode ? "A400" : 700
+                            session.user.darkMode ? "A400" : 900
                           ],
                       }}
                     >
