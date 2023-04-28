@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { useSWRConfig } from "swr";
-import { authStyles, Layout } from "../../components/Auth/Layout";
+import { AuthBranding, authStyles, Layout } from "../../components/Auth/Layout";
 
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { toastStyles } from "../../lib/client/useTheme";
@@ -72,35 +72,7 @@ export default function Prompt() {
     <Layout>
       <Box>
         <Box sx={authStyles.container}>
-          <Box
-            sx={{
-              color: "#202020",
-              ["@media (prefers-color-scheme: dark)"]: {
-                color: "hsl(240,11%,90%)",
-                "&:hover": {
-                  color: "hsl(240,11%,100%)",
-                },
-              },
-              alignItems: "center",
-              gap: 2,
-              userSelect: "none",
-              display: { xs: "flex", sm: "none" },
-              mt: -3,
-            }}
-          >
-            <picture>
-              <img
-                src="https://assets.dysperse.com/v6/dark.png"
-                width="40"
-                height="40"
-                style={{
-                  borderRadius: "999px",
-                }}
-                alt="logo"
-              />
-            </picture>
-            <Typography variant="h6">Dysperse</Typography>
-          </Box>
+          <AuthBranding mobile />
           <form onSubmit={handleSubmit}>
             <Box sx={{ pt: 3 }}>
               <Box sx={{ px: 1 }}>

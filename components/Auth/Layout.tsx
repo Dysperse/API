@@ -2,6 +2,7 @@ import { Box, Chip, createTheme, Typography } from "@mui/material";
 import { brown } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
+import Image from "next/image";
 import { Toaster } from "react-hot-toast";
 
 const darkTheme = createTheme({
@@ -12,6 +13,65 @@ const darkTheme = createTheme({
     },
   },
 });
+
+export const AuthBranding = ({ mobile = false }: any) => (
+  <Box
+    sx={{
+      display: "inline-flex",
+      color: "#000",
+      [`@media (prefers-color-scheme: dark)`]: {
+        color: "#fff",
+        "& img": {
+          filter: "invert(1)",
+        },
+      },
+      alignItems: "center",
+      gap: 2.5,
+      userSelect: "none",
+      mx: mobile ? 0 : 4,
+      pr: 2,
+      borderRadius: 4,
+      mt: mobile ? -2 : 4,
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+      "&:active": {
+        transform: "scale(0.95)",
+        transitionDuration: "0s",
+      },
+    }}
+    onClick={() => window.open("//dysperse.com")}
+  >
+    <Image
+      src="/images/monochrome.svg"
+      width={45}
+      height={45}
+      alt="logo"
+      draggable={false}
+    />
+    <Typography
+      sx={{ fontWeight: "200!important", fontSize: "18px" }}
+      component="div"
+    >
+      Dysperse
+      <Chip
+        label="alpha"
+        color="info"
+        size="small"
+        sx={{
+          pointerEvents: "none",
+          ml: 2,
+          px: 1,
+          background: "#200923",
+          [`@media (prefers-color-scheme: dark)`]: {
+            background: "hsl(240,11%,90%)",
+            color: "hsl(240,11%,10%)",
+          },
+          fontWeight: "900",
+        }}
+      />
+    </Typography>
+  </Box>
+);
 
 export const authStyles = {
   submit: {
@@ -153,64 +213,7 @@ export function Layout({ children }): JSX.Element {
           }}
         >
           <Toaster />
-          <Box
-            sx={{
-              display: "inline-flex",
-              color: "#000",
-              [`@media (prefers-color-scheme: dark)`]: {
-                color: "#fff",
-              },
-              alignItems: "center",
-              gap: 2.5,
-              userSelect: "none",
-              mx: 4,
-              pr: 2,
-              borderRadius: 4,
-              mt: 4,
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-              "&:active": {
-                transform: "scale(0.95)",
-                transitionDuration: "0s",
-              },
-            }}
-            onClick={() => window.open("//dysperse.com")}
-          >
-            <picture>
-              <img
-                src="https://assets.dysperse.com/v6/dark.png"
-                width="45"
-                height="45"
-                alt="logo"
-                style={{
-                  borderRadius: "19px",
-                }}
-                draggable={false}
-              />
-            </picture>
-            <Typography
-              sx={{ fontWeight: "200!important", fontSize: "18px" }}
-              component="div"
-            >
-              Dysperse
-              <Chip
-                label="alpha"
-                color="info"
-                size="small"
-                sx={{
-                  pointerEvents: "none",
-                  ml: 2,
-                  px: 1,
-                  background: "#200923",
-                  [`@media (prefers-color-scheme: dark)`]: {
-                    background: "hsl(240,11%,90%)",
-                    color: "hsl(240,11%,10%)",
-                  },
-                  fontWeight: "900",
-                }}
-              />
-            </Typography>
-          </Box>
+          <AuthBranding />
           {children}
         </Box>
       </ThemeProvider>

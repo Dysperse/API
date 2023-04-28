@@ -62,6 +62,7 @@ input {
 }
 
 body {
+  user-select: none;
   overflow-x: hidden;
   margin: 0;
   width: 100vw;

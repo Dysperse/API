@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { Layout, authStyles } from "../../components/Auth/Layout";
+import { AuthBranding, Layout, authStyles } from "../../components/Auth/Layout";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
@@ -170,35 +170,7 @@ export default function Prompt() {
   return (
     <Layout>
       <Box sx={authStyles.container}>
-        <Box
-          sx={{
-            color: "#202020",
-            ["@media (prefers-color-scheme: dark)"]: {
-              color: "hsl(240,11%,90%)",
-              "&:hover": {
-                color: "hsl(240,11%,100%)",
-              },
-            },
-            alignItems: "center",
-            gap: 2,
-            userSelect: "none",
-            display: { xs: "flex", sm: "none" },
-            mt: -3,
-          }}
-        >
-          <picture>
-            <img
-              src="https://assets.dysperse.com/v6/dark.png"
-              width="40"
-              height="40"
-              style={{
-                borderRadius: "999px",
-              }}
-              alt="logo"
-            />
-          </picture>
-          <Typography variant="h6">Dysperse</Typography>
-        </Box>
+        <AuthBranding mobile />
         <form onSubmit={handleSubmit}>
           {step === 1 ? (
             <Box sx={{ pt: 3 }}>
