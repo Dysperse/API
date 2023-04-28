@@ -79,7 +79,7 @@ export function useApi(
   const [response, setResponse] = useState<ApiResponse>({
     data,
     url,
-    loading: !error && !data,
+    loading: !error && typeof data == "undefined",
     error: error,
     fetcher: fetcher,
   });
@@ -88,7 +88,7 @@ export function useApi(
     setResponse({
       data,
       url,
-      loading: !error && !data,
+      loading: !error && typeof data == "undefined",
       error: error,
       fetcher: fetcher,
     });

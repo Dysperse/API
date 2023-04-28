@@ -8,11 +8,11 @@ import { prisma } from "../../../../../lib/server/prisma";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  const user = await prisma.coachData.findUnique({
+  const streakData = await prisma.coachData.findUnique({
     where: {
       userId: req.query.userIdentifier,
     },
   });
-  res.json(user);
+  res.json(streakData);
 };
 export default handler;

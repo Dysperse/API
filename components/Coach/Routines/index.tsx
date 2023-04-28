@@ -130,6 +130,11 @@ export function Routines({ isCoach = false }: any) {
                 display: "flex",
                 alignItems: "center",
                 position: "relative",
+                ...(isCoach && {
+                  width: "100%",
+                  mb: 2,
+                }),
+                flexDirection: isCoach ? "column" : "row",
               }}
             >
               <Typography
@@ -163,8 +168,12 @@ export function Routines({ isCoach = false }: any) {
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    flexDirection: "column",
+                    flexDirection: isCoach ? "row" : "column",
+                    gap: isCoach ? 2 : 0,
                     p: 1,
+                    ...(isCoach && {
+                      width: "100%",
+                    }),
                   }}
                 >
                   <Skeleton
@@ -172,10 +181,10 @@ export function Routines({ isCoach = false }: any) {
                     width={58}
                     height={58}
                     animation={false}
-                    sx={{ filter: "blur(5px)" }}
+                    sx={{ filter: "blur(5px)", flexShrink: 0 }}
                   />
                   <Skeleton
-                    width={60}
+                    width={isCoach ? "100%" : 60}
                     animation={false}
                     sx={{ filter: "blur(5px)" }}
                   />
