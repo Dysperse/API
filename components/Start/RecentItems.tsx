@@ -80,7 +80,7 @@ export function RecentItems() {
           overflowY: "visible",
           mb: 2,
           gap: 2,
-          pb: 2,
+          pb: 0,
         }}
       >
         {!data && (
