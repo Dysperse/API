@@ -62,7 +62,9 @@ export function GoalCard({ setData, routine, goal, goals }) {
         <CardContent>
           <Typography sx={{ fontWeight: 700 }}>{goal.name}</Typography>
           <Typography variant="body2">
-            Last worked on {dayjs(goal.lastCompleted).fromNow()}
+            {goal.lastCompleted
+              ? `Last worked on ${dayjs(goal.lastCompleted).fromNow()}`
+              : "No progress (yet!)"}
           </Typography>
         </CardContent>
         {loading ? (
