@@ -76,15 +76,15 @@ export function Loading(): JSX.Element {
         >
           <Toolbar sx={{ mt: -1 }}>
             <Skeleton
+              variant="circular"
               animation="wave"
-              height={30}
-              variant="rectangular"
+              width={35}
+              height={35}
               sx={{
-                width: { xs: 100, sm: 150, md: 200 },
-                borderRadius: 3,
                 maxWidth: "100%",
               }}
             />
+            <Skeleton width={75} animation="wave" sx={{ ml: 1.5 }} />
             <Skeleton
               animation="wave"
               variant="rectangular"
@@ -97,7 +97,7 @@ export function Loading(): JSX.Element {
               }}
             />
             <Box sx={{ ml: "auto", display: "flex", gap: 1.5 }}>
-              {[...new Array(3)].map((_, i) => (
+              {[...new Array(2)].map((_, i) => (
                 <Skeleton
                   variant="circular"
                   animation="wave"
