@@ -16,6 +16,7 @@ import {
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import dynamic from "next/dynamic";
 import {
   useCallback,
   useDeferredValue,
@@ -33,9 +34,9 @@ import { useBackButton } from "../../../../../../lib/client/useBackButton";
 import { useSession } from "../../../../../../lib/client/useSession";
 import { toastStyles } from "../../../../../../lib/client/useTheme";
 import { colors } from "../../../../../../lib/colors";
-import { EmojiPicker } from "../../../../../EmojiPicker";
 import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
+const EmojiPicker = dynamic(() => import("../../../../../EmojiPicker"));
 
 export function CreateTask({
   closeOnCreate = false,

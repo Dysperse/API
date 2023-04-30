@@ -55,7 +55,7 @@ export function debounce(func: (...args: any[]) => void, delay: number) {
   };
 }
 
-export function EmojiPicker({
+export default function EmojiPicker({
   children,
   emoji,
   setEmoji,

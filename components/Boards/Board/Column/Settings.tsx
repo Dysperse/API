@@ -10,6 +10,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import { useCallback, useDeferredValue, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
@@ -18,8 +19,8 @@ import { fetchRawApi } from "../../../../lib/client/useApi";
 import { useSession } from "../../../../lib/client/useSession";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { ConfirmationModal } from "../../../ConfirmationModal";
-import { EmojiPicker } from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
+const EmojiPicker = dynamic(() => import("../../../EmojiPicker"));
 
 export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
   const storage = useAccountStorage();

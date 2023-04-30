@@ -7,6 +7,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -15,8 +16,8 @@ import { fetchRawApi } from "../../../../lib/client/useApi";
 import { useSession } from "../../../../lib/client/useSession";
 import { toastStyles } from "../../../../lib/client/useTheme";
 import { colors } from "../../../../lib/colors";
-import { EmojiPicker } from "../../../EmojiPicker";
 import { Puller } from "../../../Puller";
+const EmojiPicker = dynamic(() => import("../../../EmojiPicker"));
 
 export default function CreateColumn({
   hide,
