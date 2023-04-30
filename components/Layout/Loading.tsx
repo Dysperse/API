@@ -77,16 +77,16 @@ export function Loading(): JSX.Element {
           <Toolbar sx={{ mt: -1 }}>
             <Skeleton
               variant="circular"
-              animation="wave"
+              animation={false}
               width={35}
               height={35}
               sx={{
                 maxWidth: "100%",
               }}
             />
-            <Skeleton width={75} animation="wave" sx={{ ml: 1.5 }} />
+            <Skeleton width={75} animation={false} sx={{ ml: 1.5 }} />
             <Skeleton
-              animation="wave"
+              animation={false}
               variant="rectangular"
               sx={{
                 height: 45,
@@ -100,7 +100,7 @@ export function Loading(): JSX.Element {
               {[...new Array(2)].map((_, i) => (
                 <Skeleton
                   variant="circular"
-                  animation="wave"
+                  animation={false}
                   width={35}
                   key={i}
                   height={35}
@@ -137,7 +137,7 @@ export function Loading(): JSX.Element {
           >
             <Skeleton
               variant="rectangular"
-              animation="wave"
+              animation={false}
               sx={{
                 borderRadius: 5,
                 height: 50,
@@ -148,7 +148,7 @@ export function Loading(): JSX.Element {
             {[...new Array(5)].map((_, i) => (
               <Skeleton
                 variant="rectangular"
-                animation="wave"
+                animation={false}
                 key={i}
                 sx={{
                   borderRadius: 5,
@@ -187,7 +187,7 @@ export function Loading(): JSX.Element {
             >
               <Skeleton
                 variant="rectangular"
-                animation="wave"
+                animation={false}
                 height={15}
                 sx={{
                   width: "40%",
@@ -199,7 +199,7 @@ export function Loading(): JSX.Element {
                 <Skeleton
                   key={i}
                   variant="rectangular"
-                  animation="wave"
+                  animation={false}
                   height={30}
                   sx={{
                     width: "100%",
@@ -211,7 +211,7 @@ export function Loading(): JSX.Element {
 
               <Skeleton
                 variant="rectangular"
-                animation="wave"
+                animation={false}
                 height={15}
                 sx={{
                   width: "55%",
@@ -224,7 +224,7 @@ export function Loading(): JSX.Element {
                 <Skeleton
                   key={i}
                   variant="rectangular"
-                  animation="wave"
+                  animation={false}
                   height={30}
                   sx={{
                     width: "100%",
@@ -276,7 +276,7 @@ export function Loading(): JSX.Element {
                     >
                       <Skeleton
                         variant="rectangular"
-                        animation="wave"
+                        animation={false}
                         key={i + "_"}
                         height={50}
                         width={50}
@@ -284,7 +284,7 @@ export function Loading(): JSX.Element {
                       />
                       <Skeleton
                         variant="rectangular"
-                        animation="wave"
+                        animation={false}
                         key={i}
                         height={20}
                         width={"100%"}
@@ -296,7 +296,7 @@ export function Loading(): JSX.Element {
                         <Skeleton
                           key={i}
                           variant="rectangular"
-                          animation="wave"
+                          animation={false}
                           height={30}
                           sx={{
                             width: i % 2 ? "70%" : "100%",
