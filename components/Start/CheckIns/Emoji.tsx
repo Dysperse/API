@@ -58,6 +58,7 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
+        ModalProps={{ keepMounted: false }}
         anchor="bottom"
         disableSwipeToOpen
       >

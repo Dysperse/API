@@ -65,6 +65,7 @@ export function EditRoutine({ setData, routine }) {
       </ListItemButton>
 
       <SwipeableDrawer
+        ModalProps={{ keepMounted: false }}
         open={open}
         anchor="bottom"
         onClose={handleClose}

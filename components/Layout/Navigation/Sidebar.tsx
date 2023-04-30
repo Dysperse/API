@@ -1,4 +1,4 @@
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -9,12 +9,13 @@ import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { updateSettings } from "../../Settings/updateSettings";
 import { openSpotlight } from "./Search";
-import InviteButton from "./UserMenu";
+import UserMenu from "./UserMenu";
 const SearchPopup = dynamic(() => import("./Search"));
 
 export function Sidebar() {
   const router = useRouter();
   const [clickCount, setClickCount] = useState(0);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   // Easter egg #1
   const handleClick = () => {
@@ -271,7 +272,7 @@ export function Sidebar() {
             <span className="material-symbols-outlined">bolt</span>
           </Tooltip>
         </Box>
-        <InviteButton styles={styles} />
+        {!isMobile && <UserMenu styles={styles} />}
       </Box>
     </Box>
   );

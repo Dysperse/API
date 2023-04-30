@@ -8,6 +8,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
@@ -23,6 +24,7 @@ import { useSession } from "../lib/client/useSession";
 
 export function Navbar() {
   const session = useSession();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const styles = () => {
     return {
@@ -93,7 +95,7 @@ export function Navbar() {
             <Icon className="outlined">bolt</Icon>
           </IconButton>
         </Tooltip>
-        <UserMenu styles={styles} useMobile />
+        {isMobile && <UserMenu styles={styles} />}
       </Box>
     </Box>
   );

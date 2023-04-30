@@ -61,6 +61,7 @@ export function ConfirmationModal({
         disableSwipeToOpen
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
+        ModalProps={{ keepMounted: false }}
         onClick={(e) => e.stopPropagation()}
         sx={{ zIndex: 9999999 }}
         PaperProps={{

@@ -260,6 +260,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             }),
         },
       },
+      MuiModal: {
+        defaultProps: {
+          keepMounted: false,
+        },
+      },
       MuiMenu: {
         defaultProps: {
           transitionDuration: 200,

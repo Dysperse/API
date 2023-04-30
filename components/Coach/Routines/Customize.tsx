@@ -34,6 +34,7 @@ export function CustomizeRoutine({ setData, routine }) {
       <SwipeableDrawer
         open={open}
         anchor="bottom"
+        ModalProps={{ keepMounted: false }}
         onClose={handleClose}
         onOpen={handleOpen}
         disableSwipeToOpen

@@ -87,9 +87,7 @@ export function EditProperty({
     <>
       {trigger}
       <SwipeableDrawer
-        ModalProps={{
-          keepMounted: false,
-        }}
+        ModalProps={{ keepMounted: false }}
         disableSwipeToOpen
         anchor="bottom"
         open={open}

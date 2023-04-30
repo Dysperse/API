@@ -145,6 +145,7 @@ export function DailyCheckInDrawer({ mood }) {
         onClose={handleClose}
         open={open}
         PaperProps={{ sx: drawerStyles }}
+        ModalProps={{ keepMounted: false }}
       >
         <AppBar>
           <Toolbar>

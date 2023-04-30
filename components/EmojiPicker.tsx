@@ -120,9 +120,7 @@ export function EmojiPicker({
         onOpen={handleOpen}
         disableSwipeToOpen
         anchor="bottom"
-        ModalProps={{
-          keepMounted: false,
-        }}
+        ModalProps={{ keepMounted: false }}
         sx={{
           zIndex: 99999999999,
         }}

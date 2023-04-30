@@ -80,9 +80,7 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         onClose={() => setInfoOpen(false)}
         disableSwipeToOpen
         anchor="bottom"
-        ModalProps={{
-          keepMounted: false,
-        }}
+        ModalProps={{ keepMounted: false }}
       >
         <AppBar>
           <Toolbar>

@@ -235,6 +235,7 @@ export default function Spotlight() {
     <SwipeableDrawer
       open={open}
       onOpen={handleOpen}
+      ModalProps={{ keepMounted: false }}
       onClose={handleClose}
       anchor="bottom"
       disableSwipeToOpen

@@ -58,6 +58,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
           mutate(mutationUrls.boardData);
           setOpen(false);
         }}
+        ModalProps={{ keepMounted: false }}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{

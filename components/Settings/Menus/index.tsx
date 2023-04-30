@@ -87,6 +87,7 @@ export function SettingsMenu({
       </ListItemButton>
       {parentOpen && (
         <SwipeableDrawer
+          ModalProps={{ keepMounted: false }}
           open={open}
           anchor="bottom"
           onClose={() => setOpen(false)}

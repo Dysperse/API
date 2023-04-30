@@ -27,7 +27,7 @@ const Group = dynamic(() => import("../../Group"));
  * Invite button to trigger property list
  * @returns {any}
  */
-export default function InviteButton({ useMobile = false, styles }: any) {
+export default function InviteButton({ styles }: any) {
   const [open, setOpen] = React.useState<boolean>(false);
 
   useBackButton(() => setOpen(false));
@@ -283,7 +283,7 @@ export default function InviteButton({ useMobile = false, styles }: any) {
         <Box
           sx={{
             ...styles(false),
-            display: useMobile ? "none" : { xs: "none", md: "block" },
+            display: { xs: "none", md: "block" },
             mb: 2,
           }}
           id="houseProfileTrigger"

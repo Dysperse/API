@@ -143,6 +143,7 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
         open={open}
         anchor="bottom"
         onClose={handleClose}
+        ModalProps={{ keepMounted: false }}
         onOpen={handleOpen}
         disableSwipeToOpen
         PaperProps={{

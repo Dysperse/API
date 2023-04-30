@@ -8,6 +8,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -24,6 +25,8 @@ import UserMenu from "./UserMenu";
 export function Navbar(): JSX.Element {
   const session = useSession();
   const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const styles = () => {
     return {
       WebkitAppRegion: "no-drag",
@@ -187,7 +190,7 @@ export function Navbar(): JSX.Element {
         <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
           <UpdateButton />
         </Box>
-        <UserMenu styles={styles} />
+        {isMobile && <UserMenu styles={styles} />}
       </Toolbar>
     </AppBar>
   );
