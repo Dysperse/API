@@ -17,7 +17,7 @@ const darkTheme = createTheme({
 export const AuthBranding = ({ mobile = false }: any) => (
   <Box
     sx={{
-      display: "inline-flex",
+      display: { xs: "inline-flex", sm: "none" },
       color: "#000",
       [`@media (prefers-color-scheme: dark)`]: {
         color: "#fff",
