@@ -137,6 +137,12 @@ export default function EmojiPicker({
                     textAlign: "center",
                   }}
                 >
+                  <picture>
+                    <img
+                      src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
+                      alt="Crying emoji"
+                    />
+                  </picture>
                   No results found
                 </Box>
               )}
