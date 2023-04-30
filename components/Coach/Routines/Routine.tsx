@@ -85,7 +85,7 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
                 width="35px"
                 height="35px"
                 alt="Emoji"
-                loading={lazy}
+                loading="lazy"
               />
             </picture>
             <Typography variant="h6">{routine.name}</Typography>
