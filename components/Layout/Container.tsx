@@ -2,7 +2,7 @@ import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import { NextRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import {
   AccountStorageState,
   modifyAccountStorageHook,
@@ -104,9 +104,7 @@ export function RenderWithLayout({
       </Head>
       <ThemeProvider theme={userTheme}>
         <Box>
-          <div onTouchStart={() => setTimeout(() => toast.dismiss(), 500)}>
-            <Toaster containerClassName="noDrag" />
-          </div>
+          <Toaster containerClassName="noDrag" />
           {
             // If the path is onboarding, show the onboarding page.
             window.location.pathname === "/onboarding" ? (
