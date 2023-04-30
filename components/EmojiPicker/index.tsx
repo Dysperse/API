@@ -1,4 +1,4 @@
-import { Box, SwipeableDrawer, TextField } from "@mui/material";
+import { Box, SwipeableDrawer, TextField, Typography } from "@mui/material";
 import { SearchIndex, init } from "emoji-mart";
 import { cloneElement, useEffect, useRef, useState } from "react";
 import { useSession } from "../../lib/client/useSession";
@@ -143,7 +143,9 @@ export default function EmojiPicker({
                       alt="Crying emoji"
                     />
                   </picture>
-                  No results found
+                  <Typography sx={{ mt: 1, fontWeight: 700 }}>
+                    No results found
+                  </Typography>
                 </Box>
               )}
             {results &&
