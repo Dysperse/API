@@ -175,7 +175,9 @@ export default function DrawerContent({
     <>
       {/* Task name input */}
       <TextField
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         multiline
         placeholder="Task name"
         fullWidth
@@ -209,25 +211,26 @@ export default function DrawerContent({
           overflowX: "scroll",
         }}
       >
-        {[
-          "orange",
-          "red",
-          "brown",
-          "pink",
-          "purple",
-          "indigo",
-          "teal",
-          "green",
-          "grey",
-        ].map((color) => (
-          <Color
-            key={color}
-            color={color}
-            mutationUrl={mutationUrl}
-            setTaskData={setTaskData}
-            task={data}
-          />
-        ))}
+        {session.permission !== "read-only" &&
+          [
+            "orange",
+            "red",
+            "brown",
+            "pink",
+            "purple",
+            "indigo",
+            "teal",
+            "green",
+            "grey",
+          ].map((color) => (
+            <Color
+              key={color}
+              color={color}
+              mutationUrl={mutationUrl}
+              setTaskData={setTaskData}
+              task={data}
+            />
+          ))}
       </Box>
 
       {/* Description */}
@@ -242,7 +245,9 @@ export default function DrawerContent({
             ? "You've reached your account storage limits and you can't add a description."
             : "Click to add description"
         }
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         fullWidth
         defaultValue={parseEmojis(data.description)}
         variant="standard"
@@ -295,7 +300,9 @@ export default function DrawerContent({
         value={data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")}
         placeholder="Set a due date"
         onClick={() => setOpen(true)}
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         InputProps={{
           readOnly: true,
           sx: {
@@ -326,6 +333,7 @@ export default function DrawerContent({
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
+                  disabled={session.permission === "read-only"}
                   onClick={(e) => {
                     e.stopPropagation();
                     setTaskData((prev) => ({
@@ -367,7 +375,9 @@ export default function DrawerContent({
           <Button
             onClick={handleComplete}
             sx={iconStyles}
-            disabled={storage?.isReached === true}
+            disabled={
+              storage?.isReached === true || session.permission === "read-only"
+            }
           >
             <Icon
               sx={{
@@ -384,7 +394,9 @@ export default function DrawerContent({
           <Button
             onClick={handlePriorityChange}
             sx={iconStyles}
-            disabled={storage?.isReached === true}
+            disabled={
+              storage?.isReached === true || session.permission === "read-only"
+            }
           >
             <Icon
               className={`${data.pinned && "pinned"} shadow-md dark:shadow-xl`}
@@ -416,13 +428,22 @@ export default function DrawerContent({
               handleDelete(data.id);
             }}
           >
-            <Button sx={iconStyles}>
+            <Button
+              sx={iconStyles}
+              disabled={session.permission === "read-only"}
+            >
               <Icon className="outlined shadow-md dark:shadow-xl">delete</Icon>
               Delete
             </Button>
           </ConfirmationModal>
           <RescheduleModal handlePostpone={handlePostpone} data={data}>
-            <Button sx={iconStyles} disabled={storage?.isReached === true}>
+            <Button
+              sx={iconStyles}
+              disabled={
+                storage?.isReached === true ||
+                session.permission === "read-only"
+              }
+            >
               <Icon className="outlined shadow-md dark:shadow-xl">
                 schedule
               </Icon>

@@ -172,6 +172,7 @@ export default function BoardSettings({ mutationUrl, board }) {
           onClick={handleClick}
           sx={{ mr: { md: "auto" } }}
           size="large"
+          disabled={session.permission === "read-only"}
         >
           <Icon className="outlined">settings</Icon>
         </IconButton>

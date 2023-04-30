@@ -399,7 +399,8 @@ export function TasksLayout() {
           <Button
             disabled={
               storage?.isReached === true ||
-              (data && data.filter((board) => !board.archived).length >= 5)
+              (data && data.filter((board) => !board.archived).length >= 5) ||
+              session.permission === "read-only"
             }
             ref={ref}
             size="large"

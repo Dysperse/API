@@ -8,11 +8,13 @@ import { mutate } from "swr";
 import { ConfirmationModal } from "../components/ConfirmationModal";
 import { ErrorHandler } from "../components/Error";
 import { fetchRawApi, useApi } from "../lib/client/useApi";
+import { useSession } from "../lib/client/useSession";
 import { toastStyles } from "../lib/client/useTheme";
 import Categories from "./items";
 
 function DeleteCard({ item }) {
   const [hidden, setHidden] = useState<boolean>(false);
+  const session = useSession();
 
   return hidden ? null : (
     <Box
@@ -35,6 +37,7 @@ function DeleteCard({ item }) {
           borderRadius: 99,
           mt: 2,
         }}
+        disabled={session.permission === "read-only"}
       >
         Restore
       </Button>
@@ -42,6 +45,7 @@ function DeleteCard({ item }) {
         color="error"
         fullWidth
         variant="contained"
+        disabled={session.permission === "read-only"}
         onClick={() => {
           setHidden(true);
           fetchRawApi("property/inventory/trash/item", {
@@ -56,7 +60,12 @@ function DeleteCard({ item }) {
           });
         }}
         sx={{
-          background: `${red["900"]}!important`,
+          ...(session.permission !== "read-only" && {
+            "&,&:hover": {
+              background: `${red["900"]}!important`,
+              color: `${red["50"]}!important`,
+            },
+          }),
           borderRadius: 99,
           mt: 1,
         }}
@@ -70,6 +79,7 @@ function DeleteCard({ item }) {
 export default function Trash() {
   const { data, url, error } = useApi("property/inventory/trash");
   const router = useRouter();
+  const session = useSession();
 
   return (
     <Categories>
@@ -103,10 +113,18 @@ export default function Trash() {
         >
           <Button
             variant="contained"
-            disabled={!data || (data || []).length === 0}
+            disabled={
+              !data ||
+              (data || []).length === 0 ||
+              session.permission === "read-only"
+            }
             sx={{
-              background: `${red["900"]}!important`,
-              color: `${red["50"]}!important`,
+              ...(session.permission !== "read-only" && {
+                "&,&:hover": {
+                  background: `${red["900"]}!important`,
+                  color: `${red["50"]}!important`,
+                },
+              }),
               borderRadius: 99,
               mt: 1,
               mb: 3,

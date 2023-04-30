@@ -148,7 +148,9 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   return (
     <Box sx={{ px: 4, pt: 1 }}>
       <TextField
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         placeholder="Item title"
         multiline
         defaultValue={capitalizeFirstLetter(itemData.name)}
@@ -167,7 +169,9 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       />
       <TextField
         multiline
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         placeholder="Add a quantity"
         onChange={preventLineBreaks}
         onKeyDown={preventLineBreaks}
@@ -216,7 +220,9 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       <TextField
         multiline
         variant="standard"
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         InputProps={{
           disableUnderline: true,
           sx: { ...styles, borderRadius: 5, mb: 2, p: 3 },

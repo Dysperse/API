@@ -14,7 +14,6 @@ import { useAccountStorage } from "../../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
 import Action from "../../Rooms/Action";
 
@@ -106,9 +105,8 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
             variant="contained"
             fullWidth
             loading={loading}
+            disabled={session.permission === "read-only"}
             sx={{
-              background:
-                colors[session?.themeColor || "grey"][900] + "!important",
               mt: 2,
               borderRadius: 999,
             }}

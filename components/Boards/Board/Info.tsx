@@ -121,6 +121,7 @@ export function BoardInfo({
         <>
           <Box sx={{ mt: "auto" }}>
             <TextField
+              disabled={session.permission === "read-only"}
               defaultValue={board.name}
               onChange={(e: any) => {
                 e.target.value = e.target.value.replace(/\n|\r/g, "");
@@ -152,6 +153,7 @@ export function BoardInfo({
               multiline
               defaultValue={board.description}
               inputRef={descriptionRef}
+              disabled={session.permission === "read-only"}
               onBlur={handleSave}
               placeholder="Click to add description"
               variant="standard"
@@ -248,6 +250,7 @@ export function BoardInfo({
                       toastStyles
                     );
                   }}
+                  disabled={session.permission === "read-only"}
                   label="Resync to Canvas"
                   sx={{
                     mr: 1,

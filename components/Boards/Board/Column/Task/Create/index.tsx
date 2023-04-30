@@ -581,7 +581,9 @@ export function CreateTask({
         </Box>
       </SwipeableDrawer>
       <ListItemButton
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session?.permission === "read-only"
+        }
         id="createTask"
         disableRipple
         className="createTask"

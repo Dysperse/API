@@ -116,6 +116,7 @@ export function Header({
             sx={{
               background: "transparent",
             }}
+            disabled={session.permission === "read-only"}
           >
             <Icon className="outlined">add_circle</Icon>
           </IconButton>

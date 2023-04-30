@@ -145,7 +145,10 @@ function PropertyInfo({
                 right: 0,
                 m: 2,
               }}
-              disabled={propertyData.profile.id !== session.property.propertyId}
+              disabled={
+                propertyData.profile.id !== session.property.propertyId ||
+                session.permission === "read-only"
+              }
             >
               <Icon className="outlined">edit</Icon>
             </IconButton>

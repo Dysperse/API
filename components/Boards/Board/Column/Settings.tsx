@@ -58,7 +58,6 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
           mutate(mutationUrls.boardData);
           setOpen(false);
         }}
-        ModalProps={{ keepMounted: false }}
         onOpen={() => setOpen(true)}
         disableSwipeToOpen
         PaperProps={{
@@ -197,7 +196,9 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
         <Divider />
         <MenuItem
           onClick={() => setOpen(true)}
-          disabled={storage?.isReached === true}
+          disabled={
+            storage?.isReached === true || session.permission === "read-only"
+          }
         >
           <Icon className="outlined">edit</Icon>
           Edit
@@ -214,7 +215,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
             handleClose();
           }}
         >
-          <MenuItem>
+          <MenuItem disabled={session.permission === "read-only"}>
             <Icon className="outlined">delete</Icon>
             Delete
           </MenuItem>
