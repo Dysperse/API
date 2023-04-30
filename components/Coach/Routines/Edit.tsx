@@ -12,13 +12,12 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import dynamic from "next/dynamic";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-const EmojiPicker = dynamic(() => import("../../EmojiPicker"));
+import EmojiPicker from "../../EmojiPicker";
 
 export function EditRoutine({ setData, routine }) {
   const [open, setOpen] = useState(false);

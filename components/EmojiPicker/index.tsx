@@ -1,49 +1,9 @@
-import data from "@emoji-mart/data";
-import { Box, SwipeableDrawer, TextField, Tooltip } from "@mui/material";
+import { Box, SwipeableDrawer, TextField } from "@mui/material";
 import { SearchIndex, init } from "emoji-mart";
 import { cloneElement, useEffect, useRef, useState } from "react";
-import { useSession } from "../lib/client/useSession";
-import { Puller } from "./Puller";
-
-init({ data });
-
-const EmojiButton: any = ({ emoji, selectedEmoji, handleEmojiSelect }: any) => (
-  <Tooltip
-    title={emoji.name}
-    placement="top"
-    PopperProps={{
-      sx: {
-        pointerEvents: "none",
-        zIndex: 9999999999999,
-      },
-    }}
-  >
-    <Box
-      sx={{
-        width: "16.6666666667%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontSize: "25px",
-        px: 2,
-        userSelect: "none",
-        borderRadius: 5,
-        transition: "all .2s",
-        "&:active": {
-          transform: "scale(.95)",
-          transition: "none",
-        },
-        ...(emoji.skins[0].unified === selectedEmoji && {
-          background: "rgba(200,200,200,.3)",
-        }),
-        py: 0.5,
-      }}
-      onClick={() => handleEmojiSelect(emoji)}
-    >
-      {emoji.skins[0].native}
-    </Box>
-  </Tooltip>
-);
+import { useSession } from "../../lib/client/useSession";
+import { Puller } from "../Puller";
+import { EmojiButton } from "./button";
 
 export function debounce(func: (...args: any[]) => void, delay: number) {
   let timeout;
@@ -74,17 +34,17 @@ export default function EmojiPicker({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const trigger = cloneElement(children, {
-    onClick: handleOpen,
-  });
-
+  const trigger = cloneElement(children, { onClick: handleOpen });
   const debouncedHandleSearch = debounce(handleSearch, 500);
 
-  useEffect(() => {
-    debouncedHandleSearch(inputValue);
-  }, [inputValue, debouncedHandleSearch]);
+  useEffect(
+    () => debouncedHandleSearch(inputValue),
+    [inputValue, debouncedHandleSearch]
+  );
 
   async function handleSearch(value) {
+    const data = (await import("@emoji-mart/data")).default;
+    init({ data });
     const emojis = await SearchIndex.search(value || "face");
     setResults(emojis);
   }
@@ -107,13 +67,13 @@ export default function EmojiPicker({
   const ref: any = useRef();
 
   useEffect(() => {
-    if (open) {
-      setTimeout(() => ref?.current?.focus(), 100);
-    }
+    if (open) setTimeout(() => ref?.current?.focus(), 100);
   }, [open]);
 
   return (
     <>
+      {trigger}
+
       <SwipeableDrawer
         open={open}
         onClose={handleClose}
@@ -192,7 +152,6 @@ export default function EmojiPicker({
           </Box>
         </Box>
       </SwipeableDrawer>
-      {trigger}
     </>
   );
 }

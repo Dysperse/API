@@ -12,15 +12,14 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../../lib/client/useApi";
 import { useSession } from "../../../../lib/client/useSession";
 import { toastStyles } from "../../../../lib/client/useTheme";
+import EmojiPicker from "../../../EmojiPicker";
 import { CreateGoal } from "../../Goal/Create";
-const EmojiPicker = dynamic(() => import("../../../EmojiPicker"));
 
 export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
   const session = useSession();

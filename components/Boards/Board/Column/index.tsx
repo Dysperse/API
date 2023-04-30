@@ -8,7 +8,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -17,10 +16,10 @@ import { fetchRawApi } from "../../../../lib/client/useApi";
 import { useDelayedMount } from "../../../../lib/client/useDelayedMount";
 import { useSession } from "../../../../lib/client/useSession";
 import { toastStyles } from "../../../../lib/client/useTheme";
+import EmojiPicker from "../../../EmojiPicker";
 import { ColumnSettings } from "./Settings";
 import { Task } from "./Task";
 import { CreateTask } from "./Task/Create";
-const EmojiPicker = dynamic(() => import("../../../EmojiPicker"));
 
 export function Column({ board, mutationUrls, column, index }) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
