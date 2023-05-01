@@ -74,7 +74,7 @@ export function Loading(): JSX.Element {
           }}
           elevation={0}
         >
-          <Toolbar sx={{ mt: -1 }}>
+          <Toolbar sx={{ mt: -0.5 }}>
             <Skeleton
               variant="circular"
               animation={false}
@@ -277,7 +277,6 @@ export function Loading(): JSX.Element {
                       <Skeleton
                         variant="rectangular"
                         animation={false}
-                        key={i + "_"}
                         height={50}
                         width={50}
                         sx={{ borderRadius: 3, mb: 2 }}
@@ -285,7 +284,6 @@ export function Loading(): JSX.Element {
                       <Skeleton
                         variant="rectangular"
                         animation={false}
-                        key={i}
                         height={20}
                         width={"100%"}
                         sx={{ borderRadius: 1.5 }}
@@ -299,7 +297,7 @@ export function Loading(): JSX.Element {
                           animation={false}
                           height={30}
                           sx={{
-                            width: i % 2 ? "70%" : "100%",
+                            width: "100%",
                             borderRadius: 2,
                             mb: 2,
                           }}

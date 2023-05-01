@@ -88,7 +88,7 @@ export function RecentItems() {
             {[...new Array(6)].map((_, index) => (
               <Skeleton
                 variant="rectangular"
-                height={120}
+                height={94}
                 animation="wave"
                 sx={{
                   borderRadius: 5,
