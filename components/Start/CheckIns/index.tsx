@@ -605,6 +605,7 @@ export function DailyCheckIn() {
       >
         {moodOptions.map((emoji) => (
           <Emoji
+            defaultStress={data && data[0] ? data[0].stress : 10}
             key={emoji}
             emoji={emoji}
             handleMoodChange={handleMoodChange}

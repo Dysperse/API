@@ -41,10 +41,10 @@ const marks = [
   },
 ];
 
-export function Emoji({ emoji, mood, data, handleMoodChange }) {
+export function Emoji({ emoji, mood, defaultStress, data, handleMoodChange }) {
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [stress, setStress] = useState(10);
+  const [stress, setStress] = useState(defaultStress);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { align: "start", draggable: false },
