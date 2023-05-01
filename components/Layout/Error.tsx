@@ -1,31 +1,31 @@
 import {
   Box,
   Button,
-  Collapse,
   Link as MuiLink,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
-import React from "react";
 
 export function Error({ message }) {
-  const [open, setOpen] = React.useState<boolean>(false);
+  const dark = useMediaQuery("(prefers-color-scheme: dark)");
+
   const buttonStyles = {
     textTransform: "none",
     justifyContent: "start",
-    color: "#000",
+    color: `hsl(240,11%,${dark ? 90 : 100}%)`,
     borderRadius: 9,
     gap: 1.5,
     px: 1.5,
-    background: "rgba(0,0,0,0.04)!important",
+    background: dark ? "hsl(240,11%,20%)" : "rgba(0,0,0,0.04)!important",
     transition: "transform .2s",
     "&:hover": {
-      background: "rgba(0,0,0,0.06)!important",
+      background: dark ? "hsl(240,11%,23%)" : "rgba(0,0,0,0.06)!important",
     },
     "&:active": {
       transition: "none",
       transform: "scale(.95)",
-      background: "rgba(0,0,0,0.08)!important",
+      background: dark ? "hsl(240,11%,25%)" : "rgba(0,0,0,0.08)!important",
     },
   };
 
@@ -35,7 +35,7 @@ export function Error({ message }) {
         position: "fixed",
         top: 0,
         textAlign: "center",
-        background: "hsl(240,11%,95%)",
+        background: `hsl(240,11%,${dark ? 10 : 95}%)`,
         height: "100%",
         width: "100%",
         color: "#000",
@@ -47,15 +47,15 @@ export function Error({ message }) {
         ref={() =>
           document
             .querySelector(`meta[name="theme-color"]`)
-            ?.setAttribute("content", "#6E79C9")
+            ?.setAttribute("content", `hsl(240,11%,${dark ? 10 : 95}%)`)
         }
         sx={{
           position: "fixed",
           p: 5,
           borderRadius: 5,
           top: "50%",
-          background: "hsl(240,11%,90%)",
-          color: "#000",
+          background: `hsl(240,11%,${dark ? 15 : 90}%)`,
+          color: `hsl(240,11%,${dark ? 90 : 100}%)`,
           left: "50%",
           userSelect: "none",
           maxWidth: "calc(100vw - 20px)",
@@ -96,7 +96,10 @@ export function Error({ message }) {
             <MuiLink
               href="mailto:hello@dysperse.com"
               target="_blank"
-              sx={{ color: "#000", textDecorationColor: "#000" }}
+              sx={{
+                color: `hsl(240,11%,${dark ? 90 : 100}%)`,
+                textDecorationColor: `hsl(240,11%,${dark ? 90 : 100}%)`,
+              }}
             >
               hello@dysperse.com
             </MuiLink>
@@ -120,37 +123,7 @@ export function Error({ message }) {
             Server status
             <span className="material-symbols-rounded">open_in_new</span>
           </Button>
-          <Button
-            disableRipple
-            sx={buttonStyles}
-            onClick={() => {
-              setOpen(!open);
-            }}
-          >
-            Debug
-            <span className="material-symbols-rounded">
-              {open ? "expand_less" : "expand_more"}
-            </span>
-          </Button>
         </Box>
-        <Collapse in={open} orientation="vertical">
-          <Box
-            sx={{
-              background: "rgba(0,0,0,0.05)",
-              p: 2,
-              borderRadius: 2,
-              mt: 2,
-              textAlign: "left",
-            }}
-          >
-            <u
-              style={{ marginBottom: "3px", display: "block", fontWeight: 700 }}
-            >
-              Failed to fetch session data
-            </u>
-            <span>{message.message}</span>
-          </Box>
-        </Collapse>
       </Box>
     </Box>
   );
