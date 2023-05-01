@@ -18,15 +18,13 @@ export function Routines({ isCoach = false }: any) {
         alignItems: { xs: "center", sm: "" },
         overflowX: "hidden",
         ...(isCoach && { flexDirection: { sm: "column" }, mt: { sm: -4 } }),
-        gap: 2,
         px: { xs: 2, sm: isCoach ? 1 : 4 },
-        mb: 2,
       }}
     >
-      {[...new Array(7)].map((_, index) =>
+      {[...new Array(7)].map((_, i) =>
         isCoach ? (
           <Box
-            key={index}
+            key={i}
             sx={{
               display: "flex",
               gap: 2,
@@ -45,13 +43,28 @@ export function Routines({ isCoach = false }: any) {
             <Skeleton sx={{ width: "100%" }} animation="wave" />
           </Box>
         ) : (
-          <Skeleton
-            variant="circular"
-            animation="wave"
-            height={65}
-            width={65}
-            sx={{ flexShrink: 0 }}
-          />
+          <Box
+            key={i}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: isCoach ? "row" : "column",
+              gap: isCoach ? 2 : 0,
+              p: 1,
+              ...(isCoach && {
+                width: "100%",
+              }),
+            }}
+          >
+            <Skeleton
+              variant="circular"
+              width={58}
+              height={58}
+              animation={false}
+              sx={{ flexShrink: 0 }}
+            />
+            <Skeleton width={isCoach ? "100%" : 60} animation={false} />
+          </Box>
         )
       )}
     </Box>
@@ -121,7 +134,6 @@ export function Routines({ isCoach = false }: any) {
             }),
             gap: isCoach ? 0 : 1,
             px: isCoach ? 0 : { xs: 2, sm: 4 },
-            mb: 2,
           }}
         >
           {data && data.length == 0 && (

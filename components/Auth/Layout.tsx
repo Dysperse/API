@@ -1,5 +1,5 @@
 import { Box, Chip, createTheme, Typography } from "@mui/material";
-import { brown } from "@mui/material/colors";
+import { blueGrey } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
 import Image from "next/image";
@@ -9,7 +9,7 @@ const darkTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: brown[900],
+      main: blueGrey[700],
     },
   },
 });

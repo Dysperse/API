@@ -90,9 +90,11 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: `hsl(240, 11%, ${
-              session.user.darkMode ? 15 : isCoach ? 90 : 95
-            }%)`,
+            background: {
+              sm: `hsl(240, 11%, ${
+                session.user.darkMode ? 15 : isCoach ? 90 : 95
+              }%)`,
+            },
           },
           "&:active": {
             transform: "scale(.95)",
