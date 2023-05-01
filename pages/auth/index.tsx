@@ -210,9 +210,7 @@ export default function Prompt() {
                 variant="outlined"
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment
-                      position="end"
-                    >
+                    <InputAdornment position="end">
                       <ConfirmationModal
                         rawStyles
                         title="Are you sure you want to toggle your password's visibility?"
