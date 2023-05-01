@@ -217,17 +217,21 @@ export default function Prompt() {
                         question="Make sure nobody is around you 🤫"
                         callback={() => setTogglePassword(!togglePassword)}
                       >
-                        <IconButton
-                          sx={{
-                            ["@media (prefers-color-scheme: dark)"]: {
-                              color: "hsl(240,11%,70%)",
-                            },
-                          }}
+                        <Tooltip
+                          title={`${togglePassword ? "Hide" : "Show"} password`}
                         >
-                          <span className="material-symbols-outlined">
-                            {togglePassword ? "visibility_off" : "visibility"}
-                          </span>
-                        </IconButton>
+                          <IconButton
+                            sx={{
+                              ["@media (prefers-color-scheme: dark)"]: {
+                                color: "hsl(240,11%,70%)",
+                              },
+                            }}
+                          >
+                            <span className="material-symbols-outlined">
+                              {togglePassword ? "visibility_off" : "visibility"}
+                            </span>
+                          </IconButton>
+                        </Tooltip>
                       </ConfirmationModal>
                     </InputAdornment>
                   ),
@@ -245,24 +249,6 @@ export default function Prompt() {
                     background: "hsl(240,11%,10%)",
                   },
                   width: { xs: "100vw", sm: "auto" },
-                  // "& .MuiTooltip-tooltip": {
-                  //   "& .MuiTooltip-arrow::before": {
-                  //     background: "hsl(240, 11%, 10%)",
-                  //   },
-                  //   borderRadius: "5px",
-                  //   fontSize: "14px",
-                  //   [`@media (prefers-color-scheme: dark)`]: {
-                  //     color: "hsl(240, 11%, 10%)",
-                  //     background: "hsl(240, 11%, 90%)",
-
-                  //     "& .MuiTooltip-arrow::before": {
-                  //       background: "hsl(240, 11%, 90%)",
-                  //     },
-                  //   },
-                  //   padding: "6px 14px",
-                  //   boxShadow:
-                  //     "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-                  // },
                 }}
               >
                 <Tooltip
