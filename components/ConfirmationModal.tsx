@@ -3,7 +3,6 @@ import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useSession } from "../lib/client/useSession";
 import { toastStyles } from "../lib/client/useTheme";
 import { Puller } from "./Puller";
 
@@ -16,8 +15,6 @@ export function ConfirmationModal({
   callback,
   buttonText = "Continue",
 }: any) {
-  const session = useSession();
-
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -70,6 +67,10 @@ export function ConfirmationModal({
               boxShadow: "none",
               borderRadius: 5,
               mb: 2,
+              ["@media (prefers-color-scheme: dark)"]: {
+                background: "hsl(240,11%,20%)!important",
+                color: "#fff",
+              },
             }),
             mx: "auto",
             border: "none",
@@ -79,12 +80,35 @@ export function ConfirmationModal({
           },
         }}
       >
-        <Puller showOnDesktop />
+        <Box
+          sx={{
+            "& .puller": {
+              ...(rawStyles && {
+                ["@media (prefers-color-scheme: dark)"]: {
+                  background: "hsl(240,11%,40%)!important",
+                },
+              }),
+            },
+          }}
+        >
+          <Puller showOnDesktop />
+        </Box>
         <Box sx={{ px: 3, pb: 2 }}>
           <Typography variant="h6" gutterBottom>
             {title}
           </Typography>
-          <Typography color="text.secondary">{question}</Typography>
+          <Typography
+            color="text.secondary"
+            sx={{
+              ...(rawStyles && {
+                ["@media (prefers-color-scheme: dark)"]: {
+                  color: "hsl(240,11%,70%)!important",
+                },
+              }),
+            }}
+          >
+            {question}
+          </Typography>
           <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
             <Button
               variant="outlined"
@@ -96,6 +120,11 @@ export function ConfirmationModal({
                   borderRadius: 9,
                   textTransform: "none",
                   boxShadow: "none",
+                  ...(rawStyles && {
+                    ["@media (prefers-color-scheme: dark)"]: {
+                      color: "hsl(240,11%,70%)!important",
+                    },
+                  }),
                 }),
               }}
             >
@@ -113,6 +142,12 @@ export function ConfirmationModal({
                   textTransform: "none",
                   boxShadow: "none",
                   background: "#000!important",
+                  ...(rawStyles && {
+                    ["@media (prefers-color-scheme: dark)"]: {
+                      color: "hsl(240,11%,10%)!important",
+                      background: "hsl(240,11%,90%)!important",
+                    },
+                  }),
                 }),
               }}
             >
