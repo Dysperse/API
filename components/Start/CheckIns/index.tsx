@@ -27,8 +27,8 @@ import { fetchRawApi, useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 import { colors } from "../../../lib/colors";
-import { Emoji } from "./Emoji";
 import { InfoModal } from "./InfoModal";
+import { Emoji } from "./Reflect/Emoji";
 export const moodOptions = ["1f601", "1f600", "1f610", "1f614", "1f62d"];
 
 export const reasons = [
@@ -88,6 +88,7 @@ export function DailyCheckInDrawer({ mood }) {
   return (
     <>
       <CardActionArea
+        id="overviewTrigger"
         onClick={handleOpen}
         sx={{
           cursor: "unset",
@@ -559,16 +560,16 @@ export function DailyCheckIn() {
   }, [data, mood, setMood]);
 
   const handleMoodChange: any = useCallback(
-    async (emoji: string, reason: string) => {
+    async (emoji: string, reason: string, stress: number) => {
       try {
         await fetchRawApi("user/checkIns/setMood", {
           date: today,
           mood: emoji,
           reason,
           delete: emoji === mood ? "true" : "false",
+          stress,
         });
         await mutate(mutationUrl);
-        toast.success("Updated mood!", toastStyles);
       } catch (e) {
         toast.error(
           "Oh no! Something went wrong while trying to save your mood!",

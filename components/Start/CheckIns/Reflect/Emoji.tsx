@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CardActionArea,
   Grid,
   Icon,
   IconButton,
@@ -8,108 +9,18 @@ import {
   Slider,
   SwipeableDrawer,
   Typography,
-  colors,
 } from "@mui/material";
 import dayjs from "dayjs";
 import AutoHeight from "embla-carousel-auto-height";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
-import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
-import { reasons } from ".";
-import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { ErrorHandler } from "../../Error";
-import { Puller } from "../../Puller";
-
-function Overview() {
-  const session = useSession();
-  const { data, url, error } = useApi("user/checkIns/count", {
-    lte: dayjs().add(1, "day"),
-    gte: dayjs().subtract(7, "day"),
-  });
-
-  return (
-    <Box
-      sx={{
-        background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
-        p: 3,
-        mb: 2,
-        borderRadius: 5,
-      }}
-    >
-      <Typography variant="h6">Overview</Typography>
-      <Typography variant="body2">Past 7 days</Typography>
-      {error && (
-        <ErrorHandler
-          error="Yikes! We couldn't load your past reflections! Please try again later."
-          callback={() => mutate(url)}
-        />
-      )}
-      <Box
-        sx={{
-          mb: 2,
-          height: "auto",
-          display: "flex",
-          gap: 2,
-        }}
-      >
-        <Sparklines
-          data={[
-            ...(data && data.length < 4
-              ? [1, 7, 3, 6, 7, 8, 2, 5, 4, 7, 6, 4, 3]
-              : data && data.length > 0
-              ? data.reverse().map((day) => {
-                  return ["1f62d", "1f614", "1f610", "1f600", "1f601"].indexOf(
-                    day.mood
-                  );
-                })
-              : [0]),
-          ]}
-          margin={6}
-        >
-          <SparklinesLine
-            style={{
-              strokeWidth: 4,
-              stroke: colors[session?.themeColor || "grey"]["A700"],
-              fill: "none",
-            }}
-          />
-          <SparklinesSpots
-            size={4}
-            style={{
-              stroke: colors[session?.themeColor || "grey"]["A400"],
-              strokeWidth: 3,
-              fill: session.user.darkMode ? "hsl(240,11%,15%)" : "white",
-            }}
-          />
-        </Sparklines>
-      </Box>
-    </Box>
-  );
-}
-
-function Label({ code, sx = {} }: any) {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        borderRadius: 3,
-        ...sx,
-      }}
-    >
-      <picture>
-        <img
-          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${code}.png`}
-          alt=""
-          width={35}
-        />
-      </picture>
-    </Box>
-  );
-}
+import { reasons } from "..";
+import { useApi } from "../../../../lib/client/useApi";
+import { useSession } from "../../../../lib/client/useSession";
+import { Puller } from "../../../Puller";
+import { Label } from "./Label";
+import { Overview } from "./Overview";
 
 const marks = [
   {
@@ -183,6 +94,15 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
     }
   }, [emoji, alreadyTriggered]);
 
+  const {
+    data: overviewData,
+    url,
+    error,
+  } = useApi("user/checkIns/count", {
+    lte: dayjs().add(1, "day"),
+    gte: dayjs().subtract(7, "day"),
+  });
+
   return (
     <>
       <SwipeableDrawer
@@ -207,7 +127,11 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
               <img
                 alt="emoji"
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
-                  currentIndex == 0 ? emoji : "1f4a5"
+                  currentIndex == 0
+                    ? emoji
+                    : currentIndex == 1
+                    ? "1f4a5"
+                    : "1f4c8"
                 }.png`}
                 width="40px"
                 height="40px"
@@ -217,12 +141,27 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
               <Typography sx={{ fontWeight: 700 }}>
                 {currentIndex == 0
                   ? "What is making you feel this way?"
-                  : currentIndex == 1 && "How are your stress levels?"}
+                  : currentIndex == 1
+                  ? "How are your stress levels?"
+                  : "Overview"}
               </Typography>
               <Typography variant="body2">
-                {currentIndex == 0
-                  ? "Select the most relevant option."
-                  : "Drag the slider to represent stress"}
+                {currentIndex == 0 ? (
+                  "Select the most relevant option."
+                ) : currentIndex == 1 ? (
+                  "Drag the slider to represent stress"
+                ) : (
+                  <CardActionArea
+                    onClick={() => {
+                      handleClose();
+                      document.getElementById("overviewTrigger")?.click();
+                    }}
+                  >
+                    <Typography variant="body2">
+                      View full overview &rarr;
+                    </Typography>
+                  </CardActionArea>
+                )}
               </Typography>
             </Box>
           </Typography>
@@ -235,7 +174,7 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
         <Box
           sx={{
             pb: 2,
-            overflow: "hidden",
+            overflow: currentIndex == 1 ? "hidden" : "",
             whiteSpace: "nowrap",
           }}
           ref={emblaRef}
@@ -259,12 +198,7 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
                   }}
                 >
                   {reasons.map((reason) => (
-                    <Grid
-                      item
-                      xs={reason.w || 6}
-                      sm={reason.w || 4}
-                      key={reason.name}
-                    >
+                    <Grid item xs={reason.w || 6} key={reason.name}>
                       <Box
                         onClick={() =>
                           setCurrentReason(
@@ -326,9 +260,10 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
                   fullWidth
                   size="large"
                   variant="contained"
-                  onClick={() => {
-                    handleMoodChange(emoji, currentReason);
+                  onClick={async () => {
+                    await handleMoodChange(emoji, currentReason, stress);
                     emblaApi?.scrollTo(1);
+                    mutate(url);
                   }}
                   sx={{ mt: 2 }}
                   disabled={!currentReason}
@@ -406,7 +341,11 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
                     fullWidth
                     size="large"
                     variant="contained"
-                    onClick={() => emblaApi?.scrollTo(2)}
+                    onClick={async () => {
+                      emblaApi?.scrollTo(2);
+                      await handleMoodChange(emoji, currentReason, stress);
+                      mutate(url);
+                    }}
                   >
                     Next
                   </Button>
@@ -422,7 +361,7 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
                 flexDirection: "column",
               }}
             >
-              <Overview />
+              <Overview data={overviewData} url={url} error={error} />
               <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                 <Button
                   fullWidth

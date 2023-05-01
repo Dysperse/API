@@ -4,21 +4,15 @@ import { prisma } from "../../../../lib/server/prisma";
 export default async function handler(req, res) {
   if (req.query.delete === "true") {
     await prisma.dailyCheckIn.deleteMany({
-      where: {
-        date: new Date(req.query.date),
-      },
+      where: { date: new Date(req.query.date) },
     });
     res.json({ success: true });
   } else {
     const exists = await prisma.dailyCheckIn.findMany({
       where: {
         AND: [
-          {
-            date: new Date(req.query.date),
-          },
-          {
-            userId: req.query.userIdentifier,
-          },
+          { date: new Date(req.query.date) },
+          { userId: req.query.userIdentifier },
         ],
       },
       take: 1,
@@ -27,18 +21,11 @@ export default async function handler(req, res) {
       const data = await prisma.dailyCheckIn.updateMany({
         where: {
           AND: [
-            {
-              userId: req.query.userIdentifier,
-            },
-            {
-              date: new Date(req.query.date),
-            },
+            { userId: req.query.userIdentifier },
+            { date: new Date(req.query.date) },
           ],
         },
-        data: {
-          mood: req.query.mood,
-          reason: req.query.reason,
-        },
+        data: { mood: req.query.mood, reason: req.query.reason },
       });
       res.json(data);
     } else {
@@ -47,14 +34,10 @@ export default async function handler(req, res) {
           date: new Date(req.query.date),
           mood: req.query.mood,
           reason: req.query.reason,
-          user: {
-            connect: {
-              identifier: req.query.userIdentifier,
-            },
-          },
+          stress: parseInt(req.query.stress || 0),
+          user: { connect: { identifier: req.query.userIdentifier } },
         },
       });
-
       res.json(data);
     }
   }
