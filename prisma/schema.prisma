@@ -256,6 +256,7 @@ model RoutineItem {
 model DailyCheckIn {
   id     String   @id @unique @default(uuid())
   mood   String
+  stress Int      @default(0)
   reason String   @default("Something else")
   date   DateTime
   userId String
