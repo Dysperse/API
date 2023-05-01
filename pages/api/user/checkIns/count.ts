@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       mood: true,
       reason: true,
       date: true,
-      stress: true
+      stress: true,
     },
     orderBy: {
       date: "desc",
