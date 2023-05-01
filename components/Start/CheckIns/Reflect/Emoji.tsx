@@ -175,6 +175,7 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
           sx={{
             pb: 2,
             overflow: currentIndex == 1 ? "hidden" : "",
+            overflowX: "hidden",
             whiteSpace: "nowrap",
           }}
           ref={emblaRef}
