@@ -46,7 +46,16 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [stress, setStress] = useState(10);
 
-  const handleOpen = useCallback(() => setOpen(true), [setOpen]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { align: "start", draggable: false },
+    [AutoHeight()]
+  );
+
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+    emblaApi?.scrollTo(0);
+    setCurrentIndex(0);
+  }, [emblaApi, setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
   const session = useSession();
@@ -56,11 +65,6 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
 
   // for push notification
   const [alreadyTriggered, setAlreadyTriggered] = useState<boolean>(false);
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { align: "start", draggable: false },
-    [AutoHeight()]
-  );
 
   useEffect(() => {
     if (emblaApi) {
@@ -267,7 +271,7 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
                     mutate(url);
                   }}
                   sx={{ mt: 2 }}
-                  disabled={!currentReason}
+                  disabled={!currentReason || currentIndex !== 0}
                 >
                   Next
                 </Button>
@@ -335,6 +339,7 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
                     size="large"
                     variant="outlined"
                     onClick={() => emblaApi?.scrollTo(0)}
+                    disabled={currentIndex !== 1}
                   >
                     Back
                   </Button>
@@ -342,6 +347,7 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
                     fullWidth
                     size="large"
                     variant="contained"
+                    disabled={currentIndex !== 1}
                     onClick={async () => {
                       emblaApi?.scrollTo(2);
                       await handleMoodChange(emoji, currentReason, stress);
@@ -369,10 +375,12 @@ export function Emoji({ emoji, mood, data, handleMoodChange }) {
                   size="large"
                   variant="outlined"
                   onClick={() => emblaApi?.scrollTo(0)}
+                  disabled={currentIndex !== 2}
                 >
                   Restart
                 </Button>
                 <Button
+                  disabled={currentIndex !== 2}
                   fullWidth
                   size="large"
                   variant="contained"

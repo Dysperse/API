@@ -566,7 +566,6 @@ export function DailyCheckIn() {
           date: today,
           mood: emoji,
           reason,
-          delete: emoji === mood ? "true" : "false",
           stress,
         });
         await mutate(mutationUrl);
@@ -577,7 +576,7 @@ export function DailyCheckIn() {
         );
       }
     },
-    [today, mutationUrl, mood]
+    [today, mutationUrl]
   );
   const session = useSession();
 
