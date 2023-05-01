@@ -9,13 +9,14 @@ import { Loading } from "../components/Layout/Loading";
 // CSS files
 import "../styles/calendar.scss";
 import "../styles/coach.scss";
-import "../styles/normalize.scss";
 import "../styles/globals.scss";
+import "../styles/normalize.scss";
 // Day.JS
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 // Hooks
+import Head from "next/head";
 import { RenderWithLayout } from "../components/Layout/Container";
 import { useUser } from "../lib/client/useSession";
 
@@ -73,6 +74,9 @@ export default function App({
     </>
   ) : (
     <>
+      <Head>
+        <title>Dysperse</title>
+      </Head>
       <Analytics />
       {isLoading && <Loading />}
       {isError && <Error message={error} />}
