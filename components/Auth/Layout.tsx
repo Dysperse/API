@@ -61,7 +61,7 @@ export const AuthBranding = ({ mobile = false }: any) => (
           pointerEvents: "none",
           ml: 2,
           px: 1,
-          background: "#200923",
+          background: "#000",
           [`@media (prefers-color-scheme: dark)`]: {
             background: "hsl(240,11%,90%)",
             color: "hsl(240,11%,10%)",

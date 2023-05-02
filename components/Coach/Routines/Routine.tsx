@@ -29,6 +29,15 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
   const [alreadyOpened, setAlreadyOpened] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
+  const mutateRoutine = useCallback(async () => {
+    const res = await fetchRawApi("user/routines/custom-routines/items", {
+      id: routine.id,
+    });
+    setLoading(true);
+    setLoading(false);
+    setData(res[0]);
+  }, [routine.id]);
+
   const handleClick = useCallback(async () => {
     try {
       navigator.vibrate(50);
@@ -191,8 +200,8 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
                   return {
                     content: (
                       <Task
+                        mutateRoutine={mutateRoutine}
                         task={task}
-                        currentIndex={currentIndex}
                         setCurrentIndex={setCurrentIndex}
                       />
                     ),

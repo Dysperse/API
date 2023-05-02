@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { toastStyles } from "../../../lib/client/useTheme";
 
-export function Task({ task, currentIndex, setCurrentIndex }) {
+export function Task({ task, mutateRoutine, setCurrentIndex }) {
   const handleClick = useCallback(() => {
     setCurrentIndex((index) => index + 1);
     fetchRawApi("user/routines/markAsDone", {
@@ -17,13 +17,21 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
             : task.progress + 1
           : 1,
       id: task.id,
-    }).catch(() =>
-      toast.error(
-        "Yikes! Something went wrong while trying to mark your routine as done",
-        toastStyles
-      )
-    );
-  }, [task.durationDays, task.id, task.progress, setCurrentIndex]);
+    })
+      .then(() => mutateRoutine())
+      .catch(() =>
+        toast.error(
+          "Yikes! Something went wrong while trying to mark your routine as done",
+          toastStyles
+        )
+      );
+  }, [
+    task.durationDays,
+    task.id,
+    task.progress,
+    setCurrentIndex,
+    mutateRoutine,
+  ]);
 
   return (
     <Box sx={{ p: 4 }}>
@@ -82,6 +90,10 @@ export function Task({ task, currentIndex, setCurrentIndex }) {
           sx={{
             "&,&:hover": { background: "hsl(240,11%,14%)!important" },
             color: "#fff!important",
+            transition: "transform .2s!important",
+            "&:active": {
+              transform: "scale(.95)",
+            },
           }}
           size="large"
           onClick={handleClick}
