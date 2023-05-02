@@ -1,9 +1,7 @@
 import {
-  Alert,
   Box,
   Chip,
   Icon,
-  IconButton,
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
@@ -188,7 +186,6 @@ export default function Spotlight() {
   const session: any = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
-  const [showBanner, setShowBanner] = useState<boolean>(true);
   const [results, setResults] = useState<Array<any>>([]);
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -242,32 +239,14 @@ export default function Spotlight() {
       PaperProps={{
         sx: {
           minHeight: "calc(100vh - 25px)",
+          height: "calc(100vh - 20px)",
+          display: "flex",
+          flexDirection: "column",
         },
       }}
     >
       <Puller showOnDesktop />
       <Box sx={{ px: 2 }}>
-        {showBanner && process.env.NODE_ENV !== "development" && (
-          <Alert
-            severity="info"
-            sx={{ mb: 2 }}
-            action={
-              <IconButton>
-                <Icon>close</Icon>
-              </IconButton>
-            }
-            onClick={() => setShowBanner(false)}
-          >
-            <Typography sx={{ fontWeight: 900 }}>
-              We&apos;ve moved things around
-            </Typography>
-            <Typography>
-              You can now search anything, from goals, to agendas by pressing{" "}
-              <b>ctrl &bull; k</b> on your keyboard, in a much more simplified
-              view
-            </Typography>
-          </Alert>
-        )}
         <TextField
           onKeyDown={(e) => {
             if (e.code === "Enter") {
@@ -306,10 +285,12 @@ export default function Spotlight() {
           value={inputValue}
         />
       </Box>
-      <Routines />
-      <Box sx={{ px: 2 }}>
+      <Box>
+        <Routines />
+      </Box>
+      <Box sx={{ px: 2, flexGrow: 1 }}>
         <Virtuoso
-          style={{ height: "400px", maxHeight: "calc(100vh - 100px)" }}
+          style={{ height: "100%", maxHeight: "calc(100vh - 100px)" }}
           totalCount={results.length === 0 ? 1 : results.length}
           itemContent={(index) => {
             if (results.length === 0) {
