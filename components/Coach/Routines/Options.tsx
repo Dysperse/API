@@ -56,7 +56,11 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
           <Puller />
         </Box>
         <Box sx={{ p: 2, pt: 0, mt: -2 }}>
-          <CustomizeRoutine routine={routine} setData={setData} />
+          <CustomizeRoutine
+            routine={routine}
+            setData={setData}
+            handleParentClose={handleClose}
+          />
           <EditRoutine routine={routine} setData={setData} />
           <ConfirmationModal
             title="Are you sure you want to delete this routine?"

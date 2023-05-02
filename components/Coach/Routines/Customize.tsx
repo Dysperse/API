@@ -1,19 +1,24 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Icon,
+  InputAdornment,
   ListItemButton,
   SwipeableDrawer,
+  TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useDeferredValue, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { useApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
 import { Puller } from "../../Puller";
 import { GoalCard } from "./Card";
 
-export function CustomizeRoutine({ setData, routine }) {
+export function CustomizeRoutine({ handleParentClose, setData, routine }) {
   const { data } = useApi("user/routines");
+  const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const goals = data
     ? data.filter(
@@ -21,8 +26,14 @@ export function CustomizeRoutine({ setData, routine }) {
       )
     : [];
 
+  const session = useSession();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const deferredQuery = useDeferredValue(query);
+
+  const filteredGoals = goals.filter((goal) =>
+    goal.name.toLowerCase().includes(deferredQuery)
+  );
 
   return (
     <>
@@ -57,7 +68,7 @@ export function CustomizeRoutine({ setData, routine }) {
         }}
       >
         <Puller />
-        <Box sx={{ p: 2, pt: 0 }}>
+        <Box sx={{ px: 2 }}>
           <Typography
             variant="h6"
             sx={{ mb: 2, display: "flex", alignItems: "center", gap: 2 }}
@@ -72,19 +83,79 @@ export function CustomizeRoutine({ setData, routine }) {
             </picture>
             {routine.name}
           </Typography>
+          <TextField
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            size="small"
+            placeholder="Search for a goal..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>search</Icon>
+                </InputAdornment>
+              ),
+            }}
+          />
           {data ? (
             <Virtuoso
-              style={{ height: "400px", maxHeight: "calc(100vh - 200px)" }}
-              totalCount={goals.length}
-              itemContent={(index) => (
-                <GoalCard
-                  setData={setData}
-                  goal={goals[index]}
-                  key={goals[index].id}
-                  goals={data}
-                  routine={routine}
-                />
-              )}
+              style={{
+                height: "100vh",
+                maxHeight: "calc(100vh - 200px)",
+              }}
+              totalCount={filteredGoals.length == 0 ? 1 : filteredGoals.length}
+              itemContent={(index) =>
+                filteredGoals.length == 0 ? (
+                  <Box
+                    sx={{
+                      mb: 2,
+                      p: 3,
+                      height: "100%",
+                      background: `hsl(240,11%,${
+                        session.user.darkMode ? 10 : 95
+                      }%)`,
+                      borderRadius: 3,
+                      width: "100%",
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      display: "flex",
+                      my: "10px",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <picture>
+                      <img
+                        src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
+                        alt="Crying emoji"
+                      />
+                    </picture>
+                    <Typography sx={{ mt: 1, fontWeight: 700 }}>
+                      {query == ""
+                        ? "You haven't set any goals (yet!)"
+                        : "No results found"}
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        document.getElementById("createGoalTrigger")?.click();
+                        handleClose();
+                        handleParentClose();
+                      }}
+                    >
+                      Create a goal
+                    </Button>
+                  </Box>
+                ) : (
+                  <GoalCard
+                    setData={setData}
+                    goal={filteredGoals[index]}
+                    key={filteredGoals[index].id}
+                    goals={data}
+                    routine={routine}
+                  />
+                )
+              }
             />
           ) : (
             <CircularProgress />

@@ -35,7 +35,15 @@ export function Task({ task, mutateRoutine, setCurrentIndex }) {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h2" className="font-heading" gutterBottom>
+      <Typography
+        variant="h2"
+        className="font-heading"
+        gutterBottom
+        sx={{
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
         {task.stepName}
       </Typography>
       <Box

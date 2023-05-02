@@ -29,7 +29,7 @@ import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./RescheduleModal";
-import { TaskDrawer, parseEmojis } from "./TaskDrawer";
+import { parseEmojis, TaskDrawer } from "./TaskDrawer";
 
 export default function DrawerContent({
   isDateDependent,
@@ -496,6 +496,15 @@ export default function DrawerContent({
             </TaskDrawer>
           ))}
         <CreateTask
+          sx={{
+            borderBottom: 0,
+            borderRadius: 3,
+            py: 1.5,
+            px: 1.5,
+            "&:hover, &:active": {
+              background: "transparent!important",
+            },
+          }}
           column={{ id: "-1", name: "" }}
           parent={data.id}
           label="Create a subtask"

@@ -38,6 +38,7 @@ import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
 
 export function CreateTask({
+  sx = {},
   closeOnCreate = false,
   label = false,
   placeholder = false,
@@ -606,6 +607,7 @@ export function CreateTask({
               session.user.darkMode ? 15 : 94
             }%) !important`,
           },
+          ...sx,
         }}
         onClick={() => {
           setOpen(true);

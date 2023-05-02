@@ -72,7 +72,7 @@ export function ShareGoal({ children, goal }) {
   const progressBarStyles = {
     background: "rgba(0,0,0,0.1)",
     "& *": {
-      background: "#000",
+      background: "#000!important",
       borderRadius: 2,
     },
     height: 10,
@@ -81,7 +81,7 @@ export function ShareGoal({ children, goal }) {
 
   const [color, setColor] = useState("red");
   const [screenshotting, setScreenshotting] = useState(false);
-  const [emblaRef, emblaApi] = useEmblaCarousel(
+  const [emblaRef] = useEmblaCarousel(
     {
       dragFree: true,
       align: "start",
@@ -355,7 +355,7 @@ export function ShareGoal({ children, goal }) {
                         top: 0,
                         left: 0,
                         "& *": {
-                          stroke: "#000",
+                          stroke: "#000!important",
                           strokeOpacity: 0.2,
                           strokeLinecap: "round",
                         },
@@ -384,6 +384,10 @@ export function ShareGoal({ children, goal }) {
                         top: 0,
                         left: 0,
                         strokeLinecap: "round",
+                        "& *": {
+                          stroke: "#000!important",
+                          strokeLinecap: "round",
+                        },
                       }}
                     />
                   </Box>

@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { fetchRawApi } from "../../../lib/client/useApi";
+import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 
 export function GoalCard({ setData, routine, goal, goals }) {
@@ -21,6 +22,8 @@ export function GoalCard({ setData, routine, goal, goals }) {
 
   const [added, setAdded] = useState(included);
   const [loading, setLoading] = useState(false);
+
+  const session = useSession();
 
   const handleClick = async () => {
     setLoading(true);
@@ -47,7 +50,7 @@ export function GoalCard({ setData, routine, goal, goals }) {
       variant="outlined"
       sx={{
         my: 1,
-        color: "hsl(240, 11%, 10%)",
+        color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 10}%)`,
       }}
     >
       <CardActionArea
@@ -68,7 +71,7 @@ export function GoalCard({ setData, routine, goal, goals }) {
           </Typography>
         </CardContent>
         {loading ? (
-          <CircularProgress sx={{ ml: "auto", mr: 2 }} />
+          <CircularProgress sx={{ ml: "auto", mr: 2 }} size={20} />
         ) : (
           <Icon className="outlined" sx={{ ml: "auto", mr: 2 }}>
             {addedOnAnotherRoutine
