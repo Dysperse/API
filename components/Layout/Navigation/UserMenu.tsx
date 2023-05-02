@@ -214,9 +214,12 @@ export default function InviteButton({ styles }: any) {
               onClick={() => setView(0)}
               sx={{
                 m: 1,
-                mb: 0,
+                mb: 1,
                 background: `hsl(240,11%,${
                   session.user.darkMode ? 20 : 90
+                }%)!important`,
+                color: `hsl(240,11%,${
+                  session.user.darkMode ? 90 : 20
                 }%)!important`,
                 transition: "all .2s!important",
                 "&:active": {
