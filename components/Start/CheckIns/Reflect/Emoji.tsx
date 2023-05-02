@@ -114,6 +114,7 @@ export function Emoji({ emoji, mood, defaultStress, data, handleMoodChange }) {
         onOpen={handleOpen}
         onClose={handleClose}
         ModalProps={{ keepMounted: false }}
+        PaperProps={{ sx: { maxHeight: "calc(100vh - 20px)" } }}
         anchor="bottom"
         disableSwipeToOpen
       >
