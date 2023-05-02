@@ -118,6 +118,7 @@ export function CustomizeRoutine({ handleParentClose, setData, routine }) {
                       fontSize: "14px",
                       fontWeight: 700,
                       display: "flex",
+                      gap: 1,
                       my: "10px",
                       flexDirection: "column",
                       alignItems: "center",
@@ -130,12 +131,13 @@ export function CustomizeRoutine({ handleParentClose, setData, routine }) {
                         alt="Crying emoji"
                       />
                     </picture>
-                    <Typography sx={{ mt: 1, fontWeight: 700 }}>
+                    <Typography sx={{ fontWeight: 700 }}>
                       {query == ""
                         ? "You haven't set any goals (yet!)"
                         : "No results found"}
                     </Typography>
                     <Button
+                      size="small"
                       variant="contained"
                       onClick={() => {
                         document.getElementById("createGoalTrigger")?.click();
