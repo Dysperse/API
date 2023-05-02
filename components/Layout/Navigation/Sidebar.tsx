@@ -194,7 +194,7 @@ export function Sidebar() {
         onClick={() => router.push("/tasks")}
         onMouseDown={() => router.push("/tasks")}
       >
-        <Tooltip title="Lists" placement="right">
+        <Tooltip title="Tasks" placement="right">
           <span
             className={`material-symbols-${
               router.asPath.includes("/tasks") ? "rounded" : "outlined"

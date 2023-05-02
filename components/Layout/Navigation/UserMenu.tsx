@@ -231,6 +231,11 @@ export default function InviteButton({ styles }: any) {
 
             {[
               {
+                label: "Home page",
+                icon: "home",
+                href: "https://dysperse.com",
+              },
+              {
                 label: "Help",
                 icon: "help",
                 href: "https://blog.dysperse.com/series/support",
