@@ -71,7 +71,10 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   return (
     <Box
       onContextMenu={(e) => e.preventDefault()}
-      onTouchStart={(e) => e.preventDefault()}
+      onTouchStart={(e: any) => {
+        if (e.pageX > 20 && e.pageX < window.innerWidth - 20) return;
+        e.preventDefault();
+      }}
       sx={{ display: "flex" }}
     >
       <ReleaseModal />
