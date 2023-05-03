@@ -125,6 +125,7 @@ export function ShareGoal({ children, goal }) {
         open={open}
         onClose={handleClose}
         anchor="bottom"
+        ModalProps={{ keepMounted: false }}
         sx={{
           zIndex: 9999999,
         }}

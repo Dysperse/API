@@ -96,7 +96,7 @@ export function EditProperty({
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: session.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
+            background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
             width: { xs: "100vw", sm: "50vw" },
             height: { xs: "100vh", sm: "auto" },
           },
@@ -104,16 +104,11 @@ export function EditProperty({
       >
         <AppBar>
           <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              sx={{ mr: 2 }}
-              onClick={() => setOpen(false)}
-            >
+            <IconButton color="inherit" onClick={() => setOpen(false)}>
               <Icon>close</Icon>
             </IconButton>
             <Typography sx={{ fontWeight: "900", mx: "auto" }}>Edit</Typography>
-            <IconButton edge="start" color="inherit" sx={{ opacity: 0 }}>
+            <IconButton color="inherit" sx={{ opacity: 0 }}>
               <Icon>close</Icon>
             </IconButton>
           </Toolbar>
