@@ -163,6 +163,7 @@ export function AddPersonModal({
         </Button>
       </Prompt>
       <SwipeableDrawer
+        ModalProps={{ keepMounted: false }}
         open={open}
         onOpen={() => setOpen(true)}
         PaperProps={{
