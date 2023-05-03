@@ -76,7 +76,7 @@ export function Prompt({
         disableSwipeToOpen
       >
         <Puller />
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3, pt: 0 }}>
           {userHasEnabled2fa ? (
             <>
               <Typography
@@ -123,22 +123,10 @@ export function Prompt({
             </>
           ) : (
             <>
-              <Typography
-                variant="h5"
-                gutterBottom
-                sx={{
-                  textAlign: "center",
-                }}
-              >
+              <Typography variant="h5" gutterBottom>
                 Help us protect your account
               </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  mb: 3,
-                  textAlign: "center",
-                }}
-              >
+              <Typography variant="body1" sx={{ mb: 3 }}>
                 We highly recommend you to enable 2FA to protect your account.
                 You can enable it in your settings.
               </Typography>
@@ -182,7 +170,7 @@ export function Prompt({
                     border: "2px solid transparent !important",
                   }}
                 >
-                  Maybe later
+                  Later
                 </Button>
               </Box>
             </>

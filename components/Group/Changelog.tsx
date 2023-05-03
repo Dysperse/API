@@ -180,7 +180,7 @@ export function Changelog({ disabled }) {
         }}
         onClick={() => setOpen(true)}
       >
-        <Icon>history</Icon>
+        <Icon className="outlined">schedule</Icon>
       </IconButton>
     </>
   );

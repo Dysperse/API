@@ -1,6 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
-import React, { useRef } from "react";
+import React, { useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
 import { isEmail } from ".";
 import { fetchRawApi } from "../../../lib/client/useApi";
@@ -47,14 +47,9 @@ function LinkToken() {
             setOpen(true);
           });
         }}
-        variant="outlined"
+        sx={{ m: 1 }}
+        variant="contained"
         size="large"
-        sx={{
-          borderRadius: 4,
-          transition: "none!important",
-          mt: 1,
-          float: "right",
-        }}
       >
         Copy member invite link
       </LoadingButton>
@@ -147,7 +142,9 @@ export function AddPersonModal({
 
   useBackButton(() => setOpen(false));
 
-  const ref: any = useRef();
+  const [email, setEmail] = useState("");
+  const deferredEmail = useDeferredValue(email);
+
   const session = useSession();
 
   return (
@@ -183,16 +180,18 @@ export function AddPersonModal({
         swipeAreaWidth={0}
       >
         <Puller />
-        <Box sx={{ p: 4 }}>
+        <Box sx={{ p: 3, pt: 0 }}>
           <Typography variant="h5">Invite a person</Typography>
           <Alert severity="warning" sx={{ my: 2 }}>
-            Make sure you trust who you are inviting. Anyone with access can
-            view your lists, rooms, and inventory
+            Make sure you trust who you are inviting. Anyone you invite can
+            access everything you see.
           </Alert>
           <TextField
-            inputRef={ref}
+            value={email}
+            onChange={(e: any) => setEmail(e.target.value)}
             variant="filled"
             label="Enter an email address"
+            placeholder="elonmusk@gmail.com"
           />
           <FormControl fullWidth>
             <Select
@@ -200,21 +199,40 @@ export function AddPersonModal({
               id="demo-simple-select"
               value={permission}
               variant="filled"
-              sx={{ mt: 2, pt: 0, pb: 1, mb: 2, height: "90px" }}
+              sx={{
+                mt: 2,
+                pt: 0,
+                pb: 1,
+                mb: 2,
+                height: "90px",
+                "& *, &": { whiteSpace: "unset!important" },
+              }}
               label="Permissions"
               onChange={handleChange}
             >
               <MenuItem value={"read-only"}>
-                <Box sx={{ my: 1 }}>
-                  <Typography variant="h6">Read only</Typography>
+                <Box
+                  sx={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  <Typography sx={{ fontWeight: 700 }}>Read only</Typography>
                   <Typography variant="body2">
                     View access to your inventory, rooms, and lists
                   </Typography>
                 </Box>
               </MenuItem>
               <MenuItem value={"member"}>
-                <Box sx={{ my: 1 }}>
-                  <Typography variant="h6">Member</Typography>
+                <Box
+                  sx={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  <Typography sx={{ fontWeight: 700 }}>Member</Typography>
                   <Typography variant="body2">
                     Can view and edit your inventory, rooms, lists, etc
                   </Typography>
@@ -224,37 +242,31 @@ export function AddPersonModal({
           </FormControl>
           <LoadingButton
             loading={loading}
+            disabled={deferredEmail.trim() == ""}
             onClick={() => {
-              const value = ref.current.value;
-              if (members.find((member) => member === value)) {
+              if (members.find((member) => member === deferredEmail)) {
                 toast.error(
                   "This person is already a member of this house",
                   toastStyles
                 );
                 return;
               }
-              if (isEmail(value)) {
+              if (isEmail(deferredEmail)) {
                 fetchRawApi("property/members/add", {
                   inviterName: session.user.name,
                   name: session.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,
-                  email: value,
+                  email: deferredEmail,
                 }).then(() => toast.success("Invited!"));
                 setLoading(true);
               } else {
                 toast.error("Please enter a valid email address", toastStyles);
               }
             }}
-            variant="outlined"
+            variant="contained"
             size="large"
-            sx={{
-              borderRadius: 4,
-              transition: "none!important",
-              mt: 1,
-              ml: 1,
-              float: "right",
-            }}
+            sx={{ m: 1 }}
           >
             Send invitation
           </LoadingButton>
