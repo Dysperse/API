@@ -76,6 +76,7 @@ export function RecentItems() {
           width: "100%",
           whiteSpace: "nowrap",
           overflowX: "scroll",
+          scrollSnapType: "x mandatory",
           display: "flex",
           overflowY: "visible",
           mb: 2,
@@ -104,6 +105,7 @@ export function RecentItems() {
             <TaskDrawer id={item.id} mutationUrl={url} key={item.id}>
               <Card
                 sx={{
+                  scrollSnapAlign: "center",
                   border: "1px solid",
                   borderColor: session.user.darkMode
                     ? "hsl(240, 11%, 20%)"
