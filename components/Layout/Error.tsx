@@ -55,7 +55,7 @@ export function Error({ message }) {
           borderRadius: 5,
           top: "50%",
           background: `hsl(240,11%,${dark ? 15 : 90}%)`,
-          color: `hsl(240,11%,${dark ? 90 : 100}%)`,
+          color: `hsl(240,11%,${dark ? 90 : 10}%)`,
           left: "50%",
           userSelect: "none",
           maxWidth: "calc(100vw - 20px)",
@@ -97,8 +97,8 @@ export function Error({ message }) {
               href="mailto:hello@dysperse.com"
               target="_blank"
               sx={{
-                color: `hsl(240,11%,${dark ? 90 : 100}%)`,
-                textDecorationColor: `hsl(240,11%,${dark ? 90 : 100}%)`,
+                color: `hsl(240,11%,${dark ? 90 : 10}%)`,
+                textDecorationColor: `hsl(240,11%,${dark ? 90 : 10}%)`,
               }}
             >
               hello@dysperse.com

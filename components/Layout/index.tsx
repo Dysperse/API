@@ -71,9 +71,8 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   return (
     <Box
       onContextMenu={(e) => e.preventDefault()}
-      sx={{
-        display: "flex",
-      }}
+      onTouchStart={(e) => e.preventDefault()}
+      sx={{ display: "flex" }}
     >
       <ReleaseModal />
       <Snackbar
