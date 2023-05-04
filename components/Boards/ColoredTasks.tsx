@@ -15,6 +15,7 @@ import { useSession } from "../../lib/client/useSession";
 import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
+import { vibrate } from "../../lib/client/vibration";
 
 export function ColoredTasks({ setDrawerOpen }) {
   const { data, url, error } = useApi("property/boards/color-coded", {
@@ -51,11 +52,11 @@ export function ColoredTasks({ setDrawerOpen }) {
       <IconButton
         size="large"
         onContextMenu={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
         onClick={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
         sx={{

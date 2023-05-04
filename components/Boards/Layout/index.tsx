@@ -16,6 +16,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useAccountStorage } from "../../../lib/client/useAccountStorage";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
+import { vibrate } from "../../../lib/client/vibration";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { CreateBoard } from "../Board/Create";
@@ -445,7 +446,7 @@ export function TasksLayout() {
         onOpen={() => setOpen(true)}
         onClose={() => {
           setOpen(false);
-          navigator.vibrate(50);
+          vibrate(50);
         }}
         open={open}
         disableSwipeToOpen

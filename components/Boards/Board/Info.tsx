@@ -13,6 +13,7 @@ import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
 import BoardSettings from "./Settings";
+import { vibrate } from "../../../lib/client/vibration";
 
 export function BoardInfo({
   setMobileOpen,
@@ -285,7 +286,7 @@ export function BoardInfo({
               size="large"
               onClick={() => {
                 setDrawerOpen(true);
-                navigator.vibrate(50);
+                vibrate(50);
               }}
             >
               <Icon className="outlined">menu</Icon>

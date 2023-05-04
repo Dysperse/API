@@ -20,6 +20,7 @@ import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { Column } from "./Column";
+import { vibrate } from "../../../lib/client/vibration";
 
 export function Agenda({
   setDrawerOpen,
@@ -135,7 +136,7 @@ export function Agenda({
 
   const session = useSession();
   const handleOpen = () => {
-    navigator.vibrate(50);
+    vibrate(50);
     setDrawerOpen(true);
   };
 

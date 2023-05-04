@@ -6,6 +6,7 @@ import { useAccountStorage } from "../../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
+import { vibrate } from "../../../lib/client/vibration";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
 
@@ -14,7 +15,7 @@ export default function BoardSettings({ mutationUrl, board }) {
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    navigator.vibrate(50);
+    vibrate(50);
   };
 
   const handleClose = () => {

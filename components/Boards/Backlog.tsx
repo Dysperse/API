@@ -10,6 +10,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useApi } from "../../lib/client/useApi";
 import { useSession } from "../../lib/client/useSession";
+import { vibrate } from "../../lib/client/vibration";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
 
@@ -46,11 +47,11 @@ export function Backlog({ setDrawerOpen }) {
       <IconButton
         size="large"
         onContextMenu={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
         onClick={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
         sx={{

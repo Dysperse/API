@@ -19,6 +19,7 @@ import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { OptionsGroup } from "../../OptionsGroup";
 import { boardSwitcherStyles } from "../Layout";
+import { vibrate } from "../../../lib/client/vibration";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
@@ -538,11 +539,11 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
       <IconButton
         size="large"
         onContextMenu={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
         onClick={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
         sx={boardSwitcherStyles(session.user.darkMode)}

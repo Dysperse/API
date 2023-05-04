@@ -19,6 +19,7 @@ import { RoutineEnd } from "../DailyRoutine/RoutineEnd";
 import { Task } from "../DailyRoutine/Task";
 import { ShareGoal } from "../Goal/ShareGoal";
 import { RoutineOptions } from "./Options";
+import { vibrate } from "../../../lib/client/vibration";
 
 export function Routine({ isCoach = false, mutationUrl, routine }) {
   const session = useSession();
@@ -40,7 +41,7 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
 
   const handleClick = useCallback(async () => {
     try {
-      navigator.vibrate(50);
+      vibrate(50);
       setCurrentIndex(0);
       setLoading(true);
       const res = await fetchRawApi("user/routines/custom-routines/items", {

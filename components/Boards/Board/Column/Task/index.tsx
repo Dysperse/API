@@ -28,6 +28,7 @@ import { toastStyles } from "../../../../../lib/client/useTheme";
 import { colors } from "../../../../../lib/colors";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { TaskDrawer } from "./TaskDrawer";
+import { vibrate } from "../../../../../lib/client/vibration";
 
 const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
@@ -99,7 +100,7 @@ export const Task: any = React.memo(function Task({
 
   const handleCompletion = useCallback(
     async (e) => {
-      navigator.vibrate(50);
+      vibrate(50);
       setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
       try {
         await fetchRawApi("property/boards/column/task/mark", {

@@ -17,6 +17,7 @@ import { useSession } from "../../../lib/client/useSession";
 import { openSpotlight } from "./Search";
 import { UpdateButton } from "./UpdateButton";
 import UserMenu from "./UserMenu";
+import { vibrate } from "../../../lib/client/vibration";
 
 /**
  * Navbar component for layout
@@ -175,7 +176,7 @@ export function Navbar(): JSX.Element {
             <IconButton
               onClick={(e) => {
                 e.stopPropagation();
-                navigator.vibrate(50);
+                vibrate(50);
                 openSpotlight();
               }}
               color="inherit"

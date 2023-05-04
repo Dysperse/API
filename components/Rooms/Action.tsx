@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import { useSession } from "../../lib/client/useSession";
 import { RoomActionMenu } from "./items//RoomActionMenu";
+import { vibrate } from "../../lib/client/vibration";
 
 interface RoomActionButtonProps {
   disableLoading?: boolean;
@@ -55,7 +56,7 @@ const Action = React.memo(function Action({
     e.preventDefault();
     e.stopPropagation();
     ref.current.click();
-    navigator.vibrate(50);
+    vibrate(50);
   }, []);
 
   const handleClick = useCallback(() => {

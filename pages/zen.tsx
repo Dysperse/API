@@ -21,6 +21,7 @@ import { DailyCheckIn } from "../components/Start/CheckIns";
 import { RecentItems } from "../components/Start/RecentItems";
 import { useApi } from "../lib/client/useApi";
 import { useSession } from "../lib/client/useSession";
+import { vibrate } from "../lib/client/vibration";
 
 export function Navbar() {
   const session = useSession();
@@ -85,7 +86,7 @@ export function Navbar() {
         >
           <IconButton
             onClick={() => {
-              navigator.vibrate(50);
+              vibrate(50);
               openSpotlight();
             }}
             sx={{

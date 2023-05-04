@@ -17,6 +17,7 @@ import { useSession } from "../../../lib/client/useSession";
 import { boardSwitcherStyles } from "../Layout";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
+import { vibrate } from "../../../lib/client/vibration";
 
 function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   const [showInfo, setShowInfo] = useState<boolean>(true);
@@ -150,11 +151,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
       <IconButton
         size="large"
         onContextMenu={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
         onClick={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setMobileOpen(true);
         }}
         sx={boardSwitcherStyles(session.user.darkMode)}

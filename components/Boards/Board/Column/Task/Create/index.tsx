@@ -32,6 +32,7 @@ import { fetchRawApi } from "../../../../../../lib/client/useApi";
 import { useBackButton } from "../../../../../../lib/client/useBackButton";
 import { useSession } from "../../../../../../lib/client/useSession";
 import { toastStyles } from "../../../../../../lib/client/useTheme";
+import { vibrate } from "../../../../../../lib/client/vibration";
 import { colors } from "../../../../../../lib/colors";
 import EmojiPicker from "../../../../../EmojiPicker";
 import { SelectDateModal } from "../SelectDateModal";
@@ -182,7 +183,7 @@ export function CreateTask({
         toast.error("You can't have an empty task... 🤦", toastStyles);
         return;
       }
-      navigator.vibrate(50);
+      vibrate(50);
       setLoading(true);
       fetchRawApi("property/boards/column/task/create", {
         title: deferredTitle,
@@ -334,7 +335,7 @@ export function CreateTask({
                   sx={chipStyles(isActive)}
                   icon={<Icon>today</Icon>}
                   onClick={() => {
-                    navigator.vibrate(50);
+                    vibrate(50);
                     const tomorrow = new Date();
                     tomorrow.setDate(tomorrow.getDate() + days);
                     setDate(tomorrow);
@@ -458,7 +459,7 @@ export function CreateTask({
               <Tooltip title="Mark as important (alt • a)" placement="top">
                 <IconButton
                   onClick={() => {
-                    navigator.vibrate(50);
+                    vibrate(50);
                     setPinned(!pinned);
                     titleRef.current?.focus();
                   }}
@@ -493,9 +494,7 @@ export function CreateTask({
                   }}
                 >
                   <IconButton
-                    onClick={() => {
-                      navigator.vibrate(50);
-                    }}
+                    onClick={() => vibrate(50)}
                     sx={styles}
                     size="small"
                   >
@@ -506,7 +505,7 @@ export function CreateTask({
               <Tooltip title="Description (alt • d)" placement="top">
                 <IconButton
                   onClick={() => {
-                    navigator.vibrate(50);
+                    vibrate(50);
                     setShowDescription(!showDescription);
                     setTimeout(() => {
                       if (!showDescription)
