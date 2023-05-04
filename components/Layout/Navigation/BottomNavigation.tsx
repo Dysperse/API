@@ -87,6 +87,10 @@ export function BottomNav() {
         },
         zIndex: 999,
         height: "55px",
+        ["@supports not (-webkit-touch-callout: none)"]: {
+          height: "65px",
+          paddingBottom: "15px",
+        },
         userSelect: "none",
         "&, & *": {
           overflow: "hidden!important",
