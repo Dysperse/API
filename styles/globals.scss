@@ -18,6 +18,12 @@
   font-weight: 600;
 }
 
+@media (max-width: 600px) {
+  * {
+    cursor: pointer;
+  }
+}
+
 /* __play_start_utilities__ */
 
 @media (prefers-color-scheme: dark) {
