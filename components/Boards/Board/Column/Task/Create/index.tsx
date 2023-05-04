@@ -224,7 +224,7 @@ export function CreateTask({
   const chipStyles = (condition: boolean) => {
     return {
       border: "1px solid",
-      cursor: "unset!important",
+
       borderColor: session.user.darkMode
         ? "hsl(240, 11%, 25%)"
         : "rgba(200,200,200,.5)",

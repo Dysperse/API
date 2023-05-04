@@ -29,7 +29,7 @@ import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./RescheduleModal";
-import { parseEmojis, TaskDrawer } from "./TaskDrawer";
+import { TaskDrawer, parseEmojis } from "./TaskDrawer";
 
 export default function DrawerContent({
   isDateDependent,
@@ -254,9 +254,7 @@ export default function DrawerContent({
         InputProps={{
           disableUnderline: true,
           sx: {
-            "&, & *": {
-              cursor: "unset",
-            },
+            "&, & *": {},
             mt: 3,
             borderRadius: 5,
             background: session.user.darkMode
@@ -307,9 +305,7 @@ export default function DrawerContent({
           readOnly: true,
           sx: {
             ...(storage?.isReached === true && { pointerEvents: "none" }),
-            "&, & *": {
-              cursor: "unset",
-            },
+            "&, & *": {},
             borderRadius: 5,
             background: session.user.darkMode
               ? "hsl(240,11%,20%)"

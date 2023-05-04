@@ -146,7 +146,7 @@ export function TasksLayout() {
   const styles = (condition: boolean) => ({
     transition: "none!important",
     px: 1.5,
-    cursor: "unset!important",
+
     gap: 1.5,
     py: 1,
     width: "100%",

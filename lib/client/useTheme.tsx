@@ -104,7 +104,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              cursor: "unset",
               transition: "none",
               "&:hover": {
                 color: darkMode ? "#fff" : "#000",
@@ -177,7 +176,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             theme.unstable_sx({
               gap: "10px",
               transition: "none!important",
-              cursor: "unset",
+
               borderRadius: "999px",
               px: "30px",
               "&.MuiButton-sizeSmall": {
@@ -304,7 +303,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   padding: "3px",
                 },
                 "& .MuiMenuItem-root": {
-                  cursor: "unset",
                   gap: 2,
                   "&:focus-visible, &:hover": {
                     background: darkMode
@@ -340,7 +338,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              cursor: "unset!important",
               borderRadius: 4,
               userSelect: "none",
             }),

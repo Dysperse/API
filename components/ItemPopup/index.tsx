@@ -37,7 +37,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     borderRadius: 0,
     transition: "none",
     py: 1.5,
-    cursor: "unset!important",
+
     gap: 2,
     color: session.user.darkMode
       ? "hsl(240, 11%, 90%)"

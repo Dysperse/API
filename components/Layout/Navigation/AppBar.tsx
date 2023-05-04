@@ -81,9 +81,7 @@ export function Navbar(): JSX.Element {
           top: "calc(var(--navbar-height) * -1) !important",
         }),
         transition: "none",
-        "& *": {
-          cursor: "unset!important",
-        },
+        "& *": {},
         color: {
           xs: session.user.darkMode ? "white" : "black",
         },

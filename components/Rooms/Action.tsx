@@ -89,7 +89,7 @@ const Action = React.memo(function Action({
               : "hsl(240,11%,90%)!important",
           },
         },
-        cursor: "unset!important",
+
         "&:active": {
           background: session.user.darkMode
             ? "hsl(240,11%,13%)!important"

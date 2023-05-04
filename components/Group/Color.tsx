@@ -32,7 +32,7 @@ export function Color({
       sx={{
         width: 36,
         height: 36,
-        cursor: "unset",
+
         borderRadius: "50%",
         display: "inline-flex",
         mr: 1,

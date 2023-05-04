@@ -111,7 +111,7 @@ const CategoryModal = memo(function CategoryModal({
           gap: 2,
           borderRadius: 4,
           transition: "none!important",
-          cursor: "unset!important",
+
           ...(session.user.darkMode && {
             "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",

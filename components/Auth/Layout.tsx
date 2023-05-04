@@ -154,9 +154,7 @@ export const authStyles = {
     borderRadius: { sm: 5 },
     top: 0,
     left: 0,
-    "&, & *": {
-      cursor: "unset!important",
-    },
+    "&, & *": {},
     position: { xs: "fixed", sm: "unset" },
     mx: "auto",
     maxWidth: "100vw",

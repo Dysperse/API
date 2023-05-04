@@ -91,7 +91,6 @@ export function DailyCheckInDrawer({ mood }) {
         id="overviewTrigger"
         onClick={handleOpen}
         sx={{
-          cursor: "unset",
           display: "flex",
           gap: 2,
           p: 3,
@@ -180,7 +179,6 @@ export function DailyCheckInDrawer({ mood }) {
               <CardActionArea
                 onClick={handleClick}
                 sx={{
-                  cursor: "unset",
                   display: "inline-flex",
                   borderRadius: 2,
                   width: "auto",

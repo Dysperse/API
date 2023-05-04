@@ -69,7 +69,6 @@ export function ItemCard({
         <CardActionArea
           disableRipple
           sx={{
-            cursor: "unset!important",
             flex: "0 0 100%",
             transition: "none!important",
             "&:focus-within": {

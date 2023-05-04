@@ -92,7 +92,6 @@ export function RescheduleModal({ data, children, handlePostpone }) {
             p: 1,
             pt: 0,
             "& .MuiMenuItem-root": {
-              cursor: "unset",
               gap: 2,
               "&:focus-visible, &:hover": {
                 background: session.user.darkMode
