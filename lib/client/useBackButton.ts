@@ -6,11 +6,13 @@ import { useEffect } from "react";
  * @returns {void}
  */
 export const neutralizeBack = (callback: () => void): void => {
-  window.history.pushState(null, "", window.location.href);
-  window.onpopstate = () => {
+  if (/(android)/i.test(navigator.userAgent)) {
     window.history.pushState(null, "", window.location.href);
-    callback();
-  };
+    window.onpopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+      callback();
+    };
+  }
 };
 
 /**
@@ -18,7 +20,9 @@ export const neutralizeBack = (callback: () => void): void => {
  * @returns {void}
  */
 export const revivalBack = (): void => {
-  window.onpopstate = null;
+  if (/(android)/i.test(navigator.userAgent)) {
+    window.onpopstate = null;
+  }
 };
 
 /**
