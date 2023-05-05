@@ -383,12 +383,7 @@ export function TasksLayout() {
   );
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       <SwipeableDrawer
         disableBackdropTransition
         anchor="bottom"
