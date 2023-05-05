@@ -130,7 +130,7 @@ export function TasksLayout() {
       "#/agenda/week": "__agenda.week",
       "#/agenda/month": "__agenda.month",
       "#/agenda/year": "__agenda.year",
-      "#/agenda/backlog": "__agenda.backlog",
+      "#/backlog": "__agenda.backlog",
       "#/colored-coded": "colored-coded",
     };
 
@@ -212,7 +212,7 @@ export function TasksLayout() {
           sx={styles(activeTab === "__agenda.backlog")}
           onMouseDown={() => setActiveTab("__agenda.backlog")}
           onClick={() => {
-            window.location.hash = "#/agenda/backlog";
+            window.location.hash = "#/backlog";
             setActiveTab("__agenda.backlog");
           }}
         >
