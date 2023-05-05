@@ -163,7 +163,9 @@ export default function Render() {
                     p: "0!important",
                     transition: "none",
                     color: "inherit",
-                    background: "rgba(200,200,200,.06)",
+                    background: `hsla(240,11%,${
+                      session.user.darkMode ? 90 : 10
+                    }%,0.05)!important`,
                     minWidth: 0,
                   }}
                   size="small"
@@ -181,9 +183,7 @@ export default function Render() {
                   }}
                 >
                   coach streak
-                  <Icon
-                    sx={{ background: "rgba(0,0,0,0.02)", borderRadius: 999 }}
-                  >
+                  <Icon>
                     {hasCompletedForToday
                       ? "check"
                       : isTimeRunningOut

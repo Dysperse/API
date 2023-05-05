@@ -7,13 +7,13 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-export function Error({ message }) {
+export function Error() {
   const dark = useMediaQuery("(prefers-color-scheme: dark)");
 
   const buttonStyles = {
     textTransform: "none",
     justifyContent: "start",
-    color: `hsl(240,11%,${dark ? 90 : 100}%)`,
+    color: `hsl(240,11%,${dark ? 90 : 10}%)`,
     borderRadius: 9,
     gap: 1.5,
     px: 1.5,

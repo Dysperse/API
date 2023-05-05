@@ -76,7 +76,7 @@ export function RecentItems() {
           width: "100%",
           whiteSpace: "nowrap",
           overflowX: "scroll",
-          scrollSnapType: "x mandatory",
+          scrollSnapType: { xs: "x mandatory", sm: "none" },
           display: "flex",
           overflowY: "visible",
           mb: 2,
@@ -107,6 +107,10 @@ export function RecentItems() {
                 variant="outlined"
                 className="cursor-unset"
                 sx={{
+                  transition: "transform .2s",
+                  "&:active": {
+                    transform: "scale(.98)",
+                  },
                   scrollSnapAlign: "center",
                   border: "1px solid",
                   borderColor: session.user.darkMode
@@ -145,7 +149,7 @@ export function RecentItems() {
                     {item.pinned && (
                       <Chip
                         size="small"
-                        sx={{ mb: 0.5, mr: 0.5 }}
+                        sx={{ mb: 0.5, mr: 0.5, pointerEvents: "none" }}
                         icon={<Icon>priority_high</Icon>}
                         label={"Urgent"}
                       />
@@ -153,7 +157,7 @@ export function RecentItems() {
                     {item.lastUpdated && (
                       <Chip
                         size="small"
-                        sx={{ mb: 0.5 }}
+                        sx={{ mb: 0.5, pointerEvents: "none" }}
                         icon={<Icon>history</Icon>}
                         label={dayjs(item.lastUpdated).fromNow()}
                       />

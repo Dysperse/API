@@ -128,6 +128,10 @@ export default function Home() {
   const listItemStyles = {
     background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
     gap: 2,
+    transition: "transform .2s",
+    "&:active": {
+      transform: "scale(.98)",
+    },
     px: 3,
     py: 1.5,
     border: "1px solid",
@@ -137,7 +141,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <Box sx={{ ml: -1 }}>
       <Box
         sx={{
           mt: { xs: "calc(var(--navbar-height) * -1)", md: "-50px" },
@@ -147,7 +151,7 @@ export default function Home() {
         <Navbar />
         <Box
           sx={{
-            mt: { xs: 3, sm: 10 },
+            mt: { xs: 3, md: 5 },
             mb: 2,
           }}
         >
@@ -251,6 +255,6 @@ export default function Home() {
         </Box>
       </Box>
       <Toolbar />
-    </>
+    </Box>
   );
 }

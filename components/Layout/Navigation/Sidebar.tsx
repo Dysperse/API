@@ -126,14 +126,27 @@ export function Sidebar() {
         zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",
+        borderRight: "2px solid",
+        borderColor: {
+          sm:
+            router.asPath === "/zen"
+              ? session.user.darkMode
+                ? "hsla(240,11%,15%)"
+                : "hsl(240,11%,94%)"
+              : "transparent",
+        },
+        borderLeft: "2px solid transparent",
         background: {
-          sm: session.user.darkMode
-            ? router.asPath === "/zen" || router.asPath === "/coach"
-              ? "hsla(240,11%,8%)"
-              : "hsla(240,11%,5%)"
-            : router.asPath === "/zen" || router.asPath === "/coach"
-            ? "hsl(240,11%,97%)"
-            : "hsl(240,11%,93%)",
+          sm:
+            router.asPath === "/zen"
+              ? "transparent"
+              : session.user.darkMode
+              ? router.asPath === "/coach"
+                ? "hsla(240,11%,8%)"
+                : "hsla(240,11%,5%)"
+              : router.asPath === "/coach"
+              ? "hsl(240,11%,97%)"
+              : "hsl(240,11%,93%)",
         },
         height: "100vh",
         backdropFilter: "blur(10px)",

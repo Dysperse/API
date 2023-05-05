@@ -11,9 +11,7 @@
     "start": "next start",
     "static": "next build && next export",
     "lint": "next lint",
-    "analyze": "ANALYZE=true next build",
-    "open-android": "cap open android",
-    "vapid": "web-push generate-vapid-keys"
+    "open-android": "cap open android"
   },
   "dependencies": {
     "@capacitor/android": "^4.7.0",
