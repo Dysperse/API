@@ -19,8 +19,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
-import { Column } from "./Column";
 import { vibrate } from "../../../lib/client/vibration";
+import { taskStyles } from "../Layout";
+import { Column } from "./Column";
 
 export function Agenda({
   setDrawerOpen,
@@ -151,36 +152,7 @@ export function Agenda({
         size="large"
         onClick={handleOpen}
         onContextMenu={handleOpen}
-        sx={{
-          position: "fixed",
-          bottom: {
-            xs: "65px",
-            md: "30px",
-          },
-          transition: "transform .2s",
-          "&:active": {
-            transition: "none",
-            transform: "scale(0.9)",
-          },
-          left: "10px",
-          zIndex: 9,
-          background: session.user.darkMode
-            ? "hsla(240,11%,14%,0.5)!important"
-            : "rgba(255,255,255,.5)!important",
-          boxShadow:
-            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-          backdropFilter: "blur(10px)",
-          border: {
-            xs: session.user.darkMode
-              ? "1px solid hsla(240,11%,15%)"
-              : "1px solid rgba(200,200,200,.3)",
-            md: "unset",
-          },
-          fontWeight: "700",
-          display: { md: "none" },
-          fontSize: "15px",
-          color: session.user.darkMode ? "#fff" : "#000",
-        }}
+        sx={taskStyles(session).menu}
       >
         <Icon>menu</Icon>
       </IconButton>
