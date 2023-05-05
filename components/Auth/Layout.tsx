@@ -74,6 +74,18 @@ export const AuthBranding = ({ mobile = false }: any) => (
 );
 
 export const authStyles = {
+  footer: {
+    display: "flex",
+    position: { xs: "fixed", sm: "unset" },
+    bottom: 0,
+    left: 0,
+    py: { xs: 1, sm: 0 },
+    background: "hsl(240,11%,90%)",
+    ["@media (prefers-color-scheme: dark)"]: {
+      background: "hsl(240,11%,10%)",
+    },
+    width: { xs: "100vw", sm: "auto" },
+  },
   submit: {
     background: `hsl(240,11%,85%) !important`,
     color: "#202020!important",
