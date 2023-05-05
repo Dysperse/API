@@ -400,10 +400,7 @@ export function TasksLayout() {
         open={open}
         disableSwipeToOpen
         PaperProps={{
-          sx: {
-            pb: 2,
-            maxHeight: "90vh",
-          },
+          sx: { pb: 2, maxHeight: "90vh" },
         }}
         sx={{ zIndex: 999999999999 }}
       >
