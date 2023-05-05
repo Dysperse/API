@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { AuthBranding, Layout, authStyles } from "../../components/Auth/Layout";
+import { AuthBranding, authStyles, Layout } from "../../components/Auth/Layout";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
@@ -237,20 +237,7 @@ export default function Prompt() {
                   ),
                 }}
               />
-              <Box
-                sx={{
-                  display: "flex",
-                  position: { xs: "fixed", sm: "unset" },
-                  bottom: 0,
-                  left: 0,
-                  py: { xs: 1, sm: 0 },
-                  background: "hsl(240,11%,90%)",
-                  ["@media (prefers-color-scheme: dark)"]: {
-                    background: "hsl(240,11%,10%)",
-                  },
-                  width: { xs: "100vw", sm: "auto" },
-                }}
-              >
+              <Box sx={authStyles.footer}>
                 <Tooltip
                   title={
                     !isEmail(email)

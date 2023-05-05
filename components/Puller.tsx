@@ -5,7 +5,13 @@ import { useSession } from "../lib/client/useSession";
  * @name Puller
  * @description A puller is a component that pulls in swipeable drawers from bottom of the screen.
  */
-export function Puller({ showOnDesktop = false }: { showOnDesktop?: boolean }) {
+export function Puller({
+  useDarkStyles = false,
+  showOnDesktop = false,
+}: {
+  useDarkStyles?: boolean;
+  showOnDesktop?: boolean;
+}) {
   const session = useSession();
 
   return (
@@ -30,7 +36,7 @@ export function Puller({ showOnDesktop = false }: { showOnDesktop?: boolean }) {
             mx: "auto",
             height: "2px",
             background: session?.user
-              ? session.user.darkMode
+              ? useDarkStyles || session.user.darkMode
                 ? "hsl(240, 11%, 35%)"
                 : "#ddd"
               : "#ddd",

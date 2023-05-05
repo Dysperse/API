@@ -1,5 +1,11 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  SwipeableDrawer,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -17,6 +23,8 @@ export function ConfirmationModal({
 }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const trigger = React.cloneElement(children, {
     onClick: (e) => {
@@ -80,20 +88,8 @@ export function ConfirmationModal({
           },
         }}
       >
-        <Box
-          sx={{
-            "& .puller": {
-              ...(rawStyles && {
-                ["@media (prefers-color-scheme: dark)"]: {
-                  background: "hsl(240,11%,40%)!important",
-                },
-              }),
-            },
-          }}
-        >
-          <Puller showOnDesktop />
-        </Box>
-        <Box sx={{ px: 3, pb: 2 }}>
+        <Puller showOnDesktop useDarkStyles={rawStyles && isDarkMode} />
+        <Box sx={{ px: 3, pt: 0 }}>
           <Typography variant="h6" gutterBottom>
             {title}
           </Typography>

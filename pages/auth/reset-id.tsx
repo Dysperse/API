@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useSWRConfig } from "swr";
-import { AuthBranding, Layout, authStyles } from "../../components/Auth/Layout";
+import { AuthBranding, authStyles, Layout } from "../../components/Auth/Layout";
 import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
 
@@ -96,22 +96,7 @@ export default function Prompt() {
                 </Button>
               </Link>
               <Box sx={{ pb: { xs: 15, sm: 0 } }} />
-              <Box
-                sx={{
-                  display: "flex",
-                  mt: { sm: 2 },
-                  position: { xs: "fixed", sm: "unset" },
-                  bottom: 0,
-                  left: 0,
-                  zIndex: 1,
-                  py: 1,
-                  background: "hsl(240,11%,90%)",
-                  ["@media (prefers-color-scheme: dark)"]: {
-                    background: "hsl(240,11%,10%)",
-                  },
-                  width: { xs: "100vw", sm: "100%" },
-                }}
-              >
+              <Box sx={authStyles.footer}>
                 <LoadingButton
                   loading={buttonLoading}
                   type="submit"
