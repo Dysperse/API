@@ -6,7 +6,7 @@ import {
   IconButton,
   SwipeableDrawer,
   useMediaQuery,
-  useScrollTrigger
+  useScrollTrigger,
 } from "@mui/material";
 import Head from "next/head";
 import { useCallback, useState } from "react";
