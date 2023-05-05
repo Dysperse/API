@@ -180,10 +180,7 @@ export function Agenda({
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
-          borderColor: session.user.darkMode
-            ? "hsla(240,11%,25%, 0.5)"
-            : "rgba(200,200,200, 0.3)",
-
+          borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.3)`,
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",

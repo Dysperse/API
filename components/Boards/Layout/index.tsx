@@ -25,6 +25,16 @@ import { Tab } from "./Tab";
 
 export const taskStyles = (session) => {
   return {
+    subheading: {
+      my: 1,
+      textTransform: "uppercase",
+      fontWeight: 700,
+      opacity: 0.5,
+      fontSize: "13px",
+      px: 1.5,
+      color: session.user.darkMode ? "#fff" : "#000",
+      userSelect: "none",
+    },
     menu: {
       transition: "transform .2s",
       "&:active": {
@@ -90,40 +100,6 @@ const ColoredTasks = dynamic(
   }
 );
 
-export const boardSwitcherStyles = (v) => {
-  return {
-    transition: "transform .2s",
-    "&:active": {
-      transition: "none",
-      transform: "scale(0.9)",
-      background: v
-        ? "hsla(240,11%,14%,0.8)!important"
-        : "rgba(200,200,200,.2)!important",
-    },
-    position: "fixed",
-    bottom: {
-      xs: "70px",
-      md: "30px",
-    },
-    left: "17px",
-    zIndex: 9,
-    background: v
-      ? "hsla(240,11%,14%,0.5)!important"
-      : "rgba(255,255,255,.5)!important",
-    boxShadow:
-      "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-    backdropFilter: "blur(10px)",
-    border: {
-      xs: v ? "1px solid hsla(240,11%,15%)" : "1px solid rgba(200,200,200,.3)",
-      md: "unset",
-    },
-    fontWeight: "700",
-    display: { md: "none" },
-    fontSize: "15px",
-    color: v ? "#fff" : "#505050",
-  };
-};
-
 export function TasksLayout() {
   const { data, url, error } = useApi("property/boards");
   const [activeTab, setActiveTab] = useState("loading");
@@ -134,45 +110,32 @@ export function TasksLayout() {
       setActiveTab("__agenda.week");
       return;
     }
-
     const pinnedBoard = data.find((board) => board.pinned);
-    if (
-      pinnedBoard ||
-      (!window.location.hash.includes("agenda") &&
-        !window.location.hash.includes("backlog") &&
-        data[0])
-    ) {
-      const hashBoard = data.find(
-        (x) => x.id === window.location.hash?.replace("#", "")
-      );
-      if (hashBoard) {
-        setActiveTab(window.location.hash?.replace("#", ""));
-      } else if (data[0]) {
-        setActiveTab(data[0].id);
-      }
-    } else if (!data[0]) {
-      setActiveTab("new");
-    } else {
-      setActiveTab("__agenda.week");
-    }
+    const hashBoard = data.find(
+      (a) => a.id === window.location.hash?.replace("#", "")
+    );
 
-    switch (window.location.hash) {
-      case "#/agenda/week":
-        setActiveTab("__agenda.week");
-        break;
-      case "#/agenda/month":
-        setActiveTab("__agenda.month");
-        break;
-      case "#/agenda/year":
-        setActiveTab("__agenda.year");
-        break;
-      case "#/agenda/backlog":
-        setActiveTab("__agenda.backlog");
-        break;
-      case "#/colored-coded":
-        setActiveTab("colored-coded");
-        break;
-    }
+    const defaultBoard = data[0];
+
+    pinnedBoard ||
+    (!window.location.hash.includes("agenda") &&
+      !window.location.hash.includes("backlog") &&
+      defaultBoard)
+      ? setActiveTab(hashBoard?.id || defaultBoard?.id)
+      : defaultBoard
+      ? setActiveTab("__agenda.week")
+      : setActiveTab("new");
+
+    const hashToTabMap = {
+      "#/agenda/week": "__agenda.week",
+      "#/agenda/month": "__agenda.month",
+      "#/agenda/year": "__agenda.year",
+      "#/agenda/backlog": "__agenda.backlog",
+      "#/colored-coded": "colored-coded",
+    };
+
+    const hash = window.location.hash;
+    hashToTabMap[hash] && setActiveTab(hashToTabMap[hash]);
   }, [data]);
 
   const session = useSession();
@@ -180,64 +143,56 @@ export function TasksLayout() {
   const styles = (condition: boolean) => ({
     transition: "none!important",
     px: 1.5,
-
     gap: 1.5,
     py: 1,
+    mr: 1,
+    mb: 0.3,
     width: "100%",
+    fontSize: "15px",
     justifyContent: "flex-start",
     borderRadius: 4,
-    mr: 1,
-    mb: 0.5,
-    fontSize: "15px",
+    "&:hover, &:focus": {
+      background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+    },
     ...(session.user.darkMode && {
       color: "hsl(240,11%, 80%)",
     }),
-    "&:hover, &:focus": {
-      background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)!important`,
-    },
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     ...(!condition
       ? {
+          color: `hsl(240,11%,${session.user.darkMode ? 80 : 30}%)`,
           "&:hover": {
-            background: `hsl(240,11%,${
-              session.user.darkMode ? 20 : 93
-            }%)!important`,
+            background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
           },
-          color: `hsl(240,11%,${session.user.darkMode ? 80 : 30}%)!important`,
         }
       : {
-          background: `hsl(240,11%,${
-            session.user.darkMode ? 20 : 85
-          }%)!important`,
+          color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)`,
+          background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
           "&:hover, &:focus": {
-            background: `hsl(240,11%,${
-              session.user.darkMode ? 20 : 85
-            }%)!important`,
+            background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
           },
-          color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)!important`,
         }),
   });
   const [open, setOpen] = useState<boolean>(false);
 
   const ref: any = useRef();
+  const handleClick = (id) => document.getElementById(id)?.click();
 
-  useHotkeys("alt+c", (e) => {
-    e.preventDefault();
-    ref.current?.click();
+  useHotkeys("alt+c", (c) => {
+    c.preventDefault(), ref.current?.click();
   });
+
   useHotkeys("alt+w", (e) => {
-    e.preventDefault();
-    document.getElementById("__agenda.week")?.click();
+    e.preventDefault(), handleClick("__agenda.week");
   });
-  useHotkeys("alt+m", (e) => {
-    e.preventDefault();
-    document.getElementById("__agenda.month")?.click();
+  useHotkeys("alt+m", (a) => {
+    a.preventDefault(), handleClick("__agenda.month");
   });
-  useHotkeys("alt+y", (e) => {
-    e.preventDefault();
-    document.getElementById("__agenda.year")?.click();
+
+  useHotkeys("alt+y", (a) => {
+    a.preventDefault(), handleClick("__agenda.year");
   });
 
   const [archiveOpen, setArchiveOpen] = useState<boolean>(false);
@@ -249,18 +204,7 @@ export function TasksLayout() {
         <ErrorHandler error="An error occurred while loading your tasks" />
       )}
 
-      <Typography
-        sx={{
-          mb: 1,
-          opacity: 0.5,
-          fontSize: "13px",
-          px: 1.5,
-          color: session.user.darkMode ? "#fff" : "#000",
-          userSelect: "none",
-        }}
-      >
-        Planner
-      </Typography>
+      <Typography sx={taskStyles(session).subheading}>Planner</Typography>
       <Box onClick={() => setOpen(false)}>
         <Button
           id="__agenda.year"
@@ -277,87 +221,59 @@ export function TasksLayout() {
           </Icon>
           Backlog
         </Button>
-        <Button
-          id="__agenda.week"
-          size="large"
-          sx={styles(activeTab === "__agenda.week")}
-          onMouseDown={() => setActiveTab("__agenda.week")}
-          onClick={() => {
-            window.location.hash = "#/agenda/week";
-            setActiveTab("__agenda.week");
-          }}
-        >
-          <Icon className={activeTab === "__agenda.week" ? "" : "outlined"}>
-            view_week
-          </Icon>
-          {isMobile ? "Day" : "This week"}
-        </Button>
-        <Button
-          id="__agenda.month"
-          size="large"
-          sx={styles(activeTab === "__agenda.month")}
-          onMouseDown={() => setActiveTab("__agenda.month")}
-          onClick={() => {
-            window.location.hash = "#/agenda/month";
-            setActiveTab("__agenda.month");
-          }}
-        >
-          <Icon className={activeTab === "__agenda.month" ? "" : "outlined"}>
-            calendar_view_month
-          </Icon>
-          Months
-        </Button>
-        <Button
-          id="__agenda.year"
-          size="large"
-          sx={styles(activeTab === "__agenda.year")}
-          onMouseDown={() => setActiveTab("__agenda.year")}
-          onClick={() => {
-            window.location.hash = "#/agenda/year";
-            setActiveTab("__agenda.year");
-          }}
-        >
-          <Icon className={activeTab === "__agenda.year" ? "" : "outlined"}>
-            calendar_month
-          </Icon>
-          Years
-        </Button>
-
-        <Button
-          id="color-coded"
-          size="large"
-          sx={styles(activeTab === "color-coded")}
-          onMouseDown={() => setActiveTab("color-coded")}
-          onClick={() => {
-            window.location.hash = "#/color-coded";
-            setActiveTab("color-coded");
-            setOpen(false);
-          }}
-        >
-          <Icon className={activeTab === "color-coded" ? "" : "outlined"}>
-            palette
-          </Icon>
-          Color coded
-        </Button>
+        {[
+          {
+            hash: "__agenda.week",
+            icon: "view_week",
+            label: isMobile ? "Day" : "This week",
+          },
+          {
+            hash: "__agenda.month",
+            icon: "calendar_view_month",
+            label: "Months",
+          },
+          {
+            hash: "__agenda.year",
+            icon: "calendar_month",
+            label: "Years",
+          },
+          {
+            hash: "color-coded",
+            icon: "palette",
+            label: "Color coded",
+          },
+        ].map((button) => (
+          <Button
+            key={button.hash}
+            id={button.hash}
+            size="large"
+            sx={styles(activeTab === button.hash)}
+            onMouseDown={() => setActiveTab(button.hash)}
+            onClick={() => {
+              window.location.hash = `#/${button.hash}`;
+              setActiveTab(button.hash);
+            }}
+          >
+            <Icon className={activeTab === button.hash ? "" : "outlined"}>
+              {button.icon}
+            </Icon>
+            {button.label}
+          </Button>
+        ))}
       </Box>
       <Divider
         sx={{
-          my: { xs: 2, md: 1 },
+          my: 1,
           width: "90%",
           mx: "auto",
-          opacity: 0.6,
+          opacity: 0.5,
           ...(data && data.length === 0 && { display: "none" }),
         }}
       />
       <Typography
         sx={{
-          my: 1,
-          opacity: 0.5,
+          ...taskStyles(session).subheading,
           ...(data && data.length === 0 && { display: "none" }),
-          fontSize: "13px",
-          userSelect: "none",
-          px: 1.5,
-          color: session.user.darkMode ? "#fff" : "#000",
         }}
       >
         Boards
@@ -489,9 +405,7 @@ export function TasksLayout() {
             maxHeight: "90vh",
           },
         }}
-        sx={{
-          zIndex: 999999999999,
-        }}
+        sx={{ zIndex: 999999999999 }}
       >
         <Puller />
         <Box sx={{ p: 1 }}>{children}</Box>
@@ -519,7 +433,6 @@ export function TasksLayout() {
           height: { md: "100vh" },
           overflowY: { md: "auto" },
           flexGrow: 1,
-          // overflow:"sh"
         }}
         id="boardContainer"
       >
@@ -531,14 +444,11 @@ export function TasksLayout() {
           />
         )}
         {activeTab === "loading" && <Loading />}
-        {activeTab.includes("__agenda.week") && (
-          <Agenda setDrawerOpen={setOpen} view="week" />
-        )}
-        {activeTab.includes("__agenda.month") && (
-          <Agenda setDrawerOpen={setOpen} view="month" />
-        )}
-        {activeTab.includes("__agenda.year") && (
-          <Agenda setDrawerOpen={setOpen} view="year" />
+        {activeTab.includes("__agenda") && (
+          <Agenda
+            setDrawerOpen={setOpen}
+            view={activeTab.split(".")[1] as any}
+          />
         )}
         {activeTab.includes("__agenda.backlog") && (
           <Backlog setDrawerOpen={setOpen} />

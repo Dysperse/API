@@ -17,9 +17,9 @@ import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
-import { OptionsGroup } from "../../OptionsGroup";
-import { boardSwitcherStyles } from "../Layout";
 import { vibrate } from "../../../lib/client/vibration";
+import { OptionsGroup } from "../../OptionsGroup";
+import { taskStyles } from "../Layout";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
@@ -148,18 +148,13 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             width: "100%!important",
             background: `hsl(240,11%,${session.user.darkMode ? 13 : 95}%)`,
             borderRadius: 5,
-            transition: "transform 0.2s",
             cursor: "pointer",
             userSelect: "none",
             "&:hover": {
-              background: `hsl(240,11%,${session.user.darkMode ? 16 : 90}%)`,
+              background: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
             },
             "&:active": {
-              background: session.user.darkMode
-                ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.5)",
-              transform: "scale(.98)",
-              transition: "none",
+              background: `hsl(240,11%,${session.user.darkMode ? 17 : 91}%)`,
             },
           }}
         >
@@ -546,7 +541,7 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           vibrate(50);
           setDrawerOpen(true);
         }}
-        sx={boardSwitcherStyles(session.user.darkMode)}
+        sx={taskStyles(session).menu}
       >
         <Icon className="outlined">menu</Icon>
       </IconButton>

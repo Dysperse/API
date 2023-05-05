@@ -6,7 +6,7 @@ import {
   IconButton,
   SwipeableDrawer,
   useMediaQuery,
-  useScrollTrigger,
+  useScrollTrigger
 } from "@mui/material";
 import Head from "next/head";
 import { useCallback, useState } from "react";
@@ -14,10 +14,10 @@ import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter
 import { useApi } from "../../../lib/client/useApi";
 import { useDelayedMount } from "../../../lib/client/useDelayedMount";
 import { useSession } from "../../../lib/client/useSession";
-import { boardSwitcherStyles } from "../Layout";
+import { vibrate } from "../../../lib/client/vibration";
+import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
-import { vibrate } from "../../../lib/client/vibration";
 
 function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   const [showInfo, setShowInfo] = useState<boolean>(true);
@@ -154,11 +154,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           vibrate(50);
           setDrawerOpen(true);
         }}
-        onClick={() => {
-          vibrate(50);
-          setMobileOpen(true);
-        }}
-        sx={boardSwitcherStyles(session.user.darkMode)}
+        onClick={() => setMobileOpen(true)}
+        sx={taskStyles(session).menu}
       >
         <Icon className="outlined">info</Icon>
       </IconButton>
