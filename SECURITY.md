@@ -10,7 +10,7 @@
 | 1.0.0         | :white_check_mark: |
 | < pre-release | :x:                |
 
-### Old infrastructure
+### Pre-NextJS infrastructure
 
 | Version       | Supported |
 | ------------- | --------- |

@@ -8,15 +8,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "start": "next start",
-    "static": "next build && next export",
-    "lint": "next lint",
-    "open-android": "cap open android"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@capacitor/android": "^4.7.0",
-    "@capacitor/core": "^4.7.0",
-    "@capacitor/ios": "^4.7.0",
     "@emoji-mart/data": "^1.1.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -77,7 +71,6 @@
   ],
   "description": "A radically different unified productivity platform",
   "devDependencies": {
-    "@capacitor/cli": "^4.7.0",
     "@next/eslint-plugin-next": "^13.2.1",
     "eslint": "^8.34.0",
     "eslint-config-next": "^13.4.1",
