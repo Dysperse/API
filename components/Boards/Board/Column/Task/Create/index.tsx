@@ -586,7 +586,7 @@ export function CreateTask({
         }
         id="createTask"
         disableRipple
-        className="createTask"
+        className="createTask cursor-unset"
         sx={{
           color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 40}%)`,
           fontWeight: 700,
