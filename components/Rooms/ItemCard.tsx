@@ -113,7 +113,8 @@ export function ItemCard({
                           sx={{
                             pointerEvents: "none",
                             px: 1,
-                            mr: 1,
+                            m: 0.5,
+                            ml: 0,
                             color: "inherit",
                             background: session.user.darkMode
                               ? "hsla(240,11%,40%,.3)"

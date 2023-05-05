@@ -13,9 +13,9 @@ import { ErrorHandler } from "../components/Error";
 import { OptionsGroup } from "../components/OptionsGroup";
 import { CreateRoom } from "../components/Rooms/items/CreateRoom";
 import { Rooms } from "../components/Rooms/items/Rooms";
+import { rooms } from "../components/Rooms/rooms";
 import { useApi } from "../lib/client/useApi";
 import { useSession } from "../lib/client/useSession";
-import { colors } from "../lib/colors";
 
 const Action = dynamic(() => import("../components/Rooms/Action"));
 
@@ -78,59 +78,6 @@ export default function Inventory({ children = null }: any) {
   const { data } = useApi("property/inventory/room/itemCount");
   const { data: dataRooms, url, error } = useApi("property/rooms");
 
-  const actions = [
-    {
-      href: "/rooms/kitchen",
-      icon: "blender",
-      primary: "Kitchen",
-    },
-    {
-      href: "/rooms/bedroom",
-      icon: "bedroom_parent",
-      primary: "Bedroom",
-    },
-    {
-      href: "/rooms/bathroom",
-      icon: "bathroom",
-      primary: "Bathroom",
-    },
-    {
-      href: "/rooms/garage",
-      icon: "garage",
-      primary: "Garage",
-    },
-    {
-      href: "/rooms/dining",
-      icon: "dining",
-      primary: "Dining room",
-    },
-    {
-      href: "/rooms/living",
-      icon: "living",
-      primary: "Living room",
-    },
-    {
-      href: "/rooms/laundry",
-      icon: "local_laundry_service",
-      primary: "Laundry room",
-    },
-    {
-      href: "/rooms/storage",
-      icon: "inventory_2",
-      primary: "Storage room",
-    },
-    {
-      href: "/rooms/garden",
-      icon: "yard",
-      primary: "Garden",
-    },
-    {
-      href: "/rooms/camping",
-      icon: "camping",
-      primary: "Camping",
-    },
-  ];
-
   return (
     <Box sx={{ display: "flex" }}>
       <Head>
@@ -138,28 +85,28 @@ export default function Inventory({ children = null }: any) {
       </Head>
       <Box
         sx={{
-          width: { xs: "100%", sm: 300 },
-          flex: { xs: "100%", sm: "0 0 300px" },
+          width: { xs: "100%", md: 300 },
+          flex: { xs: "100%", md: "0 0 300px" },
           px: 1.5,
-          display: { xs: children ? "none" : "block", sm: "block" },
+          display: { xs: children ? "none" : "block", md: "block" },
           minHeight: "100vh",
-          pt: { sm: 0.5 },
-          height: { sm: "100vh" },
-          overflowY: { sm: "scroll" },
+          pt: { md: 0.5 },
+          height: { md: "100vh" },
+          overflowY: { md: "scroll" },
           background: {
-            sm: session.user.darkMode
+            md: session.user.darkMode
               ? "hsl(240,11%,7%)"
               : session.user.darkMode
               ? "hsl(240,11%,7%)"
               : "hsl(240,11%,95%)",
           },
-          ml: { sm: -1 },
+          ml: { md: -1 },
         }}
       >
         <Box
           sx={{
             my: 4,
-            px: { xs: 1.5, sm: 0 },
+            px: { xs: 1.5, md: 0 },
             borderRadius: "15px!important",
           }}
         >
@@ -185,16 +132,14 @@ export default function Inventory({ children = null }: any) {
                 count={data}
               />
             ) : (
-              <>
-                {actions.map((action: any) => (
-                  <Action
-                    key={action.primary}
-                    {...action}
-                    mutationUrl={url}
-                    count={data}
-                  />
-                ))}
-              </>
+              rooms.map((action: any) => (
+                <Action
+                  key={action.primary}
+                  {...action}
+                  mutationUrl={url}
+                  count={data}
+                />
+              ))
             )}
             <Divider sx={{ my: 1.5, opacity: 0.7 }} />
             <Rooms data={dataRooms} error={error} mutationUrl={url} />
@@ -227,10 +172,10 @@ export default function Inventory({ children = null }: any) {
       {children ? (
         <Box
           sx={{
-            maxHeight: { sm: "100vh" },
-            minHeight: { sm: "100vh" },
-            height: { sm: "100vh" },
-            overflowY: { sm: "auto" },
+            maxHeight: { md: "100vh" },
+            minHeight: { md: "100vh" },
+            height: { md: "100vh" },
+            overflowY: { md: "auto" },
             flexGrow: 1,
           }}
         >
@@ -239,17 +184,14 @@ export default function Inventory({ children = null }: any) {
       ) : (
         <Box
           sx={{
-            display: { xs: "none", sm: "flex" },
+            display: { xs: "none", md: "flex" },
             justifyContent: "center",
             flexDirection: "column",
             gap: 2,
             alignItems: "center",
             height: "100vh",
             width: "100%",
-            color:
-              colors[session?.themeColor || "grey"][
-                session.user.darkMode ? 50 : 800
-              ],
+            color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
           }}
         >
           <Typography variant="h6">No room selected</Typography>

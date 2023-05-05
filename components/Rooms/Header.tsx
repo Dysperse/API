@@ -6,6 +6,7 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { decode } from "js-base64";
 import Head from "next/head";
@@ -29,6 +30,7 @@ export function Header({
 }) {
   const router = useRouter();
   const session = useSession();
+  const isMobile = useMediaQuery("min-width: 600px");
 
   const title = ((room: string) =>
     room.charAt(0).toUpperCase() + room.slice(1))(
@@ -68,15 +70,9 @@ export function Header({
           width: "100%",
         }}
       >
-        <ListItemAvatar sx={{ mr: { xs: 0, sm: -3 } }}>
-          <IconButton
-            onClick={() => router.push("/items")}
-            sx={{
-              display: { sm: "none" },
-              background: "transparent",
-            }}
-          >
-            <Icon>west</Icon>
+        <ListItemAvatar>
+          <IconButton onClick={() => router.push("/items")}>
+            <Icon>{isMobile ? "west" : "close"}</Icon>
           </IconButton>
         </ListItemAvatar>
 

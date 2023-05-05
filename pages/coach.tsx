@@ -24,7 +24,6 @@ export default function Render() {
   const trigger = useMediaQuery("(min-width: 600px)");
 
   const { data, loading, url, error } = useApi("user/routines/streaks");
-
   const isTimeRunningOut = dayjs().hour() > 18;
 
   const hasCompletedForToday =
