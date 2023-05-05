@@ -7,7 +7,7 @@ import {
   Icon,
   Skeleton,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import dayjs from "dayjs";
 import { Twemoji } from "react-emoji-render";
@@ -104,6 +104,8 @@ export function RecentItems() {
           data.map((item) => (
             <TaskDrawer id={item.id} mutationUrl={url} key={item.id}>
               <Card
+                variant="outlined"
+                className="cursor-unset"
                 sx={{
                   scrollSnapAlign: "center",
                   border: "1px solid",
@@ -114,7 +116,6 @@ export function RecentItems() {
                   flex: { xs: "0 0 90%", sm: "0 0 20%" },
                   borderRadius: 5,
                 }}
-                variant="outlined"
               >
                 <CardActionArea sx={{ height: "100%" }}>
                   <CardContent sx={{ height: "100%" }}>

@@ -18,6 +18,12 @@
   font-weight: 600;
 }
 
+@media (min-width: 600px) {
+  .cursor-unset {
+    cursor:unset!important
+  }
+}
+
 @media (max-width: 600px) {
   * {
     cursor: pointer !important;
@@ -68,6 +74,7 @@ input {
 }
 
 body {
+  overscroll-behavior: none;
   user-select: none;
   overflow-x: hidden;
   margin: 0;

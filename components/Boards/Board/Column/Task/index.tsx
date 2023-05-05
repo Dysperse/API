@@ -7,7 +7,7 @@ import {
   ListItemText,
   styled,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";
@@ -16,7 +16,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
+  useState
 } from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
@@ -25,10 +25,10 @@ import { useAccountStorage } from "../../../../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../../../../lib/client/useApi";
 import { useSession } from "../../../../../lib/client/useSession";
 import { toastStyles } from "../../../../../lib/client/useTheme";
+import { vibrate } from "../../../../../lib/client/vibration";
 import { colors } from "../../../../../lib/colors";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { TaskDrawer } from "./TaskDrawer";
-import { vibrate } from "../../../../../lib/client/vibration";
 
 const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
@@ -165,6 +165,7 @@ export const Task: any = React.memo(function Task({
           itemRef={ref}
           disableRipple
           tabIndex={0}
+          className="cursor-unset"
           sx={{
             ...(isSubTask && {
               ml: "20px",
