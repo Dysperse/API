@@ -7,7 +7,7 @@ import {
   ListItemText,
   styled,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";
@@ -16,7 +16,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState
+  useState,
 } from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";

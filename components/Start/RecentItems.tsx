@@ -7,7 +7,7 @@ import {
   Icon,
   Skeleton,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { Twemoji } from "react-emoji-render";
