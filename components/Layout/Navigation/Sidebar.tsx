@@ -126,16 +126,16 @@ export function Sidebar() {
         zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",
-        borderRight: "2px solid",
+        borderRight: "1px solid",
         borderColor: {
           sm:
             router.asPath === "/zen"
               ? session.user.darkMode
                 ? "hsla(240,11%,15%)"
-                : "hsl(240,11%,94%)"
+                : "hsl(240,11%,92%)"
               : "transparent",
         },
-        borderLeft: "2px solid transparent",
+        borderLeft: "1px solid transparent",
         background: {
           sm:
             router.asPath === "/zen"
