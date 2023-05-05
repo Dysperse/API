@@ -79,7 +79,7 @@ export default function App({
       </Head>
       <Analytics />
       {isLoading && <Loading />}
-      {isError && <Error message={error} />}
+      {isError && <Error />}
       {!isLoading && !isError && !data.error && (
         <RenderWithLayout
           router={router}
