@@ -1,11 +1,4 @@
-import {
-  Alert,
-  Chip,
-  Dialog,
-  Icon,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Alert, Dialog, Icon, IconButton, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
 
 export function InfoModal() {
@@ -15,33 +8,16 @@ export function InfoModal() {
 
   return (
     <>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            p: 3,
-          },
-        }}
-      >
+      <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { p: 3 } }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
-          Mental health{" "}
-          <Chip
-            sx={{
-              ml: 1.5,
-              background: "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
-              color: "#000",
-            }}
-            size="small"
-            label="BETA"
-          />
+          Mental health
         </Typography>
         <Alert severity="info" sx={{ mb: 1 }}>
           Dysperse mental health is a tool to help track your mood over time
         </Alert>
         <Alert severity="info" sx={{ mb: 1 }}>
           Your mood is only visible to you, meaning that other members in your
-          groyp won&apos;t be able to see how you&apos;re feeling
+          group won&apos;t be able to see how you&apos;re feeling
         </Alert>
         <Alert severity="warning" sx={{ mb: 1 }}>
           Mood data is only stared for 1 year
