@@ -28,7 +28,7 @@ export function RecentItems() {
 
   return (
     <>
-      {data && data.length == 0 && (
+      {data?.length === 0 && (
         <Box sx={{ px: { xs: 2, sm: 4 } }}>
           <Box
             sx={{
@@ -37,6 +37,7 @@ export function RecentItems() {
               overflow: "hidden",
               borderRadius: 5,
               p: { sm: 2 },
+              mt: 3,
             }}
           >
             <Box sx={{ p: { xs: 3, sm: 1.5 }, pb: { xs: 0, sm: 0 }, mb: -1 }}>
@@ -63,7 +64,7 @@ export function RecentItems() {
           mt: 3,
           ml: 0,
           mb: 1.5,
-          ...(data && data.length === 0 && { display: "none" }),
+          ...(data?.length === 0 && { display: "none" }),
           userSelect: "none",
           px: { xs: 3, sm: 4 },
         }}

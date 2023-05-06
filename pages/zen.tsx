@@ -199,7 +199,7 @@ export default function Home() {
                   primary={<b>Agenda</b>}
                   secondary={
                     data
-                      ? data && data.length === 0
+                      ? data?.length === 0
                         ? "You don't have any tasks scheduled for today"
                         : data &&
                           data.length -

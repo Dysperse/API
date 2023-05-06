@@ -77,9 +77,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const drawerStyles = {
     width: "100vw",
     maxWidth:
-      data && data !== "deleted" && data.parentTasks.length === 1
-        ? "600px"
-        : "650px",
+      data?.parentTasks?.length === 1 && data !== "deleted" ? "600px" : "650px",
     maxHeight: "80vh",
     minHeight: "80vh",
   };

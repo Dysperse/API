@@ -267,13 +267,13 @@ export function TasksLayout() {
           width: "90%",
           mx: "auto",
           opacity: 0.5,
-          ...(data && data.length === 0 && { display: "none" }),
+          ...(data?.length === 0 && { display: "none" }),
         }}
       />
       <Typography
         sx={{
           ...taskStyles(session).subheading,
-          ...(data && data.length === 0 && { display: "none" }),
+          ...(data?.length === 0 && { display: "none" }),
         }}
       >
         Boards
@@ -348,8 +348,8 @@ export function TasksLayout() {
         <Tooltip title="alt • c" placement="right">
           <Button
             disabled={
-              storage?.isReached === true ||
-              (data && data.filter((board) => !board.archived).length >= 5) ||
+              Boolean(storage?.isReached) ||
+              data?.filter((board) => !board.archived).length >= 5 ||
               session.permission === "read-only"
             }
             ref={ref}

@@ -1,11 +1,21 @@
-import { Box, Typography, colors } from "@mui/material";
+import { Box, colors, Typography } from "@mui/material";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
+import { moodOptions } from "..";
 import { useSession } from "../../../../lib/client/useSession";
 import { ErrorHandler } from "../../../Error";
 
 export function Overview({ data, url, error }) {
   const session = useSession();
+
+  const moodIcons = moodOptions.reverse();
+  const defaultMood = [0];
+
+  const moodData = data?.length
+    ? data.reverse().map((day) => moodIcons.indexOf(day.mood))
+    : data?.length < 4
+    ? [1, 7, 3, 6, 7, 8, 2, 5, 4, 7, 6, 4, 3]
+    : defaultMood;
 
   return (
     <>
@@ -20,7 +30,7 @@ export function Overview({ data, url, error }) {
           position: "relative",
         }}
       >
-        {data && data.length < 4 && (
+        {data?.length < 4 && (
           <Typography
             sx={{
               position: "absolute",
@@ -81,9 +91,9 @@ export function Overview({ data, url, error }) {
             >
               <Sparklines
                 data={[
-                  ...(data && data.length < 4
+                  ...(data?.length < 4
                     ? [1, 7, 3, 6, 7, 8, 2, 5, 4, 7, 6, 4, 3]
-                    : data && data.length > 0
+                    : data?.length > 0
                     ? data.reverse().map((day) => day.stress)
                     : [0]),
                 ]}
@@ -134,24 +144,7 @@ export function Overview({ data, url, error }) {
                 gap: 2,
               }}
             >
-              <Sparklines
-                data={[
-                  ...(data && data.length < 4
-                    ? [1, 7, 3, 6, 7, 8, 2, 5, 4, 7, 6, 4, 3]
-                    : data && data.length > 0
-                    ? data.reverse().map((day) => {
-                        return [
-                          "1f62d",
-                          "1f614",
-                          "1f610",
-                          "1f600",
-                          "1f601",
-                        ].indexOf(day.mood);
-                      })
-                    : [0]),
-                ]}
-                margin={6}
-              >
+              <Sparklines data={moodData} margin={6}>
                 <SparklinesLine
                   style={{
                     strokeWidth: 4,

@@ -136,7 +136,7 @@ export function Routines({ isCoach = false }: any) {
             px: isCoach ? 0 : { xs: 2, sm: 4 },
           }}
         >
-          {data && data.length == 0 && (
+          {data?.length === 0 && (
             <Box
               sx={{
                 display: "flex",

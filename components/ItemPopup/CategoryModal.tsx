@@ -127,7 +127,7 @@ export default function CategoryModal({
       >
         <Puller />
         <Box sx={{ p: 2, mt: 2, maxHeight: "60vh", overflowY: "auto" }}>
-          {data && data.length === 0 && (
+          {data?.length === 0 && (
             <Box
               sx={{
                 p: 2,

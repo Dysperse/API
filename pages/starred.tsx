@@ -44,7 +44,7 @@ export default function Trash() {
             <CircularProgress />
           </Box>
         )}
-        {data && data.length === 0 && (
+        {data?.length === 0 && (
           <Box>
             <Alert severity="info">
               <AlertTitle sx={{ mb: 0 }}>

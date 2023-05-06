@@ -155,7 +155,7 @@ export function Changelog({ disabled }) {
                 )}
               </Timeline>
 
-              {data && data.length === 0 && (
+              {data?.length === 0 && (
                 <Typography
                   variant="body1"
                   sx={{

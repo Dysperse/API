@@ -73,15 +73,14 @@ export function DailyCheckInDrawer({ mood }) {
   const moodIcons = moodOptions.reverse();
   const defaultMood = [0];
 
-  const chartData =
-    data && data.length > 0
-      ? data
-          .slice(0, lastBy)
-          .reverse()
-          .map((day) => moodIcons.indexOf(day.mood))
-      : data && data.length < 4
-      ? [1, 7, 3, 6, 7, 8, 2, 5, 4, 7, 6, 4, 3]
-      : defaultMood;
+  const chartData = data?.length
+    ? data
+        .slice(0, lastBy)
+        .reverse()
+        .map((day) => moodIcons.indexOf(day.mood))
+    : data?.length < 4
+    ? [1, 7, 3, 6, 7, 8, 2, 5, 4, 7, 6, 4, 3]
+    : defaultMood;
 
   return (
     <>
@@ -160,7 +159,7 @@ export function DailyCheckInDrawer({ mood }) {
         <div style={{ position: "relative" }}>
           <div
             style={{
-              ...((!data || (data && data.length < 4)) && {
+              ...((!data || data.length < 4) && {
                 filter: "blur(5px)",
                 opacity: 0.8,
               }),

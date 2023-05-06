@@ -60,7 +60,7 @@ export function Emoji({ emoji, mood, defaultStress, data, handleMoodChange }) {
 
   const session = useSession();
   const [currentReason, setCurrentReason] = useState<null | string>(
-    (data && data[0] && data[0].reason) || null
+    data?.[0]?.reason ?? null
   );
 
   // for push notification

@@ -63,7 +63,7 @@ export function ColoredTasks({ setDrawerOpen }) {
       </IconButton>
 
       {!data ||
-        (data && data.length !== 0 && (
+        (data?.length && (
           <Box sx={{ p: 3, pb: 1, pt: 5 }}>
             <Typography className="font-heading" variant="h4" gutterBottom>
               Color coded
@@ -89,7 +89,6 @@ export function ColoredTasks({ setDrawerOpen }) {
                 sx={{
                   width: 36,
                   height: 36,
-
                   borderRadius: "50%",
                   display: "inline-flex",
                   mr: 1,
@@ -164,20 +163,19 @@ export function ColoredTasks({ setDrawerOpen }) {
           </Box>
         )}
         {[
-          ...data.filter((task) => task.pinned),
-          ...data.filter((task) => !task.pinned),
-        ]
-          .filter((task) => color === "all" || task.color === color)
-          .map((task) => (
-            <Task
-              key={task.id}
-              board={task.board || false}
-              columnId={task.column ? task.column.id : -1}
-              isAgenda
-              mutationUrl={url}
-              task={task}
-            />
-          ))}
+          ...data
+            .filter((task) => color === "all" || task.color === color)
+            .sort((a, b) => (a.pinned === b.pinned ? 0 : a.pinned ? -1 : 1)),
+        ].map((task) => (
+          <Task
+            key={task.id}
+            board={task.board || false}
+            columnId={task.column ? task.column.id : -1}
+            isAgenda
+            mutationUrl={url}
+            task={task}
+          />
+        ))}
         {!data.find((task) => color === "all" || task.color === color) &&
           data.length >= 1 && (
             <Box sx={{ textAlign: "center", mt: 5 }}>

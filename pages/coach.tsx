@@ -36,8 +36,7 @@ export default function Render() {
   const isStreakBroken =
     dayjs().diff(dayjs(data ? data.lastStreakDate : new Date()), "day") >= 2;
 
-  const useStreakStyles =
-    data && data.streakCount && data.streakCount > 1 && !isStreakBroken;
+  const useStreakStyles = data?.streakCount > 1 && !isStreakBroken;
 
   return (
     <Box

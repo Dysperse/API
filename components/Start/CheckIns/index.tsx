@@ -30,13 +30,7 @@ export function DailyCheckIn() {
     date: today,
   });
 
-  useEffect(() => {
-    if (data && data[0] && data[0].mood) {
-      setMood(data[0].mood);
-    } else {
-      setMood(null);
-    }
-  }, [data, mood, setMood]);
+  useEffect(() => setMood(data?.[0]?.mood ?? null), [data, mood, setMood]);
 
   const handleMoodChange: any = useCallback(
     async (emoji: string, reason: string, stress: number) => {
@@ -62,11 +56,9 @@ export function DailyCheckIn() {
   return (
     <Box
       sx={{
-        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
         border: "1px solid",
-        borderColor: session.user.darkMode
-          ? "hsl(240, 11%, 20%)"
-          : "rgba(200, 200, 200, 0.3)",
+        borderColor: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
         borderRadius: 5,
       }}
     >
@@ -84,7 +76,7 @@ export function DailyCheckIn() {
       >
         {moodOptions.map((emoji) => (
           <Emoji
-            defaultStress={data && data[0] ? data[0].stress : 10}
+            defaultStress={data?.[0]?.stress ?? 10}
             key={emoji}
             emoji={emoji}
             handleMoodChange={handleMoodChange}

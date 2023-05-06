@@ -55,7 +55,7 @@ export default function Onboarding() {
           backdropFilter: "blur(10px)",
         }}
       />
-      {data && data.error ? (
+      {data?.error ? (
         <Box
           sx={{
             position: "fixed",
@@ -67,7 +67,7 @@ export default function Onboarding() {
         >
           The invite link is invalid or has already been used.
         </Box>
-      ) : data && data.property ? (
+      ) : data?.property ? (
         <Box
           sx={{
             position: "fixed",

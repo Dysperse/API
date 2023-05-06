@@ -58,7 +58,7 @@ export function Backlog({ setDrawerOpen }) {
       </IconButton>
 
       {!data ||
-        (data && data.length !== 0 && (
+        (data?.length !== 0 && (
           <Box sx={{ p: 3, pb: 0, pt: 5 }}>
             <Typography className="font-heading" variant="h4" gutterBottom>
               Backlog
@@ -71,9 +71,7 @@ export function Backlog({ setDrawerOpen }) {
             )}
           </Box>
         ))}
-      <Box
-        sx={{ px: { sm: 3 }, pb: data.length == 0 ? 0 : 15, maxWidth: "100vw" }}
-      >
+      <Box sx={{ px: { sm: 3 }, pb: data.length ? 15 : 0, maxWidth: "100vw" }}>
         {data.length === 0 && (
           <Box
             sx={{
