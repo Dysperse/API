@@ -148,9 +148,7 @@ export default function Render() {
                     WebkitTextFillColor: "transparent!important",
                   }}
                 >
-                  {data && !isStreakBroken && data.streakCount
-                    ? data.streakCount
-                    : 0}
+                  {data?.streakCount && !isStreakBroken ? data.streakCount : 0}
                 </Typography>
               )}
               {loading ? (

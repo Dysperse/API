@@ -464,7 +464,7 @@ export function DailyCheckInDrawer({ mood }) {
                 );
               })}
           </div>
-          {data && data.length < 4 && (
+          {data?.length < 4 && (
             <Box
               sx={{
                 position: "absolute",
