@@ -24,7 +24,7 @@ import { taskStyles } from "../Layout";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
-
+  const router = useRouter();
   const session = useSession();
 
   return (
@@ -118,9 +118,9 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               setLoading(true);
               fetchRawApi("property/boards/create", {
                 board: JSON.stringify(template),
-              }).then(async () => {
-                setOpen(false);
+              }).then(async (res) => {
                 await mutate(mutationUrl);
+                router.push(`/tasks/boards/${res.id}`);
                 setLoading(false);
               });
             }}
