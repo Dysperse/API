@@ -89,7 +89,6 @@ export function EditProperty({
       <SwipeableDrawer
         anchor="bottom"
         open={open}
-        swipeAreaWidth={0}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{

@@ -93,7 +93,6 @@ export default function MoveToRoom({ item, styles }) {
     <>
       <SwipeableDrawer
         anchor="bottom"
-        swipeAreaWidth={0}
         onOpen={() => setOpen(true)}
         open={open}
         sx={{

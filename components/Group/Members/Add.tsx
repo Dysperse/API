@@ -176,7 +176,6 @@ export function AddPersonModal({
         }}
         onClose={() => setOpen(false)}
         anchor="bottom"
-        swipeAreaWidth={0}
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>

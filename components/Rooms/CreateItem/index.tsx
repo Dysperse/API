@@ -124,7 +124,6 @@ function MoreRooms(): JSX.Element {
     <>
       <SwipeableDrawer
         anchor="bottom"
-        swipeAreaWidth={0}
         PaperProps={{
           sx: {
             width: {
@@ -382,7 +381,6 @@ export default function AddPopup({
 
       <SwipeableDrawer
         anchor="bottom"
-        swipeAreaWidth={0}
         PaperProps={{
           sx: {
             width: {
