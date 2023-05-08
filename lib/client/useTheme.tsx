@@ -374,6 +374,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiSwipeableDrawer: {
         defaultProps: {
           disableSwipeToOpen: true,
+          disableBackdropTransition: true,
           ModalProps: { keepMounted: false },
         },
       },
