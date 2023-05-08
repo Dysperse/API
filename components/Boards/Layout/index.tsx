@@ -268,7 +268,16 @@ export function TasksLayout({ open, setOpen, children }) {
         }}
       >
         <Tooltip title="alt • c" placement="right">
-          <Link href="/tasks/boards/create" style={{ width: "100%" }}>
+          <Link
+            href={
+              Boolean(storage?.isReached) ||
+              data?.filter((board) => !board.archived).length >= 5 ||
+              session.permission === "read-only"
+                ? "/tasks"
+                : "/tasks/boards/create"
+            }
+            style={{ width: "100%" }}
+          >
             <Button
               fullWidth
               disabled={
