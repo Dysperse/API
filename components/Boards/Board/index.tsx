@@ -176,11 +176,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
 }
 
 export function Board({ mutationUrl, board, setDrawerOpen }) {
-  const { data, url, error } = useApi("property/boards/tasks", {
-    id: board.id,
+  const { data, url, error, loading } = useApi("property/boards/tasks", {
+    id: board?.id,
   });
 
-  if (error) {
+  if (error || (!board && !loading)) {
     return (
       <Box sx={{ p: 3 }}>
         <Alert severity="error">

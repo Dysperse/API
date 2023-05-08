@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { Agenda } from "../../../components/Boards/Agenda";
 import { TasksLayout } from "../../../components/Boards/Layout";
 
@@ -9,10 +10,13 @@ export default function Dashboard() {
   const router = useRouter();
   const view =
     router && router.query && router.query.view && router.query.view[0];
+  const [open, setOpen] = useState(false);
 
   return (
-    <TasksLayout>
-      {view && <Agenda setDrawerOpen={() => {}} view={view as any} />}
+    <TasksLayout open={open} setOpen={setOpen}>
+      {view && (
+        <Agenda setDrawerOpen={() => setOpen(true)} view={view as any} />
+      )}
     </TasksLayout>
   );
 }

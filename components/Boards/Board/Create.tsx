@@ -497,7 +497,7 @@ export const templates = [
   },
 ];
 
-export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
+export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");

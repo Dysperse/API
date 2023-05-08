@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CircularProgress,
   Collapse,
   Divider,
   Icon,
@@ -65,7 +64,7 @@ export const taskStyles = (session) => {
   };
 };
 
-export function TasksLayout({ children }) {
+export function TasksLayout({ open, setOpen, children }) {
   const { data, error } = useApi("property/boards");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -111,7 +110,6 @@ export function TasksLayout({ children }) {
           },
         }),
   });
-  const [open, setOpen] = useState<boolean>(false);
 
   const ref: any = useRef();
   const handleClick = (id) => document.getElementById(id)?.click();
@@ -265,12 +263,14 @@ export function TasksLayout({ children }) {
           position: { sm: "sticky" },
           bottom: 0,
           backdropFilter: { sm: "blur(10px)" },
+          width: "100%",
           zIndex: 999,
         }}
       >
         <Tooltip title="alt • c" placement="right">
-          <Link href="/tasks/boards/create">
+          <Link href="/tasks/boards/create" style={{ width: "100%" }}>
             <Button
+              fullWidth
               disabled={
                 Boolean(storage?.isReached) ||
                 data?.filter((board) => !board.archived).length >= 5 ||

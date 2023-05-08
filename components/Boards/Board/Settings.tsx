@@ -1,4 +1,5 @@
 import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -25,6 +26,7 @@ export default function BoardSettings({ mutationUrl, board }) {
 
   const storage = useAccountStorage();
   const session = useSession();
+  const router = useRouter();
 
   return (
     <>
@@ -152,9 +154,8 @@ export default function BoardSettings({ mutationUrl, board }) {
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
-            await fetchRawApi("property/boards/delete", {
-              id: board.id,
-            });
+            await fetchRawApi("property/boards/delete", { id: board.id });
+            router.push("/tasks");
             await mutate(mutationUrl);
           }}
         >
