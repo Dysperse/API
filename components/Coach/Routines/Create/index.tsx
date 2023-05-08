@@ -148,6 +148,7 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
         onOpen={handleOpen}
         PaperProps={{
           sx: {
+            ...(!session.user.darkMode && { background: "#fff" }),
             userSelect: "none",
             height: "100vh",
             borderRadius: 0,

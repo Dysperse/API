@@ -322,10 +322,11 @@ export function CreateTask({
               { label: "In one year", days: 365 },
             ].map(({ label, days }) => {
               const isActive =
+                deferredDate &&
                 dayjs(deferredDate.toISOString())
                   .startOf("day")
                   .toISOString() ==
-                dayjs().startOf("day").add(days, "day").toISOString();
+                  dayjs().startOf("day").add(days, "day").toISOString();
 
               return (
                 <Chip

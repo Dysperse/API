@@ -44,6 +44,7 @@ export function DailyCheckInDrawer({ mood }) {
   });
 
   const drawerStyles = {
+    ...(!session.user.darkMode && { background: "#fff" }),
     width: "100%",
     maxWidth: "600px",
     borderRadius: 0,

@@ -130,6 +130,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             width: "calc(100vw - 40px)!important",
             maxWidth: "400px",
             maxHeight: "calc(100vh - 40px)!important",
+            ...(!session.user.darkMode && { background: "#fff" }),
           },
         }}
       >
