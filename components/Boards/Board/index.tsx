@@ -123,11 +123,6 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
         sx={{ zIndex: 999 }}
-        BackdropProps={{
-          sx: {
-            backdropFilter: "blur(0px)!important",
-          },
-        }}
         PaperProps={{
           sx: {
             borderRadius: "20px",
@@ -158,7 +153,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         onClick={() => setMobileOpen(true)}
         sx={taskStyles(session).menu}
       >
-        <Icon className="outlined">info</Icon>
+        <Icon className="outlined">menu</Icon>
       </IconButton>
 
       {data

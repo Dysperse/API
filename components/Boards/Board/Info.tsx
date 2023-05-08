@@ -12,8 +12,8 @@ import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { toastStyles } from "../../../lib/client/useTheme";
-import BoardSettings from "./Settings";
 import { vibrate } from "../../../lib/client/vibration";
+import BoardSettings from "./Settings";
 
 export function BoardInfo({
   setMobileOpen,
@@ -287,6 +287,7 @@ export function BoardInfo({
               onClick={() => {
                 setDrawerOpen(true);
                 vibrate(50);
+                setMobileOpen(false);
               }}
             >
               <Icon className="outlined">menu</Icon>

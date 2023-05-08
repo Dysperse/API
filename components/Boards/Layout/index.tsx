@@ -24,7 +24,7 @@ import { Tab } from "./Tab";
 export const taskStyles = (session) => {
   return {
     subheading: {
-      my: 1,
+      my: { xs: 1, sm: 2 },
       textTransform: "uppercase",
       fontWeight: 700,
       opacity: 0.5,
@@ -35,13 +35,10 @@ export const taskStyles = (session) => {
     },
     menu: {
       transition: "transform .2s",
-      "&:active": {
-        transition: "none",
-        transform: "scale(0.9)",
-      },
+      "&:active": { transform: "scale(0.95)" },
       position: "fixed",
       bottom: {
-        xs: "65px",
+        xs: "70px",
         md: "30px",
       },
       left: "10px",
@@ -53,7 +50,7 @@ export const taskStyles = (session) => {
         "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
       backdropFilter: "blur(10px)",
       border: {
-        xs: `1px solid hsla(240,11%,${session.user.darkMode ? 50 : 10}%,.1)`,
+        xs: `1px solid hsla(240,11%,${session.user.darkMode ? 50 : 15}%,.1)`,
         md: "unset",
       },
       fontWeight: "700",
@@ -188,21 +185,14 @@ export function TasksLayout({ open, setOpen, children }) {
       </Box>
       <Divider
         sx={{
-          my: 1,
-          width: "90%",
+          mt: 1,
+          mb: 2,
+          width: { sm: "90%" },
           mx: "auto",
           opacity: 0.5,
-          ...(data?.length === 0 && { display: "none" }),
         }}
       />
-      <Typography
-        sx={{
-          ...taskStyles(session).subheading,
-          ...(data?.length === 0 && { display: "none" }),
-        }}
-      >
-        Boards
-      </Typography>
+      <Typography sx={taskStyles(session).subheading}>Boards</Typography>
       {data &&
         data
           .filter((x) => !x.archived)
@@ -214,10 +204,51 @@ export function TasksLayout({ open, setOpen, children }) {
               board={board}
             />
           ))}
+      <Tooltip title="alt • c" placement="right">
+        <Link
+          href={
+            Boolean(storage?.isReached) ||
+            data?.filter((board) => !board.archived).length >= 5 ||
+            session.permission === "read-only"
+              ? "/tasks"
+              : "/tasks/boards/create"
+          }
+          style={{ width: "100%" }}
+        >
+          <Button
+            fullWidth
+            disabled={
+              Boolean(storage?.isReached) ||
+              data?.filter((board) => !board.archived).length >= 5 ||
+              session.permission === "read-only"
+            }
+            ref={ref}
+            size="large"
+            onClick={() => setOpen(false)}
+            sx={{
+              ...styles(router.asPath == "/tasks/boards/create"),
+              px: 2,
+              ...((storage?.isReached === true ||
+                (data &&
+                  data.filter((board) => !board.archived).length >= 5)) && {
+                opacity: 0.5,
+              }),
+              justifyContent: "start",
+            }}
+          >
+            <Icon
+              className={router.asPath == "/tasks/create" ? "" : "outlined"}
+              sx={{ ml: -0.5 }}
+            >
+              add_circle
+            </Icon>
+            Create
+          </Button>
+        </Link>
+      </Tooltip>
       <Box>
         <Button
           size="large"
-          disableRipple
           onClick={() => setArchiveOpen(!archiveOpen)}
           sx={{
             ...styles(false),
@@ -227,11 +258,15 @@ export function TasksLayout({ open, setOpen, children }) {
                   !data.find((board) => board.archived)) && {
                   display: "none",
                 })),
+            ...(archiveOpen && {
+              background: "rgba(200,200,200,.3)",
+            }),
           }}
         >
+          <Icon className="outlined">inventory_2</Icon>
           Archived
           <Icon sx={{ ml: "auto" }}>
-            {archiveOpen ? "expand_less" : "expand_more"}
+            {archiveOpen ? "expand_more" : "chevron_right"}
           </Icon>
         </Button>
         <Collapse
@@ -255,61 +290,6 @@ export function TasksLayout({ open, setOpen, children }) {
               ))}
         </Collapse>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          mt: "auto",
-          mb: { sm: -2 },
-          position: { sm: "sticky" },
-          bottom: 0,
-          backdropFilter: { sm: "blur(10px)" },
-          width: "100%",
-          zIndex: 999,
-        }}
-      >
-        <Tooltip title="alt • c" placement="right">
-          <Link
-            href={
-              Boolean(storage?.isReached) ||
-              data?.filter((board) => !board.archived).length >= 5 ||
-              session.permission === "read-only"
-                ? "/tasks"
-                : "/tasks/boards/create"
-            }
-            style={{ width: "100%" }}
-          >
-            <Button
-              fullWidth
-              disabled={
-                Boolean(storage?.isReached) ||
-                data?.filter((board) => !board.archived).length >= 5 ||
-                session.permission === "read-only"
-              }
-              ref={ref}
-              size="large"
-              onClick={() => setOpen(false)}
-              sx={{
-                ...styles(router.asPath == "/tasks/boards/create"),
-                px: 2,
-                ...((storage?.isReached === true ||
-                  (data &&
-                    data.filter((board) => !board.archived).length >= 5)) && {
-                  opacity: 0.5,
-                }),
-                justifyContent: "start",
-              }}
-            >
-              <Icon
-                className={router.asPath == "/tasks/create" ? "" : "outlined"}
-                sx={{ ml: -0.5 }}
-              >
-                add_circle
-              </Icon>
-              Create
-            </Button>
-          </Link>
-        </Tooltip>
-      </Box>
     </>
   );
 
@@ -324,12 +304,16 @@ export function TasksLayout({ open, setOpen, children }) {
         }}
         open={open}
         PaperProps={{
-          sx: { pb: 2, maxHeight: "90vh" },
+          sx: {
+            pb: 2,
+            maxHeight: "90vh",
+            background: `hsl(240,11%,${session.user.darkMode ? 7 : 95}%)`,
+          },
         }}
         sx={{ zIndex: 999999999999 }}
       >
         <Puller />
-        <Box sx={{ p: 1 }}>{menuChildren}</Box>
+        <Box sx={{ p: 1, pt: 0, mt: -2 }}>{menuChildren}</Box>
       </SwipeableDrawer>
       <Box
         sx={{
