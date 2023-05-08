@@ -316,7 +316,6 @@ export function TasksLayout({ open, setOpen, children }) {
   return (
     <Box sx={{ display: "flex" }}>
       <SwipeableDrawer
-        disableBackdropTransition
         anchor="bottom"
         onOpen={() => setOpen(true)}
         onClose={() => {

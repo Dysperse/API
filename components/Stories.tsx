@@ -57,7 +57,6 @@ export function Stories({
     <>
       {trigger}
       <SwipeableDrawer
-        disableBackdropTransition
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}

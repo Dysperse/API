@@ -43,7 +43,6 @@ export function Changelog({ disabled }) {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableBackdropTransition
         anchor="bottom"
       >
         {!disabled && (

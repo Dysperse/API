@@ -90,7 +90,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         onClose={handleClose}
         onOpen={handleOpen}
         anchor="bottom"
-        disableBackdropTransition
         PaperProps={{ sx: drawerStyles, ref }}
       >
         <Puller showOnDesktop />

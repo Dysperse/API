@@ -309,7 +309,6 @@ export default function ItemDrawer({
     <>
       <SwipeableDrawer
         open={open}
-        disableBackdropTransition
         onOpen={handleOpen}
         onClick={(e) => e.stopPropagation()}
         onContextMenu={(e) => {

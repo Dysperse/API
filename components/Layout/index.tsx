@@ -72,6 +72,10 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
     <Box
       onContextMenu={(e) => e.preventDefault()}
       onTouchStart={(e: any) => {
+        /**
+         * TODO: Fix, this throws an error every time the user performs a touch action on mobile
+         * "Unable to preventDefault inside passive event listener invocation."
+         */
         if (e.pageX > 20 && e.pageX < window.innerWidth - 20) return;
         e.preventDefault();
       }}
