@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { AuthBranding, authStyles, Layout } from "../../components/Auth/Layout";
+import { AuthBranding, Layout, authStyles } from "../../components/Auth/Layout";
 import { ConfirmationModal } from "../../components/ConfirmationModal";
 import { isEmail } from "../../components/Group/Members";
 import { toastStyles } from "../../lib/client/useTheme";
@@ -302,13 +302,9 @@ export default function Prompt() {
                     ref.current?.reset();
                     toast.error("Expired. Retrying...", toastStyles);
                   }}
-                  autoResetOnExpire
-                  scriptOptions={{
-                    defer: true,
-                  }}
-                  options={{
-                    retry: "auto",
-                  }}
+                  
+                  scriptOptions={{ defer: true }}
+                  options={{ retry: "auto" }}
                   onSuccess={(token) => setCaptchaToken(token)}
                 />
               </NoSsr>
