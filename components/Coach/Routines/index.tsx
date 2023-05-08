@@ -86,7 +86,7 @@ export function Routines({ isCoach = false }: any) {
       sx={{
         overflow: isCoach ? { md: "scroll" } : "scroll",
         maxWidth: "100vw",
-        flexGrow: 1,
+        background: "red",
         postition: "relative",
         borderRadius: 3,
       }}

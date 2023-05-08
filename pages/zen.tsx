@@ -141,7 +141,7 @@ export default function Home() {
   };
 
   return (
-    <Box sx={{ ml: -1 }}>
+    <Box sx={{ ml: { sm: -1 } }}>
       <Box
         sx={{
           mt: { xs: "calc(var(--navbar-height) * -1)", md: "-50px" },
