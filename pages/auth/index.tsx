@@ -302,7 +302,6 @@ export default function Prompt() {
                     ref.current?.reset();
                     toast.error("Expired. Retrying...", toastStyles);
                   }}
-                  
                   scriptOptions={{ defer: true }}
                   options={{ retry: "auto" }}
                   onSuccess={(token) => setCaptchaToken(token)}
