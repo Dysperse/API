@@ -220,7 +220,6 @@ export function MyGoals(): JSX.Element {
       )}
       {trigger && (
         <SwipeableDrawer
-          disableSwipeToOpen
           onOpen={() => setMobileOpen(true)}
           onClose={() => setMobileOpen(false)}
           open={mobileOpen}

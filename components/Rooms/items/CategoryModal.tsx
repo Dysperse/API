@@ -41,10 +41,8 @@ const CategoryModal = memo(function CategoryModal({
       <SwipeableDrawer
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         open={open}
         anchor="right"
-        ModalProps={{ keepMounted: false }}
         PaperProps={{
           sx: {
             width: "100%",

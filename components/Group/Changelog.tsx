@@ -40,12 +40,10 @@ export function Changelog({ disabled }) {
   return (
     <>
       <SwipeableDrawer
-        ModalProps={{ keepMounted: false }}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         disableBackdropTransition
-        disableSwipeToOpen
         anchor="bottom"
       >
         {!disabled && (

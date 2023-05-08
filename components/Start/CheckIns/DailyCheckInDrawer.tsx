@@ -24,8 +24,8 @@ import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter
 import { useApi } from "../../../lib/client/useApi";
 import { useSession } from "../../../lib/client/useSession";
 import { colors } from "../../../lib/colors";
-import { moodOptions, reasons } from "./index";
 import { InfoModal } from "./InfoModal";
+import { moodOptions, reasons } from "./index";
 
 export function DailyCheckInDrawer({ mood }) {
   const session = useSession();
@@ -136,13 +136,11 @@ export function DailyCheckInDrawer({ mood }) {
         <Icon>arrow_forward_ios</Icon>
       </CardActionArea>
       <SwipeableDrawer
-        disableSwipeToOpen
         anchor="bottom"
         onOpen={handleOpen}
         onClose={handleClose}
         open={open}
         PaperProps={{ sx: drawerStyles }}
-        ModalProps={{ keepMounted: false }}
       >
         <AppBar>
           <Toolbar>

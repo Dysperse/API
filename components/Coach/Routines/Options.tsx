@@ -32,10 +32,8 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
         sx={{
           zIndex: "999999!important",
         }}
-        ModalProps={{ keepMounted: false }}
         onClose={handleClose}
         onOpen={handleOpen}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             background: "hsl(240, 11%, 15%)",

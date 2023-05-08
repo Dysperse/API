@@ -18,7 +18,7 @@
     "@mui/lab": "^5.0.0-alpha.129",
     "@mui/material": "^5.12.3",
     "@prisma/client": "^4.13.0",
-    "@sentry/nextjs": "file:latest@sentry/node@latest@sentry/replay@latest",
+    "@sentry/nextjs": "^7.51.1",
     "@sentry/node": "^7.38.0",
     "@sentry/replay": "^7.38.0",
     "@typescript-eslint/parser": "^5.53.0",

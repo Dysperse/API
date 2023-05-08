@@ -113,10 +113,8 @@ export function Emoji({ emoji, mood, defaultStress, data, handleMoodChange }) {
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
-        ModalProps={{ keepMounted: false }}
         PaperProps={{ sx: { maxHeight: "calc(100vh - 20px)" } }}
         anchor="bottom"
-        disableSwipeToOpen
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>

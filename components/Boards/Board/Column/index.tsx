@@ -94,7 +94,6 @@ export function Column({ board, mutationUrls, column, index }) {
           setOpen(false);
         }}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             maxWidth: "400px",

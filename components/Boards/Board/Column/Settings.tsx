@@ -60,7 +60,6 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
           setOpen(false);
         }}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             maxWidth: "400px",

@@ -65,12 +65,10 @@ export function EditRoutine({ setData, routine }) {
       </ListItemButton>
 
       <SwipeableDrawer
-        ModalProps={{ keepMounted: false }}
         open={open}
         anchor="bottom"
         onClose={handleClose}
         onOpen={handleOpen}
-        disableSwipeToOpen
         BackdropProps={{
           className: "override-bg",
           sx: {

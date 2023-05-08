@@ -286,7 +286,6 @@ export function CreateTask({
           mutate(mutationUrl);
         }}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             maxWidth: "600px",

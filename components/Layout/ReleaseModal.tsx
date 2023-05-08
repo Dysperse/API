@@ -60,9 +60,7 @@ export default function ReleaseModal() {
       open={open}
       onClose={handleClose}
       onOpen={() => {}}
-      ModalProps={{ keepMounted: false }}
       anchor="bottom"
-      disableSwipeToOpen
       PaperProps={{
         sx: {
           maxHeight: "calc(100vh - 40px)",

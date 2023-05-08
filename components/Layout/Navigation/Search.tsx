@@ -232,10 +232,8 @@ export default function Spotlight() {
     <SwipeableDrawer
       open={open}
       onOpen={handleOpen}
-      ModalProps={{ keepMounted: false }}
       onClose={handleClose}
       anchor="bottom"
-      disableSwipeToOpen
       PaperProps={{
         sx: {
           minHeight: "calc(100vh - 25px)",

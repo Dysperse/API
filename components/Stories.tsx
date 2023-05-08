@@ -61,7 +61,6 @@ export function Stories({
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
-        disableSwipeToOpen
         anchor="bottom"
         PaperProps={{
           sx: {
@@ -73,7 +72,6 @@ export function Stories({
             userSelect: "none",
           },
         }}
-        ModalProps={{ keepMounted: false }}
       >
         <Box
           sx={{

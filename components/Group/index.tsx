@@ -257,10 +257,8 @@ export default function Group({
   return (
     <>
       <SwipeableDrawer
-        disableSwipeToOpen
         onKeyDown={(e) => e.stopPropagation()}
         onOpen={() => {}}
-        ModalProps={{ keepMounted: false }}
         onClose={handleDrawerClose}
         open={open}
         anchor={isDesktop ? "right" : "bottom"}

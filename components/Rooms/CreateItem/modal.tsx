@@ -114,7 +114,6 @@ export function CreateItemModal({
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             width: "100vw",

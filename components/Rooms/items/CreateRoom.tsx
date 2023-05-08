@@ -54,7 +54,6 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
       >
         <Puller />
         <Box

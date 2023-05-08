@@ -72,8 +72,6 @@ export function Prompt({
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        ModalProps={{ keepMounted: false }}
-        disableSwipeToOpen
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>

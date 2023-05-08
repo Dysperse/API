@@ -207,7 +207,6 @@ export default function CreateColumn({
         open={mobileOpen}
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
-        disableSwipeToOpen
         sx={{
           zIndex: 9999999999,
         }}

@@ -87,7 +87,6 @@ export function SettingsMenu({
       </ListItemButton>
       {parentOpen && (
         <SwipeableDrawer
-          ModalProps={{ keepMounted: false }}
           open={open}
           anchor="bottom"
           onClose={() => setOpen(false)}
@@ -110,7 +109,6 @@ export function SettingsMenu({
           sx={{
             zIndex: 9999,
           }}
-          disableSwipeToOpen
         >
           <Box sx={{ maxHeight: "95vh", overflow: "scroll" }}>
             <Puller />

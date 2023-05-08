@@ -68,7 +68,6 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
       >
         <Puller />
         <Box sx={{ p: 2, pt: 0 }}>
@@ -123,7 +122,6 @@ export default function CategoryModal({
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
       >
         <Puller />
         <Box sx={{ p: 2, mt: 2, maxHeight: "60vh", overflowY: "auto" }}>

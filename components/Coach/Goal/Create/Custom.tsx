@@ -89,7 +89,6 @@ export function CreateGoal({ mutationUrl }) {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
       >
         <AppBar
           elevation={0}

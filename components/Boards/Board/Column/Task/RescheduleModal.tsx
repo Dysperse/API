@@ -82,7 +82,6 @@ export function RescheduleModal({ data, children, handlePostpone }) {
       {trigger}
 
       <SwipeableDrawer
-        disableSwipeToOpen
         open={open}
         onClose={handleClose}
         onOpen={handleClick}

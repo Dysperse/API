@@ -45,10 +45,8 @@ export function CustomizeRoutine({ handleParentClose, setData, routine }) {
       <SwipeableDrawer
         open={open}
         anchor="bottom"
-        ModalProps={{ keepMounted: false }}
         onClose={handleClose}
         onOpen={handleOpen}
-        disableSwipeToOpen
         BackdropProps={{
           className: "override-bg",
           sx: {

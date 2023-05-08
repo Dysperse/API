@@ -55,7 +55,6 @@ function LinkToken() {
       </LoadingButton>
       <SwipeableDrawer
         anchor="bottom"
-        ModalProps={{ keepMounted: false }}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
@@ -163,7 +162,6 @@ export function AddPersonModal({
         </Button>
       </Prompt>
       <SwipeableDrawer
-        ModalProps={{ keepMounted: false }}
         open={open}
         onOpen={() => setOpen(true)}
         PaperProps={{

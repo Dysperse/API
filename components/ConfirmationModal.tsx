@@ -63,10 +63,8 @@ export function ConfirmationModal({
       <SwipeableDrawer
         open={open}
         anchor="bottom"
-        disableSwipeToOpen
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        ModalProps={{ keepMounted: false }}
         onClick={(e) => e.stopPropagation()}
         sx={{ zIndex: 9999999 }}
         PaperProps={{

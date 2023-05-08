@@ -324,7 +324,6 @@ export function TasksLayout({ open, setOpen, children }) {
           vibrate(50);
         }}
         open={open}
-        disableSwipeToOpen
         PaperProps={{
           sx: { pb: 2, maxHeight: "90vh" },
         }}

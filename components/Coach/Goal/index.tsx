@@ -158,7 +158,6 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           open={open}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
-          disableSwipeToOpen
           PaperProps={{
             sx: {
               p: 3,

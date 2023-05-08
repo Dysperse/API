@@ -59,12 +59,10 @@ export default function Settings({ children }: { children: JSX.Element }) {
             minHeight: "calc(100vh - 150px)",
           },
         }}
-        ModalProps={{ keepMounted: false }}
         sx={{ zIndex: 9999 }}
         open={open}
         onClose={handleClose}
         onOpen={handleClickOpen}
-        disableSwipeToOpen
       >
         <Puller showOnDesktop />
         <Box sx={{ px: 4 }}>
