@@ -44,7 +44,7 @@ export default function BoardSettings({ mutationUrl, board }) {
       >
         <ConfirmationModal
           title={board.pinned ? "Unpin?" : "Pin?"}
-          buttonText="Yes, please!"
+          buttonText="Yes!"
           question={
             board.pinned
               ? "Are you sure you want to unpin this board?"

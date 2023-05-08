@@ -65,20 +65,6 @@ export const taskStyles = (session) => {
   };
 };
 
-const DynamicLoader = () => (
-  <Box
-    sx={{
-      width: "100%",
-      height: { xs: "calc(100vh - var(--navbar-height) - 55px)", sm: "100vh" },
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <CircularProgress />
-  </Box>
-);
-
 export function TasksLayout({ children }) {
   const { data, error } = useApi("property/boards");
   const isMobile = useMediaQuery("(max-width: 600px)");

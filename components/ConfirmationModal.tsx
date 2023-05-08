@@ -89,7 +89,7 @@ export function ConfirmationModal({
         }}
       >
         <Puller showOnDesktop useDarkStyles={rawStyles && isDarkMode} />
-        <Box sx={{ px: 3, pt: 0 }}>
+        <Box sx={{ px: 3, pt: 0, pb: 4 }}>
           <Typography variant="h6" gutterBottom>
             {title}
           </Typography>
