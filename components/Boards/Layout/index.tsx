@@ -188,7 +188,7 @@ export function TasksLayout({ children }) {
             <Button
               id={button.hash}
               size="large"
-              id={`__agenda.${hash}`}
+              id={`__agenda.${button.hash}`}
               sx={styles(router.asPath === `/tasks/${button.hash}`)}
             >
               <Icon
