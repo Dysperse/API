@@ -10,40 +10,28 @@ const handler = async (req, res) => {
   //  List all boards with columns, but not items
   const data = await prisma.board.findMany({
     where: {
-      OR: [
-        {
-          public: true,
-          AND: {
-            property: {
-              id: req.query.property,
-            },
-          },
+      AND: [
+        req.query.id && {
+          id: req.query.id,
         },
         {
-          AND: [
-            { public: false },
+          OR: [
             {
-              userId: req.query.userIdentifier,
+              public: true,
+              AND: { property: { id: req.query.property } },
+            },
+            {
+              AND: [{ public: false }, { userId: req.query.userIdentifier }],
             },
           ],
         },
       ],
     },
     include: {
-      columns: {
-        orderBy: {
-          id: "desc",
-        },
-      },
-      integrations: {
-        select: {
-          name: true,
-        },
-      },
+      columns: { orderBy: { id: "desc" } },
+      integrations: { select: { name: true } },
     },
-    orderBy: {
-      pinned: "desc",
-    },
+    orderBy: { pinned: "desc" },
   });
   res.json(data);
 };

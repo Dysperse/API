@@ -10,8 +10,9 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useAccountStorage } from "../../../lib/client/useAccountStorage";
 import { useApi } from "../../../lib/client/useApi";
@@ -19,8 +20,6 @@ import { useSession } from "../../../lib/client/useSession";
 import { vibrate } from "../../../lib/client/vibration";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
-import { CreateBoard } from "../Board/Create";
-import { Loading } from "./Loading";
 import { Tab } from "./Tab";
 
 export const taskStyles = (session) => {
@@ -80,67 +79,18 @@ const DynamicLoader = () => (
   </Box>
 );
 
-const Agenda = dynamic(() => import("../Agenda").then((mod) => mod.Agenda), {
-  loading: () => <DynamicLoader />,
-  ssr: false,
-});
-const Board = dynamic(() => import("../Board").then((mod) => mod.Board), {
-  loading: () => <DynamicLoader />,
-  ssr: false,
-});
-const Backlog = dynamic(() => import("../Backlog").then((mod) => mod.Backlog), {
-  loading: () => <DynamicLoader />,
-  ssr: false,
-});
-const ColoredTasks = dynamic(
-  () => import("../ColoredTasks").then((mod) => mod.ColoredTasks),
-  {
-    loading: () => <DynamicLoader />,
-    ssr: false,
-  }
-);
+export function TasksLayout({ children }) {
+  const { data, error } = useApi("property/boards");
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
-export function TasksLayout() {
-  const { data, url, error } = useApi("property/boards");
-  const [activeTab, setActiveTab] = useState("loading");
   const storage = useAccountStorage();
-
-  useEffect(() => {
-    if (!data) {
-      setActiveTab("__agenda.week");
-      return;
-    }
-    const pinnedBoard = data.find((board) => board.pinned);
-    const hashBoard = data.find(
-      (a) => a.id === window.location.hash?.replace("#", "")
-    );
-
-    const defaultBoard = data[0];
-
-    pinnedBoard ||
-    (!window.location.hash.includes("agenda") &&
-      !window.location.hash.includes("backlog") &&
-      defaultBoard)
-      ? setActiveTab(hashBoard?.id || defaultBoard?.id)
-      : defaultBoard
-      ? setActiveTab("__agenda.week")
-      : setActiveTab("new");
-
-    const hashToTabMap = {
-      "#/agenda/week": "__agenda.week",
-      "#/agenda/month": "__agenda.month",
-      "#/agenda/year": "__agenda.year",
-      "#/backlog": "__agenda.backlog",
-      "#/colored-coded": "colored-coded",
-    };
-
-    const hash = window.location.hash;
-    hashToTabMap[hash] && setActiveTab(hashToTabMap[hash]);
-  }, [data]);
-
+  const router = useRouter();
   const session = useSession();
 
+  const [archiveOpen, setArchiveOpen] = useState<boolean>(false);
+
   const styles = (condition: boolean) => ({
+    cursor: { sm: "unset!important" },
     transition: "none!important",
     px: 1.5,
     gap: 1.5,
@@ -195,10 +145,7 @@ export function TasksLayout() {
     a.preventDefault(), handleClick("__agenda.year");
   });
 
-  const [archiveOpen, setArchiveOpen] = useState<boolean>(false);
-  const isMobile = useMediaQuery("(max-width: 600px)");
-
-  const children = (
+  const menuChildren = (
     <>
       {error && (
         <ErrorHandler error="An error occurred while loading your tasks" />
@@ -206,34 +153,24 @@ export function TasksLayout() {
 
       <Typography sx={taskStyles(session).subheading}>Planner</Typography>
       <Box onClick={() => setOpen(false)}>
-        <Button
-          id="__agenda.year"
-          size="large"
-          sx={styles(activeTab === "__agenda.backlog")}
-          onMouseDown={() => setActiveTab("__agenda.backlog")}
-          onClick={() => {
-            window.location.hash = "#/backlog";
-            setActiveTab("__agenda.backlog");
-          }}
-        >
-          <Icon className={activeTab === "__agenda.backlog" ? "" : "outlined"}>
-            auto_mode
-          </Icon>
-          Backlog
-        </Button>
         {[
           {
-            hash: "__agenda.week",
+            hash: "backlog",
+            icon: "auto_mode",
+            label: "Backlog",
+          },
+          {
+            hash: "agenda/week",
             icon: "view_week",
             label: isMobile ? "Day" : "This week",
           },
           {
-            hash: "__agenda.month",
+            hash: "agenda/month",
             icon: "calendar_view_month",
             label: "Months",
           },
           {
-            hash: "__agenda.year",
+            hash: "agenda/year",
             icon: "calendar_month",
             label: "Years",
           },
@@ -243,22 +180,27 @@ export function TasksLayout() {
             label: "Color coded",
           },
         ].map((button) => (
-          <Button
+          <Link
+            href={`/tasks/${button.hash}`}
             key={button.hash}
-            id={button.hash}
-            size="large"
-            sx={styles(activeTab === button.hash)}
-            onMouseDown={() => setActiveTab(button.hash)}
-            onClick={() => {
-              window.location.hash = `#/${button.hash}`;
-              setActiveTab(button.hash);
-            }}
+            style={{ cursor: "default" }}
           >
-            <Icon className={activeTab === button.hash ? "" : "outlined"}>
-              {button.icon}
-            </Icon>
-            {button.label}
-          </Button>
+            <Button
+              id={button.hash}
+              size="large"
+              id={`__agenda.${hash}`}
+              sx={styles(router.asPath === `/tasks/${button.hash}`)}
+            >
+              <Icon
+                className={
+                  router.asPath === `/tasks/${button.hash}` ? "" : "outlined"
+                }
+              >
+                {button.icon}
+              </Icon>
+              {button.label}
+            </Button>
+          </Link>
         ))}
       </Box>
       <Divider
@@ -286,9 +228,7 @@ export function TasksLayout() {
               setDrawerOpen={setOpen}
               key={board.id}
               styles={styles}
-              activeTab={activeTab}
               board={board}
-              setActiveTab={setActiveTab}
             />
           ))}
       <Box>
@@ -327,9 +267,7 @@ export function TasksLayout() {
                   setDrawerOpen={setOpen}
                   key={board.id}
                   styles={styles}
-                  activeTab={activeTab}
                   board={board}
-                  setActiveTab={setActiveTab}
                 />
               ))}
         </Collapse>
@@ -346,37 +284,36 @@ export function TasksLayout() {
         }}
       >
         <Tooltip title="alt • c" placement="right">
-          <Button
-            disabled={
-              Boolean(storage?.isReached) ||
-              data?.filter((board) => !board.archived).length >= 5 ||
-              session.permission === "read-only"
-            }
-            ref={ref}
-            size="large"
-            onClick={() => {
-              setOpen(false);
-              setActiveTab("new");
-            }}
-            sx={{
-              ...styles(activeTab === "new"),
-              px: 2,
-              ...((storage?.isReached === true ||
-                (data &&
-                  data.filter((board) => !board.archived).length >= 5)) && {
-                opacity: 0.5,
-              }),
-              justifyContent: "start",
-            }}
-          >
-            <Icon
-              className={activeTab === "new" ? "" : "outlined"}
-              sx={{ ml: -0.5 }}
+          <Link href="/tasks/boards/create">
+            <Button
+              disabled={
+                Boolean(storage?.isReached) ||
+                data?.filter((board) => !board.archived).length >= 5 ||
+                session.permission === "read-only"
+              }
+              ref={ref}
+              size="large"
+              onClick={() => setOpen(false)}
+              sx={{
+                ...styles(router.asPath == "/tasks/boards/create"),
+                px: 2,
+                ...((storage?.isReached === true ||
+                  (data &&
+                    data.filter((board) => !board.archived).length >= 5)) && {
+                  opacity: 0.5,
+                }),
+                justifyContent: "start",
+              }}
             >
-              add_circle
-            </Icon>
-            Create
-          </Button>
+              <Icon
+                className={router.asPath == "/tasks/create" ? "" : "outlined"}
+                sx={{ ml: -0.5 }}
+              >
+                add_circle
+              </Icon>
+              Create
+            </Button>
+          </Link>
         </Tooltip>
       </Box>
     </>
@@ -400,7 +337,7 @@ export function TasksLayout() {
         sx={{ zIndex: 999999999999 }}
       >
         <Puller />
-        <Box sx={{ p: 1 }}>{children}</Box>
+        <Box sx={{ p: 1 }}>{menuChildren}</Box>
       </SwipeableDrawer>
       <Box
         sx={{
@@ -416,7 +353,7 @@ export function TasksLayout() {
           flexDirection: "column",
         }}
       >
-        {children}
+        {menuChildren}
       </Box>
       <Box
         sx={{
@@ -428,38 +365,7 @@ export function TasksLayout() {
         }}
         id="boardContainer"
       >
-        {activeTab === "new" && (
-          <CreateBoard
-            mutationUrl={url}
-            setDrawerOpen={setOpen}
-            length={data ? data.length : 0}
-          />
-        )}
-        {activeTab === "loading" && <Loading />}
-        {activeTab.includes("__agenda") && (
-          <Agenda
-            setDrawerOpen={setOpen}
-            view={activeTab.split(".")[1] as any}
-          />
-        )}
-        {activeTab.includes("__agenda.backlog") && (
-          <Backlog setDrawerOpen={setOpen} />
-        )}
-        {activeTab.includes("color-coded") && (
-          <ColoredTasks setDrawerOpen={setOpen} />
-        )}
-        {data &&
-          data.map(
-            (board) =>
-              activeTab === board.id && (
-                <Board
-                  key={board.id}
-                  mutationUrl={url}
-                  board={board}
-                  setDrawerOpen={setOpen}
-                />
-              )
-          )}
+        {children}
       </Box>
     </Box>
   );
