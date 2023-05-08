@@ -10,9 +10,9 @@ export function UpdateButton() {
     if (
       typeof window !== "undefined" &&
       "serviceWorker" in navigator &&
-      window.workbox !== undefined
+      (window as any).workbox !== undefined
     ) {
-      const wb: any = window.workbox;
+      const wb: any = (window as any).workbox;
       wb.addEventListener("installed", (event) => {});
 
       wb.addEventListener("controlling", (event) => {});
