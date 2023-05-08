@@ -12,9 +12,7 @@ const handler = async (req, res) => {
     data: {
       name: board.name,
       user: {
-        connect: {
-          identifier: req.query.userIdentifier,
-        },
+        connect: { identifier: req.query.userIdentifier },
       },
       columns: {
         createMany: {

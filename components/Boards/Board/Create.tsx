@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
 import { fetchRawApi } from "../../../lib/client/useApi";
@@ -528,6 +529,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   return (
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
@@ -622,8 +624,9 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
                     setLoading(true);
                     fetchRawApi("property/boards/create", {
                       board: JSON.stringify(template),
-                    }).then(async () => {
+                    }).then(async (res) => {
                       await mutate(mutationUrl);
+                      router.push(`/tasks/boards/${res.id}`);
                       setLoading(false);
                     });
                   }}
