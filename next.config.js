@@ -41,7 +41,10 @@ const moduleExports = {
   }),
 };
 
-const sentryWebpackPluginOptions = { silent: true };
+const sentryWebpackPluginOptions = {
+  hideSourceMaps: true,
+  silent: true,
+};
 
 if (process.env.NODE_ENV == "development") {
   module.exports = moduleExports;
