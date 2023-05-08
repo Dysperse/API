@@ -307,7 +307,7 @@ export function TasksLayout({ open, setOpen, children }) {
           sx: {
             pb: 2,
             maxHeight: "90vh",
-            background: `hsl(240,11%,${session.user.darkMode ? 7 : 95}%)`,
+            background: `hsl(240,11%,${session.user.darkMode ? 7 : 97}%)`,
           },
         }}
         sx={{ zIndex: 999999999999 }}
