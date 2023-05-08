@@ -132,7 +132,8 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           sx: {
             borderRadius: "20px",
             m: "20px",
-            maxWidth: "calc(100vw - 40px)!important",
+            width: "calc(100vw - 40px)!important",
+            maxWidth: "400px",
             maxHeight: "calc(100vh - 40px)!important",
           },
         }}
