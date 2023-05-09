@@ -189,7 +189,8 @@ export default function DrawerContent({
             </Button>
             <Button
               {...(option === "Subtasks" && { variant: "contained" })}
-              {...(data.parentTasks.length == 0 && { id: "subtaskTrigger" })}
+              {...(data.parentTasks.length == 0 &&
+                data.subTasks.length !== 0 && { id: "subtaskTrigger" })}
               size="small"
               onClick={() => {
                 if (option === "Subtasks") handleMutate();

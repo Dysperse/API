@@ -68,6 +68,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       });
       console.log(res);
       setData(res);
+      document.getElementById("detailsTrigger")?.click();
       setLoading(false);
       setError(null);
       ref.current.scrollTop = 0;
@@ -94,9 +95,17 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     setOpen(false);
     handleMutate();
     mutate(mutationUrl);
-    const trigger: any = document.getElementById("subtaskTrigger");
-    if (trigger) trigger.click();
-  }, [handleMutate, mutationUrl]);
+    if (data && data.parentTasks.length !== 0) {
+      setTimeout(() => {
+        const trigger: any = document.getElementById("subtaskTrigger");
+        if (trigger) trigger.click();
+        if (trigger) trigger.click();
+      }, 200);
+    } else {
+      const trigger: any = document.getElementById("detailsTrigger");
+      if (trigger) trigger.click();
+    }
+  }, [data, handleMutate, mutationUrl]);
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
