@@ -1,14 +1,10 @@
 import {
   Button,
-  Checkbox,
   Chip,
   Dialog,
   Icon,
   IconButton,
   InputAdornment,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   TextField,
   Typography,
 } from "@mui/material";
@@ -19,6 +15,7 @@ import { useCallback, useState } from "react";
 import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { Task } from ".";
 import { useAccountStorage } from "../../../../../lib/client/useAccountStorage";
 import { fetchRawApi } from "../../../../../lib/client/useApi";
 import { useSession } from "../../../../../lib/client/useSession";
@@ -29,7 +26,7 @@ import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./RescheduleModal";
-import { TaskDrawer, parseEmojis } from "./TaskDrawer";
+import { parseEmojis } from "./TaskDrawer";
 
 export default function DrawerContent({
   isDateDependent,
@@ -479,30 +476,14 @@ export default function DrawerContent({
         </Typography>
         {data.parentTasks.length === 0 &&
           data.subTasks.map((subTask, index) => (
-            <TaskDrawer
-              isAgenda={isAgenda}
-              key={index}
-              id={subTask.id}
-              isDateDependent={isDateDependent}
-              mutationUrl={mutationUrl}
-            >
-              <ListItemButton
-                sx={{ p: 0, background: "transparent!important" }}
-                className="task"
-              >
-                <ListItemIcon>
-                  <Checkbox
-                    checked={subTask.completed}
-                    disableRipple
-                    size="medium"
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary={subTask.name}
-                  secondary={subTask.description}
-                />
-              </ListItemButton>
-            </TaskDrawer>
+            <Task
+              isDateDependent={true}
+              key={subTask.id}
+              board={subTask.board || false}
+              columnId={subTask.column ? subTask.column.id : -1}
+              mutationUrl={""}
+              task={subTask}
+            />
           ))}
         <CreateTask
           sx={{

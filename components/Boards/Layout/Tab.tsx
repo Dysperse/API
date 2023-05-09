@@ -11,61 +11,60 @@ export const Tab = React.memo(function Tab({
   const isActive = router.asPath.includes(board.id);
 
   return (
-    <Button
-      size="large"
-      onClick={() => {
-        setDrawerOpen(false);
-        setTimeout(() => {
-          router.push(`/tasks/boards/${board.id}`);
-        }, 1000);
-      }}
-      sx={{
-        ...styles(isActive),
-        ...(board.archived &&
-          !isActive && {
-            opacity: 0.6,
-          }),
-      }}
-    >
-      <Box
+    <span>
+      <Button
+        size="large"
+        onClick={() => {
+          setDrawerOpen(false);
+        }}
         sx={{
-          textAlign: "left",
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          gap: 1.5,
+          ...styles(isActive),
+          ...(board.archived &&
+            !isActive && {
+              opacity: 0.6,
+            }),
         }}
       >
-        <Icon
+        <Box
           sx={{
-            opacity: router.asPath ? 1 : 0.8,
+            textAlign: "left",
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            gap: 1.5,
           }}
         >
-          tag
-        </Icon>
-        <span
-          style={{
-            maxWidth: "calc(100% - 25px)",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            opacity: router.asPath ? 1 : 0.9,
-            whiteSpace: "nowrap",
-          }}
-        >
-          {board.name}
-        </span>
-        {board.pinned && (
           <Icon
-            className="outlined"
             sx={{
-              ml: "auto",
-              transform: "rotate(-45deg)",
+              opacity: router.asPath ? 1 : 0.8,
             }}
           >
-            push_pin
+            tag
           </Icon>
-        )}
-      </Box>
-    </Button>
+          <span
+            style={{
+              maxWidth: "calc(100% - 25px)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              opacity: router.asPath ? 1 : 0.9,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {board.name}
+          </span>
+          {board.pinned && (
+            <Icon
+              className="outlined"
+              sx={{
+                ml: "auto",
+                transform: "rotate(-45deg)",
+              }}
+            >
+              push_pin
+            </Icon>
+          )}
+        </Box>
+      </Button>
+    </span>
   );
 });
