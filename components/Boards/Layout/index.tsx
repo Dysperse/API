@@ -24,7 +24,8 @@ import { Tab } from "./Tab";
 export const taskStyles = (session) => {
   return {
     subheading: {
-      my: { xs: 1, sm: 2 },
+      my: { xs: 1, sm: 1.5 },
+      mt: { xs: 1, sm: 1 },
       textTransform: "uppercase",
       fontWeight: 700,
       opacity: 0.5,

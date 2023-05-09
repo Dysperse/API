@@ -6,7 +6,6 @@ import { mutate } from "swr";
 import { fetchRawApi } from "../../../../../lib/client/useApi";
 import { useBackButton } from "../../../../../lib/client/useBackButton";
 import { ErrorHandler } from "../../../../Error";
-import { Puller } from "../../../../Puller";
 import DrawerContent from "./DrawerContent";
 
 export const parseEmojis = (value) => {
@@ -75,10 +74,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   // Some basic drawer styles
   const drawerStyles = {
-    width: "100vw",
-    maxWidth:
-      data?.parentTasks?.length === 1 && data !== "deleted" ? "600px" : "650px",
-    maxHeight: "80vh",
+    maxWidth: "500px",
+    width: "100%",
+    height: "100vh",
   };
 
   return (
@@ -88,51 +86,61 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         open={open}
         onClose={handleClose}
         onOpen={handleOpen}
-        anchor="bottom"
+        anchor="right"
+        ModalProps={{
+          BackdropProps: {
+            className: "override-bg",
+            sx: {
+              background: "transparent!important",
+              backdropFilter: { sm: "blur(1px) grayscale(100%) !important" },
+            },
+          },
+        }}
         PaperProps={{ sx: drawerStyles, ref }}
       >
-        <Puller showOnDesktop />
-        <Box sx={{ p: 3, pt: { xs: 0, sm: 3 } }}>
-          {error && (
+        {error && (
+          <Box sx={{ p: 3, pt: { xs: 0, sm: 3 } }}>
             <ErrorHandler error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support" />
-          )}
-          {loading && !data && open && (
-            <Box
-              sx={{
-                textAlign: "center",
-                py: 30,
-              }}
-            >
-              <CircularProgress
-                disableShrink
-                sx={{ animationDuration: "0.5s" }}
-              />
-            </Box>
-          )}
+          </Box>
+        )}
+        {loading && !data && open && (
           <Box
             sx={{
-              opacity: loading ? 0.5 : 1,
-              transition: "all .2s",
-              transform: `scale(${loading && data ? 0.98 : 1})`,
+              textAlign: "center",
+              py: 30,
             }}
           >
-            {data && data !== "deleted" && (
-              <DrawerContent
-                isDateDependent={isDateDependent}
-                handleParentClose={handleClose}
-                isAgenda={isAgenda}
-                data={data}
-                mutationUrl={mutationUrl}
-                setTaskData={setData}
-              />
-            )}
+            <CircularProgress
+              disableShrink
+              sx={{ animationDuration: "0.5s" }}
+            />
           </Box>
-          {data === "deleted" && (
+        )}
+        <Box
+          sx={{
+            opacity: loading ? 0.5 : 1,
+            transition: "all .2s",
+            transform: `scale(${loading && data ? 0.98 : 1})`,
+          }}
+        >
+          {data && data !== "deleted" && (
+            <DrawerContent
+              isDateDependent={isDateDependent}
+              handleParentClose={handleClose}
+              isAgenda={isAgenda}
+              data={data}
+              mutationUrl={mutationUrl}
+              setTaskData={setData}
+            />
+          )}
+        </Box>
+        {data === "deleted" && (
+          <Box sx={{ p: 3, pt: { xs: 0, sm: 3 } }}>
             <Alert severity="info" icon="💥">
               This task has &quot;mysteriously&quot; vanished into thin air
             </Alert>
-          )}
-        </Box>
+          </Box>
+        )}
       </SwipeableDrawer>
     </>
   );

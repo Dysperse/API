@@ -1,16 +1,20 @@
 import {
+  AppBar,
   Button,
   Chip,
   Dialog,
+  Divider,
   Icon,
   IconButton,
   InputAdornment,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
-import { green } from "@mui/material/colors";
+import { green, orange } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
+import Image from "next/image";
 import { useCallback, useState } from "react";
 import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
@@ -137,12 +141,12 @@ export default function DrawerContent({
 
   const iconStyles = {
     width: "100%",
-    flexDirection: { sm: "column" },
-    justifyContent: { xs: "start", sm: "center" },
+    justifyContent: "start",
     borderRadius: 5,
-    gap: { xs: 2, sm: 1 },
-    py: { xs: 1, sm: 2 },
-    px: { xs: 1.5, sm: 2 },
+    gap: 2,
+    py: 1,
+    px: 1.5,
+    cursor: { sm: "default" },
     color: session.user.darkMode ? "hsl(240,11%,80%)" : "hsl(240,11%,30%)",
     "&:hover": {
       background: session.user.darkMode
@@ -162,356 +166,390 @@ export default function DrawerContent({
       justifyContent: "center",
       borderRadius: 99999,
       border: "1px solid",
-      borderColor: session.user.darkMode
-        ? "hsl(240, 11%, 30%)"
-        : "rgba(200, 200, 200, .3)",
+      borderColor: `hsl(240, 11%, ${session.user.darkMode ? 30 : 80}%)`,
+      "&.completed": {
+        borderColor: `${green[900]}!important`,
+      },
+      "&.pinned": {
+        borderColor: `${orange[900]}!important`,
+        color: `${orange[50]}!important`,
+        background: `${orange[900]}!important`,
+      },
     },
   };
 
+  const [option, setOption] = useState("Details");
   return (
     <>
-      {/* Task name input */}
-      <TextField
-        disabled={
-          storage?.isReached === true || session.permission === "read-only"
-        }
-        multiline
-        placeholder="Task name"
-        fullWidth
-        defaultValue={parseEmojis(data.name.trim())}
-        variant="standard"
-        onBlur={(e) => {
-          if (e.target.value.trim() !== "") {
-            handleEdit(data.id, "name", e.target.value);
-          }
-        }}
-        onChange={(e: any) =>
-          (e.target.value = e.target.value.replaceAll("\n", ""))
-        }
-        onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
-        margin="dense"
-        InputProps={{
-          disableUnderline: true,
-          className: "font-heading",
-          sx: {
-            fontSize: "35px",
-            textDecoration: "underline",
-            mt: -2,
-            color: colors[data.color][session.user.darkMode ? "A200" : 800],
-          },
-        }}
-      />
-      <Box
-        sx={{
-          display: "flex",
-          gap: 0.5,
-          overflowX: "scroll",
-        }}
-      >
-        {session.permission !== "read-only" &&
-          [
-            "orange",
-            "red",
-            "brown",
-            "pink",
-            "purple",
-            "indigo",
-            "teal",
-            "green",
-            "grey",
-          ].map((color) => (
-            <Color
-              key={color}
-              color={color}
-              mutationUrl={mutationUrl}
-              setTaskData={setTaskData}
-              task={data}
-            />
-          ))}
-      </Box>
+      <AppBar>
+        <Toolbar>
+          <IconButton onClick={handleParentClose}>
+            <Icon>close</Icon>
+          </IconButton>
 
-      {/* Description */}
-      <TextField
-        onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
-        onKeyDown={(e: any) =>
-          e.key === "Enter" && !e.shiftKey && e.target.blur()
-        }
-        multiline
-        placeholder={
-          storage?.isReached === true
-            ? "You've reached your account storage limits and you can't add a description."
-            : "Click to add description"
-        }
-        disabled={
-          storage?.isReached === true || session.permission === "read-only"
-        }
-        fullWidth
-        defaultValue={parseEmojis(data.description)}
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-          sx: {
-            "&, & *": {},
-            mt: 3,
-            borderRadius: 5,
-            background: session.user.darkMode
-              ? "hsl(240,11%,20%)"
-              : "rgba(200,200,200,.3)",
-            "&:focus-within, &:hover": {
-              background: session.user.darkMode
-                ? "hsl(240,11%,22%)"
-                : "rgba(200,200,200,.4)",
-            },
-            p: 2,
-            px: 3,
-          },
-        }}
-      />
-
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        PaperProps={{ sx: { p: 3 } }}
-        keepMounted={false}
-      >
-        {open && (
-          <DatePicker
-            value={new Date(data.due || new Date().toISOString())}
-            onChange={(e: any) => {
-              handleParentClose();
-              setTaskData((prev) => ({
-                ...prev,
-                due: e ? null : e?.toISOString(),
-              }));
-              handleEdit(data.id, "due", e.toISOString());
-              setOpen(false);
-            }}
-          />
-        )}
-      </Dialog>
-
-      {/* Date */}
-      {data.parentTasks.length == 0 && (
-        <TextField
-          fullWidth
-          variant="standard"
-          value={
-            data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")
-          }
-          placeholder="Set a due date"
-          onClick={() => setOpen(true)}
-          disabled={
-            storage?.isReached === true || session.permission === "read-only"
-          }
-          InputProps={{
-            readOnly: true,
-            sx: {
-              ...(storage?.isReached === true && { pointerEvents: "none" }),
-              "&, & *": {},
-              borderRadius: 5,
-              background: session.user.darkMode
-                ? "hsl(240,11%,20%)"
-                : "rgba(200,200,200,.3)",
-              "&:focus-within, &:hover": {
-                background: session.user.darkMode
-                  ? "hsl(240,11%,22%)"
-                  : "rgba(200,200,200,.4)",
-              },
-              p: 3,
-              mt: 2,
-              py: 1.5,
-            },
-            disableUnderline: true,
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon>today</Icon>
-              </InputAdornment>
-            ),
-            ...(data.due && {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    disabled={session.permission === "read-only"}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setTaskData((prev) => ({
-                        ...prev,
-                        due: false,
-                      }));
-                      handleParentClose();
-                      handleEdit(data.id, "due", "");
-                    }}
-                    size="small"
-                  >
-                    <Icon>close</Icon>
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }),
-          }}
-        />
-      )}
-      {data.image && <Box sx={{ mt: 4 }} />}
-      {data.image && <ImageViewer url={data.image} />}
-      <Box
-        sx={{
-          display: { sm: "flex" },
-          background: session.user.darkMode
-            ? "hsl(240,11%,20%)"
-            : "rgba(200,200,200,.3)",
-          borderRadius: 5,
-          p: 0.5,
-          my: 2,
-        }}
-      >
-        <Box
-          sx={{
-            display: { sm: "flex" },
-            flexDirection: "row",
-            width: "100%",
-          }}
-        >
-          <Button
-            onClick={handleComplete}
-            sx={iconStyles}
+          <Box sx={{ ml: "auto" }}>
+            <Button
+              {...(option === "Details" && { variant: "contained" })}
+              size="small"
+              onClick={() => setOption("Details")}
+            >
+              Details
+            </Button>
+            <Button
+              {...(option === "Subtasks" && { variant: "contained" })}
+              size="small"
+              onClick={() => setOption("Subtasks")}
+              disabled={data.parentTasks.length !== 0}
+            >
+              Subtasks
+            </Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {option === "Details" && (
+        <Box sx={{ p: { xs: 3, sm: 4 }, pb: { sm: 1 } }}>
+          <TextField
             disabled={
               storage?.isReached === true || session.permission === "read-only"
             }
+            multiline
+            placeholder="Task name"
+            fullWidth
+            defaultValue={parseEmojis(data.name.trim())}
+            variant="standard"
+            onBlur={(e) => {
+              if (e.target.value.trim() !== "") {
+                handleEdit(data.id, "name", e.target.value);
+              }
+            }}
+            onChange={(e: any) =>
+              (e.target.value = e.target.value.replaceAll("\n", ""))
+            }
+            onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
+            margin="dense"
+            InputProps={{
+              disableUnderline: true,
+              className: "font-heading",
+              sx: {
+                fontSize: { xs: "35px", sm: "40px" },
+                textDecoration: "underline",
+                mt: -2,
+                color: colors[data.color][session.user.darkMode ? "A200" : 800],
+              },
+            }}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              gap: 0.5,
+              overflowX: "scroll",
+            }}
           >
-            <Icon
-              sx={{
-                ...(data.completed && {
-                  background: green[900],
-                  color: "#fff!important",
-                }),
-              }}
-            >
-              {data.completed ? "check" : "close"}
-            </Icon>
-            {data.completed ? "Completed" : "Incomplete"}
-          </Button>
-          {data.parentTasks.length == 0 && (
-            <Button
-              onClick={handlePriorityChange}
-              sx={iconStyles}
+            {session.permission !== "read-only" &&
+              [
+                "orange",
+                "red",
+                "brown",
+                "pink",
+                "purple",
+                "indigo",
+                "teal",
+                "green",
+                "grey",
+              ].map((color) => (
+                <Color
+                  key={color}
+                  color={color}
+                  mutationUrl={mutationUrl}
+                  setTaskData={setTaskData}
+                  task={data}
+                />
+              ))}
+          </Box>
+
+          <>
+            {/* Description */}
+            <TextField
+              onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
+              onKeyDown={(e: any) =>
+                e.key === "Enter" && !e.shiftKey && e.target.blur()
+              }
+              multiline
+              placeholder={
+                storage?.isReached === true
+                  ? "You've reached your account storage limits and you can't add a description."
+                  : "Click to add description"
+              }
               disabled={
                 storage?.isReached === true ||
                 session.permission === "read-only"
               }
+              fullWidth
+              defaultValue={parseEmojis(data.description)}
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  mt: 3,
+                  borderRadius: 5,
+                  background: session.user.darkMode
+                    ? "hsl(240,11%,20%)"
+                    : "rgba(200,200,200,.3)",
+                  "&:focus-within, &:hover": {
+                    background: session.user.darkMode
+                      ? "hsl(240,11%,22%)"
+                      : "rgba(200,200,200,.4)",
+                  },
+                  p: 2,
+                  px: 2,
+                },
+              }}
+            />
+
+            <Dialog
+              open={open}
+              onClose={() => setOpen(false)}
+              PaperProps={{ sx: { p: 3 } }}
+              keepMounted={false}
             >
-              <Icon
-                className={`${
-                  data.pinned && "pinned"
-                } shadow-md dark:shadow-xl`}
-                sx={{
-                  ...(data.pinned && {
-                    transform: "rotate(-20deg)",
-                  }),
-                  transition: "all .2s",
+              <DatePicker
+                value={new Date(data.due || new Date().toISOString())}
+                onChange={(e: any) => {
+                  handleParentClose();
+                  setTaskData((prev) => ({
+                    ...prev,
+                    due: e ? null : e?.toISOString(),
+                  }));
+                  handleEdit(data.id, "due", e.toISOString());
+                  setOpen(false);
                 }}
-              >
-                push_pin
-              </Icon>
-              {data.pinned ? "Important" : "Unpinned "}
-            </Button>
-          )}
-        </Box>
-        <Box
-          sx={{
-            display: { sm: "flex" },
-            flexDirection: "row",
-            width: "100%",
-          }}
-        >
-          <ConfirmationModal
-            title="Delete task?"
-            question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
-            disabled={data.subTasks.length === 0}
-            callback={() => {
-              handleParentClose();
-              handleDelete(data.id);
-            }}
-          >
-            <Button
-              sx={iconStyles}
-              disabled={session.permission === "read-only"}
+              />
+            </Dialog>
+
+            {/* Date */}
+            {data.parentTasks.length == 0 && (
+              <TextField
+                fullWidth
+                variant="standard"
+                value={
+                  data.due &&
+                  dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")
+                }
+                placeholder="Set a due date"
+                onClick={() => setOpen(true)}
+                disabled={
+                  storage?.isReached === true ||
+                  session.permission === "read-only"
+                }
+                InputProps={{
+                  readOnly: true,
+                  sx: {
+                    ...(storage?.isReached === true && {
+                      pointerEvents: "none",
+                    }),
+                    borderRadius: 5,
+                    background: session.user.darkMode
+                      ? "hsl(240,11%,20%)"
+                      : "rgba(200,200,200,.3)",
+                    "&:focus-within, &:hover": {
+                      background: session.user.darkMode
+                        ? "hsl(240,11%,22%)"
+                        : "rgba(200,200,200,.4)",
+                    },
+                    p: 1.5,
+                    px: 2,
+                    mt: 2,
+                  },
+                  disableUnderline: true,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Icon>today</Icon>
+                    </InputAdornment>
+                  ),
+                  ...(data.due && {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          disabled={session.permission === "read-only"}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setTaskData((prev) => ({
+                              ...prev,
+                              due: false,
+                            }));
+                            handleParentClose();
+                            handleEdit(data.id, "due", "");
+                          }}
+                          size="small"
+                        >
+                          <Icon>close</Icon>
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }),
+                }}
+              />
+            )}
+            {data.image && <Box sx={{ mt: 4 }} />}
+            {data.image && <ImageViewer url={data.image} />}
+            <Box
+              sx={{
+                background: session.user.darkMode
+                  ? "hsl(240,11%,20%)"
+                  : "rgba(200,200,200,.3)",
+                borderRadius: 5,
+                p: 0.5,
+                my: 2,
+              }}
             >
-              <Icon className="outlined shadow-md dark:shadow-xl">delete</Icon>
-              Delete
-            </Button>
-          </ConfirmationModal>
-          {data.parentTasks.length == 0 && (
-            <RescheduleModal handlePostpone={handlePostpone} data={data}>
               <Button
+                onClick={handleComplete}
                 sx={iconStyles}
                 disabled={
                   storage?.isReached === true ||
                   session.permission === "read-only"
                 }
               >
-                <Icon className="outlined shadow-md dark:shadow-xl">
-                  schedule
+                <Icon
+                  className={`${data.completed && "completed"}`}
+                  sx={{
+                    ...(data.completed && {
+                      background: green[900],
+                      color: "#fff!important",
+                    }),
+                  }}
+                >
+                  {data.completed ? "check" : "close"}
                 </Icon>
-                Reschedule
+                {data.completed ? "Completed" : "Incomplete"}
               </Button>
-            </RescheduleModal>
-          )}
+              {data.parentTasks.length == 0 && (
+                <Button
+                  onClick={handlePriorityChange}
+                  sx={iconStyles}
+                  disabled={
+                    storage?.isReached === true ||
+                    session.permission === "read-only"
+                  }
+                >
+                  <Icon
+                    className={`${data.pinned && "pinned"}`}
+                    sx={{
+                      ...(data.pinned && {
+                        transform: "rotate(-20deg)",
+                      }),
+                      transition: "all .2s",
+                    }}
+                  >
+                    push_pin
+                  </Icon>
+                  {data.pinned ? "Important" : "Unpinned "}
+                </Button>
+              )}
+              <ConfirmationModal
+                title="Delete task?"
+                question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
+                disabled={data.subTasks.length === 0}
+                callback={() => {
+                  handleParentClose();
+                  handleDelete(data.id);
+                }}
+              >
+                <Button
+                  sx={iconStyles}
+                  disabled={session.permission === "read-only"}
+                >
+                  <Icon className="outlined shadow-md dark:shadow-xl">
+                    delete
+                  </Icon>
+                  Delete
+                </Button>
+              </ConfirmationModal>
+              {data.parentTasks.length == 0 && (
+                <RescheduleModal handlePostpone={handlePostpone} data={data}>
+                  <Button
+                    sx={iconStyles}
+                    disabled={
+                      storage?.isReached === true ||
+                      session.permission === "read-only"
+                    }
+                  >
+                    <Icon className="outlined shadow-md dark:shadow-xl">
+                      schedule
+                    </Icon>
+                    Reschedule
+                  </Button>
+                </RescheduleModal>
+              )}
+            </Box>
+          </>
         </Box>
-      </Box>
-      <Box
-        sx={{
-          background: session.user.darkMode
-            ? "hsl(240,11%,20%)"
-            : "rgba(200,200,200,.3)",
-          borderRadius: 5,
-          ...(data.parentTasks.length !== 0 && {
-            display: "none",
-          }),
-          py: 3,
-          px: 1,
-        }}
-      >
-        <Typography variant="h6" sx={{ mb: 0.5, ml: -0.5, px: 2 }}>
-          Subtasks
-        </Typography>
-        {data.parentTasks.length === 0 &&
-          data.subTasks.map((subTask, index) => (
-            <Task
-              isDateDependent={true}
-              key={subTask.id}
-              board={subTask.board || false}
-              columnId={subTask.column ? subTask.column.id : -1}
-              mutationUrl={""}
-              task={subTask}
-            />
-          ))}
-        <CreateTask
+      )}
+      {option === "Subtasks" && (
+        <Box
           sx={{
-            borderBottom: 0,
-            borderRadius: 3,
-            py: 1.5,
-            px: 1.5,
-            "&:hover, &:active": {
-              background: "transparent!important",
-            },
+            ...(data.parentTasks.length !== 0 && {
+              display: "none",
+            }),
+            px: { sm: 2 },
+            pt: 2,
           }}
-          column={{ id: "-1", name: "" }}
-          parent={data.id}
-          label="Create a subtask"
-          placeholder={`Add a subtask to "${data.name}"`}
-          mutationUrl={mutationUrl}
-          boardId={1}
-        />
-      </Box>
+        >
+          {data.subTasks.length === 0 && (
+            <Box sx={{ textAlign: "center", mb: 0.5 }}>
+              <Image
+                src="/images/noTasks.png"
+                width={256}
+                height={256}
+                style={{
+                  ...(session.user.darkMode && {
+                    filter: "invert(100%)",
+                  }),
+                }}
+                alt="No items found"
+              />
+              <Box sx={{ px: 1.5 }}>
+                <Typography variant="h6" gutterBottom>
+                  Nothing much here...
+                </Typography>
+                <Typography gutterBottom>
+                  You haven&apos;t created any subtasks yet
+                </Typography>
+              </Box>
+              <Divider sx={{ opacity: 0.5, mt: 2 }} />
+            </Box>
+          )}
+          {data.parentTasks.length === 0 &&
+            data.subTasks.map((subTask, index) => (
+              <Task
+                isDateDependent={true}
+                key={subTask.id}
+                board={subTask.board || false}
+                columnId={subTask.column ? subTask.column.id : -1}
+                mutationUrl={""}
+                task={subTask}
+              />
+            ))}
+          <CreateTask
+            column={{ id: "-1", name: "" }}
+            parent={data.id}
+            label="Create a subtask"
+            placeholder={`Add a subtask to "${data.name}"`}
+            mutationUrl={mutationUrl}
+            boardId={1}
+          />
+        </Box>
+      )}
       <Box
         sx={{
           textAlign: "center",
-          mt: 4,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
           flexWrap: "wrap",
+          px: { xs: 3, sm: 4 },
           gap: 2,
+          mb: 3,
+          ...(option !== "Details" && { display: "none" }),
         }}
       >
         {data.id.includes("-event-assignment") && (

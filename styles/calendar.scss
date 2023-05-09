@@ -12,14 +12,6 @@
   }
 
   &__tile--active {
-    background-color: #200923;
-    color: #fff !important;
-    &.react-calendar__tile--now {
-      background-color: #200923 !important;
-    }
-  }
-
-  &__tile--now {
     border-color: #200923;
   }
 
@@ -90,9 +82,10 @@
     color: #888;
     cursor: pointer;
     border-radius: 9999px;
+    background-color: #fff;
 
     &--hasActive {
-      background-color: #e1f5fe;
+      background-color: #fff;
       color: #3f51b5;
 
       &:hover {
