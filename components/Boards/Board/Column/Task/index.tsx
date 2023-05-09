@@ -167,10 +167,6 @@ export const Task: any = React.memo(function Task({
           tabIndex={0}
           className="cursor-unset"
           sx={{
-            ...(isSubTask && {
-              ml: "20px",
-              width: "calc(100% - 20px)",
-            }),
             color: colors["grey"][session.user.darkMode ? "A100" : "800"],
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
@@ -181,6 +177,9 @@ export const Task: any = React.memo(function Task({
             transition: "none",
             py: { xs: 1, sm: 0.7 },
             px: { xs: 2.6, sm: 1.7 },
+            ...(isSubTask && {
+              pl: "40px!important",
+            }),
             gap: 1.5,
             "&:hover": {
               background: `hsl(240, 11%, ${

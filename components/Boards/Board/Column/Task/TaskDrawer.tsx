@@ -79,7 +79,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     maxWidth:
       data?.parentTasks?.length === 1 && data !== "deleted" ? "600px" : "650px",
     maxHeight: "80vh",
-    minHeight: "80vh",
   };
 
   return (

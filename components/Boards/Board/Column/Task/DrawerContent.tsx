@@ -292,62 +292,68 @@ export default function DrawerContent({
           />
         )}
       </Dialog>
-      <TextField
-        fullWidth
-        variant="standard"
-        value={data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")}
-        placeholder="Set a due date"
-        onClick={() => setOpen(true)}
-        disabled={
-          storage?.isReached === true || session.permission === "read-only"
-        }
-        InputProps={{
-          readOnly: true,
-          sx: {
-            ...(storage?.isReached === true && { pointerEvents: "none" }),
-            "&, & *": {},
-            borderRadius: 5,
-            background: session.user.darkMode
-              ? "hsl(240,11%,20%)"
-              : "rgba(200,200,200,.3)",
-            "&:focus-within, &:hover": {
+
+      {/* Date */}
+      {data.parentTasks.length == 0 && (
+        <TextField
+          fullWidth
+          variant="standard"
+          value={
+            data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")
+          }
+          placeholder="Set a due date"
+          onClick={() => setOpen(true)}
+          disabled={
+            storage?.isReached === true || session.permission === "read-only"
+          }
+          InputProps={{
+            readOnly: true,
+            sx: {
+              ...(storage?.isReached === true && { pointerEvents: "none" }),
+              "&, & *": {},
+              borderRadius: 5,
               background: session.user.darkMode
-                ? "hsl(240,11%,22%)"
-                : "rgba(200,200,200,.4)",
+                ? "hsl(240,11%,20%)"
+                : "rgba(200,200,200,.3)",
+              "&:focus-within, &:hover": {
+                background: session.user.darkMode
+                  ? "hsl(240,11%,22%)"
+                  : "rgba(200,200,200,.4)",
+              },
+              p: 3,
+              mt: 2,
+              py: 1.5,
             },
-            p: 3,
-            mt: 2,
-            py: 1.5,
-          },
-          disableUnderline: true,
-          startAdornment: (
-            <InputAdornment position="start">
-              <Icon>today</Icon>
-            </InputAdornment>
-          ),
-          ...(data.due && {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  disabled={session.permission === "read-only"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setTaskData((prev) => ({
-                      ...prev,
-                      due: false,
-                    }));
-                    handleParentClose();
-                    handleEdit(data.id, "due", "");
-                  }}
-                  size="small"
-                >
-                  <Icon>close</Icon>
-                </IconButton>
+            disableUnderline: true,
+            startAdornment: (
+              <InputAdornment position="start">
+                <Icon>today</Icon>
               </InputAdornment>
             ),
-          }),
-        }}
-      />
+            ...(data.due && {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    disabled={session.permission === "read-only"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setTaskData((prev) => ({
+                        ...prev,
+                        due: false,
+                      }));
+                      handleParentClose();
+                      handleEdit(data.id, "due", "");
+                    }}
+                    size="small"
+                  >
+                    <Icon>close</Icon>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }),
+          }}
+        />
+      )}
       {data.image && <Box sx={{ mt: 4 }} />}
       {data.image && <ImageViewer url={data.image} />}
       <Box
@@ -387,26 +393,31 @@ export default function DrawerContent({
             </Icon>
             {data.completed ? "Completed" : "Incomplete"}
           </Button>
-          <Button
-            onClick={handlePriorityChange}
-            sx={iconStyles}
-            disabled={
-              storage?.isReached === true || session.permission === "read-only"
-            }
-          >
-            <Icon
-              className={`${data.pinned && "pinned"} shadow-md dark:shadow-xl`}
-              sx={{
-                ...(data.pinned && {
-                  transform: "rotate(-20deg)",
-                }),
-                transition: "all .2s",
-              }}
+          {data.parentTasks.length == 0 && (
+            <Button
+              onClick={handlePriorityChange}
+              sx={iconStyles}
+              disabled={
+                storage?.isReached === true ||
+                session.permission === "read-only"
+              }
             >
-              push_pin
-            </Icon>
-            {data.pinned ? "Important" : "Unpinned "}
-          </Button>
+              <Icon
+                className={`${
+                  data.pinned && "pinned"
+                } shadow-md dark:shadow-xl`}
+                sx={{
+                  ...(data.pinned && {
+                    transform: "rotate(-20deg)",
+                  }),
+                  transition: "all .2s",
+                }}
+              >
+                push_pin
+              </Icon>
+              {data.pinned ? "Important" : "Unpinned "}
+            </Button>
+          )}
         </Box>
         <Box
           sx={{
@@ -432,20 +443,22 @@ export default function DrawerContent({
               Delete
             </Button>
           </ConfirmationModal>
-          <RescheduleModal handlePostpone={handlePostpone} data={data}>
-            <Button
-              sx={iconStyles}
-              disabled={
-                storage?.isReached === true ||
-                session.permission === "read-only"
-              }
-            >
-              <Icon className="outlined shadow-md dark:shadow-xl">
-                schedule
-              </Icon>
-              Reschedule
-            </Button>
-          </RescheduleModal>
+          {data.parentTasks.length == 0 && (
+            <RescheduleModal handlePostpone={handlePostpone} data={data}>
+              <Button
+                sx={iconStyles}
+                disabled={
+                  storage?.isReached === true ||
+                  session.permission === "read-only"
+                }
+              >
+                <Icon className="outlined shadow-md dark:shadow-xl">
+                  schedule
+                </Icon>
+                Reschedule
+              </Button>
+            </RescheduleModal>
+          )}
         </Box>
       </Box>
       <Box
