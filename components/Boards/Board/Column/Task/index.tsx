@@ -108,13 +108,11 @@ export const Task: any = React.memo(function Task({
           completed: e.target.checked ? "true" : "false",
           id: taskData.id,
         });
-        handleMutate();
-        await mutate(mutationUrl);
       } catch (e) {
         toast.error("An error occured while updating the task", toastStyles);
       }
     },
-    [taskData.id, mutationUrl, handleMutate]
+    [taskData.id]
   );
 
   const handlePriorityChange = useCallback(async () => {
