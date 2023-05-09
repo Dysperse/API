@@ -380,8 +380,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiDrawer: {
         defaultProps: {
-          ModalProps: { keepMounted: false },
           elevation: 0,
+          ModalProps: { keepMounted: false },
           TransitionComponent: DrawerTransition,
         },
         styleOverrides: {

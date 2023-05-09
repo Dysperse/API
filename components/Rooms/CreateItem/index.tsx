@@ -398,9 +398,6 @@ export default function AddPopup({
         open={open}
         onClose={() => setOpen(false)}
         onOpen={toggleDrawer(true)}
-        ModalProps={{
-          keepMounted: true,
-        }}
       >
         <Puller />
         <Box
