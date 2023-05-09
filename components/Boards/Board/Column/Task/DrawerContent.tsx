@@ -198,7 +198,12 @@ export default function DrawerContent({
               }}
               disabled={data.parentTasks.length !== 0}
             >
-              Subtasks
+              Subtasks{" "}
+              {data.subTasks.length !== 0 && (
+                <span style={{ background: "transparent", opacity: 0.5 }}>
+                  {data.subTasks.length}
+                </span>
+              )}
             </Button>
           </Box>
         </Toolbar>
