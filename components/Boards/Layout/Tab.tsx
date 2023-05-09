@@ -1,4 +1,5 @@
 import { Box, Button, Icon } from "@mui/material";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -11,7 +12,7 @@ export const Tab = React.memo(function Tab({
   const isActive = router.asPath.includes(board.id);
 
   return (
-    <span>
+    <Link href={`/tasks/boards/${board.id}`}>
       <Button
         size="large"
         onClick={() => {
@@ -65,6 +66,6 @@ export const Tab = React.memo(function Tab({
           )}
         </Box>
       </Button>
-    </span>
+    </Link>
   );
 });
