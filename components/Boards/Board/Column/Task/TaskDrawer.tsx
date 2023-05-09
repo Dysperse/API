@@ -24,13 +24,11 @@ export const parseEmojis = (value) => {
 
 export const TaskDrawer = React.memo(function TaskDrawer({
   isDateDependent = false,
-  isAgenda = false,
   children,
   id,
   mutationUrl,
 }: {
   isDateDependent?: boolean;
-  isAgenda?: boolean;
   children: JSX.Element;
   id: number;
   mutationUrl: string;
@@ -61,11 +59,42 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     }
   }, [id]);
 
+  // Fetch data when the trigger is clicked on
+  const handleMutate = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetchRawApi("property/boards/column/task", {
+        id: id,
+      });
+      console.log(res);
+      setData(res);
+      setLoading(false);
+      setError(null);
+      ref.current.scrollTop = 0;
+    } catch (e: any) {
+      setError(e.message);
+      setLoading(false);
+    }
+  }, [id]);
+
+  const handleDelete = useCallback(
+    async function handleDelete(taskId) {
+      setData("deleted");
+      await fetchRawApi("property/boards/column/task/delete", {
+        id: taskId,
+      });
+      handleMutate();
+      mutate(mutationUrl);
+    },
+    [mutationUrl, setData, handleMutate]
+  );
+
   // Callback function when drawer is closed
   const handleClose = useCallback(() => {
     setOpen(false);
+    handleMutate();
     mutate(mutationUrl);
-  }, [mutationUrl]);
+  }, [handleMutate, mutationUrl]);
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
@@ -125,9 +154,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         >
           {data && data !== "deleted" && (
             <DrawerContent
+              handleDelete={handleDelete}
+              handleMutate={handleMutate}
               isDateDependent={isDateDependent}
               handleParentClose={handleClose}
-              isAgenda={isAgenda}
               data={data}
               mutationUrl={mutationUrl}
               setTaskData={setData}

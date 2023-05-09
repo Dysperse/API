@@ -33,9 +33,10 @@ import { RescheduleModal } from "./RescheduleModal";
 import { parseEmojis } from "./TaskDrawer";
 
 export default function DrawerContent({
+  handleDelete,
+  handleMutate,
   isDateDependent,
   handleParentClose,
-  isAgenda,
   setTaskData,
   mutationUrl,
   data,
@@ -68,18 +69,6 @@ export default function DrawerContent({
       toastStyles
     );
   }, [data.pinned, data.id, mutationUrl, setTaskData]);
-
-  const handleDelete = useCallback(
-    function handleDelete(taskId) {
-      setTaskData("deleted");
-      fetchRawApi("property/boards/column/task/delete", {
-        id: taskId,
-      }).then(() => {
-        mutate(mutationUrl);
-      });
-    },
-    [mutationUrl, setTaskData]
-  );
 
   const handleEdit = useCallback(
     function handleEdit(id, key, value) {
@@ -197,8 +186,12 @@ export default function DrawerContent({
             </Button>
             <Button
               {...(option === "Subtasks" && { variant: "contained" })}
+              {...(data.parentTasks.length == 0 && { id: "subtaskTrigger" })}
               size="small"
-              onClick={() => setOption("Subtasks")}
+              onClick={() => {
+                if (option === "Subtasks") handleMutate();
+                setOption("Subtasks");
+              }}
               disabled={data.parentTasks.length !== 0}
             >
               Subtasks
@@ -450,9 +443,10 @@ export default function DrawerContent({
                 title="Delete task?"
                 question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
                 disabled={data.subTasks.length === 0}
-                callback={() => {
+                callback={async () => {
                   handleParentClose();
-                  handleDelete(data.id);
+                  await handleDelete(data.id);
+                  document.getElementById("subtaskTrigger")?.click();
                 }}
               >
                 <Button
@@ -527,15 +521,17 @@ export default function DrawerContent({
                 board={subTask.board || false}
                 columnId={subTask.column ? subTask.column.id : -1}
                 mutationUrl={""}
+                handleMutate={handleMutate}
                 task={subTask}
               />
             ))}
           <CreateTask
+            isSubTask
             column={{ id: "-1", name: "" }}
             parent={data.id}
             label="Create a subtask"
             placeholder={`Add a subtask to "${data.name}"`}
-            mutationUrl={mutationUrl}
+            handleMutate={handleMutate}
             boardId={1}
           />
         </Box>

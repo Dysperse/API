@@ -171,7 +171,6 @@ export function ColoredTasks({ setDrawerOpen }) {
             key={task.id}
             board={task.board || false}
             columnId={task.column ? task.column.id : -1}
-            isAgenda
             mutationUrl={url}
             task={task}
           />

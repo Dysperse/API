@@ -35,6 +35,7 @@ const ImageViewer = dynamic(() =>
 );
 
 export const Task: any = React.memo(function Task({
+  handleMutate = () => {},
   isDateDependent = false,
   isSubTask = false,
   isAgenda = false,
@@ -107,12 +108,13 @@ export const Task: any = React.memo(function Task({
           completed: e.target.checked ? "true" : "false",
           id: taskData.id,
         });
-        // await mutate(mutationUrl);
+        handleMutate();
+        await mutate(mutationUrl);
       } catch (e) {
         toast.error("An error occured while updating the task", toastStyles);
       }
     },
-    [taskData.id]
+    [taskData.id, mutationUrl, handleMutate]
   );
 
   const handlePriorityChange = useCallback(async () => {
@@ -124,6 +126,7 @@ export const Task: any = React.memo(function Task({
             id: taskData.id,
             pinned: !taskData.pinned ? "true" : "false",
           }).then(() => {
+            handleMutate();
             mutate(mutationUrl);
           });
           await mutate(mutationUrl);
@@ -141,7 +144,7 @@ export const Task: any = React.memo(function Task({
       },
       toastStyles
     );
-  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData]);
+  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData, handleMutate]);
 
   const isDisabled = useMemo(
     () =>
@@ -158,7 +161,6 @@ export const Task: any = React.memo(function Task({
       <TaskDrawer
         id={taskData.id}
         mutationUrl={mutationUrl}
-        isAgenda
         isDateDependent={isDateDependent}
       >
         <ListItemButton

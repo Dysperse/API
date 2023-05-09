@@ -39,13 +39,15 @@ import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
 
 export function CreateTask({
+  isSubTask = false,
   sx = {},
   closeOnCreate = false,
   label = false,
   placeholder = false,
   defaultDate = false,
   parent = false,
-  mutationUrl,
+  mutationUrl = "",
+  handleMutate = () => {},
   boardId,
   column,
 }: any) {
@@ -197,6 +199,7 @@ export function CreateTask({
         boardId,
         columnId: (column || { id: -1 }).id,
       }).then(() => {
+        handleMutate();
         mutate(mutationUrl);
       });
       toast.success("Created task!", toastStyles);
@@ -209,6 +212,7 @@ export function CreateTask({
       titleRef.current?.focus();
     },
     [
+      handleMutate,
       boardId,
       closeOnCreate,
       column,
@@ -297,54 +301,56 @@ export function CreateTask({
           },
         }}
       >
-        <Box
-          sx={{
-            mb: 2,
-            overflowX: "scroll",
-            whiteSpace: "nowrap",
-          }}
-          ref={emblaRef}
-          onClick={() => titleRef.current?.focus()}
-        >
-          <div>
-            <Chip
-              label="Important"
-              sx={{
-                ...chipStyles(pinned),
-              }}
-              icon={<Icon>priority</Icon>}
-              onClick={() => setPinned(!pinned)}
-            />
-            {[
-              { label: "Today", days: 0 },
-              { label: "Tomorrow", days: 1 },
-              { label: "In one month", days: 30 },
-              { label: "In one year", days: 365 },
-            ].map(({ label, days }) => {
-              const isActive =
-                deferredDate &&
-                dayjs(deferredDate.toISOString())
-                  .startOf("day")
-                  .toISOString() ==
-                  dayjs().startOf("day").add(days, "day").toISOString();
+        {!isSubTask && (
+          <Box
+            sx={{
+              mb: 2,
+              overflowX: "scroll",
+              whiteSpace: "nowrap",
+            }}
+            ref={emblaRef}
+            onClick={() => titleRef.current?.focus()}
+          >
+            <div>
+              <Chip
+                label="Important"
+                sx={{
+                  ...chipStyles(pinned),
+                }}
+                icon={<Icon>priority</Icon>}
+                onClick={() => setPinned(!pinned)}
+              />
+              {[
+                { label: "Today", days: 0 },
+                { label: "Tomorrow", days: 1 },
+                { label: "In one month", days: 30 },
+                { label: "In one year", days: 365 },
+              ].map(({ label, days }) => {
+                const isActive =
+                  deferredDate &&
+                  dayjs(deferredDate.toISOString())
+                    .startOf("day")
+                    .toISOString() ==
+                    dayjs().startOf("day").add(days, "day").toISOString();
 
-              return (
-                <Chip
-                  key={label}
-                  label={label}
-                  sx={chipStyles(isActive)}
-                  icon={<Icon>today</Icon>}
-                  onClick={() => {
-                    vibrate(50);
-                    const tomorrow = new Date();
-                    tomorrow.setDate(tomorrow.getDate() + days);
-                    setDate(tomorrow);
-                  }}
-                />
-              );
-            })}
-          </div>
-        </Box>
+                return (
+                  <Chip
+                    key={label}
+                    label={label}
+                    sx={chipStyles(isActive)}
+                    icon={<Icon>today</Icon>}
+                    onClick={() => {
+                      vibrate(50);
+                      const tomorrow = new Date();
+                      tomorrow.setDate(tomorrow.getDate() + days);
+                      setDate(tomorrow);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </Box>
+        )}
         <Box
           sx={{
             p: 3,
@@ -456,28 +462,30 @@ export function CreateTask({
               />
             </Collapse>
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
-              <Tooltip title="Mark as important (alt • a)" placement="top">
-                <IconButton
-                  onClick={() => {
-                    vibrate(50);
-                    setPinned(!pinned);
-                    titleRef.current?.focus();
-                  }}
-                  sx={{
-                    ...styles,
-                    background: pinned
-                      ? session.user.darkMode
-                        ? "hsl(240,11%,20%)"
-                        : "#ddd !important"
-                      : "",
-                  }}
-                  size="small"
-                >
-                  <Icon className={pinned ? "rounded" : "outlined"}>
-                    priority
-                  </Icon>
-                </IconButton>
-              </Tooltip>
+              {!isSubTask && (
+                <Tooltip title="Mark as important (alt • a)" placement="top">
+                  <IconButton
+                    onClick={() => {
+                      vibrate(50);
+                      setPinned(!pinned);
+                      titleRef.current?.focus();
+                    }}
+                    sx={{
+                      ...styles,
+                      background: pinned
+                        ? session.user.darkMode
+                          ? "hsl(240,11%,20%)"
+                          : "#ddd !important"
+                        : "",
+                    }}
+                    size="small"
+                  >
+                    <Icon className={pinned ? "rounded" : "outlined"}>
+                      priority
+                    </Icon>
+                  </IconButton>
+                </Tooltip>
+              )}
               <ImageModal styles={styles} image={image} setImage={setImage} />
               <Tooltip title="Insert emoji (alt • e)" placement="top">
                 <EmojiPicker
@@ -536,17 +544,19 @@ export function CreateTask({
                   alignItems: "center",
                 }}
               >
-                <SelectDateModal
-                  ref={dateModalButtonRef}
-                  styles={styles}
-                  date={date}
-                  setDate={(e) => {
-                    setDate(e);
-                    setTimeout(() => {
-                      titleRef.current?.focus();
-                    }, 100);
-                  }}
-                />
+                {!isSubTask && (
+                  <SelectDateModal
+                    ref={dateModalButtonRef}
+                    styles={styles}
+                    date={date}
+                    setDate={(e) => {
+                      setDate(e);
+                      setTimeout(() => {
+                        titleRef.current?.focus();
+                      }, 100);
+                    }}
+                  />
+                )}
                 <div>
                   <LoadingButton
                     loading={loading}
