@@ -41,6 +41,15 @@ export const toastStyles = {
 export const useCustomTheme = ({ darkMode, themeColor }): any => {
   return {
     components: {
+      MuiSwipeableDrawer: {
+        defaultProps: {
+          disableSwipeToOpen: true,
+          disableBackdropTransition: true,
+          keepMounted: false,
+          ModalProps: { keepMounted: false },
+        },
+      },
+
       MuiAppBar: {
         defaultProps: {
           elevation: 0,
@@ -259,11 +268,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             }),
         },
       },
-      MuiModal: {
-        defaultProps: {
-          keepMounted: false,
-        },
-      },
+      MuiModal: { defaultProps: { keepMounted: false } },
       MuiMenu: {
         defaultProps: {
           transitionDuration: 200,
@@ -371,13 +376,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           },
         },
       },
-      MuiSwipeableDrawer: {
-        defaultProps: {
-          disableSwipeToOpen: true,
-          disableBackdropTransition: true,
-          ModalProps: { keepMounted: false },
-        },
-      },
       MuiDrawer: {
         defaultProps: {
           elevation: 0,
@@ -402,7 +400,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             background: darkMode ? "hsl(240, 11%, 15%)" : "#fff",
           },
         },
-      } as any,
+      },
       MuiTooltip: {
         defaultProps: {
           enterDelay: 0,

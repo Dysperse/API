@@ -299,7 +299,6 @@ export function TasksLayout({ open, setOpen, children }) {
       <SwipeableDrawer
         anchor="bottom"
         onOpen={() => setOpen(true)}
-        ModalProps={{ keepMounted: false }}
         onClose={() => {
           setOpen(false);
           vibrate(50);

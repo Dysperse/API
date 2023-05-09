@@ -128,6 +128,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         onOpen={handleOpen}
         anchor="right"
         ModalProps={{
+          keepMounted: false,
           BackdropProps: {
             className: "override-bg",
             sx: {
