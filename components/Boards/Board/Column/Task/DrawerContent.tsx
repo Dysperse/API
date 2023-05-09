@@ -95,7 +95,10 @@ export default function DrawerContent({
       completed: completed ? "true" : "false",
       id: data.id,
     })
-      .then(() => mutate(mutationUrl))
+      .then(() => {
+        mutate(mutationUrl);
+        document.getElementById("subtaskTrigger")?.click();
+      })
       .catch(() =>
         toast.error("An error occured while updating the task", toastStyles)
       );
