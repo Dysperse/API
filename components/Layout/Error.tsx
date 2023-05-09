@@ -72,6 +72,9 @@ export function Error() {
             height={256}
             style={{
               width: "100%",
+              ...(dark && {
+                filter: "invert(1)",
+              }),
               maxWidth: "256px",
               margin: "auto",
             }}
