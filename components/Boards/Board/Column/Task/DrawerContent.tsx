@@ -44,6 +44,8 @@ export default function DrawerContent({
   const storage = useAccountStorage();
   const session = useSession();
 
+  const [option, setOption] = useState("Details");
+
   const handlePriorityChange = useCallback(async () => {
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
     toast.promise(
@@ -170,7 +172,6 @@ export default function DrawerContent({
     },
   };
 
-  const [option, setOption] = useState("Details");
   return (
     <>
       <AppBar>
