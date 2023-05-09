@@ -1,7 +1,5 @@
 {
   "parser": "@typescript-eslint/parser",
-  "rules": {
-    "@next/next/google-font-display": "off"
-  },
+  "rules": { "@next/next/google-font-display": "off" },
   "extends": "next/core-web-vitals"
 }
