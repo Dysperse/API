@@ -43,7 +43,6 @@ export default function DrawerContent({
 }) {
   const storage = useAccountStorage();
   const session = useSession();
-
   const [option, setOption] = useState("Details");
 
   const handlePriorityChange = useCallback(async () => {
@@ -99,6 +98,7 @@ export default function DrawerContent({
     })
       .then(() => {
         mutate(mutationUrl);
+        document.getElementById("subtaskTrigger")?.click();
       })
       .catch(() =>
         toast.error("An error occured while updating the task", toastStyles)
@@ -449,6 +449,7 @@ export default function DrawerContent({
                 callback={async () => {
                   handleParentClose();
                   await handleDelete(data.id);
+                  document.getElementById("subtaskTrigger")?.click();
                 }}
               >
                 <Button
