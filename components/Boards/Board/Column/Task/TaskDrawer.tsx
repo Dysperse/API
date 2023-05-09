@@ -149,7 +149,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           sx={{
             opacity: loading ? 0.5 : 1,
             transition: "all .2s",
-            transform: `scale(${loading && data ? 0.98 : 1})`,
+            transform: `scale(${loading && data ? 0.99 : 1})`,
           }}
         >
           {data && data !== "deleted" && (

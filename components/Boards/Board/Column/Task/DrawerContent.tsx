@@ -176,7 +176,7 @@ export default function DrawerContent({
             <Icon>close</Icon>
           </IconButton>
 
-          <Box sx={{ ml: "auto" }}>
+          <Box sx={{ ml: "auto", display: "flex", gap: 0.5 }}>
             <Button
               {...(option === "Details" && { variant: "contained" })}
               size="small"
