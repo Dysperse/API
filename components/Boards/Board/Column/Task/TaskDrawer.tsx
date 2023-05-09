@@ -94,6 +94,8 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     setOpen(false);
     handleMutate();
     mutate(mutationUrl);
+    const trigger: any = document.getElementById("subtaskTrigger");
+    if (trigger) trigger.click();
   }, [handleMutate, mutationUrl]);
 
   // Attach the `onClick` handler to the trigger
