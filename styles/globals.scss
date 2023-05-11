@@ -52,6 +52,7 @@ img {
 
 .MuiToolbar-root {
   height: var(--navbar-height);
+  padding-top: env(titlebar-area-height, 0px) !important;
 }
 
 .MuiTypography-h6:not(.font-heading),
