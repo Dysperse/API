@@ -78,6 +78,7 @@ export const authStyles = {
     display: "flex",
     position: { xs: "fixed", sm: "unset" },
     bottom: 0,
+    zIndex: 99999,
     left: 0,
     py: { xs: 1, sm: 0 },
     background: "hsl(240,11%,90%)",

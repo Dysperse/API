@@ -1,4 +1,5 @@
 import { prisma } from "../../../lib/server/prisma";
+import { validateCaptcha } from "../../../lib/server/useCaptcha";
 
 /**
  * API handler for the /api/login endpoint
@@ -8,24 +9,14 @@ import { prisma } from "../../../lib/server/prisma";
  */
 export default async function handler(req, res) {
   const { captchaToken, email } = JSON.parse(req.body);
-  console.log(captchaToken);
 
-  const endpoint = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-  const secret: any = process.env.CAPTCHA_KEY;
-
-  const body = `secret=${encodeURIComponent(
-    secret
-  )}&response=${encodeURIComponent(captchaToken)}`;
-
-  const captchaRequest = await fetch(endpoint, {
-    method: "POST",
-    body,
-    headers: { "content-type": "application/x-www-form-urlencoded" },
-  });
-
-  const data = await captchaRequest.json();
-
-  if (!data.success) {
+  try {
+    // Validate captcha
+    const data = await validateCaptcha(captchaToken);
+    if (!data.success) {
+      return res.status(401).json({ message: "Invalid Captcha" });
+    }
+  } catch (e) {
     return res.status(401).json({ message: "Invalid Captcha" });
   }
 

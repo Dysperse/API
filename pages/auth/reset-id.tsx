@@ -39,6 +39,7 @@ export default function Prompt() {
     } catch (e: any) {
       setStep(0);
       setButtonLoading(false);
+      setAlreadySubmitted(false);
       ref.current?.reset();
       setCaptchaToken("");
       toast.error(e.message, toastStyles);

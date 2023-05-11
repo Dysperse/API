@@ -1,6 +1,29 @@
 import argon2 from "argon2";
 import { prisma } from "../../../lib/server/prisma";
+import { validateCaptcha } from "../../../lib/server/useCaptcha";
 import { createSession } from "./login";
+
+async function sendEmail(email) {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    service_id: "service_bhq01y6",
+    template_id: "template_mlzdt43",
+    user_id: "6Q4BZ_DN9bCSJFZYM",
+    accessToken: process.env.EMAILJS_ACCESS_TOKEN,
+    template_params: { to: email },
+  });
+
+  const emailRes = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  }).then((res) => res.text());
+
+  console.log(emailRes);
+}
 
 const validateEmail = (email) => {
   return String(email)
@@ -17,6 +40,16 @@ const validateEmail = (email) => {
  */
 export default async function handler(req, res) {
   const body = JSON.parse(req.body);
+
+  try {
+    // Validate captcha
+    const data = await validateCaptcha(body.captchaToken);
+    if (!data.success) {
+      return res.status(401).json({ error: true, message: "Invalid Captcha" });
+    }
+  } catch (e) {
+    return res.status(401).json({ error: true, message: "Invalid Captcha" });
+  }
 
   if (!validateEmail(body.email.toLowerCase())) {
     return res
@@ -82,12 +115,14 @@ export default async function handler(req, res) {
           id: propertyId,
         },
       },
-      user: {
-        connect: {
-          id: id,
-        },
-      },
+      user: { connect: { id: id } },
     },
   });
+
+  try {
+    await sendEmail(body.email);
+  } catch (e) {
+    console.error("Something happened when trying to send the email", e);
+  }
   res.status(200).json({ message: "Success", session });
 }
