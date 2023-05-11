@@ -147,8 +147,11 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         {loading && !data && open && (
           <Box
             sx={{
-              textAlign: "center",
-              py: 30,
+              height: "100vh",
+              display: "flex",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <CircularProgress
