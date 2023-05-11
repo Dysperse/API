@@ -91,7 +91,9 @@ export function Sidebar() {
       "&:hover .material-symbols-outlined": {
         background: session.user.darkMode
           ? "hsl(240,11%,14%)"
-          : router.asPath === "/zen" || router.asPath === "/coach"
+          : router.asPath === "/zen" ||
+            router.asPath === "/" ||
+            router.asPath === "/coach"
           ? "hsl(240,11%,93%)"
           : "hsl(240,11%,90%)",
         color: session.user.darkMode ? "#fff" : "#000",
@@ -106,7 +108,9 @@ export function Sidebar() {
         " .material-symbols-outlined,  .material-symbols-rounded": {
           background: session.user.darkMode
             ? "hsl(240,11%,17%)"
-            : router.asPath === "/zen" || router.asPath === "/coach"
+            : router.asPath === "/zen" ||
+              router.asPath === "/" ||
+              router.asPath === "/coach"
             ? "hsl(240,11%,90%)"
             : "hsl(240,11%,85%)",
           color: session.user.darkMode
@@ -129,7 +133,7 @@ export function Sidebar() {
         borderRight: "1px solid",
         borderColor: {
           sm:
-            router.asPath === "/zen"
+            router.asPath === "/zen" || router.asPath === "/"
               ? session.user.darkMode
                 ? "hsla(240,11%,15%)"
                 : "hsl(240,11%,92%)"
@@ -138,7 +142,7 @@ export function Sidebar() {
         borderLeft: "1px solid transparent",
         background: {
           sm:
-            router.asPath === "/zen"
+            router.asPath === "/zen" || router.asPath === "/"
               ? "transparent"
               : session.user.darkMode
               ? router.asPath === "/coach"
