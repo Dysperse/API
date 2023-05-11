@@ -8,7 +8,7 @@ import { prisma } from "../../../lib/server/prisma";
  */
 export default async function handler(req, res) {
   const { captchaToken, email } = JSON.parse(req.body);
-  console.log(captchaToken)
+  console.log(captchaToken);
 
   const endpoint = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
   const secret: any = process.env.CAPTCHA_KEY;
