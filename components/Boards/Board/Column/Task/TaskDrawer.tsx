@@ -139,7 +139,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         }}
         PaperProps={{ sx: drawerStyles, ref }}
       >
-        {error && (
+        {open && !loading && error && (
           <Box sx={{ p: 3, pt: { xs: 0, sm: 3 } }}>
             <ErrorHandler error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support" />
           </Box>
