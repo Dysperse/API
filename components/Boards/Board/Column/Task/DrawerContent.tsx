@@ -56,6 +56,9 @@ function ExperimentalAiSubtask({ task }) {
         tasks: JSON.stringify(addedValues),
       });
       setSubmitLoading(false);
+      setOpen(false);
+      document.getElementById("subtaskTrigger")?.click();
+      document.getElementById("subtaskTrigger")?.click();
     } catch (e) {
       setSubmitLoading(false);
     }
