@@ -195,7 +195,6 @@ export function CreateTask({
         pinned: pinned ? "true" : "false",
         due: date ? date.toISOString() : "false",
         ...(parent && { parent }),
-
         boardId,
         columnId: (column || { id: -1 }).id,
       }).then(() => {
@@ -297,6 +296,7 @@ export function CreateTask({
             border: "0!important",
             background: "transparent!important",
             borderRadius: 0,
+            maxHeight: "calc(100vh - 100px)",
             mx: "auto",
           },
         }}

@@ -1,3 +1,4 @@
+import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
   Button,
@@ -7,6 +8,10 @@ import {
   Icon,
   IconButton,
   InputAdornment,
+  ListItemButton,
+  ListItemText,
+  Skeleton,
+  SwipeableDrawer,
   TextField,
   Toolbar,
   Typography,
@@ -15,7 +20,7 @@ import { green, orange } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useDeferredValue, useState } from "react";
 import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -31,6 +36,249 @@ import { CreateTask } from "./Create";
 import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./RescheduleModal";
 import { parseEmojis } from "./TaskDrawer";
+
+function ExperimentalAiSubtask({ task }) {
+  const session = useSession();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(task.name);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [data, setData] = useState<null | any>(null);
+  const [loading, setLoading] = useState(false);
+  const [addedValues, setAddedValues] = useState<string[]>([]);
+
+  const deferredValue = useDeferredValue(value);
+
+  const handleSubmit = async () => {
+    try {
+      setSubmitLoading(true);
+      await fetchRawApi("property/boards/column/task/create-many", {
+        parent: task.id,
+        tasks: JSON.stringify(addedValues),
+      });
+      setSubmitLoading(false);
+    } catch (e) {
+      setSubmitLoading(false);
+    }
+  };
+
+  const generate = async () => {
+    try {
+      setAddedValues([]);
+      setData(null);
+      setLoading(true);
+      const res = await fetch("/api/ai/subtasks?prompt=" + deferredValue).then(
+        (res) => res.json()
+      );
+      setData(res);
+      setLoading(false);
+
+      if (res && res.response && !res.response.error && res.response.subtasks) {
+        setAddedValues(res.response.subtasks);
+      }
+    } catch (e) {
+      setLoading(false);
+      toast.error(
+        "Dysperse AI couldn't generate your tasks! Please try again later"
+      );
+    }
+  };
+
+  return (
+    <>
+      <SwipeableDrawer
+        open={open}
+        anchor="bottom"
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            height: "100vh",
+            borderRadius: 0,
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            p: 3,
+            gap: 2,
+            height: "100vh",
+            flexDirection: "column",
+          }}
+        >
+          {!data && (
+            <Box sx={{ pt: 2 }}>
+              <Typography
+                gutterBottom
+                variant="h6"
+                sx={{ display: "flex", gap: 1, alignItems: "center" }}
+              >
+                <Icon sx={{ mr: 1 }}>auto_awesome</Icon>Dysperse AI{" "}
+                <Chip
+                  variant="outlined"
+                  size="small"
+                  sx={{ ml: 1 }}
+                  label="Experiment"
+                />
+              </Typography>
+              <Typography>
+                Dysperse AI can assist you in breaking down your task into
+                smaller steps for easier accomplishment.
+              </Typography>
+            </Box>
+          )}
+          <TextField
+            value={value}
+            size="small"
+            onChange={(e) => setValue(e.target.value)}
+            placeholder="Task name"
+            disabled={loading}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon className="outlined">auto_awesome</Icon>
+                </InputAdornment>
+              ),
+            }}
+          />
+          {loading && (
+            <Box
+              sx={{
+                p: 2,
+                borderRadius: 5,
+                flexGrow: 1,
+                overflow: "scroll",
+                height: "auto",
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+              }}
+            >
+              <Skeleton width="50%" sx={{ mb: 1 }} animation="wave" />
+              {[...new Array(15)].map((_, i) => (
+                <Skeleton
+                  key={i}
+                  width="100%"
+                  sx={{ mb: 0.5 }}
+                  animation="wave"
+                />
+              ))}
+            </Box>
+          )}
+          {data &&
+            data.response &&
+            !data.response.error &&
+            data.response.subtasks && (
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 5,
+                  flexGrow: 1,
+                  overflow: "scroll",
+                  height: "auto",
+                  background: `hsl(240,11%,${
+                    session.user.darkMode ? 95 : 20
+                  }%)`,
+                  border: "1px solid",
+                  borderColor: `hsl(240,11%,${
+                    session.user.darkMode ? 90 : 20
+                  }%)`,
+                  color: `hsl(240,11%,${session.user.darkMode ? 10 : 90}%)`,
+                }}
+              >
+                <Typography
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    px: 1,
+                    my: 1,
+                    fontWeight: 700,
+                  }}
+                >
+                  <Icon>south_east</Icon>Dysperse AI
+                </Typography>
+                {data.response.subtasks.map((generated) => (
+                  <ListItemButton
+                    onClick={() => {
+                      if (addedValues.includes(generated)) {
+                        setAddedValues(
+                          addedValues.filter((e) => e !== generated)
+                        );
+                      } else {
+                        setAddedValues([
+                          ...new Set([...addedValues, generated]),
+                        ]);
+                      }
+                    }}
+                    key={generated}
+                    sx={{
+                      py: 0,
+                      px: 1,
+                      alignItems: "start",
+                      gap: 2,
+                      transition: "none",
+                    }}
+                  >
+                    <Icon
+                      sx={{ mt: 0.6 }}
+                      {...(!addedValues.includes(generated) && {
+                        className: "outlined",
+                      })}
+                    >
+                      priority
+                    </Icon>
+                    <ListItemText primary={generated} />
+                  </ListItemButton>
+                ))}
+              </Box>
+            )}
+          <Box sx={{ display: "flex", gap: 2, mt: "auto" }}>
+            <Button
+              onClick={() => setOpen(false)}
+              variant="outlined"
+              fullWidth={!data}
+            >
+              {data ? <Icon>close</Icon> : "Cancel"}
+            </Button>
+            <LoadingButton
+              onClick={generate}
+              variant="contained"
+              loading={loading}
+              fullWidth={!data}
+              disabled={deferredValue.trim() == ""}
+            >
+              {data ? <Icon>refresh</Icon> : "Regenerate"}
+            </LoadingButton>
+            {data && (
+              <LoadingButton
+                loading={submitLoading}
+                onClick={handleSubmit}
+                variant="contained"
+                fullWidth
+                disabled={addedValues.length == 0}
+              >
+                Continue <Icon>east</Icon>
+              </LoadingButton>
+            )}
+          </Box>
+        </Box>
+      </SwipeableDrawer>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Button
+          onClick={() => setOpen(true)}
+          sx={{
+            background: "linear-gradient(to right, #8a2387, #e94057, #f27121)",
+            color: "#fff",
+            px: 2,
+            mt: 2,
+          }}
+          size="small"
+        >
+          <Icon>auto_awesome</Icon>
+          Generate subtasks for me
+        </Button>
+      </Box>
+    </>
+  );
+}
 
 export default function DrawerContent({
   handleDelete,
@@ -539,10 +787,11 @@ export default function DrawerContent({
             column={{ id: "-1", name: "" }}
             parent={data.id}
             label="Create a subtask"
-            placeholder={`Add a subtask to "${data.name}"`}
+            placeholder="Add a subtask..."
             handleMutate={handleMutate}
             boardId={1}
           />
+          <ExperimentalAiSubtask task={data} />
         </Box>
       )}
       <Box

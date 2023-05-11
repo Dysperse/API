@@ -70,9 +70,11 @@ export const Column: any = memo(function Column({
   const isToday =
     day.date === startOfRange.format(day.heading) && navigation === 0;
 
+  const [alreadyScrolled, setAlreadyScrolled] = useState(false);
   useEffect(() => {
     const activeHighlight = document.getElementById("activeHighlight");
-    if (activeHighlight) {
+    if (activeHighlight && !alreadyScrolled) {
+      setAlreadyScrolled(true);
       activeHighlight.scrollIntoView({
         block: "nearest",
         inline: "center",
@@ -80,7 +82,7 @@ export const Column: any = memo(function Column({
       });
     }
     window.scrollTo(0, 0);
-  }, []);
+  }, [alreadyScrolled]);
 
   /**
    * Sort the tasks in a "[pinned, incompleted, completed]" order
