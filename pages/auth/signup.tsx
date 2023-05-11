@@ -1,6 +1,13 @@
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Button, NoSsr, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  NoSsr,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -105,6 +112,19 @@ export default function Prompt() {
                   options={{ retry: "auto" }}
                   onSuccess={(token) => setCaptchaToken(token)}
                 />
+                {buttonLoading && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      mt: 2,
+                      gap: 2,
+                    }}
+                  >
+                    <CircularProgress color="inherit" size={20} />
+                    Almost there...
+                  </Box>
+                )}
               </NoSsr>
             )}
             {step === 0 && (
