@@ -114,6 +114,7 @@ export default function Prompt() {
                   Wait - I remember my password, take me back
                 </Button>
               </Link>
+              <Box sx={{ pb: { xs: 15, sm: 6 } }} />
               <Box sx={authStyles.footer}>
                 <LoadingButton
                   loading={buttonLoading}
