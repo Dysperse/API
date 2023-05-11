@@ -4,11 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useSWRConfig } from "swr";
 import {
   AuthBranding,
-  authStyles,
   Layout,
+  authStyles,
 } from "../../../components/Auth/Layout";
 import { toastStyles } from "../../../lib/client/useTheme";
 
@@ -17,7 +16,6 @@ import { toastStyles } from "../../../lib/client/useTheme";
  */
 export default function Prompt() {
   const router = useRouter();
-  const { mutate } = useSWRConfig();
   // Login form
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
@@ -111,7 +109,7 @@ export default function Prompt() {
                 sx={authStyles.input}
                 variant="outlined"
               />
-              <Link href="/?close=true" legacyBehavior>
+              <Link href="/" legacyBehavior>
                 <Button sx={authStyles.link}>
                   Wait - I remember my password, take me back
                 </Button>

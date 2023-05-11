@@ -1,13 +1,12 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 
-import { useSWRConfig } from "swr";
-import { AuthBranding, authStyles, Layout } from "../../components/Auth/Layout";
-
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { mutate } from "swr";
+import { AuthBranding, Layout, authStyles } from "../../components/Auth/Layout";
 import { toastStyles } from "../../lib/client/useTheme";
 
 /**
@@ -15,7 +14,6 @@ import { toastStyles } from "../../lib/client/useTheme";
  */
 export default function Prompt() {
   const router = useRouter();
-  const { mutate } = useSWRConfig();
   // Login form
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
@@ -55,18 +53,8 @@ export default function Prompt() {
           toast.error(err.message, toastStyles);
         });
     },
-    [name, email, password, confirmPassword, mutate, router]
+    [name, email, password, confirmPassword, router]
   );
-
-  useEffect(() => {
-    if (typeof document !== "undefined")
-      document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute(
-          "content",
-          window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
-        );
-  });
 
   return (
     <Layout>
@@ -167,7 +155,7 @@ export default function Prompt() {
                   ),
                 })}
               />
-              <Link href="/?close=true" legacyBehavior>
+              <Link href="/" legacyBehavior>
                 <Button sx={authStyles.link}>I already have an account</Button>
               </Link>
               <Box sx={{ pb: { xs: 15, sm: 0 } }} />

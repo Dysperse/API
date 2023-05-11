@@ -180,7 +180,7 @@ export default function Onboarding() {
                 popup(
                   500,
                   1000,
-                  "/signup?close=true",
+                  "/signup",
                   "Please sign in to your Dysperse account"
                 );
                 setLoading(false);

@@ -163,7 +163,7 @@ export default async function handler(req, res) {
     const ip =
       req.headers["x-forwarded-for"] || req.socket.remoteAddress || "Unknown";
     const encoded = await createSession(user.id, res, ip);
-    // cacheData.del(req.cookies.token);
+
     res.json({ success: true, key: encoded });
   } catch (e: any) {
     return res.status(401).json({ message: e.message });

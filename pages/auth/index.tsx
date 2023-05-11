@@ -347,10 +347,10 @@ export default function Prompt() {
         </form>
         {step === 1 && (
           <Box>
-            <Link href="/signup?close=true" legacyBehavior>
+            <Link href="/signup" legacyBehavior>
               <Button sx={authStyles.link}>Create an account</Button>
             </Link>
-            <Link href="/auth/reset-id?close=true" legacyBehavior>
+            <Link href="/auth/reset-id" legacyBehavior>
               <Button sx={authStyles.link}>I forgot my ID</Button>
             </Link>
           </Box>
