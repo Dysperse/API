@@ -17,65 +17,69 @@ export const validatePermissions = async (
     return error;
   };
 
-  const hierarchy = ["read-only", "member", "owner"];
+  try {
+    const hierarchy = ["read-only", "member", "owner"];
 
-  const [property, accessToken] = config.credentials;
+    const [property, accessToken] = config.credentials;
 
-  if (!property || !accessToken)
-    return invalidate("You didn't pass either an access or property token");
+    if (!property || !accessToken)
+      return invalidate("You didn't pass either an access or property token");
 
-  console.time("🔑 User permission validation took");
+    console.time("🔑 User permission validation took");
 
-  // Cache keys
-  const key = `permissions-${property}-${accessToken}`;
-  const cache = cacheData.get(key);
+    // Cache keys
+    const key = `permissions-${property}-${accessToken}`;
+    const cache = cacheData.get(key);
 
-  // If cache exists, just return the cached value
-  if (cache) {
-    const foundPermissionsInteger = hierarchy.indexOf(cache);
-    const minimumPermissionsInteger = hierarchy.indexOf(config.minimum);
+    // If cache exists, just return the cached value
+    if (cache) {
+      const foundPermissionsInteger = hierarchy.indexOf(cache);
+      const minimumPermissionsInteger = hierarchy.indexOf(config.minimum);
 
-    if (foundPermissionsInteger < minimumPermissionsInteger)
-      return invalidate({
-        message: "Insufficient permissions",
-        found: `${cache}, ${foundPermissionsInteger}`,
-        minimum: `${config.minimum}, ${minimumPermissionsInteger}`,
+      if (foundPermissionsInteger < minimumPermissionsInteger)
+        return invalidate({
+          message: "Insufficient permissions",
+          found: `${cache}, ${foundPermissionsInteger}`,
+          minimum: `${config.minimum}, ${minimumPermissionsInteger}`,
+        });
+
+      console.timeEnd("🔑 User permission validation took");
+
+      // 🎉 User meets the minimum required permissions!
+      return { authorized: true };
+    }
+
+    // If cache does not exist, query the database and match up the permissions
+    else {
+      const permissions: any = await prisma.propertyInvite.findFirst({
+        where: {
+          AND: [{ propertyId: property }, { accessToken }],
+        },
+        select: { permission: true },
       });
 
-    console.timeEnd("🔑 User permission validation took");
+      const foundPermissionsInteger = hierarchy.indexOf(permissions.permission);
+      const minimumPermissionsInteger = hierarchy.indexOf(config.minimum);
 
-    // 🎉 User meets the minimum required permissions!
-    return { authorized: true };
-  }
+      if (foundPermissionsInteger < minimumPermissionsInteger)
+        return invalidate({
+          message: "Insufficient permissions",
+          found: `${permissions.permission}, ${foundPermissionsInteger}`,
+          minimum: `${config.minimum}, ${minimumPermissionsInteger}`,
+        });
 
-  // If cache does not exist, query the database and match up the permissions
-  else {
-    const permissions: any = await prisma.propertyInvite.findFirst({
-      where: {
-        AND: [{ propertyId: property }, { accessToken }],
-      },
-      select: { permission: true },
-    });
-
-    const foundPermissionsInteger = hierarchy.indexOf(permissions.permission);
-    const minimumPermissionsInteger = hierarchy.indexOf(config.minimum);
-
-    if (foundPermissionsInteger < minimumPermissionsInteger)
-      return invalidate({
-        message: "Insufficient permissions",
-        found: `${permissions.permission}, ${foundPermissionsInteger}`,
-        minimum: `${config.minimum}, ${minimumPermissionsInteger}`,
-      });
-
-    cacheData.put(
-      // Key
-      key,
-      // Value (if there's no permission defined, make the minimum permission "owner" for maximum security)
-      permissions ? permissions.permission : "owner",
-      // Hours to store it
-      hours * 1000 * 60 * 60
-    );
-    // 🎉 User meets the minimum required permissions!
-    return { authorized: true };
+      cacheData.put(
+        // Key
+        key,
+        // Value (if there's no permission defined, make the minimum permission "owner" for maximum security)
+        permissions ? permissions.permission : "owner",
+        // Hours to store it
+        hours * 1000 * 60 * 60
+      );
+      // 🎉 User meets the minimum required permissions!
+      return { authorized: true };
+    }
+  } catch (e) {
+    invalidate("An error occured. Check logs for more details");
   }
 };

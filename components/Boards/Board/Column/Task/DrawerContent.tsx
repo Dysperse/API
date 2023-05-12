@@ -68,9 +68,7 @@ function ExperimentalAiSubtask({ task }) {
       setAddedValues([]);
       setData(null);
       setLoading(true);
-      const res = await fetch("/api/ai/subtasks?prompt=" + deferredValue).then(
-        (res) => res.json()
-      );
+      const res = await fetchRawApi("/api/ai/subtasks?prompt=" + deferredValue);
       setData(res);
       setLoading(false);
 

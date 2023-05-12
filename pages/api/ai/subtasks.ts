@@ -1,7 +1,8 @@
 /* eslint-disable */
 
 import Client from "gpt-free";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiResponse } from "next";
+import { validatePermissions } from "../../../lib/server/validatePermissions";
 
 type Data = {
   error?: string;
@@ -16,7 +17,7 @@ Task name: ${taskName}
 # Instructions: 
 Given a task name, generate 7 or less subtasks.
 If the user input is inappropriate or contains foul/vulgar language or ANY sex references, return "{"error": "Your prompt violates our AI content generation policy"}"
-You MUST keep descriptions as short and concise as possible, and CANNOT be more than one sentence.
+You MUST keep descriptions as short and concise as possible, and CANNOT be more than one sentence. Descriptions must be descriptive enough to help the person know exactly how to complete the task.
 You MUST return a JSON response (which can be parsed by JavaScript) ONLY, similar to the example response below.
 
 # Example response: 
@@ -55,10 +56,11 @@ You MUST return a JSON response (which can be parsed by JavaScript) ONLY, simila
 
 `;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default async function handler(req: any, res: NextApiResponse<Data>) {
+  await validatePermissions(res, {
+    minimum: "read-only",
+    credentials: [req.query.property, req.query.accessToken],
+  });
   const client = new Client();
   const { prompt }: any = req.query;
 
