@@ -11,11 +11,11 @@ const handler = async (req, res) => {
 
   console.log(tasks);
 
-  tasks.forEach(async (task: string) => {
+  tasks.forEach(async (task: { name?: string; description?: string }) => {
     await prisma.task.create({
       data: {
-        name: task || "",
-        description: "",
+        name: task.name || "",
+        description: task.description || "",
         completed: false,
         pinned: false,
         parentTasks: { connect: { id: req.query.parent } },

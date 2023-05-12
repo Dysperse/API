@@ -14,25 +14,45 @@ const generatePrompt = (taskName) => `
 Task name: ${taskName}
 
 # Instructions: 
-Given a task name, generate 10 or less subtasks, using the example below. You MUST return a JSON response ONLY. 
+Given a task name, generate 7 or less subtasks.
 If the user input is inappropriate or contains foul/vulgar language or ANY sex references, return "{"error": "Your prompt violates our AI content generation policy"}"
+You MUST keep descriptions as short and concise as possible, and CANNOT be more than one sentence.
+You MUST return a JSON response (which can be parsed by JavaScript) ONLY, similar to the example response below.
 
 # Example response: 
+
 {
   "task_name": "Write a blog post",
   "subtasks": [
-    "Research topic ideas",
-    "Outline blog post",
-    "Write introduction",
-    "Write body paragraphs",
-    "Write conclusion",
-    "Edit for grammar and spelling",
-    "Add images to blog post",
-    "Format blog post for publishing",
-    "Choose a catchy title",
-    "Come up with meta description"
+    {
+      "name": "Research topic ideas",
+      "description": "Choose a topic. This could be something that you're passionate about, something that you know a lot about, or something that you think your readers would be interested in"
+    },
+    {
+      "name": "Do your research",
+      "description": "Once you've chosen a topic, it's important to do your research. This means gathering information from a variety of sources, including books, articles, websites, and interviews"
+    },
+    {
+      "name": "Create an outline",
+      "description": "Once you've done your research, it's time to create an outline for your blog post. This will help you organize your thoughts and make sure that your post flows well"
+    },
+    {
+      "name": "Write your blog post",
+      "description": "Now it's time to start writing your blog post! Be sure to use clear and concise language, and break up your text with headings, subheadings, and images."
+    },
+    {
+      "name": "Edit and proofread your blog post",
+      "description": "Once you've finished writing your blog post, it's important to edit and proofread it carefully. This will help you catch any errors in grammar, spelling, or punctuation"
+    },
+    {
+      "name": "Publish your blog post",
+      "description": "Once you're happy with your blog post, it's time to publish it! Be sure to promote your blog post on social media and other online channels"
+    }
   ]
 }
+
+
+
 `;
 
 export default async function handler(
@@ -55,7 +75,6 @@ export default async function handler(
   try {
     response = JSON.parse(response);
   } catch (e) {
-    console.log(prompt, response);
     console.error("Could not parse JSON");
   }
 

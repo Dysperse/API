@@ -58,7 +58,6 @@ function ExperimentalAiSubtask({ task }) {
       setSubmitLoading(false);
       setOpen(false);
       document.getElementById("subtaskTrigger")?.click();
-      document.getElementById("subtaskTrigger")?.click();
     } catch (e) {
       setSubmitLoading(false);
     }
@@ -91,7 +90,10 @@ function ExperimentalAiSubtask({ task }) {
       <SwipeableDrawer
         open={open}
         anchor="bottom"
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          document.getElementById("subtaskTrigger")?.click();
+        }}
         onOpen={() => setOpen(false)}
         PaperProps={{
           sx: {
@@ -221,14 +223,21 @@ function ExperimentalAiSubtask({ task }) {
                     }}
                   >
                     <Icon
-                      sx={{ mt: 0.6 }}
+                      sx={{ mt: 1 }}
                       {...(!addedValues.includes(generated) && {
                         className: "outlined",
                       })}
                     >
                       priority
                     </Icon>
-                    <ListItemText primary={generated} />
+                    <ListItemText
+                      primary={generated.name}
+                      secondary={
+                        <Typography variant="body2" sx={{ opacity: 0.6 }}>
+                          {generated.description}
+                        </Typography>
+                      }
+                    />
                   </ListItemButton>
                 ))}
               </Box>
@@ -248,7 +257,7 @@ function ExperimentalAiSubtask({ task }) {
               fullWidth={!data}
               disabled={deferredValue.trim() == ""}
             >
-              {data ? <Icon>refresh</Icon> : "Regenerate"}
+              {data ? <Icon>refresh</Icon> : "Generate"}
             </LoadingButton>
             {data && (
               <LoadingButton
@@ -440,8 +449,7 @@ export default function DrawerContent({
             </Button>
             <Button
               {...(option === "Subtasks" && { variant: "contained" })}
-              {...(data.parentTasks.length == 0 &&
-                data.subTasks.length !== 0 && { id: "subtaskTrigger" })}
+              {...(data.parentTasks.length == 0 && { id: "subtaskTrigger" })}
               size="small"
               onClick={() => {
                 if (option === "Subtasks") handleMutate();
