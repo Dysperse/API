@@ -78,7 +78,10 @@ export function ExperimentalAiSubtask({ task }) {
         }}
       >
         <Button
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true);
+            generate();
+          }}
           sx={{
             background: "linear-gradient(to right, #8a2387, #e94057, #f27121)",
             color: "#fff",
@@ -123,7 +126,7 @@ export function ExperimentalAiSubtask({ task }) {
                 variant="h6"
                 sx={{ display: "flex", gap: 1, alignItems: "center" }}
               >
-                <Icon sx={{ mr: 1 }}>auto_awesome</Icon>Dysperse AI{" "}
+                <Icon sx={{ mr: 1 }}>auto_awesome</Icon>Dysperse AI
                 <Chip
                   variant="outlined"
                   size="small"
@@ -140,6 +143,9 @@ export function ExperimentalAiSubtask({ task }) {
           <TextField
             value={value}
             size="small"
+            onKeyDown={(e) => {
+              if (e.code == "Enter") generate();
+            }}
             onChange={(e) => setValue(e.target.value)}
             placeholder="Task name"
             disabled={loading}
