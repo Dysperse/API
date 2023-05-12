@@ -111,7 +111,7 @@ function ExperimentalAiSubtask({ task }) {
       </Box>
       <SwipeableDrawer
         open={open}
-        anchor="bottom"
+        anchor="right"
         onClose={() => {
           setOpen(false);
           document.getElementById("subtaskTrigger")?.click();
@@ -120,6 +120,8 @@ function ExperimentalAiSubtask({ task }) {
         PaperProps={{
           sx: {
             height: "100vh",
+            maxWidth: "450px",
+            width: "100%",
             borderRadius: 0,
           },
         }}
@@ -213,12 +215,17 @@ function ExperimentalAiSubtask({ task }) {
               >
                 <Typography
                   sx={{
-                    display: "flex",
+                    display: "inline-flex",
                     gap: 2,
                     px: 1,
                     my: 1,
-                    fontWeight: 700,
+                    fontWeight: 900,
+                    alignItems: "center",
+                    background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
                   }}
+                  variant="h6"
                 >
                   <Icon>south_east</Icon>Dysperse AI
                 </Typography>
