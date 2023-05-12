@@ -1,16 +1,16 @@
 import { LoadingButton } from "@mui/lab";
 import {
-  Button,
-  Chip,
-  Icon,
-  IconButton,
-  InputAdornment,
-  ListItemButton,
-  ListItemText,
-  Skeleton,
-  SwipeableDrawer,
-  TextField,
-  Typography,
+    Button,
+    Chip,
+    Icon,
+    IconButton,
+    InputAdornment,
+    ListItemButton,
+    ListItemText,
+    Skeleton,
+    SwipeableDrawer,
+    TextField,
+    Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useDeferredValue, useState } from "react";
@@ -86,7 +86,7 @@ export function ExperimentalAiSubtask({ task }) {
         <Button
           onClick={() => {
             setOpen(true);
-            generate();
+            if (deferredValue.trim() !== "") generate();
           }}
           sx={{
             background: "linear-gradient(to right, #8a2387, #e94057, #f27121)",
@@ -170,6 +170,7 @@ export function ExperimentalAiSubtask({ task }) {
                         setData(null);
                         setLoading(false);
                       }}
+                      disabled={loading}
                     >
                       <Icon>close</Icon>
                     </IconButton>
@@ -284,6 +285,7 @@ export function ExperimentalAiSubtask({ task }) {
               onClick={() => setOpen(false)}
               variant="outlined"
               fullWidth={!data}
+              disabled={loading}
             >
               {data ? <Icon>close</Icon> : "Cancel"}
             </Button>
