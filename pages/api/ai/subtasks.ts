@@ -80,6 +80,8 @@ export default async function handler(req: any, res: NextApiResponse<Data>) {
     console.error("Could not parse JSON");
   }
 
+  console.log(response);
+
   res.status(200).json({
     prompt,
     response,
