@@ -87,6 +87,28 @@ function ExperimentalAiSubtask({ task }) {
 
   return (
     <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          position: "sticky",
+          top: "calc(100vh - 80px)",
+          zIndex: 9999,
+        }}
+      >
+        <Button
+          onClick={() => setOpen(true)}
+          sx={{
+            background: "linear-gradient(to right, #8a2387, #e94057, #f27121)",
+            color: "#fff",
+            px: 2,
+            my: 2,
+          }}
+        >
+          <Icon>auto_awesome</Icon>
+          Generate subtasks for me
+        </Button>
+      </Box>
       <SwipeableDrawer
         open={open}
         anchor="bottom"
@@ -273,21 +295,6 @@ function ExperimentalAiSubtask({ task }) {
           </Box>
         </Box>
       </SwipeableDrawer>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          onClick={() => setOpen(true)}
-          sx={{
-            background: "linear-gradient(to right, #8a2387, #e94057, #f27121)",
-            color: "#fff",
-            px: 2,
-            mt: 2,
-          }}
-          size="small"
-        >
-          <Icon>auto_awesome</Icon>
-          Generate subtasks for me
-        </Button>
-      </Box>
     </>
   );
 }
@@ -467,6 +474,7 @@ export default function DrawerContent({
           </Box>
         </Toolbar>
       </AppBar>
+      {option === "Subtasks" && <ExperimentalAiSubtask task={data} />}
       {option === "Details" && (
         <Box sx={{ p: { xs: 3, sm: 4 }, pb: { sm: 1 } }}>
           <TextField
@@ -754,6 +762,7 @@ export default function DrawerContent({
               display: "none",
             }),
             px: { sm: 2 },
+            mt: "-80px",
             pt: 2,
           }}
         >
@@ -802,7 +811,6 @@ export default function DrawerContent({
             handleMutate={handleMutate}
             boardId={1}
           />
-          <ExperimentalAiSubtask task={data} />
         </Box>
       )}
       <Box
