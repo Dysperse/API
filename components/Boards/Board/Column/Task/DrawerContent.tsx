@@ -168,6 +168,21 @@ function ExperimentalAiSubtask({ task }) {
                   <Icon className="outlined">auto_awesome</Icon>
                 </InputAdornment>
               ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  {deferredValue && (
+                    <IconButton
+                      onClick={() => {
+                        setValue("");
+                        setData(null);
+                        setLoading(false);
+                      }}
+                    >
+                      <Icon>close</Icon>
+                    </IconButton>
+                  )}
+                </InputAdornment>
+              ),
             }}
           />
           {loading && (
@@ -642,6 +657,7 @@ export default function DrawerContent({
                       <Icon>today</Icon>
                     </InputAdornment>
                   ),
+
                   ...(data.due && {
                     endAdornment: (
                       <InputAdornment position="end">
