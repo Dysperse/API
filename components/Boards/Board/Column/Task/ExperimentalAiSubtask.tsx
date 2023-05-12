@@ -17,6 +17,7 @@ import { useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
 import { fetchRawApi } from "../../../../../lib/client/useApi";
 import { useSession } from "../../../../../lib/client/useSession";
+import { toastStyles } from "../../../../../lib/client/useTheme";
 
 export function ExperimentalAiSubtask({ task }) {
   const session = useSession();
@@ -45,6 +46,10 @@ export function ExperimentalAiSubtask({ task }) {
   };
 
   const generate = async () => {
+    if (deferredValue.trim() == "") {
+      toast.error("Please type something", toastStyles);
+      return;
+    }
     try {
       setAddedValues([]);
       setData(null);
@@ -61,7 +66,8 @@ export function ExperimentalAiSubtask({ task }) {
     } catch (e) {
       setLoading(false);
       toast.error(
-        "Dysperse AI couldn't generate your tasks! Please try again later"
+        "Dysperse AI couldn't generate your tasks! Please try again later",
+        toastStyles
       );
     }
   };
