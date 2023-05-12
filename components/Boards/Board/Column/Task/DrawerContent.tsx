@@ -758,6 +758,7 @@ export default function DrawerContent({
       {option === "Subtasks" && (
         <Box
           sx={{
+            minHeight: "100vh",
             ...(data.parentTasks.length !== 0 && {
               display: "none",
             }),
