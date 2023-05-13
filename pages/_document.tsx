@@ -12,7 +12,10 @@ export default function Document() {
           src="https://www.googletagmanager.com/gtag/js?id=G-KFJ4BEE09N"
           strategy="afterInteractive"
         />
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
