@@ -62,66 +62,67 @@ export function ColoredTasks({ setDrawerOpen }) {
         <Icon>menu</Icon>
       </IconButton>
 
-      {!data ||
-        (data?.length && (
-          <Box sx={{ p: 3, pb: 1, pt: 5 }}>
-            <Typography className="font-heading" variant="h4" gutterBottom>
-              Color coded
-            </Typography>
-            <Typography sx={{ mb: 2 }}>{data.length} tasks</Typography>
-            {error && (
-              <ErrorHandler error="Yikes! An error occured while trying to fetch your color coded tasks. Please try again later." />
-            )}
-            {[
-              "all",
-              "orange",
-              "red",
-              "pink",
-              "purple",
-              "indigo",
-              "teal",
-              "green",
-              "grey",
-            ].map((c) => (
-              <CardActionArea
-                key={c}
-                onClick={() => setColor(c)}
-                sx={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: "50%",
-                  display: "inline-flex",
-                  mr: 1,
-                  mb: 1,
+      {data && data.length > 0 && (
+        <Box sx={{ p: 3, pb: 1, pt: 5 }}>
+          <Typography className="font-heading" variant="h4" gutterBottom>
+            Color coded
+          </Typography>
+          <Typography sx={{ mb: 2 }}>
+            {data.length} task{data.length !== 1 && "s"}
+          </Typography>
+          {error && (
+            <ErrorHandler error="Yikes! An error occured while trying to fetch your color coded tasks. Please try again later." />
+          )}
+          {[
+            "all",
+            "orange",
+            "red",
+            "pink",
+            "purple",
+            "indigo",
+            "teal",
+            "green",
+            "grey",
+          ].map((c) => (
+            <CardActionArea
+              key={c}
+              onClick={() => setColor(c)}
+              sx={{
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                display: "inline-flex",
+                mr: 1,
+                mb: 1,
+                backgroundColor: `${
+                  colors[c === "all" ? "blueGrey" : c][
+                    c === "all" ? "100" : "400"
+                  ]
+                }!important`,
+                "&:hover": {
                   backgroundColor: `${
                     colors[c === "all" ? "blueGrey" : c][
-                      c === "all" ? "100" : "400"
+                      c === "all" ? "200" : "500"
                     ]
                   }!important`,
-                  "&:hover": {
-                    backgroundColor: `${
-                      colors[c === "all" ? "blueGrey" : c][
-                        c === "all" ? "200" : "500"
-                      ]
-                    }!important`,
-                  },
+                },
+              }}
+            >
+              <span
+                className="material-symbols-outlined"
+                style={{
+                  margin: "auto",
+                  opacity:
+                    color === c || (color === "all" && c === "all") ? 1 : 0,
+                  color: "#000",
                 }}
               >
-                <span
-                  className="material-symbols-outlined"
-                  style={{
-                    margin: "auto",
-                    opacity:
-                      color === c || (color === "all" && c === "all") ? 1 : 0,
-                    color: "#000",
-                  }}
-                >
-                  {c === "all" ? "close" : "check"}
-                </span>
-              </CardActionArea>
-            ))}
-          </Box>
-        ))}
+                {c === "all" ? "close" : "check"}
+              </span>
+            </CardActionArea>
+          ))}
+        </Box>
+      )}
       <Box
         sx={{ px: { sm: 2 }, pb: data.length == 0 ? 0 : 15, maxWidth: "100vw" }}
       >
