@@ -37,6 +37,8 @@ export function ExperimentalAiSubtask({ task }) {
         parent: task.id,
         tasks: JSON.stringify(addedValues),
       });
+      document.getElementById("subtaskTrigger")?.click();
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setSubmitLoading(false);
       setOpen(false);
       document.getElementById("subtaskTrigger")?.click();

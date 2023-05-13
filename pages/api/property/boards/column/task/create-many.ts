@@ -9,8 +9,6 @@ const handler = async (req, res) => {
 
   const tasks = JSON.parse(req.query.tasks);
 
-  console.log(tasks);
-
   tasks.forEach(async (task: { name?: string; description?: string }) => {
     await prisma.task.create({
       data: {

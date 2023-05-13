@@ -18,6 +18,7 @@ Task name: ${taskName}
 Given a task name, generate 7 or less subtasks.
 If the user input is inappropriate or contains foul/vulgar language or ANY sex references, return "{"error": "Your prompt violates our AI content generation policy"}"
 You MUST keep descriptions as short and concise as possible, and CANNOT be more than one sentence. Descriptions must be descriptive enough to help the person know exactly how to complete the task.
+When providing a task that includes studying anything (or mentions a quiz, test, or exam) and it tells what they are trying to study for, it is important to give subtasks specific to the topic the user tells in order to help the user succceed.
 You MUST return a JSON response (which can be parsed by JavaScript) ONLY, similar to the example response below.
 
 # Example response: 
