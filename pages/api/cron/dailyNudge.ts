@@ -79,8 +79,19 @@ const Notification = async (req, res) => {
       // Check if user has enabled routine for that day
       if (daysOfWeek[currentDayInUserTimeZone] === true) {
         try {
+          const templates = [
+            "Let's get started on [routine_name]!",
+            "Time to crush your [routine_name]!",
+            "Ready to work on your [routine_name]!?",
+            "[routine_name] - It's time!",
+          ];
+          const random =
+            templates[Math.floor(Math.random() * templates.length)];
+
           await DispatchNotification({
-            title: `It's time to start "${currentRoutine.name.trim()}"!`,
+            title: random
+              .replace("[routine_name]", currentRoutine.name.trim())
+              .replace(/(\r\n|\n|\r)/gm, ""),
             icon:
               `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${currentRoutine.emoji}.png` ||
               "https://assets.dysperse.com/v5/ios/192.png",

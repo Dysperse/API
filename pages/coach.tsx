@@ -159,9 +159,6 @@ export default function Render() {
                     p: "0!important",
                     transition: "none",
                     color: "inherit",
-                    background: `hsla(240,11%,${
-                      session.user.darkMode ? 90 : 10
-                    }%,0.05)!important`,
                     minWidth: 0,
                   }}
                   size="small"
