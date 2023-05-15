@@ -1,3 +1,8 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useApi } from "@/lib/client/useApi";
+import { useDelayedMount } from "@/lib/client/useDelayedMount";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Alert,
   Box,
@@ -10,11 +15,6 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import { useCallback, useState } from "react";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
-import { useApi } from "../../../lib/client/useApi";
-import { useDelayedMount } from "../../../lib/client/useDelayedMount";
-import { useSession } from "../../../lib/client/useSession";
-import { vibrate } from "../../../lib/client/vibration";
 import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";

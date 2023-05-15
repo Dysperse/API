@@ -1,3 +1,8 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Avatar,
   Box,
@@ -13,11 +18,6 @@ import {
 import dynamic from "next/dynamic";
 import React, { cloneElement } from "react";
 import { mutate } from "swr";
-import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { Puller } from "../Puller";
 import { SettingsMenu } from "./Menus";

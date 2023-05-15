@@ -1,6 +1,6 @@
 // Update user settings
+import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
-import { prisma } from "../../../lib/server/prisma";
 
 /**
  * API handler for the /api/user/update endpoint

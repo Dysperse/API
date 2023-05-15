@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Icon,
@@ -11,7 +12,6 @@ import {
 import { decode } from "js-base64";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useSession } from "../../lib/client/useSession";
 import { CreateItemModal } from "./CreateItem/modal";
 /**
  * Header component for the room

@@ -1,8 +1,8 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
 import { Box, Button, Skeleton, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useRef } from "react";
-import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
 import { ErrorHandler } from "../../Error";
 import { CreateRoutine } from "./Create";
 import { Routine } from "./Routine";

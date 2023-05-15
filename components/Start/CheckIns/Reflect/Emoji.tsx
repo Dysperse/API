@@ -1,3 +1,5 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Button,
@@ -16,8 +18,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { reasons } from "..";
-import { useApi } from "../../../../lib/client/useApi";
-import { useSession } from "../../../../lib/client/useSession";
 import { Puller } from "../../../Puller";
 import { Label } from "./Label";
 import { Overview } from "./Overview";

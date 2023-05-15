@@ -1,5 +1,5 @@
-import { prisma } from "../../../../../lib/server/prisma";
-import { validatePermissions } from "../../../../../lib/server/validatePermissions";
+import { prisma } from "@/lib/server/prisma";
+import { validatePermissions } from "@/lib/server/validatePermissions";
 
 /**
  * API handler for the /api/property/update endpoint

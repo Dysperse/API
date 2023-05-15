@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
   Box,
@@ -11,7 +12,6 @@ import type { Item } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSession } from "../../lib/client/useSession";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
 import { Toolbar } from "./Toolbar";

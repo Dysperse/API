@@ -1,3 +1,5 @@
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Avatar,
   CircularProgress,
@@ -10,9 +12,7 @@ import {
 import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import React, { useCallback } from "react";
-import { useSession } from "../../lib/client/useSession";
 import { RoomActionMenu } from "./items//RoomActionMenu";
-import { vibrate } from "../../lib/client/vibration";
 
 interface RoomActionButtonProps {
   disableLoading?: boolean;

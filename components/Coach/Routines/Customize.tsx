@@ -1,3 +1,5 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Button,
@@ -11,8 +13,6 @@ import {
 } from "@mui/material";
 import { useDeferredValue, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
 import { Puller } from "../../Puller";
 import { GoalCard } from "./Card";
 

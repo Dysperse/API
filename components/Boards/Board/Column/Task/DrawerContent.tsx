@@ -1,3 +1,8 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import {
   AppBar,
   Button,
@@ -20,11 +25,6 @@ import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Task } from ".";
-import { useAccountStorage } from "../../../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../../../lib/client/useApi";
-import { useSession } from "../../../../../lib/client/useSession";
-import { toastStyles } from "../../../../../lib/client/useTheme";
-import { colors } from "../../../../../lib/colors";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { Color } from "./Color";
 import { CreateTask } from "./Create";

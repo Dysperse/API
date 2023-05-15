@@ -1,3 +1,6 @@
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
   Box,
@@ -13,9 +16,6 @@ import {
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi, useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { updateSettings } from "../updateSettings";

@@ -1,3 +1,7 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
@@ -16,10 +20,6 @@ import {
   useState,
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
-import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { vibrate } from "../../../lib/client/vibration";
 import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 

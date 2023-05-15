@@ -1,3 +1,7 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useDelayedMount } from "@/lib/client/useDelayedMount";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -12,10 +16,6 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../../lib/client/useApi";
-import { useDelayedMount } from "../../../../lib/client/useDelayedMount";
-import { useSession } from "../../../../lib/client/useSession";
-import { toastStyles } from "../../../../lib/client/useTheme";
 import EmojiPicker from "../../../EmojiPicker";
 import { ColumnSettings } from "./Settings";
 import { Task } from "./Task";

@@ -1,7 +1,7 @@
 const webPush = require("web-push");
+import { DispatchNotification } from "@/lib/server/notification";
+import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
-import { DispatchNotification } from "../../../lib/server/notification";
-import { prisma } from "../../../lib/server/prisma";
 
 import { Routine } from "@prisma/client";
 import timezone from "dayjs/plugin/timezone";

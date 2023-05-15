@@ -1,14 +1,14 @@
+import {
+  AccountStorageState,
+  modifyAccountStorageHook,
+} from "@/lib/client/useAccountStorage";
+import { modifySessionHook } from "@/lib/client/useSession";
+import { useCustomTheme } from "@/lib/client/useTheme";
 import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import { NextRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import {
-  AccountStorageState,
-  modifyAccountStorageHook,
-} from "../../lib/client/useAccountStorage";
-import { modifySessionHook } from "../../lib/client/useSession";
-import { useCustomTheme } from "../../lib/client/useTheme";
 import { Layout } from "../../pages/_app";
 import { Property, Session } from "../../types/session";
 

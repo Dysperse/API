@@ -1,3 +1,6 @@
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Avatar,
   Box,
@@ -9,9 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useBackButton } from "../../../lib/client/useBackButton";
-import { useSession } from "../../../lib/client/useSession";
-import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
 
 /**

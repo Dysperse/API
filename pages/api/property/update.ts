@@ -1,6 +1,6 @@
+import { prisma } from "@/lib/server/prisma";
+import { validatePermissions } from "@/lib/server/validatePermissions";
 import cacheData from "memory-cache";
-import { prisma } from "../../../lib/server/prisma";
-import { validatePermissions } from "../../../lib/server/validatePermissions";
 import { createInboxNotification } from "./inbox/create";
 
 /**

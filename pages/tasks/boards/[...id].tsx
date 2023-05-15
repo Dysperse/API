@@ -1,8 +1,8 @@
+import { Board } from "@/components/Boards/Board";
+import { TasksLayout } from "@/components/Boards/Layout";
+import { useApi } from "@/lib/client/useApi";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Board } from "../../../components/Boards/Board";
-import { TasksLayout } from "../../../components/Boards/Layout";
-import { useApi } from "../../../lib/client/useApi";
 
 function BoardContainer({ setOpen, id }) {
   const { data, url, error } = useApi("property/boards", { id });

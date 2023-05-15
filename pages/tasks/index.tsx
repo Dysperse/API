@@ -1,8 +1,8 @@
+import { TasksLayout } from "@/components/Boards/Layout";
+import { useApi } from "@/lib/client/useApi";
 import { Box, CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { TasksLayout } from "../../components/Boards/Layout";
-import { useApi } from "../../lib/client/useApi";
 
 export const Loader = () => (
   <Box

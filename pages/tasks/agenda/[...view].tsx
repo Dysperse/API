@@ -1,7 +1,7 @@
+import { Agenda } from "@/components/Boards/Agenda";
+import { TasksLayout } from "@/components/Boards/Layout";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Agenda } from "../../../components/Boards/Agenda";
-import { TasksLayout } from "../../../components/Boards/Layout";
 
 /**
  * Top-level component for the dashboard page.

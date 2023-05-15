@@ -1,3 +1,5 @@
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -5,8 +7,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { updateSettings } from "../../Settings/updateSettings";
 import { openSpotlight } from "./Search";
 import UserMenu from "./UserMenu";

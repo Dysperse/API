@@ -1,5 +1,5 @@
-import { prisma } from "../../../lib/server/prisma";
-import { validateCaptcha } from "../../../lib/server/useCaptcha";
+import { prisma } from "@/lib/server/prisma";
+import { validateCaptcha } from "@/lib/server/useCaptcha";
 
 /**
  * API handler for the /api/login endpoint

@@ -1,15 +1,11 @@
+import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
+import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import {
-  AuthBranding,
-  Layout,
-  authStyles,
-} from "../../../components/Auth/Layout";
-import { toastStyles } from "../../../lib/client/useTheme";
 
 /**
  * Top-level component for the signup page.

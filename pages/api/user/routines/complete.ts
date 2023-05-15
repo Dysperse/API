@@ -1,5 +1,5 @@
+import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
-import { prisma } from "../../../../lib/server/prisma";
 
 export default async function handler(req: any, res: any) {
   if (req.query.daysLeft !== "0") {

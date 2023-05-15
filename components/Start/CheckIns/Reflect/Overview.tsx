@@ -1,8 +1,8 @@
+import { useSession } from "@/lib/client/useSession";
 import { Box, colors, Typography } from "@mui/material";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
 import { moodOptions } from "..";
-import { useSession } from "../../../../lib/client/useSession";
 import { ErrorHandler } from "../../../Error";
 
 export function Overview({ data, url, error }) {

@@ -1,5 +1,5 @@
+import { colors } from "@/lib/colors";
 import { CardActionArea } from "@mui/material";
-import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 
 /**

@@ -1,5 +1,7 @@
 import { updateSettings } from "./../updateSettings";
 
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Box,
   ListItem,
@@ -10,8 +12,6 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { useSession } from "../../../lib/client/useSession";
-import { colors } from "../../../lib/colors";
 
 /**
  * Function to change theme color (Not dark mode!)

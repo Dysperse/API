@@ -1,13 +1,13 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { useApi } from "@/lib/client/useApi";
+import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useAccountStorage } from "../../lib/client/useAccountStorage";
-import { useApi } from "../../lib/client/useApi";
-import { useOnlineStatus } from "../../lib/client/useOnlineStatus";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
 import { Navbar } from "./Navigation/AppBar";

@@ -1,3 +1,7 @@
+import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
+import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { isEmail } from "@/components/Group/Members";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -17,10 +21,6 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { AuthBranding, Layout, authStyles } from "../../components/Auth/Layout";
-import { ConfirmationModal } from "../../components/ConfirmationModal";
-import { isEmail } from "../../components/Group/Members";
-import { toastStyles } from "../../lib/client/useTheme";
 
 /**
  * Login prompt

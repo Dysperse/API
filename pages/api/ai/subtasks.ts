@@ -1,8 +1,8 @@
 /* eslint-disable */
 
+import { validatePermissions } from "@/lib/server/validatePermissions";
 import Client from "gpt-free";
 import type { NextApiResponse } from "next";
-import { validatePermissions } from "../../../lib/server/validatePermissions";
 
 type Data = {
   error?: string;

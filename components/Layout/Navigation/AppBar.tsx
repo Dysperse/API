@@ -1,3 +1,5 @@
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   AppBar,
   Box,
@@ -13,11 +15,9 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSession } from "../../../lib/client/useSession";
 import { openSpotlight } from "./Search";
 import { UpdateButton } from "./UpdateButton";
 import UserMenu from "./UserMenu";
-import { vibrate } from "../../../lib/client/vibration";
 
 /**
  * Navbar component for layout

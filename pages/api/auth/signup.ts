@@ -1,6 +1,6 @@
+import { prisma } from "@/lib/server/prisma";
+import { validateCaptcha } from "@/lib/server/useCaptcha";
 import argon2 from "argon2";
-import { prisma } from "../../../lib/server/prisma";
-import { validateCaptcha } from "../../../lib/server/useCaptcha";
 import { createSession } from "./login";
 
 async function sendEmail(email) {

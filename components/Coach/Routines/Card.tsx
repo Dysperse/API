@@ -1,3 +1,6 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Card,
   CardActionArea,
@@ -9,9 +12,6 @@ import {
 import dayjs from "dayjs";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 
 export function GoalCard({ setData, routine, goal, goals }) {
   const included = Boolean(

@@ -1,3 +1,7 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Chip,
@@ -9,10 +13,6 @@ import {
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { vibrate } from "../../../lib/client/vibration";
 import BoardSettings from "./Settings";
 
 export function BoardInfo({

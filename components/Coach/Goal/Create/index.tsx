@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/useSession";
 import { Masonry } from "@mui/lab";
 import {
   AppBar,
@@ -9,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import { useSession } from "../../../../lib/client/useSession";
 import { ExploreGoalCard } from "../../Routines/Create/ExploreGoalCard";
 import { FeaturedRoutine } from "../../Routines/Create/FeaturedRoutine";
 import { CreateGoal as CreateCustomGoal } from "./Custom";

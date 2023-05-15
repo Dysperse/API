@@ -1,3 +1,4 @@
+import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -9,7 +10,6 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { toastStyles } from "../lib/client/useTheme";
 import { Puller } from "./Puller";
 
 export function ConfirmationModal({

@@ -1,10 +1,13 @@
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { colors } from "@/lib/colors";
 import { Item as ItemType } from "@prisma/client";
 import { useRef, useState } from "react";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -17,9 +20,6 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { useAccountStorage } from "../../lib/client/useAccountStorage";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();

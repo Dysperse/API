@@ -1,3 +1,6 @@
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
+import { colors } from "@/lib/colors";
 import {
   AppBar,
   Box,
@@ -14,9 +17,6 @@ import {
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { cloneElement, useEffect, useRef, useState } from "react";
-import { useSession } from "../../../lib/client/useSession";
-import { vibrate } from "../../../lib/client/vibration";
-import { colors } from "../../../lib/colors";
 import { exportAsImage } from "./MoreOptions";
 
 export function ShareGoal({ children, goal }) {

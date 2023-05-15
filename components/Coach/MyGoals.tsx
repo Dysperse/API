@@ -1,3 +1,5 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Card,
@@ -15,8 +17,6 @@ import {
 import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
 

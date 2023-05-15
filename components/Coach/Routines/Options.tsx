@@ -1,10 +1,10 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Icon, ListItemButton, SwipeableDrawer } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
 import { CustomizeRoutine } from "./Customize";

@@ -1,13 +1,15 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useBackButton } from "@/lib/client/useBackButton";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
 import { isEmail } from ".";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useBackButton } from "../../../lib/client/useBackButton";
 import { Puller } from "../../Puller";
 import { Prompt } from "../../TwoFactorModal";
 
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
   Box,
@@ -20,8 +22,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 
 function LinkToken() {
   const [open, setOpen] = React.useState<boolean>(false);

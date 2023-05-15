@@ -1,9 +1,9 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, Chip, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { toastStyles } from "../../../lib/client/useTheme";
 
 export function Task({ task, mutateRoutine, setCurrentIndex }) {
   const handleClick = useCallback(() => {

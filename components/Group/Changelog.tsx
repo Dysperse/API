@@ -6,6 +6,9 @@ import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import { Virtuoso } from "react-virtuoso";
 
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Box,
   CircularProgress,
@@ -17,9 +20,6 @@ import {
 import dayjs from "dayjs";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 
 export function Changelog({ disabled }) {

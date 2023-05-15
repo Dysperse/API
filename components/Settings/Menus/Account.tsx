@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/useSession";
 import { Alert, Box, Button, Link, TextField } from "@mui/material";
 import { useCallback, useState } from "react";
-import { useSession } from "../../../lib/client/useSession";
 import { updateSettings } from "../updateSettings";
 
 /**

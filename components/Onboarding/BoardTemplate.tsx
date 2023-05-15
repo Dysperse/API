@@ -1,3 +1,4 @@
+import { fetchRawApi } from "@/lib/client/useApi";
 import {
   Box,
   CircularProgress,
@@ -6,7 +7,6 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useState } from "react";
-import { fetchRawApi } from "../../lib/client/useApi";
 
 export function BoardTemplate({ template }) {
   const [loading, setLoading] = useState<boolean>(false);

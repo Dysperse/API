@@ -1,3 +1,6 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
   AppBar,
@@ -19,9 +22,6 @@ import React, {
   useDeferredValue,
   useState,
 } from "react";
-import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../lib/client/useSession";
 import { updateSettings } from "../Settings/updateSettings";
 import { Color } from "./Color";
 

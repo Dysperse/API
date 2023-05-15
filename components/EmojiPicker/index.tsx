@@ -1,7 +1,7 @@
+import { useSession } from "@/lib/client/useSession";
 import { Box, SwipeableDrawer, TextField, Typography } from "@mui/material";
 import { SearchIndex, init } from "emoji-mart";
 import { cloneElement, useEffect, useRef, useState } from "react";
-import { useSession } from "../../lib/client/useSession";
 import { Puller } from "../Puller";
 import { EmojiButton } from "./button";
 

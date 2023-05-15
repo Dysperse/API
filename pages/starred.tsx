@@ -1,3 +1,7 @@
+import { ErrorHandler } from "@/components/Error";
+import ItemDrawer from "@/components/ItemPopup";
+import { ItemCard } from "@/components/Rooms/ItemCard";
+import { useApi } from "@/lib/client/useApi";
 import {
   Alert,
   AlertTitle,
@@ -8,10 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { ErrorHandler } from "../components/Error";
-import ItemDrawer from "../components/ItemPopup";
-import { ItemCard } from "../components/Rooms/ItemCard";
-import { useApi } from "../lib/client/useApi";
 import Categories from "./items";
 
 export default function Trash() {

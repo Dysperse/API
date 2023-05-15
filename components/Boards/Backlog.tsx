@@ -1,3 +1,6 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   CircularProgress,
@@ -8,9 +11,6 @@ import {
 import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { vibrate } from "../../lib/client/vibration";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
 import { taskStyles } from "./Layout";

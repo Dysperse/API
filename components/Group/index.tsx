@@ -1,3 +1,7 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -16,10 +20,6 @@ import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Changelog } from "./Changelog";
 import { EditProperty } from "./Edit";

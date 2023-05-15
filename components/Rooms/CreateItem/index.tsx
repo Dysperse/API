@@ -1,11 +1,13 @@
+import { useApi } from "@/lib/client/useApi";
+import { colors } from "@/lib/colors";
 import type { CustomRoom as Room } from "@prisma/client";
 import React, { cloneElement } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../../lib/client/useApi";
-import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
 import { CreateItemModal } from "./modal";
 
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Card,
@@ -20,8 +22,6 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import { useBackButton } from "../../../lib/client/useBackButton";
-import { useSession } from "../../../lib/client/useSession";
 
 /**
  * Item popup option

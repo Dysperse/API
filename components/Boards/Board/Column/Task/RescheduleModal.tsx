@@ -1,3 +1,5 @@
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Button,
   Icon,
@@ -8,8 +10,6 @@ import {
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import { cloneElement, useState } from "react";
-import { useSession } from "../../../../../lib/client/useSession";
-import { colors } from "../../../../../lib/colors";
 import { Puller } from "../../../../Puller";
 
 export function RescheduleModal({ data, children, handlePostpone }) {

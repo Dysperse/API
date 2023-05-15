@@ -1,3 +1,7 @@
+import { useApi } from "@/lib/client/useApi";
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Avatar,
   Box,
@@ -15,10 +19,6 @@ import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { preload } from "swr";
-import { useApi } from "../../../lib/client/useApi";
-import { useBackButton } from "../../../lib/client/useBackButton";
-import { useSession } from "../../../lib/client/useSession";
-import { vibrate } from "../../../lib/client/vibration";
 import { ErrorHandler } from "../../Error";
 import Settings from "../../Settings/index";
 

@@ -1,3 +1,7 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
@@ -11,15 +15,11 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { Stories } from "../../Stories";
 import { RoutineEnd } from "../DailyRoutine/RoutineEnd";
 import { Task } from "../DailyRoutine/Task";
 import { ShareGoal } from "../Goal/ShareGoal";
 import { RoutineOptions } from "./Options";
-import { vibrate } from "../../../lib/client/vibration";
 
 export function Routine({ isCoach = false, mutationUrl, routine }) {
   const session = useSession();

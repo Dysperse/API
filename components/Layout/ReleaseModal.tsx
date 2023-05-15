@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/useSession";
 import {
   Button,
   DialogActions,
@@ -12,7 +13,6 @@ import dayjs from "dayjs";
 import Markdown from "markdown-to-jsx";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { useSession } from "../../lib/client/useSession";
 import { Puller } from "../Puller";
 import { updateSettings } from "../Settings/updateSettings";
 

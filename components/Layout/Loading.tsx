@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
   Box,
@@ -8,7 +9,6 @@ import {
   Toolbar,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSession } from "../../lib/client/useSession";
 
 /**
  * Loading screen

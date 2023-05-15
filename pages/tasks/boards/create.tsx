@@ -1,7 +1,7 @@
+import { CreateBoard } from "@/components/Boards/Board/Create";
+import { TasksLayout } from "@/components/Boards/Layout";
+import { useApi } from "@/lib/client/useApi";
 import { useState } from "react";
-import { CreateBoard } from "../../../components/Boards/Board/Create";
-import { TasksLayout } from "../../../components/Boards/Layout";
-import { useApi } from "../../../lib/client/useApi";
 
 /**
  * Top-level component for the dashboard page.

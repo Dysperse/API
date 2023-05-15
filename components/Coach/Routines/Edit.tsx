@@ -1,3 +1,6 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
   Box,
@@ -14,9 +17,6 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 import EmojiPicker from "../../EmojiPicker";
 
 export function EditRoutine({ setData, routine }) {

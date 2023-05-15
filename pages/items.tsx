@@ -1,3 +1,10 @@
+import { ErrorHandler } from "@/components/Error";
+import { OptionsGroup } from "@/components/OptionsGroup";
+import { CreateRoom } from "@/components/Rooms/items/CreateRoom";
+import { Rooms } from "@/components/Rooms/items/Rooms";
+import { rooms } from "@/components/Rooms/rooms";
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
   Box,
@@ -9,18 +16,11 @@ import {
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { useState } from "react";
-import { ErrorHandler } from "../components/Error";
-import { OptionsGroup } from "../components/OptionsGroup";
-import { CreateRoom } from "../components/Rooms/items/CreateRoom";
-import { Rooms } from "../components/Rooms/items/Rooms";
-import { rooms } from "../components/Rooms/rooms";
-import { useApi } from "../lib/client/useApi";
-import { useSession } from "../lib/client/useSession";
 
-const Action = dynamic(() => import("../components/Rooms/Action"));
+const Action = dynamic(() => import("@/components/Rooms/Action"));
 
 const CategoryModal = dynamic(
-  () => import("../components/Rooms/items/CategoryModal")
+  () => import("@/components/Rooms/items/CategoryModal")
 );
 
 /**

@@ -1,3 +1,7 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Alert,
   AppBar,
@@ -20,10 +24,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useCallback, useState } from "react";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
-import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { colors } from "../../../lib/colors";
 import { InfoModal } from "./InfoModal";
 import { moodOptions, reasons } from "./index";
 

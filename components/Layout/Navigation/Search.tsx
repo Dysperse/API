@@ -1,3 +1,7 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Chip,
@@ -14,10 +18,6 @@ import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
-import { fetchRawApi, useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { Routines } from "../../Coach/Routines";
 import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";

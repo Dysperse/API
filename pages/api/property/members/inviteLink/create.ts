@@ -1,5 +1,5 @@
-import { prisma } from "../../../../../lib/server/prisma";
-import { validatePermissions } from "../../../../../lib/server/validatePermissions";
+import { prisma } from "@/lib/server/prisma";
+import { validatePermissions } from "@/lib/server/validatePermissions";
 import { createInboxNotification } from "../../inbox/create";
 
 const handler = async (req, res) => {

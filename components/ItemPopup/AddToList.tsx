@@ -1,7 +1,10 @@
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import type { Item as ItemType } from "@prisma/client";
 import { useState } from "react";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
 
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Button,
   Dialog,
@@ -16,9 +19,6 @@ import {
   Skeleton,
 } from "@mui/material";
 import { toast } from "react-hot-toast";
-import { useAccountStorage } from "../../lib/client/useAccountStorage";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
 
 function BoardModal({ itemId, title, list }) {
   const [open, setOpen] = useState<boolean>(false);

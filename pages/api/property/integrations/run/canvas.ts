@@ -1,6 +1,6 @@
+import { prisma } from "@/lib/server/prisma";
+import { validatePermissions } from "@/lib/server/validatePermissions";
 import ical from "ical";
-import { prisma } from "../../../../../lib/server/prisma";
-import { validatePermissions } from "../../../../../lib/server/validatePermissions";
 
 function extractTextInBrackets(text: string): string {
   let match = text.match(/\[(.*?)\]/);

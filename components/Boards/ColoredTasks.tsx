@@ -1,3 +1,7 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
+import { colors } from "@/lib/colors";
 import {
   Box,
   CardActionArea,
@@ -10,10 +14,6 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { vibrate } from "../../lib/client/vibration";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
 import { taskStyles } from "./Layout";

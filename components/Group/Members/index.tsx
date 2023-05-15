@@ -1,3 +1,7 @@
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import {
   Box,
   CardActionArea,
@@ -11,10 +15,6 @@ import {
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi, useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { colors } from "../../../lib/colors";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { AddPersonModal } from "./Add";

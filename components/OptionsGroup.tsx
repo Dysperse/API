@@ -1,5 +1,5 @@
+import { useSession } from "@/lib/client/useSession";
 import { Button, ButtonGroup } from "@mui/material";
-import { useSession } from "../lib/client/useSession";
 
 export function OptionsGroup({ currentOption, setOption, options }) {
   const session = useSession();

@@ -1,3 +1,6 @@
+import Item from "@/components/ItemPopup";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Box,
   Card,
@@ -7,9 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import type { Item as ItemType } from "@prisma/client";
-import Item from "../../components/ItemPopup";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
 
 /**
  * Item card

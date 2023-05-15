@@ -1,3 +1,6 @@
+import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
+import { isEmail } from "@/components/Group/Members";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, NoSsr, TextField, Typography } from "@mui/material";
@@ -5,9 +8,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { AuthBranding, Layout, authStyles } from "../../components/Auth/Layout";
-import { isEmail } from "../../components/Group/Members";
-import { toastStyles } from "../../lib/client/useTheme";
 
 /**
  * Top-level component for the signup page.

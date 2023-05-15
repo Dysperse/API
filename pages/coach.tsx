@@ -1,3 +1,9 @@
+import { MyGoals } from "@/components/Coach/MyGoals";
+import { Routines } from "@/components/Coach/Routines";
+import { ErrorHandler } from "@/components/Error";
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -12,12 +18,6 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { MyGoals } from "../components/Coach/MyGoals";
-import { Routines } from "../components/Coach/Routines";
-import { ErrorHandler } from "../components/Error";
-import { useApi } from "../lib/client/useApi";
-import { useSession } from "../lib/client/useSession";
-import { toastStyles } from "../lib/client/useTheme";
 
 export default function Render() {
   const session = useSession();

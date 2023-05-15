@@ -1,3 +1,5 @@
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Avatar,
   Button,
@@ -13,8 +15,6 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { fetchRawApi, useApi } from "../../../lib/client/useApi";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { ErrorHandler } from "../../Error";
 
 export function Integration({ integration }) {

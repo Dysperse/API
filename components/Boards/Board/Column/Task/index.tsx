@@ -1,3 +1,9 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { vibrate } from "@/lib/client/vibration";
+import { colors } from "@/lib/colors";
 import {
   Box,
   Checkbox,
@@ -21,12 +27,6 @@ import React, {
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useAccountStorage } from "../../../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../../../lib/client/useApi";
-import { useSession } from "../../../../../lib/client/useSession";
-import { toastStyles } from "../../../../../lib/client/useTheme";
-import { vibrate } from "../../../../../lib/client/vibration";
-import { colors } from "../../../../../lib/colors";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { TaskDrawer } from "./TaskDrawer";
 

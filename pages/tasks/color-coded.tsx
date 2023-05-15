@@ -1,6 +1,6 @@
+import { ColoredTasks } from "@/components/Boards/ColoredTasks";
+import { TasksLayout } from "@/components/Boards/Layout";
 import { useState } from "react";
-import { ColoredTasks } from "../../components/Boards/ColoredTasks";
-import { TasksLayout } from "../../components/Boards/Layout";
 
 /**
  * Top-level component for the dashboard page.

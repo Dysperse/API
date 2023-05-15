@@ -1,5 +1,5 @@
+import { RoomComponent } from "@/components/Rooms/RoomComponent";
 import { useRouter } from "next/router";
-import { RoomComponent } from "../../components/Rooms/RoomComponent";
 import Categories from "../items";
 /**
  * Top-level component for the room page

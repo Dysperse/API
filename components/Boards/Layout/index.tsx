@@ -1,3 +1,7 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
@@ -13,10 +17,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useAccountStorage } from "../../../lib/client/useAccountStorage";
-import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { vibrate } from "../../../lib/client/vibration";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { Tab } from "./Tab";

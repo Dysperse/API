@@ -1,4 +1,4 @@
-import { prisma } from "../../../../lib/server/prisma";
+import { prisma } from "@/lib/server/prisma";
 
 export default async function handler(req, res) {
   const data = await prisma.routineItem.updateMany({

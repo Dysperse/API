@@ -1,3 +1,8 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useDelayedMount } from "@/lib/client/useDelayedMount";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import {
   Box,
   CircularProgress,
@@ -13,11 +18,6 @@ import Image from "next/image";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
-import { useDelayedMount } from "../../../lib/client/useDelayedMount";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { colors } from "../../../lib/colors";
 import { Task } from "../Board/Column/Task";
 import { CreateTask } from "../Board/Column/Task/Create";
 

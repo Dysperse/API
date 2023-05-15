@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/useSession";
 import {
   Backdrop,
   Box,
@@ -7,7 +8,6 @@ import {
 } from "@mui/material";
 import { cloneElement, useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useSession } from "../lib/client/useSession";
 
 export function Stories({
   onOpen,

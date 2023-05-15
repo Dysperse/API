@@ -1,7 +1,7 @@
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { CardActionArea, Icon } from "@mui/material";
 import { mutate } from "swr";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
 import { updateSettings } from "../Settings/updateSettings";
 
 /**

@@ -1,9 +1,9 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../../../lib/client/useApi";
-import { useSession } from "../../../../../lib/client/useSession";
-import { colors } from "../../../../../lib/colors";
 
 export function Color({
   task,

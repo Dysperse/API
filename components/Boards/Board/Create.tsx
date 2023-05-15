@@ -1,3 +1,6 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import Masonry from "@mui/lab/Masonry";
 import {
   Alert,
@@ -16,9 +19,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { vibrate } from "../../../lib/client/vibration";
 import { OptionsGroup } from "../../OptionsGroup";
 import { taskStyles } from "../Layout";
 
