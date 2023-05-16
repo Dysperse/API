@@ -322,6 +322,8 @@ export function MemberList({
             )?.accessToken,
             id: propertyId,
           });
+          await mutate("/api/user");
+          // window.location.reload();
           setLeaveLoading(false);
         }}
         title="Are you sure you want to leave this group?"
