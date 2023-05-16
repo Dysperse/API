@@ -21,6 +21,7 @@ interface RoomActionButtonProps {
       [key: string]: string | number | boolean;
     };
   };
+  id?: string;
   mutationUrl: string;
   icon: string | JSX.Element;
   primary: string;
@@ -32,6 +33,7 @@ interface RoomActionButtonProps {
 }
 
 const Action = React.memo(function Action({
+  id = "0",
   count,
   icon,
   mutationUrl,
@@ -68,12 +70,13 @@ const Action = React.memo(function Action({
   }, [href, onClick, router]);
 
   const session = useSession();
+
   const isActive =
     (!isCustom &&
       router.asPath.toLowerCase().includes(primary.toLowerCase())) ||
     (isCustom &&
       router.asPath.split("rooms/")[1] &&
-      decode(router.asPath.split("rooms/")[1]).includes(primary.toLowerCase()));
+      decode(router.asPath.split("rooms/")[1]).includes(id.toLowerCase()));
 
   return (
     <ListItemButton

@@ -70,14 +70,18 @@ export function Header({
           width: "100%",
         }}
       >
-        <ListItemAvatar>
+        <ListItemAvatar sx={{ display: { md: "none" } }}>
           <IconButton onClick={() => router.push("/items")}>
             <Icon>{isMobile ? "west" : "close"}</Icon>
           </IconButton>
         </ListItemAvatar>
 
         <ListItemText
-          sx={{ my: 1.4, textAlign: { xs: "center", sm: "left" } }}
+          sx={{
+            my: 1.4,
+            textAlign: { xs: "center", sm: "left" },
+            ml: { md: 2 },
+          }}
           primary={
             <Typography
               className="font-heading"
@@ -106,7 +110,21 @@ export function Header({
           }
         />
       </Box>
-      <ListItemAvatar>
+      <ListItemAvatar
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        <IconButton
+          onClick={() => router.push("/items")}
+          sx={{
+            display: { xs: "none", md: "inline-flex" },
+          }}
+        >
+          <Icon className="outlined">cancel</Icon>
+        </IconButton>
         <CreateItemModal room={useAlias ? decode(room).split(",")[0] : room}>
           <IconButton
             sx={{

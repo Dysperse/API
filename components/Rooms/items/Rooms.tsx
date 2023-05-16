@@ -22,6 +22,7 @@ export const Rooms: any = React.memo(function Rooms({
               `${room.id},${room.name}`
             ).toString()}?custom=true`}
             icon="label"
+            id={room.id.toString()}
             isPrivate={room.private}
             primary={room.name}
             key={room.id.toString()}

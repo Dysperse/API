@@ -86,7 +86,7 @@ export default function Inventory({ children = null }: any) {
       <Box
         sx={{
           width: { xs: "100%", md: 300 },
-          flex: { xs: "100%", md: "0 0 300px" },
+          flex: { xs: "100%", md: "0 0 250px" },
           px: 1.5,
           display: { xs: children ? "none" : "block", md: "block" },
           minHeight: "100vh",
@@ -110,7 +110,11 @@ export default function Inventory({ children = null }: any) {
             borderRadius: "15px!important",
           }}
         >
-          <Typography variant="h4" className="font-heading" sx={{ mb: 2 }}>
+          <Typography
+            variant="h4"
+            className="font-heading"
+            sx={{ mb: 2, display: { md: "none" } }}
+          >
             {session.property.profile.type === "study group"
               ? "Belongings"
               : "Inventory"}
