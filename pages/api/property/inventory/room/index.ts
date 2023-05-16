@@ -8,17 +8,50 @@ const handler = async (req, res) => {
     minimum: "read-only",
     credentials: [req.query.property, req.query.accessToken],
   });
+
+  let room: any = null;
+  if (req.query.custom) {
+    room = await prisma.customRoom.findFirst({
+      where: {
+        OR: [
+          {
+            AND: [
+              { id: req.query.room },
+              { private: false },
+              { propertyId: req.query.property },
+            ],
+          },
+          {
+            AND: [
+              { id: req.query.room },
+              { private: true },
+              { userIdentifier: req.query.userIdentifier },
+            ],
+          },
+        ],
+      },
+    });
+    if (!room) {
+      res.json({
+        error: "missing-permissions-or-not-found",
+      });
+      return;
+    }
+  } else {
+    room = { name: req.query.room };
+  }
+
   const data = await prisma.item.findMany({
     where: {
       room: req.query.room,
       trash: false,
-      property: {
-        id: req.query.property,
-      },
+      property: { id: req.query.property },
     },
   });
-  res.json(
-    data.map((item: Item) => {
+
+  res.json({
+    room,
+    items: data.map((item: Item) => {
       return {
         ...item,
         name: CryptoJS.AES.decrypt(
@@ -38,8 +71,8 @@ const handler = async (req, res) => {
           process.env.INVENTORY_ENCRYPTION_KEY
         ).toString(CryptoJS.enc.Utf8),
       };
-    })
-  );
+    }),
+  });
 };
 
 export default handler;

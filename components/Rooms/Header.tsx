@@ -2,6 +2,7 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
+  Chip,
   Icon,
   IconButton,
   ListItem,
@@ -13,6 +14,7 @@ import {
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { CreateItemModal } from "./CreateItem/modal";
+
 /**
  * Header component for the room
  * @param useAlias
@@ -25,16 +27,12 @@ export function Header({
   itemCount,
 }: {
   mutationUrl: string;
-  room: string | string[] | undefined;
+  room: any;
   itemCount: number;
 }) {
   const router = useRouter();
   const session = useSession();
   const isMobile = useMediaQuery("min-width: 600px");
-
-  const title = capitalizeFirstLetter(
-    Array.isArray(room) ? (room[1] ? room[1] : room[0]) : ""
-  );
 
   return (
     <ListItem
@@ -59,7 +57,7 @@ export function Header({
       }}
     >
       <Head>
-        <title>{title} &bull; Room</title>
+        <title>{capitalizeFirstLetter(room.name) || "Items"} &bull; Room</title>
       </Head>
       <Box
         sx={{
@@ -83,7 +81,6 @@ export function Header({
           }}
           primary={
             <Typography
-              className="font-heading"
               sx={{
                 textDecoration: "underline",
                 fontSize: {
@@ -93,8 +90,9 @@ export function Header({
               }}
               gutterBottom
               variant="h4"
+              className="font-heading"
             >
-              {title}
+              {capitalizeFirstLetter(room.name)}
             </Typography>
           }
           secondary={
@@ -102,9 +100,18 @@ export function Header({
               sx={{
                 color: "inherit",
                 mt: -0.5,
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 1,
               }}
             >
-              {itemCount} item{itemCount !== 1 && "s"}
+              <Chip
+                label={`${itemCount} item${itemCount !== 1 ? "s" : ""}`}
+                size="small"
+              />
+              {room.private && (
+                <Chip label="Only you" size="small" icon={<Icon>lock</Icon>} />
+              )}
             </Typography>
           }
         />
@@ -122,7 +129,7 @@ export function Header({
         >
           <Icon className="outlined">cancel</Icon>
         </IconButton>
-        <CreateItemModal room={room} mutationUrl={mutationUrl}>
+        <CreateItemModal room={room.id || room.name} mutationUrl={mutationUrl}>
           <IconButton
             sx={{
               background: "transparent",

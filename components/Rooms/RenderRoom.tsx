@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import type { Item } from "@prisma/client";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
@@ -31,7 +30,6 @@ export function RenderRoom({
   items: Item[];
   room: string | string[] | undefined;
 }) {
-  const router = useRouter();
   const [_items, setItems] = useState(items);
 
   useEffect(() => setItems(items), [items]);

@@ -31,14 +31,20 @@ interface RoomActionProps {
   count?: any;
 }
 
-function Rename({ handleClose, id, name }) {
+function Rename({ mutationUrl, handleClose, room }) {
   const storage = useAccountStorage();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(name);
+  const [value, setValue] = useState(room?.name);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
+    await fetchRawApi("property/inventory/room/edit", {
+      name: value,
+      id: room?.id,
+    });
+    await mutate(mutationUrl);
+    handleClose();
     setLoading(false);
   };
 
@@ -151,7 +157,11 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
           open={open}
           onClose={handleClose}
         >
-          <Rename handleClose={handleClose} id={room?.id} name={room?.name} />
+          <Rename
+            handleClose={handleClose}
+            room={room}
+            mutationUrl={mutationUrl}
+          />
           <ConfirmationModal
             title={`Make room ${room.private ? "public" : "private"}?`}
             question={`Are you sure you want to make this room ${
