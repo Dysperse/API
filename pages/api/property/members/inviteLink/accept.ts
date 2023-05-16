@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
+import cacheData from "memory-cache";
 
 const handler = async (req, res) => {
   // Find email from `user` table
@@ -19,6 +20,18 @@ const handler = async (req, res) => {
 
   // Get user id
   const userId = user.id;
+
+  await prisma.propertyInvite.updateMany({
+    data: {
+      selected: false,
+    },
+    where: { userId },
+  });
+
+  cacheData.del(req.query.sessionId);
+  cacheData.del(req.query.sessionId);
+  cacheData.del(req.query.sessionId);
+
   const data = await prisma.propertyInvite.create({
     data: {
       profile: {
@@ -28,12 +41,10 @@ const handler = async (req, res) => {
         connect: { id: userId },
       },
       accepted: false,
-      selected: false,
+      selected: true,
       permission: "member",
     },
-    include: {
-      profile: true,
-    },
+    include: { profile: true },
   });
 
   res.json(data);

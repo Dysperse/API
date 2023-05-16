@@ -4,7 +4,13 @@ import { useUser } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  NoSsr,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -22,6 +28,8 @@ export default function Onboarding() {
     typeof window !== "undefined"
       ? window.location.pathname.split("/invite/")[1]
       : "";
+
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
 
   const { data } = useApi(
     "property/members/inviteLink/info",
@@ -62,6 +70,7 @@ export default function Onboarding() {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 2,
+            color: session?.user?.darkMode || isDark ? "#fff" : "#000",
           }}
         >
           The invite link is invalid or has already been used.
@@ -160,6 +169,7 @@ export default function Onboarding() {
                       token: id as string,
                       email: session.user.email,
                       property: data.property.id,
+                      sessionId: session.token,
                     })
                 )
                   .then(() => {
