@@ -165,6 +165,9 @@ export function CreateItemModal({
             disabled={loading}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.code === "Enter") handleSubmit();
+            }}
             variant="outlined"
             InputProps={{
               className: "font-heading",
