@@ -9,7 +9,7 @@ const handler = async (req, res) => {
 
   const data = await prisma.item.deleteMany({
     where: {
-      trash: true,
+      AND: [{ trash: true }, { propertyId: req.query.property || "nothing" }],
     },
   });
   res.json(data);
