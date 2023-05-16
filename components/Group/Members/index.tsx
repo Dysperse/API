@@ -317,7 +317,7 @@ export function MemberList({
         callback={async () => {
           setLeaveLoading(true);
           await fetchRawApi("property/leave", {
-            otherPropertyId: session.user.properties.find(
+            otherPropertyAccessToken: session.user.properties.find(
               (m) => m.permission == "owner"
             )?.accessToken,
             id: propertyId,
