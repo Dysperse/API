@@ -7,7 +7,7 @@ const handler = async (req, res) => {
     credentials: [req.query.property, req.query.accessToken],
   });
 
-  const subtasks = await prisma.task.deleteMany({
+  await prisma.task.deleteMany({
     where: {
       AND: [
         { propertyId: req.query.property || "-1" },
@@ -15,8 +15,6 @@ const handler = async (req, res) => {
       ],
     },
   });
-
-  console.log(subtasks);
 
   const data = await prisma.task.delete({
     where: { id: req.query.id },
