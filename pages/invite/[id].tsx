@@ -1,5 +1,5 @@
 import { Loading } from "@/components/Layout/Loading";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useApi } from "@/lib/client/useApi";
 import { useUser } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -154,25 +154,26 @@ export default function Onboarding() {
             onClick={() => {
               setLoading(true);
               if (session.user && session.user.email) {
-                fetchRawApi(
-                  "property/members/inviteLink/accept",
-                  {
-                    token: id as string,
-                    email: session.user.email,
-                    property: data.property.id,
-                  },
-                  true
+                fetch(
+                  "/api/property/members/inviteLink/accept?" +
+                    new URLSearchParams({
+                      token: id as string,
+                      email: session.user.email,
+                      property: data.property.id,
+                    })
                 )
                   .then(() => {
                     mutate("/api/user");
                     router.push("/");
                     setLoading(false);
                   })
-                  .catch(() => {
+                  .catch((e) => {
+                    console.error(e);
                     toast.error(
                       "Something went wrong while accepting the invite. Please try again later.",
                       toastStyles
                     );
+                    setLoading(false);
                   });
               } else {
                 popup(

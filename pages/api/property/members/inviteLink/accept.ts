@@ -3,9 +3,7 @@ import { prisma } from "@/lib/server/prisma";
 const handler = async (req, res) => {
   // Find email from `user` table
   const user = await prisma.user.findUnique({
-    where: {
-      email: req.query.email,
-    },
+    where: { email: req.query.email },
   });
 
   if (!user || !req.query.token) {
