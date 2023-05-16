@@ -7,8 +7,10 @@ import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Icon,
+  IconButton,
   ListItemButton,
   ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   Menu,
   MenuItem,
@@ -136,6 +138,18 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
               secondary: `${itemCount} item${itemCount !== 1 ? "s" : ""}`,
             })}
           />
+          {isCustom && (
+            <ListItemSecondaryAction>
+              <IconButton
+                onClick={(e: any) => {
+                  e.stopPropagation();
+                  handleClick(e);
+                }}
+              >
+                <Icon>more_vert</Icon>
+              </IconButton>
+            </ListItemSecondaryAction>
+          )}
         </ListItemButton>
       </Link>
       {isCustom && (
