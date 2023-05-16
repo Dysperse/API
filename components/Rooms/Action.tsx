@@ -17,7 +17,6 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -107,61 +106,48 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
       : `/rooms/${room?.toLowerCase()}`;
 
   const itemCount = count && count[isCustom ? room.id : room.toLowerCase()];
-
   return (
     <>
-      <Link
+      <ListItemButton
         onContextMenu={handleClick}
-        href={href}
-        style={{
-          color: "inherit",
-          textDecoration: "none",
+        onClick={() => router.push(href)}
+        sx={{
+          ...(router.asPath == href && {
+            background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+          }),
+          transition: "none",
+          mb: 0.2,
         }}
       >
-        <ListItemButton
-          sx={{
-            ...(router.asPath == href && {
-              background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
-            }),
-            transition: "none",
-            mb: 0.2,
-          }}
-        >
-          <ListItemIcon>
-            <Icon>{icon}</Icon>
-          </ListItemIcon>
-          <ListItemText
-            primary={capitalizeFirstLetter(
-              (isCustom ? room?.name : room) || ""
-            )}
-            {...(itemCount && {
-              secondary: `${itemCount} item${itemCount !== 1 ? "s" : ""}`,
-            })}
-          />
-          {isCustom && (
-            <ListItemSecondaryAction>
-              <IconButton
-                onClick={(e: any) => {
-                  e.stopPropagation();
-                  handleClick(e);
-                }}
-              >
-                <Icon>more_vert</Icon>
-              </IconButton>
-            </ListItemSecondaryAction>
-          )}
-        </ListItemButton>
-      </Link>
+        <ListItemIcon>
+          <Icon>{icon}</Icon>
+        </ListItemIcon>
+        <ListItemText
+          primary={capitalizeFirstLetter((isCustom ? room?.name : room) || "")}
+          {...(itemCount && {
+            secondary: `${itemCount} item${itemCount !== 1 ? "s" : ""}`,
+          })}
+        />
+        {isCustom && (
+          <ListItemSecondaryAction>
+            <IconButton
+              onClick={(e: any) => {
+                e.stopPropagation();
+                handleClick(e);
+              }}
+            >
+              <Icon>more_vert</Icon>
+            </IconButton>
+          </ListItemSecondaryAction>
+        )}
+      </ListItemButton>
       {isCustom && (
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
+          onClick={(e) => {}}
         >
           <Rename handleClose={handleClose} id={room?.id} name={room?.name} />
           <MenuItem
