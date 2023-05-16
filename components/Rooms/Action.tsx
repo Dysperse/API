@@ -150,15 +150,29 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
           onClick={(e) => {}}
         >
           <Rename handleClose={handleClose} id={room?.id} name={room?.name} />
-          <MenuItem
-            onClick={handleClose}
-            disabled={storage?.isReached === true}
+          <ConfirmationModal
+            title={`Make room ${room.private ? "public" : "private"}?`}
+            question={`Are you sure you want to make this room ${
+              room.private ? "public" : "private"
+            }? Other members ${
+              room.private ? "will" : "will not"
+            } be able to view this room's contents`}
+            callback={async () => {
+              await mutate(mutationUrl);
+              toast.success("Updated room!");
+              handleClose();
+            }}
           >
-            <Icon className="outlined">
-              {!room.private ? "visibility" : "visibility_off"}
-            </Icon>
-            Make {room.private ? "private" : "public"}
-          </MenuItem>
+            <MenuItem
+              onClick={handleClose}
+              disabled={storage?.isReached === true}
+            >
+              <Icon className="outlined">
+                {!room.private ? "visibility" : "visibility_off"}
+              </Icon>
+              Make {room.private ? "private" : "public"}
+            </MenuItem>
+          </ConfirmationModal>
           <ConfirmationModal
             title="Delete room?"
             question="Are you sure you want to delete this room? This will delete all items in it, and CANNOT be undone!"
