@@ -17,7 +17,9 @@ const handler = async (req, res) => {
 
   const data = await prisma.propertyInvite.update({
     data: { selected: true },
-    where: { id: req.query.otherPropertyId },
+    where: {
+      accessToken: req.query.otherPropertyAccessToken,
+    },
   });
 
   // Clear the cache

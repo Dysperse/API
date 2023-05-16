@@ -319,7 +319,7 @@ export function MemberList({
           await fetchRawApi("property/leave", {
             otherPropertyId: session.user.properties.find(
               (m) => m.permission == "owner"
-            )?.propertyId,
+            )?.accessToken,
             id: propertyId,
           });
           setLeaveLoading(false);
