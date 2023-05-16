@@ -8,11 +8,7 @@ export const getItemCount = async (res, property, accessToken) => {
   });
 
   const data = await prisma.item.findMany({
-    where: {
-      property: {
-        id: property,
-      },
-    },
+    where: { property: { id: property } },
     select: { room: true },
   });
 

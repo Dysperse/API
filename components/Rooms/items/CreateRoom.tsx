@@ -2,22 +2,28 @@ import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
+import { SidebarContext } from "@/pages/items";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
   FormLabel,
+  Icon,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   SwipeableDrawer,
   Switch,
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Puller } from "../../Puller";
-import Action from "../../Rooms/Action";
 
-export function CreateRoom({ mutationUrl }): JSX.Element {
+export function CreateRoom(): JSX.Element {
+  const mutationUrl = useContext(SidebarContext);
+
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [name, setName] = React.useState("");
@@ -116,24 +122,12 @@ export function CreateRoom({ mutationUrl }): JSX.Element {
           </LoadingButton>
         </Box>
       </SwipeableDrawer>
-      <Action
-        mutationUrl={mutationUrl}
-        disableLoading
-        icon="add_circle"
-        disabled={storage?.isReached === true}
-        primary={
-          session.property.profile.type === "study group"
-            ? "New container"
-            : "New room"
-        }
-        count={{
-          byRoom: {
-            "new container": -3,
-            "new room": -3,
-          },
-        }}
-        onClick={() => setOpen(true)}
-      />
+      <ListItemButton onClick={() => setOpen(true)}>
+        <ListItemIcon>
+          <Icon>add_circle</Icon>
+        </ListItemIcon>
+        <ListItemText primary="Create room" />
+      </ListItemButton>
     </>
   );
 }

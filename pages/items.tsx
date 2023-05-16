@@ -15,13 +15,15 @@ import {
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 
 const Action = dynamic(() => import("@/components/Rooms/Action"));
 
 const CategoryModal = dynamic(
   () => import("@/components/Rooms/items/CategoryModal")
 );
+
+export const SidebarContext = createContext("");
 
 /**
  * Component to dispay items by category
@@ -103,75 +105,54 @@ export default function Inventory({ children = null }: any) {
           ml: { md: -1 },
         }}
       >
-        <Box
-          sx={{
-            my: 4,
-            px: { xs: 1.5, md: 0 },
-            borderRadius: "15px!important",
-          }}
-        >
-          <Typography
-            variant="h4"
-            className="font-heading"
-            sx={{ mb: 2, display: { md: "none" } }}
+        <SidebarContext.Provider value={url}>
+          <Box
+            sx={{
+              my: 4,
+              px: { xs: 1.5, md: 0 },
+              borderRadius: "15px!important",
+            }}
           >
-            {session.property.profile.type === "study group"
-              ? "Belongings"
-              : "Inventory"}
-          </Typography>
-          <OptionsGroup
-            currentOption={viewBy}
-            setOption={setViewBy}
-            options={["Room", "Category"]}
-          />
-        </Box>
-        {viewBy === "Room" ? (
-          <>
-            {session.property.profile.type === "study group" ? (
-              <Action
-                mutationUrl={url}
-                href="/rooms/backpack"
-                icon="backpack"
-                primary="Backpack"
-                count={data}
-              />
-            ) : (
-              rooms.map((action: any) => (
-                <Action
-                  key={action.primary}
-                  {...action}
-                  mutationUrl={url}
-                  count={data}
-                />
-              ))
-            )}
-            <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-            <Rooms data={dataRooms} error={error} mutationUrl={url} />
-            <CreateRoom mutationUrl={url} />
-            <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-            <Action
-              href="/starred"
-              mutationUrl={url}
-              icon="star"
-              primary="Starred"
-              count={{
-                byRoom: { starred: -3 },
-              }}
+            <Typography
+              variant="h4"
+              className="font-heading"
+              sx={{ mb: 2, display: { md: "none" } }}
+            >
+              {session.property.profile.type === "study group"
+                ? "Belongings"
+                : "Inventory"}
+            </Typography>
+            <OptionsGroup
+              currentOption={viewBy}
+              setOption={setViewBy}
+              options={["Room", "Category"]}
             />
-            <Action
-              href="/trash"
-              icon="delete"
-              mutationUrl={url}
-              primary="Trash"
-              count={{
-                byRoom: { trash: -3 },
-              }}
-            />
-            <Toolbar />
-          </>
-        ) : (
-          <CategoryList />
-        )}
+          </Box>
+          {viewBy === "Room" ? (
+            <>
+              {session.property.profile.type === "study group" ? (
+                <Action icon="backpack" room="Backpack" count={data?.byRoom} />
+              ) : (
+                rooms.map((action: any) => (
+                  <Action
+                    key={action.primary}
+                    {...action}
+                    count={data?.byRoom}
+                  />
+                ))
+              )}
+              <Divider sx={{ my: 1.5, opacity: 0.7 }} />
+              <Rooms data={dataRooms} error={error} count={data?.byRoom} />
+              <CreateRoom />
+              <Divider sx={{ my: 1.5, opacity: 0.7 }} />
+              <Action icon="star" room="Starred" />
+              <Action icon="delete" room="Trash" />
+              <Toolbar />
+            </>
+          ) : (
+            <CategoryList />
+          )}
+        </SidebarContext.Provider>
       </Box>
       {children ? (
         <Box
