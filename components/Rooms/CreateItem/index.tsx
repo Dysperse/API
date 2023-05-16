@@ -43,7 +43,7 @@ function AddItemOption({
   const session = useSession();
   return (
     <Grid item xs={12} sm={4} spacing={2}>
-      <CreateItemModal room={title}>
+      <CreateItemModal mutationUrl="" room={title}>
         <Card
           sx={{
             textAlign: {
