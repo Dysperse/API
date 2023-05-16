@@ -123,12 +123,6 @@ export function Header({
           gap: 1,
         }}
       >
-        <IconButton
-          onClick={() => router.push("/items")}
-          sx={{ display: { xs: "none", md: "inline-flex" } }}
-        >
-          <Icon className="outlined">cancel</Icon>
-        </IconButton>
         <CreateItemModal room={room.id || room.name} mutationUrl={mutationUrl}>
           <IconButton
             sx={{
@@ -139,6 +133,12 @@ export function Header({
             <Icon className="outlined">add_circle</Icon>
           </IconButton>
         </CreateItemModal>
+        <IconButton
+          onClick={() => router.push("/items")}
+          sx={{ display: { xs: "none", md: "inline-flex" } }}
+        >
+          <Icon className="outlined">close</Icon>
+        </IconButton>
       </ListItemAvatar>
     </ListItem>
   );
