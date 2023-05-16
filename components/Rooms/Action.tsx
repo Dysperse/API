@@ -2,6 +2,7 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import { SidebarContext } from "@/pages/items";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -112,15 +113,17 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
         onContextMenu={handleClick}
         onClick={() => router.push(href)}
         sx={{
-          ...(router.asPath == href && {
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+          ...(decodeURIComponent(router.asPath) == href && {
+            background: `hsl(240,11%,${
+              session.user.darkMode ? 15 : 95
+            }%)!important`,
           }),
           transition: "none",
           mb: 0.2,
         }}
       >
-        <ListItemIcon>
-          <Icon>{icon}</Icon>
+        <ListItemIcon sx={{ minWidth: "40px" }}>
+          <Icon>{isCustom && room.private ? "lock" : icon}</Icon>
         </ListItemIcon>
         <ListItemText
           primary={capitalizeFirstLetter((isCustom ? room?.name : room) || "")}
@@ -147,7 +150,6 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          onClick={(e) => {}}
         >
           <Rename handleClose={handleClose} id={room?.id} name={room?.name} />
           <ConfirmationModal
@@ -158,19 +160,26 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
               room.private ? "will" : "will not"
             } be able to view this room's contents`}
             callback={async () => {
+              await fetchRawApi("property/inventory/room/edit", {
+                private: room.private ? "false" : "true",
+                id: room?.id,
+              });
               await mutate(mutationUrl);
-              toast.success("Updated room!");
+              toast.success("Updated room!", toastStyles);
               handleClose();
             }}
           >
             <MenuItem
               onClick={handleClose}
-              disabled={storage?.isReached === true}
+              disabled={
+                storage?.isReached === true ||
+                room.userIdentifier !== session.user.identifier
+              }
             >
               <Icon className="outlined">
-                {!room.private ? "visibility" : "visibility_off"}
+                {room.private ? "visibility" : "visibility_off"}
               </Icon>
-              Make {room.private ? "private" : "public"}
+              Make {room.private ? "public" : "private"}
             </MenuItem>
           </ConfirmationModal>
           <ConfirmationModal
@@ -181,7 +190,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
                 id: room.id,
               });
               await mutate(mutationUrl);
-              toast.success("Deleted room!");
+              toast.success("Deleted room!", toastStyles);
               handleClose();
             }}
           >

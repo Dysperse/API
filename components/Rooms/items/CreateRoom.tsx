@@ -123,7 +123,7 @@ export function CreateRoom(): JSX.Element {
         </Box>
       </SwipeableDrawer>
       <ListItemButton onClick={() => setOpen(true)}>
-        <ListItemIcon>
+        <ListItemIcon sx={{ minWidth: "40px" }}>
           <Icon>add_circle</Icon>
         </ListItemIcon>
         <ListItemText primary="Create room" />

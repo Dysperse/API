@@ -13,8 +13,12 @@ const handler = async (req, res) => {
     credentials: [req.query.property, req.query.accessToken],
   });
 
-  const data = await prisma.customRoom.delete({
+  const data = await prisma.customRoom.update({
     where: { id: req.query.id },
+    data: {
+      ...(req.query.private && { private: req.query.private === "true" }),
+      ...(req.query.name && { name: req.query.name }),
+    },
   });
 
   res.json(data);

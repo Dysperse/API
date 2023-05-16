@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import dynamic from "next/dynamic";
-import { cloneElement, useCallback, useState } from "react";
+import { cloneElement, useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
@@ -36,6 +36,7 @@ export function CreateItemModal({
   room: any;
   children: JSX.Element;
 }) {
+  const ref: any = useRef();
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,7 +44,11 @@ export function CreateItemModal({
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("[]");
 
-  const handleOpen = useCallback(() => setOpen(true), []);
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+    setTimeout(() => ref.current?.focus(), 200);
+  }, []);
+
   const handleClose = useCallback(() => {
     setOpen(false);
     setTitle("");
@@ -89,7 +94,7 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, [category, mutationUrl, quantity, title]);
+  }, [category, mutationUrl, quantity, title, room]);
 
   const storage = useAccountStorage();
 
@@ -156,6 +161,7 @@ export function CreateItemModal({
 
         <Box sx={{ p: 3 }}>
           <TextField
+            inputRef={ref}
             disabled={loading}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
