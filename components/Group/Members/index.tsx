@@ -2,6 +2,7 @@ import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
   CardActionArea,
@@ -239,6 +240,8 @@ export function MemberList({
     propertyId: propertyId,
     propertyAccessToken: accessToken,
   });
+  const [leaveLoading, setLeaveLoading] = React.useState<boolean>(false);
+
   const session = useSession();
   const images =
     data && !data.error
@@ -310,6 +313,33 @@ export function MemberList({
           {step.content}
         </Box>
       ))}
+      <ConfirmationModal
+        callback={async () => {
+          setLeaveLoading(true);
+          await fetchRawApi("property/leave", {
+            otherPropertyId: session.user.properties.find(
+              (m) => m.permission == "owner"
+            )?.id,
+            id: propertyId,
+          });
+          setLeaveLoading(false);
+        }}
+        title="Are you sure you want to leave this group?"
+        question="You won't be able to re-join unless you are invited again."
+      >
+        <LoadingButton
+          loading={leaveLoading}
+          disabled={
+            data &&
+            data.find((m) => m.user.email === session.user.email)
+              ?.permission === "owner"
+          }
+          color="error"
+          variant="contained"
+        >
+          Leave
+        </LoadingButton>
+      </ConfirmationModal>
     </>
   );
 }
