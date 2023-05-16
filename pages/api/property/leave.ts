@@ -9,11 +9,22 @@ import cacheData from "memory-cache";
  */
 const handler = async (req, res) => {
   //   Set selected to false for all other properties of the user email
-  await prisma.propertyInvite.deleteMany({
+  const f = await prisma.propertyInvite.findFirst({
     where: {
-      AND: [{ user: { email: req.query.email } }, { id: req.query.id }],
+      AND: [
+        { user: { identifier: req.query.userIdentifier } },
+        { accessToken: req.query.currentAccessToken },
+      ],
     },
   });
+
+  if (f) {
+    await prisma.propertyInvite.delete({
+      where: {
+        id: f.id,
+      },
+    });
+  }
 
   const data = await prisma.propertyInvite.update({
     data: { selected: true },
@@ -23,9 +34,7 @@ const handler = async (req, res) => {
   });
 
   // Clear the cache
-  cacheData.del(req.query.sessionId);
-  cacheData.del(req.query.sessionId);
-  cacheData.del(req.query.sessionId);
+  cacheData.clear();
   res.json(data);
 };
 export default handler;

@@ -19,9 +19,7 @@ const handler = async (req, res) => {
   );
   //   Delete user from `propertyInvite` table
   const data = await prisma.propertyInvite.delete({
-    where: {
-      id: req.query.id,
-    },
+    where: { id: req.query.id },
   });
 
   res.json(data);

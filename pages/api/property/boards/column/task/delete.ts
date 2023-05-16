@@ -12,18 +12,14 @@ const handler = async (req, res) => {
       subTasks: {
         some: {
           parentTasks: {
-            some: {
-              id: req.query.id,
-            },
+            every: { id: req.query.id },
           },
         },
       },
     },
   });
   const data = await prisma.task.delete({
-    where: {
-      id: req.query.id,
-    },
+    where: { id: req.query.id },
   });
 
   res.json(data);

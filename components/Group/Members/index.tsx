@@ -320,7 +320,7 @@ export function MemberList({
             otherPropertyAccessToken: session.user.properties.find(
               (m) => m.permission == "owner"
             )?.accessToken,
-            id: propertyId,
+            currentAccessToken: accessToken,
           });
           await mutate("/api/user");
           // window.location.reload();
