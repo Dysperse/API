@@ -138,6 +138,10 @@ export default function Prompt() {
             res.accessToken;
         } else {
           mutate("/api/user");
+          if (window.location.href.includes("close=true")) {
+            window.close();
+            return;
+          }
           router.push("/");
           router.pathname = "/";
         }
@@ -347,10 +351,16 @@ export default function Prompt() {
         </form>
         {step === 1 && (
           <Box>
-            <Link href="/signup" legacyBehavior>
+            <Link
+              href={`/auth/signup${router.query.close ? "?close=true" : ""}`}
+              legacyBehavior
+            >
               <Button sx={authStyles.link}>Create an account</Button>
             </Link>
-            <Link href="/auth/reset-id" legacyBehavior>
+            <Link
+              href={`/auth/reset-id${router.query.close ? "?close=true" : ""}`}
+              legacyBehavior
+            >
               <Button sx={authStyles.link}>I forgot my ID</Button>
             </Link>
           </Box>

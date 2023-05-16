@@ -29,8 +29,6 @@ export default function Onboarding() {
     true
   );
 
-  console.log(session);
-
   return (
     <NoSsr>
       <Box
@@ -180,7 +178,7 @@ export default function Onboarding() {
                 popup(
                   500,
                   1000,
-                  "/signup",
+                  "/signup?close=true",
                   "Please sign in to your Dysperse account"
                 );
                 setLoading(false);

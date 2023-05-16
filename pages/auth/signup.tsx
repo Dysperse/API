@@ -55,6 +55,10 @@ export default function Prompt() {
         }
         mutate("/api/user").then(() => {
           toast.success("Welcome to Dysperse!", toastStyles);
+          if (window.location.href.includes("close=true")) {
+            window.close();
+            return;
+          }
           router.push("/");
         });
         return;
@@ -208,7 +212,11 @@ export default function Prompt() {
                     ),
                   })}
                 />
-                <Link href="/" legacyBehavior>
+
+                <Link
+                  href={`/auth/${router.query.close ? "?close=true" : ""}`}
+                  legacyBehavior
+                >
                   <Button sx={authStyles.link}>
                     I already have an account
                   </Button>

@@ -106,7 +106,10 @@ export default function Prompt() {
                   sx={authStyles.input}
                   variant="outlined"
                 />
-                <Link href="/" legacyBehavior>
+                <Link
+                  href={`/auth/${router.query.close ? "?close=true" : ""}`}
+                  legacyBehavior
+                >
                   <Button sx={authStyles.link}>
                     Wait - I remember my password, take me back
                   </Button>
