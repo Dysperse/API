@@ -1,7 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { Alert, CircularProgress, SwipeableDrawer } from "@mui/material";
-import { Box } from "@mui/system";
+import { Alert, Box, CircularProgress, SwipeableDrawer } from "@mui/material";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { mutate } from "swr";

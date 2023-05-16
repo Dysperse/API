@@ -5,6 +5,7 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import {
   AppBar,
+  Box,
   Button,
   Chip,
   Dialog,
@@ -17,7 +18,6 @@ import {
   Typography,
 } from "@mui/material";
 import { green, orange } from "@mui/material/colors";
-import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useCallback, useState } from "react";

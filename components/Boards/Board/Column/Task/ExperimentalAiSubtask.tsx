@@ -3,6 +3,7 @@ import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
+  Box,
   Button,
   Chip,
   Icon,
@@ -15,7 +16,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import { useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
 

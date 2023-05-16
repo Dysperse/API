@@ -6,6 +6,7 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import {
   AppBar,
+  Box,
   CircularProgress,
   Icon,
   IconButton,
@@ -14,7 +15,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
