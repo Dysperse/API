@@ -1,52 +1,42 @@
 export const rooms = [
   {
-    href: "/rooms/kitchen",
     icon: "blender",
-    label: "Kitchen",
+    room: "Kitchen",
   },
   {
-    href: "/rooms/bedroom",
     icon: "bedroom_parent",
-    label: "Bedroom",
+    room: "Bedroom",
   },
   {
-    href: "/rooms/bathroom",
     icon: "bathroom",
-    label: "Bathroom",
+    room: "Bathroom",
   },
   {
-    href: "/rooms/garage",
     icon: "garage",
-    label: "Garage",
+    room: "Garage",
   },
   {
-    href: "/rooms/dining",
     icon: "dining",
-    label: "Dining room",
+    room: "Dining room",
   },
   {
-    href: "/rooms/living",
     icon: "living",
-    label: "Living room",
+    room: "Living room",
   },
   {
-    href: "/rooms/laundry",
     icon: "local_laundry_service",
-    label: "Laundry room",
+    room: "Laundry room",
   },
   {
-    href: "/rooms/storage",
     icon: "inventory_2",
-    label: "Storage room",
+    room: "Storage room",
   },
   {
-    href: "/rooms/garden",
     icon: "yard",
-    label: "Garden",
+    room: "Garden",
   },
   {
-    href: "/rooms/camping",
     icon: "camping",
-    label: "Camping",
+    room: "Camping",
   },
 ];
