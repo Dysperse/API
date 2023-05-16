@@ -46,7 +46,7 @@ export default function App({
   Component: typeof React.Component;
   pageProps: JSX.Element;
 }) {
-  const { data, isLoading, error, isError } = useUser();
+  const { data, isLoading, isError } = useUser();
 
   /**
    * URLs to display without the application container

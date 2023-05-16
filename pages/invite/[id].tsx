@@ -1,6 +1,6 @@
 import { Loading } from "@/components/Layout/Loading";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/useSession";
+import { useUser } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -13,8 +13,9 @@ import { mutate } from "swr";
 const popup = require("window-popup").windowPopup;
 
 export default function Onboarding() {
-  const session = useSession();
+  const { data: session, error } = useUser();
   const router = useRouter();
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const id =
@@ -104,7 +105,6 @@ export default function Onboarding() {
             You&apos;ve been invited to{" "}
             <b>&ldquo;{data.property.name}&rdquo;</b> by another Dysperse user
           </Typography>
-
           <Typography
             variant="body2"
             sx={{
@@ -148,7 +148,7 @@ export default function Onboarding() {
               textTransform: "none",
               width: "100%",
               backgroundColor: colors[data.property.color]["A400"],
-              color: "white",
+              color: "#000",
               "&:hover": {
                 backgroundColor: colors[data.property.color]["A700"],
               },
