@@ -47,7 +47,7 @@ export function Emoji({ emoji, mood, defaultStress, data, handleMoodChange }) {
   const [stress, setStress] = useState(defaultStress);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { align: "start", draggable: false },
+    { align: "start", watchDrag: false },
     [AutoHeight()]
   );
 
