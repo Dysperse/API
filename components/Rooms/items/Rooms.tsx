@@ -5,7 +5,7 @@ import Action from "../Action";
 /**
  * Rooms popup
  */
-export const Rooms = ({count, data, error }: any) => {
+export const Rooms = ({ count, data, error }: any) => {
   return (
     <>
       {data &&
