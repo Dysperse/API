@@ -23,7 +23,7 @@ function DeleteCard({ item }) {
       sx={{
         p: 2,
         borderRadius: 5,
-        background: "rgba(200,200,200,.3)",
+        background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
       }}
     >
       <Typography variant="h6">{item.name}</Typography>
