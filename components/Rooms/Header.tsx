@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -9,7 +10,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { decode } from "js-base64";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { CreateItemModal } from "./CreateItem/modal";
@@ -20,21 +20,20 @@ import { CreateItemModal } from "./CreateItem/modal";
  * @param itemCount
  */
 export function Header({
-  useAlias,
+  mutationUrl,
   room,
   itemCount,
 }: {
-  useAlias?: string | null;
-  room: string;
+  mutationUrl: string;
+  room: string | string[] | undefined;
   itemCount: number;
 }) {
   const router = useRouter();
   const session = useSession();
   const isMobile = useMediaQuery("min-width: 600px");
 
-  const title = ((room: string) =>
-    room.charAt(0).toUpperCase() + room.slice(1))(
-    useAlias ? decode(room).split(",")[1] : room.replaceAll("-", " ")
+  const title = capitalizeFirstLetter(
+    Array.isArray(room) ? (room[1] ? room[1] : room[0]) : ""
   );
 
   return (
@@ -119,13 +118,11 @@ export function Header({
       >
         <IconButton
           onClick={() => router.push("/items")}
-          sx={{
-            display: { xs: "none", md: "inline-flex" },
-          }}
+          sx={{ display: { xs: "none", md: "inline-flex" } }}
         >
           <Icon className="outlined">cancel</Icon>
         </IconButton>
-        <CreateItemModal room={useAlias ? decode(room).split(",")[0] : room}>
+        <CreateItemModal room={room} mutationUrl={mutationUrl}>
           <IconButton
             sx={{
               background: "transparent",

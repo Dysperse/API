@@ -1,5 +1,4 @@
 import { CustomRoom } from "@prisma/client";
-import { encode } from "js-base64";
 import React from "react";
 import { ErrorHandler } from "../../Error";
 import Action from "../Action";
@@ -18,9 +17,7 @@ export const Rooms: any = React.memo(function Rooms({
         data.map((room: CustomRoom) => (
           <Action
             mutationUrl={mutationUrl}
-            href={`/rooms/${encode(
-              `${room.id},${room.name}`
-            ).toString()}?custom=true`}
+            href={`/rooms/${room.id}/${room.name}`}
             icon="label"
             id={room.id.toString()}
             isPrivate={room.private}

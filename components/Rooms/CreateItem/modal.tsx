@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
@@ -27,9 +28,11 @@ import { cards } from "./cards";
 const ImageRecognition = dynamic(() => import("./scan"));
 
 export function CreateItemModal({
+  mutationUrl,
   room,
   children,
 }: {
+  mutationUrl: string;
   room: any;
   children: JSX.Element;
 }) {
@@ -67,7 +70,7 @@ export function CreateItemModal({
     }
     setLoading(true);
     fetchRawApi("property/inventory/items/create", {
-      room: room.toString().toLowerCase(),
+      room: room[0],
       name: title,
       quantity: quantity,
       category,
@@ -77,15 +80,7 @@ export function CreateItemModal({
         toast("Created item!", toastStyles);
         setLoading(false);
         setOpen(false);
-        mutate(
-          `/api/property/inventory/list/?${new URLSearchParams({
-            sessionId: session.user.token,
-            property: session.property.propertyId,
-            accessToken: session.property.accessToken,
-            userIdentifier: session.user.identifier,
-            room: room.toString().toLowerCase(),
-          }).toString()}`
-        );
+        mutate(mutationUrl);
         setTitle("");
         setQuantity("");
         setCategory("[]");
@@ -94,16 +89,7 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, [
-    category,
-    quantity,
-    room,
-    title,
-    session.property.accessToken,
-    session.property.propertyId,
-    session.user.identifier,
-    session.user.token,
-  ]);
+  }, [category, mutationUrl, quantity, title]);
 
   const storage = useAccountStorage();
 
@@ -112,7 +98,10 @@ export function CreateItemModal({
       {trigger}
       <SwipeableDrawer
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          mutate(mutationUrl);
+        }}
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
@@ -153,10 +142,8 @@ export function CreateItemModal({
               </IconButton>
             </ConfirmationModal>
 
-            <Typography
-              sx={{ mx: "auto", textTransform: "capitalize", fontWeight: 600 }}
-            >
-              {room}
+            <Typography sx={{ mx: "auto", fontWeight: 600 }}>
+              {capitalizeFirstLetter(room ? (room[1] ? room[1] : room[0]) : "")}
             </Typography>
             <IconButton
               onClick={handleSubmit}

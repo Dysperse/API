@@ -298,7 +298,8 @@ export default function ItemDrawer({
 
   const handleClose = useCallback(() => {
     setOpen(false);
-  }, []);
+    mutate(mutationUrl);
+  }, [mutationUrl]);
 
   const trigger = cloneElement(children, {
     //onTouchStart: handleOpen,

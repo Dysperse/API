@@ -2,14 +2,12 @@ import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Avatar,
-  CircularProgress,
   ListItemAvatar,
   ListItemButton,
   ListItemSecondaryAction,
   ListItemText,
   Typography,
 } from "@mui/material";
-import { decode } from "js-base64";
 import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import { RoomActionMenu } from "./items//RoomActionMenu";
@@ -76,7 +74,7 @@ const Action = React.memo(function Action({
       router.asPath.toLowerCase().includes(primary.toLowerCase())) ||
     (isCustom &&
       router.asPath.split("rooms/")[1] &&
-      decode(router.asPath.split("rooms/")[1]).includes(id.toLowerCase()));
+      router.asPath.split("rooms/")[1].includes(id.toLowerCase()));
 
   return (
     <ListItemButton
@@ -159,34 +157,20 @@ const Action = React.memo(function Action({
         }
       />
       <ListItemSecondaryAction>
-        {!disableLoading && loading ? (
-          <CircularProgress
-            size={15}
-            sx={{
-              color: session.user.darkMode ? "#fff" : "#000",
-              ml: "auto",
-              mt: "8px",
-              mr: 1,
-              animationDuration: ".4s",
-              transitionDuration: ".4s",
-            }}
-            disableShrink
-          />
-        ) : (
-          <RoomActionMenu
-            roomId={
-              href
-                ? decode(
-                    href.replace("/rooms/", "").replace("?custom=true", "")
-                  ).split(",")[0]
-                : null
-            }
-            mutationUrl={mutationUrl}
-            isCustom={isCustom}
-            isPrivate={isPrivate}
-            itemRef={ref}
-          />
-        )}
+        <RoomActionMenu
+          room={
+            href
+              ? {
+                  id: href.replace("/rooms/", "").split(",")[0],
+                  name: href.replace("/rooms/", "").split(",")[1],
+                }
+              : null
+          }
+          mutationUrl={mutationUrl}
+          isCustom={isCustom}
+          isPrivate={isPrivate}
+          itemRef={ref}
+        />
       </ListItemSecondaryAction>
     </ListItemButton>
   );
