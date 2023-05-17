@@ -11,7 +11,10 @@ const handler = async (req, res) => {
   //   Set selected to false for all other properties of the user email
   await prisma.propertyInvite.updateMany({
     where: {
-      AND: [{ user: { email: req.query.email } }, { selected: true }],
+      AND: [
+        { user: { email: { equals: req.query.email } } },
+        { selected: { equals: true } },
+      ],
     },
     data: { selected: false },
   });

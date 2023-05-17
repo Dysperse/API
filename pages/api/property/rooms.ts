@@ -8,7 +8,7 @@ import { validatePermissions } from "@/lib/server/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  await validatePermissions(res, {
+  await validatePermissions({
     minimum: "read-only",
     credentials: [req.query.property, req.query.accessToken],
   });
@@ -17,13 +17,16 @@ const handler = async (req, res) => {
       OR: [
         // If the room isn't private, but the property identifer matches
         {
-          AND: [{ private: false }, { property: { id: req.query.property } }],
+          AND: [
+            { private: { equals: false } },
+            { property: { id: { equals: req.query.property } } },
+          ],
         },
         // If the room is private, but the user identifier matches the room owner
         {
           AND: [
-            { private: true },
-            { userIdentifier: req.query.userIdentifier },
+            { private: { equals: true } },
+            { userIdentifier: { equals: req.query.userIdentifier } },
           ],
         },
       ],

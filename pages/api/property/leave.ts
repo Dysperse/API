@@ -12,8 +12,8 @@ const handler = async (req, res) => {
   const f = await prisma.propertyInvite.findFirst({
     where: {
       AND: [
-        { user: { identifier: req.query.userIdentifier } },
-        { accessToken: req.query.currentAccessToken },
+        { user: { identifier: { equals: req.query.userIdentifier } } },
+        { accessToken: { equals: req.query.currentAccessToken } },
       ],
     },
   });
@@ -28,9 +28,7 @@ const handler = async (req, res) => {
 
   const data = await prisma.propertyInvite.update({
     data: { selected: true },
-    where: {
-      accessToken: req.query.otherPropertyAccessToken,
-    },
+    where: { accessToken: req.query.otherPropertyAccessToken },
   });
 
   // Clear the cache

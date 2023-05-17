@@ -3,7 +3,7 @@ import { validatePermissions } from "@/lib/server/validatePermissions";
 import { createInboxNotification } from "../../inbox/create";
 
 const handler = async (req, res) => {
-  await validatePermissions(res, {
+  await validatePermissions({
     minimum: "owner",
     credentials: [req.query.property, req.query.accessToken],
   });

@@ -58,7 +58,7 @@ You MUST return a JSON response (which can be parsed by JavaScript) ONLY, simila
 `;
 
 export default async function handler(req: any, res: NextApiResponse<Data>) {
-  await validatePermissions(res, {
+  await validatePermissions({
     minimum: "read-only",
     credentials: [req.query.property, req.query.accessToken],
   });

@@ -2,7 +2,7 @@ import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 
 const handler = async (req, res) => {
-  await validatePermissions(res, {
+  await validatePermissions({
     minimum: "read-only",
     credentials: [req.query.property, req.query.accessToken],
   });
@@ -41,9 +41,7 @@ const handler = async (req, res) => {
         // If it's public, just *select it* bruh
         {
           OR: [
-            {
-              column: null,
-            },
+            { column: null },
             {
               column: {
                 board: {

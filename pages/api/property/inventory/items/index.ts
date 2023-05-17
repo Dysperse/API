@@ -3,7 +3,7 @@ import { validatePermissions } from "@/lib/server/validatePermissions";
 import CryptoJS from "crypto-js";
 
 const handler = async (req, res) => {
-  await validatePermissions(res, {
+  await validatePermissions({
     minimum: "read-only",
     credentials: [req.query.property, req.query.accessToken],
   });

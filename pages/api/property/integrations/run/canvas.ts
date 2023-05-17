@@ -8,7 +8,7 @@ function extractTextInBrackets(text: string): string {
 }
 
 const handler = async (req, res) => {
-  await validatePermissions(res, {
+  await validatePermissions({
     minimum: "member",
     credentials: [req.query.property, req.query.accessToken],
   });

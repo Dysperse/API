@@ -2,7 +2,7 @@ import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 
 export const getItemCount = async (res, property, accessToken) => {
-  await validatePermissions(res, {
+  await validatePermissions({
     minimum: "read-only",
     credentials: [property, accessToken],
   });

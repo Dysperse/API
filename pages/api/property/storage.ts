@@ -7,7 +7,7 @@ const handler = async (req, res) => {
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
   );
-  await validatePermissions(res, {
+  await validatePermissions({
     minimum: "read-only",
     credentials: [req.query.property, req.query.accessToken],
   });

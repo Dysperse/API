@@ -25,14 +25,10 @@ const Notification = async (req, res) => {
   let subscriptions = await prisma.notificationSettings.findMany({
     where: {
       AND: [
-        {
-          dailyRoutineNudge: true,
-        },
+        { dailyRoutineNudge: true },
         {
           ...(process.env.NODE_ENV !== "production" && {
-            user: {
-              email: "manusvathgurudath@gmail.com",
-            },
+            user: { email: "manusvathgurudath@gmail.com" },
           }),
         },
       ],
