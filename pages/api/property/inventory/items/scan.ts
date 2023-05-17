@@ -1,5 +1,3 @@
-import type { NextApiResponse } from "next";
-
 type Data = string;
 
 export const config = {
@@ -27,10 +25,14 @@ async function query(url) {
   return result;
 }
 
-export default async function handler(req: any, res: NextApiResponse<Data>) {
-  const { imageUrl } = JSON.parse(req.body);
+export default async function handler(req: any, res: any) {
+  try {
+    const { imageUrl } = JSON.parse(req.body);
 
-  const response = await query(imageUrl);
+    const response = await query(imageUrl);
 
-  res.json(response);
+    res.json(response);
+  } catch (e: any) {
+    res.json({ error: e.message });
+  }
 }

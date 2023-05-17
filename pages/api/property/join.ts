@@ -8,27 +8,31 @@ import cacheData from "memory-cache";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  //   Set selected to false for all other properties of the user email
-  await prisma.propertyInvite.updateMany({
-    where: {
-      AND: [
-        { user: { email: { equals: req.query.email } } },
-        { selected: { equals: true } },
-      ],
-    },
-    data: { selected: false },
-  });
+  try {
+    //   Set selected to false for all other properties of the user email
+    await prisma.propertyInvite.updateMany({
+      where: {
+        AND: [
+          { user: { email: { equals: req.query.email } } },
+          { selected: { equals: true } },
+        ],
+      },
+      data: { selected: false },
+    });
 
-  const data = await prisma.propertyInvite.update({
-    where: { accessToken: req.query.accessToken1 },
-    data: { selected: true, accepted: true },
-    include: {
-      profile: { select: { name: true } },
-    },
-  });
+    const data = await prisma.propertyInvite.update({
+      where: { accessToken: req.query.accessToken1 },
+      data: { selected: true, accepted: true },
+      include: {
+        profile: { select: { name: true } },
+      },
+    });
 
-  // Clear the cache
-  cacheData.del(req.query.sessionId);
-  res.json(data);
+    // Clear the cache
+    cacheData.del(req.query.sessionId);
+    res.json(data);
+  } catch (e: any) {
+    res.json({ error: e.message });
+  }
 };
 export default handler;

@@ -2,7 +2,6 @@
 
 import { validatePermissions } from "@/lib/server/validatePermissions";
 import Client from "gpt-free";
-import type { NextApiResponse } from "next";
 
 type Data = {
   error?: string;
@@ -52,39 +51,40 @@ You MUST return a JSON response (which can be parsed by JavaScript) ONLY, simila
     }
   ]
 }
-
-
-
 `;
 
-export default async function handler(req: any, res: NextApiResponse<Data>) {
-  await validatePermissions({
-    minimum: "read-only",
-    credentials: [req.query.property, req.query.accessToken],
-  });
-  const client = new Client();
-  const { prompt }: any = req.query;
-
-  if (!prompt) {
-    res.status(403).json({
-      error: "Prompt not defined",
-    });
-  }
-
-  let response = await client
-    .model("chat")
-    .getCompleteResponse(generatePrompt(prompt));
-
+export default async function handler(req: any, res: any) {
   try {
-    response = JSON.parse(response);
-  } catch (e) {
-    console.error("Could not parse JSON");
+    await validatePermissions({
+      minimum: "read-only",
+      credentials: [req.query.property, req.query.accessToken],
+    });
+    const client = new Client();
+    const { prompt }: any = req.query;
+
+    if (!prompt) {
+      res.status(403).json({
+        error: "Prompt not defined",
+      });
+    }
+
+    let response = await client
+      .model("chat")
+      .getCompleteResponse(generatePrompt(prompt));
+
+    try {
+      response = JSON.parse(response);
+    } catch (e) {
+      console.error("Could not parse JSON");
+    }
+
+    console.log(response);
+
+    res.status(200).json({
+      prompt,
+      response,
+    });
+  } catch (e: any) {
+    res.json({ error: e.message });
   }
-
-  console.log(response);
-
-  res.status(200).json({
-    prompt,
-    response,
-  });
 }

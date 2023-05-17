@@ -29,11 +29,15 @@ export const getItemCount = async (res, property, accessToken) => {
 };
 
 export default async function handler(req, res) {
-  const data = await getItemCount(
-    res,
-    req.query.property,
-    req.query.accessToken
-  );
+  try {
+    const data = await getItemCount(
+      res,
+      req.query.property,
+      req.query.accessToken
+    );
 
-  res.json(data);
+    res.json(data);
+  } catch (e: any) {
+    res.json({ error: e.message });
+  }
 }

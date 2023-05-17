@@ -77,7 +77,7 @@ export default function Inventory({ children = null }: any) {
   const session = useSession();
   const [viewBy, setViewBy] = useState("Room");
 
-  const { data } = useApi("property/inventory/room/itemCount");
+  const { data } = useApi("property/inventory/count");
   const { data: dataRooms, url, error } = useApi("property/rooms");
 
   return (

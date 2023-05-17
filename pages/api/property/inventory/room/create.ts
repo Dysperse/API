@@ -8,29 +8,33 @@ import { validatePermissions } from "@/lib/server/validatePermissions";
  * @returns {any}
  */
 const handler = async (req, res) => {
-  await validatePermissions({
-    minimum: "member",
-    credentials: [req.query.property, req.query.accessToken],
-  });
+  try {
+    await validatePermissions({
+      minimum: "member",
+      credentials: [req.query.property, req.query.accessToken],
+    });
 
-  const data = await prisma.customRoom.create({
-    data: {
-      name: req.query.name,
-      private: req.query.private === "true",
-      property: {
-        connect: { id: req.query.property },
-      },
-      user: {
-        connect: {
-          identifier: req.query.userIdentifier,
+    const data = await prisma.customRoom.create({
+      data: {
+        name: req.query.name,
+        private: req.query.private === "true",
+        property: {
+          connect: { id: req.query.property },
+        },
+        user: {
+          connect: {
+            identifier: req.query.userIdentifier,
+          },
         },
       },
-    },
-    include: {
-      property: true,
-    },
-  });
+      include: {
+        property: true,
+      },
+    });
 
-  res.json(data);
+    res.json(data);
+  } catch (e: any) {
+    res.json({ error: e.message });
+  }
 };
 export default handler;
