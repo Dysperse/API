@@ -15,9 +15,7 @@ const handler = async (req, res) => {
       },
       orderBy: { id: "desc" },
       include: {
-        tasks: {
-          include: { subTasks: true, parentTasks: true },
-        },
+        tasks: { include: { subTasks: true, parentTasks: true } },
       },
     });
 

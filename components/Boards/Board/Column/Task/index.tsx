@@ -104,7 +104,7 @@ export const Task: any = React.memo(function Task({
       vibrate(50);
       setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
       try {
-        await fetchRawApi("property/boards/column/task/mark", {
+        await fetchRawApi("property/boards/column/task/edit", {
           completed: e.target.checked ? "true" : "false",
           id: taskData.id,
         });

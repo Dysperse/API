@@ -12,9 +12,7 @@ const handler = async (req, res) => {
     const data = await prisma.board.findMany({
       where: {
         AND: [
-          req.query.id && {
-            id: req.query.id,
-          },
+          req.query.id && { id: req.query.id },
           {
             OR: [
               {

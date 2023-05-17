@@ -93,7 +93,7 @@ export default function DrawerContent({
       return { ...prev, completed };
     });
 
-    fetchRawApi("property/boards/column/task/mark", {
+    fetchRawApi("property/boards/column/task/edit", {
       completed: completed ? "true" : "false",
       id: data.id,
     })
