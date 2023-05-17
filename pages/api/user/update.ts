@@ -52,7 +52,7 @@ const handler = async (req, res) => {
         undefined,
     },
   });
-  cacheData.del(req.query.sessionId);
+  cacheData.clear();
   res.json(user);
 };
 export default handler;
