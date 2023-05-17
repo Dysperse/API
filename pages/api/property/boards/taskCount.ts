@@ -10,9 +10,7 @@ const handler = async (req, res) => {
 
     //  List all boards with columns, but not items
     const data = await prisma.task.count({
-      where: {
-        propertyId: req.query.property,
-      },
+      where: { propertyId: req.query.property },
     });
     res.json(data);
   } catch (e: any) {

@@ -20,7 +20,7 @@ import { TaskDrawer } from "../Boards/Board/Column/Task/TaskDrawer";
 export function RecentItems() {
   const trigger = useMediaQuery("(min-width: 600px)");
 
-  const { data, url } = useApi("property/boards/recent", {
+  const { data, url } = useApi("property/tasks/recent", {
     take: trigger ? 12 : 6,
   });
 

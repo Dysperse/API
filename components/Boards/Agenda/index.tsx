@@ -116,7 +116,7 @@ export function Agenda({
     }, 1);
   }, []);
 
-  const { data, url } = useApi("property/boards/agenda", {
+  const { data, url } = useApi("property/tasks/agenda", {
     startTime: startOfWeek.toISOString(),
     endTime: endOfWeek.toISOString(),
   });

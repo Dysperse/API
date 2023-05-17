@@ -19,7 +19,7 @@ import { Task } from "./Board/Column/Task";
 import { taskStyles } from "./Layout";
 
 export function ColoredTasks({ setDrawerOpen }) {
-  const { data, url, error } = useApi("property/boards/color-coded", {
+  const { data, url, error } = useApi("property/tasks/color-coded", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
   const [color, setColor] = useState("all");

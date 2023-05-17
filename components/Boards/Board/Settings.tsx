@@ -54,7 +54,7 @@ export default function BoardSettings({ mutationUrl, board }) {
           }
           callback={() => {
             setTimeout(() => {
-              fetchRawApi("property/boards/pin", {
+              fetchRawApi("property/boards/edit", {
                 id: board.id,
                 pinned: !board.pinned ? "true" : "false",
               }).then(() => {
@@ -115,7 +115,7 @@ export default function BoardSettings({ mutationUrl, board }) {
               : "Are you sure you want to make this board private? Other members in your group won't be able to view/edit content within this board anymore."
           }
           callback={async () => {
-            await fetchRawApi("property/boards/setVisibility", {
+            await fetchRawApi("property/boards/edit", {
               id: board.id,
               public: !board.public,
             });
@@ -138,9 +138,9 @@ export default function BoardSettings({ mutationUrl, board }) {
               : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
-            await fetchRawApi("property/boards/archive", {
+            await fetchRawApi("property/boards/archived", {
               id: board.id,
-              archive: !board.archived,
+              archived: !board.archived,
             });
             await mutate(mutationUrl);
           }}

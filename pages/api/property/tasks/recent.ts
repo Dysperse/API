@@ -8,13 +8,15 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    const data = await prisma.board.update({
+    const data = await prisma.task.findMany({
       where: {
-        id: req.query.id,
+        AND: [
+          { property: { id: req.query.property } },
+          { NOT: { completed: true } },
+        ],
       },
-      data: {
-        archived: req.query.archive === "true",
-      },
+      orderBy: { lastUpdated: "desc" },
+      take: parseInt(req.query.take),
     });
 
     res.json(data);

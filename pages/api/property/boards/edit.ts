@@ -8,13 +8,31 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
+    if (req.query.pinned) {
+      await prisma.board.updateMany({
+        data: {
+          pinned: false,
+        },
+        where: {
+          propertyId: req.query.property,
+        },
+      });
+    }
+
     const data = await prisma.board.update({
-      where: {
-        id: req.query.id,
-      },
+      where: { id: req.query.id },
       data: {
-        name: req.query.name,
-        description: req.query.description,
+        ...(req.query.name && { name: req.query.name }),
+        ...(req.query.description && { description: req.query.description }),
+        ...(req.query.public && {
+          public: req.query.public === "true",
+        }),
+        ...(req.query.pinned && {
+          pinned: req.query.pinned === "true",
+        }),
+        ...(req.query.archived && {
+          archived: req.query.archived === "true",
+        }),
       },
     });
 

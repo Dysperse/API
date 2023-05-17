@@ -16,7 +16,7 @@ import { Task } from "./Board/Column/Task";
 import { taskStyles } from "./Layout";
 
 export function Backlog({ setDrawerOpen }) {
-  const { data, url, error } = useApi("property/boards/backlog", {
+  const { data, url, error } = useApi("property/tasks/backlog", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
   const session = useSession();

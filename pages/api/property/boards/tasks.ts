@@ -11,19 +11,12 @@ const handler = async (req, res) => {
     //  List all tasks for a board from the column
     const data = await prisma.column.findMany({
       where: {
-        board: {
-          id: req.query.id,
-        },
+        board: { id: req.query.id },
       },
-      orderBy: {
-        id: "desc",
-      },
+      orderBy: { id: "desc" },
       include: {
         tasks: {
-          include: {
-            subTasks: true,
-            parentTasks: true,
-          },
+          include: { subTasks: true, parentTasks: true },
         },
       },
     });

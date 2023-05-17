@@ -114,13 +114,13 @@ export default function Home() {
     else return "Good night, ";
   }, [time]);
 
-  const { data } = useApi("property/boards/agenda", {
+  const { data } = useApi("property/tasks/agenda", {
     startTime: dayjs().startOf("day").toISOString(),
     endTime: dayjs().endOf("day").toISOString(),
     count: true,
   });
 
-  const { data: backlogData } = useApi("property/boards/backlog", {
+  const { data: backlogData } = useApi("property/tasks/backlog", {
     count: true,
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
