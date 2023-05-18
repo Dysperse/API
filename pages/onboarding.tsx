@@ -5,7 +5,7 @@ import { Color } from "@/components/Onboarding/Color";
 import { InventoryList } from "@/components/Onboarding/InventoryList";
 import { StepIcon } from "@/components/Onboarding/StepIcon";
 import { cards } from "@/components/Rooms/CreateItem/cards";
-import { updateSettings } from "@/components/Settings/updateSettings";
+import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";

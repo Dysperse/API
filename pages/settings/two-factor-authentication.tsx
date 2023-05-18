@@ -1,5 +1,5 @@
-import { updateSettings } from "@/components/Settings/updateSettings";
 import { Prompt } from "@/components/TwoFactorModal";
+import { updateSettings } from "@/lib/client/updateSettings";
 import LoadingButton from "@mui/lab/LoadingButton";
 import * as twofactor from "node-2fa";
 import { useState } from "react";

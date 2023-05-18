@@ -1,6 +1,6 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
-import { updateSettings } from "@/components/Settings/updateSettings";
+import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";

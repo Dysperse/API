@@ -1,4 +1,4 @@
-import { updateSettings } from "@/components/Settings/updateSettings";
+import { updateSettings } from "@/lib/client/updateSettings";
 import { useSession } from "@/lib/client/useSession";
 import { Alert, Box, Button, Link, TextField } from "@mui/material";
 import { useCallback, useState } from "react";
