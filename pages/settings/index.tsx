@@ -135,6 +135,7 @@ export default function Layout({ children }: any) {
               maxWidth: "100%",
               textOverflow: "ellipsis",
             },
+            color: "inherit",
           }}
         >
           <span>My account</span>
