@@ -18,10 +18,10 @@ import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
+import { updateSettings } from "../../../lib/client/updateSettings";
 import { Routines } from "../../Coach/Routines";
 import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
-import { updateSettings } from "../../Settings/updateSettings";
 
 export let openSpotlight = () => {};
 

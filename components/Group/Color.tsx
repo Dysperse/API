@@ -1,6 +1,6 @@
 import { colors } from "@/lib/colors";
 import { CardActionArea } from "@mui/material";
-import { updateSettings } from "../Settings/updateSettings";
+import { updateSettings } from "../../lib/client/updateSettings";
 
 /**
  * Color component for house profile

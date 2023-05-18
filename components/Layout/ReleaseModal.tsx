@@ -13,8 +13,8 @@ import dayjs from "dayjs";
 import Markdown from "markdown-to-jsx";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import { updateSettings } from "../../lib/client/updateSettings";
 import { Puller } from "../Puller";
-import { updateSettings } from "../Settings/updateSettings";
 
 export default function ReleaseModal() {
   const [open, setOpen] = useState(false);
