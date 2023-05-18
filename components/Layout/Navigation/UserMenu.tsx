@@ -53,7 +53,7 @@ export default function InviteButton({ styles }: any) {
   );
 
   useHotkeys(
-    "ctrl+shift+p",
+    "ctrl+shift+comma",
     (e) => {
       e.preventDefault();
       setOpen(true);

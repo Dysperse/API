@@ -54,7 +54,7 @@ export default function KeyboardShortcutsModal() {
               },
               {
                 name: "View active group",
-                keys: ["ctrl", "shift", "p"],
+                keys: ["ctrl", "shift", ","],
               },
               {
                 name: "Toggle app drawer",
