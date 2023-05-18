@@ -20,12 +20,10 @@ const handler = async (req, res) => {
     });
 
     // Get user id
-    const userId = user.id;
+    const userId = user.id || "-1";
 
     await prisma.propertyInvite.updateMany({
-      data: {
-        selected: false,
-      },
+      data: { selected: false },
       where: { userId },
     });
 

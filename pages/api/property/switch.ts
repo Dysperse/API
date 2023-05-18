@@ -1,8 +1,11 @@
 import { prisma } from "@/lib/server/prisma";
+import { validateParams } from "@/lib/server/validateParams";
 import cacheData from "memory-cache";
 
 const handler = async (req, res) => {
   try {
+    validateParams(req.query, ["email"]);
+    
     //   Set selected to false for all other properties of the user email
     await prisma.propertyInvite.updateMany({
       where: {

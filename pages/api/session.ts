@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import cacheData from "memory-cache";
-import { getUserData } from "./user/info";
+import { getUserData } from "../../lib/server/getUserData";
 
 /**
  * Get session data from the auth cookie

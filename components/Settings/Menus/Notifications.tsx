@@ -92,7 +92,7 @@ export default function Notifications() {
   const sendNotificationButtonOnClick = async (event) => {
     event.preventDefault();
 
-    fetchRawApi("/test-notification", {
+    fetchRawApi("/user/settings/notifications/test", {
       subscription: session.user.notificationSubscription,
     });
   };
@@ -104,7 +104,7 @@ export default function Notifications() {
   const handleNotificationChange = async (name, value) => {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        await fetchRawApi("user/settings/edit/notifications", {
+        await fetchRawApi("user/settings/notifications/edit", {
           name: name,
           value: value,
         });
