@@ -24,9 +24,11 @@ const handler = async (req, res) => {
       },
       take: 1,
     });
+
     if (!data[0]) {
       res.json({ error: true, message: "Integration does not exist" });
     }
+
     const data1 = data[0];
 
     const inputParams = JSON.parse(data1.inputParams);
@@ -61,8 +63,10 @@ const handler = async (req, res) => {
 
         let due = new Date();
 
-        if (item.dtstamp || item.start)
-          due = (item.dtstamp || item.start).toISOString();
+        console.log(item);
+
+        if (item.start || item.end || item.dtstamp)
+          due = (item.start || item.end || item.dtstamp).toISOString();
 
         let name: string = item.summary
           ?.toString()
