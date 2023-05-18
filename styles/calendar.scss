@@ -13,6 +13,9 @@
 
   &__tile--active {
     border-color: #200923;
+    .dark & {
+      border-color: #fff;
+    }
   }
 
   &__navigation button,
@@ -23,6 +26,10 @@
     cursor: pointer;
     font-size: 16px;
     outline: none;
+
+    .dark & {
+      color: #fff;
+    }
 
     &:disabled {
       color: #ccc;
@@ -82,10 +89,10 @@
     color: #888;
     cursor: pointer;
     border-radius: 9999px;
-    background-color: #fff;
+    background-color: transparent;
 
     &--hasActive {
-      background-color: #fff;
+      background-color: transparent;
       color: #3f51b5;
 
       &:hover {
