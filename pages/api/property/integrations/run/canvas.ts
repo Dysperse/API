@@ -18,12 +18,8 @@ const handler = async (req, res) => {
       where: {
         AND: [
           { name: "Canvas LMS" },
-          {
-            propertyId: req.query.property,
-          },
-          {
-            boardId: req.query.boardId,
-          },
+          { propertyId: req.query.property },
+          { boardId: req.query.boardId },
         ],
       },
       take: 1,
