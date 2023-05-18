@@ -77,6 +77,14 @@ const handler = async (req, res) => {
           name = name.split("(")[0];
         }
 
+        let description: null | string = null;
+        if (item.description) {
+          description = item.description;
+          if (item.url) {
+            description = `${item.description}\n\nOriginal link: ${item.url}`;
+          }
+        }
+
         if (name) {
           await prisma.task.upsert({
             where: {
@@ -84,18 +92,18 @@ const handler = async (req, res) => {
             },
             update: {
               name,
+              description,
               ...(due && { due }),
             },
             create: {
               property: {
-                connect: {
-                  id: req.query.property,
-                },
+                connect: { id: req.query.property },
               },
               id: taskId,
               name,
               ...(due && { due }),
-              description: item.url,
+              description,
+
               column: {
                 connectOrCreate: {
                   where: {
