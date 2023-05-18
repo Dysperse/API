@@ -37,6 +37,7 @@ export default function InviteButton({ styles }: any) {
   useHotkeys(["ctrl+comma"], (e) => {
     e.preventDefault();
     router.push("/settings/account");
+    handleClose();
   });
 
   useHotkeys(
@@ -292,7 +293,7 @@ export default function InviteButton({ styles }: any) {
         )}
       </Menu>
 
-      <Tooltip title="My account" placement="right">
+      <Tooltip title="Workspace" placement="right">
         <Box
           sx={{
             ...styles(false),
