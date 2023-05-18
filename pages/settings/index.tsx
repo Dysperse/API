@@ -16,7 +16,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 
@@ -31,6 +31,9 @@ export default function Layout({ children }: any) {
   }, [router]);
 
   const [open, setOpen] = useState(false);
+
+  const closeRef: any = useRef();
+  useHotkeys("esc", () => closeRef.current?.click());
 
   const styles = (condition: boolean) => ({
     cursor: { sm: "unset!important" },
@@ -177,15 +180,13 @@ export default function Layout({ children }: any) {
           <Icon>logout</Icon>Sign out
         </Button>
       </ConfirmationModal>
-      <Link href="/zen" style={{ cursor: "default" }}>
+      <Link href="/zen" style={{ cursor: "default" }} ref={closeRef}>
         <Button sx={styles(false)}>
           <Icon>close</Icon>Close
         </Button>
       </Link>
     </>
   );
-
-  useHotkeys("esc", () => router.push("/"));
 
   return (
     <Box
