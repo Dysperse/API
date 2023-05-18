@@ -23,6 +23,7 @@ model User {
   twoFactorSecret          String  @default("")
   notificationSubscription String? @db.VarChar(500)
   timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
+  vanishingTasks           Boolean @default(false)
 
   lastReleaseVersionViewed Int @default(77711209)
 
