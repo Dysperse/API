@@ -53,7 +53,7 @@ export default function Prompt() {
         if (res.error) {
           throw new Error(res.message);
         }
-        mutate("/api/user").then(() => {
+        mutate("/api/session").then(() => {
           toast.success("Welcome to Dysperse!", toastStyles);
           if (window.location.href.includes("close=true")) {
             window.close();

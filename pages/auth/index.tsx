@@ -137,7 +137,7 @@ export default function Prompt() {
             "https://availability.dysperse.com/api/oauth/redirect?token=" +
             res.accessToken;
         } else {
-          mutate("/api/user");
+          mutate("/api/session");
           if (window.location.href.includes("close=true")) {
             window.close();
             return;

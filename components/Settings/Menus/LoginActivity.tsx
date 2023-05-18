@@ -28,7 +28,7 @@ const Session: any = React.memo(function Session({
   return (
     <ListItem
       sx={{
-        ...(data[index].id === session.user.token && {
+        ...(data[index].id === session.current.token && {
           background: session.user.darkMode
             ? "hsl(240,11%,30%)"
             : "rgba(200,200,200,.3)",
@@ -53,7 +53,7 @@ const Session: any = React.memo(function Session({
             }}
           >
             IP address: {data[index].ip}
-            {data[index].id === session.user.token && (
+            {data[index].id === session.current.token && (
               <Chip
                 size="small"
                 label="Current device"
@@ -70,7 +70,7 @@ const Session: any = React.memo(function Session({
       />
       <Tooltip
         title={
-          data[index].id === session.user.token
+          data[index].id === session.current.token
             ? "You're currently signed in on this device"
             : "Sign out"
         }
@@ -86,7 +86,7 @@ const Session: any = React.memo(function Session({
               await mutate(mutationUrl);
             }}
           >
-            <IconButton disabled={data[index].id === session.user.token}>
+            <IconButton disabled={data[index].id === session.current.token}>
               <Icon>logout</Icon>
             </IconButton>
           </ConfirmationModal>

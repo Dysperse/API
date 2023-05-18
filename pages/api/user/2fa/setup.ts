@@ -3,12 +3,6 @@ import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
 import * as twofactor from "node-2fa";
 
-/**
- * API handler for the /api/user/update endpoint
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
 const handler = async (req, res) => {
   // Get user info from sessions table using accessToken
   const session = await prisma.session.findUnique({
@@ -45,7 +39,7 @@ const handler = async (req, res) => {
       twoFactorSecret: req.query.secret || undefined,
     },
   });
-  cacheData.del(req.query.sessionId);
+  cacheData.clear();
 
   res.json(user);
 };

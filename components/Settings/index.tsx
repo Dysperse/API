@@ -150,7 +150,7 @@ export default function Settings({ children }: { children: JSX.Element }) {
             question="Are you sure you want to sign out?"
             buttonText="Sign out"
             callback={() =>
-              fetchRawApi("auth/logout").then(() => mutate("/api/user"))
+              fetchRawApi("auth/logout").then(() => mutate("/api/session"))
             }
           >
             <ListItem

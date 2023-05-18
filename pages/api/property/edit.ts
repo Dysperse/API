@@ -3,12 +3,6 @@ import { validatePermissions } from "@/lib/server/validatePermissions";
 import cacheData from "memory-cache";
 import { createInboxNotification } from "./inbox/create";
 
-/**
- * API handler for the /api/property/update endpoint
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
 const handler = async (req, res) => {
   try {
     await validatePermissions({
@@ -38,7 +32,7 @@ const handler = async (req, res) => {
       },
     });
 
-    cacheData.del(req.query.sessionId);
+    cacheData.clear();
     res.json(data);
   } catch (e: any) {
     res.json({ error: e.message });

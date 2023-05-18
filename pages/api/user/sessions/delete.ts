@@ -46,7 +46,7 @@ const handler = async (req, res) => {
   if (req.query.id) {
     cacheData.del(req.query.id);
   }
-  cacheData.del(req.query.sessionId);
+  cacheData.clear();
   res.json(session);
 };
 export default handler;

@@ -13,7 +13,7 @@ export const sessionData = async (providedToken) => {
     process.env.SECRET_COOKIE_PASSWORD
   );
 
-  const value = cacheData.get(accessToken);
+  const value = cacheData.get(accessToken + "1");
   if (value) {
     return value;
   } else {

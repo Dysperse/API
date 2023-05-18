@@ -8,14 +8,15 @@ const getInfo = (
   initialParams: any,
   property: any,
   user: any,
-  removeDefaultParams: boolean = false
+  removeDefaultParams: boolean = false,
+  current: any
 ) => {
   const params = removeDefaultParams
     ? {
         ...initialParams,
       }
     : {
-        sessionId: user.token,
+        sessionId: current.token,
         property: property.propertyId,
         accessToken: property.accessToken,
         userIdentifier: user.identifier,
@@ -66,11 +67,19 @@ export function useApi(
   removeDefaultParams = false
 ): ApiResponse {
   let session = useSession() || { property: "", user: "" };
-  const { property, user } = session;
+  const { property, current, user } = session;
 
   const { url } = useMemo(
-    () => getInfo(path, initialParams, property, user, removeDefaultParams),
-    [path, initialParams, property, user, removeDefaultParams]
+    () =>
+      getInfo(
+        path,
+        initialParams,
+        property,
+        user,
+        removeDefaultParams,
+        current
+      ),
+    [path, initialParams, property, user, removeDefaultParams, current]
   );
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -116,7 +125,8 @@ export async function fetchRawApi(
     initialParams,
     session.property,
     session?.user,
-    removeDefaultParams
+    removeDefaultParams,
+    session?.current
   );
   const res = await fetch(url);
   return await res.json();

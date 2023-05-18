@@ -91,7 +91,7 @@ function Member({
         <MenuItem
           disabled={member.permission === "read-only"}
           onClick={() => {
-            fetchRawApi("property/members/modifyPermissions", {
+            fetchRawApi("property/members/edit", {
               id: member.id,
               permission: "read-only",
               changerName: session.user.name,
@@ -109,7 +109,7 @@ function Member({
         <MenuItem
           disabled={member.permission === "member"}
           onClick={() => {
-            fetchRawApi("property/members/modifyPermissions", {
+            fetchRawApi("property/members/edit", {
               id: member.id,
               permission: "member",
               changerName: session.user.name,
@@ -317,12 +317,12 @@ export function MemberList({
         callback={async () => {
           setLeaveLoading(true);
           await fetchRawApi("property/leave", {
-            otherPropertyAccessToken: session.user.properties.find(
+            otherPropertyAccessToken: session.properties.find(
               (m) => m.permission == "owner"
             )?.accessToken,
             currentAccessToken: accessToken,
           });
-          await mutate("/api/user");
+          await mutate("/api/session");
           // window.location.reload();
           setLeaveLoading(false);
         }}

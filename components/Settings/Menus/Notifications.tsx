@@ -36,7 +36,7 @@ const base64ToUint8Array = (base64) => {
  * Top-level component for the notification settings page.
  */
 export default function Notifications() {
-  const { data, url, error } = useApi("user/notificationSettings");
+  const { data, url, error } = useApi("user/settings/notifications");
 
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const [subscription, setSubscription] = useState<any>(null);
@@ -104,7 +104,7 @@ export default function Notifications() {
   const handleNotificationChange = async (name, value) => {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        await fetchRawApi("user/handleNotificationChange", {
+        await fetchRawApi("user/settings/edit/notifications", {
           name: name,
           value: value,
         });

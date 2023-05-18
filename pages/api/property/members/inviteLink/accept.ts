@@ -29,9 +29,9 @@ const handler = async (req, res) => {
       where: { userId },
     });
 
-    cacheData.del(req.query.sessionId);
-    cacheData.del(req.query.sessionId);
-    cacheData.del(req.query.sessionId);
+    cacheData.clear();
+    cacheData.clear();
+    cacheData.clear();
 
     const data = await prisma.propertyInvite.create({
       data: {

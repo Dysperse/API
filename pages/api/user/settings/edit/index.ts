@@ -2,12 +2,6 @@
 import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
 
-/**
- * API handler for the /api/user/update endpoint
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
 const handler = async (req, res) => {
   const session = await prisma.session.findUnique({
     where: {
@@ -15,9 +9,7 @@ const handler = async (req, res) => {
     },
     select: {
       user: {
-        select: {
-          id: true,
-        },
+        select: { id: true },
       },
     },
   });

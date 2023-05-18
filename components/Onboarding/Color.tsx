@@ -20,7 +20,7 @@ export function Color({ color, handleNext }) {
         } else {
           updateSettings("color", color.toLowerCase());
         }
-        mutate("/api/user");
+        mutate("/api/session");
         handleNext();
       }}
       sx={{

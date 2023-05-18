@@ -7,26 +7,10 @@ import { prisma } from "@/lib/server/prisma";
  */
 export const getUserData = async (token: string) => {
   const session = await prisma.session.findUnique({
-    where: {
-      id: token,
-    },
-    select: {
+    where: { id: token },
+    include: {
       user: {
-        select: {
-          id: false,
-          identifier: true,
-          name: true,
-          lastReleaseVersionViewed: true,
-          email: true,
-          twoFactorSecret: true,
-          darkMode: true,
-          trophies: true,
-          color: true,
-          password: false,
-          onboardingComplete: true,
-          verifiedEmail: true,
-          //zenCardOrder: true,
-          notificationSubscription: true,
+        include: {
           properties: {
             select: {
               propertyId: true,
@@ -41,23 +25,37 @@ export const getUserData = async (token: string) => {
       },
     },
   });
-
   if (!session) {
     return { user: false };
   }
-  let _session: any = session;
-  _session.user.token = token;
-  return session;
+
+  const { ip, timestamp, user, ...restSession } = session;
+  const updatedSession = {
+    current: {
+      token,
+      ip,
+      timestamp,
+    },
+    properties: session.user.properties,
+    ...restSession,
+    userId: undefined,
+    id: undefined,
+    ip: undefined,
+    timestamp: undefined,
+    user: {
+      ...user,
+      properties: undefined,
+      password: undefined,
+      id: undefined,
+    },
+  };
+
+  return updatedSession;
 };
 
-/**
- * API handler for the /api/user/info endpoint
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
 const handler = async (req, res) => {
   res.setHeader("Cache-Control", "s-maxage=86400");
+
   try {
     const session = await getUserData(req.query.token);
     if (session && session?.user !== false) {

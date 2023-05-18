@@ -1,12 +1,6 @@
 import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
 
-/**
- * API handler for the /api/property/update endpoint
- * @param {any} req
- * @param {any} res
- * @returns {any}
- */
 const handler = async (req, res) => {
   try {
     //   Set selected to false for all other properties of the user email
@@ -29,7 +23,7 @@ const handler = async (req, res) => {
     });
 
     // Clear the cache
-    cacheData.del(req.query.sessionId);
+    cacheData.clear();
     res.json(data);
   } catch (e: any) {
     res.json({ error: e.message });

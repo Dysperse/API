@@ -78,7 +78,7 @@ export default function Inventory({ children = null }: any) {
   const [viewBy, setViewBy] = useState("Room");
 
   const { data } = useApi("property/inventory/count");
-  const { data: dataRooms, url, error } = useApi("property/rooms");
+  const { data: dataRooms, url, error } = useApi("property/inventory/rooms");
 
   return (
     <Box sx={{ display: "flex" }}>

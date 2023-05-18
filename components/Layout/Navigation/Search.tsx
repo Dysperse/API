@@ -76,7 +76,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     {
       title: "Light theme",
       onTrigger: () => {
-        mutate("/api/user");
+        mutate("/api/session");
         updateSettings("darkMode", "false");
       },
       icon: "light_mode",
@@ -123,13 +123,13 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         })
       : []),
 
-    ...(session?.user && session.user.properties
-      ? session.user.properties.map((property: any) => {
+    ...(session?.user && session.properties
+      ? session.properties.map((property: any) => {
           return {
             title: property.profile.name,
             onTrigger: () => {
               router.push("/tasks");
-              fetchRawApi("property/join", {
+              fetchRawApi("property/switch", {
                 email: session.user.email,
                 accessToken1: property.accessToken,
               }).then((res) => {
@@ -139,7 +139,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                   </span>,
                   toastStyles
                 );
-                mutate("/api/user");
+                mutate("/api/session");
               });
             },
             icon: "tag",
@@ -152,7 +152,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Sign out",
       onTrigger: () => {
         toast.promise(
-          fetchRawApi("auth/logout").then(() => mutate("/api/user")),
+          fetchRawApi("auth/logout").then(() => mutate("/api/session")),
           {
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",
@@ -208,7 +208,7 @@ export default function Spotlight() {
 
   openSpotlight = handleOpen;
 
-  const { data: roomData } = useApi("property/rooms");
+  const { data: roomData } = useApi("property/inventory/rooms");
   const { data: boardData } = useApi("property/boards");
 
   // Input event handling

@@ -29,6 +29,6 @@ export default async function handler(req: any, res: any) {
       identifier: req.query.userIdentifier,
     },
   });
-  cacheData.del(req.query.sessionId);
+  cacheData.clear();
   res.json(data);
 }

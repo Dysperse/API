@@ -25,13 +25,13 @@ export async function updateSettings(
 
   const promise = new Promise(async (resolve, reject) => {
     try {
-      let url = `/api/user/update?${new URLSearchParams({
-        sessionId: session.user.token,
-        token: session.user.token,
+      let url = `/api/user/settings/edit?${new URLSearchParams({
+        sessionId: session.current.token,
+        token: session.current.token,
         [key]: value,
       }).toString()}`;
       if (property) {
-        url = `/api/property/update?${new URLSearchParams({
+        url = `/api/property/edit?${new URLSearchParams({
           property: session.property.propertyId,
           accessToken: session.property.accessToken,
           userName: session.user.name,
@@ -46,7 +46,7 @@ export async function updateSettings(
       });
       res = await res.json();
       callback && callback();
-      mutate("/api/user").then(() => resolve("Saved!"));
+      mutate("/api/session").then(() => resolve("Saved!"));
       if (debug) {
         resolve(JSON.stringify(res));
       }

@@ -111,7 +111,7 @@ function AddItemOption({
  * @returns JSX.Element
  */
 function MoreRooms(): JSX.Element {
-  const { error, data } = useApi("property/rooms");
+  const { error, data } = useApi("property/inventory/rooms");
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
   const handleClickOpen = () => setOpen(true);

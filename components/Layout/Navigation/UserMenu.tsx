@@ -65,7 +65,7 @@ export default function InviteButton({ styles }: any) {
   const session = useSession();
 
   const { data, loading, url, fetcher, error } = useApi("user/properties");
-  const properties = [...session.user.properties, ...(data || [])]
+  const properties = [...session.properties, ...(data || [])]
     .filter((group) => group)
     .reduce((acc, curr) => {
       if (!acc.find((property) => property.propertyId === curr.propertyId)) {

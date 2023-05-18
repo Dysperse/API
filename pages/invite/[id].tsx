@@ -140,11 +140,8 @@ export default function Onboarding() {
           <LoadingButton
             loading={loading}
             disabled={
-              session?.user &&
-              session.user &&
-              session.user.properties.find(
-                (p) => p.propertyId === data.property.id
-              )
+              session.properties &&
+              session.properties.find((p) => p.propertyId === data.property.id)
             }
             variant="contained"
             disableElevation
@@ -173,7 +170,7 @@ export default function Onboarding() {
                     })
                 )
                   .then(() => {
-                    mutate("/api/user");
+                    mutate("/api/session");
                     router.push("/");
                     setLoading(false);
                   })
@@ -196,11 +193,8 @@ export default function Onboarding() {
               }
             }}
           >
-            {session?.user &&
-            session.user &&
-            session.user.properties.find(
-              (p) => p.propertyId === data.property.id
-            )
+            {session?.properties &&
+            session.properties.find((p) => p.propertyId === data.property.id)
               ? "You're already in this group"
               : "Join"}
           </LoadingButton>

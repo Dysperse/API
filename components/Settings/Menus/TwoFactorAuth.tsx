@@ -37,7 +37,7 @@ export default function App() {
             callback={() => {
               setLoadingDisable(true);
               updateSettings("twoFactorSecret", "", false, () => {
-                mutate("/api/user");
+                mutate("/api/session");
                 setLoadingDisable(false);
               });
             }}
@@ -134,7 +134,7 @@ export default function App() {
                 `/api/user/2fa/setup?${new URLSearchParams({
                   ...newSecret,
                   code,
-                  token: session.user.token,
+                  token: session.current.token,
                 }).toString()}`,
                 {
                   method: "POST",
@@ -147,7 +147,7 @@ export default function App() {
                   }
                   toast.success("2FA setup successful!", toastStyles);
                   setLoading(false);
-                  mutate("/api/user");
+                  mutate("/api/session");
                 })
                 .catch(() => {
                   toast.error("Invalid code!", toastStyles);

@@ -89,11 +89,11 @@ function PropertyInfo({
                 onClick={async () => {
                   try {
                     setLoading(true);
-                    const res = await fetchRawApi("property/join", {
+                    const res = await fetchRawApi("property/switch", {
                       email: session.user.email,
                       accessToken1: propertyData.accessToken,
                     });
-                    await mutate("/api/user");
+                    await mutate("/api/session");
                     toast.success(
                       <span>
                         Switched to &nbsp;<u>{res.profile.name}</u>

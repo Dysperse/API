@@ -39,7 +39,7 @@ export default function Document() {
         {/* Preload */}
         <link
           rel="preload"
-          href="/api/user"
+          href="/api/session"
           as="fetch"
           crossOrigin="anonymous"
         />
