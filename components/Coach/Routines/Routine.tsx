@@ -31,7 +31,7 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const mutateRoutine = useCallback(async () => {
-    const res = await fetchRawApi("user/routines/custom-routines/items", {
+    const res = await fetchRawApi("user/coach/routines/items", {
       id: routine.id,
     });
     setLoading(true);
@@ -44,7 +44,7 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
       vibrate(50);
       setCurrentIndex(0);
       setLoading(true);
-      const res = await fetchRawApi("user/routines/custom-routines/items", {
+      const res = await fetchRawApi("user/coach/routines/items", {
         id: routine.id,
       });
       setLoading(true);

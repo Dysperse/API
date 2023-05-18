@@ -61,7 +61,7 @@ export function CreateGoal({ mutationUrl }) {
     setLoading(true);
 
     try {
-      await fetchRawApi("user/routines/create", {
+      await fetchRawApi("user/coach/goals/create", {
         name: titleRef.current.value,
         stepName: goalStepName.current.value,
         category: "Any",

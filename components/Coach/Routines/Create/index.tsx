@@ -50,7 +50,7 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await fetchRawApi("user/routines/custom-routines/create", {
+      await fetchRawApi("user/coach/routines/create", {
         name,
         emoji,
         daysOfWeek,

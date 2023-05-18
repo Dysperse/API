@@ -75,7 +75,7 @@ export function TrophyModal({ goal, mutationUrl }) {
                 key={icon}
                 onClick={() => {
                   setLoading(true);
-                  fetchRawApi("user/routines/complete", {
+                  fetchRawApi("user/coach/goals/complete", {
                     daysLeft: goal.durationDays - goal.progress,
                     feedback: icon,
                     id: goal.id,

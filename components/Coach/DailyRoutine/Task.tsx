@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 export function Task({ task, mutateRoutine, setCurrentIndex }) {
   const handleClick = useCallback(() => {
     setCurrentIndex((index) => index + 1);
-    fetchRawApi("user/routines/markAsDone", {
+    fetchRawApi("user/coach/goals/markAsDone", {
       date: dayjs().format("YYYY-MM-DD"),
       progress:
         task.progress && parseInt(task.progress)

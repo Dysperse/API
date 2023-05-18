@@ -14,7 +14,7 @@ export function ExploreGoalCard({ goal }) {
       onClick={async () => {
         setLoading(true);
         try {
-          await fetchRawApi("user/routines/create", {
+          await fetchRawApi("user/coach/goals/create", {
             name: goal.name,
             stepName: goal.stepName,
             category: goal.category,

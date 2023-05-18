@@ -47,7 +47,7 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const handleClick = async () => {
     setLoading(true);
     try {
-      await fetchRawApi("user/routines/createFromTemplate", {
+      await fetchRawApi("user/coach/routines/createFromTemplate", {
         name: routine.name,
         note: "",
         daysOfWeek,

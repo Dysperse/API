@@ -21,13 +21,9 @@ export default async function handler(req: any, res: any) {
 
   await prisma.user.update({
     data: {
-      trophies: {
-        increment: 1,
-      },
+      trophies: { increment: 1 },
     },
-    where: {
-      identifier: req.query.userIdentifier,
-    },
+    where: { identifier: req.query.userIdentifier },
   });
   cacheData.clear();
   res.json(data);

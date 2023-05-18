@@ -32,12 +32,12 @@ export function GoalCard({ setData, routine, goal, goals }) {
       toastStyles
     );
 
-    await fetchRawApi("user/routines/assignToRoutine", {
+    await fetchRawApi("user/coach/goals/assignToRoutine", {
       id: goal.id,
       routineId: !added ? routine.id : "-1",
     });
 
-    const res = await fetchRawApi("user/routines/custom-routines/items", {
+    const res = await fetchRawApi("user/coach/routines/items", {
       id: routine.id,
     });
     setAdded(!added);

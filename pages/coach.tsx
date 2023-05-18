@@ -23,7 +23,7 @@ export default function Render() {
   const session = useSession();
   const trigger = useMediaQuery("(min-width: 600px)");
 
-  const { data, loading, url, error } = useApi("user/routines/streaks");
+  const { data, loading, url, error } = useApi("user/coach/streaks");
   const isTimeRunningOut = dayjs().hour() > 18;
 
   const hasCompletedForToday =

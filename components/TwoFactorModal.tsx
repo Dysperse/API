@@ -40,7 +40,7 @@ export function Prompt({
     try {
       setButtonLoading(true);
       const res = await fetch(
-        `/api/user/2fa/verify?${new URLSearchParams({
+        `/api/user/settings/2fa/verify?${new URLSearchParams({
           code: code,
           token: session.current.token,
         }).toString()}`

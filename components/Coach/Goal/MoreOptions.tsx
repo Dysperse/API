@@ -51,7 +51,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
           question="Are you sure you want to stop working towards this goal? ALL your progress will be lost FOREVER. You won't be able to undo this action!"
           callback={() => {
             handleClose();
-            fetchRawApi("user/routines/delete", {
+            fetchRawApi("user/coach/goals/delete", {
               id: goal.id,
             }).then(async () => {
               await mutate(mutationUrl);

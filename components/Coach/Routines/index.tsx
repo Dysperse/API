@@ -8,7 +8,7 @@ import { CreateRoutine } from "./Create";
 import { Routine } from "./Routine";
 
 export function Routines({ isCoach = false }: any) {
-  const { data, url, error } = useApi("user/routines/custom-routines");
+  const { data, url, error } = useApi("user/coach/routines");
   const ref: any = useRef();
 
   const loading = (

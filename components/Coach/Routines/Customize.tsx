@@ -17,7 +17,7 @@ import { Puller } from "../../Puller";
 import { GoalCard } from "./Card";
 
 export function CustomizeRoutine({ handleParentClose, setData, routine }) {
-  const { data } = useApi("user/routines");
+  const { data } = useApi("user/coach");
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const goals = data

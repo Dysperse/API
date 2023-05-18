@@ -40,7 +40,7 @@ export function EditRoutine({ setData, routine }) {
   const handleClose = () => setOpen(false);
 
   const handleSave = async () => {
-    await fetchRawApi("user/routines/custom-routines/edit", {
+    await fetchRawApi("user/coach/routines/edit", {
       id: routine.id,
       name,
       note,
@@ -49,7 +49,7 @@ export function EditRoutine({ setData, routine }) {
       timeOfDay: time,
     });
 
-    const res = await fetchRawApi("user/routines/custom-routines/items", {
+    const res = await fetchRawApi("user/coach/routines/items", {
       id: routine.id,
     });
     setData(res[0]);

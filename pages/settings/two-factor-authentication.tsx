@@ -132,7 +132,7 @@ export default function App() {
             callback={() => {
               setLoading(true);
               fetch(
-                `/api/user/2fa/setup?${new URLSearchParams({
+                `/api/user/settings/2fa/setup?${new URLSearchParams({
                   ...newSecret,
                   code,
                   token: session.current.token,

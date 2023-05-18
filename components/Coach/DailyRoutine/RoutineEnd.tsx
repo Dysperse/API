@@ -5,7 +5,7 @@ import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 
 export function RoutineEnd({ routineId = "-1" }) {
-  const { data, url, error } = useApi("user/routines/custom-routines/items", {
+  const { data, url, error } = useApi("user/coach/routines/items", {
     ...(routineId !== "-1" && { id: routineId }),
   });
 

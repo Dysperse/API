@@ -64,7 +64,7 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
             title="Are you sure you want to delete this routine?"
             question="Your progress will stay safe and your goals won't be deleted"
             callback={async () => {
-              await fetchRawApi("user/routines/custom-routines/delete", {
+              await fetchRawApi("user/coach/routines/delete", {
                 id: routine.id,
               });
               await mutate(mutationUrl);

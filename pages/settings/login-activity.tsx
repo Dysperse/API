@@ -80,7 +80,7 @@ const Session: any = React.memo(function Session({
             title="Sign out of this device?"
             question="You'll be logged out of this device - perfect if you forgot to sign out on a public device"
             callback={async () => {
-              await fetchRawApi("user/sessions/delete", {
+              await fetchRawApi("user/settings/sessions/delete", {
                 id: data[index].id,
               });
               await mutate(mutationUrl);
@@ -100,14 +100,14 @@ const Session: any = React.memo(function Session({
  * Top-level component for the account settings page.
  */
 export default function LoginActivity() {
-  const { data, url, error } = useApi("user/sessions");
+  const { data, url, error } = useApi("user/settings/sessions");
   return (
     <Layout>
       <ConfirmationModal
         title="Log out of all other devices?"
         question="You won't be logged out of the one you're on right now"
         callback={async () => {
-          await fetchRawApi("user/sessions/delete");
+          await fetchRawApi("user/settings/sessions/delete");
           await mutate(url);
         }}
       >

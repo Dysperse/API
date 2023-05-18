@@ -22,7 +22,7 @@ import { Goal } from "./Goal";
 
 export function MyGoals(): JSX.Element {
   const session = useSession();
-  const { data, error, url } = useApi("user/routines");
+  const { data, error, url } = useApi("user/coach");
   const [isScrolling, setIsScrolling] = useState(false);
   const [query, setQuery] = useState("");
   const isMobile = useMediaQuery("(max-width: 600px)");
