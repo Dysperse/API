@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
+import { validateParams } from "@/lib/server/validateParams";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 
 const handler = async (req, res) => {
@@ -7,10 +8,11 @@ const handler = async (req, res) => {
       minimum: "member",
       credentials: [req.query.property, req.query.accessToken],
     });
+    validateParams(req.query, ["property"]);
 
     const data = await prisma.item.deleteMany({
       where: {
-        AND: [{ trash: true }, { propertyId: req.query.property || "nothing" }],
+        AND: [{ trash: true }, { propertyId: req.query.property }],
       },
     });
     res.json(data);

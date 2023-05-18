@@ -19,6 +19,7 @@ const handler = async (req, res) => {
       }
     }
   }
+
   const session = await prisma.session.deleteMany({
     where: {
       ...(!req.query.id

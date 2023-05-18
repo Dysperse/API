@@ -1,8 +1,10 @@
 import { prisma } from "@/lib/server/prisma";
+import { validateParams } from "@/lib/server/validateParams";
 
 // Checks if the user has already done today's daily check-in
 export default async function handler(req, res) {
   if (req.query.delete === "true") {
+    validateParams(req.query, ["date"]);
     await prisma.dailyCheckIn.deleteMany({
       where: { date: new Date(req.query.date) },
     });
