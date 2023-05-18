@@ -152,7 +152,7 @@ export default function Layout({ children }: any) {
         <Link
           href={`/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`}
           key={button.icon}
-          style={{ display: "block" }}
+          style={{ display: "block", cursor: "default" }}
         >
           <Button
             sx={styles(
@@ -177,7 +177,7 @@ export default function Layout({ children }: any) {
           <Icon>logout</Icon>Sign out
         </Button>
       </ConfirmationModal>
-      <Link href="/zen">
+      <Link href="/zen" style={{ cursor: "default" }}>
         <Button sx={styles(false)}>
           <Icon>close</Icon>Close
         </Button>
