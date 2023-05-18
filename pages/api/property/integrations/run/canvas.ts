@@ -1,6 +1,12 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import ical from "ical";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 function extractTextInBrackets(text: string): string {
   let match = text.match(/\[(.*?)\]/);
@@ -63,8 +69,6 @@ const handler = async (req, res) => {
 
         let due = new Date();
 
-        console.log(item);
-
         if (item.start || item.end || item.dtstamp)
           due = (item.start || item.end || item.dtstamp).toISOString();
 
@@ -82,6 +86,18 @@ const handler = async (req, res) => {
           description = item.description;
           if (item.url) {
             description = `${item.description}\n\nOriginal link: ${item.url}`;
+          }
+        }
+
+        if (req.query.vanishingTasks === "true") {
+          try {
+            const currentTimeInTimeZone = dayjs().tz(req.query.timeZone);
+            const dueDateInTimeZone = dayjs(due).tz(req.query.timeZone);
+            const diff = currentTimeInTimeZone.diff(dueDateInTimeZone, "day");
+
+            if (diff >= 14) continue;
+          } catch (e) {
+            console.error(e);
           }
         }
 

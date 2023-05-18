@@ -208,6 +208,11 @@ export function BoardInfo({
                             "property/integrations/run/canvas",
                             {
                               boardId: board.id,
+                              timeZone: session.user.timeZone,
+                              vanishingTasks: session.property.profile
+                                .vanishingTasks
+                                ? "true"
+                                : "false",
                             }
                           );
                           await mutate(mutationUrls.tasks);
