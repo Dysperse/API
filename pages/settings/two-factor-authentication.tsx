@@ -1,15 +1,16 @@
+import { updateSettings } from "@/components/Settings/updateSettings";
+import { Prompt } from "@/components/TwoFactorModal";
 import LoadingButton from "@mui/lab/LoadingButton";
 import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { Prompt } from "../../TwoFactorModal";
-import { updateSettings } from "../updateSettings";
 
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Alert, Box, Link, TextField, Typography } from "@mui/material";
-import { ConfirmationModal } from "../../ConfirmationModal";
+import Layout from ".";
 
 /**
  * Top-level component for the two-factor authentication settings page.
@@ -26,7 +27,7 @@ export default function App() {
   const [loadingDisable, setLoadingDisable] = useState<boolean>(false);
 
   return (
-    <Box>
+    <Layout>
       {session.user.twoFactorSecret &&
       session.user.twoFactorSecret !== "false" ? (
         <Box>
@@ -167,6 +168,6 @@ export default function App() {
           </ConfirmationModal>
         </Box>
       )}
-    </Box>
+    </Layout>
   );
 }

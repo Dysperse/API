@@ -1,7 +1,7 @@
+import { DailyCheckIn } from "@/components/CheckIns";
 import { Routines } from "@/components/Coach/Routines";
 import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import UserMenu from "@/components/Layout/Navigation/UserMenu";
-import { DailyCheckIn } from "@/components/Start/CheckIns";
 import { RecentItems } from "@/components/Start/RecentItems";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";

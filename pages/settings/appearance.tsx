@@ -1,5 +1,4 @@
-import { updateSettings } from "./../updateSettings";
-
+import { updateSettings } from "@/components/Settings/updateSettings";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -12,6 +11,7 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import Layout from ".";
 
 /**
  * Function to change theme color (Not dark mode!)
@@ -81,7 +81,7 @@ export default function AppearanceSettings() {
   const session = useSession();
 
   return (
-    <Box>
+    <Layout>
       <ThemeColorSettings />
       <ListSubheader sx={{ mt: 3 }}>Theme</ListSubheader>
       <RadioGroup name="controlled-radio-buttons-group">
@@ -152,6 +152,6 @@ export default function AppearanceSettings() {
           </ListItemButton>
         </ListItem>
       </RadioGroup>
-    </Box>
+    </Layout>
   );
 }

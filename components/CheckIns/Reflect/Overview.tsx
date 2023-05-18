@@ -3,7 +3,7 @@ import { Box, colors, Typography } from "@mui/material";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
 import { moodOptions } from "..";
-import { ErrorHandler } from "../../../Error";
+import { ErrorHandler } from "../../Error";
 
 export function Overview({ data, url, error }) {
   const session = useSession();

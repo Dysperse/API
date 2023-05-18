@@ -1,7 +1,8 @@
+import { updateSettings } from "@/components/Settings/updateSettings";
 import { useSession } from "@/lib/client/useSession";
 import { Alert, Box, Button, Link, TextField } from "@mui/material";
 import { useCallback, useState } from "react";
-import { updateSettings } from "../updateSettings";
+import Layout from ".";
 
 /**
  * Top-level component for the account settings page.
@@ -16,7 +17,7 @@ export default function AppearanceSettings() {
   };
 
   return (
-    <Box>
+    <Layout>
       <TextField
         onKeyDown={(e) => e.stopPropagation()}
         variant="filled"
@@ -28,17 +29,20 @@ export default function AppearanceSettings() {
       />
       <TextField
         disabled
-        sx={{ mb: 2 }}
         variant="filled"
         defaultValue={session?.user && session.user.email}
         label="Email"
         margin="dense"
       />
-      <Box
-        sx={{
-          display: "flex",
-        }}
-      >
+      <TextField
+        disabled
+        sx={{ mb: 2 }}
+        variant="filled"
+        defaultValue={session?.user && session.user.timeZone}
+        label="Timezone"
+        margin="dense"
+      />
+      <Box sx={{ display: "flex" }}>
         <Button
           onClick={handleSubmit}
           variant="contained"
@@ -58,6 +62,6 @@ export default function AppearanceSettings() {
           please contact us
         </Link>
       </Alert>
-    </Box>
+    </Layout>
   );
 }

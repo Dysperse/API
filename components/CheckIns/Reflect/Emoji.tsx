@@ -18,7 +18,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { reasons } from "..";
-import { Puller } from "../../../Puller";
+import { Puller } from "../../Puller";
 import { Label } from "./Label";
 import { Overview } from "./Overview";
 

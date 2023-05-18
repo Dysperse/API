@@ -16,11 +16,11 @@ import {
   Tooltip,
 } from "@mui/material";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { preload } from "swr";
 import { ErrorHandler } from "../../Error";
-import Settings from "../../Settings/index";
 
 const Group = dynamic(() => import("../../Group"));
 
@@ -30,6 +30,7 @@ const Group = dynamic(() => import("../../Group"));
  */
 export default function InviteButton({ styles }: any) {
   const [open, setOpen] = React.useState<boolean>(false);
+  const router = useRouter();
 
   useBackButton(() => setOpen(false));
 
@@ -189,24 +190,26 @@ export default function InviteButton({ styles }: any) {
               <Icon className="outlined">smart_button</Icon>
               Apps &amp; support
             </Button>
-            <Settings>
-              <Button
-                size="large"
-                color="inherit"
-                fullWidth
-                sx={{
-                  justifyContent: "start",
-                  p: 2,
-                  py: 1.5,
-                  borderRadius: "28px",
-                  gap: 2,
-                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
-                }}
-              >
-                <Icon className="outlined">account_circle</Icon>
-                My account
-              </Button>
-            </Settings>
+            <Button
+              size="large"
+              onClick={() => {
+                handleClose();
+                router.push("/settings");
+              }}
+              color="inherit"
+              fullWidth
+              sx={{
+                justifyContent: "start",
+                p: 2,
+                py: 1.5,
+                borderRadius: "28px",
+                gap: 2,
+                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+              }}
+            >
+              <Icon className="outlined">account_circle</Icon>
+              My account
+            </Button>
           </div>
         )}
         {view == 1 && (

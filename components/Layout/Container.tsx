@@ -10,7 +10,6 @@ import { NextRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Layout } from "../../pages/_app";
-import { Property } from "../../types/session";
 
 /**
  * Main function, including layout and theme.
@@ -85,7 +84,7 @@ export function RenderWithLayout({
 
   // find active property in the array of properties
   const selectedProperty =
-    data.properties.find((property: Property) => property.selected) ||
+    data.properties.find((property: any) => property.selected) ||
     data.properties[0];
 
   modifySessionHook(() => ({

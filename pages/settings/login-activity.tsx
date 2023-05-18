@@ -1,7 +1,8 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { ErrorHandler } from "@/components/Error";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import {
-  Box,
   Button,
   Chip,
   Icon,
@@ -15,8 +16,7 @@ import dayjs from "dayjs";
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
-import { ConfirmationModal } from "../../ConfirmationModal";
-import { ErrorHandler } from "../../Error";
+import Layout from ".";
 
 const Session: any = React.memo(function Session({
   mutationUrl,
@@ -102,7 +102,7 @@ const Session: any = React.memo(function Session({
 export default function LoginActivity() {
   const { data, url, error } = useApi("user/sessions");
   return (
-    <Box>
+    <Layout>
       <ConfirmationModal
         title="Log out of all other devices?"
         question="You won't be logged out of the one you're on right now"
@@ -138,6 +138,6 @@ export default function LoginActivity() {
           )}
         />
       )}
-    </Box>
+    </Layout>
   );
 }
