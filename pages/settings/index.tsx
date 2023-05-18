@@ -76,7 +76,10 @@ export default function Layout({ children }: any) {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
+  const handleClose = () => {
+    setOpen(false);
+    setAnchorEl(null);
+  };
 
   const sidebar = (
     <>
@@ -89,6 +92,9 @@ export default function Layout({ children }: any) {
         }}
       >
         <Menu
+          sx={{
+            zIndex: 999999999999999999,
+          }}
           id="basic-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}

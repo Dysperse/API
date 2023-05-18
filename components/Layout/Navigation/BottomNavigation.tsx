@@ -85,7 +85,7 @@ export function BottomNav() {
         ["@media (max-height: 500px)"]: {
           display: "none",
         },
-        zIndex: 999,
+        zIndex: 998,
         height: "55px",
         ["@supports (-webkit-touch-callout: none)"]: {
           height: "65px",
