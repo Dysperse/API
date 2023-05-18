@@ -6,7 +6,6 @@ import { InventoryList } from "@/components/Onboarding/InventoryList";
 import { StepIcon } from "@/components/Onboarding/StepIcon";
 import { cards } from "@/components/Rooms/CreateItem/cards";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
@@ -318,7 +317,6 @@ export default function Onboarding() {
               "true",
               false,
               async () => {
-                await fetchRawApi("purge");
                 router.push("/");
               },
               false
