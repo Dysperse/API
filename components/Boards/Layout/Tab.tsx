@@ -10,7 +10,6 @@ export const Tab = React.memo(function Tab({
   const router = useRouter();
   const isActive = router.asPath.includes(board.id);
 
-  
   return (
     <span>
       <Button
