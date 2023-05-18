@@ -23,7 +23,6 @@ model User {
   twoFactorSecret          String  @default("")
   notificationSubscription String? @db.VarChar(500)
   timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
-  vanishingTasks           Boolean @default(false)
 
   lastReleaseVersionViewed Int @default(77711209)
 
@@ -101,6 +100,7 @@ model Property {
   id                  String               @id @unique @default(uuid())
   name                String               @default("My property")
   type                String               @default("apartment")
+  vanishingTasks      Boolean              @default(false)
   color               String               @default("cyan")
   Board               Board[]
   customRooms         CustomRoom[]

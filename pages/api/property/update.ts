@@ -34,6 +34,7 @@ const handler = async (req, res) => {
         name: req.query.name || undefined,
         type: req.query.type || undefined,
         color: req.query.color || undefined,
+        vanishingTasks: req.query.vanishingTasks === "true",
       },
     });
 

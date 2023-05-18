@@ -22,28 +22,27 @@ export const createInboxNotification = async (
         who: who,
         what: what,
         when: when,
-        property: {
-          connect: { id: propertyId },
-        },
+        property: { connect: { id: propertyId } },
       },
-      include: {
-        property: true,
-      },
+      include: { property: true },
     });
 
     // Fetch all members of the property
-    const members = await prisma.propertyInvite.findMany({
-      where: {
-        propertyId,
-      },
+    let members = await prisma.propertyInvite.findMany({
+      where: { propertyId },
       select: {
         user: {
-          select: {
-            notificationSubscription: true,
-          },
+          select: { identifier: true, notificationSubscription: true },
         },
       },
     });
+
+    members = Object.values(
+      members.reduce((acc, item) => {
+        acc[item.user.identifier] = item;
+        return acc;
+      }, {})
+    );
 
     // Send a notification to each member
     for (let i = 0; i < members.length; i++) {

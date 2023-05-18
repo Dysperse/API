@@ -9,9 +9,13 @@ import {
   Divider,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemSecondaryAction,
+  ListItemText,
   Menu,
   MenuItem,
   SwipeableDrawer,
+  Switch,
   TextField,
   Toolbar,
   Typography,
@@ -20,6 +24,7 @@ import React, {
   cloneElement,
   useCallback,
   useDeferredValue,
+  useEffect,
   useState,
 } from "react";
 import { updateSettings } from "../Settings/updateSettings";
@@ -38,6 +43,15 @@ export function EditProperty({
   const [name, setName] = useState(
     propertyData.profile.name || "Untitled property"
   );
+
+  const [vanishingTasks, setVanishingTasks] = useState<boolean>(
+    propertyData.profile.vanishingTasks
+  );
+
+  useEffect(() => {
+    setVanishingTasks(propertyData.profile.vanishingTasks);
+  }, [propertyData.profile.vanishingTasks]);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const deferredName = useDeferredValue(name);
@@ -205,10 +219,32 @@ export function EditProperty({
               {propertyData.profile.type}
             </Typography>
           </Button>
-          <Alert severity="warning">
+          <Alert severity="warning" sx={{ mb: 3 }}>
             Heads up! Changing your group type may cause data loss. Change this
             setting with caution.
           </Alert>
+          <ListItemButton disableRipple>
+            <ListItemText
+              primary="Vanishing tasks"
+              secondary="Delete completed tasks more than 14 days old"
+            />
+            <ListItemSecondaryAction>
+              <Switch
+                checked={vanishingTasks}
+                onChange={(_, newValue) => {
+                  setVanishingTasks(newValue);
+
+                  updateSettings(
+                    "vanishingTasks",
+                    newValue ? "true" : "false",
+                    false,
+                    null,
+                    true
+                  ).then(() => setTimeout(mutatePropertyData, 1000));
+                }}
+              />
+            </ListItemSecondaryAction>
+          </ListItemButton>
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
