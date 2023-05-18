@@ -120,7 +120,7 @@ export const Task: any = React.memo(function Task({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          await fetchRawApi("property/boards/togglePin", {
+          fetchRawApi("property/boards/column/task/edit", {
             id: taskData.id,
             pinned: !taskData.pinned ? "true" : "false",
           }).then(() => {

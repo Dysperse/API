@@ -51,7 +51,7 @@ export default function DrawerContent({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          await fetchRawApi("property/boards/togglePin", {
+          fetchRawApi("property/boards/column/task/edit", {
             id: data.id,
             pinned: !data.pinned ? "true" : "false",
           }).then(() => {
