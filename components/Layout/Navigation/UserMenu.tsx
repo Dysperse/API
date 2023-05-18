@@ -34,9 +34,9 @@ export default function InviteButton({ styles }: any) {
 
   useBackButton(() => setOpen(false));
 
-  useHotkeys(["ctrl+,"], (e) => {
+  useHotkeys(["ctrl+comma"], (e) => {
     e.preventDefault();
-    document.getElementById("settingsTrigger")?.click();
+    router.push("/settings/account");
   });
 
   useHotkeys(
@@ -63,6 +63,7 @@ export default function InviteButton({ styles }: any) {
     },
     [open]
   );
+
   const session = useSession();
 
   const { data, loading, url, fetcher, error } = useApi("user/properties");
@@ -194,7 +195,7 @@ export default function InviteButton({ styles }: any) {
               size="large"
               onClick={() => {
                 handleClose();
-                router.push("/settings");
+                router.push("/settings/account");
               }}
               color="inherit"
               fullWidth
