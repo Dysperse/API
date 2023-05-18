@@ -288,7 +288,7 @@ export default function DrawerContent({
                 session.permission === "read-only"
               }
               fullWidth
-              defaultValue={parseEmojis(data.description || " ")}
+              defaultValue={parseEmojis(data.description || "")}
               variant="standard"
               InputProps={{
                 disableUnderline: true,
