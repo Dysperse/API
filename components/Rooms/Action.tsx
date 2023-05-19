@@ -126,6 +126,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
             }%)!important`,
           }),
           transition: "none",
+          cursor: { sm: "default" },
           mb: 0.2,
         }}
       >
