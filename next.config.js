@@ -22,6 +22,11 @@ const moduleExports = {
           permanent: false,
         },
         {
+          source: "/api/user",
+          destination: "/api/session",
+          permanent: false,
+        },
+        {
           source: "/signup",
           destination: "/auth/signup",
           permanent: true,
