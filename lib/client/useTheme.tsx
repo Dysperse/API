@@ -242,16 +242,19 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   "&.Mui-disabled + .MuiSwitch-track": {
                     opacity: 0.5,
                   },
+                  "&.Mui-disabled .MuiSwitch-thumb": {
+                    color: !darkMode ? "hsl(240,11%,90%)" : colors.grey[600],
+                  },
                 },
                 "&.Mui-focusVisible .MuiSwitch-thumb": {
                   color: "#33cf4d",
                   border: "6px solid #fff",
                 },
                 "&.Mui-disabled .MuiSwitch-thumb": {
-                  color: !darkMode ? "hsl(240,11%,10%)" : colors.grey[600],
+                  color: !darkMode ? "hsl(240,11%,70%)" : colors.grey[600],
                 },
                 "&.Mui-disabled + .MuiSwitch-track": {
-                  opacity: !darkMode ? 0.7 : 0.3,
+                  opacity: darkMode ? 0.3 : 1,
                 },
               },
               "& .MuiSwitch-thumb": {

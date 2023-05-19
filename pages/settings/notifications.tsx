@@ -8,6 +8,7 @@ import {
   Alert,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Divider,
   ListItem,
@@ -137,7 +138,7 @@ export default function Notifications() {
         data ? (
           <Box sx={{ mb: 2 }}>
             <Alert severity="info" sx={{ borderRadius: 4, mb: 1 }}>
-              Notifications is still in beta, and you might encounter bugs. We
+              Notifications are still in beta, and you might encounter bugs. We
               recommend you to turn this on later, but if you are curious - feel
               free to try it out at your own risk!
             </Alert>
@@ -255,7 +256,16 @@ export default function Notifications() {
 
             <ListItem>
               <ListItemText
-                primary="Low item count reminders (COMING SOON)"
+                primary={
+                  <>
+                    Low item count reminders{" "}
+                    <Chip
+                      size="small"
+                      label="Coming soon"
+                      sx={{ fontWeight: 700, ml: 1 }}
+                    />
+                  </>
+                }
                 secondary="Recieve a notification when you have less than 5 items in your inventory"
               />
               <Switch
