@@ -113,13 +113,14 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
       : `/rooms/${room?.toLowerCase()}`;
 
   const itemCount = count && count[isCustom ? room.id : room.toLowerCase()];
+  const isActive = decodeURIComponent(router.asPath) == href;
   return (
     <>
       <ListItemButton
         onContextMenu={handleClick}
-        onClick={() => router.push(href)}
+        onClick={() => router.push(isActive ? "/items" : href)}
         sx={{
-          ...(decodeURIComponent(router.asPath) == href && {
+          ...(isActive && {
             background: `hsl(240,11%,${
               session.user.darkMode ? 15 : 90
             }%)!important`,
@@ -130,7 +131,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
       >
         <ListItemIcon sx={{ minWidth: "40px" }}>
           <Icon
-            {...(!(decodeURIComponent(router.asPath) == href) && {
+            {...(!isActive && {
               className: "outlined",
             })}
           >
@@ -138,7 +139,19 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
           </Icon>
         </ListItemIcon>
         <ListItemText
-          primary={capitalizeFirstLetter((isCustom ? room?.name : room) || "")}
+          primary={
+            <span
+              style={{
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                width: "calc(100% - 30px)",
+                display: "block",
+              }}
+            >
+              {capitalizeFirstLetter((isCustom ? room?.name : room) || "")}
+            </span>
+          }
           {...(itemCount && {
             secondary: `${itemCount} item${itemCount !== 1 ? "s" : ""}`,
           })}
@@ -146,6 +159,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
         {isCustom && (
           <ListItemSecondaryAction>
             <IconButton
+              size="small"
               onClick={(e: any) => {
                 e.stopPropagation();
                 handleClick(e);
