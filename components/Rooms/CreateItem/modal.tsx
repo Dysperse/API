@@ -148,7 +148,7 @@ export function CreateItemModal({
             </ConfirmationModal>
 
             <Typography sx={{ mx: "auto", fontWeight: 600 }}>
-              {capitalizeFirstLetter(room ? (room[1] ? room[1] : room[0]) : "")}
+              {capitalizeFirstLetter(room || "")}
             </Typography>
             <IconButton
               onClick={handleSubmit}
