@@ -71,7 +71,7 @@ export function CreateGoal({ mutationUrl, isCoach }) {
             />
           ) : (
             <Skeleton
-              height={350}
+              height={250}
               variant="rectangular"
               sx={{ borderRadius: 5 }}
             />

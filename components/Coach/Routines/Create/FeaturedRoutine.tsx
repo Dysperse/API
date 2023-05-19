@@ -294,8 +294,8 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               flexShrink: 0,
               mt: 2,
               "& img": {
-                width: { xs: 50, sm: 100 },
-                height: { xs: 50, sm: 100 },
+                width: { xs: 50, sm: 70 },
+                height: { xs: 50, sm: 70 },
               },
             }}
           >
