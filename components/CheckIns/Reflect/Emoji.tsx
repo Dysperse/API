@@ -15,7 +15,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Label } from "./Label";
 
 export const questions = [
@@ -69,19 +69,19 @@ export const questions = [
 
 function ExperimentalAiReflection({ emoji, answers }) {
   const session = useSession();
-  const temp = {
-    reason_for_emoji: answers[0],
-    "stress_levels_from_1_to_5 (1 lowest, 5 highest)": answers[1],
-    sleep_reflection: answers[2],
-    is_in_physical_pain_from_1_to_5: answers[3],
-    eaten_in_last_four_hours: answers[4],
-  };
 
   const [data, setData] = useState<null | any>(null);
   const [error, setError] = useState<null | any>(false);
 
-  const handleThink = async () => {
+  const handleThink = useCallback(async () => {
     try {
+      const temp = {
+        reason_for_emoji: answers[0],
+        "stress_levels_from_1_to_5 (1 lowest, 5 highest)": answers[1],
+        sleep_reflection: answers[2],
+        is_in_physical_pain_from_1_to_5: answers[3],
+        eaten_in_last_four_hours: answers[4],
+      };
       setError(false);
       setData(null);
       const d = await fetchRawApi("ai/reflection", {
@@ -92,7 +92,11 @@ function ExperimentalAiReflection({ emoji, answers }) {
     } catch (e) {
       setError(true);
     }
-  };
+  }, [emoji, answers]);
+
+  useEffect(() => {
+    handleThink();
+  }, [handleThink]);
 
   return (
     <Box>
@@ -149,7 +153,12 @@ function ExperimentalAiReflection({ emoji, answers }) {
             ))}
         </Box>
       ) : (
-        <Skeleton variant="rectangular" animation="wave" />
+        <Skeleton
+          variant="rectangular"
+          height={300}
+          sx={{ borderRadius: 5 }}
+          animation="wave"
+        />
       )}
     </Box>
   );
