@@ -150,7 +150,7 @@ export default function Layout({ children }: any) {
       {[
         { icon: "account_circle", text: "Account" },
         { icon: "palette", text: "Appearance" },
-        { icon: "history", text: "Login Activity" },
+        { icon: "change_history", text: "Login Activity" },
         { icon: "notifications", text: "Notifications" },
         { icon: "lock", text: "Two-factor authentication" },
       ].map((button) => (
