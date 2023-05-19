@@ -15,6 +15,7 @@ Month of year: ${month}
 # Instructions: 
 Based on the time of the year, generate a personalized, new routine which will benefit the user. 
 Categories can be anything, from "Health" to "Finances" to "Education" or anything which will help a person.
+Emojis must only be a lowercase unicode string.
 
 # Example response: 
 {
