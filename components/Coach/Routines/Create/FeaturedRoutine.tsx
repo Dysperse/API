@@ -51,12 +51,7 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         name: routine.name,
         note: "",
         daysOfWeek,
-        emoji: routine.emoji
-          .replace(".png", "")
-          .replace(
-            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/",
-            ""
-          ),
+        emoji: routine.emoji.toLowerCase(),
         timeOfDay: routine.timeOfDay,
         items: JSON.stringify(routineItems),
       });
@@ -93,7 +88,10 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         </AppBar>
         <Box sx={{ p: 3 }}>
           <picture>
-            <img src={routine.emoji} alt="Emoji" />
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji.toLowerCase()}.png`}
+              alt="Emoji"
+            />
           </picture>
           <Typography variant="h4" className="font-heading" sx={{ mt: 2 }}>
             {routine.name}
@@ -268,15 +266,13 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         }}
       >
         <Chip
-          size="small"
-          label={"Routine"}
+          label="Dysperse AI"
           icon={
             <Icon sx={{ color: "#000!important" }} className="outlined">
-              wb_cloudy
+              magic_button
             </Icon>
           }
           sx={{
-            gap: 1,
             ...chipStyles,
             position: "absolute",
             top: 0,
@@ -304,7 +300,10 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
             }}
           >
             <picture>
-              <img src={routine.emoji} alt="Emoji" />
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji.toLowerCase()}.png`}
+                alt="Emoji"
+              />
             </picture>
           </Box>
           <Box>

@@ -1,3 +1,4 @@
+import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { Masonry } from "@mui/lab";
 import {
@@ -5,15 +6,17 @@ import {
   Box,
   Icon,
   IconButton,
+  Skeleton,
   SwipeableDrawer,
   Toolbar,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { useCallback, useMemo, useState } from "react";
 import { ExploreGoalCard } from "../../Routines/Create/ExploreGoalCard";
 import { FeaturedRoutine } from "../../Routines/Create/FeaturedRoutine";
 import { CreateGoal as CreateCustomGoal } from "./Custom";
-import { categories, goals, routines } from "./goalTemplates";
+import { categories, goals } from "./goalTemplates";
 
 export function CreateGoal({ mutationUrl, isCoach }) {
   const session = useSession();
@@ -22,10 +25,9 @@ export function CreateGoal({ mutationUrl, isCoach }) {
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const randomRoutine = useMemo(
-    () => routines[Math.floor(Math.random() * routines.length)],
-    []
-  );
+  const { data, error } = useApi("ai/routine", {
+    month: dayjs().format("MMMM"),
+  });
 
   const shuffled = useMemo(() => goals.sort(() => Math.random() - 0.5), []);
 
@@ -61,11 +63,19 @@ export function CreateGoal({ mutationUrl, isCoach }) {
           </Toolbar>
         </AppBar>
         <Box sx={{ p: { xs: 2, sm: 4 } }}>
-          <FeaturedRoutine
-            routine={randomRoutine}
-            mutationUrl={mutationUrl}
-            setOpen={setOpen}
-          />
+          {data ? (
+            <FeaturedRoutine
+              routine={data.response}
+              mutationUrl={mutationUrl}
+              setOpen={setOpen}
+            />
+          ) : (
+            <Skeleton
+              height={400}
+              variant="rectangular"
+              sx={{ borderRadiu: 5 }}
+            />
+          )}
           <Box
             sx={{
               px: { xs: 1, sm: 2 },
