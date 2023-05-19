@@ -122,7 +122,13 @@ export function CreateRoom(): JSX.Element {
           </LoadingButton>
         </Box>
       </SwipeableDrawer>
-      <ListItemButton onClick={() => setOpen(true)}>
+      <ListItemButton
+        onClick={() => setOpen(true)}
+        sx={{
+          cursor: { sm: "default" },
+        }}
+        disabled={storage?.isReached === true}
+      >
         <ListItemIcon sx={{ minWidth: "40px" }}>
           <Icon className="outlined">add_circle</Icon>
         </ListItemIcon>
