@@ -225,7 +225,10 @@ export function Routines({ isCoach = false }: any) {
         loading
       )}
       {error && (
-        <ErrorHandler callback={() => mutate(url)} error="Oh no! An error occured while trying to fetch your routines! Please try again later." />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="Oh no! An error occured while trying to fetch your routines! Please try again later."
+        />
       )}
     </Box>
   );
