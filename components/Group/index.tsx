@@ -299,7 +299,10 @@ export default function Group({
               <CircularProgress />
             ) : (
               error && (
-                <ErrorHandler error="An error occured while trying to load your group" />
+                <ErrorHandler
+                  callback={mutatePropertyData}
+                  error="An error occured while trying to load your group"
+                />
               )
             )}
           </Box>

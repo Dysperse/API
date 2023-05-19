@@ -273,6 +273,7 @@ export function MemberList({
 
   return error ? (
     <ErrorHandler
+      callback={() => mutate(url)}
       error={"An error occured while trying to fetch your members"}
     />
   ) : (

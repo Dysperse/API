@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { ErrorHandler } from "../../Error";
 import { CreateRoutine } from "./Create";
 import { Routine } from "./Routine";
+import { mutate } from "swr";
 
 export function Routines({ isCoach = false }: any) {
   const { data, url, error } = useApi("user/coach/routines");
@@ -224,7 +225,7 @@ export function Routines({ isCoach = false }: any) {
         loading
       )}
       {error && (
-        <ErrorHandler error="Oh no! An error occured while trying to fetch your routines! Please try again later." />
+        <ErrorHandler callback={() => mutate(url)} error="Oh no! An error occured while trying to fetch your routines! Please try again later." />
       )}
     </Box>
   );

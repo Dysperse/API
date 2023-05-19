@@ -168,6 +168,7 @@ export default function Trash() {
           </ConfirmationModal>
           {error && (
             <ErrorHandler
+            callback={()=>mutate(url)}
               error={
                 "Yikes! An error occured while trying to fetch your trash. Please try again later"
               }

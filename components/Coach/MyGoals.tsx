@@ -17,6 +17,7 @@ import {
 import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
 
@@ -25,12 +26,6 @@ export function MyGoals(): JSX.Element {
   const { data, error, url } = useApi("user/coach");
   const [isScrolling, setIsScrolling] = useState(false);
   const [query, setQuery] = useState("");
-  const isMobile = useMediaQuery("(max-width: 600px)");
-
-  const completedGoals = useMemo(
-    () => (data ? data.filter((goal) => goal.completed).length : 0),
-    [data]
-  );
 
   const unclaimedGoals = useMemo(
     () =>
@@ -246,7 +241,10 @@ export function MyGoals(): JSX.Element {
       )}
     </Box>
   ) : error ? (
-    <ErrorHandler error="An error occured while trying to fetch your routines" />
+    <ErrorHandler
+      callback={() => mutate(url)}
+      error="An error occured while trying to fetch your routines"
+    />
   ) : (
     <Box sx={{ mt: 3, px: 3 }}>
       <Typography variant="h5" sx={{ mb: 2 }}>

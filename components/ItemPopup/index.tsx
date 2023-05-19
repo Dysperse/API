@@ -321,7 +321,10 @@ export default function ItemDrawer({
       >
         <Puller />
         {error && (
-          <ErrorHandler error="An error occured while trying to fetch the item's data. Please try again later" />
+          <ErrorHandler
+            callback={() => mutate(mutationUrl)}
+            error="An error occured while trying to fetch the item's data. Please try again later"
+          />
         )}
         {itemData ? (
           <DrawerData

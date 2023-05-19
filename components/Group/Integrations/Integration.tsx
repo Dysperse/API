@@ -16,6 +16,7 @@ import {
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { ErrorHandler } from "../../Error";
+import { mutate } from "swr";
 
 export function Integration({ integration }) {
   const [open, setOpen] = useState<boolean>(false);
@@ -49,12 +50,15 @@ export function Integration({ integration }) {
     });
     toast.success("Added integration!", toastStyles);
   };
-  const { data, error } = useApi("property/boards");
+  const { data, url, error } = useApi("property/boards");
 
   return (
     <>
       {error && (
-        <ErrorHandler error="Yikes! An error occured while trying to get your boards! Please try again later..." />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="Yikes! An error occured while trying to get your boards! Please try again later..."
+        />
       )}
       <ListItemButton sx={{ mb: 1, gap: 2 }} onClick={() => setOpen(true)}>
         <Avatar src={integration.image} sx={{ borderRadius: 3 }} />

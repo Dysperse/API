@@ -137,7 +137,10 @@ export default function CategoryModal({
             </Box>
           )}
           {error && (
-            <ErrorHandler error="An error occured while trying to fetch your categories" />
+            <ErrorHandler
+              callback={() => mutate(url)}
+              error="An error occured while trying to fetch your categories"
+            />
           )}
           {data &&
             [...new Set(data)].map((category: any) => (

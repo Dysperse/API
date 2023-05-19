@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { Tab } from "./Tab";
@@ -63,7 +64,7 @@ export const taskStyles = (session) => {
 };
 
 export function TasksLayout({ open, setOpen, children }) {
-  const { data, error } = useApi("property/boards");
+  const { data, url, error } = useApi("property/boards");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const storage = useAccountStorage();
@@ -130,7 +131,10 @@ export function TasksLayout({ open, setOpen, children }) {
   const menuChildren = (
     <>
       {error && (
-        <ErrorHandler error="An error occurred while loading your tasks" />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="An error occurred while loading your tasks"
+        />
       )}
 
       <Typography sx={taskStyles(session).subheading}>Planner</Typography>

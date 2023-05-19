@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
 import { taskStyles } from "./Layout";
@@ -71,7 +72,10 @@ export function ColoredTasks({ setDrawerOpen }) {
             {data.length} task{data.length !== 1 && "s"}
           </Typography>
           {error && (
-            <ErrorHandler error="Yikes! An error occured while trying to fetch your color coded tasks. Please try again later." />
+            <ErrorHandler
+              callback={() => mutate(url)}
+              error="Yikes! An error occured while trying to fetch your color coded tasks. Please try again later."
+            />
           )}
           {[
             "all",

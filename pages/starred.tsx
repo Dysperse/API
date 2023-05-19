@@ -6,6 +6,7 @@ import { useSession } from "@/lib/client/useSession";
 import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { mutate } from "swr";
 import Categories from "./items";
 
 export default function Trash() {
@@ -83,7 +84,10 @@ export default function Trash() {
             </Box>
           )}
           {error && (
-            <ErrorHandler error="Oh no! An error occured while trying to get your starred items! Please try again later" />
+            <ErrorHandler
+              callback={() => mutate(url)}
+              error="Oh no! An error occured while trying to get your starred items! Please try again later"
+            />
           )}
         </Box>
       )}

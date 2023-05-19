@@ -127,7 +127,10 @@ export default function LoginActivity() {
         </Button>
       </ConfirmationModal>
       {error && (
-        <ErrorHandler error="An error occured while trying to fetch your logged-in devices" />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="An error occured while trying to fetch your logged-in devices"
+        />
       )}
       {data && (
         <Virtuoso

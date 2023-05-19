@@ -2,6 +2,7 @@ import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
+import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 
 export const max = 500;
@@ -24,7 +25,7 @@ export function Storage({
   propertyId: string;
   color: string;
 }) {
-  const { data, error } = useApi("property/storage", {
+  const { data, url, error } = useApi("property/storage", {
     property: propertyId,
     accessToken,
   });
@@ -44,7 +45,10 @@ export function Storage({
         Storage
       </Typography>
       {error ? (
-        <ErrorHandler error="An error occured while trying to get your account's storage information. Please try again later" />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="An error occured while trying to get your account's storage information. Please try again later"
+        />
       ) : (
         <Box
           sx={{

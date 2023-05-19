@@ -19,7 +19,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { preload } from "swr";
+import { mutate, preload } from "swr";
 import { ErrorHandler } from "../../Error";
 
 const Group = dynamic(() => import("../../Group"));
@@ -173,7 +173,10 @@ export default function InviteButton({ styles }: any) {
               </Group>
             ))}
             {error && (
-              <ErrorHandler error="An error occured while trying to fetch your other groups" />
+              <ErrorHandler
+                callback={() => mutate(url)}
+                error="An error occured while trying to fetch your other groups"
+              />
             )}
             <Button
               size="large"

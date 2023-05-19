@@ -278,7 +278,10 @@ export default function Notifications() {
             </ListItem>
           </Box>
         ) : error ? (
-          <ErrorHandler error="An error occured while trying to fetch your notification settings" />
+          <ErrorHandler
+            callback={() => mutate(url)}
+            error="An error occured while trying to fetch your notification settings"
+          />
         ) : (
           <Box
             sx={{

@@ -11,6 +11,8 @@ import {
 import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
+import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
 import { taskStyles } from "./Layout";
@@ -19,6 +21,7 @@ export function Backlog({ setDrawerOpen }) {
   const { data, url, error } = useApi("property/tasks/backlog", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
+  const [loading, setLoading] = useState(false);
   const session = useSession();
 
   if (!data) {
@@ -60,14 +63,37 @@ export function Backlog({ setDrawerOpen }) {
       {!data ||
         (data?.length !== 0 && (
           <Box sx={{ p: 3, pb: 0, pt: 5 }}>
-            <Typography className="font-heading" variant="h4" gutterBottom>
-              Backlog
-            </Typography>
-            <Typography sx={{ mb: 2 }}>
-              {data.length} unfinished tasks
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+              <Box>
+                <Typography className="font-heading" variant="h4" gutterBottom>
+                  Backlog
+                </Typography>
+                <Typography>{data.length} unfinished tasks</Typography>
+              </Box>
+              <IconButton
+                onClick={async () => {
+                  setLoading(true);
+                  await mutate(url);
+                  setLoading(false);
+                }}
+                sx={{ ml: "auto" }}
+                disabled={loading}
+              >
+                <Icon
+                  sx={{
+                    transition: "all .2s",
+                    ...(loading && { transform: "scale(.9)", opacity: 0.9 }),
+                  }}
+                >
+                  refresh
+                </Icon>
+              </IconButton>
+            </Box>
             {error && (
-              <ErrorHandler error="Yikes! An error occured while trying to fetch your backlog. Please try again later." />
+              <ErrorHandler
+                callback={() => mutate(url)}
+                error="Yikes! An error occured while trying to fetch your backlog. Please try again later."
+              />
             )}
           </Box>
         ))}

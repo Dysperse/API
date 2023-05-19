@@ -16,6 +16,7 @@ import {
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { createContext, useState } from "react";
+import { mutate } from "swr";
 
 const Action = dynamic(() => import("@/components/Rooms/Action"));
 
@@ -34,7 +35,10 @@ const CategoryList = React.memo(function CategoryList() {
   return (
     <>
       {error && (
-        <ErrorHandler error="An error occured while trying to fetch your items" />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="An error occured while trying to fetch your items"
+        />
       )}
       {!error && data ? (
         <>
