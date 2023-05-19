@@ -37,7 +37,6 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     borderRadius: 0,
     transition: "none",
     py: 1.5,
-
     gap: 2,
     color: session.user.darkMode
       ? "hsl(240, 11%, 90%)"
@@ -48,7 +47,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     "&:hover, &:active, &:focus-within": {
       background: session.user.darkMode
         ? "hsl(240, 11%, 25%)"
-        : colors[session?.themeColor || "grey"][100],
+        : colors[session?.themeColor || "grey"][50],
       color: session.user.darkMode
         ? "hsl(240, 11%, 95%)"
         : colors[session?.themeColor || "grey"][900],
@@ -59,7 +58,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     "&:hover, &:active, &:focus-within": {
       background: session.user.darkMode
         ? "hsl(240, 11%, 20%)"
-        : colors[session?.themeColor || "grey"][100],
+        : colors[session?.themeColor || "grey"][50],
     },
     borderRadius: 2,
     pl: "10px",

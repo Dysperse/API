@@ -121,7 +121,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
         sx={{
           ...(decodeURIComponent(router.asPath) == href && {
             background: `hsl(240,11%,${
-              session.user.darkMode ? 15 : 95
+              session.user.darkMode ? 15 : 90
             }%)!important`,
           }),
           transition: "none",
