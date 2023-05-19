@@ -9,7 +9,8 @@ import { mutate } from "swr";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { Alert, Box, Link, TextField, Typography } from "@mui/material";
+import { Alert, Box, Link, Typography } from "@mui/material";
+import { MuiOtpInput } from "mui-one-time-password-input";
 import Layout from ".";
 
 /**
@@ -56,14 +57,18 @@ export default function App() {
         </Box>
       ) : (
         <Box>
-          <Typography variant="h5">2FA Setup</Typography>
           <Typography sx={{ mt: 1 }}>
-            Two-Factor Authentication (2FA) works by adding an additional layer
-            of security to your Dysperse account.
+            Two-factor authentication (2FA) provides an additional layer of
+            security to protect your Dysperse account. By implementing 2FA,
+            Dysperse ensures that access to your account requires not just a
+            password but also a second form of verification.
           </Typography>
 
-          <Typography sx={{ mt: 4, fontWeight: "700" }}>
-            Step 1: Download the Google Authenticator from the{" "}
+          <Typography variant="h6" sx={{ mt: 4 }}>
+            Step 1
+          </Typography>
+          <Typography sx={{ fontWeight: "700" }}>
+            Download the Google Authenticator from the{" "}
             <Link
               target="_blank"
               href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US&gl=US"
@@ -79,9 +84,12 @@ export default function App() {
             </Link>
           </Typography>
 
-          <Typography sx={{ mt: 4, fontWeight: "700" }}>
-            Step 2: Click the &ldquo;+&rdquo; button in the bottom right corner
-            of your screen, and scan the QR code below:
+          <Typography variant="h6" sx={{ mt: 4 }}>
+            Step 2
+          </Typography>
+          <Typography sx={{ fontWeight: "700" }}>
+            Click the &ldquo;+&rdquo; button in the bottom right corner of your
+            screen, and scan the QR code below:
           </Typography>
           <div
             style={{
@@ -104,68 +112,62 @@ export default function App() {
             </picture>
           </div>
 
-          <Typography sx={{ mt: 4, fontWeight: "700" }}>
-            Step 3: Enter the code you see in the Google Authenticator app
-            below:
+          <Typography variant="h6" sx={{ mt: 4 }}>
+            Step 3
           </Typography>
-          <TextField
-            variant="filled"
-            label="6-digit code (without spaces)"
-            placeholder="*******"
-            disabled={loading}
-            type="number"
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-            value={
-              code.toString().length > 6
-                ? code.toString().substring(0, 6)
-                : code.toString()
-            }
-            onChange={(e: any) => {
-              setCode(e.target.value.replace(" ", ""));
-            }}
-            sx={{ mt: 2 }}
-          />
+          <Typography sx={{ fontWeight: "700" }}>
+            Enter the code you see in the Google Authenticator app below:
+          </Typography>
+          <Box sx={{ maxWidth: "500px" }}>
+            <MuiOtpInput
+              value={code}
+              sx={{ mt: 2 }}
+              length={6}
+              onChange={(value) => setCode(value)}
+            />
 
-          <ConfirmationModal
-            title="Turn on 2FA?"
-            question="Are you sure you want to turn on 2FA? If you lose access to your authenticator, you will be locked out of your account."
-            callback={() => {
-              setLoading(true);
-              fetch(
-                `/api/user/settings/2fa/setup?${new URLSearchParams({
-                  ...newSecret,
-                  code,
-                  token: session.current.token,
-                }).toString()}`,
-                {
-                  method: "POST",
-                }
-              )
-                .then((res) => res.json())
-                .then((res) => {
-                  if (res.error) {
-                    throw new Error(res.error);
+            <ConfirmationModal
+              title="Turn on 2FA?"
+              question="Are you sure you want to turn on 2FA? If you lose access to your authenticator, you will be locked out of your account."
+              callback={() => {
+                setLoading(true);
+                fetch(
+                  `/api/user/settings/2fa/setup?${new URLSearchParams({
+                    ...newSecret,
+                    code,
+                    token: session.current.token,
+                  }).toString()}`,
+                  {
+                    method: "POST",
                   }
-                  toast.success("2FA setup successful!", toastStyles);
-                  setLoading(false);
-                  mutate("/api/session");
-                })
-                .catch(() => {
-                  toast.error("Invalid code!", toastStyles);
-                  setLoading(false);
-                });
-            }}
-          >
-            <LoadingButton
-              loading={loading}
-              variant="contained"
-              sx={{ mt: 2, boxShadow: 0, borderRadius: 5, mb: 4 }}
-              fullWidth
-              size="large"
+                )
+                  .then((res) => res.json())
+                  .then((res) => {
+                    if (res.error) {
+                      throw new Error(res.error);
+                    }
+                    toast.success("2FA setup successful!", toastStyles);
+                    setLoading(false);
+                    mutate("/api/session");
+                  })
+                  .catch(() => {
+                    toast.error("Invalid code!", toastStyles);
+                    setLoading(false);
+                  });
+              }}
             >
-              Verify
-            </LoadingButton>
-          </ConfirmationModal>
+              <LoadingButton
+                loading={loading}
+                variant="contained"
+                sx={{ mt: 2, boxShadow: 0, borderRadius: 5, mb: 4 }}
+                fullWidth
+                size="large"
+                disabled={code.length < 6}
+              >
+                Verify
+              </LoadingButton>
+            </ConfirmationModal>
+          </Box>
         </Box>
       )}
     </Layout>
