@@ -3,6 +3,7 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import {
+  AppBar,
   Box,
   Button,
   Icon,
@@ -10,6 +11,7 @@ import {
   Menu,
   MenuItem,
   SwipeableDrawer,
+  Toolbar,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -154,6 +156,7 @@ export default function Layout({ children }: any) {
       ].map((button) => (
         <Link
           href={`/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`}
+          onClick={() => setOpen(false)}
           key={button.icon}
           style={{ display: "block", cursor: "default" }}
         >
@@ -180,11 +183,13 @@ export default function Layout({ children }: any) {
           <Icon>logout</Icon>Sign out
         </Button>
       </ConfirmationModal>
-      <Link href="/zen" style={{ cursor: "default" }} ref={closeRef}>
-        <Button sx={styles(false)}>
-          <Icon>close</Icon>Close
-        </Button>
-      </Link>
+      {!isMobile && (
+        <Link href="/zen" style={{ cursor: "default" }} ref={closeRef}>
+          <Button sx={styles(false)}>
+            <Icon>close</Icon>Close
+          </Button>
+        </Link>
+      )}
     </>
   );
 
@@ -197,7 +202,9 @@ export default function Layout({ children }: any) {
         width: "100vw",
         left: 0,
         zIndex: 999,
-        background: `hsl(240,11%,${session.user.darkMode ? 5 : 97}%)`,
+        background: `hsl(240,11%,${
+          session.user.darkMode ? 5 : isMobile ? 100 : 97
+        }%)`,
       }}
     >
       {!isMobile && (
@@ -251,34 +258,44 @@ export default function Layout({ children }: any) {
           height: "100vh",
           overflowY: "auto",
           flexGrow: 1,
-          p: { xs: 3, sm: 5 },
+          p: { xs: 0, sm: 5 },
         }}
       >
-        {isMobile && (
-          <IconButton
-            onClick={() => setOpen(true)}
-            sx={{
-              zIndex: 9999999999,
-              position: "fixed",
-              bottom: 0,
-              left: 0,
-              m: 3,
-              background: `hsl(240,11%,${session.user.darkMode ? 10 : 94}%)`,
-            }}
-            size="large"
-          >
-            <Icon>menu</Icon>
-          </IconButton>
-        )}
-        {router.asPath !== "/settings" && (
-          <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-            {capitalizeFirstLetter(
-              router.asPath.replace("/settings/", "").replaceAll("-", " ") ||
-                "Settings"
-            )}
-          </Typography>
-        )}
-        {children}
+        {router.asPath !== "/settings" &&
+          (isMobile ? (
+            <AppBar>
+              <Toolbar>
+                <IconButton onClick={() => setOpen(true)}>
+                  <Icon>unfold_more</Icon>
+                </IconButton>
+                <Button
+                  size="small"
+                  onClick={() => setOpen(true)}
+                  sx={{ color: "inherit" }}
+                >
+                  {capitalizeFirstLetter(
+                    router.asPath
+                      .replace("/settings/", "")
+                      .replaceAll("-", " ") || "Settings"
+                  )}
+                </Button>
+                <IconButton
+                  onClick={() => router.push("/zen")}
+                  sx={{ ml: "auto" }}
+                >
+                  <Icon>close</Icon>
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+          ) : (
+            <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+              {capitalizeFirstLetter(
+                router.asPath.replace("/settings/", "").replaceAll("-", " ") ||
+                  "Settings"
+              )}
+            </Typography>
+          ))}
+        <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>{children}</Box>
       </Box>
     </Box>
   );
