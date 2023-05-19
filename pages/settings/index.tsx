@@ -152,7 +152,7 @@ export default function Layout({ children }: any) {
         { icon: "palette", text: "Appearance" },
         { icon: "history", text: "Login Activity" },
         { icon: "notifications", text: "Notifications" },
-        { icon: "security", text: "Two-factor authentication" },
+        { icon: "lock", text: "Two-factor authentication" },
       ].map((button) => (
         <Link
           href={`/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`}
@@ -166,7 +166,14 @@ export default function Layout({ children }: any) {
                 `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
             )}
           >
-            <Icon className="outlined">{button.icon}</Icon>
+            <Icon
+              {...(!(
+                router.pathname ===
+                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
+              ) && { className: "outlined" })}
+            >
+              {button.icon}
+            </Icon>
             <span>{button.text}</span>
           </Button>
         </Link>
