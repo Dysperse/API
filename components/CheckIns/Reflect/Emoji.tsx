@@ -1,417 +1,192 @@
-import { useApi } from "@/lib/client/useApi";
+import { ErrorHandler } from "@/components/Error";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
+  AppBar,
   Box,
   Button,
-  CardActionArea,
-  Grid,
   Icon,
   IconButton,
   LinearProgress,
+  Skeleton,
   Slider,
   SwipeableDrawer,
+  Toolbar,
   Typography,
 } from "@mui/material";
-import dayjs from "dayjs";
-import AutoHeight from "embla-carousel-auto-height";
-import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
-import { mutate } from "swr";
-import { reasons } from "..";
-import { Puller } from "../../Puller";
+import { useState } from "react";
 import { Label } from "./Label";
-import { Overview } from "./Overview";
 
-const marks = [
+export const questions = [
   {
-    value: 0,
-    label: <Label code={"1f60e"} sx={{ ml: 3 }} />,
+    question: "What is making you feel this way?",
+    choices: [
+      { icon: "favorite", name: "Relationships" },
+      { icon: "work", name: "Work" },
+      { icon: "school", name: "School" },
+      { icon: "sports_basketball", name: "Hobbies" },
+      { icon: "ecg_heart", name: "Health" },
+      { icon: "newspaper", name: "Current events" },
+      { icon: "group", name: "Family/Friends" },
+      { icon: "payments", name: "Finances" },
+      { icon: "pending", name: "Something else" },
+    ],
   },
   {
-    value: 10,
-    label: <Label code={"1f61f"} />,
+    question: "How are your stress levels?",
+    subtitle:
+      "Do you feel anxious, nervous, keyed-up, paranoid, scared, or on edge?",
+    slider: ["1f60e", "1f61f", "1f630", "1f62b"],
+    default: 3,
   },
   {
-    value: 20,
-    label: <Label code={"1f630"} />,
+    question: "Are you well rested?",
+    subtitle:
+      "Everyone is unique and has their own sleep habits, but generally, most people need 8 hours of uninterrupted sleep. If you got less than that, woke up often, or had bad dreams, taking a nap might be beneficial",
+    choices: [
+      { icon: "bolt", name: "I am well-rested!" },
+      { icon: "airline_seat_flat", name: "Maybe a nap..." },
+      { icon: "sleep", name: "I need sleep" },
+    ],
   },
   {
-    value: 30,
-    label: <Label code={"1f62b"} sx={{ mr: 3 }} />,
+    question: "Are you in pain?",
+    subtitle:
+      "Are you currently experiencing any discomfort or pain in your body that you would like to discuss?",
+    slider: [1, 2, 3, 4, 5],
+    default: 3,
+  },
+  {
+    question: "Have you eaten in the last four hours?",
+    choices: [
+      { icon: "check_circle", name: "Yes" },
+      { icon: "icecream", name: "I could use a snack..." },
+      { icon: "cancel", name: "No" },
+    ],
   },
 ];
 
-export function Emoji({ emoji, mood, defaultStress, data, handleMoodChange }) {
-  const [open, setOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [stress, setStress] = useState(defaultStress);
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { align: "start", watchDrag: false },
-    [AutoHeight()]
-  );
-
-  const handleOpen = useCallback(() => {
-    setOpen(true);
-    emblaApi?.scrollTo(0);
-    setCurrentIndex(0);
-  }, [emblaApi, setOpen]);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
-
+function ExperimentalAiReflection({ emoji, answers }) {
   const session = useSession();
-  const [currentReason, setCurrentReason] = useState<null | string>(
-    data?.[0]?.reason ?? null
-  );
+  const temp = {
+    reason_for_emoji: answers[0],
+    "stress_levels_from_1_to_5 (1 lowest, 5 highest)": answers[1],
+    sleep_reflection: answers[2],
+    is_in_physical_pain_from_1_to_5: answers[3],
+    eaten_in_last_four_hours: answers[4],
+  };
 
-  // for push notification
-  const [alreadyTriggered, setAlreadyTriggered] = useState<boolean>(false);
+  const [data, setData] = useState<null | any>(null);
+  const [error, setError] = useState<null | any>(false);
 
-  useEffect(() => {
-    if (emblaApi) {
-      emblaApi.on("scroll", (e) => {
-        setCurrentIndex(emblaApi.selectedScrollSnap());
+  const handleThink = async () => {
+    try {
+      setError(false);
+      setData(null);
+      const d = await fetchRawApi("ai/reflection", {
+        data: JSON.stringify(temp),
+        emoji,
       });
+      setData(d);
+    } catch (e) {
+      setError(true);
     }
+  };
+
+  return (
+    <Box>
+      {error && (
+        <ErrorHandler
+          callback={handleThink}
+          error="Oh no! Dysperse AI couldn't give you suggestions this time. Try again later!"
+        />
+      )}
+      <br />
+      {data ? (
+        <Box
+          sx={{
+            p: 3,
+            borderRadius: 3,
+            background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+          }}
+        >
+          <Typography
+            sx={{
+              display: "inline-flex",
+              gap: 2,
+              mb: 2,
+              fontWeight: 900,
+              alignItems: "center",
+              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+            variant="h6"
+          >
+            <Icon>south_east</Icon>Dysperse AI
+          </Typography>
+          <Typography sx={{ fontWeight: 700 }}>
+            {data?.response?.general}
+          </Typography>
+          {data.response &&
+            data.response.suggestions &&
+            data.response.suggestions.map((suggestion, index) => (
+              <Box
+                key={suggestion.name}
+                sx={{ display: "flex", alignItems: "center", mt: 3, gap: 2 }}
+              >
+                <Typography variant="h4" className="font-heading">
+                  #{index + 1}
+                </Typography>
+                <Box>
+                  <Typography sx={{ fontWeight: 700 }}>
+                    {suggestion.name}
+                  </Typography>
+                  <Typography>{suggestion.suggestion}</Typography>
+                </Box>
+              </Box>
+            ))}
+        </Box>
+      ) : (
+        <Skeleton variant="rectangular" animation="wave" />
+      )}
+    </Box>
+  );
+}
+
+export function Emoji({ emoji, defaultData, handleMoodChange }) {
+  const session = useSession();
+
+  const [open, setOpen] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  const [answers, setAnswers] = useState({
+    ...questions.map(() => null),
   });
 
-  /**
-   * If the notification action button === the emoji, open the modal
-   */
-  useEffect(() => {
-    if (
-      !alreadyTriggered &&
-      window.location.hash &&
-      window.location.hash.includes("#/")
-    ) {
-      let match = window.location.hash.split("#/")[1];
-      if (match.includes("-")) {
-        match = match.split("-")[1];
-      }
+  const question = questions[currentQuestion];
+  const answer = answers[currentQuestion];
 
-      if (match) {
-        if (match === emoji) {
-          setOpen(true);
-          window.location.hash = "";
-          setAlreadyTriggered(true);
-        }
-      }
-    }
-  }, [emoji, alreadyTriggered]);
-
-  const {
-    data: overviewData,
-    url,
-    error,
-  } = useApi("user/checkIns/count", {
-    lte: dayjs().add(1, "day"),
-    gte: dayjs().subtract(7, "day"),
-  });
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <>
-      <SwipeableDrawer
-        open={open}
-        onOpen={handleOpen}
-        onClose={handleClose}
-        PaperProps={{ sx: { maxHeight: "calc(100vh - 20px)" } }}
-        anchor="bottom"
-      >
-        <Puller />
-        <Box sx={{ p: 3, pt: 0 }}>
-          <Typography
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              pb: 2,
-            }}
-          >
-            <picture style={{ flexShrink: 0, flexGrow: 0 }}>
-              <img
-                alt="emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
-                  currentIndex == 0
-                    ? emoji
-                    : currentIndex == 1
-                    ? "1f4a5"
-                    : "1f4c8"
-                }.png`}
-                width="40px"
-                height="40px"
-              />
-            </picture>
-            <Box>
-              <Typography sx={{ fontWeight: 700 }}>
-                {currentIndex == 0
-                  ? "What is making you feel this way?"
-                  : currentIndex == 1
-                  ? "How are your stress levels?"
-                  : "Overview"}
-              </Typography>
-              <Typography variant="body2">
-                {currentIndex == 0 ? (
-                  "Select the most relevant option."
-                ) : currentIndex == 1 ? (
-                  "Drag the slider to represent stress"
-                ) : (
-                  <CardActionArea
-                    onClick={() => {
-                      handleClose();
-                      document.getElementById("overviewTrigger")?.click();
-                    }}
-                  >
-                    <Typography variant="body2">
-                      View full overview &rarr;
-                    </Typography>
-                  </CardActionArea>
-                )}
-              </Typography>
-            </Box>
-          </Typography>
-          <LinearProgress
-            value={((currentIndex + 1) / 4) * 100}
-            variant="determinate"
-            sx={{ borderRadius: 999, height: 2 }}
-          />
-        </Box>
-        <Box
-          sx={{
-            pb: 2,
-            overflow: currentIndex == 1 ? "hidden" : "",
-            overflowX: "hidden",
-            whiteSpace: "nowrap",
-          }}
-          ref={emblaRef}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              width: "100%",
-              maxWidth: "100vw",
-              transition: "height .4s",
-            }}
-          >
-            <Box sx={{ flexGrow: 1, flex: "0 0 100%" }}>
-              <Box sx={{ p: 3, pb: 0, pt: 0 }}>
-                <Grid
-                  container
-                  spacing={{
-                    xs: 1,
-                    sm: 2,
-                  }}
-                >
-                  {reasons.map((reason) => (
-                    <Grid item xs={reason.w || 6} key={reason.name}>
-                      <Box
-                        onClick={() =>
-                          setCurrentReason(
-                            currentReason && reason.name === currentReason
-                              ? null
-                              : reason.name
-                          )
-                        }
-                        sx={{
-                          border: "2px solid transparent",
-                          userSelect: "none",
-                          py: 2,
-                          borderRadius: 4,
-                          px: 2,
-                          transition: "transform .2s",
-                          alignItems: "center",
-                          "&:active": {
-                            transform: "scale(0.95)",
-                          },
-                          display: "flex",
-                          background: `hsl(240,11%,${
-                            session.user.darkMode ? 10 : 97
-                          }%)!important`,
-                          gap: 2,
-                          ...(currentReason === reason.name && {
-                            borderColor: `hsl(240,11%,${
-                              session.user.darkMode ? 90 : 50
-                            }%)!important`,
-                            background: `hsl(240,11%,${
-                              session.user.darkMode ? 10 : 100
-                            }%)!important`,
-                          }),
-                        }}
-                      >
-                        <Icon
-                          sx={{
-                            fontSize: "26px!important",
-                          }}
-                          className="outlined"
-                        >
-                          {reason.icon}
-                        </Icon>
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            whiteSpace: "nowrap",
-                            textOverflow: "ellipsis",
-                            overflow: "hidden",
-                            flexGrow: 1,
-                          }}
-                        >
-                          {reason.name}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid>
-                <Button
-                  fullWidth
-                  size="large"
-                  variant="contained"
-                  onClick={async () => {
-                    await handleMoodChange(emoji, currentReason, stress);
-                    emblaApi?.scrollTo(1);
-                    mutate(url);
-                  }}
-                  sx={{ mt: 2 }}
-                  disabled={!currentReason || currentIndex !== 0}
-                >
-                  Next
-                </Button>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                flexGrow: 1,
-                flex: "0 0 100%",
-                overflow: "hidden",
-                "& .MuiSlider-mark": {
-                  display: "none",
-                },
-                "& .MuiSlider-rail": {
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 10 : 80
-                  }%)`,
-                },
-                "& .MuiSlider-rail, & .MuiSlider-track": {
-                  height: 20,
-                  overflow: "hidden",
-                },
-                "& .MuiSlider-track": {
-                  borderTopRightRadius: 0,
-                  borderBottomRightRadius: 0,
-                },
-                "& .MuiSlider-thumb": {
-                  boxShadow: 0,
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 10 : 90
-                  }%)`,
-                  border: "4px solid currentColor",
-                },
-              }}
-            >
-              <Box sx={{ px: 3 }}>
-                <Box
-                  sx={{
-                    display: "block",
-                    height: "100px",
-                  }}
-                >
-                  <Slider
-                    value={stress}
-                    onChange={(_, newValue: any) => setStress(newValue)}
-                    max={30}
-                    step={10}
-                    marks={marks}
-                  />
-                </Box>
-                <Typography variant="h6" sx={{ textAlign: "center", mb: 2 }}>
-                  {stress === 0
-                    ? "No stress!"
-                    : stress === 10
-                    ? "A little"
-                    : stress === 20
-                    ? "High"
-                    : "Really high"}
-                </Typography>
-                <Box
-                  sx={{ display: "flex", gap: 2, alignItems: "center", mt: 2 }}
-                >
-                  <Button
-                    fullWidth
-                    size="large"
-                    variant="outlined"
-                    onClick={() => emblaApi?.scrollTo(0)}
-                    disabled={currentIndex !== 1}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    fullWidth
-                    size="large"
-                    variant="contained"
-                    disabled={currentIndex !== 1}
-                    onClick={async () => {
-                      emblaApi?.scrollTo(2);
-                      await handleMoodChange(emoji, currentReason, stress);
-                      mutate(url);
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Box>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                flexGrow: 1,
-                flex: "0 0 100%",
-                display: "flex",
-                px: 3,
-                flexDirection: "column",
-              }}
-            >
-              <Overview data={overviewData} url={url} error={error} />
-              <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                <Button
-                  fullWidth
-                  size="large"
-                  variant="outlined"
-                  onClick={() => emblaApi?.scrollTo(0)}
-                  disabled={currentIndex !== 2}
-                >
-                  Restart
-                </Button>
-                <Button
-                  disabled={currentIndex !== 2}
-                  fullWidth
-                  size="large"
-                  variant="contained"
-                  onClick={handleClose}
-                >
-                  Done
-                </Button>
-              </Box>
-            </Box>
-          </div>
-        </Box>
-      </SwipeableDrawer>
       <IconButton
-        key={emoji}
+        onClick={handleOpen}
         sx={{
           p: 0,
           width: 35,
           height: 35,
           cursor: "pointer!important",
-          ...((mood || !data) && {
-            opacity: mood === emoji ? 1 : 0.5,
-          }),
-          ...(mood === emoji && {
-            transform: "scale(1.1)",
-          }),
           "&:active": {
             transition: "none",
             transform: "scale(0.9)",
           },
           transition: "transform .2s",
+          background: "transparent!important",
         }}
-        onClick={handleOpen}
       >
         <picture>
           <img
@@ -422,6 +197,174 @@ export function Emoji({ emoji, mood, defaultStress, data, handleMoodChange }) {
           />
         </picture>
       </IconButton>
+
+      <SwipeableDrawer
+        open={open}
+        anchor="bottom"
+        onOpen={handleOpen}
+        onClose={handleClose}
+        PaperProps={{
+          sx: {
+            height: "100vh",
+          },
+        }}
+      >
+        <AppBar>
+          <Toolbar>
+            <Box>
+              <Typography sx={{ fontWeight: 700 }}>Check-in</Typography>
+              <Typography variant="body2">
+                Question {currentQuestion + 1} of {questions.length}
+              </Typography>
+            </Box>
+            <IconButton sx={{ ml: "auto" }} onClick={handleClose}>
+              <Icon>close</Icon>
+            </IconButton>
+          </Toolbar>
+          <LinearProgress
+            value={((currentQuestion + 1) / questions.length) * 100}
+            variant="determinate"
+          />
+        </AppBar>
+        {currentQuestion === questions.length - 1 ? (
+          <Box sx={{ p: 3, pt: 0 }}>
+            <ExperimentalAiReflection answers={answers} emoji={emoji} />
+          </Box>
+        ) : (
+          <Box sx={{ p: 3 }}>
+            <Typography variant="h6" sx={{ mb: question.subtitle ? 1 : 2 }}>
+              {question.question}
+            </Typography>
+            {question.subtitle && (
+              <Typography sx={{ mb: 2 }}>{question.subtitle}</Typography>
+            )}
+            {question.choices ? (
+              question.choices.map((choice) => (
+                <Button
+                  onClick={() => {
+                    setAnswers((a) => ({
+                      ...a,
+                      [currentQuestion]: choice.name as any,
+                    }));
+                    setCurrentQuestion(currentQuestion + 1);
+                  }}
+                  key={choice.name}
+                  fullWidth
+                  sx={{
+                    justifyContent: "start",
+                    mb: 1,
+                    px: 2,
+                    py: 1.5,
+                    borderWidth: "2px!important",
+                    ...((answer as any)?.name === choice.name && {
+                      "&, &:focus, &:hover, &:active": {
+                        background:
+                          colors[session.themeColor]["A100"] + "!important",
+                        borderColor:
+                          colors[session.themeColor]["A100"] + "!important",
+                        color: "#000!important",
+                      },
+                    }),
+                  }}
+                  size="large"
+                  variant="outlined"
+                >
+                  {choice.icon && (
+                    <Icon className="outlined">{choice.icon}</Icon>
+                  )}
+                  {choice.name}
+                </Button>
+              ))
+            ) : (
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  flex: "0 0 100%",
+                  overflow: "hidden",
+                  "& .MuiSlider-mark": {
+                    display: "none",
+                  },
+                  "& .MuiSlider-rail": {
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 10 : 80
+                    }%)`,
+                  },
+                  "& .MuiSlider-rail, & .MuiSlider-track": {
+                    height: 20,
+                    overflow: "hidden",
+                  },
+                  "& .MuiSlider-track": {
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
+                  },
+                  "& .MuiSlider-thumb": {
+                    boxShadow: 0,
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 10 : 90
+                    }%)`,
+                    border: "4px solid currentColor",
+                  },
+                }}
+              >
+                <Box sx={{ px: 3 }}>
+                  <Box
+                    sx={{
+                      display: "block",
+                      height: "100px",
+                    }}
+                  >
+                    <Slider
+                      step={1}
+                      defaultValue={question.default}
+                      max={question.slider.length - 1}
+                      onChange={(_, newValue) =>
+                        setAnswers((a) => ({
+                          ...a,
+                          [currentQuestion]: newValue as any,
+                        }))
+                      }
+                      marks={[
+                        ...question.slider.map((mark, index) => ({
+                          value: index,
+                          label: (
+                            <Label
+                              code={mark}
+                              sx={{
+                                ...(typeof mark == "string" && {
+                                  ...(index == 0 && { ml: 3 }),
+                                  ...(index == question.slider.length - 1 && {
+                                    mr: 3,
+                                  }),
+                                }),
+                              }}
+                            />
+                          ),
+                        })),
+                      ]}
+                    />
+                  </Box>
+                </Box>
+                <Box sx={{ display: "flex", justifyContent: "end" }}>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      if (typeof answer !== "number") {
+                        setAnswers((a) => ({
+                          ...a,
+                          [currentQuestion]: 1 as any,
+                        }));
+                      }
+                      setCurrentQuestion(currentQuestion + 1);
+                    }}
+                  >
+                    Done
+                  </Button>
+                </Box>
+              </Box>
+            )}
+          </Box>
+        )}
+      </SwipeableDrawer>
     </>
   );
 }

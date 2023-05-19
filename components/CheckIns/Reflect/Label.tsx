@@ -11,13 +11,17 @@ export function Label({ code, sx = {} }: any) {
         ...sx,
       }}
     >
-      <picture>
-        <img
-          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${code}.png`}
-          alt=""
-          width={35}
-        />
-      </picture>
+      {typeof code == "string" ? (
+        <picture>
+          <img
+            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${code}.png`}
+            alt=""
+            width={35}
+          />
+        </picture>
+      ) : (
+        code
+      )}
     </Box>
   );
 }

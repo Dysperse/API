@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+import { validatePermissions } from "@/lib/server/validatePermissions";
 import Client from "gpt-free";
 
 type Data = {
@@ -56,10 +57,10 @@ Emojis must only be a lowercase unicode string.
 
 export default async function handler(req: any, res: any) {
   try {
-    // await validatePermissions({
-    //   minimum: "read-only",
-    //   credentials: [req.query.property, req.query.accessToken],
-    // });
+    await validatePermissions({
+      minimum: "read-only",
+      credentials: [req.query.property, req.query.accessToken],
+    });
     const client = new Client();
     const { month }: any = req.query;
 

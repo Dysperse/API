@@ -76,12 +76,10 @@ export function DailyCheckIn() {
       >
         {moodOptions.map((emoji) => (
           <Emoji
-            defaultStress={data?.[0]?.stress ?? 10}
+            defaultData={data?.[0]}
             key={emoji}
             emoji={emoji}
             handleMoodChange={handleMoodChange}
-            mood={mood}
-            data={data}
           />
         ))}
       </Box>
