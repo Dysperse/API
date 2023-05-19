@@ -73,6 +73,7 @@ export function CreateGoal({ mutationUrl, isCoach }) {
             <Skeleton
               height={250}
               variant="rectangular"
+              animation="wave"
               sx={{ borderRadius: 5 }}
             />
           )}
