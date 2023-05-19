@@ -186,7 +186,7 @@ export const Column: any = memo(function Column({
           zIndex: 9,
           "&:hover": {
             background: {
-              sm: `hsla(240,11%,${session.user.darkMode ? 16 : 95}%, 0.1)`,
+              sm: `hsla(240,11%,${session.user.darkMode ? 16 : 90}%, 0.15)`,
             },
           },
           backdropFilter: "blur(10px)",
