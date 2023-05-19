@@ -204,6 +204,7 @@ model Task {
   id          String    @id @unique @default(uuid())
   name        String
   description String?
+  // categories  String[]
   due         DateTime?
   color       String    @default("grey")
   pinned      Boolean   @default(false)
