@@ -147,32 +147,6 @@ export function CreateTask({
     ) {
       setPinned(true);
     }
-    if (deferredTitle.toLowerCase().includes("today")) {
-      setDate(new Date());
-    } else if (
-      [" tomorrow", " tmrw", " tmr", " tmw"].some((keyword) =>
-        deferredTitle.toLowerCase().includes(keyword)
-      )
-    ) {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      setDate(tomorrow);
-      setTitle((title) =>
-        title
-          .replace(" tomorrow", " ")
-          .replace(" tmrw", " ")
-          .replace(" tmr", " ")
-          .replace(" tmw", " ")
-      );
-    } else if (deferredTitle.toLowerCase().includes("next week")) {
-      const nextWeek = new Date();
-      nextWeek.setDate(nextWeek.getDate() + 7);
-      setDate(nextWeek);
-    } else if (deferredTitle.toLowerCase().includes("next month")) {
-      const nextMonth = new Date();
-      nextMonth.setDate(nextMonth.getDate() + 30);
-      setDate(nextMonth);
-    }
   }, [deferredTitle]);
 
   const handleSubmit = useCallback(

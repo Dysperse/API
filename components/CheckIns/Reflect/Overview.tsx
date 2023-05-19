@@ -54,7 +54,8 @@ export function Overview({ data, url, error }) {
                   whiteSpace: "normal",
                 }}
               >
-                Complete {4 - data.length} more daily check-ins to see graphs
+                Complete {4 - data.length} more daily check-in
+                {4 - data.length !== 1 && "s"} to see graphs
               </Typography>
             </div>
           </Typography>
