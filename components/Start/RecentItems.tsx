@@ -28,12 +28,12 @@ export function RecentItems() {
 
   return (
     <>
-      {data?.length === 0 && (
+      {data?.length == 0 && (
         <Box sx={{ px: { xs: 2, sm: 4 } }}>
           <Box
             sx={{
               border: "1px solid",
-              borderColor: "rgba(200,200,200,.3)",
+              borderColor: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
               overflow: "hidden",
               borderRadius: 5,
               p: { sm: 2 },
