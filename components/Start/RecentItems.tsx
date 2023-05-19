@@ -8,7 +8,9 @@ import {
   CardContent,
   Chip,
   Icon,
+  IconButton,
   Skeleton,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -67,9 +69,34 @@ export function RecentItems() {
           ...(data?.length === 0 && { display: "none" }),
           userSelect: "none",
           px: { xs: 3, sm: 4 },
+          display: "flex",
+          alignItems: "center",
         }}
       >
         Recently edited
+        <Tooltip title="Create a task">
+          <IconButton
+            size="small"
+            sx={{ ml: "auto" }}
+            onClick={() => {
+              const e: any = document.querySelector("#createTask");
+              e.click();
+            }}
+          >
+            <Icon>add</Icon>
+          </IconButton>
+        </Tooltip>
+        <Box sx={{ display: "none" }}>
+          <CreateTask
+            closeOnCreate
+            column={{ id: "-1", name: "" }}
+            defaultDate={new Date()}
+            label="Set a goal"
+            placeholder="Create a task..."
+            mutationUrl={url}
+            boardId={1}
+          />
+        </Box>
       </Typography>
       <Box
         sx={{
