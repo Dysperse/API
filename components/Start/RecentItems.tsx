@@ -74,7 +74,7 @@ export function RecentItems() {
         }}
       >
         Recently edited
-        <Tooltip title="Create a task">
+        <Tooltip title="Create a task" placement="left">
           <IconButton
             size="small"
             sx={{ ml: "auto" }}
