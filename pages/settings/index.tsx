@@ -103,7 +103,7 @@ export default function Layout({ children }: any) {
           id="basic-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          onClose={handleClose}
+          onClose={() => setAnchorEl(null)}
         >
           <MenuItem onClick={handleClose} selected>
             My account
@@ -134,7 +134,7 @@ export default function Layout({ children }: any) {
           size="small"
           onClick={handleClick}
           sx={{
-            "& span": {
+            "& .e": {
               overflow: "hidden",
               whiteSpace: "nowrap",
               maxWidth: "100%",
@@ -143,7 +143,7 @@ export default function Layout({ children }: any) {
             color: "inherit",
           }}
         >
-          <span>My account</span>
+          <span className="e">My account</span>
           <Icon>expand_more</Icon>
         </Button>
       </Box>
