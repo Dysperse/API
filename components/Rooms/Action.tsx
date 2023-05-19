@@ -129,7 +129,13 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
         }}
       >
         <ListItemIcon sx={{ minWidth: "40px" }}>
-          <Icon>{isCustom && room.private ? "lock" : icon}</Icon>
+          <Icon
+            {...(!(decodeURIComponent(router.asPath) == href) && {
+              className: "outlined",
+            })}
+          >
+            {isCustom && room.private ? "lock" : icon}
+          </Icon>
         </ListItemIcon>
         <ListItemText
           primary={capitalizeFirstLetter((isCustom ? room?.name : room) || "")}
