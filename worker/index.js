@@ -2,6 +2,12 @@
 
 self.__WB_DISABLE_DEV_LOGS = true;
 
+self.addEventListener("message", function (event) {
+  if (event.data.action === "skipWaiting") {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener("push", (event) => {
   const data = event.data && JSON.parse(event.data.text());
   const title = data?.title || "You have a new notification • Carbon";

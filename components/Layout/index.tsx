@@ -13,6 +13,7 @@ import { getTotal, max } from "../Group/Storage";
 import { Navbar } from "./Navigation/AppBar";
 import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
+import { UpdateButton } from "./Navigation/UpdateButton";
 const KeyboardShortcutsModal = dynamic(
   () => import("./Navigation/KeyboardShortcutsModal")
 );
@@ -127,6 +128,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
         sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
         message="An error occured while trying to get your account storage information"
       />
+      <UpdateButton />
       <Navbar />
       <KeyboardShortcutsModal />
       <Box

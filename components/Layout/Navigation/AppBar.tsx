@@ -16,7 +16,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { openSpotlight } from "./Search";
-import { UpdateButton } from "./UpdateButton";
 import UserMenu from "./UserMenu";
 
 /**
@@ -185,9 +184,6 @@ export function Navbar(): JSX.Element {
               <Icon className="outlined">bolt</Icon>
             </IconButton>
           </Tooltip>
-        </Box>
-        <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
-          <UpdateButton />
         </Box>
         {isMobile && <UserMenu styles={styles} />}
       </Toolbar>

@@ -1,10 +1,10 @@
-import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
-import { Icon, IconButton, Tooltip } from "@mui/material";
-import { useEffect, useState } from "react";
+import { CircularProgress, Icon, IconButton, Snackbar } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 
 export function UpdateButton() {
+  const ref: any = useRef();
   const [button, setButton] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (
@@ -13,46 +13,56 @@ export function UpdateButton() {
       (window as any).workbox !== undefined
     ) {
       const wb: any = (window as any).workbox;
-      wb.addEventListener("installed", (event) => {});
-
-      wb.addEventListener("controlling", (event) => {});
-
-      wb.addEventListener("activated", (event) => {});
+      wb.addEventListener("installed", () => {});
+      wb.addEventListener("controlling", () => {});
+      wb.addEventListener("activated", () => {});
 
       const promptNewVersionAvailable = () => {
         setButton(true);
-        wb.addEventListener("controlling", () => {
-          window.location.reload();
+        ref?.current?.addEventListener("click", () => {
+          setLoading(true);
+          wb.addEventListener("controlling", () => {
+            window.location.reload();
+            setLoading(false);
+          });
+          wb.messageSkipWaiting();
         });
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
-      wb.addEventListener("message", (event) => {});
+      promptNewVersionAvailable();
 
+      wb.addEventListener("message", (event) => {
+        console.log(`Event ${event.type} is triggered.`);
+        console.log(event);
+      });
       wb.register();
     }
   }, []);
-  const session = useSession();
 
   return button ? (
-    <Tooltip title="A newer version of this app is available. Click to download">
-      <IconButton
-        color="inherit"
-        onClick={(e) => {
-          e.stopPropagation();
-          window.location.reload();
-        }}
-        sx={{
-          mr: -1,
-          color: session.user.darkMode
-            ? "hsl(240, 11%, 90%)"
-            : colors.green[700],
-          transition: "none !important",
-          WebkitAppRegion: "no-drag",
-        }}
-      >
-        <Icon>download</Icon>
-      </IconButton>
-    </Tooltip>
+    <Snackbar
+      open={true}
+      autoHideDuration={6000}
+      onClose={() => null}
+      sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+      message="A newer version of Dysperse is available."
+      action={
+        <>
+          <IconButton ref={ref} size="small">
+            {loading ? (
+              <CircularProgress size={24} sx={{ color: "white" }} />
+            ) : (
+              <Icon sx={{ color: "#fff" }}>download</Icon>
+            )}
+          </IconButton>
+          {!loading && (
+            <IconButton onClick={() => setButton(false)} size="small">
+              <Icon sx={{ color: "#fff" }}>close</Icon>
+            </IconButton>
+          )}
+        </>
+      }
+    />
   ) : null;
 }
