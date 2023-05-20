@@ -21,10 +21,13 @@ import {
 import dayjs from "dayjs";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 
 export default function History() {
+  const router = useRouter();
   const session = useSession();
   const [lastBy, setLastBy] = useState(7);
 
@@ -50,6 +53,11 @@ export default function History() {
   useEffect(() => {
     handleFetch();
   }, [handleFetch]);
+
+  useHotkeys("esc", (e) => {
+    e.preventDefault();
+    router.push("/zen");
+  });
 
   const styles = {
     border: "1px solid",
@@ -274,6 +282,11 @@ export default function History() {
               sx={{
                 background: "transparent",
                 minWidth: "1000px",
+                "& *": {
+                  borderColor: `hsl(240,11%,${
+                    session.user.darkMode ? 15 : 95
+                  }%)!important`,
+                },
               }}
               aria-label="simple table"
               stickyHeader

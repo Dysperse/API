@@ -161,6 +161,8 @@ export function Sidebar() {
         height: "100vh",
         backdropFilter: "blur(10px)",
         position: "fixed",
+        left: router.asPath === "/mood-history" ? "-85px" : "0px",
+        transition: "all .4s",
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
