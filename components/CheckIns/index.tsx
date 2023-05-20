@@ -32,25 +32,6 @@ export function DailyCheckIn() {
 
   useEffect(() => setMood(data?.[0]?.mood ?? null), [data, mood, setMood]);
 
-  const handleMoodChange: any = useCallback(
-    async (emoji: string, reason: string, stress: number) => {
-      try {
-        await fetchRawApi("user/checkIns/setMood", {
-          date: today,
-          mood: emoji,
-          reason,
-          stress,
-        });
-        await mutate(mutationUrl);
-      } catch (e) {
-        toast.error(
-          "Oh no! Something went wrong while trying to save your mood!",
-          toastStyles
-        );
-      }
-    },
-    [today, mutationUrl]
-  );
   const session = useSession();
 
   return (
@@ -76,10 +57,10 @@ export function DailyCheckIn() {
       >
         {moodOptions.map((emoji) => (
           <Emoji
+            mutationUrl={mutationUrl}
             defaultData={data?.[0]}
             key={emoji}
             emoji={emoji}
-            handleMoodChange={handleMoodChange}
           />
         ))}
       </Box>

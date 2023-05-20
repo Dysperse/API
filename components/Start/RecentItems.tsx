@@ -66,10 +66,10 @@ export function RecentItems() {
           mt: 3,
           ml: 0,
           mb: 1.5,
-          ...(data?.length === 0 && { display: "none" }),
           userSelect: "none",
           px: { xs: 3, sm: 4 },
           display: "flex",
+          ...(data?.length === 0 && { display: "none" }),
           alignItems: "center",
         }}
       >

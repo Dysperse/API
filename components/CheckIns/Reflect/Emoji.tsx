@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { mutate } from "swr";
 import { Label } from "./Label";
 
 export const questions = [
@@ -180,7 +181,7 @@ function ExperimentalAiReflection({ emoji, answers }) {
   );
 }
 
-export function Emoji({ emoji, defaultData, handleMoodChange }) {
+export function Emoji({ mutationUrl, emoji, defaultData }) {
   const session = useSession();
 
   const [open, setOpen] = useState(false);
@@ -230,7 +231,10 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
     setOpen(true);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    mutate(mutationUrl);
+  };
 
   return (
     <>
