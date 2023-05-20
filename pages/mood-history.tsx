@@ -77,7 +77,7 @@ export default function History() {
   return data ? (
     <Box sx={{ p: { xs: 3, sm: 5 }, mb: 5 }}>
       <Head>
-        <title>Mood history &bull;Mental health</title>
+        <title>Mood history &bull; Mental health</title>
       </Head>
       <Link href="/zen">
         <Button size="small" variant="contained" sx={{ mb: 5 }}>
@@ -284,7 +284,7 @@ export default function History() {
                 minWidth: "1000px",
                 "& *": {
                   borderColor: `hsl(240,11%,${
-                    session.user.darkMode ? 15 : 95
+                    session.user.darkMode ? 15 : 90
                   }%)!important`,
                 },
               }}
