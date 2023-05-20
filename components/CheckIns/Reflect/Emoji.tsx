@@ -250,9 +250,15 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
           <Toolbar>
             <Box>
               <Typography sx={{ fontWeight: 700 }}>Check-in</Typography>
-              <Typography variant="body2">
-                Question {currentQuestion + 1} of {questions.length}
-              </Typography>
+              {currentQuestion + 1 >= questions.length ? (
+                <Typography variant="body2">
+                  Overview &amp; suggestions
+                </Typography>
+              ) : (
+                <Typography variant="body2">
+                  Question {currentQuestion + 1} of {questions.length}
+                </Typography>
+              )}
             </Box>
             <IconButton sx={{ ml: "auto" }} onClick={handleClose}>
               <Icon>close</Icon>
@@ -266,6 +272,14 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
         {currentQuestion === questions.length ? (
           <Box sx={{ p: 3, pt: 0 }}>
             <ExperimentalAiReflection answers={answers} emoji={emoji} />
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleClose}
+              sx={{ mt: 2 }}
+            >
+              Done
+            </Button>
           </Box>
         ) : (
           <Box sx={{ p: 3 }}>

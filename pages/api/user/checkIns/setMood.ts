@@ -22,6 +22,7 @@ export default async function handler(req, res) {
 
     const template = {
       mood: req.query.mood,
+      date: new Date(req.query.date),
       ...(req.query.reason && { reason: req.query.reason }),
       ...(req.query.stress && { stress: parseInt(req.query.stress) }),
       ...(req.query.rest && { rest: parseInt(req.query.rest) }),
