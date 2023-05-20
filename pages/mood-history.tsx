@@ -143,6 +143,7 @@ export default function History() {
           >
             {[7, 14, 30, 60, 90, 365].map((days) => (
               <MenuItem
+                disabled={lastBy === days}
                 onClick={() => {
                   handleClose();
                   setLastBy(days);
