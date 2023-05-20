@@ -1,8 +1,15 @@
-import { Box, Chip, createTheme, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  createTheme,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
 const darkTheme = createTheme({
@@ -203,6 +210,16 @@ export const authStyles = {
  * @returns JSX.Element
  */
 export function Layout({ children }): JSX.Element {
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute("content", `hsl(240,11%,${isDark ? 5 : 95}%)`);
+    }
+  });
+
   return (
     <>
       <Head>
