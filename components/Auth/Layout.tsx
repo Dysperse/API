@@ -54,7 +54,7 @@ export const AuthBranding = ({ mobile = false }: any) => (
     >
       Dysperse
       <Chip
-        label="alpha"
+        label="beta"
         color="info"
         size="small"
         sx={{
