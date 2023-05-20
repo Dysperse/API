@@ -30,7 +30,6 @@ export function UpdateButton() {
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
-      promptNewVersionAvailable();
 
       wb.addEventListener("message", (event) => {
         console.log(`Event ${event.type} is triggered.`);
