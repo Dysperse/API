@@ -162,7 +162,6 @@ export function Sidebar() {
         backdropFilter: "blur(10px)",
         position: "fixed",
         left: "0px",
-        transition: "all .4s",
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
