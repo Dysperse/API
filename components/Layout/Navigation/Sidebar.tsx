@@ -93,6 +93,7 @@ export function Sidebar() {
           ? "hsl(240,11%,14%)"
           : router.asPath === "/zen" ||
             router.asPath === "/" ||
+            router.asPath === "/mood-history" ||
             router.asPath === "/coach"
           ? "hsl(240,11%,93%)"
           : "hsl(240,11%,90%)",
@@ -110,6 +111,7 @@ export function Sidebar() {
             ? "hsl(240,11%,17%)"
             : router.asPath === "/zen" ||
               router.asPath === "/" ||
+              router.asPath === "/mood-history" ||
               router.asPath === "/coach"
             ? "hsl(240,11%,90%)"
             : "hsl(240,11%,85%)",
@@ -133,7 +135,9 @@ export function Sidebar() {
         borderRight: "1px solid",
         borderColor: {
           sm:
-            router.asPath === "/zen" || router.asPath === "/"
+            router.asPath === "/zen" ||
+            router.asPath === "/mood-history" ||
+            router.asPath === "/"
               ? session.user.darkMode
                 ? "hsla(240,11%,15%)"
                 : "hsl(240,11%,92%)"
@@ -142,7 +146,9 @@ export function Sidebar() {
         borderLeft: "1px solid transparent",
         background: {
           sm:
-            router.asPath === "/zen" || router.asPath === "/"
+            router.asPath === "/zen" ||
+            router.asPath === "/mood-history" ||
+            router.asPath === "/"
               ? "transparent"
               : session.user.darkMode
               ? router.asPath === "/coach"
@@ -187,6 +193,7 @@ export function Sidebar() {
         sx={styles(
           router.asPath.includes("/zen") ||
             router.asPath === "/" ||
+            router.asPath === "/mood-history" ||
             router.asPath === ""
         )}
         onClick={() => router.push("/zen")}
@@ -196,6 +203,7 @@ export function Sidebar() {
           <span
             className={`material-symbols-${
               router.asPath.includes("/zen") ||
+              router.asPath.includes("/mood-history") ||
               router.asPath === "/" ||
               router.asPath === ""
                 ? "rounded"
