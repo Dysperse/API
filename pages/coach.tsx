@@ -16,6 +16,7 @@ import {
 import { orange } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Head from "next/head";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
@@ -25,6 +26,15 @@ export default function Render() {
 
   const { data, loading, url, error } = useApi("user/coach/streaks");
   const isTimeRunningOut = dayjs().hour() > 18;
+
+  useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute(
+        "content",
+        `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)`
+      );
+  });
 
   const hasCompletedForToday =
     dayjs().startOf("day").toDate().getTime() ===
@@ -43,6 +53,7 @@ export default function Render() {
       sx={{
         ml: { md: -1 },
         pb: { xs: 15, sm: 0 },
+        pt: "env(titlebar-area-height, 0px)",
       }}
     >
       <Head>
