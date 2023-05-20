@@ -1,8 +1,8 @@
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
 import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
-import { useSession } from "../../../lib/client/useSession";
-import { colors } from "../../../lib/colors";
 
 /**
  * Bottom navigation bar
@@ -85,8 +85,12 @@ export function BottomNav() {
         ["@media (max-height: 500px)"]: {
           display: "none",
         },
-        zIndex: 999,
+        zIndex: 998,
         height: "55px",
+        ["@supports (-webkit-touch-callout: none)"]: {
+          height: "65px",
+          paddingBottom: "15px",
+        },
         userSelect: "none",
         "&, & *": {
           overflow: "hidden!important",

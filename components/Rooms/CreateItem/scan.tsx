@@ -1,3 +1,8 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
   Box,
@@ -14,11 +19,6 @@ import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
-import { useAccountStorage } from "../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 
 const WebcamComponent = ({
   setTitle,
@@ -144,7 +144,7 @@ const WebcamComponent = ({
         }}
         onClick={capture}
       >
-        <CircularProgress />
+        {loading && <CircularProgress />}
       </Box>
       <Box
         sx={{
@@ -227,7 +227,6 @@ export default function ImageRecognition({
             textTransform: "none",
             m: 3,
           }}
-          className="shadow-lg hover:shadow-xl"
           variant="extended"
         >
           <Icon className="outlined">photo_camera</Icon>
@@ -257,8 +256,8 @@ export default function ImageRecognition({
           }}
         >
           <Toolbar
-            className="flex"
             sx={{
+              display: "flex",
               height: "var(--navbar-height)",
             }}
           >

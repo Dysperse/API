@@ -8,19 +8,28 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <Script id="google-analytics" strategy="afterInteractive" defer>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-KFJ4BEE09N"
+          strategy="afterInteractive"
+        />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-PPH4TH4');
-         `}
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-KFJ4BEE09N');
+        `}
         </Script>
 
         {/* Preconnect */}
         <link rel="preconnect" href="https://assets.dysperse.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
+
         <link
           rel="preconnect"
           href="https://fonts.googleapis.com"
@@ -30,14 +39,14 @@ export default function Document() {
         {/* Preload */}
         <link
           rel="preload"
-          href="/api/user"
+          href="/api/session"
           as="fetch"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
           as="style"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
 
         {/* DNS prefetch */}
@@ -45,12 +54,13 @@ export default function Document() {
 
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Fraunces:wght@600;700;900&display=swap"
           rel="stylesheet"
         />
+
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />
@@ -64,7 +74,6 @@ export default function Document() {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content"
         />
-
         <link
           rel="apple-touch-icon"
           href="https://assets.dysperse.com/v6/ios/57.png"
@@ -118,16 +127,6 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <noscript
-          dangerouslySetInnerHTML={{
-            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PPH4TH4" height="0" width="0" style="display: none; visibility: hidden;" />`,
-          }}
-        />
-        <Script
-          defer
-          src="/prevent-navigate-history.js"
-          strategy="afterInteractive"
-        />
       </body>
     </Html>
   );

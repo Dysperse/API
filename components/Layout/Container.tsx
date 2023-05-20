@@ -1,17 +1,15 @@
-import { Box, Button, createTheme, ThemeProvider } from "@mui/material";
+import {
+  AccountStorageState,
+  modifyAccountStorageHook,
+} from "@/lib/client/useAccountStorage";
+import { modifySessionHook } from "@/lib/client/useSession";
+import { useCustomTheme } from "@/lib/client/useTheme";
+import { Box, Button, ThemeProvider, createTheme } from "@mui/material";
 import Head from "next/head";
 import { NextRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import {
-  AccountStorageState,
-  modifyAccountStorageHook,
-} from "../../lib/client/useAccountStorage";
-import { modifySessionHook } from "../../lib/client/useSession";
-import { useCustomTheme } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
 import { Layout } from "../../pages/_app";
-import { Property, Session } from "../../types/session";
 
 /**
  * Main function, including layout and theme.
@@ -27,7 +25,7 @@ export function RenderWithLayout({
   pageProps,
   router,
 }: {
-  data: Session;
+  data: any;
   Component: typeof React.Component;
   pageProps: JSX.Element;
   router: NextRouter;
@@ -74,7 +72,7 @@ export function RenderWithLayout({
   }, [theme, data.user.darkMode]);
 
   // Return an error if user doesn't have any properties attached to their account
-  if (data.user.properties.length === 0) {
+  if (data.properties.length === 0) {
     return (
       <Box>
         Hmmm.... You find yourself in a strange place. You don&apos;t have
@@ -86,25 +84,15 @@ export function RenderWithLayout({
 
   // find active property in the array of properties
   const selectedProperty =
-    data.user.properties.find((property: Property) => property.selected) ||
-    data.user.properties[0];
+    data.properties.find((property: any) => property.selected) ||
+    data.properties[0];
 
   modifySessionHook(() => ({
-    user: data.user,
+    ...data,
     property: selectedProperty,
     permission: selectedProperty.permission,
     themeColor,
   }));
-
-  // Used in `globals.scss`
-  document.documentElement.style.setProperty(
-    "--backdropTheme",
-    data.user.darkMode ? "rgba(23, 23, 28, .4)" : "rgba(255,255,255,.3)"
-  );
-  document.documentElement.style.setProperty(
-    "--themeDark",
-    colors[themeColor ?? "brown"][900]
-  );
 
   const children = <Component {...pageProps} />;
 

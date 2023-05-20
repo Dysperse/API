@@ -1,19 +1,22 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useDelayedMount } from "@/lib/client/useDelayedMount";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
+  CircularProgress,
+  Collapse,
   Icon,
   SwipeableDrawer,
   TextField,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../../lib/client/useApi";
-import { useSession } from "../../../../lib/client/useSession";
-import { toastStyles } from "../../../../lib/client/useTheme";
-import { EmojiPicker } from "../../../EmojiPicker";
+import EmojiPicker from "../../../EmojiPicker";
 import { ColumnSettings } from "./Settings";
 import { Task } from "./Task";
 import { CreateTask } from "./Task/Create";
@@ -31,10 +34,52 @@ export function Column({ board, mutationUrls, column, index }) {
 
   const [title, setTitle] = useState(column.name);
   const [emoji, setEmoji] = useState(column.emoji);
+  const [loading, setLoading] = useState(false);
+
   const ref: any = useRef();
   const buttonRef: any = useRef();
   const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
+
+  const incompleteLength = useMemo(
+    () => columnTasks.filter((t) => !t.completed).length,
+    [columnTasks]
+  );
+
+  const mount = useDelayedMount(loading, 1000);
+
+  const scrollIntoView = async () => {
+    if (window.innerWidth > 600) {
+      document.body.scrollTop = 0;
+      ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        ref.current?.scrollIntoView({
+          block: "nearest",
+          inline: "center",
+          behavior: "smooth",
+        });
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    setLoading(true);
+    try {
+      await mutate(mutationUrls.tasks);
+      await mutate(mutationUrls.boardData);
+      await new Promise((r) =>
+        setTimeout(() => {
+          r("");
+        }, 500)
+      );
+    } catch (e) {
+      toast.error(
+        "Yikes! We couldn't get your tasks. Please try again later",
+        toastStyles
+      );
+    }
+    setLoading(false);
+  };
 
   return (
     <>
@@ -49,7 +94,6 @@ export function Column({ board, mutationUrls, column, index }) {
           setOpen(false);
         }}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             maxWidth: "400px",
@@ -130,8 +174,8 @@ export function Column({ board, mutationUrls, column, index }) {
         </>
       </SwipeableDrawer>
       <Box
-        className="snap-center"
         sx={{
+          scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
           borderColor: session.user.darkMode
             ? "hsl(240,11%,16%)"
@@ -145,9 +189,25 @@ export function Column({ board, mutationUrls, column, index }) {
           overflowY: "scroll",
           minWidth: { xs: "100vw", md: "340px" },
           transition: "filter .2s",
+          maxWidth: "100vw",
         }}
       >
+        <Collapse in={loading} orientation="vertical">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "100px",
+              background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+            }}
+          >
+            {mount && <CircularProgress />}
+          </Box>
+        </Collapse>
         <Box
+          onClick={scrollIntoView}
           sx={{
             color: session.user.darkMode ? "#fff" : "#000",
             p: { xs: 2, sm: 3 },
@@ -190,27 +250,24 @@ export function Column({ board, mutationUrls, column, index }) {
                 height={50}
               />
             </picture>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
               <Typography
                 variant="h4"
                 className="font-heading"
                 sx={{
-                  "& span": {
-                    overflow: "hidden",
-                    maxWidth: { xs: "100%", sm: "140px" },
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                  },
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100%",
+                  minWidth: 0,
                   fontSize: { xs: "25px", sm: "30px" },
                   borderRadius: 1,
                   width: "auto",
                   mb: 0.7,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  display: "block",
                 }}
               >
-                <span>{column.name}</span>
+                {column.name}
               </Typography>
               <Typography
                 sx={{
@@ -219,7 +276,7 @@ export function Column({ board, mutationUrls, column, index }) {
                   fontSize: { xs: "15px", sm: "18px" },
                 }}
               >
-                {columnTasks.length} tasks
+                {incompleteLength} task{incompleteLength !== 1 && "s"}
               </Typography>
             </Box>
             <Box sx={{ ml: "auto" }}>
@@ -250,6 +307,13 @@ export function Column({ board, mutationUrls, column, index }) {
                 },
               }}
             >
+              <Box sx={{ width: "100%", mt: { sm: -3 }, mb: { sm: 2 } }}>
+                <CreateTask
+                  mutationUrl={mutationUrls.tasks}
+                  boardId={board.id}
+                  column={column}
+                />
+              </Box>
               <Image
                 src="/images/noTasks.png"
                 width={256}
@@ -261,20 +325,14 @@ export function Column({ board, mutationUrls, column, index }) {
                 }}
                 alt="No items found"
               />
-
               <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
                   Nothing much here...
                 </Typography>
-                <Typography gutterBottom sx={{ mb: -1.5 }}>
+                <Typography gutterBottom>
                   You haven&apos;t added any list items to this column
                 </Typography>
               </Box>
-              <CreateTask
-                mutationUrl={mutationUrls.tasks}
-                boardId={board.id}
-                column={column}
-              />
             </Box>
           ) : (
             <CreateTask
@@ -308,11 +366,10 @@ export function Column({ board, mutationUrls, column, index }) {
                 display: "none",
               }),
               mt: 2,
-              mx: { xs: "20px", sm: 0 },
-              width: "calc(100% - 40px)",
+              borderRadius: { xs: 0, sm: 4 },
               ...(showCompleted && {
                 background: `hsl(240,11%,${
-                  session.user.darkMode ? 20 : 80
+                  session.user.darkMode ? 20 : 90
                 }%)!important`,
               }),
               color: `hsl(240,11%,${session.user.darkMode ? 100 : 30}%)`,

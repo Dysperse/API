@@ -1,3 +1,8 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useApi } from "@/lib/client/useApi";
+import { useDelayedMount } from "@/lib/client/useDelayedMount";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Alert,
   Box,
@@ -8,10 +13,9 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
+import Head from "next/head";
 import { useCallback, useState } from "react";
-import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { boardSwitcherStyles } from "../Layout";
+import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
@@ -36,11 +40,12 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
+  const mount = useDelayedMount(mobileOpen, 1000);
 
   return (
     <Box
-      className="snap-x snap-mandatory sm:snap-none"
       sx={{
+        scrollSnapType: { xs: "x mandatory", sm: "unset" },
         display: "flex",
         maxWidth: "100vw",
         overflowX: "scroll",
@@ -77,7 +82,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             : "rgba(200,200,200, 0.3)",
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
-          display: "flex",
+          display: { xs: "flex", sm: "none" },
           alignItems: "center",
           p: 0.5,
         }}
@@ -118,21 +123,18 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
         sx={{ zIndex: 999 }}
-        BackdropProps={{
-          sx: {
-            backdropFilter: "blur(0px)!important",
-          },
-        }}
         PaperProps={{
           sx: {
             borderRadius: "20px",
             m: "20px",
-            maxWidth: "calc(100vw - 40px)!important",
+            width: "calc(100vw - 40px)!important",
+            maxWidth: "400px",
             maxHeight: "calc(100vh - 40px)!important",
+            ...(!session.user.darkMode && { background: "#fff" }),
           },
         }}
       >
-        {isMobile && (
+        {isMobile && mount && (
           <BoardInfo
             setMobileOpen={setMobileOpen}
             setShowInfo={setShowInfo}
@@ -146,14 +148,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
       <IconButton
         size="large"
         onContextMenu={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
-        onClick={() => {
-          navigator.vibrate(50);
-          setMobileOpen(true);
-        }}
-        sx={boardSwitcherStyles(session.user.darkMode)}
+        onClick={() => setMobileOpen(true)}
+        sx={taskStyles(session).menu}
       >
         <Icon className="outlined">menu</Icon>
       </IconButton>
@@ -174,11 +173,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
 }
 
 export function Board({ mutationUrl, board, setDrawerOpen }) {
-  const { data, url, error } = useApi("property/boards/tasks", {
-    id: board.id,
+  const { data, url, error, loading } = useApi("property/boards/tasks", {
+    id: board?.id,
   });
 
-  if (error) {
+  if (error || (!board && !loading)) {
     return (
       <Box sx={{ p: 3 }}>
         <Alert severity="error">
@@ -205,14 +204,19 @@ export function Board({ mutationUrl, board, setDrawerOpen }) {
   }
 
   return (
-    <RenderBoard
-      data={data}
-      mutationUrls={{
-        boardData: mutationUrl,
-        tasks: url,
-      }}
-      board={board}
-      setDrawerOpen={setDrawerOpen}
-    />
+    <>
+      <Head>
+        <title>{capitalizeFirstLetter(board.name)} &bull; Board</title>
+      </Head>
+      <RenderBoard
+        data={data}
+        mutationUrls={{
+          boardData: mutationUrl,
+          tasks: url,
+        }}
+        board={board}
+        setDrawerOpen={setDrawerOpen}
+      />
+    </>
   );
 }

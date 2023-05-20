@@ -1,11 +1,12 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import Timeline from "@mui/lab/Timeline";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import { Virtuoso } from "react-virtuoso";
-
 import {
   Box,
   CircularProgress,
@@ -17,15 +18,14 @@ import {
 import dayjs from "dayjs";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
+import { Virtuoso } from "react-virtuoso";
+import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 
 export function Changelog({ disabled }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
-  const { error, data } = useApi("property/inbox");
+  const { error, url, data } = useApi("property/inbox");
   const session = useSession();
 
   useHotkeys(
@@ -40,14 +40,9 @@ export function Changelog({ disabled }) {
   return (
     <>
       <SwipeableDrawer
-        ModalProps={{
-          keepMounted: false,
-        }}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableBackdropTransition
-        disableSwipeToOpen
         anchor="bottom"
       >
         {!disabled && (
@@ -92,7 +87,10 @@ export function Changelog({ disabled }) {
               }}
             >
               {error && (
-                <ErrorHandler error="An error occurred while trying to fetch your inbox" />
+                <ErrorHandler
+                  callback={() => mutate(url)}
+                  error="An error occurred while trying to fetch your inbox"
+                />
               )}
               {!data && (
                 <Box
@@ -157,7 +155,7 @@ export function Changelog({ disabled }) {
                 )}
               </Timeline>
 
-              {data && data.length === 0 && (
+              {data?.length === 0 && (
                 <Typography
                   variant="body1"
                   sx={{
@@ -182,7 +180,7 @@ export function Changelog({ disabled }) {
         }}
         onClick={() => setOpen(true)}
       >
-        <Icon>history</Icon>
+        <Icon className="outlined">schedule</Icon>
       </IconButton>
     </>
   );

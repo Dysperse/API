@@ -1,28 +1,27 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
-  Alert,
   Box,
   Chip,
   Icon,
-  IconButton,
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
   TextField,
   Typography,
 } from "@mui/material";
-import Router, { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Router from "next/router";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
-import { fetchRawApi, useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
+import { updateSettings } from "../../../lib/client/updateSettings";
 import { Routines } from "../../Coach/Routines";
 import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
-import { updateSettings } from "../../Settings/updateSettings";
 
 export let openSpotlight = () => {};
 
@@ -77,7 +76,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     {
       title: "Light theme",
       onTrigger: () => {
-        mutate("/api/user");
+        mutate("/api/session");
         updateSettings("darkMode", "false");
       },
       icon: "light_mode",
@@ -124,13 +123,13 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         })
       : []),
 
-    ...(session?.user && session.user.properties
-      ? session.user.properties.map((property: any) => {
+    ...(session?.user && session.properties
+      ? session.properties.map((property: any) => {
           return {
             title: property.profile.name,
             onTrigger: () => {
               router.push("/tasks");
-              fetchRawApi("property/join", {
+              fetchRawApi("property/switch", {
                 email: session.user.email,
                 accessToken1: property.accessToken,
               }).then((res) => {
@@ -140,10 +139,10 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                   </span>,
                   toastStyles
                 );
-                mutate("/api/user");
+                mutate("/api/session");
               });
             },
-            icon: "home",
+            icon: "tag",
             badge: "Group",
           };
         })
@@ -153,12 +152,13 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Sign out",
       onTrigger: () => {
         toast.promise(
-          fetchRawApi("auth/logout").then(() => mutate("/api/user")),
+          fetchRawApi("auth/logout").then(() => mutate("/api/session")),
           {
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",
             success: "Redirecting you...",
-          }
+          },
+          toastStyles
         );
       },
       icon: "logout",
@@ -183,7 +183,6 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
 export default function Spotlight() {
   // Primarily state management and callback functions for opening/closing the modal
   const ref: any = useRef();
-  const router = useRouter();
   const session: any = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -191,7 +190,15 @@ export default function Spotlight() {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleOpen = useCallback(() => setOpen(true), []);
-  const handleClose = useCallback(() => setOpen(false), []);
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    setInputValue("");
+  }, []);
+
+  useHotkeys("ctrl+k", (e) => {
+    e.preventDefault();
+    setOpen(true);
+  });
 
   useEffect(() => {
     if (open) {
@@ -201,7 +208,7 @@ export default function Spotlight() {
 
   openSpotlight = handleOpen;
 
-  const { data: roomData } = useApi("property/rooms");
+  const { data: roomData } = useApi("property/inventory/rooms");
   const { data: boardData } = useApi("property/boards");
 
   // Input event handling
@@ -221,40 +228,23 @@ export default function Spotlight() {
     () => debouncedHandleSearch(inputValue),
     [inputValue, debouncedHandleSearch]
   );
-  const routines = useMemo(() => (open ? <Routines /> : <></>), [open]);
-  const [showBanner, setShowBanner] = useState<boolean>(true);
-
   return (
     <SwipeableDrawer
       open={open}
       onOpen={handleOpen}
       onClose={handleClose}
       anchor="bottom"
-      disableSwipeToOpen
+      PaperProps={{
+        sx: {
+          minHeight: "calc(100vh - 25px)",
+          height: "calc(100vh - 20px)",
+          display: "flex",
+          flexDirection: "column",
+        },
+      }}
     >
       <Puller showOnDesktop />
       <Box sx={{ px: 2 }}>
-        {showBanner && process.env.NODE_ENV !== "development" && (
-          <Alert
-            severity="info"
-            sx={{ mb: 2 }}
-            action={
-              <IconButton>
-                <Icon>close</Icon>
-              </IconButton>
-            }
-            onClick={() => setShowBanner(false)}
-          >
-            <Typography sx={{ fontWeight: 900 }}>
-              We&apos;ve moved things around
-            </Typography>
-            <Typography>
-              You can now search anything, from goals, to agendas by pressing{" "}
-              <b>ctrl &bull; k</b> on your keyboard, in a much more simplified
-              view
-            </Typography>
-          </Alert>
-        )}
         <TextField
           onKeyDown={(e) => {
             if (e.code === "Enter") {
@@ -277,9 +267,9 @@ export default function Spotlight() {
               px: 2,
               py: 1,
               borderRadius: 3,
-              background: "rgba(200, 200, 200, .3)",
-              "&:focus": {
-                background: "rgba(200, 200, 200, .4)",
+              background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+              "&:focus-within": {
+                background: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
               },
             },
           }}
@@ -293,10 +283,12 @@ export default function Spotlight() {
           value={inputValue}
         />
       </Box>
-      {routines}
-      <Box sx={{ px: 2 }}>
+      <Box>
+        <Routines />
+      </Box>
+      <Box sx={{ px: 2, flexGrow: 1 }}>
         <Virtuoso
-          style={{ height: "400px", maxHeight: "calc(100vh - 100px)" }}
+          style={{ height: "100%", maxHeight: "calc(100vh - 100px)" }}
           totalCount={results.length === 0 ? 1 : results.length}
           itemContent={(index) => {
             if (results.length === 0) {

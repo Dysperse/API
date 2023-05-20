@@ -10,31 +10,34 @@ datasource db {
 // Models for user accounts
 // TODO: Add separate table for user settings, such as theme colors, dark mode, etc. 
 model User {
-  id                       String                @id @unique @default(uuid())
-  identifier               String                @unique @default(uuid())
+  id                       String  @id @unique @default(uuid())
+  identifier               String  @unique @default(uuid())
   name                     String
-  email                    String                @unique
+  email                    String  @unique
   password                 String
-  darkMode                 Boolean               @default(false)
-  color                    String                @default("lime")
-  onboardingComplete       Boolean               @default(false)
-  verifiedEmail            Boolean               @default(false)
-  trophies                 Int                   @default(0)
-  twoFactorSecret          String                @default("")
-  notificationSubscription String?               @db.VarChar(500)
-  zenCardOrder             String                @default("[\"goals.study_plan\", \"inventory.starred\", \"inventory.scan\"]")
-  timeZone                 String                @default("America/Los_Angeles") @db.VarChar(255)
-  CustomRoom               CustomRoom[]
-  NotificationSettings     NotificationSettings?
-  OAuthToken               OAuthToken[]
-  PasswordResetToken       PasswordResetToken[]
-  properties               PropertyInvite[]
-  RoutineItem              RoutineItem[]
-  sessions                 Session[]
-  Board                    Board[]
-  Integration              Integration[]
-  DailyCheckIn             DailyCheckIn[]
-  Routine                  Routine[]
+  darkMode                 Boolean @default(false)
+  color                    String  @default("lime")
+  onboardingComplete       Boolean @default(false)
+  verifiedEmail            Boolean @default(false)
+  trophies                 Int     @default(0)
+  twoFactorSecret          String  @default("")
+  notificationSubscription String? @db.VarChar(500)
+  timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
+
+  lastReleaseVersionViewed Int @default(77711209)
+
+  CustomRoom           CustomRoom[]
+  NotificationSettings NotificationSettings?
+  CoachData            CoachData?
+  OAuthToken           OAuthToken[]
+  PasswordResetToken   PasswordResetToken[]
+  properties           PropertyInvite[]
+  RoutineItem          RoutineItem[]
+  sessions             Session[]
+  Board                Board[]
+  Integration          Integration[]
+  DailyCheckIn         DailyCheckIn[]
+  Routine              Routine[]
 }
 
 model Integration {
@@ -65,6 +68,15 @@ model NotificationSettings {
   user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
+model CoachData {
+  id             String   @id @unique @default(uuid())
+  lastStreakDate DateTime @default(now())
+  streakCount    Int      @default(0)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
 // User sessions are stored on the server
 // Important: If there's way too much storage being used, just truncate this table 😭
 model Session {
@@ -88,6 +100,7 @@ model Property {
   id                  String               @id @unique @default(uuid())
   name                String               @default("My property")
   type                String               @default("apartment")
+  vanishingTasks      Boolean              @default(false)
   color               String               @default("cyan")
   Board               Board[]
   customRooms         CustomRoom[]
@@ -191,6 +204,7 @@ model Task {
   id          String    @id @unique @default(uuid())
   name        String
   description String?
+  // categories  String[]
   due         DateTime?
   color       String    @default("grey")
   pinned      Boolean   @default(false)
@@ -244,6 +258,10 @@ model DailyCheckIn {
   id     String   @id @unique @default(uuid())
   mood   String
   reason String   @default("Something else")
+  stress Int      @default(0)
+  rest   Int      @default(0)
+  pain   Int      @default(1)
+  food   Int      @default(1)
   date   DateTime
   userId String
   user   User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)

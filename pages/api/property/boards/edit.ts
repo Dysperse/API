@@ -1,23 +1,48 @@
-import { prisma } from "../../../../lib/server/prisma";
-import { validatePermissions } from "../../../../lib/server/validatePermissions";
+import { prisma } from "@/lib/server/prisma";
+import { validateParams } from "@/lib/server/validateParams";
+import { validatePermissions } from "@/lib/server/validatePermissions";
 
 const handler = async (req, res) => {
-  await validatePermissions(res, {
-    minimum: "member",
-    credentials: [req.query.property, req.query.accessToken],
-  });
+  try {
+    await validatePermissions({
+      minimum: "member",
+      credentials: [req.query.property, req.query.accessToken],
+    });
 
-  const data = await prisma.board.update({
-    where: {
-      id: req.query.id,
-    },
-    data: {
-      name: req.query.name,
-      description: req.query.description,
-    },
-  });
+    validateParams(req.query, ["property"]);
 
-  res.json(data);
+    if (req.query.pinned) {
+      await prisma.board.updateMany({
+        data: {
+          pinned: false,
+        },
+        where: {
+          propertyId: req.query.property,
+        },
+      });
+    }
+
+    const data = await prisma.board.update({
+      where: { id: req.query.id },
+      data: {
+        ...(req.query.name && { name: req.query.name }),
+        ...(req.query.description && { description: req.query.description }),
+        ...(req.query.public && {
+          public: req.query.public === "true",
+        }),
+        ...(req.query.pinned && {
+          pinned: req.query.pinned === "true",
+        }),
+        ...(req.query.archived && {
+          archived: req.query.archived === "true",
+        }),
+      },
+    });
+
+    res.json(data);
+  } catch (e: any) {
+    res.json({ error: e.message });
+  }
 };
 
 export default handler;

@@ -1,3 +1,7 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
@@ -7,6 +11,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Head from "next/head";
 import {
   useCallback,
   useDeferredValue,
@@ -15,8 +20,7 @@ import {
   useState,
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
+import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 
 export function Agenda({
@@ -43,6 +47,7 @@ export function Agenda({
     threshold: 0,
     target: window ? window : undefined,
   });
+
   const trigger = useDeferredValue(trigger1);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -111,7 +116,7 @@ export function Agenda({
     }, 1);
   }, []);
 
-  const { data, url } = useApi("property/boards/agenda", {
+  const { data, url } = useApi("property/tasks/agenda", {
     startTime: startOfWeek.toISOString(),
     endTime: endOfWeek.toISOString(),
   });
@@ -132,46 +137,22 @@ export function Agenda({
 
   const session = useSession();
   const handleOpen = () => {
-    navigator.vibrate(50);
+    vibrate(50);
     setDrawerOpen(true);
   };
 
   return (
     <>
+      <Head>
+        <title>
+          {capitalizeFirstLetter(view == "week" ? "day" : view)} &bull; Agenda
+        </title>
+      </Head>
       <IconButton
         size="large"
         onClick={handleOpen}
         onContextMenu={handleOpen}
-        sx={{
-          position: "fixed",
-          bottom: {
-            xs: "65px",
-            md: "30px",
-          },
-          transition: "transform .2s",
-          "&:active": {
-            transition: "none",
-            transform: "scale(0.9)",
-          },
-          left: "10px",
-          zIndex: 9,
-          background: session.user.darkMode
-            ? "hsla(240,11%,14%,0.5)!important"
-            : "rgba(255,255,255,.5)!important",
-          boxShadow:
-            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-          backdropFilter: "blur(10px)",
-          border: {
-            xs: session.user.darkMode
-              ? "1px solid hsla(240,11%,15%)"
-              : "1px solid rgba(200,200,200,.3)",
-            md: "unset",
-          },
-          fontWeight: "700",
-          display: { md: "none" },
-          fontSize: "15px",
-          color: session.user.darkMode ? "#fff" : "#000",
-        }}
+        sx={taskStyles(session).menu}
       >
         <Icon>menu</Icon>
       </IconButton>
@@ -199,9 +180,7 @@ export function Agenda({
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
-          borderColor: session.user.darkMode
-            ? "hsla(240,11%,25%, 0.5)"
-            : "rgba(200,200,200, 0.5)",
+          borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.3)`,
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",
@@ -217,7 +196,7 @@ export function Agenda({
         </IconButton>
         <Button
           onClick={handleToday}
-          disabled={navigation === 0}
+          disabled={navigation == 0}
           disableRipple
           sx={{
             "&:active": {
@@ -228,7 +207,8 @@ export function Agenda({
               }`,
             },
             color: session.user.darkMode ? "#fff" : "#000",
-            px: 1.7,
+            px: navigation == 0 ? 1 : 1.7,
+            minWidth: "unset",
           }}
           color="inherit"
         >
@@ -241,8 +221,8 @@ export function Agenda({
 
       <Box
         id="agendaContainer"
-        className="snap-x snap-mandatory sm:snap-none"
         sx={{
+          scrollSnapType: { xs: "x mandatory", sm: "unset" },
           display: "flex",
           maxWidth: "100vw",
           overflowX: "scroll",

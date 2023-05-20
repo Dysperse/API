@@ -1,36 +1,44 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../../../lib/client/useApi";
-import { colors } from "../../../../../lib/colors";
 
 export function Color({
   task,
   mutationUrl,
   color,
   setTaskData,
-  small = false,
 }: {
   task;
   mutationUrl;
   color: string;
   setTaskData: any;
-  small?: boolean;
 }) {
+  const session = useSession();
   return (
     <Box
       sx={{
-        width: small ? "20px" : "30px",
-        flex: small ? "0 0 20px" : "0 0 30px",
+        width: "20px",
+        flex: "0 0 20px",
         borderRadius: 9,
-        cursor: "pointer",
-        height: small ? "20px" : "30px",
+        height: "20px",
         display: "flex",
+        ...(task.color === color && {
+          boxShadow: `0 0 0 2px ${
+            session.user.darkMode ? "hsl(240,11%,20%)" : "#fff"
+          } inset`,
+        }),
+        transition: "box-shadow .4s",
         alignItems: "center",
         justifyContent: "center",
         color: "#000",
         background: `${colors[color]["400"]}!important`,
+        border: "2px solid",
+        borderColor: `${colors[color]["400"]}!important`,
         "&:hover": {
+          borderColor: `${colors[color]["500"]}!important`,
           background: `${colors[color]["500"]}!important`,
         },
       }}
@@ -44,18 +52,6 @@ export function Color({
           mutate(mutationUrl);
         });
       }}
-    >
-      <span
-        className="material-symbols-rounded"
-        style={{
-          opacity: task.color === color ? 1 : 0,
-          ...(small && {
-            fontSize: "15px",
-          }),
-        }}
-      >
-        check
-      </span>
-    </Box>
+    />
   );
 }

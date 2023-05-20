@@ -1,10 +1,13 @@
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { colors } from "@/lib/colors";
 import { Item as ItemType } from "@prisma/client";
 import { useRef, useState } from "react";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -17,9 +20,6 @@ import {
 } from "@mui/material";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { useAccountStorage } from "../../lib/client/useAccountStorage";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();
@@ -68,7 +68,6 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
       >
         <Puller />
         <Box sx={{ p: 2, pt: 0 }}>
@@ -123,11 +122,10 @@ export default function CategoryModal({
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
       >
         <Puller />
         <Box sx={{ p: 2, mt: 2, maxHeight: "60vh", overflowY: "auto" }}>
-          {data && data.length === 0 && (
+          {data?.length === 0 && (
             <Box
               sx={{
                 p: 2,
@@ -139,7 +137,10 @@ export default function CategoryModal({
             </Box>
           )}
           {error && (
-            <ErrorHandler error="An error occured while trying to fetch your categories" />
+            <ErrorHandler
+              callback={() => mutate(url)}
+              error="An error occured while trying to fetch your categories"
+            />
           )}
           {data &&
             [...new Set(data)].map((category: any) => (

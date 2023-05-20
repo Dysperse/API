@@ -1,11 +1,13 @@
+import { useApi } from "@/lib/client/useApi";
+import { colors } from "@/lib/colors";
 import type { CustomRoom as Room } from "@prisma/client";
 import React, { cloneElement } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useApi } from "../../../lib/client/useApi";
-import { colors } from "../../../lib/colors";
 import { Puller } from "../../Puller";
 import { CreateItemModal } from "./modal";
 
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Card,
@@ -20,8 +22,6 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import { useBackButton } from "../../../lib/client/useBackButton";
-import { useSession } from "../../../lib/client/useSession";
 
 /**
  * Item popup option
@@ -43,7 +43,7 @@ function AddItemOption({
   const session = useSession();
   return (
     <Grid item xs={12} sm={4} spacing={2}>
-      <CreateItemModal room={title}>
+      <CreateItemModal mutationUrl="" room={title}>
         <Card
           sx={{
             textAlign: {
@@ -111,7 +111,7 @@ function AddItemOption({
  * @returns JSX.Element
  */
 function MoreRooms(): JSX.Element {
-  const { error, data } = useApi("property/rooms");
+  const { error, data } = useApi("property/inventory/rooms");
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
   const handleClickOpen = () => setOpen(true);
@@ -124,7 +124,6 @@ function MoreRooms(): JSX.Element {
     <>
       <SwipeableDrawer
         anchor="bottom"
-        swipeAreaWidth={0}
         PaperProps={{
           sx: {
             width: {
@@ -382,7 +381,6 @@ export default function AddPopup({
 
       <SwipeableDrawer
         anchor="bottom"
-        swipeAreaWidth={0}
         PaperProps={{
           sx: {
             width: {
@@ -400,9 +398,6 @@ export default function AddPopup({
         open={open}
         onClose={() => setOpen(false)}
         onOpen={toggleDrawer(true)}
-        ModalProps={{
-          keepMounted: true,
-        }}
       >
         <Puller />
         <Box

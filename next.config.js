@@ -5,7 +5,6 @@ const withPWA = require("next-pwa")({
   reloadOnOnline: false,
   dynamicStartUrl: false,
   cacheOnFrontEndNav: true,
-  // i have no idea what im doing 💀
   maximumFileSizeToCacheInBytes: 1000000,
 });
 
@@ -20,6 +19,11 @@ const moduleExports = {
         {
           source: "/",
           destination: "/zen",
+          permanent: false,
+        },
+        {
+          source: "/api/user",
+          destination: "/api/session",
           permanent: false,
         },
         {
@@ -40,12 +44,10 @@ const moduleExports = {
       ];
     },
   }),
-  sentry: {
-    hideSourceMaps: true,
-  },
 };
 
 const sentryWebpackPluginOptions = {
+  hideSourceMaps: true,
   silent: true,
 };
 

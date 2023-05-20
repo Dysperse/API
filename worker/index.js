@@ -2,15 +2,17 @@
 
 self.__WB_DISABLE_DEV_LOGS = true;
 
+self.addEventListener("message", function (event) {
+  if (event.data.action === "skipWaiting") {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener("push", (event) => {
-  const title =
-    (event.data && JSON.parse(event.data.text()).title) ||
-    "You have a new notification • Carbon";
-  const body =
-    (event.data && JSON.parse(event.data.text()).body) || "Tap to open";
-  const icon =
-    (event.data && JSON.parse(event.data.text()).icon) ||
-    "https://assets.dysperse.com/v5/ios/192.png";
+  const data = event.data && JSON.parse(event.data.text());
+  const title = data?.title || "You have a new notification • Carbon";
+  const body = data?.body || "Tap to open";
+  const icon = data?.icon || "https://assets.dysperse.com/v5/ios/192.png";
 
   const tag = `dysperse-notification-${new Date().getTime()}`;
 
@@ -21,7 +23,7 @@ self.addEventListener("push", (event) => {
       icon,
       vibrate: [200, 100, 200],
       badge: "https://assets.dysperse.com/v6/20230123_114910_0000.png",
-      actions: (event.data && JSON.parse(event.data.text()).actions) || [],
+      actions: JSON.parse(event?.data?.text() ?? "{}").actions ?? [],
     })
   );
 });

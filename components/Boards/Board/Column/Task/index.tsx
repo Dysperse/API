@@ -1,17 +1,21 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { vibrate } from "@/lib/client/vibration";
+import { colors } from "@/lib/colors";
 import {
   Box,
   Checkbox,
   Chip,
   Icon,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   styled,
   Tooltip,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import hexToRgba from "hex-to-rgba";
 import dynamic from "next/dynamic";
 import React, {
   useCallback,
@@ -23,11 +27,6 @@ import React, {
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useAccountStorage } from "../../../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../../../lib/client/useApi";
-import { useSession } from "../../../../../lib/client/useSession";
-import { toastStyles } from "../../../../../lib/client/useTheme";
-import { colors } from "../../../../../lib/colors";
 import { ConfirmationModal } from "../../../../ConfirmationModal";
 import { TaskDrawer } from "./TaskDrawer";
 
@@ -36,6 +35,8 @@ const ImageViewer = dynamic(() =>
 );
 
 export const Task: any = React.memo(function Task({
+  handleMutate = () => {},
+  isDateDependent = false,
   isSubTask = false,
   isAgenda = false,
   checkList = false,
@@ -56,23 +57,14 @@ export const Task: any = React.memo(function Task({
     () =>
       styled("span")(() => ({
         borderRadius: 10,
-        transform: "translateX(-7px)",
         width: 25,
         height: 25,
         boxShadow: `${
           session.user.darkMode
-            ? "inset 0 0 0 2px rgba(255,255,255,.6)"
+            ? `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A200"]}`
             : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
         }`,
         backgroundColor: "transparent",
-        ".Mui-focusVisible &": {
-          boxShadow: `0px 0px 0px 2px inset ${
-            colors[taskData.color ?? "grey"][700]
-          }, 0px 0px 0px 15px inset ${hexToRgba(
-            colors[taskData.color ?? "grey"][900],
-            0.1
-          )}`,
-        },
         "input:disabled ~ &": {
           cursor: "not-allowed",
           opacity: 0.5,
@@ -109,14 +101,13 @@ export const Task: any = React.memo(function Task({
 
   const handleCompletion = useCallback(
     async (e) => {
-      navigator.vibrate(50);
+      vibrate(50);
       setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
       try {
-        await fetchRawApi("property/boards/column/task/mark", {
+        await fetchRawApi("property/boards/column/task/edit", {
           completed: e.target.checked ? "true" : "false",
           id: taskData.id,
         });
-        // await mutate(mutationUrl);
       } catch (e) {
         toast.error("An error occured while updating the task", toastStyles);
       }
@@ -129,10 +120,11 @@ export const Task: any = React.memo(function Task({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          await fetchRawApi("property/boards/togglePin", {
+          fetchRawApi("property/boards/column/task/edit", {
             id: taskData.id,
             pinned: !taskData.pinned ? "true" : "false",
           }).then(() => {
+            handleMutate();
             mutate(mutationUrl);
           });
           await mutate(mutationUrl);
@@ -150,24 +142,32 @@ export const Task: any = React.memo(function Task({
       },
       toastStyles
     );
-  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData]);
+  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData, handleMutate]);
+
+  const isDisabled = useMemo(
+    () =>
+      (board && board.archived) ||
+      session?.permission === "read-only" ||
+      storage?.isReached === true,
+    [board, session, storage]
+  );
 
   return !taskData ? (
     <div />
   ) : (
     <>
-      <TaskDrawer id={taskData.id} mutationUrl={mutationUrl} isAgenda>
+      <TaskDrawer
+        id={taskData.id}
+        mutationUrl={mutationUrl}
+        isDateDependent={isDateDependent}
+      >
         <ListItemButton
           itemRef={ref}
           disableRipple
           tabIndex={0}
+          className="cursor-unset"
           sx={{
-            ...(isSubTask && {
-              ml: "20px",
-              width: "calc(100% - 20px)",
-            }),
-            color:
-              colors[taskData.color][session.user.darkMode ? "A100" : "A700"],
+            color: colors["grey"][session.user.darkMode ? "A100" : "800"],
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
@@ -176,8 +176,16 @@ export const Task: any = React.memo(function Task({
             }%) !important`,
             transition: "none",
             py: { xs: 1, sm: 0.7 },
-            px: { xs: 3.6, sm: 2.5 },
+            px: { xs: 2.6, sm: 1.7 },
+            ...(isSubTask && {
+              pl: "40px!important",
+            }),
             gap: 1.5,
+            "&:hover": {
+              background: `hsl(240, 11%, ${
+                session.user.darkMode ? 13 : 97
+              }%) !important`,
+            },
             "&:active": {
               background: `hsl(240, 11%, ${
                 session.user.darkMode ? 15 : 94
@@ -185,27 +193,19 @@ export const Task: any = React.memo(function Task({
             },
           }}
         >
-          <ListItemIcon sx={{ minWidth: "unset", p: 0 }}>
-            <Checkbox
-              sx={{
-                p: 0,
-              }}
-              disabled={
-                (board && board.archived) ||
-                session?.permission === "read-only" ||
-                storage?.isReached === true
-              }
-              disableRipple
-              checked={taskData.completed}
-              onChange={handleCompletion}
-              onClick={(e) => e.stopPropagation()}
-              color="default"
-              checkedIcon={<BpCheckedIcon />}
-              icon={<BpIcon />}
-            />
-          </ListItemIcon>
+          <Checkbox
+            sx={{ p: 0 }}
+            disabled={isDisabled}
+            disableRipple
+            checked={taskData.completed}
+            onChange={handleCompletion}
+            onClick={(e) => e.stopPropagation()}
+            color="default"
+            checkedIcon={<BpCheckedIcon />}
+            icon={<BpIcon />}
+          />
           <ListItemText
-            sx={{ ml: "-2px" }}
+            sx={{ ml: 0.7 }}
             primary={
               <Box
                 sx={{
@@ -251,68 +251,83 @@ export const Task: any = React.memo(function Task({
                 {taskData.image && (
                   <ImageViewer trimHeight url={taskData.image} />
                 )}
-                {taskData.due && !isAgenda && (
-                  <Tooltip
-                    title={dayjs(taskData.due).format("MMMM D, YYYY")}
-                    followCursor
-                    placement="bottom-start"
-                  >
-                    <Chip
-                      size="small"
-                      sx={{ mt: 0.7 }}
-                      label={dayjs(taskData.due).fromNow()}
-                      icon={
-                        <Icon
-                          className="outlined"
-                          sx={{ fontSize: "20px!important", ml: 1 }}
-                        >
-                          schedule
-                        </Icon>
-                      }
-                    />
-                  </Tooltip>
-                )}
+                <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                  {taskData.pinned && (
+                    <ConfirmationModal
+                      title="Change priority?"
+                      question="You are about to unpin this task. You can always change the priority later"
+                      callback={handlePriorityChange}
+                    >
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <Box>
+                            <Typography variant="body2">
+                              <b>Task marked as important</b>
+                            </Typography>
+                            <Typography variant="body2">
+                              Tap to change
+                            </Typography>
+                          </Box>
+                        }
+                      >
+                        <Chip
+                          size="small"
+                          sx={{
+                            mt: 0.5,
+                            background:
+                              (session.user.darkMode
+                                ? "#642302"
+                                : colors.orange[100]) + "!important",
+                            color:
+                              colors.orange[
+                                session.user.darkMode ? "50" : "900"
+                              ] + "!important",
+                          }}
+                          label="Urgent"
+                          icon={
+                            <Icon
+                              className="outlined"
+                              sx={{
+                                fontSize: "20px!important",
+                                color: "inherit!important",
+                                ml: 1,
+                              }}
+                            >
+                              priority_high
+                            </Icon>
+                          }
+                        />
+                      </Tooltip>
+                    </ConfirmationModal>
+                  )}
+                  {taskData.due && !isAgenda && (
+                    <Tooltip
+                      title={dayjs(taskData.due).format("MMMM D, YYYY")}
+                      placement="top"
+                    >
+                      <Chip
+                        size="small"
+                        label={dayjs(taskData.due).fromNow()}
+                        sx={{ mt: 0.5 }}
+                        icon={
+                          <Icon
+                            className="outlined"
+                            sx={{ fontSize: "20px!important", ml: 1 }}
+                          >
+                            schedule
+                          </Icon>
+                        }
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
               </>
             }
           />
-          {taskData.pinned && (
-            <ConfirmationModal
-              title="Change priority?"
-              question="You are about to unpin this task. You can always change the priority later"
-              callback={handlePriorityChange}
-            >
-              <ListItemIcon sx={{ ml: "auto", minWidth: "auto" }}>
-                <Box
-                  sx={{
-                    borderRadius: 2,
-                    width: 20,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: 20,
-                    flexShrink: 0,
-                    background:
-                      colors.orange[session.user.darkMode ? "A700" : "200"],
-                  }}
-                >
-                  <Icon
-                    sx={{
-                      fontSize: "15px!important",
-                      color: session.user.darkMode
-                        ? "hsl(240,11%,10%)"
-                        : colors.orange[900],
-                      fontVariationSettings:
-                        "'FILL' 1, 'wght' 400, 'GRAD' 200, 'opsz' 20!important",
-                    }}
-                  >
-                    priority_high
-                  </Icon>
-                </Box>
-              </ListItemIcon>
-            </ConfirmationModal>
-          )}
         </ListItemButton>
       </TaskDrawer>
+
       {taskData &&
         taskData.subTasks &&
         taskData.subTasks.map((subtask) => (

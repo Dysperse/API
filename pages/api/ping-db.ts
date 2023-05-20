@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/server/prisma";
+import { prisma } from "@/lib/server/prisma";
 
 /**
  * API handler for the /api/login endpoint
@@ -7,10 +7,6 @@ import { prisma } from "../../lib/server/prisma";
  * @returns {any}
  */
 export default async function handler(req, res) {
-  await prisma.user.findFirst({
-    select: {
-      id: true,
-    },
-  });
+  await prisma.user.findFirst({ select: { id: true } });
   res.json({ success: true });
 }

@@ -1,3 +1,5 @@
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Avatar,
   Button,
@@ -13,9 +15,8 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { fetchRawApi, useApi } from "../../../lib/client/useApi";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { ErrorHandler } from "../../Error";
+import { mutate } from "swr";
 
 export function Integration({ integration }) {
   const [open, setOpen] = useState<boolean>(false);
@@ -49,15 +50,18 @@ export function Integration({ integration }) {
     });
     toast.success("Added integration!", toastStyles);
   };
-  const { data, error } = useApi("property/boards");
+  const { data, url, error } = useApi("property/boards");
 
   return (
     <>
       {error && (
-        <ErrorHandler error="Yikes! An error occured while trying to get your boards! Please try again later..." />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="Yikes! An error occured while trying to get your boards! Please try again later..."
+        />
       )}
       <ListItemButton sx={{ mb: 1, gap: 2 }} onClick={() => setOpen(true)}>
-        <Avatar src={integration.image} />
+        <Avatar src={integration.image} sx={{ borderRadius: 3 }} />
         <ListItemText
           primary={integration.name}
           secondary={integration.description}
@@ -104,8 +108,10 @@ export function Integration({ integration }) {
                     <MenuItem
                       value={board.id}
                       key={board.id}
-                      disabled={board.integrations.find(
-                        (integration) => integration.name === "Canvas LMS"
+                      disabled={Boolean(
+                        board.integrations.find(
+                          (integration) => integration.name === "Canvas LMS"
+                        )
                       )}
                     >
                       {board.name}

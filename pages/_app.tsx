@@ -1,28 +1,30 @@
+import { Error } from "@/components/Layout/Error";
+import { Loading } from "@/components/Layout/Loading";
 import { Analytics } from "@vercel/analytics/react";
 import dynamic from "next/dynamic";
 import { NextRouter } from "next/router";
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import { Error } from "../components/Layout/Error";
-import { Loading } from "../components/Layout/Loading";
 
 // CSS files
 import "../styles/calendar.scss";
 import "../styles/coach.scss";
 import "../styles/globals.scss";
+import "../styles/normalize.scss";
 // Day.JS
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 // Hooks
-import { RenderWithLayout } from "../components/Layout/Container";
-import { useUser } from "../lib/client/useSession";
+import { RenderWithLayout } from "@/components/Layout/Container";
+import { useUser } from "@/lib/client/useSession";
+import Head from "next/head";
 
-const AuthLoading = dynamic(() => import("../components/Auth/Loading"), {
+const AuthLoading = dynamic(() => import("@/components/Auth/Loading"), {
   loading: () => <Loading />,
 });
 
-export const Layout = dynamic(() => import("../components/Layout"), {
+export const Layout = dynamic(() => import("@/components/Layout"), {
   loading: () => <Loading />,
 });
 
@@ -44,7 +46,7 @@ export default function App({
   Component: typeof React.Component;
   pageProps: JSX.Element;
 }) {
-  const { data, isLoading, error, isError } = useUser();
+  const { data, isLoading, isError } = useUser();
 
   /**
    * URLs to display without the application container
@@ -72,9 +74,12 @@ export default function App({
     </>
   ) : (
     <>
+      <Head>
+        <title>Dysperse</title>
+      </Head>
       <Analytics />
       {isLoading && <Loading />}
-      {isError && <Error message={error} />}
+      {isError && <Error />}
       {!isLoading && !isError && !data.error && (
         <RenderWithLayout
           router={router}

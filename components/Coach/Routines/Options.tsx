@@ -1,10 +1,10 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Icon, ListItemButton, SwipeableDrawer } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { Puller } from "../../Puller";
 import { CustomizeRoutine } from "./Customize";
@@ -18,6 +18,7 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
 
   return (
     <>
+      <div ref={optionsRef} onClick={handleOpen} style={{ display: "none" }} />
       <SwipeableDrawer
         open={open}
         anchor="bottom"
@@ -33,7 +34,6 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
         }}
         onClose={handleClose}
         onOpen={handleOpen}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             background: "hsl(240, 11%, 15%)",
@@ -46,11 +46,6 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
           },
         }}
       >
-        <div
-          ref={optionsRef}
-          onClick={handleOpen}
-          style={{ display: "none" }}
-        />
         <Box
           sx={{
             "& .puller": { background: "hsl(240, 11%, 30%)" },
@@ -59,13 +54,17 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
           <Puller />
         </Box>
         <Box sx={{ p: 2, pt: 0, mt: -2 }}>
-          <CustomizeRoutine routine={routine} setData={setData} />
+          <CustomizeRoutine
+            routine={routine}
+            setData={setData}
+            handleParentClose={handleClose}
+          />
           <EditRoutine routine={routine} setData={setData} />
           <ConfirmationModal
             title="Are you sure you want to delete this routine?"
             question="Your progress will stay safe and your goals won't be deleted"
             callback={async () => {
-              await fetchRawApi("user/routines/custom-routines/delete", {
+              await fetchRawApi("user/coach/routines/delete", {
                 id: routine.id,
               });
               await mutate(mutationUrl);

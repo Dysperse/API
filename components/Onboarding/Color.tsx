@@ -1,8 +1,8 @@
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { CardActionArea, Icon } from "@mui/material";
 import { mutate } from "swr";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
-import { updateSettings } from "../Settings/updateSettings";
+import { updateSettings } from "../../lib/client/updateSettings";
 
 /**
  * Color component
@@ -20,7 +20,7 @@ export function Color({ color, handleNext }) {
         } else {
           updateSettings("color", color.toLowerCase());
         }
-        mutate("/api/user");
+        mutate("/api/session");
         handleNext();
       }}
       sx={{

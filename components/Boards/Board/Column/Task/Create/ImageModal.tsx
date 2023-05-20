@@ -1,7 +1,8 @@
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import { CircularProgress, Icon, IconButton, Tooltip } from "@mui/material";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { useSession } from "../../../../../../lib/client/useSession";
 
 export function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState<boolean>(false);
@@ -39,7 +40,7 @@ export function ImageModal({ image, setImage, styles }) {
         <IconButton
           size="small"
           onClick={() => {
-            navigator.vibrate(50);
+            vibrate(50);
             document.getElementById("imageAttachment")?.click();
           }}
           sx={{

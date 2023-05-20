@@ -1,31 +1,30 @@
-import Head from "next/head";
-import React from "react";
-import { ErrorHandler } from "../components/Error";
-import { OptionsGroup } from "../components/OptionsGroup";
-import { FloatingActionButton } from "../components/Rooms/FloatingActionButton";
-import { useApi } from "../lib/client/useApi";
-import { colors } from "../lib/colors";
-
+import { ErrorHandler } from "@/components/Error";
+import { OptionsGroup } from "@/components/OptionsGroup";
+import { CreateRoom } from "@/components/Rooms/items/CreateRoom";
+import { Rooms } from "@/components/Rooms/items/Rooms";
+import { rooms } from "@/components/Rooms/rooms";
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
   Box,
   Divider,
-  Menu,
-  MenuItem,
   Skeleton,
   Toolbar,
   Typography,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import { CreateRoom } from "../components/Rooms/items/CreateRoom";
-import { Rooms } from "../components/Rooms/items/Rooms";
-import { useSession } from "../lib/client/useSession";
+import Head from "next/head";
+import React, { createContext, useState } from "react";
+import { mutate } from "swr";
 
-const Action = dynamic(() => import("../components/Rooms/Action"));
+const Action = dynamic(() => import("@/components/Rooms/Action"));
 
 const CategoryModal = dynamic(
-  () => import("../components/Rooms/items/CategoryModal")
+  () => import("@/components/Rooms/items/CategoryModal")
 );
+
+export const SidebarContext = createContext("");
 
 /**
  * Component to dispay items by category
@@ -36,7 +35,10 @@ const CategoryList = React.memo(function CategoryList() {
   return (
     <>
       {error && (
-        <ErrorHandler error="An error occured while trying to fetch your items" />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="An error occured while trying to fetch your items"
+        />
       )}
       {!error && data ? (
         <>
@@ -76,241 +78,93 @@ const CategoryList = React.memo(function CategoryList() {
  * Top-level component for the items page
  */
 export default function Inventory({ children = null }: any) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  /**
-   * Closes the popup
-   * @returns void
-   */
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const [viewBy, setViewBy] = React.useState("Room");
-  const { data } = useApi("property/inventory/room/itemCount");
   const session = useSession();
+  const [viewBy, setViewBy] = useState("Room");
 
-  const { data: dataRooms, url, error } = useApi("property/rooms");
+  const { data } = useApi("property/inventory/count");
+  const { data: dataRooms, url, error } = useApi("property/inventory/rooms");
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       <Head>
-        <title>Items &bull; Dysperse</title>
+        <title>Items</title>
       </Head>
       <Box
         sx={{
-          width: { xs: "100%", sm: 300 },
-          flex: { xs: "100%", sm: "0 0 300px" },
+          width: { xs: "100%", md: 300 },
+          flex: { xs: "100%", md: "0 0 250px" },
           px: 1.5,
-          display: { xs: children ? "none" : "block", sm: "block" },
+          display: { xs: children ? "none" : "block", md: "block" },
           minHeight: "100vh",
-          pt: { sm: 0.5 },
-          height: { sm: "100vh" },
-          overflowY: { sm: "scroll" },
+          pt: { md: 0.5 },
+          height: { md: "100vh" },
+          overflowY: { md: "scroll" },
           background: {
-            sm: session.user.darkMode
+            md: session.user.darkMode
               ? "hsl(240,11%,7%)"
               : session.user.darkMode
               ? "hsl(240,11%,7%)"
               : "hsl(240,11%,95%)",
           },
-          ml: { sm: -1 },
+          ml: { md: -1 },
         }}
       >
-        <Box
-          sx={{
-            display: { sm: "none" },
-          }}
-        >
-          <FloatingActionButton />
-        </Box>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-        >
-          <MenuItem
-            onClick={() => {
-              setViewBy("room");
-              handleClose();
-            }}
+        <SidebarContext.Provider value={url}>
+          <Box
             sx={{
-              ...(viewBy === "room" && {
-                background:
-                  colors[session.themeColor][session.user.darkMode ? 700 : 300],
-              }),
+              my: 4,
+              px: { xs: 1.5, md: 0 },
+              borderRadius: "15px!important",
             }}
           >
-            Room
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setViewBy("Category");
-              handleClose();
-            }}
-            sx={{
-              ...(viewBy === "Category" && {
-                background:
-                  colors[session.themeColor][session.user.darkMode ? 700 : 300],
-              }),
-            }}
-          >
-            Category
-          </MenuItem>
-        </Menu>
-        <Box
-          sx={{
-            my: 4,
-            px: { xs: 1.5, sm: 0 },
-            borderRadius: "15px!important",
-          }}
-        >
-          <h1 className="font-heading my-10 text-4xl font-light underline sm:hidden">
-            {session.property.profile.type === "study group"
-              ? "Belongings"
-              : "Inventory"}
-          </h1>
-          <OptionsGroup
-            currentOption={viewBy}
-            setOption={setViewBy}
-            options={["Room", "Category"]}
-          />
-        </Box>
-        {viewBy === "Room" ? (
-          <>
-            {session.property.profile.type === "study group" ? (
-              <Action
-                mutationUrl={url}
-                href="/rooms/backpack"
-                icon="backpack"
-                primary="Backpack"
-                count={data}
-              />
-            ) : (
-              <>
-                <Action
-                  href="/rooms/kitchen"
-                  mutationUrl={url}
-                  icon="blender"
-                  primary="Kitchen"
-                  count={data}
-                />
-                <Action
-                  href="/rooms/bedroom"
-                  icon="bedroom_parent"
-                  mutationUrl={url}
-                  primary="Bedroom"
-                  count={data}
-                />
-                <Action
-                  count={data}
-                  href="/rooms/bathroom"
-                  icon="bathroom"
-                  mutationUrl={url}
-                  primary="Bathroom"
-                />
-                <Action
-                  count={data}
-                  href="/rooms/garage"
-                  mutationUrl={url}
-                  icon="garage"
-                  primary="Garage"
-                />
-                <Action
-                  count={data}
-                  href="/rooms/dining"
-                  icon="dining"
-                  mutationUrl={url}
-                  primary="Dining room"
-                />
-                <Action
-                  count={data}
-                  href="/rooms/living"
-                  icon="living"
-                  mutationUrl={url}
-                  primary="Living room"
-                />
-                <Action
-                  href="/rooms/laundry"
-                  mutationUrl={url}
-                  count={data}
-                  icon="local_laundry_service"
-                  primary="Laundry room"
-                />
-                <Action
-                  mutationUrl={url}
-                  href="/rooms/storage"
-                  count={data}
-                  icon="inventory_2"
-                  primary="Storage room"
-                />
-                <Action
-                  href="/rooms/garden"
-                  count={data}
-                  icon="yard"
-                  mutationUrl={url}
-                  primary="Garden"
-                />
-                <Action
-                  href="/rooms/camping"
-                  count={data}
-                  mutationUrl={url}
-                  icon="camping"
-                  primary="Camping"
-                />
-              </>
-            )}
-            <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-            <Rooms data={dataRooms} error={error} mutationUrl={url} />
-            <CreateRoom mutationUrl={url} />
-            <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-            <Action
-              href="/starred"
-              mutationUrl={url}
-              icon="star"
-              primary="Starred"
-              count={{
-                byRoom: {
-                  starred: -3,
-                },
-              }}
+            <Typography
+              variant="h4"
+              className="font-heading"
+              sx={{ mb: 2, display: { md: "none" } }}
+            >
+              {session.property.profile.type === "study group"
+                ? "Belongings"
+                : "Inventory"}
+            </Typography>
+            <OptionsGroup
+              currentOption={viewBy}
+              setOption={setViewBy}
+              options={["Room", "Category"]}
             />
-            <Action
-              href="/trash"
-              icon="delete"
-              mutationUrl={url}
-              primary="Trash"
-              count={{
-                byRoom: {
-                  trash: -3,
-                },
-              }}
-            />
-            <Toolbar />
-          </>
-        ) : (
-          <CategoryList />
-        )}
+          </Box>
+          {viewBy === "Room" ? (
+            <>
+              {session.property.profile.type === "study group" ? (
+                <Action icon="backpack" room="Backpack" count={data?.byRoom} />
+              ) : (
+                rooms.map((action: any) => (
+                  <Action
+                    key={action.primary}
+                    {...action}
+                    count={data?.byRoom}
+                  />
+                ))
+              )}
+              <Divider sx={{ my: 1.5, opacity: 0.7 }} />
+              <Rooms data={dataRooms} error={error} count={data?.byRoom} />
+              <CreateRoom />
+              <Divider sx={{ my: 1.5, opacity: 0.7 }} />
+              <Action icon="star" room="Starred" />
+              <Action icon="delete" room="Trash" />
+              <Toolbar />
+            </>
+          ) : (
+            <CategoryList />
+          )}
+        </SidebarContext.Provider>
       </Box>
       {children ? (
         <Box
           sx={{
-            maxHeight: { sm: "100vh" },
-            minHeight: { sm: "100vh" },
-            height: { sm: "100vh" },
-            overflowY: { sm: "auto" },
+            maxHeight: { md: "100vh" },
+            minHeight: { md: "100vh" },
+            height: { md: "100vh" },
+            overflowY: { md: "auto" },
             flexGrow: 1,
           }}
         >
@@ -319,37 +173,17 @@ export default function Inventory({ children = null }: any) {
       ) : (
         <Box
           sx={{
-            display: { xs: "none", sm: "flex" },
+            display: { xs: "none", md: "flex" },
             justifyContent: "center",
             flexDirection: "column",
             gap: 2,
             alignItems: "center",
-            height: "calc(100vh - 70px)",
+            height: "100vh",
             width: "100%",
-            fontWeight: "500",
-            color:
-              colors[session?.themeColor || "grey"][
-                session.user.darkMode ? 50 : 800
-              ],
+            color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
           }}
         >
-          <Box
-            sx={{
-              gap: 2,
-              borderRadius: 5,
-              p: 3,
-              py: 2,
-              textAlign: "center",
-            }}
-          >
-            <Typography
-              variant="h6"
-              sx={{ ...(session?.permission !== "read-only" && { mb: 2 }) }}
-            >
-              <u>No room selected</u>
-            </Typography>
-            {session?.permission !== "read-only" && <FloatingActionButton sm />}
-          </Box>
+          <Typography variant="h6">No room selected</Typography>
         </Box>
       )}
     </Box>

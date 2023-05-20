@@ -1,3 +1,7 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
@@ -11,16 +15,13 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { Stories } from "../../../pages/stories";
+import { Stories } from "../../Stories";
 import { RoutineEnd } from "../DailyRoutine/RoutineEnd";
 import { Task } from "../DailyRoutine/Task";
 import { ShareGoal } from "../Goal/ShareGoal";
 import { RoutineOptions } from "./Options";
 
-export function Routine({ mutationUrl, routine }) {
+export function Routine({ isCoach = false, mutationUrl, routine }) {
   const session = useSession();
   const optionsRef: any = useRef();
 
@@ -29,12 +30,21 @@ export function Routine({ mutationUrl, routine }) {
   const [alreadyOpened, setAlreadyOpened] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
+  const mutateRoutine = useCallback(async () => {
+    const res = await fetchRawApi("user/coach/routines/items", {
+      id: routine.id,
+    });
+    setLoading(true);
+    setLoading(false);
+    setData(res[0]);
+  }, [routine.id]);
+
   const handleClick = useCallback(async () => {
     try {
-      navigator.vibrate(50);
+      vibrate(50);
       setCurrentIndex(0);
       setLoading(true);
-      const res = await fetchRawApi("user/routines/custom-routines/items", {
+      const res = await fetchRawApi("user/coach/routines/items", {
         id: routine.id,
       });
       setLoading(true);
@@ -85,6 +95,7 @@ export function Routine({ mutationUrl, routine }) {
                 width="35px"
                 height="35px"
                 alt="Emoji"
+                loading="lazy"
               />
             </picture>
             <Typography variant="h6">{routine.name}</Typography>
@@ -190,8 +201,8 @@ export function Routine({ mutationUrl, routine }) {
                   return {
                     content: (
                       <Task
+                        mutateRoutine={mutateRoutine}
                         task={task}
-                        currentIndex={currentIndex}
                         setCurrentIndex={setCurrentIndex}
                       />
                     ),
@@ -210,7 +221,15 @@ export function Routine({ mutationUrl, routine }) {
                         <Button
                           size="small"
                           sx={{ color: "#fff", opacity: 0.6 }}
-                          onClick={() => toast("Coming soon!", toastStyles)}
+                          onClick={() => {
+                            toast.dismiss();
+                            toast(
+                              <Typography>
+                                <b>Activity</b> coming soon!
+                              </Typography>,
+                              toastStyles
+                            );
+                          }}
                         >
                           <Icon className="outlined" sx={{ mt: "-5px" }}>
                             local_fire_department
@@ -264,17 +283,30 @@ export function Routine({ mutationUrl, routine }) {
             flex: "0 0 70px",
             gap: 0.4,
             display: "flex",
-            flexDirection: "column",
+            ...(!isCoach && { flexDirection: "column" }),
+            ...(isCoach && {
+              width: "100%",
+              flex: "0 0 auto",
+            }),
             alignItems: "center",
             overflow: "hidden",
             userSelect: "none",
             p: 1,
             transition: "transform .2s",
             "&:hover": {
-              background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+              background: {
+                sm: `hsl(240, 11%, ${
+                  session.user.darkMode
+                    ? isCoach
+                      ? 20
+                      : 15
+                    : isCoach
+                    ? 90
+                    : 95
+                }%)`,
+              },
             },
             "&:active": {
-              transition: "none",
               transform: "scale(.95)",
             },
           }}
@@ -285,21 +317,21 @@ export function Routine({ mutationUrl, routine }) {
               width: 60,
               height: 60,
               display: "flex",
+              flexShrink: 0,
               alignItems: "center",
               justifyContent: "center",
-              background: "rgba(200,200,200,.2)",
+              background: session.user.darkMode
+                ? "hsla(240,11%,50%,0.2)"
+                : "rgba(200,200,200,.2)",
               border: "2px solid transparent",
               ...(tasksRemaining.length === 0 && {
                 borderColor: lime[session.user.darkMode ? "A400" : 800],
-                background: session.user.darkMode
-                  ? "hsl(240,11%,10%)"
-                  : lime[50],
               }),
               ...(data.items.length === 0 && {
                 borderColor: orange[session.user.darkMode ? "A200" : 800],
                 background: session.user.darkMode
                   ? "hsl(240,11%,10%)"
-                  : orange[50],
+                  : orange[isCoach ? 100 : 50],
               }),
               ...(loading && {
                 transition: "border-color .2s",
@@ -317,7 +349,7 @@ export function Routine({ mutationUrl, routine }) {
                   color: lime[session.user.darkMode ? "A400" : 800],
                   background: session.user.darkMode
                     ? "hsl(240,11%,10%)"
-                    : lime[50],
+                    : "hsl(240,11%,93%)",
                   borderRadius: "999px",
                   transition: "opacity .2s",
                   position: "absolute",
@@ -335,7 +367,7 @@ export function Routine({ mutationUrl, routine }) {
                   color: orange[session.user.darkMode ? "A400" : 800],
                   background: session.user.darkMode
                     ? "hsl(240,11%,10%)"
-                    : "#fff",
+                    : orange[isCoach ? 100 : 50],
                   borderRadius: "999px",
                   transition: "opacity .2s",
                   position: "absolute",
@@ -364,6 +396,9 @@ export function Routine({ mutationUrl, routine }) {
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji}.png`}
                 width={35}
                 height={35}
+                style={{
+                  marginBottom: "-5px",
+                }}
                 alt="Emoji"
               />
             </picture>
@@ -373,10 +408,15 @@ export function Routine({ mutationUrl, routine }) {
               variant="body2"
               sx={{
                 whiteSpace: "nowrap",
-                textAlign: "center",
+                textAlign: isCoach ? "left" : "center",
                 textOverflow: "ellipsis",
                 fontSize: "13px",
                 overflow: "hidden",
+                ...(isCoach && {
+                  ml: 3,
+                  fontSize: "20px",
+                  fontWeight: 700,
+                }),
               }}
             >
               {routine.name}

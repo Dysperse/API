@@ -1,38 +1,48 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
 import { Masonry } from "@mui/lab";
 import {
   AppBar,
   Box,
-  Drawer,
   Icon,
   IconButton,
+  Skeleton,
+  SwipeableDrawer,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useCallback, useMemo, useState } from "react";
-import { useSession } from "../../../../lib/client/useSession";
+import dayjs from "dayjs";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ExploreGoalCard } from "../../Routines/Create/ExploreGoalCard";
 import { FeaturedRoutine } from "../../Routines/Create/FeaturedRoutine";
 import { CreateGoal as CreateCustomGoal } from "./Custom";
-import { categories, goals, routines } from "./goalTemplates";
+import { categories, goals } from "./goalTemplates";
 
-export function CreateGoal({ mutationUrl }) {
+export function CreateGoal({ mutationUrl, isCoach }) {
   const session = useSession();
 
   const [open, setOpen] = useState(false);
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const randomRoutine = useMemo(
-    () => routines[Math.floor(Math.random() * routines.length)],
-    []
-  );
+  const [data, setData] = useState<any>(null);
+  useEffect(() => {
+    if (open) {
+      (async () => {
+        const d = await fetchRawApi("ai/routine", {
+          month: dayjs().format("MMMM"),
+        });
+        setData(d);
+      })();
+    }
+  }, [open]);
 
   const shuffled = useMemo(() => goals.sort(() => Math.random() - 0.5), []);
 
   return (
     <>
-      <Drawer
-        ModalProps={{ keepMounted: false }}
+      <SwipeableDrawer
+        onOpen={handleOpen}
         open={open}
         onClose={handleClose}
         anchor="bottom"
@@ -41,10 +51,17 @@ export function CreateGoal({ mutationUrl }) {
             width: "100vw",
             height: "100vh",
             maxWidth: "100vw",
+            borderRadius: 0,
           },
         }}
       >
-        <AppBar sx={{ background: "rgba(255,255,255,.8)" }}>
+        <AppBar
+          sx={{
+            background: session.user.darkMode
+              ? "hsla(240,11%,15%,.8)"
+              : "rgba(255,255,255,.8)",
+          }}
+        >
           <Toolbar sx={{ gap: 2 }}>
             <IconButton onClick={handleClose}>
               <Icon>expand_more</Icon>
@@ -54,11 +71,20 @@ export function CreateGoal({ mutationUrl }) {
           </Toolbar>
         </AppBar>
         <Box sx={{ p: { xs: 2, sm: 4 } }}>
-          <FeaturedRoutine
-            routine={randomRoutine}
-            mutationUrl={mutationUrl}
-            setOpen={setOpen}
-          />
+          {data ? (
+            <FeaturedRoutine
+              routine={data.response}
+              mutationUrl={mutationUrl}
+              setOpen={setOpen}
+            />
+          ) : (
+            <Skeleton
+              height={250}
+              variant="rectangular"
+              animation="wave"
+              sx={{ borderRadius: 5 }}
+            />
+          )}
           <Box
             sx={{
               px: { xs: 1, sm: 2 },
@@ -108,7 +134,7 @@ export function CreateGoal({ mutationUrl }) {
             ))}
           </Box>
         </Box>
-      </Drawer>
+      </SwipeableDrawer>
       <Box
         id="createGoalTrigger"
         onClick={handleOpen}
@@ -118,17 +144,25 @@ export function CreateGoal({ mutationUrl }) {
           flex: "0 0 70px",
           gap: 0.4,
           display: "flex",
-          flexDirection: "column",
+          ...(!isCoach && { flexDirection: "column" }),
+          ...(isCoach && {
+            width: "100%",
+            flex: "0 0 auto",
+          }),
+
           alignItems: "center",
           overflow: "hidden",
           userSelect: "none",
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+            background: {
+              sm: `hsl(240, 11%, ${
+                session.user.darkMode ? 15 : isCoach ? 90 : 95
+              }%)`,
+            },
           },
           "&:active": {
-            transition: "none",
             transform: "scale(.95)",
           },
         }}
@@ -137,11 +171,14 @@ export function CreateGoal({ mutationUrl }) {
           sx={{
             borderRadius: 9999,
             width: 60,
+            flexShrink: 0,
             height: 60,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(200,200,200,.2)",
+            background: session.user.darkMode
+              ? "hsla(240,11%,50%,0.2)"
+              : "rgba(200,200,200,.2)",
             position: "relative",
           }}
         >
@@ -152,16 +189,22 @@ export function CreateGoal({ mutationUrl }) {
             variant="body2"
             sx={{
               whiteSpace: "nowrap",
-              textAlign: "center",
+              textAlign: isCoach ? "left" : "center",
               textOverflow: "ellipsis",
               fontSize: "13px",
               overflow: "hidden",
+              ...(isCoach && {
+                ml: 3,
+                fontSize: "20px",
+                fontWeight: 700,
+              }),
             }}
           >
             New goal
           </Typography>
         </Box>
       </Box>
+      <Box sx={{ px: 1, flex: "0 0 40px", height: 3 }}></Box>
     </>
   );
 }

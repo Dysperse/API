@@ -1,9 +1,9 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Icon, Typography } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchRawApi } from "../../../../lib/client/useApi";
-import { useSession } from "../../../../lib/client/useSession";
-import { toastStyles } from "../../../../lib/client/useTheme";
 
 export function ExploreGoalCard({ goal }) {
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ export function ExploreGoalCard({ goal }) {
       onClick={async () => {
         setLoading(true);
         try {
-          await fetchRawApi("user/routines/create", {
+          await fetchRawApi("user/coach/goals/create", {
             name: goal.name,
             stepName: goal.stepName,
             category: goal.category,

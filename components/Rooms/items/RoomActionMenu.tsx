@@ -1,15 +1,15 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useAccountStorage } from "../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { colors } from "../../../lib/colors";
 import { ConfirmationModal } from "../../ConfirmationModal";
 
 export function RoomActionMenu({
-  roomId,
+  room,
   itemRef,
   isPrivate,
   mutationUrl,
@@ -63,9 +63,6 @@ export function RoomActionMenu({
         }}
       >
         <MenuItem onClick={handleClose} disabled={storage?.isReached === true}>
-          <Icon className="outlined">edit</Icon>Rename
-        </MenuItem>
-        <MenuItem onClick={handleClose} disabled={storage?.isReached === true}>
           <Icon className="outlined">lock</Icon>Make{" "}
           {isPrivate ? "private" : "public"}
         </MenuItem>
@@ -74,7 +71,7 @@ export function RoomActionMenu({
           question="Are you sure you want to delete this room? This will delete all items in it, and CANNOT be undone!"
           callback={async () => {
             await fetchRawApi("property/inventory/room/delete", {
-              id: roomId,
+              id: room.id,
             });
             await mutate(mutationUrl);
             toast.success("Deleted room!");

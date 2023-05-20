@@ -29,7 +29,7 @@ export default function KeyboardShortcutsModal() {
         },
       }}
     >
-      <Box className="flex items-center">
+      <Box sx={{ dispaly: "flex", alignItems: "center" }}>
         <Typography variant="h5">Keyboard shortcuts</Typography>
         <IconButton sx={{ ml: "auto" }} onClick={() => setOpen(false)}>
           <Icon>close</Icon>
@@ -54,7 +54,7 @@ export default function KeyboardShortcutsModal() {
               },
               {
                 name: "View active group",
-                keys: ["ctrl", "shift", "p"],
+                keys: ["ctrl", "shift", ","],
               },
               {
                 name: "Toggle app drawer",
@@ -148,9 +148,9 @@ export default function KeyboardShortcutsModal() {
               {group.name}
             </Typography>
             {group.shortcuts.map((shortcut) => (
-              <Typography className="flex" sx={{ mt: 1 }} key={shortcut.name}>
+              <Typography sx={{ display: "flex", mt: 1 }} key={shortcut.name}>
                 <Box>{shortcut.name}</Box>{" "}
-                <Box className="ml-auto">
+                <Box sx={{ ml: "auto" }}>
                   {shortcut.keys.map((key) => (
                     <span className="kbd" key={shortcut.name}>
                       {key}

@@ -1,7 +1,8 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
+import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 
 export const max = 500;
@@ -24,7 +25,7 @@ export function Storage({
   propertyId: string;
   color: string;
 }) {
-  const { data, error, url } = useApi("property/storage", {
+  const { data, url, error } = useApi("property/storage", {
     property: propertyId,
     accessToken,
   });
@@ -37,13 +38,17 @@ export function Storage({
     tasks: ((((data && data.tasks) || 0) * multipliers.tasks) / max) * 100,
   };
   const session = useSession();
+
   return error || !data ? (
     <Box>
       <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
         Storage
       </Typography>
       {error ? (
-        <ErrorHandler error="An error occured while trying to get your account's storage information. Please try again later" />
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="An error occured while trying to get your account's storage information. Please try again later"
+        />
       ) : (
         <Box
           sx={{
@@ -85,9 +90,8 @@ export function Storage({
           }`,
           color: colors[color][session.user.darkMode ? 50 : 900].toString(),
           borderRadius: 5,
-          px: 3,
+          p: 3,
           mt: 2,
-          py: 2,
           mb: 5,
         }}
       >
@@ -113,22 +117,28 @@ export function Storage({
           <Box
             sx={{
               width: `${storage.tasks}%`,
-              background: colors[color][session.user.darkMode ? 200 : 800],
+              background: colors[color][session.user.darkMode ? 700 : 800],
               height: "100%",
               borderRadius: "0 99px 99px 0",
             }}
           />
         </Box>
-        <Typography gutterBottom>
-          <b>Items</b>
-          <br /> {Math.round(storage.items)}% &bull;{" "}
-          {(data.items || { count: 0 }).count} items
-        </Typography>
-        <Typography gutterBottom>
-          <b>Tasks</b>
-          <br /> {Math.round(storage.tasks)}% &bull; {data.tasks || 0} tasks
-        </Typography>
-        <Typography gutterBottom sx={{ mt: 1 }}>
+        <Box sx={{ display: "flex" }}>
+          <Typography gutterBottom sx={{ width: "100%" }}>
+            <b>Items</b>
+            <Typography variant="body2">
+              {Math.round(storage.items)}% &bull;{" "}
+              {(data.items || { count: 0 }).count} items
+            </Typography>
+          </Typography>
+          <Typography gutterBottom sx={{ width: "100%" }}>
+            <b>Tasks</b>
+            <Typography variant="body2">
+              {Math.round(storage.tasks)}% &bull; {data.tasks || 0} tasks
+            </Typography>
+          </Typography>
+        </Box>
+        <Typography gutterBottom sx={{ mt: 1 }} variant="body2">
           <b>
             {max - getTotal(data, data.tasks, data.items)} out of {max} credits
             left

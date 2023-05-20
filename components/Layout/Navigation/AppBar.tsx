@@ -1,9 +1,12 @@
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   AppBar,
   Box,
   CssBaseline,
   Icon,
   IconButton,
+  Skeleton,
   Toolbar,
   Tooltip,
   Typography,
@@ -11,10 +14,8 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { capitalizeFirstLetter } from "../../../lib/client/capitalizeFirstLetter";
-import { useSession } from "../../../lib/client/useSession";
+import { useEffect, useState } from "react";
 import { openSpotlight } from "./Search";
-import { UpdateButton } from "./UpdateButton";
 import UserMenu from "./UserMenu";
 
 /**
@@ -22,9 +23,10 @@ import UserMenu from "./UserMenu";
  * @returns {any}
  */
 export function Navbar(): JSX.Element {
-  const isMobile = useMediaQuery("(max-width:600px)");
   const session = useSession();
   const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const styles = () => {
     return {
       WebkitAppRegion: "no-drag",
@@ -48,24 +50,38 @@ export function Navbar(): JSX.Element {
     };
   };
 
+  const [title, setTitle] = useState("Loading");
+
+  useEffect(() => {
+    const updateTitle = () =>
+      setTitle(document.title == "Dysperse" ? "Loading" : document.title);
+
+    updateTitle();
+
+    const observer = new MutationObserver(updateTitle);
+    const tag: any = document.querySelector("title");
+
+    observer.observe(tag, { childList: true });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <AppBar
       sx={{
+        userSelect: "none",
         position: "fixed",
         paddingTop: "env(titlebar-area-height, 0px)",
         ...((!router ||
           router.asPath.includes("/zen") ||
           router.asPath === "" ||
           router.asPath === "/") && {
-          top: {
-            xs: "calc(var(--navbar-height) * -1) !important",
-            md: "0!important",
-          },
+          top: "calc(var(--navbar-height) * -1) !important",
         }),
         transition: "none",
-        "& *": {
-          cursor: "unset!important",
-        },
+        "& *": {},
         color: {
           xs: session.user.darkMode ? "white" : "black",
         },
@@ -85,12 +101,13 @@ export function Navbar(): JSX.Element {
       }
     >
       <CssBaseline />
-      <Toolbar sx={{ height: "100%", gap: 1 }}>
+      <Toolbar sx={{ height: "100%", gap: 0.5 }}>
         <Box
           sx={{
             mr: "auto",
             display: "flex",
             alignItems: "center",
+            overflow: "hidden",
             gap: 2,
             WebkitAppRegion: "no-drag",
           }}
@@ -110,37 +127,36 @@ export function Navbar(): JSX.Element {
               }),
             }}
           />
-          <Typography
+          <Box
             sx={{
-              fontWeight: 700,
-              fontSize: "18px",
-              userSelect: "none",
+              minWidth: 0,
             }}
-            variant="h6"
           >
-            {router.asPath.includes("backlog")
-              ? "Backlog"
-              : window.location.href.includes("agenda")
-              ? capitalizeFirstLetter(
-                  isMobile &&
-                    window.location.hash.split("agenda/") &&
-                    window.location.hash.split("agenda/")[1].includes("week")
-                    ? "Day"
-                    : window.location.hash.split("agenda/")
-                    ? window.location.hash.split("agenda/")[1]
-                    : ""
-                )
-              : router.asPath.includes("tasks")
-              ? "Tasks"
-              : router.asPath.includes("items") ||
-                router.asPath.includes("trash") ||
-                router.asPath.includes("starred") ||
-                router.asPath.includes("rooms")
-              ? "Items"
-              : router.asPath.includes("coach")
-              ? "Coach"
-              : "Overview"}
-          </Typography>
+            <Typography
+              sx={{
+                fontWeight: 700,
+                fontSize: "18px",
+                mb: title.includes(" •") ? -0.5 : -0,
+                whiteSpace: "nowrap",
+                minWidth: 0,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                userSelect: "none",
+              }}
+              variant="h6"
+            >
+              {title === "Loading" ? (
+                <Skeleton width={75} animation="wave" />
+              ) : title.includes(" •") ? (
+                title.split(" •")[0]
+              ) : (
+                title
+              )}
+            </Typography>
+            {title.includes(" •") && (
+              <Typography variant="body2">{title.split(" •")[1]}</Typography>
+            )}
+          </Box>
         </Box>
         <Box
           sx={{
@@ -159,7 +175,7 @@ export function Navbar(): JSX.Element {
             <IconButton
               onClick={(e) => {
                 e.stopPropagation();
-                navigator.vibrate(50);
+                vibrate(50);
                 openSpotlight();
               }}
               color="inherit"
@@ -169,10 +185,7 @@ export function Navbar(): JSX.Element {
             </IconButton>
           </Tooltip>
         </Box>
-        <Box sx={{ display: { xs: "none", md: "unset" }, mr: { md: 0.8 } }}>
-          <UpdateButton />
-        </Box>
-        <UserMenu styles={styles} />
+        {isMobile && <UserMenu styles={styles} />}
       </Toolbar>
     </AppBar>
   );

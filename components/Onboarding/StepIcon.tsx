@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { StepIconProps, styled } from "@mui/material";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
 
 export function StepIcon(props: StepIconProps) {
   const { active, completed, className } = props;

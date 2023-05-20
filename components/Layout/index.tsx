@@ -1,19 +1,24 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { useApi } from "@/lib/client/useApi";
+import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAccountStorage } from "../../lib/client/useAccountStorage";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
+import { toast } from "react-hot-toast";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
 import { Navbar } from "./Navigation/AppBar";
 import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
-
+import { UpdateButton } from "./Navigation/UpdateButton";
 const KeyboardShortcutsModal = dynamic(
   () => import("./Navigation/KeyboardShortcutsModal")
 );
+
+const ReleaseModal = dynamic(() => import("./ReleaseModal"));
 
 /**
  * Drawer component
@@ -28,6 +33,30 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
 
   const storage = useAccountStorage();
+  const isOnline = useOnlineStatus();
+
+  useEffect(() => {
+    if (!isOnline) {
+      const myPromise = new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+          if (navigator.onLine) {
+            clearInterval(interval);
+            resolve("");
+          }
+        }, 1000); // adjust the interval as needed
+      });
+
+      toast.promise(
+        myPromise,
+        {
+          loading: "You're offline. Waiting for an internet connection...",
+          success: "Internet connection restored!",
+          error: "Error!?",
+        },
+        toastStyles
+      );
+    }
+  }, [isOnline]);
 
   useEffect(() => {
     if (error) {
@@ -43,10 +72,17 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   return (
     <Box
       onContextMenu={(e) => e.preventDefault()}
-      sx={{
-        display: "flex",
+      onTouchStart={(e: any) => {
+        /**
+         * TODO: Fix, this throws an error every time the user performs a touch action on mobile
+         * "Unable to preventDefault inside passive event listener invocation."
+         */
+        if (e.pageX > 20 && e.pageX < window.innerWidth - 20) return;
+        e.preventDefault();
       }}
+      sx={{ display: "flex" }}
     >
+      <ReleaseModal />
       <Snackbar
         open={!dismissed && hasReachedLimit && !error}
         autoHideDuration={6000}
@@ -86,19 +122,13 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
         message="You've reached the storage limits for this group."
       />
       <Snackbar
-        open={!navigator.onLine}
-        autoHideDuration={6000}
-        onClose={() => null}
-        sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
-        message="You're offline. Please check your network connection."
-      />
-      <Snackbar
         open={Boolean(error)}
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
         message="An error occured while trying to get your account storage information"
       />
+      <UpdateButton />
       <Navbar />
       <KeyboardShortcutsModal />
       <Box

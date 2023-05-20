@@ -41,6 +41,15 @@ export const toastStyles = {
 export const useCustomTheme = ({ darkMode, themeColor }): any => {
   return {
     components: {
+      MuiSwipeableDrawer: {
+        defaultProps: {
+          disableSwipeToOpen: true,
+          disableBackdropTransition: true,
+          keepMounted: false,
+          ModalProps: { keepMounted: false },
+        },
+      },
+
       MuiAppBar: {
         defaultProps: {
           elevation: 0,
@@ -104,7 +113,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              cursor: "unset",
               transition: "none",
               "&:hover": {
                 color: darkMode ? "#fff" : "#000",
@@ -122,7 +130,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "&:focus-visible": {
                 boxShadow: darkMode
                   ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-                  : "0px 0px 0px 1.5px var(--themeDark) !important",
+                  : "0px 0px 0px 1.5px #000 !important",
               },
             }),
         },
@@ -177,7 +185,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             theme.unstable_sx({
               gap: "10px",
               transition: "none!important",
-              cursor: "unset",
+
               borderRadius: "999px",
               px: "30px",
               "&.MuiButton-sizeSmall": {
@@ -234,16 +242,19 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   "&.Mui-disabled + .MuiSwitch-track": {
                     opacity: 0.5,
                   },
+                  "&.Mui-disabled .MuiSwitch-thumb": {
+                    color: !darkMode ? "hsl(240,11%,90%)" : colors.grey[600],
+                  },
                 },
                 "&.Mui-focusVisible .MuiSwitch-thumb": {
                   color: "#33cf4d",
                   border: "6px solid #fff",
                 },
                 "&.Mui-disabled .MuiSwitch-thumb": {
-                  color: !darkMode ? "hsl(240,11%,10%)" : colors.grey[600],
+                  color: !darkMode ? "hsl(240,11%,70%)" : colors.grey[600],
                 },
                 "&.Mui-disabled + .MuiSwitch-track": {
-                  opacity: !darkMode ? 0.7 : 0.3,
+                  opacity: darkMode ? 0.3 : 1,
                 },
               },
               "& .MuiSwitch-thumb": {
@@ -260,6 +271,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             }),
         },
       },
+      MuiModal: { defaultProps: { keepMounted: false } },
       MuiMenu: {
         defaultProps: {
           transitionDuration: 200,
@@ -299,7 +311,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   padding: "3px",
                 },
                 "& .MuiMenuItem-root": {
-                  cursor: "unset",
                   gap: 2,
                   "&:focus-visible, &:hover": {
                     background: darkMode
@@ -335,7 +346,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              cursor: "unset!important",
               borderRadius: 4,
               userSelect: "none",
             }),
@@ -344,6 +354,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiDialog: {
         defaultProps: {
           TransitionComponent: Transition,
+          keepMounted: false,
         },
         styleOverrides: {
           paper: {
@@ -371,6 +382,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiDrawer: {
         defaultProps: {
           elevation: 0,
+          ModalProps: { keepMounted: false },
           TransitionComponent: DrawerTransition,
         },
         styleOverrides: {
@@ -391,7 +403,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             background: darkMode ? "hsl(240, 11%, 15%)" : "#fff",
           },
         },
-      } as any,
+      },
       MuiTooltip: {
         defaultProps: {
           enterDelay: 0,

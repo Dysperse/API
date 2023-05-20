@@ -1,3 +1,6 @@
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
+import { colors } from "@/lib/colors";
 import {
   AppBar,
   Box,
@@ -14,8 +17,6 @@ import {
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { cloneElement, useEffect, useRef, useState } from "react";
-import { useSession } from "../../../lib/client/useSession";
-import { colors } from "../../../lib/colors";
 import { exportAsImage } from "./MoreOptions";
 
 export function ShareGoal({ children, goal }) {
@@ -72,7 +73,7 @@ export function ShareGoal({ children, goal }) {
   const progressBarStyles = {
     background: "rgba(0,0,0,0.1)",
     "& *": {
-      background: "#000",
+      background: "#000!important",
       borderRadius: 2,
     },
     height: 10,
@@ -81,7 +82,7 @@ export function ShareGoal({ children, goal }) {
 
   const [color, setColor] = useState("red");
   const [screenshotting, setScreenshotting] = useState(false);
-  const [emblaRef, emblaApi] = useEmblaCarousel(
+  const [emblaRef] = useEmblaCarousel(
     {
       dragFree: true,
       align: "start",
@@ -355,7 +356,7 @@ export function ShareGoal({ children, goal }) {
                         top: 0,
                         left: 0,
                         "& *": {
-                          stroke: "#000",
+                          stroke: "#000!important",
                           strokeOpacity: 0.2,
                           strokeLinecap: "round",
                         },
@@ -384,6 +385,10 @@ export function ShareGoal({ children, goal }) {
                         top: 0,
                         left: 0,
                         strokeLinecap: "round",
+                        "& *": {
+                          stroke: "#000!important",
+                          strokeLinecap: "round",
+                        },
                       }}
                     />
                   </Box>
@@ -395,8 +400,14 @@ export function ShareGoal({ children, goal }) {
 
         <SwipeableDrawer
           open={exportFooterOpen}
-          onOpen={() => setExportFooterOpen(true)}
-          onClose={() => setExportFooterOpen(false)}
+          onOpen={() => {
+            setExportFooterOpen(true);
+            vibrate(50);
+          }}
+          onClose={() => {
+            setExportFooterOpen(false);
+            vibrate(50);
+          }}
           sx={{
             zIndex: 9999999999,
             height: "0px!important",

@@ -1,182 +1,145 @@
+import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
+import { isEmail } from "@/components/Group/Members";
+import { toastStyles } from "@/lib/client/useTheme";
+import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useFormik } from "formik";
+import { Box, Button, NoSsr, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { authStyles, Layout } from "../../components/Auth/Layout";
-
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-import { toastStyles } from "../../lib/client/useTheme";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 
 /**
  * Top-level component for the signup page.
  */
 export default function Prompt() {
   const router = useRouter();
+  const ref: any = useRef();
 
   // Login form
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+  const [step, setStep] = useState(0);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [email, setEmail] = useState("");
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-    },
-    onSubmit: (values) => {
-      setButtonLoading(true);
-      fetch("/api/auth/reset-id", {
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
+
+  const handleSubmit = useCallback(async () => {
+    try {
+      const res = await fetch("/api/auth/reset-id", {
         method: "POST",
-        body: JSON.stringify({
-          email: values.email,
-        }),
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            toast.success(
-              "Check your email for further instructions.",
-              toastStyles
-            );
-            router.push("/tasks");
-            setButtonLoading(false);
-          } else {
-            toast.error("An error occurred.", toastStyles);
-            setButtonLoading(false);
-          }
-        })
-        .catch(() => {
-          toast.error("An error occurred.", toastStyles);
-          setButtonLoading(false);
-        });
-    },
-  });
+        body: JSON.stringify({ email: email, captchaToken }),
+      });
+      if (res.status === 401) {
+        const f = await res.json();
+        throw new Error(f.message);
+      }
+      toast.success("Check your email for further instructions.", toastStyles);
+      router.push("/auth");
+    } catch (e: any) {
+      setStep(0);
+      setButtonLoading(false);
+      setAlreadySubmitted(false);
+      ref.current?.reset();
+      setCaptchaToken("");
+      toast.error(e.message, toastStyles);
+    }
+  }, [router, email, captchaToken]);
 
   useEffect(() => {
-    if (typeof document !== "undefined")
-      document
-        .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute(
-          "content",
-          window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
-        );
-  });
+    if (captchaToken && !alreadySubmitted) {
+      handleSubmit();
+      setAlreadySubmitted(true);
+    }
+  }, [captchaToken, handleSubmit, alreadySubmitted]);
+
   return (
     <Layout>
       <Box>
-        <Paper
-          sx={{
-            background: "#F4CEEB",
-            borderRadius: { sm: 5 },
-            top: 0,
-            mb: 5,
-            left: 0,
-            position: { xs: "fixed", sm: "unset" },
-            mx: "auto",
-            maxWidth: "100vw",
-            overflowY: "auto",
-            width: { sm: "450px" },
-            p: { xs: 2, sm: 5 },
-            mt: { sm: 5 },
-            pt: { xs: 6, sm: 5 },
-            height: { xs: "100vh", sm: "auto" },
-          }}
-          elevation={0}
-        >
-          <Box
-            sx={{
-              color: "#202020",
-              alignItems: "center",
-              gap: "10px",
-              userSelect: "none",
-              cursor: "pointer",
-              display: { xs: "flex", sm: "none" },
-              mt: -3,
-            }}
-            onClick={() => window.open("//dysperse.com")}
-          >
-            <picture>
-              <img
-                src="https://cdn.jsdelivr.net/gh/Smartlist-App/Assets@master/v2/rounded.png"
-                width="80"
-                height="80"
-                alt="logo"
-              />
-            </picture>
-            <Typography variant="h5" sx={{ mt: -1 }}>
-              Dysperse
-            </Typography>
-          </Box>
-          <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ pt: 3 }}>
-              <Box sx={{ px: 1 }}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
-                  Forgot your ID?
-                </Typography>
-                <Typography sx={{ mb: 2 }}>
-                  Enter your email address and we&apos;ll send you a link to
-                  reset your ID.
-                </Typography>
-              </Box>
-              <TextField
-                required
-                disabled={buttonLoading}
-                label="Your email address"
-                value={formik.values.email}
-                name="email"
-                onChange={formik.handleChange}
-                sx={authStyles.input}
-                variant="filled"
-              />
-
-              <Link
-                href={
-                  typeof window !== "undefined"
-                    ? window.location.href.includes("?close=true")
-                      ? "/auth?close=true"
-                      : "/auth"
-                    : "/auth"
-                }
-                legacyBehavior
+        <Box sx={authStyles.container}>
+          <AuthBranding mobile />
+          <Box sx={{ pt: 3 }}>
+            <Box sx={{ px: 1 }}>
+              <Typography
+                variant="h3"
+                sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
+                className="font-heading"
               >
-                <Button sx={authStyles.link}>Back to login</Button>
-              </Link>
-              <Box sx={{ pb: { xs: 15, sm: 0 } }} />
-              <Box
-                sx={{
-                  display: "flex",
-                  mt: { sm: 2 },
-                  position: { xs: "fixed", sm: "unset" },
-                  bottom: 0,
-                  left: 0,
-                  zIndex: 1,
-                  py: 1,
-                  background: "#c4b5b5",
-                  [`@media (prefers-color-scheme: dark)`]: {
-                    background: "hsl(240,11%,10%)",
-                  },
-                  width: { xs: "100vw", sm: "100%" },
-                }}
-              >
-                <div />
-                <LoadingButton
-                  loading={buttonLoading}
-                  type="submit"
-                  variant="contained"
-                  id="_loading"
-                  sx={authStyles.submit}
-                  size="large"
-                >
-                  Continue
-                  <span
-                    style={{ marginLeft: "10px" }}
-                    className="material-symbols-rounded"
-                  >
-                    chevron_right
-                  </span>
-                </LoadingButton>
-              </Box>
+                {step === 0 ? "Forgot your password!?" : "Verifying..."}
+              </Typography>
+              <Typography sx={{ my: 2, mb: 3 }}>
+                {step == 0
+                  ? "No worries! We'll just send you an email with a link to reset your password!"
+                  : "Hang on while we verify that you're a human."}
+              </Typography>
             </Box>
-          </form>
-        </Paper>
+            {step == 1 && (
+              <NoSsr>
+                <Turnstile
+                  ref={ref}
+                  siteKey="0x4AAAAAAABo1BKboDBdlv8r"
+                  onError={() => {
+                    ref.current?.reset();
+                    toast.error("An error occured. Retrying...", toastStyles);
+                  }}
+                  onExpire={() => {
+                    ref.current?.reset();
+                    toast.error("Expired. Retrying...", toastStyles);
+                  }}
+                  scriptOptions={{ defer: true }}
+                  options={{ retry: "auto" }}
+                  onSuccess={(token) => setCaptchaToken(token)}
+                />
+              </NoSsr>
+            )}
+            {step == 0 && (
+              <>
+                <TextField
+                  required
+                  disabled={buttonLoading}
+                  label="Your email address"
+                  placeholder="jeffbezos@gmail.com"
+                  value={email}
+                  name="email"
+                  onChange={(e: any) => setEmail(e.target.value)}
+                  fullWidth
+                  sx={authStyles.input}
+                  variant="outlined"
+                />
+                <Link
+                  href={`/auth/${router.query.close ? "?close=true" : ""}`}
+                  legacyBehavior
+                >
+                  <Button sx={authStyles.link}>
+                    Wait - I remember my password, take me back
+                  </Button>
+                </Link>
+                <Box sx={{ pb: { xs: 15, sm: 6 } }} />
+                <Box sx={authStyles.footer}>
+                  <LoadingButton
+                    loading={buttonLoading}
+                    variant="contained"
+                    onClick={() => setStep(1)}
+                    id="_loading"
+                    disableElevation
+                    disableRipple
+                    sx={authStyles.submit}
+                    disabled={!isEmail(email)}
+                    size="large"
+                  >
+                    Continue
+                    <span
+                      style={{ marginLeft: "10px" }}
+                      className="material-symbols-rounded"
+                    >
+                      chevron_right
+                    </span>
+                  </LoadingButton>
+                </Box>
+              </>
+            )}
+          </Box>
+        </Box>
       </Box>
     </Layout>
   );

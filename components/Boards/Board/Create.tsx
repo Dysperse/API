@@ -1,3 +1,6 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import Masonry from "@mui/lab/Masonry";
 import {
   Alert,
@@ -12,16 +15,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
 import { OptionsGroup } from "../../OptionsGroup";
-import { boardSwitcherStyles } from "../Layout";
+import { taskStyles } from "../Layout";
 
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
-
+  const router = useRouter();
   const session = useSession();
 
   return (
@@ -115,9 +118,9 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               setLoading(true);
               fetchRawApi("property/boards/create", {
                 board: JSON.stringify(template),
-              }).then(async () => {
-                setOpen(false);
+              }).then(async (res) => {
                 await mutate(mutationUrl);
+                router.push(`/tasks/boards/${res.id}`);
                 setLoading(false);
               });
             }}
@@ -146,18 +149,13 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             width: "100%!important",
             background: `hsl(240,11%,${session.user.darkMode ? 13 : 95}%)`,
             borderRadius: 5,
-            transition: "transform 0.2s",
             cursor: "pointer",
             userSelect: "none",
             "&:hover": {
-              background: `hsl(240,11%,${session.user.darkMode ? 16 : 90}%)`,
+              background: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
             },
             "&:active": {
-              background: session.user.darkMode
-                ? "hsl(240, 11%, 17%)"
-                : "rgba(200,200,200,.5)",
-              transform: "scale(.98)",
-              transition: "none",
+              background: `hsl(240,11%,${session.user.darkMode ? 17 : 91}%)`,
             },
           }}
         >
@@ -236,7 +234,7 @@ export const templates = [
   {
     for: ["Student", "College student"],
     name: "School planner",
-    description: "NEW: School planner to help organize your assignments",
+    description: "School planner to help organize your assignments",
     color: "blue",
     columns: [
       {
@@ -287,7 +285,7 @@ export const templates = [
   {
     for: ["Student", "College student"],
     name: "Tests, homework, and projects",
-    description: "NEW: School planner to help organize your assignments",
+    description: "School planner to help organize your assignments",
     color: "blue",
     columns: [
       {
@@ -500,10 +498,12 @@ export const templates = [
   },
 ];
 
-export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
+export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+
   const checklists = [
     "Shopping list",
     "Simple checklist",
@@ -529,20 +529,21 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   return (
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
       <IconButton
         size="large"
         onContextMenu={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
         onClick={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
-        sx={boardSwitcherStyles(session.user.darkMode)}
+        sx={taskStyles(session).menu}
       >
         <Icon className="outlined">menu</Icon>
       </IconButton>
@@ -552,51 +553,24 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           backgroundSize: "cover",
           backgroundPosition: "center",
           borderRadius: 5,
-          mt: 3,
+          mt: 6,
           p: 4,
-          mb: 7,
+          mb: 3,
           mx: { sm: 1 },
           overflow: "hidden",
           py: 5,
-          background: "black",
+          background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
           position: "relative",
         }}
       >
+        <Head>
+          <title>Explore &bull; {currentOption}s</title>
+        </Head>
         <Box sx={{ zIndex: 9, position: "sticky" }}>
-          <Typography
-            variant="h5"
-            onClick={() => length !== 0 && setDrawerOpen(true)}
-            sx={{
-              zIndex: 9,
-              pointerEvents: { sm: "none" },
-              lineHeight: 1.5,
-              letterSpacing: 0.15,
-              borderRadius: 2,
-              overflow: "hidden",
-              maxWidth: "100%",
-              px: 1,
-              mb: 2,
-              ml: -1,
-              color: "hsl(240,11%,90%)!important",
-              cursor: "unset!important",
-              userSelect: "none",
-              "&:hover": {
-                color: "hsl(240,11%,80%)",
-                background: "hsl(240,11%,13%)",
-              },
-              "&:active": {
-                color: "hsl(240,11%,95%)",
-                background: "hsl(240,11%,16%)",
-              },
-
-              display: { xs: "inline-flex", md: "inline-flex" },
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
-            Create a board {length !== 0 && <Icon>expand_more</Icon>}
+          <Typography variant="h5" sx={{ mb: 1 }}>
+            Create a board
           </Typography>
-          <Typography sx={{ mb: 2, color: "#fff", zIndex: 9 }}>
+          <Typography sx={{ mb: 2, zIndex: 9 }}>
             Boards are sweet places where you can keep track of almost anything,
             from tasks, to shopping lists, to even product planning. You can
             always edit templates after creating.
@@ -628,7 +602,9 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
       {currentOption === "Checklist" ? (
         <>
           {checklists.filter((checklist) =>
-            checklist.name.toLowerCase().includes(searchQuery.toLowerCase())
+            checklist.name
+              .toLowerCase()
+              .includes(deferredSearchQuery.toLowerCase())
           ).length === 0 && (
             <Alert sx={{ mt: 2 }} severity="info">
               No checklists found 😭
@@ -637,7 +613,9 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
             {checklists
               .filter((checklist) =>
-                checklist.name.toLowerCase().includes(searchQuery.toLowerCase())
+                checklist.name
+                  .toLowerCase()
+                  .includes(deferredSearchQuery.toLowerCase())
               )
               .map((template) => (
                 <Box
@@ -646,8 +624,9 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
                     setLoading(true);
                     fetchRawApi("property/boards/create", {
                       board: JSON.stringify(template),
-                    }).then(async () => {
+                    }).then(async (res) => {
                       await mutate(mutationUrl);
+                      router.push(`/tasks/boards/${res.id}`);
                       setLoading(false);
                     });
                   }}
@@ -704,10 +683,12 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
           {templates.filter(
             (template) =>
-              template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              template.name
+                .toLowerCase()
+                .includes(deferredSearchQuery.toLowerCase()) ||
               template.description
                 .toLowerCase()
-                .includes(searchQuery.toLowerCase())
+                .includes(deferredSearchQuery.toLowerCase())
           ).length === 0 && (
             <Alert sx={{ mt: 2 }} severity="info">
               No boards found 😭
@@ -718,10 +699,10 @@ export function CreateBoard({ length, setDrawerOpen, mutationUrl }: any) {
               (template) =>
                 template.name
                   .toLowerCase()
-                  .includes(searchQuery.toLowerCase()) ||
+                  .includes(deferredSearchQuery.toLowerCase()) ||
                 template.description
                   .toLowerCase()
-                  .includes(searchQuery.toLowerCase())
+                  .includes(deferredSearchQuery.toLowerCase())
             )
             .map((template) => (
               <Template

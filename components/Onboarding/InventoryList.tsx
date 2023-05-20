@@ -1,10 +1,10 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { toastStyles } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
 
 /**
  * Inventory list

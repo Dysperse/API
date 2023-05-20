@@ -1,11 +1,13 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { vibrate } from "@/lib/client/vibration";
 import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useAccountStorage } from "../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
 
@@ -14,7 +16,7 @@ export default function BoardSettings({ mutationUrl, board }) {
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    navigator.vibrate(50);
+    vibrate(50);
   };
 
   const handleClose = () => {
@@ -24,6 +26,7 @@ export default function BoardSettings({ mutationUrl, board }) {
 
   const storage = useAccountStorage();
   const session = useSession();
+  const router = useRouter();
 
   return (
     <>
@@ -43,7 +46,7 @@ export default function BoardSettings({ mutationUrl, board }) {
       >
         <ConfirmationModal
           title={board.pinned ? "Unpin?" : "Pin?"}
-          buttonText="Yes, please!"
+          buttonText="Yes!"
           question={
             board.pinned
               ? "Are you sure you want to unpin this board?"
@@ -51,7 +54,7 @@ export default function BoardSettings({ mutationUrl, board }) {
           }
           callback={() => {
             setTimeout(() => {
-              fetchRawApi("property/boards/pin", {
+              fetchRawApi("property/boards/edit", {
                 id: board.id,
                 pinned: !board.pinned ? "true" : "false",
               }).then(() => {
@@ -90,10 +93,7 @@ export default function BoardSettings({ mutationUrl, board }) {
           mobile
           id={board.id}
           mutationUrl={mutationUrl}
-          hide={
-            (board && board.columns.length === 1) ||
-            (board && board.columns.length >= 5)
-          }
+          hide={board?.columns.length === 1 || board?.columns.length >= 5}
         />
         <MenuItem
           disabled={board.archived}
@@ -115,7 +115,7 @@ export default function BoardSettings({ mutationUrl, board }) {
               : "Are you sure you want to make this board private? Other members in your group won't be able to view/edit content within this board anymore."
           }
           callback={async () => {
-            await fetchRawApi("property/boards/setVisibility", {
+            await fetchRawApi("property/boards/edit", {
               id: board.id,
               public: !board.public,
             });
@@ -138,9 +138,9 @@ export default function BoardSettings({ mutationUrl, board }) {
               : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
-            await fetchRawApi("property/boards/archive", {
+            await fetchRawApi("property/boards/archived", {
               id: board.id,
-              archive: !board.archived,
+              archived: !board.archived,
             });
             await mutate(mutationUrl);
           }}
@@ -154,9 +154,8 @@ export default function BoardSettings({ mutationUrl, board }) {
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
-            await fetchRawApi("property/boards/delete", {
-              id: board.id,
-            });
+            await fetchRawApi("property/boards/delete", { id: board.id });
+            router.push("/tasks");
             await mutate(mutationUrl);
           }}
         >
@@ -168,7 +167,12 @@ export default function BoardSettings({ mutationUrl, board }) {
       </Menu>
 
       <Tooltip title="Board settings">
-        <IconButton onClick={handleClick} sx={{ mr: { md: "auto" } }}>
+        <IconButton
+          onClick={handleClick}
+          sx={{ mr: { md: "auto" } }}
+          size="large"
+          disabled={session.permission === "read-only"}
+        >
           <Icon className="outlined">settings</Icon>
         </IconButton>
       </Tooltip>

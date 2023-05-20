@@ -1,6 +1,6 @@
+import { useBackButton } from "@/lib/client/useBackButton";
 import { Box, Button, Dialog, Icon, IconButton } from "@mui/material";
 import { useState } from "react";
-import { useBackButton } from "../../../../../lib/client/useBackButton";
 
 export function ImageViewer({ url, trimHeight = false }) {
   const [open, setOpen] = useState<boolean>(false);

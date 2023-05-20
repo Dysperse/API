@@ -1,3 +1,7 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
+import useWindowDimensions from "@/lib/client/useWindowDimensions";
+import { colors } from "@/lib/colors";
 import {
   Backdrop,
   Box,
@@ -10,10 +14,6 @@ import React, { useEffect } from "react";
 import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { toastStyles } from "../../../lib/client/useTheme";
-import useWindowDimensions from "../../../lib/client/useWindowDimensions";
-import { colors } from "../../../lib/colors";
 
 export function TrophyModal({ goal, mutationUrl }) {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -75,7 +75,7 @@ export function TrophyModal({ goal, mutationUrl }) {
                 key={icon}
                 onClick={() => {
                   setLoading(true);
-                  fetchRawApi("user/routines/complete", {
+                  fetchRawApi("user/coach/goals/complete", {
                     daysLeft: goal.durationDays - goal.progress,
                     feedback: icon,
                     id: goal.id,
@@ -166,7 +166,7 @@ export function TrophyModal({ goal, mutationUrl }) {
           >
             Congratulations!
           </Typography>
-          <Typography variant="body1" className="mt-1">
+          <Typography variant="body1" sx={{ mt: "4px" }}>
             After spending{" "}
             <b>
               <u>{goal.durationDays} days</u>

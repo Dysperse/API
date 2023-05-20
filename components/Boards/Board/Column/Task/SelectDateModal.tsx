@@ -1,3 +1,5 @@
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Box,
   Button,
@@ -9,8 +11,6 @@ import {
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import DatePicker from "react-calendar";
-import { useSession } from "../../../../../lib/client/useSession";
-import { colors } from "../../../../../lib/colors";
 import { Puller } from "../../../../Puller";
 import { formatDate } from "./formatDate";
 

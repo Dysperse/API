@@ -1,3 +1,9 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import {
   Alert,
   Box,
@@ -15,12 +21,6 @@ import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { capitalizeFirstLetter } from "../../lib/client/capitalizeFirstLetter";
-import { useAccountStorage } from "../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 
@@ -37,7 +37,6 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     borderRadius: 0,
     transition: "none",
     py: 1.5,
-    cursor: "unset!important",
     gap: 2,
     color: session.user.darkMode
       ? "hsl(240, 11%, 90%)"
@@ -48,7 +47,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     "&:hover, &:active, &:focus-within": {
       background: session.user.darkMode
         ? "hsl(240, 11%, 25%)"
-        : colors[session?.themeColor || "grey"][100],
+        : colors[session?.themeColor || "grey"][50],
       color: session.user.darkMode
         ? "hsl(240, 11%, 95%)"
         : colors[session?.themeColor || "grey"][900],
@@ -59,7 +58,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
     "&:hover, &:active, &:focus-within": {
       background: session.user.darkMode
         ? "hsl(240, 11%, 20%)"
-        : colors[session?.themeColor || "grey"][100],
+        : colors[session?.themeColor || "grey"][50],
     },
     borderRadius: 2,
     pl: "10px",
@@ -148,7 +147,9 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   return (
     <Box sx={{ px: 4, pt: 1 }}>
       <TextField
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         placeholder="Item title"
         multiline
         defaultValue={capitalizeFirstLetter(itemData.name)}
@@ -167,7 +168,9 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       />
       <TextField
         multiline
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         placeholder="Add a quantity"
         onChange={preventLineBreaks}
         onKeyDown={preventLineBreaks}
@@ -216,7 +219,9 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       <TextField
         multiline
         variant="standard"
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
         InputProps={{
           disableUnderline: true,
           sx: { ...styles, borderRadius: 5, mb: 2, p: 3 },
@@ -247,7 +252,6 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       </List>
 
       <Typography
-        className="body2"
         sx={{
           my: 2,
           color: session.user.darkMode ? "#aaa" : "hsl(240,11%,50%)",
@@ -293,7 +297,8 @@ export default function ItemDrawer({
 
   const handleClose = useCallback(() => {
     setOpen(false);
-  }, []);
+    mutate(mutationUrl);
+  }, [mutationUrl]);
 
   const trigger = cloneElement(children, {
     //onTouchStart: handleOpen,
@@ -304,8 +309,6 @@ export default function ItemDrawer({
     <>
       <SwipeableDrawer
         open={open}
-        disableSwipeToOpen
-        disableBackdropTransition
         onOpen={handleOpen}
         onClick={(e) => e.stopPropagation()}
         onContextMenu={(e) => {
@@ -317,7 +320,10 @@ export default function ItemDrawer({
       >
         <Puller />
         {error && (
-          <ErrorHandler error="An error occured while trying to fetch the item's data. Please try again later" />
+          <ErrorHandler
+            callback={() => mutate(mutationUrl)}
+            error="An error occured while trying to fetch the item's data. Please try again later"
+          />
         )}
         {itemData ? (
           <DrawerData

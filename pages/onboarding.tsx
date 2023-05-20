@@ -1,3 +1,13 @@
+import { templates } from "@/components/Boards/Board/Create";
+import { Loading } from "@/components/Layout/Loading";
+import { BoardTemplate } from "@/components/Onboarding/BoardTemplate";
+import { Color } from "@/components/Onboarding/Color";
+import { InventoryList } from "@/components/Onboarding/InventoryList";
+import { StepIcon } from "@/components/Onboarding/StepIcon";
+import { cards } from "@/components/Rooms/CreateItem/cards";
+import { updateSettings } from "@/lib/client/updateSettings";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -24,17 +34,6 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { templates } from "../components/Boards/Board/Create";
-import { Loading } from "../components/Layout/Loading";
-import { BoardTemplate } from "../components/Onboarding/BoardTemplate";
-import { Color } from "../components/Onboarding/Color";
-import { InventoryList } from "../components/Onboarding/InventoryList";
-import { StepIcon } from "../components/Onboarding/StepIcon";
-import { cards } from "../components/Rooms/CreateItem/cards";
-import { updateSettings } from "../components/Settings/updateSettings";
-import { fetchRawApi } from "../lib/client/useApi";
-import { useSession } from "../lib/client/useSession";
-import { colors } from "../lib/colors";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -318,7 +317,6 @@ export default function Onboarding() {
               "true",
               false,
               async () => {
-                await fetchRawApi("purge");
                 router.push("/");
               },
               false

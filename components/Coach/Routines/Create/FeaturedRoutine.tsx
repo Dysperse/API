@@ -1,3 +1,6 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import {
   AppBar,
   Box,
@@ -14,9 +17,6 @@ import {
 import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../../lib/client/useApi";
-import { toastStyles } from "../../../../lib/client/useTheme";
-import { colors } from "../../../../lib/colors";
 import { DurationPicker } from "./DurationPicker";
 
 export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
@@ -47,16 +47,11 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
   const handleClick = async () => {
     setLoading(true);
     try {
-      await fetchRawApi("user/routines/createFromTemplate", {
+      await fetchRawApi("user/coach/routines/createFromTemplate", {
         name: routine.name,
         note: "",
         daysOfWeek,
-        emoji: routine.emoji
-          .replace(".png", "")
-          .replace(
-            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/",
-            ""
-          ),
+        emoji: routine.emoji.toLowerCase(),
         timeOfDay: routine.timeOfDay,
         items: JSON.stringify(routineItems),
       });
@@ -78,11 +73,7 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         open={open}
         onOpen={() => setInfoOpen(true)}
         onClose={() => setInfoOpen(false)}
-        disableSwipeToOpen
         anchor="bottom"
-        ModalProps={{
-          keepMounted: false,
-        }}
       >
         <AppBar>
           <Toolbar>
@@ -97,7 +88,10 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         </AppBar>
         <Box sx={{ p: 3 }}>
           <picture>
-            <img src={routine.emoji} alt="Emoji" />
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji.toLowerCase()}.png`}
+              alt="Emoji"
+            />
           </picture>
           <Typography variant="h4" className="font-heading" sx={{ mt: 2 }}>
             {routine.name}
@@ -171,9 +165,16 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
                 gap: 2,
                 transition: "all .2s",
                 ...(item.disabled && {
-                  opacity: 0.5,
+                  opacity:
+                    routineItems.filter((item) => !item.disabled).length == 1
+                      ? 0.8
+                      : 0.5,
                   transform: "scale(.95)",
                 }),
+                ...(routineItems.filter((item) => !item.disabled).length == 1 &&
+                  !item.disabled && {
+                    opacity: 0.3,
+                  }),
               }}
               key={index}
             >
@@ -187,6 +188,10 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               <ListItemText primary={item.name} secondary={item.description} />
               <IconButton
                 sx={{ ml: "auto" }}
+                disabled={
+                  routineItems.filter((item) => !item.disabled).length == 1 &&
+                  !item.disabled
+                }
                 size="small"
                 onClick={() =>
                   setRoutineItems(
@@ -261,15 +266,13 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
         }}
       >
         <Chip
-          size="small"
-          label={"Routine"}
+          label="Dysperse AI"
           icon={
             <Icon sx={{ color: "#000!important" }} className="outlined">
-              wb_cloudy
+              magic_button
             </Icon>
           }
           sx={{
-            gap: 1,
             ...chipStyles,
             position: "absolute",
             top: 0,
@@ -291,13 +294,16 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
               flexShrink: 0,
               mt: 2,
               "& img": {
-                width: { xs: 50, sm: 100 },
-                height: { xs: 50, sm: 100 },
+                width: { xs: 50, sm: 70 },
+                height: { xs: 50, sm: 70 },
               },
             }}
           >
             <picture>
-              <img src={routine.emoji} alt="Emoji" />
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${routine.emoji.toLowerCase()}.png`}
+                alt="Emoji"
+              />
             </picture>
           </Box>
           <Box>

@@ -1,3 +1,6 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
@@ -15,13 +18,10 @@ import {
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../../lib/client/useApi";
-import { useSession } from "../../../../lib/client/useSession";
-import { toastStyles } from "../../../../lib/client/useTheme";
-import { EmojiPicker } from "../../../EmojiPicker";
+import EmojiPicker from "../../../EmojiPicker";
 import { CreateGoal } from "../../Goal/Create";
 
-export function CreateRoutine({ emblaApi, mutationUrl }) {
+export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
   const session = useSession();
   const titleRef: any = useRef();
 
@@ -50,14 +50,13 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await fetchRawApi("user/routines/custom-routines/create", {
+      await fetchRawApi("user/coach/routines/create", {
         name,
         emoji,
         daysOfWeek,
         timeOfDay: time,
       });
       await mutate(mutationUrl);
-      emblaApi?.reInit();
       toast.success("Created routine!", toastStyles);
       handleClose();
     } catch (e) {
@@ -73,23 +72,31 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
     <>
       <Box
         onClick={handleOpen}
+        ref={buttonRef}
         sx={{
           flexShrink: 0,
           borderRadius: 5,
           flex: "0 0 70px",
           gap: 0.4,
           display: "flex",
-          flexDirection: "column",
+          ...(!isCoach && { flexDirection: "column" }),
+          ...(isCoach && {
+            width: "100%",
+            flex: "0 0 auto",
+          }),
           alignItems: "center",
           overflow: "hidden",
           userSelect: "none",
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: `hsl(240, 11%, ${session.user.darkMode ? 10 : 95}%)`,
+            background: {
+              sm: `hsl(240, 11%, ${
+                session.user.darkMode ? 15 : isCoach ? 90 : 95
+              }%)`,
+            },
           },
           "&:active": {
-            transition: "none",
             transform: "scale(.95)",
           },
         }}
@@ -99,10 +106,13 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             borderRadius: 9999,
             width: 60,
             height: 60,
+            flexShrink: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(200,200,200,.2)",
+            background: session.user.darkMode
+              ? "hsla(240,11%,50%,0.2)"
+              : "rgba(200,200,200,.2)",
             position: "relative",
           }}
         >
@@ -113,10 +123,15 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             variant="body2"
             sx={{
               whiteSpace: "nowrap",
-              textAlign: "center",
+              textAlign: isCoach ? "left" : "center",
               textOverflow: "ellipsis",
               fontSize: "13px",
               overflow: "hidden",
+              ...(isCoach && {
+                ml: 3,
+                fontSize: "20px",
+                fontWeight: 700,
+              }),
             }}
           >
             New routine
@@ -124,16 +139,16 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
         </Box>
       </Box>
 
-      <CreateGoal mutationUrl={mutationUrl} />
+      <CreateGoal mutationUrl={mutationUrl} isCoach={isCoach} />
 
       <SwipeableDrawer
         open={open}
         anchor="bottom"
         onClose={handleClose}
         onOpen={handleOpen}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
+            ...(!session.user.darkMode && { background: "#fff" }),
             userSelect: "none",
             height: "100vh",
             borderRadius: 0,
@@ -157,6 +172,8 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
                   borderColor: `hsl(240,11%,${
                     session.user.darkMode ? 30 : 80
                   }%)`,
+                  width: "100px",
+                  height: "100px",
                   p: 2,
                 }}
               >
@@ -206,7 +223,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             InputProps={{
               disableUnderline: true,
               sx: {
-                background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+                background: `hsl(240,11%,${session.user.darkMode ? 30 : 95}%)`,
                 py: 1,
                 px: 2,
                 borderRadius: 3,
@@ -214,6 +231,16 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             }}
             placeholder="Morning routine"
           />
+          <Typography variant="body2" sx={{ opacity: 0.5 }}>
+            A{" "}
+            <i>
+              <u>routine</u>
+            </i>{" "}
+            is a set of{" "}
+            <i>
+              <u>goals</u>
+            </i>
+          </Typography>
           <Typography
             variant="body2"
             sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
@@ -240,6 +267,9 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
               </Button>
             ))}
           </Box>
+          <Typography variant="body2" sx={{ opacity: 0.5, mt: 0.5 }}>
+            You&apos;ll receive one notification reminder every day
+          </Typography>
           <Typography
             variant="body2"
             sx={{ mt: 3, opacity: 0.6, fontWeight: 700 }}
@@ -254,7 +284,7 @@ export function CreateRoutine({ emblaApi, mutationUrl }) {
             size="small"
             disableUnderline
             sx={{
-              background: `hsl(240,11%,${session.user.darkMode ? 30 : 90}%)`,
+              background: `hsl(240,11%,${session.user.darkMode ? 30 : 95}%)`,
               py: 1,
               px: 2,
               mt: 1,

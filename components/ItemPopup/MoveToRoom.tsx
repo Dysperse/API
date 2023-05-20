@@ -1,9 +1,13 @@
+import { fetchRawApi } from "@/lib/client/useApi";
 import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { fetchRawApi } from "../../lib/client/useApi";
 import { Puller } from "../Puller";
 
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Button,
   CircularProgress,
@@ -16,10 +20,6 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
-import { useAccountStorage } from "../../lib/client/useAccountStorage";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
 
 /**
  * @description A room
@@ -93,7 +93,6 @@ export default function MoveToRoom({ item, styles }) {
     <>
       <SwipeableDrawer
         anchor="bottom"
-        swipeAreaWidth={0}
         onOpen={() => setOpen(true)}
         open={open}
         sx={{

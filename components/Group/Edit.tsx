@@ -1,31 +1,60 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
   AppBar,
   Box,
   Button,
-  Chip,
-  FormControl,
+  Divider,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemSecondaryAction,
+  ListItemText,
   Menu,
   MenuItem,
   SwipeableDrawer,
+  Switch,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
-import React, { cloneElement, useCallback } from "react";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../lib/client/useSession";
-import { updateSettings } from "../Settings/updateSettings";
+import React, {
+  cloneElement,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useState,
+} from "react";
+import { updateSettings } from "../../lib/client/updateSettings";
 import { Color } from "./Color";
 
 /**
  * Edit property
  */
-export function EditProperty({ children, color }: any) {
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+export function EditProperty({
+  propertyData,
+  mutatePropertyData,
+  children,
+  color,
+}: any) {
+  const [open, setOpen] = useState<boolean>(false);
+  const [name, setName] = useState(
+    propertyData.profile.name || "Untitled property"
+  );
+
+  const [vanishingTasks, setVanishingTasks] = useState<boolean>(
+    propertyData.profile.vanishingTasks
+  );
+
+  useEffect(() => {
+    setVanishingTasks(propertyData.profile.vanishingTasks);
+  }, [propertyData.profile.vanishingTasks]);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const deferredName = useDeferredValue(name);
 
   /**
    * Handles click event
@@ -40,25 +69,28 @@ export function EditProperty({ children, color }: any) {
   /**
    * Set property type
    */
-  const handleCloseMenu = useCallback((type) => {
-    updateSettings("type", type, false, null, true);
-    setAnchorEl(null);
-  }, []);
+  const handleCloseMenu = useCallback(
+    (type) => {
+      updateSettings("type", type, false, null, true).then(() =>
+        setTimeout(mutatePropertyData, 1000)
+      );
+      setAnchorEl(null);
+    },
+    [mutatePropertyData]
+  );
   const session = useSession();
 
   /**
    * Callback for updating note blur event
    * @param { React.FocusEvent<HTMLInputElement> } event
    */
-  const handleUpdateName = React.useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
-      const target = event.target as HTMLInputElement;
-      if (target.value !== session.property.profile.name) {
-        updateSettings("name", target.value, false, null, true);
-      }
-    },
-    [session.property.profile.name]
-  );
+  const handleUpdateName = useCallback(() => {
+    if (deferredName !== propertyData.profile.name) {
+      updateSettings("name", deferredName, false, null, true).then(() =>
+        setTimeout(mutatePropertyData, 1000)
+      );
+    }
+  }, [propertyData.profile.name, mutatePropertyData, deferredName]);
 
   useBackButton(() => setOpen(false));
 
@@ -69,134 +101,70 @@ export function EditProperty({ children, color }: any) {
     <>
       {trigger}
       <SwipeableDrawer
-        ModalProps={{
-          keepMounted: false,
-        }}
-        disableSwipeToOpen
-        anchor="right"
+        anchor="bottom"
         open={open}
-        swipeAreaWidth={0}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
-            background: session.user.darkMode ? "hsl(240,11%,25%)" : "#fff",
-            px: 3,
+            background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
             width: { xs: "100vw", sm: "50vw" },
-            py: 2,
+            height: { xs: "100vh", sm: "auto" },
           },
         }}
       >
+        <AppBar>
+          <Toolbar>
+            <IconButton color="inherit" onClick={() => setOpen(false)}>
+              <Icon>close</Icon>
+            </IconButton>
+            <Typography sx={{ fontWeight: "900", mx: "auto" }}>Edit</Typography>
+            <IconButton color="inherit" sx={{ opacity: 0 }}>
+              <Icon>close</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
         <Box
           sx={{
-            height: { xs: "100vh", sm: "auto" },
-            px: 2,
-            pt: 10,
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            mb: 2,
+            px: 3,
+            pt: 3,
           }}
         >
-          <AppBar>
-            <Toolbar>
-              <IconButton
-                edge="start"
-                color="inherit"
-                sx={{ mr: 2 }}
-                onClick={() => setOpen(false)}
-              >
-                <Icon>close</Icon>
-              </IconButton>
-              <Typography sx={{ fontWeight: "900", mx: "auto" }}>
-                Edit group
-              </Typography>
-              <IconButton edge="start" color="inherit" sx={{ opacity: 0 }}>
-                <Icon>close</Icon>
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-
           <TextField
-            variant="filled"
-            sx={{ color: "white" }}
-            defaultValue={session.property.profile.name || "Untitled property"}
-            id="nameInput"
-            label="Home name / Family name / Address"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            label="Group name"
+            fullWidth
             onKeyDown={(e: any) => {
-              if (e.key === "Enter") e.target.blur();
+              e.key === "Enter" && e.target.blur();
             }}
             placeholder="1234 Rainbow Road"
-            onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-              handleUpdateName(e)
-            }
           />
-
-          <Button
-            variant="outlined"
+          <IconButton
+            onClick={handleUpdateName}
             sx={{
-              mt: 2,
+              ...(!propertyData.profile.name == deferredName && {
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+                color: `hsl(240,11%,${session.user.darkMode ? 100 : 0}%)`,
+              }),
             }}
-            disabled={session.property.permission === "read-only"}
-            onClick={handleClick}
-            onMouseDown={handleClick}
+            disabled={propertyData.profile.name == deferredName}
           >
-            <Typography
-              sx={{
-                textTransform: "capitalize",
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-              }}
-            >
-              <Icon className="outlined">
-                {session.property.profile.type === "dorm"
-                  ? "cottage"
-                  : session.property.profile.type === "apartment"
-                  ? "location_city"
-                  : session.property.profile.type === "study group"
-                  ? "school"
-                  : "home"}
-              </Icon>
-              {session.property.profile.type}
-            </Typography>
-          </Button>
-          <FormControl fullWidth sx={{ my: 4 }}>
-            <Alert severity="warning">
-              Heads up! Changing your group type may cause data loss. Change
-              this setting with caution.
-            </Alert>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={() => {
-                setAnchorEl(null);
-              }}
-            >
-              <MenuItem onClick={() => handleCloseMenu("house")} value="house">
-                House
-              </MenuItem>
-              <MenuItem
-                onClick={() => handleCloseMenu("apartment")}
-                value="house"
-              >
-                Apartment
-              </MenuItem>
-              <MenuItem onClick={() => handleCloseMenu("dorm")} value="house">
-                Dorm
-              </MenuItem>
-              <MenuItem
-                onClick={() => handleCloseMenu("study group")}
-                value="house"
-              >
-                Study group{" "}
-                <Chip
-                  color="error"
-                  size="small"
-                  label="NEW"
-                  sx={{ pointerEvents: "none" }}
-                />
-              </MenuItem>
-            </Menu>
-          </FormControl>
+            <Icon>check</Icon>
+          </IconButton>
+        </Box>
 
+        <Box
+          sx={{
+            overflow: "scroll",
+            whiteSpace: "nowrap",
+            pl: 3,
+          }}
+        >
           {[
             "lime",
             "pink",
@@ -210,13 +178,92 @@ export function EditProperty({ children, color }: any) {
             "purple",
             "indigo",
             "deepPurple",
-          ].map((item) => (
-            <Color s={color} color={item} key={color} />
+          ].map((item, index) => (
+            <Color
+              s={color}
+              color={item}
+              key={index}
+              mutatePropertyData={mutatePropertyData}
+            />
           ))}
-          <Alert severity="info" sx={{ mt: 2 }}>
-            Due to caching, changes will take up to 24 hours to appear for
-            everyone in your group.
+        </Box>
+        <Box sx={{ p: 3 }}>
+          <Divider />
+          <Button
+            variant="outlined"
+            sx={{
+              my: 2,
+              px: 2,
+            }}
+            disabled={propertyData.permission === "read-only"}
+            onClick={handleClick}
+            onMouseDown={handleClick}
+          >
+            <Typography
+              sx={{
+                textTransform: "capitalize",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <Icon className="outlined">
+                {propertyData.profile.type === "dorm"
+                  ? "cottage"
+                  : propertyData.profile.type === "apartment"
+                  ? "location_city"
+                  : propertyData.profile.type === "study group"
+                  ? "school"
+                  : "home"}
+              </Icon>
+              {propertyData.profile.type}
+            </Typography>
+          </Button>
+          <Alert severity="warning" sx={{ mb: 3 }}>
+            Heads up! Changing your group type may cause data loss. Change this
+            setting with caution.
           </Alert>
+          <ListItemButton disableRipple>
+            <ListItemText
+              primary="Vanishing tasks"
+              secondary="Delete completed tasks more than 14 days old"
+            />
+            <ListItemSecondaryAction>
+              <Switch
+                checked={vanishingTasks}
+                onChange={(_, newValue) => {
+                  setVanishingTasks(newValue);
+
+                  updateSettings(
+                    "vanishingTasks",
+                    newValue ? "true" : "false",
+                    false,
+                    null,
+                    true
+                  ).then(() => setTimeout(mutatePropertyData, 1000));
+                }}
+              />
+            </ListItemSecondaryAction>
+          </ListItemButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => {
+              setAnchorEl(null);
+            }}
+          >
+            {["house", "apartment", "dorm", "study group"].map((type) => (
+              <MenuItem
+                onClick={() => handleCloseMenu(type)}
+                value={type}
+                disabled={type == propertyData.profile.type}
+                key={type}
+              >
+                {capitalizeFirstLetter(type)}
+              </MenuItem>
+            ))}
+          </Menu>
         </Box>
       </SwipeableDrawer>
     </>

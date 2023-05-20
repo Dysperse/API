@@ -1,3 +1,8 @@
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
@@ -10,12 +15,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useAccountStorage } from "../../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../../lib/client/useApi";
-import { useSession } from "../../../../lib/client/useSession";
-import { toastStyles } from "../../../../lib/client/useTheme";
-import { colors } from "../../../../lib/colors";
-import { EmojiPicker } from "../../../EmojiPicker";
+import EmojiPicker from "../../../EmojiPicker";
 import { Puller } from "../../../Puller";
 
 export default function CreateColumn({
@@ -207,7 +207,6 @@ export default function CreateColumn({
         open={mobileOpen}
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
-        disableSwipeToOpen
         sx={{
           zIndex: 9999999999,
         }}
@@ -232,7 +231,6 @@ export default function CreateColumn({
                 container.scrollLeft += 20000;
               }, 10);
             }}
-            className="mb-2 mr-10 hidden cursor-auto select-none gap-3 rounded-xl border p-4 px-5 pr-5 shadow-lg hover:border-gray-300 hover:bg-gray-200 active:bg-gray-300 dark:border-[hsl(240,11%,18%)] dark:bg-transparent sm:flex"
             sx={{
               whiteSpace: "nowrap",
               transition: "none!important",

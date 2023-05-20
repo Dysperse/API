@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
   Box,
@@ -9,9 +10,7 @@ import {
 } from "@mui/material";
 import type { Item } from "@prisma/client";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSession } from "../../lib/client/useSession";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";
 import { Toolbar } from "./Toolbar";
@@ -24,28 +23,23 @@ import { Toolbar } from "./Toolbar";
  */
 export function RenderRoom({
   mutationUrl,
-  data,
-  index,
+  items,
+  room,
 }: {
   mutationUrl: string;
-  data: Item[];
-  index: string;
+  items: Item[];
+  room: string | string[] | undefined;
 }) {
-  const router = useRouter();
-  const [items, setItems] = useState(data);
+  const [_items, setItems] = useState(items);
 
-  useEffect(() => setItems(data), [data]);
+  useEffect(() => setItems(items), [items]);
   const session = useSession();
 
   return (
-    <Box key={index}>
-      <Header
-        room={index}
-        itemCount={data.length}
-        useAlias={router?.query?.custom?.toString()}
-      />
+    <Box>
+      <Header room={room} itemCount={items.length} mutationUrl={mutationUrl} />
       <Container>
-        <Toolbar items={items} setItems={setItems} data={data} />
+        <Toolbar items={items} setItems={setItems} data={_items} />
         <Box
           sx={{
             display: "flex",
@@ -55,7 +49,7 @@ export function RenderRoom({
           }}
         >
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
-            {items.length === 0 ? (
+            {_items.length === 0 ? (
               <Paper
                 sx={{
                   boxShadow: 0,
@@ -118,7 +112,7 @@ export function RenderRoom({
               </Paper>
             ) : null}
 
-            {items.map((item: Item) => (
+            {_items.map((item: Item) => (
               <div key={item.id.toString()}>
                 <ItemCard item={item} mutationUrl={mutationUrl} />
               </div>

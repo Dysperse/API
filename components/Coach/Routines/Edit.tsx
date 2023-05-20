@@ -1,3 +1,6 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
   Box,
@@ -14,10 +17,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { EmojiPicker } from "../../EmojiPicker";
+import EmojiPicker from "../../EmojiPicker";
 
 export function EditRoutine({ setData, routine }) {
   const [open, setOpen] = useState(false);
@@ -40,7 +40,7 @@ export function EditRoutine({ setData, routine }) {
   const handleClose = () => setOpen(false);
 
   const handleSave = async () => {
-    await fetchRawApi("user/routines/custom-routines/edit", {
+    await fetchRawApi("user/coach/routines/edit", {
       id: routine.id,
       name,
       note,
@@ -49,7 +49,7 @@ export function EditRoutine({ setData, routine }) {
       timeOfDay: time,
     });
 
-    const res = await fetchRawApi("user/routines/custom-routines/items", {
+    const res = await fetchRawApi("user/coach/routines/items", {
       id: routine.id,
     });
     setData(res[0]);
@@ -69,7 +69,6 @@ export function EditRoutine({ setData, routine }) {
         anchor="bottom"
         onClose={handleClose}
         onOpen={handleOpen}
-        disableSwipeToOpen
         BackdropProps={{
           className: "override-bg",
           sx: {
@@ -234,6 +233,11 @@ export function EditRoutine({ setData, routine }) {
               px: 2,
               mt: 1,
               borderRadius: 3,
+            }}
+            MenuProps={{
+              sx: {
+                zIndex: 9999999999999,
+              },
             }}
           >
             {[

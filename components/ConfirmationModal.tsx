@@ -1,16 +1,19 @@
+import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
+  Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContentText,
-  DialogTitle,
+  SwipeableDrawer,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { toastStyles } from "../lib/client/useTheme";
+import { useHotkeys } from "react-hotkeys-hook";
+import { Puller } from "./Puller";
 
 export function ConfirmationModal({
+  rawStyles = false,
   disabled = false,
   title,
   question,
@@ -20,6 +23,8 @@ export function ConfirmationModal({
 }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const trigger = React.cloneElement(children, {
     onClick: (e) => {
@@ -40,6 +45,12 @@ export function ConfirmationModal({
     }
   }, [callback]);
 
+  useHotkeys("enter", () => {
+    if (open) {
+      handleClick();
+    }
+  });
+
   useEffect(() => {
     if (open && disabled) {
       handleClick();
@@ -48,50 +59,97 @@ export function ConfirmationModal({
 
   return (
     <>
-      <Dialog
+      {trigger}
+      <SwipeableDrawer
         open={open}
+        anchor="bottom"
+        onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         onClick={(e) => e.stopPropagation()}
-        sx={{
-          zIndex: 9999,
-        }}
+        sx={{ zIndex: 9999999 }}
         PaperProps={{
           sx: {
+            ...(rawStyles && {
+              boxShadow: "none",
+              borderRadius: 5,
+              mb: 2,
+              ["@media (prefers-color-scheme: dark)"]: {
+                background: "hsl(240,11%,20%)!important",
+                color: "#fff",
+              },
+            }),
+            mx: "auto",
+            border: "none",
             userSelect: "none",
-            width: "400px",
+            width: "350px",
             maxWidth: "calc(100vw - 20px)",
-            p: 1.5,
           },
         }}
       >
-        <DialogTitle className="font-[800]">
-          {title}
-          <DialogContentText
-            id="alert-dialog-slide-description"
-            className="mt-1.5"
+        <Puller showOnDesktop useDarkStyles={rawStyles && isDarkMode} />
+        <Box sx={{ px: 3, pt: 0, pb: 3 }}>
+          <Typography variant="h6" gutterBottom>
+            {title}
+          </Typography>
+          <Typography
+            color="text.secondary"
+            sx={{
+              ...(rawStyles && {
+                ["@media (prefers-color-scheme: dark)"]: {
+                  color: "hsl(240,11%,70%)!important",
+                },
+              }),
+            }}
           >
             {question}
-          </DialogContentText>
-        </DialogTitle>
-        <DialogActions>
-          <Button
-            variant="outlined"
-            size="large"
-            onClick={() => setOpen(false)}
-          >
-            Cancel
-          </Button>
-          <LoadingButton
-            variant="contained"
-            size="large"
-            loading={loading}
-            onClick={handleClick}
-          >
-            {buttonText}
-          </LoadingButton>
-        </DialogActions>
-      </Dialog>
-      {trigger}
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+            <Button
+              variant="outlined"
+              fullWidth
+              size="large"
+              onClick={() => setOpen(false)}
+              sx={{
+                ...(rawStyles && {
+                  borderRadius: 9,
+                  textTransform: "none",
+                  boxShadow: "none",
+                  ...(rawStyles && {
+                    ["@media (prefers-color-scheme: dark)"]: {
+                      color: "hsl(240,11%,70%)!important",
+                    },
+                  }),
+                }),
+              }}
+            >
+              Cancel
+            </Button>
+            <LoadingButton
+              variant="contained"
+              fullWidth
+              size="large"
+              loading={loading}
+              onClick={handleClick}
+              sx={{
+                ...(rawStyles && {
+                  borderRadius: 9,
+                  textTransform: "none",
+                  boxShadow: "none",
+                  background: "#000!important",
+                  ...(rawStyles && {
+                    ["@media (prefers-color-scheme: dark)"]: {
+                      color: "hsl(240,11%,10%)!important",
+                      background: "hsl(240,11%,90%)!important",
+                    },
+                  }),
+                }),
+              }}
+            >
+              {buttonText}
+            </LoadingButton>
+          </Box>
+        </Box>
+      </SwipeableDrawer>
     </>
   );
 }

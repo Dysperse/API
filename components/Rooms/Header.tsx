@@ -1,16 +1,20 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/useSession";
 import {
   Box,
+  Chip,
   Icon,
   IconButton,
   ListItem,
   ListItemAvatar,
   ListItemText,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
-import { decode } from "js-base64";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { useSession } from "../../lib/client/useSession";
 import { CreateItemModal } from "./CreateItem/modal";
+
 /**
  * Header component for the room
  * @param useAlias
@@ -18,16 +22,17 @@ import { CreateItemModal } from "./CreateItem/modal";
  * @param itemCount
  */
 export function Header({
-  useAlias,
+  mutationUrl,
   room,
   itemCount,
 }: {
-  useAlias?: string | null;
-  room: string;
+  mutationUrl: string;
+  room: any;
   itemCount: number;
 }) {
   const router = useRouter();
   const session = useSession();
+  const isMobile = useMediaQuery("min-width: 600px");
 
   return (
     <ListItem
@@ -51,6 +56,9 @@ export function Header({
         },
       }}
     >
+      <Head>
+        <title>{capitalizeFirstLetter(room.name) || "Items"} &bull; Room</title>
+      </Head>
       <Box
         sx={{
           zIndex: 9,
@@ -59,24 +67,20 @@ export function Header({
           width: "100%",
         }}
       >
-        <ListItemAvatar sx={{ mr: { xs: 0, sm: -3 } }}>
-          <IconButton
-            onClick={() => router.push("/items")}
-            sx={{
-              display: { sm: "none" },
-              background: "transparent",
-            }}
-            className="avatar"
-          >
-            <Icon>west</Icon>
+        <ListItemAvatar sx={{ display: { md: "none" } }}>
+          <IconButton onClick={() => router.push("/items")}>
+            <Icon>{isMobile ? "west" : "close"}</Icon>
           </IconButton>
         </ListItemAvatar>
 
         <ListItemText
-          sx={{ my: 1.4, textAlign: { xs: "center", sm: "left" } }}
+          sx={{
+            my: 1.4,
+            textAlign: { xs: "center", sm: "left" },
+            ml: { md: 2 },
+          }}
           primary={
             <Typography
-              className="font-heading"
               sx={{
                 textDecoration: "underline",
                 fontSize: {
@@ -86,12 +90,9 @@ export function Header({
               }}
               gutterBottom
               variant="h4"
+              className="font-heading"
             >
-              {((room: string) => room.charAt(0).toUpperCase() + room.slice(1))(
-                useAlias
-                  ? decode(room).split(",")[1]
-                  : room.replaceAll("-", " ")
-              )}
+              {capitalizeFirstLetter(room.name)}
             </Typography>
           }
           secondary={
@@ -99,23 +100,45 @@ export function Header({
               sx={{
                 color: "inherit",
                 mt: -0.5,
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 1,
               }}
             >
-              {itemCount} item{itemCount !== 1 && "s"}
+              <Chip
+                label={`${itemCount} item${itemCount !== 1 ? "s" : ""}`}
+                size="small"
+              />
+              {room.private && (
+                <Chip label="Only you" size="small" icon={<Icon>lock</Icon>} />
+              )}
             </Typography>
           }
         />
       </Box>
-      <ListItemAvatar>
-        <CreateItemModal room={useAlias ? decode(room).split(",")[0] : room}>
+      <ListItemAvatar
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        <CreateItemModal room={room.id || room.name} mutationUrl={mutationUrl}>
           <IconButton
             sx={{
               background: "transparent",
             }}
+            disabled={session.permission === "read-only"}
           >
             <Icon className="outlined">add_circle</Icon>
           </IconButton>
         </CreateItemModal>
+        <IconButton
+          onClick={() => router.push("/items")}
+          sx={{ display: { xs: "none", md: "inline-flex" } }}
+        >
+          <Icon className="outlined">close</Icon>
+        </IconButton>
       </ListItemAvatar>
     </ListItem>
   );

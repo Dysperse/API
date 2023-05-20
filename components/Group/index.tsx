@@ -1,12 +1,16 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   AppBar,
   Box,
   CircularProgress,
-  Drawer,
   Icon,
   IconButton,
+  SwipeableDrawer,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -16,10 +20,6 @@ import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
 import { ErrorHandler } from "../Error";
 import { Changelog } from "./Changelog";
 import { EditProperty } from "./Edit";
@@ -29,10 +29,12 @@ import { Storage } from "./Storage";
 const Integrations = dynamic(() => import("./Integrations"));
 
 function PropertyInfo({
+  mutatePropertyData,
   handleClose,
   accessToken,
   propertyData,
 }: {
+  mutatePropertyData: any;
   handleClose: any;
   accessToken: string;
   propertyData: any;
@@ -87,11 +89,11 @@ function PropertyInfo({
                 onClick={async () => {
                   try {
                     setLoading(true);
-                    const res = await fetchRawApi("property/join", {
+                    const res = await fetchRawApi("property/switch", {
                       email: session.user.email,
                       accessToken1: propertyData.accessToken,
                     });
-                    await mutate("/api/user");
+                    await mutate("/api/session");
                     toast.success(
                       <span>
                         Switched to &nbsp;<u>{res.profile.name}</u>
@@ -127,7 +129,11 @@ function PropertyInfo({
             color: "#000",
           }}
         >
-          <EditProperty color={propertyData.profile.color}>
+          <EditProperty
+            propertyData={propertyData}
+            color={propertyData.profile.color}
+            mutatePropertyData={mutatePropertyData}
+          >
             <IconButton
               sx={{
                 position: "absolute",
@@ -139,14 +145,24 @@ function PropertyInfo({
                 right: 0,
                 m: 2,
               }}
-              disabled={propertyData.profile.id !== session.property.propertyId}
+              disabled={
+                propertyData.profile.id !== session.property.propertyId ||
+                session.permission === "read-only"
+              }
             >
               <Icon className="outlined">edit</Icon>
             </IconButton>
           </EditProperty>
           <Typography
             variant="h4"
-            sx={{ mt: 15, mb: 0.5, fontSize: "40px" }}
+            sx={{
+              mt: 15,
+              mb: 0.5,
+              fontSize: "40px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
             className="font-heading"
           >
             {propertyData.profile.name}
@@ -224,6 +240,14 @@ export default function Group({
     [data.accessToken, data.id]
   );
 
+  const mutatePropertyData = async () => {
+    const res = await fetchRawApi("property", {
+      id: data.id,
+      propertyAccessToken: data.accessToken,
+    });
+    setPropertyData(res);
+  };
+
   const handleDrawerClose = () => setOpen(false);
 
   const trigger = cloneElement(children, {
@@ -232,7 +256,9 @@ export default function Group({
 
   return (
     <>
-      <Drawer
+      <SwipeableDrawer
+        onKeyDown={(e) => e.stopPropagation()}
+        onOpen={() => {}}
         onClose={handleDrawerClose}
         open={open}
         anchor={isDesktop ? "right" : "bottom"}
@@ -249,29 +275,39 @@ export default function Group({
       >
         {propertyData && (
           <PropertyInfo
+            mutatePropertyData={mutatePropertyData}
             propertyData={propertyData as Property}
             accessToken={data.accessToken}
             handleClose={handleDrawerClose}
           />
         )}
-        <Box
-          sx={{
-            p: 4,
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {loading ? (
-            <CircularProgress />
-          ) : (
-            error && (
-              <ErrorHandler error="An error occured while trying to load your group" />
-            )
-          )}
-        </Box>
-      </Drawer>
+        {open && (
+          <Box
+            sx={{
+              p: 4,
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              ...(!loading &&
+                !error && {
+                  display: "none",
+                }),
+            }}
+          >
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              error && (
+                <ErrorHandler
+                  callback={mutatePropertyData}
+                  error="An error occured while trying to load your group"
+                />
+              )
+            )}
+          </Box>
+        )}
+      </SwipeableDrawer>
       {trigger}
     </>
   );

@@ -1,25 +1,35 @@
+import { Loading } from "@/components/Layout/Loading";
+import { useApi } from "@/lib/client/useApi";
+import { useUser } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, CircularProgress, NoSsr, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  NoSsr,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { Loading } from "../../components/Layout/Loading";
-import { fetchRawApi, useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
-import { toastStyles } from "../../lib/client/useTheme";
-import { colors } from "../../lib/colors";
 const popup = require("window-popup").windowPopup;
 
 export default function Onboarding() {
+  const { data: session, error } = useUser();
   const router = useRouter();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
   const id =
     typeof window !== "undefined"
       ? window.location.pathname.split("/invite/")[1]
       : "";
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const session = useSession();
+
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
 
   const { data } = useApi(
     "property/members/inviteLink/info",
@@ -52,7 +62,7 @@ export default function Onboarding() {
           backdropFilter: "blur(10px)",
         }}
       />
-      {data && data.error ? (
+      {data?.error ? (
         <Box
           sx={{
             position: "fixed",
@@ -60,11 +70,12 @@ export default function Onboarding() {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 2,
+            color: session?.user?.darkMode || isDark ? "#fff" : "#000",
           }}
         >
           The invite link is invalid or has already been used.
         </Box>
-      ) : data && data.property ? (
+      ) : data?.property ? (
         <Box
           sx={{
             position: "fixed",
@@ -101,7 +112,6 @@ export default function Onboarding() {
             You&apos;ve been invited to{" "}
             <b>&ldquo;{data.property.name}&rdquo;</b> by another Dysperse user
           </Typography>
-
           <Typography
             variant="body2"
             sx={{
@@ -130,13 +140,11 @@ export default function Onboarding() {
           <LoadingButton
             loading={loading}
             disabled={
-              session?.user &&
-              session.user.user &&
-              session.user.user.properties.find(
-                (p) => p.propertyId === data.property.id
-              )
+              session.properties &&
+              session.properties.find((p) => p.propertyId === data.property.id)
             }
             variant="contained"
+            disableElevation
             size="large"
             sx={{
               mt: 2,
@@ -144,33 +152,35 @@ export default function Onboarding() {
               textTransform: "none",
               width: "100%",
               backgroundColor: colors[data.property.color]["A400"],
-              color: "white",
+              color: "#000",
               "&:hover": {
                 backgroundColor: colors[data.property.color]["A700"],
               },
             }}
             onClick={() => {
               setLoading(true);
-              if (session.user.user && session.user.user.email) {
-                fetchRawApi(
-                  "property/members/inviteLink/accept",
-                  {
-                    token: id as string,
-                    email: session.user.user.email,
-                    property: data.property.id,
-                  },
-                  true
+              if (session.user && session.user.email) {
+                fetch(
+                  "/api/property/members/inviteLink/accept?" +
+                    new URLSearchParams({
+                      token: id as string,
+                      email: session.user.email,
+                      property: data.property.id,
+                      sessionId: session.token,
+                    })
                 )
                   .then(() => {
-                    mutate("/api/user");
+                    mutate("/api/session");
                     router.push("/");
                     setLoading(false);
                   })
-                  .catch(() => {
+                  .catch((e) => {
+                    console.error(e);
                     toast.error(
                       "Something went wrong while accepting the invite. Please try again later.",
                       toastStyles
                     );
+                    setLoading(false);
                   });
               } else {
                 popup(
@@ -183,11 +193,8 @@ export default function Onboarding() {
               }
             }}
           >
-            {session?.user &&
-            session.user.user &&
-            session.user.user.properties.find(
-              (p) => p.propertyId === data.property.id
-            )
+            {session?.properties &&
+            session.properties.find((p) => p.propertyId === data.property.id)
               ? "You're already in this group"
               : "Join"}
           </LoadingButton>

@@ -1,5 +1,5 @@
-import { prisma } from "../../../../lib/server/prisma";
-import { validatePermissions } from "../../../../lib/server/validatePermissions";
+import { prisma } from "@/lib/server/prisma";
+import { validatePermissions } from "@/lib/server/validatePermissions";
 const webPush = require("web-push");
 
 export const createInboxNotification = async (
@@ -11,64 +11,67 @@ export const createInboxNotification = async (
   req,
   res
 ) => {
-  await validatePermissions(res, {
-    minimum: "member",
-    credentials: [req.query.property, req.query.accessToken],
-  });
+  try {
+    await validatePermissions({
+      minimum: "member",
+      credentials: [req.query.property, req.query.accessToken],
+    });
 
-  const data = await prisma.inboxItem.create({
-    data: {
-      who: who,
-      what: what,
-      when: when,
-      property: {
-        connect: { id: propertyId },
+    const data = await prisma.inboxItem.create({
+      data: {
+        who: who,
+        what: what,
+        when: when,
+        property: { connect: { id: propertyId } },
       },
-    },
-    include: {
-      property: true,
-    },
-  });
+      include: { property: true },
+    });
 
-  // Fetch all members of the property
-  const members = await prisma.propertyInvite.findMany({
-    where: {
-      propertyId,
-    },
-    select: {
-      user: {
-        select: {
-          notificationSubscription: true,
+    // Fetch all members of the property
+    let members = await prisma.propertyInvite.findMany({
+      where: { propertyId },
+      select: {
+        user: {
+          select: { identifier: true, notificationSubscription: true },
         },
       },
-    },
-  });
+    });
 
-  // Send a notification to each member
-  for (let i = 0; i < members.length; i++) {
-    const { notificationSubscription } = members[i].user;
-    if (notificationSubscription) {
-      webPush.setVapidDetails(
-        `mailto:${process.env.WEB_PUSH_EMAIL}`,
-        process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
-        process.env.WEB_PUSH_PRIVATE_KEY
-      );
+    members = Object.values(
+      members.reduce((acc, item) => {
+        acc[item.user.identifier] = item;
+        return acc;
+      }, {})
+    );
 
-      webPush
-        .sendNotification(
-          JSON.parse(notificationSubscription) as any,
-          JSON.stringify({
-            title: `${who} has edited your group`,
-            body: `${who} ${what}`,
-            actions: [{ title: "⚡ View", action: "viewGroupModification" }],
-          })
-        )
-        .then(() => {})
-        .catch((err) => {});
+    // Send a notification to each member
+    for (let i = 0; i < members.length; i++) {
+      const { notificationSubscription } = members[i].user;
+      if (notificationSubscription) {
+        webPush.setVapidDetails(
+          `mailto:${process.env.WEB_PUSH_EMAIL}`,
+          process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
+          process.env.WEB_PUSH_PRIVATE_KEY
+        );
+
+        webPush
+          .sendNotification(
+            JSON.parse(notificationSubscription) as any,
+            JSON.stringify({
+              title: `${who} has edited your group`,
+              body: `${who} ${what}`,
+              actions: [{ title: "⚡ View", action: "viewGroupModification" }],
+            })
+          )
+          .then(() => {})
+          .catch((err) => {});
+      }
     }
-  }
 
-  return data;
+    return data;
+  } catch (e: any) {
+    res.json({ error: e.message });
+  }
 };
 
 export default function handler(req, res) {

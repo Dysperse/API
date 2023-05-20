@@ -1,5 +1,5 @@
+import { useSession } from "@/lib/client/useSession";
 import { Button, ButtonGroup } from "@mui/material";
-import { useSession } from "../lib/client/useSession";
 
 export function OptionsGroup({ currentOption, setOption, options }) {
   const session = useSession();
@@ -7,9 +7,11 @@ export function OptionsGroup({ currentOption, setOption, options }) {
   return (
     <ButtonGroup
       variant="outlined"
-      className="-mb-5 rounded-[0.75rem!important] p-0.5"
       sx={{
+        p: 0.4,
+        mb: -1,
         width: "100%",
+        borderRadius: "15px!important",
         gap: 0.2,
         background: `hsl(240,11%,${
           session.user.darkMode ? 20 : 90
@@ -19,11 +21,15 @@ export function OptionsGroup({ currentOption, setOption, options }) {
       {options.map((option) => (
         <Button
           key={option}
+          fullWidth
           variant="text"
           onClick={() => setOption(option)}
           onMouseDown={() => setOption(option)}
-          className="w-1/2 overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[0.75rem!important] border-2 px-5 transition-none"
           sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            borderRadius: "15px!important",
             transition: "none!important",
             background: `hsl(240,11%,${
               session.user.darkMode ? 80 : 20

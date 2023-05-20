@@ -1,10 +1,10 @@
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
 import { Box, Button, Icon, Menu, MenuItem, TextField } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import type { Item } from "@prisma/client";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useBackButton } from "../../lib/client/useBackButton";
-import { useSession } from "../../lib/client/useSession";
 
 /**
  * Search bar

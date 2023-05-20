@@ -1,3 +1,6 @@
+import Item from "@/components/ItemPopup";
+import { useSession } from "@/lib/client/useSession";
+import { colors } from "@/lib/colors";
 import {
   Box,
   Card,
@@ -7,9 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import type { Item as ItemType } from "@prisma/client";
-import Item from "../../components/ItemPopup";
-import { useSession } from "../../lib/client/useSession";
-import { colors } from "../../lib/colors";
 
 /**
  * Item card
@@ -69,7 +69,6 @@ export function ItemCard({
         <CardActionArea
           disableRipple
           sx={{
-            cursor: "unset!important",
             flex: "0 0 100%",
             transition: "none!important",
             "&:focus-within": {
@@ -114,7 +113,8 @@ export function ItemCard({
                           sx={{
                             pointerEvents: "none",
                             px: 1,
-                            mr: 1,
+                            m: 0.5,
+                            ml: 0,
                             color: "inherit",
                             background: session.user.darkMode
                               ? "hsla(240,11%,40%,.3)"

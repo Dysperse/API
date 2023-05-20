@@ -1,3 +1,7 @@
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Chip,
@@ -9,9 +13,6 @@ import {
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
 import BoardSettings from "./Settings";
 
 export function BoardInfo({
@@ -65,8 +66,8 @@ export function BoardInfo({
 
   return (
     <Box
-      className="snap-center"
       sx={{
+        scrollSnapType: { xs: "x mandatory", sm: "unset" },
         borderRadius: 5,
         mt: { xs: 0, md: "10px" },
         ml: { xs: 0, md: "10px" },
@@ -121,6 +122,7 @@ export function BoardInfo({
         <>
           <Box sx={{ mt: "auto" }}>
             <TextField
+              disabled={session.permission === "read-only"}
               defaultValue={board.name}
               onChange={(e: any) => {
                 e.target.value = e.target.value.replace(/\n|\r/g, "");
@@ -142,7 +144,7 @@ export function BoardInfo({
                   py: 0.5,
                   "&:focus-within": {
                     background: `hsl(240,11%,${
-                      session.user.darkMode ? 18 : 50
+                      session.user.darkMode ? 18 : 90
                     }%)`,
                   },
                 },
@@ -152,6 +154,7 @@ export function BoardInfo({
               multiline
               defaultValue={board.description}
               inputRef={descriptionRef}
+              disabled={session.permission === "read-only"}
               onBlur={handleSave}
               placeholder="Click to add description"
               variant="standard"
@@ -164,9 +167,9 @@ export function BoardInfo({
                   ml: -1,
                   py: 1,
                   "&:focus-within": {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,18%)"
-                      : "rgba(200,200,200,.2)",
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 18 : 90
+                    }%)`,
                   },
                 },
               }}
@@ -205,6 +208,11 @@ export function BoardInfo({
                             "property/integrations/run/canvas",
                             {
                               boardId: board.id,
+                              timeZone: session.user.timeZone,
+                              vanishingTasks: session.property.profile
+                                .vanishingTasks
+                                ? "true"
+                                : "false",
                             }
                           );
                           await mutate(mutationUrls.tasks);
@@ -215,7 +223,13 @@ export function BoardInfo({
                       }),
                       {
                         loading: (
-                          <div className="flex items-center gap-5">
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "15px",
+                              alignItems: "center",
+                            }}
+                          >
                             <div>
                               <Typography>
                                 Importing your assignments...
@@ -228,7 +242,9 @@ export function BoardInfo({
                               <img
                                 src="https://i.ibb.co/4sNZm4T/image.png"
                                 alt="Canvas logo"
-                                className="h-7 w-7 rounded-full"
+                                height={25}
+                                style={{ borderRadius: "100%" }}
+                                width={25}
                               />
                             </picture>
                           </div>
@@ -240,6 +256,7 @@ export function BoardInfo({
                       toastStyles
                     );
                   }}
+                  disabled={session.permission === "read-only"}
                   label="Resync to Canvas"
                   sx={{
                     mr: 1,
@@ -262,18 +279,27 @@ export function BoardInfo({
             </Box>
           </Box>
 
-          <Box sx={{ mt: "auto", display: "flex", width: "100%" }}>
+          <Box
+            sx={{
+              mt: "auto",
+              display: "flex",
+              width: "100%",
+            }}
+          >
             <IconButton
               sx={{ mr: "auto", display: { md: "none" } }}
+              size="large"
               onClick={() => {
                 setDrawerOpen(true);
-                navigator.vibrate(50);
+                vibrate(50);
+                setMobileOpen(false);
               }}
             >
-              <Icon className="outlined">unfold_more</Icon>
+              <Icon className="outlined">menu</Icon>
             </IconButton>
             <BoardSettings mutationUrl={mutationUrls.boardData} board={board} />
             <IconButton
+              size="large"
               sx={{
                 ml: "auto",
                 display: { xs: "none", md: "flex" },
@@ -296,6 +322,7 @@ export function BoardInfo({
           <IconButton
             onClick={() => setShowInfo(true)}
             sx={{ opacity: 0, pointerEvents: "none" }}
+            size="large"
           >
             <Icon className="outlined">menu</Icon>
           </IconButton>
@@ -308,7 +335,8 @@ export function BoardInfo({
               fontWeight: "700",
             }}
           >
-            Board info
+            {board.name.substring(0, 15)}
+            {board.name.length > 15 && "..."}
           </Typography>
           <IconButton onClick={() => setShowInfo(true)}>
             <Icon className="outlined">menu</Icon>

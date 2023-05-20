@@ -1,6 +1,6 @@
+import { colors } from "@/lib/colors";
 import { CardActionArea } from "@mui/material";
-import { colors } from "../../lib/colors";
-import { updateSettings } from "../Settings/updateSettings";
+import { updateSettings } from "../../lib/client/updateSettings";
 
 /**
  * Color component for house profile
@@ -9,7 +9,15 @@ import { updateSettings } from "../Settings/updateSettings";
  * @returns {any}
  */
 
-export function Color({ s, color }: { s: string; color: string }) {
+export function Color({
+  mutatePropertyData,
+  s,
+  color,
+}: {
+  mutatePropertyData: any;
+  s: string;
+  color: string;
+}) {
   const invertColors = ["lime", "cyan", "green", "teal", "blue"].includes(
     color
   );
@@ -17,12 +25,14 @@ export function Color({ s, color }: { s: string; color: string }) {
   return (
     <CardActionArea
       onClick={() => {
-        updateSettings("color", color, false, null, true);
+        updateSettings("color", color, false, null, true).then(() =>
+          setTimeout(mutatePropertyData, 1000)
+        );
       }}
       sx={{
         width: 36,
         height: 36,
-        cursor: "unset",
+
         borderRadius: "50%",
         display: "inline-flex",
         mr: 1,

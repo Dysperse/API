@@ -1,4 +1,4 @@
-import { prisma } from "../../../../lib/server/prisma";
+import { prisma } from "@/lib/server/prisma";
 
 // Checks if the user has already done today's daily check-in
 export default async function handler(req, res) {
@@ -6,9 +6,7 @@ export default async function handler(req, res) {
     where: {
       AND: [
         { date: new Date(req.query.date) },
-        {
-          userId: req.query.userIdentifier,
-        },
+        { userId: req.query.userIdentifier },
       ],
     },
   });

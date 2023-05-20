@@ -1,3 +1,7 @@
+import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
+import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { isEmail } from "@/components/Group/Members";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -17,9 +21,6 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { authStyles, Layout } from "../../components/Auth/Layout";
-import { isEmail } from "../../components/Group/Members";
-import { toastStyles } from "../../lib/client/useTheme";
 
 /**
  * Login prompt
@@ -89,6 +90,8 @@ export default function Prompt() {
           }),
         }).then((res) => res.json());
 
+        setCaptchaToken("");
+
         if (
           res.message &&
           res.message.includes("Can't reach database server")
@@ -117,20 +120,6 @@ export default function Prompt() {
           setButtonLoading(false);
           return;
         }
-        if (router && router.pathname.includes("?close=true")) {
-          // Success
-          toast.promise(
-            new Promise(() => {}),
-            {
-              loading: "Logging you in...",
-              success: "Success!",
-              error: "An error occured. Please try again later",
-            },
-            toastStyles
-          );
-          mutate("/api/user");
-          return;
-        }
         // Success
         toast.promise(
           // thou shalt load forever
@@ -148,7 +137,11 @@ export default function Prompt() {
             "https://availability.dysperse.com/api/oauth/redirect?token=" +
             res.accessToken;
         } else {
-          mutate("/api/user");
+          mutate("/api/session");
+          if (window.location.href.includes("close=true")) {
+            window.close();
+            return;
+          }
           router.push("/");
           router.pathname = "/";
         }
@@ -172,51 +165,16 @@ export default function Prompt() {
   }, [captchaToken, handleSubmit, buttonLoading, step]);
 
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
-  const handleTogglePassword = useCallback(() => {
-    if (!togglePassword) {
-      if (
-        confirm(
-          "Are you sure you want to show your password? Make sure nobody is around you 🤫"
-        )
-      )
-        setTogglePassword((e) => !e);
-    } else {
-      setTogglePassword((e) => !e);
-    }
-  }, [togglePassword, setTogglePassword]);
+
+  const handleTogglePassword = useCallback(
+    () => setTogglePassword((e) => !e),
+    [setTogglePassword]
+  );
 
   return (
     <Layout>
       <Box sx={authStyles.container}>
-        <Box
-          sx={{
-            color: "#202020",
-            ["@media (prefers-color-scheme: dark)"]: {
-              color: "hsl(240,11%,90%)",
-              "&:hover": {
-                color: "hsl(240,11%,100%)",
-              },
-            },
-            alignItems: "center",
-            gap: 2,
-            userSelect: "none",
-            display: { xs: "flex", sm: "none" },
-            mt: -3,
-          }}
-        >
-          <picture>
-            <img
-              src="https://assets.dysperse.com/v6/dark.png"
-              width="40"
-              height="40"
-              style={{
-                borderRadius: "999px",
-              }}
-              alt="logo"
-            />
-          </picture>
-          <Typography variant="h6">Dysperse</Typography>
-        </Box>
+        <AuthBranding mobile />
         <form onSubmit={handleSubmit}>
           {step === 1 ? (
             <Box sx={{ pt: 3 }}>
@@ -257,54 +215,33 @@ export default function Prompt() {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleTogglePassword}
-                        sx={{
-                          ["@media (prefers-color-scheme: dark)"]: {
-                            color: "hsl(240,11%,70%)",
-                          },
-                        }}
+                      <ConfirmationModal
+                        rawStyles
+                        title="Are you sure you want to toggle your password's visibility?"
+                        question="Make sure nobody is around you 🤫"
+                        callback={() => setTogglePassword(!togglePassword)}
                       >
-                        <span className="material-symbols-outlined">
-                          {togglePassword ? "visibility_off" : "visibility"}
-                        </span>
-                      </IconButton>
+                        <Tooltip
+                          title={`${togglePassword ? "Hide" : "Show"} password`}
+                        >
+                          <IconButton
+                            sx={{
+                              ["@media (prefers-color-scheme: dark)"]: {
+                                color: "hsl(240,11%,70%)",
+                              },
+                            }}
+                          >
+                            <span className="material-symbols-outlined">
+                              {togglePassword ? "visibility_off" : "visibility"}
+                            </span>
+                          </IconButton>
+                        </Tooltip>
+                      </ConfirmationModal>
                     </InputAdornment>
                   ),
                 }}
               />
-              <Box
-                sx={{
-                  display: "flex",
-                  position: { xs: "fixed", sm: "unset" },
-                  bottom: 0,
-                  left: 0,
-                  py: { xs: 1, sm: 0 },
-                  background: "hsl(240,11%,90%)",
-                  ["@media (prefers-color-scheme: dark)"]: {
-                    background: "hsl(240,11%,10%)",
-                  },
-                  width: { xs: "100vw", sm: "auto" },
-                  // "& .MuiTooltip-tooltip": {
-                  //   "& .MuiTooltip-arrow::before": {
-                  //     background: "hsl(240, 11%, 10%)",
-                  //   },
-                  //   borderRadius: "5px",
-                  //   fontSize: "14px",
-                  //   [`@media (prefers-color-scheme: dark)`]: {
-                  //     color: "hsl(240, 11%, 10%)",
-                  //     background: "hsl(240, 11%, 90%)",
-
-                  //     "& .MuiTooltip-arrow::before": {
-                  //       background: "hsl(240, 11%, 90%)",
-                  //     },
-                  //   },
-                  //   padding: "6px 14px",
-                  //   boxShadow:
-                  //     "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-                  // },
-                }}
-              >
+              <Box sx={authStyles.footer}>
                 <Tooltip
                   title={
                     !isEmail(email)
@@ -329,9 +266,7 @@ export default function Prompt() {
                       disabled={
                         !isEmail(email) ||
                         email.trim() === "" ||
-                        password.length < 8 ||
-                        !/\d/.test(password) ||
-                        !/[a-z]/i.test(password)
+                        password.length < 8
                       }
                       onClick={() => setStep(2)}
                     >
@@ -371,13 +306,8 @@ export default function Prompt() {
                     ref.current?.reset();
                     toast.error("Expired. Retrying...", toastStyles);
                   }}
-                  autoResetOnExpire
-                  scriptOptions={{
-                    defer: true,
-                  }}
-                  options={{
-                    retry: "auto",
-                  }}
+                  scriptOptions={{ defer: true }}
+                  options={{ retry: "auto" }}
                   onSuccess={(token) => setCaptchaToken(token)}
                 />
               </NoSsr>
@@ -421,10 +351,16 @@ export default function Prompt() {
         </form>
         {step === 1 && (
           <Box>
-            <Link href="/signup?close=true" legacyBehavior>
+            <Link
+              href={`/auth/signup${router.query.close ? "?close=true" : ""}`}
+              legacyBehavior
+            >
               <Button sx={authStyles.link}>Create an account</Button>
             </Link>
-            <Link href="/auth-reset-id?close=true" legacyBehavior>
+            <Link
+              href={`/auth/reset-id${router.query.close ? "?close=true" : ""}`}
+              legacyBehavior
+            >
               <Button sx={authStyles.link}>I forgot my ID</Button>
             </Link>
           </Box>
@@ -441,7 +377,6 @@ export default function Prompt() {
             });
           }}
           sx={{
-            cursor: "unset !important",
             transition: "all .2s",
             "&:active": {
               transform: "scale(.98)",

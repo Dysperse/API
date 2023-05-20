@@ -1,38 +1,42 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
 import {
   AppBar,
+  Box,
   CircularProgress,
-  Drawer,
   Icon,
   IconButton,
+  SwipeableDrawer,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import dynamic from "next/dynamic";
-import { cloneElement, useCallback, useState } from "react";
+import { cloneElement, useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { useAccountStorage } from "../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { colors } from "../../../lib/colors";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { cards } from "./cards";
 
 const ImageRecognition = dynamic(() => import("./scan"));
 
 export function CreateItemModal({
+  mutationUrl,
   room,
   children,
 }: {
+  mutationUrl: string;
   room: any;
   children: JSX.Element;
 }) {
+  const ref: any = useRef();
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -40,7 +44,11 @@ export function CreateItemModal({
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("[]");
 
-  const handleOpen = useCallback(() => setOpen(true), []);
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+    setTimeout(() => ref.current?.focus(), 200);
+  }, []);
+
   const handleClose = useCallback(() => {
     setOpen(false);
     setTitle("");
@@ -67,7 +75,7 @@ export function CreateItemModal({
     }
     setLoading(true);
     fetchRawApi("property/inventory/items/create", {
-      room: room.toString().toLowerCase(),
+      room: room[0],
       name: title,
       quantity: quantity,
       category,
@@ -77,15 +85,7 @@ export function CreateItemModal({
         toast("Created item!", toastStyles);
         setLoading(false);
         setOpen(false);
-        mutate(
-          `/api/property/inventory/list/?${new URLSearchParams({
-            sessionId: session.user.token,
-            property: session.property.propertyId,
-            accessToken: session.property.accessToken,
-            userIdentifier: session.user.identifier,
-            room: room.toString().toLowerCase(),
-          }).toString()}`
-        );
+        mutate(mutationUrl);
         setTitle("");
         setQuantity("");
         setCategory("[]");
@@ -94,25 +94,20 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, [
-    category,
-    quantity,
-    room,
-    title,
-    session.property.accessToken,
-    session.property.propertyId,
-    session.user.identifier,
-    session.user.token,
-  ]);
+  }, [category, mutationUrl, quantity, title, room]);
 
   const storage = useAccountStorage();
 
   return (
     <>
       {trigger}
-      <Drawer
+      <SwipeableDrawer
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          mutate(mutationUrl);
+        }}
+        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             width: "100vw",
@@ -152,10 +147,8 @@ export function CreateItemModal({
               </IconButton>
             </ConfirmationModal>
 
-            <Typography
-              sx={{ mx: "auto", textTransform: "capitalize", fontWeight: 600 }}
-            >
-              {room}
+            <Typography sx={{ mx: "auto", fontWeight: 600 }}>
+              {capitalizeFirstLetter(room || "")}
             </Typography>
             <IconButton
               onClick={handleSubmit}
@@ -168,9 +161,13 @@ export function CreateItemModal({
 
         <Box sx={{ p: 3 }}>
           <TextField
+            inputRef={ref}
             disabled={loading}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.code === "Enter") handleSubmit();
+            }}
             variant="outlined"
             InputProps={{
               className: "font-heading",
@@ -282,7 +279,7 @@ export function CreateItemModal({
           setTitle={setTitle}
           setQuantity={setQuantity}
         />
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 }

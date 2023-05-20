@@ -1,3 +1,6 @@
+import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   CircularProgress,
@@ -6,16 +9,19 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Head from "next/head";
 import Image from "next/image";
-import { useApi } from "../../lib/client/useApi";
-import { useSession } from "../../lib/client/useSession";
+import { useState } from "react";
+import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Board/Column/Task";
+import { taskStyles } from "./Layout";
 
 export function Backlog({ setDrawerOpen }) {
-  const { data, url, error } = useApi("property/boards/backlog", {
+  const { data, url, error } = useApi("property/tasks/backlog", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
+  const [loading, setLoading] = useState(false);
   const session = useSession();
 
   if (!data) {
@@ -39,65 +45,59 @@ export function Backlog({ setDrawerOpen }) {
 
   return (
     <Box>
+      <Head>
+        <title>Backlog</title>
+      </Head>
       <IconButton
         size="large"
         onContextMenu={() => {
-          navigator.vibrate(50);
+          vibrate(50);
           setDrawerOpen(true);
         }}
-        onClick={() => {
-          navigator.vibrate(50);
-          setDrawerOpen(true);
-        }}
-        sx={{
-          transition: "transform .2s",
-          "&:active": {
-            transition: "none",
-            transform: "scale(0.9)",
-          },
-          position: "fixed",
-          bottom: {
-            xs: "65px",
-            md: "30px",
-          },
-          left: "10px",
-          zIndex: 9,
-          background: session.user.darkMode
-            ? "hsla(240,11%,14%,0.5)!important"
-            : "rgba(255,255,255,.5)!important",
-          boxShadow:
-            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-          backdropFilter: "blur(10px)",
-          border: {
-            xs: session.user.darkMode
-              ? "1px solid hsla(240,11%,15%)"
-              : "1px solid rgba(200,200,200,.3)",
-            md: "unset",
-          },
-          fontWeight: "700",
-          display: { md: "none" },
-          fontSize: "15px",
-          color: session.user.darkMode ? "#fff" : "#000",
-        }}
+        onClick={() => setDrawerOpen(true)}
+        sx={taskStyles(session).menu}
       >
         <Icon>menu</Icon>
       </IconButton>
 
       {!data ||
-        (data && data.length !== 0 && (
+        (data?.length !== 0 && (
           <Box sx={{ p: 3, pb: 0, pt: 5 }}>
-            <Typography className="font-heading" variant="h4" gutterBottom>
-              Backlog
-            </Typography>
-            <Typography sx={{ mb: 2 }}>
-              {data.length} unfinished tasks
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+              <Box>
+                <Typography className="font-heading" variant="h4" gutterBottom>
+                  Backlog
+                </Typography>
+                <Typography>{data.length} unfinished tasks</Typography>
+              </Box>
+              <IconButton
+                onClick={async () => {
+                  setLoading(true);
+                  await mutate(url);
+                  setLoading(false);
+                }}
+                sx={{ ml: "auto" }}
+                disabled={loading}
+              >
+                <Icon
+                  sx={{
+                    transition: "all .2s",
+                    ...(loading && { transform: "scale(.9)", opacity: 0.9 }),
+                  }}
+                >
+                  refresh
+                </Icon>
+              </IconButton>
+            </Box>
             {error && (
-              <ErrorHandler error="Yikes! An error occured while trying to fetch your backlog. Please try again later." />
+              <ErrorHandler
+                callback={() => mutate(url)}
+                error="Yikes! An error occured while trying to fetch your backlog. Please try again later."
+              />
             )}
           </Box>
         ))}
-      <Box sx={{ px: { sm: 3 }, pb: 15, maxWidth: "100vw" }}>
+      <Box sx={{ px: { sm: 3 }, pb: data.length ? 15 : 0, maxWidth: "100vw" }}>
         {data.length === 0 && (
           <Box
             sx={{
@@ -140,10 +140,10 @@ export function Backlog({ setDrawerOpen }) {
           ...data.filter((task) => !task.pinned),
         ].map((task) => (
           <Task
+            isDateDependent={true}
             key={task.id}
             board={task.board || false}
             columnId={task.column ? task.column.id : -1}
-            isAgenda
             mutationUrl={url}
             task={task}
           />

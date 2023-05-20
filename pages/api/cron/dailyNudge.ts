@@ -1,7 +1,7 @@
 const webPush = require("web-push");
+import { DispatchNotification } from "@/lib/server/notification";
+import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
-import { DispatchNotification } from "../../../lib/server/notification";
-import { prisma } from "../../../lib/server/prisma";
 
 import { Routine } from "@prisma/client";
 import timezone from "dayjs/plugin/timezone";
@@ -25,14 +25,10 @@ const Notification = async (req, res) => {
   let subscriptions = await prisma.notificationSettings.findMany({
     where: {
       AND: [
-        {
-          dailyRoutineNudge: true,
-        },
+        { dailyRoutineNudge: true },
         {
           ...(process.env.NODE_ENV !== "production" && {
-            user: {
-              email: "manusvathgurudath@gmail.com",
-            },
+            user: { email: "manusvathgurudath@gmail.com" },
           }),
         },
       ],
@@ -79,8 +75,19 @@ const Notification = async (req, res) => {
       // Check if user has enabled routine for that day
       if (daysOfWeek[currentDayInUserTimeZone] === true) {
         try {
+          const templates = [
+            "Let's get started on [routine_name]!",
+            "Time to crush your [routine_name]!",
+            "Ready to work on your [routine_name]!?",
+            "[routine_name] - It's time!",
+          ];
+          const random =
+            templates[Math.floor(Math.random() * templates.length)];
+
           await DispatchNotification({
-            title: `It's time to start "${currentRoutine.name.trim()}"!`,
+            title: random
+              .replace("[routine_name]", currentRoutine.name.trim())
+              .replace(/(\r\n|\n|\r)/gm, ""),
             icon:
               `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${currentRoutine.emoji}.png` ||
               "https://assets.dysperse.com/v5/ios/192.png",

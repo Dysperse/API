@@ -1,3 +1,11 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { vibrate } from "@/lib/client/vibration";
+import { colors } from "@/lib/colors";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
@@ -26,22 +34,20 @@ import {
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
-import { capitalizeFirstLetter } from "../../../../../../lib/client/capitalizeFirstLetter";
-import { useAccountStorage } from "../../../../../../lib/client/useAccountStorage";
-import { fetchRawApi } from "../../../../../../lib/client/useApi";
-import { useSession } from "../../../../../../lib/client/useSession";
-import { toastStyles } from "../../../../../../lib/client/useTheme";
-import { colors } from "../../../../../../lib/colors";
-import { EmojiPicker } from "../../../../../EmojiPicker";
+import EmojiPicker from "../../../../../EmojiPicker";
 import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
 
 export function CreateTask({
+  isSubTask = false,
+  sx = {},
+  closeOnCreate = false,
   label = false,
   placeholder = false,
   defaultDate = false,
   parent = false,
-  mutationUrl,
+  mutationUrl = "",
+  handleMutate = () => {},
   boardId,
   column,
 }: any) {
@@ -57,6 +63,7 @@ export function CreateTask({
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
+
   const deferredDate = useDeferredValue(date);
   const deferredTitle = useDeferredValue(title);
 
@@ -64,6 +71,8 @@ export function CreateTask({
   const titleRef = useRef<HTMLInputElement>(null);
   const dateModalButtonRef = useRef<HTMLButtonElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
+
+  useBackButton(() => setOpen(false));
 
   useHotkeys(
     "alt+s",
@@ -138,42 +147,19 @@ export function CreateTask({
     ) {
       setPinned(true);
     }
-    if (deferredTitle.toLowerCase().includes("today")) {
-      setDate(new Date());
-    } else if (
-      [" tomorrow", " tmrw", " tmr", " tmw"].some((keyword) =>
-        deferredTitle.toLowerCase().includes(keyword)
-      )
-    ) {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      setDate(tomorrow);
-      setTitle((title) =>
-        title
-          .replace(" tomorrow", " ")
-          .replace(" tmrw", " ")
-          .replace(" tmr", " ")
-          .replace(" tmw", " ")
-      );
-    } else if (deferredTitle.toLowerCase().includes("next week")) {
-      const nextWeek = new Date();
-      nextWeek.setDate(nextWeek.getDate() + 7);
-      setDate(nextWeek);
-    } else if (deferredTitle.toLowerCase().includes("next month")) {
-      const nextMonth = new Date();
-      nextMonth.setDate(nextMonth.getDate() + 30);
-      setDate(nextMonth);
-    }
   }, [deferredTitle]);
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+      if (closeOnCreate) {
+        setOpen(false);
+      }
       if (deferredTitle.trim() === "") {
         toast.error("You can't have an empty task... 🤦", toastStyles);
         return;
       }
-      navigator.vibrate(50);
+      vibrate(50);
       setLoading(true);
       fetchRawApi("property/boards/column/task/create", {
         title: deferredTitle,
@@ -183,10 +169,10 @@ export function CreateTask({
         pinned: pinned ? "true" : "false",
         due: date ? date.toISOString() : "false",
         ...(parent && { parent }),
-
         boardId,
         columnId: (column || { id: -1 }).id,
       }).then(() => {
+        handleMutate();
         mutate(mutationUrl);
       });
       toast.success("Created task!", toastStyles);
@@ -199,7 +185,9 @@ export function CreateTask({
       titleRef.current?.focus();
     },
     [
+      handleMutate,
       boardId,
+      closeOnCreate,
       column,
       date,
       description,
@@ -214,7 +202,7 @@ export function CreateTask({
   const chipStyles = (condition: boolean) => {
     return {
       border: "1px solid",
-      cursor: "unset!important",
+
       borderColor: session.user.darkMode
         ? "hsl(240, 11%, 25%)"
         : "rgba(200,200,200,.5)",
@@ -275,7 +263,6 @@ export function CreateTask({
           mutate(mutationUrl);
         }}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
         PaperProps={{
           sx: {
             maxWidth: "600px",
@@ -283,92 +270,61 @@ export function CreateTask({
             border: "0!important",
             background: "transparent!important",
             borderRadius: 0,
+            maxHeight: "calc(100vh - 100px)",
             mx: "auto",
           },
         }}
       >
-        <Box
-          sx={{
-            mb: 2,
-            overflowX: "scroll",
-            whiteSpace: "nowrap",
-          }}
-          ref={emblaRef}
-          onClick={() => titleRef.current?.focus()}
-        >
-          <div>
-            <Chip
-              label="Important"
-              sx={{
-                ...chipStyles(pinned),
-                ml: { xs: 1, sm: 0.3 },
-              }}
-              icon={<Icon>priority</Icon>}
-              onClick={() => navigator.vibrate(50) && setPinned(!pinned)}
-            />
-            <Chip
-              label="Today"
-              sx={chipStyles(
-                dayjs(deferredDate.toISOString())
-                  .startOf("day")
-                  .toISOString() === dayjs().startOf("day").toISOString()
-              )}
-              icon={<Icon>today</Icon>}
-              onClick={() => navigator.vibrate(50) && setDate(new Date())}
-            />
-            <Chip
-              label="Tomorrow"
-              sx={chipStyles(
-                dayjs(deferredDate.toISOString())
-                  .startOf("day")
-                  .toISOString() ==
-                  dayjs().startOf("day").add(1, "day").toISOString()
-              )}
-              icon={<Icon>today</Icon>}
-              onClick={() => {
-                navigator.vibrate(50);
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                setDate(tomorrow);
-              }}
-            />
-            <Chip
-              label="In one month"
-              sx={chipStyles(
-                dayjs(deferredDate.toISOString())
-                  .startOf("day")
-                  .toISOString() ==
-                  dayjs().startOf("day").add(30, "day").toISOString()
-              )}
-              icon={<Icon>today</Icon>}
-              onClick={() => {
-                navigator.vibrate(50);
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 30);
-                setDate(tomorrow);
-              }}
-            />
-            <Chip
-              label="In one year"
-              sx={{
-                ...chipStyles(
+        {!isSubTask && (
+          <Box
+            sx={{
+              mb: 2,
+              overflowX: "scroll",
+              whiteSpace: "nowrap",
+            }}
+            ref={emblaRef}
+            onClick={() => titleRef.current?.focus()}
+          >
+            <div>
+              <Chip
+                label="Important"
+                sx={{
+                  ...chipStyles(pinned),
+                }}
+                icon={<Icon>priority</Icon>}
+                onClick={() => setPinned(!pinned)}
+              />
+              {[
+                { label: "Today", days: 0 },
+                { label: "Tomorrow", days: 1 },
+                { label: "In one month", days: 30 },
+                { label: "In one year", days: 365 },
+              ].map(({ label, days }) => {
+                const isActive =
+                  deferredDate &&
                   dayjs(deferredDate.toISOString())
                     .startOf("day")
                     .toISOString() ==
-                    dayjs().startOf("day").add(365, "day").toISOString()
-                ),
-                mr: { xs: 1, sm: 3 },
-              }}
-              icon={<Icon>today</Icon>}
-              onClick={() => {
-                navigator.vibrate(50);
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 365);
-                setDate(tomorrow);
-              }}
-            />
-          </div>
-        </Box>
+                    dayjs().startOf("day").add(days, "day").toISOString();
+
+                return (
+                  <Chip
+                    key={label}
+                    label={label}
+                    sx={chipStyles(isActive)}
+                    icon={<Icon>today</Icon>}
+                    onClick={() => {
+                      vibrate(50);
+                      const tomorrow = new Date();
+                      tomorrow.setDate(tomorrow.getDate() + days);
+                      setDate(tomorrow);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </Box>
+        )}
         <Box
           sx={{
             p: 3,
@@ -480,28 +436,30 @@ export function CreateTask({
               />
             </Collapse>
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
-              <Tooltip title="Mark as important (alt • a)" placement="top">
-                <IconButton
-                  onClick={() => {
-                    navigator.vibrate(50);
-                    setPinned(!pinned);
-                    titleRef.current?.focus();
-                  }}
-                  sx={{
-                    ...styles,
-                    background: pinned
-                      ? session.user.darkMode
-                        ? "hsl(240,11%,20%)"
-                        : "#ddd !important"
-                      : "",
-                  }}
-                  size="small"
-                >
-                  <Icon className={pinned ? "rounded" : "outlined"}>
-                    priority
-                  </Icon>
-                </IconButton>
-              </Tooltip>
+              {!isSubTask && (
+                <Tooltip title="Mark as important (alt • a)" placement="top">
+                  <IconButton
+                    onClick={() => {
+                      vibrate(50);
+                      setPinned(!pinned);
+                      titleRef.current?.focus();
+                    }}
+                    sx={{
+                      ...styles,
+                      background: pinned
+                        ? session.user.darkMode
+                          ? "hsl(240,11%,20%)"
+                          : "#ddd !important"
+                        : "",
+                    }}
+                    size="small"
+                  >
+                    <Icon className={pinned ? "rounded" : "outlined"}>
+                      priority
+                    </Icon>
+                  </IconButton>
+                </Tooltip>
+              )}
               <ImageModal styles={styles} image={image} setImage={setImage} />
               <Tooltip title="Insert emoji (alt • e)" placement="top">
                 <EmojiPicker
@@ -518,9 +476,7 @@ export function CreateTask({
                   }}
                 >
                   <IconButton
-                    onClick={() => {
-                      navigator.vibrate(50);
-                    }}
+                    onClick={() => vibrate(50)}
                     sx={styles}
                     size="small"
                   >
@@ -531,7 +487,7 @@ export function CreateTask({
               <Tooltip title="Description (alt • d)" placement="top">
                 <IconButton
                   onClick={() => {
-                    navigator.vibrate(50);
+                    vibrate(50);
                     setShowDescription(!showDescription);
                     setTimeout(() => {
                       if (!showDescription)
@@ -562,17 +518,19 @@ export function CreateTask({
                   alignItems: "center",
                 }}
               >
-                <SelectDateModal
-                  ref={dateModalButtonRef}
-                  styles={styles}
-                  date={date}
-                  setDate={(e) => {
-                    setDate(e);
-                    setTimeout(() => {
-                      titleRef.current?.focus();
-                    }, 100);
-                  }}
-                />
+                {!isSubTask && (
+                  <SelectDateModal
+                    ref={dateModalButtonRef}
+                    styles={styles}
+                    date={date}
+                    setDate={(e) => {
+                      setDate(e);
+                      setTimeout(() => {
+                        titleRef.current?.focus();
+                      }, 100);
+                    }}
+                  />
+                )}
                 <div>
                   <LoadingButton
                     loading={loading}
@@ -607,10 +565,12 @@ export function CreateTask({
         </Box>
       </SwipeableDrawer>
       <ListItemButton
-        disabled={storage?.isReached === true}
+        disabled={
+          storage?.isReached === true || session?.permission === "read-only"
+        }
         id="createTask"
         disableRipple
-        className="createTask"
+        className="createTask cursor-unset"
         sx={{
           color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 40}%)`,
           fontWeight: 700,
@@ -630,6 +590,7 @@ export function CreateTask({
               session.user.darkMode ? 15 : 94
             }%) !important`,
           },
+          ...sx,
         }}
         onClick={() => {
           setOpen(true);

@@ -1,11 +1,11 @@
+import { useBackButton } from "@/lib/client/useBackButton";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { useBackButton } from "../lib/client/useBackButton";
-import { useSession } from "../lib/client/useSession";
-import { toastStyles } from "../lib/client/useTheme";
 import { Puller } from "./Puller";
 
 /**
@@ -24,10 +24,11 @@ export function Prompt({
     onClick: () => setOpen(true),
   });
   const session = useSession();
+
   const userHasEnabled2fa =
     session &&
     session?.user.twoFactorSecret !== "" &&
-    session?.user.twoFactorSecret !== "false";
+    session?.user.twoFactorSecret !== "false"; // Yes, it can be a string, "false" since it stores the code
 
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const [code, setCode] = useState("");
@@ -39,9 +40,9 @@ export function Prompt({
     try {
       setButtonLoading(true);
       const res = await fetch(
-        `/api/user/2fa/verify?${new URLSearchParams({
+        `/api/user/settings/2fa/verify?${new URLSearchParams({
           code: code,
-          token: session.user.token,
+          token: session.current.token,
         }).toString()}`
       );
       const data = await res.json();
@@ -71,10 +72,9 @@ export function Prompt({
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        disableSwipeToOpen
       >
         <Puller />
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3, pt: 0 }}>
           {userHasEnabled2fa ? (
             <>
               <Typography
@@ -121,22 +121,10 @@ export function Prompt({
             </>
           ) : (
             <>
-              <Typography
-                variant="h5"
-                gutterBottom
-                sx={{
-                  textAlign: "center",
-                }}
-              >
+              <Typography variant="h5" gutterBottom>
                 Help us protect your account
               </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  mb: 3,
-                  textAlign: "center",
-                }}
-              >
+              <Typography variant="body1" sx={{ mb: 3 }}>
                 We highly recommend you to enable 2FA to protect your account.
                 You can enable it in your settings.
               </Typography>
@@ -180,7 +168,7 @@ export function Prompt({
                     border: "2px solid transparent !important",
                   }}
                 >
-                  Maybe later
+                  Later
                 </Button>
               </Box>
             </>

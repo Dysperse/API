@@ -1,29 +1,29 @@
 import { Box, Button, Icon } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 
 export const Tab = React.memo(function Tab({
   styles,
-  activeTab,
   setDrawerOpen,
-  setActiveTab,
   board,
 }: any) {
-  const handleClick = React.useCallback(() => {
-    setDrawerOpen(false);
-    window.location.hash = board.id;
-    setActiveTab(board.id);
-  }, [board.id, setActiveTab, setDrawerOpen]);
+  const router = useRouter();
+  const isActive = router.asPath.includes(board.id);
 
   return (
-    <div>
+    <span>
       <Button
         size="large"
-        onClick={handleClick}
-        onMouseDown={handleClick}
+        onClick={() => {
+          setDrawerOpen(false);
+          setTimeout(() => {
+            router.push(`/tasks/boards/${board.id}`);
+          }, 1000);
+        }}
         sx={{
-          ...styles(activeTab === board.id),
+          ...styles(isActive),
           ...(board.archived &&
-            activeTab !== board.id && {
+            !isActive && {
               opacity: 0.6,
             }),
         }}
@@ -39,7 +39,7 @@ export const Tab = React.memo(function Tab({
         >
           <Icon
             sx={{
-              opacity: activeTab === board.id ? 1 : 0.8,
+              opacity: router.asPath ? 1 : 0.8,
             }}
           >
             tag
@@ -49,7 +49,7 @@ export const Tab = React.memo(function Tab({
               maxWidth: "calc(100% - 25px)",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              opacity: activeTab === board.id ? 1 : 0.9,
+              opacity: router.asPath ? 1 : 0.9,
               whiteSpace: "nowrap",
             }}
           >
@@ -68,6 +68,6 @@ export const Tab = React.memo(function Tab({
           )}
         </Box>
       </Button>
-    </div>
+    </span>
   );
 });

@@ -5,24 +5,16 @@ const hours = 69;
 /**
  * Fetches the permissions of a user
  */
-export const validatePermissions = async (
-  res: any,
-  config: {
-    minimum: "read-only" | "member" | "owner";
-    credentials: [string, string];
-  }
-) => {
-  const invalidate = (error) => {
-    res.status(401).json({ error });
-    return error;
-  };
-
+export const validatePermissions = async (config: {
+  minimum: "read-only" | "member" | "owner";
+  credentials: [string, string];
+}) => {
   const hierarchy = ["read-only", "member", "owner"];
 
   const [property, accessToken] = config.credentials;
 
   if (!property || !accessToken)
-    return invalidate("You didn't pass either an access or property token");
+    throw new Error("Couldn't validate permissions: Incorrect credentials");
 
   console.time("🔑 User permission validation took");
 
@@ -36,11 +28,9 @@ export const validatePermissions = async (
     const minimumPermissionsInteger = hierarchy.indexOf(config.minimum);
 
     if (foundPermissionsInteger < minimumPermissionsInteger)
-      return invalidate({
-        message: "Insufficient permissions",
-        found: `${cache}, ${foundPermissionsInteger}`,
-        minimum: `${config.minimum}, ${minimumPermissionsInteger}`,
-      });
+      throw new Error(
+        "Couldn't validate permissions: Insufficient permissions"
+      );
 
     console.timeEnd("🔑 User permission validation took");
 
@@ -61,11 +51,9 @@ export const validatePermissions = async (
     const minimumPermissionsInteger = hierarchy.indexOf(config.minimum);
 
     if (foundPermissionsInteger < minimumPermissionsInteger)
-      return invalidate({
-        message: "Insufficient permissions",
-        found: `${permissions.permission}, ${foundPermissionsInteger}`,
-        minimum: `${config.minimum}, ${minimumPermissionsInteger}`,
-      });
+      throw new Error(
+        "Couldn't validate permissions: Insufficient permissions"
+      );
 
     cacheData.put(
       // Key

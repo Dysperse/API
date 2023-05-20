@@ -7,7 +7,9 @@ export let useSession: () =>
   | any
   | {
       user: any;
+      current: any;
       property: any;
+      properties: any;
       permission: string;
       themeColor: string;
     } = () => null;
@@ -31,7 +33,7 @@ export function useUser(): {
   isError: boolean;
   error: any;
 } {
-  const url = "/api/user";
+  const url = "/api/session";
   const { data, error } = useSWR(url, () =>
     fetch(url).then((res) => res.json())
   );

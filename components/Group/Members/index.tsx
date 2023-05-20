@@ -1,3 +1,8 @@
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
+import { colors } from "@/lib/colors";
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
   CardActionArea,
@@ -11,10 +16,7 @@ import {
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { fetchRawApi, useApi } from "../../../lib/client/useApi";
-import { useSession } from "../../../lib/client/useSession";
-import { toastStyles } from "../../../lib/client/useTheme";
-import { colors } from "../../../lib/colors";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { ErrorHandler } from "../../Error";
 import { AddPersonModal } from "./Add";
 
@@ -89,7 +91,7 @@ function Member({
         <MenuItem
           disabled={member.permission === "read-only"}
           onClick={() => {
-            fetchRawApi("property/members/modifyPermissions", {
+            fetchRawApi("property/members/edit", {
               id: member.id,
               permission: "read-only",
               changerName: session.user.name,
@@ -107,7 +109,7 @@ function Member({
         <MenuItem
           disabled={member.permission === "member"}
           onClick={() => {
-            fetchRawApi("property/members/modifyPermissions", {
+            fetchRawApi("property/members/edit", {
               id: member.id,
               permission: "member",
               changerName: session.user.name,
@@ -125,39 +127,38 @@ function Member({
 
         {session.property.permission !== "owner" ||
         member.permission === "owner" ? null : (
-          <MenuItem
-            sx={{
-              color:
-                colors.red[session.user.darkMode ? "A200" : "A400"] +
-                "!important",
-            }}
-            onClick={() => {
+          <ConfirmationModal
+            title="Remove member from your home?"
+            question="This person cannot join unless you invite them again"
+            callback={() => {
               if (member.permission === "owner") {
                 document.getElementById("settingsTrigger")?.click();
                 return;
               }
-              if (
-                confirm(
-                  "Remove member from your home? This person cannot join unless you invite them again."
-                )
-              ) {
-                setLoading(true);
-                fetchRawApi("property/members/remove", {
-                  id: member.id,
-                  removerName: session.user.name,
-                  removeeName: member.user.name,
-                  timestamp: new Date().toISOString(),
-                }).then(() => {
-                  toast.success("Removed person from your home", toastStyles);
-                  setLoading(false);
-                  setDeleted(true);
-                });
-              }
+              setLoading(true);
+              fetchRawApi("property/members/remove", {
+                id: member.id,
+                removerName: session.user.name,
+                removeeName: member.user.name,
+                timestamp: new Date().toISOString(),
+              }).then(() => {
+                toast.success("Removed person from your home", toastStyles);
+                setLoading(false);
+                setDeleted(true);
+              });
             }}
           >
-            Remove
-            {loading && <CircularProgress sx={{ ml: "auto" }} />}
-          </MenuItem>
+            <MenuItem
+              sx={{
+                color:
+                  colors.red[session.user.darkMode ? "A200" : "A400"] +
+                  "!important",
+              }}
+            >
+              Remove
+              {loading && <CircularProgress sx={{ ml: "auto" }} />}
+            </MenuItem>
+          </ConfirmationModal>
         )}
       </Menu>
       <CardActionArea
@@ -239,6 +240,8 @@ export function MemberList({
     propertyId: propertyId,
     propertyAccessToken: accessToken,
   });
+  const [leaveLoading, setLeaveLoading] = React.useState<boolean>(false);
+
   const session = useSession();
   const images =
     data && !data.error
@@ -270,6 +273,7 @@ export function MemberList({
 
   return error ? (
     <ErrorHandler
+      callback={() => mutate(url)}
       error={"An error occured while trying to fetch your members"}
     />
   ) : (
@@ -310,6 +314,35 @@ export function MemberList({
           {step.content}
         </Box>
       ))}
+      <ConfirmationModal
+        callback={async () => {
+          setLeaveLoading(true);
+          await fetchRawApi("property/leave", {
+            otherPropertyAccessToken: session.properties.find(
+              (m) => m.permission == "owner"
+            )?.accessToken,
+            currentAccessToken: accessToken,
+          });
+          await mutate("/api/session");
+          // window.location.reload();
+          setLeaveLoading(false);
+        }}
+        title="Are you sure you want to leave this group?"
+        question="You won't be able to re-join unless you are invited again."
+      >
+        <LoadingButton
+          loading={leaveLoading}
+          disabled={
+            data &&
+            data.find((m) => m.user.email === session.user.email)
+              ?.permission === "owner"
+          }
+          color="error"
+          variant="contained"
+        >
+          Leave
+        </LoadingButton>
+      </ConfirmationModal>
     </>
   );
 }

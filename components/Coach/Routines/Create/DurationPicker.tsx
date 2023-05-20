@@ -14,7 +14,7 @@ export function DurationPicker({ duration, setDuration }) {
   return (
     <>
       <Button size="small" variant="contained" onClick={handleClick}>
-        {duration}
+        {JSON.stringify(duration)}
         <Icon className="outlined">edit</Icon>
       </Button>
       <Menu
