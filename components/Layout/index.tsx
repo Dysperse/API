@@ -153,15 +153,14 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
           },
         }}
       >
+        <Toolbar sx={{ display: { md: "none" } }} />
         <Box
           sx={{
-            height: "100%",
+            height: "70px",
             pt: { xs: 1.8, sm: 0 },
-            transition: "all .4s",
-            pl: { md: router.asPath === "/mood-history" ? "0px" : "85px" },
+            pl: { md: "85px" },
           }}
         >
-          <Toolbar sx={{ display: { md: "none" } }} />
           {children}
         </Box>
         <CssBaseline />
