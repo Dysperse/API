@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Head from "next/head";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
@@ -54,6 +55,9 @@ export default function History() {
 
   return data ? (
     <Box sx={{ p: { xs: 3, sm: 5 } }}>
+      <Head>
+        <title>Mood history &bull;Mental health</title>
+      </Head>
       <Link href="/zen">
         <Button size="small" variant="contained" sx={{ mb: 5 }}>
           <Icon>west</Icon>
@@ -96,7 +100,7 @@ export default function History() {
           </MenuItem>
         ))}
       </Menu>
-      <Masonry columns={3} spacing={2}>
+      <Masonry columns={{ xs: 1, sm: 3 }} spacing={2}>
         <Box sx={styles}>
           <Typography variant="h6">Stress</Typography>
           <Sparklines data={[...data.map((e) => e.stress)]}>
@@ -173,7 +177,7 @@ export default function History() {
         </Box>
       </Masonry>
 
-      {JSON.stringify(data)}
+      {/* {JSON.stringify(data)} */}
     </Box>
   ) : (
     <Box
