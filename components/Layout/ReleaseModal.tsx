@@ -84,6 +84,10 @@ export default function ReleaseModal() {
                 "& h4": {
                   textDecoration: "underline",
                 },
+                "& img": {
+                  maxWidth: "100%",
+                  borderRadius: 5,
+                },
               }}
             >
               <Markdown>
