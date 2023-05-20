@@ -10,6 +10,13 @@ import {
   Icon,
   Menu,
   MenuItem,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -177,7 +184,97 @@ export default function History() {
         </Box>
       </Masonry>
 
-      {/* {JSON.stringify(data)} */}
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: "100%" }} aria-label="simple table" stickyHeader>
+          <TableHead
+            sx={{
+              position: "sticky",
+              top: 0,
+            }}
+          >
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>When?</TableCell>
+              <TableCell>Why?</TableCell>
+              <TableCell>Stress</TableCell>
+              <TableCell>Sleep</TableCell>
+              <TableCell>Discomfort</TableCell>
+              <TableCell>Food?</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data
+              .sort(
+                (a: any, b: any) =>
+                  (new Date(b.date) as any) - (new Date(a.date) as any)
+              )
+              .map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="left" sx={{ width: 50 }}>
+                    <picture>
+                      <img
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${row.mood}.png`}
+                        alt="emoji"
+                        width={40}
+                        height={40}
+                      />
+                    </picture>
+                  </TableCell>
+                  <TableCell>
+                    <Typography sx={{ fontWeight: 700 }}>
+                      {dayjs(row.date).format("M/D")}
+                    </Typography>
+                    <Typography variant="body2">
+                      {dayjs(row.date).fromNow().includes("hours")
+                        ? "Today"
+                        : dayjs(row.date).fromNow()}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Chip label={row.reason} />
+                  </TableCell>
+                  <TableCell>{row.stress}/4</TableCell>
+                  <TableCell>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                      <Icon className="outlined">
+                        {row.rest == 0
+                          ? "check_circle"
+                          : row.rest == 1
+                          ? "airline_seat_flat"
+                          : "bedtime"}
+                      </Icon>
+                      {row.rest == 0
+                        ? "Slept"
+                        : row.rest == 1
+                        ? "Needed rest"
+                        : "Needed sleep"}
+                    </Box>
+                  </TableCell>
+                  <TableCell>{row.pain}/5</TableCell>
+                  <TableCell>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                      <Icon className="outlined">
+                        {row.food == 0
+                          ? "check_circle"
+                          : row.food == 1
+                          ? "icecream"
+                          : "cancel"}
+                      </Icon>
+                      {row.food == 0
+                        ? "Ate"
+                        : row.food == 1
+                        ? "Could've used a snack..."
+                        : "Didn't eat"}
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   ) : (
     <Box

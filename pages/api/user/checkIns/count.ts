@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       rest: true,
     },
     orderBy: {
-      date: "desc",
+      date: "asc",
     },
   });
   res.json(data);

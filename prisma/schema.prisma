@@ -259,7 +259,7 @@ model DailyCheckIn {
   mood   String
   reason String   @default("Something else")
   stress Int      @default(0)
-  rest   Int      @default(1)
+  rest   Int      @default(0)
   pain   Int      @default(1)
   food   Int      @default(1)
   date   DateTime
