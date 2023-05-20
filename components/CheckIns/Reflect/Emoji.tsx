@@ -177,8 +177,36 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const [answers, setAnswers] = useState({
-    ...questions.map(() => null),
+    ...(defaultData
+      ? {
+          0: defaultData?.reason,
+          1: defaultData?.stress,
+          2: (questions as any)[2].choices.find(
+            ({ id }) => id == defaultData?.rest
+          ).name,
+          3: defaultData?.pain,
+          4: (questions as any)[4].choices.find(
+            ({ id }) => id == defaultData?.food
+          ).name,
+        }
+      : questions.map(() => null)),
   });
+
+  useEffect(() => {
+    if (defaultData) {
+      setAnswers({
+        0: { name: defaultData?.reason },
+        1: { name: defaultData?.stress },
+        2: (questions as any)[2].choices.find(
+          ({ id }) => id == defaultData?.rest
+        ),
+        3: defaultData?.pain,
+        4: (questions as any)[4].choices.find(
+          ({ id }) => id == defaultData?.food
+        ),
+      });
+    }
+  }, [defaultData]);
 
   const question = questions[currentQuestion];
   const answer = answers[currentQuestion];
@@ -367,7 +395,7 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
                   >
                     <Slider
                       step={1}
-                      defaultValue={question.default}
+                      defaultValue={defaultData ? answer : question.default}
                       max={question.slider.length - 1}
                       onChange={(_, newValue) => {
                         setAnswers((a) => ({
