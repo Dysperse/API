@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Label } from "./Label";
 
 export const questions = [
@@ -176,37 +176,31 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
   const [open, setOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
+  const template = useMemo(
+    () =>
+      defaultData
+        ? {
+            0: { name: defaultData?.reason },
+            1: defaultData?.stress,
+            2: (questions as any)[2].choices.find(
+              ({ id }) => id == defaultData?.rest
+            ),
+            3: defaultData?.pain,
+            4: (questions as any)[4].choices.find(
+              ({ id }) => id == defaultData?.food
+            ),
+          }
+        : {},
+    [defaultData]
+  );
+
   const [answers, setAnswers] = useState({
-    ...(defaultData
-      ? {
-          0: defaultData?.reason,
-          1: defaultData?.stress,
-          2: (questions as any)[2].choices.find(
-            ({ id }) => id == defaultData?.rest
-          ).name,
-          3: defaultData?.pain,
-          4: (questions as any)[4].choices.find(
-            ({ id }) => id == defaultData?.food
-          ).name,
-        }
-      : questions.map(() => null)),
+    ...(defaultData ? template : questions.map(() => null)),
   });
 
   useEffect(() => {
-    if (defaultData) {
-      setAnswers({
-        0: { name: defaultData?.reason },
-        1: { name: defaultData?.stress },
-        2: (questions as any)[2].choices.find(
-          ({ id }) => id == defaultData?.rest
-        ),
-        3: defaultData?.pain,
-        4: (questions as any)[4].choices.find(
-          ({ id }) => id == defaultData?.food
-        ),
-      });
-    }
-  }, [defaultData]);
+    if (defaultData) setAnswers(template);
+  }, [template, defaultData]);
 
   const question = questions[currentQuestion];
   const answer = answers[currentQuestion];
