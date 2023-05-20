@@ -6,9 +6,7 @@ export default async function handler(req, res) {
     where: {
       AND: [
         { date: new Date(req.query.date) },
-        {
-          userId: req.query.userIdentifier,
-        },
+        { userId: req.query.userIdentifier },
       ],
     },
   });

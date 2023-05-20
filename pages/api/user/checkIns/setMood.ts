@@ -19,6 +19,16 @@ export default async function handler(req, res) {
       },
       take: 1,
     });
+
+    const template = {
+      mood: req.query.mood,
+      ...(req.query.reason && { reason: req.query.reason }),
+      ...(req.query.stress && { stress: parseInt(req.query.stress) }),
+      ...(req.query.rest && { rest: parseInt(req.query.rest) }),
+      ...(req.query.pain && { pain: parseInt(req.query.pain) }),
+      ...(req.query.food && { food: parseInt(req.query.food) }),
+    };
+
     if (exists.length === 1) {
       const data = await prisma.dailyCheckIn.updateMany({
         where: {
@@ -27,16 +37,13 @@ export default async function handler(req, res) {
             { date: new Date(req.query.date) },
           ],
         },
-        data: { mood: req.query.mood, reason: req.query.reason },
+        data: { ...template },
       });
       res.json(data);
     } else {
       const data = await prisma.dailyCheckIn.create({
         data: {
-          date: new Date(req.query.date),
-          mood: req.query.mood,
-          reason: req.query.reason,
-          stress: parseInt(req.query.stress || 0),
+          ...template,
           user: { connect: { identifier: req.query.userIdentifier } },
         },
       });

@@ -63,6 +63,8 @@ export function DailyCheckIn() {
       }}
     >
       <DailyCheckInDrawer mood={mood} />
+      {JSON.stringify(data)}
+
       <Box
         sx={{
           display: "flex",

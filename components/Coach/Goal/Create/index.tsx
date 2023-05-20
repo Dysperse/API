@@ -1,4 +1,4 @@
-import { useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { Masonry } from "@mui/lab";
 import {
@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ExploreGoalCard } from "../../Routines/Create/ExploreGoalCard";
 import { FeaturedRoutine } from "../../Routines/Create/FeaturedRoutine";
 import { CreateGoal as CreateCustomGoal } from "./Custom";
@@ -25,9 +25,17 @@ export function CreateGoal({ mutationUrl, isCoach }) {
   const handleOpen = useCallback(() => setOpen(true), [setOpen]);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
-  const { data, error } = useApi("ai/routine", {
-    month: dayjs().format("MMMM"),
-  });
+  const [data, setData] = useState<any>(null);
+  useEffect(() => {
+    if (open) {
+      (async () => {
+        const d = await fetchRawApi("ai/routine", {
+          month: dayjs().format("MMMM"),
+        });
+        setData(d);
+      })();
+    }
+  }, [open]);
 
   const shuffled = useMemo(() => goals.sort(() => Math.random() - 0.5), []);
 

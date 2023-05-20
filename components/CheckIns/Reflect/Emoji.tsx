@@ -15,11 +15,13 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import { Label } from "./Label";
 
 export const questions = [
   {
+    id: "reason",
     question: "What is making you feel this way?",
     choices: [
       { icon: "favorite", name: "Relationships" },
@@ -34,6 +36,7 @@ export const questions = [
     ],
   },
   {
+    id: "stress",
     question: "How are your stress levels?",
     subtitle:
       "Do you feel anxious, nervous, keyed-up, paranoid, scared, or on edge?",
@@ -41,28 +44,31 @@ export const questions = [
     default: 3,
   },
   {
+    id: "rest",
     question: "Are you well rested?",
     subtitle:
       "Everyone is unique and has their own sleep habits, but generally, most people need 8 hours of uninterrupted sleep. If you got less than that, woke up often, or had bad dreams, taking a nap might be beneficial",
     choices: [
-      { icon: "bolt", name: "I am well-rested!" },
-      { icon: "airline_seat_flat", name: "Maybe a nap..." },
-      { icon: "sleep", name: "I need sleep" },
+      { id: "0", icon: "bolt", name: "I am well-rested!" },
+      { id: "1", icon: "airline_seat_flat", name: "Maybe a nap..." },
+      { id: "2", icon: "sleep", name: "I need sleep" },
     ],
   },
   {
+    id: "pain",
     question: "Are you in pain?",
     subtitle:
       "Are you currently experiencing any discomfort or pain in your body that you would like to discuss?",
     slider: [1, 2, 3, 4, 5],
-    default: 3,
+    default: 2,
   },
   {
+    id: "food",
     question: "Have you eaten in the last four hours?",
     choices: [
-      { icon: "check_circle", name: "Yes" },
-      { icon: "icecream", name: "I could use a snack..." },
-      { icon: "cancel", name: "No" },
+      { id: "0", icon: "check_circle", name: "Yes" },
+      { id: "1", icon: "icecream", name: "I could use a snack..." },
+      { id: "2", icon: "cancel", name: "No" },
     ],
   },
 ];
@@ -177,7 +183,21 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
   const question = questions[currentQuestion];
   const answer = answers[currentQuestion];
 
-  const handleOpen = () => setOpen(true);
+  const handleSave = async (key, value) => {
+    let q = questions[key].id;
+
+    await fetchRawApi("user/checkIns/setMood", {
+      date: dayjs().startOf("day"),
+      mood: emoji,
+      [q]: value,
+    });
+  };
+
+  const handleOpen = () => {
+    setCurrentQuestion(0);
+    setOpen(true);
+  };
+
   const handleClose = () => setOpen(false);
 
   return (
@@ -185,6 +205,14 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
       <IconButton
         onClick={handleOpen}
         sx={{
+          ...(defaultData?.mood === emoji && {
+            transform: "scale(1.1)",
+          }),
+          ...(defaultData &&
+            defaultData?.mood !== emoji && {
+              opacity: 0.5,
+              transform: "scale(0.95)",
+            }),
           p: 0,
           width: 35,
           height: 35,
@@ -215,6 +243,7 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
         PaperProps={{
           sx: {
             height: "100vh",
+            borderRadius: 0,
           },
         }}
       >
@@ -231,11 +260,11 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
             </IconButton>
           </Toolbar>
           <LinearProgress
-            value={((currentQuestion + 1) / questions.length) * 100}
+            value={((currentQuestion + 1) / (questions.length + 1)) * 100}
             variant="determinate"
           />
         </AppBar>
-        {currentQuestion === questions.length - 1 ? (
+        {currentQuestion === questions.length ? (
           <Box sx={{ p: 3, pt: 0 }}>
             <ExperimentalAiReflection answers={answers} emoji={emoji} />
           </Box>
@@ -255,6 +284,7 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
                       ...a,
                       [currentQuestion]: choice.name as any,
                     }));
+                    handleSave(currentQuestion, choice.id || choice.name);
                     setCurrentQuestion(currentQuestion + 1);
                   }}
                   key={choice.name}
@@ -326,12 +356,13 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
                       step={1}
                       defaultValue={question.default}
                       max={question.slider.length - 1}
-                      onChange={(_, newValue) =>
+                      onChange={(_, newValue) => {
                         setAnswers((a) => ({
                           ...a,
                           [currentQuestion]: newValue as any,
-                        }))
-                      }
+                        }));
+                        handleSave(currentQuestion, newValue);
+                      }}
                       marks={[
                         ...question.slider.map((mark, index) => ({
                           value: index,
@@ -362,8 +393,10 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
                           ...a,
                           [currentQuestion]: 1 as any,
                         }));
+                        handleSave(currentQuestion, 1 as any);
                       }
                       setCurrentQuestion(currentQuestion + 1);
+                      handleSave(currentQuestion, answer);
                     }}
                   >
                     Done
