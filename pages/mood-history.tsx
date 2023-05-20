@@ -54,7 +54,7 @@ export default function History() {
   };
 
   return data ? (
-    <Box sx={{ p: { xs: 3, sm: 5 } }}>
+    <Box sx={{ p: { xs: 3, sm: 5 }, mb: 3 }}>
       <Head>
         <title>Mood history &bull;Mental health</title>
       </Head>
