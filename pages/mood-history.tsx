@@ -1,12 +1,12 @@
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
-import { Masonry } from "@mui/lab";
 import {
   Box,
   Button,
   Chip,
   CircularProgress,
+  Grid,
   Icon,
   IconButton,
   Menu,
@@ -58,7 +58,7 @@ export default function History() {
     borderColor: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
     p: 3,
     borderRadius: 5,
-    "& h6": { mb: 1 },
+    "& .MuiTypography-body2": { mb: 2 },
   };
 
   const dataByDate = data
@@ -153,125 +153,160 @@ export default function History() {
               </MenuItem>
             ))}
           </Menu>
-          <Masonry columns={{ xs: 1, sm: 3 }} spacing={2}>
-            <Box sx={styles}>
-              <Typography variant="h6">Stress</Typography>
-              <Sparklines data={[...dataByDate.map((e) => e.stress)]}>
-                <SparklinesSpots style={{ display: "none" }} />
-                <SparklinesLine
-                  style={{ fill: "none", strokeWidth: 3 }}
-                  color={colors[session.themeColor]["A700"]}
-                />
-              </Sparklines>
-            </Box>
-            <Box sx={styles}>
-              <Typography variant="h6">Sleep</Typography>
-              <Sparklines data={[...data.map((e) => 2 - e.rest)]}>
-                <SparklinesSpots style={{ display: "none" }} />
-                <SparklinesLine
-                  style={{ fill: "none", strokeWidth: 3 }}
-                  color={colors[session.themeColor]["A700"]}
-                />
-              </Sparklines>
-            </Box>
-            <Box sx={styles}>
-              <Typography variant="h6">Physical discomfort</Typography>
-              <Sparklines data={[...data.map((e) => e.pain)]}>
-                <SparklinesSpots style={{ display: "none" }} />
-                <SparklinesLine
-                  style={{ fill: "none", strokeWidth: 3 }}
-                  color={colors[session.themeColor]["A700"]}
-                />
-              </Sparklines>
-            </Box>
-            <Box sx={styles}>
-              <Typography variant="h6">Food</Typography>
-              <Sparklines
-                data={[...dataByDate.reverse().map((e) => 3 - e.food)]}
-              >
-                <SparklinesSpots style={{ display: "none" }} />
-                <SparklinesLine
-                  style={{ fill: "none", strokeWidth: 3 }}
-                  color={colors[session.themeColor]["A700"]}
-                />
-              </Sparklines>
-            </Box>
-            <Box sx={styles}>
-              <Typography className="font-heading" variant="h3">
-                {
-                  ~~(
-                    (data.reduce((a, b) => a + b.stress, 0) / data.length / 3) *
-                    100
-                  )
-                }
-                %
-              </Typography>
-              <Typography sx={{ fontWeight: 700 }}>Stress score</Typography>
-            </Box>
-            <Box sx={styles}>
-              <Typography className="font-heading" variant="h3">
-                {
-                  ~~(
-                    (data.reduce((a, b) => a + b.rest, 0) / data.length / 3) *
-                    100
-                  )
-                }
-                %
-              </Typography>
-              <Typography sx={{ fontWeight: 700 }}>Sleep score</Typography>
-            </Box>
-            <Box sx={styles}>
-              <Typography className="font-heading" variant="h3">
-                {
-                  ~~(
-                    (data.reduce((a, b) => a + b.pain, 0) / data.length / 3) *
-                    100
-                  )
-                }
-                %
-              </Typography>
-              <Typography sx={{ fontWeight: 700 }}>Discomfort score</Typography>
-            </Box>
-            <Box sx={styles}>
-              <Typography variant="h6">Reasons</Typography>
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                {[...new Set(data.map((item) => item.reason))].map(
-                  (reason: any) => (
-                    <Chip key={reason} label={reason} />
-                  )
-                )}
+          <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid item xs={12} sm={4} md={3}>
+              <Box sx={styles}>
+                <Typography variant="h6">Stress</Typography>
+                <Typography variant="body2">
+                  {
+                    ~~(
+                      (data.reduce((a, b) => a + b.stress, 0) /
+                        data.length /
+                        3) *
+                      100
+                    )
+                  }
+                  % score
+                </Typography>
+                <Sparklines data={[...dataByDate.map((e) => e.stress)]}>
+                  <SparklinesSpots style={{ display: "none" }} />
+                  <SparklinesLine
+                    style={{ fill: "none", strokeWidth: 3 }}
+                    color={colors[session.themeColor]["A700"]}
+                  />
+                </Sparklines>
               </Box>
-            </Box>
-            <Box sx={styles}>
-              <Typography className="font-heading" variant="h3">
-                {data.length}
-              </Typography>
-              <Typography sx={{ fontWeight: 700 }}>
-                Check-ins completed in the last {lastBy} days
-              </Typography>
-            </Box>
-          </Masonry>
+            </Grid>
+            <Grid item xs={12} sm={4} md={3}>
+              <Box sx={styles}>
+                <Typography variant="h6">Sleep</Typography>
+                <Typography variant="body2">
+                  {
+                    ~~(
+                      (data.reduce((a, b) => a + b.rest, 0) / data.length / 3) *
+                      100
+                    )
+                  }
+                  % score
+                </Typography>
+                <Sparklines data={[...data.map((e) => 2 - e.rest)]}>
+                  <SparklinesSpots style={{ display: "none" }} />
+                  <SparklinesLine
+                    style={{ fill: "none", strokeWidth: 3 }}
+                    color={colors[session.themeColor]["A700"]}
+                  />
+                </Sparklines>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={4} md={3}>
+              <Box sx={styles}>
+                <Typography variant="h6">Physical discomfort</Typography>
+                <Typography variant="body2">
+                  {
+                    ~~(
+                      (data.reduce((a, b) => a + b.pain, 0) / data.length / 3) *
+                      100
+                    )
+                  }
+                  % score
+                </Typography>
+                <Sparklines data={[...data.map((e) => e.pain)]}>
+                  <SparklinesSpots style={{ display: "none" }} />
+                  <SparklinesLine
+                    style={{ fill: "none", strokeWidth: 3 }}
+                    color={colors[session.themeColor]["A700"]}
+                  />
+                </Sparklines>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={4} md={3}>
+              <Box sx={styles}>
+                <Typography variant="h6">Food</Typography>
+                <Typography variant="body2">
+                  {
+                    ~~(
+                      (data.reduce((a, b) => a + b.food, 0) / data.length / 3) *
+                      100
+                    )
+                  }
+                  % score
+                </Typography>
+                <Sparklines
+                  data={[...dataByDate.reverse().map((e) => 3 - e.food)]}
+                >
+                  <SparklinesSpots style={{ display: "none" }} />
+                  <SparklinesLine
+                    style={{ fill: "none", strokeWidth: 3 }}
+                    color={colors[session.themeColor]["A700"]}
+                  />
+                </Sparklines>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box sx={{ ...styles, height: "100%" }}>
+                <Typography variant="h6">Reasons</Typography>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1 }}>
+                  {[...new Set(data.map((item) => item.reason))].map(
+                    (reason: any) => (
+                      <Chip key={reason} label={reason} />
+                    )
+                  )}
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box sx={{ ...styles, height: "100%" }}>
+                <Typography className="font-heading" variant="h3">
+                  {data.length}
+                </Typography>
+                <Typography sx={{ fontWeight: 700 }}>
+                  Check-ins completed in the last {lastBy} days
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
 
-          <TableContainer component={Paper}>
+          <TableContainer
+            component={Paper}
+            sx={{ maxHeight: 440, overflow: "visible", mb: 2 }}
+          >
             <Table
-              sx={{ minWidth: "100%" }}
+              sx={{ background: "transparent", minWidth: "100%" }}
               aria-label="simple table"
               stickyHeader
             >
               <TableHead
                 sx={{
                   position: "sticky",
+                  background: "transparent",
                   top: 0,
                 }}
               >
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell>When?</TableCell>
-                  <TableCell>Why?</TableCell>
-                  <TableCell>Stress</TableCell>
-                  <TableCell>Sleep</TableCell>
-                  <TableCell>Discomfort</TableCell>
-                  <TableCell>Food?</TableCell>
+                <TableRow
+                  sx={{
+                    background: session.user.darkMode
+                      ? "hsla(240,11%,10%,.5)"
+                      : "rgba(255,255,255,.5)",
+                    backdropFilter: "blur(10px)",
+                  }}
+                >
+                  <TableCell sx={{ background: "transparent" }}></TableCell>
+                  <TableCell sx={{ background: "transparent" }}>
+                    When?
+                  </TableCell>
+                  <TableCell sx={{ background: "transparent" }}>Why?</TableCell>
+                  <TableCell sx={{ background: "transparent" }}>
+                    Stress
+                  </TableCell>
+                  <TableCell sx={{ background: "transparent" }}>
+                    Sleep
+                  </TableCell>
+                  <TableCell sx={{ background: "transparent" }}>
+                    Discomfort
+                  </TableCell>
+                  <TableCell sx={{ background: "transparent" }}>
+                    Food?
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
