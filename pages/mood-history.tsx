@@ -11,11 +11,9 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
@@ -266,21 +264,25 @@ export default function History() {
               </Box>
             </Grid>
           </Grid>
-
-          <TableContainer
-            component={Paper}
-            sx={{ maxHeight: 440, overflow: "visible", mb: 2 }}
+          <Box
+            sx={{
+              mb: 5,
+              overflowX: { xs: "auto", sm: "hidden" },
+            }}
           >
             <Table
-              sx={{ background: "transparent", minWidth: "100%" }}
+              sx={{
+                background: "transparent",
+                minWidth: "1000px",
+              }}
               aria-label="simple table"
               stickyHeader
             >
               <TableHead
                 sx={{
-                  position: "sticky",
                   background: "transparent",
-                  top: 0,
+                  top: { xs: "var(--navbar-height)", sm: "0!important" },
+                  position: { sm: "sticky" },
                 }}
               >
                 <TableRow
@@ -310,11 +312,17 @@ export default function History() {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody
+                sx={{
+                  minWidth: "1000px",
+                }}
+              >
                 {dataByDate.map((row) => (
                   <TableRow
                     key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                    }}
                   >
                     <TableCell align="left" sx={{ width: 50 }}>
                       <picture>
@@ -381,7 +389,7 @@ export default function History() {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer>
+          </Box>
         </Box>
       </Box>
     </Box>
