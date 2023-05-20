@@ -3,6 +3,7 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
+  Alert,
   AppBar,
   Box,
   Button,
@@ -121,21 +122,26 @@ function ExperimentalAiReflection({ emoji, answers }) {
             background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
           }}
         >
-          <Typography
-            sx={{
-              display: "inline-flex",
-              gap: 2,
-              mb: 2,
-              fontWeight: 900,
-              alignItems: "center",
-              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-            variant="h6"
-          >
-            <Icon>south_east</Icon>Dysperse AI
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography
+              sx={{
+                display: "inline-flex",
+                gap: 2,
+                mb: 2,
+                fontWeight: 900,
+                alignItems: "center",
+                background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+              variant="h6"
+            >
+              <Icon>south_east</Icon>Dysperse AI
+            </Typography>
+            <IconButton size="small" sx={{ ml: "auto" }} onClick={handleThink}>
+              <Icon>refresh</Icon>
+            </IconButton>
+          </Box>
           <Typography sx={{ fontWeight: 700 }}>
             {data?.response?.general}
           </Typography>
@@ -166,6 +172,10 @@ function ExperimentalAiReflection({ emoji, answers }) {
           animation="wave"
         />
       )}
+      <Alert severity="warning" sx={{ mt: 2 }}>
+        Dysperse AI is still in an experimental phase, and might display
+        incorrect data. Use with caution.
+      </Alert>
     </Box>
   );
 }
@@ -271,7 +281,9 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
         <AppBar>
           <Toolbar>
             <Box>
-              <Typography sx={{ fontWeight: 700 }}>Check-in</Typography>
+              <Typography sx={{ fontWeight: 700 }}>
+                Check-in{defaultData && " (completed)"}
+              </Typography>
               {currentQuestion + 1 >= questions.length ? (
                 <Typography variant="body2">
                   Overview &amp; suggestions
