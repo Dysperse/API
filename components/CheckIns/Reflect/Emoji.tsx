@@ -218,10 +218,9 @@ export function Emoji({ emoji, defaultData, handleMoodChange }) {
           height: 35,
           cursor: "pointer!important",
           "&:active": {
-            transition: "none",
-            transform: "scale(0.9)",
+            transform: "scale(0.95)",
           },
-          transition: "transform .2s",
+          transition: "transform .1s",
           background: "transparent!important",
         }}
       >
