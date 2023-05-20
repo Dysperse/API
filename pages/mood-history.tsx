@@ -79,7 +79,7 @@ export default function History() {
           position: "relative",
         }}
       >
-        {data?.length < 4 && (
+        {data?.length < 2 && (
           <Box
             sx={{
               position: "absolute",
@@ -96,12 +96,12 @@ export default function History() {
             }}
           >
             Not enough data yet! Check back once you complete{" "}
-            <b>{4 - data.length}</b> more daily check-ins.
+            <b>{2 - data.length}</b> more daily check-ins.
           </Box>
         )}
         <Box
           sx={{
-            ...(data?.length < 4 && {
+            ...(data?.length < 2 && {
               filter: "blur(10px)",
               opacity: 0.5,
             }),
