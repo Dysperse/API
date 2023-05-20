@@ -15,6 +15,9 @@ export default async function handler(req, res) {
       reason: true,
       date: true,
       stress: true,
+      food: true,
+      pain: true,
+      rest: true,
     },
     orderBy: {
       date: "desc",
