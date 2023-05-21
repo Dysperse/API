@@ -19,14 +19,14 @@ export function UpdateButton() {
 
       const promptNewVersionAvailable = () => {
         setButton(true);
-        ref?.current?.addEventListener("click", () => {
+        ref?.current?.onClick = () => {
           setLoading(true);
           wb.addEventListener("controlling", () => {
             window.location.reload();
             setLoading(false);
           });
           wb.messageSkipWaiting();
-        });
+        };
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
