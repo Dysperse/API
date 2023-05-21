@@ -88,6 +88,9 @@ export default function ReleaseModal() {
                   maxWidth: "100%",
                   borderRadius: 5,
                 },
+                "& a": {
+                  color: "inherit"
+                },
               }}
             >
               <Markdown>
