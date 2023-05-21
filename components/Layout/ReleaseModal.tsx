@@ -89,7 +89,7 @@ export default function ReleaseModal() {
                   borderRadius: 5,
                 },
                 "& a": {
-                  color: "inherit"
+                  color: "inherit",
                 },
               }}
             >
