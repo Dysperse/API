@@ -35,7 +35,7 @@ export function RecentItems() {
           <Box
             sx={{
               border: "1px solid",
-              borderColor: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+              borderColor: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
               overflow: "hidden",
               borderRadius: 5,
               p: { sm: 2 },
