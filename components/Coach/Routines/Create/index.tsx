@@ -198,7 +198,7 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
                     background: `hsl(240,11%,${
                       session.user.darkMode ? 90 : 30
                     }%)`,
-                    color: session.user.darkMode ? "#000": "#fff",
+                    color: session.user.darkMode ? "#000" : "#fff",
                     borderRadius: 999,
                   }}
                 >
