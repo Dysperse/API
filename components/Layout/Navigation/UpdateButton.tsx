@@ -20,7 +20,7 @@ export function UpdateButton() {
       const promptNewVersionAvailable = () => {
         setButton(true);
         setTimeout(() => {
-          if(!ref?.current) return;
+          if (!ref?.current) return;
           ref.current.onClick = () => {
             setLoading(true);
             wb.addEventListener("controlling", () => {
