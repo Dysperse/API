@@ -54,6 +54,7 @@ export default function Render() {
         ml: { md: -1 },
         pb: { xs: 15, sm: 0 },
         pt: "env(titlebar-area-height, 0px)",
+        background: { md: `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)` },
       }}
     >
       <Head>
@@ -66,7 +67,7 @@ export default function Render() {
           flexDirection: { xs: "column", sm: "row" },
           height: {
             xs: "auto",
-            md: "100vh",
+            md: "calc(100vh - env(titlebar-area-height, 0px))",
           },
           background: { md: `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)` },
           p: { xs: 0, sm: 2 },
