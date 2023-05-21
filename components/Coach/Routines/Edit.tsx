@@ -53,6 +53,7 @@ export function EditRoutine({ setData, routine }) {
       id: routine.id,
     });
     setData(res[0]);
+    setOpen(false);
     toast.success("Saved!", toastStyles);
   };
   const session = useSession();
