@@ -19,14 +19,16 @@ export function UpdateButton() {
 
       const promptNewVersionAvailable = () => {
         setButton(true);
-        ref?.current?.onClick = () => {
-          setLoading(true);
-          wb.addEventListener("controlling", () => {
-            window.location.reload();
-            setLoading(false);
-          });
-          wb.messageSkipWaiting();
-        };
+        setTimeout(() => {
+          ref?.current?.onClick = () => {
+            setLoading(true);
+            wb.addEventListener("controlling", () => {
+              window.location.reload();
+              setLoading(false);
+            });
+            wb.messageSkipWaiting();
+          };
+        }, 100);
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
