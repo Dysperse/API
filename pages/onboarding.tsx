@@ -462,6 +462,7 @@ export default function Onboarding() {
           borderRadius: { xs: 0, sm: "20px" },
           p: { xs: "7px", sm: "28px" },
           pt: { xs: 0, sm: "20px" },
+         WebkitAppRegion: "no-drag",
         }}
         id="onboardingContainer"
       >
