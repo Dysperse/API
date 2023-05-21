@@ -229,7 +229,7 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
                 borderRadius: 3,
               },
             }}
-            placeholder="Morning routine"
+            placeholder="Daily exam prep"
           />
           <Typography variant="body2" sx={{ opacity: 0.5 }}>
             A{" "}
