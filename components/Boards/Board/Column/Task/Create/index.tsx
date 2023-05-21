@@ -250,6 +250,22 @@ export function CreateTask({
     [WheelGesturesPlugin()]
   );
 
+  const [chips, setChips] = useState<any[]>([]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      const data = await fetchRawApi("ai/createTaskChips", {
+        date: dayjs().startOf("day").toISOString(),
+        taskName: deferredTitle || "tomorrow",
+      });
+      if (data?.response && Array.isArray(data.response)) {
+        setChips([...data.response]);
+      }
+    }, 3000);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [deferredTitle]);
+
   return (
     <>
       <SwipeableDrawer
@@ -294,30 +310,18 @@ export function CreateTask({
                 icon={<Icon>priority</Icon>}
                 onClick={() => setPinned(!pinned)}
               />
-              {[
-                { label: "Today", days: 0 },
-                { label: "Tomorrow", days: 1 },
-                { label: "In one month", days: 30 },
-                { label: "In one year", days: 365 },
-              ].map(({ label, days }) => {
-                const isActive =
-                  deferredDate &&
-                  dayjs(deferredDate.toISOString())
-                    .startOf("day")
-                    .toISOString() ==
-                    dayjs().startOf("day").add(days, "day").toISOString();
-
+              {chips.map(({ label, date }) => {
+                const isActive = false;
                 return (
                   <Chip
                     key={label}
                     label={label}
                     sx={chipStyles(isActive)}
-                    icon={<Icon>today</Icon>}
+                    icon={<Icon className="outlined">magic_button</Icon>}
                     onClick={() => {
                       vibrate(50);
-                      const tomorrow = new Date();
-                      tomorrow.setDate(tomorrow.getDate() + days);
-                      setDate(tomorrow);
+                      if (isNaN(new Date(date).getTime())) return;
+                      setDate(new Date(date));
                     }}
                   />
                 );
