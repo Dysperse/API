@@ -207,7 +207,7 @@ export default function History() {
             </Grid>
             <Grid item xs={12} sm={4} md={3}>
               <Box sx={styles}>
-                <Typography variant="h6">Physical discomfort</Typography>
+                <Typography variant="h6">Discomfort</Typography>
                 <Typography variant="body2">
                   {
                     ~~(
@@ -360,7 +360,7 @@ export default function History() {
                     <TableCell>
                       <Chip label={row.reason} />
                     </TableCell>
-                    <TableCell>{row.stress}/4</TableCell>
+                    <TableCell>{row.stress + 1}/4</TableCell>
                     <TableCell>
                       <Box
                         sx={{ display: "flex", alignItems: "center", gap: 2 }}
