@@ -1,70 +1,88 @@
-import { CircularProgress, Icon, IconButton, Snackbar } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
 export function UpdateButton() {
   const ref: any = useRef();
   const [button, setButton] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-
+  // This hook only run once in browser after the component is rendered for the first time.
+  // It has same effect as the old componentDidMount lifecycle callback.
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
       "serviceWorker" in navigator &&
       (window as any).workbox !== undefined
     ) {
-      const wb: any = (window as any).workbox;
-      wb.addEventListener("installed", () => {});
-      wb.addEventListener("controlling", () => {});
-      wb.addEventListener("activated", () => {});
+      const wb = (window as any).workbox;
+      // add event listeners to handle any of PWA lifecycle event
+      // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-window.Workbox#events
+      wb.addEventListener("installed", (event) => {
+        console.log(`Event ${event.type} is triggered.`);
+        console.log(event);
+      });
 
-      const promptNewVersionAvailable = () => {
-        setButton(true);
-       // setTimeout(() => {
-          if(!ref.current) return; alert("Updating...");
-          ref.current.onClick = () => {
-            setLoading(true);
-            wb.addEventListener("controlling", () => {
-              window.location.reload();
-              setLoading(false);
-            });
-            wb.messageSkipWaiting();
-          };
-      //  }, 100);
+      wb.addEventListener("controlling", (event) => {
+        console.log(`Event ${event.type} is triggered.`);
+        console.log(event);
+      });
+
+      wb.addEventListener("activated", (event) => {
+        console.log(`Event ${event.type} is triggered.`);
+        console.log(event);
+      });
+
+      // A common UX pattern for progressive web apps is to show a banner when a service worker has updated and waiting to install.
+      // NOTE: MUST set skipWaiting to false in next.config.js pwa object
+      // https://developers.google.com/web/tools/workbox/guides/advanced-recipes#offer_a_page_reload_for_users
+      const promptNewVersionAvailable = (event) => {
+        // `event.wasWaitingBeforeRegister` will be false if this is the first time the updated service worker is waiting.
+        // When `event.wasWaitingBeforeRegister` is true, a previously updated service worker is still waiting.
+        // You may want to customize the UI prompt accordingly.
+        if (
+          confirm("A newer version of Dysperse is available, reload to update?")
+        ) {
+          wb.addEventListener("controlling", (event) => {
+            window.location.reload();
+          });
+
+          // Send a message to the waiting service worker, instructing it to activate.
+          wb.messageSkipWaiting();
+        } else {
+          console.log(
+            "User rejected to reload the web app, keep using old version. New version will be automatically load when user open the app next time."
+          );
+        }
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
 
+      // ISSUE - this is not working as expected, why?
+      // I could only make message event listenser work when I manually add this listenser into sw.js file
       wb.addEventListener("message", (event) => {
         console.log(`Event ${event.type} is triggered.`);
         console.log(event);
       });
+
+      /*
+      wb.addEventListener('redundant', event => {
+        console.log(`Event ${event.type} is triggered.`)
+        console.log(event)
+      })
+
+      wb.addEventListener('externalinstalled', event => {
+        console.log(`Event ${event.type} is triggered.`)
+        console.log(event)
+      })
+
+      wb.addEventListener('externalactivated', event => {
+        console.log(`Event ${event.type} is triggered.`)
+        console.log(event)
+      })
+      */
+
+      // never forget to call register as auto register is turned off in next.config.js
       wb.register();
     }
   }, []);
 
-  return button ? (
-    <Snackbar
-      open={true}
-      autoHideDuration={6000}
-      onClose={() => null}
-      sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
-      message="A newer version of Dysperse is available."
-      action={
-        <>
-          <IconButton ref={ref} size="small">
-            {loading ? (
-              <CircularProgress size={24} sx={{ color: "white" }} />
-            ) : (
-              <Icon sx={{ color: "#fff" }}>download</Icon>
-            )}
-          </IconButton>
-          {!loading && (
-            <IconButton onClick={() => setButton(false)} size="small">
-              <Icon sx={{ color: "#fff" }}>close</Icon>
-            </IconButton>
-          )}
-        </>
-      }
-    />
-  ) : null;
+  return <></>;
 }
