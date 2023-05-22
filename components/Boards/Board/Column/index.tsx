@@ -224,6 +224,7 @@ export function Column({ board, mutationUrls, column, index }) {
             backdropFilter: "blur(10px)",
             position: "sticky",
             top: 0,
+           ...column.name === "" && { display: "none" },
           }}
         >
           <Box
@@ -251,7 +252,7 @@ export function Column({ board, mutationUrls, column, index }) {
               />
             </picture>
             <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
-             {column.name!==""&& <Typography
+              <Typography
                 variant="h4"
                 className="font-heading"
                 sx={{
@@ -268,7 +269,7 @@ export function Column({ board, mutationUrls, column, index }) {
                 }}
               >
                 {column.name}
-              </Typography>}
+              </Typography>
               <Typography
                 sx={{
                   display: "flex",
