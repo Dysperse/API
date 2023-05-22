@@ -224,7 +224,7 @@ export function Column({ board, mutationUrls, column, index }) {
             backdropFilter: "blur(10px)",
             position: "sticky",
             top: 0,
-           ...column.name === "" && { display: "none" },
+            ...(column.name === "" && { display: "none" }),
           }}
         >
           <Box
