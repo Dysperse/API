@@ -64,6 +64,7 @@ export function CreateTask({
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
 
+  const deferredDate = useDeferredValue(date);
   const deferredTitle = useDeferredValue(title);
 
   const trigger = useMediaQuery("(min-width: 600px)");
@@ -249,23 +250,6 @@ export function CreateTask({
     [WheelGesturesPlugin()]
   );
 
-  const [chips, setChips] = useState<any[]>([]);
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(async () => {
-      const data = await fetchRawApi("ai/createTaskChips", {
-        date: dayjs().startOf("day").toISOString(),
-        taskName: deferredTitle || "tomorrow",
-      });
-      if (data?.response && Array.isArray(data.response)) {
-        setChips([...data.response]);
-        emblaApi?.reInit();
-      }
-    }, 1500);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [deferredTitle, emblaApi]);
-
   return (
     <>
       <SwipeableDrawer
@@ -310,28 +294,30 @@ export function CreateTask({
                 icon={<Icon>priority</Icon>}
                 onClick={() => setPinned(!pinned)}
               />
-              {chips.map(({ label, date: _date }) => {
-                const isActive = date?.getTime() === new Date(_date)?.getTime();
-                if (isNaN(new Date(_date).getTime())) return <></>;
+              {[
+                { label: "Today", days: 0 },
+                { label: "Tomorrow", days: 1 },
+                { label: "In one month", days: 30 },
+                { label: "In one year", days: 365 },
+              ].map(({ label, days }) => {
+                const isActive =
+                  deferredDate &&
+                  dayjs(deferredDate.toISOString())
+                    .startOf("day")
+                    .toISOString() ==
+                    dayjs().startOf("day").add(days, "day").toISOString();
+
                 return (
                   <Chip
                     key={label}
-                    label={
-                      <Box>
-                        <b>{dayjs(new Date(_date)).fromNow()}</b>
-
-                        <span style={{ fontWeight: 400 }}>
-                          &nbsp;&bull;&nbsp;
-                          {dayjs(new Date(_date)).format("M/D")}
-                        </span>
-                      </Box>
-                    }
+                    label={label}
                     sx={chipStyles(isActive)}
-                    icon={<Icon className="outlined">magic_button</Icon>}
+                    icon={<Icon>today</Icon>}
                     onClick={() => {
                       vibrate(50);
-                      if (isNaN(new Date(_date).getTime())) return;
-                      setDate(isActive ? null : new Date(_date));
+                      const tomorrow = new Date();
+                      tomorrow.setDate(tomorrow.getDate() + days);
+                      setDate(tomorrow);
                     }}
                   />
                 );
@@ -650,3 +636,7 @@ export function CreateTask({
     </>
   );
 }
+
+
+            
+
