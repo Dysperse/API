@@ -107,16 +107,17 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
             }),
             px: 2,
             ...(date && {
-              background: `${
-                colors[session?.themeColor || "grey"][
-                  session.user.darkMode ? 900 : 50
-                ]
-              }!important`,
-              color: `${
-                colors[session?.themeColor || "grey"][
-                  session.user.darkMode ? 50 : 900
-                ]
-              }!important`,
+              background: `hsl(240,11%,${
+                session.user.darkMode ? 17 : 95
+              }%)!important`,
+              "&:hover": {
+                background: `hsl(240,11%,${
+                  session.user.darkMode ? 15 : 93
+                }%)!important`,
+              },
+              color: `hsl(240,11%,${
+                !session.user.darkMode ? 17 : 95
+              }%)!important`,
             }),
           }}
           onClick={() => setOpen(!open)}

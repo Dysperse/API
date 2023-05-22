@@ -18,8 +18,8 @@ Date name: ${date}
 Generate 1-2 date suggestions using the task name and provided date to provide "chips" which the user can tap to easily set the date.
 You MUST return ONLY a JSON response in the format specified below (do not include anything other the JSON, such as surrounding text):
 
-# Example response (Input date: "2023-05-21T18:48:31.554Z"):
-[{ "date": "2023-6-1T18:48:31.554Z", "label": "Next Thursday" }]
+# Example response (Task name: "Interview this tuesday", Input date: "2023-05-21:00:00.004Z"):
+[{ "date": "2023-5-23T00:00:00.004Z"}]
 `;
 
 export default async function handler(req: any, res: any) {

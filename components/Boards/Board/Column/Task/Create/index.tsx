@@ -64,7 +64,6 @@ export function CreateTask({
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
 
-  const deferredDate = useDeferredValue(date);
   const deferredTitle = useDeferredValue(title);
 
   const trigger = useMediaQuery("(min-width: 600px)");
@@ -260,11 +259,12 @@ export function CreateTask({
       });
       if (data?.response && Array.isArray(data.response)) {
         setChips([...data.response]);
+        emblaApi?.reInit();
       }
-    }, 3000);
+    }, 1500);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [deferredTitle]);
+  }, [deferredTitle, emblaApi]);
 
   return (
     <>
@@ -310,18 +310,28 @@ export function CreateTask({
                 icon={<Icon>priority</Icon>}
                 onClick={() => setPinned(!pinned)}
               />
-              {chips.map(({ label, date }) => {
-                const isActive = false;
+              {chips.map(({ label, date: _date }) => {
+                const isActive = date?.getTime() === new Date(_date)?.getTime();
+                if (isNaN(new Date(_date).getTime())) return <></>;
                 return (
                   <Chip
                     key={label}
-                    label={label}
+                    label={
+                      <Box>
+                        <b>{dayjs(new Date(_date)).fromNow()}</b>
+
+                        <span style={{ fontWeight: 400 }}>
+                          &nbsp;&bull;&nbsp;
+                          {dayjs(new Date(_date)).format("M/D")}
+                        </span>
+                      </Box>
+                    }
                     sx={chipStyles(isActive)}
                     icon={<Icon className="outlined">magic_button</Icon>}
                     onClick={() => {
                       vibrate(50);
-                      if (isNaN(new Date(date).getTime())) return;
-                      setDate(new Date(date));
+                      if (isNaN(new Date(_date).getTime())) return;
+                      setDate(isActive ? null : new Date(_date));
                     }}
                   />
                 );
