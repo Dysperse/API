@@ -12,6 +12,8 @@
   "theme_color": "#200923",
   "prefer_related_applications": true,
   "capture_links": "new-client",
+  "categories": ["productivity", "education", "home"],
+
   "display_override": ["window-controls-overlay"],
   "screenshots": [
     {
