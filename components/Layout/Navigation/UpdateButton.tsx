@@ -1,11 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import PWAInstallerPrompt from "@/lib/client/installer";
+import { Icon, IconButton, Snackbar } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export function UpdateButton() {
-  const ref: any = useRef();
-  const [button, setButton] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  // This hook only run once in browser after the component is rendered for the first time.
-  // It has same effect as the old componentDidMount lifecycle callback.
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -84,5 +81,31 @@ export function UpdateButton() {
     }
   }, []);
 
-  return <></>;
+  const [button, setButton] = useState(true);
+
+  return (
+    <PWAInstallerPrompt
+      render={({ onClick }) => (
+        <Snackbar
+          onClick={onClick}
+          open={button}
+          autoHideDuration={6000}
+          onClose={() => null}
+          sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+          message="Tap to install Dysperse"
+          action={
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                setButton(false);
+              }}
+            >
+              <Icon>close</Icon>
+            </IconButton>
+          }
+        />
+      )}
+      callback={(data) => console.log(data)}
+    />
+  );
 }
