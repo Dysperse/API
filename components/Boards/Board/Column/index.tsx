@@ -251,24 +251,26 @@ export function Column({ board, mutationUrls, column, index }) {
               />
             </picture>
             <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
-             {column.name!==""&& <Typography
-                variant="h4"
-                className="font-heading"
-                sx={{
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  maxWidth: "100%",
-                  minWidth: 0,
-                  fontSize: { xs: "25px", sm: "30px" },
-                  borderRadius: 1,
-                  width: "auto",
-                  mb: 0.7,
-                  display: "block",
-                }}
-              >
-                {column.name}
-              </Typography>}
+              {column.name !== "" && (
+                <Typography
+                  variant="h4"
+                  className="font-heading"
+                  sx={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    maxWidth: "100%",
+                    minWidth: 0,
+                    fontSize: { xs: "25px", sm: "30px" },
+                    borderRadius: 1,
+                    width: "auto",
+                    mb: 0.7,
+                    display: "block",
+                  }}
+                >
+                  {column.name}
+                </Typography>
+              )}
               <Typography
                 sx={{
                   display: "flex",
