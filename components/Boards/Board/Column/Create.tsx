@@ -45,7 +45,7 @@ export default function CreateColumn({
     }
     fetchRawApi("property/boards/column/create", {
       title: ref?.current?.value,
-      emoji: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`,
+      emoji,
       id: id,
     })
       .then(() => {
