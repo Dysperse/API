@@ -239,21 +239,21 @@
       "name": "Tasks",
       "short_name": "Tasks",
       "description": "View your Agenda, Boards, Backlog, and more",
-      "url": "/zen",
+      "url": "/tasks",
       "icons": [{ "src": "/shortcuts/2.png", "sizes": "192x192" }]
     },
     {
       "name": "Coach",
       "short_name": "Coach",
       "description": "Visit your Coach and see your goals",
-      "url": "/zen",
+      "url": "/coach",
       "icons": [{ "src": "/shortcuts/3.png", "sizes": "192x192" }]
     },
     {
       "name": "Inventory",
       "short_name": "Inventory",
       "description": "View your personal inventory",
-      "url": "/zen",
+      "url": "/inventory",
       "icons": [{ "src": "/shortcuts/4.png", "sizes": "192x192" }]
     }
   ]
