@@ -240,7 +240,7 @@ export default function Home() {
             <Box>
               <ListItemButton
                 sx={listItemStyles}
-                onClick={() => router.push("/tasks/#/agenda/backlog")}
+                onClick={() => router.push("/tasks/backlog")}
               >
                 <ListItemText
                   primary={<b>Backlog</b>}
