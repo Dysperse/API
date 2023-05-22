@@ -47,7 +47,33 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
   const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
 
-  return (
+  return column.name === "" ? (
+    <Box onClick={(e) => e.stopPropagation()}>
+      <FilterMenu
+        originalTasks={column.tasks.filter(
+          (task) => task.parentTasks.length === 0
+        )}
+        setColumnTasks={setColumnTasks}
+      >
+        <IconButton
+          onClick={(e) => e.stopPropagation()}
+          size="small"
+          sx={{
+            mr: 1,
+          }}
+        >
+          <Icon
+            className="outlined"
+            sx={{
+              transition: "all .2s",
+            }}
+          >
+            filter_list
+          </Icon>
+        </IconButton>
+      </FilterMenu>
+    </Box>
+  ) : (
     <>
       <SwipeableDrawer
         anchor="bottom"
@@ -184,7 +210,11 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
           </MenuItem>
         </FilterMenu>
         <Divider />
-        <Box sx={{ textAlign: "center" }}>
+        <Box
+          sx={{
+            textAlign: "center",
+          }}
+        >
           <Chip label="Coming soon" sx={{ my: 1 }} size="small" />
         </Box>
         <MenuItem disabled>

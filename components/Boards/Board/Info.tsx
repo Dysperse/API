@@ -149,6 +149,9 @@ export function BoardInfo({
                   },
                 },
               }}
+              onKeyDown={(e: any) => {
+                if (!e.shiftKey && e.code === "Enter") e.target.blur();
+              }}
             />
             <TextField
               multiline
@@ -172,6 +175,9 @@ export function BoardInfo({
                     }%)`,
                   },
                 },
+              }}
+              onKeyDown={(e: any) => {
+                if (!e.shiftKey && e.code === "Enter") e.target.blur();
               }}
               maxRows={3}
             />

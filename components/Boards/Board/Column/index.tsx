@@ -210,7 +210,7 @@ export function Column({ board, mutationUrls, column, index }) {
           onClick={scrollIntoView}
           sx={{
             color: session.user.darkMode ? "#fff" : "#000",
-            p: { xs: 2, sm: 3 },
+            p: { xs: 2, sm: column.name === "" ? 1 : 3 },
             px: 4,
             background: session.user.darkMode
               ? "hsla(240,11%,16%, 0.2)"
@@ -224,7 +224,6 @@ export function Column({ board, mutationUrls, column, index }) {
             backdropFilter: "blur(10px)",
             position: "sticky",
             top: 0,
-           ...column.name === "" && { display: "none" },
           }}
         >
           <Box
@@ -236,6 +235,7 @@ export function Column({ board, mutationUrls, column, index }) {
               "& picture img": {
                 width: { xs: "40px", sm: "50px" },
                 height: { xs: "40px", sm: "50px" },
+                ...(column.name === "" && { display: "none" }),
               },
             }}
           >
@@ -266,6 +266,7 @@ export function Column({ board, mutationUrls, column, index }) {
                   width: "auto",
                   mb: 0.7,
                   display: "block",
+                  ...(column.name === "" && { display: "none" }),
                 }}
               >
                 {column.name}
