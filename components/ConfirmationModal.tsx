@@ -46,15 +46,11 @@ export function ConfirmationModal({
   }, [callback]);
 
   useHotkeys("enter", () => {
-    if (open) {
-      handleClick();
-    }
+    if (open) handleClick();
   });
 
   useEffect(() => {
-    if (open && disabled) {
-      handleClick();
-    }
+    if (open && disabled) handleClick();
   }, [open, disabled, handleClick]);
 
   return (
@@ -66,7 +62,13 @@ export function ConfirmationModal({
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         onClick={(e) => e.stopPropagation()}
-        sx={{ zIndex: 9999999 }}
+        sx={{
+          zIndex: 9999999,
+          ...(disabled && {
+            display: "none!important",
+            visibility: "hidden!important",
+          }),
+        }}
         PaperProps={{
           sx: {
             ...(rawStyles && {
