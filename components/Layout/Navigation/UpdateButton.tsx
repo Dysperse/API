@@ -19,17 +19,18 @@ export function UpdateButton() {
 
       const promptNewVersionAvailable = () => {
         setButton(true);
-       // setTimeout(() => {
-          if(!ref.current) return; alert("Updating...");
-          ref.current.onClick = () => {
-            setLoading(true);
-            wb.addEventListener("controlling", () => {
-              window.location.reload();
-              setLoading(false);
-            });
-            wb.messageSkipWaiting();
-          };
-      //  }, 100);
+        // setTimeout(() => {
+        if (!ref.current) return;
+        alert("Updating...");
+        ref.current.onClick = () => {
+          setLoading(true);
+          wb.addEventListener("controlling", () => {
+            window.location.reload();
+            setLoading(false);
+          });
+          wb.messageSkipWaiting();
+        };
+        //  }, 100);
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
