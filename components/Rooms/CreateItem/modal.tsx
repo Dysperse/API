@@ -65,7 +65,7 @@ export function CreateItemModal({
       containScroll: "trimSnaps",
       loop: false,
     },
-    [WheelGesturesPlugin()]
+    [WheelGesturesPlugin() as any]
   );
 
   const handleSubmit = useCallback(() => {
