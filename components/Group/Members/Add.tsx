@@ -256,7 +256,7 @@ export function AddPersonModal({
                   permission: permission,
                   email: deferredEmail,
                 }).then(() => toast.success("Invited!"));
-                setLoading(true);
+                setLoading(false);
               } else {
                 toast.error("Please enter a valid email address", toastStyles);
               }

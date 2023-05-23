@@ -3,17 +3,19 @@ import { useBackButton } from "@/lib/client/useBackButton";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
+  Alert,
   Avatar,
   Box,
   Button,
   CircularProgress,
-  colors,
   Icon,
   IconButton,
   ListItemButton,
   ListItemText,
   Menu,
   Tooltip,
+  Typography,
+  colors,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -23,6 +25,56 @@ import { mutate, preload } from "swr";
 import { ErrorHandler } from "../../Error";
 
 const Group = dynamic(() => import("../../Group"));
+
+function PropertyButton({ group }) {
+  const session = useSession();
+  return (
+    <Group
+      key={group.propertyId}
+      data={{
+        id: group.propertyId,
+        accessToken: group.accessToken,
+      }}
+    >
+      <ListItemButton
+        {...(group.propertyId === session.property.propertyId && {
+          id: "activeProperty",
+        })}
+        sx={{
+          gap: 2,
+          borderRadius: "28px",
+          transition: "transform .2s",
+          background: "transparent!important",
+          "&:active": {
+            transform: "scale(0.97)",
+          },
+          ...(group.propertyId === session.property.propertyId && {
+            background: session.user.darkMode
+              ? "hsla(240,11%,20%)"
+              : "rgba(200,200,200,.4)!important",
+          }),
+        }}
+      >
+        <Box
+          sx={{
+            width: 20,
+            height: 20,
+            background: colors[group.profile.color]["A700"],
+            borderRadius: 99,
+          }}
+        />
+        <ListItemText
+          primary={<b>{group.profile.name}</b>}
+          secondary={group.profile.type}
+          sx={{
+            color: session.user.darkMode ? "#fff" : "#000",
+            textTransform: "capitalize",
+          }}
+        />
+      </ListItemButton>
+    </Group>
+  );
+}
 
 /**
  * Invite button to trigger property list
@@ -68,6 +120,7 @@ export default function InviteButton({ styles }: any) {
   const session = useSession();
 
   const { data, loading, url, fetcher, error } = useApi("user/properties");
+
   const properties = [...session.properties, ...(data || [])]
     .filter((group) => group)
     .reduce((acc, curr) => {
@@ -88,6 +141,7 @@ export default function InviteButton({ styles }: any) {
   };
   const handleClose = () => setAnchorEl(null);
   const [view, setView] = useState(0);
+
   return (
     <>
       <Menu
@@ -126,58 +180,35 @@ export default function InviteButton({ styles }: any) {
         {view == 0 && (
           <div>
             {loading && <CircularProgress />}
-            {properties.map((group: any) => (
-              <Group
-                key={group.propertyId}
-                data={{
-                  id: group.propertyId,
-                  accessToken: group.accessToken,
-                }}
-              >
-                <ListItemButton
-                  {...(group.propertyId === session.property.propertyId && {
-                    id: "activeProperty",
-                  })}
-                  sx={{
-                    gap: 2,
-                    borderRadius: "28px",
-                    transition: "transform .2s",
-                    background: "transparent!important",
-                    "&:active": {
-                      transform: "scale(0.97)",
-                    },
-                    ...(group.propertyId === session.property.propertyId && {
-                      background: session.user.darkMode
-                        ? "hsla(240,11%,20%)"
-                        : "rgba(200,200,200,.4)!important",
-                    }),
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: 20,
-                      height: 20,
-                      background: colors[group.profile.color]["A700"],
-                      borderRadius: 99,
-                    }}
-                  />
-                  <ListItemText
-                    primary={<b>{group.profile.name}</b>}
-                    secondary={group.profile.type}
-                    sx={{
-                      color: session.user.darkMode ? "#fff" : "#000",
-                      textTransform: "capitalize",
-                    }}
-                  />
-                </ListItemButton>
-              </Group>
-            ))}
+            {properties
+              .filter((p) => p.accepted)
+              .map((group: any) => (
+                <PropertyButton key={group.id} group={group} />
+              ))}
+
             {error && (
               <ErrorHandler
                 callback={() => mutate(url)}
                 error="An error occured while trying to fetch your other groups"
               />
             )}
+            <Button
+              size="large"
+              color="inherit"
+              fullWidth
+              onClick={() => setView(2)}
+              sx={{
+                justifyContent: "start",
+                p: 2,
+                py: 1.5,
+                borderRadius: "28px",
+                gap: 2,
+                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+              }}
+            >
+              <Icon className="outlined">group_add</Icon>
+              Invitations
+            </Button>
             <Button
               size="large"
               color="inherit"
@@ -217,30 +248,50 @@ export default function InviteButton({ styles }: any) {
             </Button>
           </div>
         )}
+        {view !== 0 && (
+          <Button
+            onClick={() => setView(0)}
+            sx={{
+              m: 1,
+              mb: 1,
+              background: `hsl(240,11%,${
+                session.user.darkMode ? 20 : 90
+              }%)!important`,
+              color: `hsl(240,11%,${
+                session.user.darkMode ? 90 : 20
+              }%)!important`,
+              transition: "all .2s!important",
+              "&:active": {
+                transform: "scale(0.95)",
+              },
+            }}
+            size="small"
+          >
+            <Icon>west</Icon>
+            Back
+          </Button>
+        )}
+        {view == 2 && (
+          <>
+            <Box sx={{ p: 2, py: 1 }}>
+              <Typography variant="h6">
+                Invitations ({properties.filter((p) => !p.accepted).length})
+              </Typography>
+              {properties.filter((p) => !p.accepted).length == 0 && (
+                <Alert severity="info">
+                  Groups you&apos;ve been invited to will appear here.
+                </Alert>
+              )}
+            </Box>
+            {properties
+              .filter((p) => !p.accepted)
+              .map((group: any) => (
+                <PropertyButton key={group.id} group={group} />
+              ))}
+          </>
+        )}
         {view == 1 && (
           <div>
-            <Button
-              onClick={() => setView(0)}
-              sx={{
-                m: 1,
-                mb: 1,
-                background: `hsl(240,11%,${
-                  session.user.darkMode ? 20 : 90
-                }%)!important`,
-                color: `hsl(240,11%,${
-                  session.user.darkMode ? 90 : 20
-                }%)!important`,
-                transition: "all .2s!important",
-                "&:active": {
-                  transform: "scale(0.95)",
-                },
-              }}
-              size="small"
-            >
-              <Icon>west</Icon>
-              Back
-            </Button>
-
             {[
               {
                 label: "Home page",

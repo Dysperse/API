@@ -116,6 +116,66 @@ function PropertyInfo({
             You&apos;re spectating this group
           </Alert>
         )}
+        {session.properties &&
+          !session.properties.find(
+            (property: any) => property.propertyId == propertyData.propertyId
+          )?.accepted && (
+            <Alert
+              severity="info"
+              sx={{
+                mb: 2,
+                background: !session.user.darkMode
+                  ? "rgba(200,200,200,.3)"
+                  : "hsl(240,11%,15%)",
+                color: session.user.darkMode ? "#fff" : "#000",
+                "& *": {
+                  color: session.user.darkMode ? "#fff" : "#000",
+                },
+              }}
+              action={
+                <LoadingButton
+                  loading={loading}
+                  sx={{
+                    background: session.user.darkMode
+                      ? "hsl(240,11%,16%)"
+                      : "rgba(200,200,200,.2)",
+                    "&:hover": {
+                      background: session.user.darkMode
+                        ? "hsl(240,11%,20%)"
+                        : "rgba(200,200,200,.3)",
+                    },
+                    color: session.user.darkMode ? "#fff" : "#000",
+                  }}
+                  onClick={async () => {
+                    try {
+                      setLoading(true);
+                      const res = await fetchRawApi("property/switch", {
+                        email: session.user.email,
+                        accessToken1: propertyData.accessToken,
+                      });
+                      await mutate("/api/session");
+                      toast.success(
+                        <span>
+                          Joined &nbsp;<u>{res.profile.name}</u>
+                        </span>,
+                        toastStyles
+                      );
+                      setLoading(false);
+                    } catch (e) {
+                      toast.error(
+                        "An error occured while trying to switch groups",
+                        toastStyles
+                      );
+                    }
+                  }}
+                >
+                  Join
+                </LoadingButton>
+              }
+            >
+              You&apos;ve been invited to this group
+            </Alert>
+          )}
         <Box
           sx={{
             background: `linear-gradient(45deg, ${
