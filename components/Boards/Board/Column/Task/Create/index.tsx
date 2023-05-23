@@ -240,14 +240,14 @@ export function CreateTask({
     }, 100);
   }, [open, titleRef]);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(
+  const [emblaRef] = useEmblaCarousel(
     {
       dragFree: true,
       align: "start",
       containScroll: "trimSnaps",
       loop: false,
     },
-    [WheelGesturesPlugin()]
+    [WheelGesturesPlugin() as any]
   );
 
   return (
@@ -636,7 +636,3 @@ export function CreateTask({
     </>
   );
 }
-
-
-            
-
