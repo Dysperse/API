@@ -5,8 +5,10 @@ import { vibrate } from "@/lib/client/vibration";
 import {
   Alert,
   Avatar,
+  Badge,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Icon,
   IconButton,
@@ -208,6 +210,14 @@ export default function InviteButton({ styles }: any) {
             >
               <Icon className="outlined">group_add</Icon>
               Invitations
+              {properties.filter((p) => !p.accepted).length > 0 && (
+                <Chip
+                  size="small"
+                  color="error"
+                  sx={{ px: 1, ml: "auto" }}
+                  label={properties.filter((p) => !p.accepted).length}
+                />
+              )}
             </Button>
             <Button
               size="large"
@@ -357,44 +367,65 @@ export default function InviteButton({ styles }: any) {
           id="houseProfileTrigger"
           onClick={handleClick}
         >
-          <Avatar
+          <Badge
+            badgeContent={properties.filter((p) => !p.accepted).length}
             sx={{
-              opacity: loading ? 0.5 : 1,
-              background:
-                colors[session.property.profile.color][
-                  session.user.darkMode ? "A400" : 200
-                ],
-              "&:hover": {
-                background:
-                  colors[session.property.profile.color][
-                    session.user.darkMode ? "A700" : 300
-                  ],
+              "& .MuiBadge-colorError": {
+                background: "red!important",
               },
-              ...(Boolean(anchorEl) && {
+            }}
+            color="error"
+          >
+            <Avatar
+              sx={{
+                opacity: loading ? 0.5 : 1,
                 background:
                   colors[session.property.profile.color][
-                    session.user.darkMode ? "A700" : 300
+                    session.user.darkMode ? "A400" : 200
                   ],
-              }),
-              color: session.user.darkMode ? "#000" : "#000",
-            }}
-          >
-            <Icon className="outlined">hive</Icon>
-          </Avatar>
+                "&:hover": {
+                  background:
+                    colors[session.property.profile.color][
+                      session.user.darkMode ? "A700" : 300
+                    ],
+                },
+                ...(Boolean(anchorEl) && {
+                  background:
+                    colors[session.property.profile.color][
+                      session.user.darkMode ? "A700" : 300
+                    ],
+                }),
+                color: session.user.darkMode ? "#000" : "#000",
+              }}
+            >
+              <Icon className="outlined">hive</Icon>
+            </Avatar>
+          </Badge>
         </Box>
       </Tooltip>
-      <IconButton
-        disabled={loading}
+      <Badge
+        badgeContent={properties.filter((p) => !p.accepted).length}
         sx={{
-          ...styles(Boolean(anchorEl)),
           display: { md: "none" },
+          "& .MuiBadge-colorError": {
+            background: "red!important",
+          },
         }}
-        onClick={handleClick}
+        color="error"
       >
-        <Tooltip title="Account menu" placement="bottom-end">
-          <Icon className="outlined">hive</Icon>
-        </Tooltip>
-      </IconButton>
+        <IconButton
+          disabled={loading}
+          sx={{
+            ...styles(Boolean(anchorEl)),
+            display: { md: "none" },
+          }}
+          onClick={handleClick}
+        >
+          <Tooltip title="Account menu" placement="bottom-end">
+            <Icon className="outlined">hive</Icon>
+          </Tooltip>
+        </IconButton>
+      </Badge>
     </>
   );
 }
