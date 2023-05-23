@@ -29,6 +29,7 @@ const handler = async (req, res) => {
       include: {
         columns: { orderBy: { id: "desc" } },
         integrations: { select: { name: true } },
+        
       },
       orderBy: { pinned: "desc" },
     });
