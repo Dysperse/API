@@ -20,7 +20,7 @@ import { useState } from "react";
 import { mutate } from "swr";
 import { Integration } from "./Integration";
 
-export default function Integrations() {
+export default function Integrations({ handleClose }) {
   const integrations = [
     {
       name: "Canvas LMS",
@@ -154,7 +154,10 @@ export default function Integrations() {
             <Integration
               integration={integration}
               key={integration.name}
-              closeParent={() => setOpen(false)}
+              closeParent={() => {
+                handleClose();
+                setOpen(false);
+              }}
             />
           ))}
         </Box>

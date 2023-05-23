@@ -181,7 +181,7 @@ function PropertyInfo({
         />
         {propertyData &&
           propertyData.profile.id === session.property.propertyId && (
-            <Integrations />
+            <Integrations handleClose={handleClose} />
           )}
       </Box>
     </Box>
