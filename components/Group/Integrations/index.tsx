@@ -151,7 +151,11 @@ export default function Integrations() {
             <Typography gutterBottom>More coming soon!</Typography>
           </Box>
           {integrations.map((integration) => (
-            <Integration integration={integration} key={integration.name} />
+            <Integration
+              integration={integration}
+              key={integration.name}
+              closeParent={() => setOpen(false)}
+            />
           ))}
         </Box>
       </SwipeableDrawer>

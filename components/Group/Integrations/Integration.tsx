@@ -19,7 +19,10 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 
-export function Integration({ integration }) {
+export function Integration({ closeParent, integration }) {
+  const router = useRouter();
+
+  const [boardId, setBoardId] = useState<string | null>("-1");
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [params, setParams] = useState(
@@ -35,9 +38,7 @@ export function Integration({ integration }) {
     },
     [params]
   );
-  const [boardId, setBoardId] = useState<string | null>("-1");
 
-  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (integration.type === "board" && boardId === "-1") {
@@ -55,6 +56,7 @@ export function Integration({ integration }) {
 
     toast.success("Added integration!", toastStyles);
     setOpen(false);
+    closeParent();
 
     if (integration.type === "board") {
       setTimeout(() => {
@@ -65,6 +67,7 @@ export function Integration({ integration }) {
 
     setLoading(false);
   };
+
   const { data, url, error } = useApi("property/boards");
 
   return (
