@@ -1,4 +1,5 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import {
@@ -16,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { mutate } from "swr";
 import { Integration } from "./Integration";
 
 export default function Integrations() {
@@ -39,7 +41,7 @@ export default function Integrations() {
     },
   ];
 
-  const { data, error } = useApi("property/integrations");
+  const { data, url, error } = useApi("property/integrations");
   const [open, setOpen] = useState(false);
 
   return (
@@ -63,6 +65,12 @@ export default function Integrations() {
               You don&apos;t have any integrations yet. Add one below!
             </Alert>
           )}
+          {error && (
+            <ErrorHandler
+              error="Oh no! We couldn't get your integrations. Please try again later..."
+              callback={() => mutate(url)}
+            />
+          )}
           {data.map((integration) => (
             <ListItemButton key={integration.id} disableRipple>
               <ListItemText
@@ -84,10 +92,11 @@ export default function Integrations() {
                 <ConfirmationModal
                   title="Are you sure you want to remove this integration?"
                   question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
-                  callback={() => {
-                    fetchRawApi("property/integrations/delete", {
+                  callback={async () => {
+                    await fetchRawApi("property/integrations/delete", {
                       id: integration.id,
                     });
+                    mutate(url);
                   }}
                 >
                   <IconButton>
