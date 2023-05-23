@@ -92,10 +92,9 @@ export function ShareGoal({ children, goal }) {
     [WheelGesturesPlugin() as any]
   );
 
-  const [emblaCardRef, emblaCardApi] = useEmblaCarousel(
-    { loop: false,},
-    [WheelGesturesPlugin() as any]
-  );
+  const [emblaCardRef, emblaCardApi] = useEmblaCarousel({ loop: false }, [
+    WheelGesturesPlugin() as any,
+  ]);
 
   useEffect(() => {
     if (emblaCardApi) {
