@@ -121,9 +121,11 @@ export function Agenda({
     endTime: endOfWeek.toISOString(),
   });
 
+  const [alreadyScrolled, setAlreadyScrolled] = useState(false);
   useEffect(() => {
-    if (navigation === 0 && data) {
+    if (navigation === 0 && data && !alreadyScrolled) {
       setTimeout(() => {
+        setAlreadyScrolled(true);
         const activeHighlight = document.getElementById("activeHighlight");
         if (activeHighlight)
           activeHighlight.scrollIntoView({
@@ -133,7 +135,7 @@ export function Agenda({
         window.scrollTo(0, 0);
       }, 1);
     }
-  }, [data, navigation]);
+  }, [data, navigation, alreadyScrolled]);
 
   const session = useSession();
   const handleOpen = () => {

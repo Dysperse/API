@@ -148,7 +148,7 @@ export const Column: any = memo(function Column({
       sx={{
         scrollSnapAlign: "center",
         borderRight: "1px solid",
-        borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
+        borderColor: `hsla(240,11%,${session.user.darkMode ? 20 : 90}%, 0.5)`,
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
@@ -181,7 +181,7 @@ export const Column: any = memo(function Column({
           px: 4,
           background: "transparent",
           borderBottom: "1px solid",
-          borderColor: `hsl(240,11%,${session.user.darkMode ? 16 : 95}%)`,
+          borderColor: `hsla(240,11%,${session.user.darkMode ? 20 : 90}%, 0.5)`,
           userSelect: "none",
           zIndex: 9,
           "&:hover": {

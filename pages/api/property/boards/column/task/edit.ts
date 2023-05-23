@@ -18,6 +18,7 @@ const handler = async (req, res) => {
         ...(req.query.completed && {
           completed: req.query.completed === "true",
         }),
+        ...(req.query.pinned && { pinned: req.query.pinned === "true" }),
         ...(req.query.columnId && { columnId: req.query.columnId }),
         ...((req.query.description || req.query.description === "") && {
           description: req.query.description,

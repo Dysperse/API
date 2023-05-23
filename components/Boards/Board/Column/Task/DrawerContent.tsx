@@ -53,7 +53,7 @@ export default function DrawerContent({
         try {
           fetchRawApi("property/boards/column/task/edit", {
             id: data.id,
-            pinned: !data.pinned ? "true" : "false",
+            pinned: data.pinned ? "false" : "true",
           }).then(() => {
             mutate(mutationUrl);
           });
@@ -99,7 +99,8 @@ export default function DrawerContent({
     })
       .then(() => {
         mutate(mutationUrl);
-        if(data.parentTasks.length !== 0) document.getElementById("subtaskTrigger")?.click();
+        if (data.parentTasks.length !== 0)
+          document.getElementById("subtaskTrigger")?.click();
       })
       .catch(() =>
         toast.error("An error occured while updating the task", toastStyles)

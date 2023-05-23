@@ -1,8 +1,8 @@
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
+import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -13,13 +13,15 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { ErrorHandler } from "../../Error";
 import { mutate } from "swr";
+import { ErrorHandler } from "../../Error";
 
 export function Integration({ integration }) {
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [params, setParams] = useState(
     integration.params.reduce((acc, curr) => ((acc[curr.name] = ""), acc), {})
   );
@@ -35,12 +37,14 @@ export function Integration({ integration }) {
   );
   const [boardId, setBoardId] = useState<string | null>("-1");
 
+  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (integration.type === "board" && boardId === "-1") {
       toast.error("Please select a board", toastStyles);
       return;
     }
+    setLoading(true);
     await fetchRawApi("property/integrations/create", {
       name: integration.name,
       inputParams: JSON.stringify(params),
@@ -48,7 +52,18 @@ export function Integration({ integration }) {
 
       ...(integration.type === "board" && { boardId }),
     });
+
     toast.success("Added integration!", toastStyles);
+    setOpen(false);
+
+    if (integration.type === "board") {
+      setTimeout(() => {
+        router.push(`/tasks/boards/${boardId}`);
+      });
+      return;
+    }
+
+    setLoading(false);
   };
   const { data, url, error } = useApi("property/boards");
 
@@ -69,7 +84,7 @@ export function Integration({ integration }) {
       </ListItemButton>
       <Dialog open={open} onClose={() => setOpen(false)} keepMounted={false}>
         <form onSubmit={handleSubmit}>
-          <DialogTitle>Configure integration</DialogTitle>
+          <DialogTitle>Add integration</DialogTitle>
           <DialogContent sx={{ pt: "20px!important" }}>
             {integration.params.map((param) => (
               <TextField
@@ -121,7 +136,9 @@ export function Integration({ integration }) {
             )}
           </DialogContent>
           <DialogActions>
-            <Button type="submit">Configure</Button>
+            <LoadingButton loading={loading} type="submit">
+              Configure
+            </LoadingButton>
           </DialogActions>
         </form>
       </Dialog>

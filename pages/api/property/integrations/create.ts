@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
+import { validateParams } from "@/lib/server/validateParams";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 
 const handler = async (req, res) => {
@@ -20,6 +21,18 @@ const handler = async (req, res) => {
         }),
       },
     });
+
+    if (req.query.boardId) {
+      validateParams(req.query, ["boardId", "property"]);
+      await prisma.column.deleteMany({
+        where: {
+          AND: [
+            { boardId: req.query.boardId },
+            { board: { property: { id: req.query.property } } },
+          ],
+        },
+      });
+    }
 
     res.json(data);
   } catch (e: any) {
