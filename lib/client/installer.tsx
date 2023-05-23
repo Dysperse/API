@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const PWAInstallerPrompt = ({ render: InstallButton, callback }): any => {
   const createStatus = (object) => {
@@ -47,35 +47,41 @@ const PWAInstallerPrompt = ({ render: InstallButton, callback }): any => {
     if (callback) {
       callback(installStatus);
     }
-  }, [installStatus]);
+  }, [installStatus, callback]);
 
-  const beforeAppInstallpromptHandler = (e) => {
-    e.preventDefault();
-    if (!installStatus.isInstalling) {
-      if (!installStatus.isInstallSuccess) {
-        setInstallEvent(e);
-        if (!installStatus.isInstallAllowed) {
-          setInstallStatus(
-            createStatus({
-              isInstallAllowed: true,
-              isInstallCancelled: installStatus.isInstallCancelled,
-            })
-          );
+  const beforeAppInstallpromptHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!installStatus.isInstalling) {
+        if (!installStatus.isInstallSuccess) {
+          setInstallEvent(e);
+          if (!installStatus.isInstallAllowed) {
+            setInstallStatus(
+              createStatus({
+                isInstallAllowed: true,
+                isInstallCancelled: installStatus.isInstallCancelled,
+              })
+            );
+          }
         }
       }
-    }
-  };
+    },
+    [installStatus]
+  );
 
-  const appInstalledHandler = (e) => {
-    if (!installStatus.isInstallSuccess) {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        beforeAppInstallpromptHandler
-      );
-      e.preventDefault();
-      setInstallStatus(createStatus({ isInstallSuccess: true }));
-    }
-  };
+  const appInstalledHandler = useCallback(
+    (e) => {
+      if (!installStatus.isInstallSuccess) {
+        window.removeEventListener(
+          "beforeinstallprompt",
+          beforeAppInstallpromptHandler
+        );
+        e.preventDefault();
+        setInstallStatus(createStatus({ isInstallSuccess: true }));
+      }
+    },
+    [installStatus.isInstallSuccess, beforeAppInstallpromptHandler]
+  );
 
   useEffect(() => {
     window.addEventListener(
@@ -90,7 +96,7 @@ const PWAInstallerPrompt = ({ render: InstallButton, callback }): any => {
       );
       window.removeEventListener("appinstalled", appInstalledHandler);
     };
-  }, []);
+  }, [appInstalledHandler, beforeAppInstallpromptHandler]);
 
   const handleOnInstall = () => {
     setInstallStatus(createStatus({ isInstallWatingConfirm: true }));
