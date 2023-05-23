@@ -4,12 +4,12 @@ import { Puller } from "@/components/Puller";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import {
   Alert,
+  Box,
+  Button,
   Chip,
-  Divider,
   Icon,
   IconButton,
   ListItemButton,
-  ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
   Skeleton,
@@ -46,23 +46,46 @@ export default function Integrations() {
 
   return (
     <>
-      <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
-        Integrations
-        <Chip
-          size="small"
-          label="ALPHA"
-          sx={{
-            ml: 1,
-            background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
-            color: "#000",
-          }}
-        />
-      </Typography>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          mt: 4,
+          alignItems: "center",
+          mb: 3,
+          px: 1,
+        }}
+      >
+        <Typography variant="h6">
+          Integrations
+          <Chip
+            size="small"
+            label="ALPHA"
+            sx={{
+              ml: 1,
+              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+              color: "#000",
+            }}
+          />
+        </Typography>
+        <Button
+          onClick={() => setOpen(true)}
+          sx={{ ml: "auto", px: 2 }}
+          variant="contained"
+        >
+          <Icon className="outlined">add</Icon>Add integration
+        </Button>
+      </Box>
       {data ? (
         <>
           {data.length == 0 && (
             <Alert severity="info">
-              You don&apos;t have any integrations yet. Add one below!
+              <Typography>
+                <b>You don&apos;t have any integrations set up yet.</b>
+              </Typography>
+              <Typography>
+                Seamlessly sync tools like Canvas with your Dysperse group.
+              </Typography>
             </Alert>
           )}
           {error && (
@@ -113,13 +136,6 @@ export default function Integrations() {
           sx={{ borderRadius: 5, width: "100%", height: 30 }}
         />
       )}
-      <Divider sx={{ my: 1 }} />
-      <ListItemButton onClick={() => setOpen(true)}>
-        <ListItemIcon>
-          <Icon className="outlined">add</Icon>
-        </ListItemIcon>
-        <ListItemText primary="Add integration" />
-      </ListItemButton>
       <SwipeableDrawer
         open={open}
         onOpen={() => setOpen(true)}
@@ -127,13 +143,17 @@ export default function Integrations() {
         anchor="bottom"
       >
         <Puller showOnDesktop />
-        <Typography variant="h6">
-          Available integrations ({integrations.length})
-        </Typography>
-        <Typography>More coming soon!</Typography>
-        {integrations.map((integration) => (
-          <Integration integration={integration} key={integration.name} />
-        ))}
+        <Box sx={{ p: 2, pt: 0 }}>
+          <Box sx={{ px: 1 }}>
+            <Typography variant="h6">
+              Available integrations ({integrations.length})
+            </Typography>
+            <Typography gutterBottom>More coming soon!</Typography>
+          </Box>
+          {integrations.map((integration) => (
+            <Integration integration={integration} key={integration.name} />
+          ))}
+        </Box>
       </SwipeableDrawer>
     </>
   );
