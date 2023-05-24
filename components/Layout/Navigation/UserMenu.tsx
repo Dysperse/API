@@ -369,10 +369,32 @@ export default function InviteButton({ styles }: any) {
           onClick={handleClick}
         >
           <Badge
-            badgeContent={properties.filter((p) => !p.accepted).length}
+            badgeContent={
+              Boolean(anchorEl)
+                ? 0
+                : properties.filter((p) => !p.accepted).length
+            }
             sx={{
               "& .MuiBadge-colorError": {
                 background: red["800"] + "!important",
+                border: "2px solid !important",
+                transform:
+                  Boolean(anchorEl) ||
+                  properties.filter((p) => !p.accepted).length == 0
+                    ? "scale(0) translate(5px, -5px)!important"
+                    : "translate(5px, -5px)!important",
+                borderColor:
+                  router.asPath === "/zen" ||
+                  router.asPath === "/mood-history" ||
+                  router.asPath === "/"
+                    ? "transparent"
+                    : session.user.darkMode
+                    ? router.asPath === "/coach"
+                      ? "hsla(240,11%,8%)"
+                      : "hsla(240,11%,5%)"
+                    : router.asPath === "/coach"
+                    ? "hsl(240,11%,97%)"
+                    : "hsl(240,11%,93%)",
               },
             }}
             color="error"
