@@ -19,6 +19,7 @@ import {
   Typography,
   colors,
 } from "@mui/material";
+import { red } from "@mui/material/colors";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -371,7 +372,7 @@ export default function InviteButton({ styles }: any) {
             badgeContent={properties.filter((p) => !p.accepted).length}
             sx={{
               "& .MuiBadge-colorError": {
-                background: "red!important",
+                background: red["800"] + "!important",
               },
             }}
             color="error"
