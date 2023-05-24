@@ -188,7 +188,7 @@ export function AddPersonModal({
             onChange={(e: any) => setEmail(e.target.value)}
             variant="filled"
             label="Enter an email address"
-            placeholder="elonmusk@gmail.com"
+            placeholder="elon.musk@gmail.com"
           />
           <FormControl fullWidth>
             <Select
@@ -246,16 +246,21 @@ export function AddPersonModal({
                   "This person is already a member of this house",
                   toastStyles
                 );
+                setEmail("");
                 return;
               }
               if (isEmail(deferredEmail)) {
+                setLoading(true);
                 fetchRawApi("property/members/add", {
                   inviterName: session.user.name,
                   name: session.property.profile.name,
                   timestamp: new Date().toISOString(),
                   permission: permission,
                   email: deferredEmail,
-                }).then(() => toast.success("Invited!"));
+                }).then(() => {
+                  toast.success("Invited!", toastStyles);
+                  setOpen(false);
+                });
                 setLoading(false);
               } else {
                 toast.error("Please enter a valid email address", toastStyles);
