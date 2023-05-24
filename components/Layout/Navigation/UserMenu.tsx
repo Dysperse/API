@@ -358,7 +358,17 @@ export default function InviteButton({ styles }: any) {
         )}
       </Menu>
 
-      <Tooltip title="Workspace" placement="right">
+      <Tooltip
+        PopperProps={{ sx: { pointerEvents: "none" } }}
+        title={
+          <Box>
+            <b>{session?.property?.profile?.name}</b>
+            <br />
+            <span style={{ fontWeight: 400 }}>{session.user.email}</span>
+          </Box>
+        }
+        placement="right"
+      >
         <Box
           sx={{
             ...styles(false),
