@@ -41,6 +41,26 @@ export const toastStyles = {
 export const useCustomTheme = ({ darkMode, themeColor }): any => {
   return {
     components: {
+      MuiSnackbar: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              "& .MuiSnackbarContent-root": {
+                boxShadow:
+                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                background: `hsl(240,11%,${darkMode ? 90 : 10}%, 0.7)`,
+                backdropFilter: "blur(10px)",
+                fontWeight: 700,
+                borderRadius: 95,
+                px: 3,
+                color: `hsl(240,11%,${darkMode ? 10 : 90}%, 0.9)`,
+                "& .MuiIcon-root": {
+                  color: `hsl(240,11%,${darkMode ? 10 : 90}%, 0.9)`,
+                },
+              },
+            }),
+        },
+      },
       MuiSwipeableDrawer: {
         defaultProps: {
           disableSwipeToOpen: true,

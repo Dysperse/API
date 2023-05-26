@@ -3,7 +3,7 @@ import { Icon, IconButton, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export function UpdateButton() {
-  const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [updateAvailable, setUpdateAvailable] = useState(true);
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export function UpdateButton() {
                 }}
                 color="inherit"
               >
-                <Icon sx={{ color: "#fff!important" }}>close</Icon>
+                <Icon>close</Icon>
               </IconButton>
             }
           />
@@ -139,7 +139,7 @@ export function UpdateButton() {
               setUpdateAvailable(false);
             }}
           >
-            <Icon sx={{ color: "#fff!important" }}>close</Icon>
+            <Icon>close</Icon>
           </IconButton>
         }
       />
