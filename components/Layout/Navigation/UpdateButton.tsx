@@ -1,9 +1,9 @@
 import PWAInstallerPrompt from "@/lib/client/installer";
-import { Icon, IconButton, Snackbar } from "@mui/material";
+import { CardActionArea, Icon, IconButton, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export function UpdateButton() {
-  const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [updateAvailable, setUpdateAvailable] = useState(true);
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
 
   useEffect(() => {
@@ -131,7 +131,11 @@ export function UpdateButton() {
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
-        message="A new version of Dysperse is available. Tap to download"
+        message={
+          <CardActionArea sx={{ fontWeight: 700 }}>
+            A new version of Dysperse is available. Tap to download
+          </CardActionArea>
+        }
         action={
           <IconButton
             onClick={(e) => {
