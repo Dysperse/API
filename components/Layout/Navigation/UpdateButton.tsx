@@ -3,7 +3,7 @@ import { Icon, IconButton, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export function UpdateButton() {
-  const [updateAvailable, setUpdateAvailable] = useState(true);
+  const [updateAvailable, setUpdateAvailable] = useState(false);
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
 
   useEffect(() => {
