@@ -138,8 +138,8 @@ export function UpdateButton() {
           setUserWantsToUpdate(true);
           setLoading(true);
         }}
-        // open={updateAvailable}
-        open={true}
+        open={updateAvailable}
+        // open={true}
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
