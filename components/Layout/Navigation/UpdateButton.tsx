@@ -3,6 +3,9 @@ import { Icon, IconButton, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export function UpdateButton() {
+  const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
+
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
@@ -34,20 +37,32 @@ export function UpdateButton() {
         // `event.wasWaitingBeforeRegister` will be false if this is the first time the updated service worker is waiting.
         // When `event.wasWaitingBeforeRegister` is true, a previously updated service worker is still waiting.
         // You may want to customize the UI prompt accordingly.
-        if (
-          confirm("A newer version of Dysperse is available, reload to update?")
-        ) {
-          wb.addEventListener("controlling", (event) => {
-            window.location.reload();
-          });
+        new Promise((resolve, reject) => {
+          setUpdateAvailable(true);
+          setUserWantsToUpdate(false);
 
-          // Send a message to the waiting service worker, instructing it to activate.
-          wb.messageSkipWaiting();
-        } else {
-          console.log(
-            "User rejected to reload the web app, keep using old version. New version will be automatically load when user open the app next time."
-          );
-        }
+          const timer = setTimeout(() => {
+            if (userWantsToUpdate) {
+              resolve("");
+              clearTimeout(timer);
+            } else {
+              reject();
+            }
+          }, 1000);
+        })
+          .then(() => {
+            wb.addEventListener("controlling", (event) => {
+              window.location.reload();
+            });
+
+            // Send a message to the waiting service worker, instructing it to activate.
+            wb.messageSkipWaiting();
+          })
+          .catch((err) => {
+            console.log(
+              "User rejected to reload the web app, keep using old version. New version will be automatically load when user open the app next time."
+            );
+          });
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
@@ -79,33 +94,55 @@ export function UpdateButton() {
       // never forget to call register as auto register is turned off in next.config.js
       wb.register();
     }
-  }, []);
+  }, [userWantsToUpdate]);
 
   const [button, setButton] = useState(true);
 
   return (
-    <PWAInstallerPrompt
-      render={({ onClick }) => (
-        <Snackbar
-          onClick={onClick}
-          open={button}
-          autoHideDuration={6000}
-          onClose={() => null}
-          sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
-          message="Tap to install Dysperse"
-          action={
-            <IconButton
-              onClick={(e) => {
-                e.stopPropagation();
-                setButton(false);
-              }}
-            >
-              <Icon>close</Icon>
-            </IconButton>
-          }
-        />
-      )}
-      callback={(data) => console.log(data)}
-    />
+    <>
+      <PWAInstallerPrompt
+        render={({ onClick }) => (
+          <Snackbar
+            onClick={onClick}
+            open={button}
+            autoHideDuration={6000}
+            onClose={() => null}
+            sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+            message="Tap to install Dysperse"
+            action={
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setButton(false);
+                }}
+                color="inherit"
+              >
+                <Icon sx={{ color: "#fff!important" }}>close</Icon>
+              </IconButton>
+            }
+          />
+        )}
+        callback={(data) => console.log(data)}
+      />
+
+      <Snackbar
+        onClick={() => setUserWantsToUpdate(true)}
+        open={updateAvailable}
+        autoHideDuration={6000}
+        onClose={() => null}
+        sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+        message="A new version of Dysperse is available. Tap to download"
+        action={
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              setUpdateAvailable(false);
+            }}
+          >
+            <Icon sx={{ color: "#fff!important" }}>close</Icon>
+          </IconButton>
+        }
+      />
+    </>
   );
 }
