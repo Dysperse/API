@@ -1,10 +1,17 @@
 import PWAInstallerPrompt from "@/lib/client/installer";
-import { CardActionArea, Icon, IconButton, Snackbar } from "@mui/material";
+import {
+  CardActionArea,
+  CircularProgress,
+  Icon,
+  IconButton,
+  Snackbar,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 
 export function UpdateButton() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -58,6 +65,7 @@ export function UpdateButton() {
         }
 
         wb.addEventListener("controlling", (event) => {
+          setUpdateAvailable(false);
           window.location.reload();
         });
 
@@ -126,8 +134,12 @@ export function UpdateButton() {
       />
 
       <Snackbar
-        onClick={() => setUserWantsToUpdate(true)}
-        open={updateAvailable}
+        onClick={() => {
+          setUserWantsToUpdate(true);
+          setLoading(true);
+        }}
+        // open={updateAvailable}
+        open={true}
         autoHideDuration={6000}
         onClose={() => null}
         sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
@@ -137,14 +149,18 @@ export function UpdateButton() {
           </CardActionArea>
         }
         action={
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
-              setUpdateAvailable(false);
-            }}
-          >
-            <Icon>close</Icon>
-          </IconButton>
+          loading ? (
+            <CircularProgress size={24} sx={{ color: "inherit", my: 1 }} />
+          ) : (
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                setUpdateAvailable(false);
+              }}
+            >
+              <Icon>close</Icon>
+            </IconButton>
+          )
         }
       />
     </>
