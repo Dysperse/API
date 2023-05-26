@@ -342,13 +342,6 @@ export const Column: any = memo(function Column({
                 </Typography>
               </Box>
               <Box sx={{ width: "100%", mt: 1 }}>
-                {dayjs(day.unchanged).diff(dayjs(), "day") <= -15 &&
-                  session?.property?.profile?.vanishingTasks && (
-                    <Alert severity="info" sx={{ mb: 1 }}>
-                      <b>Vanishing tasks turned on</b> Completed tasks will be
-                      deleted after 14 days.
-                    </Alert>
-                  )}
                 {data.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
               </Box>
             </Box>
@@ -365,6 +358,13 @@ export const Column: any = memo(function Column({
             task={task}
           />
         ))}
+        {dayjs(day.unchanged).diff(dayjs(), "day") <= -15 &&
+          session?.property?.profile?.vanishingTasks && (
+            <Alert severity="info" sx={{ my: 1 }}>
+              <b>Vanishing tasks turned on</b> Completed tasks will be deleted
+              after 14 days.
+            </Alert>
+          )}
         <Box sx={{ mb: 5 }} />
       </Box>
     </Box>
