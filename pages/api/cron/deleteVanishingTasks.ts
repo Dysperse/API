@@ -18,6 +18,7 @@ const Notification = async (req, res) => {
     });
     return;
   }
+
   let twoWeeksAgo = new Date(new Date().getTime() - 14 * 24 * 60 * 60 * 1000);
 
   await prisma.task.deleteMany({

@@ -112,7 +112,8 @@ export function BottomNav() {
         sx={styles(
           router.asPath === "/" ||
             router.asPath === "" ||
-            router.asPath.includes("/zen")
+            router.asPath.includes("/zen") ||
+            router.asPath.includes("/mood-history")
         )}
       >
         <span

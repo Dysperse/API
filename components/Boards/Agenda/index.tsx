@@ -116,12 +116,13 @@ export function Agenda({
     }, 1);
   }, []);
 
-  const { data, url } = useApi("property/tasks/agenda", {
+  const { data, loading, url } = useApi("property/tasks/agenda", {
     startTime: startOfWeek.toISOString(),
     endTime: endOfWeek.toISOString(),
   });
 
   const [alreadyScrolled, setAlreadyScrolled] = useState(false);
+
   useEffect(() => {
     if (navigation === 0 && data && !alreadyScrolled) {
       setTimeout(() => {
@@ -230,7 +231,7 @@ export function Agenda({
           overflowX: "scroll",
           height: { md: "100vh" },
           mt: { xs: -2, md: 0 },
-          ...(!data && { pointerEvents: "none", filter: "blur(10px)" }),
+          ...(loading && { pointerEvents: "none", filter: "blur(10px)" }),
         }}
       >
         {days.map((day) => (

@@ -4,6 +4,7 @@ import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import {
+  Alert,
   Box,
   CircularProgress,
   Collapse,
@@ -167,7 +168,7 @@ export const Column: any = memo(function Column({
             justifyContent: "center",
             width: "100%",
             height: "100px",
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+            background: `hsl(240,11%,${session.user.darkMode ? 15 : 97}%)`,
           }}
         >
           {mount && <CircularProgress />}
@@ -341,6 +342,13 @@ export const Column: any = memo(function Column({
                 </Typography>
               </Box>
               <Box sx={{ width: "100%", mt: 1 }}>
+                {dayjs(day.unchanged).diff(dayjs(), "day") <= -15 &&
+                  session?.property?.profile?.vanishingTasks && (
+                    <Alert severity="info" sx={{ mb: 1 }}>
+                      <b>Vanishing tasks turned on</b> Completed tasks will be
+                      deleted after 14 days.
+                    </Alert>
+                  )}
                 {data.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
               </Box>
             </Box>
