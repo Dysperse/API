@@ -148,8 +148,10 @@ export const Column: any = memo(function Column({
       {...(isToday && { id: "activeHighlight" })}
       sx={{
         scrollSnapAlign: "center",
-        borderRight: "1px solid",
-        borderColor: `hsla(240,11%,${session.user.darkMode ? 20 : 90}%, 0.5)`,
+        borderRight: { sm: "1px solid" },
+        borderColor: `hsla(240,11%,${
+          session.user.darkMode ? 20 : 85
+        }%, 0.5)!important`,
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
@@ -182,12 +184,12 @@ export const Column: any = memo(function Column({
           px: 4,
           background: "transparent",
           borderBottom: "1px solid",
-          borderColor: `hsla(240,11%,${session.user.darkMode ? 20 : 90}%, 0.5)`,
+          borderColor: `hsla(240,11%,${session.user.darkMode ? 20 : 85}%, 0.5)`,
           userSelect: "none",
           zIndex: 9,
           "&:hover": {
             background: {
-              sm: `hsla(240,11%,${session.user.darkMode ? 16 : 90}%, 0.15)`,
+              sm: `hsla(240,11%,${session.user.darkMode ? 16 : 85}%, 0.15)`,
             },
           },
           backdropFilter: "blur(10px)",

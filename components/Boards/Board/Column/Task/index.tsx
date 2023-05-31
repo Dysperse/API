@@ -167,7 +167,7 @@ export const Task: any = function Task({
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
             borderColor: `hsl(240, 11%, ${
-              session.user.darkMode ? 15 : 95
+              session.user.darkMode ? 15 : 93
             }%) !important`,
             transition: "none",
             py: { xs: 1, sm: 0.7 },

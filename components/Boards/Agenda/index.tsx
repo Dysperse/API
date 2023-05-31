@@ -174,10 +174,12 @@ export function Agenda({
             md: 3,
           },
           zIndex: 9,
-          background: `hsla(240,11%,${session.user.darkMode ? 14 : 90}%, 0.5)`,
+          background: `hsl(240,11%,${session.user.darkMode ? 14 : 100}%, 0.9)`,
+          border: "1px solid",
           transition: "transform .2s, opacity .2s",
           backdropFilter: "blur(10px)",
           borderRadius: 999,
+          borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.5)`,
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",
@@ -204,7 +206,7 @@ export function Agenda({
               }`,
             },
             color: session.user.darkMode ? "#fff" : "#000",
-            px: navigation == 0 ? 1 : 1.7,
+            px: 1,
             minWidth: "unset",
           }}
           color="inherit"

@@ -48,10 +48,8 @@ export const taskStyles = (session) => {
         ? "hsla(240,11%,14%,0.5)!important"
         : "rgba(255,255,255,.5)!important",
       backdropFilter: "blur(10px)",
-      border: {
-        xs: `1px solid hsla(240,11%,${session.user.darkMode ? 50 : 15}%,.1)`,
-        md: "unset",
-      },
+      border: "1px solid",
+      borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.5)`,
       fontWeight: "700",
       display: { md: "none" },
       fontSize: "15px",
