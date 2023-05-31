@@ -226,6 +226,8 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
     });
   };
 
+  const isValidTime = dayjs().hour() > 12;
+
   const handleOpen = () => {
     setCurrentQuestion(0);
     setOpen(true);
@@ -292,11 +294,11 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                 <Typography variant="body2">
                   Overview &amp; suggestions
                 </Typography>
-              ) : (
+              ) : isValidTime ? (
                 <Typography variant="body2">
                   Question {currentQuestion + 1} of {questions.length}
                 </Typography>
-              )}
+              ) : null}
             </Box>
             <IconButton sx={{ ml: "auto" }} onClick={handleClose}>
               <Icon>close</Icon>
@@ -307,154 +309,170 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
             variant="determinate"
           />
         </AppBar>
-        {currentQuestion === questions.length ? (
-          <Box sx={{ p: 3, pt: 0 }}>
-            <ExperimentalAiReflection answers={answers} emoji={emoji} />
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={handleClose}
-              sx={{ mt: 2 }}
-            >
-              Done
-            </Button>
-          </Box>
-        ) : (
-          <Box sx={{ p: 3 }}>
-            <Typography variant="h6" sx={{ mb: question.subtitle ? 1 : 2 }}>
-              {question.question}
-            </Typography>
-            {question.subtitle && (
-              <Typography sx={{ mb: 2 }}>{question.subtitle}</Typography>
-            )}
-            {question.choices ? (
-              question.choices.map((choice) => (
+        {isValidTime ? (
+          <>
+            {currentQuestion === questions.length ? (
+              <Box sx={{ p: 3, pt: 0 }}>
+                <ExperimentalAiReflection answers={answers} emoji={emoji} />
                 <Button
-                  onClick={() => {
-                    setAnswers((a) => ({
-                      ...a,
-                      [currentQuestion]: choice.name as any,
-                    }));
-                    handleSave(currentQuestion, choice.id || choice.name);
-                    setCurrentQuestion(currentQuestion + 1);
-                  }}
-                  key={choice.name}
+                  variant="contained"
                   fullWidth
-                  sx={{
-                    justifyContent: "start",
-                    mb: 1,
-                    px: 2,
-                    py: 1.5,
-                    borderWidth: "2px!important",
-                    ...((answer as any)?.name === choice.name && {
-                      "&, &:focus, &:hover, &:active": {
-                        background:
-                          colors[session.themeColor]["A100"] + "!important",
-                        borderColor:
-                          colors[session.themeColor]["A100"] + "!important",
-                        color: "#000!important",
-                      },
-                    }),
-                  }}
-                  size="large"
-                  variant="outlined"
+                  onClick={handleClose}
+                  sx={{ mt: 2 }}
                 >
-                  {choice.icon && (
-                    <Icon className="outlined">{choice.icon}</Icon>
-                  )}
-                  {choice.name}
+                  Done
                 </Button>
-              ))
+              </Box>
             ) : (
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  flex: "0 0 100%",
-                  overflow: "hidden",
-                  "& .MuiSlider-mark": {
-                    display: "none",
-                  },
-                  "& .MuiSlider-rail": {
-                    background: `hsl(240,11%,${
-                      session.user.darkMode ? 10 : 80
-                    }%)`,
-                  },
-                  "& .MuiSlider-rail, & .MuiSlider-track": {
-                    height: 20,
-                    overflow: "hidden",
-                  },
-                  "& .MuiSlider-track": {
-                    borderTopRightRadius: 0,
-                    borderBottomRightRadius: 0,
-                  },
-                  "& .MuiSlider-thumb": {
-                    boxShadow: 0,
-                    background: `hsl(240,11%,${
-                      session.user.darkMode ? 10 : 90
-                    }%)`,
-                    border: "4px solid currentColor",
-                  },
-                }}
-              >
-                <Box sx={{ px: 3 }}>
+              <Box sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ mb: question.subtitle ? 1 : 2 }}>
+                  {question.question}
+                </Typography>
+                {question.subtitle && (
+                  <Typography sx={{ mb: 2 }}>{question.subtitle}</Typography>
+                )}
+                {question.choices ? (
+                  question.choices.map((choice) => (
+                    <Button
+                      onClick={() => {
+                        setAnswers((a) => ({
+                          ...a,
+                          [currentQuestion]: choice.name as any,
+                        }));
+                        handleSave(currentQuestion, choice.id || choice.name);
+                        setCurrentQuestion(currentQuestion + 1);
+                      }}
+                      key={choice.name}
+                      fullWidth
+                      sx={{
+                        justifyContent: "start",
+                        mb: 1,
+                        px: 2,
+                        py: 1.5,
+                        borderWidth: "2px!important",
+                        ...((answer as any)?.name === choice.name && {
+                          "&, &:focus, &:hover, &:active": {
+                            background:
+                              colors[session.themeColor]["A100"] + "!important",
+                            borderColor:
+                              colors[session.themeColor]["A100"] + "!important",
+                            color: "#000!important",
+                          },
+                        }),
+                      }}
+                      size="large"
+                      variant="outlined"
+                    >
+                      {choice.icon && (
+                        <Icon className="outlined">{choice.icon}</Icon>
+                      )}
+                      {choice.name}
+                    </Button>
+                  ))
+                ) : (
                   <Box
                     sx={{
-                      display: "block",
-                      height: "100px",
+                      flexGrow: 1,
+                      flex: "0 0 100%",
+                      overflow: "hidden",
+                      "& .MuiSlider-mark": {
+                        display: "none",
+                      },
+                      "& .MuiSlider-rail": {
+                        background: `hsl(240,11%,${
+                          session.user.darkMode ? 10 : 80
+                        }%)`,
+                      },
+                      "& .MuiSlider-rail, & .MuiSlider-track": {
+                        height: 20,
+                        overflow: "hidden",
+                      },
+                      "& .MuiSlider-track": {
+                        borderTopRightRadius: 0,
+                        borderBottomRightRadius: 0,
+                      },
+                      "& .MuiSlider-thumb": {
+                        boxShadow: 0,
+                        background: `hsl(240,11%,${
+                          session.user.darkMode ? 10 : 90
+                        }%)`,
+                        border: "4px solid currentColor",
+                      },
                     }}
                   >
-                    <Slider
-                      step={1}
-                      defaultValue={defaultData ? answer : question.default}
-                      max={question.slider.length - 1}
-                      onChange={(_, newValue) => {
-                        setAnswers((a) => ({
-                          ...a,
-                          [currentQuestion]: newValue as any,
-                        }));
-                        handleSave(currentQuestion, newValue);
-                      }}
-                      marks={[
-                        ...question.slider.map((mark, index) => ({
-                          value: index,
-                          label: (
-                            <Label
-                              code={mark}
-                              sx={{
-                                ...(typeof mark == "string" && {
-                                  ...(index == 0 && { ml: 3 }),
-                                  ...(index == question.slider.length - 1 && {
-                                    mr: 3,
-                                  }),
-                                }),
-                              }}
-                            />
-                          ),
-                        })),
-                      ]}
-                    />
+                    <Box sx={{ px: 3 }}>
+                      <Box
+                        sx={{
+                          display: "block",
+                          height: "100px",
+                        }}
+                      >
+                        <Slider
+                          step={1}
+                          defaultValue={defaultData ? answer : question.default}
+                          max={question.slider.length - 1}
+                          onChange={(_, newValue) => {
+                            setAnswers((a) => ({
+                              ...a,
+                              [currentQuestion]: newValue as any,
+                            }));
+                            handleSave(currentQuestion, newValue);
+                          }}
+                          marks={[
+                            ...question.slider.map((mark, index) => ({
+                              value: index,
+                              label: (
+                                <Label
+                                  code={mark}
+                                  sx={{
+                                    ...(typeof mark == "string" && {
+                                      ...(index == 0 && { ml: 3 }),
+                                      ...(index ==
+                                        question.slider.length - 1 && {
+                                        mr: 3,
+                                      }),
+                                    }),
+                                  }}
+                                />
+                              ),
+                            })),
+                          ]}
+                        />
+                      </Box>
+                    </Box>
+                    <Box sx={{ display: "flex", justifyContent: "end" }}>
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          if (typeof answer !== "number") {
+                            setAnswers((a) => ({
+                              ...a,
+                              [currentQuestion]: 1 as any,
+                            }));
+                            handleSave(currentQuestion, 1 as any);
+                          }
+                          setCurrentQuestion(currentQuestion + 1);
+                          handleSave(currentQuestion, answer);
+                        }}
+                      >
+                        Done
+                      </Button>
+                    </Box>
                   </Box>
-                </Box>
-                <Box sx={{ display: "flex", justifyContent: "end" }}>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      if (typeof answer !== "number") {
-                        setAnswers((a) => ({
-                          ...a,
-                          [currentQuestion]: 1 as any,
-                        }));
-                        handleSave(currentQuestion, 1 as any);
-                      }
-                      setCurrentQuestion(currentQuestion + 1);
-                      handleSave(currentQuestion, answer);
-                    }}
-                  >
-                    Done
-                  </Button>
-                </Box>
+                )}
               </Box>
             )}
+          </>
+        ) : (
+          <Box
+            sx={{
+              p: 4,
+            }}
+          >
+            <Typography variant="h6">
+              It&apos;s not time to do your daily check-in yet.
+            </Typography>
+            Come back at 1PM!
           </Box>
         )}
       </SwipeableDrawer>
