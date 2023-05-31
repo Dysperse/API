@@ -174,16 +174,10 @@ export function Agenda({
             md: 3,
           },
           zIndex: 9,
-          background: session.user.darkMode
-            ? "hsla(240,11%,14%,0.5)"
-            : "rgba(255,255,255,.5)",
-          border: "1px solid",
+          background: `hsla(240,11%,${session.user.darkMode ? 14 : 90}%, 0.5)`,
           transition: "transform .2s, opacity .2s",
           backdropFilter: "blur(10px)",
-          boxShadow:
-            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
-          borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.3)`,
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",

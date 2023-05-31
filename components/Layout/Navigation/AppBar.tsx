@@ -70,10 +70,15 @@ export function Navbar(): JSX.Element {
 
   return (
     <AppBar
+      onClick={() =>
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        })
+      }
       sx={{
         userSelect: "none",
         position: "fixed",
-        paddingTop: "env(titlebar-area-height, 0px)",
         ...((!router ||
           router.asPath.includes("/zen") ||
           router.asPath === "" ||
@@ -93,12 +98,6 @@ export function Navbar(): JSX.Element {
           ? "hsla(240,11%,10%, 0.5)"
           : "rgba(255,255,255,.5)",
       }}
-      onClick={() =>
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        })
-      }
     >
       <CssBaseline />
       <Toolbar sx={{ height: "100%", gap: 0.5 }}>

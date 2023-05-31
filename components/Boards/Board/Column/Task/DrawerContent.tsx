@@ -527,27 +527,34 @@ export default function DrawerContent({
               <Divider sx={{ opacity: 0.5, mt: 2 }} />
             </Box>
           )}
-          {data.parentTasks.length === 0 &&
-            data.subTasks.map((subTask, index) => (
-              <Task
-                isDateDependent={true}
-                key={subTask.id}
-                board={subTask.board || false}
-                columnId={subTask.column ? subTask.column.id : -1}
-                mutationUrl={""}
-                handleMutate={handleMutate}
-                task={subTask}
-              />
-            ))}
           <CreateTask
             isSubTask
             column={{ id: "-1", name: "" }}
+            sx={{ mb: 0 }}
             parent={data.id}
             label="Create a subtask"
             placeholder="Add a subtask..."
             handleMutate={handleMutate}
             boardId={1}
           />
+          {data.parentTasks.length === 0 &&
+            data.subTasks.map((subTask) => (
+              <Task
+                key={subTask.id}
+                isSubTask
+                sx={{
+                  pl: { xs: 2.6, sm: 1.7 },
+                  "& .date": {
+                    display: "none",
+                  },
+                }}
+                board={subTask.board || false}
+                columnId={subTask.column ? subTask.column.id : -1}
+                mutationUrl=""
+                handleMutate={handleMutate}
+                task={subTask}
+              />
+            ))}
         </Box>
       )}
       <Box

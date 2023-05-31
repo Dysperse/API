@@ -29,6 +29,7 @@ const ImageViewer = dynamic(() =>
 );
 
 export const Task: any = function Task({
+  sx = {},
   handleMutate = () => {},
   isDateDependent = false,
   isSubTask = false,
@@ -172,7 +173,7 @@ export const Task: any = function Task({
             py: { xs: 1, sm: 0.7 },
             px: { xs: 2.6, sm: 1.7 },
             ...(isSubTask && {
-              pl: "40px!important",
+              pl: { xs: "40px", sm: "40px" },
             }),
             gap: 1.5,
             "&:hover": {
@@ -185,6 +186,7 @@ export const Task: any = function Task({
                 session.user.darkMode ? 15 : 94
               }%) !important`,
             },
+            ...sx,
           }}
         >
           <Checkbox
@@ -302,6 +304,7 @@ export const Task: any = function Task({
                     >
                       <Chip
                         size="small"
+                        className="date"
                         label={dayjs(taskData.due).fromNow()}
                         sx={{ mt: 0.5 }}
                         icon={
