@@ -9,7 +9,6 @@ import {
   Divider,
   Icon,
   SwipeableDrawer,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -209,48 +208,46 @@ export function TasksLayout({ open, setOpen, children }) {
               board={board}
             />
           ))}
-      <Tooltip title="alt • c" placement="right">
-        <Link
-          href={
+      <Link
+        href={
+          Boolean(storage?.isReached) ||
+          data?.filter((board) => !board.archived).length >= 5 ||
+          session.permission === "read-only"
+            ? "/tasks"
+            : "/tasks/boards/create"
+        }
+        style={{ width: "100%" }}
+      >
+        <Button
+          fullWidth
+          disabled={
             Boolean(storage?.isReached) ||
             data?.filter((board) => !board.archived).length >= 5 ||
             session.permission === "read-only"
-              ? "/tasks"
-              : "/tasks/boards/create"
           }
-          style={{ width: "100%" }}
+          ref={ref}
+          size="large"
+          onClick={() => setOpen(false)}
+          sx={{
+            ...styles(router.asPath == "/tasks/boards/create"),
+            px: 2,
+            ...((storage?.isReached === true ||
+              (data &&
+                data.filter((board) => !board.archived).length >= 5)) && {
+              opacity: 0.5,
+            }),
+            justifyContent: "start",
+          }}
         >
-          <Button
-            fullWidth
-            disabled={
-              Boolean(storage?.isReached) ||
-              data?.filter((board) => !board.archived).length >= 5 ||
-              session.permission === "read-only"
-            }
-            ref={ref}
-            size="large"
-            onClick={() => setOpen(false)}
-            sx={{
-              ...styles(router.asPath == "/tasks/boards/create"),
-              px: 2,
-              ...((storage?.isReached === true ||
-                (data &&
-                  data.filter((board) => !board.archived).length >= 5)) && {
-                opacity: 0.5,
-              }),
-              justifyContent: "start",
-            }}
+          <Icon
+            className={router.asPath == "/tasks/create" ? "" : "outlined"}
+            sx={{ ml: -0.5 }}
           >
-            <Icon
-              className={router.asPath == "/tasks/create" ? "" : "outlined"}
-              sx={{ ml: -0.5 }}
-            >
-              add_circle
-            </Icon>
-            Create
-          </Button>
-        </Link>
-      </Tooltip>
+            add_circle
+          </Icon>
+          Create
+        </Button>
+      </Link>
       <Box>
         <Button
           size="large"

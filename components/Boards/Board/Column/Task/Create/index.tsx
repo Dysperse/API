@@ -436,30 +436,28 @@ export function CreateTask({
               />
             </Collapse>
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
-              {!isSubTask && (
-                <Tooltip title="Mark as important (alt • a)" placement="top">
-                  <IconButton
-                    onClick={() => {
-                      vibrate(50);
-                      setPinned(!pinned);
-                      titleRef.current?.focus();
-                    }}
-                    sx={{
-                      ...styles,
-                      background: pinned
-                        ? session.user.darkMode
-                          ? "hsl(240,11%,20%)"
-                          : "#ddd !important"
-                        : "",
-                    }}
-                    size="small"
-                  >
-                    <Icon className={pinned ? "rounded" : "outlined"}>
-                      priority
-                    </Icon>
-                  </IconButton>
-                </Tooltip>
-              )}
+              <Tooltip title="Mark as important (alt • a)" placement="top">
+                <IconButton
+                  onClick={() => {
+                    vibrate(50);
+                    setPinned(!pinned);
+                    titleRef.current?.focus();
+                  }}
+                  sx={{
+                    ...styles,
+                    background: pinned
+                      ? session.user.darkMode
+                        ? "hsl(240,11%,20%)"
+                        : "#ddd !important"
+                      : "",
+                  }}
+                  size="small"
+                >
+                  <Icon className={pinned ? "rounded" : "outlined"}>
+                    priority
+                  </Icon>
+                </IconButton>
+              </Tooltip>
               <ImageModal styles={styles} image={image} setImage={setImage} />
               <Tooltip title="Insert emoji (alt • e)" placement="top">
                 <EmojiPicker
@@ -568,9 +566,8 @@ export function CreateTask({
         disabled={
           storage?.isReached === true || session?.permission === "read-only"
         }
-        id="createTask"
         disableRipple
-        className="createTask cursor-unset"
+        className="cursor-unset"
         sx={{
           color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 40}%)`,
           fontWeight: 700,
@@ -585,7 +582,7 @@ export function CreateTask({
           px: { xs: 2.5, sm: 1.5 },
           mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },
           ...(label && { mb: -0.5 }),
-          "&:active": {
+          "&:focus-within, &:active": {
             background: `hsl(240, 11%, ${
               session.user.darkMode ? 15 : 94
             }%) !important`,

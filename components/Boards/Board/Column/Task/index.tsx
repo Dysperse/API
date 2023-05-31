@@ -17,13 +17,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -34,7 +28,7 @@ const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
 );
 
-export const Task: any = React.memo(function Task({
+export const Task: any = function Task({
   handleMutate = () => {},
   isDateDependent = false,
   isSubTask = false,
@@ -186,7 +180,7 @@ export const Task: any = React.memo(function Task({
                 session.user.darkMode ? 13 : 97
               }%) !important`,
             },
-            "&:active": {
+            "&:focus-within, &:active": {
               background: `hsl(240, 11%, ${
                 session.user.darkMode ? 15 : 94
               }%) !important`,
@@ -344,4 +338,4 @@ export const Task: any = React.memo(function Task({
         ))}
     </>
   );
-});
+};
