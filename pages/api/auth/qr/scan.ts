@@ -15,11 +15,11 @@ export default async function handler(req, res) {
       info = await sessionData(req.cookies.token);
       if (info.user === false) {
         res.redirect("/auth");
-        throw new Error("Not logged in");
+        return;
       }
     } else {
       res.redirect("/auth");
-      throw new Error("Not logged in");
+      return;
     }
 
     const { identifier } = info.user;
