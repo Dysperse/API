@@ -1,3 +1,4 @@
+import { CreateGoal } from "@/components/Coach/Goal/Create/Custom";
 import {
   categories,
   goals,
@@ -60,6 +61,7 @@ export default function Page() {
               px: { xs: 1, sm: 2 },
             }}
           >
+            <CreateGoal mutationUrl={""} />
             <Typography
               variant="h4"
               sx={{

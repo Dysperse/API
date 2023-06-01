@@ -62,7 +62,7 @@ export function ExploreGoalCard({ goal }) {
             px: 2,
             pb: 2,
             flexDirection: "column",
-            height: "calc(100vh - 200px)",
+            height: "calc(100vh - 100px)",
           },
         }}
       >
@@ -70,10 +70,10 @@ export function ExploreGoalCard({ goal }) {
         <Box>
           <Typography variant="h6">{goal.name}</Typography>
           <Typography>{goal.description}</Typography>
-          <Divider sx={{ my: 2 }} />
+          <Divider sx={{ my: 3 }} />
           <Typography
             variant="body2"
-            sx={{ fontWeight: 700, opacity: 0.9, mb: 1, textAlign: "center" }}
+            sx={{ fontWeight: 700, opacity: 0.9, mb: 2, textAlign: "center" }}
           >
             SELECT A ROUTINE
           </Typography>
@@ -125,13 +125,23 @@ export function ExploreGoalCard({ goal }) {
                 sx={{
                   my: 1,
                   color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 10}%)`,
+                  transition: "none",
+                  borderRadius: 3,
+                  ...(routine === thisRoutine.id && {
+                    borderColor: `hsl(240, 11%, ${
+                      session.user.darkMode ? 90 : 10
+                    }%)`,
+                    boxShadow: `0 0 0 1px inset hsl(240, 11%, ${
+                      session.user.darkMode ? 90 : 10
+                    }%)`,
+                  }),
                 }}
               >
                 <CardActionArea
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    p: 1,
+                    p: 1.5,
                     gap: 2,
                   }}
                   onClick={() => setRoutine(thisRoutine.id)}
@@ -140,11 +150,11 @@ export function ExploreGoalCard({ goal }) {
                     <img
                       src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${thisRoutine.emoji}.png`}
                       alt="Crying emoji"
-                      width={50}
-                      height={50}
+                      width={40}
+                      height={40}
                     />
                   </picture>
-                  <Typography sx={{ fontWeight: 700 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     {thisRoutine.name}
                   </Typography>
                   <Icon className="outlined" sx={{ ml: "auto", mr: 2 }}>
@@ -159,6 +169,8 @@ export function ExploreGoalCard({ goal }) {
           sx={{ mt: "auto" }}
           disabled={routine == null}
           variant="contained"
+          onClick={handleSubmit}
+          size="large"
         >
           Set
         </Button>
