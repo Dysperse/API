@@ -276,15 +276,16 @@ export function CreateGoal({ mutationUrl }) {
                       : (validationData?.suggestion || "")
                           .toString()
                           .toLowerCase()
-                          .includes("nsfw")
+                          .includes("nsfw") || validationData.error
                       ? "error"
                       : "warning"
                   }
                 >
-                  {JSON.stringify(validationData)}
                   <Typography sx={{ fontWeight: 700 }}>
                     {validationData?.suggestion || ""
                       ? "This goal looks good!"
+                      : validationData.error
+                      ? "Couldn't check your goal"
                       : (validationData?.suggestion || "")
                           .toString()
                           .toLowerCase()
@@ -292,10 +293,12 @@ export function CreateGoal({ mutationUrl }) {
                       ? "Sorry, but I won't help."
                       : "Does this goal really make sense?"}
                   </Typography>
-                  {(validationData?.suggestion || "")
-                    .toString()
-                    .toLowerCase()
-                    .includes("nsfw")
+                  {validationData.error
+                    ? "Please try again later"
+                    : (validationData?.suggestion || "")
+                        .toString()
+                        .toLowerCase()
+                        .includes("nsfw")
                     ? "Dysperse AI will not assist you in NSFW topics. Please set another goal."
                     : validationData?.suggestion || ""}
                 </Alert>
