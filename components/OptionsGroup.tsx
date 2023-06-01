@@ -1,7 +1,17 @@
 import { useSession } from "@/lib/client/useSession";
 import { Button, ButtonGroup } from "@mui/material";
 
-export function OptionsGroup({ currentOption, setOption, options }) {
+export function OptionsGroup({
+  currentOption,
+  setOption,
+  options,
+  sx = {},
+}: {
+  currentOption: any;
+  setOption: any;
+  options: string[];
+  sx?: any;
+}) {
   const session = useSession();
 
   return (
@@ -16,6 +26,7 @@ export function OptionsGroup({ currentOption, setOption, options }) {
         background: `hsl(240,11%,${
           session.user.darkMode ? 20 : 90
         }%)!important`,
+        ...sx,
       }}
     >
       {options.map((option) => (

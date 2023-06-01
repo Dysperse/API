@@ -1,143 +1,16 @@
-import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
-import { Masonry } from "@mui/lab";
-import {
-  AppBar,
-  Box,
-  Icon,
-  IconButton,
-  Skeleton,
-  SwipeableDrawer,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import dayjs from "dayjs";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ExploreGoalCard } from "../../Routines/Create/ExploreGoalCard";
-import { FeaturedRoutine } from "../../Routines/Create/FeaturedRoutine";
-import { CreateGoal as CreateCustomGoal } from "./Custom";
-import { categories, goals } from "./goalTemplates";
+import { Box, Icon, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 
-export function CreateGoal({ mutationUrl, isCoach }) {
+export function CreateGoal({ isCoach = false }) {
+  const router = useRouter();
   const session = useSession();
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = useCallback(() => setOpen(true), [setOpen]);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
-
-  const [data, setData] = useState<any>(null);
-  useEffect(() => {
-    if (open) {
-      (async () => {
-        const d = await fetchRawApi("ai/routine", {
-          month: dayjs().format("MMMM"),
-        });
-        setData(d);
-      })();
-    }
-  }, [open]);
-
-  const shuffled = useMemo(() => goals.sort(() => Math.random() - 0.5), []);
 
   return (
     <>
-      <SwipeableDrawer
-        onOpen={handleOpen}
-        open={open}
-        onClose={handleClose}
-        anchor="bottom"
-        PaperProps={{
-          sx: {
-            width: "100vw",
-            height: "100vh",
-            maxWidth: "100vw",
-            borderRadius: 0,
-          },
-        }}
-      >
-        <AppBar
-          sx={{
-            background: session.user.darkMode
-              ? "hsla(240,11%,15%,.8)"
-              : "rgba(255,255,255,.8)",
-          }}
-        >
-          <Toolbar sx={{ gap: 2 }}>
-            <IconButton onClick={handleClose}>
-              <Icon>expand_more</Icon>
-            </IconButton>
-            <Typography sx={{ fontWeight: 700 }}>Explore</Typography>
-            <CreateCustomGoal mutationUrl={mutationUrl} />
-          </Toolbar>
-        </AppBar>
-        <Box sx={{ p: { xs: 2, sm: 4 } }}>
-          {data ? (
-            <FeaturedRoutine
-              routine={data.response}
-              mutationUrl={mutationUrl}
-              setOpen={setOpen}
-            />
-          ) : (
-            <Skeleton
-              height={250}
-              variant="rectangular"
-              animation="wave"
-              sx={{ borderRadius: 5 }}
-            />
-          )}
-          <Box
-            sx={{
-              px: { xs: 1, sm: 2 },
-            }}
-          >
-            <Typography
-              variant="h4"
-              sx={{
-                mb: { xs: 2, sm: 4 },
-                mt: { xs: 5, sm: 7 },
-                fontSize: { xs: 25, sm: 30 },
-              }}
-            >
-              Freshly picked for you
-            </Typography>
-            <Box sx={{ mr: -2 }}>
-              <Masonry spacing={2} columns={{ xs: 1, sm: 2, md: 3 }}>
-                {shuffled.slice(0, 6).map((goal, index) => (
-                  <ExploreGoalCard key={index} goal={goal} />
-                ))}
-              </Masonry>
-            </Box>
-
-            {categories.map((category) => (
-              <Box
-                key={category}
-                sx={{
-                  px: { xs: 1, sm: 2 },
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  sx={{ mb: 4, mt: 7, fontSize: { xs: 30, sm: 30 } }}
-                >
-                  {category}
-                </Typography>
-                <Box sx={{ mr: -2 }}>
-                  <Masonry spacing={2} columns={{ xs: 1, sm: 2, md: 3 }}>
-                    {shuffled
-                      .filter((goal) => goal.category === category)
-                      .map((goal, index) => (
-                        <ExploreGoalCard key={index} goal={goal} />
-                      ))}
-                  </Masonry>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        </Box>
-      </SwipeableDrawer>
       <Box
         id="createGoalTrigger"
-        onClick={handleOpen}
+        onClick={() => router.push("/coach/explore")}
         sx={{
           flexShrink: 0,
           borderRadius: 5,
@@ -182,7 +55,7 @@ export function CreateGoal({ mutationUrl, isCoach }) {
             position: "relative",
           }}
         >
-          <Icon className="outlined">loupe</Icon>
+          <Icon className="outlined">rocket_launch</Icon>
         </Box>
         <Box sx={{ width: "100%" }}>
           <Typography

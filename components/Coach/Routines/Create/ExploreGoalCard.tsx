@@ -2,11 +2,13 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Icon, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 export function ExploreGoalCard({ goal }) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const session = useSession();
 
   return (
@@ -22,7 +24,7 @@ export function ExploreGoalCard({ goal }) {
             time: goal.time,
           });
           setLoading(false);
-          // await mutate(mutationUrl);
+          router.push("/coach");
         } catch (e) {
           setLoading(false);
           toast.error(

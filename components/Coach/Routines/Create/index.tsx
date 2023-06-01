@@ -8,6 +8,9 @@ import {
   Button,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   MenuItem,
   Select,
   SwipeableDrawer,
@@ -15,14 +18,14 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import EmojiPicker from "../../../EmojiPicker";
-import { CreateGoal } from "../../Goal/Create";
 
-export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
+export function CreateRoutine() {
   const session = useSession();
+  const router = useRouter();
   const titleRef: any = useRef();
 
   const [open, setOpen] = useState(false);
@@ -56,8 +59,8 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
         daysOfWeek,
         timeOfDay: time,
       });
-      await mutate(mutationUrl);
       toast.success("Created routine!", toastStyles);
+      router.push("/coach");
       handleClose();
     } catch (e) {
       toast.error(
@@ -70,76 +73,20 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
 
   return (
     <>
-      <Box
+      <ListItemButton
         onClick={handleOpen}
-        ref={buttonRef}
         sx={{
-          flexShrink: 0,
-          borderRadius: 5,
-          flex: "0 0 70px",
-          gap: 0.4,
-          display: "flex",
-          ...(!isCoach && { flexDirection: "column" }),
-          ...(isCoach && {
-            width: "100%",
-            flex: "0 0 auto",
-          }),
-          alignItems: "center",
-          overflow: "hidden",
-          userSelect: "none",
-          p: 1,
-          transition: "transform .2s",
-          "&:hover": {
-            background: {
-              sm: `hsl(240, 11%, ${
-                session.user.darkMode ? 15 : isCoach ? 90 : 95
-              }%)`,
-            },
-          },
-          "&:active": {
-            transform: "scale(.95)",
-          },
+          mt: 2,
+          background: `hsl(240,11%,${
+            session.user.darkMode ? 20 : 95
+          }%) !important`,
         }}
       >
-        <Box
-          sx={{
-            borderRadius: 9999,
-            width: 60,
-            height: 60,
-            flexShrink: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: session.user.darkMode
-              ? "hsla(240,11%,50%,0.2)"
-              : "rgba(200,200,200,.2)",
-            position: "relative",
-          }}
-        >
+        <ListItemIcon>
           <Icon className="outlined">web_stories</Icon>
-        </Box>
-        <Box sx={{ width: "100%" }}>
-          <Typography
-            variant="body2"
-            sx={{
-              whiteSpace: "nowrap",
-              textAlign: isCoach ? "left" : "center",
-              textOverflow: "ellipsis",
-              fontSize: "13px",
-              overflow: "hidden",
-              ...(isCoach && {
-                ml: 3,
-                fontSize: "20px",
-                fontWeight: 700,
-              }),
-            }}
-          >
-            New routine
-          </Typography>
-        </Box>
-      </Box>
-
-      <CreateGoal mutationUrl={mutationUrl} isCoach={isCoach} />
+        </ListItemIcon>
+        <ListItemText primary="New blank routine" />
+      </ListItemButton>
 
       <SwipeableDrawer
         open={open}
@@ -198,7 +145,7 @@ export function CreateRoutine({ buttonRef, isCoach, mutationUrl }) {
                     background: `hsl(240,11%,${
                       session.user.darkMode ? 90 : 30
                     }%)`,
-                    color: session.user.darkMode ? "#000": "#fff",
+                    color: session.user.darkMode ? "#000" : "#fff",
                     borderRadius: 999,
                   }}
                 >

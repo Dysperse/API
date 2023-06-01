@@ -94,7 +94,7 @@ export function Sidebar() {
           : router.asPath === "/zen" ||
             router.asPath === "/" ||
             router.asPath === "/mood-history" ||
-            router.asPath === "/coach"
+            router.asPath.includes("/coach")
           ? "hsl(240,11%,93%)"
           : "hsl(240,11%,90%)",
         color: session.user.darkMode ? "#fff" : "#000",
@@ -112,7 +112,7 @@ export function Sidebar() {
             : router.asPath === "/zen" ||
               router.asPath === "/" ||
               router.asPath === "/mood-history" ||
-              router.asPath === "/coach"
+              router.asPath.includes("/coach")
             ? "hsl(240,11%,90%)"
             : "hsl(240,11%,85%)",
           color: session.user.darkMode
@@ -151,11 +151,11 @@ export function Sidebar() {
             router.asPath === "/"
               ? "transparent"
               : session.user.darkMode
-              ? router.asPath === "/coach"
-                ? "hsla(240,11%,8%)"
+              ? router.asPath.includes("/coach")
+                ? "hsla(240,11%,12%)"
                 : "hsla(240,11%,5%)"
-              : router.asPath === "/coach"
-              ? "hsl(240,11%,97%)"
+              : router.asPath.includes("/coach")
+              ? "hsl(240,11%,100%)"
               : "hsl(240,11%,93%)",
         },
         height: "100vh",
@@ -231,14 +231,14 @@ export function Sidebar() {
         </Tooltip>
       </Box>
       <Box
-        sx={styles(router.asPath === "/coach")}
+        sx={styles(router.asPath.includes("/coach"))}
         onClick={() => router.push("/coach")}
         onMouseDown={() => router.push("/coach")}
       >
         <Tooltip title="Coach" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath === "/coach" ? "rounded" : "outlined"
+              router.asPath.includes("/coach") ? "rounded" : "outlined"
             }`}
           >
             rocket_launch

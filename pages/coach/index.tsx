@@ -16,7 +16,6 @@ import {
 import { orange } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Head from "next/head";
-import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
@@ -26,15 +25,6 @@ export default function Render() {
 
   const { data, loading, url, error } = useApi("user/coach/streaks");
   const isTimeRunningOut = dayjs().hour() > 18;
-
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute(
-        "content",
-        `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)`
-      );
-  });
 
   const hasCompletedForToday =
     dayjs().startOf("day").toDate().getTime() ===
@@ -54,7 +44,7 @@ export default function Render() {
         ml: { md: -1 },
         pb: { xs: 15, sm: 0 },
         pt: "env(titlebar-area-height, 0px)",
-        background: { md: `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)` },
+        background: { md: `hsl(240,11%,${session.user.darkMode ? 12 : 100}%)` },
       }}
     >
       <Head>
@@ -69,7 +59,9 @@ export default function Render() {
             xs: "auto",
             md: "calc(100vh - env(titlebar-area-height, 0px))",
           },
-          background: { md: `hsl(240,11%,${session.user.darkMode ? 8 : 97}%)` },
+          background: {
+            md: `hsl(240,11%,${session.user.darkMode ? 12 : 100}%)`,
+          },
           p: { xs: 0, sm: 2 },
           gap: { md: 2 },
         }}
@@ -77,7 +69,7 @@ export default function Render() {
         <Box
           sx={{
             background: {
-              md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
+              md: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
             },
             flex: { xs: "0 0 auto", md: "0 0 400px" },
             overflow: "scroll",
@@ -288,7 +280,7 @@ export default function Render() {
         <Box
           sx={{
             background: {
-              md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
+              md: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
             },
             overflow: "scroll",
             width: "100%",
@@ -313,7 +305,7 @@ export default function Render() {
           <Box
             sx={{
               background: {
-                md: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
+                md: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
               },
               overflow: "scroll",
               p: { md: 2 },

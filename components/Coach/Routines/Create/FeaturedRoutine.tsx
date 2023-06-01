@@ -14,19 +14,23 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { DurationPicker } from "./DurationPicker";
 
-export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
+export function FeaturedRoutine({ mutationUrl, routine }) {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [open, setInfoOpen] = useState(false);
-  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const [daysOfWeek, setDaysOfWeek] = useState(routine.daysOfWeek);
   const [routineItems, setRoutineItems] = useState(routine.items);
   const [duration, setDuration] = useState(routine.durationDays);
   const [editDays, setEditDays] = useState(false);
+
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
   const chipStyles = { background: "rgba(0,0,0,0.1)", color: "#000" };
 
@@ -57,7 +61,7 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
       });
       await mutate(mutationUrl);
       setLoading(false);
-      setOpen(false);
+      router.push("/coach");
     } catch (e) {
       setLoading(false);
       toast.error(
@@ -80,7 +84,9 @@ export function FeaturedRoutine({ mutationUrl, setOpen, routine }) {
             <IconButton onClick={() => setInfoOpen(false)}>
               <Icon>close</Icon>
             </IconButton>
-            <Typography sx={{ mx: "auto", fontWeight: "700" }}>Goal</Typography>
+            <Typography sx={{ mx: "auto", fontWeight: "700" }}>
+              Routine
+            </Typography>
             <IconButton onClick={handleClick}>
               <Icon>check</Icon>
             </IconButton>

@@ -141,7 +141,7 @@ export function BottomNav() {
         </span>
       </Box>
       <Box
-        sx={styles(router.asPath === "/coach")}
+        sx={styles(router.asPath.includes("/coach"))}
         onDoubleClick={() => {
           router.push("/coach").then(() => {
             setTimeout(() => {
@@ -160,7 +160,7 @@ export function BottomNav() {
       >
         <span
           className={`material-symbols-${
-            router.asPath === "/coach" ? "rounded" : "outlined"
+            router.asPath.includes("/coach") ? "rounded" : "outlined"
           }`}
         >
           rocket_launch

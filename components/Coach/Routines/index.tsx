@@ -3,10 +3,10 @@ import { useSession } from "@/lib/client/useSession";
 import { Box, Button, Skeleton, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useRef } from "react";
-import { ErrorHandler } from "../../Error";
-import { CreateRoutine } from "./Create";
-import { Routine } from "./Routine";
 import { mutate } from "swr";
+import { ErrorHandler } from "../../Error";
+import { CreateGoal } from "../Goal/Create";
+import { Routine } from "./Routine";
 
 export function Routines({ isCoach = false }: any) {
   const { data, url, error } = useApi("user/coach/routines");
@@ -98,7 +98,7 @@ export function Routines({ isCoach = false }: any) {
             display: { xs: "none!important", sm: "block!important" },
             height: 25,
             background: `linear-gradient(180deg, hsl(240,11%,${
-              session.user.darkMode ? 15 : 93
+              session.user.darkMode ? 15 : 95
             }%), transparent)`,
             zIndex: 999,
             position: "sticky",
@@ -114,7 +114,7 @@ export function Routines({ isCoach = false }: any) {
             display: { xs: "none!important", sm: "block!important" },
             height: 25,
             background: `linear-gradient(180deg, transparent, hsl(240,11%,${
-              session.user.darkMode ? 15 : 93
+              session.user.darkMode ? 15 : 95
             }%))`,
             zIndex: 999,
             position: "sticky",
@@ -219,7 +219,7 @@ export function Routines({ isCoach = false }: any) {
               isCoach={isCoach}
             />
           ))}
-          <CreateRoutine mutationUrl={url} isCoach={isCoach} buttonRef={ref} />
+          <CreateGoal isCoach={isCoach} />
         </Box>
       ) : (
         loading
