@@ -183,7 +183,7 @@ function QrLogin() {
           </Box>
         ) : (
           <Box sx={containerStyles}>
-            <CircularProgress />
+            <CircularProgress color="inherit" />
           </Box>
         )}
         <Box
