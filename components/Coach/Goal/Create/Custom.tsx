@@ -281,6 +281,7 @@ export function CreateGoal({ mutationUrl }) {
                       : "warning"
                   }
                 >
+                  {JSON.stringify(validationData)}
                   <Typography sx={{ fontWeight: 700 }}>
                     {validationData?.suggestion || ""
                       ? "This goal looks good!"

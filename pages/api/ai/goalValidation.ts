@@ -19,7 +19,6 @@ Goal deadline in days: ${date}
 Use ONLY the goal name and user-set deadline above to check if it is sensible or not. No further information will be provided.
 If the goal is sensible, give a tip. 
 Assume the user has zero progress towards this goal so far.
-If the goal is random and doesnt make any sense (no context needed), set sensible to false.
 If the goal contains NSFW content, make the suggestion say exactly "NSFW" and the "sensible" to false.
 You MUST return ONLY a JSON response, in the format below. 
 
@@ -48,10 +47,11 @@ export default async function handler(req: any, res: any) {
     try {
       response = JSON.parse(response);
     } catch (e) {
-      throw new Error("Could not parse JSON");
+      console.error("Could not parse JSON");
     }
 
-    res.status(200).json({ ...response });
+    console.log(response);
+    res.status(200).json(response);
   } catch (e: any) {
     res.json({ error: e.message });
   }
