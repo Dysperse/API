@@ -114,10 +114,14 @@ function QrLogin() {
           alignItems: "center",
           flexDirection: "column",
           position: "relative",
-          "&:hover .hover": { opacity: 1, transform: "scale(1)" },
+          "&:hover .hover": {
+            opacity: 1,
+            transform: "scale(1)",
+            transition: "transform .2s",
+          },
           "& .hover": {
             opacity: 0,
-            transform: "scale(.5)",
+            transform: "scale(.9)",
             transition: "all .2s",
           },
         }}

@@ -54,6 +54,7 @@ export default function App({
   const bareUrls = [
     "/auth",
     "/auth/signup",
+    "/auth/qr-success",
     "/auth/reset-id",
     "/auth/reset-password/[id]",
     "/canny-auth",

@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       data: { user: { connect: { identifier } } },
     });
 
-    res.json(data);
+    res.redirect("/auth/qr-success");
   } catch (e: any) {
     res.status(401).json({ success: false, error: e.message });
   }
