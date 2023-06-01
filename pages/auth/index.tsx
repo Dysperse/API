@@ -90,7 +90,10 @@ function QrLogin() {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: `hsl(240,11%,${isDark ? 20 : 87}%)`,
+    background: `hsl(240,11%,87%)`,
+    ["@media (prefers-color-scheme: dark)"]: {
+      background: `hsl(240,11%,15%)`,
+    },
     borderRadius: 5,
   };
 
@@ -134,7 +137,10 @@ function QrLogin() {
                 gap: 2,
                 alignItems: "center",
                 justifyContent: "center",
-                background: `hsla(240,11%,${isDark ? 20 : 87}%,.8)`,
+                background: `hsla(240,11%,87%,.8)`,
+                ["@media (prefers-color-scheme: dark)"]: {
+                  background: `hsla(240,11%,20%,.8)`,
+                },
                 top: 0,
                 borderRadius: 5,
                 left: 0,
@@ -180,7 +186,10 @@ function QrLogin() {
           sx={{
             width: "250px",
             mt: 2,
-            background: `hsl(240,11%,${isDark ? 20 : 87}%)`,
+            background: `hsl(240,11%,87%)`,
+            ["@media (prefers-color-scheme: dark)"]: {
+              background: `hsl(240,11%,15%)`,
+            },
             p: 3,
             borderRadius: 5,
           }}
