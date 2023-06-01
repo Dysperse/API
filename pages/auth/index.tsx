@@ -7,6 +7,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
   Button,
+  CircularProgress,
   Icon,
   IconButton,
   InputAdornment,
@@ -14,19 +15,185 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import QRCode from "react-qr-code";
 import { mutate } from "swr";
+
+function QrLogin() {
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+
+  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
+  const router = useRouter();
+
+  const generate = async () => {
+    const d = await fetch("/api/auth/qr/generate").then((res) => res.json());
+    setData(d);
+  };
+
+  useEffect(() => {
+    generate();
+  }, []);
+
+  const [verified, setVerified] = useState(false);
+
+  const url = data
+    ? `https://${window.location.hostname}/api/auth/qr/scan?token=${data.token}`
+    : "";
+
+  const handleVerify = useCallback(async () => {
+    const verifyUrl = `/api/auth/qr/verify?${new URLSearchParams({
+      token: data ? data.token : "",
+    })}`;
+    if (url && data) {
+      fetch(verifyUrl)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.success) {
+            setVerified(true);
+            router.push("/");
+            toast.promise(
+              new Promise(() => {}),
+              {
+                loading: "Logging you in...",
+                success: "Success!",
+                error: "An error occured. Please try again later",
+              },
+              toastStyles
+            );
+          }
+        });
+    }
+  }, [data, url, router]);
+
+  useEffect(() => {
+    if (data && !verified) {
+      const interval = setInterval(() => {
+        handleVerify();
+      }, 7000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [data, handleVerify, verified]);
+
+  const containerStyles = {
+    width: "250px",
+    height: "250px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: `hsl(240,11%,${isDark ? 20 : 87}%)`,
+    borderRadius: 5,
+  };
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        sx={{
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          position: "relative",
+        }}
+      >
+        {error && <Box sx={containerStyles}>Failed to generate QR code</Box>}
+        {data ? (
+          <Box
+            sx={{
+              ...containerStyles,
+              "&:hover .hover": { opacity: 1, transform: "scale(1)" },
+              "& .hover": {
+                opacity: 0,
+                transform: "scale(.5)",
+                transition: "all .2s",
+              },
+            }}
+          >
+            <Box
+              className="hover"
+              sx={{
+                position: "absolute",
+                display: "flex",
+                gap: 2,
+                alignItems: "center",
+                justifyContent: "center",
+                background: `hsla(240,11%,${isDark ? 20 : 87}%,.8)`,
+                top: 0,
+                borderRadius: 5,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                cursor: "pointer",
+                backdropFilter: "blur(10px)",
+              }}
+              onClick={() => {
+                navigator.clipboard.writeText(url);
+                toast.success("Copied!", toastStyles);
+              }}
+            >
+              <span className="material-symbols-rounded">content_copy</span>
+              <Typography>Copy link</Typography>
+            </Box>
+            <QRCode
+              value={url}
+              bgColor="transparent"
+              fgColor={isDark ? "#fff" : "#000"}
+              style={{
+                width: "200px",
+                height: "200px",
+              }}
+            />
+          </Box>
+        ) : (
+          <Box sx={containerStyles}>
+            <CircularProgress />
+          </Box>
+        )}
+        <Box
+          sx={{
+            width: "250px",
+            mt: 2,
+            background: `hsl(240,11%,${isDark ? 20 : 87}%)`,
+            p: 3,
+            borderRadius: 5,
+          }}
+        >
+          <Typography variant="h6">Log in with QR Code</Typography>
+          <Typography variant="body2">
+            Scan this QR code with any logged in phone to sign in instantly
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
 
 /**
  * Login prompt
  */
 export default function Prompt() {
   const ref: any = useRef();
+  const emailRef: any = useRef();
+
+  const router = useRouter();
+
   const proTips = [
     "SECURITY TIP: Dysperse staff will NEVER ask for your password.",
     "PRO TIP: You can customize your theme color by visiting your appearance settings.",
@@ -56,8 +223,6 @@ export default function Prompt() {
     proTips[Math.floor(Math.random() * proTips.length)]
   );
 
-  const router = useRouter();
-
   // Login form
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const [captchaToken, setCaptchaToken] = useState("");
@@ -69,15 +234,12 @@ export default function Prompt() {
   const handleSubmit = useCallback(
     async (e?: any) => {
       if (e) e.preventDefault();
-
       setButtonLoading(true);
 
       try {
         const res = await fetch("/api/auth/login", {
           method: "POST",
-          headers: {
-            Credentials: "same-origin",
-          },
+          headers: { Credentials: "same-origin" },
           body: new URLSearchParams({
             appId: window.location.pathname.split("oauth/")[1],
             email,
@@ -89,9 +251,7 @@ export default function Prompt() {
             }),
           }),
         }).then((res) => res.json());
-
         setCaptchaToken("");
-
         if (
           res.message &&
           res.message.includes("Can't reach database server")
@@ -105,7 +265,6 @@ export default function Prompt() {
           ref.current?.reset();
           return;
         }
-
         if (res.twoFactor) {
           setStep(3);
           setButtonLoading(false);
@@ -120,9 +279,7 @@ export default function Prompt() {
           setButtonLoading(false);
           return;
         }
-        // Success
         toast.promise(
-          // thou shalt load forever
           new Promise(() => {}),
           {
             loading: "Logging you in...",
@@ -166,205 +323,228 @@ export default function Prompt() {
 
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
 
-  const handleTogglePassword = useCallback(
-    () => setTogglePassword((e) => !e),
-    [setTogglePassword]
-  );
+  useEffect(() => emailRef?.current?.focus(), []);
 
   return (
     <Layout>
-      <Box sx={authStyles.container}>
+      <Box
+        sx={{
+          ...authStyles.container,
+          width: "800px",
+          maxWidth: "100vw",
+        }}
+      >
         <AuthBranding mobile />
-        <form onSubmit={handleSubmit}>
-          {step === 1 ? (
-            <Box sx={{ pt: 3 }}>
-              <Typography
-                variant="h3"
-                sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
-                className="font-heading"
-              >
-                Welcome back!
-              </Typography>
-              <Typography sx={{ my: 1.5, mb: 3 }}>
-                We&apos;re so excited to see you again! Please sign in with your
-                Dysperse ID.
-              </Typography>
-              <TextField
-                disabled={buttonLoading}
-                label="Your email address"
-                placeholder="jeffbezos@gmail.com"
-                value={email}
-                spellCheck={false}
-                fullWidth
-                name="email"
-                onChange={(e: any) => setEmail(e.target.value)}
-                sx={authStyles.input}
-                variant="outlined"
-              />
-              <TextField
-                disabled={buttonLoading}
-                label="Password"
-                placeholder="********"
-                value={password}
-                fullWidth
-                sx={authStyles.input}
-                name="password"
-                onChange={(e: any) => setPassword(e.target.value)}
-                type={togglePassword ? "text" : "password"}
-                variant="outlined"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <ConfirmationModal
-                        rawStyles
-                        title="Are you sure you want to toggle your password's visibility?"
-                        question="Make sure nobody is around you 🤫"
-                        callback={() => setTogglePassword(!togglePassword)}
-                      >
-                        <Tooltip
-                          title={`${togglePassword ? "Hide" : "Show"} password`}
-                        >
-                          <IconButton
-                            sx={{
-                              ["@media (prefers-color-scheme: dark)"]: {
-                                color: "hsl(240,11%,70%)",
-                              },
-                            }}
+        <Box sx={{ display: "flex", gap: 4 }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <form onSubmit={handleSubmit}>
+              {step === 1 ? (
+                <Box sx={{ pt: 3 }}>
+                  <Typography
+                    variant="h3"
+                    sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
+                    className="font-heading"
+                  >
+                    Welcome back!
+                  </Typography>
+                  <Typography sx={{ my: 1.5, mb: 3 }}>
+                    We&apos;re so excited to see you again! Please sign in with
+                    your Dysperse ID.
+                  </Typography>
+                  <TextField
+                    inputRef={emailRef}
+                    disabled={buttonLoading}
+                    label="Your email address"
+                    placeholder="jeffbezos@gmail.com"
+                    value={email}
+                    spellCheck={false}
+                    fullWidth
+                    name="email"
+                    onChange={(e: any) => setEmail(e.target.value)}
+                    sx={authStyles.input}
+                    variant="outlined"
+                  />
+                  <TextField
+                    disabled={buttonLoading}
+                    label="Password"
+                    placeholder="********"
+                    value={password}
+                    fullWidth
+                    sx={authStyles.input}
+                    name="password"
+                    onChange={(e: any) => setPassword(e.target.value)}
+                    type={togglePassword ? "text" : "password"}
+                    variant="outlined"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ConfirmationModal
+                            rawStyles
+                            title="Are you sure you want to toggle your password's visibility?"
+                            question="Make sure nobody is around you 🤫"
+                            callback={() => setTogglePassword(!togglePassword)}
                           >
-                            <span className="material-symbols-outlined">
-                              {togglePassword ? "visibility_off" : "visibility"}
-                            </span>
-                          </IconButton>
-                        </Tooltip>
-                      </ConfirmationModal>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Box sx={authStyles.footer}>
-                <Tooltip
-                  title={
-                    !isEmail(email)
-                      ? "Please type a valid email address"
-                      : password.length < 8 ||
-                        !/\d/.test(password) ||
-                        !/[a-z]/i.test(password)
-                      ? "Your password looks incorrect"
-                      : ""
-                  }
-                >
-                  <span style={{ marginLeft: "auto" }}>
-                    <LoadingButton
-                      loading={buttonLoading}
-                      type="submit"
-                      variant="contained"
-                      disableRipple
-                      disableElevation
-                      id="_loading"
-                      sx={authStyles.submit}
-                      size="large"
-                      disabled={
-                        !isEmail(email) ||
-                        email.trim() === "" ||
-                        password.length < 8
+                            <Tooltip
+                              title={`${
+                                togglePassword ? "Hide" : "Show"
+                              } password`}
+                            >
+                              <IconButton
+                                sx={{
+                                  ["@media (prefers-color-scheme: dark)"]: {
+                                    color: "hsl(240,11%,70%)",
+                                  },
+                                }}
+                              >
+                                <span className="material-symbols-outlined">
+                                  {togglePassword
+                                    ? "visibility_off"
+                                    : "visibility"}
+                                </span>
+                              </IconButton>
+                            </Tooltip>
+                          </ConfirmationModal>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Box sx={authStyles.footer}>
+                    <Tooltip
+                      title={
+                        !isEmail(email)
+                          ? "Please type a valid email address"
+                          : password.length < 8 ||
+                            !/\d/.test(password) ||
+                            !/[a-z]/i.test(password)
+                          ? "Your password looks incorrect"
+                          : ""
                       }
-                      onClick={() => setStep(2)}
                     >
-                      Continue
-                      <span
-                        style={{ marginLeft: "10px" }}
-                        className="material-symbols-rounded"
-                      >
-                        east
+                      <span style={{ marginLeft: "auto" }}>
+                        <LoadingButton
+                          loading={buttonLoading}
+                          type="submit"
+                          variant="contained"
+                          disableRipple
+                          disableElevation
+                          id="_loading"
+                          sx={authStyles.submit}
+                          size="large"
+                          disabled={
+                            !isEmail(email) ||
+                            email.trim() === "" ||
+                            password.length < 8
+                          }
+                          onClick={() => setStep(2)}
+                        >
+                          Continue
+                          <span
+                            style={{ marginLeft: "10px" }}
+                            className="material-symbols-rounded"
+                          >
+                            east
+                          </span>
+                        </LoadingButton>
                       </span>
-                    </LoadingButton>
-                  </span>
-                </Tooltip>
+                    </Tooltip>
+                  </Box>
+                </Box>
+              ) : step === 2 ? (
+                <Box>
+                  <Typography
+                    variant="h3"
+                    sx={{ mb: 1, mt: { xs: 6, sm: 0 } }}
+                    className="font-heading"
+                  >
+                    Verifying...
+                  </Typography>
+                  <Typography sx={{ my: 2, mb: 3 }}>
+                    Hang on while we verify that you&apos;re a human.
+                  </Typography>
+                  <NoSsr>
+                    <Turnstile
+                      ref={ref}
+                      siteKey="0x4AAAAAAABo1BKboDBdlv8r"
+                      onError={() => {
+                        ref.current?.reset();
+                        toast.error(
+                          "An error occured. Retrying...",
+                          toastStyles
+                        );
+                      }}
+                      onExpire={() => {
+                        ref.current?.reset();
+                        toast.error("Expired. Retrying...", toastStyles);
+                      }}
+                      scriptOptions={{ defer: true }}
+                      options={{ retry: "auto" }}
+                      onSuccess={(token) => setCaptchaToken(token)}
+                    />
+                  </NoSsr>
+                </Box>
+              ) : (
+                <Box>
+                  <Typography variant="h4" sx={{ mb: 1, mt: { xs: 5, sm: 0 } }}>
+                    Help us protect your account
+                  </Typography>
+                  <Typography sx={{ mb: 2 }}>
+                    Please type in your 2FA code via your authenticator app.
+                  </Typography>
+                  <MuiOtpInput
+                    length={6}
+                    value={twoFactorCode}
+                    onChange={(value) => setTwoFactorCode(value)}
+                  />
+                  <LoadingButton
+                    variant="contained"
+                    loading={buttonLoading}
+                    onClick={() => setStep(2)}
+                    size="large"
+                    disableElevation
+                    sx={{
+                      float: "right",
+                      mt: 3,
+                      borderRadius: 99,
+                      ...(twoFactorCode.length == 6 && {
+                        background: "#200923!important",
+                      }),
+                      textTransform: "none",
+                      gap: 2,
+                    }}
+                    disabled={twoFactorCode.length < 6}
+                  >
+                    Continue
+                    <span className="material-symbols-rounded">east</span>
+                  </LoadingButton>
+                </Box>
+              )}
+            </form>
+
+            {step === 1 && (
+              <Box sx={{ width: "100%" }}>
+                <Link
+                  href={`/auth/signup${
+                    router.query.close ? "?close=true" : ""
+                  }`}
+                  legacyBehavior
+                >
+                  <Button sx={authStyles.link}>Create an account</Button>
+                </Link>
+                <Link
+                  href={`/auth/reset-id${
+                    router.query.close ? "?close=true" : ""
+                  }`}
+                  legacyBehavior
+                >
+                  <Button sx={authStyles.link}>I forgot my ID</Button>
+                </Link>
               </Box>
-            </Box>
-          ) : step === 2 ? (
-            <Box>
-              <Typography
-                variant="h3"
-                sx={{ mb: 1, mt: { xs: 6, sm: 0 } }}
-                className="font-heading"
-              >
-                Verifying...
-              </Typography>
-              <Typography sx={{ my: 2, mb: 3 }}>
-                Hang on while we verify that you&apos;re a human.
-              </Typography>
-              <NoSsr>
-                <Turnstile
-                  ref={ref}
-                  siteKey="0x4AAAAAAABo1BKboDBdlv8r"
-                  onError={() => {
-                    ref.current?.reset();
-                    toast.error("An error occured. Retrying...", toastStyles);
-                  }}
-                  onExpire={() => {
-                    ref.current?.reset();
-                    toast.error("Expired. Retrying...", toastStyles);
-                  }}
-                  scriptOptions={{ defer: true }}
-                  options={{ retry: "auto" }}
-                  onSuccess={(token) => setCaptchaToken(token)}
-                />
-              </NoSsr>
-            </Box>
-          ) : (
-            <Box>
-              <Typography variant="h4" sx={{ mb: 1, mt: { xs: 5, sm: 0 } }}>
-                Help us protect your account
-              </Typography>
-              <Typography sx={{ mb: 2 }}>
-                Please type in your 2FA code via your authenticator app.
-              </Typography>
-              <MuiOtpInput
-                length={6}
-                value={twoFactorCode}
-                onChange={(value) => setTwoFactorCode(value)}
-              />
-              <LoadingButton
-                variant="contained"
-                loading={buttonLoading}
-                onClick={() => setStep(2)}
-                size="large"
-                disableElevation
-                sx={{
-                  float: "right",
-                  mt: 3,
-                  borderRadius: 99,
-                  ...(twoFactorCode.length == 6 && {
-                    background: "#200923!important",
-                  }),
-                  textTransform: "none",
-                  gap: 2,
-                }}
-                disabled={twoFactorCode.length < 6}
-              >
-                Continue
-                <span className="material-symbols-rounded">east</span>
-              </LoadingButton>
-            </Box>
-          )}
-        </form>
-        {step === 1 && (
-          <Box>
-            <Link
-              href={`/auth/signup${router.query.close ? "?close=true" : ""}`}
-              legacyBehavior
-            >
-              <Button sx={authStyles.link}>Create an account</Button>
-            </Link>
-            <Link
-              href={`/auth/reset-id${router.query.close ? "?close=true" : ""}`}
-              legacyBehavior
-            >
-              <Button sx={authStyles.link}>I forgot my ID</Button>
-            </Link>
+            )}
           </Box>
-        )}
+          <Box sx={{ width: "250px", flexShrink: 0 }}>
+            <QrLogin />
+          </Box>
+        </Box>
       </Box>
 
       <NoSsr>

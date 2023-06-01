@@ -57,6 +57,7 @@ export function ConfirmationModal({
     <>
       {trigger}
       <SwipeableDrawer
+        disableSwipeToOpen
         open={open}
         anchor="bottom"
         onOpen={() => setOpen(true)}

@@ -38,6 +38,7 @@ model User {
   Integration          Integration[]
   DailyCheckIn         DailyCheckIn[]
   Routine              Routine[]
+  QrToken              QrToken[]
 }
 
 model Integration {
@@ -265,4 +266,13 @@ model DailyCheckIn {
   date   DateTime
   userId String
   user   User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+model QrToken {
+  id      String   @id @unique @default(uuid())
+  token   String   @unique @default(uuid())
+  expires DateTime
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
