@@ -76,7 +76,7 @@ function QrLogin() {
     if (data && !verified) {
       const interval = setInterval(() => {
         handleVerify();
-      }, 7000);
+      }, 5000);
 
       return () => {
         clearInterval(interval);
