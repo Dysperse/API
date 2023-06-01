@@ -564,7 +564,13 @@ export default function Prompt() {
               </Box>
             )}
           </Box>
-          <Box sx={{ width: "250px", flexShrink: 0 }}>
+          <Box
+            sx={{
+              width: "250px",
+              flexShrink: 0,
+              display: { xs: "none", sm: "block" },
+            }}
+          >
             <QrLogin />
           </Box>
         </Box>
