@@ -111,6 +111,12 @@ function QrLogin() {
           alignItems: "center",
           flexDirection: "column",
           position: "relative",
+          "&:hover .hover": { opacity: 1, transform: "scale(1)" },
+          "& .hover": {
+            opacity: 0,
+            transform: "scale(.5)",
+            transition: "all .2s",
+          },
         }}
       >
         {error && <Box sx={containerStyles}>Failed to generate QR code</Box>}
@@ -118,12 +124,6 @@ function QrLogin() {
           <Box
             sx={{
               ...containerStyles,
-              "&:hover .hover": { opacity: 1, transform: "scale(1)" },
-              "& .hover": {
-                opacity: 0,
-                transform: "scale(.5)",
-                transition: "all .2s",
-              },
             }}
           >
             <Box
@@ -144,12 +144,22 @@ function QrLogin() {
                 backdropFilter: "blur(10px)",
               }}
               onClick={() => {
+                handleVerify();
                 navigator.clipboard.writeText(url);
-                toast.success("Copied!", toastStyles);
+                toast.success(
+                  "Copied to clipboard and rechecking if you scanned it...",
+                  toastStyles
+                );
               }}
             >
-              <span className="material-symbols-rounded">content_copy</span>
-              <Typography>Copy link</Typography>
+              <Box>
+                <span className="material-symbols-rounded">content_copy</span>
+                <Typography>Copy link</Typography>
+              </Box>
+              <Box>
+                <span className="material-symbols-rounded">refresh</span>
+                <Typography>Recheck</Typography>
+              </Box>
             </Box>
             <QRCode
               value={url}
