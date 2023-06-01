@@ -36,7 +36,6 @@ export function ExploreGoalCard({ goal }) {
         stepName: goal.stepName,
         category: goal.category,
         durationDays: goal.durationDays,
-        time: goal.time,
       });
       setLoading(false);
       router.push("/coach");

@@ -61,7 +61,7 @@ export default function Page() {
               px: { xs: 1, sm: 2 },
             }}
           >
-            <CreateGoal mutationUrl={""} />
+            <CreateGoal />
             <Typography
               variant="h4"
               sx={{

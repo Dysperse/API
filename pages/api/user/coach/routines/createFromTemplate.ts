@@ -18,7 +18,6 @@ export default async function handler(req, res) {
               stepName: item.stepName,
               category: item.category,
               durationDays: item.durationDays,
-              time: item.time,
               emoji: "1f31f",
               userId: req.query.userIdentifier,
             };

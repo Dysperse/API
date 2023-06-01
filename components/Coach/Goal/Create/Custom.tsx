@@ -18,11 +18,14 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import React, { useDeferredValue, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 
-export function CreateGoal({ mutationUrl }) {
+export function CreateGoal() {
+  const router = useRouter();
+  const session = useSession();
+
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -30,7 +33,6 @@ export function CreateGoal({ mutationUrl }) {
   const [title, setTitle] = useState<string>("");
 
   const deferredTitle = useDeferredValue(title);
-  const titleRef: any = React.useRef();
   const descriptionRef: any = React.useRef();
   const goalStepName: any = React.useRef();
 
@@ -53,8 +55,8 @@ export function CreateGoal({ mutationUrl }) {
         durationDays: days,
       });
       setLoading(false);
-      await mutate(mutationUrl);
       setOpen(false);
+      setTimeout(() => router.push("/coach"), 100);
       toast.success("Created goal!", toastStyles);
     } catch (e) {
       setLoading(false);
@@ -64,8 +66,6 @@ export function CreateGoal({ mutationUrl }) {
       );
     }
   };
-
-  const session = useSession();
 
   const [validationData, setValidationData] = useState<
     null | "loading" | { [key: string]: string | boolean }
@@ -194,13 +194,16 @@ export function CreateGoal({ mutationUrl }) {
                 value={days}
                 onChange={(_, newValue: any) => setDays(newValue)}
                 max={365}
+                sx={{ mt: 2 }}
                 step={null}
                 valueLabelDisplay="auto"
                 marks={[7, 14, 30, 60, 90, 120, 150, 180, 365].map((value) => ({
                   value,
                 }))}
               />
-              {dayjs().add(days, "day").fromNow()}
+              <Typography variant="h6" sx={{ mt: 1 }}>
+                Goal: {dayjs().add(days, "day").fromNow()}
+              </Typography>
               <LoadingButton
                 fullWidth
                 size="large"
