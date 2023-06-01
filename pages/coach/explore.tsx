@@ -41,12 +41,19 @@ export default function Page() {
             Back
           </Button>
         </Link>
-        <OptionsGroup
-          currentOption={view}
-          setOption={setView}
-          options={["Goals", "Routines"]}
-          sx={{ mb: 2 }}
-        />
+        <Box
+          sx={{
+            maxWidth: "500px",
+            mx: "auto",
+          }}
+        >
+          <OptionsGroup
+            currentOption={view}
+            setOption={setView}
+            options={["Routines", "Goals"]}
+            sx={{ mb: 2 }}
+          />
+        </Box>
         {view === "Goals" ? (
           <Box
             sx={{

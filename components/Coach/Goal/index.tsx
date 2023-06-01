@@ -46,9 +46,10 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           height: 120,
           borderRadius: 5,
           "&:hover": {
-            background: session.user.darkMode
-              ? "hsl(240%,11%,20%)"
-              : "hsl(240,11%,85%)",
+            background: {
+              xs: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+              sm: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
+            },
           },
           "&:active": {
             transform: "scale(.98)",

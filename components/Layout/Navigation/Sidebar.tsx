@@ -136,6 +136,7 @@ export function Sidebar() {
         borderColor: {
           sm:
             router.asPath === "/zen" ||
+            router.asPath.includes("/coach/explore") ||
             router.asPath === "/mood-history" ||
             router.asPath === "/"
               ? session.user.darkMode
