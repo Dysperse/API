@@ -56,7 +56,7 @@ export const Task: any = function Task({
         height: 25,
         boxShadow: `${
           session.user.darkMode
-            ? `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A200"]}`
+            ? `inset 0 0 0 1.5px ${colors[taskData.color ?? "blueGrey"]["600"]}`
             : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
         }`,
         backgroundColor: "transparent",

@@ -8,7 +8,9 @@ import {
   Collapse,
   Divider,
   Icon,
+  InputAdornment,
   SwipeableDrawer,
+  TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -20,6 +22,31 @@ import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { Tab } from "./Tab";
+
+function SearchTasks() {
+  return (
+    <Box>
+      <TextField
+        size="small"
+        variant="outlined"
+        placeholder="Search tasks..."
+        InputProps={{
+          sx: {
+            mb: 1.5,
+            borderRadius: 4,
+          },
+          startAdornment: (
+            <InputAdornment position="start">
+              <Icon className="outlined" sx={{ opacity: 0.6 }}>
+                bolt
+              </Icon>
+            </InputAdornment>
+          ),
+        }}
+      />
+    </Box>
+  );
+}
 
 export const taskStyles = (session) => {
   return {
@@ -73,7 +100,7 @@ export function TasksLayout({ open, setOpen, children }) {
     transition: "none!important",
     px: 1.5,
     gap: 1.5,
-    py: 1,
+    py: 0.8,
     mr: 1,
     mb: 0.3,
     width: "100%",
@@ -131,19 +158,25 @@ export function TasksLayout({ open, setOpen, children }) {
           error="An error occurred while loading your tasks"
         />
       )}
-
-      <Typography sx={taskStyles(session).subheading}>Planner</Typography>
+      <SearchTasks />
+      <Link
+        href={`/tasks/stream`}
+        style={{ cursor: "default", marginBottom: "10px" }}
+      >
+        <Button size="large" sx={styles(router.asPath === `/tasks/stream`)}>
+          <Icon className={router.asPath === `/tasks/stream` ? "" : "outlined"}>
+            view_day
+          </Icon>
+          Stream
+        </Button>
+      </Link>
+      <Typography sx={taskStyles(session).subheading}>Perspectives</Typography>
       <Box onClick={() => setOpen(false)}>
         {[
           {
-            hash: "backlog",
-            icon: "auto_mode",
-            label: "Backlog",
-          },
-          {
             hash: "agenda/week",
             icon: "view_week",
-            label: isMobile ? "Day" : "This week",
+            label: isMobile ? "Day" : "Weeks",
           },
           {
             hash: "agenda/month",
@@ -319,6 +352,7 @@ export function TasksLayout({ open, setOpen, children }) {
           flex: { xs: "100%", md: "0 0 250px" },
           ml: -1,
           p: 3,
+          px: 2,
           background: `hsl(240,11%,${session.user.darkMode ? 7 : 95}%)`,
           display: { xs: "none", md: "flex" },
           minHeight: "100vh",

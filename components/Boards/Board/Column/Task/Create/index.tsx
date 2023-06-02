@@ -567,6 +567,7 @@ export function CreateTask({
           storage?.isReached === true || session?.permission === "read-only"
         }
         disableRipple
+        id="createTask"
         className="cursor-unset"
         sx={{
           color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 40}%)`,
@@ -626,7 +627,7 @@ export function CreateTask({
           </Icon>
         </Box>
 
-        <Typography sx={{ fontWeight: 700, ml: 0.5 }}>
+        <Typography sx={{ ml: 0.5 }}>
           {parent ? "New subtask" : label || "New list item"}
         </Typography>
       </ListItemButton>
