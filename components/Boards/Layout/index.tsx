@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
@@ -24,12 +24,28 @@ import { Puller } from "../../Puller";
 import { Tab } from "./Tab";
 
 function SearchTasks() {
+  const router = useRouter();
+  const [query, setQuery] = useState(
+    router.asPath.includes("/search") ? router.asPath.split("/search/")[1] : ""
+  );
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (query.trim() && router)
+        router.push(`/tasks/search/${encodeURIComponent(query || "all")}`);
+    }, 1000);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [query, router]);
+
   return (
     <Box>
       <TextField
         size="small"
         variant="outlined"
         placeholder="Search tasks..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         InputProps={{
           sx: {
             mb: 1.5,

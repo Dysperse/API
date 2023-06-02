@@ -92,38 +92,40 @@ export default function Dashboard() {
           <Typography className="font-heading" variant="h4">
             Stream
           </Typography>
-          <Box sx={{ display: "flex", gap: 1.5, mt: 1 }}>
-            <Chip
-              {...(showBacklog === false &&
-                showTodaysTasks === true && {
-                  onDelete: () => {
-                    setShowBacklog(true);
-                    setShowTodaysTasks(true);
-                  },
-                })}
-              disabled={showBacklog === true && showTodaysTasks === false}
-              label={`${data.length} tasks`}
-              onClick={() => {
-                setShowBacklog(false);
-                setShowTodaysTasks(true);
-              }}
-            />
-            <Chip
-              {...(showBacklog === true &&
-                showTodaysTasks === false && {
-                  onDelete: () => {
-                    setShowBacklog(true);
-                    setShowTodaysTasks(true);
-                  },
-                })}
-              disabled={showBacklog === false && showTodaysTasks === true}
-              label={`${backlogData.length} overdue`}
-              onClick={() => {
-                setShowBacklog(true);
-                setShowTodaysTasks(false);
-              }}
-            />
-          </Box>
+          {data && backlogData && (
+            <Box sx={{ display: "flex", gap: 1.5, mt: 1 }}>
+              <Chip
+                {...(showBacklog === false &&
+                  showTodaysTasks === true && {
+                    onDelete: () => {
+                      setShowBacklog(true);
+                      setShowTodaysTasks(true);
+                    },
+                  })}
+                disabled={showBacklog === true && showTodaysTasks === false}
+                label={`${data.length} tasks`}
+                onClick={() => {
+                  setShowBacklog(false);
+                  setShowTodaysTasks(true);
+                }}
+              />
+              <Chip
+                {...(showBacklog === true &&
+                  showTodaysTasks === false && {
+                    onDelete: () => {
+                      setShowBacklog(true);
+                      setShowTodaysTasks(true);
+                    },
+                  })}
+                disabled={showBacklog === false && showTodaysTasks === true}
+                label={`${backlogData.length} overdue`}
+                onClick={() => {
+                  setShowBacklog(true);
+                  setShowTodaysTasks(false);
+                }}
+              />
+            </Box>
+          )}
         </Box>
         <Box sx={{ my: 2 }}>
           <CreateTask
