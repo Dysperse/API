@@ -8,6 +8,7 @@ import {
   Box,
   CardActionArea,
   Chip,
+  CircularProgress,
   Collapse,
   Icon,
   Typography,
@@ -18,7 +19,7 @@ import { useState } from "react";
 import { mutate } from "swr";
 
 function TodaysTasks({ data, url, error }) {
-  return (
+  return data ? (
     <>
       {[
         ...data.filter((task) => task.pinned),
@@ -40,6 +41,35 @@ function TodaysTasks({ data, url, error }) {
         />
       )}
     </>
+  ) : (
+    <CircularProgress />
+  );
+}
+function UpcomingTasks({ data, url, error }) {
+  return data ? (
+    <>
+      {[
+        ...data.filter((task) => task.pinned),
+        ...data.filter((task) => !task.pinned),
+      ].map((task) => (
+        <Task
+          isDateDependent={true}
+          key={task.id}
+          board={task.board || false}
+          columnId={task.column ? task.column.id : -1}
+          mutationUrl={url}
+          task={task}
+        />
+      ))}
+      {error && (
+        <ErrorHandler
+          error="Oh no! We couldn't get your upcoming tasks. Please try again later."
+          callback={() => mutate(url)}
+        />
+      )}
+    </>
+  ) : (
+    <CircularProgress />
   );
 }
 
@@ -50,6 +80,7 @@ export default function Dashboard() {
   const [open, setOpen] = useState(false);
   const [showBacklog, setShowBacklog] = useState(true);
   const [showTodaysTasks, setShowTodaysTasks] = useState(true);
+  const [showUpcomingTasks, setShowUpcomingTasks] = useState(false);
 
   const styles = {
     sectionButton: {
@@ -78,6 +109,15 @@ export default function Dashboard() {
     endTime: dayjs().endOf("day"),
   });
 
+  const {
+    data: upcomingData,
+    url: upcomingUrl,
+    error: upcomingError,
+  } = useApi("property/tasks/agenda", {
+    startTime: dayjs().endOf("day"),
+    endTime: dayjs().add(100, "year"),
+  });
+
   const { data: backlogData } = useApi("property/tasks/backlog", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
@@ -102,7 +142,9 @@ export default function Dashboard() {
                       setShowTodaysTasks(true);
                     },
                   })}
-                disabled={showBacklog === true && showTodaysTasks === false}
+                disabled={
+                  showTodaysTasks === true || showUpcomingTasks === true
+                }
                 label={`${data.length} tasks`}
                 onClick={() => {
                   setShowBacklog(false);
@@ -117,11 +159,33 @@ export default function Dashboard() {
                       setShowTodaysTasks(true);
                     },
                   })}
-                disabled={showBacklog === false && showTodaysTasks === true}
+                disabled={showBacklog === true || showUpcomingTasks === true}
                 label={`${backlogData.length} overdue`}
                 onClick={() => {
                   setShowBacklog(true);
                   setShowTodaysTasks(false);
+                }}
+              />
+              <Chip
+                {...(showBacklog === false &&
+                  showTodaysTasks === false &&
+                  showUpcomingTasks == true && {
+                    onDelete: () => {
+                      setShowBacklog(true);
+                      setShowTodaysTasks(true);
+                      setShowUpcomingTasks(false);
+                    },
+                  })}
+                disabled={
+                  showBacklog === false &&
+                  showTodaysTasks === true &&
+                  showUpcomingTasks === true
+                }
+                label={`${backlogData.length} upcoming`}
+                onClick={() => {
+                  setShowBacklog(false);
+                  setShowTodaysTasks(false);
+                  setShowUpcomingTasks(true);
                 }}
               />
             </Box>
@@ -171,6 +235,28 @@ export default function Dashboard() {
         </CardActionArea>
         <Collapse in={showTodaysTasks} orientation="vertical">
           <TodaysTasks data={data} url={url} error={error} />
+        </Collapse>
+
+        <CardActionArea
+          sx={{ ...styles.sectionButton }}
+          onClick={() => setShowUpcomingTasks((e) => !e)}
+        >
+          <Icon
+            sx={{
+              transform: `rotate(${showUpcomingTasks ? 0 : -90}deg)`,
+              transition: "all .2s!important",
+            }}
+          >
+            expand_more
+          </Icon>
+          Upcoming
+        </CardActionArea>
+        <Collapse in={showUpcomingTasks} orientation="vertical">
+          <UpcomingTasks
+            data={upcomingData}
+            url={upcomingUrl}
+            error={upcomingError}
+          />
         </Collapse>
       </Box>
     </TasksLayout>

@@ -8,6 +8,7 @@ import {
   Collapse,
   Divider,
   Icon,
+  IconButton,
   InputAdornment,
   SwipeableDrawer,
   TextField,
@@ -16,7 +17,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
@@ -26,17 +27,10 @@ import { Tab } from "./Tab";
 function SearchTasks() {
   const router = useRouter();
   const [query, setQuery] = useState(
-    router.asPath.includes("/search") ? router.asPath.split("/search/")[1] : ""
+    router.asPath.includes("/search")
+      ? decodeURIComponent(router.asPath.split("/search/")[1])
+      : ""
   );
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (query.trim() && router)
-        router.push(`/tasks/search/${encodeURIComponent(query || "all")}`);
-    }, 1000);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [query, router]);
 
   return (
     <Box>
@@ -44,6 +38,12 @@ function SearchTasks() {
         size="small"
         variant="outlined"
         placeholder="Search tasks..."
+        {...(query.trim() && { label: "Search tasks..." })}
+        onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
+        onBlur={() =>
+          query.trim() !== "" &&
+          router.push(`/tasks/search/${encodeURIComponent(query)}`)
+        }
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         InputProps={{
@@ -53,9 +53,20 @@ function SearchTasks() {
           },
           startAdornment: (
             <InputAdornment position="start">
-              <Icon className="outlined" sx={{ opacity: 0.6 }}>
-                bolt
-              </Icon>
+              {!query.trim() && (
+                <Icon className="outlined" sx={{ opacity: 0.6 }}>
+                  bolt
+                </Icon>
+              )}
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              {query.trim() && (
+                <IconButton size="small">
+                  <Icon>east</Icon>
+                </IconButton>
+              )}
             </InputAdornment>
           ),
         }}
