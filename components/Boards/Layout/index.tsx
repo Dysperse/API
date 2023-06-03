@@ -15,6 +15,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -22,10 +23,12 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
+import { CreateTask } from "../Board/Column/Task/Create";
 import { Tab } from "./Tab";
 
 function SearchTasks() {
   const router = useRouter();
+  const session = useSession();
   const [query, setQuery] = useState(
     router.asPath.includes("/search")
       ? decodeURIComponent(router.asPath.split("/search/")[1])
@@ -33,7 +36,14 @@ function SearchTasks() {
   );
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        mb: 1.5,
+        gap: 1,
+        alignItems: "center",
+      }}
+    >
       <TextField
         size="small"
         variant="outlined"
@@ -48,18 +58,8 @@ function SearchTasks() {
         onChange={(e) => setQuery(e.target.value)}
         InputProps={{
           sx: {
-            mb: 1.5,
             borderRadius: 4,
           },
-          startAdornment: (
-            <InputAdornment position="start">
-              {!query.trim() && (
-                <Icon className="outlined" sx={{ opacity: 0.6 }}>
-                  bolt
-                </Icon>
-              )}
-            </InputAdornment>
-          ),
           endAdornment: (
             <InputAdornment position="end">
               {query.trim() && (
@@ -71,6 +71,36 @@ function SearchTasks() {
           ),
         }}
       />
+      <Box sx={{ display: "none" }}>
+        <CreateTask
+          closeOnCreate
+          column={{ id: "-1", name: "" }}
+          defaultDate={dayjs().startOf("day")}
+          label="New task"
+          placeholder="Create a task..."
+          mutationUrl={""}
+          boardId={1}
+        />
+      </Box>
+      <IconButton
+        onClick={() => document.getElementById("createTask")?.click()}
+        sx={{
+          ...(Boolean(query.trim()) && {
+            transform: "scale(0)",
+            ml: -6,
+          }),
+          transition: "transform .2s",
+          background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+          "&:hover": {
+            background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+          },
+          "&:active": {
+            background: `hsl(240,11%,${session.user.darkMode ? 25 : 85}%)`,
+          },
+        }}
+      >
+        <Icon>add</Icon>
+      </IconButton>
     </Box>
   );
 }

@@ -135,63 +135,32 @@ export default function Dashboard() {
           {data && backlogData && (
             <Box sx={{ display: "flex", gap: 1.5, mt: 1 }}>
               <Chip
-                {...(showBacklog === false &&
-                  showTodaysTasks === true && {
-                    onDelete: () => {
-                      setShowBacklog(true);
-                      setShowTodaysTasks(true);
-                    },
-                  })}
-                disabled={
-                  showTodaysTasks === true || showUpcomingTasks === true
-                }
+                {...(showTodaysTasks && {
+                  onDelete: () => setShowTodaysTasks(false),
+                })}
                 label={`${data.length} tasks`}
-                onClick={() => {
-                  setShowBacklog(false);
-                  setShowTodaysTasks(true);
-                }}
+                onClick={() => setShowTodaysTasks(true)}
               />
-              <Chip
-                {...(showBacklog === true &&
-                  showTodaysTasks === false && {
-                    onDelete: () => {
-                      setShowBacklog(true);
-                      setShowTodaysTasks(true);
-                    },
+              {backlogData?.length !== 0 && (
+                <Chip
+                  {...(showBacklog && {
+                    onDelete: () => setShowBacklog(false),
                   })}
-                disabled={showBacklog === true || showUpcomingTasks === true}
-                label={`${backlogData.length} overdue`}
-                onClick={() => {
-                  setShowBacklog(true);
-                  setShowTodaysTasks(false);
-                }}
-              />
+                  label={`${backlogData.length} overdue`}
+                  onClick={() => setShowBacklog(true)}
+                />
+              )}
               <Chip
-                {...(showBacklog === false &&
-                  showTodaysTasks === false &&
-                  showUpcomingTasks == true && {
-                    onDelete: () => {
-                      setShowBacklog(true);
-                      setShowTodaysTasks(true);
-                      setShowUpcomingTasks(false);
-                    },
-                  })}
-                disabled={
-                  showBacklog === false &&
-                  showTodaysTasks === true &&
-                  showUpcomingTasks === true
-                }
-                label={`${backlogData.length} upcoming`}
-                onClick={() => {
-                  setShowBacklog(false);
-                  setShowTodaysTasks(false);
-                  setShowUpcomingTasks(true);
-                }}
+                {...(showUpcomingTasks && {
+                  onDelete: () => setShowUpcomingTasks(false),
+                })}
+                label={`${(upcomingData || []).length} upcoming`}
+                onClick={() => setShowUpcomingTasks(true)}
               />
             </Box>
           )}
         </Box>
-        <Box sx={{ my: 2 }}>
+        <Box sx={{ my: 2, mt: 4 }}>
           <CreateTask
             closeOnCreate
             column={{ id: "-1", name: "" }}
@@ -202,23 +171,36 @@ export default function Dashboard() {
             boardId={1}
           />
         </Box>
-        <CardActionArea
-          sx={{ ...styles.sectionButton }}
-          onClick={() => setShowBacklog((e) => !e)}
-        >
-          <Icon
-            sx={{
-              transform: `rotate(${showBacklog ? 0 : -90}deg)`,
-              transition: "all .2s!important",
-            }}
+        {backlogData?.length !== 0 && (
+          <CardActionArea
+            sx={{ ...styles.sectionButton }}
+            onClick={() => setShowBacklog((e) => !e)}
           >
-            expand_more
-          </Icon>
-          Backlog
-        </CardActionArea>
-        <Collapse in={showBacklog} orientation="vertical">
-          <Backlog />
-        </Collapse>
+            <Icon
+              sx={{
+                transform: `rotate(${showBacklog ? 0 : -90}deg)`,
+                transition: "all .2s!important",
+              }}
+            >
+              expand_more
+            </Icon>
+            Backlog
+            {backlogData && (
+              <Chip
+                variant="outlined"
+                size="small"
+                label={`${backlogData.filter((e) => e.completed).length}/${
+                  backlogData.length
+                }`}
+              />
+            )}
+          </CardActionArea>
+        )}
+        {backlogData?.length !== 0 && (
+          <Collapse in={showBacklog} orientation="vertical">
+            <Backlog />
+          </Collapse>
+        )}
         <CardActionArea
           sx={{ ...styles.sectionButton }}
           onClick={() => setShowTodaysTasks((e) => !e)}
@@ -232,6 +214,13 @@ export default function Dashboard() {
             expand_more
           </Icon>
           Today
+          {data && (
+            <Chip
+              variant="outlined"
+              size="small"
+              label={`${data.filter((e) => e.completed).length}/${data.length}`}
+            />
+          )}
         </CardActionArea>
         <Collapse in={showTodaysTasks} orientation="vertical">
           <TodaysTasks data={data} url={url} error={error} />
@@ -250,6 +239,15 @@ export default function Dashboard() {
             expand_more
           </Icon>
           Upcoming
+          {upcomingData && (
+            <Chip
+              variant="outlined"
+              size="small"
+              label={`${upcomingData.filter((e) => e.completed).length}/${
+                upcomingData.length
+              }`}
+            />
+          )}
         </CardActionArea>
         <Collapse in={showUpcomingTasks} orientation="vertical">
           <UpcomingTasks

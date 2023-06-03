@@ -20,10 +20,10 @@ export function Color({
   return (
     <Box
       sx={{
-        width: "20px",
-        flex: "0 0 20px",
+        width: "30px",
+        flex: "0 0 30px",
         borderRadius: 9,
-        height: "20px",
+        height: "30px",
         display: "flex",
         ...(task.color === color && {
           boxShadow: `0 0 0 2px ${

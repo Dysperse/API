@@ -9,17 +9,14 @@ import {
   Button,
   Chip,
   Dialog,
-  Divider,
   Icon,
   IconButton,
-  InputAdornment,
+  Popover,
   TextField,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { green, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
-import Image from "next/image";
 import { useCallback, useState } from "react";
 import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
@@ -32,6 +29,84 @@ import { ExperimentalAiSubtask } from "./ExperimentalAiSubtask";
 import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./RescheduleModal";
 import { parseEmojis } from "./TaskDrawer";
+
+function ColorPopover({ data, setTaskData, mutationUrl }) {
+  const session = useSession();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: any) => setAnchorEl(event.currentTarget);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  const trigger = (
+    <Chip
+      icon={<Icon sx={{ color: "#000!important", pl: 2 }}>label</Icon>}
+      sx={{
+        background: colors[data.color][session.user.darkMode ? "A200" : 100],
+      }}
+      onClick={handleClick}
+    />
+  );
+
+  return (
+    <>
+      {trigger}
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        PaperProps={{
+          sx: {
+            background: "transparent",
+            boxShadow: 0,
+          },
+        }}
+      >
+        {trigger}
+        <Box
+          sx={{
+            display: "flex",
+            maxWidth: "60vw",
+            mt: 2,
+            gap: 1,
+            flexWrap: "wrap",
+          }}
+          onClick={handleClose}
+        >
+          {[
+            "orange",
+            "red",
+            "brown",
+            "pink",
+            "purple",
+            "indigo",
+            "teal",
+            "green",
+            "grey",
+          ].map((color) => (
+            <Color
+              key={color}
+              color={color}
+              mutationUrl={mutationUrl}
+              setTaskData={setTaskData}
+              task={data}
+            />
+          ))}
+        </Box>
+      </Popover>
+    </>
+  );
+}
 
 export default function DrawerContent({
   handleDelete,
@@ -177,387 +252,256 @@ export default function DrawerContent({
     <>
       <AppBar>
         <Toolbar>
-          <IconButton onClick={handleParentClose}>
+          <IconButton
+            onClick={handleParentClose}
+            size="small"
+            sx={{
+              background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+            }}
+          >
             <Icon>close</Icon>
           </IconButton>
 
-          <Box sx={{ ml: "auto", display: "flex", gap: 0.5 }}>
-            <Button
-              {...(option === "Details" && { variant: "contained" })}
-              size="small"
-              onClick={() => setOption("Details")}
-            >
-              Details
-            </Button>
-            <Button
-              {...(option === "Subtasks" && { variant: "contained" })}
-              {...(data.parentTasks.length == 0 && { id: "subtaskTrigger" })}
-              size="small"
-              onClick={() => {
-                if (option === "Subtasks") handleMutate();
-                setOption("Subtasks");
-              }}
-              disabled={data.parentTasks.length !== 0}
-            >
-              Subtasks{" "}
-              {data.subTasks.length !== 0 && (
-                <span style={{ background: "transparent", opacity: 0.5 }}>
-                  {data.subTasks.length}
-                </span>
-              )}
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {option === "Subtasks" && <ExperimentalAiSubtask task={data} />}
-      {option === "Details" && (
-        <Box sx={{ p: { xs: 3, sm: 4 }, pb: { sm: 1 } }}>
-          <TextField
-            disabled={
-              storage?.isReached === true || session.permission === "read-only"
-            }
-            multiline
-            placeholder="Task name"
-            fullWidth
-            defaultValue={parseEmojis(data.name.trim())}
-            variant="standard"
-            onBlur={(e) => {
-              if (e.target.value.trim() !== "") {
-                handleEdit(data.id, "name", e.target.value);
-              }
-            }}
-            onChange={(e: any) =>
-              (e.target.value = e.target.value.replaceAll("\n", ""))
-            }
-            onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
-            margin="dense"
-            InputProps={{
-              disableUnderline: true,
-              className: "font-heading",
-              sx: {
-                fontSize: { xs: "35px", sm: "40px" },
-                textDecoration: "underline",
-                mt: -2,
-                color: colors[data.color][session.user.darkMode ? "A200" : 800],
-              },
-            }}
-          />
           <Box
-            sx={{
-              display: "flex",
-              gap: 0.5,
-              overflowX: "scroll",
-            }}
+            sx={{ ml: "auto", display: "flex", gap: 0.5 }}
+            id="subtaskTrigger"
           >
-            {session.permission !== "read-only" &&
-              [
-                "orange",
-                "red",
-                "brown",
-                "pink",
-                "purple",
-                "indigo",
-                "teal",
-                "green",
-                "grey",
-              ].map((color) => (
-                <Color
-                  key={color}
-                  color={color}
-                  mutationUrl={mutationUrl}
-                  setTaskData={setTaskData}
-                  task={data}
-                />
-              ))}
-          </Box>
-
-          <>
-            {/* Description */}
-            <TextField
-              onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
-              onKeyDown={(e: any) =>
-                e.key === "Enter" && !e.shiftKey && e.target.blur()
-              }
-              multiline
-              placeholder={
-                storage?.isReached === true
-                  ? "You've reached your account storage limits and you can't add a description."
-                  : "Click to add description"
-              }
+            <Button
+              onClick={handleComplete}
               disabled={
                 storage?.isReached === true ||
                 session.permission === "read-only"
               }
-              fullWidth
-              defaultValue={parseEmojis(data.description || "")}
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-                sx: {
-                  mt: 3,
-                  borderRadius: 5,
+              sx={{
+                px: 1.5,
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+                ...(data.completed && {
                   background: session.user.darkMode
-                    ? "hsl(240,11%,20%)"
-                    : "rgba(200,200,200,.3)",
-                  "&:focus-within, &:hover": {
+                    ? "hsl(154, 48.4%, 12.9%)"
+                    : "hsl(151, 50.0%, 53.2%)",
+                  "&:hover": {
                     background: session.user.darkMode
-                      ? "hsl(240,11%,22%)"
-                      : "rgba(200,200,200,.4)",
+                      ? "hsl(154, 49.7%, 14.9%)"
+                      : "hsl(151, 55.0%, 41.5%)",
                   },
-                  p: 2,
-                  px: 2,
-                },
+                }),
+              }}
+            >
+              <Icon className="outlined">check_circle</Icon>
+              {data.completed ? "Complete" : "Completed"}
+            </Button>
+            <RescheduleModal data={data} handlePostpone={handlePostpone}>
+              <Button
+                sx={{
+                  px: 1.5,
+                  background: `hsl(240,11%,${
+                    session.user.darkMode ? 20 : 90
+                  }%)`,
+                }}
+              >
+                <Icon className="outlined">bedtime</Icon>
+                Snooze
+              </Button>
+            </RescheduleModal>
+            <IconButton
+              onClick={handlePriorityChange}
+              size="small"
+              sx={{
+                flexShrink: 0,
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+              }}
+              disabled={
+                storage?.isReached === true ||
+                session.permission === "read-only"
+              }
+            >
+              <Icon
+                {...(!data.pinned && { className: "outlined" })}
+                sx={{
+                  ...(data.pinned && {
+                    transform: "rotate(-20deg)",
+                  }),
+                  transition: "all .2s",
+                }}
+              >
+                push_pin
+              </Icon>
+            </IconButton>{" "}
+            <ConfirmationModal
+              title="Delete task?"
+              question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
+              disabled={data.subTasks.length === 0}
+              callback={async () => {
+                handleParentClose();
+                await handleDelete(data.id);
+                document.getElementById("subtaskTrigger")?.click();
+              }}
+            >
+              <IconButton
+                onClick={handleParentClose}
+                size="small"
+                sx={{
+                  flexShrink: 0,
+                  background: `hsl(240,11%,${
+                    session.user.darkMode ? 20 : 90
+                  }%)`,
+                }}
+              >
+                <Icon className="outlined">delete</Icon>
+              </IconButton>
+            </ConfirmationModal>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ p: { xs: 3, sm: 4 }, pb: { sm: 1 } }}>
+        <Box sx={{ display: "flex", gap: 1.5 }}>
+          <ColorPopover
+            mutationUrl={mutationUrl}
+            setTaskData={setTaskData}
+            data={data}
+          />
+
+          {data.parentTasks.length == 0 && (
+            <Chip
+              variant="outlined"
+              label={
+                data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")
+              }
+              onClick={() => setOpen(true)}
+              disabled={
+                storage?.isReached === true ||
+                session.permission === "read-only"
+              }
+              onDelete={(e) => {
+                e.stopPropagation();
+                setTaskData((prev) => ({
+                  ...prev,
+                  due: false,
+                }));
+                handleParentClose();
+                handleEdit(data.id, "due", "");
               }}
             />
-
-            <Dialog
-              open={open}
-              onClose={() => setOpen(false)}
-              PaperProps={{ sx: { p: 3 } }}
-              keepMounted={false}
-            >
-              <DatePicker
-                value={new Date(data.due || new Date().toISOString())}
-                onChange={(e: any) => {
-                  handleParentClose();
-                  setTaskData((prev) => ({
-                    ...prev,
-                    due: e ? null : e?.toISOString(),
-                  }));
-                  handleEdit(data.id, "due", e.toISOString());
-                  setOpen(false);
-                }}
-              />
-            </Dialog>
-
-            {/* Date */}
-            {data.parentTasks.length == 0 && (
-              <TextField
-                fullWidth
-                variant="standard"
-                value={
-                  data.due &&
-                  dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")
-                }
-                placeholder="Set a due date"
-                onClick={() => setOpen(true)}
-                disabled={
-                  storage?.isReached === true ||
-                  session.permission === "read-only"
-                }
-                InputProps={{
-                  readOnly: true,
-                  sx: {
-                    ...(storage?.isReached === true && {
-                      pointerEvents: "none",
-                    }),
-                    borderRadius: 5,
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,20%)"
-                      : "rgba(200,200,200,.3)",
-                    "&:focus-within, &:hover": {
-                      background: session.user.darkMode
-                        ? "hsl(240,11%,22%)"
-                        : "rgba(200,200,200,.4)",
-                    },
-                    p: 1.5,
-                    px: 2,
-                    mt: 2,
-                  },
-                  disableUnderline: true,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Icon>today</Icon>
-                    </InputAdornment>
-                  ),
-
-                  ...(data.due && {
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          disabled={session.permission === "read-only"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setTaskData((prev) => ({
-                              ...prev,
-                              due: false,
-                            }));
-                            handleParentClose();
-                            handleEdit(data.id, "due", "");
-                          }}
-                          size="small"
-                        >
-                          <Icon>close</Icon>
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }),
-                }}
-              />
-            )}
-            {data.image && <Box sx={{ mt: 4 }} />}
-            {data.image && <ImageViewer url={data.image} />}
-            <Box
-              sx={{
-                background: session.user.darkMode
-                  ? "hsl(240,11%,20%)"
-                  : "rgba(200,200,200,.3)",
-                borderRadius: 5,
-                p: 0.5,
-                my: 2,
-              }}
-            >
-              <Button
-                onClick={handleComplete}
-                sx={iconStyles}
-                disabled={
-                  storage?.isReached === true ||
-                  session.permission === "read-only"
-                }
-              >
-                <Icon
-                  className={`${data.completed && "completed"}`}
-                  sx={{
-                    ...(data.completed && {
-                      background: green[900],
-                      color: "#fff!important",
-                    }),
-                  }}
-                >
-                  {data.completed ? "check" : "close"}
-                </Icon>
-                {data.completed ? "Completed" : "Incomplete"}
-              </Button>
-              {data.parentTasks.length == 0 && (
-                <Button
-                  onClick={handlePriorityChange}
-                  sx={iconStyles}
-                  disabled={
-                    storage?.isReached === true ||
-                    session.permission === "read-only"
-                  }
-                >
-                  <Icon
-                    className={`${data.pinned && "pinned"}`}
-                    sx={{
-                      ...(data.pinned && {
-                        transform: "rotate(-20deg)",
-                      }),
-                      transition: "all .2s",
-                    }}
-                  >
-                    push_pin
-                  </Icon>
-                  {data.pinned ? "Important" : "Unpinned "}
-                </Button>
-              )}
-              <ConfirmationModal
-                title="Delete task?"
-                question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
-                disabled={data.subTasks.length === 0}
-                callback={async () => {
-                  handleParentClose();
-                  await handleDelete(data.id);
-                  document.getElementById("subtaskTrigger")?.click();
-                }}
-              >
-                <Button
-                  sx={iconStyles}
-                  disabled={session.permission === "read-only"}
-                >
-                  <Icon className="outlined shadow-md dark:shadow-xl">
-                    delete
-                  </Icon>
-                  Delete
-                </Button>
-              </ConfirmationModal>
-              {data.parentTasks.length == 0 && (
-                <RescheduleModal handlePostpone={handlePostpone} data={data}>
-                  <Button
-                    sx={iconStyles}
-                    disabled={
-                      storage?.isReached === true ||
-                      session.permission === "read-only"
-                    }
-                  >
-                    <Icon className="outlined shadow-md dark:shadow-xl">
-                      schedule
-                    </Icon>
-                    Reschedule
-                  </Button>
-                </RescheduleModal>
-              )}
-            </Box>
-          </>
-        </Box>
-      )}
-      {option === "Subtasks" && (
-        <Box
-          sx={{
-            minHeight: "100vh",
-            ...(data.parentTasks.length !== 0 && {
-              display: "none",
-            }),
-            px: { sm: 2 },
-            mt: "-80px",
-            pt: 2,
-          }}
-        >
-          {data.subTasks.length === 0 && (
-            <Box sx={{ textAlign: "center", mb: 0.5 }}>
-              <Image
-                src="/images/noTasks.png"
-                width={256}
-                height={256}
-                style={{
-                  ...(session.user.darkMode && {
-                    filter: "invert(100%)",
-                  }),
-                }}
-                alt="No items found"
-              />
-              <Box sx={{ px: 1.5 }}>
-                <Typography variant="h6" gutterBottom>
-                  Nothing much here...
-                </Typography>
-                <Typography gutterBottom>
-                  You haven&apos;t created any subtasks yet
-                </Typography>
-              </Box>
-              <Divider sx={{ opacity: 0.5, mt: 2 }} />
-            </Box>
           )}
-          <CreateTask
-            isSubTask
-            column={{ id: "-1", name: "" }}
-            sx={{ mb: 0 }}
-            parent={data.id}
-            label="Create a subtask"
-            placeholder="Add a subtask..."
-            handleMutate={handleMutate}
-            boardId={1}
-          />
-          {data.parentTasks.length === 0 &&
-            data.subTasks.map((subTask) => (
-              <Task
-                key={subTask.id}
-                isSubTask
-                sx={{
-                  pl: { xs: 2.6, sm: 1.7 },
-                  "& .date": {
-                    display: "none",
-                  },
-                }}
-                board={subTask.board || false}
-                columnId={subTask.column ? subTask.column.id : -1}
-                mutationUrl=""
-                handleMutate={handleMutate}
-                task={subTask}
-              />
-            ))}
         </Box>
-      )}
-      <Box
+        <TextField
+          disabled={
+            storage?.isReached === true || session.permission === "read-only"
+          }
+          multiline
+          placeholder="Task name"
+          fullWidth
+          defaultValue={parseEmojis(data.name.trim())}
+          variant="standard"
+          onBlur={(e) => {
+            if (e.target.value.trim() !== "") {
+              handleEdit(data.id, "name", e.target.value);
+            }
+          }}
+          onChange={(e: any) =>
+            (e.target.value = e.target.value.replaceAll("\n", ""))
+          }
+          onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
+          margin="dense"
+          InputProps={{
+            disableUnderline: true,
+            className: "font-heading",
+            sx: {
+              fontSize: { xs: "35px", sm: "40px" },
+              textDecoration: "underline",
+              color: colors[data.color][session.user.darkMode ? "A200" : 800],
+            },
+          }}
+        />
+
+        {/* Description */}
+        <TextField
+          onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
+          onKeyDown={(e: any) =>
+            e.key === "Enter" && !e.shiftKey && e.target.blur()
+          }
+          multiline
+          placeholder={
+            storage?.isReached === true
+              ? "You've reached your account storage limits and you can't add a description."
+              : "Click to add description"
+          }
+          disabled={
+            storage?.isReached === true || session.permission === "read-only"
+          }
+          fullWidth
+          defaultValue={parseEmojis(data.description || "")}
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              borderRadius: 5,
+              "&:focus-within": {
+                background: session.user.darkMode
+                  ? "hsl(240,11%,22%)"
+                  : "rgba(200,200,200,.4)",
+              },
+            },
+          }}
+        />
+
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          PaperProps={{ sx: { p: 3 } }}
+          keepMounted={false}
+        >
+          <DatePicker
+            value={new Date(data.due || new Date().toISOString())}
+            onChange={(e: any) => {
+              handleParentClose();
+              setTaskData((prev) => ({
+                ...prev,
+                due: e ? null : e?.toISOString(),
+              }));
+              handleEdit(data.id, "due", e.toISOString());
+              setOpen(false);
+            }}
+          />
+        </Dialog>
+
+        {data.image && <Box sx={{ mt: 2 }} />}
+        {data.image && <ImageViewer url={data.image} />}
+      </Box>
+
+      <Box sx={{ px: { sm: 2.5 } }}>
+        <CreateTask
+          isSubTask
+          column={{ id: "-1", name: "" }}
+          sx={{ mb: 0 }}
+          parent={data.id}
+          label="Create a subtask"
+          placeholder="Add a subtask..."
+          handleMutate={handleMutate}
+          boardId={1}
+        />
+        <ExperimentalAiSubtask task={data} />
+
+        {data.parentTasks.length === 0 &&
+          data.subTasks.map((subTask) => (
+            <Task
+              key={subTask.id}
+              isSubTask
+              sx={{
+                pl: { xs: 2.6, sm: 1.7 },
+                "& .date": {
+                  display: "none",
+                },
+              }}
+              board={subTask.board || false}
+              columnId={subTask.column ? subTask.column.id : -1}
+              mutationUrl=""
+              handleMutate={handleMutate}
+              task={subTask}
+            />
+          ))}
+      </Box>
+      {/* <Box
         sx={{
           textAlign: "center",
           display: "flex",
@@ -580,7 +524,7 @@ export default function DrawerContent({
           />
         )}
         <Chip label={`Last updated ${dayjs(data.lastUpdated).fromNow()}`} />
-      </Box>
+      </Box> */}
     </>
   );
 }

@@ -76,30 +76,33 @@ export function ExperimentalAiSubtask({ task }) {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          position: "sticky",
-          top: "calc(100vh - 80px)",
-          zIndex: 9999,
-        }}
-      >
-        <Button
+      <Box>
+        <ListItemButton
+          disableRipple
           onClick={() => {
             setOpen(true);
             if (deferredValue.trim() !== "") generate();
           }}
           sx={{
-            background: "linear-gradient(to right, #8a2387, #e94057, #f27121)",
-            color: "#fff",
             px: 2,
-            my: 2,
+            cursor: "default",
+            transition: "none",
+            gap: 1.3,
           }}
         >
-          <Icon>auto_awesome</Icon>
-          Generate subtasks for me
-        </Button>
+          <Icon
+            sx={{
+              background:
+                "linear-gradient(to right, #8a2387, #e94057, #f27121)",
+              backgroundClip: "text",
+              fontSize: "30px!important",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            magic_button
+          </Icon>
+          <ListItemText primary="Create steps for me" />
+        </ListItemButton>
       </Box>
       <SwipeableDrawer
         open={open}
