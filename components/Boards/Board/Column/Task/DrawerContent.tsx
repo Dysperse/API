@@ -354,7 +354,7 @@ export default function DrawerContent({
         </Toolbar>
       </AppBar>
       <Box sx={{ p: { xs: 3, sm: 4 }, pb: { sm: 1 } }}>
-        <Box sx={{ display: "flex", gap: 1.5 }}>
+        <Box sx={{ display: "flex", gap: 1.5, flexWrap: "wrap" }}>
           <ColorPopover
             mutationUrl={mutationUrl}
             setTaskData={setTaskData}
