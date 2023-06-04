@@ -1,9 +1,11 @@
 import { Backlog } from "@/components/Boards/Backlog";
 import { Task } from "@/components/Boards/Board/Column/Task";
 import { CreateTask } from "@/components/Boards/Board/Column/Task/Create";
-import { TasksLayout } from "@/components/Boards/Layout";
+import { TasksLayout, taskStyles } from "@/components/Boards/Layout";
 import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
+import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   CardActionArea,
@@ -11,6 +13,7 @@ import {
   CircularProgress,
   Collapse,
   Icon,
+  IconButton,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -77,6 +80,8 @@ function UpcomingTasks({ data, url, error }) {
  * Top-level component for the dashboard page.
  */
 export default function Dashboard() {
+  const session = useSession();
+
   const [open, setOpen] = useState(false);
   const [showBacklog, setShowBacklog] = useState(true);
   const [showTodaysTasks, setShowTodaysTasks] = useState(true);
@@ -136,6 +141,17 @@ export default function Dashboard() {
           maxWidth: "100vw",
         }}
       >
+        <IconButton
+          size="large"
+          onContextMenu={() => {
+            vibrate(50);
+            setOpen(true);
+          }}
+          onClick={() => setOpen(true)}
+          sx={taskStyles(session).menu}
+        >
+          <Icon>menu</Icon>
+        </IconButton>
         <Box sx={{ px: { xs: 3.5, sm: 1.5 }, py: { xs: 4, sm: 0 } }}>
           <Typography className="font-heading" variant="h4">
             Stream
@@ -233,7 +249,6 @@ export default function Dashboard() {
         <Collapse in={showTodaysTasks} orientation="vertical">
           <TodaysTasks data={data} url={url} error={error} />
         </Collapse>
-
         <CardActionArea
           sx={{ ...styles.sectionButton }}
           onClick={() => setShowUpcomingTasks((e) => !e)}
