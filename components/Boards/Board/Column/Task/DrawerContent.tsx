@@ -534,11 +534,6 @@ export default function DrawerContent({
             disableUnderline: true,
             sx: {
               borderRadius: 5,
-              "&:focus-within": {
-                background: session.user.darkMode
-                  ? "hsl(240,11%,22%)"
-                  : "rgba(200,200,200,.4)",
-              },
             },
           }}
         />
