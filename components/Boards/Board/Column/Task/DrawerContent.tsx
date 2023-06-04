@@ -48,11 +48,29 @@ function ColorPopover({ data, setTaskData, mutationUrl }) {
 
   const trigger = (
     <Chip
-      icon={<Icon sx={{ color: "#000!important", pl: 2 }}>label</Icon>}
+      icon={
+        <>
+          <Icon
+            {...(data.color === "grey" && { className: "outlined" })}
+            sx={{
+              color: data.color !== "grey" ? "#000!important" : "inherit",
+              mr: -1.5,
+              ml: 1.8,
+            }}
+          >
+            label
+          </Icon>
+        </>
+      }
       sx={{
-        background: colors[data.color][session.user.darkMode ? "A200" : 100],
+        background:
+          data.color === "grey"
+            ? ``
+            : colors[data.color][session.user.darkMode ? "A200" : 100] +
+              "!important",
       }}
       onClick={handleClick}
+      {...(data.color === "grey" && { variant: "outlined" })}
     />
   );
 

@@ -214,7 +214,11 @@ export const Task: any = function Task({
                     height: "23px!important",
                     verticalAlign: "top !important",
                   },
-                  ...(taskData.completed && { opacity: 0.7 }),
+                  ...(taskData.completed && {
+                    textDecoration: "line-through",
+                    opacity: 0.7,
+                  }),
+                  textDecorationThickness: "2.5px",
                 }}
               >
                 <span>
