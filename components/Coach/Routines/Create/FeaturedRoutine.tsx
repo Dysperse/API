@@ -21,7 +21,5 @@ import { mutate } from "swr";
 import { DurationPicker } from "./DurationPicker";
 
 export function FeaturedRoutine({ mutationUrl, routine }) {
- 
-  return (<></>
-);
+  return <></>;
 }
