@@ -98,12 +98,13 @@ function SearchTasks() {
           }),
           cursor: "default",
           transition: "transform .2s",
-          background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+          background: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
+          color: `hsl(240,11%,${session.user.darkMode ? 90 : 35}%)`,
           "&:hover": {
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+            background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
           },
           "&:active": {
-            background: `hsl(240,11%,${session.user.darkMode ? 25 : 85}%)`,
+            background: `hsl(240,11%,${session.user.darkMode ? 25 : 80}%)`,
           },
         }}
       >
