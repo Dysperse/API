@@ -57,30 +57,30 @@ Emojis must only be a lowercase unicode string.
 
 export default async function handler(req: any, res: any) {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
-    const client = new Client();
-    const { month }: any = req.query;
+ //   await validatePermissions({
+//      minimum: "read-only",
+//      credentials: [req.query.property, req.query.accessToken],
+//    });
+ //   const client = new Client();
+  //  const { month }: any = req.query;
 
-    if (!month) {
-      res.status(403).json({
-        error: "Month not defined",
-      });
-    }
+ //   if (!month) {
+//      res.status(403).json({
+//        error: "Month not defined",
+////      });
+ //   }
 
-    let response = await client
-      .model("chat")
-      .getCompleteResponse(generatePrompt(month));
+//    let response = await client
+   //   .model("chat")
+//      .getCompleteResponse(generatePrompt(month));
+//
+//    try {
+//      response = JSON.parse(response);
+//    } catch (e) {
+//      console.error("Could not parse JSON");
+//    }
 
-    try {
-      response = JSON.parse(response);
-    } catch (e) {
-      console.error("Could not parse JSON");
-    }
-
-    console.log(response);
+//    console.log(response);
 
     res.status(200).json({
       month,
