@@ -67,7 +67,7 @@ export function DailyCheckIn() {
             pb: 3,
           }}
         >
-          <Typography>
+          <Typography variant="body2" sx={{ opacity: 0.7 }}>
             <i>
               You can reflect on your day {dayjs().set("hour", 13).fromNow()}
             </i>
