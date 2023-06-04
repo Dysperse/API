@@ -362,7 +362,7 @@ export function TasksLayout({ open, setOpen, children }) {
         </Button>
       </Link>
       <Box>
-        {data.filter((x) => x.archived).length !== 0 && (
+        {data && data.filter((x) => x.archived).length !== 0 && (
           <>
             <Divider
               sx={{
