@@ -158,7 +158,10 @@ export function TasksLayout({ open, setOpen, children }) {
   const router = useRouter();
   const session = useSession();
 
-  const [archiveOpen, setArchiveOpen] = useState<boolean>(false);
+  useHotkeys("/", (e) => {
+    e.preventDefault();
+    document.getElementById("createTask")?.click();
+  });
 
   const styles = (condition: boolean) => ({
     cursor: { sm: "unset!important" },
