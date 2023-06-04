@@ -1,4 +1,5 @@
 import { Box, CardActionArea, Icon, Typography } from "@mui/material";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 
 export function DailyCheckInDrawer({ mood }) {
@@ -29,7 +30,7 @@ export function DailyCheckInDrawer({ mood }) {
               gap: 1.5,
             }}
           >
-            {!mood && (
+            {!mood && dayjs().hour() >= 13 && (
               <Box
                 sx={{
                   width: 10,
