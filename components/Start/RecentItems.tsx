@@ -147,6 +147,7 @@ export function RecentItems() {
                   width: "100%",
                   flex: { xs: "0 0 90%", sm: "0 0 20%" },
                   borderRadius: 5,
+                  "& *": { transition: "none" },
                 }}
               >
                 <CardActionArea sx={{ height: "100%" }}>
