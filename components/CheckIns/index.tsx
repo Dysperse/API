@@ -68,7 +68,9 @@ export function DailyCheckIn() {
           }}
         >
           <Typography>
-            <i>Check back in {dayjs().set("hour", 13).fromNow(true)}</i>
+            <i>
+              You can reflect on your day {dayjs().set("hour", 13).fromNow()}
+            </i>
           </Typography>
         </Box>
       )}
