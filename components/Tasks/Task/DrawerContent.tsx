@@ -25,7 +25,7 @@ import DatePicker from "react-calendar";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Task } from ".";
-import { ConfirmationModal } from "../../../../ConfirmationModal";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ExperimentalAiSubtask } from "./ExperimentalAiSubtask";

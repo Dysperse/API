@@ -1,10 +1,10 @@
-import { templates } from "@/components/Boards/Board/Create";
 import { Loading } from "@/components/Layout/Loading";
 import { BoardTemplate } from "@/components/Onboarding/BoardTemplate";
 import { Color } from "@/components/Onboarding/Color";
 import { InventoryList } from "@/components/Onboarding/InventoryList";
 import { StepIcon } from "@/components/Onboarding/StepIcon";
 import { cards } from "@/components/Rooms/CreateItem/cards";
+import { templates } from "@/components/Tasks/Board/Create";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";

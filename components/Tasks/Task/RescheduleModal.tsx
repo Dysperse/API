@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { cloneElement, useState } from "react";
-import { Puller } from "../../../../Puller";
+import { Puller } from "../../Puller";
 
 export function RescheduleModal({ data, children, handlePostpone }) {
   const session = useSession();

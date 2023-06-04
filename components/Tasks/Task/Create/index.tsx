@@ -34,7 +34,7 @@ import {
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
-import EmojiPicker from "../../../../../EmojiPicker";
+import EmojiPicker from "../../../EmojiPicker";
 import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
 

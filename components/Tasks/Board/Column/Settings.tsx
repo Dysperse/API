@@ -17,12 +17,11 @@ import {
 } from "@mui/material";
 import { useCallback, useDeferredValue, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
+export function ColumnSettings({ setColumnTasks, mutateData, column }) {
   const storage = useAccountStorage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
@@ -82,7 +81,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
           zIndex: 9999999,
         }}
         onClose={() => {
-          mutate(mutationUrls.boardData);
+          mutateData();
           setOpen(false);
         }}
         onOpen={() => setOpen(true)}
@@ -148,7 +147,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
                     id: column.id,
                     name: title,
                     emoji: emoji,
-                  }).then(() => mutate(mutationUrls.boardData)),
+                  }).then(mutateData),
                   {
                     loading: "Saving...",
                     success: "Edited column!",
@@ -240,8 +239,7 @@ export function ColumnSettings({ setColumnTasks, mutationUrls, column }) {
             await fetchRawApi("property/boards/column/delete", {
               id: column.id,
             });
-            await mutate(mutationUrls.board);
-            await mutate(mutationUrls.boardData);
+            await mutateData();
             handleClose();
           }}
         >

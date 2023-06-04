@@ -4,7 +4,7 @@ import { Alert, Box, CircularProgress, SwipeableDrawer } from "@mui/material";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { mutate } from "swr";
-import { ErrorHandler } from "../../../../Error";
+import { ErrorHandler } from "../../Error";
 import DrawerContent from "./DrawerContent";
 
 export const parseEmojis = (value) => {

@@ -1,6 +1,6 @@
-import { Task } from "@/components/Boards/Board/Column/Task";
-import { TasksLayout, taskStyles } from "@/components/Boards/Layout";
 import { ErrorHandler } from "@/components/Error";
+import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
+import { Task } from "@/components/Tasks/Task";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";

@@ -1,5 +1,4 @@
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -15,13 +14,12 @@ import {
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import EmojiPicker from "../../../EmojiPicker";
+import { Task } from "../../Task";
+import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
-import { Task } from "./Task";
-import { CreateTask } from "./Task/Create";
 
-export function Column({ board, mutationUrls, column, index }) {
+export function Column({ board, mutateData, mutationUrls, column, index }) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
 
@@ -46,8 +44,6 @@ export function Column({ board, mutationUrls, column, index }) {
     [columnTasks]
   );
 
-  const mount = useDelayedMount(loading, 1000);
-
   const scrollIntoView = async () => {
     if (window.innerWidth > 600) {
       document.body.scrollTop = 0;
@@ -65,13 +61,8 @@ export function Column({ board, mutationUrls, column, index }) {
 
     setLoading(true);
     try {
-      await mutate(mutationUrls.tasks);
-      await mutate(mutationUrls.boardData);
-      await new Promise((r) =>
-        setTimeout(() => {
-          r("");
-        }, 500)
-      );
+      await mutateData();
+      await new Promise((r) => setTimeout(() => r(""), 500));
     } catch (e) {
       toast.error(
         "Yikes! We couldn't get your tasks. Please try again later",
@@ -90,7 +81,7 @@ export function Column({ board, mutationUrls, column, index }) {
           zIndex: 9999999,
         }}
         onClose={() => {
-          mutate(mutationUrls.boardData);
+          mutateData();
           setOpen(false);
         }}
         onOpen={() => setOpen(true)}
@@ -105,73 +96,70 @@ export function Column({ board, mutationUrls, column, index }) {
           },
         }}
       >
-        <>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 1.5,
-              py: 2,
-              mb: 1,
-              borderBottom: `1px solid ${
-                session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
-              }`,
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 1.5,
+            py: 2,
+            mb: 1,
+            borderBottom: `1px solid ${
+              session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
+            }`,
+          }}
+        >
+          <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+            <picture>
+              <img
+                alt="emoji"
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+              />
+            </picture>
+          </EmojiPicker>
+          <TextField
+            value={title}
+            onChange={(e: any) => setTitle(e.target.value)}
+            id={"renameInput"}
+            inputRef={ref}
+            onKeyDown={(e) => {
+              if (e.code === "Enter") {
+                buttonRef.current.click();
+              }
+            }}
+            size="small"
+            InputProps={{
+              sx: {
+                fontWeight: "700",
+              },
+            }}
+          />
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <Button
+            ref={buttonRef}
+            size="large"
+            onClick={async () => {
+              toast.promise(
+                fetchRawApi("property/boards/column/edit", {
+                  id: column.id,
+                  name: title,
+                  emoji: emoji,
+                }).then(mutateData),
+                {
+                  loading: "Saving...",
+                  success: "Edited column!",
+                  error: "Yikes! An error occured - Please try again later!",
+                },
+                toastStyles
+              );
+              setOpen(false);
             }}
           >
-            <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
-              <picture>
-                <img
-                  alt="emoji"
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                />
-              </picture>
-            </EmojiPicker>
-            <TextField
-              value={title}
-              onChange={(e: any) => setTitle(e.target.value)}
-              id={"renameInput"}
-              inputRef={ref}
-              onKeyDown={(e) => {
-                if (e.code === "Enter") {
-                  buttonRef.current.click();
-                }
-              }}
-              size="small"
-              InputProps={{
-                sx: {
-                  fontWeight: "700",
-                },
-              }}
-            />
-          </Box>
-
-          <Box sx={{ display: "flex" }}>
-            <Button
-              ref={buttonRef}
-              size="large"
-              onClick={async () => {
-                toast.promise(
-                  fetchRawApi("property/boards/column/edit", {
-                    id: column.id,
-                    name: title,
-                    emoji: emoji,
-                  }).then(() => mutate(mutationUrls.boardData)),
-                  {
-                    loading: "Saving...",
-                    success: "Edited column!",
-                    error: "Yikes! An error occured - Please try again later!",
-                  },
-                  toastStyles
-                );
-                setOpen(false);
-              }}
-            >
-              <Icon className="outlined">save</Icon>
-              Save
-            </Button>
-          </Box>
-        </>
+            <Icon className="outlined">save</Icon>
+            Save
+          </Button>
+        </Box>
       </SwipeableDrawer>
       <Box
         sx={{
@@ -192,7 +180,7 @@ export function Column({ board, mutationUrls, column, index }) {
           maxWidth: "100vw",
         }}
       >
-        <Collapse in={loading} orientation="vertical">
+        <Collapse in={loading} orientation="vertical" mountOnEnter>
           <Box
             sx={{
               display: "flex",
@@ -203,7 +191,7 @@ export function Column({ board, mutationUrls, column, index }) {
               background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
             }}
           >
-            {mount && <CircularProgress />}
+            <CircularProgress />
           </Box>
         </Collapse>
         <Box
@@ -285,7 +273,7 @@ export function Column({ board, mutationUrls, column, index }) {
               <ColumnSettings
                 setColumnTasks={setColumnTasks}
                 column={column}
-                mutationUrls={mutationUrls}
+                mutateData={mutateData}
               />
             </Box>
           </Box>

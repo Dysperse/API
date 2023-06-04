@@ -1,7 +1,7 @@
 import { useApi } from "@/lib/client/useApi";
 import { Box, CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
-import { Task } from "./Board/Column/Task";
+import { Task } from "./Task";
 
 export function Backlog() {
   const { data, url } = useApi("property/tasks/backlog", {

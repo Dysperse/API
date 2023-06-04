@@ -23,7 +23,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
-import { CreateTask } from "../Board/Column/Task/Create";
+import { CreateTask } from "../Task/Create";
 import { Tab } from "./Tab";
 
 function SearchTasks({ setOpen }) {

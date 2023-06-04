@@ -22,7 +22,7 @@ export default function CreateColumn({
   hide,
   setCurrentColumn,
   id,
-  mutationUrl,
+  mutationUrls,
   mobile = false,
 }: any) {
   const storage = useAccountStorage();
@@ -48,25 +48,17 @@ export default function CreateColumn({
       emoji,
       id: id,
     })
-      .then(() => {
+      .then(async () => {
         toast.success("Created column!", toastStyles);
         setOpen(false);
-        mutate(mutationUrl)
-          .then(() => {
-            setCurrentColumn((e) => e + 1);
-            setLoading(false);
-            setEmoji(
-              "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
-            );
-            setOpen(false);
-          })
-          .catch(() => {
-            setLoading(false);
-            toast.error(
-              "Something went wrong while updating the board. Try reloading the page.",
-              toastStyles
-            );
-          });
+        await mutate(mutationUrls.tasks);
+        await mutate(mutationUrls.boardData);
+        setCurrentColumn((e) => e + 1);
+        setLoading(false);
+        setEmoji(
+          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
+        );
+        setOpen(false);
       })
       .catch(() => {
         setLoading(false);
@@ -75,7 +67,7 @@ export default function CreateColumn({
           toastStyles
         );
       });
-  }, [emoji, id, mutationUrl, setCurrentColumn]);
+  }, [emoji, id, mutationUrls, setCurrentColumn]);
 
   useEffect(() => {
     if (open || mobileOpen) {

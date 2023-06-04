@@ -45,7 +45,10 @@ export function BoardInfo({
           id: board.id,
           name: titleRef.current.value,
           description: descriptionRef.current.value,
-        }).then(() => mutate(mutationUrls.boardData)),
+        }).then(async () => {
+          await mutate(mutationUrls.boardData);
+          await mutate(mutationUrls.tasks);
+        }),
         {
           loading: "Updating...",
           success: "Updated board!",
@@ -60,7 +63,7 @@ export function BoardInfo({
     board.description,
     board.id,
     board.name,
-    mutationUrls.boardData,
+    mutationUrls,
   ]);
   const session = useSession();
 
@@ -303,7 +306,7 @@ export function BoardInfo({
             >
               <Icon className="outlined">menu</Icon>
             </IconButton>
-            <BoardSettings mutationUrl={mutationUrls.boardData} board={board} />
+            <BoardSettings mutationUrls={mutationUrls} board={board} />
             <IconButton
               size="large"
               sx={{

@@ -1,5 +1,5 @@
-import { CreateBoard } from "@/components/Boards/Board/Create";
-import { TasksLayout } from "@/components/Boards/Layout";
+import { CreateBoard } from "@/components/Tasks/Board/Create";
+import { TasksLayout } from "@/components/Tasks/Layout";
 import { useApi } from "@/lib/client/useApi";
 import { useState } from "react";
 

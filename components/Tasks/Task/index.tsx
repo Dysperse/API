@@ -21,7 +21,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { ConfirmationModal } from "../../../../ConfirmationModal";
+import { ConfirmationModal } from "../../ConfirmationModal";
 import { TaskDrawer } from "./TaskDrawer";
 
 const ImageViewer = dynamic(() =>

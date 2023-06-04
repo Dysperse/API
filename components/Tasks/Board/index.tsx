@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import { useCallback, useState } from "react";
+import { mutate } from "swr";
 import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
@@ -42,6 +43,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
   const mount = useDelayedMount(mobileOpen, 1000);
+
+  const mutateData = async () => {
+    await mutate(mutationUrls.tasks);
+    await mutate(mutationUrls.boardData);
+  };
 
   return (
     <Box
@@ -164,6 +170,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         .map((column, index: number) => (
           <Column
             index={index}
+            mutateData={mutateData}
             mutationUrls={mutationUrls}
             column={column}
             key={column.id}

@@ -1,4 +1,4 @@
-import { TasksLayout } from "@/components/Boards/Layout";
+import { TasksLayout } from "@/components/Tasks/Layout";
 import { useApi } from "@/lib/client/useApi";
 import { Box, CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";

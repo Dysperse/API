@@ -19,8 +19,8 @@ import Image from "next/image";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
-import { Task } from "../Board/Column/Task";
-import { CreateTask } from "../Board/Column/Task/Create";
+import { Task } from "../Task";
+import { CreateTask } from "../Task/Create";
 
 interface AgendaColumnProps {
   mutationUrl: string;

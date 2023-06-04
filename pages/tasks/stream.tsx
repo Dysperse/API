@@ -1,8 +1,8 @@
-import { Backlog } from "@/components/Boards/Backlog";
-import { Task } from "@/components/Boards/Board/Column/Task";
-import { CreateTask } from "@/components/Boards/Board/Column/Task/Create";
-import { TasksLayout, taskStyles } from "@/components/Boards/Layout";
 import { ErrorHandler } from "@/components/Error";
+import { Backlog } from "@/components/Tasks/Backlog";
+import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
+import { Task } from "@/components/Tasks/Task";
+import { CreateTask } from "@/components/Tasks/Task/Create";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";

@@ -11,7 +11,7 @@ import {
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import DatePicker from "react-calendar";
-import { Puller } from "../../../../Puller";
+import { Puller } from "../../Puller";
 import { formatDate } from "./formatDate";
 
 export const SelectDateModal: any = React.memo(function SelectDateModal({

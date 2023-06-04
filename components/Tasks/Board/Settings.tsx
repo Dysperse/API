@@ -11,7 +11,7 @@ import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
 
-export default function BoardSettings({ mutationUrl, board }) {
+export default function BoardSettings({ mutationUrls, board }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -20,7 +20,7 @@ export default function BoardSettings({ mutationUrl, board }) {
   };
 
   const handleClose = () => {
-    mutate(mutationUrl);
+    mutate(mutationUrls.boardData);
     setAnchorEl(null);
   };
 
@@ -93,7 +93,7 @@ export default function BoardSettings({ mutationUrl, board }) {
           setCurrentColumn={(e: any) => e}
           mobile
           id={board.id}
-          mutationUrl={mutationUrl}
+          mutationUrls={mutationUrls}
           hide={board?.columns.length === 1 || board?.columns.length >= 5}
         />
         <MenuItem
@@ -120,7 +120,7 @@ export default function BoardSettings({ mutationUrl, board }) {
               id: board.id,
               public: !board.public,
             });
-            await mutate(mutationUrl);
+            await mutate(mutationUrls.boardData);
           }}
         >
           <MenuItem disabled={storage?.isReached === true}>
@@ -143,7 +143,7 @@ export default function BoardSettings({ mutationUrl, board }) {
               id: board.id,
               archived: !board.archived,
             });
-            await mutate(mutationUrl);
+            await mutate(mutationUrls.boardData);
           }}
         >
           <MenuItem onClick={handleClose}>
@@ -157,7 +157,7 @@ export default function BoardSettings({ mutationUrl, board }) {
           callback={async () => {
             await fetchRawApi("property/boards/delete", { id: board.id });
             router.push("/tasks");
-            await mutate(mutationUrl);
+            await mutate(mutationUrls.boardData);
           }}
         >
           <MenuItem onClick={handleClose} disabled={board.archived}>

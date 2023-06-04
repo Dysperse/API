@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { Twemoji } from "react-emoji-render";
-import { CreateTask } from "../Boards/Board/Column/Task/Create";
-import { TaskDrawer } from "../Boards/Board/Column/Task/TaskDrawer";
+import { CreateTask } from "../Tasks/Task/Create";
+import { TaskDrawer } from "../Tasks/Task/TaskDrawer";
 
 export function RecentItems() {
   const trigger = useMediaQuery("(min-width: 600px)");

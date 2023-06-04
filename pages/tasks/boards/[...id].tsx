@@ -1,14 +1,18 @@
-import { Board } from "@/components/Boards/Board";
-import { TasksLayout } from "@/components/Boards/Layout";
+import { ErrorHandler } from "@/components/Error";
+import { Board } from "@/components/Tasks/Board";
+import { TasksLayout } from "@/components/Tasks/Layout";
 import { useApi } from "@/lib/client/useApi";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-function BoardContainer({ setOpen, id }) {
+const BoardContainer = ({ setOpen, id }) => {
   const { data, url, error } = useApi("property/boards", { id });
 
   return (
     <>
+      {error && (
+        <ErrorHandler error="An error occured while trying to get this board's information" />
+      )}
       {data && (
         <Board
           mutationUrl={url}
@@ -18,14 +22,11 @@ function BoardContainer({ setOpen, id }) {
       )}
     </>
   );
-}
+};
 
-/**
- * Top-level component for the dashboard page.
- */
-export default function Dashboard() {
+const Dashboard = () => {
   const router = useRouter();
-  const id = router && router.query && router.query.id && router.query.id[0];
+  const id = router?.query?.id?.[0];
   const [open, setOpen] = useState(false);
 
   return (
@@ -33,4 +34,6 @@ export default function Dashboard() {
       {id && <BoardContainer setOpen={setOpen} id={id} />}
     </TasksLayout>
   );
-}
+};
+
+export default Dashboard;
