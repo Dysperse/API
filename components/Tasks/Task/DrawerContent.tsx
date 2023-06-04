@@ -30,7 +30,7 @@ import { Color } from "./Color";
 import { CreateTask } from "./Create";
 import { ExperimentalAiSubtask } from "./ExperimentalAiSubtask";
 import { ImageViewer } from "./ImageViewer";
-import { RescheduleModal } from "./RescheduleModal";
+import { RescheduleModal } from "./Snooze";
 import { parseEmojis } from "./TaskDrawer";
 
 function ColorPopover({ data, setTaskData, mutationUrl }) {
