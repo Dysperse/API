@@ -84,7 +84,73 @@ export default async function handler(req: any, res: any) {
 
     res.status(200).json({
       month,
-      response,
+      response: {
+
+   "name": "Gain muscle (without equipment)",
+
+   "emoji": "1f4aa",
+
+   "timeOfDay": 14,
+
+   "daysOfWeek": "[true, true, true, true, true, true, true]",
+
+   "durationDays": 100,
+
+   "category": "Fitness",
+
+   "items": [
+
+      {
+
+         "name": "10 push-ups every day",
+
+         "stepName": "Do 10 push-ups today",
+
+         "category": "Fitness",
+
+         "description": "Do 10 push-ups every day",
+
+         "durationDays": 100,
+
+         "time": "afternoon"
+
+      },
+
+      {
+
+         "name": "50 squats every day",
+
+         "stepName": "Do 50 squats today",
+
+         "category": "Fitness",
+
+         "description": "Perform 50 squats every day to build leg muscles.",
+
+         "durationDays": 30,
+
+         "time": "morning"
+
+      },
+
+      {
+
+         "name": "50 crunches every day",
+
+         "stepName": "Do 50 crunches today",
+
+         "category": "Fitness",
+
+         "description": "Perform 50 crunches every day to build core muscles.",
+
+         "durationDays": 60,
+
+         "time": "morning"
+
+      }
+
+   ]
+
+},
     });
   } catch (e: any) {
     res.json({ error: e.message });
