@@ -410,17 +410,7 @@ export default function DrawerContent({
                   session.permission === "read-only"
                 }
               >
-                <Icon
-                  {...(!data.pinned && { className: "outlined" })}
-                  sx={{
-                    ...(data.pinned && {
-                      transform: "rotate(-20deg)",
-                    }),
-                    transition: "all .2s",
-                  }}
-                >
-                  more_vert
-                </Icon>
+                <Icon>more_vert</Icon>
               </IconButton>
             )}
             {!isMobile && (
@@ -463,7 +453,7 @@ export default function DrawerContent({
             <Chip
               variant="outlined"
               label={
-                data.due && dayjs(data.due).format("dddd, MMM D, YYYY, h:mm A")
+                data.due && dayjs(data.due).format("MMMM D, YYYY [at] h:mm A")
               }
               onClick={() => setOpen(true)}
               disabled={
