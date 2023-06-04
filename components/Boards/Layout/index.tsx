@@ -25,7 +25,7 @@ import { Puller } from "../../Puller";
 import { CreateTask } from "../Board/Column/Task/Create";
 import { Tab } from "./Tab";
 
-function SearchTasks() {
+function SearchTasks({ setOpen }) {
   const router = useRouter();
   const session = useSession();
   const [query, setQuery] = useState(
@@ -91,7 +91,10 @@ function SearchTasks() {
         />
       </Box>
       <IconButton
-        onClick={() => document.getElementById("createTask")?.click()}
+        onClick={() => {
+          document.getElementById("createTask")?.click();
+          setOpen(false);
+        }}
         sx={{
           ...(Boolean(query.trim()) && {
             transform: "scale(0)",
@@ -227,7 +230,7 @@ export function TasksLayout({ open, setOpen, children }) {
           error="An error occurred while loading your tasks"
         />
       )}
-      <SearchTasks />
+      <SearchTasks setOpen={setOpen} />
       <Typography sx={taskStyles(session).subheading}>Perspectives</Typography>
       <Box onClick={() => setOpen(false)}>
         {[
