@@ -48,6 +48,7 @@ function TodaysTasks({ data, url, error }) {
     <CircularProgress />
   );
 }
+
 function UpcomingTasks({ data, url, error }) {
   return data ? (
     <>

@@ -55,6 +55,13 @@ function SearchTasks() {
           router.push(`/tasks/search/${encodeURIComponent(query)}`)
         }
         value={query}
+        sx={{
+          transition: "all .2s",
+          zIndex: 999,
+          ...(Boolean(query.trim()) && {
+            mr: -6,
+          }),
+        }}
         onChange={(e) => setQuery(e.target.value)}
         InputProps={{
           sx: {
@@ -87,7 +94,6 @@ function SearchTasks() {
         sx={{
           ...(Boolean(query.trim()) && {
             transform: "scale(0)",
-            ml: -6,
           }),
           transition: "transform .2s",
           background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
