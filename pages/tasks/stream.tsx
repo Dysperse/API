@@ -127,7 +127,15 @@ export default function Dashboard() {
       <Head>
         <title>Stream</title>
       </Head>
-      <Box sx={{ p: { xs: 0, sm: 3 }, pb: 1, pt: { sm: 5 }, mb: 10 }}>
+      <Box
+        sx={{
+          p: { xs: 0, sm: 3 },
+          pb: 1,
+          pt: { sm: 5 },
+          mb: 10,
+          maxWidth: "100vw",
+        }}
+      >
         <Box sx={{ px: { xs: 3.5, sm: 1.5 }, py: { xs: 4, sm: 0 } }}>
           <Typography className="font-heading" variant="h4">
             Stream
