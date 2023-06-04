@@ -298,6 +298,7 @@ export function TasksLayout({ open, setOpen, children }) {
           </Link>
         ))}
       </Box>
+
       <Divider
         sx={{
           mt: 1,
@@ -322,7 +323,7 @@ export function TasksLayout({ open, setOpen, children }) {
       <Link
         href={
           Boolean(storage?.isReached) ||
-          data?.filter((board) => !board.archived).length >= 5 ||
+          data?.filter((board) => !board.archived).length >= 7 ||
           session.permission === "read-only"
             ? "/tasks"
             : "/tasks/boards/create"
@@ -333,7 +334,7 @@ export function TasksLayout({ open, setOpen, children }) {
           fullWidth
           disabled={
             Boolean(storage?.isReached) ||
-            data?.filter((board) => !board.archived).length >= 5 ||
+            data?.filter((board) => !board.archived).length >= 7 ||
             session.permission === "read-only"
           }
           ref={ref}
@@ -345,7 +346,7 @@ export function TasksLayout({ open, setOpen, children }) {
             cursor: "default",
             ...((storage?.isReached === true ||
               (data &&
-                data.filter((board) => !board.archived).length >= 5)) && {
+                data.filter((board) => !board.archived).length >= 7)) && {
               opacity: 0.5,
             }),
             justifyContent: "start",
@@ -361,16 +362,22 @@ export function TasksLayout({ open, setOpen, children }) {
         </Button>
       </Link>
       <Box>
-        <Divider
-          sx={{
-            mt: 1,
-            mb: 2,
-            width: { sm: "90%" },
-            mx: "auto",
-            opacity: 0.5,
-          }}
-        />
-        <Typography sx={taskStyles(session).subheading}>Archived</Typography>
+        {data.filter((x) => x.archived).length !== 0 && (
+          <>
+            <Divider
+              sx={{
+                mt: 1,
+                mb: 2,
+                width: { sm: "90%" },
+                mx: "auto",
+                opacity: 0.5,
+              }}
+            />
+            <Typography sx={taskStyles(session).subheading}>
+              Archived
+            </Typography>
+          </>
+        )}
         {data &&
           data
             .filter((x) => x.archived)
