@@ -6,6 +6,7 @@ import { vibrate } from "@/lib/client/vibration";
 import {
   Alert,
   Box,
+  Button,
   CircularProgress,
   Icon,
   IconButton,
@@ -119,10 +120,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         />
       )}
       <SwipeableDrawer
+        ModalProps={{ keepMounted: true }}
         open={mobileOpen}
         onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
-        sx={{ zIndex: 999 }}
+        sx={{ zIndex: 999, display: { sm: "none" } }}
         PaperProps={{
           sx: {
             borderRadius: "20px",
@@ -168,6 +170,29 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             board={board}
           />
         ))}
+      {data.length == 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            height: "100%",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            onClick={() => {
+              setMobileOpen(true);
+              document.getElementById("newColumn")?.click();
+            }}
+            variant="contained"
+            size="large"
+            sx={{ px: 2 }}
+          >
+            <Icon>add</Icon>New column
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }

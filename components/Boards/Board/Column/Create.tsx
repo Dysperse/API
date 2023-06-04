@@ -214,32 +214,13 @@ export default function CreateColumn({
         <Puller />
         <Children mobile />
       </SwipeableDrawer>
-      <Box>
-        {!open && mobile ? (
-          <MenuItem
-            disabled={hide || open || mobileOpen || storage?.isReached === true}
-            onClick={() => setMobileOpen(true)}
-          >
-            <Icon className="outlined">post_add</Icon> New column
-          </MenuItem>
-        ) : hide || open || mobileOpen ? null : (
-          <Box
-            onClick={() => {
-              setOpen(true);
-              setTimeout(() => {
-                const container: any = document.getElementById("taskContainer");
-                container.scrollLeft += 20000;
-              }, 10);
-            }}
-            sx={{
-              whiteSpace: "nowrap",
-              transition: "none!important",
-            }}
-          >
-            <Icon className="outlined">add_circle</Icon> Create column
-          </Box>
-        )}
-      </Box>
+      <MenuItem
+        disabled={hide || storage?.isReached === true}
+        onClick={() => setMobileOpen(true)}
+        id="newColumn"
+      >
+        <Icon className="outlined">post_add</Icon> New column
+      </MenuItem>
     </>
   );
 }

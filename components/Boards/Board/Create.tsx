@@ -22,6 +22,32 @@ import { mutate } from "swr";
 import { OptionsGroup } from "../../OptionsGroup";
 import { taskStyles } from "../Layout";
 
+const checklistCardStyles = (session) => ({
+  background: session.user.darkMode
+    ? "hsl(240, 11%, 13%)"
+    : "rgba(200,200,200,.3)",
+  borderRadius: 5,
+  p: 3,
+  transition: "transform 0.2s",
+  cursor: "pointer",
+  userSelect: "none",
+  "&:hover": {
+    background: session.user.darkMode
+      ? "hsl(240, 11%, 16%)"
+      : "rgba(200,200,200,.4)",
+  },
+  "&:active": {
+    background: session.user.darkMode
+      ? "hsl(240, 11%, 18%)"
+      : "rgba(200,200,200,.5)",
+    transform: "scale(.98)",
+    transition: "none",
+  },
+  display: "flex",
+  alignItems: "center",
+  gap: 2,
+});
+
 function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
@@ -646,30 +672,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
                         opacity: 0.5,
                         pointerEvents: "none",
                       }),
-                      width: "100%!important",
-                      background: session.user.darkMode
-                        ? "hsl(240, 11%, 13%)"
-                        : "rgba(200,200,200,.3)",
-                      borderRadius: 5,
-                      p: 3,
-                      transition: "transform 0.2s",
-                      cursor: "pointer",
-                      userSelect: "none",
-                      "&:hover": {
-                        background: session.user.darkMode
-                          ? "hsl(240, 11%, 16%)"
-                          : "rgba(200,200,200,.4)",
-                      },
-                      "&:active": {
-                        background: session.user.darkMode
-                          ? "hsl(240, 11%, 18%)"
-                          : "rgba(200,200,200,.5)",
-                        transform: "scale(.98)",
-                        transition: "none",
-                      },
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 2,
+                      ...checklistCardStyles(session),
                     }}
                   >
                     <Icon>task_alt</Icon>
@@ -681,6 +684,32 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
         </>
       ) : (
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
+          <Box sx={{ px: 1 }}>
+            <Card
+              sx={{
+                ...checklistCardStyles(session),
+                mb: 2,
+              }}
+              onClick={() => {
+                fetchRawApi("property/boards/create", {
+                  board: JSON.stringify({
+                    for: ["Student", "College student"],
+                    name: "Untitled board",
+                    description: "",
+                    color: "blue",
+                    columns: [],
+                  }),
+                }).then(async (res) => {
+                  await mutate(mutationUrl);
+                  router.push(`/tasks/boards/${res.id}`);
+                  setLoading(false);
+                });
+              }}
+            >
+              <Icon>add_circle</Icon>
+              <Typography sx={{ fontWeight: 700 }}>Blank board</Typography>
+            </Card>
+          </Box>
           {templates.filter(
             (template) =>
               template.name

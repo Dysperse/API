@@ -32,6 +32,7 @@ export default function BoardSettings({ mutationUrl, board }) {
     <>
       <Menu
         id="basic-menu"
+        keepMounted
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
