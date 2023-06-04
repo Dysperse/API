@@ -62,7 +62,7 @@ export default async function handler(req: any, res: any) {
 //      credentials: [req.query.property, req.query.accessToken],
 //    });
  //   const client = new Client();
-  //  const { month }: any = req.query;
+  const { month }: any = req.query;
 
  //   if (!month) {
 //      res.status(403).json({
