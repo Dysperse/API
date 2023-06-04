@@ -38,6 +38,21 @@ import EmojiPicker from "../../../../../EmojiPicker";
 import { SelectDateModal } from "../SelectDateModal";
 import { ImageModal } from "./ImageModal";
 
+export const taskButtonStyles = (session) => ({
+  color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 40}%)`,
+  fontWeight: 700,
+  borderRadius: { xs: 0, sm: 3 },
+  borderBottom: { xs: "1px solid", sm: "none" },
+  borderColor: `hsl(240, 11%, ${session.user.darkMode ? 15 : 93}%) !important`,
+  transition: "none",
+  gap: 1.5,
+  "&:focus-within, &:active": {
+    background: `hsl(240, 11%, ${session.user.darkMode ? 15 : 94}%) !important`,
+  },
+  py: { xs: 2, sm: 1.5 },
+  px: { xs: 2.5, sm: 1.5 },
+});
+
 export function CreateTask({
   isSubTask = false,
   sx = {},
@@ -570,24 +585,10 @@ export function CreateTask({
         id="createTask"
         className="cursor-unset"
         sx={{
-          color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 40}%)`,
-          fontWeight: 700,
-          borderRadius: { xs: 0, sm: 3 },
-          borderBottom: { xs: "1px solid", sm: "none" },
-          borderColor: `hsl(240, 11%, ${
-            session.user.darkMode ? 15 : 93
-          }%) !important`,
-          transition: "none",
-          gap: 1.5,
-          py: { xs: 2, sm: 1.5 },
-          px: { xs: 2.5, sm: 1.5 },
+          ...taskButtonStyles(session),
           mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },
           ...(label && { mb: -0.5 }),
-          "&:focus-within, &:active": {
-            background: `hsl(240, 11%, ${
-              session.user.darkMode ? 15 : 94
-            }%) !important`,
-          },
+
           ...sx,
         }}
         onClick={() => {

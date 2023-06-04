@@ -278,6 +278,16 @@ export default function DrawerContent({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const buttonStyles = {
+    transition: "none",
+    background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
+    "&:hover": {
+      background: `hsl(240,11%,${session.user.darkMode ? 25 : 87}%)`,
+    },
+    "&:active": {
+      background: `hsl(240,11%,${session.user.darkMode ? 25 : 85}%)`,
+    },
+  };
 
   return (
     <>
@@ -286,9 +296,7 @@ export default function DrawerContent({
           <IconButton
             onClick={handleParentClose}
             size="small"
-            sx={{
-              background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
-            }}
+            sx={buttonStyles}
           >
             <Icon>close</Icon>
           </IconButton>
@@ -341,6 +349,7 @@ export default function DrawerContent({
             id="subtaskTrigger"
           >
             <Button
+              disableRipple
               onClick={handleComplete}
               disabled={
                 storage?.isReached === true ||
@@ -351,15 +360,20 @@ export default function DrawerContent({
                   display: { xs: "none", sm: "inline" },
                 },
                 px: 1.5,
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+                ...buttonStyles,
                 ...(data.completed && {
                   background: session.user.darkMode
                     ? "hsl(154, 48.4%, 12.9%)"
-                    : "hsl(151, 50.0%, 53.2%)",
+                    : "hsl(141, 43.7%, 86.0%)",
                   "&:hover": {
                     background: session.user.darkMode
                       ? "hsl(154, 49.7%, 14.9%)"
-                      : "hsl(151, 55.0%, 41.5%)",
+                      : "hsl(143, 40.3%, 79.0%)",
+                  },
+                  "&:active": {
+                    background: session.user.darkMode
+                      ? "hsl(154, 49.7%, 14.9%)"
+                      : "hsl(146, 38.5%, 69.0%)",
                   },
                 }),
               }}
@@ -373,12 +387,11 @@ export default function DrawerContent({
             </Button>
             <RescheduleModal data={data} handlePostpone={handlePostpone}>
               <Button
+                disableRipple
                 disabled={!data.due}
                 sx={{
                   px: 1.5,
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 20 : 90
-                  }%)`,
+                  ...buttonStyles,
                 }}
               >
                 <Icon className="outlined">bedtime</Icon>
@@ -391,9 +404,22 @@ export default function DrawerContent({
                 size="small"
                 sx={{
                   flexShrink: 0,
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 20 : 90
-                  }%)`,
+                  ...buttonStyles,
+                  ...(data.pinned && {
+                    background: session.user.darkMode
+                      ? "hsl(24, 88.6%, 19.8%)"
+                      : "hsl(25, 100%, 82.8%)",
+                    "&:hover": {
+                      background: session.user.darkMode
+                        ? "hsl(24, 92.4%, 24.0%)"
+                        : "hsl(24, 100%, 75.3%)",
+                    },
+                    "&:active": {
+                      background: session.user.darkMode
+                        ? "hsl(25, 100%, 29.0%)"
+                        : "hsl(24, 94.5%, 64.3%)",
+                    },
+                  }),
                 }}
                 disabled={
                   storage?.isReached === true ||
@@ -406,7 +432,8 @@ export default function DrawerContent({
                     ...(data.pinned && {
                       transform: "rotate(-20deg)",
                     }),
-                    transition: "all .2s",
+
+                    transition: "transform .2s",
                   }}
                 >
                   push_pin
@@ -419,9 +446,7 @@ export default function DrawerContent({
                 size="small"
                 sx={{
                   flexShrink: 0,
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 20 : 90
-                  }%)`,
+                  ...buttonStyles,
                 }}
                 disabled={
                   storage?.isReached === true ||
@@ -447,9 +472,7 @@ export default function DrawerContent({
                   size="small"
                   sx={{
                     flexShrink: 0,
-                    background: `hsl(240,11%,${
-                      session.user.darkMode ? 20 : 90
-                    }%)`,
+                    ...buttonStyles,
                   }}
                 >
                   <Icon className="outlined">delete</Icon>

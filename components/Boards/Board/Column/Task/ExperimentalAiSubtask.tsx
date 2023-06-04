@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
+import { taskButtonStyles } from "./Create";
 
 export function ExperimentalAiSubtask({ task }) {
   const session = useSession();
@@ -84,10 +85,7 @@ export function ExperimentalAiSubtask({ task }) {
             if (deferredValue.trim() !== "") generate();
           }}
           sx={{
-            px: 2,
-            cursor: "default",
-            transition: "none",
-            gap: 1.3,
+            ...taskButtonStyles(session),
           }}
         >
           <Icon
@@ -95,13 +93,19 @@ export function ExperimentalAiSubtask({ task }) {
               background:
                 "linear-gradient(to right, #8a2387, #e94057, #f27121)",
               backgroundClip: "text",
-              fontSize: "30px!important",
+              fontSize: "33px!important",
+              my: -1.5,
               WebkitTextFillColor: "transparent",
             }}
           >
             magic_button
           </Icon>
-          <ListItemText primary="Create steps for me" />
+          <ListItemText
+            primary="Create steps for me"
+            sx={{
+              my: 0,
+            }}
+          />
         </ListItemButton>
       </Box>
       <SwipeableDrawer

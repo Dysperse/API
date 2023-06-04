@@ -224,20 +224,14 @@ export function TasksLayout({ open, setOpen, children }) {
         />
       )}
       <SearchTasks />
-      <Link
-        href={`/tasks/stream`}
-        style={{ cursor: "default", marginBottom: "10px" }}
-      >
-        <Button size="large" sx={styles(router.asPath === `/tasks/stream`)}>
-          <Icon className={router.asPath === `/tasks/stream` ? "" : "outlined"}>
-            view_day
-          </Icon>
-          Stream
-        </Button>
-      </Link>
       <Typography sx={taskStyles(session).subheading}>Perspectives</Typography>
       <Box onClick={() => setOpen(false)}>
         {[
+          {
+            hash: "stream",
+            icon: "view_stream",
+            label: "Stream",
+          },
           {
             hash: "agenda/week",
             icon: "view_week",
