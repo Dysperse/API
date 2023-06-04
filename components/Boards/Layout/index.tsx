@@ -11,6 +11,7 @@ import {
   InputAdornment,
   SwipeableDrawer,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -90,29 +91,49 @@ function SearchTasks({ setOpen }) {
           boardId={1}
         />
       </Box>
-      <IconButton
-        onClick={() => {
-          document.getElementById("createTask")?.click();
-          setOpen(false);
-        }}
-        sx={{
-          ...(Boolean(query.trim()) && {
-            transform: "scale(0)",
-          }),
-          cursor: "default",
-          transition: "transform .2s",
-          background: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
-          color: `hsl(240,11%,${session.user.darkMode ? 90 : 35}%)`,
-          "&:hover": {
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
-          },
-          "&:active": {
-            background: `hsl(240,11%,${session.user.darkMode ? 25 : 80}%)`,
-          },
-        }}
+      <Tooltip
+        placement="right"
+        title={
+          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+            New task
+            <span
+              style={{
+                background: `hsla(240,11%,${
+                  session.user.darkMode ? 90 : 10
+                }%, .1)`,
+                padding: "0 10px",
+                borderRadius: "5px",
+              }}
+            >
+              /
+            </span>
+          </Box>
+        }
       >
-        <Icon>add</Icon>
-      </IconButton>
+        <IconButton
+          onClick={() => {
+            document.getElementById("createTask")?.click();
+            setOpen(false);
+          }}
+          sx={{
+            ...(Boolean(query.trim()) && {
+              transform: "scale(0)",
+            }),
+            cursor: "default",
+            transition: "transform .2s",
+            background: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
+            color: `hsl(240,11%,${session.user.darkMode ? 90 : 35}%)`,
+            "&:hover": {
+              background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
+            },
+            "&:active": {
+              background: `hsl(240,11%,${session.user.darkMode ? 25 : 80}%)`,
+            },
+          }}
+        >
+          <Icon>add</Icon>
+        </IconButton>
+      </Tooltip>
     </Box>
   );
 }
