@@ -5,7 +5,6 @@ import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
-  Collapse,
   Divider,
   Icon,
   IconButton,
@@ -58,6 +57,7 @@ function SearchTasks() {
         sx={{
           transition: "all .2s",
           zIndex: 999,
+          cursor: "default",
           ...(Boolean(query.trim()) && {
             mr: -6,
           }),
@@ -65,6 +65,7 @@ function SearchTasks() {
         onChange={(e) => setQuery(e.target.value)}
         InputProps={{
           sx: {
+            cursor: "default",
             borderRadius: 4,
           },
           endAdornment: (
@@ -95,6 +96,7 @@ function SearchTasks() {
           ...(Boolean(query.trim()) && {
             transform: "scale(0)",
           }),
+          cursor: "default",
           transition: "transform .2s",
           background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
           "&:hover": {
@@ -251,11 +253,6 @@ export function TasksLayout({ open, setOpen, children }) {
             icon: "calendar_month",
             label: "Years",
           },
-          {
-            hash: "color-coded",
-            icon: "palette",
-            label: "Color coded",
-          },
         ].map((button) => (
           <Link
             href={`/tasks/${button.hash}`}
@@ -323,6 +320,7 @@ export function TasksLayout({ open, setOpen, children }) {
           sx={{
             ...styles(router.asPath == "/tasks/boards/create"),
             px: 2,
+            cursor: "default",
             ...((storage?.isReached === true ||
               (data &&
                 data.filter((board) => !board.archived).length >= 5)) && {
@@ -337,52 +335,31 @@ export function TasksLayout({ open, setOpen, children }) {
           >
             add_circle
           </Icon>
-          Create
+          New board
         </Button>
       </Link>
       <Box>
-        <Button
-          size="large"
-          onClick={() => setArchiveOpen(!archiveOpen)}
+        <Divider
           sx={{
-            ...styles(false),
-            ...(!data ||
-              (data &&
-                (data.length === 0 ||
-                  !data.find((board) => board.archived)) && {
-                  display: "none",
-                })),
-            ...(archiveOpen && {
-              background: "rgba(200,200,200,.3)",
-            }),
+            mt: 1,
+            mb: 2,
+            width: { sm: "90%" },
+            mx: "auto",
+            opacity: 0.5,
           }}
-        >
-          <Icon className="outlined">inventory_2</Icon>
-          Archived
-          <Icon sx={{ ml: "auto" }}>
-            {archiveOpen ? "expand_more" : "chevron_right"}
-          </Icon>
-        </Button>
-        <Collapse
-          in={archiveOpen}
-          orientation="vertical"
-          sx={{
-            mb: { sm: 5 },
-            borderRadius: 5,
-          }}
-        >
-          {data &&
-            data
-              .filter((x) => x.archived)
-              .map((board) => (
-                <Tab
-                  setDrawerOpen={setOpen}
-                  key={board.id}
-                  styles={styles}
-                  board={board}
-                />
-              ))}
-        </Collapse>
+        />
+        <Typography sx={taskStyles(session).subheading}>Archived</Typography>
+        {data &&
+          data
+            .filter((x) => x.archived)
+            .map((board) => (
+              <Tab
+                setDrawerOpen={setOpen}
+                key={board.id}
+                styles={styles}
+                board={board}
+              />
+            ))}
       </Box>
     </>
   );
