@@ -157,10 +157,10 @@ export default function Dashboard() {
               p: "10px",
               mb: 2,
               flexGrow: 1,
-              borderRadius: 3,
+              borderRadius: 5,
               height: "100%",
               position: "relative",
-              background: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
+              background: `hsl(240,11%,${session.user.darkMode ? 15 : 98}%)`,
             }}
           >
             {error && (

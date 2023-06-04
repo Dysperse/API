@@ -38,7 +38,7 @@ function SearchTasks() {
     <Box
       sx={{
         display: "flex",
-        mb: 1.5,
+        mb: { xs: 2, sm: 1.5 },
         gap: 1,
         alignItems: "center",
       }}
