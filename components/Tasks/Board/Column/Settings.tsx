@@ -49,6 +49,7 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
   return column.name === "" ? (
     <Box onClick={(e) => e.stopPropagation()}>
       <FilterMenu
+        handleParentClose={handleClose}
         originalTasks={column.tasks.filter(
           (task) => task.parentTasks.length === 0
         )}
@@ -195,6 +196,7 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
         onClose={handleClose}
       >
         <FilterMenu
+          handleParentClose={handleClose}
           originalTasks={column.tasks.filter(
             (task) => task.parentTasks.length === 0
           )}

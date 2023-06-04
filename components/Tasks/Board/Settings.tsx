@@ -94,7 +94,10 @@ export default function BoardSettings({ mutationUrls, board }) {
           mobile
           id={board.id}
           mutationUrls={mutationUrls}
-          hide={board?.columns.length === 1 || board?.columns.length >= 5}
+          hide={
+            (board?.columns.length === 1 && board?.columns[0].name === "") ||
+            board?.columns.length >= 5
+          }
         />
         <MenuItem
           disabled={board.archived}

@@ -186,10 +186,8 @@ export function CreateTask({
         ...(parent && { parent }),
         boardId,
         columnId: (column || { id: -1 }).id,
-      }).then(() => {
-        handleMutate();
-        mutate(mutationUrl);
       });
+      toast.dismiss();
       toast.success("Created task!", toastStyles);
 
       setLoading(false);
@@ -200,14 +198,12 @@ export function CreateTask({
       titleRef.current?.focus();
     },
     [
-      handleMutate,
       boardId,
       closeOnCreate,
       column,
       date,
       description,
       image,
-      mutationUrl,
       parent,
       pinned,
       deferredTitle,

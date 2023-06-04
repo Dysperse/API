@@ -1,14 +1,27 @@
 import { Menu, MenuItem } from "@mui/material";
 import { cloneElement, useState } from "react";
 
-export function FilterMenu({ children, originalTasks, setColumnTasks }) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+export function FilterMenu({
+  children,
+  originalTasks,
+  setColumnTasks,
+  handleParentClose,
+}) {
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleMenuClick = (sortingFunction) => {
+    setColumnTasks(originalTasks.sort(sortingFunction));
+    handleClose();
+    handleParentClose();
   };
 
   const trigger = cloneElement(children, {
@@ -38,38 +51,26 @@ export function FilterMenu({ children, originalTasks, setColumnTasks }) {
         }}
       >
         <MenuItem
-          onClick={() => {
-            setColumnTasks(
-              originalTasks.sort((a, b) => (a.name > b.name ? 1 : -1))
-            );
-            handleClose();
-          }}
+          onClick={() =>
+            handleMenuClick((a, b) => a.name.localeCompare(b.name))
+          }
         >
           A-Z
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            setColumnTasks(
-              originalTasks.sort((a, b) => (a.name > b.name ? 1 : -1)).reverse()
-            );
-            handleClose();
-          }}
+          onClick={() =>
+            handleMenuClick((a, b) => b.name.localeCompare(a.name))
+          }
         >
           Z-A
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            setColumnTasks(originalTasks);
-            handleClose();
-          }}
+          onClick={() => handleMenuClick((a, b) => b.createdAt - a.createdAt)}
         >
           Newest to oldest
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            setColumnTasks(originalTasks.reverse());
-            handleClose();
-          }}
+          onClick={() => handleMenuClick((a, b) => a.createdAt - b.createdAt)}
         >
           Oldest to newest
         </MenuItem>
