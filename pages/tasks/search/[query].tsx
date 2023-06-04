@@ -4,6 +4,7 @@ import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { Box, Chip, Icon, Typography } from "@mui/material";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
@@ -33,6 +34,9 @@ export default function Dashboard() {
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>
+      <Head>
+        <title>Search results &apos; Tasks</title>
+      </Head>
       <Box
         sx={{
           p: 3,

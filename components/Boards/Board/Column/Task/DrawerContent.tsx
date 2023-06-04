@@ -11,9 +11,12 @@ import {
   Dialog,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
   Popover,
   TextField,
   Toolbar,
+  useMediaQuery,
 } from "@mui/material";
 import { green, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
@@ -247,9 +250,20 @@ export default function DrawerContent({
     },
   };
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const menuOpen = Boolean(anchorEl);
+  const handleMenuClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
-      <AppBar>
+      <AppBar sx={{ border: 0 }}>
         <Toolbar>
           <IconButton
             onClick={handleParentClose}
@@ -260,55 +274,17 @@ export default function DrawerContent({
           >
             <Icon>close</Icon>
           </IconButton>
-
-          <Box
-            sx={{ ml: "auto", display: "flex", gap: 0.5 }}
-            id="subtaskTrigger"
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={menuOpen}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
           >
-            <Button
-              onClick={handleComplete}
-              disabled={
-                storage?.isReached === true ||
-                session.permission === "read-only"
-              }
-              sx={{
-                px: 1.5,
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
-                ...(data.completed && {
-                  background: session.user.darkMode
-                    ? "hsl(154, 48.4%, 12.9%)"
-                    : "hsl(151, 50.0%, 53.2%)",
-                  "&:hover": {
-                    background: session.user.darkMode
-                      ? "hsl(154, 49.7%, 14.9%)"
-                      : "hsl(151, 55.0%, 41.5%)",
-                  },
-                }),
-              }}
-            >
-              <Icon className="outlined">check_circle</Icon>
-              {data.completed ? "Complete" : "Completed"}
-            </Button>
-            <RescheduleModal data={data} handlePostpone={handlePostpone}>
-              <Button
-                sx={{
-                  px: 1.5,
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 20 : 90
-                  }%)`,
-                }}
-              >
-                <Icon className="outlined">bedtime</Icon>
-                Snooze
-              </Button>
-            </RescheduleModal>
-            <IconButton
+            <MenuItem
               onClick={handlePriorityChange}
-              size="small"
-              sx={{
-                flexShrink: 0,
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
-              }}
               disabled={
                 storage?.isReached === true ||
                 session.permission === "read-only"
@@ -325,7 +301,8 @@ export default function DrawerContent({
               >
                 push_pin
               </Icon>
-            </IconButton>{" "}
+              {data.pinned ? "Pinned" : "Pin"}
+            </MenuItem>
             <ConfirmationModal
               title="Delete task?"
               question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
@@ -336,8 +313,63 @@ export default function DrawerContent({
                 document.getElementById("subtaskTrigger")?.click();
               }}
             >
+              <MenuItem>
+                <Icon className="outlined">delete</Icon>Delete
+              </MenuItem>
+            </ConfirmationModal>
+          </Menu>
+          <Box
+            sx={{ ml: "auto", display: "flex", gap: 0.5 }}
+            id="subtaskTrigger"
+          >
+            <Button
+              onClick={handleComplete}
+              disabled={
+                storage?.isReached === true ||
+                session.permission === "read-only"
+              }
+              sx={{
+                "& .text": {
+                  display: { xs: "none", sm: "inline" },
+                },
+                px: 1.5,
+                background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+                ...(data.completed && {
+                  background: session.user.darkMode
+                    ? "hsl(154, 48.4%, 12.9%)"
+                    : "hsl(151, 50.0%, 53.2%)",
+                  "&:hover": {
+                    background: session.user.darkMode
+                      ? "hsl(154, 49.7%, 14.9%)"
+                      : "hsl(151, 55.0%, 41.5%)",
+                  },
+                }),
+              }}
+            >
+              <Icon className={data.completed ? "" : "outlined"}>
+                check_circle
+              </Icon>
+              <span className="text">
+                {data.completed ? "Completed" : "Complete"}
+              </span>
+            </Button>
+            <RescheduleModal data={data} handlePostpone={handlePostpone}>
+              <Button
+                disabled={!data.due}
+                sx={{
+                  px: 1.5,
+                  background: `hsl(240,11%,${
+                    session.user.darkMode ? 20 : 90
+                  }%)`,
+                }}
+              >
+                <Icon className="outlined">bedtime</Icon>
+                Snooze
+              </Button>
+            </RescheduleModal>
+            {!isMobile && (
               <IconButton
-                onClick={handleParentClose}
+                onClick={handlePriorityChange}
                 size="small"
                 sx={{
                   flexShrink: 0,
@@ -345,10 +377,77 @@ export default function DrawerContent({
                     session.user.darkMode ? 20 : 90
                   }%)`,
                 }}
+                disabled={
+                  storage?.isReached === true ||
+                  session.permission === "read-only"
+                }
               >
-                <Icon className="outlined">delete</Icon>
+                <Icon
+                  {...(!data.pinned && { className: "outlined" })}
+                  sx={{
+                    ...(data.pinned && {
+                      transform: "rotate(-20deg)",
+                    }),
+                    transition: "all .2s",
+                  }}
+                >
+                  push_pin
+                </Icon>
               </IconButton>
-            </ConfirmationModal>
+            )}
+            {isMobile && (
+              <IconButton
+                onClick={handleMenuClick}
+                size="small"
+                sx={{
+                  flexShrink: 0,
+                  background: `hsl(240,11%,${
+                    session.user.darkMode ? 20 : 90
+                  }%)`,
+                }}
+                disabled={
+                  storage?.isReached === true ||
+                  session.permission === "read-only"
+                }
+              >
+                <Icon
+                  {...(!data.pinned && { className: "outlined" })}
+                  sx={{
+                    ...(data.pinned && {
+                      transform: "rotate(-20deg)",
+                    }),
+                    transition: "all .2s",
+                  }}
+                >
+                  more_vert
+                </Icon>
+              </IconButton>
+            )}
+            {!isMobile && (
+              <ConfirmationModal
+                title="Delete task?"
+                question={`This task has ${data.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
+                disabled={data.subTasks.length === 0}
+                callback={async () => {
+                  handleParentClose();
+                  await handleDelete(data.id);
+                  document.getElementById("subtaskTrigger")?.click();
+                }}
+              >
+                <IconButton
+                  onClick={handleParentClose}
+                  size="small"
+                  sx={{
+                    flexShrink: 0,
+                    background: `hsl(240,11%,${
+                      session.user.darkMode ? 20 : 90
+                    }%)`,
+                  }}
+                >
+                  <Icon className="outlined">delete</Icon>
+                </IconButton>
+              </ConfirmationModal>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
