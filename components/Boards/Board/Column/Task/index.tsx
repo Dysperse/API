@@ -216,7 +216,7 @@ export const Task: any = function Task({
                   },
                   ...(taskData.completed && {
                     textDecoration: "line-through",
-                    opacity: 0.7,
+                    opacity: 0.6,
                   }),
                   textDecorationThickness: "2.5px",
                 }}
