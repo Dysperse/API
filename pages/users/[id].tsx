@@ -39,7 +39,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
-  const [photo, setPhoto] = useState(data?.Profile.photo);
+  const [photo, setPhoto] = useState(data?.Profile?.photo);
   const [imageUploading, setImageUploading] = useState(false);
 
   const isCurrentUser = email === session.user.email;
