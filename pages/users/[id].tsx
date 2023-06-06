@@ -464,35 +464,35 @@ function UserProfile({
             </Typography>
           )}
         </Box>
-        {editMode && (
-          <Box sx={{ gap: 2, mt: 2, display: "flex" }}>
-            <ConfirmationModal
-              callback={handleDelete}
-              title="Delete profile?"
-              question="Are you sure you want to permanently delete your profile? You can always create it again."
-            >
-              <Button
-                variant="outlined"
-                size="large"
-                color="error"
-                sx={{ mr: "auto" }}
-              >
-                <Icon>delete</Icon>
-                Delete
-              </Button>
-            </ConfirmationModal>
+      </Masonry>
+      {editMode && (
+        <Box sx={{ gap: 2, mt: 2, display: "flex" }}>
+          <ConfirmationModal
+            callback={handleDelete}
+            title="Delete profile?"
+            question="Are you sure you want to permanently delete your profile? You can always create it again."
+          >
             <Button
-              variant="contained"
+              variant="outlined"
               size="large"
               color="error"
-              onClick={() => setEditMode(false)}
+              sx={{ mr: "auto" }}
             >
-              <Icon>check</Icon>
-              Done
+              <Icon>delete</Icon>
+              Delete
             </Button>
-          </Box>
-        )}
-      </Masonry>
+          </ConfirmationModal>
+          <Button
+            variant="contained"
+            size="large"
+            color="error"
+            onClick={() => setEditMode(false)}
+          >
+            <Icon>check</Icon>
+            Done
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
