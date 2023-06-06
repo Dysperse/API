@@ -84,12 +84,13 @@ model NotificationSettings {
 
 // Customizable notification settings (1 row per user)
 model Profile {
-  id       String   @id @unique @default(uuid())
-  picture  String?
-  birthday DateTime @default(now())
-  hobbies  String[]
-  badges   String[]
-  bio      String   @default("")
+  id           String   @id @unique @default(uuid())
+  picture      String?
+  birthday     DateTime @default(now())
+  hobbies      String[]
+  badges       String[]
+  workingHours String[]
+  bio          String   @default("")
 
   private Boolean @default(false)
 
