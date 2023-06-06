@@ -128,7 +128,7 @@ export default function Page() {
       </Head>
       <Container
         sx={{
-          ...((data || error) && { py: { xs: 5, sm: 10 }, pb: { xs: 15 } }),
+          ...((data || error) && { py: { xs: 7, sm: 10 }, pb: { xs: 15 } }),
         }}
       >
         {(!isCurrentUser || error) && (
@@ -237,6 +237,7 @@ export default function Page() {
                   variant="h3"
                   sx={{
                     display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
                     alignItems: "center",
                     textTransform: "capitalize",
                     color: colors[data.color][900],
@@ -270,7 +271,9 @@ export default function Page() {
                       size="large"
                       sx={{
                         px: 2,
+                        width: { xs: "100%", sm: "auto" },
                         ml: "auto",
+                        mt: { xs: 2, sm: 0 },
                       }}
                       onClick={() =>
                         data.Profile ? setEditMode((e) => !e) : createProfile()
