@@ -40,37 +40,24 @@ export function UpdateButton() {
       // A common UX pattern for progressive web apps is to show a banner when a service worker has updated and waiting to install.
       // NOTE: MUST set skipWaiting to false in next.config.js pwa object
       // https://developers.google.com/web/tools/workbox/guides/advanced-recipes#offer_a_page_reload_for_users
-      const promptNewVersionAvailable = async (event) => {
+      const promptNewVersionAvailable = (event) => {
         // `event.wasWaitingBeforeRegister` will be false if this is the first time the updated service worker is waiting.
         // When `event.wasWaitingBeforeRegister` is true, a previously updated service worker is still waiting.
         // You may want to customize the UI prompt accordingly.
-        try {
-          await new Promise((resolve, reject) => {
-            setUpdateAvailable(true);
-            setUserWantsToUpdate(false);
-
-            const timer = setTimeout(() => {
-              if (userWantsToUpdate) {
-                resolve("");
-                clearTimeout(timer);
-              } else {
-                reject();
-              }
-            }, 1000);
+        if (
+          confirm("A newer version of Dysperse is available, reload to update?")
+        ) {
+          wb.addEventListener("controlling", (event) => {
+            window.location.reload();
           });
-        } catch (e) {
+
+          // Send a message to the waiting service worker, instructing it to activate.
+          wb.messageSkipWaiting();
+        } else {
           console.log(
             "User rejected to reload the web app, keep using old version. New version will be automatically load when user open the app next time."
           );
         }
-
-        wb.addEventListener("controlling", (event) => {
-          setUpdateAvailable(false);
-          window.location.reload();
-        });
-
-        // Send a message to the waiting service worker, instructing it to activate.
-        wb.messageSkipWaiting();
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
