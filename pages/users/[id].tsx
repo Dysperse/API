@@ -450,7 +450,7 @@ function UserProfile({
               label="Add a bio..."
               sx={{ mt: 0.5 }}
               onBlur={(e: any) =>
-                handleChange("bio", e.target.value.substring(0, 100))
+                handleChange("bio", e.target.value.substring(0, 300))
               }
               defaultValue={profile.bio}
               minRows={4}
