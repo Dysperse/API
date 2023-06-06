@@ -298,11 +298,7 @@ function UserProfile({
       <Masonry sx={{ mt: 3 }} columns={2}>
         {editMode && (
           <>
-            <Box
-              sx={{
-                ...profileCardStyles,
-              }}
-            >
+            <Box sx={profileCardStyles}>
               <Typography
                 sx={{
                   mb: 1,
@@ -317,7 +313,6 @@ function UserProfile({
                   display: "flex",
                   gap: 1,
                   flexWrap: "wrap",
-                  ...profileCardStyles,
                   mb: 2,
                 }}
               >
@@ -354,11 +349,7 @@ function UserProfile({
                 ))}
               </Box>
             </Box>
-            <Box
-              sx={{
-                ...profileCardStyles,
-              }}
-            >
+            <Box sx={profileCardStyles}>
               <Typography
                 sx={{
                   mb: 1,
@@ -382,11 +373,7 @@ function UserProfile({
             </Box>
           </>
         )}
-        <Box
-          sx={{
-            ...profileCardStyles,
-          }}
-        >
+        <Box sx={profileCardStyles}>
           <Typography
             sx={{
               mb: 1,
@@ -432,11 +419,7 @@ function UserProfile({
             )}
           </Box>
         </Box>
-        <Box
-          sx={{
-            ...profileCardStyles,
-          }}
-        >
+        <Box sx={profileCardStyles}>
           <Typography
             sx={{
               mb: 1,
@@ -615,9 +598,11 @@ export default function Page() {
                 >
                   {editMode ? (
                     <TextField
+                      variant="standard"
                       InputProps={{
                         sx: {
                           fontWeight: 900,
+                          fontSize: "33px",
                         },
                       }}
                       onKeyDown={(e: any) =>
