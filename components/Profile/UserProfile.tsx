@@ -61,6 +61,7 @@ export function WorkingHours({
       sx={{
         ...profileCardStyles,
         ...(!editMode && workingHours.length == 0 && { display: "none" }),
+        overflowX: "auto",
       }}
     >
       <Typography
@@ -93,7 +94,13 @@ export function WorkingHours({
       {workingHours.map((hour, index) => (
         <Box
           key={index}
-          sx={{ display: "flex", alignItems: "center", mb: 1, gap: 2 }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mb: 1,
+            gap: 2,
+            minWidth: "470px",
+          }}
         >
           <FormControl fullWidth variant="standard">
             {editMode && <InputLabel>Day</InputLabel>}
