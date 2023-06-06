@@ -21,8 +21,7 @@ export function Sidebar() {
     router.asPath === "/zen" ||
     router.asPath === "/" ||
     router.asPath === "/mood-history" ||
-    router.asPath.includes("/users/");
-
+    router.asPath.includes("/users");
   // Easter egg #1
   const handleClick = () => {
     setClickCount(clickCount + 1);
@@ -185,14 +184,22 @@ export function Sidebar() {
       />
       <Box sx={{ mt: "auto", pt: 4 }} />
       <Box
-        sx={styles(useOutlinedTheme)}
+        sx={styles(
+          router.asPath === "/zen" ||
+            router.asPath === "/" ||
+            router.asPath === "/mood-history"
+        )}
         onClick={() => router.push("/zen")}
         onMouseDown={() => router.push("/zen")}
       >
         <Tooltip title="Start" placement="right">
           <span
             className={`material-symbols-${
-              useOutlinedTheme ? "rounded" : "outlined"
+              router.asPath === "/zen" ||
+              router.asPath === "/" ||
+              router.asPath === "/mood-history"
+                ? "rounded"
+                : "outlined"
             }`}
           >
             change_history
@@ -280,6 +287,24 @@ export function Sidebar() {
             placement="right"
           >
             <span className="material-symbols-outlined">bolt</span>
+          </Tooltip>
+        </Box>
+        <Box
+          sx={{
+            ...styles(router.asPath.includes("/users")),
+            mt: -0.5,
+          }}
+          onClick={() => router.push(`/users/${session.user.email}`)}
+          onMouseDown={() => router.push(`/users/${session.user.email}`)}
+        >
+          <Tooltip title="Profile" placement="right">
+            <span
+              className={`material-symbols-${
+                router.asPath.includes("users") ? "rounded" : "outlined"
+              }`}
+            >
+              account_circle
+            </span>
           </Tooltip>
         </Box>
         {!isMobile && <UserMenu styles={styles} />}

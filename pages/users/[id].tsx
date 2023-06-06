@@ -2,6 +2,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { isEmail } from "@/components/Group/Members";
 import { Puller } from "@/components/Puller";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
@@ -45,7 +46,7 @@ function SearchUser({ data }) {
       toast.error("Please enter an email", toastStyles);
       return;
     }
-    router.push(`/users/${email}`);
+    router.push(`/users/${encodeURIComponent(email)}`);
   };
 
   return (
@@ -192,7 +193,13 @@ function Followers({ data }) {
   );
 }
 
-function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
+function UserProfile({
+  setEditMode,
+  editMode,
+  mutationUrl,
+  isCurrentUser,
+  data,
+}) {
   const session = useSession();
   const birthdayRef: any = useRef();
 
@@ -273,7 +280,7 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
         {profile && (
           <Chip
             sx={chipStyles}
-            label={dayjs(profile.birthday).format("MM/DD")}
+            label={dayjs(profile.birthday).format("MMMM D")}
             icon={<Icon>cake</Icon>}
           />
         )}
@@ -290,6 +297,62 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
           ))}
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 4, mt: 3 }}>
+        <Box
+          sx={{
+            ...(!editMode && { display: "none" }),
+            ...(editMode && { mt: 3 }),
+          }}
+        >
+          <Typography
+            sx={{
+              mb: 1,
+              color: colors[data.color][800],
+            }}
+            variant="h6"
+          >
+            Theme color
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+              flexWrap: "wrap",
+              mb: 2,
+            }}
+          >
+            {[
+              "lime",
+              "red",
+              "green",
+              "blue",
+              "pink",
+              "purple",
+              "indigo",
+              "cyan",
+            ].map((color) => (
+              <Box
+                key={color}
+                onClick={async () => {
+                  await updateSettings("color", color.toLowerCase());
+                  await mutate(mutationUrl);
+                  await mutate(mutationUrl);
+                }}
+                sx={{
+                  background: colors[color]["A700"],
+                  border: `2px solid ${colors[color]["A700"]}`,
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: 999,
+                  ...(session.themeColor === color && {
+                    boxShadow: `0 0 0 2px ${
+                      session.user.darkMode ? "hsl(240,11%,20%)" : "#fff"
+                    } inset`,
+                  }),
+                }}
+              />
+            ))}
+          </Box>
+        </Box>
         <Box
           sx={{
             ...(!editMode && { display: "none" }),
@@ -344,7 +407,11 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
                 options={[]}
                 value={hobbies}
                 onChange={(_, newValue) => {
-                  setHobbies(newValue);
+                  setHobbies(
+                    newValue
+                      .slice(0, 5)
+                      .map((c) => capitalizeFirstLetter(c.substring(0, 20)))
+                  );
                   handleChange("hobbies", JSON.stringify(newValue));
                 }}
                 freeSolo
@@ -394,15 +461,32 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
           )}
         </Box>
         {editMode && (
-          <ConfirmationModal
-            callback={handleDelete}
-            title="Delete profile?"
-            question="Are you sure you want to permanently delete your profile? You can always create it again."
-          >
-            <Button variant="contained" sx={{ mt: 2 }} size="large">
-              Delete
+          <Box sx={{ gap: 2, mt: 2, display: "flex" }}>
+            <ConfirmationModal
+              callback={handleDelete}
+              title="Delete profile?"
+              question="Are you sure you want to permanently delete your profile? You can always create it again."
+            >
+              <Button
+                variant="outlined"
+                size="large"
+                color="error"
+                sx={{ mr: "auto" }}
+              >
+                <Icon>delete</Icon>
+                Delete
+              </Button>
+            </ConfirmationModal>
+            <Button
+              variant="contained"
+              size="large"
+              color="error"
+              onClick={() => setEditMode(false)}
+            >
+              <Icon>check</Icon>
+              Done
             </Button>
-          </ConfirmationModal>
+          </Box>
         )}
       </Box>
     </Box>
@@ -460,9 +544,11 @@ export default function Page() {
         <title>{data ? data.name : `Profile`}</title>
       </Head>
       <Container
-        sx={{ ...(data && { py: { xs: 5, sm: 10 }, pb: { xs: 15 } }) }}
+        sx={{
+          ...((data || error) && { py: { xs: 5, sm: 10 }, pb: { xs: 15 } }),
+        }}
       >
-        {!isCurrentUser && (
+        {(!isCurrentUser || error) && (
           <Link href={`/users/${session.user.email}`}>
             <Button variant="contained" size="small" sx={{ mb: 5, mt: -4 }}>
               <Icon>west</Icon>Back
@@ -470,7 +556,10 @@ export default function Page() {
           </Link>
         )}
         {error && (
-          <ErrorHandler error="On no! We couldn't find the user you were looking for." />
+          <ErrorHandler
+            callback={() => mutate(url)}
+            error="On no! We couldn't find the user you were looking for."
+          />
         )}
         {data && email && router ? (
           <>
@@ -537,7 +626,10 @@ export default function Page() {
                       loading={loading}
                       variant={editMode ? "contained" : "outlined"}
                       size="large"
-                      sx={{ px: 2, ml: "auto" }}
+                      sx={{
+                        px: 2,
+                        ml: "auto",
+                      }}
                       onClick={() =>
                         data.Profile ? setEditMode((e) => !e) : createProfile()
                       }
@@ -659,28 +751,31 @@ export default function Page() {
                 )}
                 {data.Profile && (
                   <UserProfile
+                    setEditMode={setEditMode}
                     mutationUrl={url}
                     editMode={editMode}
                     isCurrentUser={isCurrentUser}
                     data={data}
                   />
                 )}
-                {isCurrentUser && <SearchUser data={data} />}
+                {isCurrentUser && !editMode && <SearchUser data={data} />}
               </Box>
             </Box>
           </>
         ) : (
-          <Box
-            sx={{
-              display: "flex",
-              height: "100vh",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <CircularProgress />
-          </Box>
+          !error && (
+            <Box
+              sx={{
+                display: "flex",
+                height: "100vh",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )
         )}
       </Container>
     </Box>
