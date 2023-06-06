@@ -113,7 +113,7 @@ export default function Page() {
         setImageUploading(false);
       }
     },
-    [setPhoto]
+    [setPhoto, url, session.user.email]
   );
 
   useEffect(() => {
@@ -189,6 +189,13 @@ export default function Page() {
                   >
                     <Icon sx={{ color: "#fff" }}>edit</Icon>
                   </IconButton>
+                  <input
+                    type="file"
+                    id="upload"
+                    hidden
+                    onChange={handleUpload}
+                    accept="image/*"
+                  />
                 </Box>
                 <Avatar
                   src={photo}
