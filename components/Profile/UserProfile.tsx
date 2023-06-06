@@ -53,8 +53,8 @@ export function WorkingHours({
 
   // Save
   useEffect(() => {
-    if (edited) handleSave();
-  }, [workingHours, handleSave, edited]);
+    if (edited && isCurrentUser) handleSave();
+  }, [workingHours, handleSave, edited, isCurrentUser]);
 
   return (
     <Box
@@ -297,7 +297,7 @@ export function UserProfile({
             />
           ))}
       </Box>
-      <Masonry sx={{ mt: 3 }} columns={2}>
+      <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2 }}>
         {editMode && (
           <>
             <Box sx={profileCardStyles}>
