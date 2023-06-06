@@ -184,11 +184,19 @@ export default function Page() {
                         }),
                   }}
                 >
-                  <IconButton
-                    onClick={() => document.getElementById("upload")?.click()}
-                  >
-                    <Icon sx={{ color: "#fff" }}>edit</Icon>
-                  </IconButton>
+                  {imageUploading ? (
+                    <CircularProgress
+                      sx={{
+                        color: "#fff",
+                      }}
+                    />
+                  ) : (
+                    <IconButton
+                      onClick={() => document.getElementById("upload")?.click()}
+                    >
+                      <Icon sx={{ color: "#fff" }}>edit</Icon>
+                    </IconButton>
+                  )}
                   <input
                     type="file"
                     id="upload"
