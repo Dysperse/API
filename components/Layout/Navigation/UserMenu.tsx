@@ -254,8 +254,8 @@ export default function InviteButton({ styles }: any) {
                 color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
               }}
             >
-              <Icon className="outlined">account_circle</Icon>
-              My account
+              <Icon className="outlined">settings</Icon>
+              Settings
             </Button>
           </div>
         )}

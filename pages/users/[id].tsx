@@ -2,6 +2,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { isEmail } from "@/components/Group/Members";
 import { Puller } from "@/components/Puller";
+import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -254,7 +255,7 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
             sx={{
               ...(data.CoachData.streakCount > 0
                 ? {
-                    background: colors.orange[200],
+                    background: colors.orange[100],
                     "&, & *": {
                       color: colors.orange[900],
                     },
@@ -459,7 +460,7 @@ export default function Page() {
         <title>{data ? data.name : `Profile`}</title>
       </Head>
       <Container
-        sx={{ ...(data && { py: { xs: 2, sm: 10 }, pb: { xs: 15 } }) }}
+        sx={{ ...(data && { py: { xs: 5, sm: 10 }, pb: { xs: 15 } }) }}
       >
         {!isCurrentUser && (
           <Link href={`/users/${session.user.email}`}>
@@ -475,8 +476,9 @@ export default function Page() {
           <>
             <Box
               sx={{
-                gap: { xs: 2, sm: 4 },
+                gap: { xs: 1, sm: 4 },
                 display: "flex",
+                maxWidth: "100vw",
                 flexDirection: { xs: "column", sm: "row" },
               }}
             >
@@ -488,14 +490,20 @@ export default function Page() {
                   textTransform: "uppercase",
                   background: `linear-gradient(${
                     colors[data.color][200]
-                  } 30%, ${colors[data.color][300]} 90%)`,
+                  } 30%, ${colors[data.color][300]})`,
                   mb: 2,
                 }}
               >
                 {data.name.charAt(0)}
                 {data.name.charAt(1)}
               </Avatar>
-              <Box sx={{ flexGrow: 1, pt: { xs: 0, sm: 2 } }}>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  pt: { xs: 0, sm: 3 },
+                  maxWidth: "100vw",
+                }}
+              >
                 <Typography
                   variant="h3"
                   sx={{
@@ -505,7 +513,25 @@ export default function Page() {
                     color: colors[data.color][900],
                   }}
                 >
-                  <span className="font-heading">{data.name}</span>
+                  {editMode ? (
+                    <TextField
+                      InputProps={{
+                        sx: {
+                          fontWeight: 900,
+                        },
+                      }}
+                      onKeyDown={(e: any) =>
+                        e.code === "Enter" && e.target.blur()
+                      }
+                      onBlur={(e: any) =>
+                        updateSettings("name", e.target.value)
+                      }
+                      sx={{ mr: "auto", width: "auto" }}
+                      defaultValue={session.user.name}
+                    />
+                  ) : (
+                    <span style={{ fontWeight: 900 }}>{data.name}</span>
+                  )}
                   {isCurrentUser && (
                     <LoadingButton
                       loading={loading}
@@ -571,8 +597,23 @@ export default function Page() {
                   )}
                 </Typography>
                 <Typography
-                  variant="h5"
-                  sx={{ mt: 1, opacity: 0.6, color: colors[data.color][900] }}
+                  onClick={() => {
+                    navigator.clipboard.writeText(data.email);
+                    toast.success("Copied to clipboard", toastStyles);
+                  }}
+                  sx={{
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                    mt: 1,
+                    opacity: 0.6,
+                    color: colors[data.color][900],
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    fontSize: { xs: 20, sm: 25 },
+                  }}
                 >
                   {data.email}
                 </Typography>

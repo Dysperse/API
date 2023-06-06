@@ -184,6 +184,26 @@ export function Navbar(): JSX.Element {
             </IconButton>
           </Tooltip>
         </Box>
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation();
+            vibrate(50);
+            router.push(`/users/${session.user.email}`);
+          }}
+          color="inherit"
+          sx={{
+            ...styles(),
+            ...(router.pathname.includes("/users/") && {
+              background: `hsl(240,11%,${session.user.darkMode ? 17 : 90}%)`,
+            }),
+          }}
+        >
+          <Icon
+            className={router.pathname.includes("/users/") ? "" : "outlined"}
+          >
+            account_circle
+          </Icon>
+        </IconButton>
         {isMobile && <UserMenu styles={styles} />}
       </Toolbar>
     </AppBar>
