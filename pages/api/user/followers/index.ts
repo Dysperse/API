@@ -15,16 +15,8 @@ export default async function handler(req, res) {
       },
       update: {},
       create: {
-        follower: {
-          connect: {
-            email: followerEmail,
-          },
-        },
-        following: {
-          connect: {
-            email: followingEmail,
-          },
-        },
+        follower: { connect: { email: followerEmail } },
+        following: { connect: { email: followingEmail } },
       },
     });
     res.json(data);

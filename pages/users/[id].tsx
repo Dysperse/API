@@ -12,6 +12,7 @@ import {
   Icon,
   Typography,
 } from "@mui/material";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 export default function Page() {
@@ -23,9 +24,15 @@ export default function Page() {
 
   const { data, error } = useApi("user/profile", { email });
 
+  const isFollowing =
+    data && data.following.find((e) => e.followingId === session.user.email);
+
   return (
     email && (
       <Box>
+        <Head>
+          <title>{data ? data.name : `Profile`}</title>
+        </Head>
         {error && (
           <ErrorHandler error="On no! We couldn't find the user you were looking for." />
         )}
@@ -54,7 +61,11 @@ export default function Page() {
                 <Box sx={{ pt: 2 }}>
                   <Typography
                     variant="h3"
-                    sx={{ display: "flex", alignItems: "center" }}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      color: colors[data.color][900],
+                    }}
                   >
                     <span className="font-heading">{data.name}</span>
                     {isCurrentUser && (
@@ -67,9 +78,65 @@ export default function Page() {
                         Edit
                       </Button>
                     )}
+                    {!isCurrentUser && (
+                      <Button
+                        variant={isFollowing ? "outlined" : "contained"}
+                        size="large"
+                        sx={{
+                          px: 2,
+                          ml: "auto",
+                          ...(isFollowing
+                            ? {
+                                borderColor:
+                                  colors[data.color][200] + "!important",
+                                color: colors[data.color][900] + "!important",
+                                "&:hover": {
+                                  background:
+                                    colors[data.color][50] + "!important",
+                                  borderColor:
+                                    colors[data.color][300] + "!important",
+                                },
+                              }
+                            : {
+                                "&,&:hover": {
+                                  background:
+                                    colors[data.color][900] + "!important",
+                                  color: colors[data.color][50] + "!important",
+                                },
+                              }),
+                        }}
+                      >
+                        <Icon className="outlined">
+                          {isFollowing ? "how_to_reg" : "person_add"}
+                        </Icon>
+                        Follow
+                        {isFollowing && "ing"}
+                      </Button>
+                    )}
                   </Typography>
-                  <Typography variant="h5" sx={{ mt: 1 }}>
+                  <Typography
+                    variant="h5"
+                    sx={{ mt: 1, opacity: 0.6, color: colors[data.color][900] }}
+                  >
                     {data.email}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      gap: 1,
+                      mt: 1,
+                      display: "flex",
+                      ml: -1,
+                      opacity: 0.7,
+                    }}
+                  >
+                    <Button size="small" sx={{ color: "inherit" }}>
+                      <b>{data.followers.length}</b> follower
+                      {data.followers.length !== 1 && "s"}
+                    </Button>
+                    <Button size="small" sx={{ color: "inherit" }}>
+                      <b>{data.following.length}</b> following
+                    </Button>
                   </Typography>
                   <Box
                     sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 1 }}
