@@ -1,91 +1,514 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
-import { useApi } from "@/lib/client/useApi";
+import { isEmail } from "@/components/Group/Members";
+import { Puller } from "@/components/Puller";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
+import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
+import { LoadingButton } from "@mui/lab";
 import {
+  Alert,
+  Autocomplete,
   Avatar,
   Box,
   Button,
-  Card,
   Chip,
+  CircularProgress,
   Container,
+  Divider,
   Icon,
+  IconButton,
+  InputAdornment,
+  ListItemButton,
+  ListItemText,
+  SwipeableDrawer,
+  TextField,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { Virtuoso } from "react-virtuoso";
+import { mutate } from "swr";
+
+function SearchUser({ data }) {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = () => {
+    if (!isEmail(email)) {
+      toast.error("Please enter an email", toastStyles);
+      return;
+    }
+    router.push(`/users/${email}`);
+  };
+
+  return (
+    <>
+      <Divider sx={{ mt: 5, mb: 3 }} />
+
+      <Box sx={{ px: 1 }}>
+        <Typography
+          sx={{
+            mb: 1.5,
+            color: colors[data.color][800],
+          }}
+          variant="h6"
+        >
+          Add friend
+        </Typography>
+        <TextField
+          size="small"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={(e) => e.key == "Enter" && handleSubmit()}
+          placeholder="Type an email..."
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleSubmit} disabled={!isEmail(email)}>
+                  <Icon>east</Icon>
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+    </>
+  );
+}
+
+function Following({ data }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button
+        size="small"
+        sx={{ color: "inherit" }}
+        disabled={data.following.length == 0}
+        onClick={() => setOpen((e) => !e)}
+      >
+        <b>{data.following.length}</b> following
+      </Button>
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        anchor="bottom"
+        PaperProps={{
+          sx: {
+            height: "calc(100vh - 200px)",
+          },
+        }}
+      >
+        <Puller showOnDesktop />
+        <Box sx={{ p: 2, pt: 0 }}>
+          <Typography variant="h6">
+            {data.following.length} following
+          </Typography>
+        </Box>
+        <Virtuoso
+          style={{
+            height: "100%",
+          }}
+          totalCount={data.following.length}
+          itemContent={(i) => {
+            const follower = data.following[i];
+            return (
+              <Link
+                href={`/users/${follower.followingId}`}
+                style={{ color: "inherit" }}
+              >
+                <ListItemButton sx={{ borderRadius: 0 }}>
+                  <ListItemText primary={follower.followingId} />
+                </ListItemButton>
+              </Link>
+            );
+          }}
+        />
+      </SwipeableDrawer>
+    </>
+  );
+}
+
+function Followers({ data }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button
+        size="small"
+        sx={{ color: "inherit" }}
+        disabled={data.followers.length == 0}
+        onClick={() => setOpen((e) => !e)}
+      >
+        <b>{data.followers.length}</b> follower
+        {data.followers.length !== 1 && "s"}
+      </Button>
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        anchor="bottom"
+        PaperProps={{
+          sx: {
+            height: "calc(100vh - 200px)",
+          },
+        }}
+      >
+        <Puller showOnDesktop />
+        <Box sx={{ p: 2, pt: 0 }}>
+          <Typography variant="h6">
+            {data.followers.length} followers
+          </Typography>
+        </Box>
+        <Virtuoso
+          style={{
+            height: "100%",
+          }}
+          totalCount={data.followers.length}
+          itemContent={(i) => {
+            const follower = data.followers[i];
+            return (
+              <Link
+                href={`/users/${follower.followerId}`}
+                style={{ color: "inherit" }}
+              >
+                <ListItemButton sx={{ borderRadius: 0 }}>
+                  <ListItemText primary={follower.followerId} />
+                </ListItemButton>
+              </Link>
+            );
+          }}
+        />
+      </SwipeableDrawer>
+    </>
+  );
+}
+
+function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
+  const session = useSession();
+
+  const profile = data.Profile;
+  const chipStyles = {
+    background: colors[data.color][50],
+    color: colors[data.color][900],
+    "& .MuiIcon-root": {
+      color: colors[data.color][800] + "!important",
+      fontVariationSettings:
+        '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
+    },
+  };
+
+  const [hobbies, setHobbies] = useState(data.Profile.hobbies);
+
+  const handleChange = async (key, value) => {
+    await fetchRawApi("user/profile/update", {
+      email: session.user.email,
+      [key]: value,
+    });
+    await mutate(mutationUrl);
+  };
+
+  const handleDelete = async () => {
+    await fetchRawApi("user/profile/delete", {
+      email: session.user.email,
+    });
+    await mutate(mutationUrl);
+  };
+
+  return (
+    <Box>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 1 }}>
+        <Chip
+          sx={chipStyles}
+          label={data.trophies}
+          icon={<span style={{ marginLeft: "10px" }}>🏆</span>}
+        />
+        <Chip
+          sx={chipStyles}
+          label={
+            <>
+              <b>
+                {data.timeZone.includes("/")
+                  ? data.timeZone.split("/")[1].replace("_", " ")
+                  : data.timeZone}
+              </b>
+              {data.timeZone.includes("/") &&
+                ` - ${data.timeZone.split("/")[0]}`}
+            </>
+          }
+          icon={<Icon>location_on</Icon>}
+        />
+        {data.CoachData && (
+          <Chip
+            sx={{
+              ...(data.CoachData.streakCount > 0
+                ? {
+                    background: colors.orange[200],
+                    "&, & *": {
+                      color: colors.orange[900],
+                    },
+                  }
+                : chipStyles),
+            }}
+            label={data.CoachData.streakCount}
+            icon={
+              <Icon sx={{ color: "inherit!important" }}>
+                local_fire_department
+              </Icon>
+            }
+          />
+        )}
+        {profile && (
+          <Chip
+            sx={chipStyles}
+            label={dayjs(profile.birthday).fromNow()}
+            icon={<Icon>cake</Icon>}
+          />
+        )}
+        {profile &&
+          profile.badges.map((badge) => (
+            <Chip
+              sx={chipStyles}
+              label={badge}
+              key={badge}
+              {...(badge === "Early supporter" && {
+                icon: <Icon>favorite</Icon>,
+              })}
+            />
+          ))}
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 4, mt: 3 }}>
+        <Box
+          sx={{
+            ...(profile.hobbies.length === 0 &&
+              !editMode && { display: "none" }),
+          }}
+        >
+          <Typography
+            sx={{
+              mb: 1,
+              color: colors[data.color][800],
+            }}
+            variant="h6"
+          >
+            Hobbies
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1.5, flexWrap: "wrap" }}>
+            {!editMode &&
+              profile &&
+              profile.hobbies.map((badge) => (
+                <Chip sx={chipStyles} label={badge} key={badge} />
+              ))}
+            {isCurrentUser && data.Profile && editMode && (
+              <Autocomplete
+                multiple
+                getOptionLabel={(option) => option}
+                options={[]}
+                value={hobbies}
+                onChange={(_, newValue) => {
+                  setHobbies(newValue);
+                  handleChange("hobbies", JSON.stringify(newValue));
+                }}
+                freeSolo
+                fullWidth
+                filterSelectedOptions
+                sx={{ mt: 1 }}
+                limitTags={5}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="What are your hobbies?"
+                    placeholder="Press enter once you're done..."
+                  />
+                )}
+              />
+            )}
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            ...(!profile.bio && !editMode && { display: "none" }),
+          }}
+        >
+          <Typography
+            sx={{
+              mb: 1,
+              color: colors[data.color][800],
+            }}
+            variant="h6"
+          >
+            About
+          </Typography>
+          {isCurrentUser && editMode ? (
+            <TextField
+              multiline
+              label="Add a bio..."
+              sx={{ mt: 0.5 }}
+              onBlur={(e: any) => handleChange("bio", e.target.value)}
+              defaultValue={profile.bio}
+              minRows={4}
+              placeholder="My name is Jeff Bezos and I'm an entrepreneur and investor"
+            />
+          ) : (
+            <Typography sx={{ mb: 1, color: colors[data.color][700] }}>
+              {profile.bio}
+            </Typography>
+          )}
+          <ConfirmationModal
+            callback={handleDelete}
+            title="Delete profile?"
+            question="Are you sure you want to permanently delete your profile? You can always create it again."
+          >
+            <Button variant="contained" sx={{ mt: 2 }} size="large">
+              Delete
+            </Button>
+          </ConfirmationModal>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
 
 export default function Page() {
   const router = useRouter();
   const session = useSession();
   const email = router?.query?.id;
 
+  const { data, url, error } = useApi("user/profile", { email });
+
+  const [loading, setLoading] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
   const isCurrentUser = email === session.user.email;
-
-  const { data, error } = useApi("user/profile", { email });
-
   const isFollowing =
-    data && data.following.find((e) => e.followingId === session.user.email);
+    data && data.followers.find((e) => e.followerId === session.user.email);
+
+  const handleFollowButtonClick = async () => {
+    setLoading(true);
+    if (isFollowing) {
+      await fetchRawApi("user/followers/unfollow", {
+        followerEmail: session.user.email,
+        followingEmail: data?.email,
+      });
+      await mutate(url);
+    } else {
+      await fetchRawApi("user/followers/follow", {
+        followerEmail: session.user.email,
+        followingEmail: data?.email,
+      });
+      await mutate(url);
+    }
+    setLoading(false);
+  };
+  const createProfile = async () => {
+    try {
+      setLoading(true);
+      await fetchRawApi("user/profile/update", {
+        create: "true",
+        email: session.user.email,
+      });
+      await mutate(url);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+    }
+  };
 
   return (
-    email && (
-      <Box>
-        <Head>
-          <title>{data ? data.name : `Profile`}</title>
-        </Head>
+    <Box>
+      <Head>
+        <title>{data ? data.name : `Profile`}</title>
+      </Head>
+      <Container
+        sx={{ ...(data && { py: { xs: 2, sm: 10 }, pb: { xs: 15 } }) }}
+      >
+        {!isCurrentUser && (
+          <Link href={`/users/${session.user.email}`}>
+            <Button variant="contained" size="small" sx={{ mb: 5, mt: -4 }}>
+              <Icon>west</Icon>Back
+            </Button>
+          </Link>
+        )}
         {error && (
           <ErrorHandler error="On no! We couldn't find the user you were looking for." />
         )}
-        {data && (
+        {data && email && router ? (
           <>
-            <Container sx={{ pt: 5 }}>
-              <Button size="small" variant="contained" sx={{ mb: 4 }}>
-                <Icon>west</Icon>Friends
-              </Button>
-              <Card sx={{ borderRadius: 5, display: "flex", gap: 4 }}>
-                <Avatar
+            <Box
+              sx={{
+                gap: { xs: 2, sm: 4 },
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+              }}
+            >
+              <Avatar
+                sx={{
+                  width: 100,
+                  height: 100,
+                  fontSize: 35,
+                  textTransform: "uppercase",
+                  background: `linear-gradient(${
+                    colors[data.color][200]
+                  } 30%, ${colors[data.color][300]} 90%)`,
+                  mb: 2,
+                }}
+              >
+                {data.name.charAt(0)}
+                {data.name.charAt(1)}
+              </Avatar>
+              <Box sx={{ flexGrow: 1, pt: { xs: 0, sm: 2 } }}>
+                <Typography
+                  variant="h3"
                   sx={{
-                    width: 100,
-                    height: 100,
-                    fontSize: 35,
-                    textTransform: "uppercase",
-                    background: `linear-gradient(${
-                      colors[data.color][200]
-                    } 30%, ${colors[data.color][300]} 90%)`,
-                    mb: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    textTransform: "capitalize",
+                    color: colors[data.color][900],
                   }}
                 >
-                  {data.name.charAt(0)}
-                  {data.name.charAt(1)}
-                </Avatar>
-                <Box sx={{ pt: 2 }}>
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      color: colors[data.color][900],
-                    }}
-                  >
-                    <span className="font-heading">{data.name}</span>
-                    {isCurrentUser && (
-                      <Button
-                        variant="outlined"
-                        size="large"
-                        sx={{ px: 2, ml: "auto" }}
-                      >
-                        <Icon>edit</Icon>
-                        Edit
-                      </Button>
-                    )}
-                    {!isCurrentUser && (
-                      <Button
+                  <span className="font-heading">{data.name}</span>
+                  {isCurrentUser && (
+                    <LoadingButton
+                      loading={loading}
+                      variant={editMode ? "contained" : "outlined"}
+                      size="large"
+                      sx={{ px: 2, ml: "auto" }}
+                      onClick={() =>
+                        data.Profile ? setEditMode((e) => !e) : createProfile()
+                      }
+                    >
+                      <Icon>
+                        {!data.Profile ? "add" : editMode ? "check" : "edit"}
+                      </Icon>
+                      {!data.Profile
+                        ? "Create profile"
+                        : editMode
+                        ? "Done"
+                        : "Edit"}
+                    </LoadingButton>
+                  )}
+                  {!isCurrentUser && (
+                    <ConfirmationModal
+                      disabled={!isFollowing}
+                      title={`Are you sure you want to unfollow ${data.name}?`}
+                      question="You can always follow them back later"
+                      callback={handleFollowButtonClick}
+                    >
+                      <LoadingButton
+                        loading={loading}
                         variant={isFollowing ? "outlined" : "contained"}
                         size="large"
                         sx={{
                           px: 2,
                           ml: "auto",
-                          ...(isFollowing
+                          ...(!loading && isFollowing
                             ? {
                                 borderColor:
                                   colors[data.color][200] + "!important",
@@ -111,80 +534,82 @@ export default function Page() {
                         </Icon>
                         Follow
                         {isFollowing && "ing"}
-                      </Button>
+                      </LoadingButton>
+                    </ConfirmationModal>
+                  )}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{ mt: 1, opacity: 0.6, color: colors[data.color][900] }}
+                >
+                  {data.email}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    gap: 1,
+                    mt: 1,
+                    display: "flex",
+                    ml: -1,
+                    opacity: 0.7,
+                    color: colors[data.color]["800"],
+                  }}
+                >
+                  <Followers data={data} />
+                  <Following data={data} />
+                </Typography>
+                {!data.Profile && (
+                  <Alert
+                    severity="info"
+                    sx={{ mt: 2 }}
+                    {...(isCurrentUser && {
+                      action: (
+                        <LoadingButton
+                          loading={loading}
+                          variant="contained"
+                          onClick={createProfile}
+                        >
+                          Create
+                        </LoadingButton>
+                      ),
+                    })}
+                  >
+                    {isCurrentUser ? (
+                      <>Complete your profile?</>
+                    ) : (
+                      <>
+                        <b>{data.name}</b> hasn&apos;t completed their profile
+                        yet
+                      </>
                     )}
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{ mt: 1, opacity: 0.6, color: colors[data.color][900] }}
-                  >
-                    {data.email}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      gap: 1,
-                      mt: 1,
-                      display: "flex",
-                      ml: -1,
-                      opacity: 0.7,
-                    }}
-                  >
-                    <Button size="small" sx={{ color: "inherit" }}>
-                      <b>{data.followers.length}</b> follower
-                      {data.followers.length !== 1 && "s"}
-                    </Button>
-                    <Button size="small" sx={{ color: "inherit" }}>
-                      <b>{data.following.length}</b> following
-                    </Button>
-                  </Typography>
-                  <Box
-                    sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 1 }}
-                  >
-                    <Chip
-                      label={data.trophies}
-                      icon={<span style={{ marginLeft: "10px" }}>🏆</span>}
-                    />
-                    <Chip
-                      label={
-                        <>
-                          <b>
-                            {data.timeZone.includes("/")
-                              ? data.timeZone.split("/")[1].replace("_", " ")
-                              : data.timeZone}
-                          </b>
-                          {data.timeZone.includes("/") &&
-                            ` - ${data.timeZone.split("/")[0]}`}
-                        </>
-                      }
-                      icon={<Icon>location_on</Icon>}
-                    />
-                    {data.CoachData && (
-                      <Chip
-                        sx={{
-                          ...(data.CoachData.streakCount > 0 && {
-                            background: colors.orange[200],
-                            "&, & *": {
-                              color: colors.orange[900],
-                            },
-                          }),
-                        }}
-                        label={data.CoachData.streakCount}
-                        icon={
-                          <Icon sx={{ color: "inherit!important" }}>
-                            local_fire_department
-                          </Icon>
-                        }
-                      />
-                    )}
-                    {JSON.stringify(data, null, 2)}
-                  </Box>
-                </Box>
-              </Card>
-            </Container>
+                  </Alert>
+                )}
+                {data.Profile && (
+                  <UserProfile
+                    mutationUrl={url}
+                    editMode={editMode}
+                    isCurrentUser={isCurrentUser}
+                    data={data}
+                  />
+                )}
+                {isCurrentUser && <SearchUser data={data} />}
+              </Box>
+            </Box>
           </>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              height: "100vh",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            <CircularProgress />
+          </Box>
         )}
-      </Box>
-    )
+      </Container>
+    </Box>
   );
 }

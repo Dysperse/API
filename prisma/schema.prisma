@@ -86,10 +86,10 @@ model NotificationSettings {
 model Profile {
   id       String   @id @unique @default(uuid())
   picture  String?
-  birthday DateTime
+  birthday DateTime @default(now())
   hobbies  String[]
   badges   String[]
-  bio      String
+  bio      String   @default("")
 
   private Boolean @default(false)
 

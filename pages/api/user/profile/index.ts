@@ -14,6 +14,7 @@ export default async function handler(req, res) {
       email: true,
       followers: true,
       following: true,
+      Profile: true,
     },
   });
   res.json(data);

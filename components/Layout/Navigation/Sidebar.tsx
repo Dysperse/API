@@ -17,6 +17,12 @@ export function Sidebar() {
   const [clickCount, setClickCount] = useState(0);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const useOutlinedTheme =
+    router.asPath === "/zen" ||
+    router.asPath === "/" ||
+    router.asPath === "/mood-history" ||
+    router.asPath.includes("/users/");
+
   // Easter egg #1
   const handleClick = () => {
     setClickCount(clickCount + 1);
@@ -91,10 +97,7 @@ export function Sidebar() {
       "&:hover .material-symbols-outlined": {
         background: session.user.darkMode
           ? "hsl(240,11%,14%)"
-          : router.asPath === "/zen" ||
-            router.asPath === "/" ||
-            router.asPath === "/mood-history" ||
-            router.asPath.includes("/coach")
+          : useOutlinedTheme
           ? "hsl(240,11%,93%)"
           : "hsl(240,11%,90%)",
         color: session.user.darkMode ? "#fff" : "#000",
@@ -109,10 +112,7 @@ export function Sidebar() {
         " .material-symbols-outlined,  .material-symbols-rounded": {
           background: session.user.darkMode
             ? "hsl(240,11%,17%)"
-            : router.asPath === "/zen" ||
-              router.asPath === "/" ||
-              router.asPath === "/mood-history" ||
-              router.asPath.includes("/coach")
+            : useOutlinedTheme
             ? "hsl(240,11%,90%)"
             : "hsl(240,11%,85%)",
           color: session.user.darkMode
@@ -134,30 +134,23 @@ export function Sidebar() {
         overflowX: "hidden",
         borderRight: "1px solid",
         borderColor: {
-          sm:
-            router.asPath === "/zen" ||
-            router.asPath.includes("/coach/explore") ||
-            router.asPath === "/mood-history" ||
-            router.asPath === "/"
-              ? session.user.darkMode
-                ? "hsla(240,11%,15%)"
-                : "hsl(240,11%,92%)"
-              : "transparent",
+          sm: useOutlinedTheme
+            ? session.user.darkMode
+              ? "hsla(240,11%,15%)"
+              : "hsl(240,11%,92%)"
+            : "transparent",
         },
         borderLeft: "1px solid transparent",
         background: {
-          sm:
-            router.asPath === "/zen" ||
-            router.asPath === "/mood-history" ||
-            router.asPath === "/"
-              ? "transparent"
-              : session.user.darkMode
-              ? router.asPath.includes("/coach")
-                ? "hsla(240,11%,12%)"
-                : "hsla(240,11%,5%)"
-              : router.asPath.includes("/coach")
-              ? "hsl(240,11%,100%)"
-              : "hsl(240,11%,93%)",
+          sm: useOutlinedTheme
+            ? "transparent"
+            : session.user.darkMode
+            ? router.asPath.includes("/coach")
+              ? "hsla(240,11%,12%)"
+              : "hsla(240,11%,5%)"
+            : router.asPath.includes("/coach")
+            ? "hsl(240,11%,100%)"
+            : "hsl(240,11%,93%)",
         },
         height: "100vh",
         backdropFilter: "blur(10px)",
@@ -192,24 +185,14 @@ export function Sidebar() {
       />
       <Box sx={{ mt: "auto", pt: 4 }} />
       <Box
-        sx={styles(
-          router.asPath.includes("/zen") ||
-            router.asPath === "/" ||
-            router.asPath === "/mood-history" ||
-            router.asPath === ""
-        )}
+        sx={styles(useOutlinedTheme)}
         onClick={() => router.push("/zen")}
         onMouseDown={() => router.push("/zen")}
       >
         <Tooltip title="Start" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath.includes("/zen") ||
-              router.asPath.includes("/mood-history") ||
-              router.asPath === "/" ||
-              router.asPath === ""
-                ? "rounded"
-                : "outlined"
+              useOutlinedTheme ? "rounded" : "outlined"
             }`}
           >
             change_history
