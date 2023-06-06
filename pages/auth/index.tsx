@@ -322,8 +322,10 @@ export default function Prompt() {
             window.close();
             return;
           }
-          router.push("/");
-          router.pathname = "/";
+
+          const url = (router?.query?.next as any) || "/";
+          window.location.href = url;
+          toast.dismiss();
         }
       } catch (e) {
         setStep(1);

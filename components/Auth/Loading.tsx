@@ -34,7 +34,11 @@ export default function AuthLoading() {
           sx={{
             color: dark ? "#fff" : "#000",
           }}
-          onClick={() => router.push("/auth")}
+          onClick={() =>
+            router.push(
+              "/auth?next=" + encodeURIComponent(window.location.href)
+            )
+          }
         />
       </Box>
     </Box>
