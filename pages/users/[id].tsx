@@ -291,7 +291,7 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
       <Box sx={{ display: "flex", flexDirection: "column", gap: 4, mt: 3 }}>
         <Box
           sx={{
-            ...(!profile.bio && !editMode && { display: "none" }),
+            ...(!editMode && { display: "none" }),
           }}
         >
           <Typography
