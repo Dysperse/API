@@ -99,7 +99,11 @@ export default function Page() {
         ).then((res) => res.json());
 
         setPhoto(res.data.thumb.url);
-        await updateSettings("picture", res.data.thumb.url);
+        await fetchRawApi("user/profile/update", {
+          email: session.user.email,
+          picture: res.data.thumb.url,
+        });
+        await mutate(url);
 
         setImageUploading(false);
       } catch (e) {
@@ -166,14 +170,18 @@ export default function Page() {
                     justifyContent: "center",
                     zIndex: 99,
                     alignItems: "center",
-                    transform: "scale(.9)",
-                    transition: "all 0.2s ",
-                    opacity: 0,
-                    ...(editMode && {
-                      opacity: 1,
-                      transition: "transform 0.2s ",
-                      transform: "scale(1)",
-                    }),
+                    ...(editMode
+                      ? {
+                          opacity: 1,
+                          transition: "transform 0.2s ",
+                          transform: "scale(1)",
+                        }
+                      : {
+                          transform: "scale(.9)",
+                          transition: "all 0.2s ",
+                          opacity: 0,
+                          pointerEvents: "none",
+                        }),
                   }}
                 >
                   <IconButton
