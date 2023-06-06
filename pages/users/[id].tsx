@@ -715,9 +715,10 @@ export default function Page() {
                   variant="body2"
                   sx={{
                     gap: 1,
-                    mt: 1,
                     display: "flex",
                     ml: -1,
+                    mb: 1.5,
+                    mt: 0.5,
                     opacity: 0.7,
                     color: colors[data.color]["800"],
                   }}
