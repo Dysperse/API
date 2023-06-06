@@ -58,9 +58,14 @@ export function UserProfile({
   };
 
   useEffect(() => {
-    if (birthdayRef?.current?.value)
-      birthdayRef.current.value = dayjs(profile.birthday).format("YYYY-MM-DD");
-  }, [profile.birthday]);
+    if (birthdayRef?.current && editMode)
+      setTimeout(() => {
+        birthdayRef.current.value = dayjs(profile.birthday).format(
+          "YYYY-MM-DD"
+        );
+      }, 100);
+  }, [profile.birthday, editMode]);
+
   return (
     <Box>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 1 }}>

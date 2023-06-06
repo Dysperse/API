@@ -18,13 +18,14 @@ import {
   CircularProgress,
   Container,
   Icon,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
@@ -37,6 +38,9 @@ export default function Page() {
 
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
+
+  const [photo, setPhoto] = useState(data?.Profile.photo);
+  const [imageUploading, setImageUploading] = useState(false);
 
   const isCurrentUser = email === session.user.email;
   const isFollowing =
@@ -80,6 +84,41 @@ export default function Page() {
     p: 3,
     borderRadius: 5,
   };
+
+  const handleUpload = useCallback(
+    async (e: any) => {
+      const key = "9fb5ded732b6b50da7aca563dbe66dec";
+      const form = new FormData();
+      form.append("image", e.target.files[0]);
+      setImageUploading(true);
+
+      try {
+        const res = await fetch(
+          `https://api.imgbb.com/1/upload?name=image&key=${key}`,
+          { method: "POST", body: form }
+        ).then((res) => res.json());
+
+        setPhoto(res.data.thumb.url);
+        await updateSettings("picture", res.data.thumb.url);
+
+        setImageUploading(false);
+      } catch (e) {
+        toast.error(
+          "Yikes! An error occured while trying to upload your image. Please try again later"
+        );
+        setImageUploading(false);
+      }
+    },
+    [setPhoto]
+  );
+
+  useEffect(() => {
+    console.log(data);
+    if (data?.Profile.picture) {
+      setPhoto(data?.Profile.picture);
+    }
+  }, [data]);
+
   return (
     <Box>
       <Head>
@@ -113,21 +152,59 @@ export default function Page() {
                 flexDirection: { xs: "column", sm: "row" },
               }}
             >
-              <Avatar
-                sx={{
-                  width: 100,
-                  height: 100,
-                  fontSize: 35,
-                  textTransform: "uppercase",
-                  background: `linear-gradient(${
-                    colors[data.color][200]
-                  } 30%, ${colors[data.color][300]})`,
-                  mb: 2,
-                }}
-              >
-                {data.name.charAt(0)}
-                {data.name.charAt(1)}
-              </Avatar>
+              <Box sx={{ position: "relative", height: 100 }}>
+                <Box
+                  sx={{
+                    background: "rgba(0,0,0,0.6)",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    borderRadius: 9999,
+                    display: "flex",
+                    justifyContent: "center",
+                    zIndex: 99,
+                    alignItems: "center",
+                    transform: "scale(.9)",
+                    transition: "all 0.2s ",
+                    opacity: 0,
+                    ...(editMode && {
+                      opacity: 1,
+                      transition: "transform 0.2s ",
+                      transform: "scale(1)",
+                    }),
+                  }}
+                >
+                  <IconButton
+                    onClick={() => document.getElementById("upload")?.click()}
+                  >
+                    <Icon sx={{ color: "#fff" }}>edit</Icon>
+                  </IconButton>
+                </Box>
+                <Avatar
+                  src={photo}
+                  sx={{
+                    width: 100,
+                    height: 100,
+                    fontSize: 35,
+                    textTransform: "uppercase",
+                    background: `linear-gradient(${
+                      colors[data.color][200]
+                    } 30%, ${colors[data.color][300]})`,
+                    mb: 2,
+                  }}
+                >
+                  {data.name.charAt(0)}
+                  {data.name.charAt(1)}
+                  <input
+                    type="file"
+                    id="upload"
+                    hidden
+                    onChange={handleUpload}
+                  />
+                </Avatar>
+              </Box>
               <Box
                 sx={{
                   flexGrow: 1,
