@@ -84,28 +84,19 @@ model NotificationSettings {
 
 // Customizable notification settings (1 row per user)
 model Profile {
-  id       String   @id @unique @default(uuid())
-  picture  String?
-  birthday DateTime @default(now())
-  hobbies  String[]
-  badges   String[]
-  bio      String   @default("")
+  id           String   @id @unique @default(uuid())
+  picture      String?
+  birthday     DateTime @default(now())
+  hobbies      String[]
+  badges       String[]
+  workingHours String?  @default("[]")
+
+  bio String @default("")
 
   private Boolean @default(false)
 
-  userId      String        @unique
-  user        User          @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-  WorkingHour WorkingHour[]
-}
-
-model WorkingHour {
-  id        String   @id @unique @default(uuid())
-  dayOfWeek Int // 0: Sunday, 1: Monday, ..., 6: Saturday
-  startTime DateTime
-  endTime   DateTime
-
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId String
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model CoachData {
