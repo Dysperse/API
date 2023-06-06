@@ -57,7 +57,12 @@ export function WorkingHours({
   }, [workingHours, handleSave, edited]);
 
   return (
-    <Box sx={profileCardStyles}>
+    <Box
+      sx={{
+        ...profileCardStyles,
+        ...(!editMode && workingHours.length == 0 && { display: "none" }),
+      }}
+    >
       <Typography
         sx={{
           mb: 2,
