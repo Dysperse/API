@@ -118,9 +118,7 @@ export default function Page() {
 
   useEffect(() => {
     console.log(data);
-    if (data?.Profile.picture) {
-      setPhoto(data?.Profile.picture);
-    }
+    setPhoto(data?.Profile?.picture);
   }, [data]);
 
   return (
