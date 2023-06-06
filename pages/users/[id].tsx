@@ -272,7 +272,7 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
         {profile && (
           <Chip
             sx={chipStyles}
-            label={dayjs(profile.birthday).fromNow()}
+            label={dayjs(profile.birthday).format("MM/DD")}
             icon={<Icon>cake</Icon>}
           />
         )}
@@ -306,8 +306,12 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
           <TextField
             type="date"
             inputRef={birthdayRef}
-            onChange={(e) =>
-              handleChange("birthday", JSON.stringify(e.target.value))
+            onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
+            onBlur={(e) =>
+              handleChange(
+                "birthday",
+                dayjs(e.target.value).set("hour", 1).toISOString()
+              )
             }
           />
         </Box>

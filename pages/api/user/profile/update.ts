@@ -16,6 +16,8 @@ export default async function handler(req, res) {
       return;
     }
 
+    console.log(new Date(req.query.birthday));
+
     const data = await prisma.profile.updateMany({
       where: {
         user: {
