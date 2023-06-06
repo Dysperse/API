@@ -8,7 +8,7 @@ import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
-import { LoadingButton } from "@mui/lab";
+import { LoadingButton, Masonry } from "@mui/lab";
 import {
   Alert,
   Autocomplete,
@@ -18,7 +18,6 @@ import {
   Chip,
   CircularProgress,
   Container,
-  Divider,
   Icon,
   IconButton,
   InputAdornment,
@@ -37,7 +36,7 @@ import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 
-function SearchUser({ data }) {
+function SearchUser({ profileCardStyles, data }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
 
@@ -51,9 +50,7 @@ function SearchUser({ data }) {
 
   return (
     <>
-      <Divider sx={{ mt: 5, mb: 3 }} />
-
-      <Box sx={{ px: 1 }}>
+      <Box sx={profileCardStyles}>
         <Typography
           sx={{
             mb: 1.5,
@@ -199,6 +196,7 @@ function UserProfile({
   mutationUrl,
   isCurrentUser,
   data,
+  profileCardStyles,
 }) {
   const session = useSession();
   const birthdayRef: any = useRef();
@@ -232,7 +230,8 @@ function UserProfile({
   };
 
   useEffect(() => {
-    birthdayRef.current.value = dayjs(profile.birthday).format("YYYY-MM-DD");
+    if (birthdayRef?.current?.value)
+      birthdayRef.current.value = dayjs(profile.birthday).format("YYYY-MM-DD");
   }, [profile.birthday]);
   return (
     <Box>
@@ -296,93 +295,96 @@ function UserProfile({
             />
           ))}
       </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 4, mt: 3 }}>
-        <Box
-          sx={{
-            ...(!editMode && { display: "none" }),
-            ...(editMode && { mt: 3 }),
-          }}
-        >
-          <Typography
-            sx={{
-              mb: 1,
-              color: colors[data.color][800],
-            }}
-            variant="h6"
-          >
-            Theme color
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              gap: 1,
-              flexWrap: "wrap",
-              mb: 2,
-            }}
-          >
-            {[
-              "lime",
-              "red",
-              "green",
-              "blue",
-              "pink",
-              "purple",
-              "indigo",
-              "cyan",
-            ].map((color) => (
-              <Box
-                key={color}
-                onClick={async () => {
-                  await updateSettings("color", color.toLowerCase());
-                  await mutate(mutationUrl);
-                  await mutate(mutationUrl);
-                }}
+      <Masonry sx={{ mt: 3 }} columns={2}>
+        {editMode && (
+          <>
+            <Box
+              sx={{
+                ...profileCardStyles,
+              }}
+            >
+              <Typography
                 sx={{
-                  background: colors[color]["A700"],
-                  border: `2px solid ${colors[color]["A700"]}`,
-                  width: "30px",
-                  height: "30px",
-                  borderRadius: 999,
-                  ...(session.themeColor === color && {
-                    boxShadow: `0 0 0 2px ${
-                      session.user.darkMode ? "hsl(240,11%,20%)" : "#fff"
-                    } inset`,
-                  }),
+                  mb: 1,
+                  color: colors[data.color][800],
                 }}
+                variant="h6"
+              >
+                Theme color
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  flexWrap: "wrap",
+                  ...profileCardStyles,
+                  mb: 2,
+                }}
+              >
+                {[
+                  "lime",
+                  "red",
+                  "green",
+                  "blue",
+                  "pink",
+                  "purple",
+                  "indigo",
+                  "cyan",
+                ].map((color) => (
+                  <Box
+                    key={color}
+                    onClick={async () => {
+                      await updateSettings("color", color.toLowerCase());
+                      await mutate(mutationUrl);
+                      await mutate(mutationUrl);
+                    }}
+                    sx={{
+                      background: colors[color]["A700"],
+                      border: `2px solid ${colors[color]["A700"]}`,
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: 999,
+                      ...(session.themeColor === color && {
+                        boxShadow: `0 0 0 2px ${
+                          session.user.darkMode ? "hsl(240,11%,20%)" : "#fff"
+                        } inset`,
+                      }),
+                    }}
+                  />
+                ))}
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                ...profileCardStyles,
+              }}
+            >
+              <Typography
+                sx={{
+                  mb: 1,
+                  color: colors[data.color][800],
+                }}
+                variant="h6"
+              >
+                Birthday
+              </Typography>
+              <TextField
+                type="date"
+                inputRef={birthdayRef}
+                onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
+                onBlur={(e) =>
+                  handleChange(
+                    "birthday",
+                    dayjs(e.target.value).set("hour", 1).toISOString()
+                  )
+                }
               />
-            ))}
-          </Box>
-        </Box>
+            </Box>
+          </>
+        )}
         <Box
           sx={{
-            ...(!editMode && { display: "none" }),
-          }}
-        >
-          <Typography
-            sx={{
-              mb: 1,
-              color: colors[data.color][800],
-            }}
-            variant="h6"
-          >
-            Birthday
-          </Typography>
-          <TextField
-            type="date"
-            inputRef={birthdayRef}
-            onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-            onBlur={(e) =>
-              handleChange(
-                "birthday",
-                dayjs(e.target.value).set("hour", 1).toISOString()
-              )
-            }
-          />
-        </Box>
-        <Box
-          sx={{
-            ...(profile.hobbies.length === 0 &&
-              !editMode && { display: "none" }),
+            ...profileCardStyles,
           }}
         >
           <Typography
@@ -432,7 +434,7 @@ function UserProfile({
         </Box>
         <Box
           sx={{
-            ...(!profile.bio && !editMode && { display: "none" }),
+            ...profileCardStyles,
           }}
         >
           <Typography
@@ -490,7 +492,7 @@ function UserProfile({
             </Button>
           </Box>
         )}
-      </Box>
+      </Masonry>
     </Box>
   );
 }
@@ -540,6 +542,13 @@ export default function Page() {
     }
   };
 
+  const profileCardStyles = data && {
+    border: "2px solid",
+    borderColor: colors[data.color][50],
+    color: colors[data.color][900],
+    p: 3,
+    borderRadius: 5,
+  };
   return (
     <Box>
       <Head>
@@ -754,6 +763,7 @@ export default function Page() {
                 )}
                 {data.Profile && (
                   <UserProfile
+                    profileCardStyles={profileCardStyles}
                     setEditMode={setEditMode}
                     mutationUrl={url}
                     editMode={editMode}
@@ -761,7 +771,12 @@ export default function Page() {
                     data={data}
                   />
                 )}
-                {isCurrentUser && !editMode && <SearchUser data={data} />}
+                {isCurrentUser && !editMode && (
+                  <SearchUser
+                    profileCardStyles={profileCardStyles}
+                    data={data}
+                  />
+                )}
               </Box>
             </Box>
           </>
