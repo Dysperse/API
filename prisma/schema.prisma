@@ -28,6 +28,7 @@ model User {
 
   CustomRoom           CustomRoom[]
   NotificationSettings NotificationSettings?
+  Profile              Profile?
   CoachData            CoachData?
   OAuthToken           OAuthToken[]
   PasswordResetToken   PasswordResetToken[]
@@ -67,6 +68,21 @@ model NotificationSettings {
   dailyCheckInNudge Boolean @default(true)
   userId            String  @unique
   user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+// Customizable notification settings (1 row per user)
+model Profile {
+  id       String   @id @unique @default(uuid())
+  picture  String?
+  birthday DateTime
+  hobbies  String[]
+  badges   String[]
+  bio      String
+
+  private Boolean @default(false)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model CoachData {
