@@ -30,7 +30,7 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
@@ -193,6 +193,7 @@ function Followers({ data }) {
 
 function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
   const session = useSession();
+  const birthdayRef: any = useRef();
 
   const profile = data.Profile;
   const chipStyles = {
@@ -222,6 +223,9 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
     await mutate(mutationUrl);
   };
 
+  useEffect(() => {
+    birthdayRef.current.value = dayjs(profile.birthday).format("YYYY-MM-DD");
+  }, [profile.birthday]);
   return (
     <Box>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 1 }}>
@@ -285,6 +289,28 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
           ))}
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 4, mt: 3 }}>
+        <Box
+          sx={{
+            ...(!profile.bio && !editMode && { display: "none" }),
+          }}
+        >
+          <Typography
+            sx={{
+              mb: 1,
+              color: colors[data.color][800],
+            }}
+            variant="h6"
+          >
+            Birthday
+          </Typography>
+          <TextField
+            type="date"
+            inputRef={birthdayRef}
+            onChange={(e) =>
+              handleChange("birthday", JSON.stringify(e.target.value))
+            }
+          />
+        </Box>
         <Box
           sx={{
             ...(profile.hobbies.length === 0 &&
@@ -361,6 +387,8 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
               {profile.bio}
             </Typography>
           )}
+        </Box>
+        {editMode && (
           <ConfirmationModal
             callback={handleDelete}
             title="Delete profile?"
@@ -370,7 +398,7 @@ function UserProfile({ editMode, mutationUrl, isCurrentUser, data }) {
               Delete
             </Button>
           </ConfirmationModal>
-        </Box>
+        )}
       </Box>
     </Box>
   );

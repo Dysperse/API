@@ -25,6 +25,7 @@ export default async function handler(req, res) {
       data: {
         ...(req.query.bio && { bio: req.query.bio }),
         ...(req.query.hobbies && { hobbies: JSON.parse(req.query.hobbies) }),
+        ...(req.query.birthday && { birthday: new Date(req.query.birthday) }),
       },
     });
     res.json(data);
