@@ -449,7 +449,9 @@ function UserProfile({
               multiline
               label="Add a bio..."
               sx={{ mt: 0.5 }}
-              onBlur={(e: any) => handleChange("bio", e.target.value)}
+              onBlur={(e: any) =>
+                handleChange("bio", e.target.value.substring(0, 100))
+              }
               defaultValue={profile.bio}
               minRows={4}
               placeholder="My name is Jeff Bezos and I'm an entrepreneur and investor"
