@@ -183,7 +183,7 @@ export function TasksLayout({ open, setOpen, children }) {
   const router = useRouter();
   const session = useSession();
 
-  useHotkeys("/", (e) => {
+  useHotkeys(["c", "/"], (e) => {
     e.preventDefault();
     document.getElementById("createTask")?.click();
   });
