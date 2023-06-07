@@ -373,6 +373,7 @@ export default function InviteButton({ styles }: any) {
         <Box
           sx={{
             ...styles(Boolean(anchorEl)),
+            display: { xs: "none", sm: "block" },
             "& .material-symbols-rounded": {
               background:
                 colors[session?.property?.profile?.color || 100][
@@ -438,7 +439,7 @@ export default function InviteButton({ styles }: any) {
           onClick={handleClick}
         >
           <Tooltip title="Account menu" placement="bottom-end">
-            <Icon className="outlined">hive</Icon>
+            <Icon className="outlined">unfold_more</Icon>
           </Tooltip>
         </IconButton>
       </Badge>
