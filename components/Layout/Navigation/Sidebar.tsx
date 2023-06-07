@@ -182,7 +182,7 @@ export function Sidebar() {
           }),
         }}
       />
-      <Box sx={{ mt: "auto", pt: 4 }} />
+      <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
         sx={styles(
           router.asPath === "/zen" ||
@@ -275,24 +275,23 @@ export function Sidebar() {
         <Box
           onClick={() => openSpotlight()}
           onMouseDown={() => openSpotlight()}
-          sx={styles(false)}
+          sx={{
+            ...styles(false),
+            "& .material-symbols-outlined": {
+              height: 40,
+            },
+          }}
         >
-          <Tooltip
-            title={
-              <>
-                <Typography sx={{ fontWeight: 700 }}>Spotlight</Typography>
-                <Typography>ctrl &bull; k</Typography>
-              </>
-            }
-            placement="right"
-          >
+          <Tooltip title="Spotlight" placement="right">
             <span className="material-symbols-outlined">bolt</span>
           </Tooltip>
         </Box>
         <Box
           sx={{
             ...styles(router.asPath.includes("/users")),
-            mt: -0.5,
+            "& .material-symbols-outlined, .material-symbols-rounded": {
+              height: 40,
+            },
           }}
           onClick={() => router.push(`/users/${session.user.email}`)}
           onMouseDown={() => router.push(`/users/${session.user.email}`)}

@@ -78,11 +78,18 @@ export default function Page() {
   };
 
   const profileCardStyles = data && {
-    border: "2px solid",
-    borderColor: colors[data.color][50],
-    color: colors[data.color][900],
+    border: "1px solid",
+    borderColor: `hsl(240,11%, 90%)`,
+    color: `hsl(240,11%, 20%)`,
+    boxShadow: `5px 5px 10px hsla(240,11%, 95%)`,
     p: 3,
     borderRadius: 5,
+    heading: {
+      color: colors[data.color][600],
+      fontWeight: 600,
+      textTransform: "uppercase",
+      mb: 0.5,
+    },
   };
 
   const handleUpload = useCallback(
@@ -128,7 +135,7 @@ export default function Page() {
       </Head>
       <Container
         sx={{
-          ...((data || error) && { py: { xs: 7, sm: 10 }, pb: { xs: 15 } }),
+          ...((data || error) && { py: 10, pb: { xs: 15 } }),
         }}
       >
         {(!isCurrentUser || error) && (
@@ -154,10 +161,17 @@ export default function Page() {
                 flexDirection: { xs: "column", sm: "row" },
               }}
             >
-              <Box sx={{ position: "relative", height: 100 }}>
+              <Box
+                sx={{
+                  position: "relative",
+                  height: 150,
+                  width: 150,
+                }}
+              >
                 <Box
                   sx={{
-                    background: "rgba(0,0,0,0.6)",
+                    background: "rgba(0,0,0,0.3)",
+                    backdropFilter: "blur(10px)",
                     position: "absolute",
                     top: 0,
                     left: 0,
@@ -176,7 +190,7 @@ export default function Page() {
                         }
                       : {
                           transform: "scale(.9)",
-                          transition: "all 0.2s ",
+                          transition: "all 0.2s",
                           opacity: 0,
                           pointerEvents: "none",
                         }),
@@ -191,6 +205,9 @@ export default function Page() {
                   ) : (
                     <IconButton
                       onClick={() => document.getElementById("upload")?.click()}
+                      sx={{
+                        transform: "scale(1.5)",
+                      }}
                     >
                       <Icon sx={{ color: "#fff" }}>edit</Icon>
                     </IconButton>
@@ -206,8 +223,8 @@ export default function Page() {
                 <Avatar
                   src={photo}
                   sx={{
-                    width: 100,
-                    height: 100,
+                    height: 150,
+                    width: 150,
                     fontSize: 35,
                     textTransform: "uppercase",
                     background: `linear-gradient(${
@@ -229,7 +246,7 @@ export default function Page() {
               <Box
                 sx={{
                   flexGrow: 1,
-                  pt: { xs: 0, sm: 3 },
+                  pt: { xs: 1, sm: 3 },
                   maxWidth: "100vw",
                 }}
               >
@@ -274,6 +291,7 @@ export default function Page() {
                         width: { xs: "100%", sm: "auto" },
                         ml: "auto",
                         mt: { xs: 2, sm: 0 },
+                        cursor: "default",
                       }}
                       onClick={() =>
                         data.Profile ? setEditMode((e) => !e) : createProfile()

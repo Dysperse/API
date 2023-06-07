@@ -4,7 +4,6 @@ import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Alert,
-  Avatar,
   Badge,
   Box,
   Button,
@@ -195,31 +194,33 @@ export default function InviteButton({ styles }: any) {
                 error="An error occured while trying to fetch your other groups"
               />
             )}
-            <Button
-              size="large"
-              color="inherit"
-              fullWidth
-              onClick={() => setView(2)}
-              sx={{
-                justifyContent: "start",
-                p: 2,
-                py: 1.5,
-                borderRadius: "28px",
-                gap: 2,
-                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
-              }}
-            >
-              <Icon className="outlined">group_add</Icon>
-              Invitations
-              {properties.filter((p) => !p.accepted).length > 0 && (
-                <Chip
-                  size="small"
-                  color="error"
-                  sx={{ px: 1, ml: "auto" }}
-                  label={properties.filter((p) => !p.accepted).length}
-                />
-              )}
-            </Button>
+            {properties.filter((p) => !p.accepted).length > 0 && (
+              <Button
+                size="large"
+                color="inherit"
+                fullWidth
+                onClick={() => setView(2)}
+                sx={{
+                  justifyContent: "start",
+                  p: 2,
+                  py: 1.5,
+                  borderRadius: "28px",
+                  gap: 2,
+                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                }}
+              >
+                <Icon className="outlined">group_add</Icon>
+                Invitations
+                {properties.filter((p) => !p.accepted).length > 0 && (
+                  <Chip
+                    size="small"
+                    color="error"
+                    sx={{ px: 1, ml: "auto" }}
+                    label={properties.filter((p) => !p.accepted).length}
+                  />
+                )}
+              </Button>
+            )}
             <Button
               size="large"
               color="inherit"
@@ -371,9 +372,14 @@ export default function InviteButton({ styles }: any) {
       >
         <Box
           sx={{
-            ...styles(false),
-            display: { xs: "none", md: "block" },
-            mb: 2,
+            ...styles(Boolean(anchorEl)),
+            "& .material-symbols-rounded": {
+              background:
+                colors[session?.property?.profile?.color || 100][
+                  session.user.darkMode ? 900 : 100
+                ],
+              height: 40,
+            },
           }}
           id="houseProfileTrigger"
           onClick={handleClick}
@@ -409,30 +415,7 @@ export default function InviteButton({ styles }: any) {
             }}
             color="error"
           >
-            <Avatar
-              sx={{
-                opacity: loading ? 0.5 : 1,
-                background:
-                  colors[session.property.profile.color][
-                    session.user.darkMode ? "A400" : 200
-                  ],
-                "&:hover": {
-                  background:
-                    colors[session.property.profile.color][
-                      session.user.darkMode ? "A700" : 300
-                    ],
-                },
-                ...(Boolean(anchorEl) && {
-                  background:
-                    colors[session.property.profile.color][
-                      session.user.darkMode ? "A700" : 300
-                    ],
-                }),
-                color: session.user.darkMode ? "#000" : "#000",
-              }}
-            >
-              <Icon className="outlined">hive</Icon>
-            </Avatar>
+            <Icon className="outlined">alternate_email</Icon>
           </Badge>
         </Box>
       </Tooltip>
