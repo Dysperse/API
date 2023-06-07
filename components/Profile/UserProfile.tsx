@@ -102,80 +102,108 @@ export function WorkingHours({
             minWidth: "470px",
           }}
         >
-          <FormControl fullWidth variant="standard">
-            {editMode && <InputLabel>Day</InputLabel>}
-            <Select
-              value={hour.dayOfWeek}
-              size="small"
-              {...(!editMode && { inputProps: { IconComponent: () => null } })}
-              onChange={(e) => {
-                setEdited(true);
-                handleChange(index, "dayOfWeek", e.target.value);
-              }}
-              disabled={!editMode}
-              readOnly={!editMode}
-            >
-              {[
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-              ].map((day, i) => (
-                <MenuItem value={i} key={i}>
-                  {day}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {!editMode ? (
+            <b>
+              {
+                [
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ][hour.dayOfWeek]
+              }
+            </b>
+          ) : (
+            <FormControl fullWidth variant="standard">
+              {editMode && <InputLabel>Day</InputLabel>}
+              <Select
+                value={hour.dayOfWeek}
+                size="small"
+                {...(!editMode && {
+                  inputProps: { IconComponent: () => null },
+                })}
+                onChange={(e) => {
+                  setEdited(true);
+                  handleChange(index, "dayOfWeek", e.target.value);
+                }}
+              >
+                {[
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ].map((day, i) => (
+                  <MenuItem value={i} key={i}>
+                    {day}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
           {!editMode && (
             <Typography sx={{ color: colors[data.color][800] }}>
               from
             </Typography>
           )}
-          <FormControl fullWidth variant="standard">
-            {editMode && <InputLabel>Start Time</InputLabel>}
-            <Select
-              value={hour.startTime}
-              label="Start time"
-              {...(!editMode && { inputProps: { IconComponent: () => null } })}
-              size="small"
-              onChange={(e) => {
-                setEdited(true);
-                handleChange(index, "startTime", e.target.value);
-              }}
-              readOnly={!editMode}
-              disabled={!editMode}
-            >
-              {[...new Array(23)].map((_, i) => (
-                <MenuItem key={i} value={i}>{`${i + 1}:00`}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {!editMode ? (
+            <b>{hour.startTime + 1}</b>
+          ) : (
+            <FormControl fullWidth variant="standard">
+              {editMode && <InputLabel>Start Time</InputLabel>}
+              <Select
+                value={hour.startTime}
+                label="Start time"
+                {...(!editMode && {
+                  inputProps: { IconComponent: () => null },
+                })}
+                size="small"
+                onChange={(e) => {
+                  setEdited(true);
+                  handleChange(index, "startTime", e.target.value);
+                }}
+                readOnly={!editMode}
+                disabled={!editMode}
+              >
+                {[...new Array(23)].map((_, i) => (
+                  <MenuItem key={i} value={i}>{`${i + 1}:00`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
           {!editMode && (
             <Typography sx={{ color: colors[data.color][800] }}>to</Typography>
           )}
-          <FormControl fullWidth variant="standard">
-            {editMode && <InputLabel>End Time</InputLabel>}
-            <Select
-              label="End time"
-              size="small"
-              {...(!editMode && { inputProps: { IconComponent: () => null } })}
-              onChange={(e) => {
-                setEdited(true);
-                handleChange(index, "endTime", e.target.value);
-              }}
-              readOnly={!editMode}
-              disabled={!editMode}
-              value={hour.endTime}
-            >
-              {[...new Array(23)].map((_, i) => (
-                <MenuItem key={i} value={i}>{`${i + 1}:00`}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {!editMode ? (
+            <b>{hour.endTime + 1}</b>
+          ) : (
+            <FormControl fullWidth variant="standard">
+              {editMode && <InputLabel>End Time</InputLabel>}
+              <Select
+                label="End time"
+                size="small"
+                {...(!editMode && {
+                  inputProps: { IconComponent: () => null },
+                })}
+                onChange={(e) => {
+                  setEdited(true);
+                  handleChange(index, "endTime", e.target.value);
+                }}
+                readOnly={!editMode}
+                disabled={!editMode}
+                value={hour.endTime}
+              >
+                {[...new Array(23)].map((_, i) => (
+                  <MenuItem key={i} value={i}>{`${i + 1}:00`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
           {editMode && (
             <IconButton
               onClick={() => {
