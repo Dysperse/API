@@ -63,8 +63,6 @@ export function Agenda({
     return dayjs().add(navigation, modifier).startOf(modifier);
   }, [navigation, e, isMobile, view]);
 
-  console.log(startOfWeek);
-
   const endOfWeek = useMemo(() => {
     const modifier = isMobile ? e : view;
     let endOfWeek = dayjs().add(navigation, modifier).endOf(modifier);
