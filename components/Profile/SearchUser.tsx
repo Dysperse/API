@@ -1,6 +1,5 @@
 import { isEmail } from "@/components/Group/Members";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import {
   Box,
   Icon,
@@ -28,15 +27,7 @@ export function SearchUser({ profileCardStyles, data }) {
   return (
     <>
       <Box sx={profileCardStyles}>
-        <Typography
-          sx={{
-            mb: 1.5,
-            color: colors[data.color][800],
-          }}
-          variant="h6"
-        >
-          Add friend
-        </Typography>
+        <Typography sx={profileCardStyles.heading}>Add friend</Typography>
         <TextField
           size="small"
           value={email}

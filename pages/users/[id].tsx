@@ -319,7 +319,7 @@ export default function Page() {
           )}
         </Toolbar>
       </AppBar>
-      <Container sx={{ mt: 5 }}>
+      <Container sx={{ my: 5 }}>
         {error && (
           <ErrorHandler
             callback={() => mutate(url)}

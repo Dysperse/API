@@ -21,6 +21,7 @@ import { useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
 
 import { toastStyles } from "@/lib/client/useTheme";
+import { Twemoji } from "react-emoji-render";
 import { toast } from "react-hot-toast";
 import { WorkingHours } from "./WorkingHours";
 
@@ -302,7 +303,9 @@ export function UserProfile({
                 placeholder="My name is Jeff Bezos and I'm an entrepreneur and investor"
               />
             ) : (
-              <Typography>{profile.bio}</Typography>
+              <Typography sx={{ fontSize: "17px" }}>
+                <Twemoji>{profile.bio || ""}</Twemoji>
+              </Typography>
             )}
           </Box>
           <Box sx={profileCardStyles}>
