@@ -307,17 +307,17 @@ export function TasksLayout({ open, setOpen, children }) {
           opacity: 0.5,
         }}
       />
-      <Link href={`/tasks/backlog`} style={{ cursor: "default" }}>
-        <Button size="large" sx={styles(router.asPath === `/tasks/backlog`)}>
+      <Link href={`/tasks/upcoming`} style={{ cursor: "default" }}>
+        <Button size="large" sx={styles(router.asPath === `/tasks/upcoming`)}>
           <Icon
-            className={router.asPath === `/tasks/backlog` ? "" : "outlined"}
+            className={router.asPath === `/tasks/upcoming` ? "" : "outlined"}
           >
             north_east
           </Icon>
           Upcoming
         </Button>
       </Link>
-      <Link href={`/tasks/upcoming`} style={{ cursor: "default" }}>
+      <Link href={`/tasks/backlog`} style={{ cursor: "default" }}>
         <Button size="large" sx={styles(router.asPath === `/tasks/backlog`)}>
           <Icon
             className={router.asPath === `/tasks/backlog` ? "" : "outlined"}

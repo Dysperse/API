@@ -36,7 +36,7 @@ const handler = async (req, res) => {
           // Make sure that the tasks falls within these dates
           {
             due: {
-              lte: new Date(req.query.date),
+              [req.query.upcoming ? "gte" : "lte"]: new Date(req.query.date),
             },
           },
           // If it's private, match up the task's user id with the provided identifier.
@@ -73,6 +73,9 @@ const handler = async (req, res) => {
           parentTasks: true,
         },
       }),
+      orderBy: {
+        due: req.query.upcoming ? "asc" : "desc",
+      },
       ...(req.query.count && {
         select: {
           id: true,
@@ -81,6 +84,7 @@ const handler = async (req, res) => {
     });
     res.json(data);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };
