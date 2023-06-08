@@ -307,26 +307,20 @@ export function TasksLayout({ open, setOpen, children }) {
           opacity: 0.5,
         }}
       />
-      <Link href={`/tasks/upcoming`} style={{ cursor: "default" }}>
-        <Button size="large" sx={styles(router.asPath === `/tasks/upcoming`)}>
-          <Icon
-            className={router.asPath === `/tasks/upcoming` ? "" : "outlined"}
-          >
-            east
-          </Icon>
-          Upcoming
-        </Button>
-      </Link>
-      <Link href={`/tasks/backlog`} style={{ cursor: "default" }}>
-        <Button size="large" sx={styles(router.asPath === `/tasks/backlog`)}>
-          <Icon
-            className={router.asPath === `/tasks/backlog` ? "" : "outlined"}
-          >
-            west
-          </Icon>
-          Backlog
-        </Button>
-      </Link>
+      {[
+        { href: "/tasks/upcoming", icon: "east", label: "Upcoming" },
+        { href: "/tasks/color-coded", icon: "palette", label: "Color coded" },
+        { href: "/tasks/backlog", icon: "west", label: "Backlog" },
+      ].map((link, index) => (
+        <Link key={index} href={link.href} style={{ cursor: "default" }}>
+          <Button size="large" sx={styles(router.asPath === link.href)}>
+            <Icon className={router.asPath === link.href ? "" : "outlined"}>
+              {link.icon}
+            </Icon>
+            {link.label}
+          </Button>
+        </Link>
+      ))}
       <Divider
         sx={{
           mt: 1,
