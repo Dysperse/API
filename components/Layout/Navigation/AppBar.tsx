@@ -68,6 +68,12 @@ export function Navbar(): JSX.Element {
     };
   }, []);
 
+  const isZen =
+    !router ||
+    router.asPath.includes("/zen") ||
+    router.asPath === "" ||
+    router.asPath === "/";
+
   return (
     <AppBar
       onClick={() =>
@@ -79,12 +85,6 @@ export function Navbar(): JSX.Element {
       sx={{
         userSelect: "none",
         position: "fixed",
-        ...((!router ||
-          router.asPath.includes("/zen") ||
-          router.asPath === "" ||
-          router.asPath === "/") && {
-          top: "calc(var(--navbar-height) * -1) !important",
-        }),
         transition: "none",
         "& *": {},
         color: {
@@ -94,6 +94,7 @@ export function Navbar(): JSX.Element {
         height: "calc(70px + env(titlebar-area-height, 0px))",
         WebkitAppRegion: "drag",
         display: { md: "none" },
+        ...(isZen && { justifyContent: "end", borderColor: "transparent" }),
         background: session.user.darkMode
           ? "hsla(240,11%,10%, 0.5)"
           : "rgba(255,255,255,.5)",
@@ -105,6 +106,7 @@ export function Navbar(): JSX.Element {
           sx={{
             mr: "auto",
             display: "flex",
+            ...(isZen && { visibility: "hidden" }),
             alignItems: "center",
             overflow: "hidden",
             gap: 2,
