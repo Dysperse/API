@@ -301,6 +301,34 @@ export function TasksLayout({ open, setOpen, children }) {
 
       <Divider
         sx={{
+          my: 1,
+          width: { sm: "90%" },
+          mx: "auto",
+          opacity: 0.5,
+        }}
+      />
+      <Link href={`/tasks/backlog`} style={{ cursor: "default" }}>
+        <Button size="large" sx={styles(router.asPath === `/tasks/backlog`)}>
+          <Icon
+            className={router.asPath === `/tasks/backlog` ? "" : "outlined"}
+          >
+            north_east
+          </Icon>
+          Upcoming
+        </Button>
+      </Link>
+      <Link href={`/tasks/upcoming`} style={{ cursor: "default" }}>
+        <Button size="large" sx={styles(router.asPath === `/tasks/backlog`)}>
+          <Icon
+            className={router.asPath === `/tasks/backlog` ? "" : "outlined"}
+          >
+            south_east
+          </Icon>
+          Backlog
+        </Button>
+      </Link>
+      <Divider
+        sx={{
           mt: 1,
           mb: 2,
           width: { sm: "90%" },
