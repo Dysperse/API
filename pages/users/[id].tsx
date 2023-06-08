@@ -138,7 +138,7 @@ function ProfilePicture({ mutationUrl, data, editMode }) {
         sx={{
           height: 150,
           width: 150,
-          fontSize: 35,
+          fontSize: 65,
           textTransform: "uppercase",
           background: `linear-gradient(${colors[data.color][200]} 30%, ${
             colors[data.color][300]
@@ -146,8 +146,10 @@ function ProfilePicture({ mutationUrl, data, editMode }) {
           mb: 2,
         }}
       >
-        {data.name.charAt(0)}
-        {data.name.charAt(1)}
+        {data.name.trim().charAt(0)}
+        {data.name.includes(" ")
+          ? data.name.split(" ")[1].charAt(0)
+          : data.name.charAt(1)}
         <input type="file" id="upload" hidden onChange={handleUpload} />
       </Avatar>
     </Box>
@@ -214,13 +216,15 @@ export default function Page() {
 
   const profileCardStyles = data && {
     border: "1px solid",
-    borderColor: `hsl(240,11%, 90%)`,
+    borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
     color: `hsl(240,11%, 20%)`,
-    boxShadow: `5px 5px 10px hsla(240,11%, 95%)`,
+    boxShadow: `5px 5px 10px hsla(240,11%, ${
+      session.user.darkMode ? 15 : 95
+    }%)`,
     p: 3,
     borderRadius: 5,
     heading: {
-      color: colors[data.color][600],
+      color: colors[data.color][session.user.darkMode ? "A200" : 600],
       fontWeight: 600,
       textTransform: "uppercase",
       mb: 0.5,
@@ -235,7 +239,7 @@ export default function Page() {
         left: 0,
         width: "100vw",
         height: "100vh",
-        background: "#fff",
+        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
         zIndex: 999,
         overflow: "auto",
       }}
@@ -254,10 +258,14 @@ export default function Page() {
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              width: { sm: "300px" },
             }}
           >
             {data ? data.name : "Profile"}
           </Typography>
+          {isCurrentUser && !editMode && (
+            <SearchUser profileCardStyles={profileCardStyles} data={data} />
+          )}
           {isCurrentUser && (
             <LoadingButton
               loading={loading}
@@ -267,9 +275,11 @@ export default function Page() {
                 ml: "auto",
                 cursor: "default",
                 flexShrink: 0,
-                ...(!editMode && {
-                  background: colors[data.color][50],
-                }),
+                ...(!editMode &&
+                  data && {
+                    background:
+                      colors[data.color][session.user.darkMode ? 900 : 50],
+                  }),
               }}
               onClick={() =>
                 data.Profile ? setEditMode((e) => !e) : createProfile()
@@ -450,12 +460,6 @@ export default function Page() {
                     mutationUrl={url}
                     editMode={editMode}
                     isCurrentUser={isCurrentUser}
-                    data={data}
-                  />
-                )}
-                {isCurrentUser && !editMode && (
-                  <SearchUser
-                    profileCardStyles={profileCardStyles}
                     data={data}
                   />
                 )}

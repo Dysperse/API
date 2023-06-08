@@ -272,11 +272,11 @@ export function UserProfile({
               <>
                 <Typography
                   variant="h5"
-                  sx={{ my: 0.5, color: `hsl(240,11%,20%)` }}
+                  sx={{ mt: 0.5, color: `hsl(240,11%,20%)` }}
                 >
                   {dayjs(profile.birthday).format("MMMM D")}
                 </Typography>
-                <Typography sx={{ mb: 1, color: `hsl(240,11%,50%)` }}>
+                <Typography sx={{ color: `hsl(240,11%,50%)` }}>
                   In {daysUntilNextBirthday} days
                 </Typography>
               </>

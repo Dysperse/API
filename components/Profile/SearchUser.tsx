@@ -1,7 +1,7 @@
 import { isEmail } from "@/components/Group/Members";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
-  Box,
+  Dialog,
   Icon,
   IconButton,
   InputAdornment,
@@ -13,8 +13,9 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 export function SearchUser({ profileCardStyles, data }) {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
+  const router: any = useRouter();
+  const [email, setEmail] = useState(router.query.id || "");
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = () => {
     if (!isEmail(email)) {
@@ -26,14 +27,19 @@ export function SearchUser({ profileCardStyles, data }) {
 
   return (
     <>
-      <Box sx={profileCardStyles}>
-        <Typography sx={profileCardStyles.heading}>Add friend</Typography>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{ sx: { p: 3 } }}
+      >
+        <Typography>Search</Typography>
         <TextField
           size="small"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           onKeyDown={(e) => e.key == "Enter" && handleSubmit()}
           placeholder="Type an email..."
+          sx={{ flexGrow: 1, maxWidth: "300px", mx: "auto" }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -44,7 +50,10 @@ export function SearchUser({ profileCardStyles, data }) {
             ),
           }}
         />
-      </Box>
+      </Dialog>
+      <IconButton onClick={() => setOpen(true)}>
+        <Icon>search</Icon>
+      </IconButton>
     </>
   );
 }
