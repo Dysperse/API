@@ -112,7 +112,9 @@ function Page() {
     toast.success("Copied to clipboard", toastStyles);
   };
 
-  const { data: members } = useApi("property/members");
+  const { data: members } = useApi("property/members", {
+    propertyId: session.property.propertyId,
+  });
 
   return (
     <Box

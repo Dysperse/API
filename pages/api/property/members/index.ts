@@ -1,8 +1,10 @@
 import { prisma } from "@/lib/server/prisma";
+import { validateParams } from "@/lib/server/validateParams";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 
 const handler = async (req, res) => {
   try {
+    validateParams(req.query, ["propertyId"]);
     await validatePermissions({
       minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
