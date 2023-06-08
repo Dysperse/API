@@ -313,10 +313,7 @@ export const Column: any = memo(function Column({
             column={{ id: "-1", name: "" }}
             defaultDate={day.unchanged}
             label="Set a goal"
-            placeholder={
-              "Set a goal to be achieved " +
-              placeholder.replace("in a day", "tomorrow")
-            }
+            placeholder="Create a task..."
             mutationUrl={mutationUrl}
             boardId={1}
           />
