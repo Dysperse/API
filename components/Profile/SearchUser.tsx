@@ -1,21 +1,28 @@
 import { isEmail } from "@/components/Group/Members";
+import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import {
-  Dialog,
-  Icon,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Icon, IconButton, Popover, TextField } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
 export function SearchUser({ profileCardStyles, data }) {
-  const router: any = useRouter();
-  const [email, setEmail] = useState(router.query.id || "");
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const session = useSession();
+  const ref: any = useRef();
+  const [email, setEmail] = useState("");
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    if (ref) setTimeout(() => ref.current?.focus(), 200);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   const handleSubmit = () => {
     if (!isEmail(email)) {
@@ -23,35 +30,50 @@ export function SearchUser({ profileCardStyles, data }) {
       return;
     }
     router.push(`/users/${encodeURIComponent(email)}`);
+    setAnchorEl(null);
   };
 
   return (
     <>
-      <Dialog
+      <Popover
         open={open}
-        onClose={() => setOpen(false)}
-        PaperProps={{ sx: { p: 3 } }}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        slotProps={{ backdrop: { sx: { opacity: "0!important" } } }}
+        PaperProps={{
+          sx: {
+            p: 3,
+            borderRadius: 5,
+            boxShadow: 0,
+            background: `hsl(240,11%,${session.user.darkMode ? 15 : 100}%)`,
+          },
+        }}
       >
-        <Typography>Search</Typography>
         <TextField
           size="small"
+          inputRef={ref}
           value={email}
+          fullWidth
+          autoFocus
           onChange={(e) => setEmail(e.target.value)}
           onKeyDown={(e) => e.key == "Enter" && handleSubmit()}
           placeholder="Type an email..."
-          sx={{ flexGrow: 1, maxWidth: "300px", mx: "auto" }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleSubmit} disabled={!isEmail(email)}>
-                  <Icon>east</Icon>
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
+          sx={{ mb: 2 }}
         />
-      </Dialog>
-      <IconButton onClick={() => setOpen(true)}>
+        <Button
+          onClick={handleSubmit}
+          disabled={!isEmail(email)}
+          variant="contained"
+          fullWidth
+        >
+          View profile <Icon sx={{ ml: "auto" }}>east</Icon>
+        </Button>
+      </Popover>
+      <IconButton onClick={handleClick} sx={{ ml: "auto" }}>
         <Icon>search</Icon>
       </IconButton>
     </>

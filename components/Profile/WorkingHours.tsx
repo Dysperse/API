@@ -87,7 +87,7 @@ export function WorkingHours({
             display: "flex",
             alignItems: "center",
             mb: 1,
-            color: `hsl(240,11%,20%)`,
+            color: `hsl(240,11%,${session.user.darkMode ? 80 : 20}%)`,
             gap: 2,
             minWidth: editMode ? "470px" : "auto",
           }}

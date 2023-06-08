@@ -14,6 +14,7 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -39,8 +40,10 @@ export function UserProfile({
   const profile = data.Profile;
   const chipStyles = (color = false) => ({
     ...(color && {
-      background: colors[data.color][50],
-      color: colors[data.color][900],
+      background: session.user.darkMode
+        ? "hsl(240,11%,15%)"
+        : colors[data.color][50],
+      color: colors[data.color][session.user.darkMode ? 200 : 900],
     }),
     "& .MuiIcon-root": {
       ...(color && { color: colors[data.color][600] + "!important" }),
@@ -93,45 +96,54 @@ export function UserProfile({
           flexWrap: "wrap",
         }}
       >
-        <Chip
-          sx={chipStyles(true)}
-          label={data.trophies}
-          icon={<span style={{ marginLeft: "10px" }}>🏆</span>}
-        />
-        <Chip
-          sx={chipStyles(true)}
-          label={
-            <>
-              <b>
-                {data.timeZone.includes("/")
-                  ? data.timeZone.split("/")[1].replace("_", " ")
-                  : data.timeZone}
-              </b>
-              {data.timeZone.includes("/") &&
-                ` - ${data.timeZone.split("/")[0]}`}
-            </>
-          }
-          icon={<Icon>location_on</Icon>}
-        />
-        {data.CoachData && (
+        <Tooltip title="Goals completed">
           <Chip
-            sx={{
-              ...(data.CoachData.streakCount > 0
-                ? {
-                    background: colors.orange[100],
-                    "&, & *": {
-                      color: colors.orange[900],
-                    },
-                  }
-                : chipStyles(true)),
-            }}
-            label={data.CoachData.streakCount}
+            sx={chipStyles(true)}
+            label={data.trophies}
             icon={
-              <Icon sx={{ color: "inherit!important" }}>
-                local_fire_department
-              </Icon>
+              <Icon sx={{ color: "inherit!important" }}>military_tech</Icon>
             }
           />
+        </Tooltip>
+        <Tooltip title="Timezone">
+          <Chip
+            sx={chipStyles(true)}
+            label={
+              <>
+                <b>
+                  {data.timeZone.includes("/")
+                    ? data.timeZone.split("/")[1].replace("_", " ")
+                    : data.timeZone}
+                </b>
+                {data.timeZone.includes("/") &&
+                  ` - ${data.timeZone.split("/")[0]}`}
+              </>
+            }
+            icon={<Icon>location_on</Icon>}
+          />
+        </Tooltip>
+        {data.CoachData && (
+          <Tooltip title="Coach streak">
+            <Chip
+              sx={{
+                ...(data.CoachData.streakCount > 0
+                  ? {
+                      background:
+                        colors.orange[session.user.darkMode ? 900 : 100],
+                      "&, & *": {
+                        color: colors.orange[session.user.darkMode ? 50 : 900],
+                      },
+                    }
+                  : chipStyles(true)),
+              }}
+              label={data.CoachData.streakCount}
+              icon={
+                <Icon sx={{ color: "inherit!important" }}>
+                  local_fire_department
+                </Icon>
+              }
+            />
+          </Tooltip>
         )}
         {profile &&
           profile.badges.map((badge) => (
@@ -192,7 +204,9 @@ export function UserProfile({
                         borderRadius: 999,
                         ...(session.themeColor === color && {
                           boxShadow: `0 0 0 2px ${
-                            session.user.darkMode ? "hsl(240,11%,20%)" : "#fff"
+                            session.user.darkMode
+                              ? "hsl(240,11%,${session.user.darkMode ? 80 : 20}%)"
+                              : "#fff"
                           } inset`,
                         }),
                       }}
@@ -272,7 +286,10 @@ export function UserProfile({
               <>
                 <Typography
                   variant="h5"
-                  sx={{ mt: 0.5, color: `hsl(240,11%,20%)` }}
+                  sx={{
+                    mt: 0.5,
+                    color: `hsl(240,11%,${session.user.darkMode ? 80 : 20}%)`,
+                  }}
                 >
                   {dayjs(profile.birthday).format("MMMM D")}
                 </Typography>

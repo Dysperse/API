@@ -76,7 +76,9 @@ function ProfilePicture({ mutationUrl, data, editMode }) {
         position: "relative",
         height: 150,
         width: 150,
-        boxShadow: "0 0 0 5px #fff",
+        boxShadow: `0 0 0 5px hsl(240,11%,${
+          session.user.darkMode ? 10 : 100
+        }%)`,
         borderRadius: 9999,
         alignSelf: { xs: "center", md: "flex-start" },
       }}
@@ -200,8 +202,8 @@ export default function Page() {
       setLoading(false);
     }
   };
-  const styles = {
-    color: "inherit",
+  const styles = data && {
+    color: session.user.darkMode ? colors[data.color][50] : "inherit",
     textAlign: "center",
     width: { sm: "auto" },
     px: 2,
@@ -217,7 +219,7 @@ export default function Page() {
   const profileCardStyles = data && {
     border: "1px solid",
     borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
-    color: `hsl(240,11%, 20%)`,
+    color: `hsl(240,11%, ${session.user.darkMode ? 80 : 20}%)`,
     boxShadow: `5px 5px 10px hsla(240,11%, ${
       session.user.darkMode ? 15 : 95
     }%)`,
@@ -258,21 +260,17 @@ export default function Page() {
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              width: { sm: "300px" },
             }}
           >
             {data ? data.name : "Profile"}
           </Typography>
-          {isCurrentUser && !editMode && (
-            <SearchUser profileCardStyles={profileCardStyles} data={data} />
-          )}
+          <SearchUser profileCardStyles={profileCardStyles} data={data} />
           {isCurrentUser && (
             <LoadingButton
               loading={loading}
               variant={editMode ? "contained" : "text"}
               sx={{
                 px: 2,
-                ml: "auto",
                 cursor: "default",
                 flexShrink: 0,
                 ...(!editMode &&
@@ -300,23 +298,26 @@ export default function Page() {
             >
               <LoadingButton
                 loading={loading}
-                variant={isFollowing ? "outlined" : "contained"}
+                variant="contained"
                 sx={{
                   px: 2,
-                  ml: "auto",
                   flexShrink: 0,
                   ...(!loading && data && isFollowing
                     ? {
-                        borderColor: colors[data.color][200] + "!important",
-                        color: colors[data.color][900] + "!important",
+                        color:
+                          colors[data.color][
+                            session.user.darkMode ? 100 : 900
+                          ] + "!important",
                         "&:hover": {
-                          background: colors[data.color][50] + "!important",
                           borderColor: colors[data.color][300] + "!important",
                         },
                       }
                     : data && {
                         "&,&:hover": {
-                          background: colors[data.color][900] + "!important",
+                          background:
+                            colors[data.color][
+                              session.user.darkMode ? 800 : 900
+                            ] + "!important",
                           color: colors[data.color][50] + "!important",
                         },
                       }),
@@ -403,7 +404,7 @@ export default function Page() {
                     },
                     mt: 1,
                     opacity: 0.6,
-                    color: colors[data.color][900],
+                    color: colors[data.color][session.user.darkMode ? 50 : 900],
                     maxWidth: "100%",
                     overflow: "hidden",
                     textAlign: { xs: "center", sm: "left" },
