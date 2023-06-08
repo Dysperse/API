@@ -164,7 +164,6 @@ export default function InviteButton({ styles }: any) {
             opacity: "0!important",
           },
         }}
-        transitionDuration={300}
         PaperProps={{
           sx: {
             borderRadius: "28px!important",
