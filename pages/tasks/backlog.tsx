@@ -82,62 +82,64 @@ export default function Dashboard() {
               )}
             </Box>
           ))}
-        <Box
-          sx={{ px: { sm: 3 }, pb: data.length ? 15 : 0, maxWidth: "100vw" }}
-        >
-          {data.length === 0 && (
-            <Box
-              sx={{
-                textAlign: "center",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                userSelect: "none",
-                height: {
-                  xs: "calc(100vh - var(--navbar-height) - 55px)",
-                  sm: "100vh",
-                },
-              }}
-            >
-              <Image
-                src="/images/backlog.png"
-                width={256}
-                height={256}
-                alt="Backlog"
-                style={{
-                  ...(session.user.darkMode && {
-                    filter: "invert(100%)",
-                  }),
-                }}
-              />
+        {data && (
+          <Box
+            sx={{ px: { sm: 3 }, pb: data.length ? 15 : 0, maxWidth: "100vw" }}
+          >
+            {data.length === 0 && (
               <Box
-                sx={{ width: "300px", maxWidth: "calc(100vw - 40px)", mb: 2 }}
+                sx={{
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  userSelect: "none",
+                  height: {
+                    xs: "calc(100vh - var(--navbar-height) - 55px)",
+                    sm: "100vh",
+                  },
+                }}
               >
-                <Typography variant="h6" gutterBottom sx={{ mt: -2 }}>
-                  You&apos;re on top of it!
-                </Typography>
-                <Typography variant="body1">
-                  The backlog is a place where you can see all your unfinished
-                  tasks.
-                </Typography>
+                <Image
+                  src="/images/backlog.png"
+                  width={256}
+                  height={256}
+                  alt="Backlog"
+                  style={{
+                    ...(session.user.darkMode && {
+                      filter: "invert(100%)",
+                    }),
+                  }}
+                />
+                <Box
+                  sx={{ width: "300px", maxWidth: "calc(100vw - 40px)", mb: 2 }}
+                >
+                  <Typography variant="h6" gutterBottom sx={{ mt: -2 }}>
+                    You&apos;re on top of it!
+                  </Typography>
+                  <Typography variant="body1">
+                    The backlog is a place where you can see all your unfinished
+                    tasks.
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          )}
-          {[
-            ...data.filter((task) => task.pinned),
-            ...data.filter((task) => !task.pinned),
-          ].map((task) => (
-            <Task
-              isDateDependent={true}
-              key={task.id}
-              board={task.board || false}
-              columnId={task.column ? task.column.id : -1}
-              mutationUrl={url}
-              task={task}
-            />
-          ))}
-        </Box>
+            )}
+            {[
+              ...data.filter((task) => task.pinned),
+              ...data.filter((task) => !task.pinned),
+            ].map((task) => (
+              <Task
+                isDateDependent={true}
+                key={task.id}
+                board={task.board || false}
+                columnId={task.column ? task.column.id : -1}
+                mutationUrl={url}
+                task={task}
+              />
+            ))}
+          </Box>
+        )}
       </Box>
     </TasksLayout>
   );
