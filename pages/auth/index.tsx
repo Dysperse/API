@@ -84,6 +84,15 @@ function QrLogin() {
     }
   }, [data, handleVerify, verified]);
 
+  const handleCopy = () => {
+    handleVerify();
+    navigator.clipboard.writeText(url);
+    toast.success(
+      "Copied to clipboard and rechecking if you scanned it...",
+      toastStyles
+    );
+  };
+
   const containerStyles = {
     width: "250px",
     height: "250px",
@@ -153,14 +162,7 @@ function QrLogin() {
                 cursor: "pointer",
                 backdropFilter: "blur(10px)",
               }}
-              onClick={() => {
-                handleVerify();
-                navigator.clipboard.writeText(url);
-                toast.success(
-                  "Copied to clipboard and rechecking if you scanned it...",
-                  toastStyles
-                );
-              }}
+              onClick={handleCopy}
             >
               <Box>
                 <span className="material-symbols-rounded">content_copy</span>
@@ -348,6 +350,14 @@ export default function Prompt() {
 
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
 
+  const shuffle = () => {
+    setProTip(proTips[Math.floor(Math.random() * proTips.length)]);
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => emailRef?.current?.focus(), []);
 
   return (
@@ -499,7 +509,10 @@ export default function Prompt() {
                       }}
                       onExpire={() => {
                         ref.current?.reset();
-                        toast.error("Expired. Retrying...", toastStyles);
+                        toast.error(
+                          "Captcha expired. Retrying...",
+                          toastStyles
+                        );
                       }}
                       scriptOptions={{ defer: true }}
                       options={{ retry: "auto" }}
@@ -580,13 +593,7 @@ export default function Prompt() {
 
       <NoSsr>
         <Box
-          onClick={() => {
-            setProTip(proTips[Math.floor(Math.random() * proTips.length)]);
-            window.scrollTo({
-              top: document.body.scrollHeight,
-              behavior: "smooth",
-            });
-          }}
+          onClick={shuffle}
           sx={{
             transition: "all .2s",
             "&:active": {

@@ -106,6 +106,11 @@ export default function Page() {
     },
   };
 
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(data.email);
+    toast.success("Copied to clipboard", toastStyles);
+  };
+
   return (
     <Box
       sx={{
@@ -272,10 +277,7 @@ export default function Page() {
                   )}
                 </Typography>
                 <Typography
-                  onClick={() => {
-                    navigator.clipboard.writeText(data.email);
-                    toast.success("Copied to clipboard", toastStyles);
-                  }}
+                  onClick={handleCopyEmail}
                   sx={{
                     "&:hover": {
                       textDecoration: "underline",

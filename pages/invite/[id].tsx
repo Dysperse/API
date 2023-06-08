@@ -37,6 +37,42 @@ export default function Onboarding() {
     true
   );
 
+  const handleAccept = () => {
+    setLoading(true);
+    if (session.user && session.user.email) {
+      fetch(
+        "/api/property/members/inviteLink/accept?" +
+          new URLSearchParams({
+            token: id as string,
+            email: session.user.email,
+            property: data.property.id,
+            sessionId: session.token,
+          })
+      )
+        .then(() => {
+          mutate("/api/session");
+          router.push("/");
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.error(e);
+          toast.error(
+            "Something went wrong while accepting the invite. Please try again later.",
+            toastStyles
+          );
+          setLoading(false);
+        });
+    } else {
+      popup(
+        500,
+        1000,
+        "/signup?close=true",
+        "Please sign in to your Dysperse account"
+      );
+      setLoading(false);
+    }
+  };
+
   return (
     <NoSsr>
       <Box
@@ -157,41 +193,7 @@ export default function Onboarding() {
                 backgroundColor: colors[data.property.color]["A700"],
               },
             }}
-            onClick={() => {
-              setLoading(true);
-              if (session.user && session.user.email) {
-                fetch(
-                  "/api/property/members/inviteLink/accept?" +
-                    new URLSearchParams({
-                      token: id as string,
-                      email: session.user.email,
-                      property: data.property.id,
-                      sessionId: session.token,
-                    })
-                )
-                  .then(() => {
-                    mutate("/api/session");
-                    router.push("/");
-                    setLoading(false);
-                  })
-                  .catch((e) => {
-                    console.error(e);
-                    toast.error(
-                      "Something went wrong while accepting the invite. Please try again later.",
-                      toastStyles
-                    );
-                    setLoading(false);
-                  });
-              } else {
-                popup(
-                  500,
-                  1000,
-                  "/signup?close=true",
-                  "Please sign in to your Dysperse account"
-                );
-                setLoading(false);
-              }
-            }}
+            onClick={handleClick}
           >
             {session?.properties &&
             session.properties.find((p) => p.propertyId === data.property.id)

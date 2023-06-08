@@ -248,9 +248,7 @@ export function EditProperty({
             id="basic-menu"
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
-            onClose={() => {
-              setAnchorEl(null);
-            }}
+            onClose={() => setAnchorEl(null)}
           >
             {["house", "apartment", "dorm", "study group"].map((type) => (
               <MenuItem

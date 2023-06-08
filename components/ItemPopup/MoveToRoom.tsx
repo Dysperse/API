@@ -38,22 +38,26 @@ function Room({
   setOpen: (open: boolean) => void;
 }) {
   const [disabled, setDisabled] = useState<boolean>(false);
+
+  const handleClick = async () => {
+    try {
+      setDisabled(true);
+      await fetchRawApi("property/inventory/items/move", {
+        id: id.toString(),
+        room: room.toLowerCase().replace(" room", ""),
+        lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      });
+      setDisabled(false);
+      setOpen(false);
+      toast.success("Moved item!", toastStyles);
+    } catch (e: any) {
+      toast.error(e.message, toastStyles);
+    }
+  };
+
   return (
     <ListItemButton
-      onClick={() => {
-        setDisabled(true);
-        fetchRawApi("property/inventory/items/move", {
-          id: id.toString(),
-          room: room.toLowerCase().replace(" room", ""),
-          lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-        }).then(() => {
-          setDisabled(false);
-          setOpen(false);
-          setTimeout(() => {
-            toast.success("Moved item!", toastStyles);
-          }, 100);
-        });
-      }}
+      onClick={handleClick}
       sx={{ transition: "none!important", borderRadius: 3 }}
     >
       <ListItemText

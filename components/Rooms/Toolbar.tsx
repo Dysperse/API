@@ -68,12 +68,12 @@ function SearchBar({
         },
         verticalAlign: "middle",
       }}
-      onClick={() => {
+      onClick={() => 
         document.getElementById("outlined-size-small")?.focus();
-      }}
-      onMouseDown={() => {
+      }
+      onMouseDown={() => 
         document.getElementById("outlined-size-small")?.focus();
-      }}
+      }
     >
       <Icon>search</Icon>
       <TextField
@@ -166,6 +166,14 @@ export function Toolbar({
   );
   const session = useSession();
 
+  const handleSort = (sortFunction) => {
+    setItems([]);
+    setTimeout(() => {
+      setItems(sortFunction(items));
+      handleClose();
+    }, 50);
+  };
+
   return (
     <Box
       sx={{
@@ -221,85 +229,55 @@ export function Toolbar({
         }}
       >
         <MenuItem
-          onClick={() => {
-            setItems([]);
-            setTimeout(
-              () =>
-                setItems(items.sort((a, b) => a.name.localeCompare(b.name))),
-              50
-            );
-            setTimeout(handleClose, 50);
-          }}
+          onClick={() =>
+            handleSort((items) =>
+              items.sort((itemA, itemB) => itemA.name.localeCompare(itemB.name))
+            )
+          }
         >
           A-Z
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            setItems([]);
-            setTimeout(
-              () =>
-                setItems(
-                  items.sort((a, b) => a.name.localeCompare(b.name)).reverse()
-                ),
-              50
-            );
-            setTimeout(handleClose, 50);
-          }}
+          onClick={() =>
+            handleSort((items) =>
+              items
+                .sort((itemA, itemB) => itemA.name.localeCompare(itemB.name))
+                .reverse()
+            )
+          }
         >
           Z-A
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            setItems([]);
-            setTimeout(
-              () =>
-                setItems(
-                  items.sort((a, b) => a.quantity.localeCompare(b.quantity))
-                ),
-              50
-            );
-            setTimeout(handleClose, 50);
-          }}
+          onClick={() =>
+            handleSort((items) =>
+              items.sort((itemA, itemB) =>
+                itemA.quantity.localeCompare(itemB.quantity)
+              )
+            )
+          }
         >
           Quantity
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            setItems([]);
-            setTimeout(
-              () =>
-                setItems(
-                  items
-                    .sort((a, b) =>
-                      a.lastModified
-                        .toString()
-                        .localeCompare(b.lastModified.toString())
-                    )
-                    .reverse()
-                ),
-              50
-            );
-            setTimeout(handleClose, 50);
-          }}
+          onClick={() =>
+            handleSort((items) =>
+              items.sort(
+                (itemA, itemB) => itemB.lastModified - itemA.lastModified
+              )
+            )
+          }
         >
           Newest to oldest
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            setItems([]);
-            setTimeout(
-              () =>
-                setItems(
-                  items.sort((a, b) =>
-                    a.lastModified
-                      .toString()
-                      .localeCompare(b.lastModified.toString())
-                  )
-                ),
-              50
-            );
-            setTimeout(handleClose, 50);
-          }}
+          onClick={() =>
+            handleSort((items) =>
+              items.sort(
+                (itemA, itemB) => itemA.lastModified - itemB.lastModified
+              )
+            )
+          }
         >
           Oldest to newest
         </MenuItem>

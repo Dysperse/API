@@ -29,6 +29,11 @@ export function ExperimentalAiSubtask({ task }) {
   const [loading, setLoading] = useState(false);
   const [addedValues, setAddedValues] = useState<string[]>([]);
 
+  const handleClose = () => {
+    setOpen(false);
+    document.getElementById("subtaskTrigger")?.click();
+  };
+
   const deferredValue = useDeferredValue(value);
 
   const handleSubmit = async () => {
@@ -46,6 +51,12 @@ export function ExperimentalAiSubtask({ task }) {
     } catch (e) {
       setSubmitLoading(false);
     }
+  };
+
+  const handleDiscard = () => {
+    setValue("");
+    setData(null);
+    setLoading(false);
   };
 
   const generate = async () => {
@@ -72,6 +83,14 @@ export function ExperimentalAiSubtask({ task }) {
         "Dysperse AI couldn't generate your tasks! Please try again later",
         toastStyles
       );
+    }
+  };
+
+  const handleToggle = (generated) => {
+    if (addedValues.includes(generated)) {
+      setAddedValues(addedValues.filter((e) => e !== generated));
+    } else {
+      setAddedValues([...new Set([...addedValues, generated])]);
     }
   };
 
@@ -111,10 +130,7 @@ export function ExperimentalAiSubtask({ task }) {
       <SwipeableDrawer
         open={open}
         anchor="right"
-        onClose={() => {
-          setOpen(false);
-          document.getElementById("subtaskTrigger")?.click();
-        }}
+        onClose={handleClose}
         PaperProps={{
           sx: {
             height: "100vh",
@@ -172,14 +188,7 @@ export function ExperimentalAiSubtask({ task }) {
               endAdornment: (
                 <InputAdornment position="end">
                   {deferredValue && (
-                    <IconButton
-                      onClick={() => {
-                        setValue("");
-                        setData(null);
-                        setLoading(false);
-                      }}
-                      disabled={loading}
-                    >
+                    <IconButton onClick={handleDiscard} disabled={loading}>
                       <Icon>close</Icon>
                     </IconButton>
                   )}
@@ -248,17 +257,7 @@ export function ExperimentalAiSubtask({ task }) {
                 </Typography>
                 {data.response.subtasks.map((generated) => (
                   <ListItemButton
-                    onClick={() => {
-                      if (addedValues.includes(generated)) {
-                        setAddedValues(
-                          addedValues.filter((e) => e !== generated)
-                        );
-                      } else {
-                        setAddedValues([
-                          ...new Set([...addedValues, generated]),
-                        ]);
-                      }
-                    }}
+                    onClick={() => handleToggle(generated)}
                     key={generated}
                     sx={{
                       py: 0,

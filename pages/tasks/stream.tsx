@@ -5,7 +5,6 @@ import { Task } from "@/components/Tasks/Task";
 import { CreateTask } from "@/components/Tasks/Task/Create";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
-import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   CardActionArea,
@@ -144,10 +143,7 @@ export default function Dashboard() {
       >
         <IconButton
           size="large"
-          onContextMenu={() => {
-            vibrate(50);
-            setOpen(true);
-          }}
+          onContextMenu={() => setOpen(true)}
           onClick={() => setOpen(true)}
           sx={taskStyles(session).menu}
         >

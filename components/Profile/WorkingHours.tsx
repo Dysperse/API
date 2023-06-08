@@ -33,6 +33,13 @@ export function WorkingHours({
 
   const [edited, setEdited] = useState(false);
 
+  const deleteWorkingHour = (index) => {
+    setEdited(true);
+    const updatedWorkingHours = [...workingHours];
+    updatedWorkingHours.splice(index, 1);
+    setWorkingHours(updatedWorkingHours);
+  };
+
   const handleSave = useCallback(async () => {
     const data = await fetchRawApi("user/profile/update", {
       email: session.user.email,
@@ -46,6 +53,17 @@ export function WorkingHours({
   useEffect(() => {
     if (edited && isCurrentUser) handleSave();
   }, [workingHours, handleSave, edited, isCurrentUser]);
+
+  const addWorkingHour = () => {
+    const updatedWorkingHours = [...workingHours];
+    updatedWorkingHours.push({
+      dayOfWeek: 1,
+      startTime: 9,
+      endTime: 17,
+    });
+    setWorkingHours(updatedWorkingHours);
+    setEdited(true);
+  };
 
   return (
     <Box
@@ -65,16 +83,7 @@ export function WorkingHours({
         Working hours
         <IconButton
           sx={{ ml: "auto", ...(!editMode && { display: "none" }) }}
-          onClick={() => {
-            const updatedWorkingHours = [...workingHours];
-            updatedWorkingHours.push({
-              dayOfWeek: 1,
-              startTime: 9,
-              endTime: 17,
-            });
-            setWorkingHours(updatedWorkingHours);
-            setEdited(true);
-          }}
+          onClick={addWorkingHour}
           disabled={workingHours.length === 7}
         >
           <Icon>add</Icon>
@@ -199,14 +208,7 @@ export function WorkingHours({
             </FormControl>
           )}
           {editMode && (
-            <IconButton
-              onClick={() => {
-                setEdited(true);
-                const updatedWorkingHours = [...workingHours];
-                updatedWorkingHours.splice(index, 1);
-                setWorkingHours(updatedWorkingHours);
-              }}
-            >
+            <IconButton onClick={() => deleteWorkingHour(index)}>
               <Icon>delete</Icon>
             </IconButton>
           )}

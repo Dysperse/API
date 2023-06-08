@@ -1,6 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
-import { vibrate } from "@/lib/client/vibration";
 import Masonry from "@mui/lab/Masonry";
 import {
   Alert,
@@ -554,6 +553,22 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
     };
   });
 
+  const createBlankBoard = () => {
+    fetchRawApi("property/boards/create", {
+      board: JSON.stringify({
+        for: ["Student", "College student"],
+        name: "Untitled board",
+        description: "",
+        color: "blue",
+        columns: [],
+      }),
+    }).then(async (res) => {
+      await mutate(mutationUrl);
+      router.push(`/tasks/boards/${res.id}`);
+      setLoading(false);
+    });
+  };
+
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -561,14 +576,8 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
       <IconButton
         size="large"
-        onContextMenu={() => {
-          vibrate(50);
-          setDrawerOpen(true);
-        }}
-        onClick={() => {
-          vibrate(50);
-          setDrawerOpen(true);
-        }}
+        onContextMenu={() => setDrawerOpen(true)}
+        onClick={() => setDrawerOpen(true)}
         sx={taskStyles(session).menu}
       >
         <Icon className="outlined">menu</Icon>
@@ -690,21 +699,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
                 ...checklistCardStyles(session),
                 mb: 2,
               }}
-              onClick={() => {
-                fetchRawApi("property/boards/create", {
-                  board: JSON.stringify({
-                    for: ["Student", "College student"],
-                    name: "Untitled board",
-                    description: "",
-                    color: "blue",
-                    columns: [],
-                  }),
-                }).then(async (res) => {
-                  await mutate(mutationUrl);
-                  router.push(`/tasks/boards/${res.id}`);
-                  setLoading(false);
-                });
-              }}
+              onClick={createBlankBoard}
             >
               <Icon>add_circle</Icon>
               <Typography sx={{ fontWeight: 700 }}>Blank board</Typography>

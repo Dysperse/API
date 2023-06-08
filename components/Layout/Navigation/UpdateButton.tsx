@@ -93,6 +93,11 @@ export function UpdateButton() {
 
   const [button, setButton] = useState(true);
 
+  const handleUpdate = () => {
+    setUserWantsToUpdate(true);
+    setLoading(true);
+  };
+
   return (
     <>
       <PWAInstallerPrompt
@@ -121,10 +126,7 @@ export function UpdateButton() {
       />
 
       <Snackbar
-        onClick={() => {
-          setUserWantsToUpdate(true);
-          setLoading(true);
-        }}
+        onClick={handleUpdate}
         open={updateAvailable}
         // open={true}
         autoHideDuration={6000}

@@ -209,6 +209,21 @@ export function CreateTask({
     ]
   );
 
+  const toggleDescription = () => {
+    vibrate(50);
+    setShowDescription(!showDescription);
+    setTimeout(() => {
+      if (!showDescription) document.getElementById("description")?.focus();
+      else document.getElementById("title")?.focus();
+    }, 100);
+  };
+
+  const togglePin = () => {
+    vibrate(50);
+    setPinned(!pinned);
+    titleRef.current?.focus();
+  };
+
   const chipStyles = (condition: boolean) => {
     return {
       border: "1px solid",
@@ -447,11 +462,7 @@ export function CreateTask({
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <Tooltip title="Mark as important (alt • a)" placement="top">
                 <IconButton
-                  onClick={() => {
-                    vibrate(50);
-                    setPinned(!pinned);
-                    titleRef.current?.focus();
-                  }}
+                  onClick={togglePin}
                   sx={{
                     ...styles,
                     background: pinned
@@ -493,15 +504,7 @@ export function CreateTask({
               </Tooltip>
               <Tooltip title="Description (alt • d)" placement="top">
                 <IconButton
-                  onClick={() => {
-                    vibrate(50);
-                    setShowDescription(!showDescription);
-                    setTimeout(() => {
-                      if (!showDescription)
-                        document.getElementById("description")?.focus();
-                      else document.getElementById("title")?.focus();
-                    }, 100);
-                  }}
+                  onClick={toggleDescription}
                   sx={{
                     ...styles,
                     mx: 0.5,

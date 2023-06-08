@@ -28,6 +28,27 @@ export default function BoardSettings({ mutationUrls, board }) {
   const session = useSession();
   const router = useRouter();
 
+  const handleEdit = () => {
+    setTimeout(() => {
+      fetchRawApi("property/boards/edit", {
+        id: board.id,
+        pinned: !board.pinned ? "true" : "false",
+      }).then(() => {
+        toast.success(
+          !board.pinned ? "Pinned board!" : "Unpinned board!",
+          toastStyles
+        );
+      });
+    }, 100);
+  };
+
+  const handleShare = () => {
+    handleClose();
+    window.navigator.share({
+      url: window.location.href,
+    });
+  };
+
   return (
     <>
       <Menu
@@ -53,19 +74,7 @@ export default function BoardSettings({ mutationUrls, board }) {
               ? "Are you sure you want to unpin this board?"
               : "Are you sure you want to pin this board? Any other boards will be unpinned."
           }
-          callback={() => {
-            setTimeout(() => {
-              fetchRawApi("property/boards/edit", {
-                id: board.id,
-                pinned: !board.pinned ? "true" : "false",
-              }).then(() => {
-                toast.success(
-                  !board.pinned ? "Pinned board!" : "Unpinned board!",
-                  toastStyles
-                );
-              });
-            }, 100);
-          }}
+          callback={handleEdit}
         >
           <MenuItem
             sx={{
@@ -99,15 +108,7 @@ export default function BoardSettings({ mutationUrls, board }) {
             board?.columns.length >= 5
           }
         />
-        <MenuItem
-          disabled={board.archived}
-          onClick={() => {
-            handleClose();
-            window.navigator.share({
-              url: window.location.href,
-            });
-          }}
-        >
+        <MenuItem disabled={board.archived} onClick={handleShare}>
           <Icon className="outlined">ios_share</Icon>
           Share
         </MenuItem>

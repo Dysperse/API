@@ -10,16 +10,18 @@ export const Tab = React.memo(function Tab({
   const router = useRouter();
   const isActive = router.asPath.includes(board.id);
 
+  const handleClick = () => {
+    setDrawerOpen(false);
+    setTimeout(() => {
+      router.push(`/tasks/boards/${board.id}`);
+    }, 1000);
+  };
+
   return (
     <span>
       <Button
         size="large"
-        onClick={() => {
-          setDrawerOpen(false);
-          setTimeout(() => {
-            router.push(`/tasks/boards/${board.id}`);
-          }, 1000);
-        }}
+        onClick={handleClick}
         sx={{
           ...styles(isActive),
           ...(board.archived &&

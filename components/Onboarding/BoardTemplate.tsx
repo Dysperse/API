@@ -12,17 +12,19 @@ export function BoardTemplate({ template }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [added, setAdded] = useState<boolean>(false);
 
+  const handleClick = () => {
+    setLoading(true);
+    fetchRawApi("property/boards/create", {
+      board: JSON.stringify(template),
+    }).then(async () => {
+      setAdded(true);
+      setLoading(false);
+    });
+  };
+
   return (
     <ListItemButton
-      onClick={() => {
-        setLoading(true);
-        fetchRawApi("property/boards/create", {
-          board: JSON.stringify(template),
-        }).then(async () => {
-          setAdded(true);
-          setLoading(false);
-        });
-      }}
+      onClick={handleClick}
       key={template.name}
       disabled={added}
       sx={{ mt: 1, transition: "none" }}

@@ -314,7 +314,13 @@ export default function Spotlight() {
                 </Box>
               );
             }
+
             const result = results[index];
+            const handleClick = () => {
+              handleClose();
+              setTimeout(result.onTrigger, 500);
+            };
+
             return (
               <ListItemButton
                 key={index}
@@ -332,12 +338,7 @@ export default function Spotlight() {
                     },
                   }),
                 }}
-                onClick={() => {
-                  handleClose();
-                  setTimeout(() => {
-                    result.onTrigger();
-                  }, 500);
-                }}
+                onClick={handleClick}
               >
                 <Icon {...(index !== 0 && { className: "outlined" })}>
                   {result.icon}

@@ -28,6 +28,11 @@ export function RecentItems() {
 
   const session = useSession();
 
+  const handleClick = (e) => {
+    const e: any = document.querySelector("#createTask");
+    e.click();
+  };
+
   return (
     <>
       {data?.length == 0 && (
@@ -75,14 +80,7 @@ export function RecentItems() {
       >
         Recently edited
         <Tooltip title="Create a task" placement="left">
-          <IconButton
-            size="small"
-            sx={{ ml: "auto" }}
-            onClick={() => {
-              const e: any = document.querySelector("#createTask");
-              e.click();
-            }}
-          >
+          <IconButton size="small" sx={{ ml: "auto" }} onClick={handleClick}>
             <Icon>add</Icon>
           </IconButton>
         </Tooltip>

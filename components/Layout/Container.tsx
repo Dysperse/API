@@ -121,9 +121,7 @@ export function RenderWithLayout({
                   left: "50%",
                   transform: "translate(-50%, -50%)",
                 }}
-                onClick={() => {
-                  router.push("/onboarding");
-                }}
+                onClick={() => router.push("/onboarding")}
               >
                 Tap if you&apos;re not being redirected
               </Button>

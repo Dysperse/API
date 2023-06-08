@@ -46,6 +46,11 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
   const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
 
+  const handleModalClose = () => {
+    mutateData();
+    setOpen(false);
+  };
+
   return column.name === "" ? (
     <Box onClick={(e) => e.stopPropagation()}>
       <FilterMenu
@@ -81,10 +86,7 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
         sx={{
           zIndex: 9999999,
         }}
-        onClose={() => {
-          mutateData();
-          setOpen(false);
-        }}
+        onClose={handleModalClose}
         PaperProps={{
           sx: {
             maxWidth: "400px",
