@@ -31,6 +31,18 @@ export function Agenda({
   view: "day" | "week" | "month" | "year";
 }) {
   const [navigation, setNavigation] = useState(0);
+
+  useEffect(() => {
+    window.location.hash = `#${navigation}`;
+  }, [navigation]);
+
+  useEffect(() => {
+    if (window.location.hash) {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) setNavigation(parseInt(hash));
+    }
+  }, []);
+
   useHotkeys("alt+n", (e) => {
     e.preventDefault();
     setNavigation((n) => n + 1);
