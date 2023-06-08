@@ -119,15 +119,17 @@ function LinkToken() {
 export function AddPersonModal({
   disabled,
   members,
+  defaultValue,
 }: {
   disabled;
   members: string[];
+  defaultValue?: any;
 }) {
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [permission, setPermission] = useState("member");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(defaultValue || "");
 
   const deferredEmail = useDeferredValue(email);
 

@@ -312,6 +312,7 @@ function Page() {
                   </Box>
                   <Box sx={{ ml: { sm: "auto" }, mb: { xs: 1, sm: 0 } }}>
                     <AddPersonModal
+                      defaultValue={data.email}
                       disabled={
                         session.permission !== "owner" ||
                         isCurrentUser ||
