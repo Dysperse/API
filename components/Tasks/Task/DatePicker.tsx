@@ -48,7 +48,7 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
         />
         <Box
           sx={{
-            mt: 1,
+            mt: -1,
             gap: 1,
             display: "flex",
             p: 2,
