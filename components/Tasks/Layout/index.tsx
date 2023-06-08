@@ -18,7 +18,7 @@ import {
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
@@ -29,11 +29,16 @@ import { Tab } from "./Tab";
 function SearchTasks({ setOpen }) {
   const router = useRouter();
   const session = useSession();
-  const [query, setQuery] = useState(
-    router.asPath.includes("/search")
-      ? decodeURIComponent(router.asPath.split("/search/")[1])
-      : ""
-  );
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    if (
+      router.asPath.includes("/search") &&
+      decodeURIComponent(router.asPath.split("/search/")[1]) !== "[query]"
+    ) {
+      setQuery(decodeURIComponent(router.asPath.split("/search/")[1]));
+    }
+  }, [router.asPath]);
 
   return (
     <Box
