@@ -58,17 +58,6 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
           <Button
             fullWidth
             sx={{ borderRadius: 9 }}
-            variant="outlined"
-            onClick={() => {
-              setDate(null);
-              setOpen(false);
-            }}
-          >
-            Clear date
-          </Button>
-          <Button
-            fullWidth
-            sx={{ borderRadius: 9 }}
             variant="contained"
             onClick={() => {
               setDate(today);
