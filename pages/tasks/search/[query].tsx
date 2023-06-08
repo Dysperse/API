@@ -77,7 +77,7 @@ export default function Dashboard() {
         </IconButton>
         <IconButton
           size="large"
-          onClick={() => router.push("/tasks/stream")}
+          onClick={() => router.push("/tasks/agenda/day")}
           sx={{
             ...taskStyles(session).menu,
             right: "20px",
