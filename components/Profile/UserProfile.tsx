@@ -170,7 +170,7 @@ export function UserProfile({
                     display: "flex",
                     gap: 1,
                     flexWrap: "wrap",
-                    mb: 2,
+                    mt: 1.5,
                   }}
                 >
                   {[
@@ -240,7 +240,7 @@ export function UserProfile({
                   freeSolo
                   fullWidth
                   filterSelectedOptions
-                  sx={{ mt: 1 }}
+                  sx={{ mt: 1.5 }}
                   limitTags={5}
                   renderInput={(params) => (
                     <TextField

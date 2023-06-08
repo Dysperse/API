@@ -7,11 +7,12 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 
 export function Followers({ styles, data }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   return (
@@ -49,14 +50,14 @@ export function Followers({ styles, data }) {
           itemContent={(i) => {
             const follower = data.followers[i];
             return (
-              <Link
-                href={`/users/${follower.followerId}`}
-                style={{ color: "inherit" }}
+              <ListItemButton
+                sx={{ borderRadius: 0 }}
+                onClick={() => {
+                  router.push(`/users/${follower.followerId}`);
+                }}
               >
-                <ListItemButton sx={{ borderRadius: 0 }}>
-                  <ListItemText primary={follower.followerId} />
-                </ListItemButton>
-              </Link>
+                <ListItemText primary={follower.followerId} />
+              </ListItemButton>
             );
           }}
         />

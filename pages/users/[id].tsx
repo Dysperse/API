@@ -135,20 +135,21 @@ function Page() {
       {isCurrentUser && (
         <LoadingButton
           loading={loading}
-          variant={editMode ? "contained" : "text"}
+          variant="contained"
           sx={{
             px: 2,
             position: "fixed",
             bottom: 0,
             right: 0,
             cursor: "default",
+            zIndex: 999,
             m: 3,
             flexShrink: 0,
-            ...(!editMode &&
-              data && {
-                background:
-                  colors[data.color][session.user.darkMode ? 900 : 50],
-              }),
+            "&, &:hover": {
+              background:
+                colors[data.color][session.user.darkMode ? 900 : 100] +
+                "!important",
+            },
           }}
           size="large"
           onClick={() =>
