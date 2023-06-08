@@ -162,15 +162,7 @@ export function Navbar(): JSX.Element {
             mx: { md: "auto" },
           }}
         >
-          <Tooltip
-            title="Jump to"
-            placement="bottom"
-            PopperProps={{
-              sx: {
-                mt: "-5px!important",
-              },
-            }}
-          >
+          <Tooltip title="Spotlight" placement="bottom">
             <IconButton
               onClick={(e) => {
                 e.stopPropagation();
