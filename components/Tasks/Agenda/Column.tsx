@@ -38,8 +38,20 @@ export const Column: any = memo(function Column({
   navigation,
 }: AgendaColumnProps) {
   const session = useSession();
-  const subheading = view === "week" ? "dddd" : view === "month" ? "YYYY" : "-";
-  const startOf = view === "week" ? "day" : view === "month" ? "month" : "year";
+  const subheading =
+    view === "week"
+      ? "dddd"
+      : view === "month"
+      ? "YYYY"
+      : view === "day"
+      ? "MMMM"
+      : "-";
+  const startOf =
+    view === "week" || view === "day"
+      ? "day"
+      : view === "month"
+      ? "month"
+      : "year";
   const startOfRange = dayjs().startOf(startOf);
 
   const endTime = dayjs(day.unchanged).endOf(startOf).toDate();
@@ -70,6 +82,8 @@ export const Column: any = memo(function Column({
 
   const isToday =
     day.date === startOfRange.format(day.heading) && navigation === 0;
+
+  console.log(day.date);
 
   const [alreadyScrolled, setAlreadyScrolled] = useState(false);
   useEffect(() => {
@@ -221,7 +235,7 @@ export const Column: any = memo(function Column({
             mb: 0.7,
           }}
         >
-          {view === "week"
+          {view === "week" || view === "day"
             ? dayjs(day.unchanged).format(day.heading).padStart(2, "0")
             : dayjs(day.unchanged).format(day.heading)}
         </Typography>

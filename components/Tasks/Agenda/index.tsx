@@ -28,7 +28,7 @@ export function Agenda({
   view,
 }: {
   setDrawerOpen: any;
-  view: "week" | "month" | "year";
+  view: "day" | "week" | "month" | "year";
 }) {
   const [navigation, setNavigation] = useState(0);
   useHotkeys("alt+n", (e) => {
@@ -53,7 +53,7 @@ export function Agenda({
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const e = useMemo(() => {
-    if (view === "week") return "day";
+    if (view === "week" || view === "day") return "day";
     if (view === "month") return "month";
     return "year";
   }, [view]);
@@ -62,6 +62,8 @@ export function Agenda({
     const modifier = isMobile ? e : view;
     return dayjs().add(navigation, modifier).startOf(modifier);
   }, [navigation, e, isMobile, view]);
+
+  console.log(startOfWeek);
 
   const endOfWeek = useMemo(() => {
     const modifier = isMobile ? e : view;
@@ -83,7 +85,12 @@ export function Agenda({
 
   for (let i = 0; i <= endOfWeek.diff(startOfWeek, e); i++) {
     const currentDay = startOfWeek.add(i, e);
-    const heading = view === "week" ? "D" : view === "month" ? "MMMM" : "YYYY";
+    const heading =
+      view === "week" || view === "day"
+        ? "D"
+        : view === "month"
+        ? "MMMM"
+        : "YYYY";
 
     days.push({
       unchanged: currentDay,

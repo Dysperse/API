@@ -256,9 +256,9 @@ export function TasksLayout({ open, setOpen, children }) {
       <Box onClick={() => setOpen(false)}>
         {[
           {
-            hash: "stream",
-            icon: "view_stream",
-            label: "Stream",
+            hash: "agenda/day",
+            icon: "calendar_today",
+            label: "Days",
           },
           {
             hash: "agenda/week",
