@@ -200,28 +200,6 @@ export function UserProfile({
                   ))}
                 </Box>
               </Box>
-              <Box sx={profileCardStyles}>
-                <Typography
-                  sx={{
-                    mb: 1,
-                    color: colors[data.color][600],
-                  }}
-                  variant="h6"
-                >
-                  Birthday
-                </Typography>
-                <TextField
-                  type="date"
-                  inputRef={birthdayRef}
-                  onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-                  onBlur={(e) =>
-                    handleChange(
-                      "birthday",
-                      dayjs(e.target.value).set("hour", 1).toISOString()
-                    )
-                  }
-                />
-              </Box>
             </>
           )}
           <Box sx={profileCardStyles}>
@@ -267,7 +245,7 @@ export function UserProfile({
               )}
             </Box>
           </Box>
-          {profile && (
+          {(profile || editMode) && (
             <WorkingHours
               editMode={editMode}
               isCurrentUser={isCurrentUser}
@@ -278,15 +256,31 @@ export function UserProfile({
           )}
           <Box sx={profileCardStyles}>
             <Typography sx={profileCardStyles.heading}>Birthday</Typography>
-            <Typography
-              variant="h5"
-              sx={{ my: 0.5, color: `hsl(240,11%,20%)` }}
-            >
-              {dayjs(profile.birthday).format("MMMM D")}
-            </Typography>
-            <Typography sx={{ mb: 1, color: `hsl(240,11%,50%)` }}>
-              In {daysUntilNextBirthday} days
-            </Typography>
+            {editMode ? (
+              <TextField
+                type="date"
+                inputRef={birthdayRef}
+                onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
+                onBlur={(e) =>
+                  handleChange(
+                    "birthday",
+                    dayjs(e.target.value).set("hour", 1).toISOString()
+                  )
+                }
+              />
+            ) : (
+              <>
+                <Typography
+                  variant="h5"
+                  sx={{ my: 0.5, color: `hsl(240,11%,20%)` }}
+                >
+                  {dayjs(profile.birthday).format("MMMM D")}
+                </Typography>
+                <Typography sx={{ mb: 1, color: `hsl(240,11%,50%)` }}>
+                  In {daysUntilNextBirthday} days
+                </Typography>
+              </>
+            )}
           </Box>
           <Box sx={profileCardStyles}>
             <Typography sx={profileCardStyles.heading}>About</Typography>
