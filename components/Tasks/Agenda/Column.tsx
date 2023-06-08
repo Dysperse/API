@@ -137,11 +137,7 @@ export const Column: any = memo(function Column({
     setLoading(true);
     try {
       await mutate(mutationUrl);
-      await new Promise((r) =>
-        setTimeout(() => {
-          r("");
-        }, 500)
-      );
+      await new Promise((r) => setTimeout(() => r(""), 500));
     } catch (e) {
       toast.error(
         "Yikes! We couldn't get your tasks. Please try again later",

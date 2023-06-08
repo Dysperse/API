@@ -108,7 +108,7 @@ export const SelectDateModal: any = function SelectDateModal({
               display: { xs: "none", sm: "inline-flex" },
             }}
           >
-            {date && dayjs(date).fromNow()}
+            {date && dayjs(date).format("MMMM D")}
           </Typography>
         </Button>
       </Tooltip>
