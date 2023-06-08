@@ -193,7 +193,7 @@ export default function Onboarding() {
                 backgroundColor: colors[data.property.color]["A700"],
               },
             }}
-            onClick={handleClick}
+            onClick={handleAccept}
           >
             {session?.properties &&
             session.properties.find((p) => p.propertyId === data.property.id)

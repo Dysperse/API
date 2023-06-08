@@ -55,7 +55,7 @@ export function CreateItemModal({
     setQuantity("");
     setCategory("[]");
     mutate(mutationUrl);
-  }, []);
+  }, [mutationUrl]);
 
   const trigger = cloneElement(children, { onClick: handleOpen });
 
