@@ -116,6 +116,10 @@ img {
   user-drag: none;
 }
 
+* {
+  font-weight: 300;
+}
+
 :not(.font-heading, .font-heading *):not(.MuiIcon-root):not(
     .material-symbols-outlined
   ):not(.outlined):not(.material-symbols-rounded) {

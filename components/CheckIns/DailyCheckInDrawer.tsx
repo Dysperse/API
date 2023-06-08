@@ -23,7 +23,7 @@ export function DailyCheckInDrawer({ mood }) {
         <Box sx={{ width: "100%" }}>
           <Typography
             sx={{
-              fontWeight: "900",
+              fontWeight: 700,
               mb: 0.4,
               display: "flex",
               alignItems: "center",

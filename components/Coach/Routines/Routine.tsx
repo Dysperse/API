@@ -406,6 +406,7 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
                 textOverflow: "ellipsis",
                 fontSize: "13px",
                 overflow: "hidden",
+                fontWeight: 300,
                 ...(isCoach && {
                   ml: 3,
                   fontSize: "20px",

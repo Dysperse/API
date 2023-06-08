@@ -65,6 +65,7 @@ export function CreateGoal({ isCoach = false }) {
               textAlign: isCoach ? "left" : "center",
               textOverflow: "ellipsis",
               fontSize: "13px",
+              fontWeight: 300,
               overflow: "hidden",
               ...(isCoach && {
                 ml: 3,
