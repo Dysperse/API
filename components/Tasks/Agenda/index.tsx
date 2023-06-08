@@ -30,11 +30,9 @@ export function Agenda({
   setDrawerOpen: any;
   view: "day" | "week" | "month" | "year";
 }) {
-  const [navigation, setNavigation] = useState(0);
-
-  useEffect(() => {
-    window.location.hash = `#${navigation}`;
-  }, [navigation]);
+  const [navigation, setNavigation] = useState(
+    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0
+  );
 
   useEffect(() => {
     if (window.location.hash) {
@@ -42,6 +40,10 @@ export function Agenda({
       if (hash) setNavigation(parseInt(hash));
     }
   }, []);
+
+  useEffect(() => {
+    window.location.hash = `#${navigation}`;
+  }, [navigation]);
 
   useHotkeys("alt+n", (e) => {
     e.preventDefault();
