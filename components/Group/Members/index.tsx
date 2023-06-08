@@ -58,6 +58,39 @@ function Member({
     setAnchorEl(null);
   };
   const session = useSession();
+
+  const handleUpdate = (perm) => {
+    fetchRawApi("property/members/edit", {
+      id: member.id,
+      permission: perm,
+      changerName: session.user.name,
+      affectedName: member.user.name,
+      timestamp: new Date().toISOString(),
+    }).then(() => {
+      mutate(mutationUrl);
+      handleClose();
+      toast.success("Updated permissions!", toastStyles);
+    });
+  };
+
+  const handleRemove = () => {
+    if (member.permission === "owner") {
+      document.getElementById("settingsTrigger")?.click();
+      return;
+    }
+    setLoading(true);
+    fetchRawApi("property/members/remove", {
+      id: member.id,
+      removerName: session.user.name,
+      removeeName: member.user.name,
+      timestamp: new Date().toISOString(),
+    }).then(() => {
+      toast.success("Removed person from your home", toastStyles);
+      setLoading(false);
+      setDeleted(true);
+    });
+  };
+
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
@@ -90,37 +123,13 @@ function Member({
       >
         <MenuItem
           disabled={member.permission === "read-only"}
-          onClick={() => {
-            fetchRawApi("property/members/edit", {
-              id: member.id,
-              permission: "read-only",
-              changerName: session.user.name,
-              affectedName: member.user.name,
-              timestamp: new Date().toISOString(),
-            }).then(() => {
-              mutate(mutationUrl);
-              handleClose();
-              toast.success("Updated permissions!", toastStyles);
-            });
-          }}
+          onClick={() => handleUpdate("read-only")}
         >
           View only
         </MenuItem>
         <MenuItem
           disabled={member.permission === "member"}
-          onClick={() => {
-            fetchRawApi("property/members/edit", {
-              id: member.id,
-              permission: "member",
-              changerName: session.user.name,
-              affectedName: member.user.name,
-              timestamp: new Date().toISOString(),
-            }).then(() => {
-              mutate(mutationUrl);
-              handleClose();
-              toast.success("Updated permissions!", toastStyles);
-            });
-          }}
+          onClick={() => handleUpdate("member")}
         >
           Member
         </MenuItem>
@@ -130,23 +139,7 @@ function Member({
           <ConfirmationModal
             title="Remove member from your home?"
             question="This person cannot join unless you invite them again"
-            callback={() => {
-              if (member.permission === "owner") {
-                document.getElementById("settingsTrigger")?.click();
-                return;
-              }
-              setLoading(true);
-              fetchRawApi("property/members/remove", {
-                id: member.id,
-                removerName: session.user.name,
-                removeeName: member.user.name,
-                timestamp: new Date().toISOString(),
-              }).then(() => {
-                toast.success("Removed person from your home", toastStyles);
-                setLoading(false);
-                setDeleted(true);
-              });
-            }}
+            callback={handleRemove}
           >
             <MenuItem
               sx={{

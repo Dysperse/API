@@ -45,9 +45,7 @@ function BoardModal({ itemId, title, list }) {
     <>
       <Dialog
         open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
+        onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
             width: "400px",
@@ -178,9 +176,7 @@ export default function AddToListModal({
     <>
       <Dialog
         open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
+        onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
             width: "450px",

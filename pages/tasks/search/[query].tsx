@@ -3,7 +3,6 @@ import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
-import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Chip,
@@ -70,10 +69,9 @@ export default function Dashboard() {
       >
         <IconButton
           size="large"
-          onContextMenu={() => {
-            vibrate(50);
-            setOpen(true);
-          }}
+          onContextMenu={() => 
+            setOpen(true)
+          }
           onClick={() => setOpen(true)}
           sx={{ ...taskStyles(session).menu, bottom: "20px" }}
         >

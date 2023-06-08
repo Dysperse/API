@@ -32,6 +32,16 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
     setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
+  const handleStop = () => {
+    handleClose();
+    fetchRawApi("user/coach/goals/delete", {
+      id: goal.id,
+    }).then(async () => {
+      await mutate(mutationUrl);
+      setOpen(false);
+    });
+  };
+
   return (
     <>
       <Menu
@@ -49,15 +59,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
         <ConfirmationModal
           title="Stop goal?"
           question="Are you sure you want to stop working towards this goal? ALL your progress will be lost FOREVER. You won't be able to undo this action!"
-          callback={() => {
-            handleClose();
-            fetchRawApi("user/coach/goals/delete", {
-              id: goal.id,
-            }).then(async () => {
-              await mutate(mutationUrl);
-              setOpen(false);
-            });
-          }}
+          callback={handleStop}
         >
           <MenuItem disabled={goal.completed}>
             <Icon>stop</Icon> Stop goal

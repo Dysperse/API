@@ -1,5 +1,4 @@
 import { useSession } from "@/lib/client/useSession";
-import { vibrate } from "@/lib/client/vibration";
 import { colors } from "@/lib/colors";
 import {
   AppBar,
@@ -115,6 +114,15 @@ export function ShareGoal({ children, goal }) {
   const trigger = cloneElement(children, {
     onClick: handleOpen,
   });
+  const handleExport = () => {
+    setExportFooterOpen(false);
+    setScreenshotting(true);
+    setTimeout(() => {
+      exportAsImage(exportRefs[currentIndex].current, "test");
+      setScreenshotting(false);
+    }, 400);
+  };
+
   return (
     <>
       {trigger}
@@ -397,14 +405,8 @@ export function ShareGoal({ children, goal }) {
 
         <SwipeableDrawer
           open={exportFooterOpen}
-          onOpen={() => {
-            setExportFooterOpen(true);
-            vibrate(50);
-          }}
-          onClose={() => {
-            setExportFooterOpen(false);
-            vibrate(50);
-          }}
+          onOpen={handleOpen}
+          onClose={handleClose}
           sx={{
             zIndex: 9999999999,
             height: "0px!important",
@@ -464,14 +466,7 @@ export function ShareGoal({ children, goal }) {
               ))}
             </Box>
             <Button
-              onClick={() => {
-                setExportFooterOpen(false);
-                setScreenshotting(true);
-                setTimeout(() => {
-                  exportAsImage(exportRefs[currentIndex].current, "test");
-                  setScreenshotting(false);
-                }, 400);
-              }}
+              onClick={handleExport}
               variant="contained"
               fullWidth
               sx={{
