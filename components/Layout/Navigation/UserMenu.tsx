@@ -417,7 +417,7 @@ export default function InviteButton({ styles }: any) {
             }}
             color="error"
           >
-            <Icon className="outlined">alternate_email</Icon>
+            <Icon className="outlined">unfold_more</Icon>
           </Badge>
         </Box>
       </Tooltip>
