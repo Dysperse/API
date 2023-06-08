@@ -72,7 +72,9 @@ export const SelectDateModal: any = function SelectDateModal({
           variant={date ? "contained" : "outlined"}
           sx={{
             ...styles,
+            borderRadius: 9999,
             px: 2,
+            transition: "all .2s",
           }}
           onClick={() => setOpen(!open)}
         >
