@@ -73,6 +73,7 @@ export function RecentItems() {
           mb: 1.5,
           userSelect: "none",
           px: { xs: 3, sm: 4 },
+          pr: { xs: 2, sm: 3.5 },
           display: "flex",
           ...(data?.length === 0 && { display: "none" }),
           alignItems: "center",
@@ -152,7 +153,7 @@ export function RecentItems() {
                   <CardContent sx={{ height: "100%" }}>
                     <Typography
                       sx={{
-                        fontWeight: 700,
+                        fontWeight: 500,
                         mb: 1,
                         whiteSpace: "nowrap",
                         overflow: "hidden",

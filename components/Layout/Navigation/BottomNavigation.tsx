@@ -120,7 +120,8 @@ export function BottomNav() {
           className={`material-symbols-${
             router.asPath === "/" ||
             router.asPath === "" ||
-            router.asPath.includes("/zen")
+            router.asPath.includes("/zen") ||
+            router.asPath.includes("/mood-history")
               ? "rounded"
               : "outlined"
           }`}

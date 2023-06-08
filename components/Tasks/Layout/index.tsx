@@ -260,15 +260,15 @@ export function TasksLayout({ open, setOpen, children }) {
       <Typography sx={taskStyles(session).subheading}>Perspectives</Typography>
       <Box onClick={() => setOpen(false)}>
         {[
-          {
+          !isMobile && {
             hash: "agenda/day",
             icon: "calendar_today",
             label: "Days",
           },
           {
             hash: "agenda/week",
-            icon: "view_week",
-            label: isMobile ? "Day" : "Weeks",
+            icon: isMobile ? "calendar_today" : "view_week",
+            label: isMobile ? "Days" : "Weeks",
           },
           {
             hash: "agenda/month",
@@ -280,28 +280,30 @@ export function TasksLayout({ open, setOpen, children }) {
             icon: "calendar_month",
             label: "Years",
           },
-        ].map((button) => (
-          <Link
-            href={`/tasks/${button.hash}`}
-            key={button.hash}
-            style={{ cursor: "default" }}
-          >
-            <Button
-              size="large"
-              id={`__agenda.${button.hash}`}
-              sx={styles(router.asPath === `/tasks/${button.hash}`)}
+        ]
+          .filter((b) => b)
+          .map((button: any) => (
+            <Link
+              href={`/tasks/${button.hash}`}
+              key={button.hash}
+              style={{ cursor: "default" }}
             >
-              <Icon
-                className={
-                  router.asPath === `/tasks/${button.hash}` ? "" : "outlined"
-                }
+              <Button
+                size="large"
+                id={`__agenda.${button.hash}`}
+                sx={styles(router.asPath === `/tasks/${button.hash}`)}
               >
-                {button.icon}
-              </Icon>
-              {button.label}
-            </Button>
-          </Link>
-        ))}
+                <Icon
+                  className={
+                    router.asPath === `/tasks/${button.hash}` ? "" : "outlined"
+                  }
+                >
+                  {button.icon}
+                </Icon>
+                {button.label}
+              </Button>
+            </Link>
+          ))}
       </Box>
 
       <Divider
