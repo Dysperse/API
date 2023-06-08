@@ -65,7 +65,7 @@ export default function Home() {
       >
         <Box
           sx={{
-            mt: { xs: 3, md: 5 },
+            mt: { xs: 3, md: 20 },
             mb: 2,
           }}
         >
