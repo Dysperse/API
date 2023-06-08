@@ -249,7 +249,12 @@ export default function Page() {
       <Head>
         <title>{data ? data.name : `Profile`}</title>
       </Head>
-      <AppBar position="sticky">
+      <AppBar
+        position="sticky"
+        sx={{
+          background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%,0.5)`,
+        }}
+      >
         <Toolbar sx={{ gap: 2 }}>
           <IconButton onClick={() => router.push("/zen")}>
             <Icon>west</Icon>
@@ -420,7 +425,8 @@ export default function Page() {
                   sx={{
                     gap: 1,
                     display: "flex",
-                    my: 2,
+                    mb: 2,
+                    mt: 1,
                     opacity: 0.7,
                     color: colors[data.color]["800"],
                   }}
