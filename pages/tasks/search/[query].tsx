@@ -69,9 +69,7 @@ export default function Dashboard() {
       >
         <IconButton
           size="large"
-          onContextMenu={() => 
-            setOpen(true)
-          }
+          onContextMenu={() => setOpen(true)}
           onClick={() => setOpen(true)}
           sx={{ ...taskStyles(session).menu, bottom: "20px" }}
         >
