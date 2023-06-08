@@ -1,6 +1,5 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import {
   Box,
   Button,
@@ -70,34 +69,10 @@ export const SelectDateModal: any = function SelectDateModal({
           id="dateModal"
           ref={ref}
           disableRipple
+          variant={date ? "contained" : "outlined"}
           sx={{
             ...styles,
-            gap: 1,
-            background: "transparent!important",
-            borderRadius: 9999,
-            transition: "all .2s",
-            color:
-              colors[session?.themeColor || "grey"][
-                session.user.darkMode ? 50 : 900
-              ],
-            ...(!date && {
-              gap: 0,
-              minWidth: "auto",
-            }),
             px: 2,
-            ...(date && {
-              background: `hsl(240,11%,${
-                session.user.darkMode ? 17 : 95
-              }%)!important`,
-              "&:hover": {
-                background: `hsl(240,11%,${
-                  session.user.darkMode ? 15 : 93
-                }%)!important`,
-              },
-              color: `hsl(240,11%,${
-                !session.user.darkMode ? 17 : 95
-              }%)!important`,
-            }),
           }}
           onClick={() => setOpen(!open)}
         >
