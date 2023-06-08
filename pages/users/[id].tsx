@@ -261,18 +261,21 @@ export default function Page() {
           {isCurrentUser && (
             <LoadingButton
               loading={loading}
-              variant={editMode ? "contained" : "outlined"}
+              variant={editMode ? "contained" : "text"}
               sx={{
                 px: 2,
                 ml: "auto",
                 cursor: "default",
                 flexShrink: 0,
+                ...(!editMode && {
+                  background: colors[data.color][50],
+                }),
               }}
               onClick={() =>
                 data.Profile ? setEditMode((e) => !e) : createProfile()
               }
             >
-              <Icon>
+              <Icon className="outlined">
                 {!data?.Profile ? "add" : editMode ? "check" : "edit"}
               </Icon>
               {!data?.Profile ? "Create profile" : editMode ? "Done" : "Edit"}
