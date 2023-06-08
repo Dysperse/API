@@ -117,12 +117,10 @@ function LinkToken() {
  * @returns {any}
  */
 export function AddPersonModal({
-  color,
   disabled,
   members,
 }: {
   disabled;
-  color: string;
   members: string[];
 }) {
   const session = useSession();

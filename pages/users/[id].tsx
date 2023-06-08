@@ -1,5 +1,6 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
+import { AddPersonModal } from "@/components/Group/Members/Add";
 import { Following } from "@/components/Profile//Following";
 import { UserProfile } from "@/components/Profile//UserProfile";
 import { Followers } from "@/components/Profile/Followers";
@@ -110,6 +111,8 @@ function Page() {
     navigator.clipboard.writeText(data.email);
     toast.success("Copied to clipboard", toastStyles);
   };
+
+  const { data: members } = useApi("property/members");
 
   return (
     <Box
@@ -245,56 +248,86 @@ function Page() {
                   maxWidth: "100vw",
                 }}
               >
-                <Typography
-                  variant="h4"
-                  sx={{ textAlign: { xs: "center", sm: "left" } }}
-                >
-                  {editMode ? (
-                    <TextField
-                      variant="standard"
-                      InputProps={{
-                        sx: {
-                          fontWeight: 900,
-                          "& input": {
-                            textAlign: { xs: "center", sm: "left" },
-                          },
-                          fontSize: "33px",
-                          mt: -0.5,
-                        },
-                      }}
-                      onKeyDown={(e: any) =>
-                        e.code === "Enter" && e.target.blur()
-                      }
-                      onBlur={(e: any) =>
-                        updateSettings("name", e.target.value)
-                      }
-                      sx={{ mr: "auto", width: "auto" }}
-                      fullWidth
-                      defaultValue={session.user.name}
-                    />
-                  ) : (
-                    <span style={{ fontWeight: 900 }}>{data.name}</span>
-                  )}
-                </Typography>
-                <Typography
-                  onClick={handleCopyEmail}
+                <Box
                   sx={{
-                    "&:hover": {
-                      textDecoration: "underline",
-                    },
-                    mt: 1,
-                    opacity: 0.6,
-                    color: colors[data.color][session.user.darkMode ? 50 : 900],
-                    maxWidth: "100%",
-                    overflow: "hidden",
-                    textAlign: { xs: "center", sm: "left" },
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    fontSize: { xs: 20, sm: 25 },
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    flexDirection: { xs: "column", sm: "row" },
+                    justifyContent: { xs: "center", sm: "flex-start" },
                   }}
                 >
-                  {data.email}
-                </Typography>
+                  <Box>
+                    <Typography
+                      variant="h4"
+                      sx={{ textAlign: { xs: "center", sm: "left" } }}
+                    >
+                      {editMode ? (
+                        <TextField
+                          variant="standard"
+                          InputProps={{
+                            sx: {
+                              fontWeight: 900,
+                              "& input": {
+                                textAlign: { xs: "center", sm: "left" },
+                              },
+                              fontSize: "33px",
+                              mt: -0.5,
+                            },
+                          }}
+                          onKeyDown={(e: any) =>
+                            e.code === "Enter" && e.target.blur()
+                          }
+                          onBlur={(e: any) =>
+                            updateSettings("name", e.target.value)
+                          }
+                          sx={{ mr: "auto", width: "auto" }}
+                          fullWidth
+                          defaultValue={session.user.name}
+                        />
+                      ) : (
+                        <span style={{ fontWeight: 900 }}>{data.name}</span>
+                      )}
+                    </Typography>
+                    <Typography
+                      onClick={handleCopyEmail}
+                      sx={{
+                        "&:hover": {
+                          textDecoration: "underline",
+                        },
+                        mt: 1,
+                        opacity: 0.6,
+                        color:
+                          colors[data.color][session.user.darkMode ? 50 : 900],
+                        maxWidth: "100%",
+                        overflow: "hidden",
+                        textAlign: { xs: "center", sm: "left" },
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        fontSize: { xs: 20, sm: 25 },
+                      }}
+                    >
+                      {data.email}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ ml: { sm: "auto" }, mb: { xs: 1, sm: 0 } }}>
+                    <AddPersonModal
+                      disabled={
+                        session.permission !== "owner" ||
+                        isCurrentUser ||
+                        (members &&
+                          members.find(
+                            (member) => member.user.email === data.email
+                          ))
+                      }
+                      members={
+                        members
+                          ? members.map((member) => member.user.email)
+                          : []
+                      }
+                    />
+                  </Box>
+                </Box>
                 <Typography
                   variant="body2"
                   sx={{

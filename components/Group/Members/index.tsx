@@ -298,7 +298,6 @@ export function MemberList({
         <Typography variant="h6">Members</Typography>
         {data && !data.error && (
           <AddPersonModal
-            color={color}
             disabled={propertyId !== session.property.propertyId}
             members={loading ? [] : data.map((member) => member.user.email)}
           />
