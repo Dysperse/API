@@ -10,19 +10,18 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import { useState } from "react";
 import DatePicker from "react-calendar";
-import { formatDate } from "./formatDate";
 
-export const SelectDateModal: any = React.memo(function SelectDateModal({
+export const SelectDateModal: any = function SelectDateModal({
   ref,
   styles,
   date,
   setDate,
 }: any) {
-  const [open, setOpen] = useState<boolean>(false);
-  const today = formatDate(new Date());
   const session = useSession();
+  const [open, setOpen] = useState<boolean>(false);
+  const today = new Date(dayjs().startOf("day").toISOString());
 
   return (
     <>
@@ -43,7 +42,6 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
           value={new Date(date)}
           onChange={(e: any) => {
             setDate(e);
-            setOpen(false);
           }}
         />
         <Box
@@ -61,7 +59,6 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
             variant="contained"
             onClick={() => {
               setDate(today);
-              setOpen(false);
             }}
           >
             Today
@@ -111,19 +108,10 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
               display: { xs: "none", sm: "inline-flex" },
             }}
           >
-            {today === formatDate(date) && "Today"}
-            {dayjs(today).add(1, "day").format("MM-DD-YYYY") ===
-              formatDate(date) && "Tomorrow"}
-
-            {dayjs(date).format("MMM D") === "Invalid Date"
-              ? ""
-              : today !== formatDate(date) &&
-                dayjs(today).add(1, "day").format("MM-DD-YYYY") !==
-                  formatDate(date) &&
-                dayjs(date).format("MMM D")}
+            {date && dayjs(date).fromNow()}
           </Typography>
         </Button>
       </Tooltip>
     </>
   );
-});
+};
