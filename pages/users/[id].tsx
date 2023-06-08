@@ -132,7 +132,7 @@ function Page() {
       <Head>
         <title>{data ? data.name : `Profile`}</title>
       </Head>
-      {isCurrentUser && (
+      {isCurrentUser && data && (
         <LoadingButton
           loading={loading}
           variant="contained"
