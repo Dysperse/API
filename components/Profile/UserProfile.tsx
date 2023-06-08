@@ -162,13 +162,7 @@ export function UserProfile({
           {editMode && (
             <>
               <Box sx={profileCardStyles}>
-                <Typography
-                  sx={{
-                    mb: 1,
-                    color: colors[data.color][600],
-                  }}
-                  variant="h6"
-                >
+                <Typography sx={profileCardStyles.heading}>
                   Theme color
                 </Typography>
                 <Box
