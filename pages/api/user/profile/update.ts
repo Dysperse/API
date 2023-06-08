@@ -32,6 +32,7 @@ export default async function handler(req, res) {
         ...(req.query.birthday && { birthday: new Date(req.query.birthday) }),
       },
     });
+    console.log(data);
     res.json(data);
   } catch ({ message: error }: any) {
     res.status(401).json({ error });

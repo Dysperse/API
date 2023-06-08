@@ -1,7 +1,7 @@
 import { Puller } from "@/components/Puller";
 import {
   Box,
-  Button,
+  CardActionArea,
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
@@ -11,19 +11,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 
-export function Following({ data }): JSX.Element {
+export function Following({ styles, data }): JSX.Element {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <Button
-        size="small"
-        sx={{ color: "inherit" }}
+      <CardActionArea
+        sx={styles}
         disabled={data.following.length == 0}
         onClick={() => setOpen((e) => !e)}
       >
-        <b>{data.following.length}</b> following
-      </Button>
+        <Typography variant="h6">{data.following.length}</Typography>
+        following
+      </CardActionArea>
       <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
