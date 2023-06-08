@@ -293,29 +293,31 @@ export function UserProfile({
               </>
             )}
           </Box>
-          <Box sx={profileCardStyles}>
-            <Typography sx={profileCardStyles.heading}>About</Typography>
-            {isCurrentUser && editMode ? (
-              <TextField
-                multiline
-                label="Add a bio..."
-                sx={{ mt: 0.5 }}
-                onBlur={(e: any) =>
-                  handleChange("bio", e.target.value.substring(0, 300))
-                }
-                defaultValue={profile.bio}
-                minRows={4}
-                placeholder="My name is Jeff Bezos and I'm an entrepreneur and investor"
-              />
-            ) : (
-              profile &&
-              profile.bio && (
-                <Typography sx={{ fontSize: "17px" }}>
-                  <Twemoji>{profile?.bio || ""}</Twemoji>
-                </Typography>
-              )
-            )}
-          </Box>
+          {(profile.bio || editMode) && (
+            <Box sx={profileCardStyles}>
+              <Typography sx={profileCardStyles.heading}>About</Typography>
+              {isCurrentUser && editMode ? (
+                <TextField
+                  multiline
+                  label="Add a bio..."
+                  sx={{ mt: 0.5 }}
+                  onBlur={(e: any) =>
+                    handleChange("bio", e.target.value.substring(0, 300))
+                  }
+                  defaultValue={profile.bio}
+                  minRows={4}
+                  placeholder="My name is Jeff Bezos and I'm an entrepreneur and investor"
+                />
+              ) : (
+                profile &&
+                profile.bio && (
+                  <Typography sx={{ fontSize: "17px" }}>
+                    <Twemoji>{profile?.bio || ""}</Twemoji>
+                  </Typography>
+                )
+              )}
+            </Box>
+          )}
           <Box sx={profileCardStyles}>
             <Typography sx={profileCardStyles.heading}>Share</Typography>
             <Box

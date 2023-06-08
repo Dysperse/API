@@ -132,13 +132,42 @@ function Page() {
       <Head>
         <title>{data ? data.name : `Profile`}</title>
       </Head>
+      {isCurrentUser && (
+        <LoadingButton
+          loading={loading}
+          variant={editMode ? "contained" : "text"}
+          sx={{
+            px: 2,
+            position: "fixed",
+            bottom: 0,
+            right: 0,
+            cursor: "default",
+            m: 3,
+            flexShrink: 0,
+            ...(!editMode &&
+              data && {
+                background:
+                  colors[data.color][session.user.darkMode ? 900 : 50],
+              }),
+          }}
+          size="large"
+          onClick={() =>
+            data.Profile ? setEditMode((e) => !e) : createProfile()
+          }
+        >
+          <Icon className="outlined">
+            {!data?.Profile ? "add" : editMode ? "check" : "edit"}
+          </Icon>
+          {!data?.Profile ? "Create profile" : editMode ? "Done" : "Edit"}
+        </LoadingButton>
+      )}
       <AppBar
         position="sticky"
         sx={{
           background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%,0.5)`,
         }}
       >
-        <Toolbar sx={{ gap: 2 }}>
+        <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
           <IconButton onClick={() => router.push("/zen")}>
             <Icon>west</Icon>
           </IconButton>
@@ -153,30 +182,6 @@ function Page() {
             {data ? data.name : "Profile"}
           </Typography>
           <SearchUser profileCardStyles={profileCardStyles} data={data} />
-          {isCurrentUser && (
-            <LoadingButton
-              loading={loading}
-              variant={editMode ? "contained" : "text"}
-              sx={{
-                px: 2,
-                cursor: "default",
-                flexShrink: 0,
-                ...(!editMode &&
-                  data && {
-                    background:
-                      colors[data.color][session.user.darkMode ? 900 : 50],
-                  }),
-              }}
-              onClick={() =>
-                data.Profile ? setEditMode((e) => !e) : createProfile()
-              }
-            >
-              <Icon className="outlined">
-                {!data?.Profile ? "add" : editMode ? "check" : "edit"}
-              </Icon>
-              {!data?.Profile ? "Create profile" : editMode ? "Done" : "Edit"}
-            </LoadingButton>
-          )}
           {!isCurrentUser && (
             <ConfirmationModal
               disabled={!isFollowing}
@@ -312,24 +317,26 @@ function Page() {
                       {data.email}
                     </Typography>
                   </Box>
-                  <Box sx={{ ml: { sm: "auto" }, mb: { xs: 1, sm: 0 } }}>
-                    <AddPersonModal
-                      defaultValue={data.email}
-                      disabled={
-                        session.permission !== "owner" ||
-                        isCurrentUser ||
-                        (members &&
-                          members.find(
-                            (member) => member.user.email === data.email
-                          ))
-                      }
-                      members={
-                        members
-                          ? members.map((member) => member.user.email)
-                          : []
-                      }
-                    />
-                  </Box>
+                  {!isCurrentUser && (
+                    <Box sx={{ ml: { sm: "auto" }, mb: { xs: 1, sm: 0 } }}>
+                      <AddPersonModal
+                        defaultValue={data.email}
+                        disabled={
+                          session.permission !== "owner" ||
+                          isCurrentUser ||
+                          (members &&
+                            members.find(
+                              (member) => member.user.email === data.email
+                            ))
+                        }
+                        members={
+                          members
+                            ? members.map((member) => member.user.email)
+                            : []
+                        }
+                      />
+                    </Box>
+                  )}
                 </Box>
                 <Typography
                   variant="body2"
