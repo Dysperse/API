@@ -100,7 +100,8 @@ function Member({
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
-    <Box
+    <CardActionArea
+      sx={{ p: 2, px: 2.5 }}
       onClick={() => {
         handleParentClose();
         setTimeout(() => {
@@ -224,7 +225,7 @@ function Member({
           expand_more
         </span>
       </CardActionArea>
-    </Box>
+    </CardActionArea>
   );
 }
 
@@ -307,10 +308,8 @@ export function MemberList({
         <Box
           key={index}
           sx={{
-            p: 2,
             mb: 2,
             userSelect: "none",
-            px: 2.5,
             borderRadius: 5,
             background: session.user.darkMode
               ? "hsl(240,11%,20%)"
