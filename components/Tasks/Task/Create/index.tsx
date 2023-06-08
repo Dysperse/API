@@ -480,27 +480,29 @@ export function CreateTask({
               </Tooltip>
               <ImageModal styles={styles} image={image} setImage={setImage} />
               <Tooltip title="Insert emoji (alt • e)" placement="top">
-                <EmojiPicker
-                  emoji={""}
-                  useNativeEmoji
-                  setEmoji={(emoji) => {
-                    setTitle((t) => t + emoji);
-                    setTimeout(() => {
-                      const input: any = titleRef.current;
-                      titleRef.current?.focus();
-                      input.selectionStart = input.selectionEnd =
-                        input.value.length;
-                    }, 100);
-                  }}
-                >
-                  <IconButton
-                    onClick={() => vibrate(50)}
-                    sx={styles}
-                    size="small"
+                <div>
+                  <EmojiPicker
+                    emoji={""}
+                    useNativeEmoji
+                    setEmoji={(emoji) => {
+                      setTitle((t) => t + emoji);
+                      setTimeout(() => {
+                        const input: any = titleRef.current;
+                        titleRef.current?.focus();
+                        input.selectionStart = input.selectionEnd =
+                          input.value.length;
+                      }, 100);
+                    }}
                   >
-                    <Icon className="outlined">mood</Icon>
-                  </IconButton>
-                </EmojiPicker>
+                    <IconButton
+                      onClick={() => vibrate(50)}
+                      sx={styles}
+                      size="small"
+                    >
+                      <Icon className="outlined">mood</Icon>
+                    </IconButton>
+                  </EmojiPicker>
+                </div>
               </Tooltip>
               <Tooltip title="Description (alt • d)" placement="top">
                 <IconButton
