@@ -60,6 +60,7 @@ export default function Page() {
     }
     setLoading(false);
   };
+
   const createProfile = async () => {
     try {
       setLoading(true);
@@ -73,6 +74,7 @@ export default function Page() {
       setLoading(false);
     }
   };
+
   const styles = data && {
     color: session.user.darkMode ? colors[data.color][50] : "inherit",
     textAlign: "center",
