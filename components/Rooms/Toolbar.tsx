@@ -68,11 +68,9 @@ function SearchBar({
         },
         verticalAlign: "middle",
       }}
-      onClick={() => 
-        document.getElementById("outlined-size-small")?.focus();
-      }
-      onMouseDown={() => 
-        document.getElementById("outlined-size-small")?.focus();
+      onClick={() => document.getElementById("outlined-size-small")?.focus()}
+      onMouseDown={() =>
+        document.getElementById("outlined-size-small")?.focus()
       }
     >
       <Icon>search</Icon>
