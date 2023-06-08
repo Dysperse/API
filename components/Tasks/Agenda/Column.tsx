@@ -342,7 +342,7 @@ export const Column: any = memo(function Column({
                 <Typography variant="h6" gutterBottom>
                   {data.length === 0 ? "Nothing much here..." : "Let's go!"}
                 </Typography>
-                <Typography gutterBottom>
+                <Typography gutterBottom sx={{ fontWeight: 300 }}>
                   {data.length === 0
                     ? "You haven't added any tasks to this column"
                     : "You finished all your tasks for this time range!"}

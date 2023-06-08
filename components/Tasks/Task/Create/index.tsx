@@ -627,7 +627,7 @@ export function CreateTask({
           </Icon>
         </Box>
 
-        <Typography sx={{ ml: 0.5 }}>
+        <Typography sx={{ ml: 0.5, fontWeight: 400 }}>
           {parent ? "New subtask" : label || "New list item"}
         </Typography>
       </ListItemButton>

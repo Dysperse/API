@@ -207,6 +207,7 @@ export const Task: any = function Task({
                 sx={{
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  fontWeight: 200,
                   whiteSpace: "nowrap",
                   "& span img": {
                     display: "inline-flex !important",
@@ -218,7 +219,7 @@ export const Task: any = function Task({
                     textDecoration: "line-through",
                     opacity: 0.6,
                   }),
-                  textDecorationThickness: "2.5px",
+                  textDecorationThickness: "2px",
                 }}
               >
                 <span>
