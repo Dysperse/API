@@ -99,7 +99,7 @@ export function Agenda({
     const currentDay = startOfWeek.add(i, e);
     const heading =
       view === "week" || view === "day"
-        ? "D"
+        ? "dddd"
         : view === "month"
         ? "MMMM"
         : "YYYY";

@@ -40,7 +40,7 @@ export const Column: any = memo(function Column({
   const session = useSession();
   const subheading =
     view === "week"
-      ? "dddd"
+      ? "MMMM D"
       : view === "month"
       ? "YYYY"
       : view === "day"
@@ -229,9 +229,7 @@ export const Column: any = memo(function Column({
             mb: 0.7,
           }}
         >
-          {view === "week" || view === "day"
-            ? dayjs(day.unchanged).format(day.heading).padStart(2, "0")
-            : dayjs(day.unchanged).format(day.heading)}
+          {dayjs(day.unchanged).format(day.heading)}
         </Typography>
         {subheading !== "-" && (
           <Typography
