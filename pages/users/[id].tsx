@@ -367,7 +367,7 @@ function Page() {
     </Box>
   );
 }
-export function App() {
+export default function App() {
   const router = useRouter();
   const email = router?.query?.id;
 
