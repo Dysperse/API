@@ -13,7 +13,8 @@ import toast from "react-hot-toast";
  */
 export function InventoryList({ data }: { data: Array<any> }) {
   const [inventory, setInventory] = React.useState<any>([]);
-  const handleClick = () => {
+
+  const handleClick = (item) => {
     setInventory([...inventory, item.name]);
     fetchRawApi("property/inventory/items/create", {
       name: item.name,
@@ -38,7 +39,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
               pointerEvents: "none",
             }),
           }}
-          onClick={handleCreate}
+          onClick={() => handleClick(item)}
         >
           <ListItemIcon>
             <span
