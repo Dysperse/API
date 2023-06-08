@@ -304,30 +304,31 @@ export function TasksLayout({ open, setOpen, children }) {
               </Button>
             </Link>
           ))}
+
+        <Divider
+          sx={{
+            my: 1,
+            width: { sm: "90%" },
+            mx: "auto",
+            opacity: 0.5,
+          }}
+        />
+        {[
+          { href: "/tasks/upcoming", icon: "east", label: "Upcoming" },
+          { href: "/tasks/color-coded", icon: "palette", label: "Color coded" },
+          { href: "/tasks/backlog", icon: "west", label: "Backlog" },
+        ].map((link, index) => (
+          <Link key={index} href={link.href} style={{ cursor: "default" }}>
+            <Button size="large" sx={styles(router.asPath === link.href)}>
+              <Icon className={router.asPath === link.href ? "" : "outlined"}>
+                {link.icon}
+              </Icon>
+              {link.label}
+            </Button>
+          </Link>
+        ))}
       </Box>
 
-      <Divider
-        sx={{
-          my: 1,
-          width: { sm: "90%" },
-          mx: "auto",
-          opacity: 0.5,
-        }}
-      />
-      {[
-        { href: "/tasks/upcoming", icon: "east", label: "Upcoming" },
-        { href: "/tasks/color-coded", icon: "palette", label: "Color coded" },
-        { href: "/tasks/backlog", icon: "west", label: "Backlog" },
-      ].map((link, index) => (
-        <Link key={index} href={link.href} style={{ cursor: "default" }}>
-          <Button size="large" sx={styles(router.asPath === link.href)}>
-            <Icon className={router.asPath === link.href ? "" : "outlined"}>
-              {link.icon}
-            </Icon>
-            {link.label}
-          </Button>
-        </Link>
-      ))}
       <Divider
         sx={{
           mt: 1,
