@@ -252,12 +252,14 @@ function PropertyInfo({
 export default function Group({
   data,
   children,
+  onClick = () => {},
 }: {
   data: {
     id: string;
     accessToken: string;
   };
   children: JSX.Element;
+  onClick?: () => void;
 }) {
   const [propertyData, setPropertyData] = useState<null | any>(null);
   const [error, setError] = useState<null | string>(null);
@@ -284,6 +286,7 @@ export default function Group({
   const handleOpen = useCallback(
     async (e) => {
       e.stopPropagation();
+      onClick();
       setOpen(true);
       try {
         setError(null);
@@ -298,7 +301,7 @@ export default function Group({
         setError(e.message);
       }
     },
-    [data.accessToken, data.id]
+    [data.accessToken, data.id, onClick]
   );
 
   const mutatePropertyData = async () => {

@@ -27,7 +27,7 @@ import { ErrorHandler } from "../../Error";
 
 const Group = dynamic(() => import("../../Group"));
 
-function PropertyButton({ group }) {
+function PropertyButton({ handleClose, group }) {
   const session = useSession();
   return (
     <Group
@@ -36,6 +36,7 @@ function PropertyButton({ group }) {
         id: group.propertyId,
         accessToken: group.accessToken,
       }}
+      onClick={handleClose}
     >
       <ListItemButton
         {...(group.propertyId === session.property.propertyId && {
@@ -183,7 +184,11 @@ export default function InviteButton({ styles }: any) {
             {properties
               .filter((p) => p.accepted)
               .map((group: any) => (
-                <PropertyButton key={group.id} group={group} />
+                <PropertyButton
+                  handleClose={handleClose}
+                  key={group.id}
+                  group={group}
+                />
               ))}
 
             {error && (
@@ -291,7 +296,11 @@ export default function InviteButton({ styles }: any) {
             {properties
               .filter((p) => !p.accepted)
               .map((group: any) => (
-                <PropertyButton key={group.id} group={group} />
+                <PropertyButton
+                  handleClose={handleClose}
+                  key={group.id}
+                  group={group}
+                />
               ))}
           </>
         )}
