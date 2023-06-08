@@ -8,9 +8,11 @@ import { Box } from "@mui/material";
 export function Puller({
   useDarkStyles = false,
   showOnDesktop = false,
+  sx = {}
 }: {
   useDarkStyles?: boolean;
   showOnDesktop?: boolean;
+  sx?: any
 }) {
   const session = useSession();
 
@@ -27,6 +29,7 @@ export function Puller({
           textAlign: "center",
           py: 2,
           mb: 2,
+          ...sx
         }}
       >
         <Box

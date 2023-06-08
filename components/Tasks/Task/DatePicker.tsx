@@ -1,3 +1,4 @@
+import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -11,7 +12,6 @@ import {
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import DatePicker from "react-calendar";
-import { Puller } from "../../Puller";
 import { formatDate } from "./formatDate";
 
 export const SelectDateModal: any = React.memo(function SelectDateModal({
@@ -39,13 +39,7 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
           },
         }}
       >
-        <Box
-          sx={{
-            display: { sm: "none" },
-          }}
-        >
-          <Puller />
-        </Box>
+        <Puller sx={{ mb: -1 }} />
         <DatePicker
           value={new Date(date)}
           onChange={(e: any) => {

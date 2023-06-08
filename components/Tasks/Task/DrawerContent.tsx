@@ -13,12 +13,10 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Popover,
   TextField,
   Toolbar,
   useMediaQuery,
 } from "@mui/material";
-import { green, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 import DatePicker from "react-calendar";
@@ -26,108 +24,12 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Task } from ".";
 import { ConfirmationModal } from "../../ConfirmationModal";
-import { Color } from "./Color";
+import { ColorPopover } from "./ColorPopover";
 import { CreateTask } from "./Create";
 import { ExperimentalAiSubtask } from "./ExperimentalAiSubtask";
 import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./Snooze";
 import { parseEmojis } from "./TaskDrawer";
-
-function ColorPopover({ data, setTaskData, mutationUrl }) {
-  const session = useSession();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: any) => setAnchorEl(event.currentTarget);
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
-
-  const trigger = (
-    <Chip
-      icon={
-        <>
-          <Icon
-            {...(data.color === "grey" && { className: "outlined" })}
-            sx={{
-              color: data.color !== "grey" ? "#000!important" : "inherit",
-              mr: -1.5,
-              ml: 1.8,
-            }}
-          >
-            label
-          </Icon>
-        </>
-      }
-      sx={{
-        background:
-          data.color === "grey"
-            ? ``
-            : colors[data.color][session.user.darkMode ? "A200" : 100] +
-              "!important",
-      }}
-      onClick={handleClick}
-      {...(data.color === "grey" && { variant: "outlined" })}
-    />
-  );
-
-  return (
-    <>
-      {trigger}
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        PaperProps={{
-          sx: {
-            background: "transparent",
-            boxShadow: 0,
-          },
-        }}
-      >
-        {trigger}
-        <Box
-          sx={{
-            display: "flex",
-            maxWidth: "60vw",
-            mt: 2,
-            gap: 1,
-            flexWrap: "wrap",
-          }}
-          onClick={handleClose}
-        >
-          {[
-            "orange",
-            "red",
-            "brown",
-            "pink",
-            "purple",
-            "indigo",
-            "teal",
-            "green",
-            "grey",
-          ].map((color) => (
-            <Color
-              key={color}
-              color={color}
-              mutationUrl={mutationUrl}
-              setTaskData={setTaskData}
-              task={data}
-            />
-          ))}
-        </Box>
-      </Popover>
-    </>
-  );
-}
 
 export default function DrawerContent({
   handleDelete,
@@ -141,6 +43,13 @@ export default function DrawerContent({
   const storage = useAccountStorage();
   const session = useSession();
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const [open, setOpen] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const menuOpen = Boolean(anchorEl);
+  const handleMenuClick = (event: any) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
   const handlePriorityChange = useCallback(async () => {
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
     toast.promise(
@@ -149,9 +58,7 @@ export default function DrawerContent({
           fetchRawApi("property/boards/column/task/edit", {
             id: data.id,
             pinned: data.pinned ? "false" : "true",
-          }).then(() => {
-            mutate(mutationUrl);
-          });
+          }).then(() => mutate(mutationUrl));
           await mutate(mutationUrl);
           resolve("");
         } catch (e) {
@@ -194,13 +101,12 @@ export default function DrawerContent({
     })
       .then(() => {
         mutate(mutationUrl);
-        if (data.parentTasks.length !== 0)
-          document.getElementById("subtaskTrigger")?.click();
+        handleMutate();
       })
       .catch(() =>
         toast.error("An error occured while updating the task", toastStyles)
       );
-  }, [data, setTaskData, mutationUrl]);
+  }, [data, setTaskData, mutationUrl, handleMutate]);
 
   const handlePostpone: any = useCallback(
     (count, type) => {
@@ -227,57 +133,6 @@ export default function DrawerContent({
     ]
   );
 
-  const [open, setOpen] = useState<boolean>(false);
-
-  const iconStyles = {
-    width: "100%",
-    justifyContent: "start",
-    borderRadius: 5,
-    gap: 2,
-    py: 1,
-    px: 1.5,
-    cursor: { sm: "default" },
-    color: session.user.darkMode ? "hsl(240,11%,80%)" : "hsl(240,11%,30%)",
-    "&:hover": {
-      background: session.user.darkMode
-        ? "hsl(240, 11%, 22%)"
-        : "rgba(200, 200, 200, .3)",
-    },
-    "& .MuiIcon-root": {
-      "&:not(.pinned)": {
-        fontVariationSettings:
-          '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
-      },
-      width: 40,
-      color: session.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,10%)",
-      height: 40,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 99999,
-      border: "1px solid",
-      borderColor: `hsl(240, 11%, ${session.user.darkMode ? 30 : 80}%)`,
-      "&.completed": {
-        borderColor: `${green[900]}!important`,
-      },
-      "&.pinned": {
-        borderColor: `${orange[900]}!important`,
-        color: `${orange[50]}!important`,
-        background: `${orange[900]}!important`,
-      },
-    },
-  };
-
-  const isMobile = useMediaQuery("(max-width: 600px)");
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const menuOpen = Boolean(anchorEl);
-  const handleMenuClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const buttonStyles = {
     transition: "none",
     background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
@@ -336,7 +191,7 @@ export default function DrawerContent({
               callback={async () => {
                 handleParentClose();
                 await handleDelete(data.id);
-                document.getElementById("subtaskTrigger")?.click();
+                handleMutate();
               }}
             >
               <MenuItem>
@@ -464,7 +319,7 @@ export default function DrawerContent({
                 callback={async () => {
                   handleParentClose();
                   await handleDelete(data.id);
-                  document.getElementById("subtaskTrigger")?.click();
+                  handleMutate();
                 }}
               >
                 <IconButton
