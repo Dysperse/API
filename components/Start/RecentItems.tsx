@@ -28,7 +28,7 @@ export function RecentItems() {
 
   const session = useSession();
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     const e: any = document.querySelector("#createTask");
     e.click();
   };

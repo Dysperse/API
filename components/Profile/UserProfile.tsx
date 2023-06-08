@@ -314,9 +314,12 @@ export function UserProfile({
                 placeholder="My name is Jeff Bezos and I'm an entrepreneur and investor"
               />
             ) : (
-              <Typography sx={{ fontSize: "17px" }}>
-                <Twemoji>{profile.bio || ""}</Twemoji>
-              </Typography>
+              profile &&
+              profile.bio && (
+                <Typography sx={{ fontSize: "17px" }}>
+                  <Twemoji>{profile?.bio || ""}</Twemoji>
+                </Typography>
+              )
             )}
           </Box>
           <Box sx={profileCardStyles}>

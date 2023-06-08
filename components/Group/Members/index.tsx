@@ -13,6 +13,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -46,18 +47,17 @@ function Member({
   member: any;
   mutationUrl: any;
 }): JSX.Element {
+  const session = useSession();
+
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const session = useSession();
+
+  const handleClose = () => setAnchorEl(null);
 
   const handleUpdate = (perm) => {
     fetchRawApi("property/members/edit", {
@@ -113,7 +113,7 @@ function Member({
           textOverflow: "ellipsis",
         }}
       >
-        {member.user.email}
+        <Link href={`/users/${member.user.email}`}>{member.user.email}</Link>
       </Typography>
       <Menu
         id="basic-menu"
@@ -256,11 +256,7 @@ export function MemberList({
         ]
       : [
           {
-            content: (
-              <Box>
-                <Skeleton animation="wave" />
-              </Box>
-            ),
+            content: <Skeleton animation="wave" />,
           },
         ];
 
