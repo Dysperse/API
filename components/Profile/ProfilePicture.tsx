@@ -42,10 +42,7 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
     [setPhoto, mutationUrl, session.user.email]
   );
 
-  useEffect(() => {
-    console.log(data);
-    setPhoto(data?.Profile?.picture);
-  }, [data]);
+  useEffect(() => setPhoto(data?.Profile?.picture), [data]);
 
   return (
     <Box

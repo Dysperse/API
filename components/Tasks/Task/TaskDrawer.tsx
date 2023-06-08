@@ -65,7 +65,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       const res = await fetchRawApi("property/boards/column/task", {
         id: id,
       });
-      console.log(res);
       setData(res);
       document.getElementById("detailsTrigger")?.click();
       setLoading(false);

@@ -83,8 +83,6 @@ export const Column: any = memo(function Column({
   const isToday =
     day.date === startOfRange.format(day.heading) && navigation === 0;
 
-  console.log(day.date);
-
   const [alreadyScrolled, setAlreadyScrolled] = useState(false);
   useEffect(() => {
     const activeHighlight = document.getElementById("activeHighlight");

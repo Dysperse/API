@@ -45,7 +45,6 @@ export function WorkingHours({
       email: session.user.email,
       workingHours: JSON.stringify(workingHours),
     });
-    console.log(data);
     await mutate(mutationUrl);
   }, [workingHours, mutationUrl, session.user.email]);
 
