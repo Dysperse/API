@@ -63,7 +63,6 @@ function LinkToken() {
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box
@@ -184,7 +183,6 @@ export function AddPersonModal({
       </Prompt>
       <SwipeableDrawer
         open={open}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             width: {

@@ -197,7 +197,6 @@ export default function CreateColumn({
       <SwipeableDrawer
         anchor="bottom"
         open={mobileOpen}
-        onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
         sx={{
           zIndex: 9999999999,

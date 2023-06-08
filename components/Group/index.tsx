@@ -318,7 +318,6 @@ export default function Group({
     <>
       <SwipeableDrawer
         onKeyDown={(e) => e.stopPropagation()}
-        onOpen={() => {}}
         onClose={handleDrawerClose}
         open={open}
         anchor={isDesktop ? "right" : "bottom"}

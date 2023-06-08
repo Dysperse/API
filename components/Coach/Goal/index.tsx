@@ -158,7 +158,6 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           anchor="bottom"
           open={open}
           onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
           PaperProps={{
             sx: {
               p: 3,

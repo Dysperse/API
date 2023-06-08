@@ -115,7 +115,6 @@ export function ExperimentalAiSubtask({ task }) {
           setOpen(false);
           document.getElementById("subtaskTrigger")?.click();
         }}
-        onOpen={() => setOpen(false)}
         PaperProps={{
           sx: {
             height: "100vh",

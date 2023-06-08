@@ -30,7 +30,6 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             maxWidth: { sm: "350px" },

@@ -124,7 +124,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       <SwipeableDrawer
         open={open}
         onClose={handleClose}
-        onOpen={handleOpen}
         anchor="right"
         ModalProps={{
           keepMounted: false,

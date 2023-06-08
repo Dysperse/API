@@ -273,7 +273,6 @@ export function CreateTask({
           setOpen(false);
           mutate(mutationUrl);
         }}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             maxWidth: "600px",

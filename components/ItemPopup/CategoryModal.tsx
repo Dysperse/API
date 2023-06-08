@@ -67,7 +67,6 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box sx={{ p: 2, pt: 0 }}>
@@ -145,7 +144,6 @@ export default function CategoryModal({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box sx={{ p: 2, mt: 2, maxHeight: "60vh", overflowY: "auto" }}>

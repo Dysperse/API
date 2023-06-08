@@ -27,7 +27,6 @@ export function Following({ styles, data }): JSX.Element {
       <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         anchor="bottom"
         PaperProps={{
           sx: {

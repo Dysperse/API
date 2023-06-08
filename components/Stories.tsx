@@ -58,7 +58,6 @@ export function Stories({
       {trigger}
       <SwipeableDrawer
         open={open}
-        onOpen={handleOpen}
         onClose={handleClose}
         anchor="bottom"
         PaperProps={{

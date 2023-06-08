@@ -140,7 +140,6 @@ function MoreRooms(): JSX.Element {
           },
         }}
         open={open}
-        onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
       >
         <Puller />
@@ -397,7 +396,6 @@ export default function AddPopup({
         }}
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={toggleDrawer(true)}
       >
         <Puller />
         <Box

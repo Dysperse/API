@@ -60,7 +60,6 @@ export function ConfirmationModal({
         disableSwipeToOpen
         open={open}
         anchor="bottom"
-        onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         onClick={(e) => e.stopPropagation()}
         sx={{

@@ -28,7 +28,6 @@ export function Followers({ styles, data }) {
       <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         anchor="bottom"
         PaperProps={{
           sx: {

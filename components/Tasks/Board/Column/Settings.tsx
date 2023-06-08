@@ -85,7 +85,6 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
           mutateData();
           setOpen(false);
         }}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             maxWidth: "400px",

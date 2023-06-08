@@ -54,7 +54,6 @@ export function ExploreGoalCard({ goal }) {
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
-        onOpen={() => {}}
         PaperProps={{
           sx: {
             display: "flex",

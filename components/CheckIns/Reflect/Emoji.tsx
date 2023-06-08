@@ -296,7 +296,6 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
       <SwipeableDrawer
         open={open}
         anchor="bottom"
-        onOpen={handleOpen}
         onClose={handleClose}
         PaperProps={{
           sx: {

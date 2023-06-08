@@ -215,7 +215,6 @@ export function MyGoals(): JSX.Element {
       )}
       {trigger && (
         <SwipeableDrawer
-          onOpen={() => setMobileOpen(true)}
           onClose={() => setMobileOpen(false)}
           open={mobileOpen}
           anchor="right"

@@ -93,7 +93,6 @@ export default function MoveToRoom({ item, styles }) {
     <>
       <SwipeableDrawer
         anchor="bottom"
-        onOpen={() => setOpen(true)}
         open={open}
         sx={{
           transition: "all .2s",

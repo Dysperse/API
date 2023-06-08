@@ -128,7 +128,6 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
       <SwipeableDrawer
         ModalProps={{ keepMounted: true }}
         open={mobileOpen}
-        onOpen={() => setMobileOpen(true)}
         onClose={() => setMobileOpen(false)}
         sx={{ zIndex: 999, display: { sm: "none" } }}
         PaperProps={{

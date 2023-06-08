@@ -33,7 +33,6 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
           zIndex: "999999!important",
         }}
         onClose={handleClose}
-        onOpen={handleOpen}
         PaperProps={{
           sx: {
             background: "hsl(240, 11%, 15%)",

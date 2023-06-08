@@ -405,7 +405,6 @@ export function ShareGoal({ children, goal }) {
 
         <SwipeableDrawer
           open={exportFooterOpen}
-          onOpen={handleOpen}
           onClose={handleClose}
           sx={{
             zIndex: 9999999999,

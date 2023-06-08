@@ -84,7 +84,6 @@ export function RescheduleModal({ data, children, handlePostpone }) {
       <SwipeableDrawer
         open={open}
         onClose={handleClose}
-        onOpen={handleClick}
         anchor="bottom"
         PaperProps={{
           sx: {

@@ -104,7 +104,6 @@ export function EditProperty({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",

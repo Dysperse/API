@@ -75,7 +75,6 @@ export function FeaturedRoutine({ mutationUrl, routine }) {
     <>
       <SwipeableDrawer
         open={open}
-        onOpen={() => setInfoOpen(true)}
         onClose={() => setInfoOpen(false)}
         anchor="bottom"
       >

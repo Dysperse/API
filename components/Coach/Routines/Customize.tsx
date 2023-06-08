@@ -52,7 +52,6 @@ export function CustomizeRoutine({ handleParentClose, setData, routine }) {
         open={open}
         anchor="bottom"
         onClose={handleClose}
-        onOpen={handleOpen}
         BackdropProps={{
           className: "override-bg",
           sx: {

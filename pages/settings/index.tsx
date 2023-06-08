@@ -234,7 +234,6 @@ export default function Layout({ children }: any) {
       {isMobile && (
         <SwipeableDrawer
           open={open}
-          onOpen={() => {}}
           onClose={() => setOpen(false)}
           sx={{
             zIndex: 9999999999,

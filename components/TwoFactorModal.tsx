@@ -82,7 +82,6 @@ export function Prompt({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>

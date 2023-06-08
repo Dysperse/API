@@ -40,7 +40,6 @@ const CategoryModal = memo(function CategoryModal({
     <>
       <SwipeableDrawer
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         open={open}
         anchor="right"
         PaperProps={{

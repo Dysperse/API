@@ -84,7 +84,6 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           mutateData();
           setOpen(false);
         }}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             maxWidth: "400px",

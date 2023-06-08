@@ -231,7 +231,6 @@ export default function Spotlight() {
   return (
     <SwipeableDrawer
       open={open}
-      onOpen={handleOpen}
       onClose={handleClose}
       anchor="bottom"
       PaperProps={{

@@ -77,7 +77,6 @@ export default function EmojiPicker({
       <SwipeableDrawer
         open={open}
         onClose={handleClose}
-        onOpen={handleOpen}
         anchor="bottom"
         sx={{
           zIndex: 99999999999,

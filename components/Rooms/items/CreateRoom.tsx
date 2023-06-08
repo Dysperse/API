@@ -59,7 +59,6 @@ export function CreateRoom(): JSX.Element {
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box

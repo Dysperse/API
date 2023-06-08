@@ -107,7 +107,6 @@ export function CreateItemModal({
           setOpen(false);
           mutate(mutationUrl);
         }}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             width: "100vw",

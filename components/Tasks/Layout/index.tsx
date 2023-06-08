@@ -397,7 +397,6 @@ export function TasksLayout({ open, setOpen, children }) {
     <Box sx={{ display: "flex" }}>
       <SwipeableDrawer
         anchor="bottom"
-        onOpen={() => setOpen(true)}
         onClose={() => {
           setOpen(false);
           vibrate(50);

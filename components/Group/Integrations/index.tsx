@@ -138,7 +138,6 @@ export default function Integrations({ handleClose }) {
       )}
       <SwipeableDrawer
         open={open}
-        onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         anchor="bottom"
       >
