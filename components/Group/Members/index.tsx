@@ -13,7 +13,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -41,12 +41,15 @@ function Member({
   propertyId,
   member,
   mutationUrl,
+  handleParentClose,
 }: {
   propertyId: string;
   color: string;
   member: any;
   mutationUrl: any;
+  handleParentClose: any;
 }): JSX.Element {
+  const router = useRouter();
   const session = useSession();
 
   const [deleted, setDeleted] = React.useState<boolean>(false);
@@ -54,8 +57,11 @@ function Member({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
+  };
 
   const handleClose = () => setAnchorEl(null);
 
@@ -94,7 +100,14 @@ function Member({
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
-    <Box>
+    <Box
+      onClick={() => {
+        handleParentClose();
+        setTimeout(() => {
+          router.push(`/users/${member.user.email}`);
+        }, 500);
+      }}
+    >
       <Typography
         sx={{
           fontWeight: "600",
@@ -113,13 +126,14 @@ function Member({
           textOverflow: "ellipsis",
         }}
       >
-        <Link href={`/users/${member.user.email}`}>{member.user.email}</Link>
+        {member.user.email}
       </Typography>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        onClick={(event) => event.stopPropagation()}
       >
         <MenuItem
           disabled={member.permission === "read-only"}
@@ -224,10 +238,12 @@ export function MemberList({
   color,
   propertyId,
   accessToken,
+  handleParentClose,
 }: {
   color: string;
   propertyId: string;
   accessToken: string;
+  handleParentClose: any;
 }): JSX.Element {
   const { error, loading, data, url } = useApi("property/members", {
     propertyId: propertyId,
@@ -245,6 +261,7 @@ export function MemberList({
             return {
               content: (
                 <Member
+                  handleParentClose={handleParentClose}
                   propertyId={propertyId}
                   color={color}
                   member={member}

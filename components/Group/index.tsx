@@ -235,6 +235,7 @@ function PropertyInfo({
           accessToken={accessToken}
         />
         <MemberList
+          handleParentClose={handleClose}
           color="grey"
           propertyId={propertyData.propertyId}
           accessToken={accessToken}
