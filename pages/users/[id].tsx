@@ -29,10 +29,10 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
-export default function Page() {
+function Page() {
   const router = useRouter();
   const session = useSession();
-  const email = router?.query?.id;
+  const email = router.query.id;
 
   const { data, url, error } = useApi("user/profile", { email });
 
@@ -366,4 +366,10 @@ export default function Page() {
       </Container>
     </Box>
   );
+}
+export function App() {
+  const router = useRouter();
+  const email = router?.query?.id;
+
+  return email ? <Page /> : <></>;
 }
