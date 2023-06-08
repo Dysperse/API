@@ -109,9 +109,9 @@ export default function Dashboard() {
                 }}
               >
                 <Image
-                  src="/images/backlog.png"
+                  src="/images/noUpcoming.png"
                   width={256}
-                  height={256}
+                  height={171}
                   alt="Backlog"
                   style={{
                     ...(session.user.darkMode && {
@@ -123,7 +123,7 @@ export default function Dashboard() {
                   sx={{ width: "300px", maxWidth: "calc(100vw - 40px)", mb: 2 }}
                 >
                   <Typography variant="h6" gutterBottom sx={{ mt: -2 }}>
-                    Nothing there
+                    Nothing there...
                   </Typography>
                   <Typography variant="body1">
                     Here is a place for you to view your upcoming tasks

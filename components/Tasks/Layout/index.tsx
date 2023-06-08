@@ -312,7 +312,7 @@ export function TasksLayout({ open, setOpen, children }) {
           <Icon
             className={router.asPath === `/tasks/upcoming` ? "" : "outlined"}
           >
-            north_east
+            east
           </Icon>
           Upcoming
         </Button>
@@ -322,7 +322,7 @@ export function TasksLayout({ open, setOpen, children }) {
           <Icon
             className={router.asPath === `/tasks/backlog` ? "" : "outlined"}
           >
-            south_east
+            west
           </Icon>
           Backlog
         </Button>
