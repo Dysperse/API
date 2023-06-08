@@ -4,7 +4,13 @@ import { Task } from "@/components/Tasks/Task";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
-import { Box, Icon, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Icon,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
@@ -140,7 +146,20 @@ export default function Dashboard() {
             ))}
           </Box>
         )}
-      </Box>
+      </Box>{" "}
+      {!data && !error && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            width: "100%",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
     </TasksLayout>
   );
 }
