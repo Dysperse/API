@@ -54,7 +54,8 @@ export function CreateItemModal({
     setTitle("");
     setQuantity("");
     setCategory("[]");
-  }, []);
+    mutate(mutationUrl);
+  }, [mutationUrl]);
 
   const trigger = cloneElement(children, { onClick: handleOpen });
 
@@ -98,16 +99,18 @@ export function CreateItemModal({
 
   const storage = useAccountStorage();
 
+  const handleClick = (item) => {
+    setTitle(item.name);
+    setQuantity("1");
+    setCategory(JSON.stringify(item.tags));
+  };
+
   return (
     <>
       {trigger}
       <SwipeableDrawer
         open={open}
-        onClose={() => {
-          setOpen(false);
-          mutate(mutationUrl);
-        }}
-        onOpen={() => setOpen(true)}
+        onClose={handleClose}
         PaperProps={{
           sx: {
             width: "100vw",
@@ -210,11 +213,7 @@ export function CreateItemModal({
               {cards.map((item) => (
                 <Box
                   key={item.name.toString()}
-                  onClick={() => {
-                    setTitle(item.name);
-                    setQuantity("1");
-                    setCategory(JSON.stringify(item.tags));
-                  }}
+                  onClick={() => handleClick(item)}
                   component="div"
                   sx={{
                     userSelect: "none",

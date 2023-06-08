@@ -54,17 +54,14 @@ export const createInboxNotification = async (
           process.env.WEB_PUSH_PRIVATE_KEY
         );
 
-        webPush
-          .sendNotification(
-            JSON.parse(notificationSubscription) as any,
-            JSON.stringify({
-              title: `${who} has edited your group`,
-              body: `${who} ${what}`,
-              actions: [{ title: "⚡ View", action: "viewGroupModification" }],
-            })
-          )
-          .then(() => {})
-          .catch((err) => {});
+        webPush.sendNotification(
+          JSON.parse(notificationSubscription) as any,
+          JSON.stringify({
+            title: `${who} has edited your group`,
+            body: `${who} ${what}`,
+            actions: [{ title: "⚡ View", action: "viewGroupModification" }],
+          })
+        );
       }
     }
 

@@ -59,7 +59,6 @@ export default function ReleaseModal() {
     <SwipeableDrawer
       open={open}
       onClose={handleClose}
-      onOpen={() => {}}
       anchor="bottom"
       PaperProps={{
         sx: {
@@ -89,7 +88,7 @@ export default function ReleaseModal() {
                   borderRadius: 5,
                 },
                 "& a": {
-                  color: "inherit"
+                  color: "inherit",
                 },
               }}
             >

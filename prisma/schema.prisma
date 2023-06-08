@@ -28,6 +28,7 @@ model User {
 
   CustomRoom           CustomRoom[]
   NotificationSettings NotificationSettings?
+  Profile              Profile?
   CoachData            CoachData?
   OAuthToken           OAuthToken[]
   PasswordResetToken   PasswordResetToken[]
@@ -39,6 +40,18 @@ model User {
   DailyCheckIn         DailyCheckIn[]
   Routine              Routine[]
   QrToken              QrToken[]
+
+  followers Follows[] @relation("following")
+  following Follows[] @relation("follower")
+}
+
+model Follows {
+  follower    User   @relation("follower", fields: [followerId], references: [email])
+  followerId  String
+  following   User   @relation("following", fields: [followingId], references: [email])
+  followingId String
+
+  @@id([followerId, followingId])
 }
 
 model Integration {
@@ -67,6 +80,23 @@ model NotificationSettings {
   dailyCheckInNudge Boolean @default(true)
   userId            String  @unique
   user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+// Customizable notification settings (1 row per user)
+model Profile {
+  id           String   @id @unique @default(uuid())
+  picture      String?
+  birthday     DateTime @default(now())
+  hobbies      String[]
+  badges       String[]
+  workingHours String?  @default("[]")
+
+  bio String @default("")
+
+  private Boolean @default(false)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model CoachData {

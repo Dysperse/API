@@ -36,11 +36,28 @@ const CategoryModal = memo(function CategoryModal({
 
   const session = useSession();
 
+  const handleFetch = () => {
+    setLoading(true);
+    fetchRawApi("property/inventory/categories/items", {
+      category,
+    })
+      .then((res) => {
+        setData(res);
+        setOpen(true);
+        setLoading(false);
+      })
+      .catch(() => {
+        toast.error(
+          "An error occured while trying to get items with this category"
+        );
+        setLoading(false);
+      });
+  };
+
   return (
     <>
       <SwipeableDrawer
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         open={open}
         anchor="right"
         PaperProps={{
@@ -88,23 +105,7 @@ const CategoryModal = memo(function CategoryModal({
         </Box>
       </SwipeableDrawer>
       <ListItemButton
-        onClick={() => {
-          setLoading(true);
-          fetchRawApi("property/inventory/categories/items", {
-            category,
-          })
-            .then((res) => {
-              setData(res);
-              setOpen(true);
-              setLoading(false);
-            })
-            .catch(() => {
-              toast.error(
-                "An error occured while trying to get items with this category"
-              );
-              setLoading(false);
-            });
-        }}
+        onClick={handleFetch}
         sx={{
           gap: 2,
           borderRadius: 4,

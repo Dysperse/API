@@ -16,36 +16,43 @@ import {
   Typography,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import React, { useDeferredValue, useState } from "react";
+import React, { useCallback, useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
 import { isEmail } from ".";
 import { Puller } from "../../Puller";
 import { Prompt } from "../../TwoFactorModal";
 
 function LinkToken() {
+  const session = useSession();
+
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState("");
   const url = `https://${window.location.hostname}/invite/${token}`;
   useBackButton(() => setOpen(false));
 
-  const session = useSession();
+  const copyText = () => {
+    navigator.clipboard.writeText(url);
+    toast.success("Copied to clipboard", toastStyles);
+  };
+
+  const createLink = () => {
+    setLoading(true);
+    fetchRawApi("property/members/inviteLink/create", {
+      inviterName: session.user.name,
+      timestamp: new Date().toISOString(),
+    }).then((res) => {
+      setLoading(false);
+      setToken(res.token);
+      setOpen(true);
+    });
+  };
 
   return (
     <>
       <LoadingButton
         loading={loading}
-        onClick={() => {
-          setLoading(true);
-          fetchRawApi("property/members/inviteLink/create", {
-            inviterName: session.user.name,
-            timestamp: new Date().toISOString(),
-          }).then((res) => {
-            setLoading(false);
-            setToken(res.token);
-            setOpen(true);
-          });
-        }}
+        onClick={createLink}
         sx={{ m: 1 }}
         variant="contained"
         size="large"
@@ -56,7 +63,6 @@ function LinkToken() {
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box
@@ -85,10 +91,7 @@ function LinkToken() {
               variant="outlined"
               size="large"
               fullWidth
-              onClick={() => {
-                navigator.clipboard.writeText(url);
-                toast.success("Copied to clipboard", toastStyles);
-              }}
+              onClick={copyText}
             >
               Copy
             </Button>
@@ -96,9 +99,7 @@ function LinkToken() {
               variant="contained"
               size="large"
               fullWidth
-              onClick={() => {
-                window.open(url, "_blank");
-              }}
+              onClick={() => window.open(url, "_blank")}
             >
               Open
             </Button>
@@ -116,34 +117,54 @@ function LinkToken() {
  * @returns {any}
  */
 export function AddPersonModal({
-  color,
   disabled,
   members,
+  defaultValue,
 }: {
   disabled;
-  color: string;
   members: string[];
+  defaultValue?: any;
 }) {
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [permission, setPermission] = React.useState("member");
+  const session = useSession();
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [permission, setPermission] = useState("member");
+  const [email, setEmail] = useState(defaultValue || "");
 
-  /**
-   * Add person modal
-   * @param {SelectChangeEvent} event
-   * @returns {any}
-   */
-  const handleChange = React.useCallback(
+  const deferredEmail = useDeferredValue(email);
+
+  const handleChange = useCallback(
     (event: SelectChangeEvent) => setPermission(event.target.value as string),
     []
   );
 
   useBackButton(() => setOpen(false));
 
-  const [email, setEmail] = useState("");
-  const deferredEmail = useDeferredValue(email);
-
-  const session = useSession();
+  const handleSubmit = async () => {
+    try {
+      if (members.find((member) => member === deferredEmail)) {
+        setEmail("");
+        throw new Error("This member is already invited");
+      }
+      if (isEmail(deferredEmail)) {
+        setLoading(true);
+        await fetchRawApi("property/members/add", {
+          inviterName: session.user.name,
+          name: session.property.profile.name,
+          timestamp: new Date().toISOString(),
+          permission: permission,
+          email: deferredEmail,
+        });
+        toast.success("Invited!", toastStyles);
+        setOpen(false);
+        setLoading(false);
+      } else {
+        throw new Error("Please enter a valid email address");
+      }
+    } catch (e: any) {
+      toast.error(e.message, toastStyles);
+    }
+  };
 
   return (
     <>
@@ -162,7 +183,6 @@ export function AddPersonModal({
       </Prompt>
       <SwipeableDrawer
         open={open}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             width: {
@@ -240,32 +260,7 @@ export function AddPersonModal({
           <LoadingButton
             loading={loading}
             disabled={deferredEmail.trim() == ""}
-            onClick={() => {
-              if (members.find((member) => member === deferredEmail)) {
-                toast.error(
-                  "This person is already a member of this house",
-                  toastStyles
-                );
-                setEmail("");
-                return;
-              }
-              if (isEmail(deferredEmail)) {
-                setLoading(true);
-                fetchRawApi("property/members/add", {
-                  inviterName: session.user.name,
-                  name: session.property.profile.name,
-                  timestamp: new Date().toISOString(),
-                  permission: permission,
-                  email: deferredEmail,
-                }).then(() => {
-                  toast.success("Invited!", toastStyles);
-                  setOpen(false);
-                });
-                setLoading(false);
-              } else {
-                toast.error("Please enter a valid email address", toastStyles);
-              }
-            }}
+            onClick={handleSubmit}
             variant="contained"
             size="large"
             sx={{ m: 1 }}

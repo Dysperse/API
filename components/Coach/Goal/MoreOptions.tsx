@@ -6,23 +6,21 @@ import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { ShareGoal } from "./ShareGoal";
 
-export const exportAsImage = async (el, imageFileName) => {
-  const canvas = await html2canvas(el, { backgroundColor: null });
-  const image = canvas.toDataURL("image/png", 1.0);
-  downloadImage(image, imageFileName);
-};
 const downloadImage = (blob, fileName) => {
   const fakeLink: any = window.document.createElement("a");
   fakeLink.style = "display:none;";
   fakeLink.download = fileName;
-
   fakeLink.href = blob;
-
   document.body.appendChild(fakeLink);
   fakeLink.click();
   document.body.removeChild(fakeLink);
-
   fakeLink.remove();
+};
+
+export const exportAsImage = async (el, imageFileName) => {
+  const canvas = await html2canvas(el, { backgroundColor: null });
+  const image = canvas.toDataURL("image/png", 1.0);
+  downloadImage(image, imageFileName);
 };
 
 export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
@@ -31,6 +29,16 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
+  const handleStop = () => {
+    handleClose();
+    fetchRawApi("user/coach/goals/delete", {
+      id: goal.id,
+    }).then(async () => {
+      await mutate(mutationUrl);
+      setOpen(false);
+    });
+  };
 
   return (
     <>
@@ -49,15 +57,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
         <ConfirmationModal
           title="Stop goal?"
           question="Are you sure you want to stop working towards this goal? ALL your progress will be lost FOREVER. You won't be able to undo this action!"
-          callback={() => {
-            handleClose();
-            fetchRawApi("user/coach/goals/delete", {
-              id: goal.id,
-            }).then(async () => {
-              await mutate(mutationUrl);
-              setOpen(false);
-            });
-          }}
+          callback={handleStop}
         >
           <MenuItem disabled={goal.completed}>
             <Icon>stop</Icon> Stop goal

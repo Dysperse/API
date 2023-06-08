@@ -221,15 +221,9 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
                         <Button
                           size="small"
                           sx={{ color: "#fff", opacity: 0.6 }}
-                          onClick={() => {
-                            toast.dismiss();
-                            toast(
-                              <Typography>
-                                <b>Activity</b> coming soon!
-                              </Typography>,
-                              toastStyles
-                            );
-                          }}
+                          onClick={() =>
+                            toast("Activity coming soon!", toastStyles)
+                          }
                         >
                           <Icon className="outlined" sx={{ mt: "-5px" }}>
                             local_fire_department

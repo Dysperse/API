@@ -27,6 +27,41 @@ export default function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingDisable, setLoadingDisable] = useState<boolean>(false);
 
+  const handleCreate = () => {
+    setLoading(true);
+    fetch(
+      `/api/user/settings/2fa/setup?${new URLSearchParams({
+        ...newSecret,
+        code,
+        token: session.current.token,
+      }).toString()}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          throw new Error(res.error);
+        }
+        toast.success("2FA setup successful!", toastStyles);
+        setLoading(false);
+        mutate("/api/session");
+      })
+      .catch(() => {
+        toast.error("Invalid code!", toastStyles);
+        setLoading(false);
+      });
+  };
+
+  const handleDisable = () => {
+    setLoadingDisable(true);
+    updateSettings("twoFactorSecret", "", false, () => {
+      mutate("/api/session");
+      setLoadingDisable(false);
+    });
+  };
+
   return (
     <Layout>
       {session.user.twoFactorSecret &&
@@ -35,15 +70,7 @@ export default function App() {
           <Alert severity="info">
             2FA is enabled for your account &nbsp; 🎉
           </Alert>
-          <Prompt
-            callback={() => {
-              setLoadingDisable(true);
-              updateSettings("twoFactorSecret", "", false, () => {
-                mutate("/api/session");
-                setLoadingDisable(false);
-              });
-            }}
-          >
+          <Prompt callback={handleDisable}>
             <LoadingButton
               loading={loadingDisable}
               sx={{ my: 3 }}
@@ -129,32 +156,7 @@ export default function App() {
             <ConfirmationModal
               title="Turn on 2FA?"
               question="Are you sure you want to turn on 2FA? If you lose access to your authenticator, you will be locked out of your account."
-              callback={() => {
-                setLoading(true);
-                fetch(
-                  `/api/user/settings/2fa/setup?${new URLSearchParams({
-                    ...newSecret,
-                    code,
-                    token: session.current.token,
-                  }).toString()}`,
-                  {
-                    method: "POST",
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((res) => {
-                    if (res.error) {
-                      throw new Error(res.error);
-                    }
-                    toast.success("2FA setup successful!", toastStyles);
-                    setLoading(false);
-                    mutate("/api/session");
-                  })
-                  .catch(() => {
-                    toast.error("Invalid code!", toastStyles);
-                    setLoading(false);
-                  });
-              }}
+              callback={handleCreate}
             >
               <LoadingButton
                 loading={loading}

@@ -92,7 +92,6 @@ export function CreateRoutine() {
         open={open}
         anchor="bottom"
         onClose={handleClose}
-        onOpen={handleOpen}
         PaperProps={{
           sx: {
             ...(!session.user.darkMode && { background: "#fff" }),

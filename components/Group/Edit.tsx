@@ -104,7 +104,6 @@ export function EditProperty({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         PaperProps={{
           sx: {
             background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
@@ -249,9 +248,7 @@ export function EditProperty({
             id="basic-menu"
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
-            onClose={() => {
-              setAnchorEl(null);
-            }}
+            onClose={() => setAnchorEl(null)}
           >
             {["house", "apartment", "dorm", "study group"].map((type) => (
               <MenuItem

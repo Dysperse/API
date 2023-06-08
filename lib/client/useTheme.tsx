@@ -63,6 +63,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiSwipeableDrawer: {
         defaultProps: {
+          onOpen: () => {},
           disableSwipeToOpen: true,
           disableBackdropTransition: true,
           keepMounted: false,
@@ -328,7 +329,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   ? "hsl(240,11%,20%)!important"
                   : "#eee!important",
                 "& .MuiMenu-list": {
-                  padding: "3px",
+                  p: 0.5,
                 },
                 "& .MuiMenuItem-root": {
                   gap: 2,
@@ -345,10 +346,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                         : colors[themeColor || "grey"][800],
                     },
                   },
-                  padding: "8.5px 12px",
-                  minHeight: 0,
+                  px: 2,
                   borderRadius: "10px",
-                  marginBottom: "1px",
+                  py: 1,
+                  minHeight: 0,
+                  cursor: "default",
                   "& .MuiSvgIcon-root": {
                     fontSize: 25,
                     color: colors[themeColor || "grey"][700],

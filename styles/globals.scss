@@ -9,6 +9,7 @@
   border-radius: 0.75rem;
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  color: #fff !important;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.25rem;
@@ -120,7 +121,7 @@ img {
   ):not(.outlined):not(.material-symbols-rounded) {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  font-family: "DM Sans", sans-serif !important;
+  font-family: "Geologica", sans-serif !important;
 
   &::-webkit-scrollbar {
     display: none;

@@ -3,8 +3,6 @@ import { useBackButton } from "@/lib/client/useBackButton";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
-  Alert,
-  Avatar,
   Badge,
   Box,
   Button,
@@ -29,7 +27,7 @@ import { ErrorHandler } from "../../Error";
 
 const Group = dynamic(() => import("../../Group"));
 
-function PropertyButton({ group }) {
+function PropertyButton({ handleClose, group }) {
   const session = useSession();
   return (
     <Group
@@ -38,6 +36,7 @@ function PropertyButton({ group }) {
         id: group.propertyId,
         accessToken: group.accessToken,
       }}
+      onClick={handleClose}
     >
       <ListItemButton
         {...(group.propertyId === session.property.propertyId && {
@@ -84,16 +83,16 @@ function PropertyButton({ group }) {
  * @returns {any}
  */
 export default function InviteButton({ styles }: any) {
+  const session = useSession();
+
   const [open, setOpen] = React.useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [view, setView] = useState(0);
+  const { data, loading, url, fetcher, error } = useApi("user/properties");
+
+  const handleClose = () => setAnchorEl(null);
   const router = useRouter();
-
   useBackButton(() => setOpen(false));
-
-  useHotkeys(["ctrl+comma"], (e) => {
-    e.preventDefault();
-    router.push("/settings/account");
-    handleClose();
-  });
 
   useHotkeys(
     "ctrl+p",
@@ -120,10 +119,6 @@ export default function InviteButton({ styles }: any) {
     [open]
   );
 
-  const session = useSession();
-
-  const { data, loading, url, fetcher, error } = useApi("user/properties");
-
   const properties = [...session.properties, ...(data || [])]
     .filter((group) => group)
     .reduce((acc, curr) => {
@@ -132,9 +127,15 @@ export default function InviteButton({ styles }: any) {
       }
       return acc;
     }, []);
+
   preload(url, fetcher);
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  useHotkeys(["ctrl+comma"], (e) => {
+    e.preventDefault();
+    router.push("/settings/account");
+    handleClose();
+  });
+
   const handleClick = (e) => {
     e.stopPropagation();
     if (!loading) {
@@ -142,9 +143,6 @@ export default function InviteButton({ styles }: any) {
       vibrate(50);
     }
   };
-  const handleClose = () => setAnchorEl(null);
-  const [view, setView] = useState(0);
-
   return (
     <>
       <Menu
@@ -166,7 +164,6 @@ export default function InviteButton({ styles }: any) {
             opacity: "0!important",
           },
         }}
-        transitionDuration={300}
         PaperProps={{
           sx: {
             borderRadius: "28px!important",
@@ -186,7 +183,11 @@ export default function InviteButton({ styles }: any) {
             {properties
               .filter((p) => p.accepted)
               .map((group: any) => (
-                <PropertyButton key={group.id} group={group} />
+                <PropertyButton
+                  handleClose={handleClose}
+                  key={group.id}
+                  group={group}
+                />
               ))}
 
             {error && (
@@ -195,31 +196,33 @@ export default function InviteButton({ styles }: any) {
                 error="An error occured while trying to fetch your other groups"
               />
             )}
-            <Button
-              size="large"
-              color="inherit"
-              fullWidth
-              onClick={() => setView(2)}
-              sx={{
-                justifyContent: "start",
-                p: 2,
-                py: 1.5,
-                borderRadius: "28px",
-                gap: 2,
-                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
-              }}
-            >
-              <Icon className="outlined">group_add</Icon>
-              Invitations
-              {properties.filter((p) => !p.accepted).length > 0 && (
-                <Chip
-                  size="small"
-                  color="error"
-                  sx={{ px: 1, ml: "auto" }}
-                  label={properties.filter((p) => !p.accepted).length}
-                />
-              )}
-            </Button>
+            {properties.filter((p) => !p.accepted).length > 0 && (
+              <Button
+                size="large"
+                color="inherit"
+                fullWidth
+                onClick={() => setView(2)}
+                sx={{
+                  justifyContent: "start",
+                  p: 2,
+                  py: 1.5,
+                  borderRadius: "28px",
+                  gap: 2,
+                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                }}
+              >
+                <Icon className="outlined">group_add</Icon>
+                Invitations
+                {properties.filter((p) => !p.accepted).length > 0 && (
+                  <Chip
+                    size="small"
+                    color="error"
+                    sx={{ px: 1, ml: "auto" }}
+                    label={properties.filter((p) => !p.accepted).length}
+                  />
+                )}
+              </Button>
+            )}
             <Button
               size="large"
               color="inherit"
@@ -254,8 +257,8 @@ export default function InviteButton({ styles }: any) {
                 color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
               }}
             >
-              <Icon className="outlined">account_circle</Icon>
-              My account
+              <Icon className="outlined">settings</Icon>
+              Settings
             </Button>
           </div>
         )}
@@ -288,16 +291,15 @@ export default function InviteButton({ styles }: any) {
               <Typography variant="h6">
                 Invitations ({properties.filter((p) => !p.accepted).length})
               </Typography>
-              {properties.filter((p) => !p.accepted).length == 0 && (
-                <Alert severity="info">
-                  Groups you&apos;ve been invited to will appear here.
-                </Alert>
-              )}
             </Box>
             {properties
               .filter((p) => !p.accepted)
               .map((group: any) => (
-                <PropertyButton key={group.id} group={group} />
+                <PropertyButton
+                  handleClose={handleClose}
+                  key={group.id}
+                  group={group}
+                />
               ))}
           </>
         )}
@@ -371,9 +373,15 @@ export default function InviteButton({ styles }: any) {
       >
         <Box
           sx={{
-            ...styles(false),
-            display: { xs: "none", md: "block" },
-            mb: 2,
+            ...styles(Boolean(anchorEl)),
+            display: { xs: "none", sm: "block" },
+            "& .material-symbols-rounded": {
+              background:
+                colors[session?.property?.profile?.color || 100][
+                  session.user.darkMode ? 900 : 100
+                ],
+              height: 40,
+            },
           }}
           id="houseProfileTrigger"
           onClick={handleClick}
@@ -409,30 +417,7 @@ export default function InviteButton({ styles }: any) {
             }}
             color="error"
           >
-            <Avatar
-              sx={{
-                opacity: loading ? 0.5 : 1,
-                background:
-                  colors[session.property.profile.color][
-                    session.user.darkMode ? "A400" : 200
-                  ],
-                "&:hover": {
-                  background:
-                    colors[session.property.profile.color][
-                      session.user.darkMode ? "A700" : 300
-                    ],
-                },
-                ...(Boolean(anchorEl) && {
-                  background:
-                    colors[session.property.profile.color][
-                      session.user.darkMode ? "A700" : 300
-                    ],
-                }),
-                color: session.user.darkMode ? "#000" : "#000",
-              }}
-            >
-              <Icon className="outlined">hive</Icon>
-            </Avatar>
+            <Icon className="outlined">alternate_email</Icon>
           </Badge>
         </Box>
       </Tooltip>
@@ -455,7 +440,7 @@ export default function InviteButton({ styles }: any) {
           onClick={handleClick}
         >
           <Tooltip title="Account menu" placement="bottom-end">
-            <Icon className="outlined">hive</Icon>
+            <Icon className="outlined">unfold_more</Icon>
           </Tooltip>
         </IconButton>
       </Badge>

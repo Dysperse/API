@@ -86,6 +86,11 @@ export default function Layout({ children }: any) {
     setAnchorEl(null);
   };
 
+  const openGroupSettings = () => {
+    handleClose();
+    document.getElementById("activeProperty")?.click();
+  };
+
   const sidebar = (
     <>
       <Box
@@ -108,14 +113,7 @@ export default function Layout({ children }: any) {
           <MenuItem onClick={handleClose} selected>
             My account
           </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              document.getElementById("activeProperty")?.click();
-            }}
-          >
-            My group
-          </MenuItem>
+          <MenuItem onClick={openGroupSettings}>My group</MenuItem>
         </Menu>
         <Image
           width={50}
@@ -234,7 +232,6 @@ export default function Layout({ children }: any) {
       {isMobile && (
         <SwipeableDrawer
           open={open}
-          onOpen={() => {}}
           onClose={() => setOpen(false)}
           sx={{
             zIndex: 9999999999,

@@ -67,7 +67,6 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box sx={{ p: 2, pt: 0 }}>
@@ -115,13 +114,36 @@ export default function CategoryModal({
   const { data, url, error } = useApi("property/inventory/categories");
   const session = useSession();
 
+  const handleClick = (category) => {
+    if (JSON.parse(item.category).includes(category)) {
+      setItemData(() => {
+        const c = JSON.stringify(
+          JSON.parse(item.category).filter((c: string) => c !== category)
+        );
+        handleItemChange("category", c);
+        return {
+          ...item,
+          category: c,
+        };
+      });
+    } else {
+      setItemData(() => {
+        const c = JSON.stringify([...JSON.parse(item.category), category]);
+        handleItemChange("category", c);
+        return {
+          ...item,
+          category: c,
+        };
+      });
+    }
+  };
+
   return (
     <>
       <SwipeableDrawer
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box sx={{ p: 2, mt: 2, maxHeight: "60vh", overflowY: "auto" }}>
@@ -148,34 +170,7 @@ export default function CategoryModal({
                 disabled={storage?.isReached === true}
                 key={category}
                 sx={{ gap: 2, borderRadius: 999 }}
-                onClick={() => {
-                  if (JSON.parse(item.category).includes(category)) {
-                    setItemData(() => {
-                      const c = JSON.stringify(
-                        JSON.parse(item.category).filter(
-                          (c: string) => c !== category
-                        )
-                      );
-                      handleItemChange("category", c);
-                      return {
-                        ...item,
-                        category: c,
-                      };
-                    });
-                  } else {
-                    setItemData(() => {
-                      const c = JSON.stringify([
-                        ...JSON.parse(item.category),
-                        category,
-                      ]);
-                      handleItemChange("category", c);
-                      return {
-                        ...item,
-                        category: c,
-                      };
-                    });
-                  }
-                }}
+                onClick={() => handleClick(category)}
               >
                 <Box
                   sx={{

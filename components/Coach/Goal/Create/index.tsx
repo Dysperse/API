@@ -77,7 +77,7 @@ export function CreateGoal({ isCoach = false }) {
           </Typography>
         </Box>
       </Box>
-      <Box sx={{ px: 1, flex: "0 0 40px", height: 3 }}></Box>
+      <Box sx={{ px: 1, flex: "0 0 40px", height: 3 }} />
     </>
   );
 }

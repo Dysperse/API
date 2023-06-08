@@ -15,9 +15,7 @@ import { Toaster } from "react-hot-toast";
 const darkTheme = createTheme({
   palette: {
     mode: "light",
-    primary: {
-      main: blueGrey[700],
-    },
+    primary: { main: blueGrey[700] },
   },
 });
 
@@ -204,6 +202,7 @@ export const authStyles = {
     },
   },
 };
+
 /**
  * Layout for the app, including navbar, sidenav, etc
  * @param children Children

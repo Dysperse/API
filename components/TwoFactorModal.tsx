@@ -62,7 +62,18 @@ export function Prompt({
       setButtonLoading(false);
     }
   };
+
   useBackButton(() => setOpen(false));
+
+  const openSettings = () => {
+    document.getElementById("settingsTrigger")?.click();
+    setOpen(false);
+  };
+
+  const handleSkip = () => {
+    setOpen(false);
+    callback();
+  };
 
   return (
     <>
@@ -71,7 +82,6 @@ export function Prompt({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>
@@ -137,10 +147,7 @@ export function Prompt({
               >
                 <Button
                   variant="outlined"
-                  onClick={() => {
-                    document.getElementById("settingsTrigger")?.click();
-                    setOpen(false);
-                  }}
+                  onClick={openSettings}
                   size="large"
                   sx={{
                     width: "100%",
@@ -154,10 +161,7 @@ export function Prompt({
                 </Button>
                 <Button
                   variant="contained"
-                  onClick={() => {
-                    setOpen(false);
-                    callback();
-                  }}
+                  onClick={handleSkip}
                   size="large"
                   sx={{
                     width: "100%",

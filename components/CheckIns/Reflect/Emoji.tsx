@@ -238,6 +238,27 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
     mutate(mutationUrl);
   };
 
+  const handleChoiceClick = (choice) => {
+    setAnswers((a) => ({
+      ...a,
+      [currentQuestion]: choice.name as any,
+    }));
+    handleSave(currentQuestion, choice.id || choice.name);
+    setCurrentQuestion(currentQuestion + 1);
+  };
+
+  const handleSubmitClick = () => {
+    if (typeof answer !== "number") {
+      setAnswers((a) => ({
+        ...a,
+        [currentQuestion]: 1 as any,
+      }));
+      handleSave(currentQuestion, 1 as any);
+    }
+    setCurrentQuestion(currentQuestion + 1);
+    handleSave(currentQuestion, answer);
+  };
+
   return (
     <>
       <IconButton
@@ -275,7 +296,6 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
       <SwipeableDrawer
         open={open}
         anchor="bottom"
-        onOpen={handleOpen}
         onClose={handleClose}
         PaperProps={{
           sx: {
@@ -334,14 +354,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                 {question.choices ? (
                   question.choices.map((choice) => (
                     <Button
-                      onClick={() => {
-                        setAnswers((a) => ({
-                          ...a,
-                          [currentQuestion]: choice.name as any,
-                        }));
-                        handleSave(currentQuestion, choice.id || choice.name);
-                        setCurrentQuestion(currentQuestion + 1);
-                      }}
+                      onClick={() => handleChoiceClick(choice)}
                       key={choice.name}
                       fullWidth
                       sx={{
@@ -441,20 +454,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                       </Box>
                     </Box>
                     <Box sx={{ display: "flex", justifyContent: "end" }}>
-                      <Button
-                        variant="contained"
-                        onClick={() => {
-                          if (typeof answer !== "number") {
-                            setAnswers((a) => ({
-                              ...a,
-                              [currentQuestion]: 1 as any,
-                            }));
-                            handleSave(currentQuestion, 1 as any);
-                          }
-                          setCurrentQuestion(currentQuestion + 1);
-                          handleSave(currentQuestion, answer);
-                        }}
-                      >
+                      <Button variant="contained" onClick={handleSubmitClick}>
                         Done
                       </Button>
                     </Box>

@@ -25,8 +25,11 @@ export function Stories({
     if (!session.user.darkMode)
       document
         .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
-  }, [session, open]);
+        ?.setAttribute(
+          "content",
+          showOverlay || open ? "hsl(240,11%,10%)" : "#fff"
+        );
+  }, [session, open, showOverlay]);
 
   const handleOpen = useCallback(async () => {
     await onOpen();
@@ -58,7 +61,6 @@ export function Stories({
       {trigger}
       <SwipeableDrawer
         open={open}
-        onOpen={handleOpen}
         onClose={handleClose}
         anchor="bottom"
         PaperProps={{

@@ -18,7 +18,7 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
 
   return (
     <>
-      <div ref={optionsRef} onClick={handleOpen} style={{ display: "none" }} />
+      <Box ref={optionsRef} onClick={handleOpen} style={{ display: "none" }} />
       <SwipeableDrawer
         open={open}
         anchor="bottom"
@@ -33,7 +33,6 @@ export function RoutineOptions({ mutationUrl, setData, optionsRef, routine }) {
           zIndex: "999999!important",
         }}
         onClose={handleClose}
-        onOpen={handleOpen}
         PaperProps={{
           sx: {
             background: "hsl(240, 11%, 15%)",

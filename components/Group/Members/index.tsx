@@ -13,6 +13,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -40,28 +41,74 @@ function Member({
   propertyId,
   member,
   mutationUrl,
+  handleParentClose,
 }: {
   propertyId: string;
   color: string;
   member: any;
   mutationUrl: any;
+  handleParentClose: any;
 }): JSX.Element {
+  const router = useRouter();
+  const session = useSession();
+
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const handleClose = () => setAnchorEl(null);
+
+  const handleUpdate = (perm) => {
+    fetchRawApi("property/members/edit", {
+      id: member.id,
+      permission: perm,
+      changerName: session.user.name,
+      affectedName: member.user.name,
+      timestamp: new Date().toISOString(),
+    }).then(() => {
+      mutate(mutationUrl);
+      handleClose();
+      toast.success("Updated permissions!", toastStyles);
+    });
   };
-  const session = useSession();
+
+  const handleRemove = () => {
+    if (member.permission === "owner") {
+      document.getElementById("settingsTrigger")?.click();
+      return;
+    }
+    setLoading(true);
+    fetchRawApi("property/members/remove", {
+      id: member.id,
+      removerName: session.user.name,
+      removeeName: member.user.name,
+      timestamp: new Date().toISOString(),
+    }).then(() => {
+      toast.success("Removed person from your home", toastStyles);
+      setLoading(false);
+      setDeleted(true);
+    });
+  };
+
   return deleted ? (
     <>This user no longer has access to your home</>
   ) : (
-    <Box>
+    <CardActionArea
+      sx={{ p: 2, px: 2.5 }}
+      onClick={() => {
+        handleParentClose();
+        setTimeout(() => {
+          router.push(`/users/${member.user.email}`);
+        }, 500);
+      }}
+    >
       <Typography
         sx={{
           fontWeight: "600",
@@ -87,40 +134,17 @@ function Member({
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        onClick={(event) => event.stopPropagation()}
       >
         <MenuItem
           disabled={member.permission === "read-only"}
-          onClick={() => {
-            fetchRawApi("property/members/edit", {
-              id: member.id,
-              permission: "read-only",
-              changerName: session.user.name,
-              affectedName: member.user.name,
-              timestamp: new Date().toISOString(),
-            }).then(() => {
-              mutate(mutationUrl);
-              handleClose();
-              toast.success("Updated permissions!", toastStyles);
-            });
-          }}
+          onClick={() => handleUpdate("read-only")}
         >
           View only
         </MenuItem>
         <MenuItem
           disabled={member.permission === "member"}
-          onClick={() => {
-            fetchRawApi("property/members/edit", {
-              id: member.id,
-              permission: "member",
-              changerName: session.user.name,
-              affectedName: member.user.name,
-              timestamp: new Date().toISOString(),
-            }).then(() => {
-              mutate(mutationUrl);
-              handleClose();
-              toast.success("Updated permissions!", toastStyles);
-            });
-          }}
+          onClick={() => handleUpdate("member")}
         >
           Member
         </MenuItem>
@@ -130,23 +154,7 @@ function Member({
           <ConfirmationModal
             title="Remove member from your home?"
             question="This person cannot join unless you invite them again"
-            callback={() => {
-              if (member.permission === "owner") {
-                document.getElementById("settingsTrigger")?.click();
-                return;
-              }
-              setLoading(true);
-              fetchRawApi("property/members/remove", {
-                id: member.id,
-                removerName: session.user.name,
-                removeeName: member.user.name,
-                timestamp: new Date().toISOString(),
-              }).then(() => {
-                toast.success("Removed person from your home", toastStyles);
-                setLoading(false);
-                setDeleted(true);
-              });
-            }}
+            callback={handleRemove}
           >
             <MenuItem
               sx={{
@@ -217,7 +225,7 @@ function Member({
           expand_more
         </span>
       </CardActionArea>
-    </Box>
+    </CardActionArea>
   );
 }
 
@@ -231,10 +239,12 @@ export function MemberList({
   color,
   propertyId,
   accessToken,
+  handleParentClose,
 }: {
   color: string;
   propertyId: string;
   accessToken: string;
+  handleParentClose: any;
 }): JSX.Element {
   const { error, loading, data, url } = useApi("property/members", {
     propertyId: propertyId,
@@ -252,6 +262,7 @@ export function MemberList({
             return {
               content: (
                 <Member
+                  handleParentClose={handleParentClose}
                   propertyId={propertyId}
                   color={color}
                   member={member}
@@ -263,11 +274,7 @@ export function MemberList({
         ]
       : [
           {
-            content: (
-              <Box>
-                <Skeleton animation="wave" />
-              </Box>
-            ),
+            content: <Skeleton animation="wave" />,
           },
         ];
 
@@ -291,7 +298,6 @@ export function MemberList({
         <Typography variant="h6">Members</Typography>
         {data && !data.error && (
           <AddPersonModal
-            color={color}
             disabled={propertyId !== session.property.propertyId}
             members={loading ? [] : data.map((member) => member.user.email)}
           />
@@ -301,10 +307,8 @@ export function MemberList({
         <Box
           key={index}
           sx={{
-            p: 2,
             mb: 2,
             userSelect: "none",
-            px: 2.5,
             borderRadius: 5,
             background: session.user.darkMode
               ? "hsl(240,11%,20%)"

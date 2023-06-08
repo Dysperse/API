@@ -60,7 +60,6 @@ function Rename({ mutationUrl, handleClose, room }) {
         open={open}
         sx={{ zIndex: 9999 }}
         anchor="bottom"
-        onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         onKeyDown={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}

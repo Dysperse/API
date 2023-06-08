@@ -1,5 +1,5 @@
-import { Agenda } from "@/components/Boards/Agenda";
-import { TasksLayout } from "@/components/Boards/Layout";
+import { Agenda } from "@/components/Tasks/Agenda";
+import { TasksLayout } from "@/components/Tasks/Layout";
 import { useRouter } from "next/router";
 import { useState } from "react";
 

@@ -1,5 +1,5 @@
-import { ColoredTasks } from "@/components/Boards/ColoredTasks";
-import { TasksLayout } from "@/components/Boards/Layout";
+import { ColoredTasks } from "@/components/Tasks/ColoredTasks";
+import { TasksLayout } from "@/components/Tasks/Layout";
 import { useState } from "react";
 
 /**

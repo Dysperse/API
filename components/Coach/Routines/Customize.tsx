@@ -35,6 +35,12 @@ export function CustomizeRoutine({ handleParentClose, setData, routine }) {
     goal.name.toLowerCase().includes(deferredQuery)
   );
 
+  const handleCreateGoal = () => {
+    document.getElementById("createGoalTrigger")?.click();
+    handleClose();
+    handleParentClose();
+  };
+
   return (
     <>
       <ListItemButton onClick={handleOpen} sx={{ gap: 2 }}>
@@ -46,7 +52,6 @@ export function CustomizeRoutine({ handleParentClose, setData, routine }) {
         open={open}
         anchor="bottom"
         onClose={handleClose}
-        onOpen={handleOpen}
         BackdropProps={{
           className: "override-bg",
           sx: {
@@ -137,11 +142,7 @@ export function CustomizeRoutine({ handleParentClose, setData, routine }) {
                     <Button
                       size="small"
                       variant="contained"
-                      onClick={() => {
-                        document.getElementById("createGoalTrigger")?.click();
-                        handleClose();
-                        handleParentClose();
-                      }}
+                      onClick={handleCreateGoal}
                     >
                       Create a goal
                     </Button>

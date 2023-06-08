@@ -29,7 +29,7 @@ export default function KeyboardShortcutsModal() {
         },
       }}
     >
-      <Box sx={{ dispaly: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Typography variant="h5">Keyboard shortcuts</Typography>
         <IconButton sx={{ ml: "auto" }} onClick={() => setOpen(false)}>
           <Icon>close</Icon>

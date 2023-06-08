@@ -22,17 +22,18 @@ export function Color({
     color
   );
 
+  const handleClick = () => {
+    updateSettings("color", color, false, null, true).then(() =>
+      setTimeout(mutatePropertyData, 1000)
+    );
+  };
+
   return (
     <CardActionArea
-      onClick={() => {
-        updateSettings("color", color, false, null, true).then(() =>
-          setTimeout(mutatePropertyData, 1000)
-        );
-      }}
+      onClick={handleClick}
       sx={{
         width: 36,
         height: 36,
-
         borderRadius: "50%",
         display: "inline-flex",
         mr: 1,

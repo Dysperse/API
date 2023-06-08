@@ -42,7 +42,6 @@ export function Changelog({ disabled }) {
       <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
         anchor="bottom"
       >
         {!disabled && (

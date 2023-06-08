@@ -39,6 +39,40 @@ export function TrophyModal({ goal, mutationUrl }) {
     }
   }, [open]);
 
+  const handleNextStep = () => {
+    setOpen(false);
+    setStepTwoOpen(true);
+  };
+
+  const handleTrophyEarn = (icon) => {
+    setLoading(true);
+    fetchRawApi("user/coach/goals/complete", {
+      daysLeft: goal.durationDays - goal.progress,
+      feedback: icon,
+      id: goal.id,
+    })
+      .then(async () => {
+        try {
+          await mutate(mutationUrl);
+          setStepTwoOpen(false);
+          toast.success("You earned a trophy! Thanks for your feedback!", {
+            ...toastStyles,
+            icon: "🎉",
+          });
+        } catch (e) {
+          toast.error(
+            "An error occurred. Please try again later.",
+            toastStyles
+          );
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        toast.error("An error occurred. Please try again later.", toastStyles);
+      });
+  };
+
   return (
     <>
       <Dialog
@@ -73,37 +107,7 @@ export function TrophyModal({ goal, mutationUrl }) {
             ].map((icon) => (
               <IconButton
                 key={icon}
-                onClick={() => {
-                  setLoading(true);
-                  fetchRawApi("user/coach/goals/complete", {
-                    daysLeft: goal.durationDays - goal.progress,
-                    feedback: icon,
-                    id: goal.id,
-                  })
-                    .then(async () => {
-                      try {
-                        await mutate(mutationUrl);
-                        setStepTwoOpen(false);
-                        toast.success(
-                          "You earned a trophy! Thanks for your feedback!",
-                          { ...toastStyles, icon: "🎉" }
-                        );
-                      } catch (e) {
-                        toast.error(
-                          "An error occurred. Please try again later.",
-                          toastStyles
-                        );
-                      }
-                      setLoading(false);
-                    })
-                    .catch(() => {
-                      setLoading(false);
-                      toast.error(
-                        "An error occurred. Please try again later.",
-                        toastStyles
-                      );
-                    });
-                }}
+                onClick={() => handleTrophyEarn(icon)}
                 disabled={loading}
               >
                 <span
@@ -121,10 +125,7 @@ export function TrophyModal({ goal, mutationUrl }) {
       </Dialog>
       <Backdrop
         open={open}
-        onClick={() => {
-          setOpen(false);
-          setStepTwoOpen(true);
-        }}
+        onClick={handleNextStep}
         sx={{
           zIndex: 999999,
           cursor: "pointer",

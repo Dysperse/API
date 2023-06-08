@@ -17,6 +17,20 @@ function DeleteCard({ item }) {
   const [hidden, setHidden] = useState<boolean>(false);
   const session = useSession();
 
+  const handleDelete = () => {
+    setHidden(true);
+    fetchRawApi("property/inventory/trash/item", {
+      id: item.id,
+      forever: true,
+    }).catch(() => {
+      toast.error(
+        "An error occured while trying to delete this item. Please try again later",
+        toastStyles
+      );
+      setHidden(false);
+    });
+  };
+
   return hidden ? null : (
     <Box
       key={item.id}
@@ -47,19 +61,7 @@ function DeleteCard({ item }) {
         fullWidth
         variant="contained"
         disabled={session.permission === "read-only"}
-        onClick={() => {
-          setHidden(true);
-          fetchRawApi("property/inventory/trash/item", {
-            id: item.id,
-            forever: true,
-          }).catch(() => {
-            toast.error(
-              "An error occured while trying to delete this item. Please try again later",
-              toastStyles
-            );
-            setHidden(false);
-          });
-        }}
+        onClick={handleDelete}
         sx={{
           ...(session.permission !== "read-only" && {
             "&,&:hover": {

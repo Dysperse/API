@@ -1,11 +1,8 @@
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
-import { toastStyles } from "@/lib/client/useTheme";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
-import { mutate } from "swr";
+import { useEffect, useState } from "react";
 import { DailyCheckInDrawer } from "./DailyCheckInDrawer";
 import { Emoji } from "./Reflect/Emoji";
 
@@ -24,15 +21,13 @@ export const reasons = [
 ];
 
 export function DailyCheckIn() {
+  const session = useSession();
+
   const [mood, setMood] = useState<string | null>(null);
   const today = dayjs().startOf("day");
-  const { data, url: mutationUrl } = useApi("user/checkIns", {
-    date: today,
-  });
 
+  const { data, url: mutationUrl } = useApi("user/checkIns", { date: today });
   useEffect(() => setMood(data?.[0]?.mood ?? null), [data, mood, setMood]);
-
-  const session = useSession();
 
   return (
     <Box
@@ -44,26 +39,41 @@ export function DailyCheckIn() {
       }}
     >
       <DailyCheckInDrawer mood={mood} />
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          mt: 0.5,
-          mb: -1,
-          gap: 0.5,
-          p: 3,
-          pt: 0,
-        }}
-      >
-        {moodOptions.map((emoji) => (
-          <Emoji
-            mutationUrl={mutationUrl}
-            defaultData={data?.[0]}
-            key={emoji}
-            emoji={emoji}
-          />
-        ))}
-      </Box>
+      {dayjs().hour() >= 13 ? (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mt: 0.5,
+            mb: -1,
+            gap: 0.5,
+            p: 3,
+            pt: 0,
+          }}
+        >
+          {moodOptions.map((emoji) => (
+            <Emoji
+              mutationUrl={mutationUrl}
+              defaultData={data?.[0]}
+              key={emoji}
+              emoji={emoji}
+            />
+          ))}
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            px: 3,
+            pb: 3,
+          }}
+        >
+          <Typography variant="body2" sx={{ opacity: 0.7 }}>
+            <i>
+              You can reflect on your day {dayjs().set("hour", 13).fromNow()}
+            </i>
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 }

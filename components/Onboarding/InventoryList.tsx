@@ -13,6 +13,20 @@ import toast from "react-hot-toast";
  */
 export function InventoryList({ data }: { data: Array<any> }) {
   const [inventory, setInventory] = React.useState<any>([]);
+
+  const handleClick = (item) => {
+    setInventory([...inventory, item.name]);
+    fetchRawApi("property/inventory/items/create", {
+      name: item.name,
+      qty: "1",
+      category: JSON.stringify([]),
+      lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      room: item.room,
+    }).then(() => {
+      toast.success("Added to inventory!", toastStyles);
+    });
+  };
+
   return (
     <Box>
       {data.map((item) => (
@@ -25,18 +39,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
               pointerEvents: "none",
             }),
           }}
-          onClick={() => {
-            setInventory([...inventory, item.name]);
-            fetchRawApi("property/inventory/items/create", {
-              name: item.name,
-              qty: "1",
-              category: JSON.stringify([]),
-              lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-              room: item.room,
-            }).then(() => {
-              toast.success("Added to inventory!", toastStyles);
-            });
-          }}
+          onClick={() => handleClick(item)}
         >
           <ListItemIcon>
             <span

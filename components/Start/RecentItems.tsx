@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { Twemoji } from "react-emoji-render";
-import { CreateTask } from "../Boards/Board/Column/Task/Create";
-import { TaskDrawer } from "../Boards/Board/Column/Task/TaskDrawer";
+import { CreateTask } from "../Tasks/Task/Create";
+import { TaskDrawer } from "../Tasks/Task/TaskDrawer";
 
 export function RecentItems() {
   const trigger = useMediaQuery("(min-width: 600px)");
@@ -27,6 +27,11 @@ export function RecentItems() {
   });
 
   const session = useSession();
+
+  const handleClick = () => {
+    const e: any = document.querySelector("#createTask");
+    e.click();
+  };
 
   return (
     <>
@@ -75,14 +80,7 @@ export function RecentItems() {
       >
         Recently edited
         <Tooltip title="Create a task" placement="left">
-          <IconButton
-            size="small"
-            sx={{ ml: "auto" }}
-            onClick={() => {
-              const e: any = document.querySelector("#createTask");
-              e.click();
-            }}
-          >
+          <IconButton size="small" sx={{ ml: "auto" }} onClick={handleClick}>
             <Icon>add</Icon>
           </IconButton>
         </Tooltip>
@@ -147,6 +145,7 @@ export function RecentItems() {
                   width: "100%",
                   flex: { xs: "0 0 90%", sm: "0 0 20%" },
                   borderRadius: 5,
+                  "& *": { transition: "none" },
                 }}
               >
                 <CardActionArea sx={{ height: "100%" }}>

@@ -78,8 +78,6 @@ export default async function handler(req: any, res: any) {
       console.error("Could not parse JSON");
     }
 
-    console.log(response);
-
     res.status(200).json({
       prompt,
       response,
