@@ -34,7 +34,7 @@ export default function Dashboard() {
     <TasksLayout open={open} setOpen={setOpen}>
       <Box>
         <Head>
-          <title>Backlog</title>
+          <title>Upcoming</title>
         </Head>
         <IconButton
           size="large"
