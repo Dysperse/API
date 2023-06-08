@@ -306,7 +306,7 @@ export default function History() {
                     backdropFilter: "blur(10px)",
                   }}
                 >
-                  <TableCell sx={{ background: "transparent" }}></TableCell>
+                  <TableCell sx={{ background: "transparent" }} />
                   <TableCell sx={{ background: "transparent" }}>
                     When?
                   </TableCell>
