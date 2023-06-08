@@ -203,8 +203,10 @@ export default function Page() {
     textAlign: "center",
     width: { sm: "auto" },
     px: 2,
+    py: 2,
     borderRadius: "20px",
     "& h6": {
+      mt: -1,
       fontSize: 27,
       fontWeight: 900,
     },

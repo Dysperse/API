@@ -164,7 +164,7 @@ export function Agenda({
         sx={{
           position: "fixed",
           bottom: {
-            xs: "65px",
+            xs: "70px",
             md: "30px",
           },
           opacity: trigger ? 0 : 1,

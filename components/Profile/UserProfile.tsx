@@ -90,7 +90,6 @@ export function UserProfile({
           alignItems: "center",
           justifyContent: { xs: "center", sm: "flex-start" },
           flexWrap: "wrap",
-          mt: 2.5,
         }}
       >
         <Chip
