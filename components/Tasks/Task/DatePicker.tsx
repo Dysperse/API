@@ -38,7 +38,7 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
           },
         }}
       >
-        <Puller sx={{ mb: -1 }} />
+        <Puller sx={{ mb: -1 }} showOnDesktop />
         <DatePicker
           value={new Date(date)}
           onChange={(e: any) => {
