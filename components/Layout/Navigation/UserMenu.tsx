@@ -3,7 +3,6 @@ import { useBackButton } from "@/lib/client/useBackButton";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
-  Alert,
   Badge,
   Box,
   Button,
@@ -83,16 +82,16 @@ function PropertyButton({ group }) {
  * @returns {any}
  */
 export default function InviteButton({ styles }: any) {
+  const session = useSession();
+
   const [open, setOpen] = React.useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [view, setView] = useState(0);
+  const { data, loading, url, fetcher, error } = useApi("user/properties");
+
+  const handleClose = () => setAnchorEl(null);
   const router = useRouter();
-
   useBackButton(() => setOpen(false));
-
-  useHotkeys(["ctrl+comma"], (e) => {
-    e.preventDefault();
-    router.push("/settings/account");
-    handleClose();
-  });
 
   useHotkeys(
     "ctrl+p",
@@ -119,10 +118,6 @@ export default function InviteButton({ styles }: any) {
     [open]
   );
 
-  const session = useSession();
-
-  const { data, loading, url, fetcher, error } = useApi("user/properties");
-
   const properties = [...session.properties, ...(data || [])]
     .filter((group) => group)
     .reduce((acc, curr) => {
@@ -131,9 +126,15 @@ export default function InviteButton({ styles }: any) {
       }
       return acc;
     }, []);
+
   preload(url, fetcher);
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  useHotkeys(["ctrl+comma"], (e) => {
+    e.preventDefault();
+    router.push("/settings/account");
+    handleClose();
+  });
+
   const handleClick = (e) => {
     e.stopPropagation();
     if (!loading) {
@@ -141,9 +142,6 @@ export default function InviteButton({ styles }: any) {
       vibrate(50);
     }
   };
-  const handleClose = () => setAnchorEl(null);
-  const [view, setView] = useState(0);
-
   return (
     <>
       <Menu
@@ -289,11 +287,6 @@ export default function InviteButton({ styles }: any) {
               <Typography variant="h6">
                 Invitations ({properties.filter((p) => !p.accepted).length})
               </Typography>
-              {properties.filter((p) => !p.accepted).length == 0 && (
-                <Alert severity="info">
-                  Groups you&apos;ve been invited to will appear here.
-                </Alert>
-              )}
             </Box>
             {properties
               .filter((p) => !p.accepted)
