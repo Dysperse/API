@@ -62,7 +62,6 @@ export function CreateTask({
   defaultDate = false,
   parent = false,
   mutationUrl = "",
-  handleMutate = () => {},
   boardId,
   column,
 }: any) {
