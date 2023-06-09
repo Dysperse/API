@@ -32,6 +32,44 @@ import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./Snooze";
 import { parseEmojis } from "./TaskDrawer";
 
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+const videoChatPlatforms = [
+  "zoom.us",
+  "meet.google.com",
+  "teams.microsoft.com",
+  "skype.com",
+  "appear.in",
+  "gotomeeting.com",
+  "webex.com",
+  "hangouts.google.com",
+  "jitsi.org",
+  "whereby.com",
+  "discord.com",
+  "vsee.com",
+  "bluejeans.com",
+  "join.me",
+  "appear.in",
+  "tokbox.com",
+  "wire.com",
+  "talky.io",
+  "ooVoo.com",
+  "fuze.com",
+  "amazonchime.com",
+  "viber.com",
+  "slack.com",
+];
+
 export default function DrawerContent({
   handleDelete,
   handleMutate,
@@ -415,13 +453,40 @@ export default function DrawerContent({
           InputProps={{
             disableUnderline: true,
             sx: {
-              borderRadius: 5,
+              py: 1,
+              mb: 1,
+              borderBottom: "1px solid",
+              borderColor: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
             },
             startAdornment: (
               <InputAdornment position="start">
                 <Icon className="outlined">location_on</Icon>
               </InputAdornment>
             ),
+            ...(isValidHttpUrl(data.where) && {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => window.open(data.where)}
+                  >
+                    <Icon>
+                      {videoChatPlatforms.find((platform) =>
+                        data.where.includes(platform)
+                      )
+                        ? "call"
+                        : "link"}
+                    </Icon>
+                    {videoChatPlatforms.find((platform) =>
+                      data.where.includes(platform)
+                    )
+                      ? "Call"
+                      : "Open"}
+                  </Button>
+                </InputAdornment>
+              ),
+            }),
           }}
         />
         {/* Description */}
@@ -447,6 +512,11 @@ export default function DrawerContent({
             sx: {
               borderRadius: 5,
             },
+            startAdornment: (
+              <InputAdornment position="start">
+                <Icon className="outlined">sticky_note_2</Icon>
+              </InputAdornment>
+            ),
           }}
         />
         <Dialog
