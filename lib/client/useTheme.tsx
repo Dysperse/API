@@ -369,12 +369,16 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiChip: {
         styleOverrides: {
-          root: {
-            boxShadow: "none!important",
-            ...(darkMode && {
-              background: "hsla(240, 11%, 70%, .2)",
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              boxShadow: "none!important",
+              background: palette[3],
+              borderColor: palette[4],
+              "&:hover": {
+                background: palette[4],
+                borderColor: palette[5],
+              },
             }),
-          },
         },
       },
       MuiDrawer: {

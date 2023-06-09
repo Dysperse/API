@@ -1,4 +1,5 @@
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { Box, Button, Skeleton, Typography } from "@mui/material";
 import dayjs from "dayjs";
@@ -81,6 +82,7 @@ export function Routines({ isCoach = false }: any) {
     });
 
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Box
@@ -97,9 +99,7 @@ export function Routines({ isCoach = false }: any) {
             width: "100%",
             display: { xs: "none!important", sm: "block!important" },
             height: 25,
-            background: `linear-gradient(180deg, hsl(240,11%,${
-              session.user.darkMode ? 15 : 95
-            }%), transparent)`,
+            background: `linear-gradient(180deg, ${palette[3]}, transparent)`,
             zIndex: 999,
             position: "sticky",
             top: 0,
@@ -113,9 +113,7 @@ export function Routines({ isCoach = false }: any) {
             width: "100%",
             display: { xs: "none!important", sm: "block!important" },
             height: 25,
-            background: `linear-gradient(180deg, transparent, hsl(240,11%,${
-              session.user.darkMode ? 15 : 95
-            }%))`,
+            background: `linear-gradient(transparent, ${palette[3]})`,
             zIndex: 999,
             position: "sticky",
             top: "calc(100% - 25px)",

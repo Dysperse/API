@@ -1,4 +1,5 @@
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -56,6 +57,7 @@ export function MyGoals(): JSX.Element {
       ),
     [data, deferredQuery]
   );
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const children = data ? (
     <>
@@ -76,10 +78,7 @@ export function MyGoals(): JSX.Element {
             sx: {
               userSelect: "none",
               borderRadius: 2,
-              background: {
-                xs: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
-                sm: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
-              },
+              background: palette[2],
               px: 3,
               py: 1,
               mb: 2,

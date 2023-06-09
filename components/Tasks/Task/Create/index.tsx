@@ -6,7 +6,6 @@ import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
-import { colors } from "@/lib/colors";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
@@ -244,8 +243,7 @@ export function CreateTask({
       mr: 1,
       fontWeight: 600,
       ...(condition && {
-        background:
-          colors[session?.themeColor || "grey"]["A200"] + "!important",
+        background: palette[4] + "!important",
         color: "#000 !important",
         "& *": {
           color: "#000 !important",

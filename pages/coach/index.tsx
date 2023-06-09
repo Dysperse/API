@@ -2,6 +2,7 @@ import { MyGoals } from "@/components/Coach/MyGoals";
 import { Routines } from "@/components/Coach/Routines";
 import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -38,13 +39,14 @@ export default function Render() {
 
   const useStreakStyles = data?.streakCount > 1 && !isStreakBroken;
 
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <Box
       sx={{
         ml: { md: -1 },
         pb: { xs: 15, sm: 0 },
         pt: "env(titlebar-area-height, 0px)",
-        background: { md: `hsl(240,11%,${session.user.darkMode ? 12 : 100}%)` },
       }}
     >
       <Head>
@@ -59,9 +61,6 @@ export default function Render() {
             xs: "auto",
             md: "calc(100vh - env(titlebar-area-height, 0px))",
           },
-          background: {
-            md: `hsl(240,11%,${session.user.darkMode ? 12 : 100}%)`,
-          },
           p: { xs: 0, sm: 2 },
           gap: { md: 2 },
         }}
@@ -69,7 +68,7 @@ export default function Render() {
         <Box
           sx={{
             background: {
-              md: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+              md: palette[3],
             },
             flex: { xs: "0 0 auto", md: "0 0 400px" },
             overflow: "scroll",
@@ -110,9 +109,7 @@ export default function Render() {
                         xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
                         sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
                       }
-                  : session.user.darkMode
-                  ? "hsla(240,11%,50%,0.2)"
-                  : "hsl(240,11%,90%,0.5)",
+                  : palette[4],
                 p: 3,
                 py: 6,
                 borderRadius: { xs: 5, sm: 0 },
@@ -280,7 +277,7 @@ export default function Render() {
         <Box
           sx={{
             background: {
-              md: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+              md: palette[3],
             },
             overflow: "scroll",
             width: "100%",
@@ -305,7 +302,7 @@ export default function Render() {
           <Box
             sx={{
               background: {
-                md: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+                md: palette[3],
               },
               overflow: "scroll",
               p: { md: 2 },

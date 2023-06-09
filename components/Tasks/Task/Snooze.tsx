@@ -1,5 +1,5 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import {
   Box,
   Button,
@@ -14,6 +14,7 @@ import { Puller } from "../../Puller";
 
 export function RescheduleModal({ data, children, handlePostpone }) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const [value, setValue] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
@@ -92,17 +93,7 @@ export function RescheduleModal({ data, children, handlePostpone }) {
             "& .MuiMenuItem-root": {
               gap: 2,
               "&:focus-visible, &:hover": {
-                background: session.user.darkMode
-                  ? "hsl(240,11%,30%)"
-                  : "rgba(200,200,200,.3)",
-                color: session.user.darkMode
-                  ? colors[session?.themeColor || "grey"][100]
-                  : "#000",
-                "& .MuiSvgIcon-root": {
-                  color: session.user.darkMode
-                    ? colors[session?.themeColor || "grey"][200]
-                    : colors[session?.themeColor || "grey"][800],
-                },
+                background: palette[2],
               },
               padding: "8.5px 12px",
               minHeight: 0,
@@ -110,11 +101,10 @@ export function RescheduleModal({ data, children, handlePostpone }) {
               marginBottom: "1px",
               "& .MuiSvgIcon-root": {
                 fontSize: 25,
-                color: colors[session?.themeColor || "grey"][700],
                 marginRight: 1.9,
               },
               "&:active": {
-                background: session.user.darkMode ? "hsl(240,11%,35%)" : "#eee",
+                background: palette[3],
               },
             },
           },

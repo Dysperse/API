@@ -22,7 +22,7 @@ function ThemeColorSettings() {
     <Box>
       <ListSubheader>Theme color</ListSubheader>
       {[
-        "lime",
+        "crimson",
         "red",
         "green",
         "blue",

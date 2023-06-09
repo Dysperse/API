@@ -1,5 +1,6 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { Box, colors, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { mutate } from "swr";
 import { moodOptions } from "..";
@@ -16,6 +17,8 @@ export function Overview({ data, url, error }) {
     : data?.length < 4
     ? [1, 7, 3, 6, 7, 8, 2, 5, 4, 7, 6, 4, 3]
     : defaultMood;
+
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -103,14 +106,14 @@ export function Overview({ data, url, error }) {
                 <SparklinesLine
                   style={{
                     strokeWidth: 4,
-                    stroke: colors[session?.themeColor || "grey"]["A700"],
+                    stroke: palette[9],
                     fill: "none",
                   }}
                 />
                 <SparklinesSpots
                   size={4}
                   style={{
-                    stroke: colors[session?.themeColor || "grey"]["A400"],
+                    stroke: palette[8],
                     strokeWidth: 3,
                     fill: session.user.darkMode ? "hsl(240,11%,15%)" : "white",
                   }}
@@ -149,14 +152,14 @@ export function Overview({ data, url, error }) {
                 <SparklinesLine
                   style={{
                     strokeWidth: 4,
-                    stroke: colors[session?.themeColor || "grey"]["A700"],
+                    stroke: palette[9],
                     fill: "none",
                   }}
                 />
                 <SparklinesSpots
                   size={4}
                   style={{
-                    stroke: colors[session?.themeColor || "grey"]["A400"],
+                    stroke: palette[8],
                     strokeWidth: 3,
                     fill: session.user.darkMode ? "hsl(240,11%,15%)" : "white",
                   }}

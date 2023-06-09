@@ -1,4 +1,5 @@
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -19,6 +20,7 @@ import { TrophyModal } from "./TrophyModal";
 export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   useBackButton(() => setOpen(false));
 
@@ -46,10 +48,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           height: 120,
           borderRadius: 5,
           "&:hover": {
-            background: {
-              xs: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
-              sm: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
-            },
+            background: palette[5],
           },
           "&:active": {
             transform: "scale(.98)",
@@ -59,7 +58,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           transition: "transform .2s!important",
           px: 3,
           background: {
-            sm: session.user.darkMode ? "hsl(240,11%,13%)" : "hsl(240,11%,90%)",
+            sm: palette[4],
           },
           borderBottom: {
             xs: session.user.darkMode
@@ -169,10 +168,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           <Puller />
           <Box
             sx={{
-              background: `linear-gradient(45deg, ${
-                colors[session?.themeColor || "grey"]["A400"]
-              }, ${colors[session?.themeColor || "grey"]["A100"]})`,
-              color: colors[session?.themeColor || "grey"][50],
+              background: `linear-gradient(45deg, ${palette[9]}, ${palette[12]})`,
               p: { xs: 3, sm: 5 },
               position: "relative",
               pt: { xs: 15 },
