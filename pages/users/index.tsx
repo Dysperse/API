@@ -1,7 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { Masonry } from "@mui/lab";
 import {
   Alert,
@@ -28,6 +28,9 @@ import { useRouter } from "next/router";
 import { mutate } from "swr";
 
 function ProfilePicture({ src, name, color, size }) {
+  const session = useSession();
+  const palette = useColor(color, session.user.darkMode);
+
   return (
     <Avatar
       src={src}
@@ -37,9 +40,7 @@ function ProfilePicture({ src, name, color, size }) {
         fontSize: size / 2.5,
         mb: 1,
         textTransform: "uppercase",
-        background: `linear-gradient(${colors[color || "grey"][200]} 30%, ${
-          colors[color || "grey"][300]
-        })`,
+        background: `linear-gradient(${palette[9]} 30%, ${palette[6]})`,
       }}
     >
       {name.trim().charAt(0)}
@@ -189,10 +190,67 @@ function Friend({ friend }) {
     </Card>
   );
 }
+function BirthdayCard({ person }) {
+  const today = dayjs();
+  const session = useSession();
+
+  const router = useRouter();
+  const nextBirthday = dayjs(person.Profile.birthday).year(today.year());
+  const daysUntilNextBirthday =
+    nextBirthday.diff(today, "day") >= 0
+      ? nextBirthday.diff(today, "day")
+      : nextBirthday.add(1, "year").diff(today, "day");
+  const palette = useColor(person.color, session.user.darkMode);
+
+  return (
+    <Card
+      key={person.email}
+      sx={{
+        flex: "0 0 300px",
+      }}
+    >
+      <CardActionArea
+        onClick={() => router.push(`/users/${person.email}`)}
+        sx={{
+          background: `linear-gradient(45deg, ${palette[6]}, ${palette[9]})`,
+          color: palette[1],
+          borderRadius: 5,
+          display: "flex",
+          gap: 2,
+          justifyContent: "start",
+          p: 2,
+        }}
+      >
+        <ProfilePicture
+          color={person.color}
+          name={person.name}
+          src={person.Profile?.picture}
+          size={50}
+        />
+        <Box
+          sx={{
+            minWidth: 0,
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+            }}
+          >
+            {person.name}
+          </Typography>
+          <Typography>In {daysUntilNextBirthday} days</Typography>
+        </Box>
+      </CardActionArea>
+    </Card>
+  );
+}
 
 function UpcomingBirthdays({ data }) {
   const today = dayjs();
-  const router = useRouter();
   const session = useSession();
 
   const todayYear = today.year();
@@ -229,71 +287,9 @@ function UpcomingBirthdays({ data }) {
       }}
     >
       {birthdays &&
-        birthdays.map((person) => {
-          const nextBirthday = dayjs(person.Profile.birthday).year(
-            today.year()
-          );
-          const daysUntilNextBirthday =
-            nextBirthday.diff(today, "day") >= 0
-              ? nextBirthday.diff(today, "day")
-              : nextBirthday.add(1, "year").diff(today, "day");
-
-          return (
-            <Card
-              key={person.email}
-              sx={{
-                flex: "0 0 300px",
-              }}
-            >
-              <CardActionArea
-                onClick={() => router.push(`/users/${person.email}`)}
-                sx={{
-                  background: `linear-gradient(45deg, ${
-                    colors[person.color || "grey"][
-                      session.user.darkMode ? 800 : 200
-                    ]
-                  }, ${
-                    colors[person.color || "grey"][
-                      session.user.darkMode ? 900 : 100
-                    ]
-                  })`,
-                  color: session.user.darkMode
-                    ? colors[person.color][50]
-                    : "#000",
-                  borderRadius: 5,
-                  display: "flex",
-                  gap: 2,
-                  justifyContent: "start",
-                  p: 2,
-                }}
-              >
-                <ProfilePicture
-                  color={person.color}
-                  name={person.name}
-                  src={person.Profile?.picture}
-                  size={50}
-                />
-                <Box
-                  sx={{
-                    minWidth: 0,
-                  }}
-                >
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {person.name}
-                  </Typography>
-                  <Typography>In {daysUntilNextBirthday} days</Typography>
-                </Box>
-              </CardActionArea>
-            </Card>
-          );
-        })}
+        birthdays.map((person) => (
+          <BirthdayCard key={person.email} person={person} />
+        ))}
     </Box>
   );
 }
@@ -307,6 +303,8 @@ export default function Page() {
     email: session.user.email,
     date: dayjs().startOf("day").toISOString(),
   });
+
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Box
@@ -366,9 +364,7 @@ export default function Page() {
                     width: 50,
                     fontSize: 20,
                     textTransform: "uppercase",
-                    background: `linear-gradient(${
-                      colors[session.themeColor][200]
-                    } 30%, ${colors[session.themeColor][300]})`,
+                    background: `linear-gradient(${palette[9]} 30%, ${palette[6]})`,
                   }}
                 >
                   {data.user.name.trim().charAt(0)}
