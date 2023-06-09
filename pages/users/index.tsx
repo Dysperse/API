@@ -96,6 +96,10 @@ function Friend({ friend }) {
           xs: `transparent`,
           sm: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
         },
+        borderBottom: {
+          xs: `1px solid hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+          sm: "",
+        },
         "&:hover": {
           background: {
             xs: `transparent`,
