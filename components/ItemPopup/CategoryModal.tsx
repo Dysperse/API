@@ -213,9 +213,6 @@ export default function CategoryModal({
         label="Add category"
         icon={<Icon>add</Icon>}
         onClick={() => setOpen(true)}
-        sx={{
-          mr: 1,
-        }}
       />
     </>
   );
