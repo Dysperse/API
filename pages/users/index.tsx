@@ -9,6 +9,7 @@ import {
   Avatar,
   Box,
   Card,
+  CardActionArea,
   CardContent,
   Chip,
   CircularProgress,
@@ -25,6 +26,29 @@ import {
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
+
+function ProfilePicture({ src, name, color, size }) {
+  return (
+    <Avatar
+      src={src}
+      sx={{
+        height: size,
+        width: size,
+        fontSize: size / 2.5,
+        mb: 1,
+        textTransform: "uppercase",
+        background: `linear-gradient(${colors[color || "grey"][200]} 30%, ${
+          colors[color || "grey"][300]
+        })`,
+      }}
+    >
+      {name.trim().charAt(0)}
+      {name.trim().includes(" ")
+        ? name.split(" ")[1].charAt(0)
+        : name.charAt(1)}
+    </Avatar>
+  );
+}
 
 function shuffle<T>(array: T[]): T[] {
   const length = array.length;
@@ -117,24 +141,12 @@ function Friend({ friend }) {
     >
       <CardContent sx={{ display: "flex" }}>
         <Box sx={{ flexGrow: 1 }}>
-          <Avatar
+          <ProfilePicture
+            size={50}
             src={friend?.following?.Profile?.picture}
-            sx={{
-              height: 50,
-              width: 50,
-              fontSize: 20,
-              mb: 1,
-              textTransform: "uppercase",
-              background: `linear-gradient(${
-                colors[friend?.following?.color || "grey"][200]
-              } 30%, ${colors[friend?.following?.color || "grey"][300]})`,
-            }}
-          >
-            {friend.following.name.trim().charAt(0)}
-            {friend.following.name.includes(" ")
-              ? friend.following.name.split(" ")[1].charAt(0)
-              : friend.following.name.charAt(1)}
-          </Avatar>
+            name={friend.following.name}
+            color={friend?.following?.color}
+          />
           <Typography variant="h6">{friend?.following?.name}</Typography>
           <Typography variant="body2">{friend?.following?.email}</Typography>
           {lastLoggedIn && (
@@ -175,6 +187,78 @@ function Friend({ friend }) {
         </Box>
       </CardContent>
     </Card>
+  );
+}
+
+function UpcomingBirthdays({ data }) {
+  const today = dayjs();
+  const router = useRouter();
+
+  const birthdays = data?.friends
+    ?.filter((data) => Boolean(data?.following?.Profile?.birthday))
+    .map((person) => person.following)
+    .sort((a, b) => {
+      const dateA = a.Profile.birthday;
+      const dateB = b.Profile.birthday;
+
+      if (dateA < dateB) {
+        return -1;
+      } else if (dateA > dateB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        gap: 2,
+        overflowX: "scroll",
+      }}
+    >
+      {birthdays.map((person) => {
+        const nextBirthday = dayjs(person.Profile.birthday).year(today.year());
+        const daysUntilNextBirthday =
+          nextBirthday.diff(today, "day") >= 0
+            ? nextBirthday.diff(today, "day")
+            : nextBirthday.add(1, "year").diff(today, "day");
+
+        return (
+          <Card
+            key={person.email}
+            sx={{
+              flex: "0 0 300px",
+            }}
+          >
+            <CardActionArea
+              onClick={() => router.push(`/users/${person.email}`)}
+              sx={{
+                background: colors[person.color || "grey"]["500"],
+                color: "#000",
+                borderRadius: 5,
+                display: "flex",
+                gap: 2,
+                justifyContent: "start",
+                p: 2,
+              }}
+            >
+              <ProfilePicture
+                color={person.color}
+                name={person.name}
+                src={person.Profile?.picture}
+                size={50}
+              />
+              <Box>
+                <Typography variant="h5">{person.name}</Typography>
+                <Typography>In {daysUntilNextBirthday} days</Typography>
+              </Box>
+            </CardActionArea>
+          </Card>
+        );
+      })}
+    </Box>
   );
 }
 
@@ -227,52 +311,73 @@ export default function Page() {
         <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
           My profile
         </Typography>
-        {data ? (
-          <>
-            <ListItemButton
-              sx={{ borderRadius: { xs: 0, sm: 3 } }}
-              onClick={() => router.push(`/users/${session.user.email}`)}
-            >
-              <Avatar
-                src={data.user?.Profile?.picture}
+        <Box sx={{ px: { sm: 2 } }}>
+          {data ? (
+            <>
+              <ListItemButton
                 sx={{
-                  height: 50,
-                  width: 50,
-                  fontSize: 20,
-                  textTransform: "uppercase",
-                  background: `linear-gradient(${
-                    colors[session.themeColor][200]
-                  } 30%, ${colors[session.themeColor][300]})`,
+                  borderRadius: { xs: 0, sm: 3 },
+                  background: `hsl(240,11%,${
+                    session.user.darkMode ? 15 : 95
+                  }%)`,
                 }}
+                onClick={() => router.push(`/users/${session.user.email}`)}
               >
-                {data.user.name.trim().charAt(0)}
-                {data.user.name.includes(" ")
-                  ? data.user.name.split(" ")[1].charAt(0)
-                  : data.user.name.charAt(1)}
-              </Avatar>
-              <ListItemText
-                primary={session.user.name}
-                secondary={session.user.email}
-              />
-              <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-            </ListItemButton>
-          </>
-        ) : error ? (
-          <ErrorHandler
-            callback={() => mutate(url)}
-            error="Oh no! We couldn't get your friends! Please try again later"
-          />
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              height: "100vh",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress />
+                <Avatar
+                  src={data.user?.Profile?.picture}
+                  sx={{
+                    height: 50,
+                    width: 50,
+                    fontSize: 20,
+                    textTransform: "uppercase",
+                    background: `linear-gradient(${
+                      colors[session.themeColor][200]
+                    } 30%, ${colors[session.themeColor][300]})`,
+                  }}
+                >
+                  {data.user.name.trim().charAt(0)}
+                  {data.user.name.includes(" ")
+                    ? data.user.name.split(" ")[1].charAt(0)
+                    : data.user.name.charAt(1)}
+                </Avatar>
+                <ListItemText
+                  primary={session.user.name}
+                  secondary={session.user.email}
+                />
+                <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+              </ListItemButton>
+            </>
+          ) : error ? (
+            <ErrorHandler
+              callback={() => mutate(url)}
+              error="Oh no! We couldn't get your friends! Please try again later"
+            />
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                height: "100vh",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+        </Box>
+        <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
+          Upcoming birthdays
+        </Typography>
+        <Box sx={{ px: 2 }}>
+          <UpcomingBirthdays data={data} />
+        </Box>
+        {data && data.friends.length == 0 && (
+          <Box sx={{ px: 2 }}>
+            <Alert severity="info">
+              You aren&apos;t following anyone yet. Follow someone to view their
+              availability
+            </Alert>
           </Box>
         )}
         <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
@@ -286,14 +391,16 @@ export default function Page() {
             </Alert>
           </Box>
         )}
-        <Box sx={{ mr: isMobile ? 0 : -2 }}>
-          <Masonry columns={{ xs: 1, sm: 3 }} spacing={isMobile ? 0 : 2}>
-            {data &&
-              data.friends &&
-              shuffle(data.friends).map((friend, index) => (
-                <Friend friend={friend} key={index} />
-              ))}
-          </Masonry>
+        <Box sx={{ px: { sm: 2 } }}>
+          <Box sx={{ mr: isMobile ? 0 : -2 }}>
+            <Masonry columns={{ xs: 1, sm: 3 }} spacing={isMobile ? 0 : 2}>
+              {data &&
+                data.friends &&
+                shuffle(data.friends).map((friend, index) => (
+                  <Friend friend={friend} key={index} />
+                ))}
+            </Masonry>
+          </Box>
         </Box>
       </Container>
     </Box>
