@@ -195,21 +195,29 @@ function UpcomingBirthdays({ data }) {
   const router = useRouter();
   const session = useSession();
 
-  const birthdays = data?.friends
-    ?.filter((data) => Boolean(data?.following?.Profile?.birthday))
-    .map((person) => person.following)
+  const todayYear = today.year();
+  const birthdays = (data?.friends || [])
+    .filter((person) => person?.following?.Profile?.birthday)
     .sort((a, b) => {
-      const dateA = a.Profile.birthday;
-      const dateB = b.Profile.birthday;
+      const dateA = a.following.Profile.birthday;
+      const dateB = b.following.Profile.birthday;
 
-      if (dateA < dateB) {
-        return -1;
-      } else if (dateA > dateB) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+      const nextBirthdayA = dayjs(dateA).year(todayYear);
+      const nextBirthdayB = dayjs(dateB).year(todayYear);
+
+      const days1 =
+        nextBirthdayA.diff(today, "day") >= 0
+          ? nextBirthdayA.diff(today, "day")
+          : nextBirthdayA.add(1, "year").diff(today, "day");
+
+      const days2 =
+        nextBirthdayB.diff(today, "day") >= 0
+          ? nextBirthdayB.diff(today, "day")
+          : nextBirthdayB.add(1, "year").diff(today, "day");
+
+      return days1 < days2 ? -1 : days1 > days2 ? 1 : 0;
+    })
+    .map((person) => person.following);
 
   return (
     <Box
@@ -217,6 +225,7 @@ function UpcomingBirthdays({ data }) {
         display: "flex",
         gap: 2,
         overflowX: "scroll",
+        px: { xs: 2 },
       }}
     >
       {birthdays &&
@@ -243,7 +252,9 @@ function UpcomingBirthdays({ data }) {
                     colors[person.color || "grey"][
                       session.user.darkMode ? 900 : 100
                     ],
-                  color: "#000",
+                  color: session.user.darkMode
+                    ? colors[person.color][50]
+                    : "#000",
                   borderRadius: 5,
                   display: "flex",
                   gap: 2,
@@ -257,8 +268,21 @@ function UpcomingBirthdays({ data }) {
                   src={person.Profile?.picture}
                   size={50}
                 />
-                <Box>
-                  <Typography variant="h5">{person.name}</Typography>
+                <Box
+                  sx={{
+                    minWidth: 0,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {person.name}
+                  </Typography>
                   <Typography>In {daysUntilNextBirthday} days</Typography>
                 </Box>
               </CardActionArea>
@@ -324,9 +348,9 @@ export default function Page() {
               <ListItemButton
                 sx={{
                   borderRadius: { xs: 0, sm: 3 },
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 15 : 95
-                  }%)`,
+                  background: {
+                    sm: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+                  },
                 }}
                 onClick={() => router.push(`/users/${session.user.email}`)}
               >
@@ -376,9 +400,7 @@ export default function Page() {
         <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
           Upcoming birthdays
         </Typography>
-        <Box sx={{ px: 2 }}>
-          <UpcomingBirthdays data={data} />
-        </Box>
+        <UpcomingBirthdays data={data} />
         {data && data.friends.length == 0 && (
           <Box sx={{ px: 2 }}>
             <Alert severity="info">
