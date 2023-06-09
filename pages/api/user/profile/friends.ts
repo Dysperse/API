@@ -25,6 +25,7 @@ export default async function handler(req, res) {
         follower: {
           select: {
             name: true,
+            email: true,
             color: true,
             CoachData: {
               select: {

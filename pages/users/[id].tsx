@@ -240,7 +240,7 @@ function Page() {
         </Toolbar>
       </AppBar>
       <Container sx={{ my: 5 }}>
-        {(error || data.error) && (
+        {(error || data?.error) && (
           <ErrorHandler
             callback={() => mutate(url)}
             error="On no! We couldn't find the user you were looking for."
