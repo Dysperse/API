@@ -151,11 +151,17 @@ function Friend({ friend }) {
               label={isWorking ? "Working" : "Out of work"}
               icon={<Icon>{isWorking ? "business" : "dark_mode"}</Icon>}
             />
-            {taskDueDates && taskDueDates[0] && (
+            {taskDueDates && taskDueDates[0] ? (
               <Chip
                 size="small"
                 label={`Next task ${dayjs(taskDueDates[0]).fromNow()}`}
                 icon={<Icon>check_circle</Icon>}
+              />
+            ) : (
+              <Chip
+                size="small"
+                label="Nothing scheduled!"
+                icon={<Icon>celebration</Icon>}
               />
             )}
           </Box>
