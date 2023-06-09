@@ -197,7 +197,7 @@ export const Column: any = memo(function Column({
           zIndex: 9,
           "&:hover": {
             background: {
-              sm: palette[4],
+              sm: palette[2],
             },
           },
           backdropFilter: "blur(10px)",
