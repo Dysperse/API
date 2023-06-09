@@ -21,6 +21,13 @@ export default async function handler(req, res) {
           email: req.query.email,
         },
       },
+      include: {
+        follower: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
 
     res.json({
