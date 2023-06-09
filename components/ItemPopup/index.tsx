@@ -4,7 +4,6 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import {
   Alert,
   Box,
@@ -50,9 +49,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const inputStyles = {
     "&:hover, &:active, &:focus-within": {
-      background: session.user.darkMode
-        ? "hsl(240, 11%, 20%)"
-        : colors[session?.themeColor || "grey"][50],
+      background: palette[2],
     },
     borderRadius: 2,
     pl: "10px",
@@ -191,17 +188,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       >
         {[capitalizeFirstLetter(itemData.room), ...categories].map(
           (category) => (
-            <Chip
-              label={category}
-              key={category}
-              sx={{
-                background:
-                  (session.user.darkMode
-                    ? "hsl(240,11%,25%)"
-                    : colors[session?.themeColor || "grey"][100]) +
-                  "!important",
-              }}
-            />
+            <Chip label={category} key={category} />
           )
         )}
         <CategoryModal
@@ -230,9 +217,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
           py: 0,
           borderRadius: 5,
           overflow: "hidden",
-          background: session.user.darkMode
-            ? "hsl(240, 11%, 20%)"
-            : colors[session?.themeColor || "grey"][200],
+          background: palette[2],
         }}
       >
         <AddToListModal item={itemData} styles={styles} />
