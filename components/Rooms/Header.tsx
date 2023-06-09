@@ -1,4 +1,5 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -33,15 +34,14 @@ export function Header({
   const router = useRouter();
   const session = useSession();
   const isMobile = useMediaQuery("min-width: 600px");
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <ListItem
       sx={{
         transition: "transform .2s !important",
         overflow: "hidden",
-        background: session.user.darkMode
-          ? "hsl(240,11%,15%, 0.6)!important"
-          : "hsla(240,11%,96%, 0.6)!important",
+        background: palette[2],
         position: "sticky",
         top: { xs: "var(--navbar-height)", sm: "0px" },
         mt: { xs: -2, sm: 0 },

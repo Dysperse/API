@@ -4,6 +4,7 @@ import { CreateRoom } from "@/components/Rooms/items/CreateRoom";
 import { Rooms } from "@/components/Rooms/items/Rooms";
 import { rooms } from "@/components/Rooms/rooms";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
@@ -84,6 +85,8 @@ export default function Inventory({ children = null }: any) {
   const { data } = useApi("property/inventory/count");
   const { data: dataRooms, url, error } = useApi("property/inventory/rooms");
 
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <Box sx={{ display: "flex" }}>
       <Head>
@@ -100,11 +103,7 @@ export default function Inventory({ children = null }: any) {
           height: { md: "100vh" },
           overflowY: { md: "scroll" },
           background: {
-            md: session.user.darkMode
-              ? "hsl(240,11%,7%)"
-              : session.user.darkMode
-              ? "hsl(240,11%,7%)"
-              : "hsl(240,11%,95%)",
+            md: palette[2],
           },
           ml: { md: -1 },
         }}

@@ -1,4 +1,5 @@
 import Item from "@/components/ItemPopup";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -22,6 +23,7 @@ export function ItemCard({
   item: ItemType;
 }) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Item id={item.id as any} mutationUrl={mutationUrl}>
@@ -34,27 +36,14 @@ export function ItemCard({
           maxWidth: "calc(100vw - 32.5px)",
           userSelect: "none",
           borderRadius: 5,
-          color: session.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
-          background: `${
-            session.user.darkMode
-              ? "hsl(240, 11%, 17%)"
-              : "rgba(200,200,200,.3)"
-          }!important`,
+          color: palette[12],
+          background: palette[2],
           "&:hover": {
-            color: session.user.darkMode ? "hsl(240,11%,90%)" : "#000",
-            background: `${
-              session.user.darkMode
-                ? "hsl(240, 11%, 20%)"
-                : "rgba(200,200,200,.4)"
-            }!important`,
+            color: palette[12],
+            background: palette[3],
           },
           "&:active": {
-            color: session.user.darkMode ? "hsl(240,11%,95%)" : "#000",
-            background: `${
-              session.user.darkMode
-                ? "hsl(240, 11%, 23%)"
-                : "rgba(200,200,200,.6)"
-            }!important`,
+            background: palette[4],
           },
           mb: { xs: 2, sm: 0 },
           border: "2px solid transparent",
@@ -116,9 +105,7 @@ export function ItemCard({
                             m: 0.5,
                             ml: 0,
                             color: "inherit",
-                            background: session.user.darkMode
-                              ? "hsla(240,11%,40%,.3)"
-                              : "rgba(200,200,200,.3)",
+                            background: palette[5],
                             textTransform: "capitalize",
                           }}
                         />
