@@ -8,9 +8,9 @@ import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SearchUser } from "@/components/Profile/SearchUser";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -46,6 +46,8 @@ function Page() {
     data.followers &&
     data.followers.find((e) => e.followerId === session.user.email);
 
+  const palette = useColor(data?.color || "gray", session.user.darkMode);
+
   const handleFollowButtonClick = async () => {
     setLoading(true);
     if (isFollowing) {
@@ -78,41 +80,36 @@ function Page() {
     }
   };
 
-  const styles = data &&
-    data?.color && {
-      color: session.user.darkMode
-        ? colors[data?.color || "grey"][50]
-        : "inherit",
-      textAlign: "center",
-      width: { sm: "auto" },
-      px: 2,
-      py: 2,
-      borderRadius: "20px",
-      "& h6": {
-        mt: -1,
-        fontSize: 27,
-        fontWeight: 900,
-      },
-    };
+  const styles = {
+    color: palette[11],
+    textAlign: "center",
+    width: { sm: "auto" },
+    px: 2,
+    py: 2,
+    borderRadius: "20px",
+    "& h6": {
+      mt: -1,
+      fontSize: 27,
+      fontWeight: 900,
+    },
+  };
 
-  const profileCardStyles = data &&
-    data?.color && {
-      border: "1px solid",
-      borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
-      color: `hsl(240,11%, ${session.user.darkMode ? 80 : 20}%)`,
-      boxShadow: `5px 5px 10px hsla(240,11%, ${
-        session.user.darkMode ? 15 : 95
-      }%)`,
-      p: 3,
-      borderRadius: 5,
-      heading: {
-        color:
-          colors[data?.color || "grey"][session.user.darkMode ? "A200" : 600],
-        fontWeight: 600,
-        textTransform: "uppercase",
-        mb: 0.5,
-      },
-    };
+  const profileCardStyles = {
+    border: "1px solid",
+    borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
+    color: `hsl(240,11%, ${session.user.darkMode ? 80 : 20}%)`,
+    boxShadow: `5px 5px 10px hsla(240,11%, ${
+      session.user.darkMode ? 15 : 95
+    }%)`,
+    p: 3,
+    borderRadius: 5,
+    heading: {
+      color: palette[10],
+      fontWeight: 600,
+      textTransform: "uppercase",
+      mb: 0.5,
+    },
+  };
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(data.email);
@@ -153,10 +150,7 @@ function Page() {
             m: 3,
             flexShrink: 0,
             "&, &:hover": {
-              background:
-                colors[data?.color || "grey"][
-                  session.user.darkMode ? 900 : 100
-                ] + "!important",
+              background: palette[4],
             },
           }}
           size="large"
@@ -206,23 +200,17 @@ function Page() {
                   flexShrink: 0,
                   ...(!loading && data && isFollowing
                     ? {
-                        color:
-                          colors[data?.color || "grey"][
-                            session.user.darkMode ? 100 : 900
-                          ] + "!important",
+                        color: palette[12] + "!important",
+                        background: palette[5] + "!important",
                         "&:hover": {
-                          borderColor:
-                            colors[data?.color || "grey"][300] + "!important",
+                          background: palette[6] + "!important",
+                          borderColor: palette[4] + "!important",
                         },
                       }
                     : data && {
                         "&,&:hover": {
-                          background:
-                            colors[data?.color || "grey"][
-                              session.user.darkMode ? 800 : 900
-                            ] + "!important",
-                          color:
-                            colors[data?.color || "grey"][50] + "!important",
+                          background: palette[4] + "!important",
+                          color: palette[12] + "!important",
                         },
                       }),
                 }}
@@ -315,10 +303,7 @@ function Page() {
                         },
                         mt: 1,
                         opacity: 0.6,
-                        color:
-                          colors[data?.color || "grey"][
-                            session.user.darkMode ? 50 : 900
-                          ],
+                        color: palette[11],
                         maxWidth: "100%",
                         overflow: "hidden",
                         textAlign: { xs: "center", sm: "left" },
@@ -359,7 +344,7 @@ function Page() {
                     mb: 2,
                     mt: 1,
                     opacity: 0.7,
-                    color: colors[data?.color || "grey"]["800"],
+                    color: palette[9],
                   }}
                 >
                   <Followers styles={styles} data={data} />

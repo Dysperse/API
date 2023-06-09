@@ -212,7 +212,7 @@ function BirthdayCard({ person }) {
       <CardActionArea
         onClick={() => router.push(`/users/${person.email}`)}
         sx={{
-          background: `linear-gradient(45deg, ${palette[6]}, ${palette[9]})`,
+          background: `linear-gradient(45deg, ${palette[8]}, ${palette[9]})`,
           color: palette[1],
           borderRadius: 5,
           display: "flex",
