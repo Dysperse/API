@@ -248,10 +248,15 @@ function UpcomingBirthdays({ data }) {
               <CardActionArea
                 onClick={() => router.push(`/users/${person.email}`)}
                 sx={{
-                  background:
+                  background: `linear-gradient(45deg, ${
+                    colors[person.color || "grey"][
+                      session.user.darkMode ? 800 : 200
+                    ]
+                  }, ${
                     colors[person.color || "grey"][
                       session.user.darkMode ? 900 : 100
-                    ],
+                    ]
+                  })`,
                   color: session.user.darkMode
                     ? colors[person.color][50]
                     : "#000",
