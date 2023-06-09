@@ -169,7 +169,7 @@ function Page() {
         }}
       >
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
-          <IconButton onClick={() => router.push("/zen")}>
+          <IconButton onClick={() => router.push("/users")}>
             <Icon>west</Icon>
           </IconButton>
           <Typography
