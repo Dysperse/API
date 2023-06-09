@@ -182,7 +182,7 @@ export function Navbar(): JSX.Element {
           onClick={(e) => {
             e.stopPropagation();
             vibrate(50);
-            router.push(`/users/${session.user.email}`);
+            router.push(`/users`);
           }}
           color="inherit"
           sx={{
@@ -195,7 +195,7 @@ export function Navbar(): JSX.Element {
           <Icon
             className={router.pathname.includes("/users/") ? "" : "outlined"}
           >
-            account_circle
+            favorite
           </Icon>
         </IconButton>
         {isMobile && <UserMenu styles={styles} />}
