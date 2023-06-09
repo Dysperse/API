@@ -1,6 +1,5 @@
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 
@@ -45,11 +44,7 @@ export function BottomNav() {
         },
       ...(active && {
         fontWeight: 700,
-        color: `${
-          session.user.darkMode
-            ? "#fff"
-            : colors[session?.themeColor || "grey"][900]
-        }!important`,
+        color: `${palette[10]}!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           ...iconStyles,
           background: palette[3],

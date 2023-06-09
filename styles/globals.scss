@@ -162,9 +162,10 @@ img {
 @supports (backdrop-filter: blur(2px)) {
   .MuiBackdrop-root:not(.override-bg) {
     backdrop-filter: blur(3px);
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.5);
+
     .dark & {
-      background-color: hsla(240, 11%, 10%, 0.4);
+      background-color: var(--overlay-dark);
     }
   }
 }

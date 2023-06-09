@@ -72,6 +72,11 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
     document
       .querySelector(`meta[name="theme-color"]`)
       ?.setAttribute("content", palette[1]);
+
+    document.documentElement.style.setProperty(
+      "--overlay-dark",
+      palette[1].replace(")", ", 0.5)").replace("hsl", "hsla")
+    );
   });
 
   return (
