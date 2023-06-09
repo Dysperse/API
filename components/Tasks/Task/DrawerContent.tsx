@@ -94,18 +94,16 @@ export default function DrawerContent({
       completed = !prev.completed;
       return { ...prev, completed };
     });
-
-    fetchRawApi("property/boards/column/task/edit", {
-      completed: completed ? "true" : "false",
-      id: data.id,
-    })
-      .then(() => {
-        mutate(mutationUrl);
-        handleMutate();
-      })
-      .catch(() =>
-        toast.error("An error occured while updating the task", toastStyles)
-      );
+    try {
+      await fetchRawApi("property/boards/column/task/edit", {
+        completed: completed ? "true" : "false",
+        id: data.id,
+      });
+      mutate(mutationUrl);
+      handleMutate();
+    } catch (e) {
+      toast.error("An error occured while updating the task", toastStyles);
+    }
   }, [data, setTaskData, mutationUrl, handleMutate]);
 
   const handlePostpone: any = useCallback(
@@ -136,10 +134,13 @@ export default function DrawerContent({
   const buttonStyles = {
     transition: "none",
     background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
+    color: `hsl(240,11%,${session.user.darkMode ? 90 : 20}%)`,
     "&:hover": {
+      color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)`,
       background: `hsl(240,11%,${session.user.darkMode ? 25 : 87}%)`,
     },
     "&:active": {
+      color: `hsl(240,11%,${session.user.darkMode ? 100 : 0}%)`,
       background: `hsl(240,11%,${session.user.darkMode ? 25 : 85}%)`,
     },
   };
