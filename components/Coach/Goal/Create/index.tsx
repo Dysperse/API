@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { Box, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
@@ -5,6 +6,7 @@ import { useRouter } from "next/router";
 export function CreateGoal({ isCoach = false }) {
   const router = useRouter();
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -29,11 +31,7 @@ export function CreateGoal({ isCoach = false }) {
           p: 1,
           transition: "transform .2s",
           "&:hover": {
-            background: {
-              sm: `hsl(240, 11%, ${
-                session.user.darkMode ? 15 : isCoach ? 90 : 95
-              }%)`,
-            },
+            background: palette[2],
           },
           "&:active": {
             transform: "scale(.95)",
@@ -49,9 +47,7 @@ export function CreateGoal({ isCoach = false }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: session.user.darkMode
-              ? "hsla(240,11%,50%,0.2)"
-              : "rgba(200,200,200,.2)",
+            background: palette[3],
             position: "relative",
           }}
         >

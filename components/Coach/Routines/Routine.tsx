@@ -1,4 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
@@ -76,6 +77,8 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
 
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const disabled = !JSON.parse(routine.daysOfWeek)[dayjs().day()];
+
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -289,15 +292,7 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
             transition: "transform .2s",
             "&:hover": {
               background: {
-                sm: `hsl(240, 11%, ${
-                  session.user.darkMode
-                    ? isCoach
-                      ? 20
-                      : 15
-                    : isCoach
-                    ? 90
-                    : 95
-                }%)`,
+                sm: palette[2],
               },
             },
             "&:active": {
@@ -314,24 +309,18 @@ export function Routine({ isCoach = false, mutationUrl, routine }) {
               flexShrink: 0,
               alignItems: "center",
               justifyContent: "center",
-              background: session.user.darkMode
-                ? "hsla(240,11%,50%,0.2)"
-                : "rgba(200,200,200,.2)",
+              background: palette[3],
               border: "2px solid transparent",
               ...(tasksRemaining.length === 0 && {
                 borderColor: lime[session.user.darkMode ? "A400" : 800],
               }),
               ...(data.items.length === 0 && {
                 borderColor: orange[session.user.darkMode ? "A200" : 800],
-                background: session.user.darkMode
-                  ? "hsl(240,11%,10%)"
-                  : orange[isCoach ? 100 : 50],
+                background: orange[isCoach ? 100 : 50],
               }),
               ...(loading && {
                 transition: "border-color .2s",
-                borderColor: session.user.darkMode
-                  ? "hsl(240,11%,30%)"
-                  : "#ccc",
+                borderColor: palette[4],
               }),
               position: "relative",
             }}

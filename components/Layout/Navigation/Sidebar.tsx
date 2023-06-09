@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
@@ -14,6 +15,8 @@ const SearchPopup = dynamic(() => import("./Search"));
 
 export function Sidebar() {
   const router = useRouter();
+  const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
   const [clickCount, setClickCount] = useState(0);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -80,7 +83,6 @@ export function Sidebar() {
     },
     [open]
   );
-  const session = useSession();
   const styles = (active: any = false) => {
     return {
       color: session.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,30%)",
@@ -98,11 +100,7 @@ export function Sidebar() {
         justifyContent: "center",
       },
       "&:hover .material-symbols-outlined": {
-        background: session.user.darkMode
-          ? "hsl(240,11%,14%)"
-          : useOutlinedTheme
-          ? "hsl(240,11%,93%)"
-          : "hsl(240,11%,90%)",
+        background: palette[2],
         color: session.user.darkMode ? "#fff" : "#000",
       },
       "&:focus-visible span": {
@@ -113,11 +111,7 @@ export function Sidebar() {
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: session.user.darkMode
-            ? "hsl(240,11%,17%)"
-            : useOutlinedTheme
-            ? "hsl(240,11%,90%)"
-            : "hsl(240,11%,85%)",
+          background: palette[3],
           color: session.user.darkMode
             ? "hsl(240,11%,95%)"
             : "hsl(240,11%,10%)",
@@ -136,24 +130,12 @@ export function Sidebar() {
         filter: "none!important",
         overflowX: "hidden",
         borderRight: "1px solid",
-        borderColor: {
-          sm: useOutlinedTheme
-            ? session.user.darkMode
-              ? "hsla(240,11%,15%)"
-              : "hsl(240,11%,92%)"
-            : "transparent",
-        },
         borderLeft: "1px solid transparent",
         background: {
-          sm: useOutlinedTheme
-            ? "transparent"
-            : session.user.darkMode
-            ? router.asPath.includes("/coach")
-              ? "hsla(240,11%,12%)"
-              : "hsla(240,11%,5%)"
-            : router.asPath.includes("/coach")
-            ? "hsl(240,11%,100%)"
-            : "hsl(240,11%,93%)",
+          sm: useOutlinedTheme ? "transparent" : palette[1],
+        },
+        borderColor: {
+          sm: useOutlinedTheme ? palette[4] : "transparent",
         },
         height: "100vh",
         backdropFilter: "blur(10px)",

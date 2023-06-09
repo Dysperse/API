@@ -18,6 +18,7 @@
     "@mui/lab": "^5.0.0-alpha.129",
     "@mui/material": "^5.13.0",
     "@prisma/client": "^4.15.0",
+    "@radix-ui/colors": "^0.1.8",
     "@sentry/nextjs": "^7.52.1",
     "@sentry/node": "^7.52.1",
     "@sentry/replay": "^7.52.1",

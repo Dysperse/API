@@ -5,7 +5,6 @@ import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar, Toolbar } from "@mui/material";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Group from "../Group";
@@ -26,8 +25,6 @@ const ReleaseModal = dynamic(() => import("./ReleaseModal"));
  * @returns {any}
  */
 function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
-  const router = useRouter();
-
   // Check if user has reached storage limits
   const { data, error } = useApi("property/storage");
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;

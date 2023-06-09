@@ -1,4 +1,5 @@
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -27,6 +28,7 @@ export function RecentItems() {
   });
 
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const handleClick = () => {
     const e: any = document.querySelector("#createTask");
@@ -139,10 +141,8 @@ export function RecentItems() {
                     transform: "scale(.98)",
                   },
                   scrollSnapAlign: "center",
-                  border: "1px solid",
-                  borderColor: session.user.darkMode
-                    ? "hsl(240, 11%, 20%)"
-                    : "rgba(200, 200, 200, 0.3)",
+                  borderColor: palette[3],
+                  background: palette[2],
                   width: "100%",
                   flex: { xs: "0 0 90%", sm: "0 0 20%" },
                   borderRadius: 5,

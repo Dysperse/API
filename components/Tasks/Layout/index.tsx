@@ -1,5 +1,6 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -30,6 +31,7 @@ function SearchTasks({ setOpen }) {
   const router = useRouter();
   const session = useSession();
   const [query, setQuery] = useState("");
+  const palette = useColor(session.user.color, session.user.darkMode);
 
   useEffect(() => {
     if (
@@ -126,13 +128,13 @@ function SearchTasks({ setOpen }) {
             }),
             cursor: "default",
             transition: "transform .2s",
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
-            color: `hsl(240,11%,${session.user.darkMode ? 90 : 35}%)`,
+            background: palette[3],
+            color: palette[12],
             "&:hover": {
-              background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
+              background: palette[4],
             },
             "&:active": {
-              background: `hsl(240,11%,${session.user.darkMode ? 25 : 80}%)`,
+              background: palette[5],
             },
           }}
         >
@@ -187,6 +189,7 @@ export function TasksLayout({ open, setOpen, children }) {
   const storage = useAccountStorage();
   const router = useRouter();
   const session = useSession();
+  const palette = useColor(session.user.color, session.user.darkMode);
 
   useHotkeys(["c", "/"], (e) => {
     e.preventDefault();
@@ -206,10 +209,10 @@ export function TasksLayout({ open, setOpen, children }) {
     justifyContent: "flex-start",
     borderRadius: 4,
     "&:hover, &:focus": {
-      background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+      background: palette[3],
     },
     ...(session.user.darkMode && {
-      color: "hsl(240,11%, 80%)",
+      color: palette[11],
     }),
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -218,14 +221,14 @@ export function TasksLayout({ open, setOpen, children }) {
       ? {
           color: `hsl(240,11%,${session.user.darkMode ? 80 : 30}%)`,
           "&:hover": {
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
+            background: palette[3],
           },
         }
       : {
-          color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)`,
-          background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
+          color: palette[12],
+          background: palette[4],
           "&:hover, &:focus": {
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
+            background: palette[5],
           },
         }),
   });
@@ -451,7 +454,7 @@ export function TasksLayout({ open, setOpen, children }) {
           ml: -1,
           p: 3,
           px: 2,
-          background: `hsl(240,11%,${session.user.darkMode ? 7 : 95}%)`,
+          background: palette[2],
           display: { xs: "none", md: "flex" },
           minHeight: "100vh",
           height: { md: "100vh" },

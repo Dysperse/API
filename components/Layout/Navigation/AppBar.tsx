@@ -95,9 +95,6 @@ export function Navbar(): JSX.Element {
         WebkitAppRegion: "drag",
         display: { md: "none" },
         ...(isZen && { justifyContent: "end", borderColor: "transparent" }),
-        background: session.user.darkMode
-          ? "hsla(240,11%,10%, 0.5)"
-          : "rgba(255,255,255,.5)",
       }}
     >
       <CssBaseline />

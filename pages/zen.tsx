@@ -2,6 +2,7 @@ import { DailyCheckIn } from "@/components/CheckIns";
 import { Routines } from "@/components/Coach/Routines";
 import { RecentItems } from "@/components/Start/RecentItems";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { Masonry } from "@mui/lab";
 import {
@@ -21,6 +22,7 @@ export default function Home() {
   const router = useRouter();
   const session = useSession();
   const time = new Date().getHours();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const greeting = useMemo(() => {
     if (time < 12) return "Good morning, ";
@@ -41,7 +43,9 @@ export default function Home() {
   });
 
   const listItemStyles = {
-    background: session.user.darkMode ? "hsl(240, 11%, 10%)" : "#fff",
+    border: "1px solid",
+    borderColor: palette[3],
+    background: palette[2],
     gap: 2,
     transition: "transform .2s",
     "&:active": {
@@ -49,10 +53,6 @@ export default function Home() {
     },
     px: 3,
     py: 1.5,
-    border: "1px solid",
-    borderColor: session.user.darkMode
-      ? "hsl(240, 11%, 20%)"
-      : "rgba(200, 200, 200, 0.3)",
   };
 
   return (

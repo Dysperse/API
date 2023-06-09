@@ -1,8 +1,8 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useColor } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import {
   Alert,
   Box,
@@ -38,6 +38,8 @@ export const Column: any = memo(function Column({
   navigation,
 }: AgendaColumnProps) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   const subheading =
     view === "week"
       ? "MMMM D"
@@ -157,9 +159,7 @@ export const Column: any = memo(function Column({
       sx={{
         scrollSnapAlign: "center",
         borderRight: { sm: "1px solid" },
-        borderColor: `hsla(240,11%,${
-          session.user.darkMode ? 20 : 85
-        }%, 0.5)!important`,
+        borderColor: { sm: palette[3] },
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
@@ -178,7 +178,7 @@ export const Column: any = memo(function Column({
             justifyContent: "center",
             width: "100%",
             height: "100px",
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 97}%)`,
+            background: palette[3],
           }}
         >
           {mount && <CircularProgress />}
@@ -192,12 +192,12 @@ export const Column: any = memo(function Column({
           px: 4,
           background: "transparent",
           borderBottom: "1px solid",
-          borderColor: `hsla(240,11%,${session.user.darkMode ? 20 : 85}%, 0.5)`,
+          borderColor: palette[3],
           userSelect: "none",
           zIndex: 9,
           "&:hover": {
             background: {
-              sm: `hsla(240,11%,${session.user.darkMode ? 16 : 85}%, 0.15)`,
+              sm: palette[4],
             },
           },
           backdropFilter: "blur(10px)",
@@ -211,11 +211,8 @@ export const Column: any = memo(function Column({
           sx={{
             fontSize: "35px",
             ...(isToday && {
-              color: "hsl(240,11%,10%)",
-              background:
-                colors[session.themeColor || "grey"][
-                  session.user.darkMode ? "A200" : "A100"
-                ],
+              color: palette[1],
+              background: palette[9],
               px: 0.5,
               ml: -0.5,
             }),

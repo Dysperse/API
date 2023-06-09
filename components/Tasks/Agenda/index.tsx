@@ -1,5 +1,6 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -162,6 +163,7 @@ export function Agenda({
     vibrate(50);
     setDrawerOpen(true);
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -193,12 +195,12 @@ export function Agenda({
             md: 3,
           },
           zIndex: 9,
-          background: `hsl(240,11%,${session.user.darkMode ? 14 : 100}%, 0.9)`,
+          background: palette[3],
           border: "1px solid",
           transition: "transform .2s, opacity .2s",
           backdropFilter: "blur(10px)",
           borderRadius: 999,
-          borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.5)`,
+          borderColor: palette[4],
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",

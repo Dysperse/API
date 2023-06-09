@@ -1,7 +1,7 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
-import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
 
 /**
@@ -52,16 +52,13 @@ export function BottomNav() {
         }!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           ...iconStyles,
-          background: `${
-            session.user.darkMode
-              ? "hsl(240,11%,17%)"
-              : hexToRgba(colors[session?.themeColor || "grey"][200], 0.5)
-          }!important`,
+          background: palette[3],
         },
       }),
     };
   };
 
+  const palette = useColor(session.themeColor, session.user.darkMode);
   const router = useRouter();
 
   /**
@@ -95,14 +92,8 @@ export function BottomNav() {
         "&, & *": {
           overflow: "hidden!important",
         },
-        background: session.user.darkMode
-          ? "hsla(240, 11%, 10%, .9)"
-          : "rgba(255,255,255,.4)",
-        borderTop: session.user.darkMode
-          ? "1px solid hsla(240, 11%, 20%, .8)"
-          : session.user.darkMode
-          ? "1px solid hsla(240,11%,15%)"
-          : "1px solid rgba(200,200,200,.3)",
+        background: palette[1],
+        borderTop: `1px solid ${palette[3]}`,
         backdropFilter: "blur(10px)",
         alignItems: "center",
       }}
