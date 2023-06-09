@@ -294,13 +294,13 @@ export function Sidebar() {
           onClick={() => router.push(`/users`)}
           onMouseDown={() => router.push(`/users`)}
         >
-          <Tooltip title="Profile" placement="right">
+          <Tooltip title="Friends" placement="right">
             <span
               className={`material-symbols-${
                 router.asPath.includes("users") ? "rounded" : "outlined"
               }`}
             >
-              account_circle
+              favorite
             </span>
           </Tooltip>
         </Box>
