@@ -193,6 +193,7 @@ function Friend({ friend }) {
 function UpcomingBirthdays({ data }) {
   const today = dayjs();
   const router = useRouter();
+  const session = useSession();
 
   const birthdays = data?.friends
     ?.filter((data) => Boolean(data?.following?.Profile?.birthday))
@@ -218,46 +219,52 @@ function UpcomingBirthdays({ data }) {
         overflowX: "scroll",
       }}
     >
-      {birthdays.map((person) => {
-        const nextBirthday = dayjs(person.Profile.birthday).year(today.year());
-        const daysUntilNextBirthday =
-          nextBirthday.diff(today, "day") >= 0
-            ? nextBirthday.diff(today, "day")
-            : nextBirthday.add(1, "year").diff(today, "day");
+      {birthdays &&
+        birthdays.map((person) => {
+          const nextBirthday = dayjs(person.Profile.birthday).year(
+            today.year()
+          );
+          const daysUntilNextBirthday =
+            nextBirthday.diff(today, "day") >= 0
+              ? nextBirthday.diff(today, "day")
+              : nextBirthday.add(1, "year").diff(today, "day");
 
-        return (
-          <Card
-            key={person.email}
-            sx={{
-              flex: "0 0 300px",
-            }}
-          >
-            <CardActionArea
-              onClick={() => router.push(`/users/${person.email}`)}
+          return (
+            <Card
+              key={person.email}
               sx={{
-                background: colors[person.color || "grey"]["500"],
-                color: "#000",
-                borderRadius: 5,
-                display: "flex",
-                gap: 2,
-                justifyContent: "start",
-                p: 2,
+                flex: "0 0 300px",
               }}
             >
-              <ProfilePicture
-                color={person.color}
-                name={person.name}
-                src={person.Profile?.picture}
-                size={50}
-              />
-              <Box>
-                <Typography variant="h5">{person.name}</Typography>
-                <Typography>In {daysUntilNextBirthday} days</Typography>
-              </Box>
-            </CardActionArea>
-          </Card>
-        );
-      })}
+              <CardActionArea
+                onClick={() => router.push(`/users/${person.email}`)}
+                sx={{
+                  background:
+                    colors[person.color || "grey"][
+                      session.user.darkMode ? 900 : 100
+                    ],
+                  color: "#000",
+                  borderRadius: 5,
+                  display: "flex",
+                  gap: 2,
+                  justifyContent: "start",
+                  p: 2,
+                }}
+              >
+                <ProfilePicture
+                  color={person.color}
+                  name={person.name}
+                  src={person.Profile?.picture}
+                  size={50}
+                />
+                <Box>
+                  <Typography variant="h5">{person.name}</Typography>
+                  <Typography>In {daysUntilNextBirthday} days</Typography>
+                </Box>
+              </CardActionArea>
+            </Card>
+          );
+        })}
     </Box>
   );
 }
