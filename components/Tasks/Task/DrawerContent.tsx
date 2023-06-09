@@ -443,7 +443,7 @@ export default function DrawerContent({
           onKeyDown={(e: any) =>
             e.key === "Enter" && !e.shiftKey && e.target.blur()
           }
-          placeholder={"Where?"}
+          placeholder={"Click to add location"}
           disabled={
             storage?.isReached === true || session.permission === "read-only"
           }
@@ -458,11 +458,6 @@ export default function DrawerContent({
               borderBottom: "1px solid",
               borderColor: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
             },
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon className="outlined">location_on</Icon>
-              </InputAdornment>
-            ),
             ...(isValidHttpUrl(data.where) && {
               endAdornment: (
                 <InputAdornment position="end">
@@ -512,11 +507,6 @@ export default function DrawerContent({
             sx: {
               borderRadius: 5,
             },
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon className="outlined">sticky_note_2</Icon>
-              </InputAdornment>
-            ),
           }}
         />
         <Dialog
