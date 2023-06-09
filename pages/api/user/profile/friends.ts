@@ -32,6 +32,18 @@ export default async function handler(req, res) {
                 streakCount: true,
               },
             },
+            properties: {
+              select: {
+                profile: {
+                  select: {
+                    Task: {
+                      select: { due: true },
+                      where: { completed: false },
+                    },
+                  },
+                },
+              },
+            },
             sessions: {
               orderBy: {
                 timestamp: "desc",

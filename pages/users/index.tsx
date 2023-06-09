@@ -73,6 +73,18 @@ function Friend({ friend }) {
 
   const lastLoggedIn = friend?.following?.sessions[0]?.timestamp;
 
+  const taskDueDates = friend?.following?.properties
+    ?.flatMap((obj) => obj.profile.Task)
+    ?.map((task) => task.due);
+  // ?.filter((d) =>
+  //   dayjs(d).isBetween(
+  //     dayjs().startOf("day"),
+  //     dayjs().endOf("day"),
+  //     "day",
+  //     "[]"
+  //   )
+  // );
+
   return (
     <Card
       sx={{
@@ -136,6 +148,15 @@ function Friend({ friend }) {
               label={isWorking ? "Working" : "Out of work"}
               icon={<Icon>{isWorking ? "business" : "dark_mode"}</Icon>}
             />
+            {taskDueDates && (
+              <Chip
+                size="small"
+                label={`${taskDueDates.length} pending task${
+                  taskDueDates.length !== 1 ? "s" : ""
+                }`}
+                icon={<Icon>check_circle</Icon>}
+              />
+            )}
           </Box>
         </Box>
       </CardContent>
@@ -150,6 +171,7 @@ export default function Page() {
 
   const { data, error } = useApi("user/profile/friends", {
     email: session.user.email,
+    date: dayjs().startOf("day"),
   });
 
   return (
