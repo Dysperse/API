@@ -11,6 +11,7 @@ import {
   Dialog,
   Icon,
   IconButton,
+  InputAdornment,
   Menu,
   MenuItem,
   TextField,
@@ -399,6 +400,30 @@ export default function DrawerContent({
           }}
         />
 
+        <TextField
+          onBlur={(e) => handleEdit(data.id, "where", e.target.value)}
+          onKeyDown={(e: any) =>
+            e.key === "Enter" && !e.shiftKey && e.target.blur()
+          }
+          placeholder={"Where?"}
+          disabled={
+            storage?.isReached === true || session.permission === "read-only"
+          }
+          fullWidth
+          defaultValue={parseEmojis(data.where || "")}
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              borderRadius: 5,
+            },
+            startAdornment: (
+              <InputAdornment position="start">
+                <Icon className="outlined">location_on</Icon>
+              </InputAdornment>
+            ),
+          }}
+        />
         {/* Description */}
         <TextField
           onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
@@ -424,7 +449,6 @@ export default function DrawerContent({
             },
           }}
         />
-
         <Dialog
           open={open}
           onClose={() => setOpen(false)}

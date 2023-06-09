@@ -15,6 +15,7 @@ const handler = async (req, res) => {
       data: {
         lastUpdated: req.query.date,
         ...(req.query.name && { name: req.query.name }),
+        ...(req.query.where && { where: req.query.where }),
         ...(req.query.completed && {
           completed: req.query.completed === "true",
         }),
