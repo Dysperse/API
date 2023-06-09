@@ -17,6 +17,7 @@ export function Color({
   setTaskData: any;
 }) {
   const session = useSession();
+
   return (
     <Box
       sx={{

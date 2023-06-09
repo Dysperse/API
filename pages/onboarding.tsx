@@ -6,8 +6,8 @@ import { StepIcon } from "@/components/Onboarding/StepIcon";
 import { cards } from "@/components/Rooms/CreateItem/cards";
 import { templates } from "@/components/Tasks/Board/Create";
 import { updateSettings } from "@/lib/client/updateSettings";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -395,6 +395,8 @@ export default function Onboarding() {
     ) : null;
   }
 
+  const palette = useColor(session.themeColor || "gray", session.user.darkMode);
+
   const Connector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
       top: 10,
@@ -403,12 +405,12 @@ export default function Onboarding() {
     },
     [`&.${stepConnectorClasses.active}`]: {
       [`& .${stepConnectorClasses.line}`]: {
-        borderColor: colors[session.themeColor || "brown"][500],
+        borderColor: palette[9],
       },
     },
     [`&.${stepConnectorClasses.completed}`]: {
       [`& .${stepConnectorClasses.line}`]: {
-        borderColor: colors[session.themeColor || "brown"][500],
+        borderColor: palette[9],
       },
     },
     [`& .${stepConnectorClasses.line}`]: {

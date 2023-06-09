@@ -2,7 +2,6 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -186,9 +185,7 @@ function PropertyInfo({
           )}
         <Box
           sx={{
-            background: `linear-gradient(45deg, ${
-              colors[propertyData.profile.color]["A200"]
-            }, ${colors[propertyData.profile.color]["A700"]})`,
+            background: `linear-gradient(45deg, ${palette[6]}, ${palette[9]})`,
             borderRadius: 5,
             p: 2.5,
             userSelect: "none",
