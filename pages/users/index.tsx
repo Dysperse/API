@@ -77,9 +77,15 @@ function Friend({ friend }) {
     <Card
       sx={{
         borderRadius: { xs: 0, sm: 5 },
-        background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+        background: {
+          xs: `transparent`,
+          sm: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+        },
         "&:hover": {
-          background: `hsl(240,11%,${session.user.darkMode ? 17 : 93}%)`,
+          background: {
+            xs: `transparent`,
+            sm: `hsl(240,11%,${session.user.darkMode ? 17 : 93}%)`,
+          },
         },
         "&:active": {
           background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
