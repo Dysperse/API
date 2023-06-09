@@ -291,8 +291,8 @@ export function Sidebar() {
               height: 40,
             },
           }}
-          onClick={() => router.push(`/users/${session.user.email}`)}
-          onMouseDown={() => router.push(`/users/${session.user.email}`)}
+          onClick={() => router.push(`/users`)}
+          onMouseDown={() => router.push(`/users`)}
         >
           <Tooltip title="Profile" placement="right">
             <span
