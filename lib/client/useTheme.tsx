@@ -172,7 +172,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             "&:disabled": {
               cursor: "not-allowed!important",
               opacity: 0.5,
-              color: palette[3],
+              color: palette[11],
             },
           },
           outlined: {

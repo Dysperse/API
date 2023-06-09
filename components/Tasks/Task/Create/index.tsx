@@ -2,6 +2,7 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
@@ -38,16 +39,16 @@ import EmojiPicker from "../../../EmojiPicker";
 import { SelectDateModal } from "../DatePicker";
 import { ImageModal } from "./ImageModal";
 
-export const taskButtonStyles = (session) => ({
-  color: `hsl(240, 11%, ${session.user.darkMode ? 90 : 40}%)`,
+export const taskButtonStyles = (palette) => ({
+  color: palette[12],
   fontWeight: 700,
   borderRadius: { xs: 0, sm: 3 },
   borderBottom: { xs: "1px solid", sm: "none" },
-  borderColor: `hsl(240, 11%, ${session.user.darkMode ? 15 : 93}%) !important`,
+  borderColor: `${palette[4]} !important`,
   transition: "none",
   gap: 1.5,
-  "&:focus-within, &:active": {
-    background: `hsl(240, 11%, ${session.user.darkMode ? 15 : 94}%) !important`,
+  "&:focus-within, &:hover, &:active": {
+    background: `${palette[3]} !important`,
   },
   py: { xs: 2, sm: 1.5 },
   px: { xs: 2.5, sm: 1.5 },
@@ -227,13 +228,11 @@ export function CreateTask({
   const chipStyles = (condition: boolean) => {
     return {
       border: "1px solid",
-
-      borderColor: session.user.darkMode
-        ? "hsl(240, 11%, 25%)"
-        : "rgba(200,200,200,.5)",
-      background: session.user.darkMode ? "hsl(240,11%,20%)" : "#fff",
+      borderColor: palette[4],
+      background: palette[3],
       "&:hover": {
-        background: session.user.darkMode ? "hsl(240,11%,23%)" : "#eee ",
+        borderColor: palette[5],
+        background: palette[4],
       },
       transition: "transform .2s",
       "&:active": {
@@ -274,6 +273,7 @@ export function CreateTask({
     },
     [WheelGesturesPlugin() as any]
   );
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -354,12 +354,10 @@ export function CreateTask({
           sx={{
             p: 3,
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
+            background: palette[3],
             border: { sm: "1px solid" },
             borderColor: {
-              sm: session.user.darkMode
-                ? "hsl(240, 11%, 25%)"
-                : "rgba(200,200,200,.5)",
+              sm: palette[4],
             },
           }}
         >
@@ -585,10 +583,9 @@ export function CreateTask({
         id="createTask"
         className="cursor-unset"
         sx={{
-          ...taskButtonStyles(session),
+          ...taskButtonStyles(palette),
           mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },
           ...(label && { mb: -0.5 }),
-
           ...sx,
         }}
         onClick={() => {
