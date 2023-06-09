@@ -1,5 +1,4 @@
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { colors } from "@/lib/colors";
 import { Item as ItemType } from "@prisma/client";
 import { useRef, useState } from "react";
 import { ErrorHandler } from "../Error";
@@ -216,15 +215,6 @@ export default function CategoryModal({
         sx={{
           px: 1.5,
           mr: 1,
-          background: session.user.darkMode
-            ? "hsl(240,11%,20%)"
-            : `${colors[session?.themeColor || "grey"][200]}!important`,
-          "&:hover": {
-            background: session.user.darkMode
-              ? "hsl(240,11%,25%)"
-              : `${colors[session?.themeColor || "grey"][300]}!important`,
-          },
-          transition: "none",
         }}
       />
     </>
