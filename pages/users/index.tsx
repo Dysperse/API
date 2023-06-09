@@ -107,7 +107,10 @@ function Friend({ friend }) {
           },
         },
         "&:active": {
-          background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+          background: {
+            xs: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+            sm: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+          },
         },
       }}
       onClick={() => router.push(`/users/${friend?.following?.email}`)}
