@@ -134,7 +134,7 @@ export default function DrawerContent({
   const buttonStyles = {
     transition: "none",
     background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
-    color: `hsl(240,11%,${session.user.darkMode ? 90 : 20}%)`,
+    color: `hsl(240,11%,${session.user.darkMode ? 90 : 30}%)`,
     "&:hover": {
       color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)`,
       background: `hsl(240,11%,${session.user.darkMode ? 25 : 87}%)`,
