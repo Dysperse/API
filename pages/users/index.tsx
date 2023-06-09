@@ -1,11 +1,14 @@
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
+import { Masonry } from "@mui/lab";
 import {
   Alert,
   AppBar,
   Avatar,
   Box,
+  Card,
+  CardContent,
   Chip,
   CircularProgress,
   Container,
@@ -14,13 +17,27 @@ import {
   ListItemButton,
   ListItemText,
   Toolbar,
+  Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 
+function shuffle<T>(array: T[]): T[] {
+  const length = array.length;
+
+  for (let i = length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
+}
+
 function Friend({ friend }) {
   const router = useRouter();
+  const session = useSession();
 
   // Parse the working hours string into an array of objects
   const workingHours = JSON.parse(
@@ -54,56 +71,76 @@ function Friend({ friend }) {
   // const formattedStartTime = currentWorkingHours && startTime.format("HH:mm");
   // const formattedEndTime = currentWorkingHours && endTime.format("HH:mm");
 
+  const lastLoggedIn = friend?.following?.sessions[0]?.timestamp;
+
   return (
-    <ListItemButton
-      sx={{ borderRadius: { xs: 0, sm: 3 } }}
+    <Card
+      sx={{
+        borderRadius: { xs: 0, sm: 5 },
+        background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+        "&:hover": {
+          background: `hsl(240,11%,${session.user.darkMode ? 17 : 93}%)`,
+        },
+        "&:active": {
+          background: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+        },
+      }}
       onClick={() => router.push(`/users/${friend?.following?.email}`)}
     >
-      <Avatar
-        src={friend?.following?.Profile?.picture}
-        sx={{
-          height: 50,
-          width: 50,
-          fontSize: 20,
-          textTransform: "uppercase",
-          background: `linear-gradient(${
-            colors[friend?.following?.color || "grey"][200]
-          } 30%, ${colors[friend?.following?.color || "grey"][300]})`,
-        }}
-      >
-        {friend.following.name.trim().charAt(0)}
-        {friend.following.name.includes(" ")
-          ? friend.following.name.split(" ")[1].charAt(0)
-          : friend.following.name.charAt(1)}
-      </Avatar>
-      <ListItemText
-        primary={friend?.following?.name}
-        secondary={
-          <>
-            {friend?.following?.email}
-            <Box sx={{ gap: 1, display: "flex", mt: 1 }}>
-              <Chip
-                size="small"
-                label={friend?.following?.CoachData?.streakCount || 0}
-                icon={<Icon>local_fire_department</Icon>}
-              />
-              <Chip
-                size="small"
-                label={isWorking ? "Working" : "Out of work"}
-                icon={<Icon>{isWorking ? "business" : "dark_mode"}</Icon>}
-              />
-            </Box>
-          </>
-        }
-      />
-      <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-    </ListItemButton>
+      <CardContent sx={{ display: "flex" }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Avatar
+            src={friend?.following?.Profile?.picture}
+            sx={{
+              height: 50,
+              width: 50,
+              fontSize: 20,
+              mb: 1,
+              textTransform: "uppercase",
+              background: `linear-gradient(${
+                colors[friend?.following?.color || "grey"][200]
+              } 30%, ${colors[friend?.following?.color || "grey"][300]})`,
+            }}
+          >
+            {friend.following.name.trim().charAt(0)}
+            {friend.following.name.includes(" ")
+              ? friend.following.name.split(" ")[1].charAt(0)
+              : friend.following.name.charAt(1)}
+          </Avatar>
+          <Typography variant="h6">{friend?.following?.name}</Typography>
+          <Typography variant="body2">{friend?.following?.email}</Typography>
+          {lastLoggedIn && (
+            <Typography variant="body2">
+              Last logged in{" "}
+              <Tooltip title="The date listed represents when the user last logged in from a new device, not when the user was last online.">
+                <span style={{ borderBottom: "1px dotted" }}>
+                  {dayjs(lastLoggedIn).fromNow()}
+                </span>
+              </Tooltip>
+            </Typography>
+          )}
+          <Box sx={{ gap: 1, display: "flex", mt: 1 }}>
+            <Chip
+              size="small"
+              label={friend?.following?.CoachData?.streakCount || 0}
+              icon={<Icon>local_fire_department</Icon>}
+            />
+            <Chip
+              size="small"
+              label={isWorking ? "Working" : "Out of work"}
+              icon={<Icon>{isWorking ? "business" : "dark_mode"}</Icon>}
+            />
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }
 
 export default function Page() {
   const session = useSession();
   const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const { data, error } = useApi("user/profile/friends", {
     email: session.user.email,
@@ -202,11 +239,15 @@ export default function Page() {
             </Alert>
           </Box>
         )}
-        {data &&
-          data.friends &&
-          data.friends.map((friend, index) => (
-            <Friend friend={friend} key={index} />
-          ))}
+        <Box sx={{ mr: isMobile ? 0 : -2 }}>
+          <Masonry columns={{ xs: 1, sm: 3 }} spacing={isMobile ? 0 : 2}>
+            {data &&
+              data.friends &&
+              shuffle(data.friends).map((friend, index) => (
+                <Friend friend={friend} key={index} />
+              ))}
+          </Masonry>
+        </Box>
       </Container>
     </Box>
   );
