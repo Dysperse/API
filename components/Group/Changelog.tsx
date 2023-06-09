@@ -1,6 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import Timeline from "@mui/lab/Timeline";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
@@ -36,6 +36,7 @@ export function Changelog({ disabled }) {
     },
     [open]
   );
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -58,24 +59,13 @@ export function Changelog({ disabled }) {
                 pb: 1,
                 zIndex: 9,
                 width: "100%",
-                background: session.user.darkMode
-                  ? "hsla(240,11%,15%)"
-                  : "rgba(255,255,255,.9)",
+                background: palette[1],
               }}
             >
               <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
                 Changelog
               </Typography>
-              <IconButton
-                color="inherit"
-                onClick={() => setOpen(false)}
-                sx={{
-                  color:
-                    colors[session?.themeColor || "grey"][
-                      session.user.darkMode ? 50 : 900
-                    ],
-                }}
-              >
+              <IconButton color="inherit" onClick={() => setOpen(false)}>
                 <Icon>close</Icon>
               </IconButton>
             </Box>
@@ -120,18 +110,12 @@ export function Changelog({ disabled }) {
                         <TimelineSeparator>
                           <TimelineDot
                             sx={{
-                              background:
-                                colors[session?.themeColor || "grey"][
-                                  session.user.darkMode ? 900 : 200
-                                ],
+                              background: palette[8],
                             }}
                           />
                           <TimelineConnector
                             sx={{
-                              background:
-                                colors[session?.themeColor || "grey"][
-                                  session.user.darkMode ? 900 : 100
-                                ],
+                              background: palette[8],
                             }}
                           />
                         </TimelineSeparator>
@@ -159,7 +143,7 @@ export function Changelog({ disabled }) {
                   variant="body1"
                   sx={{
                     mt: 2,
-                    background: colors[session?.themeColor || "grey"][100],
+                    background: palette[2],
                     p: 3,
                     borderRadius: 5,
                   }}

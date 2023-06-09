@@ -1,5 +1,6 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -65,6 +66,13 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
 
   const [dismissed, setDismissed] = useState<boolean>(false);
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
+  useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute("content", palette[1]);
+  });
 
   return (
     <Box

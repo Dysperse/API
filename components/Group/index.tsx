@@ -1,4 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -29,11 +30,13 @@ import { Storage } from "./Storage";
 const Integrations = dynamic(() => import("./Integrations"));
 
 function PropertyInfo({
+  color,
   mutatePropertyData,
   handleClose,
   accessToken,
   propertyData,
 }: {
+  color: any;
   mutatePropertyData: any;
   handleClose: any;
   accessToken: string;
@@ -41,10 +44,15 @@ function PropertyInfo({
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const session = useSession();
+  const palette = useColor(color, session.user.darkMode);
 
   return (
     <Box>
-      <AppBar>
+      <AppBar
+        sx={{
+          background: palette[1],
+        }}
+      >
         <Toolbar>
           <IconButton onClick={handleClose} sx={{ mr: "auto" }}>
             <Icon>close</Icon>
@@ -236,7 +244,7 @@ function PropertyInfo({
         />
         <MemberList
           handleParentClose={handleClose}
-          color="grey"
+          color={propertyData.profile.color}
           propertyId={propertyData.propertyId}
           accessToken={accessToken}
         />
@@ -318,6 +326,11 @@ export default function Group({
     onClick: handleOpen,
   });
 
+  const palette = useColor(
+    propertyData?.profile.color || "blue",
+    session.user.darkMode
+  );
+
   return (
     <>
       <SwipeableDrawer
@@ -327,7 +340,7 @@ export default function Group({
         anchor={isDesktop ? "right" : "bottom"}
         PaperProps={{
           sx: {
-            background: session.user.darkMode ? "" : "#fff",
+            background: palette[1],
             height: error ? "auto" : "100vh",
             width: "100%",
             maxWidth: "600px",
@@ -335,9 +348,19 @@ export default function Group({
             borderRadius: !error ? 0 : "20px 20px 0 0",
           },
         }}
+        slotProps={{
+          backdrop: {
+            className: "override-bg",
+            sx: {
+              background: "transparent!important",
+              backdropFilter: { sm: "blur(1px) grayscale(100%) !important" },
+            },
+          },
+        }}
       >
         {propertyData && (
           <PropertyInfo
+            color={propertyData.profile.color}
             mutatePropertyData={mutatePropertyData}
             propertyData={propertyData as Property}
             accessToken={data.accessToken}

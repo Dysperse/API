@@ -1,4 +1,5 @@
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
@@ -23,8 +24,11 @@ export function Storage({
 }: {
   accessToken: string;
   propertyId: string;
-  color: string;
+  color: any;
 }) {
+  const session = useSession();
+  const palette = useColor(color, session.user.darkMode);
+
   const { data, url, error } = useApi("property/storage", {
     property: propertyId,
     accessToken,
@@ -37,7 +41,6 @@ export function Storage({
       100,
     tasks: ((((data && data.tasks) || 0) * multipliers.tasks) / max) * 100,
   };
-  const session = useSession();
 
   return error || !data ? (
     <Box>
@@ -58,9 +61,7 @@ export function Storage({
             userSelect: "none",
             px: 2.5,
             borderRadius: 5,
-            background: session.user.darkMode
-              ? "hsl(240,11%,20%)"
-              : colors[color][50],
+            background: palette[2],
           }}
         >
           <Skeleton animation="wave" />
@@ -85,10 +86,8 @@ export function Storage({
       </Typography>
       <Box
         sx={{
-          background: `${
-            session.user.darkMode ? "hsl(240,11%,20%)" : colors[color][50]
-          }`,
-          color: colors[color][session.user.darkMode ? 50 : 900].toString(),
+          background: palette[2],
+          color: palette[12],
           borderRadius: 5,
           p: 3,
           mt: 2,

@@ -301,10 +301,7 @@ export default function History() {
               >
                 <TableRow
                   sx={{
-                    background: session.user.darkMode
-                      ? "hsla(240,11%,10%,.5)"
-                      : "rgba(255,255,255,.5)",
-                    backdropFilter: "blur(10px)",
+                    background: palette[1],
                   }}
                 >
                   <TableCell sx={{ background: "transparent" }} />
