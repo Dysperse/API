@@ -285,7 +285,7 @@ export default function Spotlight() {
       <Box>
         <Routines />
       </Box>
-      <Box sx={{ px: 2, flexGrow: 1 }}>
+      <Box sx={{ mt: 1, px: 2, flexGrow: 1 }}>
         <Virtuoso
           style={{ height: "100%", maxHeight: "calc(100vh - 100px)" }}
           totalCount={results.length === 0 ? 1 : results.length}

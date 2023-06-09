@@ -303,6 +303,7 @@ export function CreateTask({
           <Box
             sx={{
               mb: 2,
+              pl: { xs: 1, sm: 0 },
               overflowX: "scroll",
               whiteSpace: "nowrap",
             }}
