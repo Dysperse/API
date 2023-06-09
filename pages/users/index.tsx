@@ -144,7 +144,7 @@ function Friend({ friend }) {
               </Tooltip>
             </Typography>
           )}
-          <Box sx={{ gap: 1, display: "flex", mt: 1 }}>
+          <Box sx={{ gap: 1, display: "flex", mt: 1, flexWrap: "wrap" }}>
             <Chip
               size="small"
               label={friend?.following?.CoachData?.streakCount || 0}
