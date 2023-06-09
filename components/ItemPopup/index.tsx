@@ -1,6 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -32,25 +33,18 @@ const StarButton = dynamic(() => import("./StarButton"));
 
 function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const styles = {
     borderRadius: 0,
     transition: "none",
     py: 1.5,
     gap: 2,
-    color: session.user.darkMode
-      ? "hsl(240, 11%, 90%)"
-      : colors[session?.themeColor || "grey"]["800"],
-    background: session.user.darkMode
-      ? "hsl(240, 11%, 20%)"
-      : colors[session?.themeColor || "grey"][50],
+    color: palette[12],
+    background: palette[2],
     "&:hover, &:active, &:focus-within": {
-      background: session.user.darkMode
-        ? "hsl(240, 11%, 25%)"
-        : colors[session?.themeColor || "grey"][50],
-      color: session.user.darkMode
-        ? "hsl(240, 11%, 95%)"
-        : colors[session?.themeColor || "grey"][900],
+      background: palette[3],
+      color: palette[11],
     },
   };
 
