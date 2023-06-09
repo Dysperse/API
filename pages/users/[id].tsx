@@ -78,9 +78,8 @@ function Page() {
     }
   };
 
-  const styles =
-    (data && data?.color) ||
-    ("grey" && {
+  const styles = data &&
+    data?.color && {
       color: session.user.darkMode
         ? colors[data?.color || "grey"][50]
         : "inherit",
@@ -94,11 +93,10 @@ function Page() {
         fontSize: 27,
         fontWeight: 900,
       },
-    });
+    };
 
-  const profileCardStyles =
-    (data && data?.color) ||
-    ("grey" && {
+  const profileCardStyles = data &&
+    data?.color && {
       border: "1px solid",
       borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
       color: `hsl(240,11%, ${session.user.darkMode ? 80 : 20}%)`,
@@ -114,7 +112,7 @@ function Page() {
         textTransform: "uppercase",
         mb: 0.5,
       },
-    });
+    };
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(data.email);
