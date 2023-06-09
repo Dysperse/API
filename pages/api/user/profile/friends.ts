@@ -38,7 +38,16 @@ export default async function handler(req, res) {
                   select: {
                     Task: {
                       select: { due: true },
-                      where: { completed: false },
+                      where: {
+                        AND: [
+                          { completed: false },
+                          { due: { gte: new Date(req.query.date) } },
+                        ],
+                      },
+                      take: 3,
+                      orderBy: {
+                        due: "asc",
+                      },
                     },
                   },
                 },

@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
@@ -23,6 +24,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import { mutate } from "swr";
 
 function shuffle<T>(array: T[]): T[] {
   const length = array.length;
@@ -75,7 +77,8 @@ function Friend({ friend }) {
 
   const taskDueDates = friend?.following?.properties
     ?.flatMap((obj) => obj.profile.Task)
-    ?.map((task) => task.due);
+    ?.map((task) => task.due)
+    .filter((d) => d);
   // ?.filter((d) =>
   //   dayjs(d).isBetween(
   //     dayjs().startOf("day"),
@@ -148,12 +151,10 @@ function Friend({ friend }) {
               label={isWorking ? "Working" : "Out of work"}
               icon={<Icon>{isWorking ? "business" : "dark_mode"}</Icon>}
             />
-            {taskDueDates && (
+            {taskDueDates && taskDueDates[0] && (
               <Chip
                 size="small"
-                label={`${taskDueDates.length} pending task${
-                  taskDueDates.length !== 1 ? "s" : ""
-                }`}
+                label={`Next task ${dayjs(taskDueDates[0]).fromNow()}`}
                 icon={<Icon>check_circle</Icon>}
               />
             )}
@@ -169,9 +170,9 @@ export default function Page() {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const { data, error } = useApi("user/profile/friends", {
+  const { data, url, error } = useApi("user/profile/friends", {
     email: session.user.email,
-    date: dayjs().startOf("day"),
+    date: dayjs().startOf("day").toISOString(),
   });
 
   return (
@@ -243,6 +244,11 @@ export default function Page() {
               <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
             </ListItemButton>
           </>
+        ) : error ? (
+          <ErrorHandler
+            callback={() => mutate(url)}
+            error="Oh no! We couldn't get your friends! Please try again later"
+          />
         ) : (
           <Box
             sx={{
