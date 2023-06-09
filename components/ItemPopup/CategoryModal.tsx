@@ -210,7 +210,8 @@ export default function CategoryModal({
       </SwipeableDrawer>
       <Chip
         disabled={session?.permission === "read-only"}
-        label={item.category === "[]" ? <>+ &nbsp;&nbsp;Add a category</> : "+"}
+        label="Add category"
+        icon={<Icon>add</Icon>}
         onClick={() => setOpen(true)}
         sx={{
           px: 1.5,
