@@ -39,7 +39,7 @@ export default function Onboarding() {
 
   const palette = useColor(
     data?.property?.color || "gray",
-    session.user.darkMode
+    session?.user?.darkMode || false
   );
 
   const handleAccept = () => {
