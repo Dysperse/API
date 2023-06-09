@@ -42,7 +42,9 @@ function Page() {
 
   const isCurrentUser = email === session.user.email;
   const isFollowing =
-    data && data.followers.find((e) => e.followerId === session.user.email);
+    data &&
+    data.followers &&
+    data.followers.find((e) => e.followerId === session.user.email);
 
   const handleFollowButtonClick = async () => {
     setLoading(true);
@@ -76,36 +78,43 @@ function Page() {
     }
   };
 
-  const styles = data && {
-    color: session.user.darkMode ? colors[data.color][50] : "inherit",
-    textAlign: "center",
-    width: { sm: "auto" },
-    px: 2,
-    py: 2,
-    borderRadius: "20px",
-    "& h6": {
-      mt: -1,
-      fontSize: 27,
-      fontWeight: 900,
-    },
-  };
+  const styles =
+    (data && data?.color) ||
+    ("grey" && {
+      color: session.user.darkMode
+        ? colors[data?.color || "grey"][50]
+        : "inherit",
+      textAlign: "center",
+      width: { sm: "auto" },
+      px: 2,
+      py: 2,
+      borderRadius: "20px",
+      "& h6": {
+        mt: -1,
+        fontSize: 27,
+        fontWeight: 900,
+      },
+    });
 
-  const profileCardStyles = data && {
-    border: "1px solid",
-    borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
-    color: `hsl(240,11%, ${session.user.darkMode ? 80 : 20}%)`,
-    boxShadow: `5px 5px 10px hsla(240,11%, ${
-      session.user.darkMode ? 15 : 95
-    }%)`,
-    p: 3,
-    borderRadius: 5,
-    heading: {
-      color: colors[data.color][session.user.darkMode ? "A200" : 600],
-      fontWeight: 600,
-      textTransform: "uppercase",
-      mb: 0.5,
-    },
-  };
+  const profileCardStyles =
+    (data && data?.color) ||
+    ("grey" && {
+      border: "1px solid",
+      borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
+      color: `hsl(240,11%, ${session.user.darkMode ? 80 : 20}%)`,
+      boxShadow: `5px 5px 10px hsla(240,11%, ${
+        session.user.darkMode ? 15 : 95
+      }%)`,
+      p: 3,
+      borderRadius: 5,
+      heading: {
+        color:
+          colors[data?.color || "grey"][session.user.darkMode ? "A200" : 600],
+        fontWeight: 600,
+        textTransform: "uppercase",
+        mb: 0.5,
+      },
+    });
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(data.email);
@@ -132,7 +141,7 @@ function Page() {
       <Head>
         <title>{data ? data.name : `Profile`}</title>
       </Head>
-      {isCurrentUser && data && (
+      {isCurrentUser && data?.color && (
         <LoadingButton
           loading={loading}
           variant="contained"
@@ -147,8 +156,9 @@ function Page() {
             flexShrink: 0,
             "&, &:hover": {
               background:
-                colors[data.color][session.user.darkMode ? 900 : 100] +
-                "!important",
+                colors[data?.color || "grey"][
+                  session.user.darkMode ? 900 : 100
+                ] + "!important",
             },
           }}
           size="large"
@@ -183,7 +193,7 @@ function Page() {
             {data ? data.name : "Profile"}
           </Typography>
           <SearchUser profileCardStyles={profileCardStyles} data={data} />
-          {!isCurrentUser && (
+          {!isCurrentUser && data?.color && (
             <ConfirmationModal
               disabled={!isFollowing}
               title={`Are you sure you want to unfollow ${data?.name}?`}
@@ -199,20 +209,22 @@ function Page() {
                   ...(!loading && data && isFollowing
                     ? {
                         color:
-                          colors[data.color][
+                          colors[data?.color || "grey"][
                             session.user.darkMode ? 100 : 900
                           ] + "!important",
                         "&:hover": {
-                          borderColor: colors[data.color][300] + "!important",
+                          borderColor:
+                            colors[data?.color || "grey"][300] + "!important",
                         },
                       }
                     : data && {
                         "&,&:hover": {
                           background:
-                            colors[data.color][
+                            colors[data?.color || "grey"][
                               session.user.darkMode ? 800 : 900
                             ] + "!important",
-                          color: colors[data.color][50] + "!important",
+                          color:
+                            colors[data?.color || "grey"][50] + "!important",
                         },
                       }),
                 }}
@@ -228,13 +240,13 @@ function Page() {
         </Toolbar>
       </AppBar>
       <Container sx={{ my: 5 }}>
-        {error && (
+        {(error || data.error) && (
           <ErrorHandler
             callback={() => mutate(url)}
             error="On no! We couldn't find the user you were looking for."
           />
         )}
-        {data && email && router ? (
+        {data && data?.color && email && router ? (
           <>
             <Box
               sx={{
@@ -306,7 +318,9 @@ function Page() {
                         mt: 1,
                         opacity: 0.6,
                         color:
-                          colors[data.color][session.user.darkMode ? 50 : 900],
+                          colors[data?.color || "grey"][
+                            session.user.darkMode ? 50 : 900
+                          ],
                         maxWidth: "100%",
                         overflow: "hidden",
                         textAlign: { xs: "center", sm: "left" },
@@ -347,7 +361,7 @@ function Page() {
                     mb: 2,
                     mt: 1,
                     opacity: 0.7,
-                    color: colors[data.color]["800"],
+                    color: colors[data?.color || "grey"]["800"],
                   }}
                 >
                   <Followers styles={styles} data={data} />
@@ -393,7 +407,8 @@ function Page() {
             </Box>
           </>
         ) : (
-          !error && (
+          !error &&
+          !data?.error && (
             <Box
               sx={{
                 display: "flex",

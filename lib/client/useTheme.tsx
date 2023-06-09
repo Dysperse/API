@@ -369,6 +369,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           root: ({ theme }) =>
             theme.unstable_sx({
               borderRadius: 4,
+              gap: 2,
+              transition: "none",
               userSelect: "none",
             }),
         },

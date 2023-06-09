@@ -25,6 +25,19 @@ export default async function handler(req, res) {
         follower: {
           select: {
             name: true,
+            color: true,
+            CoachData: {
+              select: {
+                streakCount: true,
+              },
+            },
+            Profile: {
+              select: {
+                picture: true,
+                workingHours: true,
+              },
+            },
+            trophies: true,
           },
         },
       },
