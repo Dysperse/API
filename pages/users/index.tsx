@@ -383,7 +383,7 @@ export default function Page() {
           <Box sx={{ px: 2 }}>
             <Alert severity="info">
               You aren&apos;t following anyone yet. Follow someone to view their
-              availability
+              birthday
             </Alert>
           </Box>
         )}
