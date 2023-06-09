@@ -24,7 +24,7 @@ function Friend({ friend }) {
 
   // Parse the working hours string into an array of objects
   const workingHours = JSON.parse(
-    friend?.follower?.Profile?.workingHours || "[]"
+    friend?.following?.Profile?.workingHours || "[]"
   );
 
   // Get the current day of the week (1 = Monday, 2 = Tuesday, etc.)
@@ -57,40 +57,43 @@ function Friend({ friend }) {
   return (
     <ListItemButton
       sx={{ borderRadius: { xs: 0, sm: 3 } }}
-      onClick={() => router.push(`/users/${friend?.follower?.email}`)}
+      onClick={() => router.push(`/users/${friend?.following?.email}`)}
     >
       <Avatar
-        src={friend?.follower?.Profile?.picture}
+        src={friend?.following?.Profile?.picture}
         sx={{
           height: 50,
           width: 50,
           fontSize: 20,
           textTransform: "uppercase",
           background: `linear-gradient(${
-            colors[friend?.color || "grey"][200]
-          } 30%, ${colors[friend?.color || "grey"][300]})`,
+            colors[friend?.following?.color || "grey"][200]
+          } 30%, ${colors[friend?.following?.color || "grey"][300]})`,
         }}
       >
-        {friend.follower.name.trim().charAt(0)}
-        {friend.follower.name.includes(" ")
-          ? friend.follower.name.split(" ")[1].charAt(0)
-          : friend.follower.name.charAt(1)}
+        {friend.following.name.trim().charAt(0)}
+        {friend.following.name.includes(" ")
+          ? friend.following.name.split(" ")[1].charAt(0)
+          : friend.following.name.charAt(1)}
       </Avatar>
       <ListItemText
-        primary={friend?.follower?.name}
+        primary={friend?.following?.name}
         secondary={
-          <Box sx={{ gap: 1, display: "flex" }}>
-            <Chip
-              size="small"
-              label={friend?.follower?.CoachData?.streakCount || 0}
-              icon={<Icon>local_fire_department</Icon>}
-            />
-            <Chip
-              size="small"
-              label={isWorking ? "Working" : "Out of work"}
-              icon={<Icon>{isWorking ? "business" : "dark_mode"}</Icon>}
-            />
-          </Box>
+          <>
+            {friend?.following?.email}
+            <Box sx={{ gap: 1, display: "flex", mt: 1 }}>
+              <Chip
+                size="small"
+                label={friend?.following?.CoachData?.streakCount || 0}
+                icon={<Icon>local_fire_department</Icon>}
+              />
+              <Chip
+                size="small"
+                label={isWorking ? "Working" : "Out of work"}
+                icon={<Icon>{isWorking ? "business" : "dark_mode"}</Icon>}
+              />
+            </Box>
+          </>
         }
       />
       <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>

@@ -17,12 +17,12 @@ export default async function handler(req, res) {
 
     const friends: any = await prisma.follows.findMany({
       where: {
-        following: {
+        follower: {
           email: req.query.email,
         },
       },
       include: {
-        follower: {
+        following: {
           select: {
             name: true,
             email: true,
