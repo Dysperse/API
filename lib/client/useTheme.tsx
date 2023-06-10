@@ -86,10 +86,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               top: 0,
               left: 0,
               zIndex: 999,
-              background: darkMode ? palette[1] : "rgba(255,255,255,.5)",
+              background: darkMode
+                ? addHslAlpha(palette[1], 0.9)
+                : "rgba(255,255,255,.5)",
               backdropFilter: "blur(10px)",
               borderBottom: "1px solid",
-              borderColor: darkMode ? palette[3] : "hsla(240,11%,90%,.6)",
+              borderColor: darkMode
+                ? addHslAlpha(palette[3], 0.9)
+                : "hsla(240,11%,90%,.6)",
               color: darkMode ? "#fff" : "#000",
             }),
         },
@@ -265,7 +269,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               },
               "& .MuiSwitch-track": {
                 borderRadius: 26 / 2,
-                backgroundColor: !darkMode ? "#E9E9EA" : "hsl(240,11%,30%)",
+                backgroundColor: !darkMode ? "#E9E9EA" : palette[3],
                 opacity: 1,
                 transition: "all .5s",
               },
