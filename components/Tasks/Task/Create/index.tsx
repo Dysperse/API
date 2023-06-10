@@ -243,7 +243,8 @@ export function CreateTask({
       mr: 1,
       fontWeight: 600,
       ...(condition && {
-        background: palette[4] + "!important",
+        background: palette[9] + "!important",
+        borderColor: palette[9] + "!important",
         color: "#000 !important",
         "& *": {
           color: "#000 !important",

@@ -121,7 +121,7 @@ function ExperimentalAiReflection({ emoji, answers }) {
           sx={{
             p: 3,
             borderRadius: 3,
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+            background: palette[3],
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -369,7 +369,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                           "&, &:focus, &:hover, &:active": {
                             background: palette[4] + "!important",
                             borderColor: palette[5] + "!important",
-                            color: "#000!important",
+                            color: palette[12] + "!important",
                           },
                         }),
                       }}
@@ -392,9 +392,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                         display: "none",
                       },
                       "& .MuiSlider-rail": {
-                        background: `hsl(240,11%,${
-                          session.user.darkMode ? 10 : 80
-                        }%)`,
+                        background: palette[4],
                       },
                       "& .MuiSlider-rail, & .MuiSlider-track": {
                         height: 20,
@@ -406,9 +404,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                       },
                       "& .MuiSlider-thumb": {
                         boxShadow: 0,
-                        background: `hsl(240,11%,${
-                          session.user.darkMode ? 10 : 90
-                        }%)`,
+                        background: palette[1],
                         border: "4px solid currentColor",
                       },
                     }}
@@ -444,6 +440,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                                         question.slider.length - 1 && {
                                         mr: 3,
                                       }),
+                                      mt: 1,
                                     }),
                                   }}
                                 />

@@ -190,7 +190,7 @@ export function MyGoals(): JSX.Element {
         <Card
           onClick={() => setMobileOpen(true)}
           sx={{
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+            background: palette[2],
             borderRadius: 5,
             mt: 2,
             transition: "transform .2s",

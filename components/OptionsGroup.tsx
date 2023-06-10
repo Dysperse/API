@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { Button, ButtonGroup } from "@mui/material";
 
@@ -13,6 +14,7 @@ export function OptionsGroup({
   sx?: any;
 }) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <ButtonGroup
@@ -23,9 +25,7 @@ export function OptionsGroup({
         width: "100%",
         borderRadius: "15px!important",
         gap: 0.2,
-        background: `hsl(240,11%,${
-          session.user.darkMode ? 20 : 90
-        }%)!important`,
+        background: `${palette[5]}!important`,
         ...sx,
       }}
     >
@@ -42,22 +42,15 @@ export function OptionsGroup({
             whiteSpace: "nowrap",
             borderRadius: "15px!important",
             transition: "none!important",
-            background: `hsl(240,11%,${
-              session.user.darkMode ? 80 : 20
-            }%)!important`,
+            background: `${palette[9]}!important`,
             color: session.user.darkMode ? "#000" : "#fff",
+            cursor: "default",
             ...(currentOption !== option && {
-              background: `hsl(240,11%,${
-                session.user.darkMode ? 20 : 90
-              }%) !important`,
+              background: `${palette[5]}!important`,
               "&:hover": {
-                background: `hsl(240,11%,${
-                  session.user.darkMode ? 20 : 90
-                }%)!important`,
+                background: `${palette[6]}!important`,
               },
-              color: session.user.darkMode
-                ? "hsl(240,11%,80%) !important"
-                : "#303030 !important",
+              color: `${palette[11]}!important`,
             }),
           }}
         >
