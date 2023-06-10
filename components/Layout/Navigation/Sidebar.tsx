@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -134,8 +135,8 @@ export function Sidebar() {
         background: {
           sm: useOutlinedTheme ? "transparent" : palette[1],
         },
-        borderColor: {
-          sm: useOutlinedTheme ? palette[4] : "transparent",
+        borderRightColor: {
+          sm: useOutlinedTheme ? addHslAlpha(palette[4], 0.8) : "transparent",
         },
         height: "100vh",
         backdropFilter: "blur(10px)",

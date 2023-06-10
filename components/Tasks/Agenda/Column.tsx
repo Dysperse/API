@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useColor } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
@@ -159,7 +160,7 @@ export const Column: any = memo(function Column({
       sx={{
         scrollSnapAlign: "center",
         borderRight: { sm: "1px solid" },
-        borderColor: { sm: palette[3] },
+        borderColor: { sm: addHslAlpha(palette[4], 0.7) },
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
@@ -192,12 +193,12 @@ export const Column: any = memo(function Column({
           px: 4,
           background: "transparent",
           borderBottom: "1px solid",
-          borderColor: palette[3],
           userSelect: "none",
+          borderColor: addHslAlpha(palette[4], 0.7),
           zIndex: 9,
           "&:hover": {
             background: {
-              sm: palette[2],
+              sm: addHslAlpha(palette[2], 0.1),
             },
           },
           backdropFilter: "blur(10px)",
