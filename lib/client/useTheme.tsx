@@ -88,9 +88,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               background: darkMode ? palette[1] : "rgba(255,255,255,.5)",
               backdropFilter: "blur(10px)",
               borderBottom: "1px solid",
-              borderColor: darkMode
-                ? "hsla(240,11%,30%, .5)"
-                : "hsla(240,11%,90%,.6)",
+              borderColor: darkMode ? palette[3] : "hsla(240,11%,90%,.6)",
               color: darkMode ? "#fff" : "#000",
             }),
         },

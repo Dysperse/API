@@ -96,11 +96,9 @@ function Page() {
 
   const profileCardStyles = {
     border: "1px solid",
-    borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
-    color: `hsl(240,11%, ${session.user.darkMode ? 80 : 20}%)`,
-    boxShadow: `5px 5px 10px hsla(240,11%, ${
-      session.user.darkMode ? 15 : 95
-    }%)`,
+    borderColor: palette[3],
+    color: palette[11],
+    boxShadow: `10px 10px 20px ${palette[3]}`,
     p: 3,
     borderRadius: 5,
     heading: {
@@ -128,7 +126,7 @@ function Page() {
         left: 0,
         width: "100vw",
         height: "100vh",
-        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
+        background: palette[1],
         zIndex: 999,
         overflow: "auto",
       }}
@@ -167,7 +165,8 @@ function Page() {
       <AppBar
         position="sticky"
         sx={{
-          background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%,0.5)`,
+          background: palette[1],
+          borderColor: palette[3],
         }}
       >
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>

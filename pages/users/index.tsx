@@ -99,6 +99,7 @@ function Friend({ friend }) {
   // const formattedEndTime = currentWorkingHours && endTime.format("HH:mm");
 
   const lastLoggedIn = friend?.following?.sessions[0]?.timestamp;
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const taskDueDates = friend?.following?.properties
     ?.flatMap((obj) => obj.profile.Task)
@@ -119,7 +120,7 @@ function Friend({ friend }) {
         borderRadius: { xs: 0, sm: 5 },
         background: {
           xs: `transparent`,
-          sm: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+          sm: palette[2],
         },
         borderBottom: {
           xs: `1px solid hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
@@ -128,13 +129,13 @@ function Friend({ friend }) {
         "&:hover": {
           background: {
             xs: `transparent`,
-            sm: `hsl(240,11%,${session.user.darkMode ? 17 : 93}%)`,
+            sm: palette[3],
           },
         },
         "&:active": {
           background: {
-            xs: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
-            sm: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+            xs: palette[3],
+            sm: palette[4],
           },
         },
       }}
@@ -314,17 +315,12 @@ export default function Page() {
         left: 0,
         width: "100vw",
         height: "100vh",
-        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
+        background: palette[1],
         zIndex: 999,
         overflow: "auto",
       }}
     >
-      <AppBar
-        position="sticky"
-        sx={{
-          background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%,0.5)`,
-        }}
-      >
+      <AppBar position="sticky">
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
           <IconButton onClick={() => router.push("/zen")}>
             <Icon>west</Icon>
@@ -352,7 +348,7 @@ export default function Page() {
                 sx={{
                   borderRadius: { xs: 0, sm: 3 },
                   background: {
-                    sm: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+                    sm: palette[2],
                   },
                 }}
                 onClick={() => router.push(`/users/${session.user.email}`)}
