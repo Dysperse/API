@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
@@ -49,7 +50,8 @@ function PropertyInfo({
     <Box>
       <AppBar
         sx={{
-          background: palette[1],
+          background: addHslAlpha(palette[1], 0.9),
+          borderColor: addHslAlpha(palette[3], 0.9),
         }}
       >
         <Toolbar>

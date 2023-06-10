@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Button,
@@ -55,6 +56,8 @@ export default function ReleaseModal() {
     );
   };
 
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <SwipeableDrawer
       open={open}
@@ -101,7 +104,7 @@ export default function ReleaseModal() {
             <DialogActions
               sx={{
                 borderTop: "1px solid",
-                borderColor: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
+                borderColor: palette[3],
                 pt: 2,
               }}
             >
