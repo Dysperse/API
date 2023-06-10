@@ -1,4 +1,6 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -71,6 +73,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
     }
     setLoading(false);
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -103,9 +106,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             gap: 1.5,
             py: 2,
             mb: 1,
-            borderBottom: `1px solid ${
-              session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
-            }`,
+            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
           }}
         >
           <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
@@ -164,9 +165,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
         sx={{
           scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
-          borderColor: session.user.darkMode
-            ? "hsl(240,11%,16%)"
-            : "rgba(200,200,200,.2)",
+          borderColor: { sm: addHslAlpha(palette[4], 0.7) },
           zIndex: 1,
           height: "100%",
           flexGrow: 1,
@@ -187,7 +186,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               justifyContent: "center",
               width: "100%",
               height: "100px",
-              background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+              background: palette[3],
             }}
           >
             <CircularProgress />
@@ -199,13 +198,9 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             color: session.user.darkMode ? "#fff" : "#000",
             p: { xs: 2, sm: column.name === "" ? 1 : 3 },
             px: 4,
-            background: session.user.darkMode
-              ? "hsla(240,11%,16%, 0.2)"
-              : "rgba(255,255,255,.05)",
+            background: addHslAlpha(palette[2], 0.7),
             borderBottom: "1px solid",
-            borderColor: session.user.darkMode
-              ? "hsla(240,11%,18%, 0.2)"
-              : "rgba(200,200,200,.3)",
+            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
             userSelect: "none",
             zIndex: 9,
             backdropFilter: "blur(10px)",
@@ -355,13 +350,12 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
                 display: "none",
               }),
               mt: 2,
+              color: palette[12],
               borderRadius: { xs: 0, sm: 4 },
               ...(showCompleted && {
-                background: `hsl(240,11%,${
-                  session.user.darkMode ? 20 : 90
-                }%)!important`,
+                background: palette[3],
+                color: palette[11],
               }),
-              color: `hsl(240,11%,${session.user.darkMode ? 100 : 30}%)`,
             }}
             onClick={toggleShowCompleted}
           >

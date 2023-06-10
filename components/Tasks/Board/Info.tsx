@@ -1,4 +1,6 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
@@ -66,6 +68,7 @@ export function BoardInfo({
     mutationUrls,
   ]);
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Box
@@ -77,13 +80,7 @@ export function BoardInfo({
         height: { xs: "500px", md: "calc(100vh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },
         background: {
-          md: showInfo
-            ? session.user.darkMode
-              ? "hsla(240,11%,15%, 0.8)"
-              : "hsla(240, 11%, 95%, 0.5)"
-            : session.user.darkMode
-            ? "hsla(240,11%,13%, 0.8)"
-            : "rgba(200,200,200,.1)",
+          md: addHslAlpha(palette[3], 0.3),
         },
         border: { xs: "1px solid", md: "none" },
         borderColor: session.user.darkMode
