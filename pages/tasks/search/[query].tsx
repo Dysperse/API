@@ -2,6 +2,7 @@ import { ErrorHandler } from "@/components/Error";
 import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -48,6 +49,7 @@ export default function Dashboard() {
   }, [data, filters]);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>
@@ -63,7 +65,7 @@ export default function Dashboard() {
             width: "100vw",
             height: "100vh",
             zIndex: 9999,
-            background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
+            background: palette[1],
           }),
         }}
       >
@@ -156,7 +158,7 @@ export default function Dashboard() {
               borderRadius: 5,
               height: "100%",
               position: "relative",
-              background: `hsl(240,11%,${session.user.darkMode ? 15 : 98}%)`,
+              background: palette[2],
             }}
           >
             {error && (
