@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
@@ -75,7 +76,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
 
     document.documentElement.style.setProperty(
       "--overlay-dark",
-      palette[1].replace(")", ", 0.5)").replace("hsl", "hsla")
+      addHslAlpha(palette[1], 0.5)
     );
   });
 

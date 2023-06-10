@@ -1,6 +1,7 @@
 import { Grow, Slide } from "@mui/material";
 import React from "react";
 import { colors } from "../colors";
+import { addHslAlpha } from "./addHslAlpha";
 import { useColor } from "./useColor";
 
 const Transition = React.forwardRef(function Transition(
@@ -137,19 +138,15 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "&:hover": {
                 color: darkMode ? "#fff" : "#000",
                 background: {
-                  sm: `${
-                    darkMode ? "hsla(240,11%,25%, 0.2)" : "rgba(0,0,0,0.05)"
-                  }`,
+                  sm: addHslAlpha(palette[3], 0.3),
                 },
               },
               "&:active": {
-                background: `${
-                  darkMode ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.1)"
-                }`,
+                background: addHslAlpha(palette[4], 0.3),
               },
               "&:focus-visible": {
                 boxShadow: darkMode
-                  ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+                  ? "0px 0px 0px 1.5px #fff !important"
                   : "0px 0px 0px 1.5px #000 !important",
               },
             }),
