@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import { Navbar } from "../zen";
 
 export default function Render() {
   const session = useSession();
@@ -49,6 +50,7 @@ export default function Render() {
         pt: "env(titlebar-area-height, 0px)",
       }}
     >
+      <Navbar />
       <Head>
         <title>Coach</title>
       </Head>

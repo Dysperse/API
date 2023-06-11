@@ -49,6 +49,34 @@ function Logo() {
   );
 }
 
+export function Navbar({ showLogo = false }: { showLogo?: boolean }) {
+  const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+  const router = useRouter();
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        p: 2,
+        "& svg": {
+          display: { sm: "none" },
+        },
+      }}
+    >
+      <Logo />
+
+      <IconButton
+        sx={{ ml: "auto", color: palette[8] }}
+        onClick={() => router.push("/users")}
+      >
+        <Icon className="outlined">group</Icon>
+      </IconButton>
+    </Box>
+  );
+}
+
 export default function Home() {
   const router = useRouter();
   const session = useSession();
@@ -94,25 +122,7 @@ export default function Home() {
 
   return (
     <Box sx={{ ml: { sm: -1 } }}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          p: 2,
-          "& svg": {
-            display: { sm: "none" },
-          },
-        }}
-      >
-        <Logo />
-
-        <IconButton
-          sx={{ ml: "auto", color: palette[8] }}
-          onClick={() => router.push("/users")}
-        >
-          <Icon className="outlined">group</Icon>
-        </IconButton>
-      </Box>
+      <Navbar showLogo />
       <Box
         sx={{
           pt: { xs: 5, sm: 15 },
