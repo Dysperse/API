@@ -336,12 +336,12 @@ export const Column: any = memo(function Column({
 
               <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
-                  {data.length === 0 ? "Nothing much here..." : "Let's go!"}
+                  {data.length === 0 ? "No tasks (yet!)" : "Let's go!"}
                 </Typography>
                 <Typography gutterBottom sx={{ fontWeight: 300 }}>
                   {data.length === 0
-                    ? "You haven't added any tasks to this column"
-                    : "You finished all your tasks for this time range!"}
+                    ? "Nothing planned for this time!"
+                    : "You have no tasks remaining!"}
                 </Typography>
               </Box>
               <Box sx={{ width: "100%", mt: 1 }}>

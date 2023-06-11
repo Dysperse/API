@@ -118,7 +118,15 @@ export function RenderWithLayout({
                 initial={false}
                 onExitComplete={() => window.scrollTo(0, 0)}
               >
-                <Layout key={_router.asPath}>{children}</Layout>
+                <Layout
+                  key={
+                    _router.asPath.includes("/tasks")
+                      ? "/tasks"
+                      : _router.asPath
+                  }
+                >
+                  {children}
+                </Layout>
               </AnimatePresence>
             ) : (
               // If the onboarding process is not complete, redirect to the onboarding page.

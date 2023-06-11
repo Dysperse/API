@@ -311,10 +311,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               />
               <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
-                  Nothing much here...
-                </Typography>
-                <Typography gutterBottom>
-                  You haven&apos;t added any list items to this column
+                  No items (yet!)
                 </Typography>
               </Box>
             </Box>

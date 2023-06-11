@@ -83,9 +83,7 @@ export function BoardInfo({
           md: addHslAlpha(palette[3], 0.3),
         },
         border: { xs: "1px solid", md: "none" },
-        borderColor: session.user.darkMode
-          ? "hsla(240,11%,13%, 0.8)!important"
-          : "rgba(200,200,200,.4)!important",
+        borderColor: addHslAlpha(palette[4], 0.3),
         position: { md: "sticky" },
         left: "10px",
         zIndex: 9,
@@ -139,13 +137,11 @@ export function BoardInfo({
                   borderRadius: 2,
                   p: 1,
                   ml: -1,
-                  mb: 0.5,
-                  fontSize: "40px",
+                  fontSize: "60px",
+                  lineHeight: "65px",
                   py: 0.5,
                   "&:focus-within": {
-                    background: `hsl(240,11%,${
-                      session.user.darkMode ? 18 : 90
-                    }%)`,
+                    background: addHslAlpha(palette[4], 0.8),
                   },
                 },
               }}
@@ -170,9 +166,7 @@ export function BoardInfo({
                   ml: -1,
                   py: 1,
                   "&:focus-within": {
-                    background: `hsl(240,11%,${
-                      session.user.darkMode ? 18 : 90
-                    }%)`,
+                    background: addHslAlpha(palette[4], 0.8),
                   },
                 },
               }}
@@ -338,8 +332,9 @@ export function BoardInfo({
               textOrientation: "mixed",
               transform: "rotate(180deg)",
               my: "auto",
-              fontWeight: "700",
+              fontSize: "30px",
             }}
+            className="font-heading"
           >
             {board.name.substring(0, 15)}
             {board.name.length > 15 && "..."}
