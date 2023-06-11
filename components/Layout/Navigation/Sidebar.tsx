@@ -121,7 +121,7 @@ export function Sidebar() {
     };
   };
 
-  const shouldHide = ["/users", "/settings"].find((path) =>
+  const shouldHide = ["/users", "/settings", "/coach/routine"].find((path) =>
     router.asPath.includes(path)
   );
 
