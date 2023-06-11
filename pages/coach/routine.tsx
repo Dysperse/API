@@ -246,10 +246,10 @@ export default function Routine() {
             height: "100vh",
           }}
         >
-          <Typography variant="h1" sx={{ mb: 2 }} className="font-heading">
+          <Typography variant="h1" sx={{ mb: 1 }} className="font-heading">
             All done
           </Typography>
-          <Typography>Come back tomorrow for more.</Typography>
+          <Typography sx={{ mb: 2 }}>Come back tomorrow for more.</Typography>
           <Button
             onClick={() => router.push("/coach")}
             sx={{ zIndex: 999 }}
