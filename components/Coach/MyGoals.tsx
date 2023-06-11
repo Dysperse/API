@@ -3,21 +3,15 @@ import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
-  Card,
-  CardActionArea,
-  CardContent,
   Icon,
-  IconButton,
   InputAdornment,
   Skeleton,
-  SwipeableDrawer,
   TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
-import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
@@ -39,6 +33,8 @@ export function MyGoals(): JSX.Element {
   );
 
   const deferredQuery = useDeferredValue(query);
+  const trigger = useMediaQuery("(max-width: 600px)");
+
   const sortedGoals = useMemo(
     () =>
       (data
@@ -62,9 +58,6 @@ export function MyGoals(): JSX.Element {
   const children = data ? (
     <>
       <Box>
-        <Typography variant="h5" sx={{ mt: 3, mb: 2 }}>
-          My progress
-        </Typography>
         <TextField
           variant="standard"
           placeholder="Search..."
@@ -126,21 +119,22 @@ export function MyGoals(): JSX.Element {
             )
           }
           {sortedGoals.length >= 1 ? (
-            <>
-              <Virtuoso
-                isScrolling={setIsScrolling}
-                style={{ flexGrow: 1, borderRadius: "20px" }}
-                totalCount={sortedGoals.length}
-                itemContent={(index) => (
-                  <Goal
-                    isScrolling={isScrolling}
-                    key={sortedGoals[index].id}
-                    goal={sortedGoals[index]}
-                    mutationUrl={url}
-                  />
-                )}
-              />
-            </>
+            <Box
+              sx={{
+                ...(!trigger && {
+                  overflowY: "scroll",
+                }),
+              }}
+            >
+              {sortedGoals.map((goal) => (
+                <Goal
+                  isScrolling={isScrolling}
+                  key={goal.id}
+                  goal={goal}
+                  mutationUrl={url}
+                />
+              ))}
+            </Box>
           ) : (
             <Box
               sx={{
@@ -171,9 +165,6 @@ export function MyGoals(): JSX.Element {
     <></>
   );
 
-  const trigger = useMediaQuery("(max-width: 600px)");
-  const [mobileOpen, setMobileOpen] = useState(false);
-
   return data ? (
     <Box
       sx={{
@@ -185,58 +176,7 @@ export function MyGoals(): JSX.Element {
         px: 3,
       }}
     >
-      {!trigger && children}
-      {trigger && (
-        <Card
-          onClick={() => setMobileOpen(true)}
-          sx={{
-            background: palette[2],
-            borderRadius: 5,
-            mt: 2,
-            transition: "transform .2s",
-            "&:active": {
-              transform: "scale(.97)",
-            },
-          }}
-        >
-          <CardActionArea>
-            <CardContent sx={{ display: "flex", alignItems: "center" }}>
-              <Box>
-                <Typography variant="h5" sx={{ mb: 0.5 }}>
-                  My progress
-                </Typography>
-                <Typography>{data.length} goals</Typography>
-              </Box>
-              <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      )}
-      {trigger && (
-        <SwipeableDrawer
-          onClose={() => setMobileOpen(false)}
-          open={mobileOpen}
-          anchor="right"
-          PaperProps={{
-            sx: {
-              display: "flex",
-              flexDirection: "column",
-              height: "100vh",
-              width: "100vw",
-              p: 2,
-              flexGrow: 1,
-            },
-          }}
-        >
-          <IconButton
-            sx={{ position: "fixed", top: 0, right: 0, m: 3, mt: 5 }}
-            onClick={() => setMobileOpen(false)}
-          >
-            <Icon>close</Icon>
-          </IconButton>
-          {children}
-        </SwipeableDrawer>
-      )}
+      {children}
     </Box>
   ) : error ? (
     <ErrorHandler
@@ -245,9 +185,6 @@ export function MyGoals(): JSX.Element {
     />
   ) : (
     <Box sx={{ mt: 3, px: 3 }}>
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        My progress
-      </Typography>
       {[...new Array(10)].map((_, i) => (
         <Skeleton
           variant="rectangular"

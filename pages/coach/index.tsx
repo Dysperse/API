@@ -1,23 +1,18 @@
 import { MyGoals } from "@/components/Coach/MyGoals";
-import { Routines } from "@/components/Coach/Routines";
 import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
-  Button,
+  Chip,
   Icon,
   LinearProgress,
-  Skeleton,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { orange } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Head from "next/head";
-import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { Navbar } from "../zen";
 
@@ -90,105 +85,20 @@ export default function Render() {
                 callback={() => mutate(url)}
               />
             )}
-            <Box
-              sx={{
-                width: "100%",
-                px: 2,
-                color: useStreakStyles
-                  ? session.user.darkMode
-                    ? "rgba(0,0,0,0.5)"
-                    : {
-                        xs: orange[400],
-                        sm: orange[900],
-                      }
-                  : `hsl(240,11%,${session.user.darkMode ? 90 : 10}%,0.7)`,
-                background: useStreakStyles
-                  ? session.user.darkMode
-                    ? {
-                        xs: `linear-gradient(45deg, #642302, ${orange[900]})`,
-                      }
-                    : {
-                        xs: `linear-gradient(45deg, ${orange[50]}, ${orange[100]})`,
-                        sm: `linear-gradient(45deg, ${orange[400]}, ${orange[200]})`,
-                      }
-                  : palette[4],
-                p: 3,
-                py: 6,
-                borderRadius: { xs: 5, sm: 0 },
-                textAlign: "center",
-              }}
-            >
-              {loading ? (
-                <Skeleton
-                  variant="rectangular"
-                  animation="wave"
-                  height={80}
-                  width={80}
-                  sx={{
-                    borderRadius: 5,
-                    mx: "auto",
-                    my: 2,
-                  }}
-                />
-              ) : (
-                <Typography
-                  variant="h1"
-                  sx={{
-                    background: useStreakStyles
-                      ? session.user.darkMode
-                        ? {
-                            xs: `linear-gradient(45deg, #452d21, #642302)`,
-                          }
-                        : {
-                            xs: `linear-gradient(45deg, ${orange["400"]}, ${orange["200"]})`,
-                            sm: `linear-gradient(45deg, ${orange["500"]}, ${orange["900"]})`,
-                          }
-                      : session.user.darkMode
-                      ? "#eee"
-                      : "#303030",
-                    backgroundClip: "text!important",
-                    fontWeight: 700,
-                    WebkitTextFillColor: "transparent!important",
-                  }}
-                >
-                  {data?.streakCount && !isStreakBroken ? data.streakCount : 0}
-                </Typography>
-              )}
-              {loading ? (
-                <Skeleton sx={{ mx: "auto" }} width={100} animation="wave" />
-              ) : (
-                <Button
-                  sx={{
-                    p: "0!important",
-                    transition: "none",
-                    color: "inherit",
-                    minWidth: 0,
-                  }}
-                  size="small"
-                  onClick={() => {
-                    toast.dismiss();
 
-                    toast(
-                      hasCompletedForToday
-                        ? "You completed at least one task today to maintain your streak!"
-                        : isTimeRunningOut
-                        ? "Time's running out! Make sure to complete at least one task to keep your streak alive!"
-                        : "Complete at least one task to keep your streak alive",
-                      toastStyles
-                    );
-                  }}
-                >
-                  coach streak
-                  <Icon>
-                    {hasCompletedForToday
-                      ? "check"
-                      : isTimeRunningOut
-                      ? "hourglass_empty"
-                      : "priority_high"}
-                  </Icon>
-                </Button>
-              )}
-            </Box>
+            <Typography
+              variant="h2"
+              sx={{ display: "flex", mt: 4, alignItems: "center" }}
+            >
+              <span className="font-heading">My goals</span>
+              <Chip
+                sx={{ ml: "auto" }}
+                icon={<Icon>local_fire_department</Icon>}
+                label={
+                  data?.streakCount && !isStreakBroken ? data.streakCount : 0
+                }
+              />
+            </Typography>
           </Box>
           <Box
             sx={{
@@ -200,9 +110,7 @@ export default function Render() {
             <Typography
               sx={{
                 p: 3,
-                background: session.user.darkMode
-                  ? "hsla(240,11%,50%,0.2)"
-                  : "rgba(200,200,200,.3)",
+                background: { xs: palette[2], sm: palette[4] },
                 mb: 2,
                 borderRadius: 5,
               }}
@@ -279,7 +187,7 @@ export default function Render() {
         <Box
           sx={{
             background: {
-              md: palette[3],
+              md: palette[2],
             },
             overflow: "scroll",
             width: "100%",
@@ -290,39 +198,8 @@ export default function Render() {
             flexGrow: 1,
           }}
         >
-          {!trigger && (
-            <>
-              <Typography variant="h5" sx={{ mt: 2, ml: 3 }}>
-                Routines
-              </Typography>
-              <Routines isCoach={trigger} />
-            </>
-          )}
           <MyGoals />
         </Box>
-        {trigger && (
-          <Box
-            sx={{
-              background: {
-                md: palette[3],
-              },
-              overflow: "scroll",
-              p: { md: 2 },
-              py: { md: 1 },
-              position: "relative",
-              borderRadius: 5,
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              flexGrow: 1,
-            }}
-          >
-            <Typography variant="h5" sx={{ mt: 2 }}>
-              Routines
-            </Typography>
-            <Routines isCoach={trigger} />
-          </Box>
-        )}
       </Box>
     </Box>
   );

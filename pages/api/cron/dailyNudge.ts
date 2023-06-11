@@ -1,9 +1,8 @@
 const webPush = require("web-push");
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
+import { RoutineItem } from "@prisma/client";
 import dayjs from "dayjs";
-
-import { Routine } from "@prisma/client";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
@@ -38,7 +37,7 @@ const Notification = async (req, res) => {
         select: {
           notificationSubscription: true,
           timeZone: true,
-          Routine: true,
+          RoutineItem: true,
         },
       },
     },
@@ -46,7 +45,7 @@ const Notification = async (req, res) => {
 
   // Make sure that user actually has routines
   subscriptions = subscriptions.filter(
-    (subscription) => subscription.user.Routine.length > 0
+    (subscription) => subscription.user.RoutineItem.length > 0
   );
 
   webPush.setVapidDetails(
@@ -58,51 +57,46 @@ const Notification = async (req, res) => {
   // For each user
   for (let i = 0; i < subscriptions.length; i++) {
     const subscription = subscriptions[i];
-    const { notificationSubscription, timeZone, Routine }: any =
+    const { notificationSubscription, timeZone, RoutineItem }: any =
       subscription.user;
 
     // Current time in user's timezone
     const currentTimeInUserTimeZone = dayjs().tz(timeZone).hour();
-    const currentDayInUserTimeZone = dayjs().tz(timeZone).day();
 
-    const currentRoutine = Routine.find(
-      (routine: Routine) => routine.timeOfDay + 1 === currentTimeInUserTimeZone
+    const currentRoutine = RoutineItem.find(
+      (routine: RoutineItem) => routine.timeOfDay === currentTimeInUserTimeZone
     );
 
     if (currentRoutine) {
-      const daysOfWeek = JSON.parse(currentRoutine.daysOfWeek);
+      try {
+        const templates = [
+          "Embrace the challenges ahead, for they hold the key to your growth.",
+          "Today is your opportunity to write a new chapter in your success story.",
+          "Let your dreams take flight, as the possibilities are endless.",
+          "Dare to be extraordinary and watch your aspirations become reality.",
+          "Every setback is a setup for a comeback. Keep pushing forward!",
+          "Believe in yourself, for you possess the power to achieve greatness.",
+          "Unlock your potential and discover the extraordinary within you.",
+          "Rise above the ordinary and strive for the extraordinary.",
+          "Turn your obstacles into stepping stones and conquer new heights.",
+          "Your journey begins now, with every step you take towards your dreams.",
+        ];
+        const random = templates[Math.floor(Math.random() * templates.length)];
 
-      // Check if user has enabled routine for that day
-      if (daysOfWeek[currentDayInUserTimeZone] === true) {
-        try {
-          const templates = [
-            "Let's get started on [routine_name]!",
-            "Time to crush your [routine_name]!",
-            "Ready to work on your [routine_name]!?",
-            "[routine_name] - It's time!",
-          ];
-          const random =
-            templates[Math.floor(Math.random() * templates.length)];
-
-          await DispatchNotification({
-            title: random
-              .replace("[routine_name]", currentRoutine.name.trim())
-              .replace(/(\r\n|\n|\r)/gm, ""),
-            icon:
-              `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${currentRoutine.emoji}.png` ||
-              "https://assets.dysperse.com/v5/ios/192.png",
-            body: "Let's get started! Tap to open",
-            actions: [
-              {
-                title: "👉 Start",
-                action: `routine-${currentRoutine.id}`,
-              },
-            ],
-            subscription: notificationSubscription,
-          });
-        } catch (error) {
-          console.log(error);
-        }
+        await DispatchNotification({
+          title: currentRoutine.stepName.trim(),
+          icon: "https://assets.dysperse.com/v5/ios/192.png",
+          body: random,
+          actions: [
+            {
+              title: "👉 Finish daily goal",
+              action: `goal-${currentRoutine.id}`,
+            },
+          ],
+          subscription: notificationSubscription,
+        });
+      } catch (error) {
+        console.log(error);
       }
     }
   }

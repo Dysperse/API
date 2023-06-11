@@ -38,7 +38,6 @@ model User {
   Board                Board[]
   Integration          Integration[]
   DailyCheckIn         DailyCheckIn[]
-  Routine              Routine[]
   QrToken              QrToken[]
 
   followers Follows[] @relation("following")
@@ -252,36 +251,21 @@ model Task {
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
-model Routine {
-  id    String @id @unique @default(uuid())
-  name  String
-  note  String
-  emoji String @default("1f331")
-
-  timeOfDay  Int    @default(12)
-  daysOfWeek String @default("[true, true, true, true, true, true, true]")
-
-  items RoutineItem[]
-
-  userId String
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-}
-
 model RoutineItem {
-  id            String   @id @unique @default(uuid())
+  id            String  @id @unique @default(uuid())
   name          String
   stepName      String
   category      String
   durationDays  Int
-  progress      Int      @default(0)
+  progress      Int     @default(0)
   emoji         String
   lastCompleted String?
-  completed     Boolean  @default(false)
-  feedback      String?  @default("")
-  userId        String
-  user          User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-  Routine       Routine? @relation(fields: [routineId], references: [id])
-  routineId     String?
+  completed     Boolean @default(false)
+  feedback      String? @default("")
+  timeOfDay     Int     @default(12)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model DailyCheckIn {

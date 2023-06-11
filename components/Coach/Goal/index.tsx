@@ -47,24 +47,19 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
         sx={{
           height: 120,
           borderRadius: 5,
-          "&:hover": {
-            background: palette[5],
-          },
-          "&:active": {
-            transform: "scale(.98)",
-            transition: { sm: "none!important" },
-          },
           py: 2,
           transition: "transform .2s!important",
           px: 3,
           background: {
+            xs: palette[2],
             sm: palette[4],
           },
-          borderBottom: {
-            xs: session.user.darkMode
-              ? "1px solid hsla(240,11%,15%)"
-              : "1px solid #ddd",
-            sm: "none",
+          "&:hover": {
+            background: { sm: palette[5] },
+          },
+          "&:active": {
+            transform: "scale(.98)",
+            transition: { sm: "none!important" },
           },
           mb: { xs: 3, sm: 0 },
           userSelect: "none",
