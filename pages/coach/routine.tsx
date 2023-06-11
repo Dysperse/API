@@ -1,3 +1,4 @@
+import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
@@ -14,6 +15,8 @@ export default function Routine() {
   const router = useRouter();
   const session = useSession();
   const palette = useColor(session.themeColor, session.user.darkMode);
+
+  const { data, error } = useApi("user/coach");
 
   return (
     <Box
@@ -45,6 +48,8 @@ export default function Routine() {
           </Typography>
         </Toolbar>
       </AppBar>
+      {data &&
+        data.map((goal) => <Box key={goal.id}>{JSON.stringify(goal)}</Box>)}
     </Box>
   );
 }
