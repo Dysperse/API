@@ -4,8 +4,6 @@ import { useSession } from "@/lib/client/useSession";
 import { Box, Button, Skeleton, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useRef } from "react";
-import { mutate } from "swr";
-import { ErrorHandler } from "../../Error";
 import { CreateGoal } from "../Goal/Create";
 import { Routine } from "./Routine";
 
@@ -221,12 +219,6 @@ export function Routines({ isCoach = false }: any) {
         </Box>
       ) : (
         loading
-      )}
-      {error && (
-        <ErrorHandler
-          callback={() => mutate(url)}
-          error="Oh no! An error occured while trying to fetch your routines! Please try again later."
-        />
       )}
     </Box>
   );

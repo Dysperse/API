@@ -181,7 +181,7 @@ export function MyGoals(): JSX.Element {
   ) : error ? (
     <ErrorHandler
       callback={() => mutate(url)}
-      error="An error occured while trying to fetch your routines"
+      error="An error occured while trying to fetch your goals"
     />
   ) : (
     <Box sx={{ mt: 3, px: 3 }}>
