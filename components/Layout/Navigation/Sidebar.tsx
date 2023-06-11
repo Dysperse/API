@@ -121,12 +121,18 @@ export function Sidebar() {
     };
   };
 
+  const shouldHide = ["/users", "/settings"].find((path) =>
+    router.asPath.includes(path)
+  );
+
   return (
     <Box
       sx={{
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
+        ...(shouldHide && { ml: "-90px", opacity: 0, pointerEvents: "none" }),
+        transition: "all .2s",
         zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",
