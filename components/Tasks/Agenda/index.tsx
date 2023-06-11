@@ -176,7 +176,7 @@ export function Agenda({
         size="large"
         onClick={handleOpen}
         onContextMenu={handleOpen}
-        sx={taskStyles(session).menu}
+        sx={taskStyles(palette).menu}
       >
         <Icon>menu</Icon>
       </IconButton>

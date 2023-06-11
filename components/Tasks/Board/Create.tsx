@@ -1,4 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
@@ -571,6 +572,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
@@ -578,7 +580,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
         size="large"
         onContextMenu={() => setDrawerOpen(true)}
         onClick={() => setDrawerOpen(true)}
-        sx={taskStyles(session).menu}
+        sx={taskStyles(palette).menu}
       >
         <Icon className="outlined">menu</Icon>
       </IconButton>

@@ -73,7 +73,7 @@ export default function Dashboard() {
           size="large"
           onContextMenu={() => setOpen(true)}
           onClick={() => setOpen(true)}
-          sx={{ ...taskStyles(session).menu, bottom: "20px" }}
+          sx={{ ...taskStyles(palette).menu, bottom: "20px" }}
         >
           <Icon>menu</Icon>
         </IconButton>
@@ -81,7 +81,7 @@ export default function Dashboard() {
           size="large"
           onClick={() => router.push("/tasks/agenda/day")}
           sx={{
-            ...taskStyles(session).menu,
+            ...taskStyles(palette).menu,
             right: "20px",
             left: "unset",
             bottom: "20px",

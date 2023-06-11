@@ -12,6 +12,9 @@ export function DailyCheckInDrawer({ mood }) {
         onClick={() => router.push("/mood-history")}
         sx={{
           display: "flex",
+          "&, & *": {
+            transition: "none",
+          },
           gap: 2,
           p: 3,
           borderRadius: 5,
@@ -42,7 +45,7 @@ export function DailyCheckInDrawer({ mood }) {
                 }}
               />
             )}
-            How are you feeling today?
+            Check-in
           </Typography>
           <Typography
             variant="body2"
@@ -53,7 +56,7 @@ export function DailyCheckInDrawer({ mood }) {
               gap: 1,
             }}
           >
-            Identify and track your emotions
+            How are you feeling today?
           </Typography>
         </Box>
         <Icon>arrow_forward_ios</Icon>

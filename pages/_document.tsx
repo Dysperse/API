@@ -57,10 +57,9 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Geologica:wght@100;200;300;400;500;600;700;800;900&family=Fraunces:wght@600;700;900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
-
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse user dashboard" />
         <meta name="theme-color" content="#fff" />

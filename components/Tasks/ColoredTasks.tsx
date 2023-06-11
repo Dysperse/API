@@ -1,4 +1,5 @@
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import { colors } from "@/lib/colors";
@@ -26,6 +27,7 @@ export function ColoredTasks({ setDrawerOpen }) {
   const [color, setColor] = useState("all");
 
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   if (!data) {
     return (
@@ -58,7 +60,7 @@ export function ColoredTasks({ setDrawerOpen }) {
           setDrawerOpen(true);
         }}
         onClick={() => setDrawerOpen(true)}
-        sx={taskStyles(session).menu}
+        sx={taskStyles(palette).menu}
       >
         <Icon>menu</Icon>
       </IconButton>

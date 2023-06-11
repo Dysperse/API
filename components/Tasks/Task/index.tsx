@@ -169,7 +169,7 @@ export const Task: any = function Task({
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             borderBottom: { xs: "1px solid", sm: "none" },
-            borderColor: palette[3],
+            borderColor: palette[3] + "!important",
             transition: "none",
             py: { xs: 1, sm: 0.7 },
             px: { xs: 2.6, sm: 1.7 },

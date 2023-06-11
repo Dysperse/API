@@ -5,13 +5,12 @@ import { useColor } from "@/lib/client/useColor";
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { Box, Button, CssBaseline, Snackbar, Toolbar } from "@mui/material";
+import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
-import { Navbar } from "./Navigation/AppBar";
 import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
 import { UpdateButton } from "./Navigation/UpdateButton";
@@ -140,7 +139,6 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
         message="An error occured while trying to get your account storage information"
       />
       <UpdateButton />
-      <Navbar />
       <KeyboardShortcutsModal />
       <Box
         sx={{
@@ -164,7 +162,6 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
           },
         }}
       >
-        <Toolbar sx={{ display: { md: "none" } }} />
         <Box
           sx={{
             height: "70px",

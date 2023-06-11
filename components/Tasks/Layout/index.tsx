@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
@@ -145,7 +146,7 @@ function SearchTasks({ setOpen }) {
   );
 }
 
-export const taskStyles = (session) => {
+export const taskStyles = (palette) => {
   return {
     subheading: {
       my: { xs: 1, sm: 1.5 },
@@ -155,7 +156,7 @@ export const taskStyles = (session) => {
       opacity: 0.5,
       fontSize: "13px",
       px: 1.5,
-      color: session.user.darkMode ? "#fff" : "#000",
+      color: palette[12],
       userSelect: "none",
     },
     menu: {
@@ -168,16 +169,14 @@ export const taskStyles = (session) => {
       },
       left: "10px",
       zIndex: 9,
-      background: session.user.darkMode
-        ? "hsla(240,11%,14%,0.5)!important"
-        : "rgba(255,255,255,.5)!important",
+      background: addHslAlpha(palette[2], 0.9),
       backdropFilter: "blur(10px)",
       border: "1px solid",
-      borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.5)`,
+      borderColor: addHslAlpha(palette[2], 0.5),
       fontWeight: "700",
       display: { md: "none" },
       fontSize: "15px",
-      color: session.user.darkMode ? "#fff" : "#000",
+      color: palette[12],
     },
   };
 };
@@ -260,7 +259,7 @@ export function TasksLayout({ open, setOpen, children }) {
         />
       )}
       <SearchTasks setOpen={setOpen} />
-      <Typography sx={taskStyles(session).subheading}>Perspectives</Typography>
+      <Typography sx={taskStyles(palette).subheading}>Perspectives</Typography>
       <Box onClick={() => setOpen(false)}>
         {[
           !isMobile && {
@@ -341,7 +340,7 @@ export function TasksLayout({ open, setOpen, children }) {
           opacity: 0.5,
         }}
       />
-      <Typography sx={taskStyles(session).subheading}>Boards</Typography>
+      <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
       {data &&
         data
           .filter((x) => !x.archived)
@@ -406,7 +405,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 opacity: 0.5,
               }}
             />
-            <Typography sx={taskStyles(session).subheading}>
+            <Typography sx={taskStyles(palette).subheading}>
               Archived
             </Typography>
           </>

@@ -1,5 +1,6 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
@@ -48,6 +49,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     await mutate(mutationUrls.tasks);
     await mutate(mutationUrls.boardData);
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Box
@@ -159,7 +161,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           setDrawerOpen(true);
         }}
         onClick={() => setMobileOpen(true)}
-        sx={taskStyles(session).menu}
+        sx={taskStyles(palette).menu}
       >
         <Icon className="outlined">menu</Icon>
       </IconButton>
