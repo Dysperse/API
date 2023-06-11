@@ -37,6 +37,11 @@ const moduleExports = {
           permanent: true,
         },
         {
+          source: "/tasks",
+          destination: "/agenda/week",
+          permanent: false,
+        },
+        {
           source: "/discord",
           destination: "https://discord.gg/fvngmDzh77",
           permanent: true,

@@ -160,7 +160,7 @@ export default function BoardSettings({ mutationUrls, board }) {
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
             await fetchRawApi("property/boards/delete", { id: board.id });
-            router.push("/tasks");
+            router.push("/agenda/week");
             await mutate(mutationUrls.boardData);
           }}
         >

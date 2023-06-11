@@ -80,7 +80,7 @@ export function Sidebar() {
     "ctrl+shift+2",
     (e) => {
       e.preventDefault();
-      router.push("/tasks");
+      router.push("/agenda/week");
     },
     [open]
   );
@@ -188,14 +188,14 @@ export function Sidebar() {
         </Tooltip>
       </Box>
       <Box
-        sx={styles(router.asPath.includes("/tasks"))}
-        onClick={() => router.push("/tasks")}
-        onMouseDown={() => router.push("/tasks")}
+        sx={styles(router.asPath.includes("/agenda/week"))}
+        onClick={() => router.push("/agenda/week")}
+        onMouseDown={() => router.push("/agenda/week")}
       >
         <Tooltip title="Tasks" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath.includes("/tasks") ? "rounded" : "outlined"
+              router.asPath.includes("/agenda/week") ? "rounded" : "outlined"
             }`}
           >
             check_circle
