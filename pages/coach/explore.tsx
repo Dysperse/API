@@ -1,9 +1,9 @@
 import { CreateGoal } from "@/components/Coach/Goal/Create/Custom";
+import { ExploreGoalCard } from "@/components/Coach/Goal/Create/card";
 import {
   categories,
   goals,
 } from "@/components/Coach/Goal/Create/goalTemplates";
-import { ExploreGoalCard } from "@/components/Coach/Routines/Create/ExploreGoalCard";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { Masonry } from "@mui/lab";
 import { Box, Button, Icon, Typography } from "@mui/material";
