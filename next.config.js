@@ -38,7 +38,7 @@ const moduleExports = {
         },
         {
           source: "/tasks",
-          destination: "/agenda/week",
+          destination: "/tasks/agenda/week",
           permanent: false,
         },
         {

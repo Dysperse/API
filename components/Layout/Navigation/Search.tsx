@@ -31,12 +31,12 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
   return [
     {
       title: "Boards",
-      onTrigger: () => router.push("/agenda/week"),
+      onTrigger: () => router.push("/tasks/agenda/week"),
       icon: "verified",
     },
     {
       title: "Weekly agenda",
-      onTrigger: () => router.push("/tasks#/agenda/week"),
+      onTrigger: () => router.push("/tasks/agenda/week"),
       icon: "view_week",
       badge: "Agenda",
     },
@@ -128,7 +128,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           return {
             title: property.profile.name,
             onTrigger: () => {
-              router.push("/agenda/week");
+              router.push("/tasks/agenda/week");
               fetchRawApi("property/switch", {
                 email: session.user.email,
                 accessToken1: property.accessToken,

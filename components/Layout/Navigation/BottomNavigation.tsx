@@ -116,12 +116,12 @@ export function BottomNav() {
         </span>
       </Box>
       <Box
-        onClick={() => router.push("/agenda/week")}
-        sx={styles(router.asPath.includes("/agenda/week"))}
+        onClick={() => router.push("/tasks/agenda/week")}
+        sx={styles(router.asPath.includes("/tasks"))}
       >
         <span
           className={`material-symbols-${
-            router.asPath.includes("/agenda/week") ? "rounded" : "outlined"
+            router.asPath.includes("/tasks") ? "rounded" : "outlined"
           }`}
         >
           check_circle
