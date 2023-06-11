@@ -19,7 +19,6 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { updateSettings } from "../../../lib/client/updateSettings";
-import { Routines } from "../../Coach/Routines";
 import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 
@@ -281,9 +280,6 @@ export default function Spotlight() {
           }}
           value={inputValue}
         />
-      </Box>
-      <Box>
-        <Routines />
       </Box>
       <Box sx={{ mt: 1, px: 2, flexGrow: 1 }}>
         <Virtuoso
