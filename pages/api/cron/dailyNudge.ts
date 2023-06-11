@@ -64,7 +64,8 @@ const Notification = async (req, res) => {
     const currentTimeInUserTimeZone = dayjs().tz(timeZone).hour();
 
     const currentRoutine = RoutineItem.find(
-      (routine: RoutineItem) => routine.timeOfDay === currentTimeInUserTimeZone
+      (routine: RoutineItem) =>
+        routine.timeOfDay + 1 === currentTimeInUserTimeZone
     );
 
     if (currentRoutine) {
