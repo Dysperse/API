@@ -3,32 +3,27 @@ import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import {
-  Box,
-  Chip,
-  Icon,
-  LinearProgress,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, CardActionArea, Chip, Icon, Typography } from "@mui/material";
+import { orange } from "@radix-ui/colors";
 import dayjs from "dayjs";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { mutate } from "swr";
 import { Navbar } from "../zen";
 
 export default function Render() {
   const session = useSession();
-  const trigger = useMediaQuery("(min-width: 600px)");
+  const router = useRouter();
 
-  const { data, loading, url, error } = useApi("user/coach/streaks");
+  const { data, url, error } = useApi("user/coach/streaks");
   const isTimeRunningOut = dayjs().hour() > 18;
 
-  const hasCompletedForToday =
-    dayjs().startOf("day").toDate().getTime() ===
-    dayjs(data ? data.lastStreakDate : new Date())
-      .startOf("day")
-      .toDate()
-      .getTime();
+  // const hasCompletedForToday =
+  //   dayjs().startOf("day").toDate().getTime() ===
+  //   dayjs(data ? data.lastStreakDate : new Date())
+  //     .startOf("day")
+  //     .toDate()
+  //     .getTime();
 
   const isStreakBroken =
     dayjs().diff(dayjs(data ? data.lastStreakDate : new Date()), "day") >= 2;
@@ -92,7 +87,13 @@ export default function Render() {
             >
               <span className="font-heading">My goals</span>
               <Chip
-                sx={{ ml: "auto" }}
+                sx={{
+                  ml: "auto",
+                  ...(!useStreakStyles && {
+                    background: orange["orange9"],
+                    color: orange["orange1"],
+                  }),
+                }}
                 icon={<Icon>local_fire_department</Icon>}
                 label={
                   data?.streakCount && !isStreakBroken ? data.streakCount : 0
@@ -100,89 +101,27 @@ export default function Render() {
               />
             </Typography>
           </Box>
-          <Box
+          <CardActionArea
+            onClick={() => router.push("/coach/routine")}
             sx={{
               flexGrow: 1,
-              pt: 3,
+              p: 3,
+              my: 3,
+              borderRadius: 5,
               px: { sm: 3 },
+              display: "flex",
+              background: { xs: palette[2], sm: palette[4] },
+              alignItems: "center",
             }}
           >
-            <Typography
-              sx={{
-                p: 3,
-                background: { xs: palette[2], sm: palette[4] },
-                mb: 2,
-                borderRadius: 5,
-              }}
-            >
-              <b>Leagues coming soon</b>
-              <Typography variant="body2">
-                Leagues allow you to track progress and compete with friends and
-                family to achieve your goals.
+            <Box>
+              <Typography>
+                <b>Today&apos;s routine</b>
               </Typography>
-            </Typography>
-            <Box
-              sx={{
-                width: "100%",
-                mb: 2,
-                px: 2,
-                border: "2px solid #CD7F32",
-                color: "#CD7F32",
-                p: 3,
-                opacity: 0.6,
-                display: "none",
-                borderRadius: 5,
-              }}
-            >
-              <Typography variant="body2">Current league</Typography>
-              <Typography
-                variant="h4"
-                sx={{
-                  background: "linear-gradient(45deg, #CD7F32, #7a4d20)",
-                  backgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Box>Bronze II</Box>
-                <Box sx={{ display: "flex", ml: "auto" }}>
-                  {[false, true, true].map((life, index) => (
-                    <picture key={index}>
-                      <img
-                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
-                          life ? "2764" : "1f494"
-                        }.png`}
-                        alt="heart"
-                        width={20}
-                        height={20}
-                      />
-                    </picture>
-                  ))}
-                </Box>
-              </Typography>
-              <LinearProgress
-                variant="determinate"
-                value={75}
-                sx={{ height: 20, borderRadius: 9, mb: 2, mt: 1 }}
-                color="inherit"
-              />
-              <b>40</b> more days until{" "}
-              <b>
-                <span
-                  style={{
-                    color: "#7d7f80",
-                    border: "2px solid",
-                    padding: "1px 5px",
-                    borderRadius: "4px",
-                    borderColor: "#7d7f80",
-                  }}
-                >
-                  Silver III
-                </span>
-              </b>
+              <Typography variant="body2">Tap to start</Typography>
             </Box>
-          </Box>
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+          </CardActionArea>
         </Box>
         <Box
           sx={{
