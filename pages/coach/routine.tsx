@@ -62,6 +62,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
           background: palette[2],
           borderBottomLeftRadius: 15,
           borderBottomRightRadius: 15,
+          width: "100%",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -84,6 +85,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
           sx={{ mt: "auto", mb: 2, background: palette[3] }}
           variant="contained"
           onClick={handleNext}
+          disabled={goal.lastCompleted === dayjs().format("YYYY-MM-DD")}
         >
           I completed this task!
         </Button>
