@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
@@ -75,18 +76,14 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             md: 3,
           },
           zIndex: 99,
-          background: session.user.darkMode
-            ? "hsla(240,11%,14%,0.5)"
-            : "rgba(255,255,255,.5)",
+          background: addHslAlpha(palette[3], 0.9),
           border: "1px solid",
           transition: "transform .2s, opacity .2s",
           backdropFilter: "blur(10px)",
           boxShadow:
             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
           borderRadius: 999,
-          borderColor: session.user.darkMode
-            ? "hsla(240,11%,25%, 0.5)"
-            : "rgba(200,200,200, 0.3)",
+          borderColor: addHslAlpha(palette[3], 0.5),
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
           display: { xs: "flex", sm: "none" },

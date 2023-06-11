@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
@@ -195,12 +196,12 @@ export function Agenda({
             md: 3,
           },
           zIndex: 9,
-          background: palette[3],
+          background: addHslAlpha(palette[3], 0.9),
           border: "1px solid",
           transition: "transform .2s, opacity .2s",
           backdropFilter: "blur(10px)",
           borderRadius: 999,
-          borderColor: palette[4],
+          borderColor: addHslAlpha(palette[3], 0.5),
           right: 0,
           color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",
