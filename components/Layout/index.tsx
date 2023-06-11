@@ -176,7 +176,6 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
           <Box
             sx={{
               height: "70px",
-              pt: { xs: 1.8, sm: 0 },
               pl: { md: "85px" },
             }}
           >

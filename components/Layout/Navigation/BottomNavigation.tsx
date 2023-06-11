@@ -2,6 +2,7 @@ import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import { openSpotlight } from "./Search";
 
 /**
  * Bottom navigation bar
@@ -131,8 +132,8 @@ export function BottomNav() {
           check_circle
         </span>
       </Box>
-      <Box onClick={() => router.push("/users")} sx={styles(false)}>
-        <span className={`material-symbols-outlined`}>group</span>
+      <Box onClick={() => openSpotlight()} sx={styles(false)}>
+        <span className={`material-symbols-outlined`}>bolt</span>
       </Box>
       <Box
         sx={styles(router.asPath.includes("/coach"))}

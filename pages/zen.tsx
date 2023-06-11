@@ -5,6 +5,7 @@ import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Icon,
+  IconButton,
   ListItemButton,
   ListItemText,
   Toolbar,
@@ -14,6 +15,39 @@ import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+
+function Logo() {
+  const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="45"
+      height="45"
+      version="1"
+      viewBox="0 0 375 375"
+      fill={palette[4]}
+    >
+      <defs>
+        <clipPath id="963808ace8">
+          <path d="M37.5 37.5h300.75v300.75H37.5zm0 0"></path>
+        </clipPath>
+        <clipPath id="f8e32d0f6d">
+          <path
+            d="M187.875 37.5c0 83.05 67.324 150.375 150.375 150.375-83.05 0-150.375 67.324-150.375 150.375 0-83.05-67.324-150.375-150.375-150.375 83.05 0 150.375-67.324 150.375-150.375zm0 0"
+            clipRule="evenodd"
+          ></path>
+        </clipPath>
+      </defs>
+      <g clipPath="url(#963808ace8)">
+        <g clipPath="url(#f8e32d0f6d)">
+          <path d="M338.25 37.5H37.5v300.75h300.75zm0 0"></path>
+        </g>
+      </g>
+    </svg>
+  );
+}
 
 export default function Home() {
   const router = useRouter();
@@ -62,7 +96,23 @@ export default function Home() {
     <Box sx={{ ml: { sm: -1 } }}>
       <Box
         sx={{
-          pt: { xs: 10, sm: 20 },
+          display: "flex",
+          alignItems: "center",
+          p: 2,
+          "& svg": {
+            display: { sm: "none" },
+          },
+        }}
+      >
+        <Logo />
+
+        <IconButton sx={{ ml: "auto", color: palette[8] }}>
+          <Icon className="outlined">group</Icon>
+        </IconButton>
+      </Box>
+      <Box
+        sx={{
+          pt: { xs: 5, sm: 15 },
         }}
       >
         <Box
