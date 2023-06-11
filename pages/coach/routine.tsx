@@ -21,6 +21,11 @@ import { mutate } from "swr";
 function GoalTask({ goal, setSlide, mutationUrl }) {
   const session = useSession();
   const palette = useColor(session.themeColor, session.user.darkMode);
+  useEffect(() => {
+    document
+      .querySelector(`meta[name="theme-color"]`)
+      ?.setAttribute("content", palette[2]);
+  });
 
   const handleNext = () => {
     setSlide((s) => s + 1);
