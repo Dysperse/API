@@ -89,7 +89,7 @@ export default function Render() {
               <Chip
                 sx={{
                   ml: "auto",
-                  ...(!useStreakStyles && {
+                  ...(useStreakStyles && {
                     background: orange["orange9"],
                     color: orange["orange1"],
                   }),
