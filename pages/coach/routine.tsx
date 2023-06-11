@@ -179,17 +179,19 @@ export default function Routine() {
         </Box>
       )}
       {data &&
-        data.map(
-          (goal, index) =>
-            slide === index && (
-              <GoalTask
-                mutationUrl={url}
-                setSlide={setSlide}
-                goal={goal}
-                key={goal.id}
-              />
-            )
-        )}
+        data
+          .sort((a, b) => a.timeOfDay.value - b.timeOfDay.value)
+          .map(
+            (goal, index) =>
+              slide === index && (
+                <GoalTask
+                  mutationUrl={url}
+                  setSlide={setSlide}
+                  goal={goal}
+                  key={goal.id}
+                />
+              )
+          )}
     </Box>
   );
 }
