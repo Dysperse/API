@@ -247,7 +247,7 @@ export default function Routine() {
           }}
         >
           <Typography variant="h1" sx={{ mb: 1 }} className="font-heading">
-            All done
+            All done.
           </Typography>
           <Typography sx={{ mb: 2 }}>Come back tomorrow for more.</Typography>
           <Button
