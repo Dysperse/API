@@ -200,7 +200,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             px: 4,
             background: addHslAlpha(palette[2], 0.7),
             borderBottom: "1px solid",
-            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
+            borderColor: addHslAlpha(palette[4], 0.7),
             userSelect: "none",
             zIndex: 9,
             backdropFilter: "blur(10px)",

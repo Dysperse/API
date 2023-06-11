@@ -58,8 +58,6 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         display: "flex",
         maxWidth: "100vw",
         overflowX: "scroll",
-        mt: { xs: -2, sm: 0 },
-        height: { sm: "" },
         minHeight: "100vh",
       }}
     >

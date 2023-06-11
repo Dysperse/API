@@ -247,7 +247,6 @@ export function Agenda({
           maxWidth: "100vw",
           overflowX: "scroll",
           height: { md: "100vh" },
-          mt: { xs: -2, md: 0 },
           ...(loading && { pointerEvents: "none", filter: "blur(10px)" }),
         }}
       >
