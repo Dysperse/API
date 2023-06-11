@@ -56,6 +56,10 @@ export function BottomNav() {
   const palette = useColor(session.themeColor, session.user.darkMode);
   const router = useRouter();
 
+  const shouldHide = ["/users", "/settings"].find((path) =>
+    router.asPath.includes(path)
+  );
+
   /**
    * Handles button click
    * @param {any} href
@@ -66,7 +70,7 @@ export function BottomNav() {
       sx={{
         width: "100%",
         position: "fixed",
-        bottom: 0,
+        bottom: shouldHide ? "-90px" : 0,
         left: 0,
         transition: "bottom .3s",
         overflowX: "hidden",
