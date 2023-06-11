@@ -101,6 +101,8 @@ export function Header({
                 color: "inherit",
                 mt: -0.5,
                 display: "flex",
+                alignItems: "center",
+                justifyContent: { xs: "center", sm: "flex-start" },
                 flexWrap: "wrap",
                 gap: 1,
               }}
