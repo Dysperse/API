@@ -6,6 +6,7 @@ import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -162,15 +163,26 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
           },
         }}
       >
-        <Box
-          sx={{
-            height: "70px",
-            pt: { xs: 1.8, sm: 0 },
-            pl: { md: "85px" },
+        <motion.div
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 10, opacity: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 260,
+            damping: 20,
           }}
         >
-          {children}
-        </Box>
+          <Box
+            sx={{
+              height: "70px",
+              pt: { xs: 1.8, sm: 0 },
+              pl: { md: "85px" },
+            }}
+          >
+            {children}
+          </Box>
+        </motion.div>
         <CssBaseline />
         <BottomNav />
       </Box>

@@ -127,6 +127,9 @@ export function BottomNav() {
           check_circle
         </span>
       </Box>
+      <Box onClick={() => router.push("/users")} sx={styles(false)}>
+        <span className={`material-symbols-outlined`}>group</span>
+      </Box>
       <Box
         sx={styles(router.asPath.includes("/coach"))}
         onDoubleClick={() => {

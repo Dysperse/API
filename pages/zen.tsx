@@ -62,13 +62,11 @@ export default function Home() {
     <Box sx={{ ml: { sm: -1 } }}>
       <Box
         sx={{
-          mt: { xs: "calc(var(--navbar-height) * -1)", md: "-50px" },
-          pt: 8,
+          pt: { xs: 10, sm: 20 },
         }}
       >
         <Box
           sx={{
-            mt: { xs: 3, md: 20 },
             mb: 2,
             textAlign: "center",
           }}
