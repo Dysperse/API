@@ -106,7 +106,10 @@ export default function Home() {
       >
         <Logo />
 
-        <IconButton sx={{ ml: "auto", color: palette[8] }}>
+        <IconButton
+          sx={{ ml: "auto", color: palette[8] }}
+          onClick={() => router.push("/users")}
+        >
           <Icon className="outlined">group</Icon>
         </IconButton>
       </Box>
