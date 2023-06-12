@@ -1,9 +1,12 @@
+import { useColor } from "@/lib/client/useColor";
 import { Box, CardActionArea, Icon, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 
 export function DailyCheckInDrawer({ mood }) {
   const router = useRouter();
+  const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -38,8 +41,7 @@ export function DailyCheckInDrawer({ mood }) {
                 sx={{
                   width: 10,
                   height: 10,
-                  background:
-                    "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
+                  background: `linear-gradient(45deg, ${palette[9]}, ${palette[3]})!important`,
                   borderRadius: 99,
                   flexShrink: 0,
                 }}
