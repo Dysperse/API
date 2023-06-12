@@ -85,7 +85,7 @@ export function BoardInfo({
         borderColor: { xs: addHslAlpha(palette[8], 0.3) },
         position: { md: "sticky" },
         left: "10px",
-        zIndex: 9,
+        zIndex: 999,
         mr: { xs: 0, md: 2 },
         flexGrow: 1,
         flexBasis: 0,

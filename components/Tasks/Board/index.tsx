@@ -97,6 +97,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           sx={{
             width: 50,
             borderRadius: 999,
+            color: palette[9],
           }}
         >
           <Icon>west</Icon>
@@ -104,6 +105,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         <IconButton
           sx={{
             width: 50,
+            color: palette[9],
             borderRadius: 999,
           }}
           onClick={handleNext}

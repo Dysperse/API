@@ -13,6 +13,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import {
   useCallback,
@@ -181,8 +182,8 @@ export function Agenda({
           },
           opacity: trigger ? 0 : 1,
           transform: trigger
-            ? "translateX(50%) translateY(20px) scale(0.9)"
-            : "translateX(50%) translateY(0px) scale(1)",
+            ? "translateY(20px) scale(0.9)"
+            : "translateY(0px) scale(1)",
           mr: {
             xs: 1.5,
             md: 3,
@@ -194,7 +195,7 @@ export function Agenda({
           backdropFilter: "blur(10px)",
           borderRadius: 999,
           borderColor: addHslAlpha(palette[3], 0.5),
-          right: "50%",
+          right: "0",
           color: session.user.darkMode ? "#fff" : "#000",
           display: "flex",
           alignItems: "center",
@@ -208,26 +209,32 @@ export function Agenda({
         >
           <Icon>west</Icon>
         </IconButton>
-        <Button
-          onClick={handleToday}
-          disabled={navigation == 0}
-          disableRipple
-          sx={{
-            "&:active": {
-              background: `${
-                session.user.darkMode
-                  ? "hsla(240,11%,25%, 0.3)"
-                  : "rgba(0,0,0,0.1)"
-              }`,
-            },
-            color: palette[9],
-            px: 1,
-            minWidth: "unset",
+        <motion.div
+          animate={{
+            opacity: navigation === 0 ? 0 : 1,
+            width: navigation === 0 ? 0 : "auto",
           }}
-          color="inherit"
         >
-          Today
-        </Button>
+          <Button
+            onClick={handleToday}
+            disableRipple
+            sx={{
+              "&:active": {
+                background: `${
+                  session.user.darkMode
+                    ? "hsla(240,11%,25%, 0.3)"
+                    : "rgba(0,0,0,0.1)"
+                }`,
+              },
+              color: palette[9],
+              px: 1,
+              minWidth: "unset",
+            }}
+            color="inherit"
+          >
+            Today
+          </Button>
+        </motion.div>
         <IconButton onClick={handleNext} sx={{ color: palette[9] }}>
           <Icon>east</Icon>
         </IconButton>
