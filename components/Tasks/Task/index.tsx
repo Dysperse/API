@@ -176,10 +176,15 @@ export const Task: any = function Task({
             }),
             gap: 1.5,
             "&:hover": {
-              background: palette[3],
+              background: {
+                sm: palette[3],
+              },
             },
             "&:focus-within, &:active": {
-              background: palette[4],
+              background: {
+                xs: palette[2],
+                sm: palette[4],
+              },
             },
             ...sx,
           }}

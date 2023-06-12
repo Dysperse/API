@@ -45,7 +45,10 @@ export const taskButtonStyles = (palette) => ({
   transition: "none",
   gap: 1.5,
   "&:focus-within, &:hover, &:active": {
-    background: `${palette[3]} !important`,
+    background: {
+      xs: `${palette[2]} !important`,
+      sm: `${palette[3]} !important`,
+    },
   },
   py: { xs: 2, sm: 1.5 },
   px: { xs: 2.5, sm: 1.5 },
