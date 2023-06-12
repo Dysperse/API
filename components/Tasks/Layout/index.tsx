@@ -17,6 +17,7 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
+  useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Link from "next/link";
@@ -457,6 +458,10 @@ export function TasksLayout({ open, setOpen, children }) {
     </>
   );
 
+  const scrollTrigger = useScrollTrigger({
+    disableHysteresis: true,
+  });
+
   return (
     <>
       {isMobile && (
@@ -469,7 +474,7 @@ export function TasksLayout({ open, setOpen, children }) {
             width: "calc(100vw - 20px)",
             height: 55,
             zIndex: 999,
-            background: addHslAlpha(palette[3], 0.5),
+            background: addHslAlpha(palette[3], scrollTrigger ? 0.9 : 0.5),
             backdropFilter: "blur(10px)",
             top: "10px",
             borderRadius: 999,
