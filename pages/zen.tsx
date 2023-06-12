@@ -168,10 +168,7 @@ export default function Home() {
           sx={listItemStyles}
           onClick={() => router.push("/coach/routine")}
         >
-          <ListItemText
-            primary={<b>Daily routine</b>}
-            secondary="Tap to begin"
-          />
+          <ListItemText primary={<b>Daily goals</b>} secondary="Tap to begin" />
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </ListItemButton>
         <ListItemButton
