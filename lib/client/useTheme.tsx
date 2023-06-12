@@ -52,14 +52,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "& .MuiSnackbarContent-root": {
                 boxShadow:
                   "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                background: addHslAlpha(palette[2], 0.5),
+                background: addHslAlpha(palette[3], 0.5),
                 backdropFilter: "blur(10px)",
                 fontWeight: 700,
                 borderRadius: 95,
                 px: 3,
-                color: palette[1],
+                color: palette[12],
                 "& .MuiIcon-root": {
-                  color: palette[1],
+                  color: palette[12],
                 },
               },
             }),

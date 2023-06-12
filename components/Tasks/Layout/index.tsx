@@ -474,7 +474,7 @@ export function TasksLayout({ open, setOpen, children }) {
             width: "calc(100vw - 20px)",
             height: 55,
             zIndex: 999,
-            background: addHslAlpha(palette[3], scrollTrigger ? 0.9 : 0.5),
+            background: addHslAlpha(palette[2], 0.9),
             backdropFilter: "blur(10px)",
             top: "10px",
             borderRadius: 999,
