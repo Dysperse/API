@@ -261,7 +261,7 @@ export function BoardInfo({
                     mr: 1,
                     mb: 1,
                     background:
-                      "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
+                      "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%) !important",
                     color: "#000",
                   }}
                   icon={
