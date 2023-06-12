@@ -76,9 +76,7 @@ function PropertyInfo({
             severity="info"
             sx={{
               mb: 2,
-              background: !session.user.darkMode
-                ? "rgba(200,200,200,.3)"
-                : "hsl(240,11%,15%)",
+              background: palette[3],
               color: session.user.darkMode ? "#fff" : "#000",
               "& *": {
                 color: session.user.darkMode ? "#fff" : "#000",
@@ -89,9 +87,7 @@ function PropertyInfo({
                 loading={loading}
                 sx={{
                   "&:hover": {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,20%)"
-                      : "rgba(200,200,200,.3)",
+                    background: palette[4],
                   },
                   color: session.user.darkMode ? "#fff" : "#000",
                 }}
@@ -145,13 +141,9 @@ function PropertyInfo({
                 <LoadingButton
                   loading={loading}
                   sx={{
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,16%)"
-                      : "rgba(200,200,200,.2)",
+                    background: palette[4],
                     "&:hover": {
-                      background: session.user.darkMode
-                        ? "hsl(240,11%,20%)"
-                        : "rgba(200,200,200,.3)",
+                      background: palette[5],
                     },
                     color: session.user.darkMode ? "#fff" : "#000",
                   }}

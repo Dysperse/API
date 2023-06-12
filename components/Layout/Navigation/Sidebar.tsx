@@ -86,7 +86,7 @@ export function Sidebar() {
   );
   const styles = (active: any = false) => {
     return {
-      color: session.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,30%)",
+      color: palette[12],
       borderRadius: 3,
       my: 0.5,
       maxHeight: "9999px",
@@ -104,18 +104,11 @@ export function Sidebar() {
         background: palette[2],
         color: session.user.darkMode ? "#fff" : "#000",
       },
-      "&:focus-visible span": {
-        boxShadow: session.user.darkMode
-          ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-          : "0px 0px 0px 1.5px #000 !important",
-      },
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
           background: palette[3],
-          color: session.user.darkMode
-            ? "hsl(240,11%,95%)"
-            : "hsl(240,11%,10%)",
+          color: palette[11],
         },
       }),
     };

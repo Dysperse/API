@@ -1,6 +1,5 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
@@ -160,53 +159,6 @@ export function UserProfile({
       </Box>
       <Box sx={{ mr: -2 }}>
         <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2 }} spacing={2}>
-          {editMode && (
-            <>
-              <Box sx={profileCardStyles}>
-                <Typography sx={profileCardStyles.heading}>
-                  Theme color
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 1,
-                    flexWrap: "wrap",
-                    mt: 1.5,
-                  }}
-                >
-                  {[
-                    "lime",
-                    "red",
-                    "green",
-                    "blue",
-                    "pink",
-                    "purple",
-                    "indigo",
-                    "cyan",
-                  ].map((color) => (
-                    <Box
-                      key={color}
-                      onClick={async () => {
-                        await updateSettings("color", color.toLowerCase());
-                        await mutate(mutationUrl);
-                        await mutate(mutationUrl);
-                      }}
-                      sx={{
-                        background: colors[color]["A700"],
-                        border: `2px solid ${colors[color]["A700"]}`,
-                        width: "30px",
-                        height: "30px",
-                        borderRadius: 999,
-                        ...(session.themeColor === color && {
-                          boxShadow: `0 0 0 2px ${palette[12]} inset`,
-                        }),
-                      }}
-                    />
-                  ))}
-                </Box>
-              </Box>
-            </>
-          )}
           {((profile && profile.hobbies.length > 0) || editMode) && (
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
@@ -255,6 +207,7 @@ export function UserProfile({
           {(profile || editMode) && (
             <WorkingHours
               editMode={editMode}
+              color={data.color}
               isCurrentUser={isCurrentUser}
               mutationUrl={mutationUrl}
               profile={profile}

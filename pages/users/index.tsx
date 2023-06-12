@@ -123,7 +123,7 @@ function Friend({ friend }) {
           sm: palette[2],
         },
         borderBottom: {
-          xs: `1px solid hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+          xs: palette[3],
           sm: "",
         },
         "&:hover": {

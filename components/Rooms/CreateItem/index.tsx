@@ -7,6 +7,7 @@ import { Puller } from "../../Puller";
 import { CreateItemModal } from "./modal";
 
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -41,6 +42,8 @@ function AddItemOption({
   title: JSX.Element | string;
 }): JSX.Element {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <Grid item xs={12} sm={4} spacing={2}>
       <CreateItemModal mutationUrl="" room={title}>

@@ -1,4 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -93,6 +94,7 @@ export function ExperimentalAiSubtask({ task }) {
       setAddedValues([...new Set([...addedValues, generated])]);
     }
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -204,7 +206,7 @@ export function ExperimentalAiSubtask({ task }) {
                 flexGrow: 1,
                 overflow: "scroll",
                 height: "auto",
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+                background: palette[12],
               }}
             >
               <Skeleton width="50%" sx={{ mb: 1 }} animation="wave" />
@@ -229,14 +231,10 @@ export function ExperimentalAiSubtask({ task }) {
                   flexGrow: 1,
                   overflow: "scroll",
                   height: "auto",
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 95 : 20
-                  }%)`,
+                  background: palette[12],
                   border: "1px solid",
-                  borderColor: `hsl(240,11%,${
-                    session.user.darkMode ? 90 : 20
-                  }%)`,
-                  color: `hsl(240,11%,${session.user.darkMode ? 10 : 90}%)`,
+                  borderColor: palette[2],
+                  color: palette[1],
                 }}
               >
                 <Typography

@@ -1,5 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -29,6 +30,8 @@ const Group = dynamic(() => import("../../Group"));
 
 function PropertyButton({ handleClose, group }) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <Group
       key={group.propertyId}
@@ -51,9 +54,7 @@ function PropertyButton({ handleClose, group }) {
             transform: "scale(0.97)",
           },
           ...(group.propertyId === session.property.propertyId && {
-            background: session.user.darkMode
-              ? "hsla(240,11%,20%)"
-              : "rgba(200,200,200,.4)!important",
+            background: palette[3],
           }),
         }}
       >
@@ -143,6 +144,8 @@ export default function InviteButton({ styles }: any) {
       vibrate(50);
     }
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <>
       <Menu
@@ -208,7 +211,7 @@ export default function InviteButton({ styles }: any) {
                   py: 1.5,
                   borderRadius: "28px",
                   gap: 2,
-                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                  color: palette[12],
                 }}
               >
                 <Icon className="outlined">group_add</Icon>
@@ -234,7 +237,7 @@ export default function InviteButton({ styles }: any) {
                 py: 1.5,
                 borderRadius: "28px",
                 gap: 2,
-                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                color: palette[12],
               }}
             >
               <Icon className="outlined">smart_button</Icon>
@@ -254,7 +257,7 @@ export default function InviteButton({ styles }: any) {
                 py: 1.5,
                 borderRadius: "28px",
                 gap: 2,
-                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                color: palette[12],
               }}
             >
               <Icon className="outlined">settings</Icon>
@@ -268,12 +271,8 @@ export default function InviteButton({ styles }: any) {
             sx={{
               m: 1,
               mb: 1,
-              background: `hsl(240,11%,${
-                session.user.darkMode ? 20 : 90
-              }%)!important`,
-              color: `hsl(240,11%,${
-                session.user.darkMode ? 90 : 20
-              }%)!important`,
+              background: palette[3],
+              color: palette[11],
               transition: "all .2s!important",
               "&:active": {
                 transform: "scale(0.95)",
@@ -349,7 +348,7 @@ export default function InviteButton({ styles }: any) {
                   py: 1.5,
                   borderRadius: "28px",
                   gap: 2,
-                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                  color: palette[12],
                 }}
               >
                 <Icon className="outlined">{link.icon}</Icon>
@@ -406,13 +405,7 @@ export default function InviteButton({ styles }: any) {
                   router.asPath === "/mood-history" ||
                   router.asPath === "/"
                     ? "transparent"
-                    : session.user.darkMode
-                    ? router.asPath === "/coach"
-                      ? "hsla(240,11%,8%)"
-                      : "hsla(240,11%,5%)"
-                    : router.asPath === "/coach"
-                    ? "hsl(240,11%,97%)"
-                    : "hsl(240,11%,93%)",
+                    : palette[1],
               },
             }}
             color="error"

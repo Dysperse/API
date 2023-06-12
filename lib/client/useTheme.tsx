@@ -52,14 +52,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "& .MuiSnackbarContent-root": {
                 boxShadow:
                   "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                background: `hsl(240,11%,${darkMode ? 90 : 10}%, 0.7)`,
+                background: addHslAlpha(palette[2], 0.5),
                 backdropFilter: "blur(10px)",
                 fontWeight: 700,
                 borderRadius: 95,
                 px: 3,
-                color: `hsl(240,11%,${darkMode ? 10 : 90}%, 0.9)`,
+                color: palette[1],
                 "& .MuiIcon-root": {
-                  color: `hsl(240,11%,${darkMode ? 10 : 90}%, 0.9)`,
+                  color: palette[1],
                 },
               },
             }),
@@ -356,10 +356,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           paper: {
             borderRadius: "28px",
-            border:
-              "1px solid " +
-              (darkMode ? "hsl(240,11%,20%)" : "rgba(200,200,200,.3)"),
-            background: darkMode ? "hsl(240,11%,17%)" : "#fff",
+            border: "1px solid " + palette[2],
+            background: palette[1],
             boxShadow: "none!important",
             filter:
               "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",

@@ -1,6 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Masonry } from "@mui/lab";
@@ -30,6 +31,7 @@ function DeleteCard({ item }) {
       setHidden(false);
     });
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return hidden ? null : (
     <Box
@@ -37,7 +39,7 @@ function DeleteCard({ item }) {
       sx={{
         p: 2,
         borderRadius: 5,
-        background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+        background: palette[3],
       }}
     >
       <Typography variant="h6">{item.name}</Typography>
