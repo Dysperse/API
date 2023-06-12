@@ -183,6 +183,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           flexBasis: 0,
           ml: "-1px",
           minHeight: { md: "100vh" },
+          maxHeight: { sm: "100vh" },
           overflowY: "scroll",
           minWidth: { xs: "100vw", md: "340px" },
           transition: "filter .2s",
