@@ -13,7 +13,7 @@ export function DailyCheckInDrawer({ mood }) {
         sx={{
           display: "flex",
           "&, & *": {
-            transition: "none",
+            transition: "none!important",
           },
           gap: 2,
           p: 3,

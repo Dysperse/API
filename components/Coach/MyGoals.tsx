@@ -173,7 +173,6 @@ export function MyGoals(): JSX.Element {
         height: "100%",
         flexGrow: 1,
         pb: "0!important",
-        px: 3,
       }}
     >
       {children}
@@ -184,7 +183,7 @@ export function MyGoals(): JSX.Element {
       error="An error occured while trying to fetch your goals"
     />
   ) : (
-    <Box sx={{ mt: 3, px: 3 }}>
+    <Box sx={{ mt: 3 }}>
       {[...new Array(10)].map((_, i) => (
         <Skeleton
           variant="rectangular"

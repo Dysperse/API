@@ -80,7 +80,11 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
           <Chip label={`${goal.timeOfDay}:00`} sx={{ mb: 2 }} />
           <Typography
             variant="h1"
-            sx={{ lineHeight: "85px" }}
+            sx={{
+              lineHeight: "85px",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+            }}
             className="font-heading"
           >
             {goal.stepName}

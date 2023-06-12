@@ -4,27 +4,13 @@ import {
   categories,
   goals,
 } from "@/components/Coach/Goal/Create/goalTemplates";
-import { fetchRawApi } from "@/lib/client/useApi";
 import { Masonry } from "@mui/lab";
 import { Box, Button, Icon, Typography } from "@mui/material";
-import dayjs from "dayjs";
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 export default function Page() {
-  const [view, setView] = useState("Goals");
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    (async () => {
-      const d = await fetchRawApi("ai/routine", {
-        month: dayjs().format("MMMM"),
-      });
-      setData(d);
-    })();
-  }, []);
-
   const shuffled = useMemo(() => goals.sort(() => Math.random() - 0.5), []);
 
   return (

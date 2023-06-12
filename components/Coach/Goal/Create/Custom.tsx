@@ -1,4 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -25,6 +26,7 @@ import toast from "react-hot-toast";
 export function CreateGoal() {
   const router = useRouter();
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -100,7 +102,7 @@ export function CreateGoal() {
             borderRadius: 0,
 
             "& .MuiSlider-rail": {
-              background: `hsl(240,11%,${session.user.darkMode ? 10 : 80}%)`,
+              background: palette[2],
             },
             "& .MuiSlider-rail, & .MuiSlider-track": {
               height: 20,
@@ -113,7 +115,7 @@ export function CreateGoal() {
             },
             "& .MuiSlider-thumb": {
               boxShadow: 0,
-              background: `hsl(240,11%,${session.user.darkMode ? 10 : 90}%)`,
+              background: palette[2],
               border: "4px solid currentColor",
             },
           },
@@ -124,7 +126,7 @@ export function CreateGoal() {
           sx={{
             zIndex: 10,
             background: "transparent",
-            color: session.user.darkMode ? "#fff" : "hsl(240,11%,5%)",
+            color: palette[12],
           }}
           position="sticky"
         >
@@ -227,9 +229,7 @@ export function CreateGoal() {
               <Box
                 sx={{
                   p: 3,
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 20 : 95
-                  }%)`,
+                  background: palette[2],
                   borderRadius: 5,
                 }}
               >
@@ -260,10 +260,8 @@ export function CreateGoal() {
                   icon={<CircularProgress />}
                   sx={{
                     mt: 2,
-                    background: `hsl(240,11%,${
-                      session.user.darkMode ? 20 : 95
-                    }%)`,
-                    color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                    background: palette[2],
+                    color: palette[12],
                   }}
                 >
                   Making sure this goal makes sense...
@@ -316,9 +314,7 @@ export function CreateGoal() {
             pointerEvents: "none",
             opacity: 0.5,
           }),
-          background: session.user.darkMode
-            ? "hsl(240,11%,20%)"
-            : "rgba(200,200,200,.3)",
+          background: palette[3],
           borderRadius: 5,
           p: 2,
           cursor: "pointer",

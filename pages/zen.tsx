@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 
-function Logo() {
+export function Logo({ intensity = 4 }: any) {
   const session = useSession();
   const palette = useColor(session.themeColor, session.user.darkMode);
 
@@ -27,7 +27,7 @@ function Logo() {
       height="45"
       version="1"
       viewBox="0 0 375 375"
-      fill={palette[4]}
+      fill={palette[intensity]}
     >
       <defs>
         <clipPath id="963808ace8">
@@ -61,7 +61,7 @@ export function Navbar({ showLogo = false }: { showLogo?: boolean }) {
         alignItems: "center",
         p: 2,
         "& svg": {
-          display: { sm: "none" },
+          display: showLogo ? { sm: "none" } : "none",
         },
       }}
     >
@@ -164,80 +164,83 @@ export default function Home() {
         }}
       >
         <DailyCheckIn />
-        <Box>
-          <ListItemButton
-            sx={listItemStyles}
-            onClick={() => router.push("/tasks/agenda/week")}
-          >
-            <ListItemText
-              primary={<b>Today</b>}
-              secondary={
-                data
-                  ? data?.length === 0
-                    ? "No tasks"
-                    : data &&
+        <ListItemButton
+          sx={listItemStyles}
+          onClick={() => router.push("/coach/routine")}
+        >
+          <ListItemText
+            primary={<b>Daily routine</b>}
+            secondary="Tap to begin"
+          />
+          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+        </ListItemButton>
+        <ListItemButton
+          sx={listItemStyles}
+          onClick={() => router.push("/tasks/agenda/week")}
+        >
+          <ListItemText
+            primary={<b>Today</b>}
+            secondary={
+              data
+                ? data?.length === 0
+                  ? "No tasks"
+                  : data &&
+                    data.length -
+                      data.filter((task) => task.completed).length ==
+                      0
+                  ? "You finished all your tasks today!"
+                  : `${
+                      data &&
+                      data.length - data.filter((task) => task.completed).length
+                    } ${
+                      data &&
                       data.length -
-                        data.filter((task) => task.completed).length ==
-                        0
-                    ? "You finished all your tasks today!"
-                    : `${
-                        data &&
-                        data.length -
-                          data.filter((task) => task.completed).length
-                      } ${
-                        data &&
-                        data.length -
-                          data.filter((task) => task.completed).length !==
-                          1
-                          ? "tasks"
-                          : "task"
-                      } left`
-                  : "Loading..."
-              }
-            />
-            {data &&
-              data.length - data.filter((task) => task.completed).length == 0 &&
-              data.length !== 0 && (
-                <Icon
-                  sx={{
-                    color: green[session.user.darkMode ? "A400" : "A700"],
-                    fontSize: "30px!important",
-                  }}
-                >
-                  check_circle
-                </Icon>
-              )}
-            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-          </ListItemButton>
-        </Box>
-        <Box>
-          <ListItemButton
-            sx={listItemStyles}
-            onClick={() => router.push("/tasks/backlog")}
-          >
-            <ListItemText
-              primary={<b>Backlog</b>}
-              secondary={`${(backlogData || []).length} unfinished task${
-                (backlogData || []).length !== 1 ? "s" : ""
-              }`}
-            />
-            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-          </ListItemButton>
-        </Box>
-        <Box>
-          <ListItemButton
-            sx={listItemStyles}
-            onClick={() => router.push("/tasks/backlog")}
-          >
-            <ListItemText
-              primary={<b>Upcoming</b>}
-              secondary={`${(upcomingData || []).length} task${
-                (upcomingData || []).length !== 1 ? "s" : ""
-              }`}
-            />
-            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-          </ListItemButton>
-        </Box>
+                        data.filter((task) => task.completed).length !==
+                        1
+                        ? "tasks"
+                        : "task"
+                    } left`
+                : "Loading..."
+            }
+          />
+          {data &&
+            data.length - data.filter((task) => task.completed).length == 0 &&
+            data.length !== 0 && (
+              <Icon
+                sx={{
+                  color: green[session.user.darkMode ? "A400" : "A700"],
+                  fontSize: "30px!important",
+                }}
+              >
+                check_circle
+              </Icon>
+            )}
+          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+        </ListItemButton>
+        <ListItemButton
+          sx={listItemStyles}
+          onClick={() => router.push("/tasks/backlog")}
+        >
+          <ListItemText
+            primary={<b>Backlog</b>}
+            secondary={`${(backlogData || []).length} unfinished task${
+              (backlogData || []).length !== 1 ? "s" : ""
+            }`}
+          />
+          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+        </ListItemButton>
+        <ListItemButton
+          sx={listItemStyles}
+          onClick={() => router.push("/tasks/backlog")}
+        >
+          <ListItemText
+            primary={<b>Upcoming</b>}
+            secondary={`${(upcomingData || []).length} task${
+              (upcomingData || []).length !== 1 ? "s" : ""
+            }`}
+          />
+          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+        </ListItemButton>
       </Box>
       <Toolbar />
     </Box>
