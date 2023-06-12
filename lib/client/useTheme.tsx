@@ -485,15 +485,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         main: "#fff",
       },
       mode: darkMode ? "dark" : "light",
-      ...(darkMode && {
-        background: {
-          default: palette[1],
-          paper: palette[1],
-        },
-        text: {
-          primary: palette[12],
-        },
-      }),
+      background: {
+        default: palette[1],
+        paper: palette[1],
+      },
+      text: {
+        primary: palette[12],
+      },
     },
   };
 };
