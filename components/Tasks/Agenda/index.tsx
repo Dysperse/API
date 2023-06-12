@@ -204,6 +204,7 @@ export function Agenda({
         <IconButton
           onClick={handlePrev}
           disabled={navigation === 0 && view === "month"}
+          sx={{ color: palette[9] }}
         >
           <Icon>west</Icon>
         </IconButton>
@@ -219,7 +220,7 @@ export function Agenda({
                   : "rgba(0,0,0,0.1)"
               }`,
             },
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: palette[9],
             px: 1,
             minWidth: "unset",
           }}
@@ -227,7 +228,7 @@ export function Agenda({
         >
           Today
         </Button>
-        <IconButton onClick={handleNext}>
+        <IconButton onClick={handleNext} sx={{ color: palette[9] }}>
           <Icon>east</Icon>
         </IconButton>
       </Box>
