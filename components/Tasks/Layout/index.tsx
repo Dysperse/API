@@ -99,7 +99,7 @@ function SearchTasks({ setOpen }) {
         <Puller sx={{ mb: -2 }} />
       </SwipeableDrawer>
       <IconButton
-        sx={{ ml: "auto", color: palette[9] }}
+        sx={{ ml: "auto", color: palette[8] }}
         onClick={() => {
           setMobileOpen(true);
           setTimeout(() => ref?.current?.focus(), 100);
