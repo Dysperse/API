@@ -24,15 +24,18 @@ import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
 function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
-  const [showInfo, setShowInfo] = useState<boolean>(true);
+  const [showInfo, setShowInfo] = useState<boolean | null>(null);
 
   useEffect(() => {
     const storedShowInfo = localStorage.getItem("showInfo");
+    // if it does not exist in the first place, set it to true
+    if (storedShowInfo === null) {
+      setShowInfo(true);
+      localStorage.setItem("showInfo", "true");
+    }
     if (storedShowInfo !== null) {
       // Only set the value if it's not already present in the local storage
-      if (storedShowInfo === "false") {
-        setShowInfo(false);
-      }
+      setShowInfo(storedShowInfo === "true");
     }
   }, []);
 
