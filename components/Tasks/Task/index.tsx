@@ -168,8 +168,6 @@ export const Task: any = function Task({
             color: colors["grey"][session.user.darkMode ? "A100" : "800"],
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
-            borderBottom: { xs: "1px solid", sm: "none" },
-            borderColor: palette[3] + "!important",
             transition: "none",
             py: { xs: 1, sm: 0.7 },
             px: { xs: 2.6, sm: 1.7 },

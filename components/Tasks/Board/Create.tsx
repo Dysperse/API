@@ -20,7 +20,6 @@ import { useRouter } from "next/router";
 import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
 import { OptionsGroup } from "../../OptionsGroup";
-import { taskStyles } from "../Layout";
 
 const checklistCardStyles = (palette) => ({
   background: palette[2],
@@ -569,14 +568,6 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
 
   return (
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
-      <IconButton
-        size="large"
-        onContextMenu={() => setDrawerOpen(true)}
-        onClick={() => setDrawerOpen(true)}
-        sx={taskStyles(palette).menu}
-      >
-        <Icon className="outlined">menu</Icon>
-      </IconButton>
       <Box
         sx={{
           backgroundRepeat: "no-repeat",

@@ -49,7 +49,13 @@ export function Logo({ intensity = 4 }: any) {
   );
 }
 
-export function Navbar({ showLogo = false }: { showLogo?: boolean }) {
+export function Navbar({
+  showLogo = false,
+  right,
+}: {
+  showLogo?: boolean;
+  right?: JSX.Element;
+}) {
   const session = useSession();
   const palette = useColor(session.themeColor, session.user.darkMode);
   const router = useRouter();
@@ -67,12 +73,14 @@ export function Navbar({ showLogo = false }: { showLogo?: boolean }) {
     >
       <Logo />
 
-      <IconButton
-        sx={{ ml: "auto", color: palette[8] }}
-        onClick={() => router.push("/users")}
-      >
-        <Icon className="outlined">group</Icon>
-      </IconButton>
+      {right || (
+        <IconButton
+          sx={{ ml: "auto", color: palette[8] }}
+          onClick={() => router.push("/users")}
+        >
+          <Icon className="outlined">group</Icon>
+        </IconButton>
+      )}
     </Box>
   );
 }

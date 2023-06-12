@@ -22,7 +22,6 @@ import {
   useState,
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 
 export function Agenda({
@@ -63,7 +62,7 @@ export function Agenda({
     threshold: 0,
     target: window ? window : undefined,
   });
-
+  
   const trigger = useDeferredValue(trigger1);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -173,15 +172,6 @@ export function Agenda({
           {capitalizeFirstLetter(view == "week" ? "day" : view)} &bull; Agenda
         </title>
       </Head>
-      <IconButton
-        size="large"
-        onClick={handleOpen}
-        onContextMenu={handleOpen}
-        sx={taskStyles(palette).menu}
-      >
-        <Icon>menu</Icon>
-      </IconButton>
-
       <Box
         sx={{
           position: "fixed",

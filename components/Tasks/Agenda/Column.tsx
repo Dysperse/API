@@ -185,6 +185,7 @@ export const Column: any = memo(function Column({
           {mount && <CircularProgress />}
         </Box>
       </Collapse>
+
       <Box
         onClick={scrollIntoView}
         sx={{
@@ -192,9 +193,9 @@ export const Column: any = memo(function Column({
           py: 3.5,
           px: 4,
           background: "transparent",
-          borderBottom: "1px solid",
+          borderBottom: { sm: "1px solid" },
           userSelect: "none",
-          borderColor: addHslAlpha(palette[4], 0.7),
+          borderColor: { sm: addHslAlpha(palette[4], 0.7) },
           zIndex: 9,
           "&:hover": {
             background: {
@@ -210,7 +211,10 @@ export const Column: any = memo(function Column({
           variant="h4"
           className="font-heading"
           sx={{
-            fontSize: "35px",
+            fontSize: {
+              xs: "55px",
+              sm: "35px",
+            },
             ...(isToday && {
               color: palette[1],
               background: palette[9],
@@ -219,7 +223,7 @@ export const Column: any = memo(function Column({
             }),
             borderRadius: 1,
             width: "auto",
-            height: 45,
+            height: { xs: 65, sm: 45 },
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
@@ -302,7 +306,7 @@ export const Column: any = memo(function Column({
           <CreateTask
             column={{ id: "-1", name: "" }}
             defaultDate={day.unchanged}
-            label="Set a goal"
+            label="New task"
             placeholder="Create a task..."
             mutationUrl={mutationUrl}
             boardId={1}

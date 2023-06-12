@@ -2,6 +2,7 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
+import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -29,9 +30,12 @@ import { CreateTask } from "../Task/Create";
 import { Tab } from "./Tab";
 
 function SearchTasks({ setOpen }) {
+  const ref: any = useRef();
   const router = useRouter();
   const session = useSession();
   const [query, setQuery] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.user.color, session.user.darkMode);
 
   useEffect(() => {
@@ -43,7 +47,68 @@ function SearchTasks({ setOpen }) {
     }
   }, [router.asPath]);
 
-  return (
+  const input = (
+    <TextField
+      inputRef={ref}
+      size="small"
+      variant="outlined"
+      placeholder="Search tasks..."
+      {...(query.trim() && { label: "Search tasks..." })}
+      onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
+      onBlur={() =>
+        query.trim() !== "" &&
+        router.push(`/tasks/search/${encodeURIComponent(query)}`)
+      }
+      value={query}
+      sx={{
+        transition: "all .2s",
+        zIndex: 999,
+        cursor: "default",
+        ...(Boolean(query.trim()) && {
+          mr: -6,
+        }),
+      }}
+      onChange={(e) => setQuery(e.target.value)}
+      InputProps={{
+        sx: {
+          cursor: "default",
+          borderRadius: 4,
+        },
+        endAdornment: (
+          <InputAdornment position="end">
+            {query.trim() && (
+              <IconButton size="small">
+                <Icon>east</Icon>
+              </IconButton>
+            )}
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
+
+  return isMobile ? (
+    <>
+      <SwipeableDrawer
+        anchor="top"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        PaperProps={{ sx: { p: 2, borderRadius: "0 0 20px 20px" } }}
+      >
+        {input}
+        <Puller sx={{ mb: -2 }} />
+      </SwipeableDrawer>
+      <IconButton
+        sx={{ ml: "auto" }}
+        onClick={() => {
+          setMobileOpen(true);
+          setTimeout(() => ref?.current?.focus(), 100);
+        }}
+      >
+        <Icon>search</Icon>
+      </IconButton>
+    </>
+  ) : (
     <Box
       sx={{
         display: "flex",
@@ -52,42 +117,7 @@ function SearchTasks({ setOpen }) {
         alignItems: "center",
       }}
     >
-      <TextField
-        size="small"
-        variant="outlined"
-        placeholder="Search tasks..."
-        {...(query.trim() && { label: "Search tasks..." })}
-        onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-        onBlur={() =>
-          query.trim() !== "" &&
-          router.push(`/tasks/search/${encodeURIComponent(query)}`)
-        }
-        value={query}
-        sx={{
-          transition: "all .2s",
-          zIndex: 999,
-          cursor: "default",
-          ...(Boolean(query.trim()) && {
-            mr: -6,
-          }),
-        }}
-        onChange={(e) => setQuery(e.target.value)}
-        InputProps={{
-          sx: {
-            cursor: "default",
-            borderRadius: 4,
-          },
-          endAdornment: (
-            <InputAdornment position="end">
-              {query.trim() && (
-                <IconButton size="small">
-                  <Icon>east</Icon>
-                </IconButton>
-              )}
-            </InputAdornment>
-          ),
-        }}
-      />
+      {input}
       <Box sx={{ display: "none" }}>
         <CreateTask
           closeOnCreate
@@ -250,6 +280,8 @@ export function TasksLayout({ open, setOpen, children }) {
     a.preventDefault(), handleClick("__agenda.year");
   });
 
+  const title = useDocumentTitle();
+
   const menuChildren = (
     <>
       {error && (
@@ -258,7 +290,7 @@ export function TasksLayout({ open, setOpen, children }) {
           error="An error occurred while loading your tasks"
         />
       )}
-      <SearchTasks setOpen={setOpen} />
+      {!isMobile && <SearchTasks setOpen={setOpen} />}
       <Typography sx={taskStyles(palette).subheading}>Perspectives</Typography>
       <Box onClick={() => setOpen(false)}>
         {[
@@ -426,54 +458,88 @@ export function TasksLayout({ open, setOpen, children }) {
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <SwipeableDrawer
-        anchor="bottom"
-        onClose={() => {
-          setOpen(false);
-          vibrate(50);
-        }}
-        open={open}
-        PaperProps={{
-          sx: {
-            pb: 2,
-            maxHeight: "90vh",
-          },
-        }}
-        sx={{ zIndex: 999999999999 }}
-      >
-        <Puller />
-        <Box sx={{ p: 1, pt: 0, mt: -2 }}>{menuChildren}</Box>
-      </SwipeableDrawer>
-      <Box
-        sx={{
-          width: { xs: "100%", md: 300 },
-          flex: { xs: "100%", md: "0 0 250px" },
-          ml: -1,
-          p: 3,
-          px: 2,
-          background: palette[2],
-          display: { xs: "none", md: "flex" },
-          minHeight: "100vh",
-          height: { md: "100vh" },
-          overflowY: { md: "scroll" },
-          flexDirection: "column",
-        }}
-      >
-        {menuChildren}
+    <>
+      {isMobile && (
+        <Box
+          sx={{
+            display: "flex",
+            px: 2,
+            alignItems: "center",
+            position: "fixed",
+            width: "100vw",
+            height: 60,
+            zIndex: 999,
+            background: `linear-gradient(${palette[1]}, transparent)`,
+            backdropFilter: "blur(10px)",
+            top: 0,
+          }}
+        >
+          <Button
+            sx={{
+              color: palette[8],
+              px: 1,
+              ...(!title.includes("•") && {
+                minWidth: 0,
+              }),
+            }}
+            onClick={() => setOpen(true)}
+          >
+            <Icon>expand_all</Icon>
+            {title.includes("•") ? title.split("•")[0] : ""}
+          </Button>
+          <SearchTasks setOpen={setOpen} />
+        </Box>
+      )}
+      {isMobile && <Box sx={{ height: 55 }} />}
+      <Box sx={{ display: "flex" }}>
+        <SwipeableDrawer
+          anchor="bottom"
+          onClose={() => {
+            setOpen(false);
+            vibrate(50);
+          }}
+          open={open}
+          PaperProps={{
+            sx: {
+              pb: 2,
+              maxHeight: "90vh",
+            },
+          }}
+          sx={{ zIndex: 999999999999 }}
+        >
+          <Puller />
+          <Box sx={{ p: 1, pt: 0, mt: -2 }}>{menuChildren}</Box>
+        </SwipeableDrawer>
+        <Box
+          sx={{
+            width: { xs: "100%", md: 300 },
+            flex: { xs: "100%", md: "0 0 250px" },
+            ml: -1,
+            p: 3,
+            px: 2,
+            background: palette[2],
+            display: { xs: "none", md: "flex" },
+            minHeight: "100vh",
+            height: { md: "100vh" },
+            overflowY: { md: "scroll" },
+            flexDirection: "column",
+          }}
+        >
+          {menuChildren}
+        </Box>
+        <Box
+          sx={{
+            maxHeight: { md: "100vh" },
+            minHeight: { md: "100vh" },
+            height: { md: "100vh" },
+            overflowY: { md: "auto" },
+            flexGrow: 1,
+          }}
+          id="boardContainer"
+        >
+          {children}
+        </Box>
       </Box>
-      <Box
-        sx={{
-          maxHeight: { md: "100vh" },
-          minHeight: { md: "100vh" },
-          height: { md: "100vh" },
-          overflowY: { md: "auto" },
-          flexGrow: 1,
-        }}
-        id="boardContainer"
-      >
-        {children}
-      </Box>
-    </Box>
+    </>
   );
 }

@@ -13,6 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -76,7 +77,11 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
   const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+    >
       <SwipeableDrawer
         anchor="bottom"
         open={open}
@@ -110,7 +115,13 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           }}
         >
           <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
-            <picture>
+            <picture
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <img
                 alt="emoji"
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
@@ -198,7 +209,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             color: session.user.darkMode ? "#fff" : "#000",
             p: { xs: 2, sm: column.name === "" ? 1 : 3 },
             px: 4,
-            background: addHslAlpha(palette[2], 0.7),
+            background: { sm: addHslAlpha(palette[2], 0.7) },
             borderBottom: "1px solid",
             borderColor: addHslAlpha(palette[4], 0.7),
             userSelect: "none",
@@ -214,25 +225,8 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               my: 1,
               gap: 3,
               alignItems: "center",
-              "& picture img": {
-                width: { xs: "40px", sm: "50px" },
-                height: { xs: "40px", sm: "50px" },
-                ...(column.name === "" && { display: "none" }),
-              },
             }}
           >
-            <picture
-              style={{
-                flexShrink: 0,
-              }}
-            >
-              <img
-                alt="Emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                width={50}
-                height={50}
-              />
-            </picture>
             <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
               <Typography
                 variant="h4"
@@ -243,14 +237,36 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
                   textOverflow: "ellipsis",
                   maxWidth: "100%",
                   minWidth: 0,
-                  fontSize: { xs: "25px", sm: "30px" },
+                  fontSize: {
+                    xs: "50px",
+                    sm: "35px",
+                  },
                   borderRadius: 1,
                   width: "auto",
                   mb: 0.7,
-                  display: "block",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                  flexWrap: "wrap",
                   ...(column.name === "" && { display: "none" }),
+                  "& picture img": {
+                    width: { xs: "45px", sm: "30px" },
+                    height: { xs: "45px", sm: "30px" },
+                  },
                 }}
               >
+                <picture
+                  style={{
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    alt="Emoji"
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                    width={50}
+                    height={50}
+                  />
+                </picture>
                 {column.name}
               </Typography>
               <Typography
@@ -383,6 +399,6 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               ))}
         </Box>
       </Box>
-    </>
+    </motion.div>
   );
 }

@@ -158,7 +158,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         onClick={() => setMobileOpen(true)}
         sx={taskStyles(palette).menu}
       >
-        <Icon className="outlined">menu</Icon>
+        <Icon className="outlined">info</Icon>
       </IconButton>
 
       {data

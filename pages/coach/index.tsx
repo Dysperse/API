@@ -45,7 +45,7 @@ export default function Render() {
       <Head>
         <title>Coach</title>
       </Head>
-      <Container sx={{ py: 10 }}>
+      <Container sx={{ pt: { xs: 0, sm: 10 }, pb: { xs: 10 } }}>
         <Box sx={{ position: "relative" }}>
           {error && (
             <ErrorHandler

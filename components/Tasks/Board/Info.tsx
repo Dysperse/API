@@ -83,7 +83,7 @@ export function BoardInfo({
           md: addHslAlpha(palette[3], 0.3),
         },
         border: { xs: "1px solid", md: "none" },
-        borderColor: addHslAlpha(palette[4], 0.3),
+        borderColor: { xs: addHslAlpha(palette[8], 0.3) },
         position: { md: "sticky" },
         left: "10px",
         zIndex: 9,
