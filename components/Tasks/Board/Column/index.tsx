@@ -82,6 +82,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       style={{
+        maxWidth: "340px",
         width: "100%",
       }}
     >
@@ -190,7 +191,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           overflowY: "scroll",
           minWidth: { xs: "100vw", md: "340px" },
           width: "100%",
-          flex: { xs: "0 0 100%", sm: "0 0 100%" },
+          flex: { xs: "0 0 100%", sm: "0 0 340px" },
           transition: "filter .2s",
           maxWidth: "100vw",
         }}
