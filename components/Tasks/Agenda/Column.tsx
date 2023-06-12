@@ -222,7 +222,7 @@ export const Column: any = memo(function Column({
                 sm: "35px",
               },
               ...(isToday && {
-                color: palette[1],
+                color: "#000!important",
                 background: palette[9],
                 px: 0.5,
                 ml: -0.5,

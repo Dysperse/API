@@ -16,7 +16,6 @@ import {
   Menu,
   Tooltip,
   Typography,
-  colors,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import dynamic from "next/dynamic";
@@ -31,6 +30,7 @@ const Group = dynamic(() => import("../../Group"));
 function PropertyButton({ handleClose, group }) {
   const session = useSession();
   const palette = useColor(session.themeColor, session.user.darkMode);
+  const groupPalette = useColor(group.profile.color, session.user.darkMode);
 
   return (
     <Group
@@ -62,7 +62,7 @@ function PropertyButton({ handleClose, group }) {
           sx={{
             width: 20,
             height: 20,
-            background: colors[group.profile.color]["A700"],
+            background: groupPalette[9],
             borderRadius: 99,
           }}
         />
@@ -70,7 +70,7 @@ function PropertyButton({ handleClose, group }) {
           primary={<b>{group.profile.name}</b>}
           secondary={group.profile.type}
           sx={{
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: palette[12],
             textTransform: "capitalize",
           }}
         />
@@ -145,6 +145,10 @@ export default function InviteButton({ styles }: any) {
     }
   };
   const palette = useColor(session.themeColor, session.user.darkMode);
+  const groupPalette = useColor(
+    session.property.profile.color,
+    session.user.darkMode
+  );
 
   return (
     <>
@@ -375,7 +379,7 @@ export default function InviteButton({ styles }: any) {
             ...styles(Boolean(anchorEl)),
             display: { xs: "none", sm: "block" },
             "& .material-symbols-rounded": {
-              background: palette[9],
+              background: groupPalette[11],
               height: 40,
             },
           }}
@@ -409,7 +413,7 @@ export default function InviteButton({ styles }: any) {
           >
             <Icon
               className="outlined"
-              sx={{ color: palette[12] + "!important" }}
+              sx={{ color: groupPalette[1] + "!important" }}
             >
               unfold_more
             </Icon>

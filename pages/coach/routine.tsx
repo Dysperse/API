@@ -52,8 +52,8 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
       sx={{
         display: "flex",
         height: "100vh",
+        mx: "auto",
         width: "100vw",
-        maxWidth: "100vw",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
@@ -65,6 +65,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
           borderBottomRightRadius: 15,
           width: "100%",
           display: "flex",
+          maxWidth: "700px",
           flexDirection: "column",
           justifyContent: "center",
         },
@@ -99,7 +100,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
           onClick={handleNext}
           disabled={goal.lastCompleted === dayjs().format("YYYY-MM-DD")}
         >
-          I completed this task!
+          Finish <Icon>west</Icon>
         </Button>
       </motion.div>
       <Box sx={{ mt: "auto", width: "100%", p: 1, display: "flex" }}>
@@ -141,6 +142,7 @@ export default function Routine() {
       sx={{
         position: "fixed",
         top: 0,
+        mx: "auto",
         left: 0,
         width: "100vw",
         height: "100vh",
@@ -157,6 +159,8 @@ export default function Routine() {
           zIndex: 999999,
           gap: 0.5,
           p: 1,
+          maxWidth: "700px",
+          mx: "auto",
           width: "100%",
         }}
       >
