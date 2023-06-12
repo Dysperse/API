@@ -122,6 +122,8 @@ export function RenderWithLayout({
                   key={
                     _router.asPath.includes("/tasks")
                       ? "/tasks"
+                      : _router.asPath.includes("/settings")
+                      ? "/settings"
                       : _router.asPath
                   }
                 >

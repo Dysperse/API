@@ -1,6 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
@@ -33,6 +34,7 @@ export default function Layout({ children }: any) {
   }, [router]);
 
   const [open, setOpen] = useState(false);
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const closeRef: any = useRef();
   useHotkeys("esc", () => closeRef.current?.click());
@@ -49,32 +51,23 @@ export default function Layout({ children }: any) {
     fontSize: "15px",
     justifyContent: "flex-start",
     borderRadius: 4,
+    color: palette[12],
     "&:hover, &:focus": {
-      background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+      background: palette[3],
     },
-    ...(session.user.darkMode && {
-      color: "hsl(240,11%, 80%)",
-    }),
     "& span": {
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
       minWidth: 0,
     },
-    ...(!condition
-      ? {
-          color: `hsl(240,11%,${session.user.darkMode ? 80 : 30}%)`,
-          "&:hover": {
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
-          },
-        }
-      : {
-          color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)`,
-          background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
-          "&:hover, &:focus": {
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
-          },
-        }),
+    ...(condition && {
+      color: palette[12],
+      background: palette[4],
+      "&:hover, &:focus": {
+        background: palette[5],
+      },
+    }),
   });
 
   const isMobile = useMediaQuery("(max-width: 900px)");
@@ -207,9 +200,7 @@ export default function Layout({ children }: any) {
         width: "100vw",
         left: 0,
         zIndex: 999,
-        background: `hsl(240,11%,${
-          session.user.darkMode ? 5 : isMobile ? 100 : 97
-        }%)`,
+        background: palette[1],
       }}
     >
       {!isMobile && (
@@ -218,7 +209,7 @@ export default function Layout({ children }: any) {
             width: { xs: "100%", md: 300 },
             flex: { xs: "100%", md: "0 0 250px" },
             p: 2,
-            background: `hsl(240,11%,${session.user.darkMode ? 7 : 94}%)`,
+            background: palette[2],
             minHeight: "100vh",
             height: "100vh",
             overflowY: "scroll",
@@ -241,7 +232,7 @@ export default function Layout({ children }: any) {
               width: { xs: "calc(100vw - 50px)", md: 300 },
               flex: { xs: "calc(100vw - 50px)", md: "0 0 250px" },
               p: 2,
-              background: `hsl(240,11%,${session.user.darkMode ? 10 : 94}%)`,
+              background: palette[1],
               borderRadius: "0 20px 20px 0",
               minHeight: "100vh",
               height: "100vh",

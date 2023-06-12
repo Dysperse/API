@@ -335,6 +335,12 @@ export default function Page() {
           >
             Friends
           </Typography>
+          <IconButton
+            onClick={() => router.push("/settings")}
+            sx={{ ml: "auto" }}
+          >
+            <Icon className="outlined">settings</Icon>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Container sx={{ px: { xs: "0!important", sm: "unset" } }}>

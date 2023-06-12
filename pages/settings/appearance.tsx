@@ -1,6 +1,5 @@
 import { updateSettings } from "@/lib/client/updateSettings";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import {
   Box,
   ListItem,
@@ -11,6 +10,7 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import * as colors from "@radix-ui/colors";
 import Layout from ".";
 
 /**
@@ -21,55 +21,48 @@ function ThemeColorSettings() {
   return (
     <Box>
       <ListSubheader>Theme color</ListSubheader>
-      {[
-        "crimson",
-        "red",
-        "green",
-        "blue",
-        "pink",
-        "purple",
-        "indigo",
-        "amber",
-        "cyan",
-      ].map((color) => (
-        <RadioGroup
-          name="controlled-radio-buttons-group"
-          key={color}
-          onClick={() => updateSettings("color", color.toLowerCase())}
-        >
-          <ListItem
-            secondaryAction={
-              <Radio
-                edge="end"
-                checked={session?.themeColor === color.toLowerCase()}
-              />
-            }
-            disablePadding
-            sx={{ textTransform: "capitalize" }}
+      {Object.keys(colors)
+        .filter((color) => !color.includes("Dark"))
+        .filter((color) => !color.endsWith("A"))
+        .map((color) => (
+          <RadioGroup
+            name="controlled-radio-buttons-group"
+            key={color}
+            onClick={() => updateSettings("color", color.toLowerCase())}
           >
-            <ListItemIcon
-              sx={{
-                mr: 0,
-                pr: 0,
-                width: "20px",
-              }}
+            <ListItem
+              secondaryAction={
+                <Radio
+                  edge="end"
+                  checked={session?.themeColor === color.toLowerCase()}
+                />
+              }
+              disablePadding
+              sx={{ textTransform: "capitalize" }}
             >
-              <Box
+              <ListItemIcon
                 sx={{
-                  ml: "20px",
-                  background: colors[color]["A700"],
+                  mr: 0,
+                  pr: 0,
                   width: "20px",
-                  height: "20px",
-                  borderRadius: 999,
                 }}
-              />
-            </ListItemIcon>
-            <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
-              <ListItemText primary={color === "lime" ? "Dysperse" : color} />
-            </ListItemButton>
-          </ListItem>
-        </RadioGroup>
-      ))}
+              >
+                <Box
+                  sx={{
+                    ml: "20px",
+                    background: colors[color][color + 9],
+                    width: "20px",
+                    height: "20px",
+                    borderRadius: 999,
+                  }}
+                />
+              </ListItemIcon>
+              <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
+                <ListItemText primary={color === "lime" ? "Dysperse" : color} />
+              </ListItemButton>
+            </ListItem>
+          </RadioGroup>
+        ))}
     </Box>
   );
 }
