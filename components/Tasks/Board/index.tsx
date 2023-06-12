@@ -17,7 +17,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import Head from "next/head";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { taskStyles } from "../Layout";
 import { Column } from "./Column";
@@ -25,6 +25,16 @@ import { BoardInfo } from "./Info";
 
 function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
   const [showInfo, setShowInfo] = useState<boolean>(true);
+
+  useEffect(() => {
+    const storedShowInfo = localStorage.getItem("showInfo");
+    if (storedShowInfo !== null) {
+      // Only set the value if it's not already present in the local storage
+      if (storedShowInfo === "false") {
+        setShowInfo(false);
+      }
+    }
+  }, []);
 
   const trigger = useScrollTrigger({
     threshold: 0,
@@ -118,7 +128,6 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
         <BoardInfo
           setMobileOpen={setMobileOpen}
           setShowInfo={setShowInfo}
-          setDrawerOpen={setDrawerOpen}
           board={board}
           showInfo={showInfo}
           mutationUrls={mutationUrls}
@@ -144,7 +153,6 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           <BoardInfo
             setMobileOpen={setMobileOpen}
             setShowInfo={setShowInfo}
-            setDrawerOpen={setDrawerOpen}
             board={board}
             showInfo={showInfo}
             mutationUrls={mutationUrls}

@@ -22,7 +22,6 @@ export function BoardInfo({
   showInfo,
   mutationUrls,
   setShowInfo,
-  setDrawerOpen,
 }) {
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
@@ -292,7 +291,10 @@ export function BoardInfo({
                 ml: "auto",
                 display: { xs: "none", md: "flex" },
               }}
-              onClick={() => setShowInfo(false)}
+              onClick={() => {
+                setShowInfo(false);
+                localStorage.setItem("showInfo", "false");
+              }}
             >
               <Icon className="outlined">menu_open</Icon>
             </IconButton>
@@ -308,7 +310,10 @@ export function BoardInfo({
           }}
         >
           <IconButton
-            onClick={() => setShowInfo(true)}
+            onClick={() => {
+              setShowInfo(true);
+              localStorage.setItem("showInfo", "true");
+            }}
             sx={{ opacity: 0, pointerEvents: "none" }}
             size="large"
           >
@@ -327,7 +332,13 @@ export function BoardInfo({
             {board.name.substring(0, 15)}
             {board.name.length > 15 && "..."}
           </Typography>
-          <IconButton onClick={() => setShowInfo(true)}>
+          <IconButton
+            onClick={() => {
+              setShowInfo(true);
+
+              localStorage.setItem("showInfo", "true");
+            }}
+          >
             <Icon className="outlined">menu</Icon>
           </IconButton>
         </Box>
