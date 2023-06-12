@@ -50,7 +50,7 @@ function ThemeColorSettings() {
                 <Box
                   sx={{
                     ml: "20px",
-                    background: colors[color][color + 9],
+                    background: colors[color] && colors[color][color + 9],
                     width: "20px",
                     height: "20px",
                     borderRadius: 999,

@@ -32,6 +32,7 @@ import {
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
+import * as colors from "@radix-ui/colors";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -90,19 +91,12 @@ export default function Onboarding() {
         <span style={{ opacity: 0.6 }}>#1 </span>
         What&apos;s your favorite color?
       </Typography>
-      {[
-        "lime",
-        "red",
-        "green",
-        "blue",
-        "pink",
-        "purple",
-        "indigo",
-        "amber",
-        "cyan",
-      ].map((color) => (
-        <Color handleNext={() => null} color={color} key={color} />
-      ))}
+      {Object.keys(colors)
+        .filter((color) => !color.includes("Dark"))
+        .filter((color) => !color.endsWith("A"))
+        .map((color) => (
+          <Color handleNext={() => null} color={color} key={color} />
+        ))}
 
       <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#2 </span>

@@ -1,9 +1,9 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import {
   AppBar,
   Box,
@@ -104,6 +104,7 @@ export function CreateItemModal({
     setQuantity("1");
     setCategory(JSON.stringify(item.tags));
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -116,7 +117,6 @@ export function CreateItemModal({
             width: "100vw",
             borderRadius: { xs: "0!important", sm: "20px 20px 0 0" },
             height: "100vh",
-            background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
           },
         }}
         anchor="bottom"
@@ -127,14 +127,7 @@ export function CreateItemModal({
             borderTopLeftRadius: { xs: 0, sm: "20px" },
             borderTopRightRadius: { xs: 0, sm: "20px" },
             zIndex: 99,
-            background: session.user.darkMode
-              ? "hsla(240,11%,20%,0.1)"
-              : "rgba(255,255,255,.3)",
             color: session.user.darkMode ? "#fff" : "#000",
-            borderBottom: "1px solid",
-            borderColor: session.user.darkMode
-              ? "hsla(240,11%,20%,0.8)"
-              : "rgba(200,200,200,.3)",
           }}
           position="sticky"
         >
@@ -223,9 +216,7 @@ export function CreateItemModal({
                     flex: "0 0 175px",
                     overflow: "hidden",
                     height: "150px",
-                    background: session.user.darkMode
-                      ? "hsl(240, 11%, 20%)"
-                      : colors[session?.themeColor || "grey"][50],
+                    background: palette[2],
                     transition: "transform .2s",
                     "&:active": {
                       transform: "scale(.95)",
@@ -239,9 +230,7 @@ export function CreateItemModal({
                   <Box
                     sx={{
                       height: "80px",
-                      background: session.user.darkMode
-                        ? "hsl(240, 11%, 25%)"
-                        : colors[session?.themeColor || "grey"][100],
+                      background: palette[3],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",

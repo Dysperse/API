@@ -1,6 +1,7 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { CardActionArea, Icon } from "@mui/material";
+import * as colors from "@radix-ui/colors";
 import { mutate } from "swr";
 import { updateSettings } from "../../lib/client/updateSettings";
 
@@ -12,6 +13,8 @@ import { updateSettings } from "../../lib/client/updateSettings";
  */
 export function Color({ color, handleNext }) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <CardActionArea
       onClick={() => {
@@ -33,12 +36,7 @@ export function Color({ color, handleNext }) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        background:
-          color === "grey"
-            ? "hsl(240,11%,5%)!important"
-            : color === "white"
-            ? "#ddd !important"
-            : colors[color]["A700"] + "!important",
+        background: colors[color][color + 9],
       }}
     >
       {color === session?.themeColor && (

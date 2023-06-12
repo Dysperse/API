@@ -375,10 +375,7 @@ export default function InviteButton({ styles }: any) {
             ...styles(Boolean(anchorEl)),
             display: { xs: "none", sm: "block" },
             "& .material-symbols-rounded": {
-              background:
-                colors[session?.property?.profile?.color || 100][
-                  session.user.darkMode ? 900 : 100
-                ],
+              background: palette[9],
               height: 40,
             },
           }}
@@ -410,7 +407,12 @@ export default function InviteButton({ styles }: any) {
             }}
             color="error"
           >
-            <Icon className="outlined">unfold_more</Icon>
+            <Icon
+              className="outlined"
+              sx={{ color: palette[12] + "!important" }}
+            >
+              unfold_more
+            </Icon>
           </Badge>
         </Box>
       </Tooltip>
