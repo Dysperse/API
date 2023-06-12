@@ -154,13 +154,15 @@ export default function Routine() {
         sx={{
           position: "fixed",
           display: "flex",
+          justifyContent: "center",
           alignItems: "center",
           top: 0,
           zIndex: 999999,
           gap: 0.5,
           p: 1,
+          left: "50%",
+          transform: "translateX(-50%)",
           maxWidth: "700px",
-          mx: "auto",
           width: "100%",
         }}
       >
@@ -245,28 +247,33 @@ export default function Routine() {
               )
           )}
       {slide >= data?.length && (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            height: "100vh",
-          }}
+        <motion.div
+          initial={{ opacity: 0, scale: 3 }}
+          animate={{ opacity: 1, scale: 1 }}
         >
-          <Typography variant="h1" sx={{ mb: 1 }} className="font-heading">
-            All done.
-          </Typography>
-          <Typography sx={{ mb: 2 }}>Come back tomorrow for more.</Typography>
-          <Button
-            onClick={() => router.push("/coach")}
-            sx={{ zIndex: 999 }}
-            variant="contained"
-            size="large"
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              height: "100vh",
+            }}
           >
-            <Icon>home</Icon>Done
-          </Button>
-        </Box>
+            <Typography variant="h1" sx={{ mb: 1 }} className="font-heading">
+              All done.
+            </Typography>
+            <Typography sx={{ mb: 2 }}>Come back tomorrow for more.</Typography>
+            <Button
+              onClick={() => router.push("/coach")}
+              sx={{ zIndex: 999 }}
+              variant="contained"
+              size="large"
+            >
+              <Icon>home</Icon>Done
+            </Button>
+          </Box>
+        </motion.div>
       )}
     </Box>
   );
