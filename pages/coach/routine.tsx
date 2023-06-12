@@ -100,7 +100,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
           onClick={handleNext}
           disabled={goal.lastCompleted === dayjs().format("YYYY-MM-DD")}
         >
-          Finish <Icon>west</Icon>
+          Finish <Icon>east</Icon>
         </Button>
       </motion.div>
       <Box sx={{ mt: "auto", width: "100%", p: 1, display: "flex" }}>
