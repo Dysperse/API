@@ -3,7 +3,6 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Chip,
@@ -286,17 +285,6 @@ export function BoardInfo({
               width: "100%",
             }}
           >
-            <IconButton
-              sx={{ mr: "auto", display: { md: "none" } }}
-              size="large"
-              onClick={() => {
-                setDrawerOpen(true);
-                vibrate(50);
-                setMobileOpen(false);
-              }}
-            >
-              <Icon className="outlined">menu</Icon>
-            </IconButton>
             <BoardSettings mutationUrls={mutationUrls} board={board} />
             <IconButton
               size="large"

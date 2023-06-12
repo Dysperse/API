@@ -351,40 +351,42 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               />
             ))}
 
-          <Button
-            className="task"
-            fullWidth
-            size="large"
-            sx={{
-              px: { xs: "15px!important", sm: "10px!important" },
-              py: { xs: "10px!important", sm: "5px!important" },
-              mb: 1,
-              ...(columnTasks.filter((task) => task.completed).length === 0 && {
-                display: "none",
-              }),
-              mt: 2,
-              color: palette[12],
-              borderRadius: { xs: 0, sm: 4 },
-              ...(showCompleted && {
-                background: palette[3],
-                color: palette[11],
-              }),
-            }}
-            onClick={toggleShowCompleted}
-          >
-            <Typography sx={{ fontWeight: 700 }}>
-              {columnTasks.filter((task) => task.completed).length} completed
-            </Typography>
-            <Icon
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              className="task"
+              size="large"
               sx={{
-                ml: "auto",
-                transition: "all .2s",
-                ...(showCompleted && { transform: "rotate(180deg)" }),
+                width: { sm: "100%" },
+                px: { xs: "15px!important", sm: "10px!important" },
+                py: { xs: "10px!important", sm: "5px!important" },
+                mb: 1,
+                ...(columnTasks.filter((task) => task.completed).length ===
+                  0 && {
+                  display: "none",
+                }),
+                color: palette[12],
+                borderRadius: 4,
+                ...(showCompleted && {
+                  background: palette[3] + "!important",
+                  color: palette[11],
+                }),
               }}
+              onClick={toggleShowCompleted}
             >
-              expand_more
-            </Icon>
-          </Button>
+              <Typography sx={{ fontWeight: 700 }}>
+                {columnTasks.filter((task) => task.completed).length} completed
+              </Typography>
+              <Icon
+                sx={{
+                  ml: "auto",
+                  transition: "all .2s",
+                  ...(showCompleted && { transform: "rotate(180deg)" }),
+                }}
+              >
+                expand_more
+              </Icon>
+            </Button>
+          </Box>
           {showCompleted &&
             columnTasks
               .filter((task) => task.completed)
