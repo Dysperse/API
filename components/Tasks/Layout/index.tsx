@@ -463,15 +463,17 @@ export function TasksLayout({ open, setOpen, children }) {
         <Box
           sx={{
             display: "flex",
-            px: 2,
+            px: "7px",
             alignItems: "center",
             position: "fixed",
-            width: "100vw",
-            height: 60,
+            width: "calc(100vw - 20px)",
+            height: 55,
             zIndex: 999,
-            background: `linear-gradient(${palette[1]}, transparent)`,
+            background: addHslAlpha(palette[3], 0.5),
             backdropFilter: "blur(10px)",
-            top: 0,
+            top: "10px",
+            borderRadius: 999,
+            left: "10px",
           }}
         >
           <Button
@@ -482,6 +484,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 minWidth: 0,
               }),
             }}
+            size="large"
             onClick={() => setOpen(true)}
           >
             <Icon>expand_all</Icon>
@@ -490,7 +493,7 @@ export function TasksLayout({ open, setOpen, children }) {
           <SearchTasks setOpen={setOpen} />
         </Box>
       )}
-      {isMobile && <Box sx={{ height: 55 }} />}
+      {isMobile && <Box sx={{ height: "65px" }} />}
       <Box sx={{ display: "flex" }}>
         <SwipeableDrawer
           anchor="bottom"
