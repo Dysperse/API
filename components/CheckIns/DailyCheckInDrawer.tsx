@@ -42,7 +42,7 @@ export function DailyCheckInDrawer({ mood }) {
                 sx={{
                   width: 10,
                   height: 10,
-                  background: `linear-gradient(45deg, ${palette[9]}, ${palette[3]})!important`,
+                  background: `linear-gradient(45deg, ${palette[9]}, ${palette[11]})!important`,
                   borderRadius: 99,
                   flexShrink: 0,
                 }}
