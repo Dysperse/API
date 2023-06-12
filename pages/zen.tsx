@@ -176,7 +176,7 @@ export default function Home() {
           onClick={() => router.push("/tasks/agenda/week")}
         >
           <ListItemText
-            primary={<b>Today</b>}
+            primary={<b>Today&apos;s plan</b>}
             secondary={
               data
                 ? data?.length === 0
