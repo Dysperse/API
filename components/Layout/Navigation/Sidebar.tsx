@@ -155,7 +155,7 @@ export function Sidebar() {
       }}
     >
       <Box sx={{ mt: 2 }} />
-      <Logo intensity={7} />
+      {!isMobile && <Logo intensity={7} />}
       <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
         sx={styles(
