@@ -62,7 +62,7 @@ export function Agenda({
     threshold: 0,
     target: window ? window : undefined,
   });
-  
+
   const trigger = useDeferredValue(trigger1);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
