@@ -81,6 +81,9 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
+      style={{
+        width: "100%",
+      }}
     >
       <SwipeableDrawer
         anchor="bottom"
@@ -186,6 +189,8 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           maxHeight: { sm: "100vh" },
           overflowY: "scroll",
           minWidth: { xs: "100vw", md: "340px" },
+          width: "100%",
+          flex: { xs: "0 0 100%", sm: "0 0 100%" },
           transition: "filter .2s",
           maxWidth: "100vw",
         }}
