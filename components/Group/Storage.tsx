@@ -100,9 +100,7 @@ export function Storage({
             height: 20,
             borderRadius: 999,
             overflow: "hidden",
-            background: session.user.darkMode
-              ? "hsl(240,11%,15%)"
-              : colors[color][200],
+            background: palette[3],
             mb: 2,
           }}
         >

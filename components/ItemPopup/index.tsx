@@ -233,7 +233,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
       <Typography
         sx={{
           my: 2,
-          color: session.user.darkMode ? "#aaa" : "hsl(240,11%,50%)",
+          color: palette[11],
         }}
       >
         <i>Last edit was {dayjs(itemData.lastModified).fromNow()}</i>

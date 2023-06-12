@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { Box, SwipeableDrawer, TextField, Typography } from "@mui/material";
 import { SearchIndex, init } from "emoji-mart";
@@ -30,6 +31,7 @@ export default function EmojiPicker({
   const [open, setOpen] = useState<boolean>(false);
   const [results, setResults] = useState<Array<any>>([]);
   const [inputValue, setInputValue] = useState("");
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -95,11 +97,9 @@ export default function EmojiPicker({
                 px: 2,
                 py: 1,
                 borderRadius: 3,
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+                background: palette[2],
                 "&:focus-within": {
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 25 : 90
-                  }%)`,
+                  background: palette[3],
                 },
               },
             }}

@@ -24,8 +24,9 @@ export function BottomNav() {
   const styles = (active) => {
     return {
       textTransform: "none",
-      color: session.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
+      color: palette[12],
       "& span": {
+        opacity: 0.7,
         transition: "opacity .2s",
       },
       "& .material-symbols-rounded, & .material-symbols-outlined": {
@@ -45,8 +46,9 @@ export function BottomNav() {
         },
       ...(active && {
         fontWeight: 700,
-        color: `${palette[10]}!important`,
+        color: `${palette[11]}!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
+          opacity: 1,
           ...iconStyles,
           background: palette[3],
         },
