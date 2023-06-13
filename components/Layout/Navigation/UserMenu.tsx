@@ -63,7 +63,7 @@ export function PropertyButton({ handleClose, group }) {
           sx={{
             width: { xs: 50, sm: 20 },
             height: { xs: 50, sm: 20 },
-            background: groupPalette[9],
+            background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[11]})`,
             color: groupPalette[1],
             borderRadius: 99,
             display: "flex",
@@ -71,7 +71,15 @@ export function PropertyButton({ handleClose, group }) {
             justifyContent: "center",
           }}
         >
-          <Icon sx={{ display: { sm: "none" } }}>home</Icon>
+          <Icon sx={{ display: { sm: "none" } }}>
+            {group.profile.type === "house"
+              ? "home"
+              : group.profile.type === "apartment"
+              ? "apartment"
+              : group.profile.type === "dorm"
+              ? "cottage"
+              : "school"}
+          </Icon>
         </Box>
         <ListItemText
           primary={<b>{group.profile.name}</b>}
@@ -425,7 +433,7 @@ export default function InviteButton({ styles }: any) {
               className="outlined"
               sx={{ color: groupPalette[1] + "!important" }}
             >
-              unfold_more
+              expand_all
             </Icon>
           </Badge>
         </Box>
@@ -449,7 +457,7 @@ export default function InviteButton({ styles }: any) {
           onClick={handleClick}
         >
           <Tooltip title="Account menu" placement="bottom-end">
-            <Icon className="outlined">unfold_more</Icon>
+            <Icon className="outlined">expand_all</Icon>
           </Tooltip>
         </IconButton>
       </Badge>

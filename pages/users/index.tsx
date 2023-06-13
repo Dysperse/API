@@ -249,7 +249,10 @@ function BirthdayCard({ person }) {
           >
             {person.name}
           </Typography>
-          <Typography>In {daysUntilNextBirthday} days</Typography>
+          <Typography>
+            {dayjs(person.Profile.birthday).format("MMMF D")} &bull;{" "}
+            {daysUntilNextBirthday} days
+          </Typography>
         </Box>
       </CardActionArea>
     </Card>

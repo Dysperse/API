@@ -261,7 +261,7 @@ export default function Layout({ children }: any) {
             <AppBar>
               <Toolbar>
                 <IconButton onClick={() => setOpen(true)}>
-                  <Icon>unfold_more</Icon>
+                  <Icon>expand_all</Icon>
                 </IconButton>
                 <Button
                   size="small"
