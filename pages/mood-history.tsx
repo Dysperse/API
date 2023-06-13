@@ -87,7 +87,7 @@ export default function History() {
         </Button>
       </Link>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Typography variant="h4" sx={{ mb: 1 }} className="font-heading">
+        <Typography variant="h3" sx={{ mb: 1 }} className="font-heading">
           History
         </Typography>
         <IconButton sx={{ ml: "auto" }} onClick={handleFetch}>
