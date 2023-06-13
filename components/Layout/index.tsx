@@ -8,6 +8,7 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Group from "../Group";
@@ -79,6 +80,9 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
       addHslAlpha(palette[1], 0.5)
     );
   });
+
+  const router = useRouter();
+  const shouldUseXAxis = router.asPath.includes("/users");
 
   return (
     <Box
@@ -164,9 +168,9 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
         }}
       >
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 10, opacity: 0 }}
+          initial={{ [shouldUseXAxis ? "x" : "y"]: 100, opacity: 0 }}
+          animate={{ [shouldUseXAxis ? "x" : "y"]: 0, opacity: 1 }}
+          exit={{ [shouldUseXAxis ? "x" : "y"]: 10, opacity: 0 }}
           transition={{
             type: "spring",
             stiffness: 260,
