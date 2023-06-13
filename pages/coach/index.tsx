@@ -10,6 +10,7 @@ import {
   Container,
   Icon,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { orange } from "@radix-ui/colors";
 import dayjs from "dayjs";
@@ -34,14 +35,13 @@ export default function Render() {
 
   const isStreakBroken =
     dayjs().diff(dayjs(data ? data.lastStreakDate : new Date()), "day") >= 2;
-
   const useStreakStyles = data?.streakCount > 1 && !isStreakBroken;
-
   const palette = useColor(session.themeColor, session.user.darkMode);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
     <Box>
-      <Navbar />
+      {isMobile && <Navbar />}
       <Head>
         <title>Coach</title>
       </Head>
