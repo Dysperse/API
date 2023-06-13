@@ -414,6 +414,17 @@ export default function Page() {
           >
             <Icon className="outlined">settings</Icon>
           </IconButton>
+          <IconButton
+            sx={{ ml: { xs: -0.5, sm: -1 } }}
+            onClick={() =>
+              window.open(
+                "https://blog.dysperse.com/series/support?utm_source=" +
+                  window.location.hostname
+              )
+            }
+          >
+            <Icon className="outlined">help</Icon>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Container sx={{ px: { xs: "0!important", sm: "unset" } }}>

@@ -11,7 +11,6 @@ import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { updateSettings } from "../../../lib/client/updateSettings";
 import { openSpotlight } from "./Search";
-import UserMenu from "./UserMenu";
 const SearchPopup = dynamic(() => import("./Search"));
 
 export function Sidebar() {
@@ -273,7 +272,6 @@ export function Sidebar() {
             </span>
           </Tooltip>
         </Box>
-        {!isMobile && <UserMenu styles={styles} />}
       </Box>
     </Box>
   );

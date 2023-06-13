@@ -137,8 +137,9 @@ export function Storage({
         </Box>
         <Typography gutterBottom sx={{ mt: 1 }} variant="body2">
           <b>
-            {max - getTotal(data, data.tasks, data.items)}/{max} credits left
+            {max - getTotal(data, data.tasks, data.items)}/{max}
           </b>
+          &nbsp;credits left
         </Typography>
       </Box>
     </Box>
