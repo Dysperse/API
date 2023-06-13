@@ -600,9 +600,8 @@ export function CreateTask({
       >
         <Box
           sx={{
-            boxShadow: `${`inset 0 0 0 1.5px hsl(240, 11%, ${
-              session.user.darkMode ? 60 : 40
-            }%)`}`,
+            boxShadow: palette[12],
+            opacity: 0.7,
             borderRadius: "10px",
             display: "flex",
             width: 25,
