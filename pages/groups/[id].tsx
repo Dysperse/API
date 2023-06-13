@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Property } from "@prisma/client";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { mutate } from "swr";
 
 function Group({ group, handleMutate }) {
@@ -63,7 +64,9 @@ export default function Page() {
   const session = useSession();
   const router = useRouter();
   const { id } = router.query;
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const [color, setColor] = useState(session.themeColor);
+
+  const palette = useColor(color, session.user.darkMode);
 
   const accessToken = session.properties.find(
     (property) => property.propertyId == id
@@ -73,6 +76,15 @@ export default function Page() {
     id,
     propertyAccessToken: accessToken,
   });
+
+  useEffect(() => {
+    if (data) {
+      setColor(data.profile.color);
+      document
+        .getElementById(`meta-theme-color`)
+        .setAttribute("content", palette[1]);
+    }
+  }, [data, palette]);
 
   return (
     <Box
