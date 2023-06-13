@@ -139,6 +139,16 @@ export default function Layout({ children }: any) {
           </Button>
         </Link>
       ))}
+      <Link
+        href={`/onboarding`}
+        onClick={() => setOpen(false)}
+        style={{ display: "block", cursor: "default" }}
+      >
+        <Button sx={styles(false)}>
+          <Icon className="outlined">restart_alt</Icon>
+          <span>Onboarding</span>
+        </Button>
+      </Link>
       <ConfirmationModal
         title="Sign out"
         question="Are you sure you want to sign out?"
