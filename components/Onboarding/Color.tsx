@@ -1,6 +1,5 @@
-import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { CardActionArea, Icon } from "@mui/material";
+import { CardActionArea, Icon, Tooltip } from "@mui/material";
 import * as colors from "@radix-ui/colors";
 import { mutate } from "swr";
 import { updateSettings } from "../../lib/client/updateSettings";
@@ -13,35 +12,44 @@ import { updateSettings } from "../../lib/client/updateSettings";
  */
 export function Color({ color, handleNext }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
-    <CardActionArea
-      onClick={() => {
-        if (color === "grey" || color === "white") {
-          updateSettings("darkMode", color === "grey" ? "true" : "false");
-        } else {
-          updateSettings("color", color.toLowerCase());
-        }
-        mutate("/api/session");
-        handleNext();
-      }}
-      sx={{
-        width: 30,
-        height: 30,
-        borderRadius: 5,
-        mr: 2,
-        mt: 1,
-        cursor: "pointer",
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: colors[color][color + 9],
-      }}
-    >
-      {color === session?.themeColor && (
-        <Icon style={{ color: color === "lime" ? "#000" : "#fff" }}>check</Icon>
-      )}
-    </CardActionArea>
+    <Tooltip title={color} placement="top">
+      <CardActionArea
+        onClick={() => {
+          if (color === "gray" || color === "sand") {
+            updateSettings("darkMode", color === "gray" ? "true" : "false");
+          } else {
+            updateSettings("color", color.toLowerCase());
+          }
+          mutate("/api/session");
+          handleNext();
+        }}
+        sx={{
+          width: 30,
+          height: 30,
+          borderRadius: 5,
+          mr: 2,
+          mt: 1,
+          cursor: "pointer",
+          display: "inline-flex",
+          alignItems: "center",
+          background:
+            colors[color] &&
+            `linear-gradient(45deg, ${colors[color][color + 9]}, ${
+              colors[color][color + 11]
+            })`,
+          justifyContent: "center",
+          ...(color == "gray" && { background: `#000` }),
+          ...(color == "sand" && { background: `#ccc` }),
+        }}
+      >
+        {color === session?.themeColor && (
+          <Icon style={{ color: color === "lime" ? "#000" : "#fff" }}>
+            check
+          </Icon>
+        )}
+      </CardActionArea>
+    </Tooltip>
   );
 }

@@ -94,6 +94,19 @@ export default function Onboarding() {
       {Object.keys(colors)
         .filter((color) => !color.includes("Dark"))
         .filter((color) => !color.endsWith("A"))
+        .filter(
+          (color) =>
+            ![
+              "gray",
+              "sage",
+              "olive",
+              "sand",
+              "mauve",
+              "gold",
+              "bronze",
+              "slate",
+            ].includes(color)
+        )
         .map((color) => (
           <Color handleNext={() => null} color={color} key={color} />
         ))}
@@ -102,8 +115,8 @@ export default function Onboarding() {
         <span style={{ opacity: 0.6 }}>#2 </span>
         Night or Day?
       </Typography>
-      <Color handleNext={() => setStep(step + 1)} color="grey" />
-      <Color handleNext={() => setStep(step + 1)} color="white" />
+      <Color handleNext={() => setStep(step + 1)} color="gray" />
+      <Color handleNext={() => setStep(step + 1)} color="sand" />
     </>,
     <>
       <Typography variant="h5" sx={styles.title} className="font-heading">
@@ -452,9 +465,9 @@ export default function Onboarding() {
           overflowY: "auto",
           maxWidth: { xs: "100vw", sm: "calc(100vw - 40px)" },
           width: { xs: "100vw", sm: "500px" },
-          backgroundColor: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
+          backgroundColor: palette[1],
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
-          color: `hsl(240,11%,${session.user.darkMode ? 100 : 10}%)`,
+          color: palette[12],
           borderRadius: { xs: 0, sm: "20px" },
           p: { xs: "7px", sm: "28px" },
           pt: { xs: 0, sm: "20px" },
