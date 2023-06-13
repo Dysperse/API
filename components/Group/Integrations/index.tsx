@@ -73,7 +73,7 @@ export default function Integrations({ handleClose }) {
           sx={{ ml: "auto", px: 2 }}
           variant="contained"
         >
-          <Icon className="outlined">add</Icon>Add integration
+          <Icon className="outlined">add</Icon>Add
         </Button>
       </Box>
       {data ? (
