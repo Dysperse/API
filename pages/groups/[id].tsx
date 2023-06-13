@@ -7,6 +7,7 @@ import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
   Box,
+  CircularProgress,
   Container,
   Icon,
   IconButton,
@@ -62,7 +63,6 @@ export default function Page() {
   const session = useSession();
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
   const palette = useColor(session.themeColor, session.user.darkMode);
 
   const accessToken = session.properties.find(
@@ -87,10 +87,24 @@ export default function Page() {
         overflow: "auto",
       }}
     >
-      {(!accessToken || error) && (
+      {error && (
         <ErrorHandler error="Yikes! We couldn't load this group! Please try again later" />
       )}
-      {accessToken && <Group handleMutate={() => mutate(url)} group={data} />}
+      {data ? (
+        <Group handleMutate={() => mutate(url)} group={data} />
+      ) : (
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
     </Box>
   );
 }
