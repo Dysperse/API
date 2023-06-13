@@ -600,10 +600,10 @@ export function CreateTask({
       >
         <Box
           sx={{
-            boxShadow: palette[12],
-            opacity: 0.7,
+            boxShadow: `${`inset 0 0 0 1.5px ${palette[12]}`}`,
             borderRadius: "10px",
             display: "flex",
+            opacity: 0.5,
             width: 25,
             height: 25,
             ml: 0.3,
