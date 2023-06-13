@@ -458,6 +458,11 @@ export default function Page() {
                   background: {
                     sm: palette[2],
                   },
+                  "& *": {
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  },
                 }}
                 onClick={() => router.push(`/users/${session.user.email}`)}
               >
