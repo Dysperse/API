@@ -82,7 +82,7 @@ export default function Page() {
       setColor(data.profile.color);
       document
         .getElementById(`meta-theme-color`)
-        .setAttribute("content", palette[1]);
+        ?.setAttribute("content", palette[1]);
     }
   }, [data, palette]);
 
