@@ -13,11 +13,13 @@ import {
   Skeleton,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import React, { createContext, useState } from "react";
 import { mutate } from "swr";
+import { Navbar } from "./zen";
 
 const Action = dynamic(() => import("@/components/Rooms/Action"));
 
@@ -86,105 +88,114 @@ export default function Inventory({ children = null }: any) {
   const { data: dataRooms, url, error } = useApi("property/inventory/rooms");
 
   const palette = useColor(session.themeColor, session.user.darkMode);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Head>
-        <title>Items</title>
-      </Head>
-      <Box
-        sx={{
-          width: { xs: "100%", md: 300 },
-          flex: { xs: "100%", md: "0 0 250px" },
-          px: 1.5,
-          display: { xs: children ? "none" : "block", md: "block" },
-          minHeight: "100vh",
-          pt: { md: 0.5 },
-          height: { md: "100vh" },
-          overflowY: { md: "scroll" },
-          background: {
-            md: palette[2],
-          },
-          ml: { md: -1 },
-        }}
-      >
-        <SidebarContext.Provider value={url}>
-          <Box
-            sx={{
-              my: 4,
-              px: { xs: 1.5, md: 0 },
-              borderRadius: "15px!important",
-            }}
-          >
-            <Typography
-              variant="h4"
-              className="font-heading"
-              sx={{ mb: 2, display: { md: "none" } }}
+    <>
+      {isMobile && <Navbar showLogo />}
+
+      <Box sx={{ display: "flex" }}>
+        <Head>
+          <title>Items</title>
+        </Head>
+        <Box
+          sx={{
+            width: { xs: "100%", md: 300 },
+            flex: { xs: "100%", md: "0 0 250px" },
+            px: 1.5,
+            display: { xs: children ? "none" : "block", md: "block" },
+            minHeight: "100vh",
+            pt: { md: 0.5 },
+            height: { md: "100vh" },
+            overflowY: { md: "scroll" },
+            background: {
+              md: palette[2],
+            },
+            ml: { md: -1 },
+          }}
+        >
+          <SidebarContext.Provider value={url}>
+            <Box
+              sx={{
+                my: 4,
+                px: { xs: 1.5, md: 0 },
+                borderRadius: "15px!important",
+              }}
             >
-              {session.property.profile.type === "study group"
-                ? "Belongings"
-                : "Inventory"}
-            </Typography>
-            <OptionsGroup
-              currentOption={viewBy}
-              setOption={setViewBy}
-              options={["Room", "Category"]}
-            />
-          </Box>
-          {viewBy === "Room" ? (
-            <>
-              {session.property.profile.type === "study group" ? (
-                <Action icon="backpack" room="Backpack" count={data?.byRoom} />
-              ) : (
-                rooms.map((action: any) => (
+              <Typography
+                variant="h3"
+                className="font-heading"
+                sx={{ mb: 2, display: { md: "none" } }}
+              >
+                {session.property.profile.type === "study group"
+                  ? "Belongings"
+                  : "Inventory"}
+              </Typography>
+              <OptionsGroup
+                currentOption={viewBy}
+                setOption={setViewBy}
+                options={["Room", "Category"]}
+              />
+            </Box>
+            {viewBy === "Room" ? (
+              <>
+                {session.property.profile.type === "study group" ? (
                   <Action
-                    key={action.primary}
-                    {...action}
+                    icon="backpack"
+                    room="Backpack"
                     count={data?.byRoom}
                   />
-                ))
-              )}
-              <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-              <Rooms data={dataRooms} error={error} count={data?.byRoom} />
-              <CreateRoom />
-              <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-              <Action icon="star" room="Starred" />
-              <Action icon="delete" room="Trash" />
-              <Toolbar />
-            </>
-          ) : (
-            <CategoryList />
-          )}
-        </SidebarContext.Provider>
+                ) : (
+                  rooms.map((action: any) => (
+                    <Action
+                      key={action.primary}
+                      {...action}
+                      count={data?.byRoom}
+                    />
+                  ))
+                )}
+                <Divider sx={{ my: 1.5, opacity: 0.7 }} />
+                <Rooms data={dataRooms} error={error} count={data?.byRoom} />
+                <CreateRoom />
+                <Divider sx={{ my: 1.5, opacity: 0.7 }} />
+                <Action icon="star" room="Starred" />
+                <Action icon="delete" room="Trash" />
+                <Toolbar />
+              </>
+            ) : (
+              <CategoryList />
+            )}
+          </SidebarContext.Provider>
+        </Box>
+        {children ? (
+          <Box
+            sx={{
+              maxHeight: { md: "100vh" },
+              minHeight: { md: "100vh" },
+              height: { md: "100vh" },
+              overflowY: { md: "auto" },
+              flexGrow: 1,
+            }}
+          >
+            {children}
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: 2,
+              alignItems: "center",
+              height: "100vh",
+              width: "100%",
+              color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+            }}
+          >
+            <Typography variant="h6">No room selected</Typography>
+          </Box>
+        )}
       </Box>
-      {children ? (
-        <Box
-          sx={{
-            maxHeight: { md: "100vh" },
-            minHeight: { md: "100vh" },
-            height: { md: "100vh" },
-            overflowY: { md: "auto" },
-            flexGrow: 1,
-          }}
-        >
-          {children}
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: { xs: "none", md: "flex" },
-            justifyContent: "center",
-            flexDirection: "column",
-            gap: 2,
-            alignItems: "center",
-            height: "100vh",
-            width: "100%",
-            color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
-          }}
-        >
-          <Typography variant="h6">No room selected</Typography>
-        </Box>
-      )}
-    </Box>
+    </>
   );
 }
