@@ -170,7 +170,10 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
         <motion.div
           initial={{ [shouldUseXAxis ? "x" : "y"]: 100, opacity: 0 }}
           animate={{ [shouldUseXAxis ? "x" : "y"]: 0, opacity: 1 }}
-          exit={{ [shouldUseXAxis ? "x" : "y"]: 10, opacity: 0 }}
+          exit={{
+            [shouldUseXAxis ? "x" : "y"]: shouldUseXAxis ? -10 : 10,
+            opacity: 0,
+          }}
           transition={{
             type: "spring",
             stiffness: 260,
