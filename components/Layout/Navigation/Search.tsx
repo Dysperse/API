@@ -30,24 +30,24 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
 
   return [
     {
-      title: "Boards",
-      onTrigger: () => router.push("/tasks/agenda/week"),
-      icon: "verified",
+      title: "Days",
+      onTrigger: () => router.push("/tasks/agenda/day"),
+      icon: "calendar_today",
     },
     {
-      title: "Weekly agenda",
+      title: "Weeks",
       onTrigger: () => router.push("/tasks/agenda/week"),
       icon: "view_week",
       badge: "Agenda",
     },
     {
-      title: "Monthly agenda",
+      title: "Months",
       onTrigger: () => router.push("/tasks#/agenda/month"),
       icon: "calendar_view_month",
       badge: "Agenda",
     },
     {
-      title: "Yearly agenda",
+      title: "Years",
       onTrigger: () => router.push("/tasks#/agenda/year"),
       icon: "calendar_month",
       badge: "Agenda",
