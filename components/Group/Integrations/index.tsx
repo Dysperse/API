@@ -39,6 +39,24 @@ export default function Integrations({ handleClose }) {
         },
       ],
     },
+    {
+      name: "Google Calendar",
+      description: "Sync your Google Calendar to your boards",
+      image:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png",
+      type: "board",
+      params: [
+        {
+          type: "url",
+          placeholder:
+            "https://calendar.google.com/calendar/ical/****/***/basic.ics",
+          name: "Secret address in iCal format",
+          helperText:
+            'You can find your calendar feed URL by going to your settings (for your calendars) and scrolling down and copying the text in "secret address in iCal format" (web only)',
+          required: true,
+        },
+      ],
+    },
   ];
 
   const { data, url, error } = useApi("property/integrations");
@@ -123,7 +141,7 @@ export default function Integrations({ handleClose }) {
                   }}
                 >
                   <IconButton>
-                    <Icon>delete</Icon>
+                    <Icon className="outlined">delete</Icon>
                   </IconButton>
                 </ConfirmationModal>
               </ListItemSecondaryAction>

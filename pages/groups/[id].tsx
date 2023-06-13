@@ -6,13 +6,13 @@ import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
-  AppBar,
-  Box,
-  CircularProgress,
-  Container,
-  Icon,
-  IconButton,
-  Toolbar,
+    AppBar,
+    Box,
+    CircularProgress,
+    Container,
+    Icon,
+    IconButton,
+    Toolbar,
 } from "@mui/material";
 import { Property } from "@prisma/client";
 import { useRouter } from "next/router";

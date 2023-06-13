@@ -14,6 +14,7 @@ import {
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
 export function BoardInfo({
@@ -199,87 +200,16 @@ export function BoardInfo({
                   icon={<Icon>inventory_2</Icon>}
                 />
               )}
-              {board.integrations.find(
-                (integration) => integration.name === "Canvas LMS"
-              ) && (
-                <Chip
-                  onClick={async () => {
-                    setMobileOpen(false);
-                    toast.promise(
-                      new Promise(async (resolve, reject) => {
-                        try {
-                          await fetchRawApi(
-                            "property/integrations/run/canvas",
-                            {
-                              boardId: board.id,
-                              timeZone: session.user.timeZone,
-                              vanishingTasks: session.property.profile
-                                .vanishingTasks
-                                ? "true"
-                                : "false",
-                            }
-                          );
-                          await mutate(mutationUrls.tasks);
-                          resolve("Success");
-                        } catch (e: any) {
-                          reject(e.message);
-                        }
-                      }),
-                      {
-                        loading: (
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: "15px",
-                              alignItems: "center",
-                            }}
-                          >
-                            <div>
-                              <Typography>
-                                Importing your assignments...
-                              </Typography>
-                              <Typography variant="body2">
-                                Hang tight - this may take a while
-                              </Typography>
-                            </div>
-                            <picture>
-                              <img
-                                src="https://i.ibb.co/4sNZm4T/image.png"
-                                alt="Canvas logo"
-                                height={25}
-                                style={{ borderRadius: "100%" }}
-                                width={25}
-                              />
-                            </picture>
-                          </div>
-                        ),
-                        success: "Synced to Canvas!",
-                        error:
-                          "Yikes! An error occured. Please try again later",
-                      },
-                      toastStyles
-                    );
-                  }}
-                  disabled={session.permission === "read-only"}
-                  label="Resync to Canvas"
-                  sx={{
-                    mr: 1,
-                    mb: 1,
-                    background:
-                      "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%) !important",
-                    color: "#000",
-                  }}
-                  icon={
-                    <Icon
-                      sx={{
-                        color: "#000!important",
-                      }}
-                    >
-                      refresh
-                    </Icon>
-                  }
+              {board.integrations?.map((integration) => (
+                <IntegrationChip
+                  mutationUrls={mutationUrls}
+                  key={integration.name}
+                  integration={integration}
+                  boardId={board.id}
+                  session={session}
+                  mutate={mutate}
                 />
-              )}
+              ))}
             </Box>
           </Box>
 
