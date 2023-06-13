@@ -92,7 +92,7 @@ export default function Inventory({ children = null }: any) {
 
   return (
     <>
-      {isMobile && <Navbar showLogo />}
+      {isMobile && !children && <Navbar showLogo />}
 
       <Box sx={{ display: "flex" }}>
         <Head>
