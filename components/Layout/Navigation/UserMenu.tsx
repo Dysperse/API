@@ -12,6 +12,7 @@ import {
   Icon,
   IconButton,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Menu,
   Tooltip,
@@ -27,7 +28,7 @@ import { ErrorHandler } from "../../Error";
 
 const Group = dynamic(() => import("../../Group"));
 
-function PropertyButton({ handleClose, group }) {
+export function PropertyButton({ handleClose, group }) {
   const session = useSession();
   const palette = useColor(session.themeColor, session.user.darkMode);
   const groupPalette = useColor(group.profile.color, session.user.darkMode);
@@ -47,25 +48,31 @@ function PropertyButton({ handleClose, group }) {
         })}
         sx={{
           gap: 2,
-          borderRadius: "28px",
+          borderRadius: { xs: 0, sm: "28px" },
           transition: "transform .2s",
           background: "transparent!important",
           "&:active": {
-            transform: "scale(0.97)",
+            transform: { sm: "scale(0.97)" },
           },
           ...(group.propertyId === session.property.propertyId && {
-            background: palette[3],
+            background: { sm: palette[3] },
           }),
         }}
       >
         <Box
           sx={{
-            width: 20,
-            height: 20,
+            width: { xs: 50, sm: 20 },
+            height: { xs: 50, sm: 20 },
             background: groupPalette[9],
+            color: groupPalette[1],
             borderRadius: 99,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        />
+        >
+          <Icon sx={{ display: { sm: "none" } }}>home</Icon>
+        </Box>
         <ListItemText
           primary={<b>{group.profile.name}</b>}
           secondary={group.profile.type}
@@ -74,6 +81,9 @@ function PropertyButton({ handleClose, group }) {
             textTransform: "capitalize",
           }}
         />
+        <ListItemIcon sx={{ display: { sm: "none" }, minWidth: "unset" }}>
+          <Icon>arrow_forward_ios</Icon>
+        </ListItemIcon>
       </ListItemButton>
     </Group>
   );

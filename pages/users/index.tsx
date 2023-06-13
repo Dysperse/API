@@ -1,4 +1,6 @@
 import { ErrorHandler } from "@/components/Error";
+import { PropertyButton } from "@/components/Layout/Navigation/UserMenu";
+import { Puller } from "@/components/Puller";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
@@ -8,6 +10,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -18,6 +21,7 @@ import {
   IconButton,
   ListItemButton,
   ListItemText,
+  SwipeableDrawer,
   Toolbar,
   Tooltip,
   Typography,
@@ -25,7 +29,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { mutate } from "swr";
+import { useState } from "react";
+import { mutate, preload } from "swr";
 
 function ProfilePicture({ src, name, color, size }) {
   const session = useSession();
@@ -208,13 +213,14 @@ function BirthdayCard({ person }) {
       key={person.email}
       sx={{
         flex: "0 0 300px",
+        scrollSnapAlign: "center",
       }}
     >
       <CardActionArea
         onClick={() => router.push(`/users/${person.email}`)}
         sx={{
-          background: `linear-gradient(45deg, ${palette[8]}, ${palette[9]})`,
-          color: palette[1],
+          background: `linear-gradient(45deg, ${palette[3]}, ${palette[4]})`,
+          color: palette[11],
           borderRadius: 5,
           display: "flex",
           gap: 2,
@@ -284,6 +290,7 @@ function UpcomingBirthdays({ data }) {
         display: "flex",
         gap: 2,
         overflowX: "scroll",
+        scrollSnapType: { xs: "x mandatory", sm: "none" },
         px: { xs: 2 },
       }}
     >
@@ -292,6 +299,61 @@ function UpcomingBirthdays({ data }) {
           <BirthdayCard key={person.email} person={person} />
         ))}
     </Box>
+  );
+}
+
+function GroupModal() {
+  const session = useSession();
+  const { data, fetcher, url, error } = useApi("user/properties");
+  const [showMore, setShowMore] = useState(false);
+
+  const properties = [...session.properties, ...(data || [])]
+    .filter((group) => group)
+    .reduce((acc, curr) => {
+      if (!acc.find((property) => property.propertyId === curr.propertyId)) {
+        acc.push(curr);
+      }
+      return acc;
+    }, []);
+
+  preload(url, fetcher);
+  return (
+    <>
+      <Typography
+        variant="h6"
+        sx={{ display: "flex", alignItems: "center", px: 2, mt: 3, mb: 1 }}
+      >
+        Group
+        {properties.length !== 1 && (
+          <Button
+            sx={{ ml: "auto" }}
+            size="small"
+            onClick={() => setShowMore(true)}
+          >
+            View all
+          </Button>
+        )}
+      </Typography>
+      {error && (
+        <ErrorHandler error="Oh no! We couldn't load your groups! Please try again later" />
+      )}
+
+      {properties
+        .filter((p) => p.propertyId === session.property.propertyId)
+        .map((group: any) => (
+          <PropertyButton handleClose={() => {}} key={group.id} group={group} />
+        ))}
+      <SwipeableDrawer
+        anchor="bottom"
+        open={showMore}
+        onClose={() => setShowMore(false)}
+      >
+        <Puller />
+        {properties.map((group: any) => (
+          <PropertyButton handleClose={() => {}} key={group.id} group={group} />
+        ))}
+      </SwipeableDrawer>
+    </>
   );
 }
 
@@ -344,10 +406,7 @@ export default function Page() {
         </Toolbar>
       </AppBar>
       <Container sx={{ px: { xs: "0!important", sm: "unset" } }}>
-        <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
-          My profile
-        </Typography>
-        <Box sx={{ px: { sm: 2 } }}>
+        <Box sx={{ px: { sm: 2 }, mt: 2 }}>
           {data ? (
             <>
               <ListItemButton
@@ -400,8 +459,9 @@ export default function Page() {
             </Box>
           )}
         </Box>
+        <GroupModal />
         <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
-          Upcoming birthdays
+          Birthdays
         </Typography>
         <UpcomingBirthdays data={data} />
         {data && data.friends.length == 0 && (
