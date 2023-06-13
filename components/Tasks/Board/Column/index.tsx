@@ -82,7 +82,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       style={{
-        maxWidth: "340px",
+        maxWidth: column.name === "" ? "100%" : "340px",
         width: "100%",
       }}
     >
