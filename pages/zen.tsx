@@ -15,7 +15,7 @@ import {
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export function Logo({ intensity = 4 }: any) {
   const session = useSession();
@@ -93,12 +93,21 @@ export default function Home() {
   const palette = useColor(session.themeColor, session.user.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const greeting = useMemo(() => {
+  const getGreeting = useMemo(() => {
     if (time < 12) return "Good morning.";
     else if (time < 17) return "Good afternoon.";
     else if (time < 20) return "Good evening.";
     else return "Good night.";
   }, [time]);
+
+  const [greeting, setGreeting] = useState(getGreeting);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGreeting(getGreeting);
+    }, 1000 * 60 * 60);
+    return () => clearInterval(interval);
+  });
 
   const { data } = useApi("property/tasks/agenda", {
     startTime: dayjs().startOf("day").toISOString(),
