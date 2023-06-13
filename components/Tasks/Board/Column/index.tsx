@@ -82,14 +82,8 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       style={{
-        ...(column.name == ""
-          ? {
-              flexGrow: 1,
-            }
-          : {
-              maxWidth: "340px",
-              width: "100%",
-            }),
+        maxWidth: "340px",
+        width: "100%",
       }}
     >
       <SwipeableDrawer
