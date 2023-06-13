@@ -54,6 +54,11 @@ export function PropertyButton({ handleClose, group }) {
           "&:active": {
             transform: { sm: "scale(0.97)" },
           },
+          "& *": {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          },
           ...(group.propertyId === session.property.propertyId && {
             background: { sm: palette[2] },
           }),
