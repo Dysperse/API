@@ -329,6 +329,7 @@ function GroupModal() {
           alignItems: "center",
           mt: 3,
           mb: 1,
+          px: { xs: 2, sm: 0 },
         }}
       >
         Group
@@ -445,6 +446,7 @@ export default function Page() {
                   display: "flex",
                   alignItems: "center",
                   mt: 3,
+                  px: { xs: 2, sm: 0 },
                   mb: 1,
                 }}
               >
