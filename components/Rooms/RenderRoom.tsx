@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
@@ -40,8 +41,14 @@ export function RenderRoom({
   const header = (
     <Header room={room} itemCount={items.length} mutationUrl={mutationUrl} />
   );
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
-    <Box>
+    <Box
+      sx={{
+        maxWidth: "100vw",
+      }}
+    >
       {!isMobile && header}
       <Container>
         <Toolbar items={items} setItems={setItems} data={_items} />
@@ -51,9 +58,7 @@ export function RenderRoom({
         <Box
           sx={{
             display: "flex",
-            mr: {
-              sm: -2,
-            },
+            mr: -2,
           }}
         >
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
@@ -71,9 +76,7 @@ export function RenderRoom({
                 <Card
                   sx={{
                     mb: 2,
-                    background: session.user.darkMode
-                      ? "hsla(240,11%,15%)"
-                      : "rgba(200,200,200,.3)",
+                    background: palette[2],
                     borderRadius: 5,
                     p: 3,
                   }}

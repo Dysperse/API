@@ -40,7 +40,7 @@ function SearchBar({
 
   return (
     <TextField
-      placeholder="Search for an item..."
+      placeholder="Search..."
       id="outlined-size-small"
       onKeyDown={handleBlurEvent}
       onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
@@ -152,6 +152,7 @@ export function Toolbar({
       sx={{
         textAlign: "right",
         my: { xs: 2, sm: 3 },
+        maxWidth: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "end",
@@ -166,7 +167,6 @@ export function Toolbar({
         sx={{
           borderRadius: 10,
           ml: 1,
-          mt: { xs: 1, sm: 0 },
           py: 1.3,
           px: 1,
           gap: 1.5,

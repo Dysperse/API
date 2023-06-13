@@ -10,7 +10,6 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -33,7 +32,6 @@ export function Header({
 }) {
   const router = useRouter();
   const session = useSession();
-  const isMobile = useMediaQuery("min-width: 600px");
   const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
