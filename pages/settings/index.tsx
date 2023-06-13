@@ -9,8 +9,6 @@ import {
   Button,
   Icon,
   IconButton,
-  Menu,
-  MenuItem,
   SwipeableDrawer,
   Toolbar,
   Typography,
@@ -94,20 +92,6 @@ export default function Layout({ children }: any) {
           gap: 1,
         }}
       >
-        <Menu
-          sx={{
-            zIndex: 999999999999999999,
-          }}
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={() => setAnchorEl(null)}
-        >
-          <MenuItem onClick={handleClose} selected>
-            My account
-          </MenuItem>
-          <MenuItem onClick={openGroupSettings}>My group</MenuItem>
-        </Menu>
         <Image
           width={50}
           height={50}
@@ -121,22 +105,8 @@ export default function Layout({ children }: any) {
             }),
           }}
         />
-        <Button
-          size="small"
-          onClick={handleClick}
-          sx={{
-            "& .e": {
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              maxWidth: "100%",
-              textOverflow: "ellipsis",
-            },
-            color: "inherit",
-          }}
-        >
-          <span className="e">My account</span>
-          <Icon>expand_more</Icon>
-        </Button>
+
+        <span className="e">Settings</span>
       </Box>
       {[
         { icon: "account_circle", text: "Account" },
