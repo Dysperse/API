@@ -70,7 +70,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
       sx={{
         scrollSnapType: { xs: "x mandatory", sm: "unset" },
         display: "flex",
-        maxWidth: "100vw",
+        maxWidth: "100%",
         overflowX: "scroll",
         minHeight: "100vh",
       }}
