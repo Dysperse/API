@@ -1,6 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { PropertyInfo } from "@/components/Group";
 import { Changelog } from "@/components/Group/Changelog";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
@@ -21,14 +22,17 @@ import { mutate } from "swr";
 function Group({ group, handleMutate }) {
   const session = useSession();
   const router = useRouter();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(
+    group ? group.profile.color : session.themeColor,
+    session.user.darkMode
+  );
 
   return (
     <Box>
       <AppBar
         position="sticky"
         sx={{
-          background: palette[1],
+          background: addHslAlpha(palette[1], 0.5),
           borderColor: "transparent",
         }}
       >
