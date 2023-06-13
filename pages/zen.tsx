@@ -10,6 +10,7 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
@@ -134,7 +135,7 @@ export default function Home() {
       {isMobile && <Navbar showLogo />}
       <Box
         sx={{
-          pt: { xs: 5, sm: 15 },
+          pt: { xs: 5, sm: 23 },
         }}
       >
         <Box
