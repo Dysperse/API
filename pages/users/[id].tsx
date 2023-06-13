@@ -28,6 +28,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 
 function Page() {
@@ -116,6 +117,10 @@ function Page() {
 
   const { data: members } = useApi("property/members", {
     propertyId: session.property.propertyId,
+  });
+
+  useHotkeys("esc", () => {
+    router.push("/users");
   });
 
   return (

@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import Group from "../Group";
 import { getTotal, max } from "../Group/Storage";
 import { BottomNav } from "./Navigation/BottomNavigation";
@@ -83,6 +84,10 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
 
   const router = useRouter();
   const shouldUseXAxis = router.asPath.includes("/users");
+
+  useHotkeys("esc", () => {
+    router.push("/zen");
+  });
 
   return (
     <Box
@@ -171,8 +176,8 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
           initial={{ [shouldUseXAxis ? "x" : "y"]: 100, opacity: 0 }}
           animate={{ [shouldUseXAxis ? "x" : "y"]: 0, opacity: 1 }}
           exit={{
-            [shouldUseXAxis ? "x" : "y"]: shouldUseXAxis ? -10 : 10,
-            opacity: 0,
+            [shouldUseXAxis ? "x" : "y"]: shouldUseXAxis ? -100 : 10,
+            opacity: shouldUseXAxis ? 0.5 : 0,
           }}
           transition={{
             type: "spring",
