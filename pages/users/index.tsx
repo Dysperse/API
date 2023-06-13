@@ -158,7 +158,7 @@ function Friend({ friend }) {
           <Typography variant="body2">{friend?.following?.email}</Typography>
           {lastLoggedIn && (
             <Typography variant="body2">
-              Last logged in{" "}
+              Signed in{" "}
               <Tooltip title="The date listed represents when the user last logged in from a new device, not when the user was last online.">
                 <span style={{ borderBottom: "1px dotted" }}>
                   {dayjs(lastLoggedIn).fromNow()}
@@ -250,7 +250,7 @@ function BirthdayCard({ person }) {
             {person.name}
           </Typography>
           <Typography>
-            {dayjs(person.Profile.birthday).format("MMMF D")} &bull;{" "}
+            {dayjs(person.Profile.birthday).format("MMM D")} &bull;{" "}
             {daysUntilNextBirthday} days
           </Typography>
         </Box>
@@ -321,10 +321,15 @@ function GroupModal() {
 
   preload(url, fetcher);
   return (
-    <>
+    <Box sx={{ width: "100%" }}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", alignItems: "center", px: 2, mt: 3, mb: 1 }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          mt: 3,
+          mb: 1,
+        }}
       >
         Group
         {properties.length !== 1 && (
@@ -341,11 +346,14 @@ function GroupModal() {
         <ErrorHandler error="Oh no! We couldn't load your groups! Please try again later" />
       )}
 
-      {properties
-        .filter((p) => p.propertyId === session.property.propertyId)
-        .map((group: any) => (
-          <PropertyButton handleClose={() => {}} key={group.id} group={group} />
-        ))}
+      <Box>
+        <PropertyButton
+          handleClose={() => {}}
+          group={properties.find(
+            (p) => p.propertyId === session.property.propertyId
+          )}
+        />
+      </Box>
       <SwipeableDrawer
         anchor="bottom"
         open={showMore}
@@ -356,7 +364,7 @@ function GroupModal() {
           <PropertyButton handleClose={() => {}} key={group.id} group={group} />
         ))}
       </SwipeableDrawer>
-    </>
+    </Box>
   );
 }
 
@@ -409,9 +417,28 @@ export default function Page() {
         </Toolbar>
       </AppBar>
       <Container sx={{ px: { xs: "0!important", sm: "unset" } }}>
-        <Box sx={{ px: { sm: 2 }, mt: 2 }}>
+        <Box
+          sx={{
+            px: { sm: 2 },
+            mt: 2,
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: 2,
+          }}
+        >
           {data ? (
-            <>
+            <Box sx={{ width: "100%" }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  mt: 3,
+                  mb: 1,
+                }}
+              >
+                Profile
+              </Typography>
               <ListItemButton
                 sx={{
                   borderRadius: { xs: 0, sm: 3 },
@@ -442,7 +469,7 @@ export default function Page() {
                 />
                 <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
               </ListItemButton>
-            </>
+            </Box>
           ) : error ? (
             <ErrorHandler
               callback={() => mutate(url)}
@@ -461,8 +488,8 @@ export default function Page() {
               <CircularProgress />
             </Box>
           )}
+          <GroupModal />
         </Box>
-        <GroupModal />
         <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
           Birthdays
         </Typography>
