@@ -216,8 +216,7 @@ function PropertyInfo({
             variant="h4"
             sx={{
               mt: 15,
-              mb: 0.5,
-              fontSize: "40px",
+              fontSize: "55px",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
