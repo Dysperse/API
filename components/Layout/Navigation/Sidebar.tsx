@@ -113,8 +113,8 @@ export function Sidebar() {
     };
   };
 
-  const shouldHide = ["/users", "/settings", "/coach/routine"].find((path) =>
-    router.asPath.includes(path)
+  const shouldHide = ["/users", "/settings", "/coach/routine", "/groups"].find(
+    (path) => router.asPath.includes(path)
   );
 
   return (

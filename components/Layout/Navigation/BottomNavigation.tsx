@@ -59,9 +59,13 @@ export function BottomNav() {
   const palette = useColor(session.themeColor, session.user.darkMode);
   const router = useRouter();
 
-  const shouldHide = ["/users", "/rooms/", "/coach/routine", "/settings"].find(
-    (path) => router.asPath.includes(path)
-  );
+  const shouldHide = [
+    "/users",
+    "/rooms/",
+    "/groups",
+    "/coach/routine",
+    "/settings",
+  ].find((path) => router.asPath.includes(path));
 
   /**
    * Handles button click
