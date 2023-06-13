@@ -7,6 +7,7 @@ import {
   Container,
   Paper,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import type { Item } from "@prisma/client";
 import Image from "next/image";
@@ -34,12 +35,19 @@ export function RenderRoom({
 
   useEffect(() => setItems(items), [items]);
   const session = useSession();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const header = (
+    <Header room={room} itemCount={items.length} mutationUrl={mutationUrl} />
+  );
   return (
     <Box>
-      <Header room={room} itemCount={items.length} mutationUrl={mutationUrl} />
+      {!isMobile && header}
       <Container>
         <Toolbar items={items} setItems={setItems} data={_items} />
+      </Container>
+      {isMobile && header}
+      <Container>
         <Box
           sx={{
             display: "flex",

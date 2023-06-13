@@ -10,6 +10,8 @@ import {
   Alert,
   Box,
   Divider,
+  Icon,
+  IconButton,
   Skeleton,
   Toolbar,
   Typography,
@@ -17,6 +19,7 @@ import {
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { createContext, useState } from "react";
 import { mutate } from "swr";
 import { Navbar } from "./zen";
@@ -83,6 +86,7 @@ const CategoryList = React.memo(function CategoryList() {
 export default function Inventory({ children = null }: any) {
   const session = useSession();
   const [viewBy, setViewBy] = useState("Room");
+  const router = useRouter();
 
   const { data } = useApi("property/inventory/count");
   const { data: dataRooms, url, error } = useApi("property/inventory/rooms");
@@ -92,7 +96,32 @@ export default function Inventory({ children = null }: any) {
 
   return (
     <>
-      {isMobile && !children && <Navbar showLogo />}
+      {isMobile && (
+        <Navbar
+          showLogo={!Boolean(children)}
+          s
+          {...(children && {
+            right: (
+              <>
+                <IconButton
+                  sx={{ color: palette[8] }}
+                  onClick={() => router.push("/items")}
+                >
+                  <Icon>close</Icon>
+                </IconButton>
+                <IconButton
+                  sx={{ color: palette[8], ml: "auto" }}
+                  onClick={() =>
+                    document.getElementById("createItemTrigger")?.click()
+                  }
+                >
+                  <Icon className="outlined">add_circle</Icon>
+                </IconButton>
+              </>
+            ),
+          })}
+        />
+      )}
 
       <Box sx={{ display: "flex" }}>
         <Head>

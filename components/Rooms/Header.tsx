@@ -41,14 +41,14 @@ export function Header({
       sx={{
         transition: "transform .2s !important",
         overflow: "hidden",
-        background: palette[2],
-        position: "sticky",
-        top: { xs: "var(--navbar-height)", sm: "0px" },
-        mt: { xs: -2, sm: 0 },
+        background: { sm: palette[2] },
+        position: { sm: "sticky" },
+        top: 0,
         mb: 2,
         zIndex: 99,
         backdropFilter: "blur(10px)",
         py: 3,
+        pt: 1,
         "&:focus": {
           background: session.user.darkMode
             ? "hsl(240,11%,27%)"
@@ -67,16 +67,9 @@ export function Header({
           width: "100%",
         }}
       >
-        <ListItemAvatar sx={{ display: { md: "none" } }}>
-          <IconButton onClick={() => router.push("/items")}>
-            <Icon>{isMobile ? "west" : "close"}</Icon>
-          </IconButton>
-        </ListItemAvatar>
-
         <ListItemText
           sx={{
             my: 1.4,
-            textAlign: { xs: "center", sm: "left" },
             ml: { md: 2 },
           }}
           primary={
@@ -84,8 +77,8 @@ export function Header({
               sx={{
                 textDecoration: "underline",
                 fontSize: {
-                  xs: "35px",
-                  md: "45px",
+                  xs: "50px",
+                  md: "55px",
                 },
               }}
               gutterBottom
@@ -102,7 +95,6 @@ export function Header({
                 mt: -0.5,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: { xs: "center", sm: "flex-start" },
                 flexWrap: "wrap",
                 gap: 1,
               }}
@@ -121,7 +113,6 @@ export function Header({
       <ListItemAvatar
         sx={{
           display: "flex",
-          alignItems: "center",
           gap: 1,
         }}
       >
@@ -129,7 +120,9 @@ export function Header({
           <IconButton
             sx={{
               background: "transparent",
+              display: "none",
             }}
+            id="createItemTrigger"
             disabled={session.permission === "read-only"}
           >
             <Icon className="outlined">add_circle</Icon>
