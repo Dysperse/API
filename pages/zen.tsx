@@ -90,6 +90,7 @@ export default function Home() {
   const session = useSession();
   const time = new Date().getHours();
   const palette = useColor(session.themeColor, session.user.darkMode);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const greeting = useMemo(() => {
     if (time < 12) return "Good morning.";
@@ -130,7 +131,7 @@ export default function Home() {
 
   return (
     <Box sx={{ ml: { sm: -1 } }}>
-      <Navbar showLogo />
+      {isMobile && <Navbar showLogo />}
       <Box
         sx={{
           pt: { xs: 5, sm: 15 },
