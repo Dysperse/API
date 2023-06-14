@@ -22,6 +22,7 @@ export function Sidebar() {
 
   const useOutlinedTheme =
     router.asPath === "/zen" ||
+    router.asPath === "/coach" ||
     router.asPath === "/" ||
     router.asPath === "/mood-history" ||
     router.asPath.includes("/users");
