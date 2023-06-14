@@ -161,7 +161,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
               background: `linear-gradient(45deg, ${palette[9]}, ${palette[12]})`,
               p: { xs: 3, sm: 5 },
               position: "relative",
-              pt: 15,
+              pt: { xs: 15, sm: 15 },
               borderRadius: 5,
               display: "flex",
             }}
