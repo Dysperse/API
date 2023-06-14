@@ -70,6 +70,10 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
     }
   }, [isCompleted, alreadyPlayed]);
 
+  useEffect(() => {
+    window.location.hash = `#${goal.id}`;
+  });
+
   const handleTrophyEarn = async (icon) => {
     try {
       setLoading(true);
@@ -105,6 +109,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
           flexGrow: 1,
           px: 3,
           background: palette[2],
+          overflow: "hidden",
           borderBottomLeftRadius: 15,
           borderBottomRightRadius: 15,
           width: "100%",
@@ -252,19 +257,29 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
           </Box>
         )}
 
-        <Button
-          sx={{
-            mt: "auto",
-            zIndex: 999999999,
-            mb: 2,
-            background: palette[3],
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: !isCompleted ? 0.1 : 1.5 }}
+          style={{
+            marginTop: "auto",
+            width: "100%",
           }}
-          variant="contained"
-          onClick={handleNext}
-          disabled={goal.lastCompleted === dayjs().format("YYYY-MM-DD")}
         >
-          Claim <Icon>east</Icon>
-        </Button>
+          <Button
+            sx={{
+              zIndex: 999999999,
+              mb: 2,
+              background: palette[3],
+            }}
+            variant="contained"
+            fullWidth
+            onClick={handleNext}
+            disabled={goal.lastCompleted === dayjs().format("YYYY-MM-DD")}
+          >
+            {isCompleted ? "Claim" : "Done"} <Icon>east</Icon>
+          </Button>
+        </motion.div>
       </motion.div>
       <Box
         sx={{ mt: "auto", width: "100%", p: 1, display: "flex", zIndex: 999 }}
@@ -309,7 +324,18 @@ export default function Routine() {
   const [alreadySwitched, setAlreadySwitched] = useState(false);
 
   useEffect(() => {
-    if (data && filteredGoals[0] && !alreadySwitched) {
+    if (window.location.hash && data) {
+      const hash = window.location.hash.replace("#", "");
+      const goal = filteredGoals.find((goal) => goal.id === hash);
+      if (goal) {
+        setSlide(filteredGoals.indexOf(goal));
+        setAlreadySwitched(true);
+      } else {
+        setSlide(0);
+        setAlreadySwitched(true);
+      }
+    }
+    if (data && filteredGoals[0] && !alreadySwitched && !window.location.hash) {
       setSlide(0);
       setAlreadySwitched(true);
     }

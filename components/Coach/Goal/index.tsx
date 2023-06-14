@@ -4,6 +4,7 @@ import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
   Box,
+  Button,
   Chip,
   LinearProgress,
   Skeleton,
@@ -12,10 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import React from "react";
 import { Puller } from "../../Puller";
 import { MoreOptions } from "./MoreOptions";
-import { TrophyModal } from "./TrophyModal";
 
 export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -32,6 +33,8 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
       : goal.time === "afternoon"
       ? "Every afternoon"
       : "Nightly";
+
+  const router = useRouter();
 
   return isScrolling ? (
     <Skeleton
@@ -166,7 +169,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
               background: `linear-gradient(45deg, ${palette[9]}, ${palette[12]})`,
               p: { xs: 3, sm: 5 },
               position: "relative",
-              pt: { xs: 15 },
+              pt: 15,
               borderRadius: 5,
               display: "flex",
             }}
@@ -227,7 +230,13 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
             </Box>
           )}
           {!goal.completed && goal.progress === goal.durationDays && (
-            <TrophyModal goal={goal} mutationUrl={mutationUrl} />
+            <Button
+              onClick={() => router.push(`/coach/routine#${goal.id}`)}
+              variant="contained"
+              sx={{ mt: 2 }}
+            >
+              Claim reward
+            </Button>
           )}
           <Box
             sx={{ p: 4, background: "rgba(0,0,0,0.1)", borderRadius: 5, mt: 3 }}
