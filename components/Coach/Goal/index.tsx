@@ -25,15 +25,6 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
 
   useBackButton(() => setOpen(false));
 
-  const repeatText =
-    goal.time === "any"
-      ? "Daily"
-      : goal.time === "morning"
-      ? "Every morning"
-      : goal.time === "afternoon"
-      ? "Every afternoon"
-      : "Nightly";
-
   const router = useRouter();
 
   return isScrolling ? (
@@ -95,7 +86,8 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
         >
           {goal.progress !== goal.durationDays ? (
             <>
-              {repeatText} &bull; {goal.durationDays - goal.progress} days left
+              {goal.timeOfDay}:00 daily &bull;{" "}
+              {goal.durationDays - goal.progress} days left
             </>
           ) : goal.completed ? (
             "Goal complete!"
@@ -201,7 +193,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
                   }}
                 />
                 <Chip
-                  label={repeatText}
+                  label={`${goal.timeOfDay}:00 daily`}
                   size="small"
                   sx={{
                     px: 1,
