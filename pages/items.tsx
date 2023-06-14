@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import React, { createContext, useState } from "react";
 import { mutate } from "swr";
 import { Navbar } from "./zen";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 
 const Action = dynamic(() => import("@/components/Rooms/Action"));
 
@@ -138,7 +139,7 @@ export default function Inventory({ children = null }: any) {
             height: { md: "100vh" },
             overflowY: { md: "scroll" },
             background: {
-              md: palette[2],
+              md: addHslAlpha(palette[2], 0.4),
             },
             ml: { md: -1 },
           }}
