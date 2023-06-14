@@ -394,18 +394,25 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               </Icon>
             </Button>
           </Box>
-          {showCompleted &&
-            columnTasks
-              .filter((task) => task.completed)
-              .map((task) => (
-                <Task
-                  key={task.id}
-                  board={board}
-                  columnId={column.id}
-                  mutationUrl={mutationUrls.tasks}
-                  task={task}
-                />
-              ))}
+          {showCompleted && (
+            <motion.div
+              initial={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {showCompleted &&
+                columnTasks
+                  .filter((task) => task.completed)
+                  .map((task) => (
+                    <Task
+                      key={task.id}
+                      board={board}
+                      columnId={column.id}
+                      mutationUrl={mutationUrls.tasks}
+                      task={task}
+                    />
+                  ))}
+            </motion.div>
+          )}
         </Box>
       </Box>
     </motion.div>

@@ -173,72 +173,78 @@ export function Agenda({
           {capitalizeFirstLetter(view == "week" ? "day" : view)} &bull; Agenda
         </title>
       </Head>
-      <Box
-        sx={{
-          position: "fixed",
-          bottom: {
-            xs: "70px",
-            md: "30px",
-          },
-          opacity: trigger ? 0 : 1,
-          transform: trigger
-            ? "translateY(20px) scale(0.9)"
-            : "translateY(0px) scale(1)",
-          mr: {
-            xs: 1.5,
-            md: 3,
-          },
-          zIndex: 9,
-          background: addHslAlpha(palette[3], 0.5),
-          border: "1px solid",
-          transition: "transform .2s, opacity .2s",
-          backdropFilter: "blur(10px)",
-          borderRadius: 999,
-          borderColor: addHslAlpha(palette[3], 0.5),
-          right: "0",
-          color: session.user.darkMode ? "#fff" : "#000",
-          display: "flex",
-          alignItems: "center",
-          p: 0.5,
-        }}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2, delay: 0.4 }}
       >
-        <IconButton
-          onClick={handlePrev}
-          disabled={navigation === 0 && view === "month"}
-          sx={{ color: palette[9] }}
-        >
-          <Icon>west</Icon>
-        </IconButton>
-        <motion.div
-          animate={{
-            opacity: navigation === 0 ? 0 : 1,
-            width: navigation === 0 ? 0 : "auto",
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: {
+              xs: "70px",
+              md: "30px",
+            },
+            opacity: trigger ? 0 : 1,
+            transform: trigger
+              ? "translateY(20px) scale(0.9)"
+              : "translateY(0px) scale(1)",
+            mr: {
+              xs: 1.5,
+              md: 3,
+            },
+            zIndex: 9,
+            background: addHslAlpha(palette[3], 0.5),
+            border: "1px solid",
+            transition: "transform .2s, opacity .2s",
+            backdropFilter: "blur(10px)",
+            borderRadius: 999,
+            borderColor: addHslAlpha(palette[3], 0.5),
+            right: "0",
+            color: session.user.darkMode ? "#fff" : "#000",
+            display: "flex",
+            alignItems: "center",
+            p: 0.5,
           }}
         >
-          <Button
-            onClick={handleToday}
-            disableRipple
-            sx={{
-              "&:active": {
-                background: `${
-                  session.user.darkMode
-                    ? "hsla(240,11%,25%, 0.3)"
-                    : "rgba(0,0,0,0.1)"
-                }`,
-              },
-              color: palette[9],
-              px: 1,
-              minWidth: "unset",
-            }}
-            color="inherit"
+          <IconButton
+            onClick={handlePrev}
+            disabled={navigation === 0 && view === "month"}
+            sx={{ color: palette[9] }}
           >
-            Today
-          </Button>
-        </motion.div>
-        <IconButton onClick={handleNext} sx={{ color: palette[9] }}>
-          <Icon>east</Icon>
-        </IconButton>
-      </Box>
+            <Icon>west</Icon>
+          </IconButton>
+          <motion.div
+            animate={{
+              opacity: navigation === 0 ? 0 : 1,
+              width: navigation === 0 ? 0 : "auto",
+            }}
+          >
+            <Button
+              onClick={handleToday}
+              disableRipple
+              sx={{
+                "&:active": {
+                  background: `${
+                    session.user.darkMode
+                      ? "hsla(240,11%,25%, 0.3)"
+                      : "rgba(0,0,0,0.1)"
+                  }`,
+                },
+                color: palette[9],
+                px: 1,
+                minWidth: "unset",
+              }}
+              color="inherit"
+            >
+              Today
+            </Button>
+          </motion.div>
+          <IconButton onClick={handleNext} sx={{ color: palette[9] }}>
+            <Icon>east</Icon>
+          </IconButton>
+        </Box>
+      </motion.div>
 
       <Box
         id="agendaContainer"

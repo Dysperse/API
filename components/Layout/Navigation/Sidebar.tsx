@@ -132,7 +132,7 @@ export function Sidebar() {
         borderRight: "1px solid",
         borderLeft: "1px solid transparent",
         background: {
-          sm: useOutlinedTheme ? "transparent" : palette[1],
+          sm: useOutlinedTheme ? "transparent" : palette[2],
         },
         borderRightColor: {
           sm: useOutlinedTheme ? addHslAlpha(palette[4], 0.8) : "transparent",
