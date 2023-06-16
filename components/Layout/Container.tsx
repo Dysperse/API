@@ -5,8 +5,9 @@ import {
 import { modifySessionHook } from "@/lib/client/useSession";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import { Box, Button, ThemeProvider, createTheme } from "@mui/material";
+import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
-import { NextRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Layout } from "../../pages/_app";
@@ -30,6 +31,8 @@ export function RenderWithLayout({
   pageProps: JSX.Element;
   router: NextRouter;
 }) {
+  const _router = useRouter();
+
   const theme: "dark" | "light" = data
     ? data.user.darkMode
       ? "dark"
@@ -47,9 +50,6 @@ export function RenderWithLayout({
 
   useEffect(() => {
     if (data.user.darkMode) {
-      document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", "hsl(240, 11%, 10%)");
       document
         .querySelector('link[rel="shortcut icon"]')
         ?.setAttribute(
@@ -94,7 +94,7 @@ export function RenderWithLayout({
     themeColor,
   }));
 
-  const children = <Component {...pageProps} />;
+  const children = <Component {...pageProps} key={_router.asPath} />;
 
   return (
     <>
@@ -110,7 +110,23 @@ export function RenderWithLayout({
               children
             ) : data.user.onboardingComplete ? (
               // If the onboarding process is complete, show the app.
-              <Layout>{children}</Layout>
+              <AnimatePresence
+                mode="wait"
+                initial={false}
+                onExitComplete={() => window.scrollTo(0, 0)}
+              >
+                <Layout
+                  key={
+                    _router.asPath.includes("/tasks")
+                      ? "/tasks"
+                      : _router.asPath.includes("/settings")
+                      ? "/settings"
+                      : _router.asPath
+                  }
+                >
+                  {children}
+                </Layout>
+              </AnimatePresence>
             ) : (
               // If the onboarding process is not complete, redirect to the onboarding page.
               <Button

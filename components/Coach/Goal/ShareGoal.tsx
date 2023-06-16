@@ -404,13 +404,15 @@ export function ShareGoal({ children, goal }) {
         </Box>
 
         <SwipeableDrawer
+          onOpen={() => setExportFooterOpen(true)}
           open={exportFooterOpen}
-          onClose={handleClose}
+          onClose={() => setExportFooterOpen(false)}
           sx={{
             zIndex: 9999999999,
             height: "0px!important",
           }}
           hideBackdrop
+          disableSwipeToOpen={false}
           swipeAreaWidth={200}
           BackdropProps={{
             className: "override-bg",

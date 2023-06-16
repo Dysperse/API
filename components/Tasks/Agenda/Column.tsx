@@ -1,8 +1,9 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useColor } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import {
   Alert,
   Box,
@@ -15,6 +16,7 @@ import {
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -38,6 +40,8 @@ export const Column: any = memo(function Column({
   navigation,
 }: AgendaColumnProps) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   const subheading =
     view === "week"
       ? "MMMM D"
@@ -157,9 +161,7 @@ export const Column: any = memo(function Column({
       sx={{
         scrollSnapAlign: "center",
         borderRight: { sm: "1px solid" },
-        borderColor: `hsla(240,11%,${
-          session.user.darkMode ? 20 : 85
-        }%, 0.5)!important`,
+        borderColor: { sm: addHslAlpha(palette[4], 0.7) },
         zIndex: 1,
         flexGrow: 1,
         flexBasis: 0,
@@ -170,208 +172,215 @@ export const Column: any = memo(function Column({
         transition: "filter .2s",
       }}
     >
-      <Collapse in={loading} orientation="vertical">
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            height: "100px",
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 97}%)`,
-          }}
-        >
-          {mount && <CircularProgress />}
-        </Box>
-      </Collapse>
-      <Box
-        onClick={scrollIntoView}
-        sx={{
-          color: session.user.darkMode ? "#fff" : "#000",
-          py: 3.5,
-          px: 4,
-          background: "transparent",
-          borderBottom: "1px solid",
-          borderColor: `hsla(240,11%,${session.user.darkMode ? 20 : 85}%, 0.5)`,
-          userSelect: "none",
-          zIndex: 9,
-          "&:hover": {
-            background: {
-              sm: `hsla(240,11%,${session.user.darkMode ? 16 : 85}%, 0.15)`,
-            },
-          },
-          backdropFilter: "blur(10px)",
-          position: "sticky",
-          top: 0,
-        }}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
       >
-        <Typography
-          variant="h4"
-          className="font-heading"
-          sx={{
-            fontSize: "35px",
-            ...(isToday && {
-              color: "hsl(240,11%,10%)",
-              background:
-                colors[session.themeColor || "grey"][
-                  session.user.darkMode ? "A200" : "A100"
-                ],
-              px: 0.5,
-              ml: -0.5,
-            }),
-            borderRadius: 1,
-            width: "auto",
-            height: 45,
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            ...(isPast && { opacity: 0.5 }),
-            mb: 0.7,
-          }}
-        >
-          {dayjs(day.unchanged).format(day.heading)}
-        </Typography>
-        {subheading !== "-" && (
-          <Typography
+        <Collapse in={loading} orientation="vertical">
+          <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              fontSize: "20px",
+              justifyContent: "center",
+              width: "100%",
+              height: "100px",
+              background: palette[3],
             }}
           >
-            <Tooltip
-              placement="bottom-start"
-              title={
-                <Typography>
-                  <Typography sx={{ fontWeight: 700 }}>
-                    {isToday
-                      ? "Today"
-                      : capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
-                  </Typography>
-                  <Typography variant="body2">
-                    {dayjs(day.unchanged).format("dddd, MMMM D, YYYY")}
-                  </Typography>
-                </Typography>
-              }
-            >
-              <span
-                style={{
-                  ...(isPast && {
-                    textDecoration: "line-through",
-                    ...(isPast && { opacity: 0.5 }),
-                  }),
-                }}
-              >
-                {view === "month" &&
-                dayjs(day.unchanged).format("M") !== dayjs().format("M")
-                  ? dayjs(day.unchanged).fromNow()
-                  : dayjs(day.unchanged).format(subheading)}
-              </span>
-            </Tooltip>
-            <Typography
-              variant="body2"
-              sx={{
-                ml: "auto",
-                opacity: data.length === 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
-              }}
-            >
-              {tasksLeft !== 0 ? (
-                <>
-                  {tasksLeft} {isPast ? "unfinished" : "left"}
-                </>
-              ) : (
-                <Icon
-                  sx={{
-                    color: green[session.user.darkMode ? "A700" : "800"],
-                  }}
-                  className="outlined"
-                >
-                  check_circle
-                </Icon>
-              )}
-            </Typography>
+            {mount && <CircularProgress />}
+          </Box>
+        </Collapse>
+
+        <Box
+          onClick={scrollIntoView}
+          sx={{
+            color: session.user.darkMode ? "#fff" : "#000",
+            py: 3.5,
+            px: 4,
+            background: "transparent",
+            borderBottom: { sm: "1px solid" },
+            userSelect: "none",
+            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
+            zIndex: 9,
+            "&:hover": {
+              background: {
+                sm: addHslAlpha(palette[2], 0.4),
+              },
+            },
+            backdropFilter: "blur(10px)",
+            position: "sticky",
+            top: 0,
+          }}
+        >
+          <Typography
+            variant="h4"
+            className="font-heading"
+            sx={{
+              fontSize: {
+                xs: "55px",
+                sm: "35px",
+              },
+              ...(isToday && {
+                color: "#000!important",
+                background: palette[9],
+                px: 0.5,
+                ml: -0.5,
+              }),
+              borderRadius: 1,
+              width: "auto",
+              height: { xs: 65, sm: 45 },
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              ...(isPast && { opacity: 0.5 }),
+              mb: 0.7,
+            }}
+          >
+            {dayjs(day.unchanged).format(day.heading)}
           </Typography>
-        )}
-      </Box>
-      <Box
-        sx={{
-          px: { xs: 0, sm: 2 },
-          pt: { xs: 0, sm: 3 },
-          pb: { xs: 15, sm: 0 },
-        }}
-      >
-        <Box sx={{ my: 0.5 }}>
-          <CreateTask
-            column={{ id: "-1", name: "" }}
-            defaultDate={day.unchanged}
-            label="Set a goal"
-            placeholder="Create a task..."
-            mutationUrl={mutationUrl}
-            boardId={1}
-          />
-          {data.filter((task) => !task.completed).length === 0 && (
-            <Box
+          {subheading !== "-" && (
+            <Typography
               sx={{
                 display: "flex",
-                justifyContent: "center",
-                mx: "auto",
-                py: { sm: 2 },
-                alignItems: { xs: "center", sm: "start" },
-                textAlign: { xs: "center", sm: "left" },
-                flexDirection: "column",
-                "& img": {
-                  display: { sm: "none" },
-                },
+                alignItems: "center",
+                fontSize: "20px",
               }}
             >
-              <Image
-                src="/images/noTasks.png"
-                width={256}
-                height={256}
-                style={{
-                  ...(session.user.darkMode && {
-                    filter: "invert(100%)",
-                  }),
+              <Tooltip
+                placement="bottom-start"
+                title={
+                  <Typography>
+                    <Typography sx={{ fontWeight: 700 }}>
+                      {isToday
+                        ? "Today"
+                        : capitalizeFirstLetter(dayjs(day.unchanged).fromNow())}
+                    </Typography>
+                    <Typography variant="body2">
+                      {dayjs(day.unchanged).format("dddd, MMMM D, YYYY")}
+                    </Typography>
+                  </Typography>
+                }
+              >
+                <span
+                  style={{
+                    ...(isPast && {
+                      textDecoration: "line-through",
+                      ...(isPast && { opacity: 0.5 }),
+                    }),
+                  }}
+                >
+                  {view === "month" &&
+                  dayjs(day.unchanged).format("M") !== dayjs().format("M")
+                    ? dayjs(day.unchanged).fromNow()
+                    : dayjs(day.unchanged).format(subheading)}
+                </span>
+              </Tooltip>
+              <Typography
+                variant="body2"
+                sx={{
+                  ml: "auto",
+                  opacity: data.length === 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
                 }}
-                alt="No items found"
-              />
-
-              <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
-                <Typography variant="h6" gutterBottom>
-                  {data.length === 0 ? "Nothing much here..." : "Let's go!"}
-                </Typography>
-                <Typography gutterBottom sx={{ fontWeight: 300 }}>
-                  {data.length === 0
-                    ? "You haven't added any tasks to this column"
-                    : "You finished all your tasks for this time range!"}
-                </Typography>
-              </Box>
-              <Box sx={{ width: "100%", mt: 1 }}>
-                {data.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
-              </Box>
-            </Box>
+              >
+                {tasksLeft !== 0 ? (
+                  <>
+                    {tasksLeft} {isPast ? "unfinished" : "left"}
+                  </>
+                ) : (
+                  <Icon
+                    sx={{
+                      color: green[session.user.darkMode ? "A700" : "800"],
+                    }}
+                    className="outlined"
+                  >
+                    check_circle
+                  </Icon>
+                )}
+              </Typography>
+            </Typography>
           )}
         </Box>
-        {sortedTasks.map((task) => (
-          <Task
-            isDateDependent={true}
-            key={task.id}
-            board={task.board || false}
-            columnId={task.column ? task.column.id : -1}
-            isAgenda
-            mutationUrl={mutationUrl}
-            task={task}
-          />
-        ))}
-        {dayjs(day.unchanged).diff(dayjs(), "day") <= -15 &&
-          session?.property?.profile?.vanishingTasks && (
-            <Alert severity="info" sx={{ my: 1 }}>
-              <b>Vanishing tasks turned on</b> Completed tasks will be deleted
-              after 14 days.
-            </Alert>
-          )}
-        <Box sx={{ mb: 5 }} />
-      </Box>
+        <Box
+          sx={{
+            px: { xs: 0, sm: 2 },
+            pt: { xs: 0, sm: 3 },
+            pb: { xs: 15, sm: 0 },
+          }}
+        >
+          <Box sx={{ my: 0.5 }}>
+            <CreateTask
+              column={{ id: "-1", name: "" }}
+              defaultDate={day.unchanged}
+              label="New task"
+              placeholder="Create a task..."
+              mutationUrl={mutationUrl}
+              boardId={1}
+            />
+            {data.filter((task) => !task.completed).length === 0 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  mx: "auto",
+                  py: { sm: 2 },
+                  alignItems: { xs: "center", sm: "start" },
+                  textAlign: { xs: "center", sm: "left" },
+                  flexDirection: "column",
+                  "& img": {
+                    display: { sm: "none" },
+                  },
+                }}
+              >
+                <Image
+                  src="/images/noTasks.png"
+                  width={256}
+                  height={256}
+                  style={{
+                    ...(session.user.darkMode && {
+                      filter: "invert(100%)",
+                    }),
+                  }}
+                  alt="No items found"
+                />
+
+                <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
+                  <Typography variant="h6" gutterBottom>
+                    {data.length === 0 ? "No tasks (yet!)" : "Let's go!"}
+                  </Typography>
+                  <Typography gutterBottom sx={{ fontWeight: 300 }}>
+                    {data.length === 0
+                      ? "Nothing planned for this time!"
+                      : "You have no tasks remaining!"}
+                  </Typography>
+                </Box>
+                <Box sx={{ width: "100%", mt: 1 }}>
+                  {data.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
+                </Box>
+              </Box>
+            )}
+          </Box>
+          {sortedTasks.map((task) => (
+            <Task
+              isDateDependent={true}
+              key={task.id}
+              board={task.board || false}
+              columnId={task.column ? task.column.id : -1}
+              isAgenda
+              mutationUrl={mutationUrl}
+              task={task}
+            />
+          ))}
+          {dayjs(day.unchanged).diff(dayjs(), "day") <= -15 &&
+            session?.property?.profile?.vanishingTasks && (
+              <Alert severity="info" sx={{ my: 1 }}>
+                <b>Vanishing tasks turned on</b> Completed tasks will be deleted
+                after 14 days.
+              </Alert>
+            )}
+          <Box sx={{ mb: 5 }} />
+        </Box>
+      </motion.div>
     </Box>
   );
 });

@@ -49,7 +49,7 @@ export function SearchUser({ profileCardStyles, data }) {
             p: 3,
             borderRadius: 5,
             boxShadow: 0,
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 100}%)`,
+            background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
           },
         }}
       >

@@ -1,9 +1,9 @@
 import { ErrorHandler } from "@/components/Error";
-import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
+import { TasksLayout } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   CircularProgress,
@@ -29,6 +29,7 @@ export default function Dashboard() {
     upcoming: true,
   });
   const [loading, setLoading] = useState(false);
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>
@@ -36,18 +37,6 @@ export default function Dashboard() {
         <Head>
           <title>Upcoming</title>
         </Head>
-        <IconButton
-          size="large"
-          onContextMenu={() => {
-            vibrate(50);
-            setOpen(true);
-          }}
-          onClick={() => setOpen(true)}
-          sx={taskStyles(session).menu}
-        >
-          <Icon>menu</Icon>
-        </IconButton>
-
         {!data ||
           (data?.length !== 0 && (
             <Box sx={{ p: 3, pb: 0, pt: 5 }}>

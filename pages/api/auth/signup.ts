@@ -81,6 +81,9 @@ export default async function handler(req, res) {
   // Create the user in the database
   const user = await prisma.user.create({
     data: {
+      Profile: {
+        create: {},
+      },
       name,
       email: email.toLowerCase(),
       password: hashedPassword,

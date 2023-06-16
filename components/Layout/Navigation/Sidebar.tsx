@@ -1,24 +1,28 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
+import { Logo } from "@/pages/zen";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { updateSettings } from "../../../lib/client/updateSettings";
 import { openSpotlight } from "./Search";
-import UserMenu from "./UserMenu";
 const SearchPopup = dynamic(() => import("./Search"));
 
 export function Sidebar() {
   const router = useRouter();
+  const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
   const [clickCount, setClickCount] = useState(0);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const useOutlinedTheme =
     router.asPath === "/zen" ||
+    router.asPath === "/coach" ||
     router.asPath === "/" ||
     router.asPath === "/mood-history" ||
     router.asPath.includes("/users");
@@ -76,14 +80,13 @@ export function Sidebar() {
     "ctrl+shift+2",
     (e) => {
       e.preventDefault();
-      router.push("/tasks");
+      router.push("/tasks/agenda/week");
     },
     [open]
   );
-  const session = useSession();
   const styles = (active: any = false) => {
     return {
-      color: session.user.darkMode ? "hsl(240,11%,90%)" : "hsl(240,11%,30%)",
+      color: palette[12],
       borderRadius: 3,
       my: 0.5,
       maxHeight: "9999px",
@@ -98,33 +101,22 @@ export function Sidebar() {
         justifyContent: "center",
       },
       "&:hover .material-symbols-outlined": {
-        background: session.user.darkMode
-          ? "hsl(240,11%,14%)"
-          : useOutlinedTheme
-          ? "hsl(240,11%,93%)"
-          : "hsl(240,11%,90%)",
+        background: palette[2],
         color: session.user.darkMode ? "#fff" : "#000",
-      },
-      "&:focus-visible span": {
-        boxShadow: session.user.darkMode
-          ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
-          : "0px 0px 0px 1.5px #000 !important",
       },
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: session.user.darkMode
-            ? "hsl(240,11%,17%)"
-            : useOutlinedTheme
-            ? "hsl(240,11%,90%)"
-            : "hsl(240,11%,85%)",
-          color: session.user.darkMode
-            ? "hsl(240,11%,95%)"
-            : "hsl(240,11%,10%)",
+          background: palette[3],
+          color: palette[11],
         },
       }),
     };
   };
+
+  const shouldHide = ["/users", "/settings", "/coach/routine", "/groups"].find(
+    (path) => router.asPath.includes(path)
+  );
 
   return (
     <Box
@@ -132,28 +124,19 @@ export function Sidebar() {
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
+        ml: shouldHide ? "-90px" : 0,
+        ...(shouldHide && { opacity: 0, pointerEvents: "none" }),
+        transition: "all .2s",
         zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",
         borderRight: "1px solid",
-        borderColor: {
-          sm: useOutlinedTheme
-            ? session.user.darkMode
-              ? "hsla(240,11%,15%)"
-              : "hsl(240,11%,92%)"
-            : "transparent",
-        },
         borderLeft: "1px solid transparent",
         background: {
-          sm: useOutlinedTheme
-            ? "transparent"
-            : session.user.darkMode
-            ? router.asPath.includes("/coach")
-              ? "hsla(240,11%,12%)"
-              : "hsla(240,11%,5%)"
-            : router.asPath.includes("/coach")
-            ? "hsl(240,11%,100%)"
-            : "hsl(240,11%,93%)",
+          sm: useOutlinedTheme ? "transparent" : palette[2],
+        },
+        borderRightColor: {
+          sm: useOutlinedTheme ? addHslAlpha(palette[4], 0.8) : "transparent",
         },
         height: "100vh",
         backdropFilter: "blur(10px)",
@@ -164,22 +147,8 @@ export function Sidebar() {
         justifyContent: "center",
       }}
     >
-      <Image
-        onClick={handleClick}
-        src="/logo.svg"
-        placeholder="blur"
-        blurDataURL="data:image/png;base64,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"
-        width={50}
-        height={50}
-        alt="Logo"
-        style={{
-          borderRadius: "999px",
-          marginTop: "15px",
-          ...(session.user.darkMode && {
-            filter: "invert(100%)",
-          }),
-        }}
-      />
+      <Box sx={{ mt: 2 }} />
+      {!isMobile && <Logo intensity={7} />}
       <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
         sx={styles(
@@ -206,8 +175,8 @@ export function Sidebar() {
       </Box>
       <Box
         sx={styles(router.asPath.includes("/tasks"))}
-        onClick={() => router.push("/tasks")}
-        onMouseDown={() => router.push("/tasks")}
+        onClick={() => router.push("/tasks/agenda/week")}
+        onMouseDown={() => router.push("/tasks/agenda/week")}
       >
         <Tooltip title="Tasks" placement="right">
           <span
@@ -291,20 +260,19 @@ export function Sidebar() {
               height: 40,
             },
           }}
-          onClick={() => router.push(`/users/${session.user.email}`)}
-          onMouseDown={() => router.push(`/users/${session.user.email}`)}
+          onClick={() => router.push(`/users`)}
+          onMouseDown={() => router.push(`/users`)}
         >
-          <Tooltip title="Profile" placement="right">
+          <Tooltip title="Friends" placement="right">
             <span
               className={`material-symbols-${
                 router.asPath.includes("users") ? "rounded" : "outlined"
               }`}
             >
-              account_circle
+              group
             </span>
           </Tooltip>
         </Box>
-        {!isMobile && <UserMenu styles={styles} />}
       </Box>
     </Box>
   );

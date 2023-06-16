@@ -121,7 +121,7 @@ img {
   ):not(.outlined):not(.material-symbols-rounded) {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  font-family: "Geologica", sans-serif !important;
+  font-family: "Space Grotesk", sans-serif !important;
 
   &::-webkit-scrollbar {
     display: none;
@@ -130,7 +130,8 @@ img {
 
 .font-heading,
 .font-heading * {
-  font-family: "Fraunces", serif !important;
+  font-family: "League Gothic", serif !important;
+  text-transform: uppercase;
 }
 
 ::-webkit-scrollbar {
@@ -162,9 +163,10 @@ img {
 @supports (backdrop-filter: blur(2px)) {
   .MuiBackdrop-root:not(.override-bg) {
     backdrop-filter: blur(3px);
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.5);
+
     .dark & {
-      background-color: hsla(240, 11%, 10%, 0.4);
+      background-color: var(--overlay-dark);
     }
   }
 }

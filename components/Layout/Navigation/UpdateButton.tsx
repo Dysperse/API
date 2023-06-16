@@ -12,6 +12,7 @@ export function UpdateButton() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [asked, setAsked] = useState(false);
 
   useEffect(() => {
     if (
@@ -45,8 +46,12 @@ export function UpdateButton() {
         // When `event.wasWaitingBeforeRegister` is true, a previously updated service worker is still waiting.
         // You may want to customize the UI prompt accordingly.
         if (
-          confirm("A newer version of Dysperse is available, reload to update?")
+          confirm(
+            "A newer version of Dysperse is available, reload to update?"
+          ) &&
+          !asked
         ) {
+          setAsked(true);
           wb.addEventListener("controlling", (event) => {
             window.location.reload();
           });
@@ -89,7 +94,7 @@ export function UpdateButton() {
       // never forget to call register as auto register is turned off in next.config.js
       wb.register();
     }
-  }, [userWantsToUpdate]);
+  }, [userWantsToUpdate, asked]);
 
   const [button, setButton] = useState(true);
 

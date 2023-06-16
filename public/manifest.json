@@ -239,7 +239,7 @@
       "name": "Tasks",
       "short_name": "Tasks",
       "description": "View your Agenda, Boards, Backlog, and more",
-      "url": "/tasks",
+      "url": "/tasks/agenda/week",
       "icons": [{ "src": "/shortcuts/2.png", "sizes": "192x192" }]
     },
     {

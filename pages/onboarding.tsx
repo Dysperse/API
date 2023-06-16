@@ -6,8 +6,8 @@ import { StepIcon } from "@/components/Onboarding/StepIcon";
 import { cards } from "@/components/Rooms/CreateItem/cards";
 import { templates } from "@/components/Tasks/Board/Create";
 import { updateSettings } from "@/lib/client/updateSettings";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -32,6 +32,7 @@ import {
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
+import * as colors from "@radix-ui/colors";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -90,26 +91,32 @@ export default function Onboarding() {
         <span style={{ opacity: 0.6 }}>#1 </span>
         What&apos;s your favorite color?
       </Typography>
-      {[
-        "lime",
-        "red",
-        "green",
-        "blue",
-        "pink",
-        "purple",
-        "indigo",
-        "amber",
-        "cyan",
-      ].map((color) => (
-        <Color handleNext={() => null} color={color} key={color} />
-      ))}
+      {Object.keys(colors)
+        .filter((color) => !color.includes("Dark"))
+        .filter((color) => !color.endsWith("A"))
+        .filter(
+          (color) =>
+            ![
+              "gray",
+              "sage",
+              "olive",
+              "sand",
+              "mauve",
+              "gold",
+              "bronze",
+              "slate",
+            ].includes(color)
+        )
+        .map((color) => (
+          <Color handleNext={() => null} color={color} key={color} />
+        ))}
 
       <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#2 </span>
         Night or Day?
       </Typography>
-      <Color handleNext={() => setStep(step + 1)} color="grey" />
-      <Color handleNext={() => setStep(step + 1)} color="white" />
+      <Color handleNext={() => setStep(step + 1)} color="gray" />
+      <Color handleNext={() => setStep(step + 1)} color="sand" />
     </>,
     <>
       <Typography variant="h5" sx={styles.title} className="font-heading">
@@ -395,6 +402,8 @@ export default function Onboarding() {
     ) : null;
   }
 
+  const palette = useColor(session.themeColor || "gray", session.user.darkMode);
+
   const Connector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
       top: 10,
@@ -403,12 +412,12 @@ export default function Onboarding() {
     },
     [`&.${stepConnectorClasses.active}`]: {
       [`& .${stepConnectorClasses.line}`]: {
-        borderColor: colors[session.themeColor || "brown"][500],
+        borderColor: palette[9],
       },
     },
     [`&.${stepConnectorClasses.completed}`]: {
       [`& .${stepConnectorClasses.line}`]: {
-        borderColor: colors[session.themeColor || "brown"][500],
+        borderColor: palette[9],
       },
     },
     [`& .${stepConnectorClasses.line}`]: {
@@ -456,9 +465,9 @@ export default function Onboarding() {
           overflowY: "auto",
           maxWidth: { xs: "100vw", sm: "calc(100vw - 40px)" },
           width: { xs: "100vw", sm: "500px" },
-          backgroundColor: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
+          backgroundColor: palette[1],
           boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
-          color: `hsl(240,11%,${session.user.darkMode ? 100 : 10}%)`,
+          color: palette[12],
           borderRadius: { xs: 0, sm: "20px" },
           p: { xs: "7px", sm: "28px" },
           pt: { xs: 0, sm: "20px" },

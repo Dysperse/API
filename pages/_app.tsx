@@ -13,6 +13,7 @@ import "../styles/globals.scss";
 import "../styles/normalize.scss";
 // Day.JS
 import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 // Hooks
@@ -29,6 +30,7 @@ export const Layout = dynamic(() => import("@/components/Layout"), {
 });
 
 dayjs.extend(relativeTime);
+dayjs.extend(isBetween);
 
 /**
  * Function to check whether to add a layout or not

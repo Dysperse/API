@@ -29,7 +29,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
 
   return (
     <Box>
-      {data.map((item) => (
+      {data.slice(0, 20).map((item) => (
         <ListItemButton
           key={item.name.toString()}
           sx={{

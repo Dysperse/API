@@ -1,6 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Button,
@@ -24,14 +25,13 @@ const Session: any = React.memo(function Session({
   data,
 }: any) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <ListItem
       sx={{
         ...(data[index].id === session.current.token && {
-          background: session.user.darkMode
-            ? "hsl(240,11%,30%)"
-            : "rgba(200,200,200,.3)",
+          background: palette[2],
         }),
         borderRadius: 3,
       }}

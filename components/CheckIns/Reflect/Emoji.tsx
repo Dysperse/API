@@ -1,7 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import {
   Alert,
   AppBar,
@@ -77,6 +77,7 @@ export const questions = [
 
 function ExperimentalAiReflection({ emoji, answers }) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const [data, setData] = useState<null | any>(null);
   const [error, setError] = useState<null | any>(false);
@@ -120,7 +121,7 @@ function ExperimentalAiReflection({ emoji, answers }) {
           sx={{
             p: 3,
             borderRadius: 3,
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+            background: palette[3],
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -183,6 +184,7 @@ function ExperimentalAiReflection({ emoji, answers }) {
 
 export function Emoji({ mutationUrl, emoji, defaultData }) {
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const [open, setOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -365,11 +367,9 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                         borderWidth: "2px!important",
                         ...((answer as any)?.name === choice.name && {
                           "&, &:focus, &:hover, &:active": {
-                            background:
-                              colors[session.themeColor]["A100"] + "!important",
-                            borderColor:
-                              colors[session.themeColor]["A100"] + "!important",
-                            color: "#000!important",
+                            background: palette[4] + "!important",
+                            borderColor: palette[5] + "!important",
+                            color: palette[12] + "!important",
                           },
                         }),
                       }}
@@ -392,9 +392,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                         display: "none",
                       },
                       "& .MuiSlider-rail": {
-                        background: `hsl(240,11%,${
-                          session.user.darkMode ? 10 : 80
-                        }%)`,
+                        background: palette[4],
                       },
                       "& .MuiSlider-rail, & .MuiSlider-track": {
                         height: 20,
@@ -406,9 +404,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                       },
                       "& .MuiSlider-thumb": {
                         boxShadow: 0,
-                        background: `hsl(240,11%,${
-                          session.user.darkMode ? 10 : 90
-                        }%)`,
+                        background: palette[1],
                         border: "4px solid currentColor",
                       },
                     }}
@@ -444,6 +440,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
                                         question.slider.length - 1 && {
                                         mr: 3,
                                       }),
+                                      mt: 1,
                                     }),
                                   }}
                                 />

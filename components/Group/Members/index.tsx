@@ -1,4 +1,5 @@
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -241,18 +242,20 @@ export function MemberList({
   accessToken,
   handleParentClose,
 }: {
-  color: string;
+  color: any;
   propertyId: string;
   accessToken: string;
   handleParentClose: any;
 }): JSX.Element {
+  const session = useSession();
+  const palette = useColor(color, session.user.darkMode);
+
   const { error, loading, data, url } = useApi("property/members", {
     propertyId: propertyId,
     propertyAccessToken: accessToken,
   });
   const [leaveLoading, setLeaveLoading] = React.useState<boolean>(false);
 
-  const session = useSession();
   const images =
     data && !data.error
       ? [
@@ -310,9 +313,7 @@ export function MemberList({
             mb: 2,
             userSelect: "none",
             borderRadius: 5,
-            background: session.user.darkMode
-              ? "hsl(240,11%,20%)"
-              : colors[color][50],
+            background: palette[2],
           }}
         >
           {step.content}

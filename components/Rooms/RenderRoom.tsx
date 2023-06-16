@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
@@ -7,6 +8,7 @@ import {
   Container,
   Paper,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import type { Item } from "@prisma/client";
 import Image from "next/image";
@@ -34,21 +36,32 @@ export function RenderRoom({
 
   useEffect(() => setItems(items), [items]);
   const session = useSession();
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const header = (
+    <Header room={room} itemCount={items.length} mutationUrl={mutationUrl} />
+  );
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
-    <Box>
-      <Header room={room} itemCount={items.length} mutationUrl={mutationUrl} />
+    <Box
+      sx={{
+        maxWidth: "100vw",
+      }}
+    >
+      {!isMobile && header}
       <Container>
         <Toolbar items={items} setItems={setItems} data={_items} />
+      </Container>
+      {isMobile && header}
+      <Container>
         <Box
           sx={{
             display: "flex",
-            mr: {
-              sm: -2,
-            },
+            mr: -2,
           }}
         >
-          <Masonry columns={{ xs: 1, sm: 2 }} spacing={{ xs: 0, sm: 2 }}>
+          <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
             {_items.length === 0 ? (
               <Paper
                 sx={{
@@ -63,9 +76,7 @@ export function RenderRoom({
                 <Card
                   sx={{
                     mb: 2,
-                    background: session.user.darkMode
-                      ? "hsla(240,11%,15%)"
-                      : "rgba(200,200,200,.3)",
+                    background: palette[2],
                     borderRadius: 5,
                     p: 3,
                   }}

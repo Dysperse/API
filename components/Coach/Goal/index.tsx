@@ -1,8 +1,10 @@
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
   Box,
+  Button,
   Chip,
   LinearProgress,
   Skeleton,
@@ -11,25 +13,19 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import React from "react";
 import { Puller } from "../../Puller";
 import { MoreOptions } from "./MoreOptions";
-import { TrophyModal } from "./TrophyModal";
 
 export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   useBackButton(() => setOpen(false));
 
-  const repeatText =
-    goal.time === "any"
-      ? "Daily"
-      : goal.time === "morning"
-      ? "Every morning"
-      : goal.time === "afternoon"
-      ? "Every afternoon"
-      : "Nightly";
+  const router = useRouter();
 
   return isScrolling ? (
     <Skeleton
@@ -45,27 +41,19 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
         sx={{
           height: 120,
           borderRadius: 5,
-          "&:hover": {
-            background: {
-              xs: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
-              sm: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
-            },
-          },
-          "&:active": {
-            transform: "scale(.98)",
-            transition: { sm: "none!important" },
-          },
           py: 2,
           transition: "transform .2s!important",
           px: 3,
           background: {
-            sm: session.user.darkMode ? "hsl(240,11%,13%)" : "hsl(240,11%,90%)",
+            xs: palette[2],
+            sm: palette[4],
           },
-          borderBottom: {
-            xs: session.user.darkMode
-              ? "1px solid hsla(240,11%,15%)"
-              : "1px solid #ddd",
-            sm: "none",
+          "&:hover": {
+            background: { sm: palette[5] },
+          },
+          "&:active": {
+            transform: "scale(.98)",
+            transition: { sm: "none!important" },
           },
           mb: { xs: 3, sm: 0 },
           userSelect: "none",
@@ -98,7 +86,8 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
         >
           {goal.progress !== goal.durationDays ? (
             <>
-              {repeatText} &bull; {goal.durationDays - goal.progress} days left
+              {goal.timeOfDay}:00 daily &bull;{" "}
+              {goal.durationDays - goal.progress} days left
             </>
           ) : goal.completed ? (
             "Goal complete!"
@@ -169,13 +158,10 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
           <Puller />
           <Box
             sx={{
-              background: `linear-gradient(45deg, ${
-                colors[session?.themeColor || "grey"]["A400"]
-              }, ${colors[session?.themeColor || "grey"]["A100"]})`,
-              color: colors[session?.themeColor || "grey"][50],
+              background: `linear-gradient(45deg, ${palette[9]}, ${palette[12]})`,
               p: { xs: 3, sm: 5 },
               position: "relative",
-              pt: { xs: 15 },
+              pt: { xs: 15, sm: 15 },
               borderRadius: 5,
               display: "flex",
             }}
@@ -207,7 +193,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
                   }}
                 />
                 <Chip
-                  label={repeatText}
+                  label={`${goal.timeOfDay}:00 daily`}
                   size="small"
                   sx={{
                     px: 1,
@@ -236,7 +222,13 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
             </Box>
           )}
           {!goal.completed && goal.progress === goal.durationDays && (
-            <TrophyModal goal={goal} mutationUrl={mutationUrl} />
+            <Button
+              onClick={() => router.push(`/coach/routine#${goal.id}`)}
+              variant="contained"
+              sx={{ mt: 2 }}
+            >
+              Claim reward
+            </Button>
           )}
           <Box
             sx={{ p: 4, background: "rgba(0,0,0,0.1)", borderRadius: 5, mt: 3 }}

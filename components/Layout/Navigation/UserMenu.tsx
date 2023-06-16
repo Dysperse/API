@@ -1,5 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -11,70 +12,83 @@ import {
   Icon,
   IconButton,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Menu,
   Tooltip,
   Typography,
-  colors,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate, preload } from "swr";
 import { ErrorHandler } from "../../Error";
 
-const Group = dynamic(() => import("../../Group"));
-
-function PropertyButton({ handleClose, group }) {
+export function PropertyButton({ handleClose, group }) {
   const session = useSession();
+  const router = useRouter();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+  const groupPalette = useColor(group.profile.color, session.user.darkMode);
+
   return (
-    <Group
-      key={group.propertyId}
-      data={{
-        id: group.propertyId,
-        accessToken: group.accessToken,
+    <ListItemButton
+      onClick={() => router.push(`/groups/${group.propertyId}`)}
+      {...(group.propertyId === session.property.propertyId && {
+        id: "activeProperty",
+      })}
+      sx={{
+        gap: 2,
+        borderRadius: { xs: 0, sm: "10px" },
+        transition: "transform .2s",
+        background: "transparent!important",
+        "&:active": {
+          transform: { sm: "scale(0.97)" },
+        },
+        "& *": {
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        },
+        ...(group.propertyId === session.property.propertyId && {
+          background: { sm: palette[2] },
+        }),
       }}
-      onClick={handleClose}
     >
-      <ListItemButton
-        {...(group.propertyId === session.property.propertyId && {
-          id: "activeProperty",
-        })}
+      <Box
         sx={{
-          gap: 2,
-          borderRadius: "28px",
-          transition: "transform .2s",
-          background: "transparent!important",
-          "&:active": {
-            transform: "scale(0.97)",
-          },
-          ...(group.propertyId === session.property.propertyId && {
-            background: session.user.darkMode
-              ? "hsla(240,11%,20%)"
-              : "rgba(200,200,200,.4)!important",
-          }),
+          width: 50,
+          height: 50,
+          background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[11]})`,
+          color: groupPalette[1],
+          borderRadius: 99,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Box
-          sx={{
-            width: 20,
-            height: 20,
-            background: colors[group.profile.color]["A700"],
-            borderRadius: 99,
-          }}
-        />
-        <ListItemText
-          primary={<b>{group.profile.name}</b>}
-          secondary={group.profile.type}
-          sx={{
-            color: session.user.darkMode ? "#fff" : "#000",
-            textTransform: "capitalize",
-          }}
-        />
-      </ListItemButton>
-    </Group>
+        <Icon sx={{ display: { sm: "none" } }}>
+          {group.profile.type === "house"
+            ? "home"
+            : group.profile.type === "apartment"
+            ? "apartment"
+            : group.profile.type === "dorm"
+            ? "cottage"
+            : "school"}
+        </Icon>
+      </Box>
+      <ListItemText
+        primary={<b>{group.profile.name}</b>}
+        secondary={group.profile.type}
+        sx={{
+          color: palette[12],
+          textTransform: "capitalize",
+        }}
+      />
+      <ListItemIcon sx={{ minWidth: "unset" }}>
+        <Icon>arrow_forward_ios</Icon>
+      </ListItemIcon>
+    </ListItemButton>
   );
 }
 
@@ -143,6 +157,12 @@ export default function InviteButton({ styles }: any) {
       vibrate(50);
     }
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
+  const groupPalette = useColor(
+    session.property.profile.color,
+    session.user.darkMode
+  );
+
   return (
     <>
       <Menu
@@ -208,7 +228,7 @@ export default function InviteButton({ styles }: any) {
                   py: 1.5,
                   borderRadius: "28px",
                   gap: 2,
-                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                  color: palette[12],
                 }}
               >
                 <Icon className="outlined">group_add</Icon>
@@ -234,7 +254,7 @@ export default function InviteButton({ styles }: any) {
                 py: 1.5,
                 borderRadius: "28px",
                 gap: 2,
-                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                color: palette[12],
               }}
             >
               <Icon className="outlined">smart_button</Icon>
@@ -254,7 +274,7 @@ export default function InviteButton({ styles }: any) {
                 py: 1.5,
                 borderRadius: "28px",
                 gap: 2,
-                color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                color: palette[12],
               }}
             >
               <Icon className="outlined">settings</Icon>
@@ -268,12 +288,8 @@ export default function InviteButton({ styles }: any) {
             sx={{
               m: 1,
               mb: 1,
-              background: `hsl(240,11%,${
-                session.user.darkMode ? 20 : 90
-              }%)!important`,
-              color: `hsl(240,11%,${
-                session.user.darkMode ? 90 : 20
-              }%)!important`,
+              background: palette[3],
+              color: palette[11],
               transition: "all .2s!important",
               "&:active": {
                 transform: "scale(0.95)",
@@ -349,7 +365,7 @@ export default function InviteButton({ styles }: any) {
                   py: 1.5,
                   borderRadius: "28px",
                   gap: 2,
-                  color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+                  color: palette[12],
                 }}
               >
                 <Icon className="outlined">{link.icon}</Icon>
@@ -376,10 +392,7 @@ export default function InviteButton({ styles }: any) {
             ...styles(Boolean(anchorEl)),
             display: { xs: "none", sm: "block" },
             "& .material-symbols-rounded": {
-              background:
-                colors[session?.property?.profile?.color || 100][
-                  session.user.darkMode ? 900 : 100
-                ],
+              background: groupPalette[11],
               height: 40,
             },
           }}
@@ -406,18 +419,17 @@ export default function InviteButton({ styles }: any) {
                   router.asPath === "/mood-history" ||
                   router.asPath === "/"
                     ? "transparent"
-                    : session.user.darkMode
-                    ? router.asPath === "/coach"
-                      ? "hsla(240,11%,8%)"
-                      : "hsla(240,11%,5%)"
-                    : router.asPath === "/coach"
-                    ? "hsl(240,11%,97%)"
-                    : "hsl(240,11%,93%)",
+                    : palette[1],
               },
             }}
             color="error"
           >
-            <Icon className="outlined">unfold_more</Icon>
+            <Icon
+              className="outlined"
+              sx={{ color: groupPalette[1] + "!important" }}
+            >
+              expand_all
+            </Icon>
           </Badge>
         </Box>
       </Tooltip>
@@ -440,7 +452,7 @@ export default function InviteButton({ styles }: any) {
           onClick={handleClick}
         >
           <Tooltip title="Account menu" placement="bottom-end">
-            <Icon className="outlined">unfold_more</Icon>
+            <Icon className="outlined">expand_all</Icon>
           </Tooltip>
         </IconButton>
       </Badge>

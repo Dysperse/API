@@ -26,6 +26,12 @@ const handler = {
     // Daily check in nudge
     await fetch("https://my.dysperse.com/api/cron/dailyCheckInNudge", params);
 
+    // Daily check in nudge
+    await fetch(
+      "https://my.dysperse.com/api/cron/deleteExpiredQrCodes",
+      params
+    );
+
     await SentryFinish(id);
     return new Response("\u{1F389} Push server is running!");
   },

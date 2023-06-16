@@ -1,8 +1,8 @@
 import { Loading } from "@/components/Layout/Loading";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useUser } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
@@ -35,6 +35,11 @@ export default function Onboarding() {
     "property/members/inviteLink/info",
     { token: id as string },
     true
+  );
+
+  const palette = useColor(
+    data?.property?.color || "gray",
+    session?.user?.darkMode || false
   );
 
   const handleAccept = () => {
@@ -187,10 +192,10 @@ export default function Onboarding() {
               borderRadius: 999,
               textTransform: "none",
               width: "100%",
-              backgroundColor: colors[data.property.color]["A400"],
+              backgroundColor: palette[2],
               color: "#000",
               "&:hover": {
-                backgroundColor: colors[data.property.color]["A700"],
+                backgroundColor: palette[3],
               },
             }}
             onClick={handleAccept}

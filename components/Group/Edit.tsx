@@ -1,5 +1,6 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
@@ -97,6 +98,8 @@ export function EditProperty({
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),
   });
+  const palette = useColor(color, session.user.darkMode);
+
   return (
     <>
       {trigger}
@@ -106,13 +109,18 @@ export function EditProperty({
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            background: session.user.darkMode ? "hsl(240,11%,15%)" : "#fff",
+            background: palette[1],
             width: { xs: "100vw", sm: "50vw" },
             height: { xs: "100vh", sm: "auto" },
           },
         }}
       >
-        <AppBar>
+        <AppBar
+          sx={{
+            background: palette[1],
+            borderColor: palette[2],
+          }}
+        >
           <Toolbar>
             <IconButton color="inherit" onClick={() => setOpen(false)}>
               <Icon>close</Icon>
@@ -147,8 +155,7 @@ export function EditProperty({
             onClick={handleUpdateName}
             sx={{
               ...(!propertyData.profile.name == deferredName && {
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
-                color: `hsl(240,11%,${session.user.darkMode ? 100 : 0}%)`,
+                background: palette[2],
               }),
             }}
             disabled={propertyData.profile.name == deferredName}

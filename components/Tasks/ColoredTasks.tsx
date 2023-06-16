@@ -1,13 +1,11 @@
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { vibrate } from "@/lib/client/vibration";
 import { colors } from "@/lib/colors";
 import {
   Box,
   CardActionArea,
   CircularProgress,
-  Icon,
-  IconButton,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -16,7 +14,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
-import { taskStyles } from "./Layout";
 import { Task } from "./Task";
 
 export function ColoredTasks({ setDrawerOpen }) {
@@ -26,6 +23,7 @@ export function ColoredTasks({ setDrawerOpen }) {
   const [color, setColor] = useState("all");
 
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   if (!data) {
     return (
@@ -51,18 +49,6 @@ export function ColoredTasks({ setDrawerOpen }) {
       <Head>
         <title>Color coded</title>
       </Head>
-      <IconButton
-        size="large"
-        onContextMenu={() => {
-          vibrate(50);
-          setDrawerOpen(true);
-        }}
-        onClick={() => setDrawerOpen(true)}
-        sx={taskStyles(session).menu}
-      >
-        <Icon>menu</Icon>
-      </IconButton>
-
       {data && data.length > 0 && (
         <Box sx={{ p: 3, pb: 1, pt: 5 }}>
           <Typography className="font-heading" variant="h4" gutterBottom>

@@ -1,5 +1,7 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
@@ -14,15 +16,29 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import Head from "next/head";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
 function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
-  const [showInfo, setShowInfo] = useState<boolean>(true);
+  const [showInfo, setShowInfo] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const storedShowInfo = localStorage.getItem("showInfo");
+    // if it does not exist in the first place, set it to true
+    if (storedShowInfo === null) {
+      setShowInfo(true);
+      localStorage.setItem("showInfo", "true");
+    }
+    if (storedShowInfo !== null) {
+      // Only set the value if it's not already present in the local storage
+      setShowInfo(storedShowInfo === "true");
+    }
+  }, []);
 
   const trigger = useScrollTrigger({
     threshold: 0,
@@ -48,78 +64,80 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     await mutate(mutationUrls.tasks);
     await mutate(mutationUrls.boardData);
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Box
       sx={{
         scrollSnapType: { xs: "x mandatory", sm: "unset" },
         display: "flex",
-        maxWidth: "100vw",
+        maxWidth: "100%",
         overflowX: "scroll",
-        mt: { xs: -2, sm: 0 },
-        height: { sm: "" },
         minHeight: "100vh",
       }}
     >
-      <Box
-        sx={{
-          position: "fixed",
-          bottom: {
-            xs: "70px",
-            md: "30px",
-          },
-          opacity: trigger ? 0 : 1,
-          transform: trigger ? "scale(0.9)" : "scale(1)",
-          mr: {
-            xs: 1.5,
-            md: 3,
-          },
-          zIndex: 99,
-          background: session.user.darkMode
-            ? "hsla(240,11%,14%,0.5)"
-            : "rgba(255,255,255,.5)",
-          border: "1px solid",
-          transition: "transform .2s, opacity .2s",
-          backdropFilter: "blur(10px)",
-          boxShadow:
-            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-          borderRadius: 999,
-          borderColor: session.user.darkMode
-            ? "hsla(240,11%,25%, 0.5)"
-            : "rgba(200,200,200, 0.3)",
-          right: 0,
-          color: session.user.darkMode ? "#fff" : "#000",
-          display: { xs: "flex", sm: "none" },
-          alignItems: "center",
-          p: 0.5,
-        }}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2, delay: 0.4 }}
       >
-        <IconButton
-          onClick={handlePrev}
-          disabled={currentColumn === 0}
+        <Box
           sx={{
-            width: 50,
+            position: "fixed",
+            bottom: {
+              xs: "70px",
+              md: "30px",
+            },
+            opacity: trigger ? 0 : 1,
+            transform: trigger ? "scale(0.9)" : "scale(1)",
+            mr: {
+              xs: 1.5,
+              md: 3,
+            },
+            zIndex: 99,
+            background: addHslAlpha(palette[3], 0.9),
+            border: "1px solid",
+            transition: "transform .2s, opacity .2s",
+            backdropFilter: "blur(10px)",
+            boxShadow:
+              "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
             borderRadius: 999,
+            borderColor: addHslAlpha(palette[3], 0.5),
+            right: 0,
+            color: session.user.darkMode ? "#fff" : "#000",
+            display: { xs: "flex", sm: "none" },
+            alignItems: "center",
+            p: 0.5,
           }}
         >
-          <Icon>west</Icon>
-        </IconButton>
-        <IconButton
-          sx={{
-            width: 50,
-            borderRadius: 999,
-          }}
-          onClick={handleNext}
-          disabled={currentColumn === data.length - 1}
-        >
-          <Icon>east</Icon>
-        </IconButton>
-      </Box>
+          <IconButton
+            onClick={handlePrev}
+            disabled={currentColumn === 0}
+            sx={{
+              width: 50,
+              borderRadius: 999,
+              color: palette[9],
+            }}
+          >
+            <Icon>west</Icon>
+          </IconButton>
+          <IconButton
+            sx={{
+              width: 50,
+              color: palette[9],
+              borderRadius: 999,
+            }}
+            onClick={handleNext}
+            disabled={currentColumn === data.length - 1}
+          >
+            <Icon>east</Icon>
+          </IconButton>
+        </Box>
+      </motion.div>
       {!isMobile && (
         <BoardInfo
           setMobileOpen={setMobileOpen}
           setShowInfo={setShowInfo}
-          setDrawerOpen={setDrawerOpen}
           board={board}
           showInfo={showInfo}
           mutationUrls={mutationUrls}
@@ -145,24 +163,29 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           <BoardInfo
             setMobileOpen={setMobileOpen}
             setShowInfo={setShowInfo}
-            setDrawerOpen={setDrawerOpen}
             board={board}
             showInfo={showInfo}
             mutationUrls={mutationUrls}
           />
         )}
       </SwipeableDrawer>
-      <IconButton
-        size="large"
-        onContextMenu={() => {
-          vibrate(50);
-          setDrawerOpen(true);
-        }}
-        onClick={() => setMobileOpen(true)}
-        sx={taskStyles(session).menu}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2, delay: 0.4 }}
       >
-        <Icon className="outlined">menu</Icon>
-      </IconButton>
+        <IconButton
+          size="large"
+          onContextMenu={() => {
+            vibrate(50);
+            setDrawerOpen(true);
+          }}
+          onClick={() => setMobileOpen(true)}
+          sx={taskStyles(palette).menu}
+        >
+          <Icon className="outlined">info</Icon>
+        </IconButton>
+      </motion.div>
 
       {data
         .filter((_, index: number) => index === currentColumn || !isMobile)

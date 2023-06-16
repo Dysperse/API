@@ -1,6 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { SidebarContext } from "@/pages/items";
@@ -113,6 +114,8 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
 
   const itemCount = count && count[isCustom ? room.id : room.toLowerCase()];
   const isActive = decodeURIComponent(router.asPath) == href;
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <>
       <ListItemButton
@@ -120,9 +123,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
         onClick={() => router.push(isActive ? "/items" : href)}
         sx={{
           ...(isActive && {
-            background: `hsl(240,11%,${
-              session.user.darkMode ? 15 : 90
-            }%)!important`,
+            background: `${palette[3]} !important`,
           }),
           transition: "none",
           cursor: { sm: "default" },

@@ -1,9 +1,13 @@
+import { useColor } from "@/lib/client/useColor";
+import { useSession } from "@/lib/client/useSession";
 import { Box, CardActionArea, Icon, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 
 export function DailyCheckInDrawer({ mood }) {
   const router = useRouter();
+  const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -12,6 +16,9 @@ export function DailyCheckInDrawer({ mood }) {
         onClick={() => router.push("/mood-history")}
         sx={{
           display: "flex",
+          "&, & *": {
+            transition: "none!important",
+          },
           gap: 2,
           p: 3,
           borderRadius: 5,
@@ -35,14 +42,13 @@ export function DailyCheckInDrawer({ mood }) {
                 sx={{
                   width: 10,
                   height: 10,
-                  background:
-                    "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
+                  background: `linear-gradient(45deg, ${palette[9]}, ${palette[11]})!important`,
                   borderRadius: 99,
                   flexShrink: 0,
                 }}
               />
             )}
-            How are you feeling today?
+            Check-in
           </Typography>
           <Typography
             variant="body2"
@@ -53,7 +59,7 @@ export function DailyCheckInDrawer({ mood }) {
               gap: 1,
             }}
           >
-            Identify and track your emotions
+            How are you feeling today?
           </Typography>
         </Box>
         <Icon>arrow_forward_ios</Icon>

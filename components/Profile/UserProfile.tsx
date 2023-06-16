@@ -1,6 +1,5 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
@@ -21,6 +20,7 @@ import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
 
+import { useColor } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Twemoji } from "react-emoji-render";
 import { toast } from "react-hot-toast";
@@ -40,13 +40,11 @@ export function UserProfile({
   const profile = data.Profile;
   const chipStyles = (color = false) => ({
     ...(color && {
-      background: session.user.darkMode
-        ? "hsl(240,11%,15%)"
-        : colors[data.color][50],
-      color: colors[data.color][session.user.darkMode ? 200 : 900],
+      background: palette[3],
+      color: palette[11],
     }),
     "& .MuiIcon-root": {
-      ...(color && { color: colors[data.color][600] + "!important" }),
+      ...(color && { color: palette[10] + "!important" }),
       fontVariationSettings:
         '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
     },
@@ -80,6 +78,8 @@ export function UserProfile({
 
   const today = dayjs();
   const nextBirthday = dayjs(profile.birthday).year(today.year());
+  const palette = useColor(data?.color || "gray", session.user.darkMode);
+
   const daysUntilNextBirthday =
     nextBirthday.diff(today, "day") >= 0
       ? nextBirthday.diff(today, "day")
@@ -159,103 +159,55 @@ export function UserProfile({
       </Box>
       <Box sx={{ mr: -2 }}>
         <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2 }} spacing={2}>
-          {editMode && (
-            <>
-              <Box sx={profileCardStyles}>
-                <Typography sx={profileCardStyles.heading}>
-                  Theme color
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 1,
-                    flexWrap: "wrap",
-                    mt: 1.5,
-                  }}
-                >
-                  {[
-                    "lime",
-                    "red",
-                    "green",
-                    "blue",
-                    "pink",
-                    "purple",
-                    "indigo",
-                    "cyan",
-                  ].map((color) => (
-                    <Box
-                      key={color}
-                      onClick={async () => {
-                        await updateSettings("color", color.toLowerCase());
-                        await mutate(mutationUrl);
-                        await mutate(mutationUrl);
-                      }}
-                      sx={{
-                        background: colors[color]["A700"],
-                        border: `2px solid ${colors[color]["A700"]}`,
-                        width: "30px",
-                        height: "30px",
-                        borderRadius: 999,
-                        ...(session.themeColor === color && {
-                          boxShadow: `0 0 0 2px ${
-                            session.user.darkMode
-                              ? "hsl(240,11%,${session.user.darkMode ? 80 : 20}%)"
-                              : "#fff"
-                          } inset`,
-                        }),
-                      }}
+          {((profile && profile.hobbies.length > 0) || editMode) && (
+            <Box sx={profileCardStyles}>
+              <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
+              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                {!editMode &&
+                  profile &&
+                  profile.hobbies.map((badge) => (
+                    <Chip
+                      sx={{ ...chipStyles(false), textTransform: "capitalize" }}
+                      label={badge}
+                      size="small"
+                      key={badge}
                     />
                   ))}
-                </Box>
-              </Box>
-            </>
-          )}
-          <Box sx={profileCardStyles}>
-            <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
-            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-              {!editMode &&
-                profile &&
-                profile.hobbies.map((badge) => (
-                  <Chip
-                    sx={{ ...chipStyles(false), textTransform: "capitalize" }}
-                    label={badge}
-                    size="small"
-                    key={badge}
+                {isCurrentUser && data.Profile && editMode && (
+                  <Autocomplete
+                    multiple
+                    getOptionLabel={(option) => option}
+                    options={[]}
+                    value={hobbies}
+                    onChange={(_, newValue) => {
+                      setHobbies(
+                        newValue
+                          .slice(0, 5)
+                          .map((c) => capitalizeFirstLetter(c.substring(0, 20)))
+                      );
+                      handleChange("hobbies", JSON.stringify(newValue));
+                    }}
+                    freeSolo
+                    fullWidth
+                    filterSelectedOptions
+                    sx={{ mt: 1.5 }}
+                    limitTags={5}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="What are your hobbies?"
+                        placeholder="Press enter once you're done..."
+                      />
+                    )}
                   />
-                ))}
-              {isCurrentUser && data.Profile && editMode && (
-                <Autocomplete
-                  multiple
-                  getOptionLabel={(option) => option}
-                  options={[]}
-                  value={hobbies}
-                  onChange={(_, newValue) => {
-                    setHobbies(
-                      newValue
-                        .slice(0, 5)
-                        .map((c) => capitalizeFirstLetter(c.substring(0, 20)))
-                    );
-                    handleChange("hobbies", JSON.stringify(newValue));
-                  }}
-                  freeSolo
-                  fullWidth
-                  filterSelectedOptions
-                  sx={{ mt: 1.5 }}
-                  limitTags={5}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="What are your hobbies?"
-                      placeholder="Press enter once you're done..."
-                    />
-                  )}
-                />
-              )}
+                )}
+              </Box>
             </Box>
-          </Box>
+          )}
           {(profile || editMode) && (
             <WorkingHours
               editMode={editMode}
+              color={data.color}
               isCurrentUser={isCurrentUser}
               mutationUrl={mutationUrl}
               profile={profile}
@@ -282,12 +234,12 @@ export function UserProfile({
                   variant="h5"
                   sx={{
                     mt: 0.5,
-                    color: `hsl(240,11%,${session.user.darkMode ? 80 : 20}%)`,
+                    color: palette[12],
                   }}
                 >
                   {dayjs(profile.birthday).format("MMMM D")}
                 </Typography>
-                <Typography sx={{ color: `hsl(240,11%,50%)` }}>
+                <Typography sx={{ color: palette[11] }}>
                   In {daysUntilNextBirthday} days
                 </Typography>
               </>

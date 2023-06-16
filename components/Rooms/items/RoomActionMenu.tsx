@@ -1,7 +1,6 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -43,12 +42,6 @@ export function RoomActionMenu({
       sx={{
         ...(session?.permission === "read-only" && {
           display: { sm: "none" },
-        }),
-        ...(open && {
-          background:
-            (session.user.darkMode
-              ? "hsl(240,11%,20%)"
-              : colors[session?.themeColor || "grey"][100]) + "!important",
         }),
       }}
     >

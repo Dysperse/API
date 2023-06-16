@@ -1,4 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -14,6 +15,7 @@ import { useCallback, useEffect, useState } from "react";
 import { mutate } from "swr";
 
 export function WorkingHours({
+  color,
   isCurrentUser,
   editMode,
   mutationUrl,
@@ -63,6 +65,7 @@ export function WorkingHours({
     setWorkingHours(updatedWorkingHours);
     setEdited(true);
   };
+  const palette = useColor(color, session.user.darkMode);
 
   return (
     <Box
@@ -95,7 +98,7 @@ export function WorkingHours({
             display: "flex",
             alignItems: "center",
             mb: 1,
-            color: `hsl(240,11%,${session.user.darkMode ? 80 : 20}%)`,
+            color: palette[11],
             gap: 2,
             minWidth: editMode ? "470px" : "auto",
           }}
@@ -145,7 +148,7 @@ export function WorkingHours({
             </FormControl>
           )}
           {!editMode && (
-            <Typography sx={{ color: `hsl(240,11%,50%)` }}>from</Typography>
+            <Typography sx={{ color: palette[9] }}>from</Typography>
           )}
           {!editMode ? (
             <b>
@@ -175,9 +178,7 @@ export function WorkingHours({
               </Select>
             </FormControl>
           )}
-          {!editMode && (
-            <Typography sx={{ color: `hsl(240,11%,50%)` }}>to</Typography>
-          )}
+          {!editMode && <Typography sx={{ color: palette[9] }}>to</Typography>}
           {!editMode ? (
             <b>
               {((hour.endTime + 1) % 12 || 12) +

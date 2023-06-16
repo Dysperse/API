@@ -1,8 +1,8 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
@@ -31,6 +31,7 @@ export default function CreateColumn({
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const ref: any = useRef();
   const [loading, setLoading] = useState<boolean>(false);
+  const palette = useColor(session.themeColor, session.user.darkMode);
   const [emoji, setEmoji] = useState("1f3af");
 
   const handleSubmit = useCallback(() => {
@@ -94,13 +95,10 @@ export default function CreateColumn({
                 mb: 2,
               }
             : {
-                backgroundColor: `hsl(240,11%,${
-                  session.user.darkMode ? 13 : 40
-                }%)`,
+                backgroundColor: palette[2],
                 width: "400px",
                 flex: "0 0 auto",
                 mr: 2,
-                border: `hsl(240,11%,${session.user.darkMode ? 30 : 60}%)`,
               }),
           height: "auto",
           borderRadius: 5,
@@ -112,7 +110,7 @@ export default function CreateColumn({
               size="small"
               sx={{
                 px: 1,
-                background: `hsl(240,11%,${session.user.darkMode ? 17 : 70}%)`,
+                background: palette[2],
                 borderRadius: 5,
               }}
             >
@@ -142,7 +140,7 @@ export default function CreateColumn({
             InputProps={{
               disableUnderline: true,
               sx: {
-                background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+                background: palette[2],
                 fontWeight: "600",
                 fontSize: 20,
                 px: 2,
@@ -177,9 +175,7 @@ export default function CreateColumn({
             variant="contained"
             fullWidth
             sx={{
-              background: `${
-                colors[session?.themeColor || "grey"][900]
-              }!important`,
+              background: palette[3],
               color: "white",
               border: "1px solid transparent !important",
             }}

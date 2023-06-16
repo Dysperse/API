@@ -1,10 +1,11 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { StepIconProps, styled } from "@mui/material";
 
 export function StepIcon(props: StepIconProps) {
   const { active, completed, className } = props;
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const StepIconRoot = styled("div")<{
     ownerState: { active?: boolean };
@@ -14,10 +15,10 @@ export function StepIcon(props: StepIconProps) {
     height: 22,
     alignItems: "center",
     ...(ownerState.active && {
-      color: colors[session.themeColor || "brown"][500],
+      color: palette[9],
     }),
     "& .StepIcon-completedIcon": {
-      color: colors[session.themeColor || "brown"][500],
+      color: palette[9],
       zIndex: 1,
       fontSize: 18,
     },
@@ -34,9 +35,7 @@ export function StepIcon(props: StepIconProps) {
       {completed ? (
         <span
           className="material-symbols-rounded"
-          style={{
-            color: colors[session?.themeColor ?? "brown"][500],
-          }}
+          style={{ color: palette[9] }}
         >
           check
         </span>

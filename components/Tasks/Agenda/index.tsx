@@ -1,5 +1,7 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -11,6 +13,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import {
   useCallback,
@@ -20,7 +23,6 @@ import {
   useState,
 } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 
 export function Agenda({
@@ -162,6 +164,7 @@ export function Agenda({
     vibrate(50);
     setDrawerOpen(true);
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -170,72 +173,78 @@ export function Agenda({
           {capitalizeFirstLetter(view == "week" ? "day" : view)} &bull; Agenda
         </title>
       </Head>
-      <IconButton
-        size="large"
-        onClick={handleOpen}
-        onContextMenu={handleOpen}
-        sx={taskStyles(session).menu}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2, delay: 0.4 }}
       >
-        <Icon>menu</Icon>
-      </IconButton>
-
-      <Box
-        sx={{
-          position: "fixed",
-          bottom: {
-            xs: "70px",
-            md: "30px",
-          },
-          opacity: trigger ? 0 : 1,
-          transform: trigger ? "scale(0.9)" : "scale(1)",
-          mr: {
-            xs: 1.5,
-            md: 3,
-          },
-          zIndex: 9,
-          background: `hsl(240,11%,${session.user.darkMode ? 14 : 100}%, 0.9)`,
-          border: "1px solid",
-          transition: "transform .2s, opacity .2s",
-          backdropFilter: "blur(10px)",
-          borderRadius: 999,
-          borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.5)`,
-          right: 0,
-          color: session.user.darkMode ? "#fff" : "#000",
-          display: "flex",
-          alignItems: "center",
-          p: 0.5,
-        }}
-      >
-        <IconButton
-          onClick={handlePrev}
-          disabled={navigation === 0 && view === "month"}
-        >
-          <Icon>west</Icon>
-        </IconButton>
-        <Button
-          onClick={handleToday}
-          disabled={navigation == 0}
-          disableRipple
+        <Box
           sx={{
-            "&:active": {
-              background: `${
-                session.user.darkMode
-                  ? "hsla(240,11%,25%, 0.3)"
-                  : "rgba(0,0,0,0.1)"
-              }`,
+            position: "fixed",
+            bottom: {
+              xs: "70px",
+              md: "30px",
             },
+            opacity: trigger ? 0 : 1,
+            transform: trigger
+              ? "translateY(20px) scale(0.9)"
+              : "translateY(0px) scale(1)",
+            mr: {
+              xs: 1.5,
+              md: 3,
+            },
+            zIndex: 9,
+            background: addHslAlpha(palette[3], 0.5),
+            border: "1px solid",
+            transition: "transform .2s, opacity .2s",
+            backdropFilter: "blur(10px)",
+            borderRadius: 999,
+            borderColor: addHslAlpha(palette[3], 0.5),
+            right: "0",
             color: session.user.darkMode ? "#fff" : "#000",
-            px: 1,
-            minWidth: "unset",
+            display: "flex",
+            alignItems: "center",
+            p: 0.5,
           }}
-          color="inherit"
         >
-          Today
-        </Button>
-        <IconButton onClick={handleNext}>
-          <Icon>east</Icon>
-        </IconButton>
-      </Box>
+          <IconButton
+            onClick={handlePrev}
+            disabled={navigation === 0 && view === "month"}
+            sx={{ color: palette[9] }}
+          >
+            <Icon>west</Icon>
+          </IconButton>
+          <motion.div
+            animate={{
+              opacity: navigation === 0 ? 0 : 1,
+              width: navigation === 0 ? 0 : "auto",
+            }}
+          >
+            <Button
+              onClick={handleToday}
+              disableRipple
+              sx={{
+                "&:active": {
+                  background: `${
+                    session.user.darkMode
+                      ? "hsla(240,11%,25%, 0.3)"
+                      : "rgba(0,0,0,0.1)"
+                  }`,
+                },
+                color: palette[9],
+                px: 1,
+                minWidth: "unset",
+              }}
+              color="inherit"
+            >
+              Today
+            </Button>
+          </motion.div>
+          <IconButton onClick={handleNext} sx={{ color: palette[9] }}>
+            <Icon>east</Icon>
+          </IconButton>
+        </Box>
+      </motion.div>
 
       <Box
         id="agendaContainer"
@@ -245,7 +254,6 @@ export function Agenda({
           maxWidth: "100vw",
           overflowX: "scroll",
           height: { md: "100vh" },
-          mt: { xs: -2, md: 0 },
           ...(loading && { pointerEvents: "none", filter: "blur(10px)" }),
         }}
       >

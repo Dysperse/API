@@ -1,5 +1,6 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
@@ -147,6 +148,8 @@ export const Task: any = function Task({
     [board, session, storage]
   );
 
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return !taskData ? (
     <div />
   ) : (
@@ -165,10 +168,6 @@ export const Task: any = function Task({
             color: colors["grey"][session.user.darkMode ? "A100" : "800"],
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
-            borderBottom: { xs: "1px solid", sm: "none" },
-            borderColor: `hsl(240, 11%, ${
-              session.user.darkMode ? 15 : 93
-            }%) !important`,
             transition: "none",
             py: { xs: 1, sm: 0.7 },
             px: { xs: 2.6, sm: 1.7 },
@@ -177,14 +176,15 @@ export const Task: any = function Task({
             }),
             gap: 1.5,
             "&:hover": {
-              background: `hsl(240, 11%, ${
-                session.user.darkMode ? 13 : 97
-              }%) !important`,
+              background: {
+                sm: palette[3],
+              },
             },
             "&:focus-within, &:active": {
-              background: `hsl(240, 11%, ${
-                session.user.darkMode ? 15 : 94
-              }%) !important`,
+              background: {
+                xs: palette[2],
+                sm: palette[4],
+              },
             },
             ...sx,
           }}

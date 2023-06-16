@@ -1,7 +1,15 @@
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { Box, Button, Icon, Menu, MenuItem, TextField } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import {
+  Box,
+  Button,
+  Icon,
+  InputAdornment,
+  Menu,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import type { Item } from "@prisma/client";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -28,90 +36,57 @@ function SearchBar({
     }
   };
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
-    <Button
-      id="basic-button"
-      disableRipple
-      sx={{
-        backgroundColor: session.user.darkMode
-          ? "hsl(240,11%,15%)!important"
-          : `${grey[200]}!important`,
-        borderRadius: 10,
-        border: "1px solid transparent",
-        mt: { xs: 1, sm: 0 },
-        width: "100%",
-        textAlign: "left",
-        color: `${grey[600]}!important`,
-        "&:focus-within": {
-          background: session.user.darkMode
-            ? "hsl(240,11%,10%)!important"
-            : "#fff!important",
-          "&, & .MuiInput-root *": {
-            cursor: "text",
-          },
-          border: session.user.darkMode
-            ? "1px solid hsl(240,11%,60%)"
-            : "1px solid rgba(0,0,0,.5)",
-          boxShadow:
-            "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-        },
-        textTransform: "none",
-        justifyContent: "start",
-        px: 2,
-        pt: 1,
-        "& *": {
-          pointerEvents: "none",
-        },
-        "& *:focus": {
-          pointerEvents: "unset!important",
-        },
-        verticalAlign: "middle",
+    <TextField
+      placeholder="Search..."
+      id="outlined-size-small"
+      onKeyDown={handleBlurEvent}
+      onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (value === "") {
+          setItems(data);
+          return;
+        }
+        setItems([]);
+        setTimeout(() => {
+          setItems(
+            data.filter(
+              (item) =>
+                item.name.toLowerCase().includes(value.toLowerCase()) ||
+                item.quantity.toLowerCase().includes(value.toLowerCase()) ||
+                JSON.parse(item.category)
+                  .join(",")
+                  .toLowerCase()
+                  .includes(value.toLowerCase())
+            )
+          );
+        }, 50);
       }}
-      onClick={() => document.getElementById("outlined-size-small")?.focus()}
-      onMouseDown={() =>
-        document.getElementById("outlined-size-small")?.focus()
-      }
-    >
-      <Icon>search</Icon>
-      <TextField
-        placeholder="Search for an item..."
-        id="outlined-size-small"
-        onKeyDown={handleBlurEvent}
-        onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-          const value = e.target.value;
-          if (value === "") {
-            setItems(data);
-            return;
-          }
-          setItems([]);
-          setTimeout(() => {
-            setItems(
-              data.filter(
-                (item) =>
-                  item.name.toLowerCase().includes(value.toLowerCase()) ||
-                  item.quantity.toLowerCase().includes(value.toLowerCase()) ||
-                  JSON.parse(item.category)
-                    .join(",")
-                    .toLowerCase()
-                    .includes(value.toLowerCase())
-              )
-            );
-          }, 50);
-        }}
-        size="small"
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-          sx: {
-            border: "0!important",
-            mr: 0.5,
-            width: "100%",
-            background: "transparent!important",
+      size="small"
+      variant="standard"
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <Icon>search</Icon>
+          </InputAdornment>
+        ),
+        disableUnderline: true,
+        sx: {
+          border: "0!important",
+          mr: 0.5,
+          px: 2,
+          py: 1,
+          borderRadius: 9,
+          width: "100%",
+          background: palette[3],
+          "&:focus-within": {
+            background: palette[4],
           },
-        }}
-      />
-    </Button>
+        },
+      }}
+    />
   );
 }
 
@@ -177,6 +152,7 @@ export function Toolbar({
       sx={{
         textAlign: "right",
         my: { xs: 2, sm: 3 },
+        maxWidth: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "end",
@@ -189,20 +165,8 @@ export function Toolbar({
         variant="contained"
         ref={ref}
         sx={{
-          background:
-            (session.user.darkMode ? "hsl(240,11%,20%)" : "hsl(240,11%,90%)") +
-            "!important",
-          "&:hover": {
-            background:
-              (session.user.darkMode
-                ? "hsl(240,11%,20%)"
-                : "hsl(240,11%,90%)") + "!important",
-            color: session.user.darkMode ? "#fff" : "#000",
-          },
-          color: session.user.darkMode ? "#aaa" : "#707070",
           borderRadius: 10,
           ml: 1,
-          mt: { xs: 1, sm: 0 },
           py: 1.3,
           px: 1,
           gap: 1.5,

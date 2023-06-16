@@ -1,4 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
@@ -19,26 +20,19 @@ import { useRouter } from "next/router";
 import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
 import { OptionsGroup } from "../../OptionsGroup";
-import { taskStyles } from "../Layout";
 
-const checklistCardStyles = (session) => ({
-  background: session.user.darkMode
-    ? "hsl(240, 11%, 13%)"
-    : "rgba(200,200,200,.3)",
+const checklistCardStyles = (palette) => ({
+  background: palette[2],
   borderRadius: 5,
   p: 3,
   transition: "transform 0.2s",
   cursor: "pointer",
   userSelect: "none",
   "&:hover": {
-    background: session.user.darkMode
-      ? "hsl(240, 11%, 16%)"
-      : "rgba(200,200,200,.4)",
+    background: palette[3],
   },
   "&:active": {
-    background: session.user.darkMode
-      ? "hsl(240, 11%, 18%)"
-      : "rgba(200,200,200,.5)",
+    background: palette[4],
     transform: "scale(.98)",
     transition: "none",
   },
@@ -51,6 +45,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <>
@@ -71,7 +66,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
               pointerEvents: "none",
             }),
             width: "100%!important",
-            background: `hsl(240,11%,${session.user.darkMode ? 13 : 95}%)`,
+            background: palette[2],
             transition: "transform 0.2s",
             userSelect: "none",
           }}
@@ -79,7 +74,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
           <Box>
             <Box
               sx={{
-                background: `hsl(240,11%,${session.user.darkMode ? 17 : 90}%)`,
+                background: palette[3],
                 color: session.user.darkMode ? "#fff" : "#000",
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
@@ -172,24 +167,22 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             }),
             mb: 2,
             width: "100%!important",
-            background: `hsl(240,11%,${session.user.darkMode ? 13 : 95}%)`,
+            background: palette[2],
             borderRadius: 5,
             cursor: "pointer",
             userSelect: "none",
             "&:hover": {
-              background: `hsl(240,11%,${session.user.darkMode ? 15 : 93}%)`,
+              background: palette[3],
             },
             "&:active": {
-              background: `hsl(240,11%,${session.user.darkMode ? 17 : 91}%)`,
+              background: palette[4],
             },
           }}
         >
           <Box>
             <Box
               sx={{
-                background: session.user.darkMode
-                  ? "hsl(240, 11%, 17%)"
-                  : "rgba(200,200,200,.2)",
+                background: palette[4],
                 color: session.user.darkMode ? "#fff" : "#000",
                 borderRadius: 5,
                 borderBottomLeftRadius: 0,
@@ -571,17 +564,10 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
-      <IconButton
-        size="large"
-        onContextMenu={() => setDrawerOpen(true)}
-        onClick={() => setDrawerOpen(true)}
-        sx={taskStyles(session).menu}
-      >
-        <Icon className="outlined">menu</Icon>
-      </IconButton>
       <Box
         sx={{
           backgroundRepeat: "no-repeat",
@@ -594,7 +580,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
           mx: { sm: 1 },
           overflow: "hidden",
           py: 5,
-          background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+          background: palette[2],
           position: "relative",
         }}
       >
@@ -681,7 +667,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
                         opacity: 0.5,
                         pointerEvents: "none",
                       }),
-                      ...checklistCardStyles(session),
+                      ...checklistCardStyles(palette),
                     }}
                   >
                     <Icon>task_alt</Icon>
@@ -696,7 +682,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
           <Box sx={{ px: 1 }}>
             <Card
               sx={{
-                ...checklistCardStyles(session),
+                ...checklistCardStyles(palette),
                 mb: 2,
               }}
               onClick={createBlankBoard}

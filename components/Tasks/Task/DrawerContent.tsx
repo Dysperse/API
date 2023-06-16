@@ -1,5 +1,6 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -11,6 +12,7 @@ import {
   Dialog,
   Icon,
   IconButton,
+  InputAdornment,
   Menu,
   MenuItem,
   TextField,
@@ -31,6 +33,44 @@ import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./Snooze";
 import { parseEmojis } from "./TaskDrawer";
 
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+const videoChatPlatforms = [
+  "zoom.us",
+  "meet.google.com",
+  "teams.microsoft.com",
+  "skype.com",
+  "appear.in",
+  "gotomeeting.com",
+  "webex.com",
+  "hangouts.google.com",
+  "jitsi.org",
+  "whereby.com",
+  "discord.com",
+  "vsee.com",
+  "bluejeans.com",
+  "join.me",
+  "appear.in",
+  "tokbox.com",
+  "wire.com",
+  "talky.io",
+  "ooVoo.com",
+  "fuze.com",
+  "amazonchime.com",
+  "viber.com",
+  "slack.com",
+];
+
 export default function DrawerContent({
   handleDelete,
   handleMutate,
@@ -49,6 +89,7 @@ export default function DrawerContent({
   const menuOpen = Boolean(anchorEl);
   const handleMenuClick = (event: any) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const handlePriorityChange = useCallback(async () => {
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
@@ -133,15 +174,15 @@ export default function DrawerContent({
 
   const buttonStyles = {
     transition: "none",
-    background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
-    color: `hsl(240,11%,${session.user.darkMode ? 90 : 30}%)`,
+    background: palette[3],
+    color: palette[12],
     "&:hover": {
-      color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)`,
-      background: `hsl(240,11%,${session.user.darkMode ? 25 : 87}%)`,
+      background: palette[4],
+      color: palette[11],
     },
     "&:active": {
-      color: `hsl(240,11%,${session.user.darkMode ? 100 : 0}%)`,
-      background: `hsl(240,11%,${session.user.darkMode ? 25 : 85}%)`,
+      background: palette[5],
+      color: palette[10],
     },
   };
 
@@ -392,13 +433,59 @@ export default function DrawerContent({
             disableUnderline: true,
             className: "font-heading",
             sx: {
-              fontSize: { xs: "35px", sm: "40px" },
+              fontSize: { xs: "50px", sm: "55px" },
               textDecoration: "underline",
               color: colors[data.color][session.user.darkMode ? "A200" : 800],
             },
           }}
         />
 
+        <TextField
+          onBlur={(e) => handleEdit(data.id, "where", e.target.value)}
+          onKeyDown={(e: any) =>
+            e.key === "Enter" && !e.shiftKey && e.target.blur()
+          }
+          placeholder={"Click to add location"}
+          disabled={
+            storage?.isReached === true || session.permission === "read-only"
+          }
+          fullWidth
+          defaultValue={parseEmojis(data.where || "")}
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+            sx: {
+              py: 1,
+              mb: 1,
+              borderBottom: "1px solid",
+              borderColor: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+            },
+            ...(isValidHttpUrl(data.where) && {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => window.open(data.where)}
+                  >
+                    <Icon>
+                      {videoChatPlatforms.find((platform) =>
+                        data.where.includes(platform)
+                      )
+                        ? "call"
+                        : "link"}
+                    </Icon>
+                    {videoChatPlatforms.find((platform) =>
+                      data.where.includes(platform)
+                    )
+                      ? "Call"
+                      : "Open"}
+                  </Button>
+                </InputAdornment>
+              ),
+            }),
+          }}
+        />
         {/* Description */}
         <TextField
           onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
@@ -424,7 +511,6 @@ export default function DrawerContent({
             },
           }}
         />
-
         <Dialog
           open={open}
           onClose={() => setOpen(false)}

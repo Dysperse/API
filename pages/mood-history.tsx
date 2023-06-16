@@ -1,6 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import {
   Box,
   Button,
@@ -66,6 +66,7 @@ export default function History() {
     borderRadius: 5,
     "& .MuiTypography-body2": { mb: 2 },
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const dataByDate = data
     ? data.sort(
@@ -86,7 +87,7 @@ export default function History() {
         </Button>
       </Link>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Typography variant="h4" sx={{ mb: 1 }} className="font-heading">
+        <Typography variant="h3" sx={{ mb: 1 }} className="font-heading">
           History
         </Typography>
         <IconButton sx={{ ml: "auto" }} onClick={handleFetch}>
@@ -179,7 +180,7 @@ export default function History() {
                   <SparklinesSpots style={{ display: "none" }} />
                   <SparklinesLine
                     style={{ fill: "none", strokeWidth: 3 }}
-                    color={colors[session.themeColor]["A700"]}
+                    color={palette[9]}
                   />
                 </Sparklines>
               </Box>
@@ -200,7 +201,7 @@ export default function History() {
                   <SparklinesSpots style={{ display: "none" }} />
                   <SparklinesLine
                     style={{ fill: "none", strokeWidth: 3 }}
-                    color={colors[session.themeColor]["A700"]}
+                    color={palette[9]}
                   />
                 </Sparklines>
               </Box>
@@ -221,7 +222,7 @@ export default function History() {
                   <SparklinesSpots style={{ display: "none" }} />
                   <SparklinesLine
                     style={{ fill: "none", strokeWidth: 3 }}
-                    color={colors[session.themeColor]["A700"]}
+                    color={palette[9]}
                   />
                 </Sparklines>
               </Box>
@@ -244,7 +245,7 @@ export default function History() {
                   <SparklinesSpots style={{ display: "none" }} />
                   <SparklinesLine
                     style={{ fill: "none", strokeWidth: 3 }}
-                    color={colors[session.themeColor]["A700"]}
+                    color={palette[9]}
                   />
                 </Sparklines>
               </Box>
@@ -300,10 +301,7 @@ export default function History() {
               >
                 <TableRow
                   sx={{
-                    background: session.user.darkMode
-                      ? "hsla(240,11%,10%,.5)"
-                      : "rgba(255,255,255,.5)",
-                    backdropFilter: "blur(10px)",
+                    background: palette[1],
                   }}
                 >
                   <TableCell sx={{ background: "transparent" }} />

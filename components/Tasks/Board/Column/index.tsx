@@ -1,4 +1,6 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -11,6 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -71,9 +74,18 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
     }
     setLoading(false);
   };
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      style={{
+        maxWidth: "340px",
+        width: "100%",
+      }}
+    >
       <SwipeableDrawer
         anchor="bottom"
         open={open}
@@ -103,13 +115,17 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             gap: 1.5,
             py: 2,
             mb: 1,
-            borderBottom: `1px solid ${
-              session.user.darkMode ? "hsla(240,11%,25%,50%)" : "#e0e0e0"
-            }`,
+            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
           }}
         >
           <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
-            <picture>
+            <picture
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <img
                 alt="emoji"
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
@@ -164,17 +180,18 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
         sx={{
           scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
-          borderColor: session.user.darkMode
-            ? "hsl(240,11%,16%)"
-            : "rgba(200,200,200,.2)",
+          borderColor: { sm: addHslAlpha(palette[4], 0.7) },
           zIndex: 1,
           height: "100%",
           flexGrow: 1,
           flexBasis: 0,
           ml: "-1px",
           minHeight: { md: "100vh" },
+          maxHeight: { sm: "100vh" },
           overflowY: "scroll",
           minWidth: { xs: "100vw", md: "340px" },
+          width: "100%",
+          flex: { xs: "0 0 100%", sm: "0 0 340px" },
           transition: "filter .2s",
           maxWidth: "100vw",
         }}
@@ -187,7 +204,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               justifyContent: "center",
               width: "100%",
               height: "100px",
-              background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+              background: palette[3],
             }}
           >
             <CircularProgress />
@@ -199,13 +216,9 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             color: session.user.darkMode ? "#fff" : "#000",
             p: { xs: 2, sm: column.name === "" ? 1 : 3 },
             px: 4,
-            background: session.user.darkMode
-              ? "hsla(240,11%,16%, 0.2)"
-              : "rgba(255,255,255,.05)",
-            borderBottom: "1px solid",
-            borderColor: session.user.darkMode
-              ? "hsla(240,11%,18%, 0.2)"
-              : "rgba(200,200,200,.3)",
+            background: { sm: addHslAlpha(palette[2], 0.7) },
+            borderBottom: { sm: "1px solid" },
+            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
             userSelect: "none",
             zIndex: 9,
             backdropFilter: "blur(10px)",
@@ -219,25 +232,8 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               my: 1,
               gap: 3,
               alignItems: "center",
-              "& picture img": {
-                width: { xs: "40px", sm: "50px" },
-                height: { xs: "40px", sm: "50px" },
-                ...(column.name === "" && { display: "none" }),
-              },
             }}
           >
-            <picture
-              style={{
-                flexShrink: 0,
-              }}
-            >
-              <img
-                alt="Emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                width={50}
-                height={50}
-              />
-            </picture>
             <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
               <Typography
                 variant="h4"
@@ -248,14 +244,36 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
                   textOverflow: "ellipsis",
                   maxWidth: "100%",
                   minWidth: 0,
-                  fontSize: { xs: "25px", sm: "30px" },
+                  fontSize: {
+                    xs: "50px",
+                    sm: "35px",
+                  },
                   borderRadius: 1,
                   width: "auto",
                   mb: 0.7,
-                  display: "block",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                  flexWrap: "wrap",
                   ...(column.name === "" && { display: "none" }),
+                  "& picture img": {
+                    width: { xs: "45px", sm: "30px" },
+                    height: { xs: "45px", sm: "30px" },
+                  },
                 }}
               >
+                <picture
+                  style={{
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    alt="Emoji"
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                    width={50}
+                    height={50}
+                  />
+                </picture>
                 {column.name}
               </Typography>
               <Typography
@@ -316,10 +334,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               />
               <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                 <Typography variant="h6" gutterBottom>
-                  Nothing much here...
-                </Typography>
-                <Typography gutterBottom>
-                  You haven&apos;t added any list items to this column
+                  No items (yet!)
                 </Typography>
               </Box>
             </Box>
@@ -343,55 +358,63 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               />
             ))}
 
-          <Button
-            className="task"
-            fullWidth
-            size="large"
-            sx={{
-              px: { xs: "15px!important", sm: "10px!important" },
-              py: { xs: "10px!important", sm: "5px!important" },
-              mb: 1,
-              ...(columnTasks.filter((task) => task.completed).length === 0 && {
-                display: "none",
-              }),
-              mt: 2,
-              borderRadius: { xs: 0, sm: 4 },
-              ...(showCompleted && {
-                background: `hsl(240,11%,${
-                  session.user.darkMode ? 20 : 90
-                }%)!important`,
-              }),
-              color: `hsl(240,11%,${session.user.darkMode ? 100 : 30}%)`,
-            }}
-            onClick={toggleShowCompleted}
-          >
-            <Typography sx={{ fontWeight: 700 }}>
-              {columnTasks.filter((task) => task.completed).length} completed
-            </Typography>
-            <Icon
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              className="task"
+              size="large"
               sx={{
-                ml: "auto",
-                transition: "all .2s",
-                ...(showCompleted && { transform: "rotate(180deg)" }),
+                width: { sm: "100%" },
+                px: { xs: "15px!important", sm: "10px!important" },
+                py: { xs: "10px!important", sm: "5px!important" },
+                mb: 1,
+                ...(columnTasks.filter((task) => task.completed).length ===
+                  0 && {
+                  display: "none",
+                }),
+                color: palette[12],
+                borderRadius: 4,
+                ...(showCompleted && {
+                  background: palette[3] + "!important",
+                  color: palette[11],
+                }),
               }}
+              onClick={toggleShowCompleted}
             >
-              expand_more
-            </Icon>
-          </Button>
-          {showCompleted &&
-            columnTasks
-              .filter((task) => task.completed)
-              .map((task) => (
-                <Task
-                  key={task.id}
-                  board={board}
-                  columnId={column.id}
-                  mutationUrl={mutationUrls.tasks}
-                  task={task}
-                />
-              ))}
+              <Typography sx={{ fontWeight: 700 }}>
+                {columnTasks.filter((task) => task.completed).length} completed
+              </Typography>
+              <Icon
+                sx={{
+                  ml: "auto",
+                  transition: "all .2s",
+                  ...(showCompleted && { transform: "rotate(180deg)" }),
+                }}
+              >
+                expand_more
+              </Icon>
+            </Button>
+          </Box>
+          {showCompleted && (
+            <motion.div
+              initial={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {showCompleted &&
+                columnTasks
+                  .filter((task) => task.completed)
+                  .map((task) => (
+                    <Task
+                      key={task.id}
+                      board={board}
+                      columnId={column.id}
+                      mutationUrl={mutationUrls.tasks}
+                      task={task}
+                    />
+                  ))}
+            </motion.div>
+          )}
         </Box>
       </Box>
-    </>
+    </motion.div>
   );
 }

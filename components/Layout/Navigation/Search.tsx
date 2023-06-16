@@ -1,5 +1,6 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -19,7 +20,6 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { updateSettings } from "../../../lib/client/updateSettings";
-import { Routines } from "../../Coach/Routines";
 import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
 
@@ -30,24 +30,24 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
 
   return [
     {
-      title: "Boards",
-      onTrigger: () => router.push("/tasks"),
-      icon: "verified",
+      title: "Days",
+      onTrigger: () => router.push("/tasks/agenda/day"),
+      icon: "calendar_today",
     },
     {
-      title: "Weekly agenda",
-      onTrigger: () => router.push("/tasks#/agenda/week"),
+      title: "Weeks",
+      onTrigger: () => router.push("/tasks/agenda/week"),
       icon: "view_week",
       badge: "Agenda",
     },
     {
-      title: "Monthly agenda",
+      title: "Months",
       onTrigger: () => router.push("/tasks#/agenda/month"),
       icon: "calendar_view_month",
       badge: "Agenda",
     },
     {
-      title: "Yearly agenda",
+      title: "Years",
       onTrigger: () => router.push("/tasks#/agenda/year"),
       icon: "calendar_month",
       badge: "Agenda",
@@ -128,7 +128,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           return {
             title: property.profile.name,
             onTrigger: () => {
-              router.push("/tasks");
+              router.push("/tasks/agenda/week");
               fetchRawApi("property/switch", {
                 email: session.user.email,
                 accessToken1: property.accessToken,
@@ -211,6 +211,8 @@ export default function Spotlight() {
   const { data: roomData } = useApi("property/inventory/rooms");
   const { data: boardData } = useApi("property/boards");
 
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   // Input event handling
   const handleSearch = async (value) => {
     let results = await getSpotlightActions(roomData, boardData, session);
@@ -247,6 +249,8 @@ export default function Spotlight() {
         <TextField
           onKeyDown={(e) => {
             if (e.code === "Enter") {
+              e.preventDefault();
+              e.stopPropagation();
               setOpen(false);
               setTimeout(() => {
                 const tag: any = document.querySelector(
@@ -266,9 +270,9 @@ export default function Spotlight() {
               px: 2,
               py: 1,
               borderRadius: 3,
-              background: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+              background: palette[2],
               "&:focus-within": {
-                background: `hsl(240,11%,${session.user.darkMode ? 25 : 90}%)`,
+                background: palette[3],
               },
             },
           }}
@@ -281,9 +285,6 @@ export default function Spotlight() {
           }}
           value={inputValue}
         />
-      </Box>
-      <Box>
-        <Routines />
       </Box>
       <Box sx={{ mt: 1, px: 2, flexGrow: 1 }}>
         <Virtuoso
@@ -330,9 +331,7 @@ export default function Spotlight() {
                   mb: 0.2,
                   transition: "none",
                   ...(index == 0 && {
-                    background: session.user.darkMode
-                      ? "hsl(240,11%,15%)"
-                      : "#eee",
+                    background: palette[2],
                     "& *": {
                       fontWeight: 700,
                     },

@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { Box } from "@mui/material";
 
@@ -15,6 +16,10 @@ export function Puller({
   sx?: any;
 }) {
   const session = useSession();
+  const palette = useColor(
+    session?.themeColor || "gray",
+    session?.user?.darkMode || "false"
+  );
 
   return (
     <>
@@ -38,11 +43,7 @@ export function Puller({
             width: "50px",
             mx: "auto",
             height: "2px",
-            background: session?.user
-              ? useDarkStyles || session.user.darkMode
-                ? "hsl(240, 11%, 35%)"
-                : "#ddd"
-              : "#ddd",
+            background: palette[4],
           }}
         />
       </Box>

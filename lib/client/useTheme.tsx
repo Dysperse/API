@@ -1,6 +1,8 @@
 import { Grow, Slide } from "@mui/material";
 import React from "react";
 import { colors } from "../colors";
+import { addHslAlpha } from "./addHslAlpha";
+import { useColor } from "./useColor";
 
 const Transition = React.forwardRef(function Transition(
   props: any,
@@ -39,6 +41,8 @@ export const toastStyles = {
 };
 
 export const useCustomTheme = ({ darkMode, themeColor }): any => {
+  const palette = useColor(themeColor, darkMode);
+
   return {
     components: {
       MuiSnackbar: {
@@ -48,14 +52,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "& .MuiSnackbarContent-root": {
                 boxShadow:
                   "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                background: `hsl(240,11%,${darkMode ? 90 : 10}%, 0.7)`,
+                background: addHslAlpha(palette[3], 0.5),
                 backdropFilter: "blur(10px)",
                 fontWeight: 700,
                 borderRadius: 95,
                 px: 3,
-                color: `hsl(240,11%,${darkMode ? 10 : 90}%, 0.9)`,
+                color: palette[12],
                 "& .MuiIcon-root": {
-                  color: `hsl(240,11%,${darkMode ? 10 : 90}%, 0.9)`,
+                  color: palette[12],
                 },
               },
             }),
@@ -83,12 +87,12 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               left: 0,
               zIndex: 999,
               background: darkMode
-                ? "hsla(240,11%,15%, 0.5)"
+                ? addHslAlpha(palette[1], 0.9)
                 : "rgba(255,255,255,.5)",
               backdropFilter: "blur(10px)",
               borderBottom: "1px solid",
               borderColor: darkMode
-                ? "hsla(240,11%,30%, .5)"
+                ? addHslAlpha(palette[3], 0.9)
                 : "hsla(240,11%,90%,.6)",
               color: darkMode ? "#fff" : "#000",
             }),
@@ -138,19 +142,15 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "&:hover": {
                 color: darkMode ? "#fff" : "#000",
                 background: {
-                  sm: `${
-                    darkMode ? "hsla(240,11%,25%, 0.2)" : "rgba(0,0,0,0.05)"
-                  }`,
+                  sm: addHslAlpha(palette[3], 0.3),
                 },
               },
               "&:active": {
-                background: `${
-                  darkMode ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.1)"
-                }`,
+                background: addHslAlpha(palette[4], 0.3),
               },
               "&:focus-visible": {
                 boxShadow: darkMode
-                  ? "0px 0px 0px 1.5px hsl(240,11%,50%) !important"
+                  ? "0px 0px 0px 1.5px #fff !important"
                   : "0px 0px 0px 1.5px #000 !important",
               },
             }),
@@ -163,43 +163,27 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           contained: {
             boxShadow: "none!important",
-            background: `${
-              darkMode ? "hsl(240,11%,20%)" : colors[themeColor || "grey"][100]
-            }!important`,
-            color: colors[themeColor || "grey"][darkMode ? 50 : 900],
+            background: `${palette[4]}!important`,
+            color: palette[11],
             "&:hover": {
-              background: `${
-                darkMode
-                  ? "hsl(240,11%,30%)"
-                  : colors[themeColor || "grey"]["A100"]
-              }!important`,
+              background: `${palette[5]}!important`,
             },
             "&:disabled": {
               cursor: "not-allowed!important",
               opacity: 0.5,
-              color: colors[themeColor || "grey"][!darkMode ? 900 : 50],
+              color: palette[11],
             },
           },
           outlined: {
-            color: `${
-              colors[themeColor || "grey"][darkMode ? 50 : 800]
-            }!important`,
-            borderColor:
-              (!darkMode
-                ? colors[themeColor || "grey"][100]
-                : "hsla(240,11%,80%,.5)") + "!important",
+            color: `${palette[12]}!important`,
+            borderColor: palette[4],
             "&:hover": {
-              background: `${
-                darkMode ? "hsl(240,11%,30%)" : colors[themeColor || "grey"][50]
-              }!important`,
-              borderColor:
-                (!darkMode
-                  ? colors[themeColor || "grey"][100]
-                  : "hsla(240,11%,85%,.8)") + "!important",
+              borderColor: palette[3],
+              background: palette[3],
             },
           },
           text: {
-            color: `${colors[themeColor || "grey"][darkMode ? 50 : 700]}`,
+            color: palette[11],
           },
 
           root: ({ theme }) =>
@@ -285,7 +269,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               },
               "& .MuiSwitch-track": {
                 borderRadius: 26 / 2,
-                backgroundColor: !darkMode ? "#E9E9EA" : "hsl(240,11%,30%)",
+                backgroundColor: !darkMode ? "#E9E9EA" : palette[3],
                 opacity: 1,
                 transition: "all .5s",
               },
@@ -320,30 +304,19 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 ml: -1,
                 borderRadius: "10px",
                 minWidth: 180,
-                color: darkMode ? colors[themeColor || "grey"][200] : "#505050",
+                color: palette[11],
                 border: "1px solid",
-                background: darkMode
-                  ? "hsl(240,11%,14%)!important"
-                  : "#fff!important",
-                borderColor: darkMode
-                  ? "hsl(240,11%,20%)!important"
-                  : "#eee!important",
+                background: palette[2],
+                borderColor: palette[3],
                 "& .MuiMenu-list": {
                   p: 0.5,
                 },
                 "& .MuiMenuItem-root": {
                   gap: 2,
                   "&:focus-visible, &:hover": {
-                    background: darkMode
-                      ? "hsl(240,11%,30%)"
-                      : "rgba(200,200,200,.3)",
-                    color: darkMode
-                      ? colors[themeColor || "grey"][100]
-                      : "#000",
+                    background: palette[3],
                     "& .MuiSvgIcon-root": {
-                      color: darkMode
-                        ? colors[themeColor || "grey"][200]
-                        : colors[themeColor || "grey"][800],
+                      color: palette[12],
                     },
                   },
                   px: 2,
@@ -353,11 +326,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   cursor: "default",
                   "& .MuiSvgIcon-root": {
                     fontSize: 25,
-                    color: colors[themeColor || "grey"][700],
+                    background: palette[9],
                     marginRight: 1.9,
                   },
                   "&:active": {
-                    background: darkMode ? "hsl(240,11%,35%)" : "#eee",
+                    background: palette[3],
                   },
                 },
               },
@@ -369,6 +342,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           root: ({ theme }) =>
             theme.unstable_sx({
               borderRadius: 4,
+              gap: 2,
+              transition: "none",
               userSelect: "none",
             }),
         },
@@ -381,10 +356,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           paper: {
             borderRadius: "28px",
-            border:
-              "1px solid " +
-              (darkMode ? "hsl(240,11%,20%)" : "rgba(200,200,200,.3)"),
-            background: darkMode ? "hsl(240,11%,17%)" : "#fff",
+            border: "1px solid " + palette[2],
+            background: palette[1],
             boxShadow: "none!important",
             filter:
               "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
@@ -393,12 +366,16 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiChip: {
         styleOverrides: {
-          root: {
-            boxShadow: "none!important",
-            ...(darkMode && {
-              background: "hsla(240, 11%, 70%, .2)",
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              boxShadow: "none!important",
+              background: palette[3],
+              borderColor: palette[4],
+              "&:hover": {
+                background: palette[4],
+                borderColor: palette[5],
+              },
             }),
-          },
         },
       },
       MuiDrawer: {
@@ -422,7 +399,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             boxShadow: "none !important",
             filter:
               "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
-            background: darkMode ? "hsl(240, 11%, 15%)" : "#fff",
+            background: darkMode ? palette[1] : "#fff",
           },
         },
       },
@@ -435,18 +412,12 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           tooltip: ({ theme }) =>
             theme.unstable_sx({
               "& .MuiTooltip-arrow::before": {
-                background: darkMode
-                  ? "hsl(240, 11%, 90%)"
-                  : colors[themeColor || "grey"]["100"],
+                background: palette[11],
               },
               borderRadius: "5px",
               fontSize: "14px",
-              color: darkMode
-                ? "hsl(240, 11%, 30%)"
-                : colors[themeColor || "grey"]["900"],
-              background: darkMode
-                ? "hsl(240, 11%, 90%)"
-                : colors[themeColor || "grey"]["100"],
+              color: palette[3],
+              background: palette[11],
               padding: "6px 14px",
               boxShadow:
                 "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
@@ -508,21 +479,19 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
     },
     palette: {
       primary: {
-        main: colors[themeColor || "grey"][darkMode ? "A200" : "A700"],
+        main: palette[9],
       },
       secondary: {
         main: "#fff",
       },
       mode: darkMode ? "dark" : "light",
-      ...(darkMode && {
-        background: {
-          default: "hsl(240, 11%, 10%)",
-          paper: "hsl(240, 11%, 10%)",
-        },
-        text: {
-          primary: "hsl(240, 11%, 90%)",
-        },
-      }),
+      background: {
+        default: palette[1],
+        paper: palette[1],
+      },
+      text: {
+        primary: palette[12],
+      },
     },
   };
 };

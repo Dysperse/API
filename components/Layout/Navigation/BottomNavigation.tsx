@@ -1,8 +1,8 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
-import hexToRgba from "hex-to-rgba";
 import { useRouter } from "next/router";
+import { openSpotlight } from "./Search";
 
 /**
  * Bottom navigation bar
@@ -24,8 +24,9 @@ export function BottomNav() {
   const styles = (active) => {
     return {
       textTransform: "none",
-      color: session.user.darkMode ? "hsl(240,11%,80%)" : "#303030",
+      color: palette[12],
       "& span": {
+        opacity: 0.7,
         transition: "opacity .2s",
       },
       "& .material-symbols-rounded, & .material-symbols-outlined": {
@@ -45,24 +46,26 @@ export function BottomNav() {
         },
       ...(active && {
         fontWeight: 700,
-        color: `${
-          session.user.darkMode
-            ? "#fff"
-            : colors[session?.themeColor || "grey"][900]
-        }!important`,
+        color: `${palette[11]}!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
+          opacity: 1,
           ...iconStyles,
-          background: `${
-            session.user.darkMode
-              ? "hsl(240,11%,17%)"
-              : hexToRgba(colors[session?.themeColor || "grey"][200], 0.5)
-          }!important`,
+          background: palette[3],
         },
       }),
     };
   };
 
+  const palette = useColor(session.themeColor, session.user.darkMode);
   const router = useRouter();
+
+  const shouldHide = [
+    "/users",
+    "/rooms/",
+    "/groups",
+    "/coach/routine",
+    "/settings",
+  ].find((path) => router.asPath.includes(path));
 
   /**
    * Handles button click
@@ -74,7 +77,7 @@ export function BottomNav() {
       sx={{
         width: "100%",
         position: "fixed",
-        bottom: 0,
+        bottom: shouldHide ? "-90px" : 0,
         left: 0,
         transition: "bottom .3s",
         overflowX: "hidden",
@@ -95,14 +98,8 @@ export function BottomNav() {
         "&, & *": {
           overflow: "hidden!important",
         },
-        background: session.user.darkMode
-          ? "hsla(240, 11%, 10%, .9)"
-          : "rgba(255,255,255,.4)",
-        borderTop: session.user.darkMode
-          ? "1px solid hsla(240, 11%, 20%, .8)"
-          : session.user.darkMode
-          ? "1px solid hsla(240,11%,15%)"
-          : "1px solid rgba(200,200,200,.3)",
+        background: palette[1],
+        borderTop: `1px solid ${palette[3]}`,
         backdropFilter: "blur(10px)",
         alignItems: "center",
       }}
@@ -130,7 +127,7 @@ export function BottomNav() {
         </span>
       </Box>
       <Box
-        onClick={() => router.push("/tasks")}
+        onClick={() => router.push("/tasks/agenda/week")}
         sx={styles(router.asPath.includes("/tasks"))}
       >
         <span
@@ -140,6 +137,9 @@ export function BottomNav() {
         >
           check_circle
         </span>
+      </Box>
+      <Box onClick={() => openSpotlight()} sx={styles(false)}>
+        <span className={`material-symbols-outlined`}>bolt</span>
       </Box>
       <Box
         sx={styles(router.asPath.includes("/coach"))}

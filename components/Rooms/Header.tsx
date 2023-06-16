@@ -1,4 +1,5 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -9,7 +10,6 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -32,23 +32,21 @@ export function Header({
 }) {
   const router = useRouter();
   const session = useSession();
-  const isMobile = useMediaQuery("min-width: 600px");
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <ListItem
       sx={{
         transition: "transform .2s !important",
         overflow: "hidden",
-        background: session.user.darkMode
-          ? "hsl(240,11%,15%, 0.6)!important"
-          : "hsla(240,11%,96%, 0.6)!important",
-        position: "sticky",
-        top: { xs: "var(--navbar-height)", sm: "0px" },
-        mt: { xs: -2, sm: 0 },
+        background: { sm: palette[2] },
+        position: { sm: "sticky" },
+        top: 0,
         mb: 2,
         zIndex: 99,
         backdropFilter: "blur(10px)",
         py: 3,
+        pt: 1,
         "&:focus": {
           background: session.user.darkMode
             ? "hsl(240,11%,27%)"
@@ -67,16 +65,9 @@ export function Header({
           width: "100%",
         }}
       >
-        <ListItemAvatar sx={{ display: { md: "none" } }}>
-          <IconButton onClick={() => router.push("/items")}>
-            <Icon>{isMobile ? "west" : "close"}</Icon>
-          </IconButton>
-        </ListItemAvatar>
-
         <ListItemText
           sx={{
             my: 1.4,
-            textAlign: { xs: "center", sm: "left" },
             ml: { md: 2 },
           }}
           primary={
@@ -84,8 +75,8 @@ export function Header({
               sx={{
                 textDecoration: "underline",
                 fontSize: {
-                  xs: "35px",
-                  md: "45px",
+                  xs: "50px",
+                  md: "55px",
                 },
               }}
               gutterBottom
@@ -101,6 +92,7 @@ export function Header({
                 color: "inherit",
                 mt: -0.5,
                 display: "flex",
+                alignItems: "center",
                 flexWrap: "wrap",
                 gap: 1,
               }}
@@ -119,7 +111,6 @@ export function Header({
       <ListItemAvatar
         sx={{
           display: "flex",
-          alignItems: "center",
           gap: 1,
         }}
       >
@@ -127,7 +118,9 @@ export function Header({
           <IconButton
             sx={{
               background: "transparent",
+              display: "none",
             }}
+            id="createItemTrigger"
             disabled={session.permission === "read-only"}
           >
             <Icon className="outlined">add_circle</Icon>

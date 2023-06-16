@@ -1,6 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import { colors } from "@/lib/colors";
 import { Avatar, Box, CircularProgress, Icon, IconButton } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -43,6 +43,7 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
   );
 
   useEffect(() => setPhoto(data?.Profile?.picture), [data]);
+  const palette = useColor(data?.color || "gray", session.user.darkMode);
 
   return (
     <Box
@@ -116,9 +117,7 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
           width: 150,
           fontSize: 65,
           textTransform: "uppercase",
-          background: `linear-gradient(${colors[data.color][200]} 30%, ${
-            colors[data.color][300]
-          })`,
+          background: `linear-gradient(${palette[6]} 30%, ${palette[9]})`,
           mb: 2,
         }}
       >

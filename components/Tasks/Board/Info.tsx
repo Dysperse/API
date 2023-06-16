@@ -1,7 +1,8 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Chip,
@@ -13,6 +14,7 @@ import {
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
 export function BoardInfo({
@@ -21,7 +23,6 @@ export function BoardInfo({
   showInfo,
   mutationUrls,
   setShowInfo,
-  setDrawerOpen,
 }) {
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
@@ -66,6 +67,7 @@ export function BoardInfo({
     mutationUrls,
   ]);
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   return (
     <Box
@@ -77,21 +79,13 @@ export function BoardInfo({
         height: { xs: "500px", md: "calc(100vh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },
         background: {
-          md: showInfo
-            ? session.user.darkMode
-              ? "hsla(240,11%,15%, 0.8)"
-              : "hsla(240, 11%, 95%, 0.5)"
-            : session.user.darkMode
-            ? "hsla(240,11%,13%, 0.8)"
-            : "rgba(200,200,200,.1)",
+          md: addHslAlpha(palette[3], 0.3),
         },
         border: { xs: "1px solid", md: "none" },
-        borderColor: session.user.darkMode
-          ? "hsla(240,11%,13%, 0.8)!important"
-          : "rgba(200,200,200,.4)!important",
+        borderColor: { xs: addHslAlpha(palette[8], 0.3) },
         position: { md: "sticky" },
         left: "10px",
-        zIndex: 9,
+        zIndex: 999,
         mr: { xs: 0, md: 2 },
         flexGrow: 1,
         flexBasis: 0,
@@ -106,6 +100,12 @@ export function BoardInfo({
         minWidth: { md: !showInfo ? "auto" : "320px" },
         maxWidth: { md: "300px" },
         backdropFilter: "blur(20px)!important",
+        transition: "all .4s",
+        ...(typeof showInfo !== "boolean" &&
+          typeof showInfo !== "object" && {
+            opacity: "0!important",
+            transform: "translateX(-100px)",
+          }),
       }}
     >
       <Box
@@ -142,13 +142,11 @@ export function BoardInfo({
                   borderRadius: 2,
                   p: 1,
                   ml: -1,
-                  mb: 0.5,
-                  fontSize: "40px",
+                  fontSize: "60px",
+                  lineHeight: "65px",
                   py: 0.5,
                   "&:focus-within": {
-                    background: `hsl(240,11%,${
-                      session.user.darkMode ? 18 : 90
-                    }%)`,
+                    background: addHslAlpha(palette[4], 0.8),
                   },
                 },
               }}
@@ -173,9 +171,7 @@ export function BoardInfo({
                   ml: -1,
                   py: 1,
                   "&:focus-within": {
-                    background: `hsl(240,11%,${
-                      session.user.darkMode ? 18 : 90
-                    }%)`,
+                    background: addHslAlpha(palette[4], 0.8),
                   },
                 },
               }}
@@ -204,87 +200,16 @@ export function BoardInfo({
                   icon={<Icon>inventory_2</Icon>}
                 />
               )}
-              {board.integrations.find(
-                (integration) => integration.name === "Canvas LMS"
-              ) && (
-                <Chip
-                  onClick={async () => {
-                    setMobileOpen(false);
-                    toast.promise(
-                      new Promise(async (resolve, reject) => {
-                        try {
-                          await fetchRawApi(
-                            "property/integrations/run/canvas",
-                            {
-                              boardId: board.id,
-                              timeZone: session.user.timeZone,
-                              vanishingTasks: session.property.profile
-                                .vanishingTasks
-                                ? "true"
-                                : "false",
-                            }
-                          );
-                          await mutate(mutationUrls.tasks);
-                          resolve("Success");
-                        } catch (e: any) {
-                          reject(e.message);
-                        }
-                      }),
-                      {
-                        loading: (
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: "15px",
-                              alignItems: "center",
-                            }}
-                          >
-                            <div>
-                              <Typography>
-                                Importing your assignments...
-                              </Typography>
-                              <Typography variant="body2">
-                                Hang tight - this may take a while
-                              </Typography>
-                            </div>
-                            <picture>
-                              <img
-                                src="https://i.ibb.co/4sNZm4T/image.png"
-                                alt="Canvas logo"
-                                height={25}
-                                style={{ borderRadius: "100%" }}
-                                width={25}
-                              />
-                            </picture>
-                          </div>
-                        ),
-                        success: "Synced to Canvas!",
-                        error:
-                          "Yikes! An error occured. Please try again later",
-                      },
-                      toastStyles
-                    );
-                  }}
-                  disabled={session.permission === "read-only"}
-                  label="Resync to Canvas"
-                  sx={{
-                    mr: 1,
-                    mb: 1,
-                    background:
-                      "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%)",
-                    color: "#000",
-                  }}
-                  icon={
-                    <Icon
-                      sx={{
-                        color: "#000!important",
-                      }}
-                    >
-                      refresh
-                    </Icon>
-                  }
+              {board.integrations?.map((integration) => (
+                <IntegrationChip
+                  mutationUrls={mutationUrls}
+                  key={integration.name}
+                  integration={integration}
+                  boardId={board.id}
+                  session={session}
+                  mutate={mutate}
                 />
-              )}
+              ))}
             </Box>
           </Box>
 
@@ -295,17 +220,6 @@ export function BoardInfo({
               width: "100%",
             }}
           >
-            <IconButton
-              sx={{ mr: "auto", display: { md: "none" } }}
-              size="large"
-              onClick={() => {
-                setDrawerOpen(true);
-                vibrate(50);
-                setMobileOpen(false);
-              }}
-            >
-              <Icon className="outlined">menu</Icon>
-            </IconButton>
             <BoardSettings mutationUrls={mutationUrls} board={board} />
             <IconButton
               size="large"
@@ -313,7 +227,10 @@ export function BoardInfo({
                 ml: "auto",
                 display: { xs: "none", md: "flex" },
               }}
-              onClick={() => setShowInfo(false)}
+              onClick={() => {
+                setShowInfo(false);
+                localStorage.setItem("showInfo", "false");
+              }}
             >
               <Icon className="outlined">menu_open</Icon>
             </IconButton>
@@ -329,7 +246,10 @@ export function BoardInfo({
           }}
         >
           <IconButton
-            onClick={() => setShowInfo(true)}
+            onClick={() => {
+              setShowInfo(true);
+              localStorage.setItem("showInfo", "true");
+            }}
             sx={{ opacity: 0, pointerEvents: "none" }}
             size="large"
           >
@@ -341,13 +261,20 @@ export function BoardInfo({
               textOrientation: "mixed",
               transform: "rotate(180deg)",
               my: "auto",
-              fontWeight: "700",
+              fontSize: "30px",
             }}
+            className="font-heading"
           >
             {board.name.substring(0, 15)}
             {board.name.length > 15 && "..."}
           </Typography>
-          <IconButton onClick={() => setShowInfo(true)}>
+          <IconButton
+            onClick={() => {
+              setShowInfo(true);
+
+              localStorage.setItem("showInfo", "true");
+            }}
+          >
             <Icon className="outlined">menu</Icon>
           </IconButton>
         </Box>

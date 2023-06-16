@@ -1,5 +1,8 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
+import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -14,6 +17,7 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
+  useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Link from "next/link";
@@ -27,9 +31,13 @@ import { CreateTask } from "../Task/Create";
 import { Tab } from "./Tab";
 
 function SearchTasks({ setOpen }) {
+  const ref: any = useRef();
   const router = useRouter();
   const session = useSession();
   const [query, setQuery] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const palette = useColor(session.user.color, session.user.darkMode);
 
   useEffect(() => {
     if (
@@ -40,7 +48,68 @@ function SearchTasks({ setOpen }) {
     }
   }, [router.asPath]);
 
-  return (
+  const input = (
+    <TextField
+      inputRef={ref}
+      size="small"
+      variant="outlined"
+      placeholder="Search tasks..."
+      {...(query.trim() && { label: "Search tasks..." })}
+      onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
+      onBlur={() =>
+        query.trim() !== "" &&
+        router.push(`/tasks/search/${encodeURIComponent(query)}`)
+      }
+      value={query}
+      sx={{
+        transition: "all .2s",
+        zIndex: 999,
+        cursor: "default",
+        ...(Boolean(query.trim()) && {
+          mr: -6,
+        }),
+      }}
+      onChange={(e) => setQuery(e.target.value)}
+      InputProps={{
+        sx: {
+          cursor: "default",
+          borderRadius: 4,
+        },
+        endAdornment: (
+          <InputAdornment position="end">
+            {query.trim() && (
+              <IconButton size="small">
+                <Icon>east</Icon>
+              </IconButton>
+            )}
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
+
+  return isMobile ? (
+    <>
+      <SwipeableDrawer
+        anchor="top"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        PaperProps={{ sx: { p: 2, borderRadius: "0 0 20px 20px" } }}
+      >
+        {input}
+        <Puller sx={{ mb: -2 }} />
+      </SwipeableDrawer>
+      <IconButton
+        sx={{ ml: "auto", color: palette[8] }}
+        onClick={() => {
+          setMobileOpen(true);
+          setTimeout(() => ref?.current?.focus(), 100);
+        }}
+      >
+        <Icon>search</Icon>
+      </IconButton>
+    </>
+  ) : (
     <Box
       sx={{
         display: "flex",
@@ -49,42 +118,7 @@ function SearchTasks({ setOpen }) {
         alignItems: "center",
       }}
     >
-      <TextField
-        size="small"
-        variant="outlined"
-        placeholder="Search tasks..."
-        {...(query.trim() && { label: "Search tasks..." })}
-        onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-        onBlur={() =>
-          query.trim() !== "" &&
-          router.push(`/tasks/search/${encodeURIComponent(query)}`)
-        }
-        value={query}
-        sx={{
-          transition: "all .2s",
-          zIndex: 999,
-          cursor: "default",
-          ...(Boolean(query.trim()) && {
-            mr: -6,
-          }),
-        }}
-        onChange={(e) => setQuery(e.target.value)}
-        InputProps={{
-          sx: {
-            cursor: "default",
-            borderRadius: 4,
-          },
-          endAdornment: (
-            <InputAdornment position="end">
-              {query.trim() && (
-                <IconButton size="small">
-                  <Icon>east</Icon>
-                </IconButton>
-              )}
-            </InputAdornment>
-          ),
-        }}
-      />
+      {input}
       <Box sx={{ display: "none" }}>
         <CreateTask
           closeOnCreate
@@ -126,13 +160,13 @@ function SearchTasks({ setOpen }) {
             }),
             cursor: "default",
             transition: "transform .2s",
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
-            color: `hsl(240,11%,${session.user.darkMode ? 90 : 35}%)`,
+            background: palette[3],
+            color: palette[12],
             "&:hover": {
-              background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
+              background: palette[4],
             },
             "&:active": {
-              background: `hsl(240,11%,${session.user.darkMode ? 25 : 80}%)`,
+              background: palette[5],
             },
           }}
         >
@@ -143,7 +177,7 @@ function SearchTasks({ setOpen }) {
   );
 }
 
-export const taskStyles = (session) => {
+export const taskStyles = (palette) => {
   return {
     subheading: {
       my: { xs: 1, sm: 1.5 },
@@ -153,7 +187,7 @@ export const taskStyles = (session) => {
       opacity: 0.5,
       fontSize: "13px",
       px: 1.5,
-      color: session.user.darkMode ? "#fff" : "#000",
+      color: palette[12],
       userSelect: "none",
     },
     menu: {
@@ -166,16 +200,14 @@ export const taskStyles = (session) => {
       },
       left: "10px",
       zIndex: 9,
-      background: session.user.darkMode
-        ? "hsla(240,11%,14%,0.5)!important"
-        : "rgba(255,255,255,.5)!important",
+      background: addHslAlpha(palette[3], 0.9),
       backdropFilter: "blur(10px)",
       border: "1px solid",
-      borderColor: `hsla(240,11%,${session.user.darkMode ? 25 : 80}%,.5)`,
+      borderColor: addHslAlpha(palette[3], 0.5),
       fontWeight: "700",
       display: { md: "none" },
       fontSize: "15px",
-      color: session.user.darkMode ? "#fff" : "#000",
+      color: palette[12],
     },
   };
 };
@@ -187,6 +219,7 @@ export function TasksLayout({ open, setOpen, children }) {
   const storage = useAccountStorage();
   const router = useRouter();
   const session = useSession();
+  const palette = useColor(session.user.color, session.user.darkMode);
 
   useHotkeys(["c", "/"], (e) => {
     e.preventDefault();
@@ -206,10 +239,10 @@ export function TasksLayout({ open, setOpen, children }) {
     justifyContent: "flex-start",
     borderRadius: 4,
     "&:hover, &:focus": {
-      background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+      background: palette[3],
     },
     ...(session.user.darkMode && {
-      color: "hsl(240,11%, 80%)",
+      color: palette[11],
     }),
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -218,14 +251,14 @@ export function TasksLayout({ open, setOpen, children }) {
       ? {
           color: `hsl(240,11%,${session.user.darkMode ? 80 : 30}%)`,
           "&:hover": {
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 93}%)`,
+            background: palette[3],
           },
         }
       : {
-          color: `hsl(240,11%,${session.user.darkMode ? 95 : 10}%)`,
-          background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
+          color: palette[12],
+          background: palette[4],
           "&:hover, &:focus": {
-            background: `hsl(240,11%,${session.user.darkMode ? 20 : 85}%)`,
+            background: palette[5],
           },
         }),
   });
@@ -248,6 +281,8 @@ export function TasksLayout({ open, setOpen, children }) {
     a.preventDefault(), handleClick("__agenda.year");
   });
 
+  const title = useDocumentTitle();
+
   const menuChildren = (
     <>
       {error && (
@@ -256,8 +291,8 @@ export function TasksLayout({ open, setOpen, children }) {
           error="An error occurred while loading your tasks"
         />
       )}
-      <SearchTasks setOpen={setOpen} />
-      <Typography sx={taskStyles(session).subheading}>Perspectives</Typography>
+      {!isMobile && <SearchTasks setOpen={setOpen} />}
+      <Typography sx={taskStyles(palette).subheading}>Perspectives</Typography>
       <Box onClick={() => setOpen(false)}>
         {[
           !isMobile && {
@@ -338,7 +373,7 @@ export function TasksLayout({ open, setOpen, children }) {
           opacity: 0.5,
         }}
       />
-      <Typography sx={taskStyles(session).subheading}>Boards</Typography>
+      <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
       {data &&
         data
           .filter((x) => !x.archived)
@@ -403,7 +438,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 opacity: 0.5,
               }}
             />
-            <Typography sx={taskStyles(session).subheading}>
+            <Typography sx={taskStyles(palette).subheading}>
               Archived
             </Typography>
           </>
@@ -423,56 +458,98 @@ export function TasksLayout({ open, setOpen, children }) {
     </>
   );
 
+  const scrollTrigger = useScrollTrigger({
+    disableHysteresis: true,
+  });
+
   return (
-    <Box sx={{ display: "flex" }}>
-      <SwipeableDrawer
-        anchor="bottom"
-        onClose={() => {
-          setOpen(false);
-          vibrate(50);
-        }}
-        open={open}
-        PaperProps={{
-          sx: {
-            pb: 2,
-            maxHeight: "90vh",
-            background: `hsl(240,11%,${session.user.darkMode ? 7 : 97}%)`,
-          },
-        }}
-        sx={{ zIndex: 999999999999 }}
-      >
-        <Puller />
-        <Box sx={{ p: 1, pt: 0, mt: -2 }}>{menuChildren}</Box>
-      </SwipeableDrawer>
-      <Box
-        sx={{
-          width: { xs: "100%", md: 300 },
-          flex: { xs: "100%", md: "0 0 250px" },
-          ml: -1,
-          p: 3,
-          px: 2,
-          background: `hsl(240,11%,${session.user.darkMode ? 7 : 95}%)`,
-          display: { xs: "none", md: "flex" },
-          minHeight: "100vh",
-          height: { md: "100vh" },
-          overflowY: { md: "scroll" },
-          flexDirection: "column",
-        }}
-      >
-        {menuChildren}
+    <>
+      {isMobile && (
+        <Box
+          sx={{
+            display: "flex",
+            px: "7px",
+            alignItems: "center",
+            position: "fixed",
+            width: "calc(100vw - 20px)",
+            height: 55,
+            zIndex: 999,
+            background: addHslAlpha(palette[2], 0.9),
+            backdropFilter: "blur(10px)",
+            top: "10px",
+            borderRadius: 999,
+            left: "10px",
+          }}
+        >
+          <Button
+            sx={{
+              color: palette[8],
+              px: 1,
+              ...(!title.includes("•") && {
+                minWidth: 0,
+              }),
+            }}
+            size="large"
+            onClick={() => setOpen(true)}
+          >
+            <Icon>expand_all</Icon>
+            {title.includes("•") ? title.split("•")[0] : ""}
+          </Button>
+          <SearchTasks setOpen={setOpen} />
+        </Box>
+      )}
+      {isMobile && <Box sx={{ height: "65px" }} />}
+      <Box sx={{ display: "flex" }}>
+        <SwipeableDrawer
+          anchor="bottom"
+          onClose={() => {
+            setOpen(false);
+            vibrate(50);
+          }}
+          open={open}
+          PaperProps={{
+            sx: {
+              pb: 2,
+              maxHeight: "90vh",
+            },
+          }}
+          sx={{ zIndex: 999999999999 }}
+        >
+          <Puller />
+          <Box sx={{ p: 1, pt: 0, mt: -2 }}>{menuChildren}</Box>
+        </SwipeableDrawer>
+        <Box
+          sx={{
+            width: { xs: "100%", md: 300 },
+            flex: { xs: "100%", md: "0 0 250px" },
+            ml: -1,
+            p: 3,
+            px: 2,
+            background: addHslAlpha(palette[2], 0.4),
+            borderRight: "2px solid",
+            borderColor: addHslAlpha(palette[2], 0.9),
+            display: { xs: "none", md: "flex" },
+            minHeight: "100vh",
+            height: { md: "100vh" },
+            overflowY: { md: "scroll" },
+            flexDirection: "column",
+          }}
+        >
+          {menuChildren}
+        </Box>
+        <Box
+          sx={{
+            maxHeight: { md: "100vh" },
+            minHeight: { md: "100vh" },
+            height: { md: "100vh" },
+            overflowY: { md: "auto" },
+            flexGrow: 1,
+          }}
+          id="boardContainer"
+        >
+          {children}
+        </Box>
       </Box>
-      <Box
-        sx={{
-          maxHeight: { md: "100vh" },
-          minHeight: { md: "100vh" },
-          height: { md: "100vh" },
-          overflowY: { md: "auto" },
-          flexGrow: 1,
-        }}
-        id="boardContainer"
-      >
-        {children}
-      </Box>
-    </Box>
+    </>
   );
 }

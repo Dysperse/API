@@ -8,9 +8,9 @@ import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SearchUser } from "@/components/Profile/SearchUser";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -28,6 +28,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 
 function Page() {
@@ -42,7 +43,11 @@ function Page() {
 
   const isCurrentUser = email === session.user.email;
   const isFollowing =
-    data && data.followers.find((e) => e.followerId === session.user.email);
+    data &&
+    data.followers &&
+    data.followers.find((e) => e.followerId === session.user.email);
+
+  const palette = useColor(data?.color || "gray", session.user.darkMode);
 
   const handleFollowButtonClick = async () => {
     setLoading(true);
@@ -76,8 +81,8 @@ function Page() {
     }
   };
 
-  const styles = data && {
-    color: session.user.darkMode ? colors[data.color][50] : "inherit",
+  const styles = {
+    color: palette[11],
     textAlign: "center",
     width: { sm: "auto" },
     px: 2,
@@ -90,17 +95,15 @@ function Page() {
     },
   };
 
-  const profileCardStyles = data && {
+  const profileCardStyles = {
     border: "1px solid",
-    borderColor: `hsl(240,11%, ${session.user.darkMode ? 20 : 90}%)`,
-    color: `hsl(240,11%, ${session.user.darkMode ? 80 : 20}%)`,
-    boxShadow: `5px 5px 10px hsla(240,11%, ${
-      session.user.darkMode ? 15 : 95
-    }%)`,
+    borderColor: palette[3],
+    color: palette[11],
+    boxShadow: `10px 10px 20px ${palette[3]}`,
     p: 3,
     borderRadius: 5,
     heading: {
-      color: colors[data.color][session.user.darkMode ? "A200" : 600],
+      color: palette[10],
       fontWeight: 600,
       textTransform: "uppercase",
       mb: 0.5,
@@ -116,6 +119,10 @@ function Page() {
     propertyId: session.property.propertyId,
   });
 
+  useHotkeys("esc", () => {
+    router.push("/users");
+  });
+
   return (
     <Box
       sx={{
@@ -124,7 +131,7 @@ function Page() {
         left: 0,
         width: "100vw",
         height: "100vh",
-        background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%)`,
+        background: palette[1],
         zIndex: 999,
         overflow: "auto",
       }}
@@ -132,7 +139,7 @@ function Page() {
       <Head>
         <title>{data ? data.name : `Profile`}</title>
       </Head>
-      {isCurrentUser && data && (
+      {isCurrentUser && data?.color && (
         <LoadingButton
           loading={loading}
           variant="contained"
@@ -146,9 +153,7 @@ function Page() {
             m: 3,
             flexShrink: 0,
             "&, &:hover": {
-              background:
-                colors[data.color][session.user.darkMode ? 900 : 100] +
-                "!important",
+              background: palette[4],
             },
           }}
           size="large"
@@ -165,11 +170,12 @@ function Page() {
       <AppBar
         position="sticky"
         sx={{
-          background: `hsl(240,11%,${session.user.darkMode ? 10 : 100}%,0.5)`,
+          background: palette[1],
+          borderColor: palette[3],
         }}
       >
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
-          <IconButton onClick={() => router.push("/zen")}>
+          <IconButton onClick={() => router.push("/users")}>
             <Icon>west</Icon>
           </IconButton>
           <Typography
@@ -183,7 +189,7 @@ function Page() {
             {data ? data.name : "Profile"}
           </Typography>
           <SearchUser profileCardStyles={profileCardStyles} data={data} />
-          {!isCurrentUser && (
+          {!isCurrentUser && data?.color && (
             <ConfirmationModal
               disabled={!isFollowing}
               title={`Are you sure you want to unfollow ${data?.name}?`}
@@ -198,21 +204,17 @@ function Page() {
                   flexShrink: 0,
                   ...(!loading && data && isFollowing
                     ? {
-                        color:
-                          colors[data.color][
-                            session.user.darkMode ? 100 : 900
-                          ] + "!important",
+                        color: palette[12] + "!important",
+                        background: palette[5] + "!important",
                         "&:hover": {
-                          borderColor: colors[data.color][300] + "!important",
+                          background: palette[6] + "!important",
+                          borderColor: palette[4] + "!important",
                         },
                       }
                     : data && {
                         "&,&:hover": {
-                          background:
-                            colors[data.color][
-                              session.user.darkMode ? 800 : 900
-                            ] + "!important",
-                          color: colors[data.color][50] + "!important",
+                          background: palette[4] + "!important",
+                          color: palette[12] + "!important",
                         },
                       }),
                 }}
@@ -228,13 +230,13 @@ function Page() {
         </Toolbar>
       </AppBar>
       <Container sx={{ my: 5 }}>
-        {error && (
+        {(error || data?.error) && (
           <ErrorHandler
             callback={() => mutate(url)}
             error="On no! We couldn't find the user you were looking for."
           />
         )}
-        {data && email && router ? (
+        {data && data?.color && email && router ? (
           <>
             <Box
               sx={{
@@ -305,8 +307,7 @@ function Page() {
                         },
                         mt: 1,
                         opacity: 0.6,
-                        color:
-                          colors[data.color][session.user.darkMode ? 50 : 900],
+                        color: palette[11],
                         maxWidth: "100%",
                         overflow: "hidden",
                         textAlign: { xs: "center", sm: "left" },
@@ -347,7 +348,7 @@ function Page() {
                     mb: 2,
                     mt: 1,
                     opacity: 0.7,
-                    color: colors[data.color]["800"],
+                    color: palette[9],
                   }}
                 >
                   <Followers styles={styles} data={data} />
@@ -393,7 +394,8 @@ function Page() {
             </Box>
           </>
         ) : (
-          !error && (
+          !error &&
+          !data?.error && (
             <Box
               sx={{
                 display: "flex",
