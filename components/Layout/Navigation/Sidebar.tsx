@@ -114,9 +114,13 @@ export function Sidebar() {
     };
   };
 
-  const shouldHide = ["/users", "/settings", "/coach/routine", "/groups"].find(
-    (path) => router.asPath.includes(path)
-  );
+  const shouldHide = [
+    "/claim-esb",
+    "/users",
+    "/settings",
+    "/coach/routine",
+    "/groups",
+  ].find((path) => router.asPath.includes(path));
 
   return (
     <Box

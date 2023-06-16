@@ -60,6 +60,7 @@ export function BottomNav() {
   const router = useRouter();
 
   const shouldHide = [
+    "/claim-esb",
     "/users",
     "/rooms/",
     "/groups",

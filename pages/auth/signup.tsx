@@ -58,7 +58,7 @@ export default function Prompt() {
             window.close();
             return;
           }
-          router.push("/");
+          router.push(router.query.next ? "/?next=" + router.query.next : "/");
         });
         return;
       })
@@ -86,7 +86,7 @@ export default function Prompt() {
           <Box sx={{ pt: 3 }}>
             <Box sx={{ px: 1 }}>
               <Typography
-                variant="h3"
+                variant="h2"
                 sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
                 className="font-heading"
               >
@@ -213,7 +213,9 @@ export default function Prompt() {
                 />
 
                 <Link
-                  href={`/auth/${router.query.close ? "?close=true" : ""}`}
+                  href={`/auth/${router.query.close ? "?close=true" : ""}${
+                    router.query.next ? "?next=" + router.query.next : ""
+                  }`}
                   legacyBehavior
                 >
                   <Button sx={authStyles.link}>

@@ -376,7 +376,7 @@ export default function Prompt() {
               {step === 1 ? (
                 <Box sx={{ pt: 3 }}>
                   <Typography
-                    variant="h3"
+                    variant="h2"
                     sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
                     className="font-heading"
                   >
@@ -487,7 +487,7 @@ export default function Prompt() {
               ) : step === 2 ? (
                 <Box>
                   <Typography
-                    variant="h3"
+                    variant="h2"
                     sx={{ mb: 1, mt: { xs: 6, sm: 0 } }}
                     className="font-heading"
                   >
@@ -563,7 +563,7 @@ export default function Prompt() {
                 <Link
                   href={`/auth/signup${
                     router.query.close ? "?close=true" : ""
-                  }`}
+                  }${router.query.next ? "?next=" + router.query.next : ""}`}
                   legacyBehavior
                 >
                   <Button sx={authStyles.link}>Create an account</Button>
@@ -571,7 +571,7 @@ export default function Prompt() {
                 <Link
                   href={`/auth/reset-id${
                     router.query.close ? "?close=true" : ""
-                  }`}
+                  }${router.query.next ? "?next=" + router.query.next : ""}`}
                   legacyBehavior
                 >
                   <Button sx={authStyles.link}>I forgot my ID</Button>

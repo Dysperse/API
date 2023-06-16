@@ -108,7 +108,8 @@ export function RenderWithLayout({
             // If the path is onboarding, show the onboarding page.
             window.location.pathname === "/onboarding" ? (
               children
-            ) : data.user.onboardingComplete ? (
+            ) : data.user.onboardingComplete ||
+              window.location.href.includes("/claim-esb") ? (
               // If the onboarding process is complete, show the app.
               <AnimatePresence
                 mode="wait"
@@ -137,7 +138,13 @@ export function RenderWithLayout({
                   left: "50%",
                   transform: "translate(-50%, -50%)",
                 }}
-                onClick={() => router.push("/onboarding")}
+                onClick={() =>
+                  router.push(
+                    router.query.next
+                      ? `/onboarding?next=${router.query.next}`
+                      : "/onboarding"
+                  )
+                }
               >
                 Tap if you&apos;re not being redirected
               </Button>

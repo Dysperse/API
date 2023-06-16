@@ -67,7 +67,7 @@ export default function Onboarding() {
 
   const styles = {
     title: {
-      fontSize: { xs: 50, sm: 30 },
+      fontSize: { xs: 50, sm: 40 },
       mt: { xs: 5, sm: 0 },
       mb: 2,
     },
@@ -324,7 +324,7 @@ export default function Onboarding() {
               "true",
               false,
               async () => {
-                router.push("/");
+                router.push(router.query.next as string || "/");
               },
               false
             );
