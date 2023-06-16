@@ -43,7 +43,7 @@ export function WorkingHours({
   };
 
   const handleSave = useCallback(async () => {
-    const data = await fetchRawApi("user/profile/update", {
+    await fetchRawApi("user/profile/update", {
       email: session.user.email,
       workingHours: JSON.stringify(workingHours),
     });
