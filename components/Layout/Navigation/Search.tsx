@@ -11,7 +11,6 @@ import {
   ListItemText,
   SwipeableDrawer,
   TextField,
-  Typography,
 } from "@mui/material";
 import Router from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -190,6 +189,7 @@ export default function Spotlight() {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleOpen = useCallback(() => setOpen(true), []);
+
   const handleClose = useCallback(() => {
     setOpen(false);
     setInputValue("");
@@ -230,6 +230,24 @@ export default function Spotlight() {
     () => debouncedHandleSearch(inputValue),
     [inputValue, debouncedHandleSearch]
   );
+
+  useHotkeys(
+    "enter",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        e.stopPropagation();
+        setTimeout(() => {
+          const tag: any = document.querySelector(`#activeSearchHighlight`);
+          if (tag) tag.click();
+        }, 500);
+      }
+    },
+    {
+      enableOnFormTags: true,
+    }
+  );
+
   return (
     <SwipeableDrawer
       open={open}
@@ -247,19 +265,6 @@ export default function Spotlight() {
       <Puller showOnDesktop />
       <Box sx={{ px: 2 }}>
         <TextField
-          onKeyDown={(e) => {
-            if (e.code === "Enter") {
-              e.preventDefault();
-              e.stopPropagation();
-              setOpen(false);
-              setTimeout(() => {
-                const tag: any = document.querySelector(
-                  `#activeSearchHighlight`
-                );
-                if (tag) tag.click();
-              }, 500);
-            }
-          }}
           type="text"
           size="small"
           variant="standard"
@@ -277,7 +282,7 @@ export default function Spotlight() {
             },
           }}
           autoFocus
-          placeholder="Jump to..."
+          placeholder="Search..."
           inputRef={ref}
           onChange={(e: any) => {
             setInputValue(e.target.value);
@@ -289,34 +294,38 @@ export default function Spotlight() {
       <Box sx={{ mt: 1, px: 2, flexGrow: 1 }}>
         <Virtuoso
           style={{ height: "100%", maxHeight: "calc(100vh - 100px)" }}
-          totalCount={results.length === 0 ? 1 : results.length}
+          totalCount={results.length + 1}
           itemContent={(index) => {
-            if (results.length === 0) {
+            const result = results[index];
+            if (!results[index]) {
               return (
-                <Box
+                <ListItemButton
+                  key={index}
+                  {...(index == 0 && { id: "activeSearchHighlight" })}
                   sx={{
-                    height: "400px",
-                    maxHeight: "calc(100vh - 100px)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    gap: 2,
+                    mb: 0.2,
+                    transition: "none",
+                    ...(index == 0 && {
+                      background: palette[2],
+                      "& *": {
+                        fontWeight: 700,
+                      },
+                    }),
+                  }}
+                  onClick={() => {
+                    Router.push(`/tasks/search/${inputValue}`);
+                    setTimeout(handleClose, 500);
                   }}
                 >
-                  <picture>
-                    <img
-                      src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
-                      alt="Crying emoji"
-                    />
-                  </picture>
-                  <Typography sx={{ mt: 2 }} variant="h6">
-                    No results found
-                  </Typography>
-                </Box>
+                  <Icon {...(index !== 0 && { className: "outlined" })}>
+                    check_circle
+                  </Icon>
+                  <ListItemText primary={`Search for "${inputValue}"`} />
+                  <Chip size="small" label={index == 0 ? "↵ enter" : "Tasks"} />
+                </ListItemButton>
               );
             }
-
-            const result = results[index];
             const handleClick = () => {
               handleClose();
               setTimeout(result.onTrigger, 500);

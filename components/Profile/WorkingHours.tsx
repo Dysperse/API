@@ -67,11 +67,12 @@ export function WorkingHours({
   };
   const palette = useColor(color, session.user.darkMode);
 
-  return (
+  return !editMode && workingHours.length == 0 ? (
+    <></>
+  ) : (
     <Box
       sx={{
         ...profileCardStyles,
-        ...(!editMode && workingHours.length == 0 && { display: "none" }),
         overflowX: "auto",
       }}
     >
