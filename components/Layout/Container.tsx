@@ -108,8 +108,7 @@ export function RenderWithLayout({
             // If the path is onboarding, show the onboarding page.
             window.location.pathname === "/onboarding" ? (
               children
-            ) : data.user.onboardingComplete ||
-              window.location.href.includes("/claim-esb") ? (
+            ) : data.user.onboardingComplete ? (
               // If the onboarding process is complete, show the app.
               <AnimatePresence
                 mode="wait"

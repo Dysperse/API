@@ -47,8 +47,8 @@ export default function Page() {
         top: 0,
         left: 0,
         background: palette[1],
+        zIndex: 9999,
         width: "100vw",
-        height: "100vh",
       }}
     >
       <Box
