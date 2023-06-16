@@ -42,7 +42,7 @@ const handler = async (req, res) => {
     const events = Object.keys(parsed);
 
     const columnId =
-      "integrations-calendar-" + Math.random().toString(36).substring(7);
+      "integrations-calendar-" + data1.id
 
     for (let i = 0; i < events.length; i++) {
       const id = `integrations-calendar-${events[i]}`;
