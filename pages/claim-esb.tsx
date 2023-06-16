@@ -39,36 +39,47 @@ export default function Page() {
   return (
     <Box
       sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
         position: "fixed",
-        top: "50%",
-        left: "50%",
-        background: palette[2],
-        transform: "translate(-50%, -50%)",
-        p: 3,
-        borderRadius: 5,
-        maxWidth: "calc(100% - 20px)",
-        width: "400px",
+        top: 0,
+        left: 0,
+        background: palette[1],
+        width: "100vw",
+        height: "100vh",
       }}
     >
-      <Typography variant="h3" className="font-heading">
-        {success ? "Claimed!" : "Claim your badge!"}
-      </Typography>
-      <Typography>
-        {success
-          ? "Tap the button below to see your fancy new badge!"
-          : "Thanks for being an early supporter! Tap the button below to claim a special badge on your profile!"}
-      </Typography>
-      <LoadingButton
-        onClick={handleSubmit}
-        loading={loading}
-        fullWidth
-        variant="contained"
-        size="large"
-        sx={{ mt: 2 }}
+      <Box
+        sx={{
+          background: palette[2],
+          p: 3,
+          borderRadius: 5,
+          maxWidth: "calc(100% - 20px)",
+          width: "400px",
+        }}
       >
-        {success ? "View badge" : "Claim"}
-        <Icon>east</Icon>
-      </LoadingButton>
+        <Typography variant="h3" className="font-heading">
+          {success ? "Claimed!" : "Claim your badge!"}
+        </Typography>
+        <Typography>
+          {success
+            ? "Tap the button below to see your fancy new badge!"
+            : "Thanks for being an early supporter! Tap the button below to claim a special badge on your profile!"}
+        </Typography>
+        <LoadingButton
+          onClick={handleSubmit}
+          loading={loading}
+          fullWidth
+          variant="contained"
+          size="large"
+          sx={{ mt: 2 }}
+        >
+          {success ? "View badge" : "Claim"}
+          <Icon>east</Icon>
+        </LoadingButton>
+      </Box>
     </Box>
   );
 }

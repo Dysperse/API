@@ -2,15 +2,9 @@ import { prisma } from "@/lib/server/prisma";
 
 export default async function handler(req, res) {
   try {
-    const user = await prisma.user.findUniqueOrThrow({
-      where: {
-        identifier: req.query.userIdentifier || "-1",
-      },
-    });
-    const id = user?.id;
     const data = await prisma.profile.upsert({
       where: {
-        id,
+        userId: req.query.userIdentifier || "-1",
       },
       update: {
         badges: {
@@ -19,7 +13,7 @@ export default async function handler(req, res) {
       },
       create: {
         user: {
-          connect: { id },
+          connect: { identifier: req.query.userIdentifier || "-1" },
         },
         badges: ["Early supporter"],
       },
