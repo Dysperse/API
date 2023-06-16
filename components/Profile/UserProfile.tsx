@@ -21,6 +21,7 @@ import { useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
 
 import { useColor } from "@/lib/client/useColor";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Twemoji } from "react-emoji-render";
 import { toast } from "react-hot-toast";
@@ -39,12 +40,10 @@ export function UserProfile({
 
   const profile = data.Profile;
   const chipStyles = (color = false) => ({
-    ...(color && {
-      background: palette[3],
-      color: palette[11],
-    }),
+    color: palette[11],
+    background: palette[3],
     "& .MuiIcon-root": {
-      ...(color && { color: palette[10] + "!important" }),
+      color: palette[10] + "!important",
       fontVariationSettings:
         '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
     },
@@ -84,6 +83,8 @@ export function UserProfile({
     nextBirthday.diff(today, "day") >= 0
       ? nextBirthday.diff(today, "day")
       : nextBirthday.add(1, "year").diff(today, "day");
+
+  useStatusBar(palette[1]);
 
   return (
     <Box>
