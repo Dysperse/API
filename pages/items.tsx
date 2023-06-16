@@ -3,6 +3,7 @@ import { OptionsGroup } from "@/components/OptionsGroup";
 import { CreateRoom } from "@/components/Rooms/items/CreateRoom";
 import { Rooms } from "@/components/Rooms/items/Rooms";
 import { rooms } from "@/components/Rooms/rooms";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
@@ -22,8 +23,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { createContext, useState } from "react";
 import { mutate } from "swr";
-import { Navbar } from "./zen";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { Navbar } from ".";
 
 const Action = dynamic(() => import("@/components/Rooms/Action"));
 

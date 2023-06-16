@@ -17,7 +17,7 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
-import { Navbar } from "../zen";
+import { Navbar } from "..";
 
 export default function Render() {
   const session = useSession();

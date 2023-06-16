@@ -17,8 +17,8 @@ const moduleExports = {
     async redirects() {
       return [
         {
-          source: "/",
-          destination: "/zen",
+          source: "/zen",
+          destination: "/",
           permanent: false,
         },
         {

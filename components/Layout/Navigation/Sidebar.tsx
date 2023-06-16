@@ -2,7 +2,7 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
-import { Logo } from "@/pages/zen";
+import { Logo } from "@/pages";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
