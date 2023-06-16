@@ -69,7 +69,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     },
     {
       title: "Start",
-      onTrigger: () => router.push("/zen"),
+      onTrigger: () => router.push("/"),
       icon: "change_history",
     },
     {

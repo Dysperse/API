@@ -87,7 +87,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   );
 
   useHotkeys("esc", () => {
-    router.push("/zen");
+    router.push("/");
   });
 
   return (

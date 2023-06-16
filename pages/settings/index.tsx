@@ -14,6 +14,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -69,18 +70,6 @@ export default function Layout({ children }: any) {
   });
 
   const isMobile = useMediaQuery("(max-width: 900px)");
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () => {
-    setOpen(false);
-    setAnchorEl(null);
-  };
-
-  const openGroupSettings = () => {
-    handleClose();
-    document.getElementById("activeProperty")?.click();
-  };
 
   const sidebar = (
     <>
@@ -162,7 +151,7 @@ export default function Layout({ children }: any) {
         </Button>
       </ConfirmationModal>
       {!isMobile && (
-        <Link href="/zen" style={{ cursor: "default" }} ref={closeRef}>
+        <Link href="/" style={{ cursor: "default" }} ref={closeRef}>
           <Button sx={styles(false)}>
             <Icon>close</Icon>Close
           </Button>
@@ -193,11 +182,24 @@ export default function Layout({ children }: any) {
             minHeight: "100vh",
             height: "100vh",
             overflowY: "scroll",
-            display: "flex",
-            flexDirection: "column",
+            "& .container": {
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+            },
           }}
         >
-          {sidebar}
+          <motion.div
+            initial={{
+              x: -100,
+            }}
+            className="container"
+            animate={{
+              x: 0,
+            }}
+          >
+            {sidebar}
+          </motion.div>
         </Box>
       )}
       {isMobile && (
@@ -255,7 +257,7 @@ export default function Layout({ children }: any) {
                   )}
                 </Button>
                 <IconButton
-                  onClick={() => router.push("/zen")}
+                  onClick={() => router.push("/")}
                   sx={{ ml: "auto" }}
                 >
                   <Icon>close</Icon>

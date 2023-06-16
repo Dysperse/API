@@ -106,11 +106,10 @@ export function BottomNav() {
       }}
     >
       <Box
-        onClick={() => router.push("/zen")}
+        onClick={() => router.push("/")}
         sx={styles(
           router.asPath === "/" ||
             router.asPath === "" ||
-            router.asPath.includes("/zen") ||
             router.asPath.includes("/mood-history")
         )}
       >
@@ -118,7 +117,6 @@ export function BottomNav() {
           className={`material-symbols-${
             router.asPath === "/" ||
             router.asPath === "" ||
-            router.asPath.includes("/zen") ||
             router.asPath.includes("/mood-history")
               ? "rounded"
               : "outlined"

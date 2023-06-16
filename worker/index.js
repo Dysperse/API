@@ -40,11 +40,11 @@ self.addEventListener("notificationclick", function (event) {
       const regex = /^routine-(\d+)$/;
       const match = event.action.match(regex);
       if (match) {
-        path = `/zen/#/routine-${match[1]}`;
+        path = `/#/routine-${match[1]}`;
       }
 
       if (event.action.match(/^dailyCheckIn-(\d+)$/)) {
-        path = `/zen/#/dailyCheckIn-${match[1]}`;
+        path = `/#/dailyCheckIn-${match[1]}`;
       }
   }
 

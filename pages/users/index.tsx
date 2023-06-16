@@ -396,7 +396,7 @@ export default function Page() {
     >
       <AppBar position="sticky">
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
-          <IconButton onClick={() => router.push("/zen")}>
+          <IconButton onClick={() => router.push("/")}>
             <Icon>west</Icon>
           </IconButton>
           <Typography

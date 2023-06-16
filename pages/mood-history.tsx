@@ -56,7 +56,7 @@ export default function History() {
 
   useHotkeys("esc", (e) => {
     e.preventDefault();
-    router.push("/zen");
+    router.push("/");
   });
 
   const styles = {
@@ -80,7 +80,7 @@ export default function History() {
       <Head>
         <title>Mood history &bull; Mental health</title>
       </Head>
-      <Link href="/zen">
+      <Link href="/">
         <Button size="small" variant="contained" sx={{ mb: 5 }}>
           <Icon>west</Icon>
           Back

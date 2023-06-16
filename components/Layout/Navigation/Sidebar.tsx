@@ -21,7 +21,6 @@ export function Sidebar() {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const useOutlinedTheme =
-    router.asPath === "/zen" ||
     router.asPath === "/coach" ||
     router.asPath === "/" ||
     router.asPath === "/mood-history" ||
@@ -70,6 +69,15 @@ export function Sidebar() {
   );
 
   useHotkeys(
+    "ctrl+comma",
+    (e) => {
+      e.preventDefault();
+      router.push(`/settings`);
+    },
+    [open]
+  );
+
+  useHotkeys(
     "ctrl+p",
     (e) => {
       e.preventDefault();
@@ -82,7 +90,7 @@ export function Sidebar() {
     "ctrl+shift+1",
     (e) => {
       e.preventDefault();
-      router.push("/zen");
+      router.push("/");
     },
     [open]
   );
@@ -182,20 +190,14 @@ export function Sidebar() {
       {!isMobile && <Logo intensity={7} />}
       <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
-        sx={styles(
-          router.asPath === "/zen" ||
-            router.asPath === "/" ||
-            router.asPath === "/mood-history"
-        )}
-        onClick={() => router.push("/zen")}
-        onMouseDown={() => router.push("/zen")}
+        sx={styles(router.asPath === "/" || router.asPath === "/mood-history")}
+        onClick={() => router.push("/")}
+        onMouseDown={() => router.push("/")}
       >
         <Tooltip title="Start" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath === "/zen" ||
-              router.asPath === "/" ||
-              router.asPath === "/mood-history"
+              router.asPath === "/" || router.asPath === "/mood-history"
                 ? "rounded"
                 : "outlined"
             }`}

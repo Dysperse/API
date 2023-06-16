@@ -232,7 +232,7 @@
       "name": "Start",
       "short_name": "Start",
       "description": "View your home page",
-      "url": "/zen",
+      "url": "/",
       "icons": [{ "src": "/shortcuts/1.png", "sizes": "192x192" }]
     },
     {
