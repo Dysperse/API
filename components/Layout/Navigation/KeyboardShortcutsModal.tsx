@@ -49,12 +49,16 @@ export default function KeyboardShortcutsModal() {
                 keys: ["ctrl", "k"],
               },
               {
-                name: "Toggle group list",
+                name: "Go to group",
+                keys: ["ctrl", "g"],
+              },
+              {
+                name: "Go to my profile",
                 keys: ["ctrl", "p"],
               },
               {
-                name: "View active group",
-                keys: ["ctrl", "shift", ","],
+                name: "Go to my friends",
+                keys: ["ctrl", "u"],
               },
               {
                 name: "Toggle app drawer",

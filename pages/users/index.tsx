@@ -1,5 +1,5 @@
 import { ErrorHandler } from "@/components/Error";
-import { PropertyButton } from "@/components/Layout/Navigation/UserMenu";
+import { PropertyButton } from "@/components/Layout/Navigation/PropertyButton";
 import { Puller } from "@/components/Puller";
 import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
@@ -439,55 +439,58 @@ export default function Page() {
           }}
         >
           {data ? (
-            <Box sx={{ width: "100%" }}>
-              <Typography
-                variant="h6"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  mt: 3,
-                  px: { xs: 2, sm: 0 },
-                  mb: 1,
-                }}
-              >
-                Profile
-              </Typography>
-              <ListItemButton
-                sx={{
-                  borderRadius: { xs: 0, sm: 3 },
-                  background: {
-                    sm: palette[2],
-                  },
-                  "& *": {
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  },
-                }}
-                onClick={() => router.push(`/users/${session.user.email}`)}
-              >
-                <Avatar
-                  src={data.user?.Profile?.picture}
+            <>
+              <Box sx={{ width: "100%" }}>
+                <Typography
+                  variant="h6"
                   sx={{
-                    height: 50,
-                    width: 50,
-                    fontSize: 20,
-                    textTransform: "uppercase",
-                    background: `linear-gradient(${palette[9]} 30%, ${palette[6]})`,
+                    display: "flex",
+                    alignItems: "center",
+                    mt: 3,
+                    px: { xs: 2, sm: 0 },
+                    mb: 1,
                   }}
                 >
-                  {data.user.name.trim().charAt(0)}
-                  {data.user.name.includes(" ")
-                    ? data.user.name.split(" ")[1].charAt(0)
-                    : data.user.name.charAt(1)}
-                </Avatar>
-                <ListItemText
-                  primary={session.user.name}
-                  secondary={session.user.email}
-                />
-                <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-              </ListItemButton>
-            </Box>
+                  Profile
+                </Typography>
+                <ListItemButton
+                  sx={{
+                    borderRadius: { xs: 0, sm: 3 },
+                    background: {
+                      sm: palette[2],
+                    },
+                    "& *": {
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    },
+                  }}
+                  onClick={() => router.push(`/users/${session.user.email}`)}
+                >
+                  <Avatar
+                    src={data.user?.Profile?.picture}
+                    sx={{
+                      height: 50,
+                      width: 50,
+                      fontSize: 20,
+                      textTransform: "uppercase",
+                      background: `linear-gradient(${palette[9]} 30%, ${palette[6]})`,
+                    }}
+                  >
+                    {data.user.name.trim().charAt(0)}
+                    {data.user.name.includes(" ")
+                      ? data.user.name.split(" ")[1].charAt(0)
+                      : data.user.name.charAt(1)}
+                  </Avatar>
+                  <ListItemText
+                    primary={session.user.name}
+                    secondary={session.user.email}
+                  />
+                  <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+                </ListItemButton>
+              </Box>
+              <GroupModal />
+            </>
           ) : error ? (
             <ErrorHandler
               callback={() => mutate(url)}
@@ -506,7 +509,6 @@ export default function Page() {
               <CircularProgress />
             </Box>
           )}
-          <GroupModal />
         </Box>
         <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
           Birthdays

@@ -52,6 +52,33 @@ export function Sidebar() {
   };
 
   useHotkeys(
+    "ctrl+g",
+    (e) => {
+      e.preventDefault();
+      router.push(`/groups/${session.property.propertyId}`);
+    },
+    [open]
+  );
+
+  useHotkeys(
+    "ctrl+u",
+    (e) => {
+      e.preventDefault();
+      router.push(`/users`);
+    },
+    [open]
+  );
+
+  useHotkeys(
+    "ctrl+p",
+    (e) => {
+      e.preventDefault();
+      router.push(`/users/${session.user.email}`);
+    },
+    [open]
+  );
+
+  useHotkeys(
     "ctrl+shift+1",
     (e) => {
       e.preventDefault();
