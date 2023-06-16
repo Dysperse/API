@@ -42,6 +42,9 @@ export function UserProfile({
   const chipStyles = (color = false) => ({
     color: palette[11],
     background: palette[3],
+    "&:hover": {
+      background: palette[4],
+    },
     "& .MuiIcon-root": {
       color: palette[10] + "!important",
       fontVariationSettings:

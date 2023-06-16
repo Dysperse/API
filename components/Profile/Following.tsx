@@ -1,4 +1,7 @@
 import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useColor } from "@/lib/client/useColor";
+import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   CardActionArea,
@@ -13,6 +16,8 @@ import { Virtuoso } from "react-virtuoso";
 
 export function Following({ styles, data }): JSX.Element {
   const [open, setOpen] = useState(false);
+  const session = useSession();
+  const palette = useColor(data.color, session.user.darkMode);
 
   return (
     <>
@@ -28,13 +33,26 @@ export function Following({ styles, data }): JSX.Element {
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
+        BackdropProps={{
+          sx: {
+            background: addHslAlpha(palette[1], 0.5) + " !important",
+          },
+        }}
         PaperProps={{
           sx: {
+            background: palette[1],
             height: "calc(100vh - 200px)",
           },
         }}
       >
-        <Puller showOnDesktop />
+        <Puller
+          showOnDesktop
+          sx={{
+            "& .puller": {
+              background: palette[4],
+            },
+          }}
+        />
         <Box sx={{ p: 2, pt: 0 }}>
           <Typography variant="h6">
             {data.following.length} following

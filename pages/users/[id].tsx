@@ -45,7 +45,7 @@ function Page() {
   const isFollowing =
     data &&
     data.followers &&
-    data.followers.find((e) => e.followerId === session.user.email);
+    data.followers.find((e) => e.follower.email === session.user.email);
 
   const palette = useColor(data?.color || "gray", session.user.darkMode);
 
