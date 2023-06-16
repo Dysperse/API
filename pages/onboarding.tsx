@@ -324,7 +324,7 @@ export default function Onboarding() {
               "true",
               false,
               async () => {
-                router.push(router.query.next as string || "/");
+                setTimeout(() => {router.push(router.query.next as string || "/");}, 1000)
               },
               false
             );
