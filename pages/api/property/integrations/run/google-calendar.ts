@@ -41,8 +41,7 @@ const handler = async (req, res) => {
     const parsed = ical.parseICS(calendar);
     const events = Object.keys(parsed);
 
-    const columnId =
-      "integrations-calendar-" + data1.id
+    const columnId = "integrations-calendar-" + data1.id;
 
     for (let i = 0; i < events.length; i++) {
       const id = `integrations-calendar-${events[i]}`;
