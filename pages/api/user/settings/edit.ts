@@ -45,6 +45,10 @@ const handler = async (req, res) => {
     },
   });
   cacheData.clear();
+  cacheData.clear();
+  cacheData.clear();
+  cacheData.clear();
+  cacheData.clear();
   res.json(user);
 };
 export default handler;
