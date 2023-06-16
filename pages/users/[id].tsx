@@ -261,16 +261,30 @@ function Page() {
                 <Box
                   sx={{
                     display: "flex",
+                    maxWidth: "100%",
                     alignItems: "center",
+                    minWidth: 0,
+                    overflow: "hidden",
                     gap: 2,
                     flexDirection: { xs: "column", sm: "row" },
                     justifyContent: { xs: "center", sm: "flex-start" },
                   }}
                 >
-                  <Box>
+                  <Box
+                    sx={{
+                      maxWidth: "100%",
+                      minWidth: 0,
+                    }}
+                  >
                     <Typography
                       variant="h4"
-                      sx={{ textAlign: { xs: "center", sm: "left" } }}
+                      sx={{
+                        textAlign: { xs: "center", sm: "left" },
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        maxWidth: "100%",
+                        minWidth: 0,
+                      }}
                     >
                       {editMode ? (
                         <TextField
