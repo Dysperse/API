@@ -33,6 +33,7 @@ import {
 import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
 import * as colors from "@radix-ui/colors";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -75,7 +76,7 @@ export default function Onboarding() {
 
   const content = [
     <>
-      <Typography variant="h3" className="font-heading" sx={styles.title}>
+      <Typography variant="h5" className="font-heading" sx={styles.title}>
         Welcome to Dysperse!
       </Typography>
       <Typography variant="body1">
@@ -85,7 +86,7 @@ export default function Onboarding() {
     </>,
     <>
       <Typography variant="h5" sx={styles.title} className="font-heading">
-        Choose your look &amp; feel
+        Look &amp; feel
       </Typography>
       <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
         <span style={{ opacity: 0.6 }}>#1 </span>
@@ -324,7 +325,7 @@ export default function Onboarding() {
               "true",
               false,
               async () => {
-                router.push(router.query.next as string || "/");
+                router.push((router.query.next as string) || "/");
               },
               false
             );
@@ -349,55 +350,62 @@ export default function Onboarding() {
   }) {
     return forStep === currentStep ? (
       <Box sx={{ pb: { xs: 10, sm: 0 } }}>
-        {content}
-        <Box
-          sx={{
-            justifyContent: "flex-end",
-            mt: 2,
-            position: { xs: "fixed", sm: "unset" },
-            zIndex: 99999,
-            bottom: 0,
-            left: 0,
-            width: { xs: "100%" },
-            backdropFilter: "blur(10px)",
-            p: { xs: 2, sm: 0 },
-            display: "flex",
-            ...(currentStep + 1 === contentLength && {
-              display: "none",
-            }),
-            alignItems: "center",
-            gap: 2,
-          }}
+        <motion.div
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
         >
-          <Button
-            variant="outlined"
-            size="large"
+          <Box sx={{ mt: 2 }} />
+          {content}
+          <Box
             sx={{
-              display: currentStep === 0 ? "none" : "inline-flex",
-              borderRadius: 9999,
-              px: 2,
-              minWidth: "auto",
-            }}
-            onClick={() => {
-              setStep(currentStep - 1);
+              justifyContent: "flex-end",
+              mt: 2,
+              position: { xs: "fixed", sm: "sticky" },
+              zIndex: 99999,
+              bottom: 0,
+              left: 0,
+              width: { xs: "100%" },
+              backdropFilter: { xs: "blur(10px)", sm: "none" },
+              p: { xs: 2, sm: 0 },
+              display: "flex",
+              ...(currentStep + 1 === contentLength && {
+                display: "none",
+              }),
+              alignItems: "center",
+              gap: 2,
             }}
           >
-            <Icon>west</Icon>
-          </Button>
-          <Button
-            onClick={() => setCurrentStep(currentStep + 1)}
-            variant="contained"
-            size="large"
-            sx={{
-              borderRadius: 9999,
-              px: 3,
-              width: { xs: "100%", sm: "auto" },
-            }}
-          >
-            Continue
-            <Icon sx={{ ml: "auto" }}>east</Icon>
-          </Button>
-        </Box>
+            <Button
+              variant="outlined"
+              size="large"
+              sx={{
+                display: currentStep === 0 ? "none" : "inline-flex",
+                borderRadius: 9999,
+                px: 2,
+                minWidth: "auto",
+                backdropFilter: "blur(5px)",
+              }}
+              onClick={() => {
+                setStep(currentStep - 1);
+              }}
+            >
+              <Icon>west</Icon>
+            </Button>
+            <Button
+              onClick={() => setCurrentStep(currentStep + 1)}
+              variant="contained"
+              size="large"
+              sx={{
+                borderRadius: 9999,
+                px: 3,
+                width: { xs: "100%", sm: "auto" },
+              }}
+            >
+              Continue
+              <Icon sx={{ ml: "auto" }}>east</Icon>
+            </Button>
+          </Box>
+        </motion.div>
       </Box>
     ) : null;
   }
@@ -453,61 +461,63 @@ export default function Onboarding() {
           backdropFilter: "blur(20px)",
         }}
       />
-      <Box
-        sx={{
-          position: "fixed",
-          top: { xs: 0, sm: "50%" },
-          left: { xs: 0, sm: "50%" },
-          transform: { xs: 0, sm: "translate(-50%, -50%)" },
-          zIndex: 2,
-          maxHeight: { xs: "100vh", sm: "80vh" },
-          height: { xs: "100vh", sm: "auto" },
-          overflowY: "auto",
-          maxWidth: { xs: "100vw", sm: "calc(100vw - 40px)" },
-          width: { xs: "100vw", sm: "500px" },
-          backgroundColor: palette[1],
-          boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
-          color: palette[12],
-          borderRadius: { xs: 0, sm: "20px" },
-          p: { xs: "7px", sm: "28px" },
-          pt: { xs: 0, sm: "20px" },
-          WebkitAppRegion: "no-drag",
-        }}
-        id="onboardingContainer"
-      >
-        <Stepper
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <Box
           sx={{
-            p: 1,
-            mt: 2,
-            position: "sticky",
-            backdropFilter: "blur(20px)",
-            zIndex: 999,
-            top: "20px",
-            borderRadius: 999,
-            width: "100%",
+            position: "fixed",
+            top: { xs: 0, sm: "50%" },
+            left: { xs: 0, sm: "50%" },
+            transform: { xs: 0, sm: "translate(-50%, -50%)" },
+            zIndex: 2,
+            maxHeight: { xs: "100vh", sm: "80vh" },
+            height: { xs: "100vh", sm: "auto" },
+            overflowY: "auto",
+            maxWidth: { xs: "100vw", sm: "calc(100vw - 40px)" },
+            width: { xs: "100vw", sm: "500px" },
+            backgroundColor: palette[1],
+            boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
+            color: palette[12],
+            borderRadius: { xs: 0, sm: "20px" },
+            p: { xs: "7px", sm: "20px" },
+            pt: { xs: 0, sm: "20px" },
+            WebkitAppRegion: "no-drag",
           }}
-          activeStep={step}
-          connector={<Connector />}
+          id="onboardingContainer"
         >
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel StepIconComponent={StepIcon} />
-            </Step>
-          ))}
-        </Stepper>
-        <Box sx={{ p: 2, px: 3 }}>
-          {content.map((_, i) => (
-            <StepContent
-              contentLength={content.length}
-              key={i}
-              forStep={i}
-              currentStep={step}
-              setCurrentStep={setStep}
-              content={content[i]}
-            />
-          ))}
+          <Stepper
+            sx={{
+              p: 1,
+              mt: 2,
+              position: "sticky",
+              backdropFilter: "blur(20px)",
+              zIndex: 999,
+              top: "20px",
+              borderRadius: 999,
+              width: "100%",
+            }}
+            activeStep={step}
+            connector={<Connector />}
+          >
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel StepIconComponent={StepIcon} />
+              </Step>
+            ))}
+          </Stepper>
+          <Box sx={{ p: 2, px: 3 }}>
+            {content.map((_, i) => (
+              <StepContent
+                contentLength={content.length}
+                key={i}
+                forStep={i}
+                currentStep={step}
+                setCurrentStep={setStep}
+                content={content[i]}
+              />
+            ))}
+          </Box>
         </Box>
-      </Box>
+      </motion.div>
     </Box>
   );
 }
