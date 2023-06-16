@@ -72,7 +72,7 @@ export function Sidebar() {
     "ctrl+comma",
     (e) => {
       e.preventDefault();
-      router.push(`/settings`);
+      router.push(`/settings/account`);
     },
     [open]
   );

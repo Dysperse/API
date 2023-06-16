@@ -192,10 +192,13 @@ export default function Layout({ children }: any) {
           <motion.div
             initial={{
               x: -100,
+              opacity: 0,
             }}
+            key="settingsContainer"
             className="container"
             animate={{
               x: 0,
+              opacity: 1,
             }}
           >
             {sidebar}
@@ -238,41 +241,48 @@ export default function Layout({ children }: any) {
           p: { xs: 0, sm: 5 },
         }}
       >
-        {router.asPath !== "/settings" &&
-          (isMobile ? (
-            <AppBar>
-              <Toolbar>
-                <IconButton onClick={() => setOpen(true)}>
-                  <Icon>expand_all</Icon>
-                </IconButton>
-                <Button
-                  size="small"
-                  onClick={() => setOpen(true)}
-                  sx={{ color: "inherit" }}
-                >
-                  {capitalizeFirstLetter(
-                    router.asPath
-                      .replace("/settings/", "")
-                      .replaceAll("-", " ") || "Settings"
-                  )}
-                </Button>
-                <IconButton
-                  onClick={() => router.push("/")}
-                  sx={{ ml: "auto" }}
-                >
-                  <Icon>close</Icon>
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-          ) : (
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-              {capitalizeFirstLetter(
-                router.asPath.replace("/settings/", "").replaceAll("-", " ") ||
-                  "Settings"
-              )}
-            </Typography>
-          ))}
-        <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>{children}</Box>
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          key="settings"
+        >
+          {router.asPath !== "/settings" &&
+            (isMobile ? (
+              <AppBar>
+                <Toolbar>
+                  <IconButton onClick={() => setOpen(true)}>
+                    <Icon>expand_all</Icon>
+                  </IconButton>
+                  <Button
+                    size="small"
+                    onClick={() => setOpen(true)}
+                    sx={{ color: "inherit" }}
+                  >
+                    {capitalizeFirstLetter(
+                      router.asPath
+                        .replace("/settings/", "")
+                        .replaceAll("-", " ") || "Settings"
+                    )}
+                  </Button>
+                  <IconButton
+                    onClick={() => router.push("/")}
+                    sx={{ ml: "auto" }}
+                  >
+                    <Icon>close</Icon>
+                  </IconButton>
+                </Toolbar>
+              </AppBar>
+            ) : (
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+                {capitalizeFirstLetter(
+                  router.asPath
+                    .replace("/settings/", "")
+                    .replaceAll("-", " ") || "Settings"
+                )}
+              </Typography>
+            ))}
+          <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>{children}</Box>
+        </motion.div>
       </Box>
     </Box>
   );
