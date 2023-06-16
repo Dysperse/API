@@ -53,10 +53,13 @@ export function Followers({ styles, data }) {
               <ListItemButton
                 sx={{ borderRadius: 0 }}
                 onClick={() => {
-                  router.push(`/users/${follower.followerId}`);
+                  router.push(`/users/${follower.follower.email}`);
                 }}
               >
-                <ListItemText primary={follower.followerId} />
+                <ListItemText
+                  primary={follower.follower.name}
+                  secondary={follower.follower.email}
+                />
               </ListItemButton>
             );
           }}

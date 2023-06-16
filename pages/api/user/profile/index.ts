@@ -15,8 +15,26 @@ export default async function handler(req, res) {
         color: true,
         name: true,
         email: true,
-        followers: true,
-        following: true,
+        followers: {
+          select: {
+            follower: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
+          },
+        },
+        following: {
+          select: {
+            following: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
+          },
+        },
         Profile: true,
       },
     });

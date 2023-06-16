@@ -255,8 +255,8 @@ export default function Spotlight() {
       anchor="bottom"
       PaperProps={{
         sx: {
-          minHeight: "calc(100vh - 25px)",
-          height: "calc(100vh - 20px)",
+          minHeight: "calc(100vh - 50px)",
+          height: "calc(100vh - 50px)",
           display: "flex",
           flexDirection: "column",
         },
