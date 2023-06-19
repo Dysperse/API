@@ -115,7 +115,7 @@ export function UpdateButton() {
 
   return (
     <>
-      <Backdrop sx={{ zIndex: 9999999 }} open={true}>
+      <Backdrop sx={{ zIndex: 9999999 }} open={showScreen}>
         <Box
           sx={{
             borderRadius: 5,
