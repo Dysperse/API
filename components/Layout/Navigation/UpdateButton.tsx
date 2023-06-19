@@ -1,10 +1,17 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import PWAInstallerPrompt from "@/lib/client/installer";
+import { useColor } from "@/lib/client/useColor";
+import { useSession } from "@/lib/client/useSession";
+import { LoadingButton } from "@mui/lab";
 import {
+  Backdrop,
+  Box,
   CardActionArea,
   CircularProgress,
   Icon,
   IconButton,
   Snackbar,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -13,6 +20,8 @@ export function UpdateButton() {
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   const [asked, setAsked] = useState(false);
+
+  const [showScreen, setShowScreen] = useState(false);
 
   useEffect(() => {
     if (
@@ -45,24 +54,13 @@ export function UpdateButton() {
         // `event.wasWaitingBeforeRegister` will be false if this is the first time the updated service worker is waiting.
         // When `event.wasWaitingBeforeRegister` is true, a previously updated service worker is still waiting.
         // You may want to customize the UI prompt accordingly.
-        if (
-          confirm(
-            "A newer version of Dysperse is available, reload to update?"
-          ) &&
-          !asked
-        ) {
-          setAsked(true);
-          wb.addEventListener("controlling", (event) => {
-            window.location.reload();
-          });
+        setShowScreen(true);
+        wb.addEventListener("controlling", (event) => {
+          window.location.reload();
+        });
 
-          // Send a message to the waiting service worker, instructing it to activate.
-          wb.messageSkipWaiting();
-        } else {
-          console.log(
-            "User rejected to reload the web app, keep using old version. New version will be automatically load when user open the app next time."
-          );
-        }
+        // Send a message to the waiting service worker, instructing it to activate.
+        wb.messageSkipWaiting();
       };
 
       wb.addEventListener("waiting", promptNewVersionAvailable);
@@ -103,8 +101,51 @@ export function UpdateButton() {
     setLoading(true);
   };
 
+  const handleReload = () => {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        registration.unregister();
+      });
+    });
+    window.location.reload();
+  };
+
+  const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   return (
     <>
+      <Backdrop sx={{ zIndex: 9999999 }} open={true}>
+        <Box
+          sx={{
+            borderRadius: 5,
+            background: addHslAlpha(palette[2], 0.9),
+            p: 3,
+            maxWidth: "calc(100% - 30px)",
+          }}
+        >
+          <Typography variant="h3" className="font-heading">
+            Update required
+          </Typography>
+          <Typography variant="body2" sx={{ mt: 1 }}>
+            Your version of Dysperse is out of date. If this is taking too long,
+            try hard refreshing the page (cmd + shift + r)
+          </Typography>
+          <Box sx={{ display: "flex", mt: 2, gap: 2 }}>
+            <LoadingButton variant="outlined" onClick={handleReload} fullWidth>
+              Refresh
+            </LoadingButton>
+            <LoadingButton
+              loading
+              variant="contained"
+              sx={{ ml: "auto" }}
+              fullWidth
+            >
+              Installing...
+            </LoadingButton>
+          </Box>
+        </Box>
+      </Backdrop>
       <PWAInstallerPrompt
         render={({ onClick }) => (
           <Snackbar
