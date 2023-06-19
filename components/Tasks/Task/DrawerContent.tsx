@@ -71,6 +71,11 @@ const videoChatPlatforms = [
   "slack.com",
 ];
 
+function isAddress(str) {
+  const mapUrls = ["maps.google.com"];
+  if (mapUrls.some((url) => str.includes(url))) return true;
+}
+
 export default function DrawerContent({
   handleDelete,
   handleMutate,
@@ -466,19 +471,33 @@ export default function DrawerContent({
                   <Button
                     variant="contained"
                     size="small"
-                    onClick={() => window.open(data.where)}
+                    onClick={() => {
+                      if (isAddress(data.where)) {
+                        window.open(
+                          `https://maps.google.com/?q=${encodeURIComponent(
+                            data.where
+                          )}`
+                        );
+                        return;
+                      }
+                      window.open(data.where);
+                    }}
                   >
                     <Icon>
                       {videoChatPlatforms.find((platform) =>
                         data.where.includes(platform)
                       )
                         ? "call"
+                        : isAddress(data.where)
+                        ? "location_on"
                         : "link"}
                     </Icon>
                     {videoChatPlatforms.find((platform) =>
                       data.where.includes(platform)
                     )
                       ? "Call"
+                      : isAddress(data.where)
+                      ? "Maps"
                       : "Open"}
                   </Button>
                 </InputAdornment>
