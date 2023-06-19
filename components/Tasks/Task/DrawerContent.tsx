@@ -74,6 +74,8 @@ const videoChatPlatforms = [
 function isAddress(str) {
   const mapUrls = ["maps.google.com"];
   if (mapUrls.some((url) => str.includes(url))) return true;
+  if (str.includes(", ")) return true;
+  if (str.includes(" - ")) return true;
 }
 
 export default function DrawerContent({
