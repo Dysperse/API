@@ -158,11 +158,14 @@ export default function Home() {
             sx={{
               px: { xs: 2, sm: 4 },
               fontSize: {
-                xs: "60px",
+                xs: "65px",
                 sm: "80px",
               },
               userSelect: "none",
               overflow: "hidden",
+              background: `linear-gradient(${palette[11]}, ${palette[5]})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
               textOverflow: "ellipsis",
               maxWidth: "100%",
             }}
