@@ -71,6 +71,7 @@ export function Loading(): JSX.Element {
               sm: 1,
               xs: 0.9,
             },
+            border: 0,
           }}
           elevation={0}
         >
@@ -81,18 +82,6 @@ export function Loading(): JSX.Element {
               width={35}
               height={35}
               sx={{
-                maxWidth: "100%",
-              }}
-            />
-            <Skeleton width={75} animation={false} sx={{ ml: 1.5 }} />
-            <Skeleton
-              animation={false}
-              variant="rectangular"
-              sx={{
-                height: 45,
-                borderRadius: 5,
-                mx: "auto",
-                width: { xs: 0, md: "450px", sm: "250px" },
                 maxWidth: "100%",
               }}
             />
@@ -112,11 +101,7 @@ export function Loading(): JSX.Element {
             </Box>
           </Toolbar>
         </AppBar>
-        <Box
-          sx={{
-            display: "flex",
-          }}
-        >
+        <Box sx={{ display: "flex" }}>
           {/* Sidebar 1 */}
           <Box
             sx={{
@@ -251,9 +236,9 @@ export function Loading(): JSX.Element {
                   <Box
                     key={i}
                     sx={{
-                      width: "300px",
-                      flex: "0 0 300px",
-                      borderRight: "1px solid",
+                      width: { xs: "100vw", sm: "300px" },
+                      flex: { xs: "0 0 100vw", sm: "0 0 300px" },
+                      borderRight: { sm: "1px solid" },
                       height: "100vh",
                       borderColor:
                         (session?.user && session.user.darkMode) ||
@@ -266,7 +251,6 @@ export function Loading(): JSX.Element {
                       sx={{
                         p: 3,
                         borderBottom: "1px solid",
-                        borderTop: { xs: "1px solid", sm: "none" },
                         borderColor:
                           (session?.user && session.user.darkMode) ||
                           defaultDarkMode
@@ -278,14 +262,14 @@ export function Loading(): JSX.Element {
                         variant="rectangular"
                         animation={false}
                         height={50}
-                        width={50}
+                        width={100}
                         sx={{ borderRadius: 3, mb: 2 }}
                       />
                       <Skeleton
                         variant="rectangular"
                         animation={false}
                         height={20}
-                        width={"100%"}
+                        width={75}
                         sx={{ borderRadius: 1.5 }}
                       />
                     </Box>
