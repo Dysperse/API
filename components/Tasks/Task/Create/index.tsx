@@ -145,14 +145,15 @@ export function CreateTask({
     [open]
   );
 
-  const styles = {
-    color: `hsl(240,11%,${session.user.darkMode ? 90 : 30}%)`,
-    "&:hover": {
-      color: session.user.darkMode ? "#fff" : "#000",
-    },
+  const styles = (palette, active) => ({
+    color: palette[12],
+    ...(active && {
+      background: palette[4] + "!important",
+      color: palette[11] + "!important",
+    }),
     borderRadius: 3,
     transition: "none",
-  };
+  });
 
   useEffect(() => {
     if (
@@ -462,14 +463,7 @@ export function CreateTask({
               <Tooltip title="Mark as important (alt • a)" placement="top">
                 <IconButton
                   onClick={togglePin}
-                  sx={{
-                    ...styles,
-                    background: pinned
-                      ? session.user.darkMode
-                        ? "hsl(240,11%,20%)"
-                        : "#ddd !important"
-                      : "",
-                  }}
+                  sx={styles(palette, pinned)}
                   size="small"
                 >
                   <Icon className={pinned ? "rounded" : "outlined"}>
@@ -477,7 +471,11 @@ export function CreateTask({
                   </Icon>
                 </IconButton>
               </Tooltip>
-              <ImageModal styles={styles} image={image} setImage={setImage} />
+              <ImageModal
+                styles={styles(palette, false)}
+                image={image}
+                setImage={setImage}
+              />
               <Tooltip title="Insert emoji (alt • e)" placement="top">
                 <div>
                   <EmojiPicker
@@ -495,7 +493,7 @@ export function CreateTask({
                   >
                     <IconButton
                       onClick={() => vibrate(50)}
-                      sx={styles}
+                      sx={styles(palette, false)}
                       size="small"
                     >
                       <Icon className="outlined">mood</Icon>
@@ -507,13 +505,8 @@ export function CreateTask({
                 <IconButton
                   onClick={toggleDescription}
                   sx={{
-                    ...styles,
+                    ...styles(palette, showDescription),
                     mx: 0.5,
-                    background: showDescription
-                      ? session.user.darkMode
-                        ? "hsl(240,11%,20%)"
-                        : "#ddd !important"
-                      : "",
                   }}
                   size="small"
                 >
@@ -532,7 +525,7 @@ export function CreateTask({
                 {!isSubTask && (
                   <SelectDateModal
                     ref={dateModalButtonRef}
-                    styles={styles}
+                    styles={styles(palette, false)}
                     date={date}
                     setDate={(e) => {
                       setDate(e);

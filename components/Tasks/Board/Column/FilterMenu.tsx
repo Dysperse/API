@@ -74,6 +74,25 @@ export function FilterMenu({
         >
           Oldest to newest
         </MenuItem>
+
+        <MenuItem
+          onClick={() =>
+            handleMenuClick(
+              (a, b) => (new Date(a.due) as any) - (new Date(b.due) as any)
+            )
+          }
+        >
+          Due date (ascending)
+        </MenuItem>
+        <MenuItem
+          onClick={() =>
+            handleMenuClick(
+              (a, b) => (new Date(b.due) as any) - (new Date(a.due) as any)
+            )
+          }
+        >
+          Due date (descending)
+        </MenuItem>
       </Menu>
       {trigger}
     </>
