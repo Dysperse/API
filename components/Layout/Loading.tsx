@@ -240,11 +240,12 @@ export function Loading(): JSX.Element {
                       flex: { xs: "0 0 100vw", sm: "0 0 300px" },
                       borderRight: { sm: "1px solid" },
                       height: "100vh",
-                      borderColor:
+                      borderColor: `hsl(240,11%,${
                         (session?.user && session.user.darkMode) ||
                         defaultDarkMode
-                          ? "hsl(240,11%,13%)"
-                          : "rgba(200,200,200,.3)",
+                          ? 13
+                          : 95
+                      }%)!important`,
                     }}
                   >
                     <Box
