@@ -17,8 +17,8 @@ export function Puller({
 }) {
   const session = useSession();
   const palette = useColor(
-    session?.themeColor || "gray",
-    session?.user?.darkMode || "false"
+    session?.themeColor ?? "gray",
+    session?.user?.darkMode ?? "false"
   );
 
   return (
