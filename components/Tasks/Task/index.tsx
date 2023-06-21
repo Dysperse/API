@@ -23,6 +23,7 @@ import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
+import { isAddress, isValidHttpUrl, videoChatPlatforms } from "./DrawerContent";
 import { TaskDrawer } from "./TaskDrawer";
 
 const ImageViewer = dynamic(() =>
@@ -252,7 +253,9 @@ export const Task: any = function Task({
                 {taskData.image && (
                   <ImageViewer trimHeight url={taskData.image} />
                 )}
-                <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                <Box
+                  sx={{ display: "flex", gap: 1, flexWrap: "wrap", mt: 0.5 }}
+                >
                   {taskData.pinned && (
                     <ConfirmationModal
                       title="Change priority?"
@@ -275,7 +278,6 @@ export const Task: any = function Task({
                         <Chip
                           size="small"
                           sx={{
-                            mt: 0.5,
                             background:
                               (session.user.darkMode
                                 ? "#642302"
@@ -311,7 +313,6 @@ export const Task: any = function Task({
                         size="small"
                         className="date"
                         label={dayjs(taskData.due).fromNow()}
-                        sx={{ mt: 0.5 }}
                         icon={
                           <Icon
                             className="outlined"
@@ -322,6 +323,44 @@ export const Task: any = function Task({
                         }
                       />
                     </Tooltip>
+                  )}
+                  {(isValidHttpUrl(taskData.where) ||
+                    isAddress(taskData.where)) && (
+                    <Chip
+                      label={
+                        videoChatPlatforms.find((platform) =>
+                          taskData.where.includes(platform)
+                        )
+                          ? "Call"
+                          : isAddress(taskData.where)
+                          ? "Maps"
+                          : "Open"
+                      }
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (isAddress(taskData.where)) {
+                          window.open(
+                            `https://maps.google.com/?q=${encodeURIComponent(
+                              taskData.where
+                            )}`
+                          );
+                          return;
+                        }
+                        window.open(taskData.where);
+                      }}
+                      icon={
+                        <Icon>
+                          {videoChatPlatforms.find((platform) =>
+                            taskData.where.includes(platform)
+                          )
+                            ? "call"
+                            : isAddress(taskData.where)
+                            ? "location_on"
+                            : "link"}
+                        </Icon>
+                      }
+                    />
                   )}
                 </Box>
               </>

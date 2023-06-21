@@ -33,7 +33,7 @@ import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./Snooze";
 import { parseEmojis } from "./TaskDrawer";
 
-function isValidHttpUrl(string) {
+export function isValidHttpUrl(string) {
   let url;
 
   try {
@@ -45,7 +45,7 @@ function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-const videoChatPlatforms = [
+export const videoChatPlatforms = [
   "zoom.us",
   "meet.google.com",
   "teams.microsoft.com",
@@ -71,8 +71,9 @@ const videoChatPlatforms = [
   "slack.com",
 ];
 
-function isAddress(str) {
-  if (!str) return;
+export function isAddress(str) {
+  if (!str) return false;
+
   const mapUrls = ["maps.google.com"];
   if (mapUrls.some((url) => str.includes(url))) return true;
 
@@ -86,8 +87,11 @@ function isAddress(str) {
     str.includes(", ") ||
     /\d+\s+[^,]+,\s+[^,]+,\s+\w{2}\s+\d{5}/.test(str) ||
     /^(\d+\s[A-Za-z]+\s[A-Za-z]+(?:,\s[A-Za-z]+)?)$/.test(str)
-  )
+  ) {
     return true;
+  }
+
+  return false;
 }
 
 export default function DrawerContent({
