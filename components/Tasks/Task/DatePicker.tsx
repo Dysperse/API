@@ -155,6 +155,7 @@ export const SelectDateModal: any = function SelectDateModal({
           <Typography
             sx={{
               fontSize: hasTime ? "13px" : "15px",
+              ...(hasTime && { mt: -0.4 }),
               display: { xs: "none", sm: "inline-flex" },
               textAlign: "left",
               justifyContent: "flex-start",
@@ -166,8 +167,10 @@ export const SelectDateModal: any = function SelectDateModal({
             {hasTime && (
               <Typography
                 variant="body2"
-                style={{
-                  fontSize: "10px",
+                sx={{
+                  fontSize: "11px",
+                  mt: -0.5,
+                  mb: -0.5,
                 }}
               >
                 {dayjs(date).format("h:mm a")}
