@@ -41,8 +41,7 @@ const handler = async (req, res) => {
     const parsed = ical.parseICS(calendar);
     const events = Object.keys(parsed);
 
-    const columnId =
-      "integrations-calendar-" + data1.id
+    const columnId = "integrations-calendar-" + data1.id;
 
     for (let i = 0; i < events.length; i++) {
       const id = `integrations-calendar-${events[i]}`;
@@ -51,6 +50,18 @@ const handler = async (req, res) => {
       const due = start ? dayjs(start).utc().format() : null;
 
       if (!summary || !due) continue;
+
+      if (req.query.vanishingTasks === "true") {
+        try {
+          const currentTimeInTimeZone = dayjs().tz(req.query.timeZone);
+          const dueDateInTimeZone = dayjs(due).tz(req.query.timeZone);
+          const diff = currentTimeInTimeZone.diff(dueDateInTimeZone, "day");
+
+          if (diff >= 14) continue;
+        } catch (e) {
+          console.error(e);
+        }
+      }
 
       await prisma.task.upsert({
         where: {

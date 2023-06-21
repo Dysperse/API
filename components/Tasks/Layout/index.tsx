@@ -8,6 +8,7 @@ import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
+  Chip,
   Divider,
   Icon,
   IconButton,
@@ -88,16 +89,43 @@ function SearchTasks({ setOpen }) {
     />
   );
 
+  const createTask = (
+    <Box sx={{ display: "none" }}>
+      <CreateTask
+        closeOnCreate
+        column={{ id: "-1", name: "" }}
+        defaultDate={dayjs().startOf("day")}
+        label="New task"
+        placeholder="Create a task..."
+        mutationUrl={""}
+        boardId={1}
+      />
+    </Box>
+  );
   return isMobile ? (
     <>
       <SwipeableDrawer
         anchor="top"
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        PaperProps={{ sx: { p: 2, borderRadius: "0 0 20px 20px" } }}
+        PaperProps={{ sx: { borderRadius: "0 0 20px 20px" } }}
       >
-        {input}
-        <Puller sx={{ mb: -2 }} />
+        <Box sx={{ p: 2, pt: 3 }}>{input}</Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            overflowX: "auto",
+            opacity: 0.3,
+          }}
+        >
+          <Chip sx={{ ml: 2 }} icon={<Icon>push_pin</Icon>} label="Important" />
+          <Chip icon={<Icon>priority_high</Icon>} label="Completed" />
+          <Chip icon={<Icon>palette</Icon>} label="Has color?" />
+          <Chip icon={<Icon>image</Icon>} label="Has attachment?" />
+        </Box>
+        <Puller sx={{ mb: 0 }} />
       </SwipeableDrawer>
       <IconButton
         sx={{ ml: "auto", color: palette[8] }}
@@ -116,6 +144,7 @@ function SearchTasks({ setOpen }) {
       >
         <Icon>add</Icon>
       </IconButton>
+      {createTask}
     </>
   ) : (
     <Box
@@ -127,17 +156,7 @@ function SearchTasks({ setOpen }) {
       }}
     >
       {input}
-      <Box sx={{ display: "none" }}>
-        <CreateTask
-          closeOnCreate
-          column={{ id: "-1", name: "" }}
-          defaultDate={dayjs().startOf("day")}
-          label="New task"
-          placeholder="Create a task..."
-          mutationUrl={""}
-          boardId={1}
-        />
-      </Box>
+      {createTask}
       <Tooltip
         placement="right"
         title={
