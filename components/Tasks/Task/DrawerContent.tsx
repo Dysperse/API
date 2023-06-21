@@ -72,10 +72,21 @@ const videoChatPlatforms = [
 ];
 
 function isAddress(str) {
+  if (!str) return;
   const mapUrls = ["maps.google.com"];
   if (mapUrls.some((url) => str.includes(url))) return true;
-  if (str.includes(", ")) return true;
-  if (str.includes(" - ")) return true;
+  if (
+    str.test(/^[\w\s.,#-]+$/) ||
+    str.includes(" - ") ||
+    str.includes(" high school") ||
+    str.includes(" elementary school") ||
+    str.includes(" middle school") ||
+    str.includes(" university") ||
+    str.includes(", ") ||
+    str.test(/\d+\s+[^,]+,\s+[^,]+,\s+\w{2}\s+\d{5}/) ||
+    str.test(/^(\d+\s[A-Za-z]+\s[A-Za-z]+(?:,\s[A-Za-z]+)?)$/)
+  )
+    return true;
 }
 
 export default function DrawerContent({
@@ -467,7 +478,7 @@ export default function DrawerContent({
               borderBottom: "1px solid",
               borderColor: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
             },
-            ...(isValidHttpUrl(data.where) && {
+            ...((isValidHttpUrl(data.where) || isAddress(data.where)) && {
               endAdornment: (
                 <InputAdornment position="end">
                   <Button
