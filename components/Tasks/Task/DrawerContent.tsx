@@ -75,16 +75,17 @@ function isAddress(str) {
   if (!str) return;
   const mapUrls = ["maps.google.com"];
   if (mapUrls.some((url) => str.includes(url))) return true;
+
   if (
-    str.test(/^[\w\s.,#-]+$/) ||
+    /^[\w\s.,#-]+$/.test(str) ||
     str.includes(" - ") ||
     str.includes(" high school") ||
     str.includes(" elementary school") ||
     str.includes(" middle school") ||
     str.includes(" university") ||
     str.includes(", ") ||
-    str.test(/\d+\s+[^,]+,\s+[^,]+,\s+\w{2}\s+\d{5}/) ||
-    str.test(/^(\d+\s[A-Za-z]+\s[A-Za-z]+(?:,\s[A-Za-z]+)?)$/)
+    /\d+\s+[^,]+,\s+[^,]+,\s+\w{2}\s+\d{5}/.test(str) ||
+    /^(\d+\s[A-Za-z]+\s[A-Za-z]+(?:,\s[A-Za-z]+)?)$/.test(str)
   )
     return true;
 }
