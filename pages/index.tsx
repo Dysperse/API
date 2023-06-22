@@ -126,6 +126,12 @@ export default function Home() {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
 
+  const { data: coachData } = useApi("user/coach");
+
+  const completedGoals = (coachData || [])
+    .filter((goal) => !goal.completed)
+    .filter((goal) => goal.lastCompleted == dayjs().format("YYYY-MM-DD"));
+
   const listItemStyles = {
     border: "1px solid",
     borderColor: palette[3],
@@ -190,7 +196,24 @@ export default function Home() {
           sx={listItemStyles}
           onClick={() => router.push("/coach/routine")}
         >
-          <ListItemText primary={<b>Daily goals</b>} secondary="Tap to begin" />
+          <ListItemText
+            primary={<b>Daily goals</b>}
+            secondary={`Tap to ${
+              completedGoals.length > 0 ? "resume" : "begin"
+            }`}
+          />
+          {coachData &&
+            completedGoals.length ==
+              coachData.filter((g) => !g.completed).length && (
+              <Icon
+                sx={{
+                  color: green[session.user.darkMode ? "A400" : "A700"],
+                  fontSize: "30px!important",
+                }}
+              >
+                check_circle
+              </Icon>
+            )}
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </ListItemButton>
         <ListItemButton
