@@ -18,9 +18,9 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-  useScrollTrigger,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -493,45 +493,47 @@ export function TasksLayout({ open, setOpen, children }) {
     </>
   );
 
-  const scrollTrigger = useScrollTrigger({
-    disableHysteresis: true,
-  });
-
   return (
     <>
       {isMobile && (
-        <Box
-          sx={{
-            display: "flex",
-            px: "7px",
-            alignItems: "center",
-            position: "fixed",
-            width: "calc(100vw - 20px)",
-            height: 55,
-            zIndex: 999,
-            background: addHslAlpha(palette[2], 0.9),
-            backdropFilter: "blur(10px)",
-            top: "10px",
-            borderRadius: 999,
-            left: "10px",
-          }}
+        <motion.div
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.3, delay: 1 }}
         >
-          <Button
+          <Box
             sx={{
-              color: palette[8],
-              px: 1,
-              ...(!title.includes("•") && {
-                minWidth: 0,
-              }),
+              display: "flex",
+              px: "7px",
+              alignItems: "center",
+              position: "fixed",
+              width: "calc(100vw - 20px)",
+              height: 55,
+              zIndex: 999,
+              background: addHslAlpha(palette[2], 0.9),
+              backdropFilter: "blur(10px)",
+              top: "10px",
+              borderRadius: 999,
+              left: "10px",
             }}
-            size="large"
-            onClick={() => setOpen(true)}
           >
-            <Icon>expand_all</Icon>
-            {title.includes("•") ? title.split("•")[0] : ""}
-          </Button>
-          <SearchTasks setOpen={setOpen} />
-        </Box>
+            <Button
+              sx={{
+                color: palette[8],
+                px: 1,
+                ...(!title.includes("•") && {
+                  minWidth: 0,
+                }),
+              }}
+              size="large"
+              onClick={() => setOpen(true)}
+            >
+              <Icon>expand_all</Icon>
+              {title.includes("•") ? title.split("•")[0] : ""}
+            </Button>
+            <SearchTasks setOpen={setOpen} />
+          </Box>
+        </motion.div>
       )}
       {isMobile && <Box sx={{ height: "65px" }} />}
       <Box sx={{ display: "flex" }}>
