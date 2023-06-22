@@ -199,8 +199,9 @@ export default function Home() {
           <ListItemText
             primary={<b>Daily goals</b>}
             secondary={
+              coachData &&
               completedGoals.length ==
-              (coachData || []).filter((g) => !g.completed).length
+                coachData.filter((g) => !g.completed).length
                 ? null
                 : `Tap to ${completedGoals.length > 0 ? "resume" : "begin"}`
             }
