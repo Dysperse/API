@@ -398,9 +398,15 @@ export default function Spotlight() {
             <Chip
               label={capitalizeFirstLetter(_badge)}
               key={_badge}
-              onClick={() => setBadge(_badge.toLowerCase())}
+              onClick={() => {
+                setBadge(_badge.toLowerCase());
+                ref?.current?.focus();
+              }}
               {...(badge === _badge.toLowerCase() && {
-                onDelete: () => setBadge(null),
+                onDelete: () => {
+                  setBadge(null);
+                  ref?.current?.focus();
+                },
               })}
             />
           ))}
