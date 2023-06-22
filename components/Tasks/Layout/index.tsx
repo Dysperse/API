@@ -148,7 +148,9 @@ function SearchTasks({ setOpen }) {
           document.getElementById("createTask")?.click();
         }}
       >
-        <Icon className="outlined">add_task</Icon>
+        <Icon className="outlined" sx={{ transform: "scale(1.1)" }}>
+          add
+        </Icon>
       </IconButton>
       {createTask}
     </>
