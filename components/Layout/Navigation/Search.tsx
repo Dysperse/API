@@ -12,6 +12,7 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import * as colors from "@radix-ui/colors";
 import Router from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -29,9 +30,31 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
 
   return [
     {
+      title: "Start",
+      onTrigger: () => router.push("/"),
+      icon: "change_history",
+    },
+    {
+      title: "Coach",
+      onTrigger: () => router.push("/coach"),
+      icon: "rocket_launch",
+    },
+    {
+      title: "Daily routine",
+      badge: "Coach",
+      onTrigger: () => router.push("/coach/routine"),
+      icon: "routine",
+    },
+    {
+      title: "Items",
+      onTrigger: () => router.push("/items"),
+      icon: "category",
+    },
+    {
       title: "Days",
       onTrigger: () => router.push("/tasks/agenda/day"),
       icon: "calendar_today",
+      badge: "Agenda",
     },
     {
       title: "Weeks",
@@ -58,35 +81,44 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       badge: "Agenda",
     },
     {
-      title: "Coach",
-      onTrigger: () => router.push("/coach"),
-      icon: "rocket_launch",
-    },
-    {
-      title: "Items",
-      onTrigger: () => router.push("/items"),
-      icon: "category",
-    },
-    {
-      title: "Start",
-      onTrigger: () => router.push("/"),
-      icon: "change_history",
-    },
-    {
-      title: "Light theme",
-      onTrigger: () => {
+      title: "Light mode",
+      badge: "Appearance",
+      onTrigger: async () => {
+        await updateSettings("darkMode", "false");
         mutate("/api/session");
-        updateSettings("darkMode", "false");
       },
       icon: "light_mode",
     },
     {
-      title: "Dark theme",
-      onTrigger: () => {
-        updateSettings("darkMode", "true");
+      title: "Dark mode",
+      badge: "Appearance",
+      onTrigger: async () => {
+        await updateSettings("darkMode", "true");
+        mutate("/api/session");
       },
       icon: "dark_mode",
     },
+
+    ...Object.keys(colors)
+      .filter((color) => !color.includes("Dark"))
+      .filter((color) => !color.endsWith("A"))
+      .map((color) => ({
+        title: `Change color to ${capitalizeFirstLetter(color)}`,
+        badge: "Appearance",
+        onTrigger: () => {
+          updateSettings("color", color.toLowerCase());
+        },
+        icon: (
+          <Box
+            sx={{
+              background: colors[color] && colors[color][color + 9],
+              width: "20px",
+              height: "20px",
+              borderRadius: 999,
+            }}
+          />
+        ),
+      })),
 
     ...["week", "month", "year"].map((e) => {
       return {
@@ -146,7 +178,36 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           };
         })
       : []),
-
+    {
+      title: "Settings",
+      onTrigger: () => router.push("/settings"),
+      icon: "settings",
+      badge: "Settings",
+    },
+    {
+      title: "Restart onboarding",
+      onTrigger: () => router.push("/onboarding"),
+      icon: "settings",
+      badge: "Settings",
+    },
+    {
+      title: "Friends",
+      onTrigger: () => router.push("/users"),
+      icon: "group",
+    },
+    ...[
+      "Account",
+      "Appearance",
+      "Login Activity",
+      "Notifications",
+      "Two-factor authentication",
+    ].map((setting) => ({
+      title: setting,
+      onTrigger: () =>
+        router.push(`/settings/${setting.toLowerCase().replaceAll(" ", "-")}`),
+      icon: "settings",
+      badge: "settings",
+    })),
     {
       title: "Sign out",
       onTrigger: () => {
@@ -161,13 +222,6 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         );
       },
       icon: "logout",
-    },
-    {
-      title: "Feedback center",
-      onTrigger: () => {
-        router.push("/feedback");
-      },
-      icon: "chat_bubble",
     },
     {
       title: "Discord",
@@ -212,6 +266,8 @@ export default function Spotlight() {
   const { data: boardData } = useApi("property/boards");
 
   const palette = useColor(session.themeColor, session.user.darkMode);
+  const [badge, setBadge] = useState<null | string>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   // Input event handling
   const handleSearch = async (value) => {
@@ -220,6 +276,12 @@ export default function Spotlight() {
     results = results.filter((result) =>
       result.title.toLowerCase().includes(value.toLowerCase())
     );
+
+    if (badge) {
+      results = results.filter(
+        (result) => result?.badge?.toLowerCase() === badge
+      );
+    }
 
     setResults(results);
   };
@@ -242,6 +304,33 @@ export default function Spotlight() {
           if (tag) tag.click();
         }, 500);
       }
+    },
+    {
+      enableOnFormTags: true,
+    }
+  );
+
+  useHotkeys(
+    "ArrowDown",
+    (e) => setSelectedIndex((prev) => (prev + 1) % results.length),
+    { enableOnFormTags: true }
+  );
+
+  useHotkeys(
+    "ArrowUp",
+    (e) =>
+      setSelectedIndex((prev) =>
+        prev === 0 ? 0 : (prev - 1) % results.length
+      ),
+    { enableOnFormTags: true }
+  );
+
+  useHotkeys(
+    ["ArrowDown", "ArrowUp"],
+    () => {
+      document
+        .querySelector(`#activeSearchHighlight`)
+        ?.scrollIntoView({ block: "nearest" });
     },
     {
       enableOnFormTags: true,
@@ -287,9 +376,35 @@ export default function Spotlight() {
           onChange={(e: any) => {
             setInputValue(e.target.value);
             debouncedHandleSearch(e.target.value);
+            setSelectedIndex(0);
           }}
           value={inputValue}
         />
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 1,
+          mt: -1,
+          mb: 1,
+          overflow: "auto",
+        }}
+      >
+        <Box sx={{ mr: 1 }} />
+        {/* Get unique badges */}
+        {[...new Set(results.map((result) => result?.badge?.toLowerCase()))]
+          .filter((badge) => badge)
+          .map((_badge) => (
+            <Chip
+              label={capitalizeFirstLetter(_badge)}
+              key={_badge}
+              onClick={() => setBadge(_badge.toLowerCase())}
+              {...(badge === _badge.toLowerCase() && {
+                onDelete: () => setBadge(null),
+              })}
+            />
+          ))}
+        <Box sx={{ mr: 1 }} />
       </Box>
       <Box sx={{ mt: 1, px: 2, flexGrow: 1 }}>
         <Virtuoso
@@ -301,12 +416,17 @@ export default function Spotlight() {
               return (
                 <ListItemButton
                   key={index}
-                  {...(index == 0 && { id: "activeSearchHighlight" })}
+                  {...(index == selectedIndex && {
+                    id: "activeSearchHighlight",
+                  })}
                   sx={{
                     gap: 2,
                     mb: 0.2,
                     transition: "none",
-                    ...(index == 0 && {
+                    ...((!inputValue || (badge && badge !== "agenda")) && {
+                      display: "none",
+                    }),
+                    ...(index == selectedIndex && {
                       background: palette[2],
                       "& *": {
                         fontWeight: 700,
@@ -318,7 +438,9 @@ export default function Spotlight() {
                     setTimeout(handleClose, 500);
                   }}
                 >
-                  <Icon {...(index !== 0 && { className: "outlined" })}>
+                  <Icon
+                    {...(index !== selectedIndex && { className: "outlined" })}
+                  >
                     check_circle
                   </Icon>
                   <ListItemText primary={`Search for "${inputValue}"`} />
@@ -334,12 +456,12 @@ export default function Spotlight() {
             return (
               <ListItemButton
                 key={index}
-                {...(index == 0 && { id: "activeSearchHighlight" })}
+                {...(index == selectedIndex && { id: "activeSearchHighlight" })}
                 sx={{
                   gap: 2,
                   mb: 0.2,
                   transition: "none",
-                  ...(index == 0 && {
+                  ...(index == selectedIndex && {
                     background: palette[2],
                     "& *": {
                       fontWeight: 700,
@@ -348,17 +470,26 @@ export default function Spotlight() {
                 }}
                 onClick={handleClick}
               >
-                <Icon {...(index !== 0 && { className: "outlined" })}>
-                  {result.icon}
-                </Icon>
+                {typeof result.icon == "string" ? (
+                  <Icon
+                    {...(index !== selectedIndex && { className: "outlined" })}
+                  >
+                    {result.icon}
+                  </Icon>
+                ) : (
+                  result.icon
+                )}
                 <ListItemText primary={result.title} />
-                {result.badge ||
-                  (index == 0 && (
-                    <Chip
-                      size="small"
-                      label={index == 0 ? "↵ enter" : result.badge}
-                    />
-                  ))}
+                {(result.badge || index == selectedIndex) && (
+                  <Chip
+                    size="small"
+                    label={
+                      index == selectedIndex
+                        ? "↵ enter"
+                        : capitalizeFirstLetter(result.badge)
+                    }
+                  />
+                )}
               </ListItemButton>
             );
           }}
