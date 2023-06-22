@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { Box } from "@mui/material";
@@ -99,8 +100,11 @@ export function BottomNav() {
         "&, & *": {
           overflow: "hidden!important",
         },
-        background: palette[1],
-        borderTop: `1px solid ${palette[3]}`,
+        background: `linear-gradient(${addHslAlpha(
+          palette[3],
+          0.8
+        )}, ${addHslAlpha(palette[2], 0.8)})`,
+        borderRadius: "20px 20px 0 0",
         backdropFilter: "blur(10px)",
         alignItems: "center",
       }}
@@ -137,7 +141,7 @@ export function BottomNav() {
           check_circle
         </span>
       </Box>
-      <Box onClick={() => openSpotlight()} sx={styles(false)}>
+      <Box onClick={openSpotlight} sx={styles(false)}>
         <span className={`material-symbols-outlined`}>bolt</span>
       </Box>
       <Box

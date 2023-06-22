@@ -177,14 +177,20 @@ export const Column: any = memo(function Column({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <Collapse in={loading} orientation="vertical">
+        <Collapse
+          in={loading}
+          orientation="vertical"
+          sx={{ px: { xs: 2, sm: 0 } }}
+        >
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              borderRadius: { xs: 5, sm: 0 },
               width: "100%",
               height: "100px",
+              mt: { xs: 2, sm: 0 },
               background: palette[3],
             }}
           >
@@ -223,7 +229,7 @@ export const Column: any = memo(function Column({
               },
               ...(isToday && {
                 color: "#000!important",
-                background: palette[9],
+                background: `linear-gradient(${palette[7]}, ${palette[9]})`,
                 px: 0.5,
                 ml: -0.5,
               }),

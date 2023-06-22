@@ -137,12 +137,18 @@ function SearchTasks({ setOpen }) {
         <Icon>search</Icon>
       </IconButton>
       <IconButton
-        sx={{ color: palette[8], background: addHslAlpha(palette[3], 0.5) }}
+        sx={{
+          color: palette[8],
+          background: addHslAlpha(palette[3], 0.5),
+          "&:active": {
+            transform: "scale(0.95)",
+          },
+        }}
         onClick={() => {
           document.getElementById("createTask")?.click();
         }}
       >
-        <Icon>add</Icon>
+        <Icon className="outlined">add_circle</Icon>
       </IconButton>
       {createTask}
     </>
