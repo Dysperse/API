@@ -254,7 +254,14 @@ export const Task: any = function Task({
                   <ImageViewer trimHeight url={taskData.image} />
                 )}
                 <Box
-                  sx={{ display: "flex", gap: 1, flexWrap: "wrap", mt: 0.5 }}
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    flexWrap: "wrap",
+                    "& .MuiChip-root": {
+                      mt: 0.5,
+                    },
+                  }}
                 >
                   {taskData.pinned && (
                     <ConfirmationModal
