@@ -79,6 +79,12 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
       "--overlay-dark",
       addHslAlpha(palette[1], 0.5)
     );
+    document.documentElement.style.setProperty(
+      "--toast-bg",
+      addHslAlpha(palette[3], 0.5)
+    );
+    document.documentElement.style.setProperty("--toast-text", palette[11]);
+    document.documentElement.style.setProperty("--toast-solid", palette[7]);
   });
 
   const router = useRouter();
