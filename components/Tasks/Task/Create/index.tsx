@@ -528,11 +528,7 @@ export function CreateTask({
                   </Icon>
                 </IconButton>
               </Tooltip>
-              <ImageModal
-                styles={styles}
-                image={image}
-                setImage={setImage}
-              />
+              <ImageModal styles={styles} image={image} setImage={setImage} />
               <Tooltip title="Emoji (alt • e)" placement="top">
                 <div>
                   <EmojiPicker
