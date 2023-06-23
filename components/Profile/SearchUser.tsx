@@ -43,7 +43,10 @@ export function SearchUser({ profileCardStyles, data }) {
           vertical: "bottom",
           horizontal: "right",
         }}
-        slotProps={{ backdrop: { sx: { opacity: "0!important" } } }}
+        // slotProps={{ backdrop: { sx: { opacity: "0!important" } } }}
+        BackdropProps={{
+          sx: { opacity: "0!important" },
+        }}
         PaperProps={{
           sx: {
             p: 3,
