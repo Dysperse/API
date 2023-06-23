@@ -400,10 +400,10 @@ export function CreateTask({
           sx={{
             p: 3,
             borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            background: palette[3],
+            background: palette[2],
             border: { sm: "1px solid" },
             borderColor: {
-              sm: palette[4],
+              sm: palette[3],
             },
           }}
         >
