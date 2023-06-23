@@ -137,7 +137,7 @@ export const SelectDateModal: any = function SelectDateModal({
           </Button>
         </Box>
       </SwipeableDrawer>
-      <Tooltip title="Select date (alt • f)" placement="top">
+      <Tooltip title="Date (alt • f)" placement="top">
         <Button
           id="dateModal"
           ref={ref}
