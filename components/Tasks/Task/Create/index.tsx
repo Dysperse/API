@@ -154,6 +154,10 @@ export function CreateTask({
       background: palette[4] + "!important",
       color: palette[11] + "!important",
     }),
+    "&:hover": {
+      background: palette[4] + "!important",
+    },
+    cursor: "default",
     borderRadius: 3,
     transition: "none",
   });
@@ -359,18 +363,13 @@ export function CreateTask({
             onClick={() => titleRef.current?.focus()}
           >
             <div>
-              <Chip
-                label="Important"
-                sx={chipStyles(pinned)}
-                icon={<Icon>priority</Icon>}
-                onClick={() => setPinned(!pinned)}
-              />
               {chipComponent}
               {[
                 { label: "Today", days: 0 },
                 { label: "Tomorrow", days: 1 },
                 { label: "In a week", days: 7 },
                 { label: "In 2 weeks", days: 14 },
+                { label: "In a month", days: 30 },
               ].map(({ label, days }) => {
                 const isActive =
                   deferredDate &&
@@ -506,14 +505,23 @@ export function CreateTask({
               />
             </Collapse>
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
-              <Tooltip title="Mark as important (alt • a)" placement="top">
+              <Tooltip
+                title={`${pinned ? "Unpin" : "Pin"} (alt • a)`}
+                placement="top"
+              >
                 <IconButton
                   onClick={togglePin}
                   sx={styles(palette, pinned)}
                   size="small"
                 >
-                  <Icon className={pinned ? "rounded" : "outlined"}>
-                    priority
+                  <Icon
+                    className={pinned ? "rounded" : "outlined"}
+                    sx={{
+                      ...(pinned && { transform: "rotate(-40deg)" }),
+                      transition: "all .2s",
+                    }}
+                  >
+                    push_pin
                   </Icon>
                 </IconButton>
               </Tooltip>
@@ -522,7 +530,7 @@ export function CreateTask({
                 image={image}
                 setImage={setImage}
               />
-              <Tooltip title="Insert emoji (alt • e)" placement="top">
+              <Tooltip title="Emoji (alt • e)" placement="top">
                 <div>
                   <EmojiPicker
                     emoji={""}

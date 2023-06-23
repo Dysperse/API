@@ -36,7 +36,7 @@ export function ImageModal({ image, setImage, styles }) {
 
   return (
     <>
-      <Tooltip title="Attach an image (alt • s)" placement="top">
+      <Tooltip title="Attach image (alt • s)" placement="top">
         <IconButton
           size="small"
           onClick={() => {
