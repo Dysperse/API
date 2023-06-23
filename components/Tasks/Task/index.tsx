@@ -181,11 +181,14 @@ export const Task: any = function Task({
                 sm: palette[2],
               },
             },
-            "&:focus-within, &:active": {
+            "&:active": {
               background: {
-                xs: palette[2],
-                sm: palette[3],
+                xs: palette[2] + "!important",
+                sm: palette[3] + "!important",
               },
+            },
+            "&:focus-within": {
+              background: palette[2],
             },
             ...sx,
           }}
