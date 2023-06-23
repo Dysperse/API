@@ -24,6 +24,7 @@ import {
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { motion } from "framer-motion";
 import {
   useCallback,
   useDeferredValue,
@@ -68,6 +69,8 @@ export function CreateTask({
 }: any) {
   const session = useSession();
   const storage = useAccountStorage();
+  const palette = useColor(session.themeColor, session.user.darkMode);
+
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState("");
@@ -226,34 +229,37 @@ export function CreateTask({
     titleRef.current?.focus();
   };
 
-  const chipStyles = (condition: boolean) => {
-    return {
-      border: "1px solid",
-      borderColor: palette[4],
-      background: palette[3],
-      "&:hover": {
-        borderColor: palette[5],
-        background: palette[4],
-      },
-      transition: "transform .2s",
-      "&:active": {
-        transition: "none",
-        transform: "scale(.95)",
-      },
-      boxShadow: "none!important",
-      px: 1,
-      mr: 1,
-      fontWeight: 600,
-      ...(condition && {
-        background: palette[9] + "!important",
-        borderColor: palette[9] + "!important",
-        color: "#000 !important",
-        "& *": {
-          color: "#000 !important",
+  const chipStyles = useCallback(
+    (condition: boolean) => {
+      return {
+        border: "1px solid",
+        borderColor: palette[4],
+        background: palette[3],
+        "&:hover": {
+          borderColor: palette[5],
+          background: palette[4],
         },
-      }),
-    };
-  };
+        transition: "transform .2s",
+        "&:active": {
+          transition: "none",
+          transform: "scale(.95)",
+        },
+        boxShadow: "none!important",
+        px: 1,
+        mr: 1,
+        fontWeight: 600,
+        ...(condition && {
+          background: palette[9] + "!important",
+          borderColor: palette[9] + "!important",
+          color: "#000 !important",
+          "& *": {
+            color: "#000 !important",
+          },
+        }),
+      };
+    },
+    [palette]
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -274,7 +280,47 @@ export function CreateTask({
     },
     [WheelGesturesPlugin() as any]
   );
-  const palette = useColor(session.themeColor, session.user.darkMode);
+
+  const generateChipLabel = useCallback(
+    (inputString) => {
+      const regex = /(?:at|from|during)\s(\d+)/i;
+      const match = inputString.match(regex);
+
+      if (match) {
+        const time = match[1];
+        const amPm = inputString.includes("am") ? "am" : "pm";
+
+        return (
+          <motion.div
+            style={{ display: "inline-block" }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <Chip
+              label={`${time} ${amPm}`}
+              icon={<Icon>access_time</Icon>}
+              onClick={() => setDate(dayjs(deferredDate).hour(time))}
+              sx={chipStyles(dayjs(deferredDate).hour() === Number(time))}
+            />
+          </motion.div>
+        );
+      }
+
+      return null;
+    },
+    [chipStyles, deferredDate]
+  );
+
+  const [chipComponent, setChipComponent] = useState<any>(null);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      const chip = generateChipLabel(deferredTitle);
+      setChipComponent(chip);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [deferredTitle, generateChipLabel]);
 
   return (
     <>
@@ -306,6 +352,7 @@ export function CreateTask({
               mb: 2,
               pl: { xs: 1, sm: 0 },
               overflowX: "scroll",
+              overflowY: "visible",
               whiteSpace: "nowrap",
             }}
             ref={emblaRef}
@@ -314,17 +361,16 @@ export function CreateTask({
             <div>
               <Chip
                 label="Important"
-                sx={{
-                  ...chipStyles(pinned),
-                }}
+                sx={chipStyles(pinned)}
                 icon={<Icon>priority</Icon>}
                 onClick={() => setPinned(!pinned)}
               />
+              {chipComponent}
               {[
                 { label: "Today", days: 0 },
                 { label: "Tomorrow", days: 1 },
-                { label: "In one month", days: 30 },
-                { label: "In one year", days: 365 },
+                { label: "In a week", days: 7 },
+                { label: "In 2 weeks", days: 14 },
               ].map(({ label, days }) => {
                 const isActive =
                   deferredDate &&
