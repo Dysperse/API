@@ -3,6 +3,7 @@ import { useBackButton } from "@/lib/client/useBackButton";
 import { Alert, Box, CircularProgress, SwipeableDrawer } from "@mui/material";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
+import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 import DrawerContent from "./DrawerContent";
@@ -86,6 +87,15 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       mutate(mutationUrl);
     },
     [mutationUrl, setData, handleMutate]
+  );
+
+  useHotkeys(
+    "delete",
+    () => {
+      handleDelete(id);
+      setOpen(false);
+    },
+    [id]
   );
 
   // Callback function when drawer is closed
