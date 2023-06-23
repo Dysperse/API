@@ -529,7 +529,7 @@ export function CreateTask({
                 </IconButton>
               </Tooltip>
               <ImageModal
-                styles={styles(palette, false)}
+                styles={styles}
                 image={image}
                 setImage={setImage}
               />

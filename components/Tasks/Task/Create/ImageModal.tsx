@@ -1,3 +1,4 @@
+import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import { CircularProgress, Icon, IconButton, Tooltip } from "@mui/material";
@@ -7,6 +8,7 @@ import toast from "react-hot-toast";
 export function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const session = useSession();
+  const palette = useColor(session.themeColor, session.user.darkMode);
 
   const handleUpload = useCallback(
     async (e: any) => {
@@ -44,11 +46,8 @@ export function ImageModal({ image, setImage, styles }) {
             document.getElementById("imageAttachment")?.click();
           }}
           sx={{
-            ...styles,
+            ...styles(palette, Boolean(image)),
             mx: 0.5,
-            ...(image && {
-              background: `hsl(240,11%,${session.user.darkMode ? 20 : 80}%)`,
-            }),
           }}
         >
           {imageUploading ? (
