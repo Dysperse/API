@@ -388,6 +388,9 @@ export function CreateTask({
                       vibrate(50);
                       const tomorrow = new Date();
                       tomorrow.setDate(tomorrow.getDate() + days);
+                      tomorrow.setHours(0);
+                      tomorrow.setMinutes(0);
+                      tomorrow.setSeconds(0);
                       setDate(tomorrow);
                     }}
                   />
