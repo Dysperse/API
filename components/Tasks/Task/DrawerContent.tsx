@@ -114,6 +114,8 @@ export default function DrawerContent({
   const handleClose = () => setAnchorEl(null);
   const isDark = useDarkMode(session.darkMode);
 
+  const isSubTask = data.parentTasks.length !== 0;
+
   const palette = useColor(session.themeColor, isDark);
 
   const handlePriorityChange = useCallback(async () => {
@@ -412,7 +414,7 @@ export default function DrawerContent({
             data={data}
           />
 
-          {data.parentTasks.length == 0 && (
+          {!isSubTask && (
             <Chip
               variant="outlined"
               label={
@@ -474,7 +476,7 @@ export default function DrawerContent({
               py: 1,
               mb: 1,
               borderBottom: "1px solid",
-              borderColor: `hsl(240,11%,${isDark ? 20 : 90}%)`,
+              borderColor: palette[3],
             },
             ...((isValidHttpUrl(data.where) || isAddress(data.where)) && {
               endAdornment: (
@@ -565,38 +567,40 @@ export default function DrawerContent({
         {data.image && <ImageViewer url={data.image} />}
       </Box>
 
-      <Box sx={{ px: { sm: 2.5 } }}>
-        <CreateTask
-          isSubTask
-          column={{ id: "-1", name: "" }}
-          sx={{ mb: 0 }}
-          parent={data.id}
-          label="Create a subtask"
-          placeholder="Add a subtask..."
-          handleMutate={handleMutate}
-          boardId={1}
-        />
-        <ExperimentalAiSubtask task={data} />
+      {!isSubTask && (
+        <Box sx={{ px: { sm: 2.5 } }}>
+          <CreateTask
+            isSubTask
+            column={{ id: "-1", name: "" }}
+            sx={{ mb: 0 }}
+            parent={data.id}
+            label="Create a subtask"
+            placeholder="Add a subtask..."
+            handleMutate={handleMutate}
+            boardId={1}
+          />
+          <ExperimentalAiSubtask task={data} />
 
-        {data.parentTasks.length === 0 &&
-          data.subTasks.map((subTask) => (
-            <Task
-              key={subTask.id}
-              isSubTask
-              sx={{
-                pl: { xs: 2.6, sm: 1.7 },
-                "& .date": {
-                  display: "none",
-                },
-              }}
-              board={subTask.board || false}
-              columnId={subTask.column ? subTask.column.id : -1}
-              mutationUrl=""
-              handleMutate={handleMutate}
-              task={subTask}
-            />
-          ))}
-      </Box>
+          {!isSubTask &&
+            data.subTasks.map((subTask) => (
+              <Task
+                key={subTask.id}
+                isSubTask
+                sx={{
+                  pl: { xs: 2.6, sm: 1.7 },
+                  "& .date": {
+                    display: "none",
+                  },
+                }}
+                board={subTask.board || false}
+                columnId={subTask.column ? subTask.column.id : -1}
+                mutationUrl=""
+                handleMutate={handleMutate}
+                task={subTask}
+              />
+            ))}
+        </Box>
+      )}
       {/* <Box
         sx={{
           textAlign: "center",

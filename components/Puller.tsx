@@ -1,4 +1,4 @@
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 
 import { useSession } from "@/lib/client/useSession";
 import { Box } from "@mui/material";
@@ -19,7 +19,7 @@ export function Puller({
   const session = useSession();
   const palette = useColor(
     session?.themeColor ?? "gray",
-    session?.user?.darkMode ?? "false"
+    useDarkMode(session?.user?.darkMode ?? "light")
   );
 
   return (
