@@ -69,7 +69,7 @@ function QrLogin({ handleRedirect }) {
           }
         });
     }
-  }, [data, url, router, handleRedirect]);
+  }, [data, url, handleRedirect]);
 
   useEffect(() => {
     if (data && !verified) {
@@ -218,23 +218,26 @@ export default function Prompt() {
 
   const router = useRouter();
 
-  const handleRedirect = useCallback((res) => {
-    if (router.pathname.includes("?application=")) {
-      router.pathname =
-        "https://availability.dysperse.com/api/oauth/redirect?token=" +
-        res.accessToken;
-    } else {
-      mutate("/api/session");
-      if (window.location.href.includes("close=true")) {
-        window.close();
-        return;
-      }
+  const handleRedirect = useCallback(
+    (res) => {
+      if (router.pathname.includes("?application=")) {
+        router.pathname =
+          "https://availability.dysperse.com/api/oauth/redirect?token=" +
+          res.accessToken;
+      } else {
+        mutate("/api/session");
+        if (window.location.href.includes("close=true")) {
+          window.close();
+          return;
+        }
 
-      const url = (router?.query?.next as any) || "/";
-      window.location.href = url;
-      toast.dismiss();
-    }
-  }, []);
+        const url = (router?.query?.next as any) || "/";
+        window.location.href = url;
+        toast.dismiss();
+      }
+    },
+    [router]
+  );
 
   const proTips = [
     "SECURITY TIP: Dysperse staff will NEVER ask for your password.",

@@ -1,3 +1,4 @@
+import { useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -17,7 +18,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { cloneElement, useEffect, useRef, useState } from "react";
 import { exportAsImage } from "./MoreOptions";
-import { useDarkMode } from "@/lib/client/useColor";
 
 export function ShareGoal({ children, goal }) {
   const session = useSession();
@@ -41,7 +41,7 @@ export function ShareGoal({ children, goal }) {
       document
         .querySelector('meta[name="theme-color"]')
         ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
-  }, [session, open]);
+  }, [session, open, isDark]);
 
   const colorChoices = [
     "red",
