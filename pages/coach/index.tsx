@@ -2,7 +2,6 @@ import { MyGoals } from "@/components/Coach/MyGoals";
 import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -68,7 +67,11 @@ export default function Render() {
                   color: orange["orange1"],
                 }),
               }}
-              icon={<Icon>local_fire_department</Icon>}
+              icon={
+                <Icon sx={{ color: "inherit!important" }}>
+                  local_fire_department
+                </Icon>
+              }
               label={
                 data?.streakCount && !isStreakBroken ? data.streakCount : 0
               }
