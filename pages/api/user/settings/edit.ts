@@ -34,9 +34,7 @@ const handler = async (req, res) => {
         req.query.notificationSubscription === ""
           ? ""
           : req.query.notificationSubscription || undefined,
-      ...(req.query.darkMode && {
-        darkMode: req.query.darkMode === "true" ?? undefined,
-      }),
+      ...(req.query.darkMode && { darkMode: req.query.darkMode }),
       color: req.query.color || undefined,
       onboardingComplete:
         (req.query.onboardingComplete &&
