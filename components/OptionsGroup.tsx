@@ -1,5 +1,6 @@
 import { useColor } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
+import useDarkMode from "@/lib/client/useTheme";
 import { Button, ButtonGroup } from "@mui/material";
 
 export function OptionsGroup({
@@ -14,7 +15,7 @@ export function OptionsGroup({
   sx?: any;
 }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <ButtonGroup

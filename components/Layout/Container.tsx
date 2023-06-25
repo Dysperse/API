@@ -92,6 +92,7 @@ export function RenderWithLayout({
     property: selectedProperty,
     permission: selectedProperty.permission,
     themeColor,
+    darkMode: data.user.darkMode,
   }));
 
   const children = <Component {...pageProps} key={_router.asPath} />;
