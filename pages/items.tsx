@@ -6,7 +6,6 @@ import { rooms } from "@/components/Rooms/rooms";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
@@ -140,7 +139,7 @@ export default function Inventory({ children = null }: any) {
             height: { md: "100vh" },
             overflowY: { md: "scroll" },
             background: {
-              md: addHslAlpha(palette[2], 0.4),
+              md: addHslAlpha(palette[3], 0.5),
             },
             ml: { md: -1 },
           }}

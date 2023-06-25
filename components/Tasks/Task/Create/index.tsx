@@ -3,7 +3,6 @@ import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
@@ -70,6 +69,7 @@ export function CreateTask({
 }: any) {
   const session = useSession();
   const storage = useAccountStorage();
+  const emojiRef: any = useRef(null);
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -80,6 +80,10 @@ export function CreateTask({
   const [pinned, setPinned] = useState<boolean>(false);
   const [image, setImage] = useState<string | null>(null);
   const [showDescription, setShowDescription] = useState<boolean>(false);
+
+  const [location, setLocation] = useState<string | null>(null);
+  const [showLocation, setShowLocation] = useState<boolean>(false);
+
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
   );
@@ -93,62 +97,6 @@ export function CreateTask({
   const descriptionRef = useRef<HTMLInputElement>(null);
 
   useBackButton(() => setOpen(false));
-
-  useHotkeys(
-    "alt+s",
-    (e) => {
-      if (open) {
-        e.preventDefault();
-        document.getElementById("imageAttachment")?.click();
-      }
-    },
-    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open]
-  );
-
-  useHotkeys(
-    "alt+d",
-    (e) => {
-      if (open) {
-        e.preventDefault();
-        setShowDescription(!showDescription);
-        setTimeout(() => {
-          if (!showDescription) {
-            descriptionRef.current?.focus();
-            descriptionRef.current?.select();
-          } else {
-            titleRef.current?.focus();
-          }
-        }, 50);
-      }
-    },
-    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, showDescription, setShowDescription, descriptionRef, titleRef]
-  );
-
-  useHotkeys(
-    "alt+a",
-    (e) => {
-      if (open) {
-        e.preventDefault();
-        setPinned(!pinned);
-      }
-    },
-    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, pinned]
-  );
-
-  useHotkeys(
-    "alt+f",
-    (e) => {
-      if (open) {
-        e.preventDefault();
-        document.getElementById("dateModal")?.click();
-      }
-    },
-    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open]
-  );
 
   const styles = (palette, active) => ({
     color: palette[12],
@@ -189,6 +137,7 @@ export function CreateTask({
       fetchRawApi("property/boards/column/task/create", {
         title: deferredTitle,
         description,
+        location,
         ...(image && { image: JSON.parse(image).url }),
         date,
         pinned: pinned ? "true" : "false",
@@ -203,6 +152,7 @@ export function CreateTask({
       setLoading(false);
       setTitle("");
       setDescription("");
+      setLocation("");
       setImage(null);
       setPinned(false);
       titleRef.current?.focus();
@@ -213,6 +163,7 @@ export function CreateTask({
       column,
       date,
       description,
+      location,
       image,
       parent,
       pinned,
@@ -225,6 +176,15 @@ export function CreateTask({
     setShowDescription(!showDescription);
     setTimeout(() => {
       if (!showDescription) document.getElementById("description")?.focus();
+      else document.getElementById("title")?.focus();
+    }, 100);
+  };
+
+  const toggleLocation = () => {
+    vibrate(50);
+    setShowLocation(!showLocation);
+    setTimeout(() => {
+      if (!showLocation) document.getElementById("location")?.focus();
       else document.getElementById("title")?.focus();
     }, 100);
   };
@@ -255,8 +215,8 @@ export function CreateTask({
         mr: 1,
         fontWeight: 600,
         ...(condition && {
-          background: palette[9] + "!important",
-          borderColor: palette[9] + "!important",
+          background: palette[8] + "!important",
+          borderColor: palette[8] + "!important",
           color: "#000 !important",
           "& *": {
             color: "#000 !important",
@@ -296,6 +256,8 @@ export function CreateTask({
         const time = match[1];
         const amPm = inputString.includes("am") ? "am" : "pm";
 
+        if (Number(time) > 12) return null;
+
         return (
           <motion.div
             style={{ display: "inline-block" }}
@@ -305,8 +267,17 @@ export function CreateTask({
             <Chip
               label={`${time} ${amPm}`}
               icon={<Icon>access_time</Icon>}
-              onClick={() => setDate(dayjs(deferredDate).hour(time))}
-              sx={chipStyles(dayjs(deferredDate).hour() === Number(time))}
+              onClick={() =>
+                setDate(
+                  dayjs(deferredDate).hour(
+                    Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
+                  )
+                )
+              }
+              sx={chipStyles(
+                dayjs(deferredDate).hour() ===
+                  Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
+              )}
             />
           </motion.div>
         );
@@ -327,6 +298,77 @@ export function CreateTask({
 
     return () => clearTimeout(delayDebounceFn);
   }, [deferredTitle, generateChipLabel]);
+
+  useHotkeys(
+    "alt+a",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        setPinned(!pinned);
+      }
+    },
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open, pinned]
+  );
+
+  useHotkeys(
+    "alt+s",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        document.getElementById("imageAttachment")?.click();
+      }
+    },
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open]
+  );
+
+  useHotkeys(
+    "alt+d",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        emojiRef.current?.click();
+      }
+    },
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open, emojiRef]
+  );
+
+  useHotkeys(
+    "alt+f",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        toggleLocation();
+      }
+    },
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open, toggleLocation]
+  );
+  useHotkeys(
+    "alt+g",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        toggleDescription();
+      }
+    },
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open, toggleDescription]
+  );
+
+  useHotkeys(
+    "alt+h",
+    (e) => {
+      if (open) {
+        e.preventDefault();
+        document.getElementById("dateModal")?.click();
+      }
+    },
+    { enableOnFormTags: ["INPUT", "TEXTAREA"] },
+    [open]
+  );
 
   return (
     <>
@@ -505,7 +547,25 @@ export function CreateTask({
                 multiline
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: 15, mt: 0.5, mb: 1 },
+                  sx: { fontSize: 15 },
+                }}
+              />
+            </Collapse>
+            <Collapse in={showLocation}>
+              <TextField
+                id="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                inputRef={descriptionRef}
+                variant="standard"
+                placeholder="Add location..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
+                }}
+                multiline
+                InputProps={{
+                  disableUnderline: true,
+                  sx: { fontSize: 15 },
                 }}
               />
             </Collapse>
@@ -531,7 +591,7 @@ export function CreateTask({
                 </IconButton>
               </Tooltip>
               <ImageModal styles={styles} image={image} setImage={setImage} />
-              <Tooltip title="Emoji (alt • e)" placement="top">
+              <Tooltip title="Emoji (alt • d)" placement="top">
                 <div>
                   <EmojiPicker
                     emoji={""}
@@ -548,6 +608,7 @@ export function CreateTask({
                   >
                     <IconButton
                       onClick={() => vibrate(50)}
+                      ref={emojiRef}
                       sx={styles(palette, false)}
                       size="small"
                     >
@@ -556,7 +617,21 @@ export function CreateTask({
                   </EmojiPicker>
                 </div>
               </Tooltip>
-              <Tooltip title="Description (alt • d)" placement="top">
+              <Tooltip title="Location (alt • f)" placement="top">
+                <IconButton
+                  onClick={toggleLocation}
+                  sx={{
+                    ...styles(palette, showLocation),
+                    mx: 0.5,
+                  }}
+                  size="small"
+                >
+                  <Icon {...(!showLocation && { className: "outlined" })}>
+                    location_on
+                  </Icon>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Description (alt • g)" placement="top">
                 <IconButton
                   onClick={toggleDescription}
                   sx={{

@@ -1,6 +1,5 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Logo } from "@/pages";
@@ -140,13 +139,13 @@ export function Sidebar() {
         justifyContent: "center",
       },
       "&:hover .material-symbols-outlined": {
-        background: palette[2],
+        background: !useOutlinedTheme ? palette[4] : palette[2],
         color: isDark ? "#fff" : "#000",
       },
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: palette[3],
+          background: !useOutlinedTheme ? palette[5] : palette[3],
           color: palette[11],
         },
       }),
@@ -176,7 +175,7 @@ export function Sidebar() {
         borderRight: "1px solid",
         borderLeft: "1px solid transparent",
         background: {
-          sm: useOutlinedTheme ? "transparent" : palette[2],
+          sm: useOutlinedTheme ? "transparent" : addHslAlpha(palette[3], 0.8),
         },
         borderRightColor: {
           sm: useOutlinedTheme ? addHslAlpha(palette[4], 0.8) : "transparent",

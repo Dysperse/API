@@ -2,7 +2,6 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
@@ -563,9 +562,7 @@ export function TasksLayout({ open, setOpen, children }) {
             ml: -1,
             p: 3,
             px: 2,
-            background: addHslAlpha(palette[2], 0.4),
-            borderRight: "2px solid",
-            borderColor: addHslAlpha(palette[2], 0.9),
+            background: addHslAlpha(palette[3], 0.5),
             display: { xs: "none", md: "flex" },
             minHeight: "100vh",
             height: { md: "100vh" },
