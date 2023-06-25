@@ -47,13 +47,10 @@ function Page() {
     data &&
     data.followers &&
     data.followers.find((e) => e.follower.email === session.user.email);
-    
-    const isDark = useDarkMode(session.darkMode);
 
-  const palette = useColor(
-    data?.color || session.themeColor,
-    isDark
-  );
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(data?.color || session.themeColor, isDark);
 
   const handleFollowButtonClick = async () => {
     setLoading(true);

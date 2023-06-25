@@ -109,9 +109,7 @@ export default function History() {
               maxWidth: "220px",
               textAlign: "center",
               p: 2,
-              background: `hsla(240,11%,${
-                isDark ? 90 : 15
-              }%,0.1)`,
+              background: `hsla(240,11%,${isDark ? 90 : 15}%,0.1)`,
               borderRadius: 5,
               transform: "translate(-50%, -50%)",
             }}
@@ -285,9 +283,7 @@ export default function History() {
                 background: "transparent",
                 minWidth: "1000px",
                 "& *": {
-                  borderColor: `hsl(240,11%,${
-                    isDark ? 15 : 90
-                  }%)!important`,
+                  borderColor: `hsl(240,11%,${isDark ? 15 : 90}%)!important`,
                 },
               }}
               aria-label="simple table"

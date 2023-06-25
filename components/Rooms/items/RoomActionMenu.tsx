@@ -27,7 +27,6 @@ export function RoomActionMenu({
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
 
-
   return (
     <IconButton
       disabled={session?.permission === "read-only" || !isCustom}

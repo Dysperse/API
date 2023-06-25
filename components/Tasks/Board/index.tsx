@@ -65,7 +65,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     await mutate(mutationUrls.tasks);
     await mutate(mutationUrls.boardData);
   };
-  
+
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

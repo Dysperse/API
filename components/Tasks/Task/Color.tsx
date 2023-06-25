@@ -29,9 +29,7 @@ export function Color({
         height: "30px",
         display: "flex",
         ...(task.color === color && {
-          boxShadow: `0 0 0 2px ${
-            isDark ? "hsl(240,11%,20%)" : "#fff"
-          } inset`,
+          boxShadow: `0 0 0 2px ${isDark ? "hsl(240,11%,20%)" : "#fff"} inset`,
         }),
         transition: "box-shadow .4s",
         alignItems: "center",

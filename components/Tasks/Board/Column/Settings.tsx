@@ -173,9 +173,7 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
         sx={{
           ...(Boolean(anchorEl) && {
             background: `${
-              isDark
-                ? "hsla(240,11%,25%, 0.3)"
-                : "rgba(0,0,0,0.05)"
+              isDark ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.05)"
             }!important`,
             color: isDark ? "#fff!important" : "#000!important",
           }),
