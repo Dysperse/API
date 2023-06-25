@@ -180,6 +180,8 @@ export default function Integrations({ handleClose }) {
           ))}
         </Box>
       </SwipeableDrawer>
+      <br />
+      <br />
     </>
   );
 }
