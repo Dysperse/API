@@ -25,10 +25,11 @@ import toast from "react-hot-toast";
 import QRCode from "react-qr-code";
 import { mutate } from "swr";
 
-function QrLogin() {
+function QrLogin({ handleRedirect }) {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
 
   const [data, setData] = useState<any>(null);
+  const [verified, setVerified] = useState(false);
   const [error, setError] = useState<any>(null);
   const router = useRouter();
 
@@ -40,8 +41,6 @@ function QrLogin() {
   useEffect(() => {
     generate();
   }, []);
-
-  const [verified, setVerified] = useState(false);
 
   const url = data
     ? `https://${window.location.hostname}/api/auth/qr/scan?token=${data.token}`
@@ -57,7 +56,6 @@ function QrLogin() {
         .then((res) => {
           if (res.success) {
             setVerified(true);
-            router.push("/");
             toast.promise(
               new Promise(() => {}),
               {
@@ -67,10 +65,11 @@ function QrLogin() {
               },
               toastStyles
             );
+            handleRedirect(res);
           }
         });
     }
-  }, [data, url, router]);
+  }, [data, url, router, handleRedirect]);
 
   useEffect(() => {
     if (data && !verified) {
@@ -219,6 +218,24 @@ export default function Prompt() {
 
   const router = useRouter();
 
+  const handleRedirect = useCallback((res) => {
+    if (router.pathname.includes("?application=")) {
+      router.pathname =
+        "https://availability.dysperse.com/api/oauth/redirect?token=" +
+        res.accessToken;
+    } else {
+      mutate("/api/session");
+      if (window.location.href.includes("close=true")) {
+        window.close();
+        return;
+      }
+
+      const url = (router?.query?.next as any) || "/";
+      window.location.href = url;
+      toast.dismiss();
+    }
+  }, []);
+
   const proTips = [
     "SECURITY TIP: Dysperse staff will NEVER ask for your password.",
     "PRO TIP: You can customize your theme color by visiting your appearance settings.",
@@ -314,28 +331,14 @@ export default function Prompt() {
           toastStyles
         );
 
-        if (router.pathname.includes("?application=")) {
-          router.pathname =
-            "https://availability.dysperse.com/api/oauth/redirect?token=" +
-            res.accessToken;
-        } else {
-          mutate("/api/session");
-          if (window.location.href.includes("close=true")) {
-            window.close();
-            return;
-          }
-
-          const url = (router?.query?.next as any) || "/";
-          window.location.href = url;
-          toast.dismiss();
-        }
+        handleRedirect(res);
       } catch (e) {
         setStep(1);
         ref?.current?.reset();
         setButtonLoading(false);
       }
     },
-    [captchaToken, email, password, router, twoFactorCode]
+    [captchaToken, email, password, router, twoFactorCode, handleRedirect]
   );
 
   useEffect(() => {
@@ -586,7 +589,7 @@ export default function Prompt() {
               display: { xs: "none", sm: "block" },
             }}
           >
-            <QrLogin />
+            <QrLogin handleRedirect={handleRedirect} />
           </Box>
         </Box>
       </Box>

@@ -3,8 +3,10 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 // Models for user accounts
@@ -15,7 +17,7 @@ model User {
   name                     String
   email                    String  @unique
   password                 String
-  darkMode                 Boolean @default(false)
+  darkMode                 String  @default("system")
   color                    String  @default("lime")
   onboardingComplete       Boolean @default(false)
   verifiedEmail            Boolean @default(false)
