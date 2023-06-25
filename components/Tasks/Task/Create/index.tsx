@@ -409,6 +409,28 @@ export function CreateTask({
             <div>
               {chipComponent}
               {[
+                "meet",
+                "visit",
+                "watch",
+                "go to",
+                "drive ",
+                "fly ",
+                "attend ",
+              ].some((word) => deferredTitle.toLowerCase().includes(word)) && (
+                <motion.div
+                  style={{ display: "inline-block" }}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
+                  <Chip
+                    label="Add location?"
+                    icon={<Icon>location_on</Icon>}
+                    onClick={toggleLocation}
+                    sx={chipStyles(showLocation)}
+                  />
+                </motion.div>
+              )}
+              {[
                 { label: "Today", days: 0 },
                 { label: "Tomorrow", days: 1 },
                 { label: "In a week", days: 7 },

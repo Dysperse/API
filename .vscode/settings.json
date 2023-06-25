@@ -15,5 +15,15 @@
   "docwriter.progress.trackFunctions": false,
   "docwriter.progress.trackMethods": true,
   "docwriter.progress.trackClasses": true,
-  "vscord.enabled": true
+  "vscord.enabled": true,
+  "terminal.integrated.promptString": "${cwd}",
+  "terminal.integrated.defaultProfile.windows": "{ \"source\": \"PowerShell\", \"args\": [\"-NoLogo\"] }",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "path": "powershell.exe",
+      "args": ["-NoLogo"]
+    }
+  }
 }
