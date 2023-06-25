@@ -1,3 +1,4 @@
+import { useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
@@ -19,15 +20,11 @@ export function Loading(): JSX.Element {
   const session = useSession();
 
   const [defaultDarkMode, setDefaultDarkMode] = useState(false);
+  const isDark = useDarkMode(session && session.user && session.user.darkMode);
 
   useEffect(() => {
-    setDefaultDarkMode(
-      (!session &&
-        typeof window !== "undefined" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches) ||
-        (session && session.user && session.user.darkMode)
-    );
-  }, [setDefaultDarkMode, session]);
+    setDefaultDarkMode(isDark);
+  }, [isDark]);
 
   return (
     <ThemeProvider

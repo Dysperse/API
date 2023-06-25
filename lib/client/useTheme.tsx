@@ -1,4 +1,4 @@
-import { Grow, Slide, useMediaQuery } from "@mui/material";
+import { Grow, Slide } from "@mui/material";
 import React from "react";
 import { colors } from "../colors";
 import { addHslAlpha } from "./addHslAlpha";

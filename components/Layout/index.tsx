@@ -77,16 +77,16 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
       .querySelector(`meta[name="theme-color"]`)
       ?.setAttribute("content", palette[1]);
 
-    document.documentElement.style.setProperty(
-      "--overlay-dark",
-      addHslAlpha(palette[1], 0.5)
-    );
-    document.documentElement.style.setProperty(
-      "--toast-bg",
-      addHslAlpha(palette[3], 0.5)
-    );
-    document.documentElement.style.setProperty("--toast-text", palette[11]);
-    document.documentElement.style.setProperty("--toast-solid", palette[7]);
+    const variables = {
+      "--overlay-dark": addHslAlpha(palette[1], 0.5),
+      "--toast-bg": addHslAlpha(palette[3], 0.8),
+      "--toast-text": palette[11],
+      "--toast-solid": palette[7],
+    };
+
+    Object.entries(variables).forEach(([key, value]) => {
+      document.documentElement.style.setProperty(key, value);
+    });
   });
 
   const router = useRouter();

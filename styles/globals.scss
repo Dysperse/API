@@ -1,5 +1,8 @@
 :root {
   --navbar-height: calc(70px + env(titlebar-area-height, 0px));
+  --toast-bg: hsla(240, 11%, 10%, 0.8);
+  --toast-text: hsla(240, 11%, 90%, 0.8);
+  --toast-solid: hsl(240, 11%, 30%);
 }
 
 .kbd {
