@@ -194,13 +194,13 @@ function SearchTasks({ setOpen }) {
             }),
             cursor: "default",
             transition: "transform .2s",
-            background: palette[3],
+            background: palette[4],
             color: palette[12],
             "&:hover": {
-              background: palette[4],
+              background: palette[5],
             },
             "&:active": {
-              background: palette[5],
+              background: palette[6],
             },
           }}
         >
