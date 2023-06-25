@@ -23,8 +23,13 @@ export function Loading(): JSX.Element {
   const isDark = useDarkMode(session && session.user && session.user.darkMode);
 
   useEffect(() => {
-    setDefaultDarkMode(isDark);
-  }, [isDark]);
+    setDefaultDarkMode(
+      (!session &&
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+        isDark
+    );
+  }, [isDark, session]);
 
   return (
     <ThemeProvider
