@@ -90,6 +90,7 @@ export default function Integrations({ handleClose }) {
           onClick={() => setOpen(true)}
           sx={{ ml: "auto", px: 2 }}
           variant="contained"
+          disabled={data?.length >= 5}
         >
           <Icon className="outlined">add</Icon>Add
         </Button>
