@@ -101,7 +101,7 @@ export default function AppearanceSettings() {
             <Box
               sx={{
                 ml: "20px",
-                background: "hsl(240,11%,10%)",
+                background: "hsl(240,11%,20%)",
                 width: "20px",
                 height: "20px",
                 borderRadius: 999,
@@ -109,7 +109,7 @@ export default function AppearanceSettings() {
             />
           </ListItemIcon>
           <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
-            <ListItemText primary="Light" />
+            <ListItemText primary="Dark" />
           </ListItemButton>
         </ListItem>
         <ListItem
@@ -141,7 +141,7 @@ export default function AppearanceSettings() {
             />
           </ListItemIcon>
           <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
-            <ListItemText primary="Dark" />
+            <ListItemText primary="Light" />
           </ListItemButton>
         </ListItem>
         <ListItem
