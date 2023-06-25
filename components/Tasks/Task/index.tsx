@@ -313,7 +313,7 @@ export const Task: any = function Task({
                       </Tooltip>
                     </ConfirmationModal>
                   )}
-                  {taskData.due && !isAgenda && (
+                  {taskData.due && !isAgenda ? (
                     <Tooltip
                       title={dayjs(taskData.due).format("MMMM D, YYYY")}
                       placement="top"
@@ -327,11 +327,29 @@ export const Task: any = function Task({
                             className="outlined"
                             sx={{ fontSize: "20px!important", ml: 1 }}
                           >
-                            schedule
+                            today
                           </Icon>
                         }
                       />
                     </Tooltip>
+                  ) : (
+                    taskData.due &&
+                    (dayjs(taskData.due).hour() !== 0 ||
+                      dayjs(taskData.due).minute() !== 0) && (
+                      <Chip
+                        size="small"
+                        className="date"
+                        label={dayjs(taskData.due).format("h:mm A")}
+                        icon={
+                          <Icon
+                            className="outlined"
+                            sx={{ fontSize: "20px!important", ml: 1 }}
+                          >
+                            access_time
+                          </Icon>
+                        }
+                      />
+                    )
                   )}
                   {(isValidHttpUrl(taskData.where) ||
                     isAddress(taskData.where)) && (
