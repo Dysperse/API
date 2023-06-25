@@ -85,7 +85,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Light mode",
       badge: "Appearance",
       onTrigger: async () => {
-        await updateSettings("darkMode", "false");
+        await updateSettings("darkMode", "light");
         mutate("/api/session");
       },
       icon: "light_mode",
@@ -94,7 +94,16 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Dark mode",
       badge: "Appearance",
       onTrigger: async () => {
-        await updateSettings("darkMode", "true");
+        await updateSettings("darkMode", "dark");
+        mutate("/api/session");
+      },
+      icon: "dark_mode",
+    },
+    {
+      title: "System theme",
+      badge: "Appearance",
+      onTrigger: async () => {
+        await updateSettings("darkMode", "system");
         mutate("/api/session");
       },
       icon: "dark_mode",

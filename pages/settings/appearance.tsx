@@ -81,46 +81,12 @@ export default function AppearanceSettings() {
       <ListSubheader sx={{ mt: 3 }}>Theme</ListSubheader>
       <RadioGroup name="controlled-radio-buttons-group">
         <ListItem
-          key="light"
-          onClick={() => updateSettings("darkMode", "false")}
+          onClick={() => updateSettings("darkMode", "dark")}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => updateSettings("darkMode", "false")}
-              checked={!isDark}
-            />
-          }
-          disablePadding
-        >
-          <ListItemIcon
-            sx={{
-              mr: 0,
-              pr: 0,
-              width: "20px",
-            }}
-          >
-            <Box
-              sx={{
-                ml: "20px",
-                background: "#aaa",
-                width: "20px",
-                height: "20px",
-                borderRadius: 999,
-              }}
-            />
-          </ListItemIcon>
-          <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
-            <ListItemText primary="Light" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem
-          key="dark"
-          onClick={() => updateSettings("darkMode", "true")}
-          secondaryAction={
-            <Radio
-              edge="end"
-              onChange={() => updateSettings("darkMode", "true")}
-              checked={isDark}
+              onChange={() => updateSettings("darkMode", "dark")}
+              checked={session.darkMode === "dark"}
             />
           }
           disablePadding
@@ -143,7 +109,71 @@ export default function AppearanceSettings() {
             />
           </ListItemIcon>
           <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
+            <ListItemText primary="Light" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem
+          onClick={() => updateSettings("darkMode", "light")}
+          secondaryAction={
+            <Radio
+              edge="end"
+              onChange={() => updateSettings("darkMode", "light")}
+              checked={session.darkMode === "light"}
+            />
+          }
+          disablePadding
+        >
+          <ListItemIcon
+            sx={{
+              mr: 0,
+              pr: 0,
+              width: "20px",
+            }}
+          >
+            <Box
+              sx={{
+                ml: "20px",
+                background: "hsl(240,11%,90%)",
+                width: "20px",
+                height: "20px",
+                borderRadius: 999,
+              }}
+            />
+          </ListItemIcon>
+          <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
             <ListItemText primary="Dark" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem
+          onClick={() => updateSettings("darkMode", "system")}
+          secondaryAction={
+            <Radio
+              edge="end"
+              onChange={() => updateSettings("darkMode", "system")}
+              checked={session.darkMode === "system"}
+            />
+          }
+          disablePadding
+        >
+          <ListItemIcon
+            sx={{
+              mr: 0,
+              pr: 0,
+              width: "20px",
+            }}
+          >
+            <Box
+              sx={{
+                ml: "20px",
+                background: "#aaa",
+                width: "20px",
+                height: "20px",
+                borderRadius: 999,
+              }}
+            />
+          </ListItemIcon>
+          <ListItemButton sx={{ borderRadius: 2, transition: "none" }}>
+            <ListItemText primary="System" />
           </ListItemButton>
         </ListItem>
       </RadioGroup>
