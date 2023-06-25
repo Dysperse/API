@@ -2,6 +2,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -10,7 +11,6 @@ import {
   Button,
   Chip,
   CircularProgress,
-  Divider,
   ListItem,
   ListItemText,
   Switch,
@@ -132,17 +132,19 @@ export default function Notifications() {
     (!isSubscribed && session.user.notificationSubscription) ||
     session.user.notificationSubscription !== JSON.stringify(subscription);
 
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   return (
     <Layout>
       {isInPwa || process.env.NODE_ENV === "development" ? (
         data ? (
-          <Box sx={{ mb: 2 }}>
-            <Alert severity="info" sx={{ borderRadius: 4, mb: 1 }}>
-              Notifications are still in beta, and you might encounter bugs. We
-              recommend you to turn this on later, but if you are curious - feel
-              free to try it out at your own risk!
-            </Alert>
-            <ListItem>
+          <Box sx={{ mb: 3 }}>
+            <ListItem
+              sx={{
+                background: palette[3],
+                borderRadius: 3,
+                mb: 2,
+              }}
+            >
               <ListItemText
                 primary="Enable notifications"
                 secondary={
@@ -200,20 +202,13 @@ export default function Notifications() {
                 />
               )}
             </ListItem>
-            <Divider />
             <ListItem>
               <ListItemText
-                primary="To-do list updates"
-                secondary="Recieve notifiations when you set "
+                primary="Account activity"
+                secondary="Recieve a notification when suspicious or new activity is detected on your account"
               />
-              <Switch
-                checked={data.todoListUpdates}
-                onClick={(e: any) =>
-                  handleNotificationChange("todoListUpdates", e.target.checked)
-                }
-              />
+              <Switch disabled checked />
             </ListItem>
-
             <ListItem>
               <ListItemText
                 primary="Coach"
@@ -229,7 +224,6 @@ export default function Notifications() {
                 }
               />
             </ListItem>
-
             <ListItem>
               <ListItemText
                 primary="Daily check-in"
@@ -245,15 +239,28 @@ export default function Notifications() {
                 }
               />
             </ListItem>
-
             <ListItem>
               <ListItemText
-                primary="Account activity"
-                secondary="Recieve a notification when suspicious or new activity is detected on your account. You cannot change this setting."
+                primary={
+                  <>
+                    To-do updates{" "}
+                    <Chip
+                      size="small"
+                      label="Coming soon"
+                      sx={{ fontWeight: 700, ml: 1 }}
+                    />
+                  </>
+                }
+                secondary="Recieve notifiations when you set due dates to tasks"
               />
-              <Switch disabled checked />
+              <Switch
+                disabled
+                checked={data.todoListUpdates}
+                onClick={(e: any) =>
+                  handleNotificationChange("todoListUpdates", e.target.checked)
+                }
+              />
             </ListItem>
-
             <ListItem>
               <ListItemText
                 primary={
