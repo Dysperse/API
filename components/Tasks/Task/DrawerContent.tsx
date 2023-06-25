@@ -1,7 +1,6 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -424,15 +423,6 @@ export default function DrawerContent({
                 storage?.isReached === true ||
                 session.permission === "read-only"
               }
-              onDelete={(e) => {
-                e.stopPropagation();
-                setTaskData((prev) => ({
-                  ...prev,
-                  due: false,
-                }));
-                handleParentClose();
-                handleEdit(data.id, "due", "");
-              }}
             />
           )}
         </Box>
