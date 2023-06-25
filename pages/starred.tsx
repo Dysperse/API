@@ -8,11 +8,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 import Categories from "./items";
+import { useDarkMode } from "@/lib/client/useColor";
 
 export default function Trash() {
   const { data, url, error } = useApi("property/inventory/starred");
   const router = useRouter();
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
 
   return (
     <Categories>
@@ -36,7 +38,7 @@ export default function Trash() {
             width={256}
             height={171}
             style={{
-              ...(session.user.darkMode && { filter: "invert(1)" }),
+              ...(isDark && { filter: "invert(1)" }),
             }}
           />
           <Typography variant="h6" gutterBottom>

@@ -1,5 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
@@ -27,7 +28,9 @@ export function Storage({
   color: any;
 }) {
   const session = useSession();
-  const palette = useColor(color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(color, isDark);
 
   const { data, url, error } = useApi("property/storage", {
     property: propertyId,
@@ -107,14 +110,14 @@ export function Storage({
           <Box
             sx={{
               width: `${storage.items}%`,
-              background: colors[color][session.user.darkMode ? 500 : 700],
+              background: colors[color][isDark ? 500 : 700],
               height: "100%",
             }}
           />
           <Box
             sx={{
               width: `${storage.tasks}%`,
-              background: colors[color][session.user.darkMode ? 700 : 800],
+              background: colors[color][isDark ? 700 : 800],
               height: "100%",
               borderRadius: "0 99px 99px 0",
             }}

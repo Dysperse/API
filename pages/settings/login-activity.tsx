@@ -1,7 +1,8 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Button,
@@ -25,7 +26,7 @@ const Session: any = React.memo(function Session({
   data,
 }: any) {
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <ListItem

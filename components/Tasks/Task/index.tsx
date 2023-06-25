@@ -1,6 +1,6 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
@@ -12,9 +12,9 @@ import {
   Icon,
   ListItemButton,
   ListItemText,
-  styled,
   Tooltip,
   Typography,
+  styled,
 } from "@mui/material";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";
@@ -47,6 +47,7 @@ export const Task: any = function Task({
   const ref: any = useRef();
   const session = useSession();
   const storage = useAccountStorage();
+  const isDark = useDarkMode(session.darkMode);
 
   useEffect(() => setTaskData(task), [task]);
 
@@ -57,7 +58,7 @@ export const Task: any = function Task({
         width: 25,
         height: 25,
         boxShadow: `${
-          session.user.darkMode
+          isDark
             ? `inset 0 0 0 1.5px ${colors[taskData.color ?? "blueGrey"]["600"]}`
             : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
         }`,
@@ -67,33 +68,33 @@ export const Task: any = function Task({
           opacity: 0.5,
         },
       })),
-    [taskData.color, session.user.darkMode]
+    [taskData.color, isDark]
   );
 
   const BpCheckedIcon: any = useMemo(
     () =>
       styled(BpIcon)({
         boxShadow: `${
-          session.user.darkMode
+          isDark
             ? "inset 0 0 0 2px rgba(255,255,255,.6)"
             : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
         }`,
         backgroundColor: `${
-          colors[taskData.color || "grey"][session.user.darkMode ? 50 : "A700"]
+          colors[taskData.color || "grey"][isDark ? 50 : "A700"]
         }!important`,
         "&:before": {
           display: "block",
           width: 25,
           height: 25,
           backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 20' fill='none' stroke='%23${
-            session.user.darkMode ? "000" : "fff"
+            isDark ? "000" : "fff"
           }' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           content: '""',
         },
       }),
-    [taskData.color, session.user.darkMode, BpIcon]
+    [taskData.color, isDark, BpIcon]
   );
 
   const handleCompletion = useCallback(
@@ -149,7 +150,7 @@ export const Task: any = function Task({
     [board, session, storage]
   );
 
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return !taskData ? (
     <div />
@@ -166,7 +167,7 @@ export const Task: any = function Task({
           tabIndex={0}
           className="cursor-unset"
           sx={{
-            color: colors["grey"][session.user.darkMode ? "A100" : "800"],
+            color: colors["grey"][isDark ? "A100" : "800"],
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             transition: "none",
@@ -289,13 +290,11 @@ export const Task: any = function Task({
                           size="small"
                           sx={{
                             background:
-                              (session.user.darkMode
-                                ? "#642302"
-                                : colors.orange[100]) + "!important",
+                              (isDark ? "#642302" : colors.orange[100]) +
+                              "!important",
                             color:
-                              colors.orange[
-                                session.user.darkMode ? "50" : "900"
-                              ] + "!important",
+                              colors.orange[isDark ? "50" : "900"] +
+                              "!important",
                           }}
                           label="Urgent"
                           icon={

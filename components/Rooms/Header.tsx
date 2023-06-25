@@ -1,5 +1,6 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -32,7 +33,9 @@ export function Header({
 }) {
   const router = useRouter();
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <ListItem
@@ -48,9 +51,7 @@ export function Header({
         py: 3,
         pt: 1,
         "&:focus": {
-          background: session.user.darkMode
-            ? "hsl(240,11%,27%)"
-            : "hsla(240,11%,97%, 0.8)",
+          background: isDark ? "hsl(240,11%,27%)" : "hsla(240,11%,97%, 0.8)",
         },
       }}
     >

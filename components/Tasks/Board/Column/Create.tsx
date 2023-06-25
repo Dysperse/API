@@ -1,6 +1,7 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -31,7 +32,7 @@ export default function CreateColumn({
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const ref: any = useRef();
   const [loading, setLoading] = useState<boolean>(false);
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [emoji, setEmoji] = useState("1f3af");
 
   const handleSubmit = useCallback(() => {

@@ -1,4 +1,5 @@
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { Box, SwipeableDrawer, TextField, Typography } from "@mui/material";
 import { SearchIndex, init } from "emoji-mart";
@@ -31,7 +32,7 @@ export default function EmojiPicker({
   const [open, setOpen] = useState<boolean>(false);
   const [results, setResults] = useState<Array<any>>([]);
   const [inputValue, setInputValue] = useState("");
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

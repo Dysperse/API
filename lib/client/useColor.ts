@@ -26,9 +26,7 @@ export function useColor(base: keyof typeof colors, dark: boolean) {
  * @param setting Required. "light" | "dark" | "system"
  * @returns
  */
-export default function useDarkMode(
-  setting: "light" | "dark" | "system"
-): boolean {
+export function useDarkMode(setting: "light" | "dark" | "system"): boolean {
   const system = useMediaQuery("(prefers-color-scheme: dark)");
 
   if (setting === "system") {

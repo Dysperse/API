@@ -5,7 +5,8 @@ import { Rooms } from "@/components/Rooms/items/Rooms";
 import { rooms } from "@/components/Rooms/rooms";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
@@ -91,8 +92,8 @@ export default function Inventory({ children = null }: any) {
 
   const { data } = useApi("property/inventory/count");
   const { data: dataRooms, url, error } = useApi("property/inventory/rooms");
-
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
@@ -219,7 +220,7 @@ export default function Inventory({ children = null }: any) {
               alignItems: "center",
               height: "100vh",
               width: "100%",
-              color: `hsl(240,11%,${session.user.darkMode ? 90 : 10}%)`,
+              color: `hsl(240,11%,${isDark ? 90 : 10}%)`,
             }}
           >
             <Typography variant="h6">No room selected</Typography>

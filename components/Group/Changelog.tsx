@@ -1,5 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import Timeline from "@mui/lab/Timeline";
 import TimelineConnector from "@mui/lab/TimelineConnector";
@@ -36,7 +37,7 @@ export function Changelog({ disabled }) {
     },
     [open]
   );
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <>

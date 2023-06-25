@@ -1,5 +1,6 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Logo } from "@/pages";
@@ -16,7 +17,7 @@ const SearchPopup = dynamic(() => import("./Search"));
 export function Sidebar() {
   const router = useRouter();
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [clickCount, setClickCount] = useState(0);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -119,6 +120,9 @@ export function Sidebar() {
     },
     [open]
   );
+
+  const isDark = useDarkMode(session.darkMode);
+
   const styles = (active: any = false) => {
     return {
       color: palette[12],
@@ -137,7 +141,7 @@ export function Sidebar() {
       },
       "&:hover .material-symbols-outlined": {
         background: palette[2],
-        color: session.user.darkMode ? "#fff" : "#000",
+        color: isDark ? "#fff" : "#000",
       },
       userSelect: "none",
       ...(active && {

@@ -1,5 +1,6 @@
 import Item from "@/components/ItemPopup";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -23,7 +24,9 @@ export function ItemCard({
   item: ItemType;
 }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <Item id={item.id as any} mutationUrl={mutationUrl}>
@@ -48,7 +51,7 @@ export function ItemCard({
           mb: { xs: 2, sm: 0 },
           border: "2px solid transparent",
           ...(item.starred && {
-            borderColor: colors.orange[session.user.darkMode ? "A400" : 900],
+            borderColor: colors.orange[isDark ? "A400" : 900],
           }),
           "& *:not(.MuiTouchRipple-root *, .override *)": {
             background: "transparent",

@@ -1,4 +1,5 @@
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { Box, CardActionArea, Icon, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
@@ -8,7 +9,9 @@ import { useRouter } from "next/router";
 export function DailyCheckInDrawer({ mood }) {
   const router = useRouter();
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <>
@@ -66,7 +69,7 @@ export function DailyCheckInDrawer({ mood }) {
         {mood && (
           <Icon
             sx={{
-              color: green[session.user.darkMode ? "A400" : "A700"],
+              color: green[isDark ? "A400" : "A700"],
               fontSize: "30px!important",
             }}
           >

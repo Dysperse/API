@@ -1,6 +1,7 @@
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -17,7 +18,8 @@ import { Virtuoso } from "react-virtuoso";
 export function Following({ styles, data }): JSX.Element {
   const [open, setOpen] = useState(false);
   const session = useSession();
-  const palette = useColor(data.color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(data.color, isDark);
 
   return (
     <>

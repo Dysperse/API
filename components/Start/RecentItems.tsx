@@ -1,5 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -28,7 +29,9 @@ export function RecentItems() {
   });
 
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(session.themeColor, isDark);
 
   const handleClick = () => {
     const e: any = document.querySelector("#createTask");
@@ -42,7 +45,7 @@ export function RecentItems() {
           <Box
             sx={{
               border: "1px solid",
-              borderColor: `hsl(240,11%,${session.user.darkMode ? 20 : 95}%)`,
+              borderColor: `hsl(240,11%,${isDark ? 20 : 95}%)`,
               overflow: "hidden",
               borderRadius: 5,
               p: { sm: 2 },
@@ -164,10 +167,7 @@ export function RecentItems() {
                           height: "23px!important",
                           verticalAlign: "top !important",
                         },
-                        color:
-                          colors[item.color][
-                            session.user.darkMode ? "A400" : 900
-                          ],
+                        color: colors[item.color][isDark ? "A400" : 900],
                       }}
                     >
                       <span>

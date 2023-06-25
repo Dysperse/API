@@ -1,6 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -265,7 +266,7 @@ export default function Spotlight() {
   const { data: roomData } = useApi("property/inventory/rooms");
   const { data: boardData } = useApi("property/boards");
 
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [badge, setBadge] = useState<null | string>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 

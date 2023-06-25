@@ -1,5 +1,6 @@
 import { useBackButton } from "@/lib/client/useBackButton";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -21,7 +22,7 @@ import { MoreOptions } from "./MoreOptions";
 export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   useBackButton(() => setOpen(false));
 

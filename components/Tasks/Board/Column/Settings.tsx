@@ -20,6 +20,7 @@ import { toast } from "react-hot-toast";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
+import { useDarkMode } from "@/lib/client/useColor";
 
 export function ColumnSettings({ setColumnTasks, mutateData, column }) {
   const storage = useAccountStorage();
@@ -46,6 +47,7 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
   const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
 
+  const isDark = useDarkMode(session.darkMode);
   const handleModalClose = () => {
     mutateData();
     setOpen(false);
@@ -171,11 +173,11 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
         sx={{
           ...(Boolean(anchorEl) && {
             background: `${
-              session.user.darkMode
+              isDark
                 ? "hsla(240,11%,25%, 0.3)"
                 : "rgba(0,0,0,0.05)"
             }!important`,
-            color: session.user.darkMode ? "#fff!important" : "#000!important",
+            color: isDark ? "#fff!important" : "#000!important",
           }),
         }}
       >

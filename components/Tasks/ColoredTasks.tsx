@@ -1,5 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
@@ -23,7 +24,7 @@ export function ColoredTasks({ setDrawerOpen }) {
   const [color, setColor] = useState("all");
 
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
 
   if (!data) {
     return (
@@ -137,7 +138,7 @@ export function ColoredTasks({ setDrawerOpen }) {
               height={256}
               alt="Backlog"
               style={{
-                ...(session.user.darkMode && {
+                ...(isDark && {
                   filter: "invert(100%)",
                 }),
               }}
@@ -177,9 +178,7 @@ export function ColoredTasks({ setDrawerOpen }) {
                   alignItems: "center",
                   justifyContent: "center",
                   flexDirection: "column",
-                  background: `hsl(240,11%,${
-                    session.user.darkMode ? 30 : 95
-                  }%)`,
+                  background: `hsl(240,11%,${isDark ? 30 : 95}%)`,
                   borderRadius: 5,
                   userSelect: "none",
                 }}
@@ -190,7 +189,7 @@ export function ColoredTasks({ setDrawerOpen }) {
                   height={256}
                   alt="Backlog"
                   style={{
-                    ...(session.user.darkMode && {
+                    ...(isDark && {
                       filter: "invert(100%)",
                     }),
                   }}

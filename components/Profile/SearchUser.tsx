@@ -1,4 +1,5 @@
 import { isEmail } from "@/components/Group/Members";
+import { useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Button, Icon, IconButton, Popover, TextField } from "@mui/material";
@@ -12,7 +13,7 @@ export function SearchUser({ profileCardStyles, data }) {
   const ref: any = useRef();
   const [email, setEmail] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
+  const isDark = useDarkMode(session.darkMode);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     if (ref) setTimeout(() => ref.current?.focus(), 200);
@@ -52,7 +53,7 @@ export function SearchUser({ profileCardStyles, data }) {
             p: 3,
             borderRadius: 5,
             boxShadow: 0,
-            background: `hsl(240,11%,${session.user.darkMode ? 15 : 95}%)`,
+            background: `hsl(240,11%,${isDark ? 15 : 95}%)`,
           },
         }}
       >

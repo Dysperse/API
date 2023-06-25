@@ -1,6 +1,7 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -40,7 +41,9 @@ export const Column: any = memo(function Column({
   navigation,
 }: AgendaColumnProps) {
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(session.themeColor, isDark);
 
   const subheading =
     view === "week"
@@ -201,7 +204,7 @@ export const Column: any = memo(function Column({
         <Box
           onClick={scrollIntoView}
           sx={{
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: isDark ? "#fff" : "#000",
             py: 3.5,
             px: 4,
             background: "transparent",
@@ -296,7 +299,7 @@ export const Column: any = memo(function Column({
                 ) : (
                   <Icon
                     sx={{
-                      color: green[session.user.darkMode ? "A700" : "800"],
+                      color: green[isDark ? "A700" : "800"],
                     }}
                     className="outlined"
                   >
@@ -343,7 +346,7 @@ export const Column: any = memo(function Column({
                   width={256}
                   height={256}
                   style={{
-                    ...(session.user.darkMode && {
+                    ...(isDark && {
                       filter: "invert(100%)",
                     }),
                   }}

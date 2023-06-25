@@ -1,5 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { Avatar, Box, CircularProgress, Icon, IconButton } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
@@ -43,7 +44,9 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
   );
 
   useEffect(() => setPhoto(data?.Profile?.picture), [data]);
-  const palette = useColor(data?.color || "gray", session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(data?.color || "gray", isDark);
 
   return (
     <Box
@@ -51,9 +54,7 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
         position: "relative",
         height: 150,
         width: 150,
-        boxShadow: `0 0 0 5px hsl(240,11%,${
-          session.user.darkMode ? 10 : 100
-        }%)`,
+        boxShadow: `0 0 0 5px hsl(240,11%,${isDark ? 10 : 100}%)`,
         borderRadius: 9999,
         alignSelf: { xs: "center", md: "flex-start" },
       }}

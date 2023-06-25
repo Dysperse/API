@@ -1,6 +1,5 @@
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
-import useDarkMode from "@/lib/client/useTheme";
 import { Button, ButtonGroup } from "@mui/material";
 
 export function OptionsGroup({
@@ -15,7 +14,8 @@ export function OptionsGroup({
   sx?: any;
 }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <ButtonGroup
@@ -44,7 +44,7 @@ export function OptionsGroup({
             borderRadius: "15px!important",
             transition: "none!important",
             background: `${palette[9]}!important`,
-            color: session.user.darkMode ? "#000" : "#fff",
+            color: isDark ? "#000" : "#fff",
             cursor: "default",
             ...(currentOption !== option && {
               background: `${palette[5]}!important`,

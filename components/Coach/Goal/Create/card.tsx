@@ -1,6 +1,7 @@
 import { Puller } from "@/components/Puller";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, Icon, SwipeableDrawer, Typography } from "@mui/material";
@@ -11,7 +12,7 @@ import { toast } from "react-hot-toast";
 export function ExploreGoalCard({ goal }) {
   const router = useRouter();
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);

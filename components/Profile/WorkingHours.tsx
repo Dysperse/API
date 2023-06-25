@@ -1,5 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -65,7 +66,9 @@ export function WorkingHours({
     setWorkingHours(updatedWorkingHours);
     setEdited(true);
   };
-  const palette = useColor(color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(color, isDark);
 
   return !editMode && workingHours.length == 0 ? (
     <></>

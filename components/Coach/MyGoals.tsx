@@ -1,5 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -53,7 +54,7 @@ export function MyGoals(): JSX.Element {
       ),
     [data, deferredQuery]
   );
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const children = data ? (
     <>

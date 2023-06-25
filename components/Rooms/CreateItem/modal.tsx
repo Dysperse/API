@@ -1,7 +1,8 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -98,13 +99,14 @@ export function CreateItemModal({
   }, [category, mutationUrl, quantity, title, room]);
 
   const storage = useAccountStorage();
+  const isDark = useDarkMode(session.darkMode);
 
   const handleClick = (item) => {
     setTitle(item.name);
     setQuantity("1");
     setCategory(JSON.stringify(item.tags));
   };
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <>
@@ -127,7 +129,7 @@ export function CreateItemModal({
             borderTopLeftRadius: { xs: 0, sm: "20px" },
             borderTopRightRadius: { xs: 0, sm: "20px" },
             zIndex: 99,
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: isDark ? "#fff" : "#000",
           }}
           position="sticky"
         >

@@ -1,6 +1,7 @@
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -112,7 +113,9 @@ export default function DrawerContent({
   const menuOpen = Boolean(anchorEl);
   const handleMenuClick = (event: any) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(session.themeColor, isDark);
 
   const handlePriorityChange = useCallback(async () => {
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
@@ -282,16 +285,16 @@ export default function DrawerContent({
                 px: 1.5,
                 ...buttonStyles,
                 ...(data.completed && {
-                  background: session.user.darkMode
+                  background: isDark
                     ? "hsl(154, 48.4%, 12.9%)"
                     : "hsl(141, 43.7%, 86.0%)",
                   "&:hover": {
-                    background: session.user.darkMode
+                    background: isDark
                       ? "hsl(154, 49.7%, 14.9%)"
                       : "hsl(143, 40.3%, 79.0%)",
                   },
                   "&:active": {
-                    background: session.user.darkMode
+                    background: isDark
                       ? "hsl(154, 49.7%, 14.9%)"
                       : "hsl(146, 38.5%, 69.0%)",
                   },
@@ -326,16 +329,16 @@ export default function DrawerContent({
                   flexShrink: 0,
                   ...buttonStyles,
                   ...(data.pinned && {
-                    background: session.user.darkMode
+                    background: isDark
                       ? "hsl(24, 88.6%, 19.8%)"
                       : "hsl(25, 100%, 82.8%)",
                     "&:hover": {
-                      background: session.user.darkMode
+                      background: isDark
                         ? "hsl(24, 92.4%, 24.0%)"
                         : "hsl(24, 100%, 75.3%)",
                     },
                     "&:active": {
-                      background: session.user.darkMode
+                      background: isDark
                         ? "hsl(25, 100%, 29.0%)"
                         : "hsl(24, 94.5%, 64.3%)",
                     },
@@ -458,7 +461,7 @@ export default function DrawerContent({
             sx: {
               fontSize: { xs: "50px", sm: "55px" },
               textDecoration: "underline",
-              color: colors[data.color][session.user.darkMode ? "A200" : 800],
+              color: colors[data.color][isDark ? "A200" : 800],
             },
           }}
         />
@@ -481,7 +484,7 @@ export default function DrawerContent({
               py: 1,
               mb: 1,
               borderBottom: "1px solid",
-              borderColor: `hsl(240,11%,${session.user.darkMode ? 20 : 90}%)`,
+              borderColor: `hsl(240,11%,${isDark ? 20 : 90}%)`,
             },
             ...((isValidHttpUrl(data.where) || isAddress(data.where)) && {
               endAdornment: (

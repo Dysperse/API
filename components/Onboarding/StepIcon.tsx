@@ -1,11 +1,12 @@
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { StepIconProps, styled } from "@mui/material";
 
 export function StepIcon(props: StepIconProps) {
   const { active, completed, className } = props;
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const StepIconRoot = styled("div")<{
     ownerState: { active?: boolean };

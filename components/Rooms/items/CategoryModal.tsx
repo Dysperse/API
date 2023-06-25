@@ -1,5 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -35,6 +36,7 @@ const CategoryModal = memo(function CategoryModal({
   useBackButton(() => setOpen(false));
 
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
 
   const handleFetch = () => {
     setLoading(true);
@@ -111,7 +113,7 @@ const CategoryModal = memo(function CategoryModal({
           borderRadius: 4,
           transition: "none!important",
 
-          ...(session.user.darkMode && {
+          ...(isDark && {
             "&:hover .MuiAvatar-root": {
               background: "hsl(240,11%,27%)",
             },

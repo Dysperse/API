@@ -1,6 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -192,15 +193,12 @@ export default function ImageRecognition({
   const [open, setOpen] = React.useState(foreverRequired);
   const [facingMode, setFacingMode] = React.useState("environment");
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
 
   useEffect(() => {
     const tag: any = document.querySelector('meta[name="theme-color"]');
-    tag.content = open
-      ? "#000000"
-      : session.user.darkMode
-      ? "hsl(240,11%,10%)"
-      : "#fff";
-  }, [open, session.user.darkMode]);
+    tag.content = open ? "#000000" : isDark ? "hsl(240,11%,10%)" : "#fff";
+  }, [open, isDark]);
 
   const storage = useAccountStorage();
 

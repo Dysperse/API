@@ -2,7 +2,8 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
@@ -69,7 +70,8 @@ export function CreateTask({
 }: any) {
   const session = useSession();
   const storage = useAccountStorage();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -528,11 +530,7 @@ export function CreateTask({
                   </Icon>
                 </IconButton>
               </Tooltip>
-              <ImageModal
-                styles={styles}
-                image={image}
-                setImage={setImage}
-              />
+              <ImageModal styles={styles} image={image} setImage={setImage} />
               <Tooltip title="Emoji (alt • e)" placement="top">
                 <div>
                   <EmojiPicker
@@ -603,7 +601,7 @@ export function CreateTask({
                     color="inherit"
                     sx={{
                       ...(deferredTitle.trim() !== "" && {
-                        color: session.user.darkMode ? "#fff" : "#000",
+                        color: isDark ? "#fff" : "#000",
                       }),
                       "&:active": {
                         transform: "scale(.95)",

@@ -2,7 +2,8 @@ import { ErrorHandler } from "@/components/Error";
 import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -49,7 +50,7 @@ export default function Dashboard() {
   }, [data, filters]);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>

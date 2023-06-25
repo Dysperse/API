@@ -1,4 +1,5 @@
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import { CircularProgress, Icon, IconButton, Tooltip } from "@mui/material";
@@ -8,7 +9,7 @@ import toast from "react-hot-toast";
 export function ImageModal({ image, setImage, styles }) {
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const handleUpload = useCallback(
     async (e: any) => {

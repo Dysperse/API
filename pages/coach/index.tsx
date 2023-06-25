@@ -1,7 +1,8 @@
 import { MyGoals } from "@/components/Coach/MyGoals";
 import { ErrorHandler } from "@/components/Error";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -36,7 +37,7 @@ export default function Render() {
   const isStreakBroken =
     dayjs().diff(dayjs(data ? data.lastStreakDate : new Date()), "day") >= 2;
   const useStreakStyles = data?.streakCount > 1 && !isStreakBroken;
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (

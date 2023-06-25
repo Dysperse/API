@@ -1,4 +1,5 @@
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
@@ -17,6 +18,7 @@ export function Color({
   setTaskData: any;
 }) {
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
 
   return (
     <Box
@@ -28,7 +30,7 @@ export function Color({
         display: "flex",
         ...(task.color === color && {
           boxShadow: `0 0 0 2px ${
-            session.user.darkMode ? "hsl(240,11%,20%)" : "#fff"
+            isDark ? "hsl(240,11%,20%)" : "#fff"
           } inset`,
         }),
         transition: "box-shadow .4s",

@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import * as colors from "@radix-ui/colors";
 import Layout from ".";
+import { useDarkMode } from "../../lib/client/useColor";
 
 /**
  * Function to change theme color (Not dark mode!)
@@ -72,6 +73,7 @@ function ThemeColorSettings() {
  */
 export default function AppearanceSettings() {
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
 
   return (
     <Layout>
@@ -85,7 +87,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "false")}
-              checked={!session.user.darkMode}
+              checked={!isDark}
             />
           }
           disablePadding
@@ -118,7 +120,7 @@ export default function AppearanceSettings() {
             <Radio
               edge="end"
               onChange={() => updateSettings("darkMode", "true")}
-              checked={session.user.darkMode}
+              checked={isDark}
             />
           }
           disablePadding

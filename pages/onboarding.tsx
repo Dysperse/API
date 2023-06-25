@@ -6,7 +6,8 @@ import { StepIcon } from "@/components/Onboarding/StepIcon";
 import { cards } from "@/components/Rooms/CreateItem/cards";
 import { templates } from "@/components/Tasks/Board/Create";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -26,9 +27,9 @@ import {
   StepConnector,
   StepLabel,
   Stepper,
-  styled,
   TextField,
   Typography,
+  styled,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { stepConnectorClasses } from "@mui/material/StepConnector";
@@ -409,8 +410,8 @@ export default function Onboarding() {
       </Box>
     ) : null;
   }
-
-  const palette = useColor(session.themeColor || "gray", session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor || "gray", isDark);
 
   const Connector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {

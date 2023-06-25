@@ -1,7 +1,8 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Masonry } from "@mui/lab";
@@ -31,7 +32,7 @@ function DeleteCard({ item }) {
       setHidden(false);
     });
   };
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return hidden ? null : (
     <Box
@@ -85,6 +86,7 @@ export default function Trash() {
   const { data, url, error } = useApi("property/inventory/trash");
   const router = useRouter();
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
 
   return (
     <Categories>
@@ -108,7 +110,7 @@ export default function Trash() {
             width={256}
             height={171}
             style={{
-              ...(session.user.darkMode && { filter: "invert(1)" }),
+              ...(isDark && { filter: "invert(1)" }),
             }}
           />
           <Typography variant="h6" gutterBottom>

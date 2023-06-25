@@ -1,5 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
@@ -9,7 +10,6 @@ import {
   Card,
   Dialog,
   Icon,
-  IconButton,
   InputAdornment,
   Skeleton,
   TextField,
@@ -45,7 +45,8 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <>
@@ -75,7 +76,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             <Box
               sx={{
                 background: palette[3],
-                color: session.user.darkMode ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
                 overflowX: "auto",
@@ -183,7 +184,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             <Box
               sx={{
                 background: palette[4],
-                color: session.user.darkMode ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
                 borderRadius: 5,
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
@@ -564,7 +565,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>

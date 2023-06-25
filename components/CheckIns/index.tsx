@@ -1,5 +1,6 @@
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { Box, Typography } from "@mui/material";
 import dayjs from "dayjs";
@@ -29,7 +30,7 @@ export function DailyCheckIn() {
 
   const { data, url: mutationUrl } = useApi("user/checkIns", { date: today });
   useEffect(() => setMood(data?.[0]?.mood ?? null), [data, mood, setMood]);
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <Box

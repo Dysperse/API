@@ -1,4 +1,5 @@
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
@@ -41,7 +42,9 @@ export function RenderRoom({
   const header = (
     <Header room={room} itemCount={items.length} mutationUrl={mutationUrl} />
   );
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <Box
@@ -94,7 +97,7 @@ export function RenderRoom({
                       width={256}
                       height={256}
                       style={{
-                        ...(session.user.darkMode && {
+                        ...(isDark && {
                           filter: "invert(100%)",
                         }),
                       }}

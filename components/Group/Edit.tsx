@@ -1,6 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
@@ -80,6 +81,7 @@ export function EditProperty({
     [mutatePropertyData]
   );
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
 
   /**
    * Callback for updating note blur event
@@ -98,7 +100,7 @@ export function EditProperty({
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),
   });
-  const palette = useColor(color, session.user.darkMode);
+  const palette = useColor(color, isDark);
 
   return (
     <>

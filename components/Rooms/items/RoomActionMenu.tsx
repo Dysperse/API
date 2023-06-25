@@ -6,6 +6,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
+import { useDarkMode } from "@/lib/client/useColor";
 
 export function RoomActionMenu({
   room,
@@ -24,6 +25,8 @@ export function RoomActionMenu({
   };
   const storage = useAccountStorage();
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
+
 
   return (
     <IconButton
@@ -88,7 +91,7 @@ export function RoomActionMenu({
           <Box
             sx={{
               display: { sm: "none!important" },
-              color: session.user.darkMode ? "#fff" : "#404040",
+              color: isDark ? "#fff" : "#404040",
             }}
             className="material-symbols-rounded"
           >

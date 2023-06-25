@@ -2,6 +2,7 @@ import {
   AccountStorageState,
   modifyAccountStorageHook,
 } from "@/lib/client/useAccountStorage";
+import { useDarkMode } from "@/lib/client/useColor";
 import { modifySessionHook } from "@/lib/client/useSession";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import { Box, Button, ThemeProvider, createTheme } from "@mui/material";
@@ -61,7 +62,7 @@ export function RenderWithLayout({
 
   const userTheme = createTheme(
     useCustomTheme({
-      darkMode: data.user.darkMode,
+      darkMode: useDarkMode(data.user.darkMode),
       themeColor: themeColor,
     })
   );

@@ -1,5 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -29,7 +30,8 @@ export function PropertyInfo({
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const session = useSession();
-  const palette = useColor(color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(color, isDark);
 
   return (
     <Box>
@@ -39,9 +41,9 @@ export function PropertyInfo({
           sx={{
             mb: 2,
             background: palette[3],
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: isDark ? "#fff" : "#000",
             "& *": {
-              color: session.user.darkMode ? "#fff" : "#000",
+              color: isDark ? "#fff" : "#000",
             },
           }}
           action={
@@ -51,7 +53,7 @@ export function PropertyInfo({
                 "&:hover": {
                   background: palette[4],
                 },
-                color: session.user.darkMode ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               }}
               onClick={async () => {
                 try {
@@ -91,12 +93,10 @@ export function PropertyInfo({
             severity="info"
             sx={{
               mb: 2,
-              background: !session.user.darkMode
-                ? "rgba(200,200,200,.3)"
-                : "hsl(240,11%,15%)",
-              color: session.user.darkMode ? "#fff" : "#000",
+              background: !isDark ? "rgba(200,200,200,.3)" : "hsl(240,11%,15%)",
+              color: isDark ? "#fff" : "#000",
               "& *": {
-                color: session.user.darkMode ? "#fff" : "#000",
+                color: isDark ? "#fff" : "#000",
               },
             }}
             action={
@@ -107,7 +107,7 @@ export function PropertyInfo({
                   "&:hover": {
                     background: palette[5],
                   },
-                  color: session.user.darkMode ? "#fff" : "#000",
+                  color: isDark ? "#fff" : "#000",
                 }}
                 onClick={async () => {
                   try {

@@ -1,7 +1,8 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -164,7 +165,9 @@ export function Agenda({
     vibrate(50);
     setDrawerOpen(true);
   };
-  const palette = useColor(session.themeColor, session.user.darkMode);
+
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <>
@@ -201,7 +204,7 @@ export function Agenda({
             borderRadius: 999,
             borderColor: addHslAlpha(palette[3], 0.5),
             right: "0",
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: isDark ? "#fff" : "#000",
             display: "flex",
             alignItems: "center",
             p: 0.5,
@@ -226,9 +229,7 @@ export function Agenda({
               sx={{
                 "&:active": {
                   background: `${
-                    session.user.darkMode
-                      ? "hsla(240,11%,25%, 0.3)"
-                      : "rgba(0,0,0,0.1)"
+                    isDark ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.1)"
                   }`,
                 },
                 color: palette[9],

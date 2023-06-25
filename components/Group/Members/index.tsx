@@ -1,5 +1,6 @@
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -52,6 +53,7 @@ function Member({
 }): JSX.Element {
   const router = useRouter();
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
 
   const [deleted, setDeleted] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -159,9 +161,7 @@ function Member({
           >
             <MenuItem
               sx={{
-                color:
-                  colors.red[session.user.darkMode ? "A200" : "A400"] +
-                  "!important",
+                color: colors.red[isDark ? "A200" : "A400"] + "!important",
               }}
             >
               Remove
@@ -248,7 +248,9 @@ export function MemberList({
   handleParentClose: any;
 }): JSX.Element {
   const session = useSession();
-  const palette = useColor(color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(color, isDark);
 
   const { error, loading, data, url } = useApi("property/members", {
     propertyId: propertyId,

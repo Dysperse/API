@@ -1,5 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -58,15 +59,15 @@ export default function History() {
     e.preventDefault();
     router.push("/");
   });
-
+  const isDark = useDarkMode(session.darkMode);
   const styles = {
     border: "1px solid",
-    borderColor: `hsl(240,11%,${session.user.darkMode ? 15 : 90}%)`,
+    borderColor: `hsl(240,11%,${isDark ? 15 : 90}%)`,
     p: 3,
     borderRadius: 5,
     "& .MuiTypography-body2": { mb: 2 },
   };
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   const dataByDate = data
     ? data.sort(
@@ -109,7 +110,7 @@ export default function History() {
               textAlign: "center",
               p: 2,
               background: `hsla(240,11%,${
-                session.user.darkMode ? 90 : 15
+                isDark ? 90 : 15
               }%,0.1)`,
               borderRadius: 5,
               transform: "translate(-50%, -50%)",
@@ -285,7 +286,7 @@ export default function History() {
                 minWidth: "1000px",
                 "& *": {
                   borderColor: `hsl(240,11%,${
-                    session.user.darkMode ? 15 : 90
+                    isDark ? 15 : 90
                   }%)!important`,
                 },
               }}

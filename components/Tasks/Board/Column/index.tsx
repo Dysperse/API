@@ -1,6 +1,7 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -74,7 +75,8 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
     }
     setLoading(false);
   };
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <motion.div
@@ -213,7 +215,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
         <Box
           onClick={scrollIntoView}
           sx={{
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: isDark ? "#fff" : "#000",
             p: { xs: 2, sm: column.name === "" ? 1 : 3 },
             px: 4,
             background: { sm: addHslAlpha(palette[2], 0.7) },
@@ -326,7 +328,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
                 width={256}
                 height={256}
                 style={{
-                  ...(session.user.darkMode && {
+                  ...(isDark && {
                     filter: "invert(100%)",
                   }),
                 }}

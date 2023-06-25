@@ -3,7 +3,7 @@ import { PropertyInfo } from "@/components/Group";
 import { Changelog } from "@/components/Group/Changelog";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
@@ -22,9 +22,10 @@ import { mutate } from "swr";
 function Group({ group, handleMutate }) {
   const session = useSession();
   const router = useRouter();
+  const isDark = useDarkMode(session.darkMode);
   const palette = useColor(
     group ? group.profile.color : session.themeColor,
-    session.user.darkMode
+    isDark
   );
 
   return (
@@ -69,8 +70,8 @@ export default function Page() {
   const router = useRouter();
   const { id } = router.query;
   const [color, setColor] = useState(session.themeColor);
-
-  const palette = useColor(color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(color, isDark);
 
   const accessToken = session.properties.find(
     (property) => property.propertyId == id

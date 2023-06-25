@@ -2,7 +2,8 @@ import { ErrorHandler } from "@/components/Error";
 import { PropertyButton } from "@/components/Layout/Navigation/PropertyButton";
 import { Puller } from "@/components/Puller";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { Masonry } from "@mui/lab";
 import {
@@ -34,7 +35,9 @@ import { mutate, preload } from "swr";
 
 function ProfilePicture({ src, name, color, size }) {
   const session = useSession();
-  const palette = useColor(color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(color, isDark);
 
   return (
     <Avatar
@@ -104,7 +107,7 @@ function Friend({ friend }) {
   // const formattedEndTime = currentWorkingHours && endTime.format("HH:mm");
 
   const lastLoggedIn = friend?.following?.sessions[0]?.timestamp;
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const taskDueDates = friend?.following?.properties
     ?.flatMap((obj) => obj.profile.Task)
@@ -206,7 +209,9 @@ function BirthdayCard({ person }) {
     nextBirthday.diff(today, "day") >= 0
       ? nextBirthday.diff(today, "day")
       : nextBirthday.add(1, "year").diff(today, "day");
-  const palette = useColor(person.color, session.user.darkMode);
+
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(person.color, isDark);
 
   return (
     <Card
@@ -379,7 +384,7 @@ export default function Page() {
     date: dayjs().startOf("day").toISOString(),
   });
 
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <Box

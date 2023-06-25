@@ -1,7 +1,8 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { SidebarContext } from "@/pages/items";
@@ -114,7 +115,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
 
   const itemCount = count && count[isCustom ? room.id : room.toLowerCase()];
   const isActive = decodeURIComponent(router.asPath) == href;
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <>

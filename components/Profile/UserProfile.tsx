@@ -20,7 +20,8 @@ import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
 
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Twemoji } from "react-emoji-render";
@@ -80,7 +81,9 @@ export function UserProfile({
 
   const today = dayjs();
   const nextBirthday = dayjs(profile.birthday).year(today.year());
-  const palette = useColor(data?.color || "gray", session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(data?.color || "gray", isDark);
 
   const daysUntilNextBirthday =
     nextBirthday.diff(today, "day") >= 0
@@ -132,10 +135,9 @@ export function UserProfile({
               sx={{
                 ...(data.CoachData.streakCount > 0
                   ? {
-                      background:
-                        colors.orange[session.user.darkMode ? 900 : 100],
+                      background: colors.orange[isDark ? 900 : 100],
                       "&, & *": {
-                        color: colors.orange[session.user.darkMode ? 50 : 900],
+                        color: colors.orange[isDark ? 50 : 900],
                       },
                     }
                   : chipStyles(true)),

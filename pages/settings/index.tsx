@@ -1,7 +1,8 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
@@ -33,7 +34,9 @@ export default function Layout({ children }: any) {
   }, [router]);
 
   const [open, setOpen] = useState(false);
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(session.themeColor, isDark);
 
   const closeRef: any = useRef();
   useHotkeys("esc", () => closeRef.current?.click());
@@ -89,7 +92,7 @@ export default function Layout({ children }: any) {
           style={{
             marginTop: "-1px",
             marginLeft: "-1px",
-            ...(session.user.darkMode && {
+            ...(isDark && {
               filter: "invert(100%)",
             }),
           }}

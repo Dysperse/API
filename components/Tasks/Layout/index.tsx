@@ -1,7 +1,8 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
@@ -38,7 +39,8 @@ function SearchTasks({ setOpen }) {
   const [query, setQuery] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const palette = useColor(session.user.color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.user.color, isDark);
 
   useEffect(() => {
     if (
@@ -172,9 +174,7 @@ function SearchTasks({ setOpen }) {
             New task
             <span
               style={{
-                background: `hsla(240,11%,${
-                  session.user.darkMode ? 90 : 10
-                }%, .1)`,
+                background: `hsla(240,11%,${isDark ? 90 : 10}%, .1)`,
                 padding: "0 10px",
                 borderRadius: "5px",
               }}
@@ -254,7 +254,8 @@ export function TasksLayout({ open, setOpen, children }) {
   const storage = useAccountStorage();
   const router = useRouter();
   const session = useSession();
-  const palette = useColor(session.user.color, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.user.color, isDark);
 
   useHotkeys(["c", "/"], (e) => {
     e.preventDefault();
@@ -276,7 +277,7 @@ export function TasksLayout({ open, setOpen, children }) {
     "&:hover, &:focus": {
       background: palette[3],
     },
-    ...(session.user.darkMode && {
+    ...(isDark && {
       color: palette[11],
     }),
     overflow: "hidden",
@@ -284,7 +285,7 @@ export function TasksLayout({ open, setOpen, children }) {
     whiteSpace: "nowrap",
     ...(!condition
       ? {
-          color: `hsl(240,11%,${session.user.darkMode ? 80 : 30}%)`,
+          color: `hsl(240,11%,${isDark ? 80 : 30}%)`,
           "&:hover": {
             background: palette[3],
           },

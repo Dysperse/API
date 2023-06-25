@@ -1,6 +1,7 @@
 import { ShareGoal } from "@/components/Coach/Goal/ShareGoal";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
@@ -25,7 +26,7 @@ import { mutate } from "swr";
 
 function GoalTask({ goal, setSlide, mutationUrl }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const { width, height } = useWindowDimensions();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -301,7 +302,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
 export default function Routine() {
   const router = useRouter();
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const { data, url, error } = useApi("user/coach");
 

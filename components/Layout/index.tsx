@@ -1,7 +1,8 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -68,7 +69,8 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
 
   const [dismissed, setDismissed] = useState<boolean>(false);
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   useEffect(() => {
     document
@@ -125,7 +127,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
             <Button
               size="small"
               color="inherit"
-              sx={{ color: session.user.darkMode ? "#000" : "#fff" }}
+              sx={{ color: isDark ? "#000" : "#fff" }}
               onClick={() => setDismissed(true)}
             >
               Hide for now
@@ -136,7 +138,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
               }
               color="inherit"
               size="small"
-              sx={{ color: session.user.darkMode ? "#000" : "#fff" }}
+              sx={{ color: isDark ? "#000" : "#fff" }}
             >
               More info
             </Button>

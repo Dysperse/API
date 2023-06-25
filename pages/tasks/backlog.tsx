@@ -2,7 +2,8 @@ import { ErrorHandler } from "@/components/Error";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Box,
@@ -28,7 +29,8 @@ export default function Dashboard() {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
   const [loading, setLoading] = useState(false);
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>
@@ -102,7 +104,7 @@ export default function Dashboard() {
                   height={256}
                   alt="Backlog"
                   style={{
-                    ...(session.user.darkMode && {
+                    ...(isDark && {
                       filter: "invert(100%)",
                     }),
                   }}

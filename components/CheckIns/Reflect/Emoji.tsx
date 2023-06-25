@@ -1,6 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
@@ -77,7 +78,7 @@ export const questions = [
 
 function ExperimentalAiReflection({ emoji, answers }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [data, setData] = useState<null | any>(null);
   const [error, setError] = useState<null | any>(false);
@@ -184,7 +185,7 @@ function ExperimentalAiReflection({ emoji, answers }) {
 
 export function Emoji({ mutationUrl, emoji, defaultData }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);

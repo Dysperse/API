@@ -1,7 +1,8 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
-import { useColor } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
@@ -64,7 +65,9 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     await mutate(mutationUrls.tasks);
     await mutate(mutationUrls.boardData);
   };
-  const palette = useColor(session.themeColor, session.user.darkMode);
+  
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <Box
@@ -104,7 +107,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             borderRadius: 999,
             borderColor: addHslAlpha(palette[3], 0.5),
             right: 0,
-            color: session.user.darkMode ? "#fff" : "#000",
+            color: isDark ? "#fff" : "#000",
             display: { xs: "flex", sm: "none" },
             alignItems: "center",
             p: 0.5,
@@ -155,7 +158,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
             width: "calc(100vw - 40px)!important",
             maxWidth: "400px",
             maxHeight: "calc(100vh - 40px)!important",
-            ...(!session.user.darkMode && { background: "#fff" }),
+            ...(!isDark && { background: "#fff" }),
           },
         }}
       >
