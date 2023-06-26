@@ -190,7 +190,7 @@ function Page() {
           >
             {data ? data.name : "Profile"}
           </Typography>
-          <SearchUser profileCardStyles={profileCardStyles} data={data} />
+          <SearchUser />
           {!isCurrentUser && data?.color && (
             <ConfirmationModal
               disabled={!isFollowing}

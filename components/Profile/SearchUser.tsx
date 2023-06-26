@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
-export function SearchUser({ profileCardStyles, data }) {
+export function SearchUser() {
   const router = useRouter();
   const session = useSession();
   const ref: any = useRef();
