@@ -178,9 +178,10 @@ export default function Home() {
             sx={{
               px: { xs: 2, sm: 4 },
               fontSize: {
-                xs: "65px",
+                xs: "60px",
                 sm: "80px",
               },
+              whiteSpace: "nowrap",
               userSelect: "none",
               overflow: "hidden",
               background: `linear-gradient(${palette[11]}, ${palette[5]})`,
