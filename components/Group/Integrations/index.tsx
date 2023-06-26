@@ -1,6 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import {
   Alert,
@@ -60,6 +61,8 @@ export default function Integrations({ handleClose }) {
   ];
 
   const { data, url, error } = useApi("property/integrations");
+  const session = useSession();
+
   const [open, setOpen] = useState(false);
 
   return (

@@ -86,7 +86,7 @@ const WebcamComponent = ({
     } catch (err: any) {
       toast.error("Error: " + err.message, toastStyles);
     }
-  }, [forever, webcamRef, setTitle, setQuantity, setOpen, room]);
+  }, [session, forever, webcamRef, setTitle, setQuantity, setOpen, room]);
 
   const videoConstraints = {
     facingMode:
