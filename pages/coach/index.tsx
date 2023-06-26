@@ -7,7 +7,6 @@ import {
   Box,
   CardActionArea,
   Chip,
-  Container,
   Icon,
   Typography,
   useMediaQuery,
@@ -45,7 +44,7 @@ export default function Render() {
       <Head>
         <title>Coach</title>
       </Head>
-      <Container sx={{ pt: { xs: 0, sm: 10 }, pb: { xs: 10 } }}>
+      <Box sx={{ maxWidth: "600px", pt: { xs: 0, sm: 10 }, mx: "auto" }}>
         <Box sx={{ position: "relative" }}>
           {error && (
             <ErrorHandler
@@ -120,7 +119,7 @@ export default function Render() {
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </CardActionArea>
         <MyGoals />
-      </Container>
+      </Box>
     </Box>
   );
 }
