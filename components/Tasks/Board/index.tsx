@@ -2,7 +2,6 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
@@ -65,7 +64,7 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
     await mutate(mutationUrls.tasks);
     await mutate(mutationUrls.boardData);
   };
-  
+
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

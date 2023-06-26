@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "../Puller";
-
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useSession } from "@/lib/client/useSession";

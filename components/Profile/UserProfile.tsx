@@ -19,9 +19,7 @@ import {
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
-
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Twemoji } from "react-emoji-render";

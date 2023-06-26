@@ -9,7 +9,6 @@ import { SearchUser } from "@/components/Profile/SearchUser";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -47,13 +46,10 @@ function Page() {
     data &&
     data.followers &&
     data.followers.find((e) => e.follower.email === session.user.email);
-    
-    const isDark = useDarkMode(session.darkMode);
 
-  const palette = useColor(
-    data?.color || session.themeColor,
-    isDark
-  );
+  const isDark = useDarkMode(session.darkMode);
+
+  const palette = useColor(data?.color || session.themeColor, isDark);
 
   const handleFollowButtonClick = async () => {
     setLoading(true);

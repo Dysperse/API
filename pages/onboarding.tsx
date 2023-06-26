@@ -7,7 +7,6 @@ import { cards } from "@/components/Rooms/CreateItem/cards";
 import { templates } from "@/components/Tasks/Board/Create";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import { LoadingButton } from "@mui/lab";
 import {

@@ -2,7 +2,6 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
