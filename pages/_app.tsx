@@ -77,7 +77,7 @@ export default function App({
   const disableLayout = bareUrls.includes(router.pathname);
 
   const selectedProperty =
-    data &&
+    data?.properties &&
     (data.properties.find((property: any) => property.selected) ||
       data.properties[0]);
 
@@ -89,7 +89,7 @@ export default function App({
   return (
     <SessionProvider
       session={
-        data && {
+        data?.properties && {
           ...data,
           property: selectedProperty,
           permission: selectedProperty.permission,
