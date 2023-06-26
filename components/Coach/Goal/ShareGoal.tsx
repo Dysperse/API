@@ -175,6 +175,19 @@ export function ShareGoal({ children, goal }) {
                 {exportFooterOpen ? "close" : "palette"}
               </Icon>
             </IconButton>
+            <IconButton
+              onClick={handleExport}
+              sx={{
+                color: "inherit!important",
+                transition: "all .2s",
+                ...(exportFooterOpen && {
+                  mr: "-40px",
+                  opacity: 0,
+                }),
+              }}
+            >
+              <Icon>download</Icon>
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Box
@@ -221,7 +234,7 @@ export function ShareGoal({ children, goal }) {
               >
                 {header}
                 <Typography
-                  variant="h3"
+                  variant="h2"
                   className="font-heading"
                   gutterBottom
                   sx={{ mt: 10 }}
@@ -231,11 +244,13 @@ export function ShareGoal({ children, goal }) {
                 <Typography
                   style={{
                     marginBottom: "20px",
+                    marginTop: "-15px",
                   }}
                 >
-                  Only <b>{goal.durationDays - goal.progress}</b> days left to
-                  go! I&apos;ve been working on this goal for{" "}
-                  <b>{goal.progress}</b> days so far.
+                  <b>
+                    {goal.progress}/{goal.durationDays}
+                  </b>{" "}
+                  days worked on
                 </Typography>
                 <LinearProgress
                   value={(goal.progress / goal.durationDays) * 100}
