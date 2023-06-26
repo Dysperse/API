@@ -1,7 +1,8 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { isEmail } from "@/components/Group/Members";
-import { useStatusBar } from "@/lib/client/useStatusBar";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useColor } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -28,15 +29,19 @@ import { mutate } from "swr";
 
 function QrLogin({ handleRedirect }) {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const palette = useColor("mint", isDark);
 
   const [data, setData] = useState<any>(null);
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState<any>(null);
-  const router = useRouter();
 
   const generate = async () => {
-    const d = await fetch("/api/auth/qr/generate").then((res) => res.json());
-    setData(d);
+    try {
+      const d = await fetch("/api/auth/qr/generate").then((res) => res.json());
+      setData(d);
+    } catch {
+      setError(true);
+    }
   };
 
   useEffect(() => {
@@ -99,10 +104,7 @@ function QrLogin({ handleRedirect }) {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: `hsl(240,11%,87%)`,
-    ["@media (prefers-color-scheme: dark)"]: {
-      background: `hsl(240,11%,15%)`,
-    },
+    background: palette[4],
     borderRadius: 5,
   };
 
@@ -150,10 +152,7 @@ function QrLogin({ handleRedirect }) {
                 gap: 2,
                 alignItems: "center",
                 justifyContent: "center",
-                background: `hsla(240,11%,87%,.8)`,
-                ["@media (prefers-color-scheme: dark)"]: {
-                  background: `hsla(240,11%,20%,.8)`,
-                },
+                background: addHslAlpha(palette[4], 0.8),
                 top: 0,
                 borderRadius: 5,
                 left: 0,
@@ -192,10 +191,7 @@ function QrLogin({ handleRedirect }) {
           sx={{
             width: "250px",
             mt: 2,
-            background: `hsl(240,11%,87%)`,
-            ["@media (prefers-color-scheme: dark)"]: {
-              background: `hsl(240,11%,15%)`,
-            },
+            background: palette[4],
             p: 3,
             borderRadius: 5,
           }}
@@ -344,7 +340,6 @@ export default function Prompt() {
     },
     [captchaToken, email, password, router, twoFactorCode, handleRedirect]
   );
-  useStatusBar("hsl(240,11%,90%)");
 
   useEffect(() => {
     if (captchaToken !== "" && !buttonLoading && step === 2) handleSubmit();
@@ -362,11 +357,14 @@ export default function Prompt() {
 
   useEffect(() => emailRef?.current?.focus(), []);
 
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const palette = useColor("mint", isDark);
+
   return (
     <Layout>
       <Box
         sx={{
-          ...authStyles.container,
+          ...authStyles(palette).container,
           width: "800px",
           maxWidth: "100vw",
         }}
@@ -398,7 +396,7 @@ export default function Prompt() {
                     fullWidth
                     name="email"
                     onChange={(e: any) => setEmail(e.target.value)}
-                    sx={authStyles.input}
+                    sx={authStyles(palette).input}
                     variant="outlined"
                   />
                   <TextField
@@ -407,7 +405,7 @@ export default function Prompt() {
                     placeholder="********"
                     value={password}
                     fullWidth
-                    sx={authStyles.input}
+                    sx={authStyles(palette).input}
                     name="password"
                     onChange={(e: any) => setPassword(e.target.value)}
                     type={togglePassword ? "text" : "password"}
@@ -416,7 +414,6 @@ export default function Prompt() {
                       endAdornment: (
                         <InputAdornment position="end">
                           <ConfirmationModal
-                            rawStyles
                             title="Are you sure you want to toggle your password's visibility?"
                             question="Make sure nobody is around you 🤫"
                             callback={() => setTogglePassword(!togglePassword)}
@@ -428,9 +425,7 @@ export default function Prompt() {
                             >
                               <IconButton
                                 sx={{
-                                  ["@media (prefers-color-scheme: dark)"]: {
-                                    color: "hsl(240,11%,70%)",
-                                  },
+                                  color: palette[11],
                                 }}
                               >
                                 <span className="material-symbols-outlined">
@@ -445,7 +440,7 @@ export default function Prompt() {
                       ),
                     }}
                   />
-                  <Box sx={authStyles.footer}>
+                  <Box sx={authStyles(palette).footer}>
                     <Tooltip
                       title={
                         !isEmail(email)
@@ -465,7 +460,7 @@ export default function Prompt() {
                           disableRipple
                           disableElevation
                           id="_loading"
-                          sx={authStyles.submit}
+                          sx={authStyles(palette).submit}
                           size="large"
                           disabled={
                             !isEmail(email) ||
@@ -568,7 +563,9 @@ export default function Prompt() {
                   }${router.query.next ? "?next=" + router.query.next : ""}`}
                   legacyBehavior
                 >
-                  <Button sx={authStyles.link}>Create an account</Button>
+                  <Button sx={authStyles(palette).link}>
+                    Create an account
+                  </Button>
                 </Link>
                 <Link
                   href={`/auth/reset-id${
@@ -576,7 +573,7 @@ export default function Prompt() {
                   }${router.query.next ? "?next=" + router.query.next : ""}`}
                   legacyBehavior
                 >
-                  <Button sx={authStyles.link}>I forgot my ID</Button>
+                  <Button sx={authStyles(palette).link}>I forgot my ID</Button>
                 </Link>
               </Box>
             )}
@@ -603,11 +600,8 @@ export default function Prompt() {
               transition: "none",
             },
             userSelect: "none",
-            background: "hsl(240,11%,90%)",
-            ["@media (prefers-color-scheme: dark)"]: {
-              background: "hsl(240,11%,10%)",
-              color: "hsl(240,11%,90%)",
-            },
+            background: palette[3],
+            color: palette[11],
             borderRadius: { sm: 5 },
             mx: "auto",
             maxWidth: "100vw",

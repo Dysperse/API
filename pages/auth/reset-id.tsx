@@ -1,9 +1,17 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { isEmail } from "@/components/Group/Members";
+import { useColor } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Button, NoSsr, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  NoSsr,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -53,10 +61,13 @@ export default function Prompt() {
     }
   }, [captchaToken, handleSubmit, alreadySubmitted]);
 
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const palette = useColor("mint", isDark);
+
   return (
     <Layout>
       <Box>
-        <Box sx={authStyles.container}>
+        <Box sx={authStyles(palette).container}>
           <AuthBranding mobile />
           <Box sx={{ pt: 3 }}>
             <Box sx={{ px: 1 }}>
@@ -103,7 +114,7 @@ export default function Prompt() {
                   name="email"
                   onChange={(e: any) => setEmail(e.target.value)}
                   fullWidth
-                  sx={authStyles.input}
+                  sx={authStyles(palette).input}
                   variant="outlined"
                 />
                 <Link
@@ -112,12 +123,12 @@ export default function Prompt() {
                   }`}
                   legacyBehavior
                 >
-                  <Button sx={authStyles.link}>
+                  <Button sx={authStyles(palette).link}>
                     Wait - I remember my password, take me back
                   </Button>
                 </Link>
                 <Box sx={{ pb: { xs: 15, sm: 6 } }} />
-                <Box sx={authStyles.footer}>
+                <Box sx={authStyles(palette).footer}>
                   <LoadingButton
                     loading={buttonLoading}
                     variant="contained"
@@ -125,7 +136,7 @@ export default function Prompt() {
                     id="_loading"
                     disableElevation
                     disableRipple
-                    sx={authStyles.submit}
+                    sx={authStyles(palette).submit}
                     disabled={!isEmail(email)}
                     size="large"
                   >

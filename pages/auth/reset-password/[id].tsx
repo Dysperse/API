@@ -1,8 +1,15 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
+import { useColor } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
@@ -57,10 +64,13 @@ export default function Prompt() {
       : "#6b4b4b"
   );
 
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const palette = useColor("mint", isDark);
+
   return (
     <Layout>
       <Box>
-        <Box sx={authStyles.container}>
+        <Box sx={authStyles(palette).container}>
           <AuthBranding mobile />
           <form onSubmit={handleSubmit}>
             <Box sx={{ pt: 3 }}>
@@ -86,7 +96,7 @@ export default function Prompt() {
                 name="email"
                 onChange={(e: any) => setPassword(e.target.value)}
                 fullWidth
-                sx={authStyles.input}
+                sx={authStyles(palette).input}
                 variant="outlined"
               />
               <TextField
@@ -98,16 +108,16 @@ export default function Prompt() {
                 name="email"
                 onChange={(e: any) => setConfirmPassword(e.target.value)}
                 fullWidth
-                sx={authStyles.input}
+                sx={authStyles(palette).input}
                 variant="outlined"
               />
               <Link href="/" legacyBehavior>
-                <Button sx={authStyles.link}>
+                <Button sx={authStyles(palette).link}>
                   Wait - I remember my password, take me back
                 </Button>
               </Link>
               <Box sx={{ pb: { xs: 15, sm: 6 } }} />
-              <Box sx={authStyles.footer}>
+              <Box sx={authStyles(palette).footer}>
                 <LoadingButton
                   loading={buttonLoading}
                   type="submit"
@@ -115,7 +125,7 @@ export default function Prompt() {
                   id="_loading"
                   disableElevation
                   disableRipple
-                  sx={authStyles.submit}
+                  sx={authStyles(palette).submit}
                   disabled={
                     !/\d/.test(password) ||
                     !/[a-z]/i.test(password) ||

@@ -1,4 +1,5 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
+import { useColor } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -9,6 +10,7 @@ import {
   NoSsr,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -78,10 +80,13 @@ export default function Prompt() {
     }
   }, [captchaToken, handleSubmit, alreadySubmitted]);
 
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const palette = useColor("mint", isDark);
+
   return (
     <Layout>
       <Box>
-        <Box sx={authStyles.container}>
+        <Box sx={authStyles(palette).container}>
           <AuthBranding mobile />
           <Box sx={{ pt: 3 }}>
             <Box sx={{ px: 1 }}>
@@ -141,7 +146,7 @@ export default function Prompt() {
                   name="name"
                   fullWidth
                   onChange={(e: any) => setName(e.target.value)}
-                  sx={authStyles.input}
+                  sx={authStyles(palette).input}
                   variant="outlined"
                 />
                 <TextField
@@ -153,7 +158,7 @@ export default function Prompt() {
                   name="email"
                   onChange={(e: any) => setEmail(e.target.value)}
                   fullWidth
-                  sx={authStyles.input}
+                  sx={authStyles(palette).input}
                   variant="outlined"
                 />
                 <TextField
@@ -163,7 +168,7 @@ export default function Prompt() {
                   value={password}
                   placeholder="********"
                   fullWidth
-                  sx={authStyles.input}
+                  sx={authStyles(palette).input}
                   name="password"
                   type="password"
                   {...((password.length < 8 ||
@@ -193,7 +198,7 @@ export default function Prompt() {
                   placeholder="********"
                   label="Repeat password"
                   value={confirmPassword}
-                  sx={authStyles.input}
+                  sx={authStyles(palette).input}
                   name="confirmPassword"
                   onChange={(e: any) => setConfirmPassword(e.target.value)}
                   variant="outlined"
@@ -218,12 +223,12 @@ export default function Prompt() {
                   }`}
                   legacyBehavior
                 >
-                  <Button sx={authStyles.link}>
+                  <Button sx={authStyles(palette).link}>
                     I already have an account
                   </Button>
                 </Link>
                 <Box sx={{ pb: { xs: 15, sm: 6 } }} />
-                <Box sx={authStyles.footer}>
+                <Box sx={authStyles(palette).footer}>
                   <LoadingButton
                     loading={buttonLoading}
                     type="submit"
@@ -232,7 +237,7 @@ export default function Prompt() {
                     disableElevation
                     disableRipple
                     onClick={() => setStep(1)}
-                    sx={authStyles.submit}
+                    sx={authStyles(palette).submit}
                     disabled={
                       name.trim() === "" ||
                       email.trim() === "" ||

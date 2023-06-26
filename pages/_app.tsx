@@ -80,7 +80,7 @@ export default function App({
     (data.properties.find((property: any) => property.selected) ||
       data.properties[0]);
 
-  const themeColor = data?.user?.color || "gray";
+  const themeColor = data?.user?.color || "mint";
   const isDark = useDarkMode(data?.user?.darkMode || "system");
 
   const palette = useColor(themeColor, isDark);
@@ -106,6 +106,8 @@ export default function App({
     document.body.classList[isDark ? "add" : "remove"]("dark");
   }, [isDark]);
 
+  const children = <Component {...pageProps} />;
+
   return (
     <SessionProvider
       session={
@@ -121,33 +123,30 @@ export default function App({
       <StorageContext.Provider value={{ isReached, setIsReached }}>
         <ThemeProvider theme={userTheme}>
           <Toaster containerClassName="noDrag" />
+          <Head>
+            <title>Dysperse</title>
+            <meta name="theme-color" content={palette[1]} />
+            <link
+              rel="shortcut icon"
+              href={
+                isDark
+                  ? "https://assets.dysperse.com/v6/dark-rounded.png"
+                  : "https://assets.dysperse.com/v5/windows11/SmallTile.scale-100.png"
+              }
+            />
+          </Head>
+          <Analytics />
+
           {disableLayout ? (
-            <>
-              <Component {...pageProps} />
-            </>
+            children
           ) : (
             <>
-              <Head>
-                <title>Dysperse</title>
-                <meta name="theme-color" content={palette[1]} />
-                <link
-                  rel="shortcut icon"
-                  href={
-                    isDark
-                      ? "https://assets.dysperse.com/v6/dark-rounded.png"
-                      : "https://assets.dysperse.com/v5/windows11/SmallTile.scale-100.png"
-                  }
-                />
-              </Head>
-              <Analytics />
               {isLoading && <Loading />}
-              {isError && <Error />}
-              {!isLoading && !isError && !data.error && (
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              )}
               {!isLoading && !isError && data.error && <AuthLoading />}
+              {!isLoading && !isError && !data.error && (
+                <Layout>{children}</Layout>
+              )}
+              {isError && <Error />}
             </>
           )}
         </ThemeProvider>
