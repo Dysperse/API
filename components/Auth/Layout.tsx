@@ -1,7 +1,7 @@
 import { useColor } from "@/lib/client/useColor";
-import { Box, Chip, Typography, useMediaQuery } from "@mui/material";
+import { Logo } from "@/pages";
+import { Box, useMediaQuery } from "@mui/material";
 import Head from "next/head";
-import Image from "next/image";
 import { Toaster } from "react-hot-toast";
 
 export const AuthBranding = ({ mobile = false }: any) => (
@@ -31,35 +31,7 @@ export const AuthBranding = ({ mobile = false }: any) => (
     }}
     onClick={() => window.open("//dysperse.com")}
   >
-    <Image
-      src="/images/monochrome.svg"
-      width={45}
-      height={45}
-      alt="logo"
-      draggable={false}
-    />
-    <Typography
-      sx={{ fontWeight: "200!important", fontSize: "18px" }}
-      component="div"
-    >
-      Dysperse
-      <Chip
-        label="beta"
-        color="info"
-        size="small"
-        sx={{
-          pointerEvents: "none",
-          ml: 2,
-          px: 1,
-          background: "rgba(0,0,0,0.1)",
-          color: "#000",
-          [`@media (prefers-color-scheme: dark)`]: {
-            color: "#fff",
-          },
-          fontWeight: "900",
-        }}
-      />
-    </Typography>
+    <Logo intensity={6} />
   </Box>
 );
 

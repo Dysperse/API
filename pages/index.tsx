@@ -20,7 +20,10 @@ import { useEffect, useMemo, useState } from "react";
 export function Logo({ intensity = 4 }: any) {
   const session = useSession();
 
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const palette = useColor(
+    session?.themeColor || "mint",
+    useDarkMode(session?.darkMode || "system")
+  );
 
   return (
     <svg
