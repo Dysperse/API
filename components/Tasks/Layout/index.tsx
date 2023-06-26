@@ -261,6 +261,11 @@ export function TasksLayout({ open, setOpen, children }) {
     document.getElementById("createTask")?.click();
   });
 
+  useHotkeys("d", () => router.push("/tasks/agenda/day"));
+  useHotkeys("w", () => router.push("/tasks/agenda/week"));
+  useHotkeys("m", () => router.push("/tasks/agenda/month"));
+  useHotkeys("y", () => router.push("/tasks/agenda/year"));
+
   const styles = (condition: boolean) => ({
     cursor: { sm: "unset!important" },
     transition: "none!important",
@@ -299,23 +304,6 @@ export function TasksLayout({ open, setOpen, children }) {
   });
 
   const ref: any = useRef();
-  const handleClick = (id) => document.getElementById(id)?.click();
-
-  useHotkeys("alt+c", (c) => {
-    c.preventDefault(), ref.current?.click();
-  });
-
-  useHotkeys("alt+w", (e) => {
-    e.preventDefault(), handleClick("__agenda.week");
-  });
-  useHotkeys("alt+m", (a) => {
-    a.preventDefault(), handleClick("__agenda.month");
-  });
-
-  useHotkeys("alt+y", (a) => {
-    a.preventDefault(), handleClick("__agenda.year");
-  });
-
   const title = useDocumentTitle();
 
   const menuChildren = (
