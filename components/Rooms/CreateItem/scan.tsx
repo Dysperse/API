@@ -197,7 +197,9 @@ export default function ImageRecognition({
 
   useEffect(() => {
     const tag: any = document.querySelector('meta[name="theme-color"]');
-    tag.content = open ? "#000000" : isDark ? "hsl(240,11%,10%)" : "#fff";
+    if (open) {
+      tag.content = "#000000";
+    }
   }, [open, isDark]);
 
   const storage = useAccountStorage();
