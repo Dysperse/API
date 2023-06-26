@@ -197,14 +197,25 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           maxWidth: "100vw",
         }}
       >
-        <Collapse in={loading} orientation="vertical" mountOnEnter>
+        <Collapse
+          in={loading}
+          orientation="vertical"
+          mountOnEnter
+          sx={{
+            px: { xs: 2, sm: 0 },
+            borderRadius: { xs: 5, sm: 0 },
+            overflow: "hidden",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              borderRadius: { xs: 5, sm: 0 },
               width: "100%",
               height: "100px",
+              mt: { xs: 2, sm: 0 },
               background: palette[3],
             }}
           >
@@ -237,6 +248,21 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           >
             <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
               <Typography
+                onContextMenu={() => {
+                  toast(column.name, {
+                    ...toastStyles,
+                    icon: (
+                      <picture>
+                        <img
+                          alt="Emoji"
+                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                          width={24}
+                          height={24}
+                        />
+                      </picture>
+                    ),
+                  });
+                }}
                 variant="h4"
                 className="font-heading"
                 sx={{
@@ -249,13 +275,16 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
                     xs: "50px",
                     sm: "35px",
                   },
+                  transition: "transform .4s",
+                  "&:active": {
+                    transform: "scale(0.95)",
+                  },
                   borderRadius: 1,
                   width: "auto",
                   mb: 0.7,
                   display: "flex",
                   alignItems: "center",
                   gap: 2,
-                  flexWrap: "wrap",
                   ...(column.name === "" && { display: "none" }),
                   "& picture img": {
                     width: { xs: "45px", sm: "30px" },
@@ -275,7 +304,15 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
                     height={50}
                   />
                 </picture>
-                {column.name}
+                <span
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {column.name}
+                </span>
               </Typography>
               <Typography
                 sx={{

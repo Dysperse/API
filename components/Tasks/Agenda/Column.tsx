@@ -182,7 +182,11 @@ export const Column: any = memo(function Column({
         <Collapse
           in={loading}
           orientation="vertical"
-          sx={{ px: { xs: 2, sm: 0 } }}
+          sx={{
+            px: { xs: 2, sm: 0 },
+            borderRadius: { xs: 5, sm: 0 },
+            overflow: "hidden",
+          }}
         >
           <Box
             sx={{

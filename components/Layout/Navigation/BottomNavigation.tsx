@@ -65,6 +65,7 @@ export function BottomNav() {
     "/users",
     "/rooms/",
     "/groups",
+    "/onboarding",
     "/coach/routine",
     "/settings",
   ].find((path) => router.asPath.includes(path));

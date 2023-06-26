@@ -158,6 +158,7 @@ export function Sidebar() {
     "/settings",
     "/coach/routine",
     "/groups",
+    "/onboarding",
   ].find((path) => router.asPath.includes(path));
 
   return (

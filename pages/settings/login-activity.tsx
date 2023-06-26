@@ -136,7 +136,7 @@ export default function LoginActivity() {
       )}
       {data && (
         <Virtuoso
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "100vh", width: "100%" }}
           totalCount={data.length}
           itemContent={(index) => (
             <Session mutationUrl={url} index={index} data={data} />
