@@ -39,7 +39,7 @@ dayjs.extend(isBetween);
  * @param pageProps Page props
  * @returns JSX.Element
  */
-export default function App({
+function App({
   router,
   Component,
   pageProps,
@@ -79,6 +79,12 @@ export default function App({
     <>
       <Head>
         <title>Dysperse</title>
+        {router.pathname.includes("/users/") && (
+          <meta
+            name="description"
+            content={`${router.asPath.split("/users/")[1]} on Dysperse`}
+          />
+        )}
       </Head>
       <Analytics />
       {isLoading && <Loading />}
@@ -95,3 +101,12 @@ export default function App({
     </>
   );
 }
+
+App.getInitialProps = async (appContext) => {
+  const { ctx } = appContext;
+  const { req } = ctx;
+  const currentUrl = req ? `${req.url}` : "";
+  return { currentUrl };
+};
+
+export default App;

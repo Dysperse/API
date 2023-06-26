@@ -61,7 +61,7 @@ export default function Document() {
           rel="stylesheet"
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="description" content="Dysperse user dashboard" />
+        <meta name="description" content="Dysperse dashboard" />
         <meta name="theme-color" content="#fff" />
         <meta
           name="theme-color"
