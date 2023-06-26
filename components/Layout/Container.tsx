@@ -73,11 +73,6 @@ export function RenderWithLayout({
     );
   }
 
-  // find active property in the array of properties
-  const selectedProperty =
-    data.properties.find((property: any) => property.selected) ||
-    data.properties[0];
-
   const children = <Component {...pageProps} key={_router.asPath} />;
 
   return (
