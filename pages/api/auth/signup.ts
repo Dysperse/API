@@ -1,5 +1,5 @@
+import { validateCaptcha } from "@/lib/server/captcha";
 import { prisma } from "@/lib/server/prisma";
-import { validateCaptcha } from "@/lib/server/useCaptcha";
 import argon2 from "argon2";
 import { createSession } from "./login";
 
