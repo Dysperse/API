@@ -3,7 +3,6 @@ import { PropertyButton } from "@/components/Layout/Navigation/PropertyButton";
 import { Puller } from "@/components/Puller";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-
 import { useSession } from "@/lib/client/useSession";
 import { Masonry } from "@mui/lab";
 import {
@@ -158,7 +157,6 @@ function Friend({ friend }) {
             color={friend?.following?.color}
           />
           <Typography variant="h6">{friend?.following?.name}</Typography>
-          <Typography variant="body2">{friend?.following?.email}</Typography>
           {lastLoggedIn && (
             <Typography variant="body2">
               Signed in{" "}
