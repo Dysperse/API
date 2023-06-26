@@ -134,6 +134,11 @@ export default function Home() {
     .filter((goal) => !goal.completed)
     .filter((goal) => goal.lastCompleted == dayjs().format("YYYY-MM-DD"));
 
+  const completedTodaysTasks =
+    data &&
+    data.length - data.filter((task) => task.completed).length == 0 &&
+    data.length !== 0;
+
   const listItemStyles = {
     border: "1px solid",
     borderColor: palette[3],
@@ -146,6 +151,10 @@ export default function Home() {
     px: 3,
     py: 1.5,
   };
+
+  const completedDailyGoals =
+    coachData &&
+    completedGoals.length == coachData.filter((g) => !g.completed).length;
 
   return (
     <Box sx={{ ml: { sm: -1 } }}>
@@ -198,6 +207,7 @@ export default function Home() {
           sx={{
             ...listItemStyles,
             ...(!(dayjs().hour() >= 13) && { order: -1 }),
+            ...(completedDailyGoals && { order: 1 }),
           }}
           onClick={() => router.push("/coach/routine")}
         >
@@ -211,22 +221,20 @@ export default function Home() {
                 : `Tap to ${completedGoals.length > 0 ? "resume" : "begin"}`
             }
           />
-          {coachData &&
-            completedGoals.length ==
-              coachData.filter((g) => !g.completed).length && (
-              <Icon
-                sx={{
-                  color: green[isDark ? "A400" : "A700"],
-                  fontSize: "30px!important",
-                }}
-              >
-                check_circle
-              </Icon>
-            )}
+          {completedDailyGoals && (
+            <Icon
+              sx={{
+                color: green[isDark ? "A400" : "A700"],
+                fontSize: "30px!important",
+              }}
+            >
+              check_circle
+            </Icon>
+          )}
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </ListItemButton>
         <ListItemButton
-          sx={listItemStyles}
+          sx={{ ...listItemStyles, ...(completedTodaysTasks && { order: 1 }) }}
           onClick={() => router.push("/tasks/agenda/week")}
         >
           <ListItemText
@@ -254,22 +262,23 @@ export default function Home() {
                 : "Loading..."
             }
           />
-          {data &&
-            data.length - data.filter((task) => task.completed).length == 0 &&
-            data.length !== 0 && (
-              <Icon
-                sx={{
-                  color: green[isDark ? "A400" : "A700"],
-                  fontSize: "30px!important",
-                }}
-              >
-                check_circle
-              </Icon>
-            )}
+          {completedTodaysTasks && (
+            <Icon
+              sx={{
+                color: green[isDark ? "A400" : "A700"],
+                fontSize: "30px!important",
+              }}
+            >
+              check_circle
+            </Icon>
+          )}
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </ListItemButton>
         <ListItemButton
-          sx={listItemStyles}
+          sx={{
+            ...listItemStyles,
+            ...(backlogData?.length == 0 && { order: 1 }),
+          }}
           onClick={() => router.push("/tasks/backlog")}
         >
           <ListItemText
@@ -281,7 +290,10 @@ export default function Home() {
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </ListItemButton>
         <ListItemButton
-          sx={listItemStyles}
+          sx={{
+            ...listItemStyles,
+            ...(upcomingData?.length == 0 && { order: 1 }),
+          }}
           onClick={() => router.push("/tasks/backlog")}
         >
           <ListItemText

@@ -39,6 +39,7 @@ export function DailyCheckIn() {
         borderColor: palette[3],
         background: palette[2],
         borderRadius: 5,
+        ...(mood && { order: 1 }),
       }}
     >
       <DailyCheckInDrawer mood={mood} />
