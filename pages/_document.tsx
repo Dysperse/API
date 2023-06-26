@@ -87,7 +87,8 @@ export default function Document() {
         ))}
         <link href="/manifest.json" rel="manifest" />
       </Head>
-      <body>
+      <body
+      >
         <Main />
         <NextScript />
       </body>

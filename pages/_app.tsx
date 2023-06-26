@@ -18,7 +18,7 @@ import isBetween from "dayjs/plugin/isBetween";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 // Hooks
-import { RenderWithLayout } from "@/components/Layout/Container";
+import Layout from "@/components/Layout";
 import { SessionProvider, useUser } from "@/lib/client/session";
 import Head from "next/head";
 
@@ -31,10 +31,6 @@ import { createContext } from "react";
 export const StorageContext: any = createContext(null);
 
 const AuthLoading = dynamic(() => import("@/components/Auth/Loading"), {
-  loading: () => <Loading />,
-});
-
-export const Layout = dynamic(() => import("@/components/Layout"), {
   loading: () => <Loading />,
 });
 
@@ -147,12 +143,9 @@ export default function App({
               {isLoading && <Loading />}
               {isError && <Error />}
               {!isLoading && !isError && !data.error && (
-                <RenderWithLayout
-                  router={router}
-                  Component={Component}
-                  pageProps={pageProps}
-                  data={data}
-                />
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
               )}
               {!isLoading && !isError && data.error && <AuthLoading />}
             </>
