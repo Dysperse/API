@@ -51,7 +51,11 @@ export default function Prompt() {
     },
     [router, password]
   );
-  useStatusBar(window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b");
+  useStatusBar(
+    typeof window !== "undefined" && window.innerWidth < 600
+      ? "#c4b5b5"
+      : "#6b4b4b"
+  );
 
   return (
     <Layout>

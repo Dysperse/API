@@ -2,7 +2,6 @@ import { useDarkMode } from "@/lib/client/useColor";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import { Box, Button, ThemeProvider, createTheme } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
-import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
@@ -28,15 +27,7 @@ export function RenderWithLayout({
   router: NextRouter;
 }) {
   const _router = useRouter();
-
-  const theme: "dark" | "light" = data
-    ? data.user.darkMode
-      ? "dark"
-      : "light"
-    : window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-
+  const isDark = useDarkMode(data.user.darkMode);
   const themeColor = data.user.color;
 
   useEffect(() => {
@@ -52,15 +43,15 @@ export function RenderWithLayout({
 
   const userTheme = createTheme(
     useCustomTheme({
-      darkMode: useDarkMode(data.user.darkMode),
+      darkMode: isDark,
       themeColor: themeColor,
     })
   );
 
   // If theme is dark, add `.dark` class to body
   useEffect(() => {
-    document.body.classList[data.user.darkMode ? "add" : "remove"]("dark");
-  }, [theme, data.user.darkMode]);
+    document.body.classList[isDark ? "add" : "remove"]("dark");
+  }, [isDark]);
 
   // Return an error if user doesn't have any properties attached to their account
   if (data.properties.length === 0) {
@@ -76,60 +67,55 @@ export function RenderWithLayout({
   const children = <Component {...pageProps} key={_router.asPath} />;
 
   return (
-    <>
-      <Head>
-        <title>Dysperse</title>
-      </Head>
-      <ThemeProvider theme={userTheme}>
-        <Box>
-          <Toaster containerClassName="noDrag" />
-          {
-            // If the path is onboarding, show the onboarding page.
-            window.location.pathname === "/onboarding" ? (
-              children
-            ) : data.user.onboardingComplete ? (
-              // If the onboarding process is complete, show the app.
-              <AnimatePresence
-                mode="wait"
-                initial={false}
-                onExitComplete={() => window.scrollTo(0, 0)}
-              >
-                <Layout
-                  key={
-                    _router.asPath.includes("/tasks")
-                      ? "/tasks"
-                      : _router.asPath.includes("/settings")
-                      ? "/settings"
-                      : _router.asPath
-                  }
-                >
-                  {children}
-                </Layout>
-              </AnimatePresence>
-            ) : (
-              // If the onboarding process is not complete, redirect to the onboarding page.
-              <Button
-                ref={(i) => i && i.click()}
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-                onClick={() =>
-                  router.push(
-                    router.query.next
-                      ? `/onboarding?next=${router.query.next}`
-                      : "/onboarding"
-                  )
+    <ThemeProvider theme={userTheme}>
+      <Box>
+        <Toaster containerClassName="noDrag" />
+        {
+          // If the path is onboarding, show the onboarding page.
+          window.location.pathname === "/onboarding" ? (
+            children
+          ) : data.user.onboardingComplete ? (
+            // If the onboarding process is complete, show the app.
+            <AnimatePresence
+              mode="wait"
+              initial={false}
+              onExitComplete={() => window.scrollTo(0, 0)}
+            >
+              <Layout
+                key={
+                  _router.asPath.includes("/tasks")
+                    ? "/tasks"
+                    : _router.asPath.includes("/settings")
+                    ? "/settings"
+                    : _router.asPath
                 }
               >
-                Tap if you&apos;re not being redirected
-              </Button>
-            )
-          }
-        </Box>
-      </ThemeProvider>
-    </>
+                {children}
+              </Layout>
+            </AnimatePresence>
+          ) : (
+            // If the onboarding process is not complete, redirect to the onboarding page.
+            <Button
+              ref={(i) => i && i.click()}
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+              onClick={() =>
+                router.push(
+                  router.query.next
+                    ? `/onboarding?next=${router.query.next}`
+                    : "/onboarding"
+                )
+              }
+            >
+              Tap if you&apos;re not being redirected
+            </Button>
+          )
+        }
+      </Box>
+    </ThemeProvider>
   );
 }
