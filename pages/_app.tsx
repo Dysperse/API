@@ -3,7 +3,7 @@ import { Loading } from "@/components/Layout/Loading";
 import { Analytics } from "@vercel/analytics/react";
 import dynamic from "next/dynamic";
 import { NextRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 // CSS files
@@ -23,6 +23,9 @@ import { SessionProvider, useUser } from "@/lib/client/session";
 import Head from "next/head";
 
 import { AccountStorageState } from "@/lib/client/useAccountStorage";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useCustomTheme } from "@/lib/client/useTheme";
+import { ThemeProvider, createTheme } from "@mui/material";
 import { createContext } from "react";
 
 export const StorageContext: any = createContext(null);
@@ -81,10 +84,31 @@ export default function App({
     (data.properties.find((property: any) => property.selected) ||
       data.properties[0]);
 
-  const themeColor = data?.user?.color;
+  const themeColor = data?.user?.color || "gray";
+  const isDark = useDarkMode(data?.user?.darkMode || "system");
+
+  const palette = useColor(themeColor, isDark);
 
   const [isReached, setIsReached]: any =
     useState<AccountStorageState>("loading");
+
+  const userTheme = createTheme(
+    useCustomTheme({
+      darkMode: isDark,
+      themeColor: themeColor,
+    })
+  );
+
+  if (
+    data?.user?.onboardingComplete === false &&
+    router.pathname !== "/onboarding"
+  ) {
+    router.push("/onboarding");
+  }
+
+  useEffect(() => {
+    document.body.classList[isDark ? "add" : "remove"]("dark");
+  }, [isDark]);
 
   return (
     <SessionProvider
@@ -99,30 +123,41 @@ export default function App({
       }
     >
       <StorageContext.Provider value={{ isReached, setIsReached }}>
-        {disableLayout ? (
-          <>
-            <Component {...pageProps} />
-            <Toaster containerClassName="noDrag" />
-          </>
-        ) : (
-          <>
-            <Head>
-              <title>Dysperse</title>
-            </Head>
-            <Analytics />
-            {isLoading && <Loading />}
-            {isError && <Error />}
-            {!isLoading && !isError && !data.error && (
-              <RenderWithLayout
-                router={router}
-                Component={Component}
-                pageProps={pageProps}
-                data={data}
-              />
-            )}
-            {!isLoading && !isError && data.error && <AuthLoading />}
-          </>
-        )}
+        <ThemeProvider theme={userTheme}>
+          <Toaster containerClassName="noDrag" />
+          {disableLayout ? (
+            <>
+              <Component {...pageProps} />
+            </>
+          ) : (
+            <>
+              <Head>
+                <title>Dysperse</title>
+                <meta name="theme-color" content={palette[1]} />
+                <link
+                  rel="shortcut icon"
+                  href={
+                    isDark
+                      ? "https://assets.dysperse.com/v6/dark-rounded.png"
+                      : "https://assets.dysperse.com/v5/windows11/SmallTile.scale-100.png"
+                  }
+                />
+              </Head>
+              <Analytics />
+              {isLoading && <Loading />}
+              {isError && <Error />}
+              {!isLoading && !isError && !data.error && (
+                <RenderWithLayout
+                  router={router}
+                  Component={Component}
+                  pageProps={pageProps}
+                  data={data}
+                />
+              )}
+              {!isLoading && !isError && data.error && <AuthLoading />}
+            </>
+          )}
+        </ThemeProvider>
       </StorageContext.Provider>
     </SessionProvider>
   );

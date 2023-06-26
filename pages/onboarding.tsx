@@ -440,7 +440,16 @@ export default function Onboarding() {
   }));
 
   return (
-    <Box>
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        zIndex: 99999,
+      }}
+    >
       <Box
         sx={{
           width: "100vw",
