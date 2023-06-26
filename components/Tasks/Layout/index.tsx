@@ -345,7 +345,7 @@ export function TasksLayout({ open, setOpen, children }) {
               href={`/tasks/${button.hash}`}
               key={button.hash}
               style={{ cursor: "default" }}
-            >
+              legacyBehavior>
               <Button
                 size="large"
                 id={`__agenda.${button.hash}`}
@@ -376,7 +376,7 @@ export function TasksLayout({ open, setOpen, children }) {
           { href: "/tasks/color-coded", icon: "palette", label: "Color coded" },
           { href: "/tasks/backlog", icon: "west", label: "Backlog" },
         ].map((link, index) => (
-          <Link key={index} href={link.href} style={{ cursor: "default" }}>
+          <Link key={index} href={link.href} style={{ cursor: "default" }} legacyBehavior>
             <Button size="large" sx={styles(router.asPath === link.href)}>
               <Icon className={router.asPath === link.href ? "" : "outlined"}>
                 {link.icon}
@@ -417,7 +417,7 @@ export function TasksLayout({ open, setOpen, children }) {
             : "/tasks/boards/create"
         }
         style={{ width: "100%" }}
-      >
+        legacyBehavior>
         <Button
           fullWidth
           disabled={

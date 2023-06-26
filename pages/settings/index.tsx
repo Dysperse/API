@@ -111,7 +111,7 @@ export default function Layout({ children }: any) {
           onClick={() => setOpen(false)}
           key={button.icon}
           style={{ display: "block", cursor: "default" }}
-        >
+          legacyBehavior>
           <Button
             sx={styles(
               router.pathname ===
@@ -134,7 +134,7 @@ export default function Layout({ children }: any) {
         href={`/onboarding`}
         onClick={() => setOpen(false)}
         style={{ display: "block", cursor: "default" }}
-      >
+        legacyBehavior>
         <Button sx={styles(false)}>
           <Icon className="outlined">restart_alt</Icon>
           <span>Onboarding</span>
@@ -153,7 +153,7 @@ export default function Layout({ children }: any) {
         </Button>
       </ConfirmationModal>
       {!isMobile && (
-        <Link href="/" style={{ cursor: "default" }} ref={closeRef}>
+        <Link href="/" style={{ cursor: "default" }} ref={closeRef} legacyBehavior>
           <Button sx={styles(false)}>
             <Icon>close</Icon>Close
           </Button>

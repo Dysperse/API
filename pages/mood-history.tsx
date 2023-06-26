@@ -80,7 +80,7 @@ export default function History() {
       <Head>
         <title>Mood history &bull; Mental health</title>
       </Head>
-      <Link href="/">
+      <Link href="/" legacyBehavior>
         <Button size="small" variant="contained" sx={{ mb: 5 }}>
           <Icon>west</Icon>
           Back

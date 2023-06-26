@@ -20,68 +20,66 @@ export function Following({ styles, data }): JSX.Element {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(data.color, isDark);
 
-  return (
-    <>
-      <CardActionArea
-        sx={styles}
-        disabled={data.following.length == 0}
-        onClick={() => setOpen((e) => !e)}
-      >
-        <Typography variant="h6">{data.following.length}</Typography>
-        following
-      </CardActionArea>
-      <SwipeableDrawer
-        open={open}
-        onClose={() => setOpen(false)}
-        anchor="bottom"
-        BackdropProps={{
-          sx: {
-            background: addHslAlpha(palette[1], 0.5) + " !important",
+  return <>
+    <CardActionArea
+      sx={styles}
+      disabled={data.following.length == 0}
+      onClick={() => setOpen((e) => !e)}
+    >
+      <Typography variant="h6">{data.following.length}</Typography>
+      following
+    </CardActionArea>
+    <SwipeableDrawer
+      open={open}
+      onClose={() => setOpen(false)}
+      anchor="bottom"
+      BackdropProps={{
+        sx: {
+          background: addHslAlpha(palette[1], 0.5) + " !important",
+        },
+      }}
+      PaperProps={{
+        sx: {
+          background: palette[1],
+          height: "calc(100vh - 200px)",
+        },
+      }}
+    >
+      <Puller
+        showOnDesktop
+        sx={{
+          "& .puller": {
+            background: palette[4],
           },
         }}
-        PaperProps={{
-          sx: {
-            background: palette[1],
-            height: "calc(100vh - 200px)",
-          },
+      />
+      <Box sx={{ p: 2, pt: 0 }}>
+        <Typography variant="h6">
+          {data.following.length} following
+        </Typography>
+      </Box>
+      <Virtuoso
+        style={{
+          height: "100%",
         }}
-      >
-        <Puller
-          showOnDesktop
-          sx={{
-            "& .puller": {
-              background: palette[4],
-            },
-          }}
-        />
-        <Box sx={{ p: 2, pt: 0 }}>
-          <Typography variant="h6">
-            {data.following.length} following
-          </Typography>
-        </Box>
-        <Virtuoso
-          style={{
-            height: "100%",
-          }}
-          totalCount={data.following.length}
-          itemContent={(i) => {
-            const follower = data.following[i];
-            return (
-              <Link
-                href={`/users/${follower.following.email}`}
-                style={{ color: "inherit" }}
-              >
-                <ListItemButton sx={{ borderRadius: 0 }}>
-                  <ListItemText
-                    primary={follower.following.name}
-                    secondary={follower.following.email}
-                  />
-                </ListItemButton>
-              </Link>
-            );
-          }}
-        />
-      </SwipeableDrawer>
-    </>
-  );
+        totalCount={data.following.length}
+        itemContent={(i) => {
+          const follower = data.following[i];
+          return (
+            <Link
+              href={`/users/${follower.following.email}`}
+              style={{ color: "inherit" }}
+              legacyBehavior>
+              <ListItemButton sx={{ borderRadius: 0 }}>
+                <ListItemText
+                  primary={follower.following.name}
+                  secondary={follower.following.email}
+                />
+              </ListItemButton>
+            </Link>
+          );
+        }}
+      />
+    </SwipeableDrawer>
+  </>;
 }
