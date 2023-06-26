@@ -195,7 +195,10 @@ export default function Home() {
       >
         <DailyCheckIn />
         <ListItemButton
-          sx={listItemStyles}
+          sx={{
+            ...listItemStyles,
+            ...(!(dayjs().hour() >= 13) && { order: -1 }),
+          }}
           onClick={() => router.push("/coach/routine")}
         >
           <ListItemText
