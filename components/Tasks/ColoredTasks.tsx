@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useState } from "react";
 import { mutate } from "swr";
 import { ErrorHandler } from "../Error";

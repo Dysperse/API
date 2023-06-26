@@ -7,7 +7,7 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { Masonry } from "@mui/lab";
 import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";

@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import EmojiPicker from "../../../EmojiPicker";

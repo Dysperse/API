@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import type { Item } from "@prisma/client";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { ItemCard } from "./ItemCard";

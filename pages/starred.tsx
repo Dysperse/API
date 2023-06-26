@@ -4,7 +4,7 @@ import { ItemCard } from "@/components/Rooms/ItemCard";
 import { useApi } from "@/lib/client/useApi";
 import { useSession } from "@/lib/client/useSession";
 import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 import Categories from "./items";

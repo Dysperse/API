@@ -17,7 +17,7 @@ import {
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";

@@ -8,7 +8,7 @@ import {
 import { blueGrey } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 

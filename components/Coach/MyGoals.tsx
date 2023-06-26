@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useDeferredValue, useMemo, useState } from "react";
 import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
