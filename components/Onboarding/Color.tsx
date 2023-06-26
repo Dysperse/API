@@ -18,7 +18,11 @@ export function Color({ color, handleNext }) {
       <CardActionArea
         onClick={() => {
           if (color === "gray" || color === "sand") {
-            updateSettings(session, "darkMode", color === "gray" ? "dark" : "light");
+            updateSettings(
+              session,
+              "darkMode",
+              color === "gray" ? "dark" : "light"
+            );
           } else {
             updateSettings(session, "color", color.toLowerCase());
           }

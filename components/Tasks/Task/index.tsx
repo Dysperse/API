@@ -140,7 +140,14 @@ export const Task: any = function Task({
       },
       toastStyles
     );
-  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData, handleMutate, session]);
+  }, [
+    taskData.pinned,
+    taskData.id,
+    mutationUrl,
+    setTaskData,
+    handleMutate,
+    session,
+  ]);
 
   const isDisabled = useMemo(
     () =>
