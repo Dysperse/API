@@ -6,10 +6,10 @@ import { UserProfile } from "@/components/Profile//UserProfile";
 import { Followers } from "@/components/Profile/Followers";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SearchUser } from "@/components/Profile/SearchUser";
+import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -54,13 +54,13 @@ function Page() {
   const handleFollowButtonClick = async () => {
     setLoading(true);
     if (isFollowing) {
-      await fetchRawApi("user/followers/unfollow", {
+      await fetchRawApi(session, "user/followers/unfollow", {
         followerEmail: session.user.email,
         followingEmail: data?.email,
       });
       await mutate(url);
     } else {
-      await fetchRawApi("user/followers/follow", {
+      await fetchRawApi(session, "user/followers/follow", {
         followerEmail: session.user.email,
         followingEmail: data?.email,
       });
@@ -72,7 +72,7 @@ function Page() {
   const createProfile = async () => {
     try {
       setLoading(true);
-      await fetchRawApi("user/profile/update", {
+      await fetchRawApi(session, "user/profile/update", {
         create: "true",
         email: session.user.email,
       });
@@ -305,7 +305,7 @@ function Page() {
                             e.code === "Enter" && e.target.blur()
                           }
                           onBlur={(e: any) =>
-                            updateSettings("name", e.target.value)
+                            updateSettings(session, "name", e.target.value)
                           }
                           sx={{ mr: "auto", width: "auto" }}
                           fullWidth

@@ -1,6 +1,7 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/useSession";
+import { useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -20,7 +21,6 @@ import { toast } from "react-hot-toast";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
-import { useDarkMode } from "@/lib/client/useColor";
 
 export function ColumnSettings({ setColumnTasks, mutateData, column }) {
   const storage = useAccountStorage();
@@ -147,7 +147,7 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
               }
               onClick={async () => {
                 toast.promise(
-                  fetchRawApi("property/boards/column/edit", {
+                  fetchRawApi(session, "property/boards/column/edit", {
                     id: column.id,
                     name: title,
                     emoji: emoji,
@@ -173,9 +173,7 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
         sx={{
           ...(Boolean(anchorEl) && {
             background: `${
-              isDark
-                ? "hsla(240,11%,25%, 0.3)"
-                : "rgba(0,0,0,0.05)"
+              isDark ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.05)"
             }!important`,
             color: isDark ? "#fff!important" : "#000!important",
           }),
@@ -241,7 +239,7 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
           title="Delete column?"
           question="Are you sure you want to delete this column? This action annot be undone."
           callback={async () => {
-            await fetchRawApi("property/boards/column/delete", {
+            await fetchRawApi(session, "property/boards/column/delete", {
               id: column.id,
             });
             await mutateData();

@@ -1,6 +1,6 @@
 import Item from "@/components/ItemPopup";
+import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import {
   Box,

@@ -1,6 +1,6 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Logo } from "@/pages";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
@@ -45,7 +45,7 @@ export function Sidebar() {
           icon: "🥚",
         }
       );
-      updateSettings("color", "blueGrey");
+      updateSettings(session, "color", "blueGrey");
       setClickCount(0);
     }
   };

@@ -3,7 +3,7 @@ import { Loading } from "@/components/Layout/Loading";
 import { Analytics } from "@vercel/analytics/react";
 import dynamic from "next/dynamic";
 import { NextRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 // CSS files
@@ -11,6 +11,7 @@ import "../styles/calendar.scss";
 import "../styles/coach.scss";
 import "../styles/globals.scss";
 import "../styles/normalize.scss";
+
 // Day.JS
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
@@ -18,8 +19,13 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 // Hooks
 import { RenderWithLayout } from "@/components/Layout/Container";
-import { useUser } from "@/lib/client/useSession";
+import { SessionProvider, useUser } from "@/lib/client/session";
 import Head from "next/head";
+
+import { AccountStorageState } from "@/lib/client/useAccountStorage";
+import { createContext } from "react";
+
+export const StorageContext: any = createContext(null);
 
 const AuthLoading = dynamic(() => import("@/components/Auth/Loading"), {
   loading: () => <Loading />,
@@ -70,28 +76,54 @@ export default function App({
 
   const disableLayout = bareUrls.includes(router.pathname);
 
-  return disableLayout ? (
-    <>
-      <Component {...pageProps} />
-      <Toaster containerClassName="noDrag" />
-    </>
-  ) : (
-    <>
-      <Head>
-        <title>Dysperse</title>
-      </Head>
-      <Analytics />
-      {isLoading && <Loading />}
-      {isError && <Error />}
-      {!isLoading && !isError && !data.error && (
-        <RenderWithLayout
-          router={router}
-          Component={Component}
-          pageProps={pageProps}
-          data={data}
-        />
-      )}
-      {!isLoading && !isError && data.error && <AuthLoading />}
-    </>
+  const selectedProperty =
+    data &&
+    (data.properties.find((property: any) => property.selected) ||
+      data.properties[0]);
+
+  const themeColor = data?.user?.color;
+
+  const [isReached, setIsReached]: any =
+    useState<AccountStorageState>("loading");
+
+  return (
+    <SessionProvider
+      session={
+        data && {
+          ...data,
+          property: selectedProperty,
+          permission: selectedProperty.permission,
+          themeColor,
+          darkMode: data.user.darkMode,
+        }
+      }
+    >
+      <StorageContext.Provider value={{ isReached, setIsReached }}>
+        {disableLayout ? (
+          <>
+            <Component {...pageProps} />
+            <Toaster containerClassName="noDrag" />
+          </>
+        ) : (
+          <>
+            <Head>
+              <title>Dysperse</title>
+            </Head>
+            <Analytics />
+            {isLoading && <Loading />}
+            {isError && <Error />}
+            {!isLoading && !isError && !data.error && (
+              <RenderWithLayout
+                router={router}
+                Component={Component}
+                pageProps={pageProps}
+                data={data}
+              />
+            )}
+            {!isLoading && !isError && data.error && <AuthLoading />}
+          </>
+        )}
+      </StorageContext.Provider>
+    </SessionProvider>
   );
 }

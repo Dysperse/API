@@ -1,7 +1,7 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import {
@@ -123,7 +123,7 @@ export default function DrawerContent({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          fetchRawApi("property/boards/column/task/edit", {
+          fetchRawApi(session, "property/boards/column/task/edit", {
             id: data.id,
             pinned: data.pinned ? "false" : "true",
           }).then(() => mutate(mutationUrl));
@@ -140,12 +140,12 @@ export default function DrawerContent({
       },
       toastStyles
     );
-  }, [data.pinned, data.id, mutationUrl, setTaskData]);
+  }, [data.pinned, data.id, mutationUrl, setTaskData, session]);
 
   const handleEdit = useCallback(
     function handleEdit(id, key, value) {
       setTaskData((prev) => ({ ...prev, [key]: value }));
-      fetchRawApi("property/boards/column/task/edit", {
+      fetchRawApi(session, "property/boards/column/task/edit", {
         id,
         date: dayjs().toISOString(),
         [key]: [value],
@@ -153,7 +153,7 @@ export default function DrawerContent({
         mutate(mutationUrl);
       });
     },
-    [mutationUrl, setTaskData]
+    [mutationUrl, setTaskData, session]
   );
 
   const handleComplete = useCallback(async () => {
@@ -163,7 +163,7 @@ export default function DrawerContent({
       return { ...prev, completed };
     });
     try {
-      await fetchRawApi("property/boards/column/task/edit", {
+      await fetchRawApi(session, "property/boards/column/task/edit", {
         completed: completed ? "true" : "false",
         id: data.id,
       });
@@ -172,7 +172,7 @@ export default function DrawerContent({
     } catch (e) {
       toast.error("An error occured while updating the task", toastStyles);
     }
-  }, [data, setTaskData, mutationUrl, handleMutate]);
+  }, [data, setTaskData, mutationUrl, handleMutate, session]);
 
   const handlePostpone: any = useCallback(
     (count, type) => {

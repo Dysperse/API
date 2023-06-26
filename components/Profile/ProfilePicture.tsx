@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { Avatar, Box, CircularProgress, Icon, IconButton } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -25,7 +25,7 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
         ).then((res) => res.json());
 
         setPhoto(res.data.thumb.url);
-        await fetchRawApi("user/profile/update", {
+        await fetchRawApi(session, "user/profile/update", {
           email: session.user.email,
           picture: res.data.thumb.url,
         });
@@ -39,7 +39,7 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
         setImageUploading(false);
       }
     },
-    [setPhoto, mutationUrl, session.user.email]
+    [setPhoto, mutationUrl, session]
   );
 
   useEffect(() => setPhoto(data?.Profile?.picture), [data]);

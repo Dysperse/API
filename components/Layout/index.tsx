@@ -1,9 +1,9 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
 import { motion } from "framer-motion";
@@ -37,7 +37,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
 
   useEffect(() => {
     if (!isOnline) {
-      const myPromise = new Promise((resolve, reject) => {
+      const myPromise = new Promise((resolve) => {
         const interval = setInterval(() => {
           if (navigator.onLine) {
             clearInterval(interval);

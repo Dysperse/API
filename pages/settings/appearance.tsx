@@ -1,5 +1,5 @@
+import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   ListItem,
@@ -29,7 +29,9 @@ function ThemeColorSettings() {
           <RadioGroup
             name="controlled-radio-buttons-group"
             key={color}
-            onClick={() => updateSettings("color", color.toLowerCase())}
+            onClick={() =>
+              updateSettings(session, "color", color.toLowerCase())
+            }
           >
             <ListItem
               secondaryAction={
@@ -81,11 +83,11 @@ export default function AppearanceSettings() {
       <ListSubheader sx={{ mt: 3 }}>Theme</ListSubheader>
       <RadioGroup name="controlled-radio-buttons-group">
         <ListItem
-          onClick={() => updateSettings("darkMode", "dark")}
+          onClick={() => updateSettings(session, "darkMode", "dark")}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => updateSettings("darkMode", "dark")}
+              onChange={() => updateSettings(session, "darkMode", "dark")}
               checked={session.darkMode === "dark"}
             />
           }
@@ -113,11 +115,11 @@ export default function AppearanceSettings() {
           </ListItemButton>
         </ListItem>
         <ListItem
-          onClick={() => updateSettings("darkMode", "light")}
+          onClick={() => updateSettings(session, "darkMode", "light")}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => updateSettings("darkMode", "light")}
+              onChange={() => updateSettings(session, "darkMode", "light")}
               checked={session.darkMode === "light"}
             />
           }
@@ -145,11 +147,11 @@ export default function AppearanceSettings() {
           </ListItemButton>
         </ListItem>
         <ListItem
-          onClick={() => updateSettings("darkMode", "system")}
+          onClick={() => updateSettings(session, "darkMode", "system")}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => updateSettings("darkMode", "system")}
+              onChange={() => updateSettings(session, "darkMode", "system")}
               checked={session.darkMode === "system"}
             />
           }

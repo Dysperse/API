@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
@@ -30,7 +30,7 @@ export default function BoardSettings({ mutationUrls, board }) {
 
   const handleEdit = () => {
     setTimeout(() => {
-      fetchRawApi("property/boards/edit", {
+      fetchRawApi(session, "property/boards/edit", {
         id: board.id,
         pinned: !board.pinned ? "true" : "false",
       }).then(() => {
@@ -120,7 +120,7 @@ export default function BoardSettings({ mutationUrls, board }) {
               : "Are you sure you want to make this board private? Other members in your group won't be able to view/edit content within this board anymore."
           }
           callback={async () => {
-            await fetchRawApi("property/boards/edit", {
+            await fetchRawApi(session, "property/boards/edit", {
               id: board.id,
               public: !board.public,
             });
@@ -143,7 +143,7 @@ export default function BoardSettings({ mutationUrls, board }) {
               : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
-            await fetchRawApi("property/boards/archived", {
+            await fetchRawApi(session, "property/boards/archived", {
               id: board.id,
               archived: !board.archived,
             });
@@ -159,7 +159,9 @@ export default function BoardSettings({ mutationUrls, board }) {
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
-            await fetchRawApi("property/boards/delete", { id: board.id });
+            await fetchRawApi(session, "property/boards/delete", {
+              id: board.id,
+            });
             router.push("/tasks/agenda/week");
             await mutate(mutationUrls.boardData);
           }}

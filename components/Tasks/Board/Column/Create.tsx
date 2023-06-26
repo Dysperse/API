@@ -1,7 +1,7 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -44,7 +44,7 @@ export default function CreateColumn({
       setLoading(false);
       return;
     }
-    fetchRawApi("property/boards/column/create", {
+    fetchRawApi(session, "property/boards/column/create", {
       title: ref?.current?.value,
       emoji,
       id: id,
@@ -68,7 +68,7 @@ export default function CreateColumn({
           toastStyles
         );
       });
-  }, [emoji, id, mutationUrls, setCurrentColumn]);
+  }, [emoji, id, mutationUrls, setCurrentColumn, session]);
 
   useEffect(() => {
     if (open || mobileOpen) {

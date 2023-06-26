@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import Masonry from "@mui/lab/Masonry";
 import {
   Alert,
@@ -136,7 +136,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
             sx={{ borderRadius: 99, mx: "auto" }}
             onClick={() => {
               setLoading(true);
-              fetchRawApi("property/boards/create", {
+              fetchRawApi(session, "property/boards/create", {
                 board: JSON.stringify(template),
               }).then(async (res) => {
                 await mutate(mutationUrl);
@@ -547,7 +547,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
   });
 
   const createBlankBoard = () => {
-    fetchRawApi("property/boards/create", {
+    fetchRawApi(session, "property/boards/create", {
       board: JSON.stringify({
         for: ["Student", "College student"],
         name: "Untitled board",
@@ -643,7 +643,7 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
                   key={template.name}
                   onClick={() => {
                     setLoading(true);
-                    fetchRawApi("property/boards/create", {
+                    fetchRawApi(session, "property/boards/create", {
                       board: JSON.stringify(template),
                     }).then(async (res) => {
                       await mutate(mutationUrl);

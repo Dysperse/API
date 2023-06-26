@@ -1,15 +1,15 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Prompt } from "@/components/TwoFactorModal";
+import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
+import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Alert, Box, Link, Typography } from "@mui/material";
+import { MuiOtpInput } from "mui-one-time-password-input";
 import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import { ConfirmationModal } from "@/components/ConfirmationModal";
-import { useSession } from "@/lib/client/useSession";
-import { toastStyles } from "@/lib/client/useTheme";
-import { Alert, Box, Link, Typography } from "@mui/material";
-import { MuiOtpInput } from "mui-one-time-password-input";
 import Layout from ".";
 
 /**
@@ -55,7 +55,7 @@ export default function App() {
 
   const handleDisable = () => {
     setLoadingDisable(true);
-    updateSettings("twoFactorSecret", "", false, () => {
+    updateSettings(session, "twoFactorSecret", "", false, () => {
       mutate("/api/session");
       setLoadingDisable(false);
     });

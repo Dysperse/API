@@ -1,5 +1,5 @@
 import { Puller } from "@/components/Puller";
-import { useSession } from "@/lib/client/useSession";
+import { useSession } from "@/lib/client/session";
 import {
   Box,
   Button,

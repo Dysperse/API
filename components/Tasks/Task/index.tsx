@@ -1,7 +1,7 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { colors } from "@/lib/colors";
@@ -102,7 +102,7 @@ export const Task: any = function Task({
       vibrate(50);
       setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
       try {
-        await fetchRawApi("property/boards/column/task/edit", {
+        await fetchRawApi(session, "property/boards/column/task/edit", {
           completed: e.target.checked ? "true" : "false",
           id: taskData.id,
         });
@@ -110,7 +110,7 @@ export const Task: any = function Task({
         toast.error("An error occured while updating the task", toastStyles);
       }
     },
-    [taskData.id]
+    [taskData.id, session]
   );
 
   const handlePriorityChange = useCallback(async () => {
@@ -118,7 +118,7 @@ export const Task: any = function Task({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          fetchRawApi("property/boards/column/task/edit", {
+          fetchRawApi(session, "property/boards/column/task/edit", {
             id: taskData.id,
             pinned: !taskData.pinned ? "true" : "false",
           }).then(() => {
@@ -140,7 +140,7 @@ export const Task: any = function Task({
       },
       toastStyles
     );
-  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData, handleMutate]);
+  }, [taskData.pinned, taskData.id, mutationUrl, setTaskData, handleMutate, session]);
 
   const isDisabled = useMemo(
     () =>

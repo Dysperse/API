@@ -1,7 +1,7 @@
 import { DailyCheckIn } from "@/components/CheckIns";
+import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Icon,
@@ -19,6 +19,7 @@ import { useEffect, useMemo, useState } from "react";
 
 export function Logo({ intensity = 4 }: any) {
   const session = useSession();
+
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (

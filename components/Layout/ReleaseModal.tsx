@@ -1,5 +1,5 @@
+import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Button,
   DialogActions,
@@ -47,6 +47,7 @@ export default function ReleaseModal() {
   const handleClose = () => {
     setOpen(false);
     updateSettings(
+      session,
       "lastReleaseVersionViewed",
       data[0].id,
       false,

@@ -1,8 +1,8 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Masonry } from "@mui/lab";
 import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
@@ -20,7 +20,7 @@ function DeleteCard({ item }) {
 
   const handleDelete = () => {
     setHidden(true);
-    fetchRawApi("property/inventory/trash/item", {
+    fetchRawApi(session, "property/inventory/trash/item", {
       id: item.id,
       forever: true,
     }).catch(() => {
@@ -137,7 +137,7 @@ export default function Trash() {
             title="Empty Trash?"
             question="Are you sure you want to empty your trash? This action cannot be undone."
             callback={async () => {
-              await fetchRawApi("property/inventory/trash/clear")
+              await fetchRawApi(session, "property/inventory/trash/clear")
                 .catch(() => {
                   toast.error(
                     "An error occured while trying to empty your trash. Please try again later",

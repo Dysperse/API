@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
-import { useSession } from "./useSession";
+import { useSession } from "./session";
 
 const getInfo = (
   path: string,
@@ -114,12 +114,11 @@ export function useApi(
  * @returns Promise<ApiResponse>
  */
 export async function fetchRawApi(
+  session,
   path,
   initialParams = {},
   removeDefaultParams = false
 ) {
-  const session = useSession();
-
   const { url } = getInfo(
     path,
     initialParams,

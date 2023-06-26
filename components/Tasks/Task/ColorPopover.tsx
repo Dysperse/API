@@ -1,4 +1,4 @@
-import { useSession } from "@/lib/client/useSession";
+import { useSession } from "@/lib/client/session";
 import { colors } from "@/lib/colors";
 import { Box, Chip, Icon, Popover } from "@mui/material";
 import { useState } from "react";

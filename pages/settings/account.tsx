@@ -1,5 +1,5 @@
+import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { useSession } from "@/lib/client/useSession";
 import { Alert, Box, Button, Link, TextField } from "@mui/material";
 import { useCallback, useState } from "react";
 import Layout from ".";
@@ -13,7 +13,7 @@ export default function AppearanceSettings() {
   const handleChange = useCallback((e) => setName(e.target.value), [setName]);
 
   const handleSubmit = () => {
-    if (name.trim() !== "") updateSettings("name", name);
+    if (name.trim() !== "") updateSettings(session, "name", name);
   };
 
   return (

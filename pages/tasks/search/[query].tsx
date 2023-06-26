@@ -1,9 +1,9 @@
 import { ErrorHandler } from "@/components/Error";
 import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
+import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Chip,

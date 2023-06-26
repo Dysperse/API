@@ -4,7 +4,7 @@
  * @param {any} styles}
  * @returns {any}
  */
-import { useSession } from "@/lib/client/useSession";
+import { useSession } from "@/lib/client/session";
 import { Icon, ListItemButton } from "@mui/material";
 
 export default function DeleteButton({

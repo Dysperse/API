@@ -1,7 +1,7 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   CircularProgress,
@@ -40,7 +40,7 @@ const CategoryModal = memo(function CategoryModal({
 
   const handleFetch = () => {
     setLoading(true);
-    fetchRawApi("property/inventory/categories/items", {
+    fetchRawApi(session, "property/inventory/categories/items", {
       category,
     })
       .then((res) => {

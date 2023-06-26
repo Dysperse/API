@@ -2,9 +2,9 @@ import { ErrorHandler } from "@/components/Error";
 import { PropertyInfo } from "@/components/Group";
 import { Changelog } from "@/components/Group/Changelog";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
   Box,

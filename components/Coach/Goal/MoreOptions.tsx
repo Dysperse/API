@@ -43,7 +43,7 @@ function ChangeTime({ goal, mutationUrl }) {
   const handleSubmit = async () => {
     try {
       setLoadinng(true);
-      await fetchRawApi("user/coach/goals/update", {
+      await fetchRawApi(session, "user/coach/goals/update", {
         id: goal.id,
         timeOfDay: time,
       });
@@ -115,7 +115,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
 
   const handleStop = () => {
     handleClose();
-    fetchRawApi("user/coach/goals/delete", {
+    fetchRawApi(session, "user/coach/goals/delete", {
       id: goal.id,
     }).then(async () => {
       await mutate(mutationUrl);

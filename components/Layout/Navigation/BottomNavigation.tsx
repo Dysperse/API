@@ -1,6 +1,6 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import { openSpotlight } from "./Search";

@@ -1,9 +1,9 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -134,7 +134,7 @@ export function CreateTask({
       }
       vibrate(50);
       setLoading(true);
-      fetchRawApi("property/boards/column/task/create", {
+      fetchRawApi(session, "property/boards/column/task/create", {
         title: deferredTitle,
         description,
         location,
@@ -168,6 +168,7 @@ export function CreateTask({
       parent,
       pinned,
       deferredTitle,
+      session,
     ]
   );
 

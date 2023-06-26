@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
@@ -68,7 +68,7 @@ function Member({
   const handleClose = () => setAnchorEl(null);
 
   const handleUpdate = (perm) => {
-    fetchRawApi("property/members/edit", {
+    fetchRawApi(session, "property/members/edit", {
       id: member.id,
       permission: perm,
       changerName: session.user.name,
@@ -87,7 +87,7 @@ function Member({
       return;
     }
     setLoading(true);
-    fetchRawApi("property/members/remove", {
+    fetchRawApi(session, "property/members/remove", {
       id: member.id,
       removerName: session.user.name,
       removeeName: member.user.name,
@@ -323,7 +323,7 @@ export function MemberList({
       <ConfirmationModal
         callback={async () => {
           setLeaveLoading(true);
-          await fetchRawApi("property/leave", {
+          await fetchRawApi(session, "property/leave", {
             otherPropertyAccessToken: session.properties.find(
               (m) => m.permission == "owner"
             )?.accessToken,

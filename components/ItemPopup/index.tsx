@@ -1,8 +1,8 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
@@ -59,7 +59,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const handleItemChange = async (key: string, value: string) => {
     toast.promise(
-      fetchRawApi("property/inventory/items/edit", {
+      fetchRawApi(session, "property/inventory/items/edit", {
         id: itemData.id.toString(),
         [key]: value,
         lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
@@ -90,7 +90,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   };
 
   const handleItemDelete = () => {
-    fetchRawApi("property/inventory/trash/item", {
+    fetchRawApi(session, "property/inventory/trash/item", {
       id: itemData.id.toString(),
       lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     });
@@ -111,7 +111,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
             }}
             onClick={() => {
               toast.dismiss(t.id);
-              fetchRawApi("property/inventory/restore", {
+              fetchRawApi(session, "property/inventory/restore", {
                 id: itemData.id.toString(),
                 lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               });
@@ -262,7 +262,7 @@ export default function ItemDrawer({
       setOpen(true);
       setError(false);
       try {
-        const data = await fetchRawApi("property/inventory/items", {
+        const data = await fetchRawApi(session, "property/inventory/items", {
           id,
         });
         setItemData(data);

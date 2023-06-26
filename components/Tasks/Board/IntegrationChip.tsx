@@ -23,6 +23,7 @@ const IntegrationChip = ({
             .replace(" ", "-");
 
           const response = await fetchRawApi(
+            session,
             `property/integrations/run/${integrationType}`,
             {
               boardId: boardId,

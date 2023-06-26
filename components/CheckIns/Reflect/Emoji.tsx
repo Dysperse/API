@@ -1,7 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
   AppBar,
@@ -93,7 +93,7 @@ function ExperimentalAiReflection({ emoji, answers }) {
       };
       setError(false);
       setData(null);
-      const d = await fetchRawApi("ai/reflection", {
+      const d = await fetchRawApi(session, "ai/reflection", {
         data: JSON.stringify(temp),
         emoji,
       });
@@ -101,7 +101,7 @@ function ExperimentalAiReflection({ emoji, answers }) {
     } catch (e) {
       setError(true);
     }
-  }, [emoji, answers]);
+  }, [emoji, answers, session]);
 
   useEffect(() => {
     handleThink();
@@ -221,7 +221,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
   const handleSave = async (key, value) => {
     let q = questions[key].id;
 
-    await fetchRawApi("user/checkIns/setMood", {
+    await fetchRawApi(session, "user/checkIns/setMood", {
       date: dayjs().startOf("day"),
       mood: emoji,
       [q]: value,

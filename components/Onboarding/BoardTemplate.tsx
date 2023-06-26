@@ -14,7 +14,7 @@ export function BoardTemplate({ template }) {
 
   const handleClick = () => {
     setLoading(true);
-    fetchRawApi("property/boards/create", {
+    fetchRawApi(session, "property/boards/create", {
       board: JSON.stringify(template),
     }).then(async () => {
       setAdded(true);

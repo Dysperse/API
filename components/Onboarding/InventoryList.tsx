@@ -16,7 +16,7 @@ export function InventoryList({ data }: { data: Array<any> }) {
 
   const handleClick = (item) => {
     setInventory([...inventory, item.name]);
-    fetchRawApi("property/inventory/items/create", {
+    fetchRawApi(session, "property/inventory/items/create", {
       name: item.name,
       qty: "1",
       category: JSON.stringify([]),

@@ -46,7 +46,7 @@ export function Integration({ closeParent, integration }) {
       return;
     }
     setLoading(true);
-    await fetchRawApi("property/integrations/create", {
+    await fetchRawApi(session, "property/integrations/create", {
       name: integration.name,
       inputParams: JSON.stringify(params),
       outputType: integration.type,

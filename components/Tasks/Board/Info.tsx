@@ -1,7 +1,7 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
@@ -26,6 +26,7 @@ export function BoardInfo({
 }) {
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
+  const session = useSession();
 
   useEffect(() => {
     if (!descriptionRef.current || !descriptionRef.current || !board) return;
@@ -42,7 +43,7 @@ export function BoardInfo({
       )
     ) {
       toast.promise(
-        fetchRawApi("property/boards/edit", {
+        fetchRawApi(session, "property/boards/edit", {
           id: board.id,
           name: titleRef.current.value,
           description: descriptionRef.current.value,
@@ -65,8 +66,8 @@ export function BoardInfo({
     board.id,
     board.name,
     mutationUrls,
+    session,
   ]);
-  const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (

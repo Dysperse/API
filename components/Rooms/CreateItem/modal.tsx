@@ -1,8 +1,8 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
@@ -75,7 +75,7 @@ export function CreateItemModal({
       return;
     }
     setLoading(true);
-    fetchRawApi("property/inventory/items/create", {
+    fetchRawApi(session, "property/inventory/items/create", {
       room: room[0],
       name: title,
       quantity: quantity,
@@ -95,7 +95,7 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, [category, mutationUrl, quantity, title, room]);
+  }, [category, mutationUrl, quantity, title, room, session]);
 
   const storage = useAccountStorage();
   const isDark = useDarkMode(session.darkMode);

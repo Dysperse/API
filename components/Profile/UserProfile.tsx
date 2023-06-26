@@ -1,7 +1,10 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/useSession";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useStatusBar } from "@/lib/client/useStatusBar";
+import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import { Masonry } from "@mui/lab";
 import {
@@ -18,12 +21,9 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
-import { mutate } from "swr";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useStatusBar } from "@/lib/client/useStatusBar";
-import { toastStyles } from "@/lib/client/useTheme";
 import { Twemoji } from "react-emoji-render";
 import { toast } from "react-hot-toast";
+import { mutate } from "swr";
 import { WorkingHours } from "./WorkingHours";
 
 export function UserProfile({
@@ -54,7 +54,7 @@ export function UserProfile({
   const [hobbies, setHobbies] = useState(data.Profile.hobbies);
 
   const handleChange = async (key, value) => {
-    await fetchRawApi("user/profile/update", {
+    await fetchRawApi(session, "user/profile/update", {
       email: session.user.email,
       [key]: value,
     });
@@ -62,7 +62,7 @@ export function UserProfile({
   };
 
   const handleDelete = async () => {
-    await fetchRawApi("user/profile/delete", {
+    await fetchRawApi(session, "user/profile/delete", {
       email: session.user.email,
     });
     await mutate(mutationUrl);

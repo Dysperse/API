@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -38,7 +38,7 @@ function LinkToken() {
 
   const createLink = () => {
     setLoading(true);
-    fetchRawApi("property/members/inviteLink/create", {
+    fetchRawApi(session, "property/members/inviteLink/create", {
       inviterName: session.user.name,
       timestamp: new Date().toISOString(),
     }).then((res) => {
@@ -148,7 +148,7 @@ export function AddPersonModal({
       }
       if (isEmail(deferredEmail)) {
         setLoading(true);
-        await fetchRawApi("property/members/add", {
+        await fetchRawApi(session, "property/members/add", {
           inviterName: session.user.name,
           name: session.property.profile.name,
           timestamp: new Date().toISOString(),

@@ -46,7 +46,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     setOpen(true);
     setLoading(true);
     try {
-      const data = await fetchRawApi("property/boards/column/task", {
+      const data = await fetchRawApi(session, "property/boards/column/task", {
         id,
       });
       setData(data);
@@ -63,7 +63,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const handleMutate = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetchRawApi("property/boards/column/task", {
+      const res = await fetchRawApi(session, "property/boards/column/task", {
         id: id,
       });
       setData(res);
@@ -80,7 +80,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
       setData("deleted");
-      await fetchRawApi("property/boards/column/task/delete", {
+      await fetchRawApi(session, "property/boards/column/task/delete", {
         id: taskId,
       });
       handleMutate();

@@ -1,8 +1,8 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
@@ -59,7 +59,7 @@ const WebcamComponent = ({
       if (title.includes(", ")) title = title.split(", ")[0];
 
       if (forever) {
-        await fetchRawApi("property/inventory/items/create", {
+        await fetchRawApi(session, "property/inventory/items/create", {
           room: room.toString().toLowerCase(),
           name: title,
           quantity: qty,

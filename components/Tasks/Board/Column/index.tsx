@@ -1,7 +1,7 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
@@ -157,7 +157,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             size="large"
             onClick={async () => {
               toast.promise(
-                fetchRawApi("property/boards/column/edit", {
+                fetchRawApi(session, "property/boards/column/edit", {
                   id: column.id,
                   name: title,
                   emoji: emoji,

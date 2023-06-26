@@ -1,9 +1,9 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
+import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
@@ -79,14 +79,14 @@ export default function Notifications() {
     });
     setSubscription(sub);
     setIsSubscribed(true);
-    updateSettings("notificationSubscription", JSON.stringify(sub));
+    updateSettings(session, "notificationSubscription", JSON.stringify(sub));
   };
   const session = useSession();
 
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();
     await subscription.unsubscribe();
-    updateSettings("notificationSubscription", "");
+    updateSettings(session, "notificationSubscription", "");
     setSubscription(null);
     setIsSubscribed(false);
   };
@@ -94,7 +94,7 @@ export default function Notifications() {
   const sendNotificationButtonOnClick = async (event) => {
     event.preventDefault();
 
-    fetchRawApi("/user/settings/notifications/test", {
+    fetchRawApi(session, "/user/settings/notifications/test", {
       subscription: session.user.notificationSubscription,
     });
   };
@@ -106,7 +106,7 @@ export default function Notifications() {
   const handleNotificationChange = async (name, value) => {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        await fetchRawApi("user/settings/notifications/edit", {
+        await fetchRawApi(session, "user/settings/notifications/edit", {
           name: name,
           value: value,
         });

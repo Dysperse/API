@@ -1,7 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Alert,
   AppBar,
@@ -40,6 +40,8 @@ export function EditProperty({
   children,
   color,
 }: any) {
+  const session = useSession();
+
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState(
     propertyData.profile.name || "Untitled property"
@@ -72,14 +74,13 @@ export function EditProperty({
    */
   const handleCloseMenu = useCallback(
     (type) => {
-      updateSettings("type", type, false, null, true).then(() =>
+      updateSettings(session, "type", type, false, null, true).then(() =>
         setTimeout(mutatePropertyData, 1000)
       );
       setAnchorEl(null);
     },
-    [mutatePropertyData]
+    [session, mutatePropertyData]
   );
-  const session = useSession();
   const isDark = useDarkMode(session.darkMode);
 
   /**
@@ -88,11 +89,11 @@ export function EditProperty({
    */
   const handleUpdateName = useCallback(() => {
     if (deferredName !== propertyData.profile.name) {
-      updateSettings("name", deferredName, false, null, true).then(() =>
-        setTimeout(mutatePropertyData, 1000)
+      updateSettings(session, "name", deferredName, false, null, true).then(
+        () => setTimeout(mutatePropertyData, 1000)
       );
     }
-  }, [propertyData.profile.name, mutatePropertyData, deferredName]);
+  }, [session, propertyData.profile.name, mutatePropertyData, deferredName]);
 
   useBackButton(() => setOpen(false));
 
@@ -242,6 +243,7 @@ export function EditProperty({
                   setVanishingTasks(newValue);
 
                   updateSettings(
+                    session,
                     "vanishingTasks",
                     newValue ? "true" : "false",
                     false,

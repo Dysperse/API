@@ -1,15 +1,10 @@
-import {
-  AccountStorageState,
-  modifyAccountStorageHook,
-} from "@/lib/client/useAccountStorage";
 import { useDarkMode } from "@/lib/client/useColor";
-import { modifySessionHook } from "@/lib/client/useSession";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import { Box, Button, ThemeProvider, createTheme } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { Layout } from "../../pages/_app";
 
@@ -43,11 +38,6 @@ export function RenderWithLayout({
     : "light";
 
   const themeColor = data.user.color;
-
-  const [isReached, setIsReached]: any =
-    useState<AccountStorageState>("loading");
-
-  modifyAccountStorageHook(() => ({ isReached, setIsReached }));
 
   useEffect(() => {
     if (data.user.darkMode) {
@@ -87,14 +77,6 @@ export function RenderWithLayout({
   const selectedProperty =
     data.properties.find((property: any) => property.selected) ||
     data.properties[0];
-
-  modifySessionHook(() => ({
-    ...data,
-    property: selectedProperty,
-    permission: selectedProperty.permission,
-    themeColor,
-    darkMode: data.user.darkMode,
-  }));
 
   const children = <Component {...pageProps} key={_router.asPath} />;
 
