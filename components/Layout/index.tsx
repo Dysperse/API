@@ -4,6 +4,7 @@ import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
 import { motion } from "framer-motion";
@@ -71,11 +72,8 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
+  useStatusBar(palette[1])
   useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute("content", palette[1]);
-
     const variables = {
       "--overlay-dark": addHslAlpha(palette[1], 0.5),
       "--toast-bg": addHslAlpha(palette[3], 0.8),

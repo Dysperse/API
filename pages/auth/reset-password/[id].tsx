@@ -1,10 +1,11 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 
 /**
@@ -50,16 +51,7 @@ export default function Prompt() {
     },
     [router, password]
   );
-
-  useEffect(() => {
-    if (typeof document !== "undefined")
-      document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute(
-          "content",
-          window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b"
-        );
-  });
+  useStatusBar(window.innerWidth < 600 ? "#c4b5b5" : "#6b4b4b");
 
   return (
     <Layout>

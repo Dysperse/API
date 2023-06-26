@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useEffect } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 
@@ -28,6 +28,7 @@ const WebcamComponent = ({
   facingMode,
   room,
 }) => {
+  const session = useSession();
   const [forever, setForever] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const webcamRef: any = React.useRef(null);
@@ -194,13 +195,6 @@ export default function ImageRecognition({
   const [facingMode, setFacingMode] = React.useState("environment");
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
-
-  useEffect(() => {
-    const tag: any = document.querySelector('meta[name="theme-color"]');
-    if (open) {
-      tag.content = "#000000";
-    }
-  }, [open, isDark]);
 
   const storage = useAccountStorage();
 

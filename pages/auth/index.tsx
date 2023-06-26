@@ -1,6 +1,7 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { isEmail } from "@/components/Group/Members";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -343,12 +344,7 @@ export default function Prompt() {
     },
     [captchaToken, email, password, router, twoFactorCode, handleRedirect]
   );
-
-  useEffect(() => {
-    document
-      .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", "hsl(240,11%,90%)");
-  }, []);
+  useStatusBar("hsl(240,11%,90%)");
 
   useEffect(() => {
     if (captchaToken !== "" && !buttonLoading && step === 2) handleSubmit();

@@ -18,6 +18,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { cloneElement, useEffect, useRef, useState } from "react";
 import { exportAsImage } from "./MoreOptions";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 
 export function ShareGoal({ children, goal }) {
   const session = useSession();
@@ -36,12 +37,7 @@ export function ShareGoal({ children, goal }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    if (!isDark)
-      document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
-  }, [session, open, isDark]);
+  useStatusBar(open ? "hsl(240,11%,10%)" : "#fff");
 
   const colorChoices = [
     "red",

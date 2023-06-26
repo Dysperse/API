@@ -2,6 +2,7 @@ import { ShareGoal } from "@/components/Coach/Goal/ShareGoal";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
@@ -34,11 +35,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
 
   const isCompleted = goal.progress === goal.durationDays;
 
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute("content", palette[2]);
-  });
+  useStatusBar(palette[2]);
 
   const handleNext = () => {
     if (goal.progress === goal.durationDays) {
