@@ -152,7 +152,7 @@ function QrLogin({ handleRedirect }) {
                 gap: 2,
                 alignItems: "center",
                 justifyContent: "center",
-                background: addHslAlpha(palette[4], 0.8),
+                background: addHslAlpha(palette[5], 0.8),
                 top: 0,
                 borderRadius: 5,
                 left: 0,

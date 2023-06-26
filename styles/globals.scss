@@ -211,9 +211,10 @@ a {
   flex: 0 0 100%;
 }
 
-input:-webkit-autofill {
-  -webkit-background-clip: text;
+*:-webkit-autofill {
+  -webkit-background-clip: text !important;
 }
+
 @media (prefers-color-scheme: dark) {
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
