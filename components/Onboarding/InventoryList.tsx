@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -13,6 +14,7 @@ import toast from "react-hot-toast";
  */
 export function InventoryList({ data }: { data: Array<any> }) {
   const [inventory, setInventory] = React.useState<any>([]);
+  const session = useSession();
 
   const handleClick = (item) => {
     setInventory([...inventory, item.name]);

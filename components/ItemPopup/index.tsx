@@ -59,7 +59,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const handleItemChange = async (key: string, value: string) => {
     toast.promise(
-      fetchRawApi(session, "property/inventory/items/edit", {
+      fetchRawApi("property/inventory/items/edit", {
         id: itemData.id.toString(),
         [key]: value,
         lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
@@ -90,7 +90,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   };
 
   const handleItemDelete = () => {
-    fetchRawApi(session, "property/inventory/trash/item", {
+    fetchRawApi("property/inventory/trash/item", {
       id: itemData.id.toString(),
       lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     });
@@ -111,7 +111,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
             }}
             onClick={() => {
               toast.dismiss(t.id);
-              fetchRawApi(session, "property/inventory/restore", {
+              fetchRawApi("property/inventory/restore", {
                 id: itemData.id.toString(),
                 lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               });
@@ -262,7 +262,7 @@ export default function ItemDrawer({
       setOpen(true);
       setError(false);
       try {
-        const data = await fetchRawApi(session, "property/inventory/items", {
+        const data = await fetchRawApi("property/inventory/items", {
           id,
         });
         setItemData(data);
@@ -280,7 +280,6 @@ export default function ItemDrawer({
   }, [mutationUrl]);
 
   const trigger = cloneElement(children, {
-    //onTouchStart: handleOpen,
     onClick: handleOpen,
   });
 

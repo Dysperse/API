@@ -101,6 +101,8 @@ const Session: any = React.memo(function Session({
  */
 export default function LoginActivity() {
   const { data, url, error } = useApi("user/settings/sessions");
+  const session = useSession();
+
   return (
     <Layout>
       <ConfirmationModal

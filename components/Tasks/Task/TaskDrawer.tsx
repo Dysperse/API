@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { Alert, Box, CircularProgress, SwipeableDrawer } from "@mui/material";
@@ -40,6 +41,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
+  const session = useSession();
 
   // Fetch data when the trigger is clicked on
   const handleOpen = useCallback(async () => {
@@ -57,7 +59,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       setError(e.message);
       setLoading(false);
     }
-  }, [id]);
+  }, [id, session]);
 
   // Fetch data when the trigger is clicked on
   const handleMutate = useCallback(async () => {
@@ -75,7 +77,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       setError(e.message);
       setLoading(false);
     }
-  }, [id]);
+  }, [id, session]);
 
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
@@ -86,7 +88,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       handleMutate();
       mutate(mutationUrl);
     },
-    [mutationUrl, setData, handleMutate]
+    [mutationUrl, setData, handleMutate, session]
   );
 
   useHotkeys(

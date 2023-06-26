@@ -21,6 +21,8 @@ import { Puller } from "../Puller";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();
+  const session = useSession();
+
   const [open, setOpen] = useState<boolean>(false);
   const handleSubmit = () => {
     const category = ref.current.value;

@@ -33,6 +33,7 @@ interface RoomActionProps {
 }
 
 function Rename({ mutationUrl, handleClose, room }) {
+  const session = useSession();
   const storage = useAccountStorage();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(room?.name);

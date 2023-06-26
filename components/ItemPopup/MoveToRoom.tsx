@@ -36,6 +36,8 @@ function Room({
   room: string;
   setOpen: (open: boolean) => void;
 }) {
+  const session = useSession();
+
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleClick = async () => {
