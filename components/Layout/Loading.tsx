@@ -1,14 +1,6 @@
 import { useSession } from "@/lib/client/session";
-import { useDarkMode } from "@/lib/client/useColor";
-import {
-  AppBar,
-  Box,
-  createTheme,
-  Icon,
-  Skeleton,
-  ThemeProvider,
-  Toolbar,
-} from "@mui/material";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { AppBar, Box, Icon, Skeleton, Toolbar } from "@mui/material";
 import { useEffect, useState } from "react";
 
 /**
@@ -21,6 +13,7 @@ export function Loading(): JSX.Element {
 
   const [defaultDarkMode, setDefaultDarkMode] = useState(false);
   const isDark = useDarkMode(session && session.user && session.user.darkMode);
+  const palette = useColor(session?.themeColor || "gray", isDark);
 
   useEffect(() => {
     setDefaultDarkMode(
@@ -32,35 +25,20 @@ export function Loading(): JSX.Element {
   }, [isDark, session]);
 
   return (
-    <ThemeProvider
-      theme={createTheme({
-        palette: {
-          mode: defaultDarkMode ? "dark" : "light",
-          ...(defaultDarkMode && {
-            background: {
-              default: "hsl(240, 11%, 10%)",
-              paper: "hsl(240, 11%, 10%)",
-            },
-            text: {
-              primary: "hsl(240, 11%, 90%)",
-            },
-          }),
-        },
-      })}
-    >
+    <>
       <Box
         sx={{
           position: "fixed",
           top: 0,
           WebkitAppRegion: "drag",
           left: 0,
-          background:
-            (session?.user && session.user.darkMode) || defaultDarkMode
-              ? "hsl(240,11%,5%)"
-              : "#fff",
+          background: palette[1],
           width: "100%",
           height: "100%",
           overflow: "hidden",
+          "& .MuiSkeleton-root": {
+            background: palette[3],
+          },
         }}
       >
         <AppBar
@@ -112,10 +90,7 @@ export function Loading(): JSX.Element {
               alignItems: "center",
               height: "100vh",
               gap: 2,
-              background:
-                (session?.user && session.user.darkMode) || defaultDarkMode
-                  ? "hsl(240,11%,10%)"
-                  : "rgba(200,200,200,.3)",
+              background: palette[3],
               justifyContent: "center",
               width: "95px",
               py: 2,
@@ -129,6 +104,7 @@ export function Loading(): JSX.Element {
                 borderRadius: 5,
                 height: 50,
                 width: 50,
+                background: palette[4] + "!important",
               }}
             />
             <Box sx={{ mt: "auto" }} />
@@ -140,6 +116,7 @@ export function Loading(): JSX.Element {
                 sx={{
                   borderRadius: 5,
                   height: 50,
+                  background: palette[4] + "!important",
                   width: 50,
                   ...(i === 4 && {
                     mt: "auto",
@@ -161,10 +138,7 @@ export function Loading(): JSX.Element {
             <Box
               sx={{
                 display: { xs: "none", sm: "block" },
-                background:
-                  (session?.user && session.user.darkMode) || defaultDarkMode
-                    ? "hsl(240,11%,13%)"
-                    : "rgba(200,200,200,.2)",
+                background: palette[2],
                 width: 300,
                 p: 3,
                 py: 4,
@@ -242,23 +216,14 @@ export function Loading(): JSX.Element {
                       flex: { xs: "0 0 100vw", sm: "0 0 300px" },
                       borderRight: { sm: "1px solid" },
                       height: "100vh",
-                      borderColor: `hsl(240,11%,${
-                        (session?.user && session.user.darkMode) ||
-                        defaultDarkMode
-                          ? 13
-                          : 95
-                      }%)!important`,
+                      borderColor: palette[3] + "!important",
                     }}
                   >
                     <Box
                       sx={{
                         p: 3,
                         borderBottom: "1px solid",
-                        borderColor:
-                          (session?.user && session.user.darkMode) ||
-                          defaultDarkMode
-                            ? "hsl(240,11%,13%)!important"
-                            : "rgba(200,200,200,.3)!important",
+                        borderColor: palette[3] + "!important",
                       }}
                     >
                       <Skeleton
@@ -302,6 +267,6 @@ export function Loading(): JSX.Element {
           </Box>
         </Box>
       </Box>
-    </ThemeProvider>
+    </>
   );
 }
