@@ -178,7 +178,7 @@ export const Task: any = function Task({
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             transition: "none",
-            py: { xs: 1, sm: 0.7 },
+            py: { xs: 0.5, sm: 0.2 },
             px: { xs: 2.6, sm: 1.7 },
             ...(isSubTask && {
               pl: { xs: "40px", sm: "40px" },
@@ -202,7 +202,11 @@ export const Task: any = function Task({
           }}
         >
           <Checkbox
-            sx={{ p: 0 }}
+            sx={{
+              mr: -2,
+              ml: -2,
+              px: 2,
+            }}
             disabled={isDisabled}
             disableRipple
             checked={taskData.completed}
@@ -277,7 +281,7 @@ export const Task: any = function Task({
                   {taskData.pinned && (
                     <ConfirmationModal
                       title="Change priority?"
-                      question="You are about to unpin this task. You can always change the priority later"
+                      question="Unpin this task?"
                       callback={handlePriorityChange}
                     >
                       <Tooltip

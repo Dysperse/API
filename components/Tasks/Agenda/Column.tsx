@@ -374,11 +374,11 @@ export const Column: any = memo(function Column({
           </Box>
           {sortedTasks.map((task) => (
             <Task
+              isAgenda={true}
               isDateDependent={true}
               key={task.id}
               board={task.board || false}
               columnId={task.column ? task.column.id : -1}
-              isAgenda
               mutationUrl={mutationUrl}
               task={task}
             />
