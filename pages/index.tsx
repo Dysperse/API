@@ -189,14 +189,21 @@ export default function Home() {
       >
         <Box
           sx={{
-            mb: { xs: 10, sm: 2 },
+            mb: { xs: 7, sm: 2 },
             textAlign: "center",
           }}
         >
           <Typography
             className="font-heading"
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
+            {...(isMobile
+              ? {
+                  onTouchStart: () => setIsHover(true),
+                  onTouchEnd: () => setIsHover(false),
+                }
+              : {
+                  onMouseEnter: () => setIsHover(true),
+                  onMouseLeave: () => setIsHover(false),
+                })}
             sx={{
               px: { xs: 2, sm: 4 },
               fontSize: {
