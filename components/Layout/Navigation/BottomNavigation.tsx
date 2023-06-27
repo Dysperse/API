@@ -24,37 +24,35 @@ export function BottomNav() {
 
   const session = useSession();
 
-useEffect(() => {
-  let startX;
-  let startY;
+  useEffect(() => {
+    let startX;
+    let startY;
 
-  const handleTouchStart = (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-  };
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    };
 
-  const handleTouchMove = (e) => {
-    const deltaX = e.touches[0].clientX - startX;
-    const deltaY = e.touches[0].clientY - startY;
-    const threshold = 10; // Adjust this value to set the swipe threshold
+    const handleTouchMove = (e) => {
+      const deltaX = e.touches[0].clientX - startX;
+      const deltaY = e.touches[0].clientY - startY;
+      const threshold = 10; // Adjust this value to set the swipe threshold
 
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
-      e.preventDefault();
-    }
-  };
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
+        e.preventDefault();
+      }
+    };
 
-  document.body.addEventListener("touchstart", handleTouchStart);
-  document.body.addEventListener("touchmove", handleTouchMove, {
-    passive: false,
-  });
+    document.body.addEventListener("touchstart", handleTouchStart);
+    document.body.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+    });
 
-  return () => {
-    document.body.removeEventListener("touchstart", handleTouchStart);
-    document.body.removeEventListener("touchmove", handleTouchMove);
-  };
-}, []);
-
-
+    return () => {
+      document.body.removeEventListener("touchstart", handleTouchStart);
+      document.body.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
 
   const styles = (active) => {
     return {
