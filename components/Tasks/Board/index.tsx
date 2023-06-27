@@ -22,7 +22,7 @@ import { mutate } from "swr";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
-function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
+function RenderBoard({ mutationUrls, board, data }) {
   const [showInfo, setShowInfo] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -257,7 +257,6 @@ export function Board({ mutationUrl, board, setDrawerOpen }) {
           tasks: url,
         }}
         board={board}
-        setDrawerOpen={setDrawerOpen}
       />
     </>
   );

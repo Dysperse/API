@@ -532,8 +532,13 @@ export function TasksLayout({ open, setOpen, children }) {
                   ?.click();
               }}
             >
-              <Icon className="outlined" sx={{ transform: "scale(1.1)" }}>
-                add
+              <Icon
+                className={"outlined"}
+                sx={{
+                  transform: "scale(1.1)",
+                }}
+              >
+                {isBoard ? "edit" : "add"}
               </Icon>
             </IconButton>
           </Box>

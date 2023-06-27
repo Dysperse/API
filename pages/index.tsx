@@ -2,6 +2,7 @@ import { DailyCheckIn } from "@/components/CheckIns";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { vibrate } from "@/lib/client/vibration";
 import { GroupModal } from "@/pages/users";
 import {
   Box,
@@ -179,6 +180,15 @@ export default function Home() {
     }
   }, [isHover]);
 
+  const open = () => {
+    vibrate(50);
+    setIsHover(true);
+  };
+  const close = () => {
+    vibrate(50);
+    setIsHover(false);
+  };
+
   return (
     <Box sx={{ ml: { sm: -1 } }}>
       {isMobile && <Navbar showLogo />}
@@ -191,18 +201,22 @@ export default function Home() {
           sx={{
             mb: { xs: 10, sm: 2 },
             textAlign: "center",
+            "&:active": {
+              transform: "scale(.9)",
+            },
+            transition: "all .2s",
           }}
         >
           <Typography
             className="font-heading"
             {...(isMobile
               ? {
-                  onTouchStart: () => setIsHover(true),
-                  onTouchEnd: () => setIsHover(false),
+                  onTouchStart: open,
+                  onTouchEnd: close,
                 }
               : {
-                  onMouseEnter: () => setIsHover(true),
-                  onMouseLeave: () => setIsHover(false),
+                  onMouseEnter: open,
+                  onMouseLeave: close,
                 })}
             sx={{
               px: { xs: 2, sm: 4 },
