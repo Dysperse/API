@@ -114,7 +114,7 @@ export function BoardInfo({
           position: "absolute",
           top: "50%",
           transform: "translateY(-50%)",
-          background: "rgba(200,200,200,.3)",
+          background: palette[3],
           height: "75px",
           width: "3px",
           right: "10px",

@@ -149,6 +149,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                   ? "0px 0px 0px 1.5px #fff !important"
                   : "0px 0px 0px 1.5px #000 !important",
               },
+              "&:disabled": {
+                cursor: "not-allowed!important",
+                opacity: 0.5,
+                color: palette[10],
+              },
             }),
         },
       },
