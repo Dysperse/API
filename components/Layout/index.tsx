@@ -119,9 +119,6 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
             : router.asPath
         }
         onContextMenu={(e) => e.preventDefault()}
-        onTouchStart={(e: any) => {
-          e.preventDefault();
-        }}
         sx={{ display: "flex" }}
       >
         <ReleaseModal />

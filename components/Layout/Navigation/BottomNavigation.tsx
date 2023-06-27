@@ -3,6 +3,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { openSpotlight } from "./Search";
 
 /**
@@ -20,7 +21,20 @@ export function BottomNav() {
     flex: "0 0 40px",
     width: "60px",
   };
+
   const session = useSession();
+
+  useEffect(() => {
+    const handleTouchMove = (e) => {
+      e.preventDefault();
+    };
+    document.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+    });
+    return () => {
+      document.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
 
   const styles = (active) => {
     return {
