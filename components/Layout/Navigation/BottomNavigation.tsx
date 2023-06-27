@@ -32,7 +32,10 @@ export function BottomNav() {
       passive: false,
     });
     return () => {
-      document.documentElement.removeEventListener("touchmove", handleTouchMove);
+      document.documentElement.removeEventListener(
+        "touchmove",
+        handleTouchMove
+      );
     };
   }, []);
 
