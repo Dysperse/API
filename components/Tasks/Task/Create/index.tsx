@@ -658,11 +658,14 @@ export function CreateTask({
                 <IconButton
                   onClick={toggleDescription}
                   sx={{
+                    ml: 0.5,
                     ...styles(palette, showDescription),
                   }}
                   size="small"
                 >
-                  <Icon>notes</Icon>
+                  <Icon {...(!showDescription && { className: "outlined" })}>
+                    sticky_note_2
+                  </Icon>
                 </IconButton>
               </Tooltip>
               {!isSubTask && (
