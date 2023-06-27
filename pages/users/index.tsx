@@ -509,7 +509,8 @@ export default function Page() {
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
-                      maxWidth: "100%",
+                      width: "100%",
+                      maxWidth: "300px",
                       minWidth: 0,
                     }}
                   >
