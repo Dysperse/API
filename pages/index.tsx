@@ -184,12 +184,12 @@ export default function Home() {
       {isMobile && <Navbar showLogo />}
       <Box
         sx={{
-          pt: { xs: 10, sm: 23 },
+          pt: { xs: 7, sm: 23 },
         }}
       >
         <Box
           sx={{
-            mb: { xs: 13, sm: 2 },
+            mb: { xs: 10, sm: 2 },
             textAlign: "center",
           }}
         >
