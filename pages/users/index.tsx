@@ -328,6 +328,7 @@ export function GroupModal({ children }: any) {
   preload(url, fetcher);
   const drawer = (
     <SwipeableDrawer
+      onClick={(e) => e.stopPropagation()}
       anchor="bottom"
       open={showMore}
       onClose={() => setShowMore(false)}
@@ -475,7 +476,7 @@ export default function Page() {
                   flexDirection: "column",
                   mt: 2,
                   borderRadius: 5,
-                  py: 5,
+                  py: { xs: 2.5, sm: 5 },
                 }}
               >
                 <Box
@@ -490,8 +491,8 @@ export default function Page() {
                   <Avatar
                     src={data.user?.Profile?.picture}
                     sx={{
-                      height: { xs: 150, sm: 90 },
-                      width: { xs: 150, sm: 90 },
+                      height: { xs: 120, sm: 90 },
+                      width: { xs: 120, sm: 90 },
                       fontSize: 20,
                       textTransform: "uppercase",
                       background: `linear-gradient(${palette[9]} 30%, ${palette[6]})`,
@@ -503,7 +504,7 @@ export default function Page() {
                       : data.user.name.charAt(1)}
                   </Avatar>
                   <Typography
-                    variant="h1"
+                    variant={isMobile ? "h2" : "h1"}
                     className="font-heading"
                     sx={{
                       textOverflow: "ellipsis",
