@@ -11,7 +11,6 @@ import {
   AppBar,
   Avatar,
   Box,
-  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -20,8 +19,6 @@ import {
   Container,
   Icon,
   IconButton,
-  ListItemButton,
-  ListItemText,
   SwipeableDrawer,
   Toolbar,
   Tooltip,
@@ -314,6 +311,11 @@ export function GroupModal({ children }: any) {
   const { data, fetcher, url, error } = useApi("user/properties");
   const [showMore, setShowMore] = useState(false);
 
+  const palette = useColor(
+    session?.property?.profile?.color,
+    useDarkMode(session.darkMode)
+  );
+
   const properties = [...session.properties, ...(data || [])]
     .filter((group) => group)
     .reduce((acc, curr) => {
@@ -341,6 +343,8 @@ export function GroupModal({ children }: any) {
     </SwipeableDrawer>
   );
 
+  const router = useRouter();
+
   if (children) {
     const trigger = cloneElement(children, {
       onContextMenu: () => {
@@ -357,42 +361,33 @@ export function GroupModal({ children }: any) {
   }
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Typography
-        variant="h6"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          mt: 3,
-          mb: 1,
-          px: { xs: 2, sm: 0 },
+    <>
+      <Chip
+        sx={{ mt: 1 }}
+        label={session.property.profile.name}
+        onDelete={() => setShowMore(true)}
+        onClick={(e) => {
+          e.stopPropagation();
+          router.push(`/groups/${session.property.propertyId}`);
         }}
-      >
-        Group
-        {properties.length !== 1 && (
-          <Button
-            sx={{ ml: "auto" }}
-            size="small"
-            onClick={() => setShowMore(true)}
-          >
-            View all
-          </Button>
-        )}
-      </Typography>
-      {error && (
-        <ErrorHandler error="Oh no! We couldn't load your groups! Please try again later" />
-      )}
-
-      <Box>
-        <PropertyButton
-          handleClose={null}
-          group={properties.find(
-            (p) => p.propertyId === session.property.propertyId
-          )}
-        />
-      </Box>
+        avatar={
+          <Box
+            sx={{
+              width: 24,
+              height: 24,
+              background: `linear-gradient(${palette[9]}, ${palette[11]})`,
+              borderRadius: 5,
+            }}
+          />
+        }
+        deleteIcon={
+          <IconButton size="small">
+            <Icon sx={{ color: "#fff!important" }}>sync_alt</Icon>
+          </IconButton>
+        }
+      />
       {drawer}
-    </Box>
+    </>
   );
 }
 
@@ -451,50 +446,52 @@ export default function Page() {
         </Toolbar>
       </AppBar>
       <Container sx={{ px: { xs: "0!important", sm: "unset" } }}>
-        <Box
-          sx={{
-            px: { sm: 2 },
-            mt: 2,
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            gap: 2,
-          }}
-        >
-          {data ? (
-            <>
-              <Box sx={{ width: "100%" }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    display: { xs: "none", sm: "flex" },
-                    alignItems: "center",
-                    mt: 3,
-                    px: { xs: 2, sm: 0 },
-                    mb: 1,
-                  }}
-                >
-                  Profile
-                </Typography>
-                <ListItemButton
-                  sx={{
-                    borderRadius: { xs: 0, sm: 3 },
+        {data ? (
+          <>
+            <Box sx={{ width: "100%" }}>
+              <Box
+                onClick={() => router.push(`/users/${session.user.email}`)}
+                sx={{
+                  maxWidth: "100vw",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  display: "flex",
+                  background: {
+                    sm: `linear-gradient(${palette[3]}, ${palette[2]})`,
+                  },
+                  "&:hover": {
                     background: {
-                      sm: palette[2],
+                      sm: `linear-gradient(${palette[2]}, ${palette[3]})`,
                     },
-                    mt: { xs: 2, sm: 0 },
-                    "& *": {
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    },
+                    cursor: "pointer",
+                  },
+                  transition: "all .2s",
+                  "&:active": {
+                    transform: "scale(.95)",
+                  },
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  mt: 2,
+                  borderRadius: 5,
+                  py: 5,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    maxWidth: "100%",
+                    flexDirection: { xs: "column", sm: "row" },
                   }}
-                  onClick={() => router.push(`/users/${session.user.email}`)}
                 >
                   <Avatar
                     src={data.user?.Profile?.picture}
                     sx={{
-                      height: 50,
-                      width: 50,
+                      height: { xs: 150, sm: 90 },
+                      width: { xs: 150, sm: 90 },
                       fontSize: 20,
                       textTransform: "uppercase",
                       background: `linear-gradient(${palette[9]} 30%, ${palette[6]})`,
@@ -505,35 +502,56 @@ export default function Page() {
                       ? data.user.name.split(" ")[1].charAt(0)
                       : data.user.name.charAt(1)}
                   </Avatar>
-                  <ListItemText
-                    primary={session.user.name}
-                    secondary={session.user.email}
-                  />
-                  <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-                </ListItemButton>
+                  <Typography
+                    variant="h1"
+                    className="font-heading"
+                    sx={{
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      maxWidth: "100%",
+                      minWidth: 0,
+                    }}
+                  >
+                    {session.user.name}
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    maxWidth: "100%",
+                    color: palette[11],
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    minWidth: 0,
+                  }}
+                >
+                  {session.user.email}
+                </Typography>
+                <GroupModal />
               </Box>
-              <GroupModal />
-            </>
-          ) : error ? (
-            <ErrorHandler
-              callback={() => mutate(url)}
-              error="Oh no! We couldn't get your friends! Please try again later"
-            />
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                width: "100%",
-                height: "100vh",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgress />
             </Box>
-          )}
-        </Box>
-        <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
+          </>
+        ) : error ? (
+          <ErrorHandler
+            callback={() => mutate(url)}
+            error="Oh no! We couldn't get your friends! Please try again later"
+          />
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              height: "100vh",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+        <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
           Birthdays
         </Typography>
         <UpcomingBirthdays data={data} />
@@ -545,9 +563,6 @@ export default function Page() {
             </Alert>
           </Box>
         )}
-        <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 1 }}>
-          Friends
-        </Typography>
         {data && data.friends.length == 0 && (
           <Box sx={{ px: 2 }}>
             <Alert severity="info">
@@ -556,7 +571,10 @@ export default function Page() {
             </Alert>
           </Box>
         )}
-        <Box sx={{ px: { sm: 2 } }}>
+        <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
+          Friends
+        </Typography>
+        <Box sx={{ px: { sm: 2 }, mt: 1 }}>
           <Box sx={{ mr: isMobile ? 0 : -2 }}>
             <Masonry columns={{ xs: 1, sm: 3 }} spacing={isMobile ? 0 : 2}>
               {data &&
