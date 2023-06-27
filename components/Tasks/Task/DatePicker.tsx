@@ -14,6 +14,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import DatePicker from "react-calendar";
 
@@ -145,47 +146,64 @@ export const SelectDateModal: any = function SelectDateModal({
         </Box>
       </SwipeableDrawer>
       <Tooltip title="Date (alt • f)" placement="top">
-        <IconButton
-          id="dateModal"
-          size="small"
-          ref={ref}
-          disableRipple
-          sx={{
-            ...styles(palette, Boolean(date)),
-            gap: 1,
-            ml: "auto",
-            mr: 1,
-            ...(!isMobile && { borderRadius: 99, px: 1 }),
-          }}
-          onClick={() => setOpen(!open)}
-        >
-          <Icon>today</Icon>
-          <Typography
-            sx={{
-              fontSize: hasTime ? "13px" : "15px",
-              ...(hasTime && { mt: -0.4 }),
-              display: { xs: "none", sm: "inline-flex" },
-              textAlign: "left",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              flexDirection: "column",
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={dayjs(date).format("MMMM D h:mm a")}
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 0.05,
+              type: "spring",
+              stiffness: 260,
+              damping: 20,
+            }}
+            style={{
+              marginLeft: "auto",
             }}
           >
-            {date && dayjs(date).format("MMMM D")}
-            {hasTime && (
+            <IconButton
+              id="dateModal"
+              size="small"
+              ref={ref}
+              disableRipple
+              sx={{
+                ...styles(palette, Boolean(date)),
+                gap: 1,
+                mr: 1,
+                ...(!isMobile && { borderRadius: 99, px: 1 }),
+              }}
+              onClick={() => setOpen(!open)}
+            >
+              <Icon>today</Icon>
               <Typography
-                variant="body2"
                 sx={{
-                  fontSize: "11px",
-                  mt: -0.5,
-                  mb: -0.5,
+                  fontSize: hasTime ? "13px" : "15px",
+                  ...(hasTime && { mt: -0.4 }),
+                  display: { xs: "none", sm: "inline-flex" },
+                  textAlign: "left",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  flexDirection: "column",
                 }}
               >
-                {dayjs(date).format("h:mm a")}
+                {date && dayjs(date).format("MMMM D")}
+                {hasTime && (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: "11px",
+                      mt: -0.5,
+                      mb: -0.5,
+                    }}
+                  >
+                    {dayjs(date).format("h:mm a")}
+                  </Typography>
+                )}
               </Typography>
-            )}
-          </Typography>
-        </IconButton>
+            </IconButton>
+          </motion.div>
+        </AnimatePresence>
       </Tooltip>
     </>
   );
