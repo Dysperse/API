@@ -81,7 +81,7 @@ export function PropertyInfo({
             </LoadingButton>
           }
         >
-          You&apos;re spectating this group
+          Spectating group
         </Alert>
       )}
       {session.properties &&
@@ -203,6 +203,8 @@ export function PropertyInfo({
         propertyData.profile.id === session.property.propertyId && (
           <Integrations handleClose={handleClose} />
         )}
+      <br />
+      <br />
     </Box>
   );
 }

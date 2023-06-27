@@ -73,6 +73,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const palette = useColor(session.themeColor, isDark);
 
   useStatusBar(palette[1]);
+
   useEffect(() => {
     const variables = {
       "--overlay-dark": addHslAlpha(palette[1], 0.5),

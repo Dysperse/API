@@ -19,7 +19,10 @@ export function PropertyButton({ handleClose, group }) {
 
   return (
     <ListItemButton
-      onClick={() => router.push(`/groups/${group.propertyId}`)}
+      onClick={() => {
+        handleClose();
+        setTimeout(() => router.push(`/groups/${group.propertyId}`), 500);
+      }}
       {...(group.propertyId === session.property.propertyId && {
         id: "activeProperty",
       })}

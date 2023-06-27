@@ -365,7 +365,11 @@ function GroupModal() {
       >
         <Puller />
         {properties.map((group: any) => (
-          <PropertyButton handleClose={() => {}} key={group.id} group={group} />
+          <PropertyButton
+            handleClose={() => setShowMore(false)}
+            key={group.id}
+            group={group}
+          />
         ))}
       </SwipeableDrawer>
     </Box>

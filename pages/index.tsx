@@ -102,7 +102,7 @@ export default function Home() {
     if (time < 12) return "Good morning.";
     else if (time < 17) return "Good afternoon.";
     else if (time < 20) return "Good evening.";
-    else return "Good night.";
+    else return "Good afternoon.";
   }, [time]);
 
   const [greeting, setGreeting] = useState(getGreeting);
@@ -159,12 +159,25 @@ export default function Home() {
     coachData &&
     completedGoals.length == coachData.filter((g) => !g.completed).length;
 
+  const [isHover, setIsHover] = useState(false);
+  const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm:ss A"));
+
+  useEffect(() => {
+    if (isHover) {
+      setCurrentTime(dayjs().format("hh:mm:ss A"));
+      const interval = setInterval(() => {
+        setCurrentTime(dayjs().format("hh:mm:ss A"));
+      });
+      return () => clearInterval(interval);
+    }
+  }, [isHover]);
+
   return (
     <Box sx={{ ml: { sm: -1 } }}>
       {isMobile && <Navbar showLogo />}
       <Box
         sx={{
-          pt: { xs: 10, sm: 23 },
+          pt: { xs: 7, sm: 23 },
         }}
       >
         <Box
@@ -175,13 +188,15 @@ export default function Home() {
         >
           <Typography
             className="font-heading"
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
             sx={{
               px: { xs: 2, sm: 4 },
               fontSize: {
-                xs: "60px",
+                xs: "70px",
                 sm: "80px",
               },
-              whiteSpace: "nowrap",
+              // whiteSpace: "nowrap",
               userSelect: "none",
               overflow: "hidden",
               background: `linear-gradient(${palette[11]}, ${palette[5]})`,
@@ -192,7 +207,7 @@ export default function Home() {
             }}
             variant="h4"
           >
-            {greeting}
+            {isHover ? currentTime : greeting}
           </Typography>
         </Box>
       </Box>

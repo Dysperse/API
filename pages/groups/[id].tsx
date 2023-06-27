@@ -5,6 +5,7 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import {
   AppBar,
   Box,
@@ -13,6 +14,7 @@ import {
   Icon,
   IconButton,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { Property } from "@prisma/client";
 import { useRouter } from "next/router";
@@ -41,6 +43,7 @@ function Group({ group, handleMutate }) {
           <IconButton onClick={() => router.push("/users")}>
             <Icon>west</Icon>
           </IconButton>
+          <Typography sx={{ fontWeight: 700 }}>Group</Typography>
           {group && (
             <Changelog
               disabled={group.profile.id !== session.property.propertyId}
@@ -85,11 +88,10 @@ export default function Page() {
   useEffect(() => {
     if (data) {
       setColor(data.profile.color);
-      document
-        .getElementById(`meta-theme-color`)
-        ?.setAttribute("content", palette[1]);
     }
   }, [data, palette]);
+
+  useStatusBar(palette[1]);
 
   return (
     <Box
