@@ -5,6 +5,10 @@
   --toast-solid: hsl(240, 11%, 30%);
 }
 
+html, body {
+    overscroll-behavior-x: none;
+}
+
 .kbd {
   margin-right: 0.375rem;
   -webkit-user-select: none;
