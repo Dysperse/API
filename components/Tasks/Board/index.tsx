@@ -4,7 +4,6 @@ import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
-import { vibrate } from "@/lib/client/vibration";
 import {
   Alert,
   Box,
@@ -20,7 +19,6 @@ import { motion } from "framer-motion";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
 import { mutate } from "swr";
-import { taskStyles } from "../Layout";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
@@ -171,23 +169,11 @@ function RenderBoard({ mutationUrls, board, data, setDrawerOpen }) {
           />
         )}
       </SwipeableDrawer>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.2, delay: 0.4 }}
-      >
-        <IconButton
-          size="large"
-          onContextMenu={() => {
-            vibrate(50);
-            setDrawerOpen(true);
-          }}
-          onClick={() => setMobileOpen(true)}
-          sx={taskStyles(palette).menu}
-        >
-          <Icon className="outlined">info</Icon>
-        </IconButton>
-      </motion.div>
+      <div
+        onClick={() => setMobileOpen(true)}
+        style={{ display: "none" }}
+        id="boardInfoTrigger"
+      />
 
       {data
         .filter((_, index: number) => index === currentColumn || !isMobile)

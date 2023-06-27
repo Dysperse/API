@@ -137,22 +137,6 @@ function SearchTasks({ setOpen }) {
       >
         <Icon>search</Icon>
       </IconButton>
-      <IconButton
-        sx={{
-          color: palette[8],
-          background: addHslAlpha(palette[3], 0.5),
-          "&:active": {
-            transform: "scale(0.95)",
-          },
-        }}
-        onClick={() => {
-          document.getElementById("createTask")?.click();
-        }}
-      >
-        <Icon className="outlined" sx={{ transform: "scale(1.1)" }}>
-          add
-        </Icon>
-      </IconButton>
       {createTask}
     </>
   ) : (
@@ -166,6 +150,7 @@ function SearchTasks({ setOpen }) {
     >
       {input}
       {createTask}
+
       <Tooltip
         placement="right"
         title={
@@ -481,6 +466,8 @@ export function TasksLayout({ open, setOpen, children }) {
     </>
   );
 
+  const isBoard = router.asPath.includes("/tasks/boards/");
+
   return (
     <>
       {isMobile && (
@@ -512,14 +499,43 @@ export function TasksLayout({ open, setOpen, children }) {
                 ...(!title.includes("•") && {
                   minWidth: 0,
                 }),
+                whiteSpace: "nowrap",
+                overflow: "hidden",
               }}
               size="large"
               onClick={() => setOpen(true)}
             >
               <Icon>expand_all</Icon>
-              {title.includes("•") ? title.split("•")[0] : ""}
+              <span
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  minWidth: 0,
+                }}
+              >
+                {title.includes("•") ? title.split("•")[0] : ""}
+              </span>
             </Button>
             <SearchTasks setOpen={setOpen} />
+            <IconButton
+              sx={{
+                color: palette[8],
+                background: addHslAlpha(palette[3], 0.5),
+                "&:active": {
+                  transform: "scale(0.95)",
+                },
+              }}
+              onClick={() => {
+                document
+                  .getElementById(isBoard ? "boardInfoTrigger" : "createTask")
+                  ?.click();
+              }}
+            >
+              <Icon className="outlined" sx={{ transform: "scale(1.1)" }}>
+                add
+              </Icon>
+            </IconButton>
           </Box>
         </motion.div>
       )}
