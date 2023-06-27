@@ -39,10 +39,9 @@ export function PropertyButton({ handleClose, group }: any) {
           overflow: "hidden",
           textOverflow: "ellipsis",
         },
-        ...(handleClose &&
-          group.propertyId === session.property.propertyId && {
-            background: palette[2],
-          }),
+        ...(group.propertyId === session.property.propertyId && {
+          background: handleClose ? palette[2] : { sm: palette[2] },
+        }),
       }}
     >
       <Box
