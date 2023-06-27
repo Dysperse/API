@@ -2,6 +2,7 @@ import { DailyCheckIn } from "@/components/CheckIns";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { GroupModal } from "@/pages/users";
 import {
   Box,
   Icon,
@@ -77,14 +78,20 @@ export function Navbar({
       }}
     >
       <Logo />
-
       {right || (
-        <IconButton
-          sx={{ ml: "auto", color: palette[8] }}
-          onClick={() => router.push("/users")}
-        >
-          <Icon className="outlined">group</Icon>
-        </IconButton>
+        <GroupModal>
+          <IconButton
+            sx={{
+              ml: "auto",
+              color: palette[8],
+              "&:active": { transform: "scale(.9)" },
+              transition: "all .4s",
+            }}
+            onClick={() => router.push("/users")}
+          >
+            <Icon className="outlined">tag</Icon>
+          </IconButton>
+        </GroupModal>
       )}
     </Box>
   );

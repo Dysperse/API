@@ -44,7 +44,7 @@ export default function Render() {
       <Head>
         <title>Coach</title>
       </Head>
-      <Box sx={{ maxWidth: "600px", pt: { xs: 0, sm: 10 }, mx: "auto" }}>
+      <Box sx={{ maxWidth: "600px", px: 2, pt: { xs: 0, sm: 10 }, mx: "auto" }}>
         <Box sx={{ position: "relative" }}>
           {error && (
             <ErrorHandler

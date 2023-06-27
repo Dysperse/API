@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 
-export function PropertyButton({ handleClose, group }) {
+export function PropertyButton({ handleClose, group }: any) {
   const session = useSession();
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -20,7 +20,7 @@ export function PropertyButton({ handleClose, group }) {
   return (
     <ListItemButton
       onClick={() => {
-        handleClose();
+        handleClose && handleClose();
         setTimeout(() => router.push(`/groups/${group.propertyId}`), 500);
       }}
       {...(group.propertyId === session.property.propertyId && {
@@ -39,9 +39,10 @@ export function PropertyButton({ handleClose, group }) {
           overflow: "hidden",
           textOverflow: "ellipsis",
         },
-        ...(group.propertyId === session.property.propertyId && {
-          background: { sm: palette[2] },
-        }),
+        ...(handleClose &&
+          group.propertyId === session.property.propertyId && {
+            background: palette[2],
+          }),
       }}
     >
       <Box

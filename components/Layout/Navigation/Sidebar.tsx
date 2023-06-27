@@ -3,6 +3,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Logo } from "@/pages";
+import { GroupModal } from "@/pages/users";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -17,6 +18,10 @@ export function Sidebar() {
   const router = useRouter();
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const groupPalette = useColor(
+    session.property.profile.color,
+    useDarkMode(session.darkMode)
+  );
   const [clickCount, setClickCount] = useState(0);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -290,26 +295,28 @@ export function Sidebar() {
             <span className="material-symbols-outlined">bolt</span>
           </Tooltip>
         </Box>
-        <Box
-          sx={{
-            ...styles(router.asPath.includes("/users")),
-            "& .material-symbols-outlined, .material-symbols-rounded": {
-              height: 40,
-            },
-          }}
-          onClick={() => router.push(`/users`)}
-          onMouseDown={() => router.push(`/users`)}
-        >
-          <Tooltip title="Friends" placement="right">
-            <span
-              className={`material-symbols-${
-                router.asPath.includes("users") ? "rounded" : "outlined"
-              }`}
-            >
-              group
-            </span>
-          </Tooltip>
-        </Box>
+        <GroupModal>
+          <Box
+            sx={{
+              ...styles(router.asPath.includes("/users")),
+              "& .material-symbols-outlined, .material-symbols-rounded": {
+                height: 40,
+                background: groupPalette[6] + "!important",
+              },
+            }}
+            onClick={() => router.push(`/users`)}
+          >
+            <Tooltip title="Friends" placement="right">
+              <span
+                className={`material-symbols-${
+                  router.asPath.includes("users") ? "rounded" : "outlined"
+                }`}
+              >
+                tag
+              </span>
+            </Tooltip>
+          </Box>
+        </GroupModal>
       </Box>
     </Box>
   );

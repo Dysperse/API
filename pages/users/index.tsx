@@ -4,6 +4,7 @@ import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { vibrate } from "@/lib/client/vibration";
 import { Masonry } from "@mui/lab";
 import {
   Alert,
@@ -29,7 +30,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { cloneElement, useState } from "react";
 import { mutate, preload } from "swr";
 
 function ProfilePicture({ src, name, color, size }) {
@@ -308,7 +309,7 @@ function UpcomingBirthdays({ data }) {
   );
 }
 
-function GroupModal() {
+export function GroupModal({ children }: any) {
   const session = useSession();
   const { data, fetcher, url, error } = useApi("user/properties");
   const [showMore, setShowMore] = useState(false);
@@ -323,6 +324,38 @@ function GroupModal() {
     }, []);
 
   preload(url, fetcher);
+  const drawer = (
+    <SwipeableDrawer
+      anchor="bottom"
+      open={showMore}
+      onClose={() => setShowMore(false)}
+    >
+      <Puller showOnDesktop />
+      {properties.map((group: any) => (
+        <PropertyButton
+          handleClose={() => setShowMore(false)}
+          key={group.id}
+          group={group}
+        />
+      ))}
+    </SwipeableDrawer>
+  );
+
+  if (children) {
+    const trigger = cloneElement(children, {
+      onContextMenu: () => {
+        vibrate(50);
+        setShowMore(true);
+      },
+    });
+    return (
+      <>
+        {trigger}
+        {drawer}
+      </>
+    );
+  }
+
   return (
     <Box sx={{ width: "100%" }}>
       <Typography
@@ -352,26 +385,13 @@ function GroupModal() {
 
       <Box>
         <PropertyButton
-          handleClose={() => {}}
+          handleClose={null}
           group={properties.find(
             (p) => p.propertyId === session.property.propertyId
           )}
         />
       </Box>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={showMore}
-        onClose={() => setShowMore(false)}
-      >
-        <Puller />
-        {properties.map((group: any) => (
-          <PropertyButton
-            handleClose={() => setShowMore(false)}
-            key={group.id}
-            group={group}
-          />
-        ))}
-      </SwipeableDrawer>
+      {drawer}
     </Box>
   );
 }
@@ -401,21 +421,16 @@ export default function Page() {
         overflow: "auto",
       }}
     >
-      <AppBar position="sticky">
+      <AppBar
+        sx={{
+          borderBottom: 0,
+          position: "unset!important",
+        }}
+      >
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
           <IconButton onClick={() => router.push("/")}>
             <Icon>west</Icon>
           </IconButton>
-          <Typography
-            sx={{
-              fontWeight: 700,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            Friends
-          </Typography>
           <IconButton
             onClick={() => router.push("/settings")}
             sx={{ ml: "auto" }}
@@ -451,7 +466,7 @@ export default function Page() {
                 <Typography
                   variant="h6"
                   sx={{
-                    display: "flex",
+                    display: { xs: "none", sm: "flex" },
                     alignItems: "center",
                     mt: 3,
                     px: { xs: 2, sm: 0 },
@@ -466,6 +481,7 @@ export default function Page() {
                     background: {
                       sm: palette[2],
                     },
+                    mt: { xs: 2, sm: 0 },
                     "& *": {
                       whiteSpace: "nowrap",
                       overflow: "hidden",
