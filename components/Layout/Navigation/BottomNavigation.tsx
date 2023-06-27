@@ -28,11 +28,11 @@ export function BottomNav() {
     const handleTouchMove = (e) => {
       e.preventDefault();
     };
-    document.body.addEventListener("touchmove", handleTouchMove, {
+    document.documentElement.addEventListener("touchmove", handleTouchMove, {
       passive: false,
     });
     return () => {
-      document.body.removeEventListener("touchmove", handleTouchMove);
+      document.documentElement.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
 
