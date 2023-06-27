@@ -1,14 +1,17 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
   Icon,
+  IconButton,
   Menu,
   MenuItem,
   SwipeableDrawer,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -21,6 +24,9 @@ export const SelectDateModal: any = function SelectDateModal({
   setDate,
 }: any) {
   const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
   const hasTime =
     date && (dayjs(date).hour() !== 0 || dayjs(date).minute() !== 0);
   const [open, setOpen] = useState<boolean>(false);
@@ -30,6 +36,7 @@ export const SelectDateModal: any = function SelectDateModal({
 
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
     <>
@@ -138,16 +145,17 @@ export const SelectDateModal: any = function SelectDateModal({
         </Box>
       </SwipeableDrawer>
       <Tooltip title="Date (alt • f)" placement="top">
-        <Button
+        <IconButton
           id="dateModal"
+          size="small"
           ref={ref}
           disableRipple
-          variant={date ? "contained" : "outlined"}
           sx={{
-            ...styles,
-            borderRadius: 9999,
-            px: 2,
-            transition: "all .2s",
+            ...styles(palette, Boolean(date)),
+            gap: 1,
+            ml: "auto",
+            mr: 1,
+            ...(!isMobile && { borderRadius: 99, px: 1 }),
           }}
           onClick={() => setOpen(!open)}
         >
@@ -177,7 +185,7 @@ export const SelectDateModal: any = function SelectDateModal({
               </Typography>
             )}
           </Typography>
-        </Button>
+        </IconButton>
       </Tooltip>
     </>
   );

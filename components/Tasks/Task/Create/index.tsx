@@ -632,7 +632,10 @@ export function CreateTask({
                     <IconButton
                       onClick={() => vibrate(50)}
                       ref={emojiRef}
-                      sx={styles(palette, false)}
+                      sx={{
+                        ...styles(palette, false),
+                        display: { xs: "none", sm: "flex" },
+                      }}
                       size="small"
                     >
                       <Icon className="outlined">mood</Icon>
@@ -643,10 +646,7 @@ export function CreateTask({
               <Tooltip title="Location (alt • f)" placement="top">
                 <IconButton
                   onClick={toggleLocation}
-                  sx={{
-                    ...styles(palette, showLocation),
-                    mx: 0.5,
-                  }}
+                  sx={styles(palette, showLocation)}
                   size="small"
                 >
                   <Icon {...(!showLocation && { className: "outlined" })}>
@@ -659,35 +659,33 @@ export function CreateTask({
                   onClick={toggleDescription}
                   sx={{
                     ...styles(palette, showDescription),
-                    mx: 0.5,
                   }}
                   size="small"
                 >
                   <Icon>notes</Icon>
                 </IconButton>
               </Tooltip>
+              {!isSubTask && (
+                <SelectDateModal
+                  ref={dateModalButtonRef}
+                  styles={styles}
+                  date={date}
+                  setDate={(e) => {
+                    setDate(e);
+                    setTimeout(() => {
+                      titleRef.current?.focus();
+                    }, 100);
+                  }}
+                />
+              )}
               <Box
                 sx={{
-                  ml: "auto",
                   display: "flex",
                   gap: 2,
                   mt: 0,
                   alignItems: "center",
                 }}
               >
-                {!isSubTask && (
-                  <SelectDateModal
-                    ref={dateModalButtonRef}
-                    styles={styles(palette, false)}
-                    date={date}
-                    setDate={(e) => {
-                      setDate(e);
-                      setTimeout(() => {
-                        titleRef.current?.focus();
-                      }, 100);
-                    }}
-                  />
-                )}
                 <div>
                   <LoadingButton
                     loading={loading}
