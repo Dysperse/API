@@ -138,7 +138,7 @@ export const authStyles = (palette) => ({
  */
 export function Layout({ children }): JSX.Element {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
-  const palette = useColor("mint", isDark);
+  const palette = useColor("violet", isDark);
 
   return (
     <>

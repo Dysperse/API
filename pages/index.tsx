@@ -23,7 +23,7 @@ export function Logo({ intensity = 4 }: any) {
   const session = useSession();
 
   const palette = useColor(
-    session?.themeColor || "mint",
+    session?.themeColor || "violet",
     useDarkMode(session?.darkMode || "system")
   );
 

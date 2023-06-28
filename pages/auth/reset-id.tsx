@@ -62,7 +62,7 @@ export default function Prompt() {
   }, [captchaToken, handleSubmit, alreadySubmitted]);
 
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
-  const palette = useColor("mint", isDark);
+  const palette = useColor("violet", isDark);
 
   return (
     <Layout>

@@ -80,7 +80,7 @@ export default function App({
     (data.properties.find((property: any) => property.selected) ||
       data.properties[0]);
 
-  const themeColor = data?.user?.color || "mint";
+  const themeColor = data?.user?.color || "violet";
   const isDark = useDarkMode(data?.user?.darkMode || "system");
 
   const palette = useColor(themeColor, isDark);

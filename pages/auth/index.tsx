@@ -29,7 +29,7 @@ import { mutate } from "swr";
 
 function QrLogin({ handleRedirect }) {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
-  const palette = useColor("mint", isDark);
+  const palette = useColor("violet", isDark);
 
   const [data, setData] = useState<any>(null);
   const [verified, setVerified] = useState(false);
@@ -358,7 +358,7 @@ export default function Prompt() {
   useEffect(() => emailRef?.current?.focus(), []);
 
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
-  const palette = useColor("mint", isDark);
+  const palette = useColor("violet", isDark);
 
   return (
     <Layout>

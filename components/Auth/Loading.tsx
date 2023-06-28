@@ -6,7 +6,7 @@ import { AuthBranding } from "./Layout";
 export default function AuthLoading() {
   const router = useRouter();
   const dark = useMediaQuery("(prefers-color-scheme: dark)");
-  const palette = useColor("mint", dark);
+  const palette = useColor("violet", dark);
 
   return (
     <Box

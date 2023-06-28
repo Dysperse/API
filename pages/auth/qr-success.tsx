@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 export default function Prompt() {
   const router = useRouter();
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
-  const palette = useColor("mint", isDark);
+  const palette = useColor("violet", isDark);
 
   return (
     <Layout>
