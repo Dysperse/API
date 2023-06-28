@@ -145,7 +145,7 @@ export function Layout({ children }): JSX.Element {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (data && !isLoading && !isError) window.location.href = "/";
+    //  if (data && !isLoading && !isError) window.location.href = "/";
     }
   }, [data, isLoading, isError]);
 
