@@ -117,10 +117,12 @@ function LinkToken() {
  * @returns {any}
  */
 export function AddPersonModal({
+  palette,
   disabled,
   members,
   defaultValue,
 }: {
+  palette;
   disabled;
   members: string[];
   defaultValue?: any;
@@ -175,6 +177,12 @@ export function AddPersonModal({
           sx={{
             px: 2,
             ml: "auto",
+            background: palette[2] + "!important",
+            color: palette[10] + "!important",
+            "&:hover": {
+              background: palette[3] + "!important",
+              color: palette[11] + "!important",
+            },
           }}
         >
           <Icon>add</Icon>

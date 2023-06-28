@@ -338,6 +338,7 @@ function Page() {
                   {!isCurrentUser && (
                     <Box sx={{ ml: { sm: "auto" }, mb: { xs: 1, sm: 0 } }}>
                       <AddPersonModal
+                        palette={palette}
                         defaultValue={data.email}
                         disabled={
                           session.permission !== "owner" ||
