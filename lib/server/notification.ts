@@ -5,7 +5,7 @@ export const DispatchNotification = async ({
   title,
   body,
   actions,
-  icon = "https://assets.dysperse.com/v5/ios/192.png",
+  icon = "https://assets.dysperse.com/v7/ios/192.png",
 }: {
   subscription: string;
   title: string;

@@ -128,11 +128,7 @@ export default function App({
             <meta name="theme-color" content={palette[1]} />
             <link
               rel="shortcut icon"
-              href={
-                isDark
-                  ? "https://assets.dysperse.com/v6/dark-rounded.png"
-                  : "https://assets.dysperse.com/v5/windows11/SmallTile.scale-100.png"
-              }
+              href="https://assets.dysperse.com/v7/android/android-launchericon-48-48.png"
             />
           </Head>
           <Analytics />
