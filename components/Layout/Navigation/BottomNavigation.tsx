@@ -32,7 +32,7 @@ export function BottomNav() {
         return;
       }
       const touch = touches[0];
-      if (touch.clientX < 10) {
+      if (touch.clientX < 30) {
         // Swipe detected from the left edge (you can adjust the threshold as needed)
         event.preventDefault();
       }
