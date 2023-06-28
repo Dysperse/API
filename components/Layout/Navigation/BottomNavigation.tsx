@@ -25,9 +25,10 @@ export function BottomNav() {
   const session = useSession();
 
   useEffect(() => {
+    // disable ios swipe to navigate back gesture
     const disableSwipe = (e) => {
-      // is not near edge of view, exit
-      if (e.pageX > 20 && e.pageX < window.innerWidth - 20) return;
+      // is not near edge of view or scrolling, exit
+      if (e.touches[0].clientX > 100 || e.touches[0].clientY > 100) return;
 
       // prevent swipe to navigate back gesture
       e.preventDefault();
