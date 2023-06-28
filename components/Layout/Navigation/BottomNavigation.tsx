@@ -25,18 +25,24 @@ export function BottomNav() {
   const session = useSession();
 
   useEffect(() => {
-    // disable ios swipe to navigate back gesture
-    const disableSwipe = (e) => {
-      // is not near edge of view or scrolling, exit
-      if (e.touches[0].clientX > 100 || e.touches[0].clientY > 100) return;
-
-      // prevent swipe to navigate back gesture
-      e.preventDefault();
+    const handleTouchMove = (event) => {
+      const { touches } = event;
+      if (touches.length > 1) {
+        // Multiple touches detected, likely a pinch or zoom gesture
+        return;
+      }
+      const touch = touches[0];
+      if (touch.clientX < 10) {
+        // Swipe detected from the left edge (you can adjust the threshold as needed)
+        event.preventDefault();
+      }
     };
-    document.body.addEventListener("touchmove", disableSwipe, {
-      passive: false,
-    });
-    return () => document.body.removeEventListener("touchmove", disableSwipe);
+
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      document.removeEventListener("touchmove", handleTouchMove);
+    };
   }, []);
 
   const styles = (active) => {
