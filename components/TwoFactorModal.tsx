@@ -69,7 +69,7 @@ export function Prompt({
 
   const openSettings = () => {
     setOpen(false);
-    setTimeout(() => router.push("/settings"), 500);
+    setTimeout(() => router.push("/settings/two-factor-authentication"), 500);
   };
 
   const handleSkip = () => {
@@ -84,8 +84,13 @@ export function Prompt({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            maxWidth: "400px",
+          },
+        }}
       >
-        <Puller />
+        <Puller showOnDesktop />
         <Box sx={{ p: 3, pt: 0 }}>
           {userHasEnabled2fa ? (
             <>
