@@ -73,16 +73,12 @@ export default function Document() {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content"
         />
-        <link
-          rel="apple-touch-icon"
-          href="https://assets.dysperse.com/v7/ios/57.png"
-        />
         {[57, 72, 76, 114, 120, 144, 152, 180].map((size) => (
           <link
             key={size}
             rel="apple-touch-icon"
             sizes={`${size}x${size}`}
-            href={`https://assets.dysperse.com/v7/ios/${size}.png`}
+            href={`https://assets.dysperse.com/v7-ios/${size}.png`}
           />
         ))}
         <link href="/manifest.json" rel="manifest" />
