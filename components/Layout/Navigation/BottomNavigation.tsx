@@ -25,33 +25,17 @@ export function BottomNav() {
   const session = useSession();
 
   useEffect(() => {
-    let startX;
-    let startY;
+    const disableSwipe = (e) => {
+      // is not near edge of view, exit
+      if (e.pageX > 20 && e.pageX < window.innerWidth - 20) return;
 
-    const handleTouchStart = (e) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
+      // prevent swipe to navigate back gesture
+      e.preventDefault();
     };
-
-    const handleTouchMove = (e) => {
-      const deltaX = e.touches[0].clientX - startX;
-      const deltaY = e.touches[0].clientY - startY;
-      const threshold = 10; // Adjust this value to set the swipe threshold
-
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
-        e.preventDefault();
-      }
-    };
-
-    document.body.addEventListener("touchstart", handleTouchStart);
-    document.body.addEventListener("touchmove", handleTouchMove, {
+    document.body.addEventListener("touchmove", disableSwipe, {
       passive: false,
     });
-
-    return () => {
-      document.body.removeEventListener("touchstart", handleTouchStart);
-      document.body.removeEventListener("touchmove", handleTouchMove);
-    };
+    return () => document.body.removeEventListener("touchmove", disableSwipe);
   }, []);
 
   const styles = (active) => {

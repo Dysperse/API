@@ -506,16 +506,30 @@ export function TasksLayout({ open, setOpen, children }) {
               onClick={() => setOpen(true)}
             >
               <Icon>expand_all</Icon>
-              <span
-                style={{
+              <Box
+                sx={{
                   overflow: "hidden",
+                  maxWidth: "100%",
                   textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
+                  "& span": {
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                  },
+                  textAlign: "left",
                   minWidth: 0,
                 }}
               >
-                {title.includes("•") ? title.split("•")[0] : ""}
-              </span>
+                <Typography sx={{ fontWeight: 900 }}>
+                  {title.includes("•") ? title.split("•")[0] : ""}
+                </Typography>
+                {title.includes("•") && (
+                  <Typography variant="body2" sx={{ mt: -0.5 }}>
+                    {title.split("•")[1]}
+                  </Typography>
+                )}
+              </Box>
             </Button>
             <SearchTasks setOpen={setOpen} />
             <IconButton

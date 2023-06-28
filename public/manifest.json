@@ -2,19 +2,24 @@
   "name": "Dysperse",
   "start_url": "/",
   "scope": "/",
-  "background_color": "#200923",
-  "description": "A radically different unified productivity platform",
+  "background_color": "#e7fcf7",
+  "description": "The next standard in productivity",
   "dir": "ltr",
   "lang": "en-US",
   "display": "standalone",
   "orientation": "portrait",
   "short_name": "Dysperse",
-  "theme_color": "#200923",
+  "theme_color": "#e7fcf7",
   "prefer_related_applications": true,
   "capture_links": "new-client",
-  "categories": ["productivity", "education", "home"],
-
-  "display_override": ["window-controls-overlay"],
+  "categories": [
+    "productivity",
+    "education",
+    "home"
+  ],
+  "display_override": [
+    "window-controls-overlay"
+  ],
   "screenshots": [
     {
       "src": "/screenshots/1.png",
@@ -233,28 +238,48 @@
       "short_name": "Start",
       "description": "View your home page",
       "url": "/",
-      "icons": [{ "src": "/shortcuts/1.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/shortcuts/1.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Tasks",
       "short_name": "Tasks",
       "description": "View your Agenda, Boards, Backlog, and more",
       "url": "/tasks/agenda/week",
-      "icons": [{ "src": "/shortcuts/2.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/shortcuts/2.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Coach",
       "short_name": "Coach",
       "description": "Visit your Coach and see your goals",
       "url": "/coach",
-      "icons": [{ "src": "/shortcuts/3.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/shortcuts/3.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Inventory",
       "short_name": "Inventory",
       "description": "View your personal inventory",
       "url": "/inventory",
-      "icons": [{ "src": "/shortcuts/4.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/shortcuts/4.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
