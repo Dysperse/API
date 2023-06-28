@@ -76,7 +76,7 @@ export default function App({
   const disableLayout = bareUrls.includes(router.pathname);
 
   const selectedProperty =
-    data?.properties &&
+  data?.properties &&
     (data.properties.find((property: any) => property.selected) ||
       data.properties[0]);
 

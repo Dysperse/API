@@ -1,7 +1,9 @@
+import { useUser } from "@/lib/client/session";
 import { useColor } from "@/lib/client/useColor";
 import { Logo } from "@/pages";
 import { Box, useMediaQuery } from "@mui/material";
 import Head from "next/head";
+import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
 export const AuthBranding = ({ mobile = false }: any) => (
@@ -139,6 +141,13 @@ export const authStyles = (palette) => ({
 export function Layout({ children }): JSX.Element {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
   const palette = useColor("violet", isDark);
+  const { data, isLoading, isError } = useUser();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (data && !isLoading && !isError) window.location.href = "/";
+    }
+  }, [data, isLoading, isError]);
 
   return (
     <>
