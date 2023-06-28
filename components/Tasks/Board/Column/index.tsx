@@ -337,51 +337,50 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}
           id={`container-${index}`}
         >
-          {columnTasks.filter((task) => !task.completed).length === 0 ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                mx: "auto",
-                py: { sm: 2 },
-                textAlign: { xs: "center", sm: "left" },
-                alignItems: { xs: "center", sm: "start" },
-                flexDirection: "column",
-                "& img": {
-                  display: { sm: "none" },
-                },
-              }}
-            >
-              <Box sx={{ width: "100%", mt: { sm: -3 }, mb: { sm: 2 } }}>
-                <CreateTask
-                  mutationUrl={mutationUrls.tasks}
-                  boardId={board.id}
-                  column={column}
-                />
-              </Box>
-              <Image
-                src="/images/noTasks.png"
-                width={256}
-                height={256}
-                style={{
-                  ...(isDark && {
-                    filter: "invert(100%)",
-                  }),
+          <CreateTask
+            mutationUrl={mutationUrls.tasks}
+            boardId={board.id}
+            column={column}
+          />
+          {columnTasks.filter((task) => !task.completed).length === 0 && (
+            <Box sx={{ p: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  mx: "auto",
+                  py: { sm: 2 },
+                  textAlign: { xs: "center", sm: "left" },
+                  alignItems: { xs: "center", sm: "start" },
+                  flexDirection: "column",
+                  "& img": {
+                    display: { sm: "none" },
+                  },
+                  background: palette[2],
+                  borderRadius: 5,
                 }}
-                alt="No items found"
-              />
-              <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
-                <Typography variant="h6" gutterBottom>
-                  No items (yet!)
-                </Typography>
+              >
+                <Image
+                  src="/images/noTasks.png"
+                  width={256}
+                  height={256}
+                  style={{
+                    ...(isDark && {
+                      filter: "invert(100%)",
+                    }),
+                  }}
+                  alt="No items found"
+                />
+                <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
+                  <Typography variant="h6" gutterBottom>
+                    It&apos;s quiet here!
+                  </Typography>
+                  <Typography gutterBottom sx={{ fontWeight: 300, mb: 3 }}>
+                    There are no list items in this column (yet!)
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          ) : (
-            <CreateTask
-              mutationUrl={mutationUrls.tasks}
-              boardId={board.id}
-              column={column}
-            />
           )}
 
           {columnTasks
