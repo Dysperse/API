@@ -125,7 +125,7 @@ function ShareBoard({ isShared, board, children }) {
           <LoadingButton
             loading={loading}
             onClick={copyUrl}
-            sx={{ mt: 1 }}
+            sx={{ mt: 1, ...(!isShared && !token && { display: "none" }) }}
             variant="outlined"
             fullWidth
           >
