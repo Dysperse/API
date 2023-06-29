@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
@@ -39,6 +40,14 @@ function ShareBoard({ isShared, board, children }) {
     onClick: handleOpen,
   });
 
+  const {
+    data,
+    url: mutationUrl,
+    error,
+  } = useApi("property/shareTokens", {
+    board: board.id,
+  });
+
   const [token, setToken] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -65,6 +74,7 @@ function ShareBoard({ isShared, board, children }) {
     await fetchRawApi(session, "property/shareTokens/revoke", {
       token,
     });
+    await mutate(mutationUrl);
   };
 
   const url = isShared
@@ -76,10 +86,6 @@ function ShareBoard({ isShared, board, children }) {
     toast.success("Copied link to clipboard!", toastStyles);
   };
 
-  const { data, error } = useApi("property/shareTokens", {
-    board: board.id,
-  });
-
   return (
     <>
       {trigger}
@@ -88,7 +94,7 @@ function ShareBoard({ isShared, board, children }) {
         onClose={handleClose}
         onOpen={handleOpen}
         anchor="bottom"
-        sx={{ zIndex: 99999999 }}
+        sx={{ zIndex: 9999 }}
         onKeyDown={(e) => e.stopPropagation()}
         PaperProps={{
           sx: {
@@ -164,6 +170,11 @@ function ShareBoard({ isShared, board, children }) {
                 </ListItem>
               ))}
             </>
+          ) : data.error ? (
+            <ErrorHandler
+              error="Oh no! An error occured while trying to get your active share links!"
+              callback={() => mutate(mutationUrl)}
+            />
           ) : (
             <CircularProgress />
           )}
