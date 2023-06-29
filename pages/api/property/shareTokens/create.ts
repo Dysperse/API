@@ -12,7 +12,7 @@ const handler = async (req, res) => {
       data: {
         expiresAt: dayjs(req.query.date).add(req.query.expires, "day").toDate(),
         property: { connect: { id: req.query.property } },
-        ...(req.query.board && { board: { connect: { id: req.query.board } } })  ,
+        ...(req.query.board && { board: { connect: { id: req.query.board } } }),
       },
     });
     res.json(data);

@@ -14,11 +14,7 @@ const BoardContainer = ({ setOpen, id, shareToken }) => {
         <ErrorHandler error="An error occured while trying to get this board's information" />
       )}
       {data && (
-        <Board
-          isShared={!!shareToken}
-          mutationUrl={url}
-          board={data[0]}
-        />
+        <Board isShared={!!shareToken} mutationUrl={url} board={data[0]} />
       )}
     </>
   );
