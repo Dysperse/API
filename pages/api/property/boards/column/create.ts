@@ -12,7 +12,7 @@ const handler = async (req, res) => {
     await DispatchGroupNotification(req.query.property, req.query.accessToken, {
       title: `${req.query.boardName}`,
       body: `${req.query.who} created a new column: ${req.query.title}`,
-      icon: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${req.query.emoji}.png`
+      icon: `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${req.query.emoji}.png`,
     });
 
     const data = await prisma.column.create({
