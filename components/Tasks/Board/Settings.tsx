@@ -163,6 +163,7 @@ function ShareBoard({ isShared, board, children }) {
                   />
                   <IconButton
                     sx={{ ml: "auto" }}
+                    disabled={window.location.href.includes(share.token)}
                     onClick={() => handleRevoke(share.token)}
                   >
                     <Icon>delete</Icon>
