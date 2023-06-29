@@ -23,7 +23,6 @@ export default function CreateColumn({
   setCurrentColumn,
   id,
   mutationUrls,
-  mobile = false,
 }: any) {
   const storage = useAccountStorage();
   const session = useSession();
@@ -56,9 +55,7 @@ export default function CreateColumn({
         await mutate(mutationUrls.boardData);
         setCurrentColumn((e) => e + 1);
         setLoading(false);
-        setEmoji(
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
-        );
+        setEmoji("1f3af");
         setOpen(false);
       })
       .catch(() => {

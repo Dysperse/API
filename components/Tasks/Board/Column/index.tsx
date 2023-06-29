@@ -371,11 +371,11 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
                   }}
                   alt="No items found"
                 />
-                <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
+                <Box sx={{ px: 3, maxWidth: "calc(100% - 50px)" }}>
                   <Typography variant="h6" gutterBottom>
                     It&apos;s quiet here!
                   </Typography>
-                  <Typography gutterBottom sx={{ fontWeight: 300, mb: 3 }}>
+                  <Typography gutterBottom sx={{ fontWeight: 300 }}>
                     There are no list items in this column (yet!)
                   </Typography>
                 </Box>

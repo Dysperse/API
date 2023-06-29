@@ -4,13 +4,17 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
+  Avatar,
+  AvatarGroup,
   Box,
   Chip,
   Icon,
   IconButton,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
@@ -18,6 +22,7 @@ import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
 export function BoardInfo({
+  isShared,
   setMobileOpen,
   board,
   showInfo,
@@ -69,6 +74,7 @@ export function BoardInfo({
     session,
   ]);
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const router = useRouter();
 
   return (
     <Box
@@ -125,8 +131,23 @@ export function BoardInfo({
       {showInfo ? (
         <>
           <Box sx={{ mt: "auto" }}>
+            {board.property.members > 1 && (
+              <AvatarGroup max={4} sx={{ my: 1, justifyContent: "start" }}>
+                {board.property.members.slice(0, 4).map((member) => (
+                  <Tooltip key={member.id} title={member.user.name}>
+                    <Avatar
+                      src={member?.user?.Profile?.picture}
+                      sx={{ width: "30px", height: "30px", fontSize: "15px" }}
+                      onClick={() => router.push(`/users/${member.user.email}`)}
+                    >
+                      {member?.user?.name?.substring(0, 2)?.toUpperCase()}
+                    </Avatar>
+                  </Tooltip>
+                ))}
+              </AvatarGroup>
+            )}
             <TextField
-              disabled={session.permission === "read-only"}
+              disabled={session.permission === "read-only" || isShared}
               defaultValue={board.name}
               onChange={(e: any) => {
                 e.target.value = e.target.value.replace(/\n|\r/g, "");
@@ -159,7 +180,7 @@ export function BoardInfo({
               multiline
               defaultValue={board.description}
               inputRef={descriptionRef}
-              disabled={session.permission === "read-only"}
+              disabled={session.permission === "read-only" || isShared}
               onBlur={handleSave}
               placeholder="Click to add description"
               variant="standard"
@@ -182,16 +203,25 @@ export function BoardInfo({
               maxRows={3}
             />
             <Box sx={{ my: 1 }}>
-              <Chip
-                sx={{ mr: 1, mb: 1 }}
-                label={board.public ? "Public" : "Private"}
-                icon={<Icon>{board.public ? "group " : "lock"}</Icon>}
-              />
-              {board.pinned && (
+              {!board.public && (
+                <Chip
+                  sx={{ mr: 1, mb: 1 }}
+                  label={"Private"}
+                  icon={<Icon>lock</Icon>}
+                />
+              )}
+              {board.pinned && !isShared && (
                 <Chip
                   label="Pinned"
                   sx={{ mr: 1, mb: 1 }}
                   icon={<Icon>push_pin</Icon>}
+                />
+              )}
+              {isShared && (
+                <Chip
+                  label="Shared via link"
+                  sx={{ mr: 1, mb: 1 }}
+                  icon={<Icon>link</Icon>}
                 />
               )}
               {board.archived && (
@@ -221,7 +251,11 @@ export function BoardInfo({
               width: "100%",
             }}
           >
-            <BoardSettings mutationUrls={mutationUrls} board={board} />
+            <BoardSettings
+              isShared={isShared}
+              mutationUrls={mutationUrls}
+              board={board}
+            />
             <IconButton
               size="large"
               sx={{

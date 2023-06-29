@@ -22,8 +22,10 @@ const handler = async (req, res) => {
       });
     }
 
-    const data = await prisma.board.update({
-      where: { id: req.query.id },
+    const data = await prisma.board.updateMany({
+      where: {
+        AND: [{ id: req.query.id }, { propertyId: req.query.property }],
+      },
       data: {
         ...(req.query.name && { name: req.query.name }),
         ...(req.query.description && { description: req.query.description }),

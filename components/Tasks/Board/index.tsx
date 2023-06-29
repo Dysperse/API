@@ -22,7 +22,7 @@ import { mutate } from "swr";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
-function RenderBoard({ mutationUrls, board, data }) {
+function RenderBoard({ mutationUrls, board, data, isShared }) {
   const [showInfo, setShowInfo] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -136,6 +136,7 @@ function RenderBoard({ mutationUrls, board, data }) {
       </motion.div>
       {!isMobile && (
         <BoardInfo
+          isShared={isShared}
           setMobileOpen={setMobileOpen}
           setShowInfo={setShowInfo}
           board={board}
@@ -161,6 +162,7 @@ function RenderBoard({ mutationUrls, board, data }) {
       >
         {isMobile && mount && (
           <BoardInfo
+            isShared={isShared}
             setMobileOpen={setMobileOpen}
             setShowInfo={setShowInfo}
             board={board}
@@ -214,7 +216,7 @@ function RenderBoard({ mutationUrls, board, data }) {
   );
 }
 
-export function Board({ mutationUrl, board, setDrawerOpen }) {
+export function Board({ mutationUrl, board, isShared }) {
   const { data, url, error, loading } = useApi("property/boards/tasks", {
     id: board?.id,
   });
@@ -251,6 +253,7 @@ export function Board({ mutationUrl, board, setDrawerOpen }) {
         <title>{capitalizeFirstLetter(board.name)} &bull; Board</title>
       </Head>
       <RenderBoard
+        isShared={isShared}
         data={data}
         mutationUrls={{
           boardData: mutationUrl,

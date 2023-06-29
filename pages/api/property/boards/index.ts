@@ -16,6 +16,9 @@ const handler = async (req, res) => {
           {
             OR: [
               {
+                shareTokens: { some: { token: req.query.shareToken || "-1" } },
+              },
+              {
                 public: true,
                 AND: { property: { id: req.query.property } },
               },
@@ -27,6 +30,21 @@ const handler = async (req, res) => {
         ],
       },
       include: {
+        property: {
+          select: {
+            members: {
+              select: {
+                user: {
+                  select: {
+                    name: true,
+                    email: true,
+                    Profile: { select: { picture: true } },
+                  },
+                },
+              },
+            },
+          },
+        },
         columns: { orderBy: { id: "desc" } },
         integrations: { select: { name: true } },
       },

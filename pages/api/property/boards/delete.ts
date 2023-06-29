@@ -9,6 +9,7 @@ const handler = async (req, res) => {
       minimum: "member",
       credentials: [req.query.property, req.query.accessToken],
     });
+
     await prisma.column.deleteMany({
       where: {
         AND: [

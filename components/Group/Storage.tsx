@@ -133,7 +133,7 @@ export function Storage({
           <Typography gutterBottom sx={{ width: "100%" }}>
             <b>Tasks</b>
             <Typography variant="body2">
-              {Math.round(storage.tasks)}% &bull; {data.tasks || 0} tasks
+              {Math.round(storage.tasks)}% &bull; {data.tasks || 0} items
             </Typography>
           </Typography>
         </Box>

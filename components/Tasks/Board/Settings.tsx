@@ -1,14 +1,17 @@
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { fetchRawApi } from "@/lib/client/useApi";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
   Box,
+  CircularProgress,
   Icon,
   IconButton,
+  ListItem,
+  ListItemText,
   Menu,
   MenuItem,
   SwipeableDrawer,
@@ -17,6 +20,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { cloneElement, useState } from "react";
 import toast from "react-hot-toast";
@@ -24,7 +28,7 @@ import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
 
-function ShareBoard({ board, children }) {
+function ShareBoard({ isShared, board, children }) {
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -42,7 +46,7 @@ function ShareBoard({ board, children }) {
     try {
       setLoading(true);
       const data = await fetchRawApi(session, "property/shareTokens/create", {
-        boardId: board.id,
+        board: board.id,
         date: new Date().toISOString(),
         expires: 7,
       });
@@ -57,11 +61,24 @@ function ShareBoard({ board, children }) {
     }
   };
 
-  const url = `${window.location.origin}/tasks/boards/${board.id}?share=${token}`;
+  const handleRevoke = async (token) => {
+    await fetchRawApi(session, "property/shareTokens/revoke", {
+      token,
+    });
+  };
+
+  const url = isShared
+    ? window.location.href
+    : `${window.location.origin}/tasks/boards/${board.id}?share=${token}`;
+
   const copyUrl = () => {
     navigator.clipboard.writeText(url);
     toast.success("Copied link to clipboard!", toastStyles);
   };
+
+  const { data, error } = useApi("property/shareTokens", {
+    board: board.id,
+  });
 
   return (
     <>
@@ -99,6 +116,35 @@ function ShareBoard({ board, children }) {
               sx={{ mt: 1 }}
             />
           )}
+          {data ? (
+            <>
+              <Typography variant="h6">Active links</Typography>
+              {data.map((share) => (
+                <ListItem
+                  key={share.id}
+                  sx={{
+                    px: 0,
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  <ListItemText
+                    primary={dayjs(share.createdAt).fromNow()}
+                    secondary={"Expires " + dayjs(share.expiresAt).fromNow()}
+                  />
+                  <IconButton
+                    sx={{ ml: "auto" }}
+                    onClick={() => handleRevoke(share.token)}
+                  >
+                    <Icon>delete</Icon>
+                  </IconButton>
+                </ListItem>
+              ))}
+            </>
+          ) : (
+            <CircularProgress />
+          )}
           <LoadingButton
             loading={loading}
             onClick={copyUrl}
@@ -108,22 +154,24 @@ function ShareBoard({ board, children }) {
           >
             Copy
           </LoadingButton>
-          <LoadingButton
-            loading={loading}
-            onClick={handleGenerate}
-            sx={{ mt: 1 }}
-            variant="contained"
-            fullWidth
-          >
-            Create link
-          </LoadingButton>
+          {!isShared && (
+            <LoadingButton
+              loading={loading}
+              onClick={handleGenerate}
+              sx={{ mt: 1 }}
+              variant="contained"
+              fullWidth
+            >
+              Create link
+            </LoadingButton>
+          )}
         </Box>
       </SwipeableDrawer>
     </>
   );
 }
 
-export default function BoardSettings({ mutationUrls, board }) {
+export default function BoardSettings({ isShared, mutationUrls, board }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -187,7 +235,7 @@ export default function BoardSettings({ mutationUrls, board }) {
               ml: "auto",
               flex: "0 0 auto",
             }}
-            disabled={board.archived || storage?.isReached === true}
+            disabled={board.archived || storage?.isReached === true || isShared}
           >
             <Icon
               className={board.pinned ? "" : "outlined"}
@@ -205,7 +253,6 @@ export default function BoardSettings({ mutationUrls, board }) {
         </ConfirmationModal>
         <CreateColumn
           setCurrentColumn={(e: any) => e}
-          mobile
           id={board.id}
           mutationUrls={mutationUrls}
           hide={
@@ -213,7 +260,7 @@ export default function BoardSettings({ mutationUrls, board }) {
             board?.columns.length >= 5
           }
         />
-        <ShareBoard board={board}>
+        <ShareBoard board={board} isShared={isShared}>
           <MenuItem>
             <Icon className="outlined">ios_share</Icon>
             Share
@@ -234,20 +281,19 @@ export default function BoardSettings({ mutationUrls, board }) {
             await mutate(mutationUrls.boardData);
           }}
         >
-          <MenuItem disabled={storage?.isReached === true}>
+          <MenuItem disabled={storage?.isReached === true || isShared}>
             <Icon className="outlined">
               {!board.public ? "visibility" : "visibility_off"}
             </Icon>
             Make {!board.public ? "public" : "private"}
           </MenuItem>
         </ConfirmationModal>
-
         <ConfirmationModal
           title="Archive board?"
           question={
             board.archived
               ? "Are you sure you want to unarchive this board?"
-              : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
+              : "Are you sure you want to archive this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
             await fetchRawApi(session, "property/boards/archived", {
@@ -257,7 +303,7 @@ export default function BoardSettings({ mutationUrls, board }) {
             await mutate(mutationUrls.boardData);
           }}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleClose} disabled={isShared}>
             <Icon className="outlined">inventory_2</Icon>
             {board.archived ? "Unarchive" : "Archive"}
           </MenuItem>
@@ -273,7 +319,7 @@ export default function BoardSettings({ mutationUrls, board }) {
             await mutate(mutationUrls.boardData);
           }}
         >
-          <MenuItem onClick={handleClose} disabled={board.archived}>
+          <MenuItem onClick={handleClose} disabled={board.archived || isShared}>
             <Icon className="outlined">delete</Icon>
             Delete
           </MenuItem>
