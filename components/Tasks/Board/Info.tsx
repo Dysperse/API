@@ -147,6 +147,7 @@ export function BoardInfo({
               </AvatarGroup>
             )}
             <TextField
+              spellCheck={false}
               disabled={session.permission === "read-only" || isShared}
               defaultValue={board.name}
               onChange={(e: any) => {
@@ -177,6 +178,7 @@ export function BoardInfo({
               }}
             />
             <TextField
+              spellCheck={false}
               multiline
               defaultValue={board.description}
               inputRef={descriptionRef}
