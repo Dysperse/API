@@ -73,6 +73,7 @@ function ShareBoard({ isShared, board, children }) {
 
   const copyUrl = () => {
     navigator.clipboard.writeText(url);
+    setOpen(false);
     toast.success("Copied link to clipboard!", toastStyles);
   };
 
@@ -116,9 +117,31 @@ function ShareBoard({ isShared, board, children }) {
               sx={{ mt: 1 }}
             />
           )}
+          <LoadingButton
+            loading={loading}
+            onClick={copyUrl}
+            sx={{ mt: 1 }}
+            variant="outlined"
+            fullWidth
+          >
+            Copy
+          </LoadingButton>
+          {!isShared && (
+            <LoadingButton
+              loading={loading}
+              onClick={handleGenerate}
+              sx={{ mt: 1 }}
+              variant="contained"
+              fullWidth
+            >
+              Create link
+            </LoadingButton>
+          )}
           {data ? (
             <>
-              <Typography variant="h6">Active links</Typography>
+              <Typography variant="h6" sx={{ mt: 3 }}>
+                Active links
+              </Typography>
               {data.map((share) => (
                 <ListItem
                   key={share.id}
@@ -144,26 +167,6 @@ function ShareBoard({ isShared, board, children }) {
             </>
           ) : (
             <CircularProgress />
-          )}
-          <LoadingButton
-            loading={loading}
-            onClick={copyUrl}
-            sx={{ mt: 1 }}
-            variant="outlined"
-            fullWidth
-          >
-            Copy
-          </LoadingButton>
-          {!isShared && (
-            <LoadingButton
-              loading={loading}
-              onClick={handleGenerate}
-              sx={{ mt: 1 }}
-              variant="contained"
-              fullWidth
-            >
-              Create link
-            </LoadingButton>
           )}
         </Box>
       </SwipeableDrawer>
