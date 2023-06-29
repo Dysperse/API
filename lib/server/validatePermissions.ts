@@ -13,7 +13,6 @@ export const validatePermissions = async (config: {
 
   const [property, accessToken] = config.credentials;
 
-  console.log(config);
   if (!property || !accessToken)
     throw new Error("Couldn't validate permissions: Incorrect credentials");
 

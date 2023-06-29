@@ -22,7 +22,7 @@ import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({ setColumnTasks, mutateData, column }) {
+export function ColumnSettings({board, setColumnTasks, mutateData, column }) {
   const storage = useAccountStorage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
@@ -241,6 +241,10 @@ export function ColumnSettings({ setColumnTasks, mutateData, column }) {
           callback={async () => {
             await fetchRawApi(session, "property/boards/column/delete", {
               id: column.id,
+              who: session.user.name,
+              boardName: board.name,
+              boardEmoji: board.emoji,
+              columnName: column.name,
             });
             await mutateData();
             handleClose();

@@ -326,6 +326,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             </Box>
             <Box sx={{ ml: "auto" }}>
               <ColumnSettings
+                board={board}
                 setColumnTasks={setColumnTasks}
                 column={column}
                 mutateData={mutateData}

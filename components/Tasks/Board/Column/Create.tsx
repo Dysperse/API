@@ -23,6 +23,7 @@ export default function CreateColumn({
   setCurrentColumn,
   id,
   mutationUrls,
+  name,
 }: any) {
   const storage = useAccountStorage();
   const session = useSession();
@@ -44,6 +45,8 @@ export default function CreateColumn({
       return;
     }
     fetchRawApi(session, "property/boards/column/create", {
+      who: session.user.name,
+      boardName: name,
       title: ref?.current?.value,
       emoji,
       id: id,
@@ -65,7 +68,7 @@ export default function CreateColumn({
           toastStyles
         );
       });
-  }, [emoji, id, mutationUrls, setCurrentColumn, session]);
+  }, [emoji, id, mutationUrls, setCurrentColumn, session, name]);
 
   useEffect(() => {
     if (open || mobileOpen) {

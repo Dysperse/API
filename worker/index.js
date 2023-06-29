@@ -10,7 +10,7 @@ self.addEventListener("message", function (event) {
 
 self.addEventListener("push", (event) => {
   const data = event.data && JSON.parse(event.data.text());
-  const title = data?.title || "You have a new notification • Carbon";
+  const title = data?.title || "You have a new notification";
   const body = data?.body || "Tap to open";
   const icon = data?.icon || "https://assets.dysperse.com/v7/ios/192.png";
 

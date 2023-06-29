@@ -267,6 +267,7 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
         </ConfirmationModal>
         <CreateColumn
           setCurrentColumn={(e: any) => e}
+          name={board.name}
           id={board.id}
           mutationUrls={mutationUrls}
           hide={
