@@ -73,7 +73,6 @@ function ShareBoard({ isShared, board, children }) {
 
   const copyUrl = () => {
     navigator.clipboard.writeText(url);
-    setOpen(false);
     toast.success("Copied link to clipboard!", toastStyles);
   };
 
