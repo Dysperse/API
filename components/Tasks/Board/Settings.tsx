@@ -170,7 +170,7 @@ function ShareBoard({ isShared, board, children }) {
                 </ListItem>
               ))}
             </>
-          ) : data.error ? (
+          ) : data?.error ? (
             <ErrorHandler
               error="Oh no! An error occured while trying to get your active share links!"
               callback={() => mutate(mutationUrl)}
