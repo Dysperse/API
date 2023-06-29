@@ -3,13 +3,125 @@ import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
-import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import {
+  AppBar,
+  Box,
+  Icon,
+  IconButton,
+  Menu,
+  MenuItem,
+  SwipeableDrawer,
+  TextField,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { cloneElement, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
+
+function ShareBoard({ board, children }) {
+  const session = useSession();
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const trigger = cloneElement(children, {
+    onClick: handleOpen,
+  });
+
+  const [token, setToken] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleGenerate = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchRawApi(session, "property/shareTokens/create", {
+        boardId: board.id,
+        date: new Date().toISOString(),
+        expires: 7,
+      });
+      setToken(data.token);
+      setLoading(false);
+    } catch (e) {
+      toast.error(
+        "Yikes! Something happened while trying to generate the share link! Please try again later.",
+        toastStyles
+      );
+      setLoading(false);
+    }
+  };
+
+  const url = `${window.location.origin}/tasks/boards/${board.id}?share=${token}`;
+  const copyUrl = () => {
+    navigator.clipboard.writeText(url);
+    toast.success("Copied link to clipboard!", toastStyles);
+  };
+
+  return (
+    <>
+      {trigger}
+      <SwipeableDrawer
+        open={open}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        anchor="bottom"
+        sx={{ zIndex: 99999999 }}
+        onKeyDown={(e) => e.stopPropagation()}
+        PaperProps={{
+          sx: {
+            height: "100vh",
+          },
+        }}
+      >
+        <AppBar sx={{ border: 0 }}>
+          <Toolbar>
+            <IconButton onClick={handleClose}>
+              <Icon>close</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Box sx={{ px: 5, pt: 4 }}>
+          <Typography variant="h2" className="font-heading">
+            Share
+          </Typography>
+          {token && (
+            <TextField
+              label="Board link"
+              value={url}
+              fullWidth
+              size="small"
+              sx={{ mt: 1 }}
+            />
+          )}
+          <LoadingButton
+            loading={loading}
+            onClick={copyUrl}
+            sx={{ mt: 1 }}
+            variant="outlined"
+            fullWidth
+          >
+            Copy
+          </LoadingButton>
+          <LoadingButton
+            loading={loading}
+            onClick={handleGenerate}
+            sx={{ mt: 1 }}
+            variant="contained"
+            fullWidth
+          >
+            Create link
+          </LoadingButton>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 export default function BoardSettings({ mutationUrls, board }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -40,13 +152,6 @@ export default function BoardSettings({ mutationUrls, board }) {
         );
       });
     }, 100);
-  };
-
-  const handleShare = () => {
-    handleClose();
-    window.navigator.share({
-      url: window.location.href,
-    });
   };
 
   return (
@@ -108,10 +213,12 @@ export default function BoardSettings({ mutationUrls, board }) {
             board?.columns.length >= 5
           }
         />
-        <MenuItem disabled={board.archived} onClick={handleShare}>
-          <Icon className="outlined">ios_share</Icon>
-          Share
-        </MenuItem>
+        <ShareBoard board={board}>
+          <MenuItem>
+            <Icon className="outlined">ios_share</Icon>
+            Share
+          </MenuItem>
+        </ShareBoard>
         <ConfirmationModal
           title="Change board visibility?"
           question={

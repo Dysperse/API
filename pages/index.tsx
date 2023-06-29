@@ -182,11 +182,11 @@ export default function Home() {
 
   const open = () => {
     vibrate(50);
-    setIsHover(true);
+    setTimeout(() => setIsHover(true), 200);
   };
   const close = () => {
     vibrate(50);
-    setIsHover(false);
+    setTimeout(() => setIsHover(false), 200);
   };
 
   return (
