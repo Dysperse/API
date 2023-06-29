@@ -22,7 +22,7 @@ import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({board, setColumnTasks, mutateData, column }) {
+export function ColumnSettings({ board, setColumnTasks, mutateData, column }) {
   const storage = useAccountStorage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
