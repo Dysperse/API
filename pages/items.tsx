@@ -153,7 +153,7 @@ export default function Inventory({ children = null }: any) {
               }}
             >
               <Typography
-                variant="h3"
+                variant="h2"
                 className="font-heading"
                 sx={{ mb: 2, display: { md: "none" } }}
               >
