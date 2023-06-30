@@ -40,7 +40,7 @@ export default function Render() {
 
   return (
     <Box>
-      {isMobile && <Navbar />}
+      {isMobile && <Navbar showLogo />}
       <Head>
         <title>Coach</title>
       </Head>
