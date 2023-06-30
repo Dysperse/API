@@ -575,7 +575,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 )}
               </Box>
             </Button>
-            {!isBoard && <SearchTasks setOpen={setOpen} />}
+            <SearchTasks setOpen={setOpen} />
             <IconButton
               sx={{
                 color: palette[8],
@@ -583,9 +583,6 @@ export function TasksLayout({ open, setOpen, children }) {
                 "&:active": {
                   transform: "scale(0.9)",
                 },
-                ...(isBoard && {
-                  ml: "auto",
-                }),
                 transition: "all .2s",
               }}
               onClick={() => {
