@@ -162,7 +162,9 @@ export function Board({ mutationUrl, board }) {
 
   const session = useSession();
   const isShared =
-    data && data?.[0]?.propertyId !== session.property.propertyId;
+    data &&
+    data?.[0]?.propertyId &&
+    data?.[0]?.propertyId !== session.property.propertyId;
 
   if (error || (!board && !loading)) {
     return (

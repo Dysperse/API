@@ -170,7 +170,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
                 </Icon>
               </IconButton>
             </ListItem>
-            <Divider sx={{ my: 1 }} />
+            {data && data.length > 0 && <Divider sx={{ my: 1 }} />}
             {data ? (
               data.map((share) => (
                 <ListItem
