@@ -15,6 +15,7 @@ import {
   TextField,
   Typography,
   useMediaQuery,
+  useScrollTrigger,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -91,6 +92,18 @@ export function Column({
   const palette = useColor(session.themeColor, isDark);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+  });
+
+  useEffect(() => {
+    if (isMobile) {
+      document.title = trigger
+        ? `${column.name} • ${board.name}`
+        : `${board.name} • Board`;
+    }
+  });
 
   return (
     <motion.div
