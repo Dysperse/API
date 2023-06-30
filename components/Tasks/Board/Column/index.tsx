@@ -109,9 +109,9 @@ export function Column({
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: useReverseAnimation ? -200 : 200 }}
+      initial={{ opacity: 0, x: useReverseAnimation ? -100 : 100 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: useReverseAnimation ? -200 : 200 }}
+      exit={{ opacity: 0, x: useReverseAnimation ? -100 : 100 }}
       style={{
         maxWidth: "340px",
         width: "100%",
