@@ -20,6 +20,7 @@ import { BoardInfo } from "./Info";
 
 function RenderBoard({ mutationUrls, board, data, isShared }) {
   const [showInfo, setShowInfo] = useState<boolean | null>(null);
+  const [useReverseAnimation, setUseReverseAnimation] = useState(false);
 
   useEffect(() => {
     const storedShowInfo = localStorage.getItem("showInfo");
@@ -120,6 +121,9 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
             currentColumn={currentColumn}
             columnLength={data.length}
             setCurrentColumn={setCurrentColumn}
+            
+            useReverseAnimation={useReverseAnimation}
+            setUseReverseAnimation={setUseReverseAnimation}
             column={column}
             key={column.id}
             board={board}

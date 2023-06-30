@@ -27,6 +27,8 @@ import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
 
 export function Column({
+  useReverseAnimation,
+  setUseReverseAnimation,
   board,
   mutateData,
   mutationUrls,
@@ -107,9 +109,9 @@ export function Column({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0, x: useReverseAnimation ? -100 : 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -10 }}
       style={{
         maxWidth: "340px",
         width: "100%",
@@ -278,6 +280,7 @@ export function Column({
               <IconButton
                 onClick={(e) => {
                   e.stopPropagation();
+                  setUseReverseAnimation(true);
                   setCurrentColumn((i) => i - 1);
                 }}
                 disabled={currentColumn == 0}
@@ -386,6 +389,7 @@ export function Column({
                 <IconButton
                   onClick={(e) => {
                     e.stopPropagation();
+                    setUseReverseAnimation(false);
                     setCurrentColumn((i) => i + 1);
                   }}
                   disabled={currentColumn === columnLength - 1}
