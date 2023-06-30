@@ -186,7 +186,7 @@ export default function Home() {
   };
   const close = () => {
     vibrate(50);
-    setTimeout(() => setIsHover(false), 200);
+    setIsHover(false);
   };
 
   return (

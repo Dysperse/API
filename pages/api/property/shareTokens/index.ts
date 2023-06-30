@@ -11,6 +11,15 @@ const handler = async (req, res) => {
       where: {
         board: { id: req.query.board },
       },
+      include: {
+        user: {
+          select: {
+            email: true,
+            name: true,
+            Profile: { select: {picture: true} },
+          },
+        },
+      },
     });
     res.json(data);
   } catch (e: any) {

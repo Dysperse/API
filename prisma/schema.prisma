@@ -42,8 +42,9 @@ model User {
   DailyCheckIn         DailyCheckIn[]
   QrToken              QrToken[]
 
-  followers Follows[] @relation("following")
-  following Follows[] @relation("follower")
+  followers  Follows[]    @relation("following")
+  following  Follows[]    @relation("follower")
+  ShareToken ShareToken[]
 }
 
 model Follows {
@@ -223,6 +224,9 @@ model ShareToken {
 
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Board {

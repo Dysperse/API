@@ -20,6 +20,7 @@ import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
+import { ShareBoard } from "./ShareBoard";
 
 export function BoardInfo({
   isShared,
@@ -258,6 +259,11 @@ export function BoardInfo({
               mutationUrls={mutationUrls}
               board={board}
             />
+            <ShareBoard board={board} isShared={isShared}>
+              <IconButton size="large" sx={{ mr: { md: "auto" } }}>
+                <Icon className="outlined">ios_share</Icon>
+              </IconButton>
+            </ShareBoard>
             <IconButton
               size="large"
               sx={{

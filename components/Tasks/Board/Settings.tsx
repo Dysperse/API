@@ -1,189 +1,15 @@
-import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
-import { LoadingButton } from "@mui/lab";
-import {
-  AppBar,
-  Box,
-  CircularProgress,
-  Icon,
-  IconButton,
-  ListItem,
-  ListItemText,
-  Menu,
-  MenuItem,
-  SwipeableDrawer,
-  TextField,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import dayjs from "dayjs";
+import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { cloneElement, useState } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
-
-function ShareBoard({ isShared, board, children }) {
-  const session = useSession();
-  const [open, setOpen] = useState<boolean>(false);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const trigger = cloneElement(children, {
-    onClick: handleOpen,
-  });
-
-  const {
-    data,
-    url: mutationUrl,
-    error,
-  } = useApi("property/shareTokens", {
-    board: board.id,
-  });
-
-  const [token, setToken] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const handleGenerate = async () => {
-    try {
-      setLoading(true);
-      const data = await fetchRawApi(session, "property/shareTokens/create", {
-        board: board.id,
-        date: new Date().toISOString(),
-        expires: 7,
-      });
-      setToken(data.token);
-      setLoading(false);
-    } catch (e) {
-      toast.error(
-        "Yikes! Something happened while trying to generate the share link! Please try again later.",
-        toastStyles
-      );
-      setLoading(false);
-    }
-  };
-
-  const handleRevoke = async (token) => {
-    await fetchRawApi(session, "property/shareTokens/revoke", {
-      token,
-    });
-    await mutate(mutationUrl);
-  };
-
-  const url = isShared
-    ? window.location.href
-    : `${window.location.origin}/tasks/boards/${board.id}?share=${token}`;
-
-  const copyUrl = () => {
-    navigator.clipboard.writeText(url);
-    toast.success("Copied link to clipboard!", toastStyles);
-  };
-
-  return (
-    <>
-      {trigger}
-      <SwipeableDrawer
-        open={open}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        anchor="bottom"
-        sx={{ zIndex: 9999 }}
-        onKeyDown={(e) => e.stopPropagation()}
-        PaperProps={{
-          sx: {
-            height: "100vh",
-          },
-        }}
-      >
-        <AppBar sx={{ border: 0 }}>
-          <Toolbar>
-            <IconButton onClick={handleClose}>
-              <Icon>close</Icon>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Box sx={{ px: 5, pt: 4 }}>
-          <Typography variant="h2" className="font-heading">
-            Share
-          </Typography>
-          {token && (
-            <TextField
-              label="Board link"
-              value={url}
-              fullWidth
-              size="small"
-              sx={{ mt: 1 }}
-            />
-          )}
-          <LoadingButton
-            loading={loading}
-            onClick={copyUrl}
-            sx={{ mt: 1, ...(!isShared && !token && { display: "none" }) }}
-            variant="outlined"
-            fullWidth
-          >
-            Copy
-          </LoadingButton>
-          {!isShared && (
-            <LoadingButton
-              loading={loading}
-              onClick={handleGenerate}
-              sx={{ mt: 1 }}
-              variant="contained"
-              fullWidth
-            >
-              Create link
-            </LoadingButton>
-          )}
-          {data ? (
-            <>
-              <Typography variant="h6" sx={{ mt: 3 }}>
-                Active links
-              </Typography>
-              {data.map((share) => (
-                <ListItem
-                  key={share.id}
-                  sx={{
-                    px: 0,
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  <ListItemText
-                    primary={dayjs(share.createdAt).fromNow()}
-                    secondary={"Expires " + dayjs(share.expiresAt).fromNow()}
-                  />
-                  <IconButton
-                    sx={{ ml: "auto" }}
-                    disabled={window.location.href.includes(share.token)}
-                    onClick={() => handleRevoke(share.token)}
-                  >
-                    <Icon>delete</Icon>
-                  </IconButton>
-                </ListItem>
-              ))}
-            </>
-          ) : data?.error ? (
-            <ErrorHandler
-              error="Oh no! An error occured while trying to get your active share links!"
-              callback={() => mutate(mutationUrl)}
-            />
-          ) : (
-            <CircularProgress />
-          )}
-        </Box>
-      </SwipeableDrawer>
-    </>
-  );
-}
 
 export default function BoardSettings({ isShared, mutationUrls, board }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -275,12 +101,6 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
             board?.columns.length >= 5
           }
         />
-        <ShareBoard board={board} isShared={isShared}>
-          <MenuItem>
-            <Icon className="outlined">ios_share</Icon>
-            Share
-          </MenuItem>
-        </ShareBoard>
         <ConfirmationModal
           title="Change board visibility?"
           question={
@@ -344,7 +164,6 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
       <Tooltip title="Board settings">
         <IconButton
           onClick={handleClick}
-          sx={{ mr: { md: "auto" } }}
           size="large"
           disabled={session.permission === "read-only"}
         >
