@@ -132,7 +132,7 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
         <Box
           sx={{
             display: "flex",
-            height: "100%",
+            height: "100vh",
             width: "100%",
             alignItems: "center",
             justifyContent: "center",
@@ -161,7 +161,8 @@ export function Board({ mutationUrl, board }) {
   });
 
   const session = useSession();
-  const isShared = data && data[0].propertyId !== session.property.propertyId;
+  const isShared =
+    data && data?.[0]?.propertyId !== session.property.propertyId;
 
   if (error || (!board && !loading)) {
     return (
