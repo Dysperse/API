@@ -687,6 +687,7 @@ export function CreateTask({
                   gap: 2,
                   mt: 0,
                   alignItems: "center",
+                  ...(isSubTask && { ml: "auto" }),
                 }}
               >
                 <div>
