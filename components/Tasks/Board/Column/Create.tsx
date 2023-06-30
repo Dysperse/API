@@ -124,13 +124,8 @@ export default function CreateColumn({
           </EmojiPicker>
           <TextField
             onKeyDown={(e) => {
-              e.stopPropagation();
               if (e.key === "Enter") {
                 document.getElementById("createColumnButton")?.click();
-              }
-              if (e.key === "Escape") {
-                setOpen(false);
-                setMobileOpen(false);
               }
             }}
             id="create-column-title"
@@ -193,6 +188,7 @@ export default function CreateColumn({
       <SwipeableDrawer
         anchor="bottom"
         open={mobileOpen}
+        onKeyDown={(e: any) => e.stopPropagation()}
         onClose={() => setMobileOpen(false)}
         sx={{
           zIndex: 9999999999,

@@ -92,7 +92,6 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const shouldUseXAxis = ["/users", "/groups"].find((path) =>
     router.asPath.includes(path)
   );
-  useHotkeys("esc", () => router.push("/"));
 
   if (session.properties.length === 0) {
     return (
