@@ -16,7 +16,7 @@ const handler = async (req, res) => {
           select: {
             email: true,
             name: true,
-            Profile: { select: {picture: true} },
+            Profile: { select: { picture: true } },
           },
         },
       },
