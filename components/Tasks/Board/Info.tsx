@@ -259,7 +259,11 @@ export function BoardInfo({
               mutationUrls={mutationUrls}
               board={board}
             />
-            <ShareBoard board={board} isShared={isShared}>
+            <ShareBoard
+              board={board}
+              isShared={isShared}
+              mutationUrls={mutationUrls}
+            >
               <IconButton size="large" sx={{ mr: { md: "auto" } }}>
                 <Icon className="outlined">ios_share</Icon>
               </IconButton>
