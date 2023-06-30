@@ -31,10 +31,12 @@ export function PropertyButton({ handleClose, group, list }: any) {
         if (!list) {
           try {
             setLoading(true);
+            handleClose();
             const res = await fetchRawApi(session, "property/switch", {
               email: session.user.email,
               accessToken1: group.accessToken,
             });
+            router.push("/");
             await mutate("/api/session");
             toast.success(
               <span>
