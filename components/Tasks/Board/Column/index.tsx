@@ -6,12 +6,15 @@ import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
+  CardActionArea,
   CircularProgress,
   Collapse,
   Icon,
+  IconButton,
   SwipeableDrawer,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -22,7 +25,16 @@ import { Task } from "../../Task";
 import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
 
-export function Column({ board, mutateData, mutationUrls, column, index }) {
+export function Column({
+  board,
+  mutateData,
+  mutationUrls,
+  column,
+  index,
+  setCurrentColumn,
+  currentColumn,
+  columnLength,
+}) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
 
@@ -74,8 +86,11 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
     }
     setLoading(false);
   };
+
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
     <motion.div
@@ -246,8 +261,35 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               alignItems: "center",
             }}
           >
-            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
-              <Typography
+            {isMobile && (
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentColumn((i) => i - 1);
+                }}
+                disabled={currentColumn == 0}
+              >
+                <Icon className="outlined">arrow_back_ios_new</Icon>
+              </IconButton>
+            )}
+            <ColumnSettings
+              board={board}
+              setColumnTasks={setColumnTasks}
+              columnTasksLength={columnTasks.length}
+              column={column}
+              mutateData={mutateData}
+            >
+              <CardActionArea
+                sx={{
+                  flexGrow: 1,
+                  maxWidth: "100%",
+                  minWidth: 0,
+                  borderRadius: 5,
+                  transition: "transform .4s",
+                  "&:active": {
+                    transform: "scale(0.95)",
+                  },
+                }}
                 onContextMenu={() => {
                   toast(column.name, {
                     ...toastStyles,
@@ -256,81 +298,98 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
                         <img
                           alt="Emoji"
                           src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                          width={24}
-                          height={24}
+                          width={20}
+                          height={20}
                         />
                       </picture>
                     ),
                   });
                 }}
-                variant="h4"
-                className="font-heading"
-                sx={{
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  maxWidth: "100%",
-                  minWidth: 0,
-                  fontSize: {
-                    xs: "50px",
-                    sm: "35px",
-                  },
-                  transition: "transform .4s",
-                  "&:active": {
-                    transform: "scale(0.95)",
-                  },
-                  borderRadius: 1,
-                  width: "auto",
-                  mb: 0.7,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  ...(column.name === "" && { display: "none" }),
-                  "& picture img": {
-                    width: { xs: "45px", sm: "30px" },
-                    height: { xs: "45px", sm: "30px" },
-                  },
-                }}
               >
-                <picture
-                  style={{
-                    flexShrink: 0,
-                  }}
-                >
-                  <img
-                    alt="Emoji"
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                    width={50}
-                    height={50}
-                  />
-                </picture>
-                <span
-                  style={{
+                <Typography
+                  variant="h4"
+                  sx={{
                     overflow: "hidden",
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
+                    maxWidth: "100%",
+                    minWidth: 0,
+                    fontSize: "35px",
+                    borderRadius: 1,
+                    width: "auto",
+                    mb: { sm: 0.7 },
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: { xs: "center", sm: "flex-start" },
+                    gap: { xs: 0, sm: 2 },
+                    flexDirection: { xs: "column", sm: "row" },
+                    ...(column.name === "" && { display: "none" }),
+                    "& picture img": {
+                      width: { xs: "45px", sm: "30px" },
+                      height: { xs: "45px", sm: "30px" },
+                      mb: -0.2,
+                    },
                   }}
                 >
-                  {column.name}
-                </span>
-              </Typography>
-              <Typography
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  fontSize: { xs: "15px", sm: "18px" },
-                }}
-              >
-                {incompleteLength} task{incompleteLength !== 1 && "s"}
-              </Typography>
-            </Box>
+                  <picture
+                    style={{
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img
+                      alt="Emoji"
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                      width={50}
+                      height={50}
+                    />
+                  </picture>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <span
+                      style={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                      className="font-heading"
+                    >
+                      {column.name}
+                    </span>
+                  </Box>
+                </Typography>
+                <Typography
+                  sx={{
+                    display: { xs: "none", sm: "flex" },
+                    alignItems: "center",
+                    fontSize: { xs: "15px", sm: "18px" },
+                  }}
+                >
+                  {incompleteLength} task{incompleteLength !== 1 && "s"}
+                </Typography>
+              </CardActionArea>
+            </ColumnSettings>
+
             <Box sx={{ ml: "auto" }}>
-              <ColumnSettings
-                board={board}
-                setColumnTasks={setColumnTasks}
-                column={column}
-                mutateData={mutateData}
-              />
+              {isMobile ? (
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentColumn((i) => i + 1);
+                  }}
+                  disabled={currentColumn === columnLength - 1}
+                >
+                  <Icon className="outlined">arrow_forward_ios</Icon>
+                </IconButton>
+              ) : (
+                <ColumnSettings
+                  board={board}
+                  setColumnTasks={setColumnTasks}
+                  columnTasksLength={
+                    columnTasks.filter((t) => !t.completed).length
+                  }
+                  column={column}
+                  mutateData={mutateData}
+                />
+              )}
             </Box>
           </Box>
         </Box>

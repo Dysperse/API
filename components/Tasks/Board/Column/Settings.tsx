@@ -1,3 +1,4 @@
+import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -7,7 +8,6 @@ import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
-  Chip,
   Divider,
   Icon,
   IconButton,
@@ -15,14 +15,29 @@ import {
   MenuItem,
   SwipeableDrawer,
   TextField,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
-import { useCallback, useDeferredValue, useRef, useState } from "react";
+import {
+  cloneElement,
+  useCallback,
+  useDeferredValue,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "react-hot-toast";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({ board, setColumnTasks, mutateData, column }) {
+export function ColumnSettings({
+  children,
+  board,
+  setColumnTasks,
+  mutateData,
+  column,
+  columnTasksLength,
+}: any) {
   const storage = useAccountStorage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = useCallback(
@@ -52,6 +67,75 @@ export function ColumnSettings({ board, setColumnTasks, mutateData, column }) {
     mutateData();
     setOpen(false);
   };
+
+  const trigger = cloneElement(children || <div />, {
+    onClick: handleClick,
+  });
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const menuChildren = (
+    <Box
+      sx={{
+        "& .MuiMenuItem-root": {
+          gap: 2,
+        },
+      }}
+    >
+      <FilterMenu
+        handleParentClose={handleClose}
+        originalTasks={column.tasks.filter(
+          (task) => task.parentTasks.length === 0
+        )}
+        setColumnTasks={setColumnTasks}
+      >
+        <MenuItem className="sortMenu">
+          <Icon className="outlined">filter_list</Icon>
+          Sort
+          <Icon className="outlined" sx={{ ml: "auto" }}>
+            chevron_right
+          </Icon>
+        </MenuItem>
+      </FilterMenu>
+      <Divider />
+      <MenuItem disabled>
+        <Icon className="outlined">east</Icon>Move right
+      </MenuItem>
+      <MenuItem disabled>
+        <Icon className="outlined">west</Icon>Move left
+      </MenuItem>
+      <Divider />
+      <MenuItem
+        onClick={() => setOpen(true)}
+        disabled={
+          storage?.isReached === true || session.permission === "read-only"
+        }
+      >
+        <Icon className="outlined">edit</Icon>
+        Edit
+      </MenuItem>
+      <ConfirmationModal
+        title="Delete column?"
+        question="Are you sure you want to delete this column? This action annot be undone."
+        callback={async () => {
+          await fetchRawApi(session, "property/boards/column/delete", {
+            id: column.id,
+            who: session.user.name,
+            boardName: board.name,
+            boardEmoji: board.emoji,
+            columnName: column.name,
+          });
+          await mutateData();
+          handleClose();
+        }}
+      >
+        <MenuItem disabled={session.permission === "read-only"}>
+          <Icon className="outlined">delete</Icon>
+          Delete
+        </MenuItem>
+      </ConfirmationModal>
+    </Box>
+  );
 
   return column.name === "" ? (
     <Box onClick={(e) => e.stopPropagation()}>
@@ -99,7 +183,6 @@ export function ColumnSettings({ board, setColumnTasks, mutateData, column }) {
             mb: { md: 5 },
           },
         }}
-        onClick={(event) => event.stopPropagation()}
       >
         <>
           <Box
@@ -167,95 +250,65 @@ export function ColumnSettings({ board, setColumnTasks, mutateData, column }) {
           </Box>
         </>
       </SwipeableDrawer>
-      <IconButton
-        onClick={handleClick}
-        size="small"
-        sx={{
-          ...(Boolean(anchorEl) && {
-            background: `${
-              isDark ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.05)"
-            }!important`,
-            color: isDark ? "#fff!important" : "#000!important",
-          }),
-        }}
-      >
-        <Icon
-          className="outlined"
+      {children ? (
+        trigger
+      ) : (
+        <IconButton
+          onClick={handleClick}
+          size="small"
           sx={{
-            transition: "all .2s",
-            ...(Boolean(anchorEl) && { transform: "rotate(180deg)" }),
+            ...(Boolean(anchorEl) && {
+              background: `${
+                isDark ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.05)"
+              }!important`,
+              color: isDark ? "#fff!important" : "#000!important",
+            }),
           }}
         >
-          expand_circle_down
-        </Icon>
-      </IconButton>
-      <Menu
-        onClick={(event) => event.stopPropagation()}
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <FilterMenu
-          handleParentClose={handleClose}
-          originalTasks={column.tasks.filter(
-            (task) => task.parentTasks.length === 0
-          )}
-          setColumnTasks={setColumnTasks}
+          <Icon className="outlined">expand_circle_down</Icon>
+        </IconButton>
+      )}
+
+      {isMobile ? (
+        <SwipeableDrawer
+          onClick={(e) => e.stopPropagation()}
+          anchor="bottom"
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
         >
-          <MenuItem className="sortMenu">
-            <Icon className="outlined">filter_list</Icon>
-            Sort
-            <Icon className="outlined" sx={{ ml: "auto" }}>
-              chevron_right
-            </Icon>
-          </MenuItem>
-        </FilterMenu>
-        <Divider />
-        <Box
-          sx={{
-            textAlign: "center",
-          }}
+          <Puller />
+          <Box
+            sx={{ px: 2, mb: 2, display: "flex", gap: 2, alignItems: "center" }}
+          >
+            <picture>
+              <img
+                width={40}
+                height={40}
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                alt="Emoji"
+              />
+            </picture>
+            <Box>
+              <Typography variant="h6">{column.name}</Typography>
+              <Typography>
+                {columnTasksLength} task{columnTasksLength !== 1 && "s"}
+              </Typography>
+            </Box>
+          </Box>
+          <Divider sx={{ mb: 1 }} />
+          {menuChildren}
+        </SwipeableDrawer>
+      ) : (
+        <Menu
+          onClick={(event) => event.stopPropagation()}
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
         >
-          <Chip label="Coming soon" sx={{ my: 1 }} size="small" />
-        </Box>
-        <MenuItem disabled>
-          <Icon className="outlined">east</Icon>Move right
-        </MenuItem>
-        <MenuItem disabled>
-          <Icon className="outlined">west</Icon>Move left
-        </MenuItem>
-        <Divider />
-        <MenuItem
-          onClick={() => setOpen(true)}
-          disabled={
-            storage?.isReached === true || session.permission === "read-only"
-          }
-        >
-          <Icon className="outlined">edit</Icon>
-          Edit
-        </MenuItem>
-        <ConfirmationModal
-          title="Delete column?"
-          question="Are you sure you want to delete this column? This action annot be undone."
-          callback={async () => {
-            await fetchRawApi(session, "property/boards/column/delete", {
-              id: column.id,
-              who: session.user.name,
-              boardName: board.name,
-              boardEmoji: board.emoji,
-              columnName: column.name,
-            });
-            await mutateData();
-            handleClose();
-          }}
-        >
-          <MenuItem disabled={session.permission === "read-only"}>
-            <Icon className="outlined">delete</Icon>
-            Delete
-          </MenuItem>
-        </ConfirmationModal>
-      </Menu>
+          {menuChildren}
+        </Menu>
+      )}
     </>
   );
 }

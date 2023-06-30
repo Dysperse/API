@@ -1,4 +1,3 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
@@ -10,12 +9,9 @@ import {
   Button,
   CircularProgress,
   Icon,
-  IconButton,
   SwipeableDrawer,
   useMediaQuery,
-  useScrollTrigger,
 } from "@mui/material";
-import { motion } from "framer-motion";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
 import { mutate } from "swr";
@@ -37,11 +33,6 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
       setShowInfo(storedShowInfo === "true");
     }
   }, []);
-
-  const trigger = useScrollTrigger({
-    threshold: 0,
-    target: window ? window : undefined,
-  });
 
   const [currentColumn, setCurrentColumn] = useState<number>(0);
   const handleNext = useCallback(
@@ -76,64 +67,6 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
         minHeight: "100vh",
       }}
     >
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.2, delay: 0.4 }}
-      >
-        <Box
-          sx={{
-            position: "fixed",
-            bottom: {
-              xs: "70px",
-              md: "30px",
-            },
-            opacity: trigger ? 0 : 1,
-            transform: trigger ? "scale(0.9)" : "scale(1)",
-            mr: {
-              xs: 1.5,
-              md: 3,
-            },
-            zIndex: 99,
-            background: addHslAlpha(palette[3], 0.9),
-            border: "1px solid",
-            transition: "transform .2s, opacity .2s",
-            backdropFilter: "blur(10px)",
-            boxShadow:
-              "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-            borderRadius: 999,
-            borderColor: addHslAlpha(palette[3], 0.5),
-            right: 0,
-            color: isDark ? "#fff" : "#000",
-            display: { xs: "flex", sm: "none" },
-            alignItems: "center",
-            p: 0.5,
-          }}
-        >
-          <IconButton
-            onClick={handlePrev}
-            disabled={currentColumn === 0}
-            sx={{
-              width: 50,
-              borderRadius: 999,
-              color: palette[9],
-            }}
-          >
-            <Icon>west</Icon>
-          </IconButton>
-          <IconButton
-            sx={{
-              width: 50,
-              color: palette[9],
-              borderRadius: 999,
-            }}
-            onClick={handleNext}
-            disabled={currentColumn === data.length - 1}
-          >
-            <Icon>east</Icon>
-          </IconButton>
-        </Box>
-      </motion.div>
       {!isMobile && (
         <BoardInfo
           isShared={isShared}
@@ -184,6 +117,9 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
             index={index}
             mutateData={mutateData}
             mutationUrls={mutationUrls}
+            currentColumn={currentColumn}
+            columnLength={data.length}
+            setCurrentColumn={setCurrentColumn}
             column={column}
             key={column.id}
             board={board}

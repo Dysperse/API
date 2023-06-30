@@ -574,7 +574,7 @@ export function TasksLayout({ open, setOpen, children }) {
                   transform: "scale(1.1)",
                 }}
               >
-                {isBoard ? "edit" : "add"}
+                {isBoard ? "more_horiz" : "add"}
               </Icon>
             </IconButton>
           </Box>
