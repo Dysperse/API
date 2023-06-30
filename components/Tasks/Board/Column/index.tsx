@@ -109,9 +109,9 @@ export function Column({
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: useReverseAnimation ? -100 : 100 }}
+      initial={{ opacity: 0, x: useReverseAnimation ? -200 : 200 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -10 }}
+      exit={{ opacity: 0, x: useReverseAnimation ? -200 : 200 }}
       style={{
         maxWidth: "340px",
         width: "100%",
@@ -146,7 +146,10 @@ export function Column({
             gap: 1.5,
             py: 2,
             mb: 1,
-            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
+            borderColor: {
+              xs: "transparent",
+              sm: addHslAlpha(palette[4], 0.7),
+            },
           }}
         >
           <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
@@ -211,7 +214,7 @@ export function Column({
         sx={{
           scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
-          borderColor: { sm: addHslAlpha(palette[4], 0.7) },
+          borderColor: { xs: "transparent", sm: addHslAlpha(palette[4], 0.7) },
           zIndex: 1,
           height: "100%",
           flexGrow: 1,
