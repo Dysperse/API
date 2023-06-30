@@ -280,16 +280,22 @@ export function Column({
             }}
           >
             {isMobile && (
-              <IconButton
+              <Box
                 onClick={(e) => {
                   e.stopPropagation();
-                  setUseReverseAnimation(true);
-                  setCurrentColumn((i) => i - 1);
                 }}
-                disabled={currentColumn == 0}
               >
-                <Icon className="outlined">arrow_back_ios_new</Icon>
-              </IconButton>
+                <IconButton
+                  size="large"
+                  onClick={(e) => {
+                    setUseReverseAnimation(true);
+                    setCurrentColumn((i) => i - 1);
+                  }}
+                  disabled={currentColumn == 0}
+                >
+                  <Icon className="outlined">arrow_back_ios_new</Icon>
+                </IconButton>
+              </Box>
             )}
             <ColumnSettings
               board={board}
@@ -387,17 +393,29 @@ export function Column({
               </CardActionArea>
             </ColumnSettings>
 
-            <Box sx={{ ml: "auto" }}>
+            <Box
+              sx={{ ml: "auto" }}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
               {isMobile ? (
                 <IconButton
                   onClick={(e) => {
-                    e.stopPropagation();
+                    if (currentColumn === columnLength - 1) {
+                      document.getElementById("newColumn")?.click();
+                      return;
+                    }
                     setUseReverseAnimation(false);
                     setCurrentColumn((i) => i + 1);
                   }}
-                  disabled={currentColumn === columnLength - 1}
+                  size="large"
                 >
-                  <Icon className="outlined">arrow_forward_ios</Icon>
+                  <Icon className="outlined">
+                    {currentColumn === columnLength - 1
+                      ? "new_window"
+                      : "arrow_forward_ios"}
+                  </Icon>
                 </IconButton>
               ) : (
                 <ColumnSettings
