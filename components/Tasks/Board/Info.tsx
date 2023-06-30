@@ -13,6 +13,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef } from "react";
@@ -87,6 +88,8 @@ export function BoardInfo({
       return acc;
     }, []);
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
     <Box
       sx={{
@@ -110,6 +113,7 @@ export function BoardInfo({
         flex: { xs: "0 0 calc(100% - 70px)", md: "unset" },
         p: 4,
         py: showInfo ? 3 : 2,
+        pt: { xs: 5, md: 0 },
         overflowY: "scroll",
         display: "flex",
         alignItems: "center",
@@ -281,7 +285,7 @@ export function BoardInfo({
               isShared={isShared}
               mutationUrls={mutationUrls}
             >
-              <IconButton size="large" sx={{ mr: { md: "auto" } }}>
+              <IconButton size="large" sx={{ ml: { xs: "auto", sm: "0" } }}>
                 <Icon className="outlined">ios_share</Icon>
               </IconButton>
             </ShareBoard>
@@ -289,14 +293,26 @@ export function BoardInfo({
               size="large"
               sx={{
                 ml: "auto",
-                display: { xs: "none", md: "flex" },
+                ...(isMobile && {
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  m: 1,
+                  color: palette[8],
+                }),
               }}
               onClick={() => {
+                if (isMobile) {
+                  setMobileOpen(false);
+                  return;
+                }
                 setShowInfo(false);
                 localStorage.setItem("showInfo", "false");
               }}
             >
-              <Icon className="outlined">menu_open</Icon>
+              <Icon className="outlined">
+                {isMobile ? "close" : "menu_open"}
+              </Icon>
             </IconButton>
           </Box>
         </>

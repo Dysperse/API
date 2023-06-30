@@ -102,28 +102,6 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
           }
         />
         <ConfirmationModal
-          title="Change board visibility?"
-          question={
-            !board.public
-              ? "Are you sure you want to make this board public? Other members in your group will be able to view and edit content within this board"
-              : "Are you sure you want to make this board private? Other members in your group won't be able to view/edit content within this board anymore."
-          }
-          callback={async () => {
-            await fetchRawApi(session, "property/boards/edit", {
-              id: board.id,
-              public: board.public ? "false" : "true",
-            });
-            await mutate(mutationUrls.boardData);
-          }}
-        >
-          <MenuItem disabled={storage?.isReached === true || isShared}>
-            <Icon className="outlined">
-              {!board.public ? "visibility" : "visibility_off"}
-            </Icon>
-            Make {!board.public ? "public" : "private"}
-          </MenuItem>
-        </ConfirmationModal>
-        <ConfirmationModal
           title="Archive board?"
           question={
             board.archived

@@ -537,7 +537,7 @@ export function TasksLayout({ open, setOpen, children }) {
                   overflow: "hidden",
                   maxWidth: "100%",
                   textOverflow: "ellipsis",
-                  "& span": {
+                  "& .MuiTypography-root": {
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
                     maxWidth: "100%",
@@ -557,7 +557,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 )}
               </Box>
             </Button>
-            <SearchTasks setOpen={setOpen} />
+            {!isBoard && <SearchTasks setOpen={setOpen} />}
             <IconButton
               sx={{
                 color: palette[8],
@@ -565,6 +565,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 "&:active": {
                   transform: "scale(0.95)",
                 },
+                ml: "auto",
               }}
               onClick={() => {
                 document
