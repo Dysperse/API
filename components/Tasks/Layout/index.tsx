@@ -1,3 +1,4 @@
+import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
@@ -111,7 +112,21 @@ function SearchTasks({ setOpen }) {
         onClose={() => setMobileOpen(false)}
         PaperProps={{ sx: { borderRadius: "0 0 20px 20px" } }}
       >
-        <Box sx={{ p: 2, pt: 3 }}>{input}</Box>
+        <Box sx={{ p: 2, pt: 3 }}>
+          <Button
+            onClick={() => {
+              openSpotlight();
+              vibrate(50);
+              setMobileOpen(false);
+            }}
+            size="small"
+            sx={{ mb: 2 }}
+            variant="contained"
+          >
+            <Icon>arrow_back_ios_new</Icon>Tasks
+          </Button>
+          {input}
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -529,7 +544,10 @@ export function TasksLayout({ open, setOpen, children }) {
                 overflow: "hidden",
               }}
               size="large"
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                vibrate(50);
+                setOpen(true);
+              }}
             >
               <Icon>expand_all</Icon>
               <Box
