@@ -381,10 +381,32 @@ export function TasksLayout({ open, setOpen, children }) {
           opacity: 0.5,
         }}
       />
+      <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
+      {data &&
+        data
+          .filter((x) => x.propertyId !== session.property.propertyId)
+          .map((board) => (
+            <Tab
+              setDrawerOpen={setOpen}
+              key={board.id}
+              styles={styles}
+              board={board}
+            />
+          ))}
+      <Divider
+        sx={{
+          mt: 1,
+          mb: 2,
+          width: { sm: "90%" },
+          mx: "auto",
+          opacity: 0.5,
+        }}
+      />
       <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
       {data &&
         data
           .filter((x) => !x.archived)
+          .filter((x) => x.propertyId == session.property.propertyId)
           .map((board) => (
             <Tab
               setDrawerOpen={setOpen}

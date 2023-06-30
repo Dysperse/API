@@ -16,7 +16,11 @@ const handler = async (req, res) => {
           {
             OR: [
               {
-                shareTokens: { some: { token: req.query.shareToken || "-1" } },
+                shareTokens: {
+                  some: {
+                    user: { identifier: req.query.userIdentifier },
+                  },
+                },
               },
               {
                 public: true,
