@@ -583,6 +583,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 "&:active": {
                   transform: "scale(0.9)",
                 },
+                ml: 1,
                 transition: "all .2s",
               }}
               onClick={() => {
