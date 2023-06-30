@@ -121,7 +121,6 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
             currentColumn={currentColumn}
             columnLength={data.length}
             setCurrentColumn={setCurrentColumn}
-            
             useReverseAnimation={useReverseAnimation}
             setUseReverseAnimation={setUseReverseAnimation}
             column={column}
