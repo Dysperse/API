@@ -34,6 +34,17 @@ const handler = async (req, res) => {
         ],
       },
       include: {
+        shareTokens: {
+          select: {
+            user: {
+              select: {
+                name: true,
+                email: true,
+                Profile: { select: { picture: true } },
+              },
+            },
+          },
+        },
         property: {
           select: {
             members: {

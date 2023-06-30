@@ -375,7 +375,7 @@ export function TasksLayout({ open, setOpen, children }) {
         ))}
       </Box>
 
-      {sharedBoards.length > 0 && (
+      {sharedBoards?.length > 0 && (
         <Divider
           sx={{
             mt: 1,
@@ -386,7 +386,7 @@ export function TasksLayout({ open, setOpen, children }) {
           }}
         />
       )}
-      {sharedBoards.length > 0 && (
+      {sharedBoards?.length > 0 && (
         <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
       )}
       {sharedBoards?.map((board) => (
