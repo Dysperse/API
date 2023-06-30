@@ -537,6 +537,7 @@ export function TasksLayout({ open, setOpen, children }) {
               sx={{
                 color: palette[8],
                 px: 1,
+                height: 48,
                 ...(!title.includes("•") && {
                   minWidth: 0,
                 }),
