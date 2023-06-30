@@ -262,7 +262,6 @@ function BirthdayCard({ person }) {
 
 function UpcomingBirthdays({ data }) {
   const today = dayjs();
-  const session = useSession();
 
   const todayYear = today.year();
   const birthdays = (data?.friends || [])
@@ -323,7 +322,8 @@ export function GroupModal({ children, list = false }: any) {
         acc.push(curr);
       }
       return acc;
-    }, []);
+    }, [])
+    .sort((a, b) => (a.name > b.name ? 1 : -1));
 
   preload(url, fetcher);
 

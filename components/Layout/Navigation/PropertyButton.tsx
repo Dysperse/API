@@ -24,6 +24,7 @@ export function PropertyButton({ handleClose, group, list }: any) {
   const groupPalette = useColor(group.profile.color, isDark);
 
   const [loading, setLoading] = useState<boolean>(false);
+
   return (
     <ListItemButton
       onClick={async () => {
