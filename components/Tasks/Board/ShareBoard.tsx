@@ -50,13 +50,13 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
   const handleGenerate = async () => {
     try {
       setLoading(true);
-      const data = await fetchRawApi(session, "property/shareTokens/create", {
+      await fetchRawApi(session, "property/shareTokens/create", {
         board: board.id,
         date: new Date().toISOString(),
         expires: 7,
         email,
       });
-
+      await mutate(url);
       setLoading(false);
     } catch (e) {
       toast.error(
