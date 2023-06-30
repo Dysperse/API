@@ -1,5 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { colors } from "@/lib/colors";
 import {
   AppBar,
@@ -36,12 +37,7 @@ export function ShareGoal({ children, goal }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    if (!isDark)
-      document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", open ? "hsl(240,11%,10%)" : "#fff");
-  }, [session, open, isDark]);
+  useStatusBar(open ? "hsl(240,11%,10%)" : "#fff");
 
   const colorChoices = [
     "red",
@@ -82,7 +78,6 @@ export function ShareGoal({ children, goal }) {
   };
 
   const [color, setColor] = useState("red");
-  const [screenshotting, setScreenshotting] = useState(false);
   const [emblaRef] = useEmblaCarousel(
     {
       dragFree: true,
@@ -118,10 +113,8 @@ export function ShareGoal({ children, goal }) {
   });
   const handleExport = () => {
     setExportFooterOpen(false);
-    setScreenshotting(true);
     setTimeout(() => {
       exportAsImage(exportRefs[currentIndex].current, "test");
-      setScreenshotting(false);
     }, 400);
   };
 
@@ -182,6 +175,19 @@ export function ShareGoal({ children, goal }) {
                 {exportFooterOpen ? "close" : "palette"}
               </Icon>
             </IconButton>
+            <IconButton
+              onClick={handleExport}
+              sx={{
+                color: "inherit!important",
+                transition: "all .2s",
+                ...(exportFooterOpen && {
+                  mr: "-40px",
+                  opacity: 0,
+                }),
+              }}
+            >
+              <Icon>download</Icon>
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Box
@@ -228,7 +234,7 @@ export function ShareGoal({ children, goal }) {
               >
                 {header}
                 <Typography
-                  variant="h3"
+                  variant="h2"
                   className="font-heading"
                   gutterBottom
                   sx={{ mt: 10 }}
@@ -238,11 +244,13 @@ export function ShareGoal({ children, goal }) {
                 <Typography
                   style={{
                     marginBottom: "20px",
+                    marginTop: "-15px",
                   }}
                 >
-                  Only <b>{goal.durationDays - goal.progress}</b> days left to
-                  go! I&apos;ve been working on this goal for{" "}
-                  <b>{goal.progress}</b> days so far.
+                  <b>
+                    {goal.progress}/{goal.durationDays}
+                  </b>{" "}
+                  days worked on
                 </Typography>
                 <LinearProgress
                   value={(goal.progress / goal.durationDays) * 100}
@@ -285,7 +293,7 @@ export function ShareGoal({ children, goal }) {
                   style={{
                     color: "rgba(0,0,0,0.7)",
                     marginBottom: "20px",
-                    marginTop: screenshotting ? "10px" : "0px",
+                    marginTop: "0px",
                   }}
                 >
                   {goal.progress !== goal.durationDays ? (
@@ -328,10 +336,7 @@ export function ShareGoal({ children, goal }) {
                 </Typography>
                 <Box sx={{ display: "flex", gap: 2 }}>
                   <Box>
-                    <Typography
-                      variant="h4"
-                      sx={{ my: 0.5, mb: screenshotting ? 1.5 : 0.5 }}
-                    >
+                    <Typography variant="h4" sx={{ my: 0.5, mb: 0.5 }}>
                       {goal.name}
                     </Typography>
                     <Typography
@@ -375,9 +380,6 @@ export function ShareGoal({ children, goal }) {
                       style={{
                         width: 80,
                         textAlign: "center",
-                        ...(screenshotting && {
-                          marginTop: "-17px",
-                        }),
                       }}
                     >
                       {Math.round((goal.progress / goal.durationDays) * 100)}%

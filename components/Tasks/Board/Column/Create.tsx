@@ -1,7 +1,7 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -23,7 +23,7 @@ export default function CreateColumn({
   setCurrentColumn,
   id,
   mutationUrls,
-  mobile = false,
+  name,
 }: any) {
   const storage = useAccountStorage();
   const session = useSession();
@@ -44,7 +44,9 @@ export default function CreateColumn({
       setLoading(false);
       return;
     }
-    fetchRawApi("property/boards/column/create", {
+    fetchRawApi(session, "property/boards/column/create", {
+      who: session.user.name,
+      boardName: name,
       title: ref?.current?.value,
       emoji,
       id: id,
@@ -56,9 +58,7 @@ export default function CreateColumn({
         await mutate(mutationUrls.boardData);
         setCurrentColumn((e) => e + 1);
         setLoading(false);
-        setEmoji(
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
-        );
+        setEmoji("1f3af");
         setOpen(false);
       })
       .catch(() => {
@@ -68,7 +68,7 @@ export default function CreateColumn({
           toastStyles
         );
       });
-  }, [emoji, id, mutationUrls, setCurrentColumn]);
+  }, [emoji, id, mutationUrls, setCurrentColumn, session, name]);
 
   useEffect(() => {
     if (open || mobileOpen) {

@@ -1,17 +1,21 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
+  CardActionArea,
   CircularProgress,
   Collapse,
   Icon,
+  IconButton,
   SwipeableDrawer,
   TextField,
   Typography,
+  useMediaQuery,
+  useScrollTrigger,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -22,7 +26,18 @@ import { Task } from "../../Task";
 import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
 
-export function Column({ board, mutateData, mutationUrls, column, index }) {
+export function Column({
+  useReverseAnimation,
+  setUseReverseAnimation,
+  board,
+  mutateData,
+  mutationUrls,
+  column,
+  index,
+  setCurrentColumn,
+  currentColumn,
+  columnLength,
+}) {
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
 
@@ -74,14 +89,29 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
     }
     setLoading(false);
   };
+
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+  });
+
+  useEffect(() => {
+    if (isMobile) {
+      document.title = trigger
+        ? `${column.name} • ${board.name}`
+        : `${board.name} • Board`;
+    }
+  });
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0, x: useReverseAnimation ? -100 : 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -10 }}
       style={{
         maxWidth: "340px",
         width: "100%",
@@ -157,7 +187,7 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
             size="large"
             onClick={async () => {
               toast.promise(
-                fetchRawApi("property/boards/column/edit", {
+                fetchRawApi(session, "property/boards/column/edit", {
                   id: column.id,
                   name: title,
                   emoji: emoji,
@@ -197,14 +227,25 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           maxWidth: "100vw",
         }}
       >
-        <Collapse in={loading} orientation="vertical" mountOnEnter>
+        <Collapse
+          in={loading}
+          orientation="vertical"
+          mountOnEnter
+          sx={{
+            px: { xs: 2, sm: 0 },
+            borderRadius: { xs: 5, sm: 0 },
+            overflow: "hidden",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              borderRadius: { xs: 5, sm: 0 },
               width: "100%",
               height: "100px",
+              mt: { xs: 2, sm: 0 },
               background: palette[3],
             }}
           >
@@ -235,64 +276,137 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
               alignItems: "center",
             }}
           >
-            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
-              <Typography
-                variant="h4"
-                className="font-heading"
+            {isMobile && (
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUseReverseAnimation(true);
+                  setCurrentColumn((i) => i - 1);
+                }}
+                disabled={currentColumn == 0}
+              >
+                <Icon className="outlined">arrow_back_ios_new</Icon>
+              </IconButton>
+            )}
+            <ColumnSettings
+              board={board}
+              setColumnTasks={setColumnTasks}
+              columnTasksLength={columnTasks.length}
+              column={column}
+              mutateData={mutateData}
+            >
+              <CardActionArea
                 sx={{
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
+                  flexGrow: 1,
                   maxWidth: "100%",
                   minWidth: 0,
-                  fontSize: {
-                    xs: "50px",
-                    sm: "35px",
-                  },
-                  borderRadius: 1,
-                  width: "auto",
-                  mb: 0.7,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  flexWrap: "wrap",
-                  ...(column.name === "" && { display: "none" }),
-                  "& picture img": {
-                    width: { xs: "45px", sm: "30px" },
-                    height: { xs: "45px", sm: "30px" },
+                  borderRadius: 5,
+                  transition: "transform .4s",
+                  "&:active": {
+                    transform: "scale(0.95)",
                   },
                 }}
+                onContextMenu={() => {
+                  toast(column.name, {
+                    ...toastStyles,
+                    icon: (
+                      <picture>
+                        <img
+                          alt="Emoji"
+                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                          width={20}
+                          height={20}
+                        />
+                      </picture>
+                    ),
+                  });
+                }}
               >
-                <picture
-                  style={{
-                    flexShrink: 0,
+                <Typography
+                  variant="h4"
+                  sx={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    maxWidth: "100%",
+                    minWidth: 0,
+                    fontSize: "35px",
+                    borderRadius: 1,
+                    width: "auto",
+                    mb: { sm: 0.7 },
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: { xs: "center", sm: "flex-start" },
+                    gap: { xs: 0, sm: 2 },
+                    flexDirection: { xs: "column", sm: "row" },
+                    ...(column.name === "" && { display: "none" }),
+                    "& picture img": {
+                      width: { xs: "45px", sm: "30px" },
+                      height: { xs: "45px", sm: "30px" },
+                      mb: -0.2,
+                    },
                   }}
                 >
-                  <img
-                    alt="Emoji"
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                    width={50}
-                    height={50}
-                  />
-                </picture>
-                {column.name}
-              </Typography>
-              <Typography
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  fontSize: { xs: "15px", sm: "18px" },
-                }}
-              >
-                {incompleteLength} task{incompleteLength !== 1 && "s"}
-              </Typography>
-            </Box>
+                  <picture
+                    style={{
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img
+                      alt="Emoji"
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                      width={50}
+                      height={50}
+                    />
+                  </picture>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <span
+                      style={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                      className="font-heading"
+                    >
+                      {column.name}
+                    </span>
+                  </Box>
+                </Typography>
+                <Typography
+                  sx={{
+                    display: { xs: "none", sm: "flex" },
+                    alignItems: "center",
+                    fontSize: { xs: "15px", sm: "18px" },
+                  }}
+                >
+                  {incompleteLength} task{incompleteLength !== 1 && "s"}
+                </Typography>
+              </CardActionArea>
+            </ColumnSettings>
+
             <Box sx={{ ml: "auto" }}>
-              <ColumnSettings
-                setColumnTasks={setColumnTasks}
-                column={column}
-                mutateData={mutateData}
-              />
+              {isMobile ? (
+                <IconButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setUseReverseAnimation(false);
+                    setCurrentColumn((i) => i + 1);
+                  }}
+                  disabled={currentColumn === columnLength - 1}
+                >
+                  <Icon className="outlined">arrow_forward_ios</Icon>
+                </IconButton>
+              ) : (
+                <ColumnSettings
+                  board={board}
+                  setColumnTasks={setColumnTasks}
+                  columnTasksLength={
+                    columnTasks.filter((t) => !t.completed).length
+                  }
+                  column={column}
+                  mutateData={mutateData}
+                />
+              )}
             </Box>
           </Box>
         </Box>
@@ -300,51 +414,48 @@ export function Column({ board, mutateData, mutationUrls, column, index }) {
           sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}
           id={`container-${index}`}
         >
-          {columnTasks.filter((task) => !task.completed).length === 0 ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                mx: "auto",
-                py: { sm: 2 },
-                textAlign: { xs: "center", sm: "left" },
-                alignItems: { xs: "center", sm: "start" },
-                flexDirection: "column",
-                "& img": {
-                  display: { sm: "none" },
-                },
-              }}
-            >
-              <Box sx={{ width: "100%", mt: { sm: -3 }, mb: { sm: 2 } }}>
-                <CreateTask
-                  mutationUrl={mutationUrls.tasks}
-                  boardId={board.id}
-                  column={column}
-                />
-              </Box>
-              <Image
-                src="/images/noTasks.png"
-                width={256}
-                height={256}
-                style={{
-                  ...(isDark && {
-                    filter: "invert(100%)",
-                  }),
+          <CreateTask
+            mutationUrl={mutationUrls.tasks}
+            boardId={board.id}
+            column={column}
+          />
+          {columnTasks.filter((task) => !task.completed).length === 0 && (
+            <Box sx={{ p: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  mx: "auto",
+                  py: { sm: 2 },
+                  textAlign: { xs: "center", sm: "left" },
+                  alignItems: { xs: "center", sm: "start" },
+                  flexDirection: "column",
+                  "& img": {
+                    display: { sm: "none" },
+                  },
+                  background: palette[2],
+                  borderRadius: 5,
                 }}
-                alt="No items found"
-              />
-              <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
-                <Typography variant="h6" gutterBottom>
-                  No items (yet!)
-                </Typography>
+              >
+                <Image
+                  src="/images/noTasks.png"
+                  width={256}
+                  height={256}
+                  style={{
+                    ...(isDark && {
+                      filter: "invert(100%)",
+                    }),
+                  }}
+                  alt="No items found"
+                />
+                <Box sx={{ px: 3, maxWidth: "calc(100% - 50px)" }}>
+                  <Typography variant="h6">It&apos;s quiet here!</Typography>
+                  <Typography gutterBottom sx={{ fontWeight: 300, mb: 2 }}>
+                    There&apos;s nothing in this column (yet!)
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          ) : (
-            <CreateTask
-              mutationUrl={mutationUrls.tasks}
-              boardId={board.id}
-              column={column}
-            />
           )}
 
           {columnTasks

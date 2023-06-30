@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -40,7 +40,7 @@ export function ExperimentalAiSubtask({ task }) {
   const handleSubmit = async () => {
     try {
       setSubmitLoading(true);
-      await fetchRawApi("property/boards/column/task/create-many", {
+      await fetchRawApi(session, "property/boards/column/task/create-many", {
         parent: task.id,
         tasks: JSON.stringify(addedValues),
       });
@@ -69,7 +69,7 @@ export function ExperimentalAiSubtask({ task }) {
       setAddedValues([]);
       setData(null);
       setLoading(true);
-      const res = await fetchRawApi("ai/subtasks", {
+      const res = await fetchRawApi(session, "ai/subtasks", {
         prompt: deferredValue,
       });
       setData(res);

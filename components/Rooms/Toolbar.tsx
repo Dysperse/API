@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Button,

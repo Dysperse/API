@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/session";
 import { colors } from "@/lib/colors";
 import { CardActionArea } from "@mui/material";
 import { updateSettings } from "../../lib/client/updateSettings";
@@ -18,12 +19,13 @@ export function Color({
   s: string;
   color: string;
 }) {
+  const session = useSession();
   const invertColors = ["lime", "cyan", "green", "teal", "blue"].includes(
     color
   );
 
   const handleClick = () => {
-    updateSettings("color", color, false, null, true).then(() =>
+    updateSettings(session, "color", color, false, null, true).then(() =>
       setTimeout(mutatePropertyData, 1000)
     );
   };

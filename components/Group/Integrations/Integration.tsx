@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -21,6 +22,7 @@ import { ErrorHandler } from "../../Error";
 
 export function Integration({ closeParent, integration }) {
   const router = useRouter();
+  const session = useSession();
 
   const [boardId, setBoardId] = useState<string | null>("-1");
   const [open, setOpen] = useState<boolean>(false);
@@ -46,7 +48,7 @@ export function Integration({ closeParent, integration }) {
       return;
     }
     setLoading(true);
-    await fetchRawApi("property/integrations/create", {
+    await fetchRawApi(session, "property/integrations/create", {
       name: integration.name,
       inputParams: JSON.stringify(params),
       outputType: integration.type,

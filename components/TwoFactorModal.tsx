@@ -1,5 +1,5 @@
+import { useSession } from "@/lib/client/session";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
@@ -69,7 +69,7 @@ export function Prompt({
 
   const openSettings = () => {
     setOpen(false);
-    setTimeout(() => router.push("/settings"), 500);
+    setTimeout(() => router.push("/settings/two-factor-authentication"), 500);
   };
 
   const handleSkip = () => {
@@ -84,8 +84,13 @@ export function Prompt({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            maxWidth: "400px",
+          },
+        }}
       >
-        <Puller />
+        <Puller showOnDesktop />
         <Box sx={{ p: 3, pt: 0 }}>
           {userHasEnabled2fa ? (
             <>

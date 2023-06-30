@@ -1,3 +1,4 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import {
   Box,
@@ -10,11 +11,12 @@ import { useState } from "react";
 
 export function BoardTemplate({ template }) {
   const [loading, setLoading] = useState<boolean>(false);
+  const session = useSession();
   const [added, setAdded] = useState<boolean>(false);
 
   const handleClick = () => {
     setLoading(true);
-    fetchRawApi("property/boards/create", {
+    fetchRawApi(session, "property/boards/create", {
       board: JSON.stringify(template),
     }).then(async () => {
       setAdded(true);

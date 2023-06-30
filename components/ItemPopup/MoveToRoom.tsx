@@ -1,11 +1,7 @@
-import { fetchRawApi } from "@/lib/client/useApi";
-import dayjs from "dayjs";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { Puller } from "../Puller";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Button,
@@ -19,6 +15,10 @@ import {
   ListItemText,
   SwipeableDrawer,
 } from "@mui/material";
+import dayjs from "dayjs";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { Puller } from "../Puller";
 
 /**
  * @description A room
@@ -36,12 +36,14 @@ function Room({
   room: string;
   setOpen: (open: boolean) => void;
 }) {
+  const session = useSession();
+
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleClick = async () => {
     try {
       setDisabled(true);
-      await fetchRawApi("property/inventory/items/move", {
+      await fetchRawApi(session, "property/inventory/items/move", {
         id: id.toString(),
         room: room.toLowerCase().replace(" room", ""),
         lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),

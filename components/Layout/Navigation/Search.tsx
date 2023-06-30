@@ -1,7 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
@@ -84,7 +84,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Light mode",
       badge: "Appearance",
       onTrigger: async () => {
-        await updateSettings("darkMode", "light");
+        await updateSettings(session, "darkMode", "light");
         mutate("/api/session");
       },
       icon: "light_mode",
@@ -93,7 +93,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Dark mode",
       badge: "Appearance",
       onTrigger: async () => {
-        await updateSettings("darkMode", "dark");
+        await updateSettings(session, "darkMode", "dark");
         mutate("/api/session");
       },
       icon: "dark_mode",
@@ -102,7 +102,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "System theme",
       badge: "Appearance",
       onTrigger: async () => {
-        await updateSettings("darkMode", "system");
+        await updateSettings(session, "darkMode", "system");
         mutate("/api/session");
       },
       icon: "dark_mode",
@@ -115,7 +115,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         title: `Change color to ${capitalizeFirstLetter(color)}`,
         badge: "Appearance",
         onTrigger: () => {
-          updateSettings("color", color.toLowerCase());
+          updateSettings(session, "color", color.toLowerCase());
         },
         icon: (
           <Box
@@ -169,7 +169,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
             title: property.profile.name,
             onTrigger: () => {
               router.push("/tasks/agenda/week");
-              fetchRawApi("property/switch", {
+              fetchRawApi(session, "property/switch", {
                 email: session.user.email,
                 accessToken1: property.accessToken,
               }).then((res) => {
@@ -221,7 +221,9 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Sign out",
       onTrigger: () => {
         toast.promise(
-          fetchRawApi("auth/logout").then(() => mutate("/api/session")),
+          fetchRawApi(session, "auth/logout").then(() =>
+            mutate("/api/session")
+          ),
           {
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",

@@ -1,8 +1,8 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
@@ -182,7 +182,11 @@ export const Column: any = memo(function Column({
         <Collapse
           in={loading}
           orientation="vertical"
-          sx={{ px: { xs: 2, sm: 0 } }}
+          sx={{
+            px: { xs: 2, sm: 0 },
+            borderRadius: { xs: 5, sm: 0 },
+            overflow: "hidden",
+          }}
         >
           <Box
             sx={{
@@ -370,11 +374,11 @@ export const Column: any = memo(function Column({
           </Box>
           {sortedTasks.map((task) => (
             <Task
+              isAgenda={true}
               isDateDependent={true}
               key={task.id}
               board={task.board || false}
               columnId={task.column ? task.column.id : -1}
-              isAgenda
               mutationUrl={mutationUrl}
               task={task}
             />

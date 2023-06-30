@@ -1,12 +1,12 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/useSession";
+import { useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
-import { useDarkMode } from "@/lib/client/useColor";
 
 export function RoomActionMenu({
   room,
@@ -26,7 +26,6 @@ export function RoomActionMenu({
   const storage = useAccountStorage();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
-
 
   return (
     <IconButton
@@ -66,7 +65,7 @@ export function RoomActionMenu({
           title="Delete room?"
           question="Are you sure you want to delete this room? This will delete all items in it, and CANNOT be undone!"
           callback={async () => {
-            await fetchRawApi("property/inventory/room/delete", {
+            await fetchRawApi(session, "property/inventory/room/delete", {
               id: room.id,
             });
             await mutate(mutationUrl);

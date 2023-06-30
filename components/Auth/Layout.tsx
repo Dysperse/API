@@ -1,23 +1,10 @@
-import {
-  Box,
-  Chip,
-  createTheme,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
-import { ThemeProvider } from "@mui/material/styles";
+import { useUser } from "@/lib/client/session";
+import { useColor } from "@/lib/client/useColor";
+import { Logo } from "@/pages";
+import { Box, useMediaQuery } from "@mui/material";
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "light",
-    primary: { main: blueGrey[700] },
-  },
-});
 
 export const AuthBranding = ({ mobile = false }: any) => (
   <Box
@@ -46,39 +33,11 @@ export const AuthBranding = ({ mobile = false }: any) => (
     }}
     onClick={() => window.open("//dysperse.com")}
   >
-    <Image
-      src="/images/monochrome.svg"
-      width={45}
-      height={45}
-      alt="logo"
-      draggable={false}
-    />
-    <Typography
-      sx={{ fontWeight: "200!important", fontSize: "18px" }}
-      component="div"
-    >
-      Dysperse
-      <Chip
-        label="beta"
-        color="info"
-        size="small"
-        sx={{
-          pointerEvents: "none",
-          ml: 2,
-          px: 1,
-          background: "#000",
-          [`@media (prefers-color-scheme: dark)`]: {
-            background: "hsl(240,11%,90%)",
-            color: "hsl(240,11%,10%)",
-          },
-          fontWeight: "900",
-        }}
-      />
-    </Typography>
+    <Logo intensity={6} />
   </Box>
 );
 
-export const authStyles = {
+export const authStyles = (palette) => ({
   footer: {
     display: "flex",
     position: { xs: "fixed", sm: "unset" },
@@ -86,42 +45,22 @@ export const authStyles = {
     zIndex: 99999,
     left: 0,
     py: { xs: 1, sm: 0 },
-    background: "hsl(240,11%,90%)",
-    ["@media (prefers-color-scheme: dark)"]: {
-      background: "hsl(240,11%,10%)",
-    },
+    background: palette[3],
     width: { xs: "100vw", sm: "auto" },
   },
   submit: {
-    background: `hsl(240,11%,85%) !important`,
-    color: "#202020!important",
+    background: palette[3],
+    color: palette[12],
     "&:hover": {
-      background: `hsl(240,11%,80%) !important`,
-      color: "#000!important",
+      background: palette[4],
+      color: palette[11],
     },
     "&:active": {
-      background: `hsl(240,11%,75%) !important`,
-      color: "#000!important",
+      background: palette[5] + "!important",
+      color: palette[11],
     },
     "&:disabled": {
-      background: `hsl(240,11%,87%) !important`,
-      color: `hsl(240,11%,60%) !important`,
-    },
-    [`@media (prefers-color-scheme: dark)`]: {
-      background: `hsl(240,11%,15%) !important`,
-      color: `hsl(240,11%,90%) !important`,
-      "&:hover": {
-        background: `hsl(240,11%,20%) !important`,
-        color: "#fff!important",
-      },
-      "&:active": {
-        background: `hsl(240,11%,22.5%) !important`,
-        color: "#fff!important",
-      },
-      "&:disabled": {
-        background: `hsl(240,11%,15%) !important`,
-        color: `hsl(240,11%,40%) !important`,
-      },
+      opacity: 0.5,
     },
     borderRadius: 3,
     ml: "auto",
@@ -134,41 +73,36 @@ export const authStyles = {
   input: {
     color: "red",
     mb: 1.5,
-    [`@media (prefers-color-scheme: dark)`]: {
-      "& input": {
-        color: "hsl(240,11%,90%) !important",
-        "&::placeholder": {
-          color: "hsl(240,11%,70%) !important",
-        },
+    "& input": {
+      color: palette[12] + " !important",
+      "&::placeholder": {
+        color: palette[11] + " !important",
       },
-      "& label": {
-        color: "hsl(240,11%,90%) !important",
+    },
+    "& label": {
+      color: palette[11] + " !important",
+    },
+    "& label.Mui-focused": {
+      color: "white",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: palette[11] + " !important",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: palette[6],
       },
-      "& label.Mui-focused": {
-        color: "white",
+      "&:hover fieldset": {
+        borderColor: palette[7],
       },
-      "& .MuiInput-underline:after": {
-        borderBottomColor: "hsl(240,11%,70%)",
-      },
-      "& .MuiOutlinedInput-root": {
-        "& fieldset": {
-          borderColor: "hsl(240,11%,30%)",
-        },
-        "&:hover fieldset": {
-          borderColor: "hsl(240,11%,30%)",
-        },
-        "&.Mui-focused fieldset": {
-          borderColor: "hsl(240,11%,70%)",
-        },
+      "&.Mui-focused fieldset": {
+        borderColor: palette[8],
       },
     },
   },
   container: {
-    background: "hsl(240,11%,90%)",
-    [`@media (prefers-color-scheme: dark)`]: {
-      background: "hsl(240,11%,10%)",
-      color: "hsl(240,11%,90%)",
-    },
+    background: palette[3],
+    color: palette[12],
     borderRadius: { sm: 5 },
     top: 0,
     left: 0,
@@ -187,21 +121,17 @@ export const authStyles = {
     textTransform: "none",
     mt: 1.5,
     py: 0,
+    px: 1,
     float: "right",
     textAlign: "center",
     mx: "auto",
-    color: "#505050",
     transition: "none",
-    "&:hover": { color: "#000" },
-
-    [`@media (prefers-color-scheme: dark)`]: {
-      color: "hsl(240,11%,90%)",
-      "&:hover": {
-        color: "hsl(240,11%,100%)",
-      },
+    color: palette[12],
+    "&:hover": {
+      color: palette[11],
     },
   },
-};
+});
 
 /**
  * Layout for the app, including navbar, sidenav, etc
@@ -210,40 +140,35 @@ export const authStyles = {
  */
 export function Layout({ children }): JSX.Element {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const palette = useColor("violet", isDark);
+  const { data, isLoading, isError } = useUser();
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document
-        .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute("content", `hsl(240,11%,${isDark ? 5 : 95}%)`);
+    if (typeof window !== "undefined") {
+      //  if (data && !isLoading && !isError) window.location.href = "/";
     }
-  });
+  }, [data, isLoading, isError]);
 
   return (
     <>
       <Head>
         <title>Login</title>
       </Head>
-      <ThemeProvider theme={darkTheme}>
-        <Box
-          sx={{
-            background: "hsl(240,11%,95%)",
-            [`@media (prefers-color-scheme: dark)`]: {
-              background: "hsl(240,11%,5%)",
-            },
-            position: "fixed",
-            top: 0,
-            left: 0,
-            overflow: "scroll",
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <Toaster />
-          <AuthBranding />
-          {children}
-        </Box>
-      </ThemeProvider>
+      <Box
+        sx={{
+          background: palette[2],
+          position: "fixed",
+          top: 0,
+          left: 0,
+          overflow: "scroll",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <Toaster />
+        <AuthBranding />
+        {children}
+      </Box>
     </>
   );
 }

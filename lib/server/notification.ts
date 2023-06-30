@@ -1,11 +1,12 @@
 const webPush = require("web-push");
+import { prisma } from "@/lib/server/prisma";
 
 export const DispatchNotification = async ({
   subscription,
   title,
   body,
   actions,
-  icon = "https://assets.dysperse.com/v5/ios/192.png",
+  icon = "https://assets.dysperse.com/v7/ios/192.png",
 }: {
   subscription: string;
   title: string;
@@ -31,6 +32,58 @@ export const DispatchNotification = async ({
     );
     return { success: true };
   } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+};
+
+export const DispatchGroupNotification = async (
+  propertyId,
+  accessToken,
+  options
+) => {
+  try {
+    const members = await prisma.notificationSettings.findMany({
+      where: {
+        AND: [
+          { boards: true },
+          {
+            user: {
+              AND: [
+                {
+                  properties: {
+                    some: {
+                      AND: [{ propertyId }, { accessToken }],
+                    },
+                  },
+                },
+                { notificationSubscription: { not: null } },
+              ],
+            },
+          },
+        ],
+      },
+      include: {
+        user: {
+          select: {
+            notificationSubscription: true,
+          },
+        },
+      },
+    });
+
+    console.log(members);
+
+    for (const member of members) {
+      console.log(member.user.notificationSubscription);
+      await DispatchNotification({
+        subscription: member.user.notificationSubscription,
+        ...options,
+      });
+    }
+
+    return { success: true };
+  } catch (error: any) {
+    console.log(error);
     return { success: false, error: error.message };
   }
 };

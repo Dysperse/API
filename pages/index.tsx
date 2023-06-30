@@ -1,7 +1,9 @@
 import { DailyCheckIn } from "@/components/CheckIns";
+import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
+import { vibrate } from "@/lib/client/vibration";
+import { GroupModal } from "@/pages/users";
 import {
   Box,
   Icon,
@@ -19,7 +21,11 @@ import { useEffect, useMemo, useState } from "react";
 
 export function Logo({ intensity = 4 }: any) {
   const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const palette = useColor(
+    session?.themeColor || "violet",
+    useDarkMode(session?.darkMode || "system")
+  );
 
   return (
     <svg
@@ -73,14 +79,20 @@ export function Navbar({
       }}
     >
       <Logo />
-
       {right || (
-        <IconButton
-          sx={{ ml: "auto", color: palette[8] }}
-          onClick={() => router.push("/users")}
-        >
-          <Icon className="outlined">group</Icon>
-        </IconButton>
+        <GroupModal>
+          <IconButton
+            sx={{
+              ml: "auto",
+              color: palette[8],
+              "&:active": { transform: "scale(.9)" },
+              transition: "all .4s",
+            }}
+            onClick={() => router.push("/users")}
+          >
+            <Icon className="outlined">tag</Icon>
+          </IconButton>
+        </GroupModal>
       )}
     </Box>
   );
@@ -98,7 +110,7 @@ export default function Home() {
     if (time < 12) return "Good morning.";
     else if (time < 17) return "Good afternoon.";
     else if (time < 20) return "Good evening.";
-    else return "Good night.";
+    else return "Good afternoon.";
   }, [time]);
 
   const [greeting, setGreeting] = useState(getGreeting);
@@ -155,28 +167,64 @@ export default function Home() {
     coachData &&
     completedGoals.length == coachData.filter((g) => !g.completed).length;
 
+  const [isHover, setIsHover] = useState(false);
+  const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm:ss A"));
+
+  useEffect(() => {
+    if (isHover) {
+      setCurrentTime(dayjs().format("hh:mm:ss A"));
+      const interval = setInterval(() => {
+        setCurrentTime(dayjs().format("hh:mm:ss A"));
+      });
+      return () => clearInterval(interval);
+    }
+  }, [isHover]);
+
+  const open = () => {
+    vibrate(50);
+    setTimeout(() => setIsHover(true), 200);
+  };
+  const close = () => {
+    vibrate(50);
+    setIsHover(false);
+  };
+
   return (
     <Box sx={{ ml: { sm: -1 } }}>
       {isMobile && <Navbar showLogo />}
       <Box
         sx={{
-          pt: { xs: 10, sm: 23 },
+          pt: { xs: 7, sm: 23 },
         }}
       >
         <Box
           sx={{
             mb: { xs: 10, sm: 2 },
             textAlign: "center",
+            "&:active": {
+              transform: "scale(.9)",
+            },
+            transition: "all .2s",
           }}
         >
           <Typography
             className="font-heading"
+            {...(isMobile
+              ? {
+                  onTouchStart: open,
+                  onTouchEnd: close,
+                }
+              : {
+                  onMouseEnter: open,
+                  onMouseLeave: close,
+                })}
             sx={{
               px: { xs: 2, sm: 4 },
               fontSize: {
-                xs: "65px",
+                xs: "70px",
                 sm: "80px",
               },
+              // whiteSpace: "nowrap",
               userSelect: "none",
               overflow: "hidden",
               background: `linear-gradient(${palette[11]}, ${palette[5]})`,
@@ -187,7 +235,7 @@ export default function Home() {
             }}
             variant="h4"
           >
-            {greeting}
+            {isHover ? currentTime : greeting}
           </Typography>
         </Box>
       </Box>

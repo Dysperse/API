@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import { Alert, Box, Icon, IconButton, Typography } from "@mui/material";
@@ -57,7 +57,7 @@ export function PropertyInfo({
               onClick={async () => {
                 try {
                   setLoading(true);
-                  const res = await fetchRawApi("property/switch", {
+                  const res = await fetchRawApi(session, "property/switch", {
                     email: session.user.email,
                     accessToken1: propertyData.accessToken,
                   });
@@ -81,7 +81,7 @@ export function PropertyInfo({
             </LoadingButton>
           }
         >
-          You&apos;re spectating this group
+          Spectating group
         </Alert>
       )}
       {session.properties &&
@@ -111,7 +111,7 @@ export function PropertyInfo({
                 onClick={async () => {
                   try {
                     setLoading(true);
-                    const res = await fetchRawApi("property/switch", {
+                    const res = await fetchRawApi(session, "property/switch", {
                       email: session.user.email,
                       accessToken1: propertyData.accessToken,
                     });
@@ -203,6 +203,8 @@ export function PropertyInfo({
         propertyData.profile.id === session.property.propertyId && (
           <Integrations handleClose={handleClose} />
         )}
+      <br />
+      <br />
     </Box>
   );
 }

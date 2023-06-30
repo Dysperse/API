@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -50,7 +50,7 @@ export function CreateGoal() {
     setLoading(true);
 
     try {
-      await fetchRawApi("user/coach/goals/create", {
+      await fetchRawApi(session, "user/coach/goals/create", {
         name: deferredTitle,
         stepName: goalStepName.current.value,
         category: "Any",
@@ -77,7 +77,7 @@ export function CreateGoal() {
     const delayDebounceFn = setTimeout(async () => {
       if (deferredTitle) {
         setValidationData("loading");
-        const data: any = await fetchRawApi("/ai/goalValidation", {
+        const data: any = await fetchRawApi(session, "/ai/goalValidation", {
           name: deferredTitle,
           duration: days,
         });
@@ -86,7 +86,7 @@ export function CreateGoal() {
     }, 1000);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [deferredTitle, days]);
+  }, [deferredTitle, days, session]);
 
   return (
     <>

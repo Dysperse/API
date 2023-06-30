@@ -1,8 +1,8 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Button,
   Chip,
@@ -80,7 +80,7 @@ const Session: any = React.memo(function Session({
             title="Sign out of this device?"
             question="You'll be logged out of this device - perfect if you forgot to sign out on a public device"
             callback={async () => {
-              await fetchRawApi("user/settings/sessions/delete", {
+              await fetchRawApi(session, "user/settings/sessions/delete", {
                 id: data[index].id,
               });
               await mutate(mutationUrl);
@@ -101,13 +101,15 @@ const Session: any = React.memo(function Session({
  */
 export default function LoginActivity() {
   const { data, url, error } = useApi("user/settings/sessions");
+  const session = useSession();
+
   return (
     <Layout>
       <ConfirmationModal
         title="Log out of all other devices?"
         question="You won't be logged out of the one you're on right now"
         callback={async () => {
-          await fetchRawApi("user/settings/sessions/delete");
+          await fetchRawApi(session, "user/settings/sessions/delete");
           await mutate(url);
         }}
       >
@@ -134,7 +136,7 @@ export default function LoginActivity() {
       )}
       {data && (
         <Virtuoso
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "100vh", width: "100%" }}
           totalCount={data.length}
           itemContent={(index) => (
             <Session mutationUrl={url} index={index} data={data} />

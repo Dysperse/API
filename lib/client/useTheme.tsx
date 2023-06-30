@@ -136,7 +136,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             theme.unstable_sx({
               transition: "none",
               "&:hover": {
-                color: darkMode ? "#fff" : "#000",
+                color: palette[9],
                 background: {
                   sm: addHslAlpha(palette[3], 0.3),
                 },
@@ -148,6 +148,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 boxShadow: darkMode
                   ? "0px 0px 0px 1.5px #fff !important"
                   : "0px 0px 0px 1.5px #000 !important",
+              },
+              "&:disabled": {
+                cursor: "not-allowed!important",
+                opacity: 0.5,
+                color: palette[10],
               },
             }),
         },

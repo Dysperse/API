@@ -3,7 +3,7 @@ import { Loading } from "@/components/Layout/Loading";
 import { Analytics } from "@vercel/analytics/react";
 import dynamic from "next/dynamic";
 import { NextRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 // CSS files
@@ -11,21 +11,26 @@ import "../styles/calendar.scss";
 import "../styles/coach.scss";
 import "../styles/globals.scss";
 import "../styles/normalize.scss";
+
 // Day.JS
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 // Hooks
-import { RenderWithLayout } from "@/components/Layout/Container";
-import { useUser } from "@/lib/client/useSession";
+import Layout from "@/components/Layout";
+import { SessionProvider, useUser } from "@/lib/client/session";
 import Head from "next/head";
 
-const AuthLoading = dynamic(() => import("@/components/Auth/Loading"), {
-  loading: () => <Loading />,
-});
+import { AccountStorageState } from "@/lib/client/useAccountStorage";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useCustomTheme } from "@/lib/client/useTheme";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { createContext } from "react";
 
-export const Layout = dynamic(() => import("@/components/Layout"), {
+export const StorageContext: any = createContext(null);
+
+const AuthLoading = dynamic(() => import("@/components/Auth/Loading"), {
   loading: () => <Loading />,
 });
 
@@ -70,28 +75,78 @@ export default function App({
 
   const disableLayout = bareUrls.includes(router.pathname);
 
-  return disableLayout ? (
-    <>
-      <Component {...pageProps} />
-      <Toaster containerClassName="noDrag" />
-    </>
-  ) : (
-    <>
-      <Head>
-        <title>Dysperse</title>
-      </Head>
-      <Analytics />
-      {isLoading && <Loading />}
-      {isError && <Error />}
-      {!isLoading && !isError && !data.error && (
-        <RenderWithLayout
-          router={router}
-          Component={Component}
-          pageProps={pageProps}
-          data={data}
-        />
-      )}
-      {!isLoading && !isError && data.error && <AuthLoading />}
-    </>
+  const selectedProperty =
+    data?.properties &&
+    (data.properties.find((property: any) => property.selected) ||
+      data.properties[0]);
+
+  const themeColor = data?.user?.color || "violet";
+  const isDark = useDarkMode(data?.user?.darkMode || "system");
+
+  const palette = useColor(themeColor, isDark);
+
+  const [isReached, setIsReached]: any =
+    useState<AccountStorageState>("loading");
+
+  const userTheme = createTheme(
+    useCustomTheme({
+      darkMode: isDark,
+      themeColor: themeColor,
+    })
+  );
+
+  if (
+    data?.user?.onboardingComplete === false &&
+    router.pathname !== "/onboarding"
+  ) {
+    router.push("/onboarding");
+  }
+
+  useEffect(() => {
+    document.body.classList[isDark ? "add" : "remove"]("dark");
+  }, [isDark]);
+
+  const children = <Component {...pageProps} />;
+
+  return (
+    <SessionProvider
+      session={
+        data?.properties && {
+          ...data,
+          property: selectedProperty,
+          permission: selectedProperty.permission,
+          themeColor,
+          darkMode: data.user.darkMode,
+        }
+      }
+    >
+      <StorageContext.Provider value={{ isReached, setIsReached }}>
+        <ThemeProvider theme={userTheme}>
+          <Toaster containerClassName="noDrag" />
+          <Head>
+            <title>Dysperse</title>
+            <meta name="theme-color" content={palette[1]} />
+            <link
+              rel="shortcut icon"
+              href="https://assets.dysperse.com/v7/android/android-launchericon-48-48.png"
+            />
+          </Head>
+          <Analytics />
+
+          {disableLayout ? (
+            children
+          ) : (
+            <>
+              {isLoading && <Loading />}
+              {!isLoading && !isError && data.error && <AuthLoading />}
+              {!isLoading && !isError && !data.error && (
+                <Layout>{children}</Layout>
+              )}
+              {isError && <Error />}
+            </>
+          )}
+        </ThemeProvider>
+      </StorageContext.Provider>
+    </SessionProvider>
   );
 }

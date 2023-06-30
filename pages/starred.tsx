@@ -1,14 +1,14 @@
 import { ErrorHandler } from "@/components/Error";
 import ItemDrawer from "@/components/ItemPopup";
 import { ItemCard } from "@/components/Rooms/ItemCard";
+import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/useSession";
+import { useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 import Categories from "./items";
-import { useDarkMode } from "@/lib/client/useColor";
 
 export default function Trash() {
   const { data, url, error } = useApi("property/inventory/starred");

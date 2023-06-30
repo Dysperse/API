@@ -1,7 +1,7 @@
 import { Puller } from "@/components/Puller";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ export function ExploreGoalCard({ goal }) {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await fetchRawApi("user/coach/goals/create", {
+      await fetchRawApi(session, "user/coach/goals/create", {
         name: goal.name,
         stepName: goal.stepName,
         category: goal.category,

@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Button,
@@ -43,12 +43,12 @@ export default function History() {
   const handleFetch = useCallback(async () => {
     setData(false);
     setError(null);
-    const f = await fetchRawApi("user/checkIns/count", {
+    const f = await fetchRawApi(session, "user/checkIns/count", {
       lte: dayjs().add(1, "day"),
       gte: dayjs().subtract(lastBy, "day"),
     });
     setData(f);
-  }, [lastBy]);
+  }, [lastBy, session]);
 
   useEffect(() => {
     handleFetch();

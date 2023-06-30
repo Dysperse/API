@@ -1,10 +1,6 @@
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import { Item as ItemType } from "@prisma/client";
-import { useRef, useState } from "react";
-import { ErrorHandler } from "../Error";
-import { Puller } from "../Puller";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { useSession } from "@/lib/client/useSession";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
@@ -16,11 +12,17 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import { Item as ItemType } from "@prisma/client";
+import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import { ErrorHandler } from "../Error";
+import { Puller } from "../Puller";
 
 function CreateCategoryModal({ setItemData, item, mutationUrl }) {
   const ref: any = useRef();
+  const session = useSession();
+
   const [open, setOpen] = useState<boolean>(false);
   const handleSubmit = () => {
     const category = ref.current.value;
@@ -35,7 +37,7 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
       });
     }
     setTimeout(() => {
-      fetchRawApi("property/inventory/items/edit", {
+      fetchRawApi(session, "property/inventory/items/edit", {
         category: item.category,
         id: item.id,
       });

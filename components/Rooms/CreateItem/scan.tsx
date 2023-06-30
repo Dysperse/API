@@ -1,8 +1,8 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useEffect } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 
@@ -28,6 +28,7 @@ const WebcamComponent = ({
   facingMode,
   room,
 }) => {
+  const session = useSession();
   const [forever, setForever] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const webcamRef: any = React.useRef(null);
@@ -59,7 +60,7 @@ const WebcamComponent = ({
       if (title.includes(", ")) title = title.split(", ")[0];
 
       if (forever) {
-        await fetchRawApi("property/inventory/items/create", {
+        await fetchRawApi(session, "property/inventory/items/create", {
           room: room.toString().toLowerCase(),
           name: title,
           quantity: qty,
@@ -85,7 +86,7 @@ const WebcamComponent = ({
     } catch (err: any) {
       toast.error("Error: " + err.message, toastStyles);
     }
-  }, [forever, webcamRef, setTitle, setQuantity, setOpen, room]);
+  }, [session, forever, webcamRef, setTitle, setQuantity, setOpen, room]);
 
   const videoConstraints = {
     facingMode:
@@ -194,13 +195,6 @@ export default function ImageRecognition({
   const [facingMode, setFacingMode] = React.useState("environment");
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
-
-  useEffect(() => {
-    const tag: any = document.querySelector('meta[name="theme-color"]');
-    if (open) {
-      tag.content = "#000000";
-    }
-  }, [open, isDark]);
 
   const storage = useAccountStorage();
 

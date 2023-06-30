@@ -5,6 +5,11 @@
   --toast-solid: hsl(240, 11%, 30%);
 }
 
+html,
+body {
+  overscroll-behavior-x: none;
+}
+
 .kbd {
   margin-right: 0.375rem;
   -webkit-user-select: none;
@@ -211,9 +216,10 @@ a {
   flex: 0 0 100%;
 }
 
-input:-webkit-autofill {
-  -webkit-background-clip: text;
+*:-webkit-autofill {
+  -webkit-background-clip: text !important;
 }
+
 @media (prefers-color-scheme: dark) {
   input:-webkit-autofill,
   input:-webkit-autofill:hover,

@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import { Box, Icon, Typography } from "@mui/material";
@@ -23,7 +23,7 @@ export default function Page() {
         return;
       }
       setLoading(true);
-      await fetchRawApi("claim-esb");
+      await fetchRawApi(session, "claim-esb");
       toast.success("Claimed!", toastStyles);
       setSuccess(true);
       setLoading(false);

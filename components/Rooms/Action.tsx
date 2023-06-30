@@ -1,8 +1,8 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { SidebarContext } from "@/pages/items";
 import { LoadingButton } from "@mui/lab";
@@ -33,6 +33,7 @@ interface RoomActionProps {
 }
 
 function Rename({ mutationUrl, handleClose, room }) {
+  const session = useSession();
   const storage = useAccountStorage();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(room?.name);
@@ -40,7 +41,7 @@ function Rename({ mutationUrl, handleClose, room }) {
 
   const handleSubmit = async () => {
     setLoading(true);
-    await fetchRawApi("property/inventory/room/edit", {
+    await fetchRawApi(session, "property/inventory/room/edit", {
       name: value,
       id: room?.id,
     });
@@ -191,7 +192,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
               room.private ? "will" : "will not"
             } be able to view this room's contents`}
             callback={async () => {
-              await fetchRawApi("property/inventory/room/edit", {
+              await fetchRawApi(session, "property/inventory/room/edit", {
                 private: room.private ? "false" : "true",
                 id: room?.id,
               });
@@ -217,7 +218,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
             title="Delete room?"
             question="Are you sure you want to delete this room? This will delete all items in it, and CANNOT be undone!"
             callback={async () => {
-              await fetchRawApi("property/inventory/room/delete", {
+              await fetchRawApi(session, "property/inventory/room/delete", {
                 id: room.id,
               });
               await mutate(mutationUrl);

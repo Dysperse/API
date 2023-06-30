@@ -1,12 +1,13 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
-import { useSession } from "@/lib/client/useSession";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -37,7 +38,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
 
   useEffect(() => {
     if (!isOnline) {
-      const myPromise = new Promise((resolve, reject) => {
+      const myPromise = new Promise((resolve) => {
         const interval = setInterval(() => {
           if (navigator.onLine) {
             clearInterval(interval);
@@ -71,11 +72,9 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute("content", palette[1]);
+  useStatusBar(palette[1]);
 
+  useEffect(() => {
     const variables = {
       "--overlay-dark": addHslAlpha(palette[1], 0.5),
       "--toast-bg": addHslAlpha(palette[3], 0.8),
@@ -89,119 +88,132 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   });
 
   const router = useRouter();
+
   const shouldUseXAxis = ["/users", "/groups"].find((path) =>
     router.asPath.includes(path)
   );
+  useHotkeys("esc", () => router.push("/"));
 
-  useHotkeys("esc", () => {
-    router.push("/");
-  });
+  if (session.properties.length === 0) {
+    return (
+      <Box>
+        Hmmm.... You find yourself in a strange place. You don&apos;t have
+        access to any groups, or there are none in your account. Please contact
+        support if this problem persists.
+      </Box>
+    );
+  }
 
   return (
-    <Box
-      onContextMenu={(e) => e.preventDefault()}
-      onTouchStart={(e: any) => {
-        /**
-         * TODO: Fix, this throws an error every time the user performs a touch action on mobile
-         * "Unable to preventDefault inside passive event listener invocation."
-         */
-        if (e.pageX > 20 && e.pageX < window.innerWidth - 20) return;
-        e.preventDefault();
-      }}
-      sx={{ display: "flex" }}
+    <AnimatePresence
+      mode="wait"
+      initial={false}
+      onExitComplete={() => window.scrollTo(0, 0)}
     >
-      <ReleaseModal />
-      <Snackbar
-        open={!dismissed && hasReachedLimit && !error}
-        autoHideDuration={6000}
-        onClose={() => null}
-        sx={{
-          mb: { xs: 7, sm: 2 },
-          transition: "all .3s",
-          zIndex: 999,
-          userSelect: "none",
-        }}
-        action={
-          <>
-            <Button
-              size="small"
-              color="inherit"
-              sx={{ color: isDark ? "#000" : "#fff" }}
-              onClick={() => setDismissed(true)}
-            >
-              Hide for now
-            </Button>
-            <Button
-              onClick={() =>
-                router.push(`/groups/${session.property.propertyId}`)
-              }
-              color="inherit"
-              size="small"
-              sx={{ color: isDark ? "#000" : "#fff" }}
-            >
-              More info
-            </Button>
-          </>
+      <Box
+        key={
+          router.asPath.includes("/tasks")
+            ? "/tasks"
+            : router.asPath.includes("/settings")
+            ? "/settings"
+            : router.asPath
         }
-        message="You've reached the storage limits for this group."
-      />
-      <Snackbar
-        open={Boolean(error)}
-        autoHideDuration={6000}
-        onClose={() => null}
-        sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
-        message="An error occured while trying to get your account storage information"
-      />
-      <UpdateButton />
-      <KeyboardShortcutsModal />
-      <Box
-        sx={{
-          width: { md: "85px" },
-          flexShrink: { md: 0 },
-        }}
+        onContextMenu={(e) => e.preventDefault()}
+        sx={{ display: "flex" }}
       >
-        <Sidebar />
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 90,
-          p: 0,
-          ml: { md: "-85px" },
-          position: "relative",
-          width: {
-            xs: "100%",
-            sm: "calc(100% - 65px)",
-            md: "calc(100% - 85px)",
-          },
-        }}
-      >
-        <motion.div
-          initial={{ [shouldUseXAxis ? "x" : "y"]: 100, opacity: 0 }}
-          animate={{ [shouldUseXAxis ? "x" : "y"]: 0, opacity: 1 }}
-          exit={{
-            [shouldUseXAxis ? "x" : "y"]: shouldUseXAxis ? -100 : 10,
-            opacity: 0,
+        <ReleaseModal />
+        <Snackbar
+          open={!dismissed && hasReachedLimit && !error}
+          autoHideDuration={6000}
+          onClose={() => null}
+          sx={{
+            mb: { xs: 7, sm: 2 },
+            transition: "all .3s",
+            zIndex: 999,
+            userSelect: "none",
           }}
-          transition={{
-            type: "spring",
-            stiffness: 260,
-            damping: 20,
+          action={
+            <>
+              <Button
+                size="small"
+                color="inherit"
+                sx={{ color: isDark ? "#000" : "#fff" }}
+                onClick={() => setDismissed(true)}
+              >
+                Hide for now
+              </Button>
+              <Button
+                onClick={() =>
+                  router.push(`/groups/${session.property.propertyId}`)
+                }
+                color="inherit"
+                size="small"
+                sx={{ color: isDark ? "#000" : "#fff" }}
+              >
+                More info
+              </Button>
+            </>
+          }
+          message="You've reached the storage limits for this group."
+        />
+        <Snackbar
+          open={Boolean(error)}
+          autoHideDuration={6000}
+          onClose={() => null}
+          sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+          message="An error occured while trying to get your account storage information"
+        />
+        <UpdateButton />
+        <KeyboardShortcutsModal />
+        <Box
+          sx={{
+            width: { md: "85px" },
+            flexShrink: { md: 0 },
           }}
         >
-          <Box
-            sx={{
-              height: "70px",
-              pl: { md: "85px" },
+          <Sidebar />
+        </Box>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 90,
+            p: 0,
+            ml: { md: "-85px" },
+            position: "relative",
+            width: {
+              xs: "100%",
+              sm: "calc(100% - 65px)",
+              md: "calc(100% - 85px)",
+            },
+          }}
+        >
+          <motion.div
+            initial={{ [shouldUseXAxis ? "x" : "y"]: 100, opacity: 0 }}
+            animate={{ [shouldUseXAxis ? "x" : "y"]: 0, opacity: 1 }}
+            exit={{
+              [shouldUseXAxis ? "x" : "y"]: shouldUseXAxis ? -100 : 10,
+              opacity: 0,
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 20,
             }}
           >
-            {children}
-          </Box>
-        </motion.div>
-        <CssBaseline />
-        <BottomNav />
+            <Box
+              sx={{
+                height: "70px",
+                pl: { md: "85px" },
+              }}
+            >
+              {children}
+            </Box>
+          </motion.div>
+          <CssBaseline />
+          <BottomNav />
+        </Box>
       </Box>
-    </Box>
+    </AnimatePresence>
   );
 }
 

@@ -1,23 +1,30 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
+  Avatar,
+  AvatarGroup,
   Box,
   Chip,
   Icon,
   IconButton,
   TextField,
+  Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
+import { ShareBoard } from "./ShareBoard";
 
 export function BoardInfo({
+  isShared,
   setMobileOpen,
   board,
   showInfo,
@@ -26,6 +33,7 @@ export function BoardInfo({
 }) {
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
+  const session = useSession();
 
   useEffect(() => {
     if (!descriptionRef.current || !descriptionRef.current || !board) return;
@@ -42,7 +50,7 @@ export function BoardInfo({
       )
     ) {
       toast.promise(
-        fetchRawApi("property/boards/edit", {
+        fetchRawApi(session, "property/boards/edit", {
           id: board.id,
           name: titleRef.current.value,
           description: descriptionRef.current.value,
@@ -65,9 +73,22 @@ export function BoardInfo({
     board.id,
     board.name,
     mutationUrls,
+    session,
   ]);
-  const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const router = useRouter();
+
+  // Unique list of collaborators based on member email
+  const collaborators = [...board.property.members, ...board.shareTokens]
+    .filter((member) => member.user.email)
+    .reduce((acc, member) => {
+      if (!acc.find((m) => m.user.email === member.user.email)) {
+        acc.push(member);
+      }
+      return acc;
+    }, []);
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
     <Box
@@ -79,10 +100,12 @@ export function BoardInfo({
         height: { xs: "500px", md: "calc(100vh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },
         background: {
+          xs: `linear-gradient(${addHslAlpha(palette[4], 0.3)}, ${addHslAlpha(
+            palette[6],
+            0.3
+          )})`,
           md: addHslAlpha(palette[3], 0.3),
         },
-        border: { xs: "1px solid", md: "none" },
-        borderColor: { xs: addHslAlpha(palette[8], 0.3) },
         position: { md: "sticky" },
         left: "10px",
         zIndex: 999,
@@ -92,6 +115,7 @@ export function BoardInfo({
         flex: { xs: "0 0 calc(100% - 70px)", md: "unset" },
         p: 4,
         py: showInfo ? 3 : 2,
+        pt: { xs: 5, md: 0 },
         overflowY: "scroll",
         display: "flex",
         alignItems: "center",
@@ -113,10 +137,10 @@ export function BoardInfo({
           position: "absolute",
           top: "50%",
           transform: "translateY(-50%)",
-          background: "rgba(200,200,200,.3)",
+          background: palette[5],
           height: "75px",
           width: "3px",
-          right: "10px",
+          right: "14px",
           display: { md: "none" },
           borderRadius: 9999,
         }}
@@ -124,7 +148,30 @@ export function BoardInfo({
       {showInfo ? (
         <>
           <Box sx={{ mt: "auto" }}>
+            {collaborators.length > 1 && (
+              <AvatarGroup max={4} sx={{ my: 1, justifyContent: "start" }}>
+                {collaborators.slice(0, 3).map((member) => (
+                  <Tooltip key={member.id} title={member.user.name}>
+                    <Avatar
+                      src={member?.user?.Profile?.picture}
+                      sx={{ width: "30px", height: "30px", fontSize: "15px" }}
+                      onClick={() => router.push(`/users/${member.user.email}`)}
+                    >
+                      {member?.user?.name?.substring(0, 2)?.toUpperCase()}
+                    </Avatar>
+                  </Tooltip>
+                ))}
+                {collaborators.length > 3 && (
+                  <Avatar
+                    sx={{ width: "30px", height: "30px", fontSize: "15px" }}
+                  >
+                    +{collaborators.length - 3}
+                  </Avatar>
+                )}
+              </AvatarGroup>
+            )}
             <TextField
+              spellCheck={false}
               disabled={session.permission === "read-only"}
               defaultValue={board.name}
               onChange={(e: any) => {
@@ -155,6 +202,7 @@ export function BoardInfo({
               }}
             />
             <TextField
+              spellCheck={false}
               multiline
               defaultValue={board.description}
               inputRef={descriptionRef}
@@ -181,16 +229,25 @@ export function BoardInfo({
               maxRows={3}
             />
             <Box sx={{ my: 1 }}>
-              <Chip
-                sx={{ mr: 1, mb: 1 }}
-                label={board.public ? "Public" : "Private"}
-                icon={<Icon>{board.public ? "group " : "lock"}</Icon>}
-              />
-              {board.pinned && (
+              {!board.public && (
+                <Chip
+                  sx={{ mr: 1, mb: 1 }}
+                  label={"Private"}
+                  icon={<Icon>lock</Icon>}
+                />
+              )}
+              {board.pinned && !isShared && (
                 <Chip
                   label="Pinned"
                   sx={{ mr: 1, mb: 1 }}
                   icon={<Icon>push_pin</Icon>}
+                />
+              )}
+              {isShared && (
+                <Chip
+                  label="Shared"
+                  sx={{ mr: 1, mb: 1 }}
+                  icon={<Icon>link</Icon>}
                 />
               )}
               {board.archived && (
@@ -220,19 +277,44 @@ export function BoardInfo({
               width: "100%",
             }}
           >
-            <BoardSettings mutationUrls={mutationUrls} board={board} />
+            <BoardSettings
+              isShared={isShared}
+              mutationUrls={mutationUrls}
+              board={board}
+            />
+            <ShareBoard
+              board={board}
+              isShared={isShared}
+              mutationUrls={mutationUrls}
+            >
+              <IconButton size="large" sx={{ ml: { xs: "auto", sm: "0" } }}>
+                <Icon className="outlined">ios_share</Icon>
+              </IconButton>
+            </ShareBoard>
             <IconButton
               size="large"
               sx={{
                 ml: "auto",
-                display: { xs: "none", md: "flex" },
+                ...(isMobile && {
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  m: 1,
+                  color: palette[8],
+                }),
               }}
               onClick={() => {
+                if (isMobile) {
+                  setMobileOpen(false);
+                  return;
+                }
                 setShowInfo(false);
                 localStorage.setItem("showInfo", "false");
               }}
             >
-              <Icon className="outlined">menu_open</Icon>
+              <Icon className="outlined">
+                {isMobile ? "close" : "menu_open"}
+              </Icon>
             </IconButton>
           </Box>
         </>

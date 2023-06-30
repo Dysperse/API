@@ -13,7 +13,6 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { Puller } from "./Puller";
 
 export function ConfirmationModal({
-  rawStyles = false,
   disabled = false,
   title,
   question,
@@ -71,15 +70,6 @@ export function ConfirmationModal({
         }}
         PaperProps={{
           sx: {
-            ...(rawStyles && {
-              boxShadow: "none",
-              borderRadius: 5,
-              mb: 2,
-              ["@media (prefers-color-scheme: dark)"]: {
-                background: "hsl(240,11%,20%)!important",
-                color: "#fff",
-              },
-            }),
             mx: "auto",
             border: "none",
             userSelect: "none",
@@ -88,41 +78,18 @@ export function ConfirmationModal({
           },
         }}
       >
-        <Puller showOnDesktop useDarkStyles={rawStyles && isDarkMode} />
+        <Puller showOnDesktop />
         <Box sx={{ px: 3, pt: 0, pb: 3 }}>
           <Typography variant="h6" gutterBottom>
             {title}
           </Typography>
-          <Typography
-            color="text.secondary"
-            sx={{
-              ...(rawStyles && {
-                ["@media (prefers-color-scheme: dark)"]: {
-                  color: "hsl(240,11%,70%)!important",
-                },
-              }),
-            }}
-          >
-            {question}
-          </Typography>
+          <Typography color="text.secondary">{question}</Typography>
           <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
             <Button
               variant="outlined"
               fullWidth
               size="large"
               onClick={() => setOpen(false)}
-              sx={{
-                ...(rawStyles && {
-                  borderRadius: 9,
-                  textTransform: "none",
-                  boxShadow: "none",
-                  ...(rawStyles && {
-                    ["@media (prefers-color-scheme: dark)"]: {
-                      color: "hsl(240,11%,70%)!important",
-                    },
-                  }),
-                }),
-              }}
             >
               Cancel
             </Button>
@@ -132,20 +99,6 @@ export function ConfirmationModal({
               size="large"
               loading={loading}
               onClick={handleClick}
-              sx={{
-                ...(rawStyles && {
-                  borderRadius: 9,
-                  textTransform: "none",
-                  boxShadow: "none",
-                  background: "#000!important",
-                  ...(rawStyles && {
-                    ["@media (prefers-color-scheme: dark)"]: {
-                      color: "hsl(240,11%,10%)!important",
-                      background: "hsl(240,11%,90%)!important",
-                    },
-                  }),
-                }),
-              }}
             >
               {buttonText}
             </LoadingButton>

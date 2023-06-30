@@ -1,8 +1,8 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   AppBar,
   Box,
@@ -145,7 +145,7 @@ export default function Layout({ children }: any) {
         question="Are you sure you want to sign out?"
         buttonText="Sign out"
         callback={() =>
-          fetchRawApi("auth/logout").then(() => mutate("/api/session"))
+          fetchRawApi(session, "auth/logout").then(() => mutate("/api/session"))
         }
       >
         <Button sx={{ ...styles(false), mt: "auto" }}>

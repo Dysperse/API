@@ -5,9 +5,9 @@ import { InventoryList } from "@/components/Onboarding/InventoryList";
 import { StepIcon } from "@/components/Onboarding/StepIcon";
 import { cards } from "@/components/Rooms/CreateItem/cards";
 import { templates } from "@/components/Tasks/Board/Create";
+import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -58,6 +58,7 @@ export default function Onboarding() {
   const handleChange = (event: SelectChangeEvent) => {
     setType(event.target.value as string);
     updateSettings(
+      session,
       "type",
       event.target.value as string,
       false,
@@ -231,6 +232,7 @@ export default function Onboarding() {
         defaultValue={session.property.profile.name}
         onBlur={(event) => {
           updateSettings(
+            session,
             "name",
             event.target.value as string,
             false,
@@ -321,6 +323,7 @@ export default function Onboarding() {
           onClick={() => {
             setSubmitLoading(true);
             updateSettings(
+              session,
               "onboardingComplete",
               "true",
               false,
@@ -437,7 +440,16 @@ export default function Onboarding() {
   }));
 
   return (
-    <Box>
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        zIndex: 99999,
+      }}
+    >
       <Box
         sx={{
           width: "100vw",

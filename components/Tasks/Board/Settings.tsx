@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { Icon, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
@@ -11,7 +11,7 @@ import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import CreateColumn from "./Column/Create";
 
-export default function BoardSettings({ mutationUrls, board }) {
+export default function BoardSettings({ isShared, mutationUrls, board }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,7 +30,7 @@ export default function BoardSettings({ mutationUrls, board }) {
 
   const handleEdit = () => {
     setTimeout(() => {
-      fetchRawApi("property/boards/edit", {
+      fetchRawApi(session, "property/boards/edit", {
         id: board.id,
         pinned: !board.pinned ? "true" : "false",
       }).then(() => {
@@ -40,13 +40,6 @@ export default function BoardSettings({ mutationUrls, board }) {
         );
       });
     }, 100);
-  };
-
-  const handleShare = () => {
-    handleClose();
-    window.navigator.share({
-      url: window.location.href,
-    });
   };
 
   return (
@@ -82,7 +75,7 @@ export default function BoardSettings({ mutationUrls, board }) {
               ml: "auto",
               flex: "0 0 auto",
             }}
-            disabled={board.archived || storage?.isReached === true}
+            disabled={board.archived || storage?.isReached === true || isShared}
           >
             <Icon
               className={board.pinned ? "" : "outlined"}
@@ -100,7 +93,7 @@ export default function BoardSettings({ mutationUrls, board }) {
         </ConfirmationModal>
         <CreateColumn
           setCurrentColumn={(e: any) => e}
-          mobile
+          name={board.name}
           id={board.id}
           mutationUrls={mutationUrls}
           hide={
@@ -108,49 +101,22 @@ export default function BoardSettings({ mutationUrls, board }) {
             board?.columns.length >= 5
           }
         />
-        <MenuItem disabled={board.archived} onClick={handleShare}>
-          <Icon className="outlined">ios_share</Icon>
-          Share
-        </MenuItem>
-        <ConfirmationModal
-          title="Change board visibility?"
-          question={
-            !board.public
-              ? "Are you sure you want to make this board public? Other members in your group will be able to view and edit content within this board"
-              : "Are you sure you want to make this board private? Other members in your group won't be able to view/edit content within this board anymore."
-          }
-          callback={async () => {
-            await fetchRawApi("property/boards/edit", {
-              id: board.id,
-              public: !board.public,
-            });
-            await mutate(mutationUrls.boardData);
-          }}
-        >
-          <MenuItem disabled={storage?.isReached === true}>
-            <Icon className="outlined">
-              {!board.public ? "visibility" : "visibility_off"}
-            </Icon>
-            Make {!board.public ? "public" : "private"}
-          </MenuItem>
-        </ConfirmationModal>
-
         <ConfirmationModal
           title="Archive board?"
           question={
             board.archived
               ? "Are you sure you want to unarchive this board?"
-              : "Are you sure you want to delete this board? You won't be able to add/edit items, or share it with anyone."
+              : "Are you sure you want to archive this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
-            await fetchRawApi("property/boards/archived", {
+            await fetchRawApi(session, "property/boards/archived", {
               id: board.id,
               archived: !board.archived,
             });
             await mutate(mutationUrls.boardData);
           }}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleClose} disabled={isShared}>
             <Icon className="outlined">inventory_2</Icon>
             {board.archived ? "Unarchive" : "Archive"}
           </MenuItem>
@@ -159,12 +125,14 @@ export default function BoardSettings({ mutationUrls, board }) {
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
-            await fetchRawApi("property/boards/delete", { id: board.id });
+            await fetchRawApi(session, "property/boards/delete", {
+              id: board.id,
+            });
             router.push("/tasks/agenda/week");
             await mutate(mutationUrls.boardData);
           }}
         >
-          <MenuItem onClick={handleClose} disabled={board.archived}>
+          <MenuItem onClick={handleClose} disabled={board.archived || isShared}>
             <Icon className="outlined">delete</Icon>
             Delete
           </MenuItem>
@@ -174,7 +142,6 @@ export default function BoardSettings({ mutationUrls, board }) {
       <Tooltip title="Board settings">
         <IconButton
           onClick={handleClick}
-          sx={{ mr: { md: "auto" } }}
           size="large"
           disabled={session.permission === "read-only"}
         >

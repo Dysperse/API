@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   FormControl,
@@ -43,12 +43,12 @@ export function WorkingHours({
   };
 
   const handleSave = useCallback(async () => {
-    await fetchRawApi("user/profile/update", {
+    await fetchRawApi(session, "user/profile/update", {
       email: session.user.email,
       workingHours: JSON.stringify(workingHours),
     });
     await mutate(mutationUrl);
-  }, [workingHours, mutationUrl, session.user.email]);
+  }, [workingHours, mutationUrl, session]);
 
   // Save
   useEffect(() => {

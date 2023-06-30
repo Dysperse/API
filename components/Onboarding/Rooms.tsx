@@ -1,7 +1,7 @@
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
-import React from "react";
-import { useSession } from "@/lib/client/useSession";
 import { Autocomplete, Chip, TextField } from "@mui/material";
+import React from "react";
 
 /**
  * Custom rooms add component
@@ -37,7 +37,7 @@ export function CustomRooms({ houseType }: { houseType: string }) {
         (option: string) => fixedOptions.indexOf(option) === -1
       ),
     ]);
-    fetchRawApi("property/inventory/room/create", {
+    fetchRawApi(session, "property/inventory/room/create", {
       property: session.property.propertyId,
       accessToken: session.property.accessToken,
       name: newValue

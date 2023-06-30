@@ -1,6 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import {
   Alert,
@@ -60,6 +61,8 @@ export default function Integrations({ handleClose }) {
   ];
 
   const { data, url, error } = useApi("property/integrations");
+  const session = useSession();
+
   const [open, setOpen] = useState(false);
 
   return (
@@ -135,7 +138,7 @@ export default function Integrations({ handleClose }) {
                   title="Are you sure you want to remove this integration?"
                   question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
                   callback={async () => {
-                    await fetchRawApi("property/integrations/delete", {
+                    await fetchRawApi(session, "property/integrations/delete", {
                       id: integration.id,
                     });
                     mutate(url);
@@ -180,8 +183,6 @@ export default function Integrations({ handleClose }) {
           ))}
         </Box>
       </SwipeableDrawer>
-      <br />
-      <br />
     </>
   );
 }

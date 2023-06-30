@@ -1,4 +1,4 @@
-import { useSession } from "@/lib/client/useSession";
+import { useSession } from "@/lib/client/session";
 import { toastStyles } from "@/lib/client/useTheme";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -13,6 +13,7 @@ import { mutate } from "swr";
  * @returns Object
  */
 export async function updateSettings(
+  session,
   key: string,
   value: string,
   debug = false,
@@ -20,9 +21,6 @@ export async function updateSettings(
   property = false,
   hideToast = false
 ) {
-  // eslint-disable-next-line
-  const session = useSession();
-
   const promise = new Promise(async (resolve, reject) => {
     try {
       let url = `/api/user/settings/edit?${new URLSearchParams({

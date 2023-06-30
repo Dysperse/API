@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/useSession";
 import { toastStyles } from "@/lib/client/useTheme";
 import { SidebarContext } from "@/pages/items";
 import { LoadingButton } from "@mui/lab";
@@ -33,7 +33,7 @@ export function CreateRoom(): JSX.Element {
 
   const handleSubmit = () => {
     setLoading(true);
-    fetchRawApi("property/inventory/room/create", {
+    fetchRawApi(session, "property/inventory/room/create", {
       name: name,
       private: isPrivate ? "true" : "false",
     })

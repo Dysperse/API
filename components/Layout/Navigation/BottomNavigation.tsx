@@ -1,8 +1,9 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { openSpotlight } from "./Search";
 
 /**
@@ -20,7 +21,29 @@ export function BottomNav() {
     flex: "0 0 40px",
     width: "60px",
   };
+
   const session = useSession();
+
+  useEffect(() => {
+    const handleTouchMove = (event) => {
+      const { touches } = event;
+      if (touches.length > 1) {
+        // Multiple touches detected, likely a pinch or zoom gesture
+        return;
+      }
+      const touch = touches[0];
+      if (touch.clientX < 30) {
+        // Swipe detected from the left edge (you can adjust the threshold as needed)
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      document.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
 
   const styles = (active) => {
     return {
@@ -65,6 +88,7 @@ export function BottomNav() {
     "/users",
     "/rooms/",
     "/groups",
+    "/onboarding",
     "/coach/routine",
     "/settings",
   ].find((path) => router.asPath.includes(path));

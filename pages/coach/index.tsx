@@ -1,8 +1,8 @@
 import { MyGoals } from "@/components/Coach/MyGoals";
 import { ErrorHandler } from "@/components/Error";
+import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   CardActionArea,
@@ -44,7 +44,7 @@ export default function Render() {
       <Head>
         <title>Coach</title>
       </Head>
-      <Box sx={{ maxWidth: "600px", pt: { xs: 0, sm: 10 }, mx: "auto" }}>
+      <Box sx={{ maxWidth: "600px", px: 2, pt: { xs: 0, sm: 10 }, mx: "auto" }}>
         <Box sx={{ position: "relative" }}>
           {error && (
             <ErrorHandler

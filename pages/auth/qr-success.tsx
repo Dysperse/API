@@ -1,5 +1,6 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
-import { Box, Button, Typography } from "@mui/material";
+import { useColor } from "@/lib/client/useColor";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
 
 /**
@@ -7,11 +8,13 @@ import { useRouter } from "next/router";
  */
 export default function Prompt() {
   const router = useRouter();
+  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const palette = useColor("violet", isDark);
 
   return (
     <Layout>
       <Box>
-        <Box sx={authStyles.container}>
+        <Box sx={authStyles(palette).container}>
           <AuthBranding mobile />
           <Box sx={{ pt: 3 }}>
             <Box sx={{ px: 1 }}>
@@ -26,7 +29,7 @@ export default function Prompt() {
                 You should be redirected on your other device soon...
               </Typography>
               <Button
-                sx={authStyles.submit}
+                sx={authStyles(palette).submit}
                 onClick={() => router.push("/")}
                 size="large"
                 fullWidth

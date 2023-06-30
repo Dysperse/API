@@ -1,9 +1,9 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
-import { useSession } from "@/lib/client/useSession";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
@@ -137,22 +137,6 @@ function SearchTasks({ setOpen }) {
       >
         <Icon>search</Icon>
       </IconButton>
-      <IconButton
-        sx={{
-          color: palette[8],
-          background: addHslAlpha(palette[3], 0.5),
-          "&:active": {
-            transform: "scale(0.95)",
-          },
-        }}
-        onClick={() => {
-          document.getElementById("createTask")?.click();
-        }}
-      >
-        <Icon className="outlined" sx={{ transform: "scale(1.1)" }}>
-          add
-        </Icon>
-      </IconButton>
       {createTask}
     </>
   ) : (
@@ -166,6 +150,7 @@ function SearchTasks({ setOpen }) {
     >
       {input}
       {createTask}
+
       <Tooltip
         placement="right"
         title={
@@ -261,6 +246,9 @@ export function TasksLayout({ open, setOpen, children }) {
     document.getElementById("createTask")?.click();
   });
 
+  const sharedBoards =
+    data && data.filter((x) => x.propertyId !== session.property.propertyId);
+
   useHotkeys("d", () => router.push("/tasks/agenda/day"));
   useHotkeys("w", () => router.push("/tasks/agenda/week"));
   useHotkeys("m", () => router.push("/tasks/agenda/month"));
@@ -289,13 +277,13 @@ export function TasksLayout({ open, setOpen, children }) {
     whiteSpace: "nowrap",
     ...(!condition
       ? {
-          color: `hsl(240,11%,${isDark ? 80 : 30}%)`,
+          color: addHslAlpha(palette[12], 0.7),
           "&:hover": {
             background: palette[3],
           },
         }
       : {
-          color: palette[12],
+          color: "#fff",
           background: palette[4],
           "&:hover, &:focus": {
             background: palette[5],
@@ -387,6 +375,28 @@ export function TasksLayout({ open, setOpen, children }) {
         ))}
       </Box>
 
+      {sharedBoards?.length > 0 && (
+        <Divider
+          sx={{
+            mt: 1,
+            mb: 2,
+            width: { sm: "90%" },
+            mx: "auto",
+            opacity: 0.5,
+          }}
+        />
+      )}
+      {sharedBoards?.length > 0 && (
+        <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
+      )}
+      {sharedBoards?.map((board) => (
+        <Tab
+          setDrawerOpen={setOpen}
+          key={board.id}
+          styles={styles}
+          board={board}
+        />
+      ))}
       <Divider
         sx={{
           mt: 1,
@@ -400,6 +410,7 @@ export function TasksLayout({ open, setOpen, children }) {
       {data &&
         data
           .filter((x) => !x.archived)
+          .filter((x) => x.propertyId == session.property.propertyId)
           .map((board) => (
             <Tab
               setDrawerOpen={setOpen}
@@ -481,6 +492,8 @@ export function TasksLayout({ open, setOpen, children }) {
     </>
   );
 
+  const isBoard = router.asPath.includes("/tasks/boards/");
+
   return (
     <>
       {isMobile && (
@@ -512,14 +525,59 @@ export function TasksLayout({ open, setOpen, children }) {
                 ...(!title.includes("•") && {
                   minWidth: 0,
                 }),
+                whiteSpace: "nowrap",
+                overflow: "hidden",
               }}
               size="large"
               onClick={() => setOpen(true)}
             >
               <Icon>expand_all</Icon>
-              {title.includes("•") ? title.split("•")[0] : ""}
+              <Box
+                sx={{
+                  overflow: "hidden",
+                  maxWidth: "100%",
+                  textOverflow: "ellipsis",
+                  "& .MuiTypography-root": {
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                  },
+                  textAlign: "left",
+                  minWidth: 0,
+                }}
+              >
+                <Typography sx={{ fontWeight: 900 }}>
+                  {title.includes("•") ? title.split("•")[0] : ""}
+                </Typography>
+                {title.includes("•") && (
+                  <Typography variant="body2" sx={{ mt: -0.5 }}>
+                    {title.split("•")[1]}
+                  </Typography>
+                )}
+              </Box>
             </Button>
-            <SearchTasks setOpen={setOpen} />
+            {!isBoard && <SearchTasks setOpen={setOpen} />}
+            <IconButton
+              sx={{
+                color: palette[8],
+                background: addHslAlpha(palette[3], 0.5),
+                "&:active": {
+                  transform: "scale(0.9)",
+                },
+                ...(isBoard && {
+                  ml: "auto",
+                }),
+                transition: "all .2s",
+              }}
+              onClick={() => {
+                document
+                  .getElementById(isBoard ? "boardInfoTrigger" : "createTask")
+                  ?.click();
+              }}
+            >
+              <Icon className="outlined">{isBoard ? "more_horiz" : "add"}</Icon>
+            </IconButton>
           </Box>
         </motion.div>
       )}

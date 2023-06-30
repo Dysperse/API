@@ -1,3 +1,4 @@
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import {
   Box,
   Button,
@@ -29,6 +30,8 @@ export function Error() {
     },
   };
 
+  useStatusBar(`hsl(240,11%,${dark ? 10 : 95}%)`);
+
   return (
     <Box
       sx={{
@@ -44,11 +47,6 @@ export function Error() {
       }}
     >
       <Box
-        ref={() =>
-          document
-            .querySelector(`meta[name="theme-color"]`)
-            ?.setAttribute("content", `hsl(240,11%,${dark ? 10 : 95}%)`)
-        }
         sx={{
           position: "fixed",
           p: 5,

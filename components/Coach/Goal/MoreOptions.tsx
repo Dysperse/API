@@ -1,4 +1,5 @@
 import { Puller } from "@/components/Puller";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -36,6 +37,7 @@ export const exportAsImage = async (el, imageFileName) => {
 };
 
 function ChangeTime({ goal, mutationUrl }) {
+  const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [time, setTime] = useState<number>(goal.timeOfDay);
   const [loading, setLoadinng] = useState<boolean>(false);
@@ -43,7 +45,7 @@ function ChangeTime({ goal, mutationUrl }) {
   const handleSubmit = async () => {
     try {
       setLoadinng(true);
-      await fetchRawApi("user/coach/goals/update", {
+      await fetchRawApi(session, "user/coach/goals/update", {
         id: goal.id,
         timeOfDay: time,
       });
@@ -112,10 +114,11 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+  const session = useSession();
 
   const handleStop = () => {
     handleClose();
-    fetchRawApi("user/coach/goals/delete", {
+    fetchRawApi(session, "user/coach/goals/delete", {
       id: goal.id,
     }).then(async () => {
       await mutate(mutationUrl);

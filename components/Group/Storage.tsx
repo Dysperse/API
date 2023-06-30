@@ -1,6 +1,6 @@
+import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { colors } from "@/lib/colors";
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
 import { mutate } from "swr";
@@ -133,7 +133,7 @@ export function Storage({
           <Typography gutterBottom sx={{ width: "100%" }}>
             <b>Tasks</b>
             <Typography variant="body2">
-              {Math.round(storage.tasks)}% &bull; {data.tasks || 0} tasks
+              {Math.round(storage.tasks)}% &bull; {data.tasks || 0} items
             </Typography>
           </Typography>
         </Box>

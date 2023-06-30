@@ -1,7 +1,8 @@
 import { ShareGoal } from "@/components/Coach/Goal/ShareGoal";
+import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
@@ -34,18 +35,14 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
 
   const isCompleted = goal.progress === goal.durationDays;
 
-  useEffect(() => {
-    document
-      .querySelector(`meta[name="theme-color"]`)
-      ?.setAttribute("content", palette[2]);
-  });
+  useStatusBar(palette[2]);
 
   const handleNext = () => {
     if (goal.progress === goal.durationDays) {
       setStepTwoOpen(true);
     } else {
       setSlide((s) => s + 1);
-      fetchRawApi("user/coach/goals/markAsDone", {
+      fetchRawApi(session, "user/coach/goals/markAsDone", {
         date: dayjs().format("YYYY-MM-DD"),
         progress:
           goal.progress && parseInt(goal.progress)
@@ -77,7 +74,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
   const handleTrophyEarn = async (icon) => {
     try {
       setLoading(true);
-      await fetchRawApi("user/coach/goals/complete", {
+      await fetchRawApi(session, "user/coach/goals/complete", {
         daysLeft: goal.durationDays - goal.progress,
         feedback: icon,
         id: goal.id,

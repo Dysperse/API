@@ -1,8 +1,6 @@
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
-import type { Item as ItemType } from "@prisma/client";
-import { useState } from "react";
+import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { useSession } from "@/lib/client/useSession";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Button,
@@ -17,6 +15,8 @@ import {
   ListItemText,
   Skeleton,
 } from "@mui/material";
+import type { Item as ItemType } from "@prisma/client";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 function BoardModal({ itemId, title, list }) {
@@ -24,7 +24,7 @@ function BoardModal({ itemId, title, list }) {
   const session = useSession();
   const handleClick = async (column) => {
     try {
-      await fetchRawApi("property/boards/column/task/create", {
+      await fetchRawApi(session, "property/boards/column/task/create", {
         title,
         description: `<items:${itemId}:${title}>`,
         pinned: "false",

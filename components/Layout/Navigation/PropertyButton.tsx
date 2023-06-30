@@ -1,5 +1,5 @@
+import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import {
   Box,
   Icon,
@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 
-export function PropertyButton({ handleClose, group }) {
+export function PropertyButton({ handleClose, group }: any) {
   const session = useSession();
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -19,7 +19,10 @@ export function PropertyButton({ handleClose, group }) {
 
   return (
     <ListItemButton
-      onClick={() => router.push(`/groups/${group.propertyId}`)}
+      onClick={() => {
+        handleClose && handleClose();
+        setTimeout(() => router.push(`/groups/${group.propertyId}`), 500);
+      }}
       {...(group.propertyId === session.property.propertyId && {
         id: "activeProperty",
       })}
@@ -37,7 +40,7 @@ export function PropertyButton({ handleClose, group }) {
           textOverflow: "ellipsis",
         },
         ...(group.propertyId === session.property.propertyId && {
-          background: { sm: palette[2] },
+          background: handleClose ? palette[2] : { sm: palette[2] },
         }),
       }}
     >

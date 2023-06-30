@@ -23,7 +23,7 @@ model User {
   verifiedEmail            Boolean @default(false)
   trophies                 Int     @default(0)
   twoFactorSecret          String  @default("")
-  notificationSubscription String? @db.VarChar(500)
+  notificationSubscription String? @db.VarChar(900)
   timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
 
   lastReleaseVersionViewed Int @default(77711209)
@@ -42,8 +42,9 @@ model User {
   DailyCheckIn         DailyCheckIn[]
   QrToken              QrToken[]
 
-  followers Follows[] @relation("following")
-  following Follows[] @relation("follower")
+  followers  Follows[]    @relation("following")
+  following  Follows[]    @relation("follower")
+  ShareToken ShareToken[]
 }
 
 model Follows {
@@ -79,8 +80,11 @@ model NotificationSettings {
   todoListUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
   dailyCheckInNudge Boolean @default(true)
-  userId            String  @unique
-  user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+
+  boards Boolean @default(true)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 // Customizable notification settings (1 row per user)
@@ -142,6 +146,7 @@ model Property {
   PropertyLinkInvites PropertyLinkInvite[]
   Integration         Integration[]
   Task                Task[]
+  ShareToken          ShareToken[]
 }
 
 // List of invited members to properties with their user permissions
@@ -206,6 +211,24 @@ model PasswordResetToken {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model ShareToken {
+  id        String    @id @unique @default(uuid())
+  // users don't need to be logged in, so skip the relation between user and sharetoken
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+  token     String    @unique @default(uuid())
+
+  // boardId is optional, if it's not set, the sharetoken is for a room, for example
+  boardId String?
+  board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Board {
   id          String  @id @unique @default(uuid())
   name        String
@@ -216,6 +239,8 @@ model Board {
 
   userId String?
   user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+
+  shareTokens ShareToken[]
 
   propertyId   String
   property     Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)

@@ -73,54 +73,14 @@ export default function Document() {
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content"
         />
-        <link
-          rel="apple-touch-icon"
-          href="https://assets.dysperse.com/v6/ios/57.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="57x57"
-          href="https://assets.dysperse.com/v6/ios/57.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="72x72"
-          href="https://assets.dysperse.com/v6/ios/72.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="76x76"
-          href="https://assets.dysperse.com/v6/ios/76.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="114x114"
-          href="https://assets.dysperse.com/v6/ios/114.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="120x120"
-          href="https://assets.dysperse.com/v6/ios/120.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="144x144"
-          href="https://assets.dysperse.com/v6/ios/144.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="152x152"
-          href="https://assets.dysperse.com/v6/ios/152.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="https://assets.dysperse.com/v6/ios/180.png"
-        />
-        <link
-          href="https://assets.dysperse.com/v5/windows11/SmallTile.scale-100.png"
-          rel="shortcut icon"
-        />
+        {[57, 72, 76, 114, 120, 144, 152, 180].map((size) => (
+          <link
+            key={size}
+            rel="apple-touch-icon"
+            sizes={`${size}x${size}`}
+            href={`https://assets.dysperse.com/v7-ios/${size}.png`}
+          />
+        ))}
         <link href="/manifest.json" rel="manifest" />
       </Head>
       <body>

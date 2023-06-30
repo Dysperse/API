@@ -1,5 +1,5 @@
+import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useSession } from "@/lib/client/useSession";
 import { StepIconProps, styled } from "@mui/material";
 
 export function StepIcon(props: StepIconProps) {
