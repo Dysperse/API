@@ -277,13 +277,13 @@ export function TasksLayout({ open, setOpen, children }) {
     whiteSpace: "nowrap",
     ...(!condition
       ? {
-          color: `hsl(240,11%,${isDark ? 80 : 30}%)`,
+          color: addHslAlpha(palette[12], 0.7),
           "&:hover": {
             background: palette[3],
           },
         }
       : {
-          color: palette[12],
+          color: "#fff",
           background: palette[4],
           "&:hover, &:focus": {
             background: palette[5],
@@ -565,8 +565,10 @@ export function TasksLayout({ open, setOpen, children }) {
                 "&:active": {
                   transform: "scale(0.9)",
                 },
+                ...(isBoard && {
+                  ml: "auto",
+                }),
                 transition: "all .2s",
-                ml: "auto",
               }}
               onClick={() => {
                 document
