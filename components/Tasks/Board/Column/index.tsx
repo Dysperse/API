@@ -27,6 +27,7 @@ import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
 
 export function Column({
+  setMobileOpen,
   useReverseAnimation,
   setUseReverseAnimation,
   board,
@@ -403,7 +404,10 @@ export function Column({
                 <IconButton
                   onClick={(e) => {
                     if (currentColumn === columnLength - 1) {
-                      document.getElementById("newColumn")?.click();
+                      setMobileOpen(true);
+                      setTimeout(() => {
+                        document.getElementById("newColumn")?.click();
+                      }, 200);
                       return;
                     }
                     setUseReverseAnimation(false);

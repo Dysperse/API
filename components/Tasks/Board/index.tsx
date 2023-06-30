@@ -115,6 +115,7 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
         .filter((_, index: number) => index === currentColumn || !isMobile)
         .map((column, index: number) => (
           <Column
+            setMobileOpen={setMobileOpen}
             index={index}
             mutateData={mutateData}
             mutationUrls={mutationUrls}
