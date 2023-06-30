@@ -584,7 +584,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 "&:active": {
                   transform: "scale(0.9)",
                 },
-                ml: 1,
+                ml: 0.5,
                 transition: "all .2s",
               }}
               onClick={() => {
@@ -593,7 +593,9 @@ export function TasksLayout({ open, setOpen, children }) {
                   ?.click();
               }}
             >
-              <Icon className="outlined">{isBoard ? "more_horiz" : "add"}</Icon>
+              <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
+                {isBoard ? "more_horiz" : "add"}
+              </Icon>
             </IconButton>
           </Box>
         </motion.div>
