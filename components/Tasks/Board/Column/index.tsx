@@ -28,13 +28,16 @@ import { ColumnSettings } from "./Settings";
 
 export function Column({
   setMobileOpen,
-  useReverseAnimation,
-  setUseReverseAnimation,
+
   board,
+  column,
+
   mutateData,
   mutationUrls,
-  column,
-  index,
+
+  useReverseAnimation,
+  setUseReverseAnimation,
+
   setCurrentColumn,
   currentColumn,
   columnLength,
@@ -436,10 +439,7 @@ export function Column({
             </Box>
           </Box>
         </Box>
-        <Box
-          sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}
-          id={`container-${index}`}
-        >
+        <Box sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}>
           <CreateTask
             mutationUrl={mutationUrls.tasks}
             boardId={board.id}
