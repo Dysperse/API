@@ -111,7 +111,7 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
           callback={async () => {
             await fetchRawApi(session, "property/boards/edit", {
               id: board.id,
-              public: !board.public,
+              public: board.public ? "false" : "true",
             });
             await mutate(mutationUrls.boardData);
           }}

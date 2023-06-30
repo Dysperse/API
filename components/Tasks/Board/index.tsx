@@ -152,10 +152,13 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
   );
 }
 
-export function Board({ mutationUrl, board, isShared }) {
+export function Board({ mutationUrl, board }) {
   const { data, url, error, loading } = useApi("property/boards/tasks", {
     id: board?.id,
   });
+
+  const session = useSession();
+  const isShared = data && data[0].propertyId !== session.property.propertyId;
 
   if (error || (!board && !loading)) {
     return (

@@ -149,7 +149,7 @@ export function BoardInfo({
             )}
             <TextField
               spellCheck={false}
-              disabled={session.permission === "read-only" || isShared}
+              disabled={session.permission === "read-only"}
               defaultValue={board.name}
               onChange={(e: any) => {
                 e.target.value = e.target.value.replace(/\n|\r/g, "");
@@ -183,7 +183,7 @@ export function BoardInfo({
               multiline
               defaultValue={board.description}
               inputRef={descriptionRef}
-              disabled={session.permission === "read-only" || isShared}
+              disabled={session.permission === "read-only"}
               onBlur={handleSave}
               placeholder="Click to add description"
               variant="standard"
@@ -222,7 +222,7 @@ export function BoardInfo({
               )}
               {isShared && (
                 <Chip
-                  label="Shared via link"
+                  label="Shared"
                   sx={{ mr: 1, mb: 1 }}
                   icon={<Icon>link</Icon>}
                 />

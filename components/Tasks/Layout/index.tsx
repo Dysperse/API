@@ -246,6 +246,9 @@ export function TasksLayout({ open, setOpen, children }) {
     document.getElementById("createTask")?.click();
   });
 
+  const sharedBoards =
+    data && data.filter((x) => x.propertyId !== session.property.propertyId);
+
   useHotkeys("d", () => router.push("/tasks/agenda/day"));
   useHotkeys("w", () => router.push("/tasks/agenda/week"));
   useHotkeys("m", () => router.push("/tasks/agenda/month"));
@@ -372,27 +375,28 @@ export function TasksLayout({ open, setOpen, children }) {
         ))}
       </Box>
 
-      <Divider
-        sx={{
-          mt: 1,
-          mb: 2,
-          width: { sm: "90%" },
-          mx: "auto",
-          opacity: 0.5,
-        }}
-      />
-      <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
-      {data &&
-        data
-          .filter((x) => x.propertyId !== session.property.propertyId)
-          .map((board) => (
-            <Tab
-              setDrawerOpen={setOpen}
-              key={board.id}
-              styles={styles}
-              board={board}
-            />
-          ))}
+      {sharedBoards.length > 0 && (
+        <Divider
+          sx={{
+            mt: 1,
+            mb: 2,
+            width: { sm: "90%" },
+            mx: "auto",
+            opacity: 0.5,
+          }}
+        />
+      )}
+      {sharedBoards.length > 0 && (
+        <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
+      )}
+      {sharedBoards?.map((board) => (
+        <Tab
+          setDrawerOpen={setOpen}
+          key={board.id}
+          styles={styles}
+          board={board}
+        />
+      ))}
       <Divider
         sx={{
           mt: 1,
