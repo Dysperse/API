@@ -1,5 +1,4 @@
 import { ErrorHandler } from "@/components/Error";
-import { isEmail } from "@/components/Group/Members";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -40,7 +39,6 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const [token, setToken] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -59,7 +57,6 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
         email,
       });
 
-      setToken(data.token);
       setLoading(false);
     } catch (e) {
       toast.error(
@@ -75,15 +72,6 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
       token,
     });
     await mutate(url);
-  };
-
-  const link = isShared
-    ? window.location.href
-    : `${window.location.origin}/tasks/boards/${board.id}?share=${token}`;
-
-  const copyUrl = () => {
-    navigator.clipboard.writeText(link);
-    toast.success("Copied link to clipboard!", toastStyles);
   };
 
   const boxStyles = {
@@ -137,34 +125,17 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
           <Typography variant="h2" className="font-heading">
             Share
           </Typography>
-          <TextField
-            label="Type an email..."
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="hello@dysperse.com"
-            fullWidth
-            size="small"
-            sx={{ mt: 1 }}
-          />
-          {token && (
+          {!isShared && (
             <TextField
-              label="Board link"
-              value={link}
+              label="Type an email..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="hello@dysperse.com"
               fullWidth
               size="small"
               sx={{ mt: 1 }}
             />
           )}
-          <LoadingButton
-            disabled={!isEmail(deferredEmail)}
-            loading={loading}
-            onClick={copyUrl}
-            sx={{ mt: 1, ...(!isShared && !token && { display: "none" }) }}
-            variant="outlined"
-            fullWidth
-          >
-            Copy
-          </LoadingButton>
           {!isShared && (
             <LoadingButton
               loading={loading}
@@ -173,7 +144,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
               variant="contained"
               fullWidth
             >
-              Create link
+              Invite
             </LoadingButton>
           )}
           <Box sx={boxStyles}>
