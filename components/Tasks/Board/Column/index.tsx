@@ -293,6 +293,9 @@ export function Column({
                     setCurrentColumn((i) => i - 1);
                   }}
                   disabled={currentColumn == 0}
+                  sx={{
+                    color: palette[currentColumn == 0 ? 6 : 8] + "!important",
+                  }}
                 >
                   <Icon className="outlined">arrow_back_ios_new</Icon>
                 </IconButton>
@@ -315,6 +318,8 @@ export function Column({
                   "&:active": {
                     transform: "scale(0.95)",
                   },
+                  background: palette[2],
+                  py: 1,
                 }}
                 onContextMenu={() => {
                   toast(column.name, {
@@ -343,7 +348,7 @@ export function Column({
                     fontSize: "35px",
                     borderRadius: 1,
                     width: "auto",
-                    mb: { sm: 0.7 },
+                    mb: { xs: -0.5, sm: 0.7 },
                     display: "flex",
                     alignItems: "center",
                     justifyContent: { xs: "center", sm: "flex-start" },
@@ -408,6 +413,7 @@ export function Column({
                     setUseReverseAnimation(false);
                     setCurrentColumn((i) => i + 1);
                   }}
+                  sx={{ color: palette[8] }}
                   size="large"
                 >
                   <Icon className="outlined">
