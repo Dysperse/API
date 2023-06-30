@@ -563,7 +563,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 color: palette[8],
                 background: addHslAlpha(palette[3], 0.5),
                 "&:active": {
-                  transform: "scale(0.95)",
+                  transform: "scale(0.9)",
                 },
                 transition: "all .2s",
                 ml: "auto",
