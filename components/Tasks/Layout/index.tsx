@@ -123,7 +123,7 @@ function SearchTasks({ setOpen }) {
             sx={{ mb: 2 }}
             variant="contained"
           >
-            <Icon>arrow_back_ios_new</Icon>Tasks
+            <Icon>arrow_back_ios_new</Icon>Search
           </Button>
           {input}
         </Box>
