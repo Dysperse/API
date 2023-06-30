@@ -394,12 +394,7 @@ export function Column({
               </CardActionArea>
             </ColumnSettings>
 
-            <Box
-              sx={{ ml: "auto" }}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
+            <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
               {isMobile ? (
                 <IconButton
                   onClick={(e) => {
