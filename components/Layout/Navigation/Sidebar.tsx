@@ -295,7 +295,7 @@ export function Sidebar() {
             <span className="material-symbols-outlined">bolt</span>
           </Tooltip>
         </Box>
-        <GroupModal>
+        <GroupModal list>
           <Box
             sx={{
               ...styles(router.asPath.includes("/users")),

@@ -306,7 +306,7 @@ function UpcomingBirthdays({ data }) {
   );
 }
 
-export function GroupModal({ children }: any) {
+export function GroupModal({ children, list = false }: any) {
   const session = useSession();
   const { data, fetcher, url, error } = useApi("user/properties");
   const [showMore, setShowMore] = useState(false);
@@ -326,6 +326,7 @@ export function GroupModal({ children }: any) {
     }, []);
 
   preload(url, fetcher);
+
   const drawer = (
     <SwipeableDrawer
       onClick={(e) => e.stopPropagation()}
@@ -336,6 +337,7 @@ export function GroupModal({ children }: any) {
       <Puller showOnDesktop />
       {properties.map((group: any) => (
         <PropertyButton
+          list={list}
           handleClose={() => setShowMore(false)}
           key={group.id}
           group={group}

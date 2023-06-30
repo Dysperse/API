@@ -1,15 +1,21 @@
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
+  CircularProgress,
   Icon,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { mutate } from "swr";
 
-export function PropertyButton({ handleClose, group }: any) {
+export function PropertyButton({ handleClose, group, list }: any) {
   const session = useSession();
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -17,9 +23,33 @@ export function PropertyButton({ handleClose, group }: any) {
 
   const groupPalette = useColor(group.profile.color, isDark);
 
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <ListItemButton
-      onClick={() => {
+      onClick={async () => {
+        if (!list) {
+          try {
+            setLoading(true);
+            const res = await fetchRawApi(session, "property/switch", {
+              email: session.user.email,
+              accessToken1: group.accessToken,
+            });
+            await mutate("/api/session");
+            toast.success(
+              <span>
+                Switched to &nbsp;<u>{res.profile.name}</u>
+              </span>,
+              toastStyles
+            );
+          } catch {
+            toast.error(
+              "Yikes! Something went wrong when trying to switch groups",
+              toastStyles
+            );
+          }
+          setLoading(false);
+          return;
+        }
         handleClose && handleClose();
         setTimeout(() => router.push(`/groups/${group.propertyId}`), 500);
       }}
@@ -75,7 +105,7 @@ export function PropertyButton({ handleClose, group }: any) {
         }}
       />
       <ListItemIcon sx={{ minWidth: "unset" }}>
-        <Icon>arrow_forward_ios</Icon>
+        {loading ? <CircularProgress /> : <Icon>arrow_forward_ios</Icon>}
       </ListItemIcon>
     </ListItemButton>
   );

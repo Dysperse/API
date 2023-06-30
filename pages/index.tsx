@@ -1,4 +1,5 @@
 import { DailyCheckIn } from "@/components/CheckIns";
+import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -80,7 +81,7 @@ export function Navbar({
     >
       <Logo />
       {right || (
-        <GroupModal>
+        <>
           <IconButton
             sx={{
               ml: "auto",
@@ -88,11 +89,23 @@ export function Navbar({
               "&:active": { transform: "scale(.9)" },
               transition: "all .4s",
             }}
-            onClick={() => router.push("/users")}
+            onClick={openSpotlight}
           >
-            <Icon className="outlined">tag</Icon>
+            <Icon className="outlined">search</Icon>
           </IconButton>
-        </GroupModal>
+          <GroupModal list>
+            <IconButton
+              sx={{
+                color: palette[8],
+                "&:active": { transform: "scale(.9)" },
+                transition: "all .4s",
+              }}
+              onClick={() => router.push("/users")}
+            >
+              <Icon className="outlined">tag</Icon>
+            </IconButton>
+          </GroupModal>
+        </>
       )}
     </Box>
   );
