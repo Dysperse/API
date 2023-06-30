@@ -100,10 +100,12 @@ export function BoardInfo({
         height: { xs: "500px", md: "calc(100vh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },
         background: {
+          xs: `linear-gradient(${addHslAlpha(palette[4], 0.3)}, ${addHslAlpha(
+            palette[6],
+            0.3
+          )})`,
           md: addHslAlpha(palette[3], 0.3),
         },
-        border: { xs: "1px solid", md: "none" },
-        borderColor: { xs: addHslAlpha(palette[8], 0.3) },
         position: { md: "sticky" },
         left: "10px",
         zIndex: 999,
@@ -135,10 +137,10 @@ export function BoardInfo({
           position: "absolute",
           top: "50%",
           transform: "translateY(-50%)",
-          background: palette[3],
+          background: palette[5],
           height: "75px",
           width: "3px",
-          right: "10px",
+          right: "14px",
           display: { md: "none" },
           borderRadius: 9999,
         }}
