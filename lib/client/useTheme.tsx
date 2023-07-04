@@ -211,9 +211,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiSkeleton: {
         styleOverrides: {
           root: {
-            ...(darkMode && {
-              background: "hsla(240,11%,40%,0.4)",
-            }),
+            backgorund: addHslAlpha(palette[5], 0.4),
           },
         },
       },
