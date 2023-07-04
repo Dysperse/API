@@ -94,11 +94,13 @@ const handler = async (req, res) => {
         }
 
         let description: null | string = null;
+        let location: null | string = null;
+
         if (item.description) {
           description = item.description;
-          if (item.url) {
-            description = `${item.description}\n\nOriginal link: ${item.url}`;
-          }
+        }
+        if (item.url) {
+          location = item.url;
         }
 
         if (name) {
@@ -109,6 +111,7 @@ const handler = async (req, res) => {
             update: {
               name,
               description,
+              where: location,
               ...(due && { due }),
             },
             create: {
@@ -117,6 +120,7 @@ const handler = async (req, res) => {
               },
               id: taskId,
               name,
+              where: location,
               ...(due && { due }),
               description,
 

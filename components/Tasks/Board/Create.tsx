@@ -1,12 +1,11 @@
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import Masonry from "@mui/lab/Masonry";
 import {
-  Alert,
   Box,
   Button,
   Card,
+  CardActionArea,
   Dialog,
   Icon,
   InputAdornment,
@@ -18,7 +17,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useDeferredValue, useState } from "react";
 import { mutate } from "swr";
-import { OptionsGroup } from "../../OptionsGroup";
 
 const checklistCardStyles = (palette) => ({
   background: palette[2],
@@ -516,7 +514,7 @@ export const templates = [
   },
 ];
 
-export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
+export function CreateBoard({ mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");
@@ -567,45 +565,15 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
-    <Box sx={{ px: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
-      <Box
-        sx={{
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          borderRadius: 5,
-          mt: 6,
-          p: 4,
-          mb: 3,
-          mx: { sm: 1 },
-          overflow: "hidden",
-          py: 5,
-          background: palette[2],
-          position: "relative",
-        }}
-      >
-        <Head>
-          <title>Explore &bull; {currentOption}s</title>
-        </Head>
-        <Box sx={{ zIndex: 9, position: "sticky" }}>
-          <Typography variant="h5" sx={{ mb: 1 }}>
-            Create a board
-          </Typography>
-          <Typography sx={{ mb: 2, zIndex: 9 }}>
-            Boards are sweet places where you can keep track of almost anything,
-            from tasks, to shopping lists, to even product planning. You can
-            always edit templates after creating.
-          </Typography>
-          <Box sx={{ zIndex: 9 }}>
-            <OptionsGroup
-              options={["Board", "Checklist"]}
-              currentOption={currentOption}
-              setOption={setOption}
-            />
-          </Box>
-        </Box>
-      </Box>
-      <Box sx={{ px: 1 }}>
+    <Box sx={{ p: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
+      <Head>
+        <title>Explore &bull; {currentOption}s</title>
+      </Head>
+
+      <Typography variant="h2" className="font-heading" sx={{ mb: 1 }}>
+        Explore
+      </Typography>
+      <Box sx={{ px: 1, mt: 2 }}>
         <TextField
           size="small"
           placeholder='Try searching for "Shopping list"'
@@ -620,111 +588,34 @@ export function CreateBoard({ setDrawerOpen, mutationUrl }: any) {
           onChange={(e: any) => setSearchQuery(e.target.value)}
         />
       </Box>
-      {currentOption === "Checklist" ? (
-        <>
-          {checklists.filter((checklist) =>
-            checklist.name
-              .toLowerCase()
-              .includes(deferredSearchQuery.toLowerCase())
-          ).length === 0 && (
-            <Alert sx={{ mt: 2 }} severity="info">
-              No checklists found 😭
-            </Alert>
-          )}
-          <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
-            {checklists
-              .filter((checklist) =>
-                checklist.name
-                  .toLowerCase()
-                  .includes(deferredSearchQuery.toLowerCase())
-              )
-              .map((template) => (
-                <Box
-                  key={template.name}
-                  onClick={() => {
-                    setLoading(true);
-                    fetchRawApi(session, "property/boards/create", {
-                      board: JSON.stringify(template),
-                    }).then(async (res) => {
-                      await mutate(mutationUrl);
-                      router.push(`/tasks/boards/${res.id}`);
-                      setLoading(false);
-                    });
-                  }}
-                  sx={{
-                    py: 1,
-                    px: { sm: 1 },
-                    maxWidth: "calc(100vw - 52.5px)",
-                  }}
-                >
-                  <Card
-                    sx={{
-                      ...(session?.permission === "read-only" && {
-                        pointerEvents: "none",
-                        opacity: 0.5,
-                      }),
-                      ...(loading && {
-                        opacity: 0.5,
-                        pointerEvents: "none",
-                      }),
-                      ...checklistCardStyles(palette),
-                    }}
-                  >
-                    <Icon>task_alt</Icon>
-                    {template.name}
-                  </Card>
-                </Box>
-              ))}
-          </Masonry>
-        </>
-      ) : (
-        <Masonry columns={{ xs: 1, sm: 2 }} spacing={0} sx={{ mt: 2 }}>
-          <Box sx={{ px: 1 }}>
+      <Box sx={{ mt: 2 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          {templates.map((templates, index) => (
             <Card
+              key={index}
               sx={{
-                ...checklistCardStyles(palette),
-                mb: 2,
+                width: "300px",
+                flex: "0 0 300px",
+                background: palette[2],
+                borderRadius: 5,
+                height: "100%",
               }}
-              onClick={createBlankBoard}
             >
-              <Icon>add_circle</Icon>
-              <Typography sx={{ fontWeight: 700 }}>Blank board</Typography>
+              <CardActionArea sx={{ height: "100%", p: 3 }}>
+                <Typography variant="h3" className="font-heading">
+                  {templates.name}
+                </Typography>
+                <Typography variant="body2" className="font-body">
+                  {templates.columns.length} columns
+                </Typography>
+                <Typography variant="body2" className="font-body">
+                  {templates.description}
+                </Typography>
+              </CardActionArea>
             </Card>
-          </Box>
-          {templates.filter(
-            (template) =>
-              template.name
-                .toLowerCase()
-                .includes(deferredSearchQuery.toLowerCase()) ||
-              template.description
-                .toLowerCase()
-                .includes(deferredSearchQuery.toLowerCase())
-          ).length === 0 && (
-            <Alert sx={{ mt: 2 }} severity="info">
-              No boards found 😭
-            </Alert>
-          )}
-          {templates
-            .filter(
-              (template) =>
-                template.name
-                  .toLowerCase()
-                  .includes(deferredSearchQuery.toLowerCase()) ||
-                template.description
-                  .toLowerCase()
-                  .includes(deferredSearchQuery.toLowerCase())
-            )
-            .map((template) => (
-              <Template
-                key={template.name}
-                template={template}
-                mutationUrl={mutationUrl}
-                loading={loading}
-                setLoading={setLoading}
-              />
-            ))}
-        </Masonry>
-      )}
+          ))}
+        </Box>
+      </Box>
     </Box>
   );
 }

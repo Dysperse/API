@@ -12,7 +12,7 @@ export default function Dashboard() {
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>
-      <CreateBoard setDrawerOpen={() => setOpen(true)} mutationUrl={url} />
+      <CreateBoard mutationUrl={url} />
     </TasksLayout>
   );
 }

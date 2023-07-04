@@ -195,7 +195,7 @@ export default function Home() {
 
   const open = () => {
     vibrate(50);
-    setTimeout(() => setIsHover(true), 200);
+    setIsHover(true);
   };
   const close = () => {
     vibrate(50);
@@ -214,10 +214,6 @@ export default function Home() {
           sx={{
             mb: { xs: 10, sm: 2 },
             textAlign: "center",
-            "&:active": {
-              transform: "scale(.9)",
-            },
-            transition: "all .2s",
           }}
         >
           <Typography
