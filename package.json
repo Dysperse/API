@@ -26,6 +26,7 @@
     "@vercel/analytics": "^1.0.1",
     "argon2": "^0.30.3",
     "babel-plugin-import": "^1.13.6",
+    "boring-avatars": "^1.10.1",
     "cookie": "^0.5.0",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.8",

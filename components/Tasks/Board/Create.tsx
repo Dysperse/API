@@ -14,6 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Avatar from "boring-avatars";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useDeferredValue, useState } from "react";
@@ -252,29 +253,22 @@ export const templates = [
     for: ["Student", "College student"],
     category: "Work",
     name: "School planner",
-    description: "School planner to help organize your assignments",
-    color: "blue",
     columns: [
-      {
-        name: "Math",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4d0.png",
-      },
-      {
-        name: "English",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4d5.png",
-      },
-      {
-        name: "Science",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f9ea.png",
-      },
-      {
-        name: "History",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f30d.png",
-      },
+      { name: "Math", emoji: "1f4d0" },
+      { name: "English", emoji: "1f4d5" },
+      { name: "Science", emoji: "1f9ea" },
+      { name: "History", emoji: "1f30d" },
+    ],
+  },
+  {
+    for: ["Adult"],
+    category: "Work",
+    name: "Trip planning",
+    columns: [
+      { name: "Hotels", emoji: "1f4d0" },
+      { name: "English", emoji: "1f4d5" },
+      { name: "Science", emoji: "1f9ea" },
+      { name: "History", emoji: "1f30d" },
     ],
   },
 ];
@@ -302,8 +296,7 @@ export function CreateBoard({ mutationUrl }: any) {
       columns: [
         {
           name: "",
-          emoji:
-            "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4dd.png",
+          emoji: "1f4dd",
         },
       ],
     };
@@ -392,7 +385,7 @@ export function CreateBoard({ mutationUrl }: any) {
 
       <Box sx={{ mt: 2 }}>
         <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-          {templates.map((templates, index) => (
+          {templates.map((template, index) => (
             <Card
               key={index}
               sx={{
@@ -403,16 +396,67 @@ export function CreateBoard({ mutationUrl }: any) {
                 height: "100%",
               }}
             >
-              <CardActionArea sx={{ height: "100%", p: 3 }}>
-                <Typography variant="h3" className="font-heading">
-                  {templates.name}
-                </Typography>
-                <Typography variant="body2" gutterBottom className="font-body">
-                  {templates.columns.length} columns
-                </Typography>
-                <Typography variant="body2" className="font-body">
-                  {templates.description}
-                </Typography>
+              <CardActionArea sx={{ height: "100%" }}>
+                <Box sx={{ position: "relative" }}>
+                  <Box sx={{ maxHeight: "300px", overflow: "hidden" }}>
+                    <Avatar
+                      size="400px"
+                      square
+                      name={template.name}
+                      variant="marble"
+                      colors={[
+                        "#0A0310",
+                        "#49007E",
+                        "#FF005B",
+                        "#FF7D10",
+                        "#FFB238",
+                      ]}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      borderRadius: 5,
+                      background: palette[2],
+                      width: "calc(100% - 20px)",
+                      height: "calc(100% - 20px)",
+
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      p: 1,
+                    }}
+                  >
+                    {template.columns.map((column, index) => (
+                      <Box key={index} sx={{}}>
+                        <picture>
+                          <img
+                            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                            alt="emoji"
+                          />
+                          <Typography variant="body2">{column.name}</Typography>
+                          <Skeleton width="90%" animation={false} />
+                          <Skeleton width="100%" animation={false} />
+                          <Skeleton width="70%" animation={false} />
+                        </picture>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+                <Box sx={{ p: 3 }}>
+                  <Typography variant="h3" className="font-heading">
+                    {template.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    gutterBottom
+                    className="font-body"
+                  >
+                    {template.columns.length} columns
+                  </Typography>
+                </Box>
               </CardActionArea>
             </Card>
           ))}

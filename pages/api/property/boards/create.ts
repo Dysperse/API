@@ -19,12 +19,7 @@ const handler = async (req, res) => {
           createMany: {
             data: board.columns.map((column) => ({
               name: column.name,
-              emoji: column.emoji
-                .replace(
-                  "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/",
-                  ""
-                )
-                .replace(".png", ""),
+              emoji: column.emoji,
             })),
           },
         },
