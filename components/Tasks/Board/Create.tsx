@@ -1,6 +1,7 @@
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { colors } from "@/lib/colors";
 import {
   Box,
   Button,
@@ -249,6 +250,7 @@ function Template({ template, mutationUrl, loading, setLoading }: any) {
 export const templates = [
   {
     for: ["Student", "College student"],
+    category: "Work",
     name: "School planner",
     description: "School planner to help organize your assignments",
     color: "blue",
@@ -272,243 +274,6 @@ export const templates = [
         name: "History",
         emoji:
           "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f30d.png",
-      },
-    ],
-  },
-  {
-    for: ["Student", "College student", "Educator", "Adult"],
-    name: "To-do",
-    description: "A simple to-do list",
-    color: "blue",
-    columns: [
-      {
-        name: "To-do",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png",
-      },
-      {
-        name: "In progress",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ab.png",
-      },
-      {
-        name: "Done",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/270c-fe0f.png",
-      },
-    ],
-  },
-  {
-    for: ["Student", "College student"],
-    name: "Tests, homework, and projects",
-    description: "School planner to help organize your assignments",
-    color: "blue",
-    columns: [
-      {
-        name: "Tests",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4af.png",
-      },
-      {
-        name: "Homework",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4dd.png",
-      },
-      {
-        name: "Projects",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2728.png",
-      },
-    ],
-  },
-  {
-    for: ["Adult", "Educator", "Student", "College student"],
-    name: "Reading list",
-    description: "A list of books to read",
-    color: "green",
-    columns: [
-      {
-        name: "To-read",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4da.png",
-      },
-      {
-        name: "In progress",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c3.png",
-      },
-      {
-        name: "Done",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c1.png",
-      },
-    ],
-  },
-  {
-    for: ["Adult", "Educator", "College student"],
-    name: "Shopping list",
-    description: "A list of things to buy",
-    color: "red",
-    columns: [
-      {
-        name: "Fruits",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f34e.png",
-      },
-      {
-        name: "Vegetables",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f345.png",
-      },
-      {
-        name: "Meat",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f356.png",
-      },
-      {
-        name: "Other",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4b0.png",
-      },
-    ],
-  },
-  {
-    for: ["Adult", "Educator"],
-    name: "Trip planning template",
-    description: "A template for planning a trip",
-    color: "deepOrange",
-    columns: [
-      {
-        name: "Flights",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2708.png",
-      },
-      {
-        name: "Hotels",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3e8.png",
-      },
-      {
-        name: "Activities",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c8.png",
-      },
-      {
-        name: "Transportation",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f68c.png",
-      },
-    ],
-  },
-  {
-    for: ["Adult", "Educator", "Student", "College student"],
-    name: "Workout",
-    description: "A template for planning a workout",
-    color: "purple",
-    columns: [
-      {
-        name: "Warm-up",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3cb.png",
-      },
-      {
-        name: "Main workout",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3cb.png",
-      },
-      {
-        name: "Cool-down",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3cb.png",
-      },
-    ],
-  },
-  {
-    for: ["Adult", "Educator", "Student", "College student"],
-    name: "Project planning",
-    description: "A template for planning a project",
-    color: "orange",
-    columns: [
-      {
-        name: "Ideas",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4a1.png",
-      },
-      {
-        name: "Research",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4d6.png",
-      },
-      {
-        name: "Design",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4bc.png",
-      },
-      {
-        name: "Budget",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4b0.png",
-      },
-      {
-        name: "Development",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4bb.png",
-      },
-    ],
-  },
-  {
-    for: ["Adult", "Educator", "Student", "College student"],
-    name: "Life goals",
-    description: "A template for planning your life goals",
-    color: "pink",
-    columns: [
-      {
-        name: "Today",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4c5.png",
-      },
-      {
-        name: "This week",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4c5.png",
-      },
-      {
-        name: "This month",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4c5.png",
-      },
-      {
-        name: "This year",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4c5.png",
-      },
-      {
-        name: "Life",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4c5.png",
-      },
-    ],
-  },
-  {
-    for: ["Adult", "Educator", "Student", "College student"],
-    name: "Bucket list",
-    description: "A template for planning your bucket list",
-    color: "lime",
-    columns: [
-      {
-        name: "Places",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f30d.png",
-      },
-      {
-        name: "Experiences",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3a8.png",
-      },
-      {
-        name: "Things to do",
-        emoji:
-          "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4dd.png",
       },
     ],
   },
@@ -569,27 +334,64 @@ export function CreateBoard({ mutationUrl }: any) {
       <Head>
         <title>Explore &bull; {currentOption}s</title>
       </Head>
-
-      <Typography variant="h2" className="font-heading" sx={{ mb: 1 }}>
-        Explore
-      </Typography>
-      <Box sx={{ px: 1, mt: 2 }}>
-        <TextField
-          size="small"
-          placeholder='Try searching for "Shopping list"'
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon>search</Icon>
-              </InputAdornment>
-            ),
-          }}
-          value={searchQuery}
-          onChange={(e: any) => setSearchQuery(e.target.value)}
-        />
+      <Box sx={{ textAlign: "center", my: 10 }}>
+        <Typography variant="h2" className="font-heading" sx={{ mb: 1 }}>
+          Explore
+        </Typography>
+        <Typography variant="h6">
+          Build anything with thousands of templates
+        </Typography>
+        <Box sx={{ px: 1, mt: 2 }}>
+          <TextField
+            size="small"
+            placeholder='Try searching for "Shopping list"'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>search</Icon>
+                </InputAdornment>
+              ),
+            }}
+            sx={{ maxWidth: "400px" }}
+            value={searchQuery}
+            onChange={(e: any) => setSearchQuery(e.target.value)}
+          />
+        </Box>
       </Box>
+
+      <Box sx={{ display: "flex", gap: 2 }}>
+        {[
+          { color: "orange", name: "Work", icon: "work" },
+          { color: "purple", name: "School", icon: "history_edu" },
+          { color: "red", name: "Personal", icon: "celebration" },
+          { color: "green", name: "Checklists", icon: "task_alt" },
+        ].map((category) => (
+          <CardActionArea
+            key={category.name}
+            sx={{
+              background: palette[2],
+              p: 2,
+              borderRadius: 5,
+            }}
+          >
+            <Icon
+              className="outlined"
+              sx={{
+                color: colors[category.color]["300"],
+                mb: 1,
+                fontSize: "30px!important",
+              }}
+            >
+              {category.icon}
+            </Icon>
+            <Typography variant="h5">{category.name}</Typography>
+            <Typography variant="body2">50 templates</Typography>
+          </CardActionArea>
+        ))}
+      </Box>
+
       <Box sx={{ mt: 2 }}>
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
           {templates.map((templates, index) => (
             <Card
               key={index}
@@ -605,7 +407,7 @@ export function CreateBoard({ mutationUrl }: any) {
                 <Typography variant="h3" className="font-heading">
                   {templates.name}
                 </Typography>
-                <Typography variant="body2" className="font-body">
+                <Typography variant="body2" gutterBottom className="font-body">
                   {templates.columns.length} columns
                 </Typography>
                 <Typography variant="body2" className="font-body">
