@@ -16,7 +16,7 @@ const handler = async (req, res) => {
           },
         },
         name: req.query.title,
-        ...(location && { where: req.query.location }),
+        ...(req.query.location && { where: req.query.location }),
         ...(req.query.columnId !== "-1" && {
           column: {
             connect: {
