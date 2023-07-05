@@ -13,7 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
@@ -47,6 +47,8 @@ function RenderBoard({ tasks }) {
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+
+  const { board } = useContext(BoardContext);
 
   return (
     <Box
@@ -105,6 +107,7 @@ function RenderBoard({ tasks }) {
             value={{
               column,
               length: tasks.length,
+              columnLength: board.columns.length,
               navigation: {
                 current: currentColumn,
                 setCurrent: setCurrentColumn,

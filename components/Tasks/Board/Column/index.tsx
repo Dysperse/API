@@ -39,7 +39,7 @@ export function Column({
   useReverseAnimation,
   setUseReverseAnimation,
 }) {
-  const { column, length, navigation } = useContext(ColumnContext);
+  const { column, navigation, columnLength } = useContext(ColumnContext);
   const { board, mutationUrls, mutateData } = useContext(BoardContext);
 
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
@@ -401,7 +401,7 @@ export function Column({
               {isMobile ? (
                 <IconButton
                   onClick={() => {
-                    if (navigation.current === navigation.current - 1) {
+                    if (navigation.current === columnLength - 1) {
                       setMobileOpen(true);
                       setTimeout(() => {
                         document.getElementById("newColumn")?.click();
@@ -415,7 +415,7 @@ export function Column({
                   size="large"
                 >
                   <Icon className="outlined">
-                    {navigation.current === navigation.current - 1
+                    {navigation.current === columnLength - 1
                       ? "new_window"
                       : "arrow_forward_ios"}
                   </Icon>
