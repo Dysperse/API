@@ -116,6 +116,7 @@ export const SelectDateModal: any = function SelectDateModal({
         </Menu>
         <Puller sx={{ mb: -1 }} showOnDesktop />
         <DatePicker
+          calendarType="US"
           value={new Date(date)}
           onChange={(e: any) => {
             setDate(e);

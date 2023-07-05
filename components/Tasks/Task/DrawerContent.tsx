@@ -550,6 +550,7 @@ export default function DrawerContent({
           keepMounted={false}
         >
           <DatePicker
+            calendarType="US"
             value={new Date(data.due || new Date().toISOString())}
             onChange={(e: any) => {
               handleParentClose();
