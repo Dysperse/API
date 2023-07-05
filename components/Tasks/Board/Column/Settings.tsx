@@ -287,7 +287,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
             <Box>
               <Typography variant="h6">{column.name}</Typography>
               <Typography>
-                {length} task{length !== 1 && "s"}
+                {length} item{length !== 1 && "s"}
               </Typography>
             </Box>
           </Box>
