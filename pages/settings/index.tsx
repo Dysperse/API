@@ -263,7 +263,8 @@ export default function Layout({ children }: any) {
                     {capitalizeFirstLetter(
                       router.asPath
                         .replace("/settings/", "")
-                        .replaceAll("-", " ") || "Settings"
+                        .replaceAll("-", " ")
+                        .replace("/", "") || "Settings"
                     )}
                   </Button>
                   <IconButton

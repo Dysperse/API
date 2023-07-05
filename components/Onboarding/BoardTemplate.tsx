@@ -6,6 +6,7 @@ import {
   Icon,
   ListItemButton,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -37,14 +38,16 @@ export function BoardTemplate({ template }) {
         </Box>
         <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
           {template.columns.map((column, index) => (
-            <picture key={index}>
-              <img
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                width="25px"
-                height="25px"
-                alt="emoji"
-              />
-            </picture>
+            <Tooltip title={column.name} key={index} placement="top">
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                  width="25px"
+                  height="25px"
+                  alt="emoji"
+                />
+              </picture>
+            </Tooltip>
           ))}
         </Box>
       </Box>
