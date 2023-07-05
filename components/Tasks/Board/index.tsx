@@ -66,9 +66,12 @@ function RenderBoard({ tasks }) {
         />
       )}
       <SwipeableDrawer
-        ModalProps={{ keepMounted: true }}
         open={mobileOpen}
+        disableSwipeToOpen={false}
         onClose={() => setMobileOpen(false)}
+        onOpen={() => setMobileOpen(true)}
+        ModalProps={{ keepMounted: true }}
+        keepMounted
         sx={{ zIndex: 999, display: { sm: "none" } }}
         PaperProps={{
           sx: {
