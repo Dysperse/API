@@ -13,47 +13,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
 export const BoardContext = createContext<null | any>(null);
 export const ColumnContext = createContext<null | any>(null);
-
-function useSwipe(callback) {
-  const touchStartX: any = useRef(null);
-  const touchEndX: any = useRef(null);
-
-  useEffect(() => {
-    const handleTouchStart = (event) => {
-      touchStartX.current = event.touches[0].clientX;
-    };
-
-    const handleTouchEnd = (event) => {
-      touchEndX.current = event.changedTouches[0].clientX;
-      handleSwipe();
-    };
-
-    const handleSwipe = () => {
-      if (touchStartX.current - touchEndX.current > 100) {
-        callback("left"); // Swipe left
-      }
-
-      if (touchEndX.current - touchStartX.current > 100) {
-        callback("right"); // Swipe right
-      }
-    };
-
-    document.addEventListener("touchstart", handleTouchStart);
-    document.addEventListener("touchend", handleTouchEnd);
-
-    return () => {
-      document.removeEventListener("touchstart", handleTouchStart);
-      document.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [callback]);
-}
 
 function RenderBoard({ tasks }) {
   const [showInfo, setShowInfo] = useState<boolean | null>(null);
@@ -82,32 +48,6 @@ function RenderBoard({ tasks }) {
   const isDark = useDarkMode(session.darkMode);
 
   const { board } = useContext(BoardContext);
-
-  const handleSwipe = (direction) => {
-    if (direction === "left") {
-      setUseReverseAnimation(false);
-      setCurrentColumn((prev) => {
-        if (prev + 1 > board.columns.length - 1) {
-          return 0;
-        } else {
-          return prev + 1;
-        }
-      });
-    }
-
-    if (direction === "right") {
-      setUseReverseAnimation(true);
-      setCurrentColumn((prev) => {
-        if (prev - 1 < 0) {
-          return board.columns.length - 1;
-        } else {
-          return prev - 1;
-        }
-      });
-    }
-  };
-
-  useSwipe(handleSwipe);
 
   return (
     <Box
