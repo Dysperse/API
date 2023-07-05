@@ -119,8 +119,8 @@ export default function LoginActivity() {
           sx={{
             float: "right",
             mb: 2,
-            background: red["A400"] + "!important",
-            "&:hover": {
+            "&, &:hover": {
+              color: "#fff!important",
               background: red["A700"] + "!important",
             },
           }}
