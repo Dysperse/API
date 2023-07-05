@@ -172,7 +172,7 @@ export function BoardInfo({
             )}
             <TextField
               spellCheck={false}
-              disabled={session.permission === "read-only"}
+              disabled={session.permission === "read-only" || board.archived}
               defaultValue={board.name}
               onChange={(e: any) => {
                 e.target.value = e.target.value.replace(/\n|\r/g, "");
@@ -206,7 +206,7 @@ export function BoardInfo({
               multiline
               defaultValue={board.description}
               inputRef={descriptionRef}
-              disabled={session.permission === "read-only"}
+              disabled={session.permission === "read-only" || board.archived}
               onBlur={handleSave}
               placeholder="Click to add description"
               variant="standard"
@@ -287,7 +287,11 @@ export function BoardInfo({
               isShared={isShared}
               mutationUrls={mutationUrls}
             >
-              <IconButton size="large" sx={{ ml: { xs: "auto", sm: "0" } }}>
+              <IconButton
+                size="large"
+                sx={{ ml: { xs: "auto", sm: "0" } }}
+                disabled={board.archived}
+              >
                 <Icon className="outlined">ios_share</Icon>
               </IconButton>
             </ShareBoard>

@@ -132,7 +132,7 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
             await mutate(mutationUrls.boardData);
           }}
         >
-          <MenuItem onClick={handleClose} disabled={board.archived || isShared}>
+          <MenuItem onClick={handleClose} disabled={isShared}>
             <Icon className="outlined">delete</Icon>
             Delete
           </MenuItem>
