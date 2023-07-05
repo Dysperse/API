@@ -12,7 +12,6 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useHotkeys } from "react-hotkeys-hook";
 import { getTotal, max } from "../Group/Storage";
 import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
@@ -50,8 +49,8 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
       toast.promise(
         myPromise,
         {
-          loading: "You're offline. Waiting for an internet connection...",
-          success: "Internet connection restored!",
+          loading: "Waiting for network...",
+          success: "Back online!",
           error: "Error!?",
         },
         toastStyles
