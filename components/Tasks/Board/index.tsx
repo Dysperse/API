@@ -13,12 +13,15 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
-function RenderBoard({ mutationUrls, board, data, isShared }) {
+export const BoardContext = createContext<null | any>(null);
+export const ColumnContext = createContext<null | any>(null);
+
+function RenderBoard({ tasks }) {
   const [showInfo, setShowInfo] = useState<boolean | null>(null);
   const [useReverseAnimation, setUseReverseAnimation] = useState(false);
 
@@ -36,24 +39,11 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
   }, []);
 
   const [currentColumn, setCurrentColumn] = useState<number>(0);
-  const handleNext = useCallback(
-    () => setCurrentColumn((c) => c + 1),
-    [setCurrentColumn]
-  );
-  const handlePrev = useCallback(
-    () => setCurrentColumn((c) => c - 1),
-    [setCurrentColumn]
-  );
-
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
   const mount = useDelayedMount(mobileOpen, 1000);
-
-  const mutateData = async () => {
-    await mutate(mutationUrls.tasks);
-    await mutate(mutationUrls.boardData);
-  };
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -70,12 +60,9 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
     >
       {!isMobile && (
         <BoardInfo
-          isShared={isShared}
           setMobileOpen={setMobileOpen}
           setShowInfo={setShowInfo}
-          board={board}
           showInfo={showInfo}
-          mutationUrls={mutationUrls}
         />
       )}
       <SwipeableDrawer
@@ -96,12 +83,9 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
       >
         {isMobile && mount && (
           <BoardInfo
-            isShared={isShared}
             setMobileOpen={setMobileOpen}
             setShowInfo={setShowInfo}
-            board={board}
             showInfo={showInfo}
-            mutationUrls={mutationUrls}
           />
         )}
       </SwipeableDrawer>
@@ -111,24 +95,28 @@ function RenderBoard({ mutationUrls, board, data, isShared }) {
         id="boardInfoTrigger"
       />
 
-      {data
+      {tasks
         .filter((_, index: number) => index === currentColumn || !isMobile)
-        .map((column, index: number) => (
-          <Column
-            setMobileOpen={setMobileOpen}
-            mutateData={mutateData}
-            mutationUrls={mutationUrls}
-            currentColumn={currentColumn}
-            columnLength={data.length}
-            setCurrentColumn={setCurrentColumn}
-            useReverseAnimation={useReverseAnimation}
-            setUseReverseAnimation={setUseReverseAnimation}
-            column={column}
+        .map((column) => (
+          <ColumnContext.Provider
+            value={{
+              column,
+              length: tasks.length,
+              navigation: {
+                current: currentColumn,
+                setCurrent: setCurrentColumn,
+              },
+            }}
             key={column.id}
-            board={board}
-          />
+          >
+            <Column
+              setMobileOpen={setMobileOpen}
+              useReverseAnimation={useReverseAnimation}
+              setUseReverseAnimation={setUseReverseAnimation}
+            />
+          </ColumnContext.Provider>
         ))}
-      {data.length == 0 && (
+      {tasks.length == 0 && (
         <Box
           sx={{
             display: "flex",
@@ -192,20 +180,29 @@ export function Board({ mutationUrl, board }) {
     );
   }
 
+  const mutateData = async () => {
+    await mutate(mutationUrl);
+    await mutate(url);
+  };
+
   return (
     <>
       <Head>
         <title>{capitalizeFirstLetter(board.name)} &bull; Board</title>
       </Head>
-      <RenderBoard
-        isShared={isShared}
-        data={data}
-        mutationUrls={{
-          boardData: mutationUrl,
-          tasks: url,
+      <BoardContext.Provider
+        value={{
+          board,
+          isShared,
+          mutateData,
+          mutationUrls: {
+            boardData: mutationUrl,
+            tasks: url,
+          },
         }}
-        board={board}
-      />
+      >
+        <RenderBoard tasks={data} />
+      </BoardContext.Provider>
     </>
   );
 }

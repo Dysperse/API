@@ -16,21 +16,17 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 import { ShareBoard } from "./ShareBoard";
 
-export function BoardInfo({
-  isShared,
-  setMobileOpen,
-  board,
-  showInfo,
-  mutationUrls,
-  setShowInfo,
-}) {
+export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
+  const { board, isShared, mutationUrls } = useContext(BoardContext);
+
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
   const session = useSession();

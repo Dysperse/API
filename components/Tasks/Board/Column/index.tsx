@@ -19,8 +19,16 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "react-hot-toast";
+import { BoardContext, ColumnContext } from "..";
 import EmojiPicker from "../../../EmojiPicker";
 import { Task } from "../../Task";
 import { CreateTask } from "../../Task/Create";
@@ -28,20 +36,12 @@ import { ColumnSettings } from "./Settings";
 
 export function Column({
   setMobileOpen,
-
-  board,
-  column,
-
-  mutateData,
-  mutationUrls,
-
   useReverseAnimation,
   setUseReverseAnimation,
-
-  setCurrentColumn,
-  currentColumn,
-  columnLength,
 }) {
+  const { column, length, navigation } = useContext(ColumnContext);
+  const { board, mutationUrls, mutateData } = useContext(BoardContext);
+
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
 
@@ -293,24 +293,19 @@ export function Column({
                   size="large"
                   onClick={(e) => {
                     setUseReverseAnimation(true);
-                    setCurrentColumn((i) => i - 1);
+                    navigation.setCurrent((i) => i - 1);
                   }}
-                  disabled={currentColumn == 0}
+                  disabled={navigation.current == 0}
                   sx={{
-                    color: palette[currentColumn == 0 ? 6 : 8] + "!important",
+                    color:
+                      palette[navigation.current == 0 ? 6 : 8] + "!important",
                   }}
                 >
                   <Icon className="outlined">arrow_back_ios_new</Icon>
                 </IconButton>
               </Box>
             )}
-            <ColumnSettings
-              board={board}
-              setColumnTasks={setColumnTasks}
-              columnTasksLength={columnTasks.length}
-              column={column}
-              mutateData={mutateData}
-            >
+            <ColumnSettings setColumnTasks={setColumnTasks}>
               <CardActionArea
                 sx={{
                   flexGrow: 1,
@@ -405,8 +400,8 @@ export function Column({
             <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
               {isMobile ? (
                 <IconButton
-                  onClick={(e) => {
-                    if (currentColumn === columnLength - 1) {
+                  onClick={() => {
+                    if (navigation.current === navigation.current - 1) {
                       setMobileOpen(true);
                       setTimeout(() => {
                         document.getElementById("newColumn")?.click();
@@ -414,27 +409,19 @@ export function Column({
                       return;
                     }
                     setUseReverseAnimation(false);
-                    setCurrentColumn((i) => i + 1);
+                    navigation.setCurrent((i) => i + 1);
                   }}
                   sx={{ color: palette[8] }}
                   size="large"
                 >
                   <Icon className="outlined">
-                    {currentColumn === columnLength - 1
+                    {navigation.current === navigation.current - 1
                       ? "new_window"
                       : "arrow_forward_ios"}
                   </Icon>
                 </IconButton>
               ) : (
-                <ColumnSettings
-                  board={board}
-                  setColumnTasks={setColumnTasks}
-                  columnTasksLength={
-                    columnTasks.filter((t) => !t.completed).length
-                  }
-                  column={column}
-                  mutateData={mutateData}
-                />
+                <ColumnSettings setColumnTasks={setColumnTasks} />
               )}
             </Box>
           </Box>
@@ -476,7 +463,7 @@ export function Column({
                 />
                 <Box sx={{ px: 3, maxWidth: "calc(100% - 50px)" }}>
                   <Typography variant="h6">It&apos;s quiet here!</Typography>
-                  <Typography gutterBottom sx={{ fontWeight: 300, mb: 2 }}>
+                  <Typography gutterBottom sx={{ fontWeight: 300 }}>
                     There&apos;s nothing in this column (yet!)
                   </Typography>
                 </Box>

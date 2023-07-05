@@ -21,25 +21,35 @@ import {
 import {
   cloneElement,
   useCallback,
+  useContext,
   useDeferredValue,
   useRef,
   useState,
 } from "react";
 import { toast } from "react-hot-toast";
+import { BoardContext, ColumnContext } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({
-  children,
-  board,
-  setColumnTasks,
-  mutateData,
-  column,
-  columnTasksLength,
-}: any) {
+export function ColumnSettings({ children, setColumnTasks }: any) {
   const storage = useAccountStorage();
+  const ref: any = useRef();
+  const buttonRef: any = useRef();
+  const session = useSession();
+
+  const { board, mutateData } = useContext(BoardContext);
+  const { column, length } = useContext(ColumnContext);
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [title, setTitle] = useState(column.name);
+  const [emoji, setEmoji] = useState(column.emoji);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const deferredTitle = useDeferredValue(title);
+
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
@@ -52,27 +62,13 @@ export function ColumnSettings({
     setAnchorEl(null);
   }, [setAnchorEl]);
 
-  const [title, setTitle] = useState(column.name);
-  const [emoji, setEmoji] = useState(column.emoji);
-
-  const deferredTitle = useDeferredValue(title);
-
-  const ref: any = useRef();
-  const buttonRef: any = useRef();
-  const [open, setOpen] = useState<boolean>(false);
-  const session = useSession();
-
   const isDark = useDarkMode(session.darkMode);
   const handleModalClose = () => {
     mutateData();
     setOpen(false);
   };
 
-  const trigger = cloneElement(children || <div />, {
-    onClick: handleClick,
-  });
-
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const trigger = cloneElement(children || <div />, { onClick: handleClick });
 
   const menuChildren = (
     <Box
@@ -291,7 +287,7 @@ export function ColumnSettings({
             <Box>
               <Typography variant="h6">{column.name}</Typography>
               <Typography>
-                {columnTasksLength} task{columnTasksLength !== 1 && "s"}
+                {length} task{length !== 1 && "s"}
               </Typography>
             </Box>
           </Box>
