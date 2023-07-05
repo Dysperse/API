@@ -109,7 +109,7 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
               : "Are you sure you want to archive this board? You won't be able to add/edit items, or share it with anyone."
           }
           callback={async () => {
-            await fetchRawApi(session, "property/boards/archived", {
+            await fetchRawApi(session, "property/boards/edit", {
               id: board.id,
               archived: !board.archived,
             });
