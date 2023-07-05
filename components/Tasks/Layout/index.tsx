@@ -298,7 +298,7 @@ export function TasksLayout({ open, setOpen, children }) {
           },
         }
       : {
-          color: "#fff",
+          color: palette[12],
           background: palette[4],
           "&:hover, &:focus": {
             background: palette[5],
