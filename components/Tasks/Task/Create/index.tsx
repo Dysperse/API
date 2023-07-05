@@ -137,7 +137,7 @@ export function CreateTask({
       fetchRawApi(session, "property/boards/column/task/create", {
         title: deferredTitle,
         description,
-        location,
+        ...(location && { location }),
         ...(image && { image: JSON.parse(image).url }),
         date,
         pinned: pinned ? "true" : "false",
