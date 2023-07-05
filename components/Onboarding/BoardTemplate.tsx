@@ -33,10 +33,7 @@ export function BoardTemplate({ template }) {
     >
       <Box>
         <Box>
-          <ListItemText
-            primary={template.name}
-            secondary={template.description.replace("NEW: ", "")}
-          />
+          <ListItemText primary={template.name} />
         </Box>
         <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
           {template.columns.map((column, index) => (
