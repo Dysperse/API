@@ -1,7 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useDarkMode } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import {
   Alert,
@@ -46,7 +46,6 @@ function RenderBoard({ tasks }) {
   const mount = useDelayedMount(mobileOpen, 1000);
 
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
 
   const { board } = useContext(BoardContext);
 
