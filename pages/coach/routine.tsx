@@ -1,4 +1,5 @@
 import { ShareGoal } from "@/components/Coach/Goal/ShareGoal";
+import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -13,16 +14,128 @@ import {
   Dialog,
   Icon,
   IconButton,
+  SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { orange } from "@radix-ui/colors";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { cloneElement, useEffect, useMemo, useState } from "react";
+import Calendar from "react-calendar";
 import Confetti from "react-confetti";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
+
+function GoalActivity({ goal, children, open, setOpen }) {
+  const session = useSession();
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    if (open) {
+      fetchRawApi(session, "user/coach/goals/activity", {
+        id: goal.id,
+      })
+        .then((res) => {
+          setData(res);
+        })
+        .catch(() =>
+          toast.error(
+            "Yikes! Something went wrong while trying to fetch your activity",
+            toastStyles
+          )
+        );
+    }
+  }, [open, session, goal, data]);
+
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen(!open),
+  });
+
+  return (
+    <Box>
+      {trigger}
+      <SwipeableDrawer
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        anchor="bottom"
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
+        >
+          <Puller showOnDesktop />
+          <Typography
+            className="font-heading"
+            variant="h4"
+            sx={{ textAlign: "center" }}
+          >
+            {dayjs().format("MMMM YYYY")}
+          </Typography>
+          {/* Make an grid of 365 days, rows represent weeks, columns represent days . Use DayJS current month. Ignore data variable for now*/}
+          <Box sx={{ flexGrow: 1 }}>
+            <Box
+              sx={{
+                "& .react-calendar__tile": {
+                  color: "#fff!important",
+                  border: "none!important",
+                  cursor: "default!important",
+                },
+                ...(!data && {
+                  filter: "blur(5px)",
+                }),
+              }}
+            >
+              <Calendar
+                maxDate={new Date()}
+                showNavigation={false}
+                showNeighboringMonth={false}
+                tileContent={({ date, view }) => {
+                  if (view === "month") {
+                    return (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "100%",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            borderRadius: "50%",
+                            height: 20,
+                            width: 20,
+                            mt: -4,
+                            zIndex: -1,
+                            background:
+                              data &&
+                              data.filter(
+                                (d) =>
+                                  dayjs(d.date).format("YYYY-MM-DD") ===
+                                  dayjs(date).format("YYYY-MM-DD")
+                              ).length
+                                ? orange["orange9"]
+                                : "transparent",
+                          }}
+                        />
+                      </Box>
+                    );
+                  }
+                }}
+              />
+            </Box>
+          </Box>
+        </Box>
+      </SwipeableDrawer>
+    </Box>
+  );
+}
 
 function GoalTask({ goal, setSlide, mutationUrl }) {
   const session = useSession();
@@ -34,6 +147,8 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
   const [alreadyPlayed, setAlreadyPlayed] = useState(false);
 
   const isCompleted = goal.progress === goal.durationDays;
+
+  const [open, setOpen] = useState<boolean>(false);
 
   useStatusBar(palette[2]);
 
@@ -51,12 +166,14 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
               : goal.progress + 1
             : 1,
         id: goal.id,
-      }).catch(() =>
-        toast.error(
-          "Yikes! Something went wrong while trying to mark your routine as done",
-          toastStyles
-        )
-      );
+      })
+        .then(async () => await mutate(mutationUrl))
+        .catch(() =>
+          toast.error(
+            "Yikes! Something went wrong while trying to mark your routine as done",
+            toastStyles
+          )
+        );
     }
   };
 
@@ -95,6 +212,11 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
   return (
     <Box
       sx={{
+        ...(open && {
+          transform: "scale(0.8)",
+        }),
+        transformOrigin: "top center",
+        transition: "transform 0.3s",
         display: "flex",
         height: "100vh",
         mx: "auto",
@@ -281,10 +403,12 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
       <Box
         sx={{ mt: "auto", width: "100%", p: 1, display: "flex", zIndex: 999 }}
       >
-        <Button sx={{ color: "#fff" }} size="small">
-          <Icon>local_fire_department</Icon>
-          Activity
-        </Button>
+        <GoalActivity goal={goal} open={open} setOpen={setOpen}>
+          <Button sx={{ color: "#fff" }} size="small">
+            <Icon>local_fire_department</Icon>
+            Activity
+          </Button>
+        </GoalActivity>
         <ShareGoal goal={goal}>
           <IconButton sx={{ ml: "auto" }}>
             <Icon>ios_share</Icon>

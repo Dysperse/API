@@ -85,5 +85,18 @@ export default async function handler(req: any, res: any) {
       id: req.query.id,
     },
   });
+
+  const d = await prisma.routineActivityData.create({
+    data: {
+      id: req.query.id,
+      date: new Date(req.query.date),
+      routineItem: {
+        connect: {
+          id: req.query.id,
+        },
+      },
+    },
+  });
+
   res.json(data);
 }
