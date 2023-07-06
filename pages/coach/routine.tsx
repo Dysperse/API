@@ -49,6 +49,8 @@ function GoalActivity({ goal, children, open, setOpen }) {
     }
   }, [open, session, goal, data]);
 
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),
   });
@@ -61,6 +63,11 @@ function GoalActivity({ goal, children, open, setOpen }) {
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         anchor="bottom"
+        PaperProps={{
+          sx: {
+            background: palette[2],
+          },
+        }}
       >
         <Box
           sx={{
@@ -93,6 +100,7 @@ function GoalActivity({ goal, children, open, setOpen }) {
             >
               <Calendar
                 maxDate={new Date()}
+                // value={dayjs().add(0, "month").toDate()}
                 showNavigation={false}
                 showNeighboringMonth={false}
                 tileContent={({ date, view }) => {
@@ -109,8 +117,8 @@ function GoalActivity({ goal, children, open, setOpen }) {
                         <Box
                           sx={{
                             borderRadius: "50%",
-                            height: 20,
-                            width: 20,
+                            height: 25,
+                            width: 25,
                             mt: -4,
                             zIndex: -1,
                             background:
@@ -120,7 +128,7 @@ function GoalActivity({ goal, children, open, setOpen }) {
                                   dayjs(d.date).format("YYYY-MM-DD") ===
                                   dayjs(date).format("YYYY-MM-DD")
                               ).length
-                                ? orange["orange9"]
+                                ? orange["orange10"]
                                 : "transparent",
                           }}
                         />
@@ -137,7 +145,7 @@ function GoalActivity({ goal, children, open, setOpen }) {
   );
 }
 
-function GoalTask({ goal, setSlide, mutationUrl }) {
+function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const { width, height } = useWindowDimensions();
@@ -148,7 +156,6 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
 
   const isCompleted = goal.progress === goal.durationDays;
 
-  const [open, setOpen] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(false);
 
   useStatusBar(palette[2]);
@@ -216,7 +223,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
     <Box
       sx={{
         ...(open && {
-          transform: "scale(0.8)",
+          transform: "scale(0.9)",
         }),
         transformOrigin: "top center",
         transition: "transform 0.3s",
@@ -474,6 +481,8 @@ export default function Routine() {
   useHotkeys("ArrowRight", handleNext);
   useHotkeys("ArrowLeft", handlePrev);
 
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
     <Box
       sx={{
@@ -567,6 +576,8 @@ export default function Routine() {
         (goal, index) =>
           slide === index && (
             <GoalTask
+              open={open}
+              setOpen={setOpen}
               mutationUrl={url}
               setSlide={setSlide}
               goal={goal}
