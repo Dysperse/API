@@ -149,6 +149,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
   const isCompleted = goal.progress === goal.durationDays;
 
   const [open, setOpen] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   useStatusBar(palette[2]);
 
@@ -157,6 +158,7 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
       setStepTwoOpen(true);
     } else {
       setSlide((s) => s + 1);
+      setDisabled(true);
       fetchRawApi(session, "user/coach/goals/markAsDone", {
         date: dayjs().format("YYYY-MM-DD"),
         progress:
@@ -168,12 +170,13 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
         id: goal.id,
       })
         .then(async () => await mutate(mutationUrl))
-        .catch(() =>
+        .catch(() => {
           toast.error(
             "Yikes! Something went wrong while trying to mark your routine as done",
             toastStyles
-          )
-        );
+          );
+          setDisabled(false);
+        });
     }
   };
 
@@ -394,7 +397,9 @@ function GoalTask({ goal, setSlide, mutationUrl }) {
             variant="contained"
             fullWidth
             onClick={handleNext}
-            disabled={goal.lastCompleted === dayjs().format("YYYY-MM-DD")}
+            disabled={
+              disabled || goal.lastCompleted == dayjs().format("YYYY-MM-DD")
+            }
           >
             {isCompleted ? "Claim" : "Done"} <Icon>east</Icon>
           </Button>
