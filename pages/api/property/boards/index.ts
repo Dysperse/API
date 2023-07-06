@@ -47,6 +47,7 @@ const handler = async (req, res) => {
         },
         property: {
           select: {
+            id: true,
             members: {
               select: {
                 user: {

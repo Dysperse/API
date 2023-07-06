@@ -10,10 +10,15 @@ import {
   Box,
   CircularProgress,
   Divider,
+  FormControl,
   Icon,
   IconButton,
+  InputLabel,
   ListItem,
   ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   SwipeableDrawer,
   TextField,
   Toolbar,
@@ -46,17 +51,52 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
     useState<boolean>(false);
 
   const deferredEmail = useDeferredValue(email);
+  const [expiration, setExpiration] = useState<string>("7");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setExpiration(event.target.value as string);
+  };
 
   const handleGenerate = async () => {
     try {
       setLoading(true);
-      await fetchRawApi(session, "property/shareTokens/create", {
-        board: board.id,
-        date: new Date().toISOString(),
-        expires: 7,
-        email,
-      });
-      await mutate(url);
+      if (
+        data?.find((share) => share.user.email === deferredEmail) ||
+        (board.public &&
+          board.property.members.find(
+            (member) => member.user.email === deferredEmail
+          ))
+      ) {
+        toast.error(
+          "This person already has access to this board",
+          toastStyles
+        );
+        setLoading(false);
+        return;
+      }
+      try {
+        const res = await fetchRawApi(session, "property/shareTokens/create", {
+          board: board.id,
+          email: deferredEmail,
+          boardProperty: board.property.id,
+          expiresAt: dayjs().add(parseInt(expiration), "day").toISOString(),
+        });
+        if (res.error) {
+          throw new Error(res.error);
+        }
+        toast.success(
+          "The share link has been generated successfully!",
+          toastStyles
+        );
+        await mutate(url);
+      } catch (e) {
+        toast.error(
+          "Could not generate the share link! Is the email correct?",
+          toastStyles
+        );
+        setLoading(false);
+      }
+      setEmail("");
       setLoading(false);
     } catch (e) {
       toast.error(
@@ -108,7 +148,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
         onClose={handleClose}
         onOpen={handleOpen}
         anchor="bottom"
-        sx={{ zIndex: 9999 }}
+        sx={{ zIndex: 999 }}
         onKeyDown={(e) => e.stopPropagation()}
         PaperProps={{
           sx: { height: "100vh" },
@@ -136,6 +176,31 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
               sx={{ mt: 1 }}
             />
           )}
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel id="demo-simple-select-label">
+              Allow access for...
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={expiration}
+              MenuProps={{
+                sx: {
+                  zIndex: 99999999,
+                },
+              }}
+              label="Allow access for..."
+              onChange={handleChange}
+              size="small"
+            >
+              <MenuItem value={1}>1 day</MenuItem>
+              <MenuItem value={7}>1 week</MenuItem>
+              <MenuItem value={30}>1 month</MenuItem>
+              <MenuItem value={60}>2 months</MenuItem>
+              <MenuItem value={90}>3 months</MenuItem>
+              <MenuItem value={365}>1 year</MenuItem>
+            </Select>
+          </FormControl>
           {!isShared && (
             <LoadingButton
               loading={loading}
@@ -148,29 +213,61 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
             </LoadingButton>
           )}
           <Box sx={boxStyles}>
-            <ListItem
-              sx={{
-                px: 0,
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-              }}
-            >
-              <ListItemText
-                primary={session.property?.profile?.name}
-                secondary="Your group"
-              />
-              <IconButton
-                sx={{ ml: "auto" }}
-                disabled={loadingGroupVisibility}
-                onClick={toggleGroupVisibility}
+            {session.property.propertyId === board.property.id && (
+              <ListItem
+                sx={{
+                  px: 0,
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                }}
               >
-                <Icon className="outlined">
-                  visibility{!board.public && "_off"}
-                </Icon>
-              </IconButton>
-            </ListItem>
-            {data && data.length > 0 && <Divider sx={{ my: 1 }} />}
+                <ListItemText
+                  primary={session.property?.profile?.name}
+                  secondary="Your group"
+                />
+                <IconButton
+                  sx={{ ml: "auto" }}
+                  disabled={loadingGroupVisibility || isShared}
+                  onClick={toggleGroupVisibility}
+                >
+                  <Icon className="outlined">
+                    visibility{!board.public && "_off"}
+                  </Icon>
+                </IconButton>
+              </ListItem>
+            )}
+            {session.property.propertyId === board.property.id && (
+              <Divider sx={{ my: 1 }} />
+            )}
+            {board.property.members
+              .filter(
+                (member, index, self) =>
+                  self.findIndex((m) => m.user.email === member.user.email) ===
+                  index
+              )
+              .filter(
+                (m) => board.public || m.user.email === session.user.email
+              )
+              .map((member) => (
+                <ListItem
+                  key={member.user.email}
+                  sx={{
+                    px: 0,
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Avatar sx={{ mr: 2 }} src={member.user?.Profile?.picture}>
+                    {member.user.name.substring(0, 2).toUpperCase()}
+                  </Avatar>
+                  <ListItemText
+                    primary={member.user.name}
+                    secondary="In group"
+                  />
+                </ListItem>
+              ))}
             {data ? (
               data.map((share) => (
                 <ListItem
@@ -196,7 +293,11 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
                     }
                     onClick={() => handleRevoke(share.token)}
                   >
-                    <Icon className="outlined">delete</Icon>
+                    <Icon className="outlined">
+                      {share.user.email === session.user.email
+                        ? "logout"
+                        : "delete"}
+                    </Icon>
                   </IconButton>
                 </ListItem>
               ))
