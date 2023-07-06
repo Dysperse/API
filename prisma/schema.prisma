@@ -291,8 +291,18 @@ model RoutineItem {
   feedback      String? @default("")
   timeOfDay     Int     @default(12)
 
-  userId String
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  userId              String
+  user                User                  @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  
+  RoutineActivityData RoutineActivityData[]
+}
+
+model RoutineActivityData {
+  id            String   @id @unique @default(uuid())
+  routineItemId String
+  date          DateTime
+
+  routineItem RoutineItem @relation(fields: [routineItemId], references: [id], onDelete: Cascade)
 }
 
 model DailyCheckIn {
