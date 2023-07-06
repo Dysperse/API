@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
-import dayjs from "dayjs";
 
 const handler = async (req, res) => {
   try {
@@ -10,9 +9,7 @@ const handler = async (req, res) => {
     });
     const data = await prisma.shareToken.create({
       data: {
-        expiresAt: dayjs(req.query.date)
-          .add(req.query.expiresAt, "day")
-          .toDate(),
+        expiresAt: new Date(req.query.expiresAt),
         property: { connect: { id: req.query.boardProperty } },
         ...(req.query.board && { board: { connect: { id: req.query.board } } }),
         user: { connect: { email: req.query.email } },
