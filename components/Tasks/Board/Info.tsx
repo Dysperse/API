@@ -75,14 +75,21 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
   const router = useRouter();
 
   // Unique list of collaborators based on member email
-  const collaborators = [...board.property.members, ...board.shareTokens]
+  const collaborators = (
+    board.public
+      ? [...board.property.members, ...board.shareTokens]
+      : [
+          ...board.property.members.filter(
+            (m) => m.user.email == session.user.email
+          ),
+          ...board.shareTokens,
+        ]
+  )
     .filter((member) => member.user.email)
-    .reduce((acc, member) => {
-      if (!acc.find((m) => m.user.email === member.user.email)) {
-        acc.push(member);
-      }
-      return acc;
-    }, []);
+    .filter(
+      (member, index, self) =>
+        self.findIndex((m) => m.user.email === member.user.email) === index
+    );
 
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -145,8 +152,8 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
         <>
           <Box sx={{ mt: "auto" }}>
             {collaborators.length > 1 && (
-              <AvatarGroup max={4} sx={{ my: 1, justifyContent: "start" }}>
-                {collaborators.slice(0, 3).map((member) => (
+              <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
+                {collaborators.slice(0, 5).map((member) => (
                   <Tooltip key={member.id} title={member.user.name}>
                     <Avatar
                       src={member?.user?.Profile?.picture}
@@ -157,11 +164,11 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
                     </Avatar>
                   </Tooltip>
                 ))}
-                {collaborators.length > 3 && (
+                {collaborators.length > 5 && (
                   <Avatar
                     sx={{ width: "30px", height: "30px", fontSize: "15px" }}
                   >
-                    +{collaborators.length - 3}
+                    +{collaborators.length - 5}
                   </Avatar>
                 )}
               </AvatarGroup>
