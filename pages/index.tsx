@@ -156,7 +156,11 @@ export default function Home() {
 
   const completedGoals = (coachData || [])
     .filter((goal) => !goal.completed)
-    .filter((goal) => goal.lastCompleted == dayjs().format("YYYY-MM-DD"));
+    .filter(
+      (goal) =>
+        dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
+        dayjs().format("YYYY-MM-DD")
+    );
 
   const completedTodaysTasks =
     data &&

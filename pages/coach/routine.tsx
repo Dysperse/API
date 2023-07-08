@@ -405,7 +405,9 @@ function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
             fullWidth
             onClick={handleNext}
             disabled={
-              disabled || goal.lastCompleted == dayjs().format("YYYY-MM-DD")
+              disabled ||
+              dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
+                dayjs().format("YYYY-MM-DD")
             }
           >
             {isCompleted ? "Claim" : "Done"} <Icon>east</Icon>
