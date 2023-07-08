@@ -11,6 +11,7 @@ import {
   Button,
   Chip,
   Divider,
+  Grow,
   Icon,
   IconButton,
   InputAdornment,
@@ -508,6 +509,52 @@ export function TasksLayout({ open, setOpen, children }) {
 
   const isBoard = router.asPath.includes("/tasks/boards/");
 
+  const trigger = (
+    <Button
+      sx={{
+        color: palette[8],
+        px: 1,
+        height: 48,
+        ...(!title.includes("•") && {
+          minWidth: 0,
+        }),
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+      }}
+      size="large"
+      onClick={() => {
+        vibrate(50);
+        setOpen(true);
+      }}
+    >
+      <Icon>expand_all</Icon>
+      <Box
+        sx={{
+          overflow: "hidden",
+          maxWidth: "100%",
+          textOverflow: "ellipsis",
+          "& .MuiTypography-root": {
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            maxWidth: "100%",
+            overflow: "hidden",
+          },
+          textAlign: "left",
+          minWidth: 0,
+        }}
+      >
+        <Typography sx={{ fontWeight: 900 }}>
+          {title.includes("•") ? title.split("•")[0] : ""}
+        </Typography>
+        {title.includes("•") && (
+          <Typography variant="body2" sx={{ mt: -0.5 }}>
+            {title.split("•")[1]}
+          </Typography>
+        )}
+      </Box>
+    </Button>
+  );
+
   return (
     <>
       {isMobile && (
@@ -532,49 +579,7 @@ export function TasksLayout({ open, setOpen, children }) {
               left: "10px",
             }}
           >
-            <Button
-              sx={{
-                color: palette[8],
-                px: 1,
-                height: 48,
-                ...(!title.includes("•") && {
-                  minWidth: 0,
-                }),
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-              }}
-              size="large"
-              onClick={() => {
-                vibrate(50);
-                setOpen(true);
-              }}
-            >
-              <Icon>expand_all</Icon>
-              <Box
-                sx={{
-                  overflow: "hidden",
-                  maxWidth: "100%",
-                  textOverflow: "ellipsis",
-                  "& .MuiTypography-root": {
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    maxWidth: "100%",
-                    overflow: "hidden",
-                  },
-                  textAlign: "left",
-                  minWidth: 0,
-                }}
-              >
-                <Typography sx={{ fontWeight: 900 }}>
-                  {title.includes("•") ? title.split("•")[0] : ""}
-                </Typography>
-                {title.includes("•") && (
-                  <Typography variant="body2" sx={{ mt: -0.5 }}>
-                    {title.split("•")[1]}
-                  </Typography>
-                )}
-              </Box>
-            </Button>
+            {trigger}
             <SearchTasks setOpen={setOpen} />
             <IconButton
               sx={{
@@ -602,22 +607,56 @@ export function TasksLayout({ open, setOpen, children }) {
       {isMobile && <Box sx={{ height: "65px" }} />}
       <Box sx={{ display: "flex" }}>
         <SwipeableDrawer
-          anchor="bottom"
+          anchor="top"
           onClose={() => {
             setOpen(false);
             vibrate(50);
           }}
+          onClick={() => {
+            setOpen(false);
+            vibrate(50);
+          }}
           open={open}
+          {...{
+            TransitionComponent: (props) => (
+              <Grow {...props} style={{ transformOrigin: "0 0 0" }} />
+            ),
+          }}
           PaperProps={{
             sx: {
-              pb: 2,
-              maxHeight: "90vh",
+              background: "transparent",
+              p: 2,
             },
           }}
           sx={{ zIndex: 999999999999 }}
         >
-          <Puller />
-          <Box sx={{ p: 1, pt: 0, mt: -2 }}>{menuChildren}</Box>
+          <Box sx={{ display: "flex", mt: -0.5, mb: 1 }}>
+            {trigger}
+            <div style={{ marginLeft: "auto" }} />
+          </Box>
+          <Box
+            onClick={(e) => e.stopPropagation()}
+            sx={{
+              p: 1.5,
+              ml: 1,
+              pb: 0,
+              borderRadius: 5,
+              maxHeight: "calc(100vh - 200px)",
+              maxWidth: "calc(100vw - 100px)",
+              overflowY: "scroll",
+              backdropFilter: "blur(15px)!important",
+              background: addHslAlpha(palette[3], 0.8),
+            }}
+          >
+            {menuChildren}
+            <Puller
+              sx={{
+                position: "sticky",
+                bottom: 0,
+                mb: -4,
+              }}
+            />
+          </Box>
         </SwipeableDrawer>
         <Box
           sx={{

@@ -178,7 +178,7 @@ export default function Dashboard() {
       <Grid
         container
         sx={{
-          background: palette[2],
+          background: { sm: palette[2] },
         }}
       >
         <Grid
