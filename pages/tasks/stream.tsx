@@ -51,8 +51,9 @@ export function Upcoming({ setMobileView }) {
       >
         <Box
           sx={{
-            p: 3,
+            p: { sm: 3 },
             pt: 10,
+            maxWidth: "100vw",
           }}
         >
           <Box sx={{ textAlign: "center" }}>
@@ -214,8 +215,9 @@ export default function Dashboard() {
             >
               <Box
                 sx={{
-                  p: 3,
+                  p: { sm: 3 },
                   pt: 10,
+                  maxWidth: "100vw",
                 }}
               >
                 <Box sx={{ textAlign: "center" }}>
@@ -259,59 +261,59 @@ export default function Dashboard() {
                     error="Yikes! An error occured while trying to fetch your backlog. Please try again later."
                   />
                 )}
-              </Box>
-              {data && (
-                <Box>
-                  {data.length === 0 && (
-                    <Box
-                      sx={{
-                        textAlign: "center",
-                      }}
-                    >
-                      <Image
-                        src="/images/backlog.png"
-                        width={256}
-                        height={256}
-                        alt="Backlog"
-                        style={{
-                          ...(isDark && {
-                            filter: "invert(100%)",
-                          }),
-                        }}
-                      />
+                {data && (
+                  <Box>
+                    {data.length === 0 && (
                       <Box
                         sx={{
-                          width: "300px",
-                          maxWidth: "calc(100vw - 40px)",
-                          mx: "auto",
-                          mb: 2,
+                          textAlign: "center",
                         }}
                       >
-                        <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
-                          You&apos;re on top of it!
-                        </Typography>
-                        <Typography variant="body1">
-                          The backlog is a place where you can see all your
-                          unfinished tasks.
-                        </Typography>
+                        <Image
+                          src="/images/backlog.png"
+                          width={256}
+                          height={256}
+                          alt="Backlog"
+                          style={{
+                            ...(isDark && {
+                              filter: "invert(100%)",
+                            }),
+                          }}
+                        />
+                        <Box
+                          sx={{
+                            width: "300px",
+                            maxWidth: "calc(100vw - 40px)",
+                            mx: "auto",
+                            mb: 2,
+                          }}
+                        >
+                          <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
+                            You&apos;re on top of it!
+                          </Typography>
+                          <Typography variant="body1">
+                            The backlog is a place where you can see all your
+                            unfinished tasks.
+                          </Typography>
+                        </Box>
                       </Box>
-                    </Box>
-                  )}
-                  {[
-                    ...data.filter((task) => task.pinned),
-                    ...data.filter((task) => !task.pinned),
-                  ].map((task) => (
-                    <Task
-                      isDateDependent={true}
-                      key={task.id}
-                      board={task.board || false}
-                      columnId={task.column ? task.column.id : -1}
-                      mutationUrl={url}
-                      task={task}
-                    />
-                  ))}
-                </Box>
-              )}
+                    )}
+                    {[
+                      ...data.filter((task) => task.pinned),
+                      ...data.filter((task) => !task.pinned),
+                    ].map((task) => (
+                      <Task
+                        isDateDependent={true}
+                        key={task.id}
+                        board={task.board || false}
+                        columnId={task.column ? task.column.id : -1}
+                        mutationUrl={url}
+                        task={task}
+                      />
+                    ))}
+                  </Box>
+                )}
+              </Box>
             </Box>
           </motion.div>
         </Grid>
