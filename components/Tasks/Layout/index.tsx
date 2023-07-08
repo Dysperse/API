@@ -11,6 +11,7 @@ import {
   Button,
   Chip,
   Divider,
+  Fade,
   Grow,
   Icon,
   IconButton,
@@ -618,9 +619,7 @@ export function TasksLayout({ open, setOpen, children }) {
           }}
           open={open}
           {...{
-            TransitionComponent: (props) => (
-              <Grow {...props} style={{ transformOrigin: "0 0 0" }} />
-            ),
+            TransitionComponent: Fade,
           }}
           PaperProps={{
             sx: {
@@ -628,35 +627,43 @@ export function TasksLayout({ open, setOpen, children }) {
               p: 2,
             },
           }}
+          slotProps={{
+            backdrop: {
+              sx: {
+                backdropFilter: "blur(15px)!important",
+              },
+            },
+          }}
           sx={{ zIndex: 999999999999 }}
         >
-          <Box sx={{ display: "flex", mt: -0.5, mb: 1 }}>
+          <Box sx={{ display: "flex", mt: -0.3, ml: 0.1, mb: 1 }}>
             {trigger}
             <div style={{ marginLeft: "auto" }} />
           </Box>
-          <Box
-            onClick={(e) => e.stopPropagation()}
-            sx={{
-              p: 1.5,
-              ml: 1,
-              pb: 0,
-              borderRadius: 5,
-              maxHeight: "calc(100vh - 200px)",
-              maxWidth: "calc(100vw - 100px)",
-              overflowY: "scroll",
-              backdropFilter: "blur(15px)!important",
-              background: addHslAlpha(palette[3], 0.8),
-            }}
-          >
-            {menuChildren}
-            <Puller
+          <Grow in={open} style={{ transformOrigin: "0 0 0" }}>
+            <Box
+              onClick={(e) => e.stopPropagation()}
               sx={{
-                position: "sticky",
-                bottom: 0,
-                mb: -4,
+                p: 1.5,
+                ml: 1,
+                pb: 0,
+                borderRadius: 5,
+                maxHeight: "calc(100vh - 190px)",
+                maxWidth: "calc(100vw - 100px)",
+                overflowY: "scroll",
+                background: addHslAlpha(palette[3], 0.7),
               }}
-            />
-          </Box>
+            >
+              {menuChildren}
+              <Puller
+                sx={{
+                  position: "sticky",
+                  bottom: 0,
+                  mb: -4,
+                }}
+              />
+            </Box>
+          </Grow>
         </SwipeableDrawer>
         <Box
           sx={{
