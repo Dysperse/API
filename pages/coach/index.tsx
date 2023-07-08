@@ -65,9 +65,9 @@ export default function Render() {
         <title>Coach</title>
       </Head>
       <Box sx={{ maxWidth: "600px", px: 2, pt: { xs: 0, sm: 10 }, mx: "auto" }}>
-        <Box sx={{ textAlign: "center", my: 4 }}>
+        <Box sx={{ textAlign: "left", my: 4, ml: 1 }}>
           <Typography variant="h2" sx={{ mt: 5 }}>
-            <span className="font-heading">Goals</span>
+            <span className="font-heading">My Goals</span>
           </Typography>
           <Chip
             sx={{
