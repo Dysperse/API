@@ -51,7 +51,7 @@ export default function Render() {
               sx={{
                 ml: "auto",
                 mr: 1,
-                color: palette[7],
+                color: palette[8],
                 background: palette[2],
                 px: 2,
               }}
