@@ -60,9 +60,11 @@ export function Logo({ intensity = 4 }: any) {
 export function Navbar({
   showLogo = false,
   right,
+  showRightContent = false,
 }: {
   showLogo?: boolean;
   right?: JSX.Element;
+  showRightContent?: boolean;
 }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -80,11 +82,12 @@ export function Navbar({
       }}
     >
       <Logo />
-      {right || (
+      {right}
+      {(!right || showRightContent) && (
         <>
           <IconButton
             sx={{
-              ml: "auto",
+              ml: showRightContent ? "" : "auto",
               color: palette[8],
               "&:active": { transform: "scale(.9)" },
               transition: "all .4s",

@@ -5,6 +5,7 @@ import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
+  Button,
   CardActionArea,
   Chip,
   Icon,
@@ -40,43 +41,56 @@ export default function Render() {
 
   return (
     <Box>
-      {isMobile && <Navbar showLogo />}
+      {isMobile && (
+        <Navbar
+          showLogo
+          showRightContent
+          right={
+            <Button
+              onClick={() => router.push("/coach/explore")}
+              sx={{
+                ml: "auto",
+                mr: 1,
+                color: palette[7],
+                background: palette[2],
+                px: 2,
+              }}
+            >
+              <Icon className="outlined">add_circle</Icon>Create
+            </Button>
+          }
+        />
+      )}
       <Head>
         <title>Coach</title>
       </Head>
       <Box sx={{ maxWidth: "600px", px: 2, pt: { xs: 0, sm: 10 }, mx: "auto" }}>
-        <Box sx={{ position: "relative" }}>
-          {error && (
-            <ErrorHandler
-              error="Yikes! We couldn't load your streak. Please try again later"
-              callback={() => mutate(url)}
-            />
-          )}
-
-          <Typography
-            variant="h2"
-            sx={{ display: "flex", mt: 4, alignItems: "center" }}
-          >
-            <span className="font-heading">My goals</span>
-            <Chip
-              sx={{
-                ml: "auto",
-                ...(useStreakStyles && {
-                  background: orange["orange9"],
-                  color: orange["orange1"],
-                }),
-              }}
-              icon={
-                <Icon sx={{ color: "inherit!important" }}>
-                  local_fire_department
-                </Icon>
-              }
-              label={
-                data?.streakCount && !isStreakBroken ? data.streakCount : 0
-              }
-            />
+        <Box sx={{ textAlign: "center", my: 4 }}>
+          <Typography variant="h2" sx={{ mt: 5 }}>
+            <span className="font-heading">Goals</span>
           </Typography>
+          <Chip
+            sx={{
+              ...(useStreakStyles && {
+                background: orange["orange9"],
+                color: orange["orange1"],
+              }),
+            }}
+            icon={
+              <Icon sx={{ color: "inherit!important" }}>
+                local_fire_department
+              </Icon>
+            }
+            label={data?.streakCount && !isStreakBroken ? data.streakCount : 0}
+          />
         </Box>
+        {error && (
+          <ErrorHandler
+            error="Yikes! We couldn't load your streak. Please try again later"
+            callback={() => mutate(url)}
+          />
+        )}
+
         <CardActionArea
           onClick={() => router.push("/coach/routine")}
           sx={{
@@ -95,26 +109,6 @@ export default function Render() {
               <b>Today&apos;s routine</b>
             </Typography>
             <Typography variant="body2">Tap to start</Typography>
-          </Box>
-          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-        </CardActionArea>
-        <CardActionArea
-          onClick={() => router.push("/coach/explore")}
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            my: 3,
-            borderRadius: 5,
-            px: { sm: 3 },
-            display: "flex",
-            background: { xs: palette[2], sm: palette[4] },
-            alignItems: "center",
-          }}
-        >
-          <Box>
-            <Typography>
-              <b>New goal</b>
-            </Typography>
           </Box>
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </CardActionArea>
