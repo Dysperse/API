@@ -20,7 +20,7 @@ import { mutate } from "swr";
 /**
  * Top-level component for the dashboard page.
  */
-export default function Dashboard() {
+export default function Upcoming() {
   const session = useSession();
   const [open, setOpen] = useState(false);
 
@@ -28,6 +28,7 @@ export default function Dashboard() {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
     upcoming: true,
   });
+
   const [loading, setLoading] = useState(false);
   const isDark = useDarkMode(session.darkMode);
 

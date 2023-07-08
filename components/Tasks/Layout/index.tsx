@@ -375,9 +375,8 @@ export function TasksLayout({ open, setOpen, children }) {
           }}
         />
         {[
-          { href: "/tasks/upcoming", icon: "east", label: "Upcoming" },
           { href: "/tasks/color-coded", icon: "palette", label: "Color coded" },
-          { href: "/tasks/backlog", icon: "west", label: "Backlog" },
+          { href: "/tasks/stream", icon: "conversion_path", label: "Stream" },
         ].map((link, index) => (
           <Link key={index} href={link.href} style={{ cursor: "default" }}>
             <Button size="large" sx={styles(router.asPath === link.href)}>
