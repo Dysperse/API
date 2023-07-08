@@ -167,7 +167,7 @@ function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
       setSlide((s) => s + 1);
       setDisabled(true);
       fetchRawApi(session, "user/coach/goals/markAsDone", {
-        date: dayjs().format("YYYY-MM-DD"),
+        date: dayjs().toISOString(),
         progress:
           goal.progress && parseInt(goal.progress)
             ? goal.progress + 1 > goal.durationDays
