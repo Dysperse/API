@@ -69,20 +69,30 @@ export default function Render() {
           <Typography variant="h2" sx={{ mt: 5 }}>
             <span className="font-heading">My Goals</span>
           </Typography>
-          <Chip
-            sx={{
-              ...(useStreakStyles && {
-                background: orange["orange9"],
-                color: orange["orange1"],
-              }),
-            }}
-            icon={
-              <Icon sx={{ color: "inherit!important" }}>
-                local_fire_department
-              </Icon>
-            }
-            label={data?.streakCount && !isStreakBroken ? data.streakCount : 0}
-          />
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Chip
+              sx={{
+                ...(useStreakStyles && {
+                  background: orange["orange9"],
+                  color: orange["orange1"],
+                }),
+              }}
+              icon={
+                <Icon sx={{ color: "inherit!important" }}>
+                  local_fire_department
+                </Icon>
+              }
+              label={
+                data?.streakCount && !isStreakBroken ? data.streakCount : 0
+              }
+            />
+            <Chip
+              icon={
+                <Icon sx={{ color: "inherit!important" }}>military_tech</Icon>
+              }
+              label={session.user.trophies}
+            />
+          </Box>
         </Box>
         {error && (
           <ErrorHandler

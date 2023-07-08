@@ -101,7 +101,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
             alignItems: "center",
             gap: "10px",
             ...(goal.progress === goal.durationDays && {
-              color: colors[goal.completed ? "green" : "deepOrange"]["800"],
+              color: colors[goal.completed ? "green" : "deepOrange"]["A700"],
             }),
             ...(goal.completed && {
               opacity: 0.6,
