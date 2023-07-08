@@ -305,97 +305,101 @@ export function Column({
                 </IconButton>
               </Box>
             )}
-            <ColumnSettings setColumnTasks={setColumnTasks}>
-              <CardActionArea
-                sx={{
-                  flexGrow: 1,
-                  maxWidth: "100%",
-                  minWidth: 0,
-                  borderRadius: 5,
-                  transition: "transform .4s",
-                  "&:active": {
-                    transform: "scale(0.95)",
-                  },
-                  background: palette[2],
-                  py: 1,
-                }}
-                onContextMenu={() => {
-                  toast(column.name, {
-                    ...toastStyles,
-                    icon: (
-                      <picture>
-                        <img
-                          alt="Emoji"
-                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                          width={20}
-                          height={20}
-                        />
-                      </picture>
-                    ),
-                  });
-                }}
-              >
-                <Typography
-                  variant="h4"
+            {column.name == "" ? (
+              isMobile && <ColumnSettings setColumnTasks={setColumnTasks} />
+            ) : (
+              <ColumnSettings setColumnTasks={setColumnTasks}>
+                <CardActionArea
                   sx={{
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
+                    flexGrow: 1,
                     maxWidth: "100%",
                     minWidth: 0,
-                    fontSize: "35px",
-                    borderRadius: 1,
-                    width: "auto",
-                    mb: { xs: -0.5, sm: 0.7 },
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: { xs: "center", sm: "flex-start" },
-                    gap: { xs: 0, sm: 2 },
-                    flexDirection: { xs: "column", sm: "row" },
-                    ...(column.name === "" && { display: "none" }),
-                    "& picture img": {
-                      width: { xs: "45px", sm: "30px" },
-                      height: { xs: "45px", sm: "30px" },
-                      mb: -0.2,
+                    borderRadius: 5,
+                    transition: "transform .4s",
+                    "&:active": {
+                      transform: "scale(0.95)",
                     },
+                    background: palette[2],
+                    py: 1,
+                  }}
+                  onContextMenu={() => {
+                    toast(column.name, {
+                      ...toastStyles,
+                      icon: (
+                        <picture>
+                          <img
+                            alt="Emoji"
+                            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                            width={20}
+                            height={20}
+                          />
+                        </picture>
+                      ),
+                    });
                   }}
                 >
-                  <picture
-                    style={{
-                      flexShrink: 0,
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                      maxWidth: "100%",
+                      minWidth: 0,
+                      fontSize: "35px",
+                      borderRadius: 1,
+                      width: "auto",
+                      mb: { xs: -0.5, sm: 0.7 },
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: { xs: "center", sm: "flex-start" },
+                      gap: { xs: 0, sm: 2 },
+                      flexDirection: { xs: "column", sm: "row" },
+                      ...(column.name === "" && { display: "none" }),
+                      "& picture img": {
+                        width: { xs: "45px", sm: "30px" },
+                        height: { xs: "45px", sm: "30px" },
+                        mb: -0.2,
+                      },
                     }}
                   >
-                    <img
-                      alt="Emoji"
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                      width={50}
-                      height={50}
-                    />
-                  </picture>
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <span
+                    <picture
                       style={{
-                        overflow: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
+                        flexShrink: 0,
                       }}
-                      className="font-heading"
                     >
-                      {column.name}
-                    </span>
-                  </Box>
-                </Typography>
-                <Typography
-                  sx={{
-                    display: { xs: "none", sm: "flex" },
-                    alignItems: "center",
-                    fontSize: { xs: "15px", sm: "18px" },
-                  }}
-                >
-                  {incompleteLength} task{incompleteLength !== 1 && "s"}
-                </Typography>
-              </CardActionArea>
-            </ColumnSettings>
+                      <img
+                        alt="Emoji"
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                        width={50}
+                        height={50}
+                      />
+                    </picture>
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <span
+                        style={{
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}
+                        className="font-heading"
+                      >
+                        {column.name}
+                      </span>
+                    </Box>
+                  </Typography>
+                  <Typography
+                    sx={{
+                      display: { xs: "none", sm: "flex" },
+                      alignItems: "center",
+                      fontSize: { xs: "15px", sm: "18px" },
+                    }}
+                  >
+                    {incompleteLength} task{incompleteLength !== 1 && "s"}
+                  </Typography>
+                </CardActionArea>
+              </ColumnSettings>
+            )}
 
             <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
               {isMobile ? (

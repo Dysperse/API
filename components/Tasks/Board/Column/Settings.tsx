@@ -134,7 +134,12 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
   );
 
   return column.name === "" ? (
-    <Box onClick={(e) => e.stopPropagation()}>
+    <Box
+      onClick={(e) => e.stopPropagation()}
+      sx={{
+        ml: "auto",
+      }}
+    >
       <FilterMenu
         handleParentClose={handleClose}
         originalTasks={column.tasks.filter(
