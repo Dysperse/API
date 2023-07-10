@@ -25,6 +25,7 @@ export function DailyCheckInDrawer({ mood }) {
           gap: 2,
           p: 3,
           borderRadius: 5,
+          overflow: "hidden",
           borderBottomLeftRadius: 0,
           pb: 1,
           borderBottomRightRadius: 0,
@@ -53,17 +54,20 @@ export function DailyCheckInDrawer({ mood }) {
             )}
             Check-in
           </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            How are you feeling today?
-          </Typography>
+          {dayjs().hour() <= 13 && (
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                mb: 2,
+              }}
+            >
+              You can reflect on your day {dayjs().set("hour", 13).fromNow()}
+            </Typography>
+          )}
         </Box>
         {mood && (
           <Icon

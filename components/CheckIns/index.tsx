@@ -1,7 +1,7 @@
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { DailyCheckInDrawer } from "./DailyCheckInDrawer";
@@ -64,18 +64,7 @@ export function DailyCheckIn() {
           ))}
         </Box>
       ) : (
-        <Box
-          sx={{
-            px: 3,
-            pb: 3,
-          }}
-        >
-          <Typography variant="body2" sx={{ opacity: 0.7 }}>
-            <i>
-              You can reflect on your day {dayjs().set("hour", 13).fromNow()}
-            </i>
-          </Typography>
-        </Box>
+        <></>
       )}
     </Box>
   );

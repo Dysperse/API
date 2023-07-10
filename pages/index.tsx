@@ -240,7 +240,7 @@ export default function Home() {
                 xs: "70px",
                 sm: "80px",
               },
-              // whiteSpace: "nowrap",
+              whiteSpace: "nowrap",
               userSelect: "none",
               overflow: "hidden",
               background: `linear-gradient(${palette[11]}, ${palette[5]})`,
@@ -259,7 +259,7 @@ export default function Home() {
         sx={{
           display: "flex",
           width: "500px",
-          maxWidth: "calc(100% - 20px)",
+          maxWidth: "calc(100% - 40px)",
           mx: "auto",
           flexDirection: "column",
           gap: 2,
@@ -301,7 +301,7 @@ export default function Home() {
           onClick={() => router.push("/tasks/agenda/week")}
         >
           <ListItemText
-            primary={<b>Today&apos;s plan</b>}
+            primary={<b>Today&apos;s agenda</b>}
             secondary={
               data
                 ? data?.length === 0
