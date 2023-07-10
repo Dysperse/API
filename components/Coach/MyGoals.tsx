@@ -49,6 +49,9 @@ export function MyGoals(): JSX.Element {
       ).filter(
         (e) =>
           e.name.toLowerCase().includes(deferredQuery.toLowerCase()) ||
+          `${e.timeOfDay}:00`
+            .toLowerCase()
+            .includes(deferredQuery.toLowerCase()) ||
           e.stepName.toLowerCase().includes(deferredQuery.toLowerCase())
       ),
     [data, deferredQuery]
@@ -71,7 +74,7 @@ export function MyGoals(): JSX.Element {
             sx: {
               userSelect: "none",
               borderRadius: 2,
-              background: palette[2],
+              background: { xs: palette[2], sm: palette[3] },
               px: 3,
               py: 1,
               mb: 2,

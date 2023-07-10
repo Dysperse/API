@@ -110,15 +110,14 @@ export default function Render() {
             borderRadius: 5,
             px: { sm: 3 },
             display: "flex",
-            background: { xs: palette[2], sm: palette[4] },
+            background: { xs: palette[3], sm: palette[4] },
             alignItems: "center",
           }}
         >
           <Box>
             <Typography>
-              <b>Today&apos;s routine</b>
+              <b>Daily goals</b>
             </Typography>
-            <Typography variant="body2">Tap to start</Typography>
           </Box>
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </CardActionArea>
