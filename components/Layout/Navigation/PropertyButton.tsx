@@ -36,7 +36,6 @@ export function PropertyButton({ handleClose, group, list }: any) {
               email: session.user.email,
               accessToken1: group.accessToken,
             });
-            router.push("/");
             await mutate("/api/session");
             toast.success(
               <span>
@@ -90,7 +89,7 @@ export function PropertyButton({ handleClose, group, list }: any) {
         }}
       >
         <Icon sx={{ display: { sm: "none" } }}>
-          {group.profile.type === "house"
+          {group.profile.type === "home"
             ? "home"
             : group.profile.type === "apartment"
             ? "apartment"

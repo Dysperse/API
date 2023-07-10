@@ -6,6 +6,7 @@ import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { vibrate } from "@/lib/client/vibration";
+import { GroupModal } from "@/pages/users";
 import {
   Box,
   Button,
@@ -160,7 +161,7 @@ function SearchTasks({ setOpen }) {
     <Box
       sx={{
         display: "flex",
-        mb: { xs: 2, sm: 1.5 },
+        mb: 2,
         gap: 1,
         alignItems: "center",
       }}
@@ -311,6 +312,11 @@ export function TasksLayout({ open, setOpen, children }) {
   const ref: any = useRef();
   const title = useDocumentTitle();
 
+  const groupPalette = useColor(
+    session.property.profile.color,
+    useDarkMode(session.user.darkMode)
+  );
+
   const menuChildren = (
     <>
       {error && (
@@ -319,79 +325,157 @@ export function TasksLayout({ open, setOpen, children }) {
           error="An error occurred while loading your tasks"
         />
       )}
-      {!isMobile && <SearchTasks setOpen={setOpen} />}
-      <Typography sx={taskStyles(palette).subheading}>Perspectives</Typography>
-      <Box onClick={() => setOpen(false)}>
-        {[
-          !isMobile && {
-            hash: "agenda/day",
-            icon: "calendar_today",
-            label: "Days",
-          },
-          {
-            hash: "agenda/week",
-            icon: isMobile ? "calendar_today" : "view_week",
-            label: isMobile ? "Days" : "Weeks",
-          },
-          {
-            hash: "agenda/month",
-            icon: "calendar_view_month",
-            label: "Months",
-          },
-          {
-            hash: "agenda/year",
-            icon: "calendar_month",
-            label: "Years",
-          },
-        ]
-          .filter((b) => b)
-          .map((button: any) => (
-            <Link
-              href={`/tasks/${button.hash}`}
-              key={button.hash}
-              style={{ cursor: "default" }}
+      {!isMobile && (
+        <GroupModal useRightClick={false}>
+          <Box
+            sx={{
+              display: "flex",
+              px: 3,
+              gap: 1.5,
+              py: 2,
+              mb: -1,
+              borderBottom: `1px solid ${palette[3]}`,
+              alignItems: "center",
+              "&:hover": {
+                background: palette[3],
+              },
+              "&:active": {
+                background: palette[4],
+              },
+            }}
+          >
+            <Box
+              sx={{
+                width: 15,
+                borderRadius: 99,
+                height: 15,
+                flexShrink: 0,
+                background: groupPalette[9],
+              }}
+            />
+            <Typography
+              variant="h6"
+              sx={{
+                minWidth: 0,
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              }}
             >
-              <Button
-                size="large"
-                id={`__agenda.${button.hash}`}
-                sx={styles(router.asPath === `/tasks/${button.hash}`)}
+              {session.property.profile.name}
+            </Typography>
+            <Icon sx={{ ml: "auto" }}>expand_more</Icon>
+          </Box>
+        </GroupModal>
+      )}
+      <Box
+        sx={{
+          p: 3,
+          px: 2,
+        }}
+      >
+        {!isMobile && <SearchTasks setOpen={setOpen} />}
+        <Typography sx={taskStyles(palette).subheading}>
+          Perspectives
+        </Typography>
+        <Box onClick={() => setOpen(false)}>
+          {[
+            !isMobile && {
+              hash: "agenda/day",
+              icon: "calendar_today",
+              label: "Days",
+            },
+            {
+              hash: "agenda/week",
+              icon: isMobile ? "calendar_today" : "view_week",
+              label: isMobile ? "Days" : "Weeks",
+            },
+            {
+              hash: "agenda/month",
+              icon: "calendar_view_month",
+              label: "Months",
+            },
+            {
+              hash: "agenda/year",
+              icon: "calendar_month",
+              label: "Years",
+            },
+          ]
+            .filter((b) => b)
+            .map((button: any) => (
+              <Link
+                href={`/tasks/${button.hash}`}
+                key={button.hash}
+                style={{ cursor: "default" }}
               >
-                <Icon
-                  className={
-                    router.asPath === `/tasks/${button.hash}` ? "" : "outlined"
-                  }
+                <Button
+                  size="large"
+                  id={`__agenda.${button.hash}`}
+                  sx={styles(router.asPath === `/tasks/${button.hash}`)}
                 >
-                  {button.icon}
+                  <Icon
+                    className={
+                      router.asPath === `/tasks/${button.hash}`
+                        ? ""
+                        : "outlined"
+                    }
+                  >
+                    {button.icon}
+                  </Icon>
+                  {button.label}
+                </Button>
+              </Link>
+            ))}
+
+          <Divider
+            sx={{
+              my: 1,
+              width: { sm: "90%" },
+              mx: "auto",
+              opacity: 0.5,
+            }}
+          />
+          {[
+            {
+              href: "/tasks/color-coded",
+              icon: "palette",
+              label: "Color coded",
+            },
+            { href: "/tasks/stream", icon: "conversion_path", label: "Stream" },
+          ].map((link, index) => (
+            <Link key={index} href={link.href} style={{ cursor: "default" }}>
+              <Button size="large" sx={styles(router.asPath === link.href)}>
+                <Icon className={router.asPath === link.href ? "" : "outlined"}>
+                  {link.icon}
                 </Icon>
-                {button.label}
+                {link.label}
               </Button>
             </Link>
           ))}
+        </Box>
 
-        <Divider
-          sx={{
-            my: 1,
-            width: { sm: "90%" },
-            mx: "auto",
-            opacity: 0.5,
-          }}
-        />
-        {[
-          { href: "/tasks/color-coded", icon: "palette", label: "Color coded" },
-          { href: "/tasks/stream", icon: "conversion_path", label: "Stream" },
-        ].map((link, index) => (
-          <Link key={index} href={link.href} style={{ cursor: "default" }}>
-            <Button size="large" sx={styles(router.asPath === link.href)}>
-              <Icon className={router.asPath === link.href ? "" : "outlined"}>
-                {link.icon}
-              </Icon>
-              {link.label}
-            </Button>
-          </Link>
+        {sharedBoards?.length > 0 && (
+          <Divider
+            sx={{
+              mt: 1,
+              mb: 2,
+              width: { sm: "90%" },
+              mx: "auto",
+              opacity: 0.5,
+            }}
+          />
+        )}
+        {sharedBoards?.length > 0 && (
+          <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
+        )}
+        {sharedBoards?.map((board) => (
+          <Tab
+            setDrawerOpen={setOpen}
+            key={board.id}
+            styles={styles}
+            board={board}
+          />
         ))}
-      </Box>
-
-      {sharedBoards?.length > 0 && (
         <Divider
           sx={{
             mt: 1,
@@ -401,101 +485,11 @@ export function TasksLayout({ open, setOpen, children }) {
             opacity: 0.5,
           }}
         />
-      )}
-      {sharedBoards?.length > 0 && (
-        <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
-      )}
-      {sharedBoards?.map((board) => (
-        <Tab
-          setDrawerOpen={setOpen}
-          key={board.id}
-          styles={styles}
-          board={board}
-        />
-      ))}
-      <Divider
-        sx={{
-          mt: 1,
-          mb: 2,
-          width: { sm: "90%" },
-          mx: "auto",
-          opacity: 0.5,
-        }}
-      />
-      <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
-      {data &&
-        data
-          .filter((x) => !x.archived)
-          .filter((x) => x.propertyId == session.property.propertyId)
-          .map((board) => (
-            <Tab
-              setDrawerOpen={setOpen}
-              key={board.id}
-              styles={styles}
-              board={board}
-            />
-          ))}
-      <Link
-        href={
-          Boolean(storage?.isReached) ||
-          data?.filter((board) => !board.archived).length >= 7 ||
-          session.permission === "read-only"
-            ? "/tasks"
-            : "/tasks/boards/create"
-        }
-        style={{ width: "100%" }}
-      >
-        <Button
-          fullWidth
-          disabled={
-            Boolean(storage?.isReached) ||
-            data?.filter((board) => !board.archived).length >= 7 ||
-            session.permission === "read-only"
-          }
-          ref={ref}
-          size="large"
-          onClick={() => setOpen(false)}
-          sx={{
-            ...styles(router.asPath == "/tasks/boards/create"),
-            px: 2,
-            cursor: "default",
-            ...((storage?.isReached === true ||
-              (data &&
-                data.filter((board) => !board.archived).length >= 7)) && {
-              opacity: 0.5,
-            }),
-            justifyContent: "start",
-          }}
-        >
-          <Icon
-            className={router.asPath == "/tasks/create" ? "" : "outlined"}
-            sx={{ ml: -0.5 }}
-          >
-            add_circle
-          </Icon>
-          New board
-        </Button>
-      </Link>
-      <Box>
-        {data && data.filter((x) => x.archived).length !== 0 && (
-          <>
-            <Divider
-              sx={{
-                mt: 1,
-                mb: 2,
-                width: { sm: "90%" },
-                mx: "auto",
-                opacity: 0.5,
-              }}
-            />
-            <Typography sx={taskStyles(palette).subheading}>
-              Archived
-            </Typography>
-          </>
-        )}
+        <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
         {data &&
           data
-            .filter((x) => x.archived)
+            .filter((x) => !x.archived)
+            .filter((x) => x.propertyId == session.property.propertyId)
             .map((board) => (
               <Tab
                 setDrawerOpen={setOpen}
@@ -504,6 +498,76 @@ export function TasksLayout({ open, setOpen, children }) {
                 board={board}
               />
             ))}
+        <Link
+          href={
+            Boolean(storage?.isReached) ||
+            data?.filter((board) => !board.archived).length >= 7 ||
+            session.permission === "read-only"
+              ? "/tasks"
+              : "/tasks/boards/create"
+          }
+          style={{ width: "100%" }}
+        >
+          <Button
+            fullWidth
+            disabled={
+              Boolean(storage?.isReached) ||
+              data?.filter((board) => !board.archived).length >= 7 ||
+              session.permission === "read-only"
+            }
+            ref={ref}
+            size="large"
+            onClick={() => setOpen(false)}
+            sx={{
+              ...styles(router.asPath == "/tasks/boards/create"),
+              px: 2,
+              cursor: "default",
+              ...((storage?.isReached === true ||
+                (data &&
+                  data.filter((board) => !board.archived).length >= 7)) && {
+                opacity: 0.5,
+              }),
+              justifyContent: "start",
+            }}
+          >
+            <Icon
+              className={router.asPath == "/tasks/create" ? "" : "outlined"}
+              sx={{ ml: -0.5 }}
+            >
+              add_circle
+            </Icon>
+            New board
+          </Button>
+        </Link>
+        <Box>
+          {data && data.filter((x) => x.archived).length !== 0 && (
+            <>
+              <Divider
+                sx={{
+                  mt: 1,
+                  mb: 2,
+                  width: { sm: "90%" },
+                  mx: "auto",
+                  opacity: 0.5,
+                }}
+              />
+              <Typography sx={taskStyles(palette).subheading}>
+                Archived
+              </Typography>
+            </>
+          )}
+          {data &&
+            data
+              .filter((x) => x.archived)
+              .map((board) => (
+                <Tab
+                  setDrawerOpen={setOpen}
+                  key={board.id}
+                  styles={styles}
+                  board={board}
+                />
+              ))}
+        </Box>
       </Box>
     </>
   );
@@ -644,7 +708,6 @@ export function TasksLayout({ open, setOpen, children }) {
             <Box
               onClick={(e) => e.stopPropagation()}
               sx={{
-                p: 1.5,
                 ml: 1,
                 pb: 0,
                 borderRadius: 5,
@@ -670,8 +733,6 @@ export function TasksLayout({ open, setOpen, children }) {
             width: { xs: "100%", md: 300 },
             flex: { xs: "100%", md: "0 0 250px" },
             ml: -1,
-            p: 3,
-            px: 2,
             background: addHslAlpha(palette[3], 0.5),
             display: { xs: "none", md: "flex" },
             minHeight: "100vh",

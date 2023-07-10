@@ -305,7 +305,11 @@ function UpcomingBirthdays({ data }) {
   );
 }
 
-export function GroupModal({ children, list = false }: any) {
+export function GroupModal({
+  children,
+  list = false,
+  useRightClick = true,
+}: any) {
   const session = useSession();
   const { data, fetcher, url, error } = useApi("user/properties");
   const [showMore, setShowMore] = useState(false);
@@ -350,7 +354,7 @@ export function GroupModal({ children, list = false }: any) {
 
   if (children) {
     const trigger = cloneElement(children, {
-      onContextMenu: () => {
+      [useRightClick ? "onContextMenu" : "onClick"]: () => {
         vibrate(50);
         setShowMore(true);
       },
