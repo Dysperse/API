@@ -20,7 +20,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-export function Logo({ intensity = 4 }: any) {
+export function Logo({ intensity = 4, size = 45 }: any) {
   const session = useSession();
 
   const palette = useColor(
@@ -31,8 +31,8 @@ export function Logo({ intensity = 4 }: any) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="45"
-      height="45"
+      width={size}
+      height={size}
       version="1"
       viewBox="0 0 375 375"
       fill={palette[intensity]}
