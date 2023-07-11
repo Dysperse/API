@@ -18,7 +18,7 @@ function Intro() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   return (
@@ -174,7 +174,7 @@ function AppearanceStep({ styles, navigation }) {
                 "slate",
                 "mauve",
                 "gray",
-              ].includes(color)
+              ].includes(color),
           )
           .map((color) => (
             <Box
@@ -252,7 +252,7 @@ function GroupStep({ styles, navigation }) {
       {["Just me", "My home", "My apartment", "My dorm", "My study group"].map(
         (option) => (
           <Box key={option}>{option}</Box>
-        )
+        ),
       )}
 
       <Typography variant="h1" sx={styles.subheading}>
@@ -283,7 +283,7 @@ export default function Onboarding() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   const [step, setStep] = useState(0);

@@ -25,7 +25,7 @@ export function Logo({ intensity = 4, size = 45 }: any) {
 
   const palette = useColor(
     session?.themeColor || "violet",
-    useDarkMode(session?.darkMode || "system")
+    useDarkMode(session?.darkMode || "system"),
   );
 
   return (
@@ -132,9 +132,12 @@ export default function Home() {
   const [greeting, setGreeting] = useState(getGreeting);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setGreeting(getGreeting);
-    }, 1000 * 60 * 60);
+    const interval = setInterval(
+      () => {
+        setGreeting(getGreeting);
+      },
+      1000 * 60 * 60,
+    );
     return () => clearInterval(interval);
   });
 
@@ -162,7 +165,7 @@ export default function Home() {
     .filter(
       (goal) =>
         dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
-        dayjs().format("YYYY-MM-DD")
+        dayjs().format("YYYY-MM-DD"),
     );
 
   const completedTodaysTasks =
