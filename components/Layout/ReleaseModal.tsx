@@ -27,7 +27,7 @@ export default function ReleaseModal() {
     "https://api.github.com/repos/dysperse/dysperse/releases?per_page=1";
 
   const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
+    fetch(url).then((res) => res.json()),
   );
   const router = useRouter();
 
@@ -55,7 +55,7 @@ export default function ReleaseModal() {
       false,
       null,
       false,
-      true
+      true,
     );
   };
 
