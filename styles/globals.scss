@@ -110,12 +110,20 @@ body {
   -webkit-font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
   min-width: fit-content;
-  font-variation-settings: "FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 350,
+    "GRAD" 0,
+    "opsz" 40;
 }
 
 .material-symbols-rounded {
   font-display: block !important;
-  font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 40;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 300,
+    "GRAD" 0,
+    "opsz" 40;
   min-width: fit-content;
 }
 
@@ -161,6 +169,10 @@ img {
 .rippleDark .MuiTouchRipple-child,
 .dark .MuiTouchRipple-child {
   background: #fff !important;
+}
+
+.dark * {
+  color-scheme: dark;
 }
 
 .MuiBackdrop-root:not(.override-bg) {

@@ -1,535 +1,218 @@
 import { Loading } from "@/components/Layout/Loading";
-import { BoardTemplate } from "@/components/Onboarding/BoardTemplate";
-import { Color } from "@/components/Onboarding/Color";
-import { InventoryList } from "@/components/Onboarding/InventoryList";
-import { StepIcon } from "@/components/Onboarding/StepIcon";
-import { cards } from "@/components/Rooms/CreateItem/cards";
-import { templates } from "@/components/Tasks/Board/Create";
+import { BoardsStep } from "@/components/Onboarding/BoardsStep";
 import { useSession } from "@/lib/client/session";
-import { updateSettings } from "@/lib/client/updateSettings";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { LoadingButton } from "@mui/lab";
-import {
-  Alert,
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  Icon,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  Step,
-  StepConnector,
-  StepLabel,
-  Stepper,
-  TextField,
-  Typography,
-  styled,
-} from "@mui/material";
-import { SelectChangeEvent } from "@mui/material/Select";
-import { stepConnectorClasses } from "@mui/material/StepConnector";
-import * as colors from "@radix-ui/colors";
-import { motion } from "framer-motion";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Box, Icon, IconButton, LinearProgress } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { Logo } from ".";
+import { AboutStep } from "../components/Onboarding/AboutStep";
+import { AppearanceStep } from "../components/Onboarding/AppearanceStep";
+import { Completion } from "../components/Onboarding/Completion";
+import { GroupStep } from "../components/Onboarding/GroupStep";
+import { Intro } from "../components/Onboarding/Intro";
+import { ProfileStep } from "../components/Onboarding/ProfileStep";
 
 export default function Onboarding() {
-  const router = useRouter();
-  const steps = [
-    "Welcome to Dysperse!",
-    "Customize your theme",
-    "Edit your home",
-    "Add some items",
-    "You're all set!",
-  ];
   const session = useSession();
+  const palette = useColor(
+    session.themeColor,
+    useDarkMode(session.user.darkMode),
+  );
 
   const [step, setStep] = useState(0);
-  const [type, setType] = useState(
-    session.property.profile.type || "apartment"
-  );
-  const [submitLoading, setSubmitLoading] = useState(false);
-  const [bestDescription, setBestDescription] = useState("Student");
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setType(event.target.value as string);
-    updateSettings(
-      session,
-      "type",
-      event.target.value as string,
-      false,
-      () => null,
-      true
-    );
-  };
 
   const styles = {
-    title: {
-      fontSize: { xs: 50, sm: 40 },
-      mt: { xs: 5, sm: 0 },
+    heading: {
+      fontSize: { xs: "50px", sm: "60px" },
+      background: palette[12],
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    },
+    navigationButton: {
+      position: "fixed",
+      m: { xs: 3, sm: 0 },
+      transform: { sm: "translateY(50%)" },
+      mx: { sm: "20px!important" },
+      border: "2px solid",
+      backdropFilter: "blur(10px)",
+      color: palette[9],
+      borderColor: palette[7],
+      p: 2,
+      zIndex: 9999,
+      bottom: { xs: 0, sm: "50%" },
+      transition: "transform 0.2s ease",
+      "&:hover": {
+        transform: { sm: "translateY(50%) scale(1.1)" },
+      },
+      "&:active": {
+        transform: { sm: "translateY(50%) scale(.9)" },
+      },
+    },
+    button: {
+      borderWidth: "2px !important",
+      display: "flex",
+      width: "auto",
+      mb: 1,
+      borderColor: palette[7],
+      "&:hover": {
+        borderColor: palette[9],
+      },
+    },
+    subheading: {
+      fontSize: { xs: "15px", sm: "20px" },
+      mt: 4,
       mb: 2,
+      fontWeight: 900,
+      color: palette[10],
+    },
+    helper: {
+      mb: 2,
+      background: palette[11],
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    },
+    container: {
+      overflow: "auto",
+      pt: { xs: 15, sm: 0 },
+      px: { xs: 3, sm: 0 },
+      minHeight: { sm: "100vh" },
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      width: "100vw",
+      "& .MuiContainer-root": {
+        width: { sm: "calc(100% - 150px)" },
+        mx: "auto",
+      },
     },
   };
 
-  const content = [
-    <>
-      <Typography variant="h5" className="font-heading" sx={styles.title}>
-        Welcome to Dysperse!
-      </Typography>
-      <Typography variant="body1">
-        We&apos;re excited to have you here. Let&apos;s get started by
-        customizing your group and dashboard! ✨
-      </Typography>
-    </>,
-    <>
-      <Typography variant="h5" sx={styles.title} className="font-heading">
-        Look &amp; feel
-      </Typography>
-      <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
-        <span style={{ opacity: 0.6 }}>#1 </span>
-        What&apos;s your favorite color?
-      </Typography>
-      {Object.keys(colors)
-        .filter((color) => !color.includes("Dark"))
-        .filter((color) => !color.endsWith("A"))
-        .filter(
-          (color) =>
-            ![
-              "gray",
-              "sage",
-              "olive",
-              "sand",
-              "mauve",
-              "gold",
-              "bronze",
-              "slate",
-            ].includes(color)
-        )
-        .map((color) => (
-          <Color handleNext={() => null} color={color} key={color} />
-        ))}
+  const navigation = {
+    current: step,
+    next: () => setStep(step + 1),
+    previous: () => setStep(step - 1),
+    set: (step) => setStep(step),
+  };
 
-      <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
-        <span style={{ opacity: 0.6 }}>#2 </span>
-        Night or Day?
-      </Typography>
-      <Color handleNext={() => setStep(step + 1)} color="gray" />
-      <Color handleNext={() => setStep(step + 1)} color="sand" />
-    </>,
-    <>
-      <Typography variant="h5" sx={styles.title} className="font-heading">
-        About you
-      </Typography>
-      <Typography variant="h6" sx={{ mt: 0, mb: 1 }}>
-        <span style={{ opacity: 0.6 }}>#3 </span>
-        What best describes <i>you</i>?
-      </Typography>
-      <FormControl>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="female"
-          name="radio-buttons-group"
-          value={bestDescription}
-          onChange={(_, value) => {
-            setBestDescription(value);
-          }}
-        >
-          {[
-            {
-              icon: "book",
-              name: "Student",
-              description:
-                "You're a high-school student trying to organize your assignments & tests.",
-            },
-            {
-              icon: "school",
-              name: "College student",
-              description:
-                "You're a college student trying to organize your assignments & tests.",
-            },
-            {
-              icon: "cast_for_education",
-              name: "Educator",
-              description:
-                "You're an educator trying to organize your lesson plans.",
-            },
-            {
-              icon: "directions_run",
-              name: "Adult",
-              description:
-                "You're an independent adult trying to organize your life",
-            },
-          ].map((type) => (
-            <FormControlLabel
-              key={type.name}
-              value={type.name}
-              control={<Radio />}
-              label={
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1.5,
-                    my: 1,
-                  }}
-                >
-                  <Icon
-                    sx={{ fontSize: "36px !important" }}
-                    className="outlined"
-                  >
-                    {type.icon}
-                  </Icon>
-                  <div>
-                    <Typography>{type.name}</Typography>
-                    <Typography variant="body2">{type.description}</Typography>
-                  </div>
-                </Box>
-              }
-            />
-          ))}
-        </RadioGroup>
-      </FormControl>
-      <Typography variant="h6" sx={{ mt: 4, mb: 1 }}>
-        <span style={{ opacity: 0.6 }}>#4 </span>
-        Tell us a bit about your <i>group</i>.
-      </Typography>
-      <FormControl fullWidth margin="dense">
-        <InputLabel id="demo-simple-select-label" sx={{ mt: 2 }}>
-          Group type
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={type}
-          variant="filled"
-          onChange={handleChange}
-        >
-          <MenuItem value="study group">Study group</MenuItem>
-          <MenuItem value="dorm">Dorm</MenuItem>
-          <MenuItem value="apartment">Apartment</MenuItem>
-          <MenuItem value="home">Home</MenuItem>
-        </Select>
-        <FormHelperText>
-          What type of residence do you live in? You can also select &quot;study
-          group&quot;.
-        </FormHelperText>
-      </FormControl>
-      <TextField
-        variant="filled"
-        label="Set a name for your group"
-        placeholder={
-          type === "home" || type === "apartment"
-            ? "The Johnson's"
-            : "My study group"
-        }
-        onKeyDown={(e: any) => {
-          if (e.key === "Enter") e.target.blur();
-        }}
-        defaultValue={session.property.profile.name}
-        onBlur={(event) => {
-          updateSettings(
-            session,
-            "name",
-            event.target.value as string,
-            false,
-            () => null,
-            true
-          );
-        }}
-        margin="dense"
-      />
-      <Alert icon={<Icon>lightbulb</Icon>} severity="warning" sx={{ mt: 2 }}>
-        Once you&apos;re done, you&apos;ll be able to invite up to five members
-        to your group.
-      </Alert>
-    </>,
-    <>
-      <Typography variant="h5" sx={styles.title} className="font-heading">
-        Boards
-      </Typography>
-      <Typography>
-        Boards are sweet places where you can plan &amp; organize anything, from
-        shopping lists, to lesson plans.
-      </Typography>
-      <Alert icon={<Icon>lightbulb</Icon>} severity="warning" sx={{ mt: 2 }}>
-        You told us you were{" "}
-        {bestDescription === "Adult" || bestDescription === "Educator"
-          ? "an"
-          : "a"}{" "}
-        <u>
-          <b>{bestDescription.toLocaleLowerCase()}</b>
-        </u>
-        . If you want to change this, scroll down and hit &quot;Back&quot;
-      </Alert>
-
-      {templates
-        .filter((template) => template.for.includes(bestDescription))
-        .map((template) => (
-          <BoardTemplate template={template} key={template.name} />
-        ))}
-    </>,
-    <>
-      <Typography variant="h5" sx={styles.title} className="font-heading">
-        Items
-      </Typography>
-      <Typography variant="body1" sx={{ fontWeight: 400, mt: 2, mb: 1.5 }}>
-        Let&apos;s build up your inventory. Once you&apos;re done, you can
-        quickly build up your inventory by scanning items on with your
-        phone&apos;s camera
-      </Typography>
-      <InventoryList data={[...cards]} />
-    </>,
-    <>
-      <Typography variant="h5" sx={styles.title} className="font-heading">
-        You&apos;re all set!
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          fontWeight: 400,
-          mb: 1.5,
-        }}
-      >
-        You can always come back to this page by clicking on the
-        &quot;Onboarding&quot; button in the sidebar.
-      </Typography>
-
-      <Box sx={{ display: "flex", justifyContent: "end", gap: 2 }}>
-        <Button
-          variant="outlined"
-          size="large"
-          sx={{
-            borderRadius: 99999,
-            mt: 2,
-            px: 3,
-          }}
-          onClick={() => setStep((s) => s - 1)}
-        >
-          Back
-        </Button>
-        <LoadingButton
-          loading={submitLoading}
-          variant="contained"
-          size="large"
-          sx={{
-            borderRadius: 99999,
-            mt: 2,
-            px: 3,
-          }}
-          onClick={() => {
-            setSubmitLoading(true);
-            updateSettings(
-              session,
-              "onboardingComplete",
-              "true",
-              false,
-              async () => {
-                router.push((router.query.next as string) || "/");
-              },
-              false
-            );
-          }}
-        >
-          Let&apos;s go <Icon>east</Icon>
-        </LoadingButton>
-      </Box>
-    </>,
+  const steps = [
+    <AboutStep navigation={navigation} key={1} styles={styles} />,
+    <AppearanceStep navigation={navigation} key={2} styles={styles} />,
+    <ProfileStep navigation={navigation} key={3} styles={styles} />,
+    <GroupStep navigation={navigation} key={4} styles={styles} />,
+    <BoardsStep navigation={navigation} key={5} styles={styles} />,
+    <Completion navigation={navigation} key={6} styles={styles} />,
   ];
-  useEffect(() => {
-    const container: any = document.getElementById("onboardingContainer");
-    container.scrollTo({ top: 0 });
-  }, [step]);
-
-  function StepContent({
-    forStep,
-    currentStep,
-    setCurrentStep,
-    content,
-    contentLength,
-  }) {
-    return forStep === currentStep ? (
-      <Box sx={{ pb: { xs: 10, sm: 0 } }}>
-        <motion.div
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-        >
-          <Box sx={{ mt: 2 }} />
-          {content}
-          <Box
-            sx={{
-              justifyContent: "flex-end",
-              mt: 2,
-              position: { xs: "fixed", sm: "sticky" },
-              zIndex: 99999,
-              bottom: 0,
-              left: 0,
-              width: { xs: "100%" },
-              backdropFilter: { xs: "blur(10px)", sm: "none" },
-              p: { xs: 2, sm: 0 },
-              display: "flex",
-              ...(currentStep + 1 === contentLength && {
-                display: "none",
-              }),
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Button
-              variant="outlined"
-              size="large"
-              sx={{
-                display: currentStep === 0 ? "none" : "inline-flex",
-                borderRadius: 9999,
-                px: 2,
-                minWidth: "auto",
-                backdropFilter: "blur(5px)",
-              }}
-              onClick={() => {
-                setStep(currentStep - 1);
-              }}
-            >
-              <Icon>west</Icon>
-            </Button>
-            <Button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              variant="contained"
-              size="large"
-              sx={{
-                borderRadius: 9999,
-                px: 3,
-                width: { xs: "100%", sm: "auto" },
-              }}
-            >
-              Continue
-              <Icon sx={{ ml: "auto" }}>east</Icon>
-            </Button>
-          </Box>
-        </motion.div>
-      </Box>
-    ) : null;
-  }
-  const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor || "gray", isDark);
-
-  const Connector = styled(StepConnector)(({ theme }) => ({
-    [`&.${stepConnectorClasses.alternativeLabel}`]: {
-      top: 10,
-      left: "calc(-50% + 16px)",
-      right: "calc(50% + 16px)",
-    },
-    [`&.${stepConnectorClasses.active}`]: {
-      [`& .${stepConnectorClasses.line}`]: {
-        borderColor: palette[9],
-      },
-    },
-    [`&.${stepConnectorClasses.completed}`]: {
-      [`& .${stepConnectorClasses.line}`]: {
-        borderColor: palette[9],
-      },
-    },
-    [`& .${stepConnectorClasses.line}`]: {
-      borderColor:
-        theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
-      borderTopWidth: 3,
-      borderRadius: 1,
-    },
-  }));
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex: 99999,
-      }}
-    >
+    <>
+      <Intro />
       <Box
         sx={{
-          width: "100vw",
-          height: "100vh",
-          position: "absolute",
-          zIndex: 1,
-          top: 0,
-          left: 0,
-        }}
-      >
-        <Loading />
-      </Box>
-      <Box
-        sx={{
+          ["@keyframes showContent"]: {
+            "0%": {
+              opacity: 0,
+            },
+            "100%": {
+              opacity: 1,
+            },
+          },
+          opacity: 0,
+          animation: "showContent 1s cubic-bezier(.3,.66,.11,1.29) forwards",
+          animationDelay: "7s",
           position: "fixed",
           top: 0,
           left: 0,
-          width: "100vw",
-          height: "100vh",
-          zIndex: 1,
-          backdropFilter: "blur(20px)",
+          width: "100%",
+          height: "100%",
+          zIndex: 100,
         }}
-      />
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <Box
+      >
+        <Loading />
+        <LinearProgress
+          variant="determinate"
+          value={((step + 1) / steps.length) * 100}
           sx={{
             position: "fixed",
-            top: { xs: 0, sm: "50%" },
-            left: { xs: 0, sm: "50%" },
-            transform: { xs: 0, sm: "translate(-50%, -50%)" },
-            zIndex: 2,
-            maxHeight: { xs: "100vh", sm: "80vh" },
-            height: { xs: "100vh", sm: "auto" },
-            overflowY: "auto",
-            maxWidth: { xs: "100vw", sm: "calc(100vw - 40px)" },
-            width: { xs: "100vw", sm: "500px" },
-            backgroundColor: palette[1],
-            boxShadow: "13px 13px 50px 0 rgba(0,0,0,0.1)",
-            color: palette[12],
-            borderRadius: { xs: 0, sm: "20px" },
-            p: { xs: "7px", sm: "20px" },
-            pt: { xs: 0, sm: "20px" },
-            WebkitAppRegion: "no-drag",
-          }}
-          id="onboardingContainer"
-        >
-          <Stepper
-            sx={{
-              p: 1,
-              mt: 2,
-              position: "sticky",
-              backdropFilter: "blur(20px)",
-              zIndex: 999,
-              top: "20px",
+            top: 0,
+            left: 0,
+            zIndex: 9990,
+            width: "100%",
+            "& *": {
+              transition: "all .3s cubic-bezier(.3,.66,.11,1.29)!important",
               borderRadius: 999,
-              width: "100%",
-            }}
-            activeStep={step}
-            connector={<Connector />}
-          >
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel StepIconComponent={StepIcon} />
-              </Step>
-            ))}
-          </Stepper>
-          <Box sx={{ p: 2, px: 3 }}>
-            {content.map((_, i) => (
-              <StepContent
-                contentLength={content.length}
-                key={i}
-                forStep={i}
-                currentStep={step}
-                setCurrentStep={setStep}
-                content={content[i]}
-              />
-            ))}
-          </Box>
+            },
+            height: 10,
+          }}
+        />
+        <Box sx={{ position: "fixed", top: 0, left: 0, m: 3, zIndex: 9999 }}>
+          <Logo size="60" intensity={7} />
         </Box>
-      </motion.div>
-    </Box>
+        <Box
+          sx={{
+            height: "100%",
+            width: "100%",
+            zIndex: 999,
+            position: "fixed",
+            backdropFilter: "blur(10px)",
+            overflow: "scroll",
+          }}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+              }}
+            >
+              {steps[step]}
+            </motion.div>
+          </AnimatePresence>
+        </Box>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={step}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 20,
+            }}
+          >
+            <IconButton
+              onClick={navigation.previous}
+              sx={{
+                ...styles.navigationButton,
+                left: 0,
+                ...(step === 0 && {
+                  display: "none!important",
+                }),
+              }}
+            >
+              <Icon className="outlined">arrow_back_ios_new</Icon>
+            </IconButton>
+            <IconButton
+              onClick={navigation.next}
+              sx={{
+                ...styles.navigationButton,
+                right: 0,
+                ...(step === steps.length - 1 && {
+                  display: "none!important",
+                }),
+              }}
+            >
+              <Icon className="outlined">arrow_forward_ios</Icon>
+            </IconButton>
+          </motion.div>
+        </AnimatePresence>
+      </Box>
+    </>
   );
 }

@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import Markdown from "markdown-to-jsx";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { updateSettings } from "../../lib/client/updateSettings";
@@ -26,11 +27,12 @@ export default function ReleaseModal() {
     "https://api.github.com/repos/dysperse/dysperse/releases?per_page=1";
 
   const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
+    fetch(url).then((res) => res.json()),
   );
+  const router = useRouter();
 
   useEffect(() => {
-    if (!alreadyOpened && !error) {
+    if (!alreadyOpened && !error && router.asPath !== "/onboarding") {
       if (
         data &&
         data[0] &&
@@ -42,7 +44,7 @@ export default function ReleaseModal() {
         setAlreadyOpened(true);
       }
     }
-  }, [data, session, alreadyOpened, error]);
+  }, [data, session, alreadyOpened, error, router]);
 
   const handleClose = () => {
     setOpen(false);
@@ -53,7 +55,7 @@ export default function ReleaseModal() {
       false,
       null,
       false,
-      true
+      true,
     );
   };
 

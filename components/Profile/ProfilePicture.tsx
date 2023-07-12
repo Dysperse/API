@@ -6,7 +6,17 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
-export function ProfilePicture({ mutationUrl, data, editMode }) {
+export function ProfilePicture({
+  mutationUrl,
+  data,
+  editMode,
+  size = 150,
+}: {
+  mutationUrl: string;
+  data: any;
+  editMode?: boolean;
+  size?: number;
+}) {
   const session = useSession();
   const [photo, setPhoto] = useState(data?.Profile?.photo);
   const [imageUploading, setImageUploading] = useState(false);
@@ -21,7 +31,7 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
       try {
         const res = await fetch(
           `https://api.imgbb.com/1/upload?name=image&key=${key}`,
-          { method: "POST", body: form }
+          { method: "POST", body: form },
         ).then((res) => res.json());
 
         setPhoto(res.data.thumb.url);
@@ -34,12 +44,12 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
         setImageUploading(false);
       } catch (e) {
         toast.error(
-          "Yikes! An error occured while trying to upload your image. Please try again later"
+          "Yikes! An error occured while trying to upload your image. Please try again later",
         );
         setImageUploading(false);
       }
     },
-    [setPhoto, mutationUrl, session]
+    [setPhoto, mutationUrl, session],
   );
 
   useEffect(() => setPhoto(data?.Profile?.picture), [data]);
@@ -51,9 +61,8 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
     <Box
       sx={{
         position: "relative",
-        height: 150,
-        width: 150,
-        boxShadow: `0 0 0 5px hsl(240,11%,${isDark ? 10 : 100}%)`,
+        height: size,
+        width: size,
         borderRadius: 9999,
         alignSelf: { xs: "center", md: "flex-start" },
       }}
@@ -113,9 +122,9 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
       <Avatar
         src={photo}
         sx={{
-          height: 150,
-          width: 150,
-          fontSize: 65,
+          height: size,
+          width: size,
+          fontSize: size == 150 ? 65 : 30,
           textTransform: "uppercase",
           background: `linear-gradient(${palette[6]} 30%, ${palette[9]})`,
           mb: 2,

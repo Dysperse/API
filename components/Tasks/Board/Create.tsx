@@ -2,15 +2,16 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
-import { Masonry } from "@mui/lab";
+import { LoadingButton, Masonry } from "@mui/lab";
 import {
   AppBar,
   Box,
-  Button,
   Card,
   CardActionArea,
   Chip,
+  Grid,
   Icon,
   IconButton,
   InputAdornment,
@@ -19,11 +20,13 @@ import {
   TextField,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Avatar from "boring-avatars";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { cloneElement, useDeferredValue, useState } from "react";
+import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
 const checklistCardStyles = (palette) => ({
@@ -46,7 +49,7 @@ const checklistCardStyles = (palette) => ({
   gap: 2,
 });
 
-function Template({ children, template, mutationUrl }: any) {
+function Template({ onboarding, children, template, mutationUrl }: any) {
   const router = useRouter();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -58,6 +61,8 @@ function Template({ children, template, mutationUrl }: any) {
   const trigger = cloneElement(children, {
     onClick: () => setOpen(true),
   });
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
     <>
       {trigger}
@@ -67,16 +72,18 @@ function Template({ children, template, mutationUrl }: any) {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            width: { sm: "calc(100% - 326px)" },
+            width: { xs: "100vw", sm: "calc(100vw - 326px)" },
             borderRadius: 0,
           },
         }}
         slotProps={{
-          backdrop: {
-            sx: {
-              display: "none!important",
+          ...(!onboarding && {
+            backdrop: {
+              sx: {
+                display: "none!important",
+              },
             },
-          },
+          }),
         }}
       >
         <AppBar sx={{ borderBottom: 0 }}>
@@ -86,14 +93,22 @@ function Template({ children, template, mutationUrl }: any) {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Box sx={{ p: 5 }}>
-          <Box sx={{ display: "flex", gap: 1.5, mt: 3 }}>
+        <Box sx={{ p: 5, pb: 0 }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1.5,
+              mt: 3,
+              mb: { xs: 2, sm: 0 },
+              flexWrap: "wrap",
+            }}
+          >
             {template.category && <Chip label={template.category} />}
             {template.for.map((tag) => (
               <Chip key={tag} label={tag + "s"} />
             ))}
           </Box>
-          <Typography variant="h1" className="font-heading">
+          <Typography variant={isMobile ? "h3" : "h1"} className="font-heading">
             {template.name}
           </Typography>
           <Box sx={{ display: "flex", gap: 1, mb: 3 }}>
@@ -102,73 +117,92 @@ function Template({ children, template, mutationUrl }: any) {
               <b>Dysperse</b> <Icon>verified</Icon>
             </span>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              mt: 2,
-              overflowX: "scroll",
-            }}
-          >
-            {template.columns.map((column, index) => (
-              <Box
-                key={column.id}
-                sx={{
-                  width: "100%",
-                  minWidth: "200px",
-                  overflowX: "auto",
-                  p: { xs: 1.5, sm: 2.5 },
-                  gap: 2,
-                  background: palette[3],
-                  borderRadius: 3,
-                }}
-              >
-                <picture>
-                  <img
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                    height="30px"
-                    alt="emoji"
-                  />
-                </picture>
-                <Typography
-                  sx={{
-                    fontSize: 18,
-                    fontWeight: 600,
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {column.name}
-                </Typography>
-                <Skeleton width="90%" animation={false} />
-                <Skeleton width="100%" animation={false} />
-                <Skeleton width="70%" animation={false} />
-              </Box>
-            ))}
-          </Box>
         </Box>
-        <Button
-          variant="contained"
-          disabled={loading || session?.permission === "read-only"}
-          size="large"
-          sx={{ borderRadius: 99, ml: "auto", mr: 5 }}
-          onClick={() => {
-            setLoading(true);
-            fetchRawApi(session, "property/boards/create", {
-              board: JSON.stringify(template),
-            }).then(async (res) => {
-              await mutate(mutationUrl);
-              router.push(`/tasks/boards/${res.id}`);
-              setLoading(false);
-            });
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            mt: 2,
+            pl: 5,
+            overflowX: "scroll",
           }}
         >
-          {session?.permission === "read-only"
-            ? "You do not have permission to create a board"
-            : "Create new board"}
-        </Button>
+          {template.columns.map((column, index) => (
+            <Box
+              key={column.id}
+              sx={{
+                width: "100%",
+                minWidth: "200px",
+                overflowX: "auto",
+                p: { xs: 1.5, sm: 2.5 },
+                gap: 2,
+                background: palette[3],
+                borderRadius: 3,
+              }}
+            >
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                  height="30px"
+                  alt="emoji"
+                />
+              </picture>
+              <Typography
+                sx={{
+                  fontSize: 18,
+                  fontWeight: 600,
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {column.name}
+              </Typography>
+              <Skeleton width="90%" animation={false} />
+              <Skeleton width="100%" animation={false} />
+              <Skeleton width="70%" animation={false} />
+            </Box>
+          ))}
+        </Box>
+        <Box sx={{ px: 5, display: "flex" }}>
+          <LoadingButton
+            loading={loading}
+            variant="contained"
+            disabled={loading || session?.permission === "read-only"}
+            size="large"
+            sx={{
+              borderRadius: 99,
+              ml: "auto",
+              mr: 5,
+              mt: 5,
+              width: { xs: "100%", sm: "auto" },
+            }}
+            onClick={() => {
+              setLoading(true);
+              fetchRawApi(session, "property/boards/create", {
+                board: JSON.stringify(template),
+              }).then(async (res) => {
+                await mutate(mutationUrl);
+                if (onboarding) {
+                  toast.success(
+                    "Board created! You can explore other templates.",
+                    toastStyles,
+                  );
+                  setLoading(false);
+                  setOpen(false);
+                  return;
+                }
+                router.push(`/tasks/boards/${res.id}`);
+                setLoading(false);
+              });
+            }}
+          >
+            {session?.permission === "read-only"
+              ? "You do not have permission to create a board"
+              : "Create new board"}
+          </LoadingButton>
+        </Box>
       </SwipeableDrawer>
     </>
   );
@@ -514,7 +548,7 @@ export const templates = [
   },
 ];
 
-export function CreateBoard({ mutationUrl }: any) {
+export function CreateBoard({ onboarding = false, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");
@@ -564,139 +598,170 @@ export function CreateBoard({ mutationUrl }: any) {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
-      <Head>
-        <title>Explore &bull; {currentOption}s</title>
-      </Head>
-      <Box sx={{ textAlign: "center", my: 10 }}>
-        <Typography variant="h1" className="font-heading" sx={{ mb: 1 }}>
-          Explore
-        </Typography>
-        <Typography variant="h6">
-          Do anything with hundreds of templates
-        </Typography>
-        <Box sx={{ px: 1, mt: 2 }}>
-          <TextField
-            size="small"
-            placeholder='Try searching for "Shopping list"'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Icon>search</Icon>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ maxWidth: "400px" }}
-            value={searchQuery}
-            onChange={(e: any) => setSearchQuery(e.target.value)}
-          />
-        </Box>
-      </Box>
-
-      <Box sx={{ display: "flex", gap: 2 }}>
-        {[
-          { color: "orange", name: "Work", icon: "work" },
-          { color: "purple", name: "School", icon: "history_edu" },
-          { color: "red", name: "Personal", icon: "celebration" },
-          { color: "green", name: "Checklists", icon: "task_alt" },
-        ].map((category) => (
-          <CardActionArea
-            key={category.name}
-            sx={{
-              background: palette[3],
-              p: 2,
-              borderRadius: 5,
-            }}
-          >
-            <Icon
-              className="outlined"
-              sx={{
-                color: colors[category.color]["300"],
-                mb: 1,
-                fontSize: "30px!important",
+    <Box sx={{ p: onboarding ? 0 : { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
+      {!onboarding && (
+        <Head>
+          <title>Explore &bull; {currentOption}s</title>
+        </Head>
+      )}
+      {!onboarding && (
+        <Box sx={{ textAlign: "center", my: 10 }}>
+          <Typography variant="h1" className="font-heading" sx={{ mb: 1 }}>
+            Explore
+          </Typography>
+          <Typography variant="h6">
+            Do anything with hundreds of templates
+          </Typography>
+          <Box sx={{ px: 1, mt: 2 }}>
+            <TextField
+              size="small"
+              placeholder='Try searching for "Shopping list"'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon>search</Icon>
+                  </InputAdornment>
+                ),
               }}
-            >
-              {category.icon}
-            </Icon>
-            <Typography variant="h5">{category.name}</Typography>
-            <Typography variant="body2">
-              {templates.filter((d) => d.category === category.name).length}{" "}
-              templates
-            </Typography>
-          </CardActionArea>
-        ))}
+              sx={{ maxWidth: "400px" }}
+              value={searchQuery}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
+            />
+          </Box>
+        </Box>
+      )}
+
+      <Box sx={{ display: "flex", gap: 2, mb: { xs: 4, sm: 0 } }}>
+        <Grid container spacing={2}>
+          {[
+            { color: "orange", name: "Work", icon: "work" },
+            { color: "purple", name: "School", icon: "history_edu" },
+            { color: "red", name: "Personal", icon: "celebration" },
+            { color: "green", name: "Checklists", icon: "task_alt" },
+          ].map((category) => (
+            <Grid item xs={12} sm={3} key={category.name}>
+              <CardActionArea
+                key={category.name}
+                sx={{
+                  background: palette[3],
+                  p: 2,
+                  borderRadius: 5,
+                }}
+              >
+                <Icon
+                  className="outlined"
+                  sx={{
+                    color: colors[category.color]["300"],
+                    mb: 1,
+                    fontSize: "30px!important",
+                  }}
+                >
+                  {category.icon}
+                </Icon>
+                <Typography variant="h5">{category.name}</Typography>
+                <Typography variant="body2">
+                  {templates.filter((d) => d.category === category.name).length}{" "}
+                  templates
+                </Typography>
+              </CardActionArea>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
 
       <Box sx={{ mt: 2 }}>
-        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-          <Masonry columns={3} spacing={2}>
-            {templates.map((template, index) => (
-              <Box key={index}>
-                <Template template={template} mutationUrl={mutationUrl}>
-                  <Card
-                    sx={{
-                      background: palette[3],
-                      borderRadius: 5,
-                    }}
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mr: -2 }}>
+          <Masonry columns={{ xs: 1, sm: 3 }} spacing={2}>
+            {templates
+              .filter(
+                (template) =>
+                  template.name
+                    .toLowerCase()
+                    .includes(deferredSearchQuery.toLowerCase()) ||
+                  template.category
+                    .toLowerCase()
+                    .includes(deferredSearchQuery.toLowerCase()),
+              )
+              .filter(
+                (template) => !(onboarding && template.name === "Blank board"),
+              )
+              .map((template, index) => (
+                <Box key={index}>
+                  <Template
+                    onboarding={onboarding}
+                    template={template}
+                    mutationUrl={mutationUrl}
                   >
-                    <CardActionArea sx={{ height: "100%" }}>
-                      <Box
-                        sx={{
-                          maxHeight: "70px",
-                          overflow: "hidden",
-                          position: "relative",
-                          ...(template.name === "Blank board" && {
-                            display: "none",
-                          }),
-                        }}
-                      >
-                        <Avatar
-                          size="400px"
-                          square
-                          name={template.name}
-                          variant="marble"
-                          colors={[
-                            "#0A0310",
-                            "#49007E",
-                            "#FF005B",
-                            "#FF7D10",
-                            "#FFB238",
-                          ]}
-                        />
-                        {template.category && (
-                          <Chip
-                            sx={{
-                              position: "absolute",
-                              top: 0,
-                              right: 0,
-                              m: 1,
-                              background: addHslAlpha(palette[2], 0.4),
-                              backdropFilter: "blur(10px)",
-                            }}
-                            label={template.category}
-                            size="small"
+                    <Card
+                      sx={{
+                        background: palette[3],
+                        borderRadius: 5,
+                        ...(template.name === "Blank board" && {
+                          display: "none",
+                        }),
+                      }}
+                    >
+                      <CardActionArea sx={{ height: "100%" }}>
+                        <Box
+                          sx={{
+                            maxHeight: "70px",
+                            overflow: "hidden",
+                            position: "relative",
+                            ...(template.name === "Blank board" && {
+                              display: "none",
+                            }),
+                          }}
+                        >
+                          <Avatar
+                            size="400px"
+                            square
+                            name={template.name}
+                            variant="marble"
+                            colors={[
+                              "#0A0310",
+                              "#49007E",
+                              "#FF005B",
+                              "#FF7D10",
+                              "#FFB238",
+                            ]}
                           />
-                        )}
-                      </Box>
-                      <Box sx={{ p: 3 }}>
-                        <Typography variant="h3" className="font-heading">
-                          {template.name}
-                        </Typography>
-                        {template.columns.length > 0 && (
+                          {template.category && (
+                            <Chip
+                              sx={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                m: 1,
+                                background: addHslAlpha(palette[2], 0.4),
+                                backdropFilter: "blur(10px)",
+                              }}
+                              label={template.category}
+                              size="small"
+                            />
+                          )}
+                        </Box>
+                        <Box sx={{ p: 3 }}>
                           <Typography
-                            variant="body2"
-                            gutterBottom
-                            className="font-body"
+                            variant={onboarding ? "h5" : "h3"}
+                            className={onboarding ? "" : "font-heading"}
                           >
-                            {template.columns.length} columns
+                            {template.name}
                           </Typography>
-                        )}
-                      </Box>
-                    </CardActionArea>
-                  </Card>
-                </Template>
-              </Box>
-            ))}
+                          {template.columns.length > 0 && (
+                            <Typography
+                              variant="body2"
+                              gutterBottom
+                              className="font-body"
+                            >
+                              {template.columns.length} columns
+                            </Typography>
+                          )}
+                        </Box>
+                      </CardActionArea>
+                    </Card>
+                  </Template>
+                </Box>
+              ))}
           </Masonry>
         </Box>
       </Box>
