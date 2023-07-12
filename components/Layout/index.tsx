@@ -15,7 +15,7 @@ import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
 import { UpdateButton } from "./Navigation/UpdateButton";
 const KeyboardShortcutsModal = dynamic(
-  () => import("./Navigation/KeyboardShortcutsModal")
+  () => import("./Navigation/KeyboardShortcutsModal"),
 );
 
 const ReleaseModal = dynamic(() => import("./ReleaseModal"));
@@ -64,7 +64,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const router = useRouter();
 
   const shouldUseXAxis = ["/users", "/groups"].find((path) =>
-    router.asPath.includes(path)
+    router.asPath.includes(path),
   );
 
   if (session.properties.length === 0) {

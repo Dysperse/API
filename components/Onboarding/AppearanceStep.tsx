@@ -56,7 +56,7 @@ export function AppearanceStep({ styles, navigation }) {
                   "slate",
                   "mauve",
                   "gray",
-                ].includes(color)
+                ].includes(color),
             )
             .map((color) => (
               <Box

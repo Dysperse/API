@@ -6,7 +6,7 @@ export function Intro() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   return (
