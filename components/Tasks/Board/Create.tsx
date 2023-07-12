@@ -11,6 +11,7 @@ import {
   Card,
   CardActionArea,
   Chip,
+  Grid,
   Icon,
   IconButton,
   InputAdornment,
@@ -19,6 +20,7 @@ import {
   TextField,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Avatar from "boring-avatars";
 import Head from "next/head";
@@ -59,6 +61,8 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
   const trigger = cloneElement(children, {
     onClick: () => setOpen(true),
   });
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
     <>
       {trigger}
@@ -68,7 +72,7 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            width: { sm: "calc(100% - 326px)" },
+            width: { xs: "100vw", sm: "calc(100vw - 326px)" },
             borderRadius: 0,
           },
         }}
@@ -96,7 +100,7 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
               <Chip key={tag} label={tag + "s"} />
             ))}
           </Box>
-          <Typography variant="h1" className="font-heading">
+          <Typography variant={isMobile ? "h3" : "h1"} className="font-heading">
             {template.name}
           </Typography>
           <Box sx={{ display: "flex", gap: 1, mb: 3 }}>
@@ -167,7 +171,7 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
               if (onboarding) {
                 toast.success(
                   "Board created! You can explore other templates.",
-                  toastStyles,
+                  toastStyles
                 );
                 setLoading(false);
                 setOpen(false);
@@ -610,42 +614,46 @@ export function CreateBoard({ onboarding = false, mutationUrl }: any) {
         </Box>
       )}
 
-      <Box sx={{ display: "flex", gap: 2 }}>
-        {[
-          { color: "orange", name: "Work", icon: "work" },
-          { color: "purple", name: "School", icon: "history_edu" },
-          { color: "red", name: "Personal", icon: "celebration" },
-          { color: "green", name: "Checklists", icon: "task_alt" },
-        ].map((category) => (
-          <CardActionArea
-            key={category.name}
-            sx={{
-              background: palette[3],
-              p: 2,
-              borderRadius: 5,
-            }}
-          >
-            <Icon
-              className="outlined"
-              sx={{
-                color: colors[category.color]["300"],
-                mb: 1,
-                fontSize: "30px!important",
-              }}
-            >
-              {category.icon}
-            </Icon>
-            <Typography variant="h5">{category.name}</Typography>
-            <Typography variant="body2">
-              {templates.filter((d) => d.category === category.name).length}{" "}
-              templates
-            </Typography>
-          </CardActionArea>
-        ))}
+      <Box sx={{ display: "flex", gap: 2, mb: { xs: 4, sm: 0 } }}>
+        <Grid container spacing={2}>
+          {[
+            { color: "orange", name: "Work", icon: "work" },
+            { color: "purple", name: "School", icon: "history_edu" },
+            { color: "red", name: "Personal", icon: "celebration" },
+            { color: "green", name: "Checklists", icon: "task_alt" },
+          ].map((category) => (
+            <Grid item xs={12} sm={3} key={category.name}>
+              <CardActionArea
+                key={category.name}
+                sx={{
+                  background: palette[3],
+                  p: 2,
+                  borderRadius: 5,
+                }}
+              >
+                <Icon
+                  className="outlined"
+                  sx={{
+                    color: colors[category.color]["300"],
+                    mb: 1,
+                    fontSize: "30px!important",
+                  }}
+                >
+                  {category.icon}
+                </Icon>
+                <Typography variant="h5">{category.name}</Typography>
+                <Typography variant="body2">
+                  {templates.filter((d) => d.category === category.name).length}{" "}
+                  templates
+                </Typography>
+              </CardActionArea>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
 
       <Box sx={{ mt: 2 }}>
-        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 3 }} spacing={2}>
             {templates
               .filter(
@@ -655,10 +663,10 @@ export function CreateBoard({ onboarding = false, mutationUrl }: any) {
                     .includes(deferredSearchQuery.toLowerCase()) ||
                   template.category
                     .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase()),
+                    .includes(deferredSearchQuery.toLowerCase())
               )
               .filter(
-                (template) => !(onboarding && template.name === "Blank board"),
+                (template) => !(onboarding && template.name === "Blank board")
               )
               .map((template, index) => (
                 <Box key={index}>

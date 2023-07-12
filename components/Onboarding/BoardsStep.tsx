@@ -10,7 +10,7 @@ export function BoardsStep({ styles, navigation }) {
 
   return (
     <Box sx={{ ...styles.container, overflow: "hidden" }}>
-      <Container sx={{ mt: 20 }}>
+      <Container sx={{ mt: { sm: 20 } }}>
         <Typography variant="h1" className="font-heading" sx={styles.heading}>
           Create some boards
         </Typography>
