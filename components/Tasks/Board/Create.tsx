@@ -24,6 +24,7 @@ import Avatar from "boring-avatars";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { cloneElement, useDeferredValue, useState } from "react";
+import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
 const checklistCardStyles = (palette) => ({
@@ -46,7 +47,7 @@ const checklistCardStyles = (palette) => ({
   gap: 2,
 });
 
-function Template({ children, template, mutationUrl }: any) {
+function Template({ onboarding, children, template, mutationUrl }: any) {
   const router = useRouter();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -72,11 +73,13 @@ function Template({ children, template, mutationUrl }: any) {
           },
         }}
         slotProps={{
-          backdrop: {
-            sx: {
-              display: "none!important",
+          ...(!onboarding && {
+            backdrop: {
+              sx: {
+                display: "none!important",
+              },
             },
-          },
+          }),
         }}
       >
         <AppBar sx={{ borderBottom: 0 }}>
@@ -160,6 +163,12 @@ function Template({ children, template, mutationUrl }: any) {
               board: JSON.stringify(template),
             }).then(async (res) => {
               await mutate(mutationUrl);
+              if (onboarding) {
+                toast.success("Board created!");
+                setLoading(false);
+                setOpen(false)
+                return;
+              }
               router.push(`/tasks/boards/${res.id}`);
               setLoading(false);
             });
@@ -514,7 +523,7 @@ export const templates = [
   },
 ];
 
-export function CreateBoard({ mutationUrl }: any) {
+export function CreateBoard({ onboarding = false, mutationUrl }: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");
@@ -564,34 +573,38 @@ export function CreateBoard({ mutationUrl }: any) {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
-      <Head>
-        <title>Explore &bull; {currentOption}s</title>
-      </Head>
-      <Box sx={{ textAlign: "center", my: 10 }}>
-        <Typography variant="h1" className="font-heading" sx={{ mb: 1 }}>
-          Explore
-        </Typography>
-        <Typography variant="h6">
-          Do anything with hundreds of templates
-        </Typography>
-        <Box sx={{ px: 1, mt: 2 }}>
-          <TextField
-            size="small"
-            placeholder='Try searching for "Shopping list"'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Icon>search</Icon>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ maxWidth: "400px" }}
-            value={searchQuery}
-            onChange={(e: any) => setSearchQuery(e.target.value)}
-          />
+    <Box sx={{ p: onboarding ? 0 : { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
+      {!onboarding && (
+        <Head>
+          <title>Explore &bull; {currentOption}s</title>
+        </Head>
+      )}
+      {!onboarding && (
+        <Box sx={{ textAlign: "center", my: 10 }}>
+          <Typography variant="h1" className="font-heading" sx={{ mb: 1 }}>
+            Explore
+          </Typography>
+          <Typography variant="h6">
+            Do anything with hundreds of templates
+          </Typography>
+          <Box sx={{ px: 1, mt: 2 }}>
+            <TextField
+              size="small"
+              placeholder='Try searching for "Shopping list"'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon>search</Icon>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ maxWidth: "400px" }}
+              value={searchQuery}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
+            />
+          </Box>
         </Box>
-      </Box>
+      )}
 
       <Box sx={{ display: "flex", gap: 2 }}>
         {[
@@ -629,74 +642,97 @@ export function CreateBoard({ mutationUrl }: any) {
 
       <Box sx={{ mt: 2 }}>
         <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-          <Masonry columns={3} spacing={2}>
-            {templates.map((template, index) => (
-              <Box key={index}>
-                <Template template={template} mutationUrl={mutationUrl}>
-                  <Card
-                    sx={{
-                      background: palette[3],
-                      borderRadius: 5,
-                    }}
+          <Masonry columns={{ xs: 1, sm: 3 }} spacing={2}>
+            {templates
+              .filter(
+                (template) =>
+                  template.name
+                    .toLowerCase()
+                    .includes(deferredSearchQuery.toLowerCase()) ||
+                  template.category
+                    .toLowerCase()
+                    .includes(deferredSearchQuery.toLowerCase())
+              )
+              .filter(
+                (template) => !(onboarding && template.name === "Blank board")
+              )
+              .map((template, index) => (
+                <Box key={index}>
+                  <Template
+                    onboarding={onboarding}
+                    template={template}
+                    mutationUrl={mutationUrl}
                   >
-                    <CardActionArea sx={{ height: "100%" }}>
-                      <Box
-                        sx={{
-                          maxHeight: "70px",
-                          overflow: "hidden",
-                          position: "relative",
-                          ...(template.name === "Blank board" && {
-                            display: "none",
-                          }),
-                        }}
-                      >
-                        <Avatar
-                          size="400px"
-                          square
-                          name={template.name}
-                          variant="marble"
-                          colors={[
-                            "#0A0310",
-                            "#49007E",
-                            "#FF005B",
-                            "#FF7D10",
-                            "#FFB238",
-                          ]}
-                        />
-                        {template.category && (
-                          <Chip
-                            sx={{
-                              position: "absolute",
-                              top: 0,
-                              right: 0,
-                              m: 1,
-                              background: addHslAlpha(palette[2], 0.4),
-                              backdropFilter: "blur(10px)",
-                            }}
-                            label={template.category}
-                            size="small"
+                    <Card
+                      sx={{
+                        background: palette[3],
+                        borderRadius: 5,
+                        ...(template.name === "Blank board" && {
+                          display: "none",
+                        }),
+                      }}
+                    >
+                      <CardActionArea sx={{ height: "100%" }}>
+                        <Box
+                          sx={{
+                            maxHeight: "70px",
+                            overflow: "hidden",
+                            position: "relative",
+                            ...(template.name === "Blank board" && {
+                              display: "none",
+                            }),
+                          }}
+                        >
+                          <Avatar
+                            size="400px"
+                            square
+                            name={template.name}
+                            variant="marble"
+                            colors={[
+                              "#0A0310",
+                              "#49007E",
+                              "#FF005B",
+                              "#FF7D10",
+                              "#FFB238",
+                            ]}
                           />
-                        )}
-                      </Box>
-                      <Box sx={{ p: 3 }}>
-                        <Typography variant="h3" className="font-heading">
-                          {template.name}
-                        </Typography>
-                        {template.columns.length > 0 && (
+                          {template.category && (
+                            <Chip
+                              sx={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                m: 1,
+                                background: addHslAlpha(palette[2], 0.4),
+                                backdropFilter: "blur(10px)",
+                              }}
+                              label={template.category}
+                              size="small"
+                            />
+                          )}
+                        </Box>
+                        <Box sx={{ p: 3 }}>
                           <Typography
-                            variant="body2"
-                            gutterBottom
-                            className="font-body"
+                            variant={onboarding ? "h5" : "h3"}
+                            className={onboarding ? "" : "font-heading"}
                           >
-                            {template.columns.length} columns
+                            {template.name}
                           </Typography>
-                        )}
-                      </Box>
-                    </CardActionArea>
-                  </Card>
-                </Template>
-              </Box>
-            ))}
+                          {template.columns.length > 0 && (
+                            <Typography
+                              variant="body2"
+                              gutterBottom
+                              className="font-body"
+                            >
+                              {template.columns.length} columns
+                            </Typography>
+                          )}
+                        </Box>
+                      </CardActionArea>
+                    </Card>
+                  </Template>
+                </Box>
+              ))}
           </Masonry>
         </Box>
       </Box>

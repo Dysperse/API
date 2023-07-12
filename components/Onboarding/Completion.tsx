@@ -13,6 +13,7 @@ export function Completion({ styles, navigation }) {
     <Box
       sx={{
         ...styles.container,
+        textAlign: "center",
         alignItems: "center",
         gap: 1,
         height: "100vh",
@@ -39,7 +40,7 @@ export function Completion({ styles, navigation }) {
               async () => {
                 router.push((router.query.next as string) || "/");
               },
-              false,
+              false
             );
           }}
         >

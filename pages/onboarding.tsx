@@ -1,4 +1,5 @@
 import { Loading } from "@/components/Layout/Loading";
+import { BoardsStep } from "@/components/Onboarding/BoardsStep";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton, LinearProgress } from "@mui/material";
@@ -16,7 +17,7 @@ export default function Onboarding() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   const [step, setStep] = useState(0);
@@ -72,11 +73,10 @@ export default function Onboarding() {
       WebkitTextFillColor: "transparent",
     },
     container: {
-      maxHeight: { sm: "100vh" },
       overflow: "auto",
       pt: { xs: 15, sm: 0 },
       px: { xs: 3, sm: 0 },
-      height: { sm: "100vh" },
+      minHeight: { sm: "100vh" },
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -100,7 +100,8 @@ export default function Onboarding() {
     <AppearanceStep navigation={navigation} key={2} styles={styles} />,
     <ProfileStep navigation={navigation} key={3} styles={styles} />,
     <GroupStep navigation={navigation} key={4} styles={styles} />,
-    <Completion navigation={navigation} key={5} styles={styles} />,
+    <BoardsStep navigation={navigation} key={5} styles={styles} />,
+    <Completion navigation={navigation} key={6} styles={styles} />,
   ];
 
   return (
@@ -138,7 +139,7 @@ export default function Onboarding() {
             zIndex: 9990,
             width: "100%",
             "& *": {
-              transition: "all .3s cubic-bezier(.3,.66,.11,1.29)",
+              transition: "all .3s cubic-bezier(.3,.66,.11,1.29)!important",
               borderRadius: 999,
             },
             height: 10,
