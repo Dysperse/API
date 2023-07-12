@@ -166,7 +166,7 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
               if (onboarding) {
                 toast.success("Board created!");
                 setLoading(false);
-                setOpen(false)
+                setOpen(false);
                 return;
               }
               router.push(`/tasks/boards/${res.id}`);
@@ -651,10 +651,10 @@ export function CreateBoard({ onboarding = false, mutationUrl }: any) {
                     .includes(deferredSearchQuery.toLowerCase()) ||
                   template.category
                     .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase())
+                    .includes(deferredSearchQuery.toLowerCase()),
               )
               .filter(
-                (template) => !(onboarding && template.name === "Blank board")
+                (template) => !(onboarding && template.name === "Blank board"),
               )
               .map((template, index) => (
                 <Box key={index}>
