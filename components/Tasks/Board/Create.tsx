@@ -2,6 +2,7 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import { Masonry } from "@mui/lab";
 import {
@@ -164,7 +165,7 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
             }).then(async (res) => {
               await mutate(mutationUrl);
               if (onboarding) {
-                toast.success("Board created!");
+                toast.success("Board created!", toastStyles);
                 setLoading(false);
                 setOpen(false);
                 return;
@@ -651,10 +652,10 @@ export function CreateBoard({ onboarding = false, mutationUrl }: any) {
                     .includes(deferredSearchQuery.toLowerCase()) ||
                   template.category
                     .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase()),
+                    .includes(deferredSearchQuery.toLowerCase())
               )
               .filter(
-                (template) => !(onboarding && template.name === "Blank board"),
+                (template) => !(onboarding && template.name === "Blank board")
               )
               .map((template, index) => (
                 <Box key={index}>
