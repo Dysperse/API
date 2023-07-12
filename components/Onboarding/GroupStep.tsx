@@ -26,7 +26,7 @@ export function GroupStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   const [type, setType] = useState("");
@@ -92,7 +92,7 @@ export function GroupStep({ styles, navigation }) {
                                 navigator.clipboard.writeText(url);
                                 toast.success(
                                   "Copied to clipboard",
-                                  toastStyles,
+                                  toastStyles
                                 );
                               }}
                             >
@@ -132,7 +132,7 @@ export function GroupStep({ styles, navigation }) {
                     type: "group",
                     name: "I'm part of a group",
                     description:
-                      "I want to invite my friends / family / roommates to join me in a collaborative space",
+                      "I want a shared space for my friends / family / roommates",
                     icon: "group",
                   },
                 ].map((option) => (
@@ -231,7 +231,7 @@ export function GroupStep({ styles, navigation }) {
                       updateSettings(
                         session,
                         "property.profile.name",
-                        e.target.value,
+                        e.target.value
                       )
                     }
                     InputProps={{
