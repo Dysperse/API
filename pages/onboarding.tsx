@@ -46,7 +46,7 @@ export default function Onboarding() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   const [step, setStep] = useState(0);
@@ -224,6 +224,9 @@ export default function Onboarding() {
                 color: palette[9],
                 borderColor: palette[7],
                 p: 2,
+                ...(step === steps.length - 1 && {
+                  display: "none!important",
+                }),
               }}
             >
               <Icon className="outlined">arrow_forward_ios</Icon>
