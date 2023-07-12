@@ -93,8 +93,16 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Box sx={{ p: 5 }}>
-          <Box sx={{ display: "flex", gap: 1.5, mt: 3 }}>
+        <Box sx={{ p: 5, pb: 0 }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1.5,
+              mt: 3,
+              mb: { xs: 2, sm: 0 },
+              flexWrap: "wrap",
+            }}
+          >
             {template.category && <Chip label={template.category} />}
             {template.for.map((tag) => (
               <Chip key={tag} label={tag + "s"} />
@@ -109,83 +117,92 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
               <b>Dysperse</b> <Icon>verified</Icon>
             </span>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              mt: 2,
-              overflowX: "scroll",
-            }}
-          >
-            {template.columns.map((column, index) => (
-              <Box
-                key={column.id}
-                sx={{
-                  width: "100%",
-                  minWidth: "200px",
-                  overflowX: "auto",
-                  p: { xs: 1.5, sm: 2.5 },
-                  gap: 2,
-                  background: palette[3],
-                  borderRadius: 3,
-                }}
-              >
-                <picture>
-                  <img
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                    height="30px"
-                    alt="emoji"
-                  />
-                </picture>
-                <Typography
-                  sx={{
-                    fontSize: 18,
-                    fontWeight: 600,
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {column.name}
-                </Typography>
-                <Skeleton width="90%" animation={false} />
-                <Skeleton width="100%" animation={false} />
-                <Skeleton width="70%" animation={false} />
-              </Box>
-            ))}
-          </Box>
         </Box>
-        <LoadingButton
-          loading={loading}
-          variant="contained"
-          disabled={loading || session?.permission === "read-only"}
-          size="large"
-          sx={{ borderRadius: 99, ml: "auto", mr: 5 }}
-          onClick={() => {
-            setLoading(true);
-            fetchRawApi(session, "property/boards/create", {
-              board: JSON.stringify(template),
-            }).then(async (res) => {
-              await mutate(mutationUrl);
-              if (onboarding) {
-                toast.success(
-                  "Board created! You can explore other templates.",
-                  toastStyles,
-                );
-                setLoading(false);
-                setOpen(false);
-                return;
-              }
-              router.push(`/tasks/boards/${res.id}`);
-              setLoading(false);
-            });
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            mt: 2,
+            pl: 5,
+            overflowX: "scroll",
           }}
         >
-          {session?.permission === "read-only"
-            ? "You do not have permission to create a board"
-            : "Create new board"}
-        </LoadingButton>
+          {template.columns.map((column, index) => (
+            <Box
+              key={column.id}
+              sx={{
+                width: "100%",
+                minWidth: "200px",
+                overflowX: "auto",
+                p: { xs: 1.5, sm: 2.5 },
+                gap: 2,
+                background: palette[3],
+                borderRadius: 3,
+              }}
+            >
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                  height="30px"
+                  alt="emoji"
+                />
+              </picture>
+              <Typography
+                sx={{
+                  fontSize: 18,
+                  fontWeight: 600,
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {column.name}
+              </Typography>
+              <Skeleton width="90%" animation={false} />
+              <Skeleton width="100%" animation={false} />
+              <Skeleton width="70%" animation={false} />
+            </Box>
+          ))}
+        </Box>
+        <Box sx={{ px: 5, display: "flex" }}>
+          <LoadingButton
+            loading={loading}
+            variant="contained"
+            disabled={loading || session?.permission === "read-only"}
+            size="large"
+            sx={{
+              borderRadius: 99,
+              ml: "auto",
+              mr: 5,
+              mt: 5,
+              width: { xs: "100%", sm: "auto" },
+            }}
+            onClick={() => {
+              setLoading(true);
+              fetchRawApi(session, "property/boards/create", {
+                board: JSON.stringify(template),
+              }).then(async (res) => {
+                await mutate(mutationUrl);
+                if (onboarding) {
+                  toast.success(
+                    "Board created! You can explore other templates.",
+                    toastStyles
+                  );
+                  setLoading(false);
+                  setOpen(false);
+                  return;
+                }
+                router.push(`/tasks/boards/${res.id}`);
+                setLoading(false);
+              });
+            }}
+          >
+            {session?.permission === "read-only"
+              ? "You do not have permission to create a board"
+              : "Create new board"}
+          </LoadingButton>
+        </Box>
       </SwipeableDrawer>
     </>
   );
@@ -663,10 +680,10 @@ export function CreateBoard({ onboarding = false, mutationUrl }: any) {
                     .includes(deferredSearchQuery.toLowerCase()) ||
                   template.category
                     .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase()),
+                    .includes(deferredSearchQuery.toLowerCase())
               )
               .filter(
-                (template) => !(onboarding && template.name === "Blank board"),
+                (template) => !(onboarding && template.name === "Blank board")
               )
               .map((template, index) => (
                 <Box key={index}>
