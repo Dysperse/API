@@ -26,7 +26,7 @@ export function GroupStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   const [type, setType] = useState("");
@@ -52,7 +52,7 @@ export function GroupStep({ styles, navigation }) {
   return (
     <Box sx={styles.container}>
       <Container>
-        <Grid container>
+        <Grid columnSpacing={2} container>
           <Grid
             item
             xs={12}
@@ -92,7 +92,7 @@ export function GroupStep({ styles, navigation }) {
                                 navigator.clipboard.writeText(url);
                                 toast.success(
                                   "Copied to clipboard",
-                                  toastStyles,
+                                  toastStyles
                                 );
                               }}
                             >
@@ -132,7 +132,7 @@ export function GroupStep({ styles, navigation }) {
                     type: "group",
                     name: "I'm part of a group",
                     description:
-                      "I want to invite my friends/family/roommates to join me in a collaborative space",
+                      "I want to invite my friends / family / roommates to join me in a collaborative space",
                     icon: "group",
                   },
                 ].map((option) => (
@@ -188,7 +188,6 @@ export function GroupStep({ styles, navigation }) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              p: { sm: 2 },
               pt: { xs: 4, sm: 0 },
               pb: { xs: 4 },
             }}
@@ -222,14 +221,17 @@ export function GroupStep({ styles, navigation }) {
                     size="small"
                     variant="standard"
                     defaultValue={
-                      session?.property?.profile?.name ||
-                      session.user.name + "'s Space"
+                      session?.property?.profile?.name?.toLowerCase() ==
+                      "my home"
+                        ? session.user.name + "'s Space"
+                        : session?.property?.profile?.name ||
+                          session.user.name + "'s Space"
                     }
                     onBlur={(e) =>
                       updateSettings(
                         session,
                         "property.profile.name",
-                        e.target.value,
+                        e.target.value
                       )
                     }
                     InputProps={{

@@ -55,12 +55,15 @@ export default function Prompt() {
           throw new Error(res.message);
         }
         mutate("/api/session").then(() => {
-          toast.success("Welcome to Dysperse!", toastStyles);
           if (window.location.href.includes("close=true")) {
             window.close();
             return;
           }
-          router.push(router.query.next ? "/?next=" + router.query.next : "/");
+          router.push(
+            router.query.next
+              ? "/onboarding?next=" + router.query.next
+              : "/onboarding"
+          );
         });
         return;
       })
@@ -85,7 +88,7 @@ export default function Prompt() {
 
   return (
     <Layout>
-      <Box>
+      <Box sx={{ mb: 2 }}>
         <Box sx={authStyles(palette).container}>
           <AuthBranding mobile />
           <Box sx={{ pt: 3 }}>

@@ -21,7 +21,7 @@ export function ProfileStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   const { data, url, error } = useApi("user/profile", {
@@ -34,7 +34,7 @@ export function ProfileStep({ styles, navigation }) {
     if (birthdayRef?.current && data?.Profile?.birthday)
       setTimeout(() => {
         birthdayRef.current.value = dayjs(data.Profile.birthday).format(
-          "YYYY-MM-DD",
+          "YYYY-MM-DD"
         );
       }, 100);
   }, [data]);
@@ -52,6 +52,7 @@ export function ProfileStep({ styles, navigation }) {
       <Container>
         <Grid
           container
+          columnSpacing={2}
           sx={{
             height: { sm: "100vh" },
             display: "flex",
@@ -89,7 +90,7 @@ export function ProfileStep({ styles, navigation }) {
               onBlur={(e) =>
                 handleChange(
                   "birthday",
-                  dayjs(e.target.value).set("hour", 1).toISOString(),
+                  dayjs(e.target.value).set("hour", 1).toISOString()
                 )
               }
             />
@@ -115,7 +116,6 @@ export function ProfileStep({ styles, navigation }) {
               alignItems: "center",
               justifyContent: "center",
               height: { sm: "100vh" },
-              pl: { sm: 4 },
               py: { xs: 4, sm: 0 },
             }}
           >
@@ -123,6 +123,7 @@ export function ProfileStep({ styles, navigation }) {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1 }}
+              style={{ width: "100%" }}
             >
               <Box
                 sx={{
