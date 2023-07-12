@@ -25,7 +25,7 @@ export function GroupStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   const [type, setType] = useState("");
@@ -91,7 +91,7 @@ export function GroupStep({ styles, navigation }) {
                                 navigator.clipboard.writeText(url);
                                 toast.success(
                                   "Copied to clipboard",
-                                  toastStyles
+                                  toastStyles,
                                 );
                               }}
                             >
@@ -223,7 +223,7 @@ export function GroupStep({ styles, navigation }) {
                     updateSettings(
                       session,
                       "property.profile.name",
-                      e.target.value
+                      e.target.value,
                     )
                   }
                   InputProps={{

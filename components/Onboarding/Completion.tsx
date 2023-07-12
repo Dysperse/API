@@ -39,7 +39,7 @@ export function Completion({ styles, navigation }) {
               async () => {
                 router.push((router.query.next as string) || "/");
               },
-              false
+              false,
             );
           }}
         >

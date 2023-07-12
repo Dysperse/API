@@ -8,7 +8,7 @@ export function AppearanceStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   return (
@@ -44,7 +44,7 @@ export function AppearanceStep({ styles, navigation }) {
                   "slate",
                   "mauve",
                   "gray",
-                ].includes(color)
+                ].includes(color),
             )
             .map((color) => (
               <Box

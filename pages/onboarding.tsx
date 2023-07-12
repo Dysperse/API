@@ -22,7 +22,7 @@ function AboutStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   return (
@@ -57,7 +57,7 @@ export default function Onboarding() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   const [step, setStep] = useState(0);

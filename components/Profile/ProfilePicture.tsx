@@ -31,7 +31,7 @@ export function ProfilePicture({
       try {
         const res = await fetch(
           `https://api.imgbb.com/1/upload?name=image&key=${key}`,
-          { method: "POST", body: form }
+          { method: "POST", body: form },
         ).then((res) => res.json());
 
         setPhoto(res.data.thumb.url);
@@ -44,12 +44,12 @@ export function ProfilePicture({
         setImageUploading(false);
       } catch (e) {
         toast.error(
-          "Yikes! An error occured while trying to upload your image. Please try again later"
+          "Yikes! An error occured while trying to upload your image. Please try again later",
         );
         setImageUploading(false);
       }
     },
-    [setPhoto, mutationUrl, session]
+    [setPhoto, mutationUrl, session],
   );
 
   useEffect(() => setPhoto(data?.Profile?.picture), [data]);
