@@ -6,7 +6,17 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
-export function ProfilePicture({ mutationUrl, data, editMode }) {
+export function ProfilePicture({
+  mutationUrl,
+  data,
+  editMode,
+  size = 150,
+}: {
+  mutationUrl: string;
+  data: any;
+  editMode?: boolean;
+  size?: number;
+}) {
   const session = useSession();
   const [photo, setPhoto] = useState(data?.Profile?.photo);
   const [imageUploading, setImageUploading] = useState(false);
@@ -51,9 +61,8 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
     <Box
       sx={{
         position: "relative",
-        height: 150,
-        width: 150,
-        boxShadow: `0 0 0 5px hsl(240,11%,${isDark ? 10 : 100}%)`,
+        height: size,
+        width: size,
         borderRadius: 9999,
         alignSelf: { xs: "center", md: "flex-start" },
       }}
@@ -113,9 +122,9 @@ export function ProfilePicture({ mutationUrl, data, editMode }) {
       <Avatar
         src={photo}
         sx={{
-          height: 150,
-          width: 150,
-          fontSize: 65,
+          height: size,
+          width: size,
+          fontSize: size == 150 ? 65 : 30,
           textTransform: "uppercase",
           background: `linear-gradient(${palette[6]} 30%, ${palette[9]})`,
           mb: 2,

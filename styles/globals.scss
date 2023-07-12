@@ -163,6 +163,10 @@ img {
   background: #fff !important;
 }
 
+.dark * {
+  color-scheme: dark;
+}
+
 .MuiBackdrop-root:not(.override-bg) {
   -webkit-app-region: no-drag;
   background-color: rgba(0, 0, 0, 0.25);
