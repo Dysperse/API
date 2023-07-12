@@ -52,7 +52,7 @@ export function Intro() {
             animationDelay: "3s",
           }}
         >
-          Hey.
+          Welcome to Dysperse
         </Typography>
       </Box>
       <Box

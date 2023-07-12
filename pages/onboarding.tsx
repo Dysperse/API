@@ -20,34 +20,23 @@ import { ProfileStep } from "../components/Onboarding/ProfileStep";
 
 function AboutStep({ styles, navigation }) {
   const session = useSession();
-  const palette = useColor(
-    session.themeColor,
-    useDarkMode(session.user.darkMode),
-  );
 
   return (
     <Box sx={styles.container}>
-      <Container sx={{}}>
-        <motion.div initial={{ x: -10 }} animate={{ x: 0 }}>
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 900,
-              mb: 1,
-            }}
-          >
-            We&apos;re excited to have you here!
-          </Typography>
-        </motion.div>
-        <motion.div
-          initial={{ x: -10 }}
-          animate={{ x: 0 }}
-          transition={{ delay: 1.5 }}
+      <Container>
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 900,
+            mb: 1,
+          }}
         >
-          <Typography>
-            It&apos;s time to redefine the standard for productivity.
-          </Typography>
-        </motion.div>
+          We&apos;re excited to have you here!
+        </Typography>
+
+        <Typography>
+          It&apos;s time to redefine the standard for productivity.
+        </Typography>
       </Container>
     </Box>
   );
@@ -114,10 +103,10 @@ export default function Onboarding() {
 
   const steps = [
     <AboutStep navigation={navigation} key={0} styles={styles} />,
-    <AppearanceStep navigation={navigation} key={0} styles={styles} />,
-    <ProfileStep navigation={navigation} key={1} styles={styles} />,
-    <GroupStep navigation={navigation} key={2} styles={styles} />,
-    <Completion navigation={navigation} key={3} styles={styles} />,
+    <AppearanceStep navigation={navigation} key={1} styles={styles} />,
+    <ProfileStep navigation={navigation} key={2} styles={styles} />,
+    <GroupStep navigation={navigation} key={3} styles={styles} />,
+    <Completion navigation={navigation} key={4} styles={styles} />,
   ];
 
   return (
@@ -163,6 +152,7 @@ export default function Onboarding() {
         <Box
           sx={{
             height: "100%",
+            width: "100%",
             zIndex: 999,
             position: "fixed",
             backdropFilter: "blur(10px)",
