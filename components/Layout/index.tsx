@@ -5,13 +5,11 @@ import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { getTotal, max } from "../Group/Storage";
 import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
@@ -34,29 +32,6 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
 
   const storage = useAccountStorage();
   const isOnline = useOnlineStatus();
-
-  useEffect(() => {
-    if (!isOnline) {
-      const myPromise = new Promise((resolve) => {
-        const interval = setInterval(() => {
-          if (navigator.onLine) {
-            clearInterval(interval);
-            resolve("");
-          }
-        }, 1000); // adjust the interval as needed
-      });
-
-      toast.promise(
-        myPromise,
-        {
-          loading: "Waiting for network...",
-          success: "Back online!",
-          error: "Error!?",
-        },
-        toastStyles
-      );
-    }
-  }, [isOnline]);
 
   useEffect(() => {
     if (error) {

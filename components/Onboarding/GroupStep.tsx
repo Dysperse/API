@@ -18,6 +18,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -25,7 +26,7 @@ export function GroupStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   const [type, setType] = useState("");
@@ -91,7 +92,7 @@ export function GroupStep({ styles, navigation }) {
                                 navigator.clipboard.writeText(url);
                                 toast.success(
                                   "Copied to clipboard",
-                                  toastStyles,
+                                  toastStyles
                                 );
                               }}
                             >
@@ -192,55 +193,74 @@ export function GroupStep({ styles, navigation }) {
               pb: { xs: 4 },
             }}
           >
-            <Box
-              sx={{
-                background: addHslAlpha(palette[6], 0.5),
-                width: "100%",
-                borderRadius: 4,
-                overflow: "hidden",
-              }}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1 }}
             >
               <Box
                 sx={{
                   background: addHslAlpha(palette[6], 0.5),
-                  p: 10,
                   width: "100%",
-                }}
-              />
-              <Box
-                sx={{
-                  p: 2,
+                  borderRadius: 4,
+                  overflow: "hidden",
                 }}
               >
-                <TextField
-                  size="small"
-                  variant="standard"
-                  defaultValue={
-                    session?.property?.profile?.name ||
-                    session.user.name + "'s Space"
-                  }
-                  onBlur={(e) =>
-                    updateSettings(
-                      session,
-                      "property.profile.name",
-                      e.target.value,
-                    )
-                  }
-                  InputProps={{
-                    className: "font-heading",
-                    disableUnderline: true,
-                    sx: {
-                      fontSize: "50px",
-                      mb: -1,
-                    },
+                <Box
+                  sx={{
+                    background: addHslAlpha(palette[6], 0.5),
+                    p: 10,
+                    width: "100%",
                   }}
                 />
-                <Chip
-                  label={type == "group" ? "Group" : "Private"}
-                  icon={<Icon>{type === "group" ? "group" : "lock"}</Icon>}
-                />
+                <Box
+                  sx={{
+                    p: 2,
+                  }}
+                >
+                  <TextField
+                    size="small"
+                    variant="standard"
+                    defaultValue={
+                      session?.property?.profile?.name ||
+                      session.user.name + "'s Space"
+                    }
+                    onBlur={(e) =>
+                      updateSettings(
+                        session,
+                        "property.profile.name",
+                        e.target.value
+                      )
+                    }
+                    InputProps={{
+                      className: "font-heading",
+                      disableUnderline: true,
+                      sx: {
+                        fontSize: "50px",
+                        mb: -1,
+                      },
+                    }}
+                  />
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      transition={{ delay: 0.5 }}
+                      key={type}
+                      style={{ display: "inline-block" }}
+                    >
+                      <Chip
+                        label={type == "group" ? "Group" : "Private"}
+                        icon={
+                          <Icon>{type === "group" ? "group" : "lock"}</Icon>
+                        }
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </Box>
               </Box>
-            </Box>
+            </motion.div>
           </Grid>
         </Grid>
       </Container>

@@ -6,7 +6,7 @@ export function Intro() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   return (
@@ -123,7 +123,7 @@ export function Intro() {
               ></path>
             </clipPath>
           </defs>
-          <g clip-path="url(#b3adf0de96)">
+          <g clipPath="url(#b3adf0de96)">
             <path d="M 740.886719 404.972656 C 497.902344 449.707031 461.644531 485.96875 416.910156 728.945312 C 372.179688 485.96875 335.917969 449.707031 92.9375 404.972656 C 335.917969 360.242188 372.179688 323.980469 416.910156 81 C 461.640625 323.980469 497.902344 360.242188 740.886719 404.972656 Z M 740.886719 404.972656"></path>
           </g>
         </svg>

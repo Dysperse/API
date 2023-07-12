@@ -1,52 +1,22 @@
 import { Loading } from "@/components/Layout/Loading";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import {
-  Box,
-  Container,
-  Icon,
-  IconButton,
-  LinearProgress,
-  Typography,
-} from "@mui/material";
+import { Box, Icon, IconButton, LinearProgress } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Logo } from ".";
+import { AboutStep } from "../components/Onboarding/AboutStep";
 import { AppearanceStep } from "../components/Onboarding/AppearanceStep";
 import { Completion } from "../components/Onboarding/Completion";
 import { GroupStep } from "../components/Onboarding/GroupStep";
 import { Intro } from "../components/Onboarding/Intro";
 import { ProfileStep } from "../components/Onboarding/ProfileStep";
 
-function AboutStep({ styles, navigation }) {
-  const session = useSession();
-
-  return (
-    <Box sx={styles.container}>
-      <Container>
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 900,
-            mb: 1,
-          }}
-        >
-          We&apos;re excited to have you here!
-        </Typography>
-
-        <Typography>
-          It&apos;s time to redefine the standard for productivity.
-        </Typography>
-      </Container>
-    </Box>
-  );
-}
-
 export default function Onboarding() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   const [step, setStep] = useState(0);
@@ -57,6 +27,26 @@ export default function Onboarding() {
       background: palette[12],
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
+    },
+    navigationButton: {
+      position: "fixed",
+      m: { xs: 3, sm: 0 },
+      transform: { sm: "translateY(50%)" },
+      mx: { sm: "20px!important" },
+      border: "2px solid",
+      backdropFilter: "blur(10px)",
+      color: palette[9],
+      borderColor: palette[7],
+      p: 2,
+      zIndex: 9999,
+      bottom: { xs: 0, sm: "50%" },
+      transition: "transform 0.2s ease",
+      "&:hover": {
+        transform: { sm: "translateY(50%) scale(1.1)" },
+      },
+      "&:active": {
+        transform: { sm: "translateY(50%) scale(.9)" },
+      },
     },
     button: {
       borderWidth: "2px !important",
@@ -91,6 +81,10 @@ export default function Onboarding() {
       flexDirection: "column",
       justifyContent: "center",
       width: "100vw",
+      "& .MuiContainer-root": {
+        width: { sm: "calc(100% - 150px)" },
+        mx: "auto",
+      },
     },
   };
 
@@ -102,11 +96,11 @@ export default function Onboarding() {
   };
 
   const steps = [
-    <AboutStep navigation={navigation} key={0} styles={styles} />,
-    <AppearanceStep navigation={navigation} key={1} styles={styles} />,
-    <ProfileStep navigation={navigation} key={2} styles={styles} />,
-    <GroupStep navigation={navigation} key={3} styles={styles} />,
-    <Completion navigation={navigation} key={4} styles={styles} />,
+    <AboutStep navigation={navigation} key={1} styles={styles} />,
+    <AppearanceStep navigation={navigation} key={2} styles={styles} />,
+    <ProfileStep navigation={navigation} key={3} styles={styles} />,
+    <GroupStep navigation={navigation} key={4} styles={styles} />,
+    <Completion navigation={navigation} key={5} styles={styles} />,
   ];
 
   return (
@@ -143,6 +137,10 @@ export default function Onboarding() {
             left: 0,
             zIndex: 9990,
             width: "100%",
+            "& *": {
+              transition: "all .3s cubic-bezier(.3,.66,.11,1.29)",
+              borderRadius: 999,
+            },
             height: 10,
           }}
         />
@@ -190,18 +188,8 @@ export default function Onboarding() {
             <IconButton
               onClick={navigation.previous}
               sx={{
-                position: "fixed",
-                bottom: { xs: 0, sm: "50%" },
-                m: { xs: 3, sm: 0 },
+                ...styles.navigationButton,
                 left: 0,
-                transform: { sm: "translateY(50%)" },
-                mx: { sm: "20px!important" },
-                border: "2px solid",
-                backdropFilter: "blur(10px)",
-                color: palette[9],
-                borderColor: palette[7],
-                p: 2,
-                zIndex: 9999,
                 ...(step === 0 && {
                   display: "none!important",
                 }),
@@ -212,18 +200,8 @@ export default function Onboarding() {
             <IconButton
               onClick={navigation.next}
               sx={{
-                position: "fixed",
-                bottom: { xs: 0, sm: "50%" },
-                m: { xs: 3, sm: 0 },
+                ...styles.navigationButton,
                 right: 0,
-                transform: { sm: "translateY(50%)" },
-                backdropFilter: "blur(10px)",
-                mx: { sm: "20px!important" },
-                zIndex: 9999,
-                border: "2px solid",
-                color: palette[9],
-                borderColor: palette[7],
-                p: 2,
                 ...(step === steps.length - 1 && {
                   display: "none!important",
                 }),

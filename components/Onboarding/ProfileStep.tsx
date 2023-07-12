@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { mutate } from "swr";
 import { ProfilePicture } from "../Profile/ProfilePicture";
@@ -20,7 +21,7 @@ export function ProfileStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   const { data, url, error } = useApi("user/profile", {
@@ -33,7 +34,7 @@ export function ProfileStep({ styles, navigation }) {
     if (birthdayRef?.current && data?.Profile?.birthday)
       setTimeout(() => {
         birthdayRef.current.value = dayjs(data.Profile.birthday).format(
-          "YYYY-MM-DD",
+          "YYYY-MM-DD"
         );
       }, 100);
   }, [data]);
@@ -88,7 +89,7 @@ export function ProfileStep({ styles, navigation }) {
               onBlur={(e) =>
                 handleChange(
                   "birthday",
-                  dayjs(e.target.value).set("hour", 1).toISOString(),
+                  dayjs(e.target.value).set("hour", 1).toISOString()
                 )
               }
             />
@@ -118,94 +119,100 @@ export function ProfileStep({ styles, navigation }) {
               py: { xs: 4, sm: 0 },
             }}
           >
-            <Box
-              sx={{
-                background: addHslAlpha(palette[3], 0.9),
-                p: 3,
-                borderRadius: 5,
-                width: "100%",
-              }}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1 }}
             >
-              <ProfilePicture
-                data={{
-                  ...session.user,
-                  ...data,
-                }}
-                size={70}
-                editMode={false}
-                mutationUrl={url}
-              />
-              <Chip
-                label={"Busy"}
-                size="small"
-                sx={{ gap: 1, background: palette[4], mb: 0.5, mt: 2 }}
-                icon={
-                  <Box
-                    sx={{
-                      width: 13,
-                      height: 13,
-                      ml: "5px!important",
-                      borderRadius: 5,
-                      background: "orange",
-                    }}
-                  />
-                }
-              />
-              <Typography
-                className="font-heading"
-                variant="h3"
+              <Box
                 sx={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
+                  background: addHslAlpha(palette[3], 0.9),
+                  p: 3,
+                  borderRadius: 5,
+                  width: "100%",
                 }}
               >
-                {session.user.name}
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {session.user.email}
-              </Typography>
-              <Typography>{data?.Profile?.bio}</Typography>
-              <Grid
-                container
-                sx={{
-                  mt: 2,
-                  textAlign: "center",
-                  "& .MuiSkeleton-root": { mx: "auto", mb: 1 },
-                  "& .MuiTypography-root": {
-                    color: palette[9],
-                  },
-                }}
-              >
-                <Grid item xs={6}>
-                  <Skeleton
-                    variant="rectangular"
-                    animation={false}
-                    sx={{ borderRadius: 5 }}
-                    width={60}
-                    height={60}
-                  />
-                  Followers
+                <ProfilePicture
+                  data={{
+                    ...session.user,
+                    ...data,
+                  }}
+                  size={70}
+                  editMode={false}
+                  mutationUrl={url}
+                />
+                <Chip
+                  label={"Busy"}
+                  size="small"
+                  sx={{ gap: 1, background: palette[4], mb: 0.5, mt: 2 }}
+                  icon={
+                    <Box
+                      sx={{
+                        width: 13,
+                        height: 13,
+                        ml: "5px!important",
+                        borderRadius: 5,
+                        background: "orange",
+                      }}
+                    />
+                  }
+                />
+                <Typography
+                  className="font-heading"
+                  variant="h3"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {session.user.name}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {session.user.email}
+                </Typography>
+                <Typography>{data?.Profile?.bio}</Typography>
+                <Grid
+                  container
+                  sx={{
+                    mt: 2,
+                    textAlign: "center",
+                    "& .MuiSkeleton-root": { mx: "auto", mb: 1 },
+                    "& .MuiTypography-root": {
+                      color: palette[9],
+                    },
+                  }}
+                >
+                  <Grid item xs={6}>
+                    <Skeleton
+                      variant="rectangular"
+                      animation={false}
+                      sx={{ borderRadius: 5 }}
+                      width={60}
+                      height={60}
+                    />
+                    Followers
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Skeleton
+                      variant="rectangular"
+                      animation={false}
+                      sx={{ borderRadius: 5 }}
+                      width={60}
+                      height={60}
+                    />
+                    Following
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <Skeleton
-                    variant="rectangular"
-                    animation={false}
-                    sx={{ borderRadius: 5 }}
-                    width={60}
-                    height={60}
-                  />
-                  Following
-                </Grid>
-              </Grid>
-            </Box>
+              </Box>
+            </motion.div>
           </Grid>
         </Grid>
       </Container>

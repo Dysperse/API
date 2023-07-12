@@ -6,10 +6,22 @@ import * as colors from "@radix-ui/colors";
 
 export function AppearanceStep({ styles, navigation }) {
   const session = useSession();
-  const palette = useColor(
-    session.themeColor,
-    useDarkMode(session.user.darkMode),
-  );
+  const isDark = useDarkMode(session.user.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  const circleStyles = {
+    borderRadius: 5,
+    height: 30,
+    overflow: "hidden",
+    transition: "transform .2s ease",
+    width: 30,
+    "&:hover": {
+      transform: "scale(1.1)",
+    },
+    "&:active": {
+      transform: "scale(.9)",
+    },
+  };
 
   return (
     <Box sx={styles.container}>
@@ -44,7 +56,7 @@ export function AppearanceStep({ styles, navigation }) {
                   "slate",
                   "mauve",
                   "gray",
-                ].includes(color),
+                ].includes(color)
             )
             .map((color) => (
               <Box
@@ -55,15 +67,13 @@ export function AppearanceStep({ styles, navigation }) {
                 sx={{
                   background:
                     colors[color] &&
-                    `linear-gradient(45deg, ${colors[color][color + 10]}, ${
-                      colors[color][color + 12]
-                    })`,
-                  width: "30px",
-                  height: "30px",
-                  borderRadius: 999,
+                    `linear-gradient(45deg, ${
+                      colors[color][color + (isDark ? 10 : 7)]
+                    }, ${colors[color][color + (isDark ? 12 : 9)]})`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  ...circleStyles,
                 }}
               >
                 {session.themeColor == color.toLowerCase() && (
@@ -85,54 +95,30 @@ export function AppearanceStep({ styles, navigation }) {
           <Box
             sx={{
               background: colors.gray.gray4,
-              borderRadius: 5,
-              height: { xs: 30, sm: 150 },
-              width: { xs: 30, sm: 200 },
-              overflow: "hidden",
+              ...circleStyles,
               ...(session.user.darkMode == "light" && {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
             }}
             onClick={() => updateSettings(session, "darkMode", "light")}
-          >
-            <Box
-              sx={{
-                background: colors.gray.gray7,
-                height: "100%",
-                width: 50,
-              }}
-            />
-          </Box>
+          />
 
           <Box
             sx={{
               background: colors.grayDark.gray2,
-              borderRadius: 5,
-              height: { xs: 30, sm: 150 },
-              width: { xs: 30, sm: 200 },
-              overflow: "hidden",
+              ...circleStyles,
               ...(session.user.darkMode == "dark" && {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
             }}
             onClick={() => updateSettings(session, "darkMode", "dark")}
-          >
-            <Box
-              sx={{
-                background: colors.grayDark.gray5,
-                height: "100%",
-                width: 50,
-              }}
-            />
-          </Box>
+          />
 
           <Box
             sx={{
-              background: colors.gray.gray5,
-              borderRadius: 5,
-              height: { xs: 30, sm: 150 },
-              width: { xs: 30, sm: 200 },
-              overflow: "hidden",
+              ...circleStyles,
+              background: colors.grayDark.gray5,
+              transform: "rotate(45deg)",
               ...(session.user.darkMode == "system" && {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
@@ -141,9 +127,9 @@ export function AppearanceStep({ styles, navigation }) {
           >
             <Box
               sx={{
-                background: colors.grayDark.gray5,
+                background: colors.gray.gray5,
                 height: "100%",
-                width: { xs: 15, sm: 100 },
+                width: 15,
               }}
             />
           </Box>
