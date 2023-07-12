@@ -23,7 +23,7 @@ export function Completion({ styles, navigation }) {
       <Typography variant="h1" className="font-heading" sx={styles.heading}>
         You&apos;re all set!
       </Typography>
-      <Typography>
+      <Typography sx={{ maxWidth: "300px", textAlign: "center" }}>
         You can always come back to this page by visiting your account settings
       </Typography>
       <Box>
@@ -40,7 +40,7 @@ export function Completion({ styles, navigation }) {
               async () => {
                 router.push((router.query.next as string) || "/");
               },
-              false,
+              false
             );
           }}
         >
