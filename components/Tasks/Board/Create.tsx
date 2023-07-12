@@ -4,11 +4,10 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
-import { Masonry } from "@mui/lab";
+import { LoadingButton, Masonry } from "@mui/lab";
 import {
   AppBar,
   Box,
-  Button,
   Card,
   CardActionArea,
   Chip,
@@ -153,7 +152,8 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
             ))}
           </Box>
         </Box>
-        <Button
+        <LoadingButton
+          loading={loading}
           variant="contained"
           disabled={loading || session?.permission === "read-only"}
           size="large"
@@ -165,7 +165,10 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
             }).then(async (res) => {
               await mutate(mutationUrl);
               if (onboarding) {
-                toast.success("Board created!", toastStyles);
+                toast.success(
+                  "Board created! You can explore other templates.",
+                  toastStyles
+                );
                 setLoading(false);
                 setOpen(false);
                 return;
@@ -178,7 +181,7 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
           {session?.permission === "read-only"
             ? "You do not have permission to create a board"
             : "Create new board"}
-        </Button>
+        </LoadingButton>
       </SwipeableDrawer>
     </>
   );
@@ -652,10 +655,10 @@ export function CreateBoard({ onboarding = false, mutationUrl }: any) {
                     .includes(deferredSearchQuery.toLowerCase()) ||
                   template.category
                     .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase()),
+                    .includes(deferredSearchQuery.toLowerCase())
               )
               .filter(
-                (template) => !(onboarding && template.name === "Blank board"),
+                (template) => !(onboarding && template.name === "Blank board")
               )
               .map((template, index) => (
                 <Box key={index}>
