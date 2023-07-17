@@ -1,6 +1,6 @@
 import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
-import { Chip, Icon } from "@mui/material";
+import { Chip, CircularProgress, Icon } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -55,7 +55,7 @@ const IntegrationChip = ({
     <Chip
       onClick={handleIntegrationClick}
       disabled={session.permission === "read-only" || isLoading}
-      label={`Sync to ${integration.name}`}
+      label={`Sync to ${integration.name.replace(" LMS", "").trim()}`}
       sx={{
         mr: 1,
         mb: 1,
@@ -68,7 +68,20 @@ const IntegrationChip = ({
           },
         }),
       }}
-      icon={<Icon>refresh</Icon>}
+      icon={
+        isLoading ? (
+          <CircularProgress
+            size={20}
+            disableShrink={false}
+            thickness={3}
+            sx={{
+              animationDuration: "1s!important",
+            }}
+          />
+        ) : (
+          <Icon>refresh</Icon>
+        )
+      }
     />
   );
 };
