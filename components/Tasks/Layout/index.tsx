@@ -326,47 +326,50 @@ export function TasksLayout({ open, setOpen, children }) {
         />
       )}
       {!isMobile && (
-        <GroupModal useRightClick={false}>
-          <Box
-            sx={{
-              display: "flex",
-              px: 3,
-              gap: 1.5,
-              py: 2,
-              mb: -1,
-              borderBottom: `1px solid ${palette[3]}`,
-              alignItems: "center",
-              "&:hover": {
-                background: palette[3],
-              },
-              "&:active": {
-                background: palette[4],
-              },
-            }}
-          >
+        <Box sx={{ p: 2 }}>
+          <GroupModal useRightClick={false}>
             <Box
               sx={{
-                width: 15,
-                borderRadius: 99,
-                height: 15,
-                flexShrink: 0,
-                background: groupPalette[9],
-              }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                minWidth: 0,
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
+                display: "flex",
+                px: 2,
+                gap: 1.5,
+                py: 1,
+                borderRadius: 5,
+                mb: -3,
+                background: palette[4],
+                alignItems: "center",
+                "&:hover": {
+                  background: palette[5],
+                },
+                "&:active": {
+                  background: palette[6],
+                },
               }}
             >
-              {session.property.profile.name}
-            </Typography>
-            <Icon sx={{ ml: "auto" }}>expand_more</Icon>
-          </Box>
-        </GroupModal>
+              <Box
+                sx={{
+                  width: 15,
+                  borderRadius: 99,
+                  height: 15,
+                  flexShrink: 0,
+                  background: groupPalette[9],
+                }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  minWidth: 0,
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {session.property.profile.name}
+              </Typography>
+              <Icon sx={{ ml: "auto" }}>expand_more</Icon>
+            </Box>
+          </GroupModal>
+        </Box>
       )}
       <Box
         sx={{
