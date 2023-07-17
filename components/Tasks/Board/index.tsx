@@ -48,7 +48,7 @@ function RenderBoard({ tasks }) {
 
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   const isDark = useDarkMode(session.darkMode);

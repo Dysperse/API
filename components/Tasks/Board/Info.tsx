@@ -59,7 +59,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
           success: "Updated board!",
           error: "An error occurred while updating the board",
         },
-        toastStyles
+        toastStyles,
       );
     }
   }, [
@@ -80,7 +80,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
       ? [...board.property.members, ...board.shareTokens]
       : [
           ...board.property.members.filter(
-            (m) => m.user.email == session.user.email
+            (m) => m.user.email == session.user.email,
           ),
           ...board.shareTokens,
         ]
@@ -88,7 +88,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
     .filter((member) => member.user.email)
     .filter(
       (member, index, self) =>
-        self.findIndex((m) => m.user.email === member.user.email) === index
+        self.findIndex((m) => m.user.email === member.user.email) === index,
     );
 
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -105,7 +105,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
         background: {
           xs: `linear-gradient(${addHslAlpha(palette[4], 0.3)}, ${addHslAlpha(
             palette[6],
-            0.3
+            0.3,
           )})`,
           md: addHslAlpha(palette[3], 0.3),
         },
