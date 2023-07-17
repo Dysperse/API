@@ -127,7 +127,6 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
         minWidth: { md: !showInfo ? "auto" : "320px" },
         maxWidth: { md: "300px" },
         backdropFilter: "blur(20px)!important",
-        transition: "all .4s",
         ...(typeof showInfo !== "boolean" &&
           typeof showInfo !== "object" && {
             opacity: "0!important",

@@ -273,6 +273,9 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
                 <ListItem
                   key={share.id}
                   sx={{
+                    ...(dayjs(share.expiresAt).isBefore(dayjs()) && {
+                      opacity: 0.6,
+                    }),
                     px: 0,
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
@@ -284,7 +287,11 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
                   </Avatar>
                   <ListItemText
                     primary={share.user.name}
-                    secondary={"Expires " + dayjs(share.expiresAt).fromNow()}
+                    secondary={
+                      (dayjs(share.expiresAt).isBefore(dayjs())
+                        ? "Expired "
+                        : "Expires ") + dayjs(share.expiresAt).fromNow()
+                    }
                   />
                   <IconButton
                     sx={{ ml: "auto" }}

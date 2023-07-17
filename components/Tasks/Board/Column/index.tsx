@@ -218,6 +218,7 @@ export function Column({
         sx={{
           scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
+          borderRight: "1px solid",
           borderColor: { xs: "transparent", sm: addHslAlpha(palette[4], 0.7) },
           zIndex: 1,
           height: "100%",
@@ -310,6 +311,7 @@ export function Column({
             ) : (
               <ColumnSettings setColumnTasks={setColumnTasks}>
                 <CardActionArea
+                  disabled={!isMobile}
                   sx={{
                     flexGrow: 1,
                     maxWidth: "100%",
@@ -319,8 +321,8 @@ export function Column({
                     "&:active": {
                       transform: "scale(0.95)",
                     },
-                    background: palette[2],
-                    py: 1,
+                    background: { xs: palette[2], sm: "transparent" },
+                    py: { xs: 1, sm: 0 },
                   }}
                   onContextMenu={() => {
                     toast(column.name, {

@@ -1,7 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
-import { useDarkMode } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import {
   Alert,
@@ -9,6 +9,7 @@ import {
   Button,
   CircularProgress,
   Icon,
+  IconButton,
   SwipeableDrawer,
   useMediaQuery,
 } from "@mui/material";
@@ -44,6 +45,11 @@ function RenderBoard({ tasks }) {
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
   const mount = useDelayedMount(mobileOpen, 1000);
+
+  const palette = useColor(
+    session.themeColor,
+    useDarkMode(session.user.darkMode)
+  );
 
   const isDark = useDarkMode(session.darkMode);
 
@@ -121,6 +127,28 @@ function RenderBoard({ tasks }) {
             />
           </ColumnContext.Provider>
         ))}
+      <Box
+        sx={{
+          height: { sm: "100vh" },
+          display: { xs: "none", sm: "flex" },
+          alignItems: "center",
+          justifyContent: "center",
+          px: 4,
+        }}
+      >
+        <IconButton
+          sx={{
+            cursor: "default",
+            background: palette[3],
+          }}
+          onClick={() => {
+            setMobileOpen(true);
+            document.getElementById("newColumn")?.click();
+          }}
+        >
+          <Icon>add</Icon>
+        </IconButton>
+      </Box>
       {tasks.length == 0 && (
         <Box
           sx={{

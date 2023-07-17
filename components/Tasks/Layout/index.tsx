@@ -285,7 +285,7 @@ export function TasksLayout({ open, setOpen, children }) {
     justifyContent: "flex-start",
     borderRadius: 4,
     "&:hover, &:focus": {
-      background: palette[3],
+      background: addHslAlpha(palette[4], 0.5),
     },
     ...(isDark && {
       color: palette[11],
@@ -297,14 +297,14 @@ export function TasksLayout({ open, setOpen, children }) {
       ? {
           color: addHslAlpha(palette[12], 0.7),
           "&:hover": {
-            background: palette[3],
+            background: addHslAlpha(palette[4], 0.5),
           },
         }
       : {
           color: palette[12],
-          background: palette[4],
+          background: addHslAlpha(palette[6], 0.5),
           "&:hover, &:focus": {
-            background: palette[5],
+            background: addHslAlpha(palette[7], 0.5),
           },
         }),
   });
