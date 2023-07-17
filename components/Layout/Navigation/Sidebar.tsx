@@ -135,7 +135,7 @@ export function Sidebar() {
       maxHeight: "9999px",
       overflow: "visible",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
-        transition: "none",
+        transition: "all .2s, opacity 0s, background 0s",
         height: 50,
         width: 50,
         display: "flex",
@@ -154,6 +154,9 @@ export function Sidebar() {
           color: palette[11],
         },
       }),
+      "&:active": {
+        opacity: 0.6,
+      },
     };
   };
 
@@ -299,21 +302,14 @@ export function Sidebar() {
           <Box
             sx={{
               ...styles(router.asPath.includes("/users")),
-              "& .material-symbols-outlined, .material-symbols-rounded": {
+              "& .material-symbols-outlined": {
                 height: 40,
-                background: groupPalette[6] + "!important",
               },
             }}
             onClick={() => router.push(`/users`)}
           >
             <Tooltip title="Friends" placement="right">
-              <span
-                className={`material-symbols-${
-                  router.asPath.includes("users") ? "rounded" : "outlined"
-                }`}
-              >
-                tag
-              </span>
+              <span className={`material-symbols-outlined`}>group</span>
             </Tooltip>
           </Box>
         </GroupModal>

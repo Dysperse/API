@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
@@ -15,11 +14,6 @@ function extractTextInBrackets(text: string): string {
 
 const handler = async (req, res) => {
   try {
-    await validatePermissions({
-      minimum: "member",
-      credentials: [req.query.property, req.query.accessToken],
-    });
-
     let data = await prisma.integration.findMany({
       where: {
         AND: [

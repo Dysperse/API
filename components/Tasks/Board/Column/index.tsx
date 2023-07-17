@@ -469,7 +469,7 @@ export function Column({
                 />
                 <Box sx={{ px: 3, maxWidth: "calc(100% - 50px)" }}>
                   <Typography variant="h6">It&apos;s quiet here!</Typography>
-                  <Typography gutterBottom sx={{ fontWeight: 300, mb: 2 }}>
+                  <Typography gutterBottom sx={{ fontWeight: 300 }}>
                     There&apos;s nothing in this column (yet!)
                   </Typography>
                 </Box>
