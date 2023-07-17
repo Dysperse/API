@@ -29,7 +29,7 @@ const handler = async (req, res) => {
     const inputParams = JSON.parse(data1.inputParams);
     console.log(inputParams);
     const calendar = await fetch(
-      decodeURIComponent(inputParams["Secret address in iCal format"])
+      decodeURIComponent(inputParams["Secret address in iCal format"]),
     ).then((res) => res.text());
 
     const parsed = ical.parseICS(calendar);

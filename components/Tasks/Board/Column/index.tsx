@@ -49,7 +49,7 @@ export function Column({
 
   const toggleShowCompleted = useCallback(
     () => setShowCompleted((e) => !e),
-    [setShowCompleted]
+    [setShowCompleted],
   );
 
   const [title, setTitle] = useState(column.name);
@@ -63,7 +63,7 @@ export function Column({
 
   const incompleteLength = useMemo(
     () => columnTasks.filter((t) => !t.completed).length,
-    [columnTasks]
+    [columnTasks],
   );
 
   const scrollIntoView = async () => {
@@ -88,7 +88,7 @@ export function Column({
     } catch (e) {
       toast.error(
         "Yikes! We couldn't get your tasks. Please try again later",
-        toastStyles
+        toastStyles,
       );
     }
     setLoading(false);
@@ -204,7 +204,7 @@ export function Column({
                   success: "Edited column!",
                   error: "Yikes! An error occured - Please try again later!",
                 },
-                toastStyles
+                toastStyles,
               );
               setOpen(false);
             }}
