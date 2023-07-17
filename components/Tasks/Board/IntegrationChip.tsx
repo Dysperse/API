@@ -31,7 +31,7 @@ const IntegrationChip = ({
               vanishingTasks: session.property.profile.vanishingTasks
                 ? "true"
                 : "false",
-            }
+            },
           );
           await mutate(mutationUrls.tasks);
           resolve(response);
@@ -46,7 +46,7 @@ const IntegrationChip = ({
         success: "Synced!",
         error: "An error occurred while syncing",
       },
-      toastStyles
+      toastStyles,
     );
     setLoading(true);
   };
