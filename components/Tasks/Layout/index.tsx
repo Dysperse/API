@@ -356,8 +356,8 @@ export function TasksLayout({ open, setOpen, children }) {
                 }}
               />
               <Typography
-                variant="h6"
                 sx={{
+                  fontWeight: 900,
                   minWidth: 0,
                   textOverflow: "ellipsis",
                   overflow: "hidden",
