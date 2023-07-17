@@ -16,6 +16,12 @@ const handler = async (req, res) => {
     });
 
     // Delete column, and all tasks in it
+    await prisma.task.deleteMany({
+      where: {
+        columnId: req.query.id,
+      },
+    });
+
     const data = await prisma.column.delete({
       where: {
         id: req.query.id,
