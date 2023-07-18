@@ -8,6 +8,7 @@ import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { vibrate } from "@/lib/client/vibration";
 import { GroupModal } from "@/pages/users";
 import {
+  AppBar,
   Box,
   Button,
   Chip,
@@ -19,6 +20,7 @@ import {
   InputAdornment,
   SwipeableDrawer,
   TextField,
+  Toolbar,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -27,13 +29,15 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 import { Puller } from "../../Puller";
 import { CreateTask } from "../Task/Create";
 import { Tab } from "./Tab";
+
+export const SelectionContext = createContext<null | any>(null);
 
 function SearchTasks({ setOpen }) {
   const ref: any = useRef();
@@ -252,6 +256,8 @@ export const taskStyles = (palette) => {
 export function TasksLayout({ open, setOpen, children }) {
   const { data, url, error } = useApi("property/boards");
   const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const [taskSelection, setTaskSelection] = useState([]);
 
   const storage = useAccountStorage();
   const router = useRouter();
@@ -623,8 +629,62 @@ export function TasksLayout({ open, setOpen, children }) {
     </Button>
   );
 
+  const isSelecting = taskSelection.length > 0;
+
+  useHotkeys("esc", () => setTaskSelection([]));
+
+  useEffect(() => {
+    if (taskSelection.length > 0) vibrate(50);
+  }, [taskSelection]);
+
   return (
-    <>
+    <SelectionContext.Provider
+      value={{
+        values: taskSelection,
+        set: setTaskSelection,
+      }}
+    >
+      <AppBar
+        sx={{
+          position: "fixed",
+          top: "10px",
+          borderRadius: 999,
+          left: "10px",
+          width: "calc(100vw - 20px)",
+          maxWidth: "400px",
+          mx: "auto",
+          height: 55,
+          px: 0,
+          ...(!isSelecting && {
+            opacity: 0,
+            transform: "scale(.5)",
+          }),
+          transition: "all .4s",
+          zIndex: 999999,
+          background: addHslAlpha(palette[2], 0.9),
+          border: 0,
+        }}
+      >
+        <Toolbar sx={{ mt: { sm: -0.5 } }}>
+          <Button
+            variant="contained"
+            sx={{ px: 1, mr: "auto" }}
+            onClick={() => setTaskSelection([])}
+          >
+            <Icon>close</Icon>
+            {taskSelection.length}
+          </Button>
+          <IconButton sx={{ color: palette[8] }}>
+            <Icon className="outlined">label</Icon>
+          </IconButton>
+          <IconButton sx={{ color: palette[8] }}>
+            <Icon className="outlined">check_circle</Icon>
+          </IconButton>
+          <IconButton sx={{ color: palette[8] }}>
+            <Icon className="outlined">delete</Icon>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
       {isMobile && (
         <motion.div
           initial={{ y: -100, opacity: 0 }}
@@ -634,17 +694,22 @@ export function TasksLayout({ open, setOpen, children }) {
           <Box
             sx={{
               display: "flex",
+              transition: "opacity .4s, transform .4s",
+              ...(isSelecting && {
+                opacity: 0,
+                transform: "scale(.5)",
+              }),
               px: "7px",
               alignItems: "center",
               position: "fixed",
-              width: "calc(100vw - 20px)",
-              height: 55,
               zIndex: 999,
               background: addHslAlpha(palette[2], 0.9),
               backdropFilter: "blur(10px)",
               top: "10px",
               borderRadius: 999,
               left: "10px",
+              width: "calc(100vw - 20px)",
+              height: 55,
             }}
           >
             {trigger}
@@ -759,6 +824,6 @@ export function TasksLayout({ open, setOpen, children }) {
           {children}
         </Box>
       </Box>
-    </>
+    </SelectionContext.Provider>
   );
 }

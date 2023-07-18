@@ -18,11 +18,19 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
+import { SelectionContext } from "../Layout";
 import { isAddress, isValidHttpUrl, videoChatPlatforms } from "./DrawerContent";
 import { TaskDrawer } from "./TaskDrawer";
 
@@ -157,7 +165,17 @@ export const Task: any = function Task({
     [board, session, storage]
   );
 
-  const palette = useColor(session.themeColor, isDark);
+  const selection = useContext(SelectionContext);
+  const isSelected = selection.values.includes(taskData.id);
+  const palette = useColor(isSelected ? "blue" : session.themeColor, isDark);
+
+  const handleSelect = () => {
+    if (selection.values.includes(taskData.id)) {
+      selection.set(selection.values.filter((s) => s !== taskData.id));
+    } else {
+      selection.set([...new Set([...selection.values, taskData.id])]);
+    }
+  };
 
   return !taskData ? (
     <div />
@@ -167,17 +185,21 @@ export const Task: any = function Task({
         id={taskData.id}
         mutationUrl={mutationUrl}
         isDateDependent={isDateDependent}
+        {...(selection.values.length > 0 && { onClick: handleSelect })}
       >
         <ListItemButton
           itemRef={ref}
           disableRipple
+          onContextMenu={handleSelect}
           tabIndex={0}
           className="cursor-unset"
           sx={{
             color: colors["grey"][isDark ? "A100" : "800"],
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
-            transition: "none",
+            "&, & .MuiChip-root": {
+              transition: "transform .2s, border-radius .2s",
+            },
             py: { xs: 0.5, sm: 0.2 },
             px: { xs: 2.6, sm: 1.7 },
             ...(isSubTask && {
@@ -199,6 +221,11 @@ export const Task: any = function Task({
               background: palette[2],
             },
             ...sx,
+            ...(isSelected && {
+              background: palette[2] + "!important",
+              transform: "scale(.95)",
+              borderRadius: 3,
+            }),
           }}
         >
           <Checkbox
@@ -332,6 +359,7 @@ export const Task: any = function Task({
                       <Chip
                         size="small"
                         className="date"
+                        sx={{ background: palette[3] }}
                         label={dayjs(taskData.due).fromNow()}
                         icon={
                           <Icon
@@ -351,6 +379,7 @@ export const Task: any = function Task({
                         size="small"
                         className="date"
                         label={dayjs(taskData.due).format("h:mm A")}
+                        sx={{ background: palette[3] }}
                         icon={
                           <Icon
                             className="outlined"
@@ -374,6 +403,7 @@ export const Task: any = function Task({
                           ? "Maps"
                           : "Open"
                       }
+                      sx={{ background: palette[3] }}
                       size="small"
                       onClick={(e) => {
                         e.stopPropagation();

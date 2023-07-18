@@ -110,20 +110,12 @@ body {
   -webkit-font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
   min-width: fit-content;
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 350,
-    "GRAD" 0,
-    "opsz" 40;
+  font-variation-settings: "FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40;
 }
 
 .material-symbols-rounded {
   font-display: block !important;
-  font-variation-settings:
-    "FILL" 1,
-    "wght" 300,
-    "GRAD" 0,
-    "opsz" 40;
+  font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 40;
   min-width: fit-content;
 }
 
@@ -244,4 +236,15 @@ a {
   select:-webkit-autofill:focus {
     -webkit-text-fill-color: #fff;
   }
+}
+
+.taskContent::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(10px);
+  z-index: 999999999;
 }

@@ -28,11 +28,13 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   children,
   id,
   mutationUrl,
+  onClick,
 }: {
   isDateDependent?: boolean;
   children: JSX.Element;
   id: number;
   mutationUrl: string;
+  onClick?: any;
 }) {
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<null | any>(null);
@@ -119,7 +121,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
-    onClick: handleOpen,
+    onClick: onClick || handleOpen,
   });
 
   // Some basic drawer styles
