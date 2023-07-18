@@ -342,7 +342,7 @@ export default function Home() {
             ...listItemStyles,
             ...(backlogData?.length == 0 && { order: 1 }),
           }}
-          onClick={() => router.push("/tasks/backlog")}
+          onClick={() => router.push("/tasks/stream")}
         >
           <ListItemText
             primary={<b>Backlog</b>}
@@ -357,7 +357,7 @@ export default function Home() {
             ...listItemStyles,
             ...(upcomingData?.length == 0 && { order: 1 }),
           }}
-          onClick={() => router.push("/tasks/backlog")}
+          onClick={() => router.push("/tasks/stream")}
         >
           <ListItemText
             primary={<b>Upcoming</b>}
