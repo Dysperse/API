@@ -25,7 +25,7 @@ export function Logo({ intensity = 4, size = 45 }: any) {
 
   const palette = useColor(
     session?.themeColor || "violet",
-    useDarkMode(session?.darkMode || "system"),
+    useDarkMode(session?.darkMode || "system")
   );
 
   return (
@@ -126,18 +126,15 @@ export default function Home() {
     if (time < 12) return "Good morning.";
     else if (time < 17) return "Good afternoon.";
     else if (time < 20) return "Good evening.";
-    else return "Good afternoon.";
+    else return "Good night.";
   }, [time]);
 
   const [greeting, setGreeting] = useState(getGreeting);
 
   useEffect(() => {
-    const interval = setInterval(
-      () => {
-        setGreeting(getGreeting);
-      },
-      1000 * 60 * 60,
-    );
+    const interval = setInterval(() => {
+      setGreeting(getGreeting);
+    }, 1000 * 60 * 60);
     return () => clearInterval(interval);
   });
 
@@ -165,7 +162,7 @@ export default function Home() {
     .filter(
       (goal) =>
         dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
-        dayjs().format("YYYY-MM-DD"),
+        dayjs().format("YYYY-MM-DD")
     );
 
   const completedTodaysTasks =
