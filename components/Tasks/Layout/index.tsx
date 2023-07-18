@@ -637,6 +637,10 @@ export function TasksLayout({ open, setOpen, children }) {
     if (taskSelection.length > 0) vibrate(50);
   }, [taskSelection]);
 
+  useEffect(() => {
+    document.body.classList[isSelecting ? "add" : "remove"]("hideBottomNav");
+  }, [isSelecting]);
+
   return (
     <SelectionContext.Provider
       value={{

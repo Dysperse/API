@@ -187,6 +187,12 @@ export function Agenda({
               xs: "70px",
               md: "30px",
             },
+            ".hideBottomNav &": {
+              bottom: {
+                xs: "30px",
+                md: "30px",
+              },
+            },
             opacity: trigger ? 0 : 1,
             transform: trigger
               ? "translateY(20px) scale(0.9)"
@@ -198,7 +204,7 @@ export function Agenda({
             zIndex: 9,
             background: addHslAlpha(palette[3], 0.5),
             border: "1px solid",
-            transition: "transform .2s, opacity .2s",
+            transition: "transform .2s, opacity .2s, bottom .3s",
             backdropFilter: "blur(10px)",
             borderRadius: 999,
             borderColor: addHslAlpha(palette[3], 0.5),

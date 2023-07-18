@@ -103,6 +103,9 @@ export function BottomNav() {
         width: "100%",
         position: "fixed",
         bottom: shouldHide ? "-90px" : 0,
+        ".hideBottomNav &": {
+          bottom: "-90px",
+        },
         left: 0,
         transition: "bottom .3s",
         overflowX: "hidden",
