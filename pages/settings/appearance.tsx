@@ -146,9 +146,10 @@ function ThemeColorSettings() {
                   borderColor: previewPalette[11] + "!important",
                   mb: 1,
                 }}
-                onClick={() =>
-                  updateSettings(session, "color", currentTheme.toLowerCase())
-                }
+                onClick={() => {
+                  updateSettings(session, "color", currentTheme.toLowerCase());
+                  setOpen(false);
+                }}
               >
                 APPLY
               </Button>
