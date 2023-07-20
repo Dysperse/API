@@ -82,7 +82,18 @@ function ThemeColorSettings() {
           <Icon>expand_more</Icon>
         </IconButton>
 
-        <AnimatePresence mode="wait">
+        <AnimatePresence
+          mode="wait"
+          onExitComplete={() => {
+            setTimeout(() => {
+              document.getElementById("currentTheme")?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center",
+              });
+            }, 1000);
+          }}
+        >
           <Box
             key={currentTheme}
             sx={{
@@ -182,16 +193,15 @@ function ThemeColorSettings() {
                   <IconButton
                     size="small"
                     key={theme}
+                    {...(currentTheme === theme && { id: "currentTheme" })}
                     onClick={() => setCurrentTheme(theme)}
                     sx={{
                       color:
                         colors[theme] &&
                         colors[theme][theme + 9] + "!important",
-                      opacity: 0.6,
                       transition: "all 0.2s ease",
                       ...(currentTheme === theme && {
-                        transform: "scale(1.1)",
-                        opacity: 1,
+                        transform: "scale(1.5)",
                       }),
                     }}
                   >
