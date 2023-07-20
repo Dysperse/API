@@ -53,15 +53,17 @@ function ThemeColorSettings() {
             display: "flex",
             flexDirection: "column",
             overflow: "visible",
+            background: previewPalette[9],
+            transition: "background .2s !important",
           },
         }}
       >
         <AnimatePresence mode="wait">
-          <motion.div // Motion div for the background
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ delay: 1 }}
+            transition={{ delay: 0.8 }}
             key={`top_${currentTheme}`}
             style={{
               background: `linear-gradient(${previewPalette[9]}, ${previewPalette[11]}, ${previewPalette[8]})`,
@@ -90,8 +92,8 @@ function ThemeColorSettings() {
           onClick={() => setOpen(false)}
           sx={{
             position: "absolute",
-            top: "10px",
-            left: "10px",
+            top: "15px",
+            left: "15px",
             zIndex: 999,
             color: previewPalette[2] + "!important",
           }}
@@ -173,6 +175,7 @@ function ThemeColorSettings() {
                   borderWidth: "2px!important",
                   background: "transparent!important",
                   borderColor: previewPalette[11] + "!important",
+                  color: previewPalette[12] + "!important",
                   mb: 1,
                 }}
                 onClick={() => {
