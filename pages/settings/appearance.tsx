@@ -147,7 +147,7 @@ function ThemeColorSettings() {
                   mb: 1,
                 }}
                 onClick={() =>
-                  updateSettings(session, "color", theme.toLowerCase())
+                  updateSettings(session, "color", currentTheme.toLowerCase())
                 }
               >
                 APPLY
