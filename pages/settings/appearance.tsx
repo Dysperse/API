@@ -50,13 +50,30 @@ function ThemeColorSettings() {
           sx: {
             borderRadius: 0,
             height: "100vh",
-            background: `linear-gradient(${previewPalette[9]}, ${previewPalette[11]}, ${previewPalette[8]})`,
             display: "flex",
             flexDirection: "column",
             overflow: "visible",
           },
         }}
       >
+        <AnimatePresence mode="wait">
+          <motion.div // Motion div for the background
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 1 }}
+            key={`top_${currentTheme}`}
+            style={{
+              background: `linear-gradient(${previewPalette[9]}, ${previewPalette[11]}, ${previewPalette[8]})`,
+              transition: "all .2s!important",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        </AnimatePresence>
         <Box
           sx={{
             position: "absolute",
@@ -99,6 +116,7 @@ function ThemeColorSettings() {
             sx={{
               px: 3,
               mt: "auto",
+              zIndex: 9999,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -173,9 +191,9 @@ function ThemeColorSettings() {
             sx={{
               "& ._container": {
                 display: "flex",
-                overflow: "auto",
+                overflowX: "auto",
                 px: 3,
-                mb: 3,
+                mb: 6,
               },
             }}
           >
