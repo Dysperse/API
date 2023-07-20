@@ -33,7 +33,7 @@ function ThemeColorSettings() {
   const [currentTheme, setCurrentTheme] = useState(session?.themeColor);
   const previewPalette = useColor(
     currentTheme,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
 
   useStatusBar(open ? previewPalette[9] : previewPalette[1]);
