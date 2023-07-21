@@ -138,7 +138,7 @@ export default function DrawerContent({
         success: data.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
       },
-      toastStyles
+      toastStyles,
     );
   }, [data.pinned, data.id, mutationUrl, setTaskData, session]);
 
@@ -153,7 +153,7 @@ export default function DrawerContent({
         mutate(mutationUrl);
       });
     },
-    [mutationUrl, setTaskData, session]
+    [mutationUrl, setTaskData, session],
   );
 
   const handleComplete = useCallback(async () => {
@@ -186,7 +186,7 @@ export default function DrawerContent({
       handleEdit(
         data.id,
         "due",
-        dayjs(data.due).add(count, type).toISOString()
+        dayjs(data.due).add(count, type).toISOString(),
       );
     },
     [
@@ -196,7 +196,7 @@ export default function DrawerContent({
       handleEdit,
       isDateDependent,
       handleParentClose,
-    ]
+    ],
   );
 
   const buttonStyles = {
@@ -506,8 +506,8 @@ export default function DrawerContent({
                       if (isAddress(data.where)) {
                         window.open(
                           `https://maps.google.com/?q=${encodeURIComponent(
-                            data.where
-                          )}`
+                            data.where,
+                          )}`,
                         );
                         return;
                       }
@@ -516,7 +516,7 @@ export default function DrawerContent({
                   >
                     <Icon>
                       {videoChatPlatforms.find((platform) =>
-                        data.where.includes(platform)
+                        data.where.includes(platform),
                       )
                         ? "call"
                         : isAddress(data.where)
@@ -524,7 +524,7 @@ export default function DrawerContent({
                         : "link"}
                     </Icon>
                     {videoChatPlatforms.find((platform) =>
-                      data.where.includes(platform)
+                      data.where.includes(platform),
                     )
                       ? "Call"
                       : isAddress(data.where)

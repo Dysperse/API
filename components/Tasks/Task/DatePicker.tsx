@@ -136,7 +136,7 @@ export const SelectDateModal: any = function SelectDateModal({
                     setDate(
                       dayjs(date)
                         .hour(i + (dayjs(date).hour() % 12))
-                        .toDate()
+                        .toDate(),
                     );
                   }}
                   key={i}
@@ -153,7 +153,7 @@ export const SelectDateModal: any = function SelectDateModal({
                     setDate(
                       dayjs(date)
                         .minute(i * 5)
-                        .toDate()
+                        .toDate(),
                     );
                   }}
                   key={i}
@@ -172,7 +172,7 @@ export const SelectDateModal: any = function SelectDateModal({
                     setDate(
                       dayjs(date)
                         .hour(dayjs(date).hour() + (i === 0 ? -12 : 12))
-                        .toDate()
+                        .toDate(),
                     );
                   }}
                   key={i}

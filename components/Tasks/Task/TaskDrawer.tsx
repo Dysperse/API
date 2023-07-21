@@ -90,7 +90,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       handleMutate();
       mutate(mutationUrl);
     },
-    [mutationUrl, setData, handleMutate, session]
+    [mutationUrl, setData, handleMutate, session],
   );
 
   useHotkeys(
@@ -99,7 +99,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       handleDelete(id);
       setOpen(false);
     },
-    [id]
+    [id],
   );
 
   // Callback function when drawer is closed
