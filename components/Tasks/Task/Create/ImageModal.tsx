@@ -32,7 +32,7 @@ export function ImageModal({ image, setImage, styles }) {
       try {
         const res = await fetch(
           `https://api.imgbb.com/1/upload?name=image&key=${key}`,
-          { method: "POST", body: form }
+          { method: "POST", body: form },
         ).then((res) => res.json());
 
         setImage(JSON.stringify(res.data));
@@ -40,12 +40,12 @@ export function ImageModal({ image, setImage, styles }) {
         setImageUploading(false);
       } catch (e) {
         toast.error(
-          "Yikes! An error occured while trying to upload your image. Please try again later"
+          "Yikes! An error occured while trying to upload your image. Please try again later",
         );
         setImageUploading(false);
       }
     },
-    [setImage]
+    [setImage],
   );
 
   return (
@@ -74,7 +74,7 @@ export function ImageModal({ image, setImage, styles }) {
             Drop to upload an image
           </Box>
         </FileDrop>,
-        document.body
+        document.body,
       )}
       <Tooltip title="Attach image (alt • s)" placement="top">
         <IconButton
