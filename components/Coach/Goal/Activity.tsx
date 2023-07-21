@@ -23,8 +23,8 @@ export function GoalActivity({ goal, children, open, setOpen }) {
         .catch(() =>
           toast.error(
             "Yikes! Something went wrong while trying to fetch your activity",
-            toastStyles
-          )
+            toastStyles,
+          ),
         );
     }
   }, [open, session, goal, data]);
@@ -80,7 +80,7 @@ export function GoalActivity({ goal, children, open, setOpen }) {
           const daysInMonth = new Date(
             currentDate.year(),
             month + 1,
-            0
+            0,
           ).getDate();
           const isCurrentMonth = month === currentMonth;
           const monthDays = [...new Array(daysInMonth)];
@@ -126,7 +126,7 @@ export function GoalActivity({ goal, children, open, setOpen }) {
                           .month(month)
                           .date(day + 1)
                           .format("MMMM D, YYYY"),
-                        toastStyles
+                        toastStyles,
                       )
                     }
                     sx={{

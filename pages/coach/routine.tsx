@@ -77,7 +77,7 @@ function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
         .catch(() => {
           toast.error(
             "Yikes! Something went wrong while trying to mark your routine as done",
-            toastStyles
+            toastStyles,
           );
           setDisabled(false);
         });
@@ -359,7 +359,7 @@ export default function Routine() {
           // return (x === y)? 0 : x? 1 : -1;
         })
         .filter((goal) => !goal.completed),
-    [data]
+    [data],
   );
 
   const [alreadySwitched, setAlreadySwitched] = useState(false);
@@ -491,7 +491,7 @@ export default function Routine() {
               goal={goal}
               key={goal.id}
             />
-          )
+          ),
       )}
       {slide >= filteredGoals?.length && (
         <motion.div
