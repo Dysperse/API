@@ -6,9 +6,11 @@ import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
+  Avatar,
   Box,
   Button,
   Chip,
+  CircularProgress,
   Dialog,
   Icon,
   IconButton,
@@ -24,33 +26,45 @@ import { GoalActivity } from "./Activity";
 
 export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const { width, height } = useWindowDimensions();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [loading, setLoading] = useState<boolean>(false);
   const [stepTwoOpen, setStepTwoOpen] = useState<boolean>(false);
   const [alreadyPlayed, setAlreadyPlayed] = useState(false);
+  const [disabled, setDisabled] = useState<boolean>(false);
+  const [initialTouchY, setInitialTouchY] = useState<any>(null);
+
+  const [showProgress, setShowProgress] = useState<boolean>(
+    dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
+      dayjs().format("YYYY-MM-DD") || false
+  );
+  const [progressData, setProgressData] = useState<null | any>(null);
+
+  useEffect(() => {
+    fetchRawApi(session, "user/coach/goals/activity", {
+      routineItemId: goal.id,
+      date: dayjs().startOf("week").toISOString(),
+    })
+      .then((res) => setProgressData(res))
+      .catch((err) => setProgressData("error"));
+  }, [session, goal]);
 
   const isCompleted = goal.progress === goal.durationDays;
 
-  const [disabled, setDisabled] = useState<boolean>(false);
-
   useStatusBar(palette[2]);
 
-  const [initialTouchY, setInitialTouchY] = useState<any>(null);
+  const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-  const handleTouchStart = (event) => {
+  const handleTouchStart = (event) =>
     setInitialTouchY(event.touches[0].clientY);
-  };
-
   const handleTouchEnd = (event) => {
     const currentTouchY = event.changedTouches[0].clientY;
     const touchDistance = initialTouchY - currentTouchY;
     const swipeThreshold = 100; // Adjust this value based on your requirements
 
-    if (touchDistance > swipeThreshold) {
+    if (touchDistance > swipeThreshold)
       document.getElementById("activity")?.click();
-    }
     setInitialTouchY(null);
   };
 
@@ -58,7 +72,10 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
     if (goal.progress === goal.durationDays) {
       setStepTwoOpen(true);
     } else {
-      setSlide((s) => s + 1);
+      setShowProgress(true);
+      setTimeout(() => {
+        setSlide((s) => s + 1);
+      }, 2000);
       setDisabled(true);
       fetchRawApi(session, "user/coach/goals/markAsDone", {
         date: dayjs().toISOString(),
@@ -282,33 +299,97 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
           </Box>
         )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: !isCompleted ? 0.1 : 1.5 }}
-          style={{
-            marginTop: "auto",
-            width: "100%",
-          }}
-        >
-          <Button
-            sx={{
-              zIndex: 999999999,
-              mb: 2,
-              background: palette[3],
+        {showProgress ? (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: !isCompleted ? 0.1 : 1.5 }}
+            style={{
+              marginTop: "auto",
+              width: "100%",
             }}
-            variant="contained"
-            fullWidth
-            onClick={handleNext}
-            disabled={
-              disabled ||
-              dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
-                dayjs().format("YYYY-MM-DD")
-            }
           >
-            {isCompleted ? "Claim" : "Done"} <Icon>east</Icon>
-          </Button>
-        </motion.div>
+            <Typography sx={{ color: palette[8] }} gutterBottom>
+              THIS WEEK
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                mb: 2,
+                height: 60,
+              }}
+            >
+              {progressData ? (
+                [...new Array(7)].map((_, day) => {
+                  const curr = dayjs()
+                    .startOf("week")
+                    .add(day, "day")
+                    .format("YYYY-MM-DD");
+
+                  const hasCompleted =
+                    progressData.find(
+                      (day) => dayjs(day.date).format("YYYY-MM-DD") === curr
+                    ) || curr == dayjs(goal.lastCompleted).format("YYYY-MM-DD");
+
+                  return (
+                    <Box
+                      key={day}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: 0.5,
+                      }}
+                    >
+                      <Avatar
+                        sx={{
+                          background: hasCompleted ? palette[4] : palette[9],
+                          color: !hasCompleted ? palette[4] : palette[9],
+                        }}
+                      >
+                        <Icon>{hasCompleted ? "check" : "close"}</Icon>
+                      </Avatar>
+                      <Typography sx={{ color: palette[7] }} variant="body2">
+                        {days[day]}
+                      </Typography>
+                    </Box>
+                  );
+                })
+              ) : (
+                <CircularProgress />
+              )}
+            </Box>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: !isCompleted ? 0.1 : 1.5 }}
+            style={{
+              marginTop: "auto",
+              width: "100%",
+            }}
+          >
+            <Button
+              sx={{
+                zIndex: 999999999,
+                mb: 2,
+                background: palette[3],
+              }}
+              variant="contained"
+              fullWidth
+              onClick={handleNext}
+              disabled={
+                disabled ||
+                dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
+                  dayjs().format("YYYY-MM-DD")
+              }
+            >
+              {isCompleted ? "Claim" : "Done"} <Icon>east</Icon>
+            </Button>
+          </motion.div>
+        )}
       </motion.div>
       <Box
         sx={{
