@@ -497,7 +497,7 @@ export function CreateTask({
                     width="100%"
                     height="100%"
                     draggable={false}
-                    src={JSON.parse(image).url}
+                    src={JSON.parse(image).display_url}
                     style={{
                       width: "100%",
                       height: "100%",
