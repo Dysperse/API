@@ -74,7 +74,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
         .catch(() => {
           toast.error(
             "Yikes! Something went wrong while trying to mark your routine as done",
-            toastStyles
+            toastStyles,
           );
           setDisabled(false);
         });
