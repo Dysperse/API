@@ -89,7 +89,7 @@ export function GroupStep({ styles, navigation }) {
                                 navigator.clipboard.writeText(url);
                                 toast.success(
                                   "Copied to clipboard",
-                                  toastStyles
+                                  toastStyles,
                                 );
                               }}
                             >
@@ -228,7 +228,7 @@ export function GroupStep({ styles, navigation }) {
                       updateSettings(
                         session,
                         "property.profile.name",
-                        e.target.value
+                        e.target.value,
                       )
                     }
                     InputProps={{

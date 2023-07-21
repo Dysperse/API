@@ -323,7 +323,7 @@ export function TasksLayout({ open, setOpen, children }) {
 
   const groupPalette = useColor(
     session.property.profile.color,
-    useDarkMode(session.darkMode)
+    useDarkMode(session.darkMode),
   );
 
   const menuChildren = (
@@ -698,14 +698,14 @@ export function TasksLayout({ open, setOpen, children }) {
                   "property/boards/column/task/deleteMany",
                   {
                     selection: JSON.stringify(taskSelection),
-                  }
+                  },
                 );
                 if (res.errors !== 0) {
                   toast.error(
                     `Couldn't delete ${res.errors} item${
                       res.errors == 1 ? "" : "s"
                     }`,
-                    toastStyles
+                    toastStyles,
                   );
                   return;
                 }
@@ -714,7 +714,7 @@ export function TasksLayout({ open, setOpen, children }) {
               } catch {
                 toast.error(
                   "Couldn't delete tasks. Try again later.",
-                  toastStyles
+                  toastStyles,
                 );
               }
             }}
