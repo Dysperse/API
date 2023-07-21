@@ -332,7 +332,7 @@ export function TasksLayout({ open, setOpen, children }) {
         />
       )}
       {!isMobile && (
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2, mb: -3 }}>
           <GroupModal useRightClick={false}>
             <Box
               sx={{
@@ -341,7 +341,6 @@ export function TasksLayout({ open, setOpen, children }) {
                 gap: 1.5,
                 py: 1,
                 borderRadius: 5,
-                mb: -3,
                 background: palette[4],
                 alignItems: "center",
                 "&:hover": {
