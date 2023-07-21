@@ -12,7 +12,7 @@ export function Loading(): JSX.Element {
   const session = useSession();
 
   const [defaultDarkMode, setDefaultDarkMode] = useState(false);
-  const isDark = useDarkMode(session && session.user && session.user.darkMode);
+  const isDark = useDarkMode(session && session.user && session.darkMode);
   const palette = useColor(session?.themeColor || "gray", isDark);
 
   useEffect(() => {

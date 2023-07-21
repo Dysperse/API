@@ -6,7 +6,7 @@ import * as colors from "@radix-ui/colors";
 
 export function AppearanceStep({ styles, navigation }) {
   const session = useSession();
-  const isDark = useDarkMode(session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
   const circleStyles = {
@@ -56,7 +56,7 @@ export function AppearanceStep({ styles, navigation }) {
                   "slate",
                   "mauve",
                   "gray",
-                ].includes(color),
+                ].includes(color)
             )
             .map((color) => (
               <Box
@@ -96,7 +96,7 @@ export function AppearanceStep({ styles, navigation }) {
             sx={{
               background: colors.gray.gray4,
               ...circleStyles,
-              ...(session.user.darkMode == "light" && {
+              ...(session.darkMode == "light" && {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
             }}
@@ -107,7 +107,7 @@ export function AppearanceStep({ styles, navigation }) {
             sx={{
               background: colors.grayDark.gray2,
               ...circleStyles,
-              ...(session.user.darkMode == "dark" && {
+              ...(session.darkMode == "dark" && {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
             }}
@@ -119,7 +119,7 @@ export function AppearanceStep({ styles, navigation }) {
               ...circleStyles,
               background: colors.grayDark.gray5,
               transform: "rotate(45deg)",
-              ...(session.user.darkMode == "system" && {
+              ...(session.darkMode == "system" && {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
             }}

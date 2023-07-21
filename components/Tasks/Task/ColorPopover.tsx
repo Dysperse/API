@@ -35,7 +35,7 @@ export function ColorPopover({ data, setTaskData, mutationUrl }) {
         background:
           data.color === "grey"
             ? ``
-            : colors[data.color][session.user.darkMode ? "A200" : 100] +
+            : colors[data.color][session.darkMode ? "A200" : 100] +
               "!important",
       }}
       onClick={handleClick}

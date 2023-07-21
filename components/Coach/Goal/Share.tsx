@@ -1,5 +1,5 @@
 import { useSession } from "@/lib/client/session";
-import { useDarkMode } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { colors } from "@/lib/colors";
 import {
@@ -37,7 +37,9 @@ export function ShareGoal({ children, goal }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useStatusBar(open ? "hsl(240,11%,10%)" : "#fff");
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  useStatusBar(open ? "hsl(240,11%,10%)" : palette[2]);
 
   const colorChoices = [
     "red",

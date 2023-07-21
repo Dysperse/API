@@ -5,7 +5,7 @@ import { CreateBoard } from "../Tasks/Board/Create";
 
 export function BoardsStep({ styles, navigation }) {
   const session = useSession();
-  const isDark = useDarkMode(session.user.darkMode);
+  const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
   return (

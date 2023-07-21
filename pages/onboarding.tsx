@@ -15,10 +15,7 @@ import { ProfileStep } from "../components/Onboarding/ProfileStep";
 
 export default function Onboarding() {
   const session = useSession();
-  const palette = useColor(
-    session.themeColor,
-    useDarkMode(session.user.darkMode),
-  );
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [step, setStep] = useState(0);
 

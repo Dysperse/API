@@ -46,10 +46,7 @@ function RenderBoard({ tasks }) {
   const isMobile = useMediaQuery("(max-width: 900px)");
   const mount = useDelayedMount(mobileOpen, 1000);
 
-  const palette = useColor(
-    session.themeColor,
-    useDarkMode(session.user.darkMode)
-  );
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const isDark = useDarkMode(session.darkMode);
 

@@ -323,7 +323,7 @@ export function TasksLayout({ open, setOpen, children }) {
 
   const groupPalette = useColor(
     session.property.profile.color,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.darkMode)
   );
 
   const menuChildren = (
