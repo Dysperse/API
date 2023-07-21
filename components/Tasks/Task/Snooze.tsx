@@ -3,17 +3,26 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
+  CardActionArea,
   Icon,
   MenuItem,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { cloneElement, useState } from "react";
+import { cloneElement, useRef, useState } from "react";
 import { Puller } from "../../Puller";
+import { SelectDateModal } from "./DatePicker";
 
-export function RescheduleModal({ data, children, handlePostpone }) {
+export function RescheduleModal({
+  data,
+  children,
+  handlePostpone,
+  setTaskData,
+  handleEdit,
+}) {
   const session = useSession();
+  const dateRef = useRef();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [value, setValue] = useState<number>(0);
@@ -81,7 +90,6 @@ export function RescheduleModal({ data, children, handlePostpone }) {
   return (
     <>
       {trigger}
-
       <SwipeableDrawer
         open={open}
         onClose={handleClose}
@@ -110,14 +118,28 @@ export function RescheduleModal({ data, children, handlePostpone }) {
           },
         }}
       >
-        <Puller />
-        <Typography
-          variant="h6"
-          sx={{ textAlign: "center", mb: 2 }}
-          gutterBottom
+        <Puller showOnDesktop />
+        <SelectDateModal
+          ref={dateRef}
+          styles={() => {}}
+          date={data.due}
+          setDate={(d) => {
+            setTaskData((prev) => ({
+              ...prev,
+              due: d ? null : d?.toISOString(),
+            }));
+            handleEdit(data.id, "due", d.toISOString());
+          }}
         >
-          {dayjs(data.due).format("dddd, MMMM D")}
-        </Typography>
+          <CardActionArea sx={{ mb: 2, borderRadius: 99 }}>
+            <Typography
+              variant="h6"
+              sx={{ textAlign: "center", textDecoration: "underline" }}
+            >
+              {dayjs(data.due).format("dddd, MMMM D")}
+            </Typography>
+          </CardActionArea>
+        </SelectDateModal>
         <Box sx={{ display: "flex", gap: 2, px: 1, py: 2 }}>
           <Button
             fullWidth

@@ -78,8 +78,8 @@ export function PropertyButton({ handleClose, group, list }: any) {
     >
       <Box
         sx={{
-          width: 50,
-          height: 50,
+          width: 40,
+          height: 40,
           background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[11]})`,
           color: groupPalette[1],
           borderRadius: 99,
@@ -88,7 +88,7 @@ export function PropertyButton({ handleClose, group, list }: any) {
           justifyContent: "center",
         }}
       >
-        <Icon sx={{ display: { sm: "none" } }}>
+        <Icon>
           {group.profile.type === "home"
             ? "home"
             : group.profile.type === "apartment"

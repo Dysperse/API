@@ -337,6 +337,9 @@ export function GroupModal({
       anchor="bottom"
       open={showMore}
       onClose={() => setShowMore(false)}
+      PaperProps={{
+        sx: { px: 1.5 },
+      }}
     >
       <Puller showOnDesktop />
       {properties.map((group: any) => (

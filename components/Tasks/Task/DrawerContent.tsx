@@ -9,7 +9,6 @@ import {
   Box,
   Button,
   Chip,
-  Dialog,
   Icon,
   IconButton,
   InputAdornment,
@@ -20,14 +19,14 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
-import DatePicker from "react-calendar";
+import { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Task } from ".";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { ColorPopover } from "./ColorPopover";
 import { CreateTask } from "./Create";
+import { SelectDateModal } from "./DatePicker";
 import { ExperimentalAiSubtask } from "./ExperimentalAiSubtask";
 import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./Snooze";
@@ -105,6 +104,7 @@ export default function DrawerContent({
 }) {
   const storage = useAccountStorage();
   const session = useSession();
+  const dateRef = useRef();
 
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = useState<boolean>(false);
@@ -309,7 +309,12 @@ export default function DrawerContent({
                 {data.completed ? "Completed" : "Complete"}
               </span>
             </Button>
-            <RescheduleModal data={data} handlePostpone={handlePostpone}>
+            <RescheduleModal
+              data={data}
+              handlePostpone={handlePostpone}
+              handleEdit={handleEdit}
+              setTaskData={setTaskData}
+            >
               <Button
                 disableRipple
                 disabled={!data.due}
@@ -415,17 +420,30 @@ export default function DrawerContent({
           />
 
           {!isSubTask && (
-            <Chip
-              variant="outlined"
-              label={
-                data.due && dayjs(data.due).format("MMMM D, YYYY [at] h:mm A")
-              }
-              onClick={() => setOpen(true)}
-              disabled={
-                storage?.isReached === true ||
-                session.permission === "read-only"
-              }
-            />
+            <SelectDateModal
+              ref={dateRef}
+              styles={() => {}}
+              date={data.due}
+              setDate={(d) => {
+                handleParentClose();
+                setTaskData((prev) => ({
+                  ...prev,
+                  due: d ? null : d?.toISOString(),
+                }));
+                handleEdit(data.id, "due", d.toISOString());
+              }}
+            >
+              <Chip
+                variant="outlined"
+                label={
+                  data.due && dayjs(data.due).format("MMMM D, YYYY [at] h:mm A")
+                }
+                disabled={
+                  storage?.isReached === true ||
+                  session.permission === "read-only"
+                }
+              />
+            </SelectDateModal>
           )}
         </Box>
         <TextField
@@ -543,26 +561,6 @@ export default function DrawerContent({
             },
           }}
         />
-        <Dialog
-          open={open}
-          onClose={() => setOpen(false)}
-          PaperProps={{ sx: { p: 3 } }}
-          keepMounted={false}
-        >
-          <DatePicker
-            calendarType="US"
-            value={new Date(data.due || new Date().toISOString())}
-            onChange={(e: any) => {
-              handleParentClose();
-              setTaskData((prev) => ({
-                ...prev,
-                due: e ? null : e?.toISOString(),
-              }));
-              handleEdit(data.id, "due", e.toISOString());
-              setOpen(false);
-            }}
-          />
-        </Dialog>
 
         {data.image && <Box sx={{ mt: 2 }} />}
         {data.image && <ImageViewer url={data.image} />}

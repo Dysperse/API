@@ -138,16 +138,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         open={open}
         onClose={handleClose}
         anchor="right"
-        ModalProps={{
-          keepMounted: false,
-          BackdropProps: {
-            className: "override-bg",
-            sx: {
-              background: "transparent!important",
-              backdropFilter: { sm: "blur(1px) grayscale(100%) !important" },
-            },
-          },
-        }}
         PaperProps={{ sx: drawerStyles, ref }}
       >
         {open && !loading && error && (
