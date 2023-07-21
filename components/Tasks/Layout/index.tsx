@@ -1,10 +1,12 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { useApi } from "@/lib/client/useApi";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
+import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { GroupModal } from "@/pages/users";
 import {
@@ -30,6 +32,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
@@ -683,9 +686,43 @@ export function TasksLayout({ open, setOpen, children }) {
           <IconButton sx={{ color: palette[8] }}>
             <Icon className="outlined">check_circle</Icon>
           </IconButton>
-          <IconButton sx={{ color: palette[8] }}>
-            <Icon className="outlined">delete</Icon>
-          </IconButton>
+          <ConfirmationModal
+            title={`Delete ${taskSelection.length} item${
+              taskSelection.length !== 1 ? "s" : ""
+            }?`}
+            question="This action cannot be undone"
+            callback={async () => {
+              try {
+                const res = await fetchRawApi(
+                  session,
+                  "property/boards/column/task/deleteMany",
+                  {
+                    selection: JSON.stringify(taskSelection),
+                  }
+                );
+                if (res.errors !== 0) {
+                  toast.error(
+                    `Couldn't delete ${res.errors} item${
+                      res.errors == 1 ? "" : "s"
+                    }`
+                  );
+                  return;
+                }
+                toast.success("Deleted!", toastStyles);
+                setTaskSelection([]);
+              } catch {
+                toast.error(
+                  "Couldn't delete tasks. Try again later.",
+                  toastStyles
+                );
+              }
+            }}
+            buttonText="Delete"
+          >
+            <IconButton sx={{ color: palette[8] }}>
+              <Icon className="outlined">delete</Icon>
+            </IconButton>
+          </ConfirmationModal>
         </Toolbar>
       </AppBar>
       {isMobile && (
