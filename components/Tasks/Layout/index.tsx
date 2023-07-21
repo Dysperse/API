@@ -704,7 +704,8 @@ export function TasksLayout({ open, setOpen, children }) {
                   toast.error(
                     `Couldn't delete ${res.errors} item${
                       res.errors == 1 ? "" : "s"
-                    }`
+                    }`,
+                    toastStyles
                   );
                   return;
                 }
