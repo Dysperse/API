@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
 import { Puller } from "../../Puller";
-import { MoreOptions } from "./MoreOptions";
+import { MoreOptions } from "./Options";
 
 export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);

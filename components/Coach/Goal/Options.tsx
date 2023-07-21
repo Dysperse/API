@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
-import { ShareGoal } from "./ShareGoal";
+import { ShareGoal } from "./Share";
 
 const downloadImage = (blob, fileName) => {
   const fakeLink: any = window.document.createElement("a");
