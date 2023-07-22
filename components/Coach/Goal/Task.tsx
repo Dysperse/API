@@ -36,7 +36,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
 
   const [showProgress, setShowProgress] = useState<boolean>(
     dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
-      dayjs().format("YYYY-MM-DD") || false
+      dayjs().format("YYYY-MM-DD") || false,
   );
   const [showProgressLoader, setShowProgressLoader] = useState(false);
   const [progressData, setProgressData] = useState<null | any>(null);
@@ -83,7 +83,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
         .catch(() => {
           toast.error(
             "Yikes! Something went wrong while trying to mark your routine as done",
-            toastStyles
+            toastStyles,
           );
           setDisabled(false);
         });
@@ -319,7 +319,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
 
                     const hasCompleted =
                       progressData.find(
-                        (day) => dayjs(day.date).format("YYYY-MM-DD") === curr
+                        (day) => dayjs(day.date).format("YYYY-MM-DD") === curr,
                       ) ||
                       curr == dayjs(goal.lastCompleted).format("YYYY-MM-DD");
 
