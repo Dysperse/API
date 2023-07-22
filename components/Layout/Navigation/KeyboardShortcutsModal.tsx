@@ -1,8 +1,15 @@
+import { useSession } from "@/lib/client/session";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Dialog, Icon, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export default function KeyboardShortcutsModal() {
+  const session = useSession();
+  const palette = useColor(
+    session.themeColor,
+    useDarkMode(session.user.darkMode)
+  );
   const [open, setOpen] = React.useState<boolean>(false);
 
   useHotkeys(
@@ -156,7 +163,13 @@ export default function KeyboardShortcutsModal() {
                 <Box>{shortcut.name}</Box>{" "}
                 <Box sx={{ ml: "auto" }}>
                   {shortcut.keys.map((key) => (
-                    <span className="kbd" key={shortcut.name}>
+                    <span
+                      className="kbd"
+                      key={shortcut.name}
+                      style={{
+                        background: palette[3],
+                      }}
+                    >
                       {key}
                     </span>
                   ))}
