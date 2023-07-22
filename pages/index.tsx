@@ -237,7 +237,7 @@ export default function Home() {
             sx={{
               px: { xs: 2, sm: 4 },
               fontSize: {
-                xs: "70px",
+                xs: "50px",
                 sm: "80px",
               },
               whiteSpace: "nowrap",

@@ -20,7 +20,7 @@ export default function Routine() {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const { data, url, error } = useApi("user/coach");
+  const { data, url } = useApi("user/coach");
 
   const [slide, setSlide] = useState(-1);
 

@@ -43,10 +43,13 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
 
   useEffect(() => {
     fetchRawApi(session, "user/coach/goals/activity", {
-      routineItemId: goal.id,
+      id: goal.id,
       date: dayjs().startOf("week").toISOString(),
     })
-      .then((res) => setProgressData(res))
+      .then((res) => {
+        setProgressData(res);
+        console.log(res);
+      })
       .catch((err) => setProgressData("error"));
   }, [session, goal]);
 
@@ -320,7 +323,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                 height: 60,
               }}
             >
-              {progressData ? (
+              {progressData && progressData !== "error" ? (
                 [...new Array(7)].map((_, day) => {
                   const curr = dayjs()
                     .startOf("week")
@@ -331,6 +334,8 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                     progressData.find(
                       (day) => dayjs(day.date).format("YYYY-MM-DD") === curr
                     ) || curr == dayjs(goal.lastCompleted).format("YYYY-MM-DD");
+
+                  const isFuture = dayjs(curr).isAfter(dayjs());
 
                   return (
                     <Box
@@ -344,11 +349,13 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                     >
                       <Avatar
                         sx={{
-                          background: hasCompleted ? palette[4] : palette[9],
-                          color: !hasCompleted ? palette[4] : palette[9],
+                          background: !hasCompleted ? palette[4] : palette[9],
+                          color: hasCompleted ? palette[4] : palette[9],
                         }}
                       >
-                        <Icon>{hasCompleted ? "check" : "close"}</Icon>
+                        {!isFuture && (
+                          <Icon>{hasCompleted ? "check" : "close"}</Icon>
+                        )}
                       </Avatar>
                       <Typography sx={{ color: palette[7] }} variant="body2">
                         {days[day]}
