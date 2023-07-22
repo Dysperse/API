@@ -9,6 +9,7 @@ import {
   CardActionArea,
   Chip,
   Icon,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -70,28 +71,32 @@ export default function Render() {
             <span className="font-heading">My Goals</span>
           </Typography>
           <Box sx={{ display: "flex", gap: 1 }}>
-            <Chip
-              sx={{
-                ...(useStreakStyles && {
-                  background: orange["orange9"],
-                  color: orange["orange1"],
-                }),
-              }}
-              icon={
-                <Icon sx={{ color: "inherit!important" }}>
-                  local_fire_department
-                </Icon>
-              }
-              label={
-                data?.streakCount && !isStreakBroken ? data.streakCount : 0
-              }
-            />
-            <Chip
-              icon={
-                <Icon sx={{ color: "inherit!important" }}>military_tech</Icon>
-              }
-              label={session.user.trophies}
-            />
+            <Tooltip title="Streak">
+              <Chip
+                sx={{
+                  ...(useStreakStyles && {
+                    background: orange["orange9"] + "!important",
+                    color: orange["orange1"] + "!important",
+                  }),
+                }}
+                icon={
+                  <Icon sx={{ color: "inherit!important" }}>
+                    local_fire_department
+                  </Icon>
+                }
+                label={
+                  data?.streakCount && !isStreakBroken ? data.streakCount : 0
+                }
+              />
+            </Tooltip>
+            <Tooltip title="Trophies earned">
+              <Chip
+                icon={
+                  <Icon sx={{ color: "inherit!important" }}>military_tech</Icon>
+                }
+                label={session.user.trophies}
+              />
+            </Tooltip>
           </Box>
         </Box>
         {error && (
