@@ -279,3 +279,29 @@ a {
     }
   }
 }
+
+@keyframes goalBar {
+  0% {
+    max-width: 0px;
+  }
+  100% {
+    max-width: 100vw;
+  }
+}
+
+.goalBar-outer {
+  height: 20px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  bottom: -10px;
+  border-radius: 999px;
+
+  & .goalBar-inner {
+    height: 100%;
+    overflow: hidden;
+    border-radius: 999px;
+    animation: goalBar 2s forwards;
+    max-width: 0px;
+  }
+}

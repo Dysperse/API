@@ -10,14 +10,14 @@ import {
   Box,
   Button,
   Chip,
-  CircularProgress,
   Dialog,
   Icon,
   IconButton,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { toast } from "react-hot-toast";
@@ -38,6 +38,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
     dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
       dayjs().format("YYYY-MM-DD") || false
   );
+  const [showProgressLoader, setShowProgressLoader] = useState(false);
   const [progressData, setProgressData] = useState<null | any>(null);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
       setStepTwoOpen(true);
     } else {
       setShowProgress(true);
+      setShowProgressLoader(true);
       setTimeout(() => {
         setSlide((s) => s + 1);
       }, 2000);
@@ -308,49 +310,75 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                 height: 60,
               }}
             >
-              {progressData && progressData !== "error" ? (
-                [...new Array(7)].map((_, day) => {
-                  const curr = dayjs()
-                    .startOf("week")
-                    .add(day, "day")
-                    .format("YYYY-MM-DD");
+              {progressData && progressData !== "error"
+                ? [...new Array(7)].map((_, day) => {
+                    const curr = dayjs()
+                      .startOf("week")
+                      .add(day, "day")
+                      .format("YYYY-MM-DD");
 
-                  const hasCompleted =
-                    progressData.find(
-                      (day) => dayjs(day.date).format("YYYY-MM-DD") === curr
-                    ) || curr == dayjs(goal.lastCompleted).format("YYYY-MM-DD");
+                    const hasCompleted =
+                      progressData.find(
+                        (day) => dayjs(day.date).format("YYYY-MM-DD") === curr
+                      ) ||
+                      curr == dayjs(goal.lastCompleted).format("YYYY-MM-DD");
 
-                  const isFuture = dayjs(curr).isAfter(dayjs());
+                    const isFuture = dayjs(curr).isAfter(dayjs());
 
-                  return (
-                    <Box
-                      key={day}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 0.5,
-                      }}
-                    >
-                      <Avatar
+                    return (
+                      <Box
+                        key={day}
                         sx={{
-                          background: !hasCompleted ? palette[4] : palette[9],
-                          color: hasCompleted ? palette[4] : palette[9],
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          gap: 0.5,
                         }}
                       >
-                        {!isFuture && (
-                          <Icon>{hasCompleted ? "check" : "close"}</Icon>
-                        )}
-                      </Avatar>
-                      <Typography sx={{ color: palette[7] }} variant="body2">
-                        {days[day]}
-                      </Typography>
-                    </Box>
-                  );
-                })
-              ) : (
-                <CircularProgress />
-              )}
+                        <Avatar
+                          sx={{
+                            background: !hasCompleted ? palette[4] : palette[9],
+                            color: hasCompleted ? palette[4] : palette[9],
+                          }}
+                        >
+                          {!isFuture && (
+                            <Icon>{hasCompleted ? "check" : "close"}</Icon>
+                          )}
+                        </Avatar>
+                        <Typography sx={{ color: palette[7] }} variant="body2">
+                          {days[day]}
+                        </Typography>
+                      </Box>
+                    );
+                  })
+                : [...new Array(7)].map((_, day) => {
+                    return (
+                      <Box
+                        key={day}
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          gap: 0.5,
+                        }}
+                      >
+                        <Avatar
+                          sx={{
+                            background: palette[4],
+                          }}
+                        >
+                          &nbsp;
+                        </Avatar>
+                        <Skeleton
+                          width={27}
+                          height={25}
+                          animation="wave"
+                          variant="rectangular"
+                          sx={{ background: palette[3], borderRadius: 99 }}
+                        />
+                      </Box>
+                    );
+                  })}
             </Box>
           </motion.div>
         ) : (
@@ -388,22 +416,56 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
           mt: "auto",
           width: "100%",
           p: 1,
-          display: "flex",
           zIndex: 999,
           maxWidth: "700px",
         }}
       >
-        <GoalActivity goal={goal} open={open} setOpen={setOpen}>
-          <Button sx={{ color: "#fff" }} size="small" id="activity">
-            <Icon>local_fire_department</Icon>
-            Activity
-          </Button>
-        </GoalActivity>
-        <ShareGoal goal={goal}>
-          <IconButton sx={{ ml: "auto" }}>
-            <Icon>ios_share</Icon>
-          </IconButton>
-        </ShareGoal>
+        <AnimatePresence mode="wait">
+          <Box key={showProgressLoader ? "1" : "0"} sx={{ height: "50px" }}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {showProgressLoader ? (
+                <>
+                  <div
+                    className="goalBar-outer"
+                    style={{
+                      background: palette[4],
+                    }}
+                  >
+                    <div
+                      className="goalBar-inner"
+                      style={{
+                        background: palette[9],
+                      }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <Box
+                  sx={{
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <GoalActivity goal={goal} open={open} setOpen={setOpen}>
+                    <Button sx={{ color: "#fff" }} size="small" id="activity">
+                      <Icon>local_fire_department</Icon>
+                      Activity
+                    </Button>
+                  </GoalActivity>
+                  <ShareGoal goal={goal}>
+                    <IconButton sx={{ ml: "auto" }}>
+                      <Icon>ios_share</Icon>
+                    </IconButton>
+                  </ShareGoal>
+                </Box>
+              )}
+            </motion.div>
+          </Box>
+        </AnimatePresence>
       </Box>
     </Box>
   );
