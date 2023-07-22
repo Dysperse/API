@@ -192,6 +192,7 @@ function ThemeColorSettings() {
               "& ._container": {
                 display: "flex",
                 overflowX: "auto",
+                overflowY: "hidden",
                 px: 3,
                 mb: 6,
               },
