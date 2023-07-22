@@ -469,6 +469,12 @@ export default function DrawerContent({
             disableUnderline: true,
             className: "font-heading",
             sx: {
+              "&:focus-within": {
+                "&, & *": { textTransform: "none!important" },
+                background: palette[2],
+                px: 2,
+                borderRadius: 5,
+              },
               fontSize: { xs: "50px", sm: "55px" },
               textDecoration: "underline",
               color: colors[data.color][isDark ? "A200" : 800],
