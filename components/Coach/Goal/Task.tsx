@@ -421,7 +421,10 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
         }}
       >
         <AnimatePresence mode="wait">
-          <Box key={showProgressLoader ? "1" : "0"} sx={{ height: "50px" }}>
+          <Box
+            key={showProgressLoader ? "1" : "0"}
+            sx={{ height: "40px", overflow: "hidden" }}
+          >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

@@ -290,12 +290,11 @@ a {
 }
 
 .goalBar-outer {
-  height: 20px;
+  height: 3px;
   width: 100%;
   overflow: hidden;
-  position: relative;
-  bottom: -10px;
   border-radius: 999px;
+  margin-top: 17px;
 
   & .goalBar-inner {
     height: 100%;
