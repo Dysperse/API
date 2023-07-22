@@ -196,6 +196,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
                   py: 0.5,
                   "&:focus-within": {
                     background: addHslAlpha(palette[4], 0.8),
+                    "&, & *": { textTransform: "none!important" },
                   },
                 },
               }}
