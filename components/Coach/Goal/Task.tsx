@@ -67,7 +67,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
       setShowProgressLoader(true);
       setTimeout(() => {
         setSlide((s) => s + 1);
-      }, 2000);
+      }, 2300);
       setDisabled(true);
       fetchRawApi(session, "user/coach/goals/markAsDone", {
         date: dayjs().toISOString(),
