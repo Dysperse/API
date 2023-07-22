@@ -472,7 +472,7 @@ export default function DrawerContent({
               "&:focus-within": {
                 "&, & *": { textTransform: "none!important" },
                 background: palette[2],
-                px: 2,
+                px: 1,
                 borderRadius: 5,
               },
               fontSize: { xs: "50px", sm: "55px" },
