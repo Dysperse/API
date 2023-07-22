@@ -3,7 +3,13 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
-import { Box, SwipeableDrawer, Typography } from "@mui/material";
+import {
+  Box,
+  Icon,
+  IconButton,
+  SwipeableDrawer,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { cloneElement, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -96,13 +102,12 @@ export function GoalActivity({ goal, children, open, setOpen }) {
               }}
             >
               <Typography
-                className="font-heading"
                 sx={{
                   px: 1.5,
                   borderRadius: 4,
                   height: { xs: 20, sm: 30 },
                   width: { xs: 20, sm: 30 },
-                  fontSize: { xs: 16, sm: 20 },
+                  fontSize: { xs: 14, sm: 20 },
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -167,6 +172,24 @@ export function GoalActivity({ goal, children, open, setOpen }) {
           }}
         >
           <Puller showOnDesktop />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              px: 1.5,
+              mb: 2,
+            }}
+          >
+            <Typography variant="h3" className="font-heading">
+              {dayjs().year()}
+            </Typography>
+            <IconButton
+              sx={{ ml: "auto", background: palette[3] }}
+              onClick={() => setOpen(false)}
+            >
+              <Icon>close</Icon>
+            </IconButton>
+          </Box>
           <CalendarComponent />
         </Box>
       </SwipeableDrawer>

@@ -66,6 +66,20 @@ export default function Routine() {
   useHotkeys("ArrowLeft", handlePrev);
 
   const [open, setOpen] = useState<boolean>(false);
+  const [initialTouchY, setInitialTouchY] = useState<any>(null);
+
+  const handleTouchStart = (event) =>
+    setInitialTouchY(event.touches[0].clientY);
+
+  const handleTouchEnd = (event) => {
+    const currentTouchY = event.changedTouches[0].clientY;
+    const touchDistance = initialTouchY - currentTouchY;
+    const swipeThreshold = 1; // Adjust this value based on your requirements
+
+    if (touchDistance > swipeThreshold)
+      document.getElementById("activity")?.click();
+    setInitialTouchY(null);
+  };
 
   return (
     <Box
@@ -144,6 +158,8 @@ export default function Routine() {
           top: 0,
         }}
         onClick={handleNext}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       />
       <Box
         sx={{
@@ -155,6 +171,8 @@ export default function Routine() {
           top: 0,
         }}
         onClick={handlePrev}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       />
       {filteredGoals.map(
         (goal, index) =>

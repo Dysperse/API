@@ -33,7 +33,6 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
   const [stepTwoOpen, setStepTwoOpen] = useState<boolean>(false);
   const [alreadyPlayed, setAlreadyPlayed] = useState(false);
   const [disabled, setDisabled] = useState<boolean>(false);
-  const [initialTouchY, setInitialTouchY] = useState<any>(null);
 
   const [showProgress, setShowProgress] = useState<boolean>(
     dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
@@ -58,18 +57,6 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
   useStatusBar(palette[2]);
 
   const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
-  const handleTouchStart = (event) =>
-    setInitialTouchY(event.touches[0].clientY);
-  const handleTouchEnd = (event) => {
-    const currentTouchY = event.changedTouches[0].clientY;
-    const touchDistance = initialTouchY - currentTouchY;
-    const swipeThreshold = 100; // Adjust this value based on your requirements
-
-    if (touchDistance > swipeThreshold)
-      document.getElementById("activity")?.click();
-    setInitialTouchY(null);
-  };
 
   const handleNext = () => {
     if (goal.progress === goal.durationDays) {
@@ -135,8 +122,6 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
 
   return (
     <Box
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
       sx={{
         ...(open && {
           transform: "scale(0.9)",
