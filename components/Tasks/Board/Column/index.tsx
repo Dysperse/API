@@ -383,6 +383,7 @@ export function Column({
                           overflow: "hidden",
                           whiteSpace: "nowrap",
                           textOverflow: "ellipsis",
+                          fontWeight: "200",
                         }}
                         className="font-heading"
                       >
