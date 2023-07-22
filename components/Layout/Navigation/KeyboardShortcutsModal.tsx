@@ -8,7 +8,7 @@ export default function KeyboardShortcutsModal() {
   const session = useSession();
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode)
+    useDarkMode(session.user.darkMode),
   );
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -18,7 +18,7 @@ export default function KeyboardShortcutsModal() {
       e.preventDefault();
       setOpen(!open);
     },
-    [open]
+    [open],
   );
 
   return (
