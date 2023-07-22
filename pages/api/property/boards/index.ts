@@ -34,6 +34,7 @@ const handler = async (req, res) => {
         ],
       },
       include: {
+        user: { select: { email: true } },
         shareTokens: {
           select: {
             user: {

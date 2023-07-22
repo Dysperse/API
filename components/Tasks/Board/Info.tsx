@@ -22,7 +22,7 @@ import { mutate } from "swr";
 import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
-import { ShareBoard } from "./ShareBoard";
+import { ShareBoard } from "./Share";
 
 export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
   const { board, isShared, mutationUrls } = useContext(BoardContext);

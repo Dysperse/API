@@ -8,6 +8,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  Chip,
   CircularProgress,
   Divider,
   FormControl,
@@ -266,6 +267,9 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
                     primary={member.user.name}
                     secondary="In group"
                   />
+                  {board.user.email === member.user.email && (
+                    <Chip label="Owner" />
+                  )}
                 </ListItem>
               ))}
             {data ? (
