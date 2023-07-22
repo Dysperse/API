@@ -35,7 +35,7 @@ export default function Routine() {
           // return (x === y)? 0 : x? 1 : -1;
         })
         .filter((goal) => !goal.completed),
-    [data]
+    [data],
   );
 
   const [alreadySwitched, setAlreadySwitched] = useState(false);
@@ -185,7 +185,7 @@ export default function Routine() {
               goal={goal}
               key={goal.id}
             />
-          )
+          ),
       )}
       {slide >= filteredGoals?.length && (
         <motion.div
