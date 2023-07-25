@@ -103,20 +103,17 @@
 
   &__navigation button.react-calendar__navigation__label {
     font-size: 18px;
-    border-radius: 10px;
+    border-radius: 100px;
     flex-grow: 1 !important;
     padding: 10px;
     &:hover {
       background: rgba(200, 200, 200, 0.2);
       .dark & {
-        background: hsl(240, 11%, 20%);
+        background: var(--toast-bg);
       }
     }
     &:active {
-      background: rgba(200, 200, 200, 0.4);
-      .dark & {
-        background: hsl(240, 11%, 25%);
-      }
+      opacity: 0.6;
     }
   }
 
@@ -126,16 +123,10 @@
     padding-right: 10px;
     border-radius: 10px;
     &:hover {
-      background: rgba(200, 200, 200, 0.2);
-      .dark & {
-        background: hsl(240, 11%, 20%);
-      }
+      background: var(--toast-bg);
     }
     &:active {
-      background: rgba(200, 200, 200, 0.4);
-      .dark & {
-        background: hsl(240, 11%, 25%);
-      }
+      opacity: 0.6;
     }
   }
 
@@ -160,20 +151,28 @@
   padding: 10px;
   border-radius: 5px;
   &:hover {
-    background: rgba(200, 200, 200, 0.2);
-    .dark & {
-      background: hsl(240, 11%, 20%);
-    }
+    background: var(--toast-bg);
   }
   &:active {
-    background: rgba(200, 200, 200, 0.4);
-    .dark & {
-      background: hsl(240, 11%, 25%);
-    }
+    opacity: 0.6;
   }
 }
 
 table {
   border-spacing: 0px !important;
   border: none !important;
+}
+
+.react-calendar__year-view__months__month,
+.react-calendar__decade-view__years__year {
+  padding: 8px;
+  background: transparent;
+  border-radius: 999px;
+
+  &:hover {
+    background: var(--toast-bg);
+  }
+  &:active {
+    opacity: 0.6;
+  }
 }
