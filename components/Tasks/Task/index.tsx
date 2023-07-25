@@ -374,7 +374,8 @@ export const Task: any = function Task({
                   ) : (
                     taskData.due &&
                     (dayjs(taskData.due).hour() !== 0 ||
-                      dayjs(taskData.due).minute() !== 0) && (
+                      dayjs(taskData.due).minute() !== 0) &&
+                    !isSubTask && (
                       <Chip
                         size="small"
                         className="date"
