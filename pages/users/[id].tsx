@@ -346,7 +346,7 @@ function Page() {
                           isCurrentUser ||
                           (members &&
                             members.find(
-                              (member) => member.user.email === data.email
+                              (member) => member.user.email === data.email,
                             ))
                         }
                         members={
