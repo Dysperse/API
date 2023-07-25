@@ -23,11 +23,11 @@ export default async function handler(req, res) {
       const item = data[i];
       calendar.createEvent({
         start: item.due || new Date(),
-        end: item.due || new Date(),
         summary: item.name,
         description: item.description,
         location: item.where,
         priority: 9,
+        allDay: true,
         id: "dysperse-task-" + item.id,
         ...(item?.column?.name && {
           categories: [{ name: item?.column?.name }],
