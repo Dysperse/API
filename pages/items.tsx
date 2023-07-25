@@ -125,20 +125,27 @@ export default function Inventory({ children = null }: any) {
         />
       )}
 
-      <Box sx={{ display: "flex" }}>
+      <Box
+        sx={{
+          display: "flex",
+          "& .slide": {
+            width: { xs: "100%", md: 300 },
+            flex: { xs: "100%", md: "0 0 250px" },
+            display: { xs: children ? "none" : "block", md: "block" },
+          },
+        }}
+      >
         <Head>
           <title>Items</title>
         </Head>
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
+          className="slide"
         >
           <Box
             sx={{
-              width: { xs: "100%", md: 300 },
-              flex: { xs: "100%", md: "0 0 250px" },
               px: 1.5,
-              display: { xs: children ? "none" : "block", md: "block" },
               minHeight: "100vh",
               pt: { md: 0.5 },
               height: { md: "100vh" },
