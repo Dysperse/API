@@ -72,7 +72,7 @@ export default function History() {
   const dataByDate = data
     ? data.sort(
         (a: any, b: any) =>
-          (new Date(b.date) as any) - (new Date(a.date) as any)
+          (new Date(b.date) as any) - (new Date(a.date) as any),
       )
     : [];
 
@@ -266,7 +266,7 @@ export default function History() {
                       {[...new Set(data.map((item) => item.reason))].map(
                         (reason: any) => (
                           <Chip key={reason} label={reason} />
-                        )
+                        ),
                       )}
                     </Box>
                   </Box>
