@@ -730,7 +730,7 @@ export function TasksLayout({ open, setOpen, children }) {
         <motion.div
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3, delay: 1 }}
+          transition={{ duration: 0.3, delay: 0.5 }}
         >
           <Box
             sx={{
