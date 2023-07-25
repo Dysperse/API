@@ -11,6 +11,7 @@ import {
   Collapse,
   Divider,
   Icon,
+  IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -18,9 +19,10 @@ import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
+import { SelectionContext } from "../Layout";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
 
@@ -41,6 +43,7 @@ export const Column: any = memo(function Column({
 }: AgendaColumnProps) {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
+  const selection = useContext(SelectionContext);
 
   const palette = useColor(session.themeColor, isDark);
 
@@ -225,32 +228,50 @@ export const Column: any = memo(function Column({
             top: 0,
           }}
         >
-          <Typography
-            variant="h4"
-            className="font-heading"
-            sx={{
-              fontSize: {
-                xs: "55px",
-                sm: "35px",
-              },
-              ...(isToday && {
-                color: "#000!important",
-                background: `linear-gradient(${palette[7]}, ${palette[9]})`,
-                px: 0.5,
-                ml: -0.5,
-              }),
-              borderRadius: 1,
-              width: "auto",
-              height: { xs: 65, sm: 45 },
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              ...(isPast && { opacity: 0.5 }),
-              mb: 0.7,
-            }}
-          >
-            {dayjs(day.unchanged).format(day.heading)}
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography
+              variant="h4"
+              className="font-heading"
+              sx={{
+                fontSize: {
+                  xs: "55px",
+                  sm: "35px",
+                },
+                ...(isToday && {
+                  color: "#000!important",
+                  background: `linear-gradient(${palette[7]}, ${palette[9]})`,
+                  px: 0.5,
+                  ml: -0.5,
+                }),
+                borderRadius: 1,
+                width: "auto",
+                height: { xs: 65, sm: 45 },
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                ...(isPast && { opacity: 0.5 }),
+                mb: 0.7,
+              }}
+            >
+              {dayjs(day.unchanged).format(day.heading)}
+            </Typography>
+
+            <IconButton
+              size="small"
+              sx={{
+                ml: "auto",
+                color: palette[6],
+                mr: -1,
+                ...(selection.values.length > 0 && { opacity: 0 }),
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                selection.set([...new Set([...selection.values, "-1"])]);
+              }}
+            >
+              <Icon className="outlined">edit</Icon>
+            </IconButton>
+          </Box>
           {subheading !== "-" && (
             <Typography
               sx={{

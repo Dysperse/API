@@ -27,6 +27,7 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { motion } from "framer-motion";
 import {
   useCallback,
+  useContext,
   useDeferredValue,
   useEffect,
   useRef,
@@ -36,6 +37,7 @@ import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import EmojiPicker from "../../../EmojiPicker";
+import { SelectionContext } from "../../Layout";
 import { SelectDateModal } from "../DatePicker";
 import { ImageModal } from "./ImageModal";
 
@@ -72,6 +74,7 @@ export function CreateTask({
   const emojiRef: any = useRef(null);
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+  const selection = useContext(SelectionContext);
 
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -725,7 +728,9 @@ export function CreateTask({
       </SwipeableDrawer>
       <ListItemButton
         disabled={
-          storage?.isReached === true || session?.permission === "read-only"
+          storage?.isReached === true ||
+          session?.permission === "read-only" ||
+          selection?.values?.length > 0
         }
         disableRipple
         id="createTask"

@@ -674,11 +674,14 @@ export function TasksLayout({ open, setOpen, children }) {
         <Toolbar sx={{ mt: { sm: -0.5 } }}>
           <Button
             variant="contained"
-            sx={{ px: 1, mr: "auto" }}
+            sx={{
+              px: 1,
+              mr: "auto",
+            }}
             onClick={() => setTaskSelection([])}
           >
             <Icon>close</Icon>
-            {taskSelection.length}
+            {taskSelection.filter((e) => e !== "-1").length}
           </Button>
           <IconButton sx={{ color: palette[8] }}>
             <Icon className="outlined">label</Icon>
@@ -687,8 +690,10 @@ export function TasksLayout({ open, setOpen, children }) {
             <Icon className="outlined">check_circle</Icon>
           </IconButton>
           <ConfirmationModal
-            title={`Delete ${taskSelection.length} item${
-              taskSelection.length !== 1 ? "s" : ""
+            title={`Delete ${
+              taskSelection.filter((e) => e !== "-1").length
+            } item${
+              taskSelection.filter((e) => e !== "-1").length !== 1 ? "s" : ""
             }?`}
             question="This action cannot be undone"
             callback={async () => {
@@ -697,7 +702,9 @@ export function TasksLayout({ open, setOpen, children }) {
                   session,
                   "property/boards/column/task/deleteMany",
                   {
-                    selection: JSON.stringify(taskSelection),
+                    selection: JSON.stringify(
+                      taskSelection.filter((e) => e !== "-1")
+                    ),
                   }
                 );
                 if (res.errors !== 0) {
