@@ -6,6 +6,7 @@ import {
 } from "@/components/Coach/Goal/Create/goalTemplates";
 import { Masonry } from "@mui/lab";
 import { Box, Button, Icon, Typography } from "@mui/material";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -14,7 +15,7 @@ export default function Page() {
   const shuffled = useMemo(() => goals.sort(() => Math.random() - 0.5), []);
 
   return (
-    <>
+    <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
       <Head>
         <title>Explore &bull; Coach</title>
       </Head>
@@ -77,6 +78,6 @@ export default function Page() {
       </Box>
       <Box sx={{ mb: 4, display: "block" }} />
       &nbsp;
-    </>
+    </motion.div>
   );
 }
