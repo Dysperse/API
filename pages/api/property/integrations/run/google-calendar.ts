@@ -39,11 +39,18 @@ const handler = async (req, res) => {
 
     for (let i = 0; i < events.length; i++) {
       const id = `integrations-calendar-${events[i]}`;
-      const { summary, description, location, start } = parsed[events[i]];
+      const {
+        summary,
+        description,
+        location,
+        start,
+        id: _id,
+      } = parsed[events[i]];
 
       const due = start ? dayjs(start).utc().format() : null;
 
       if (!summary || !due) continue;
+      if (_id && _id.toString().includes("dysperse")) continue;
 
       if (req.query.vanishingTasks === "true") {
         try {

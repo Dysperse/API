@@ -15,6 +15,7 @@ import {
   ListItemText,
   Skeleton,
   SwipeableDrawer,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -62,11 +63,61 @@ export default function Integrations({ handleClose }) {
 
   const { data, url, error } = useApi("property/integrations");
   const session = useSession();
+  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}`;
 
   const [open, setOpen] = useState(false);
 
   return (
     <>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          mt: 4,
+          alignItems: "center",
+          mb: 3,
+          px: 1,
+        }}
+      >
+        <Typography variant="h6">
+          iCal URL
+          <Chip
+            size="small"
+            label="ALPHA"
+            sx={{
+              ml: 1,
+              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+              color: "#000",
+            }}
+          />
+        </Typography>
+      </Box>
+      <TextField
+        InputProps={{ readOnly: true }}
+        sx={{ mb: 1 }}
+        value={icalUrl}
+        helperText="Please do not share this link with anyone, as this gives full access to all your group's tasks"
+      />
+      <Button
+        onClick={() => {
+          window.open(`webcal://${icalUrl.replace("https://", "")}`);
+        }}
+        variant="contained"
+      >
+        Open calendar
+      </Button>
+      <Button
+        onClick={() => {
+          window.open(
+            `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
+              "https://",
+              ""
+            )}`
+          );
+        }}
+      >
+        Add to Google Calendar
+      </Button>
       <Box
         sx={{
           width: "100%",

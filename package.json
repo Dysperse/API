@@ -38,6 +38,7 @@
     "hex-to-rgba": "^2.0.1",
     "html2canvas": "^1.4.1",
     "ical": "^0.8.0",
+    "ical-generator": "^5.0.0",
     "jsonwebtoken": "^9.0.0",
     "markdown-to-jsx": "^7.2.1",
     "memory-cache": "^0.2.0",
