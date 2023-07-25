@@ -3,6 +3,11 @@
   --toast-bg: hsla(240, 11%, 10%, 0.8);
   --toast-text: hsla(240, 11%, 90%, 0.8);
   --toast-solid: hsl(240, 11%, 30%);
+
+  --sat: env(safe-area-inset-top);
+  --sar: env(safe-area-inset-right);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
 }
 
 html,

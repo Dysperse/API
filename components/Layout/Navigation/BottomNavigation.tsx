@@ -117,11 +117,10 @@ export function BottomNav() {
           display: "none",
         },
         zIndex: 998,
-        height: "55px",
-        ["@supports (-webkit-touch-callout: none)"]: {
-          height: "65px",
-          paddingBottom: "15px",
-        },
+        minHeight: "55px",
+        height: "calc(55px + calc(var(--sab) - 20px))",
+        paddingBottom: "calc(var(--sab) - 20px)",
+
         userSelect: "none",
         "&, & *": {
           overflow: "hidden!important",
