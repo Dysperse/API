@@ -26,6 +26,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { cloneElement, useState } from "react";
 import { mutate, preload } from "swr";
@@ -110,14 +111,6 @@ function Friend({ friend }) {
     ?.flatMap((obj) => obj.profile.Task)
     ?.map((task) => task.due)
     .filter((d) => d);
-  // ?.filter((d) =>
-  //   dayjs(d).isBetween(
-  //     dayjs().startOf("day"),
-  //     dayjs().endOf("day"),
-  //     "day",
-  //     "[]"
-  //   )
-  // );
 
   return (
     <Card
@@ -414,189 +407,191 @@ export default function Page() {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        background: palette[1],
-        zIndex: 999,
-        overflow: "auto",
-      }}
-    >
-      <AppBar
+    <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
+      <Box
         sx={{
-          borderBottom: 0,
-          position: "unset!important",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          background: palette[1],
+          zIndex: 999,
+          overflow: "auto",
         }}
       >
-        <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
-          <IconButton onClick={() => router.push("/")}>
-            <Icon>west</Icon>
-          </IconButton>
-          <IconButton
-            onClick={() => router.push("/settings")}
-            sx={{ ml: "auto" }}
-          >
-            <Icon className="outlined">settings</Icon>
-          </IconButton>
-          <IconButton
-            sx={{ ml: { xs: -0.5, sm: -1 } }}
-            onClick={() =>
-              window.open(
-                "https://blog.dysperse.com/series/support?utm_source=" +
-                  window.location.hostname
-              )
-            }
-          >
-            <Icon className="outlined">help</Icon>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Container sx={{ px: { xs: "0!important", sm: "unset" } }}>
-        {data ? (
-          <>
-            <Box sx={{ width: "100%" }}>
-              <Box
-                onClick={() => router.push(`/users/${session.user.email}`)}
-                sx={{
-                  maxWidth: "100vw",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  display: "flex",
-                  background: {
-                    sm: `linear-gradient(${palette[3]}, ${palette[2]})`,
-                  },
-                  "&:hover": {
-                    background: {
-                      sm: `linear-gradient(${palette[2]}, ${palette[3]})`,
-                    },
-                    cursor: "pointer",
-                  },
-                  transition: "all .2s",
-                  "&:active": {
-                    transform: "scale(.95)",
-                  },
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  mt: 2,
-                  borderRadius: 5,
-                  py: { xs: 2.5, sm: 5 },
-                }}
-              >
+        <AppBar
+          sx={{
+            borderBottom: 0,
+            position: "unset!important",
+          }}
+        >
+          <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
+            <IconButton onClick={() => router.push("/")}>
+              <Icon>west</Icon>
+            </IconButton>
+            <IconButton
+              onClick={() => router.push("/settings")}
+              sx={{ ml: "auto" }}
+            >
+              <Icon className="outlined">settings</Icon>
+            </IconButton>
+            <IconButton
+              sx={{ ml: { xs: -0.5, sm: -1 } }}
+              onClick={() =>
+                window.open(
+                  "https://blog.dysperse.com/series/support?utm_source=" +
+                    window.location.hostname
+                )
+              }
+            >
+              <Icon className="outlined">help</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Container sx={{ px: { xs: "0!important", sm: "unset" } }}>
+          {data ? (
+            <>
+              <Box sx={{ width: "100%" }}>
                 <Box
+                  onClick={() => router.push(`/users/${session.user.email}`)}
                   sx={{
+                    maxWidth: "100vw",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                     display: "flex",
+                    background: {
+                      sm: `linear-gradient(${palette[3]}, ${palette[2]})`,
+                    },
+                    "&:hover": {
+                      background: {
+                        sm: `linear-gradient(${palette[2]}, ${palette[3]})`,
+                      },
+                      cursor: "pointer",
+                    },
+                    transition: "all .2s",
+                    "&:active": {
+                      transform: "scale(.95)",
+                    },
                     alignItems: "center",
-                    gap: 2,
-                    maxWidth: "100%",
-                    flexDirection: { xs: "column", sm: "row" },
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    mt: 2,
+                    borderRadius: 5,
+                    py: { xs: 2.5, sm: 5 },
                   }}
                 >
-                  <Avatar
-                    src={data.user?.Profile?.picture}
+                  <Box
                     sx={{
-                      height: { xs: 120, sm: 90 },
-                      width: { xs: 120, sm: 90 },
-                      fontSize: 20,
-                      textTransform: "uppercase",
-                      background: `linear-gradient(${palette[9]} 30%, ${palette[6]})`,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                      maxWidth: "100%",
+                      flexDirection: { xs: "column", sm: "row" },
                     }}
                   >
-                    {data.user.name.trim().charAt(0)}
-                    {data.user.name.includes(" ")
-                      ? data.user.name.split(" ")[1].charAt(0)
-                      : data.user.name.charAt(1)}
-                  </Avatar>
+                    <Avatar
+                      src={data.user?.Profile?.picture}
+                      sx={{
+                        height: { xs: 120, sm: 90 },
+                        width: { xs: 120, sm: 90 },
+                        fontSize: 20,
+                        textTransform: "uppercase",
+                        background: `linear-gradient(${palette[9]} 30%, ${palette[6]})`,
+                      }}
+                    >
+                      {data.user.name.trim().charAt(0)}
+                      {data.user.name.includes(" ")
+                        ? data.user.name.split(" ")[1].charAt(0)
+                        : data.user.name.charAt(1)}
+                    </Avatar>
+                    <Typography
+                      variant={isMobile ? "h2" : "h1"}
+                      className="font-heading"
+                      sx={{
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        width: "100%",
+                        maxWidth: "300px",
+                        minWidth: 0,
+                      }}
+                    >
+                      {session.user.name}
+                    </Typography>
+                  </Box>
                   <Typography
-                    variant={isMobile ? "h2" : "h1"}
-                    className="font-heading"
+                    variant="body2"
                     sx={{
+                      maxWidth: "100%",
+                      color: palette[11],
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
-                      width: "100%",
-                      maxWidth: "300px",
                       minWidth: 0,
                     }}
                   >
-                    {session.user.name}
+                    {session.user.email}
                   </Typography>
+                  <GroupModal />
                 </Box>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    maxWidth: "100%",
-                    color: palette[11],
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    minWidth: 0,
-                  }}
-                >
-                  {session.user.email}
-                </Typography>
-                <GroupModal />
               </Box>
+            </>
+          ) : error ? (
+            <ErrorHandler
+              callback={() => mutate(url)}
+              error="Oh no! We couldn't get your friends! Please try again later"
+            />
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                height: "100vh",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
             </Box>
-          </>
-        ) : error ? (
-          <ErrorHandler
-            callback={() => mutate(url)}
-            error="Oh no! We couldn't get your friends! Please try again later"
-          />
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              height: "100vh",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress />
+          )}
+          <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
+            Birthdays
+          </Typography>
+          <UpcomingBirthdays data={data} />
+          {data && data.friends.length == 0 && (
+            <Box sx={{ px: 2 }}>
+              <Alert severity="info">
+                You aren&apos;t following anyone yet. Follow someone to view
+                their birthday
+              </Alert>
+            </Box>
+          )}
+          {data && data.friends.length == 0 && (
+            <Box sx={{ px: 2 }}>
+              <Alert severity="info">
+                You aren&apos;t following anyone yet. Follow someone to view
+                their availability
+              </Alert>
+            </Box>
+          )}
+          <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
+            Friends
+          </Typography>
+          <Box sx={{ px: { sm: 2 }, mt: 1 }}>
+            <Box sx={{ mr: isMobile ? 0 : -2 }}>
+              <Masonry columns={{ xs: 1, sm: 3 }} spacing={isMobile ? 0 : 2}>
+                {data &&
+                  data.friends &&
+                  shuffle(data.friends).map((friend, index) => (
+                    <Friend friend={friend} key={index} />
+                  ))}
+              </Masonry>
+            </Box>
           </Box>
-        )}
-        <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
-          Birthdays
-        </Typography>
-        <UpcomingBirthdays data={data} />
-        {data && data.friends.length == 0 && (
-          <Box sx={{ px: 2 }}>
-            <Alert severity="info">
-              You aren&apos;t following anyone yet. Follow someone to view their
-              birthday
-            </Alert>
-          </Box>
-        )}
-        {data && data.friends.length == 0 && (
-          <Box sx={{ px: 2 }}>
-            <Alert severity="info">
-              You aren&apos;t following anyone yet. Follow someone to view their
-              availability
-            </Alert>
-          </Box>
-        )}
-        <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
-          Friends
-        </Typography>
-        <Box sx={{ px: { sm: 2 }, mt: 1 }}>
-          <Box sx={{ mr: isMobile ? 0 : -2 }}>
-            <Masonry columns={{ xs: 1, sm: 3 }} spacing={isMobile ? 0 : 2}>
-              {data &&
-                data.friends &&
-                shuffle(data.friends).map((friend, index) => (
-                  <Friend friend={friend} key={index} />
-                ))}
-            </Masonry>
-          </Box>
-        </Box>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </motion.div>
   );
 }

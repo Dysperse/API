@@ -24,6 +24,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -434,5 +435,9 @@ export default function App() {
   const router = useRouter();
   const email = router?.query?.id;
 
-  return email ? <Page /> : <></>;
+  return (
+    <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
+      {email ? <Page /> : <></>}
+    </motion.div>
+  );
 }
