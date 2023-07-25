@@ -18,6 +18,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -128,75 +129,80 @@ export default function Inventory({ children = null }: any) {
         <Head>
           <title>Items</title>
         </Head>
-        <Box
-          sx={{
-            width: { xs: "100%", md: 300 },
-            flex: { xs: "100%", md: "0 0 250px" },
-            px: 1.5,
-            display: { xs: children ? "none" : "block", md: "block" },
-            minHeight: "100vh",
-            pt: { md: 0.5 },
-            height: { md: "100vh" },
-            overflowY: { md: "scroll" },
-            background: {
-              md: addHslAlpha(palette[3], 0.5),
-            },
-            ml: { md: -1 },
-          }}
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
         >
-          <SidebarContext.Provider value={url}>
-            <Box
-              sx={{
-                my: 4,
-                px: { xs: 1.5, md: 0 },
-                borderRadius: "15px!important",
-              }}
-            >
-              <Typography
-                variant="h2"
-                className="font-heading"
-                sx={{ mb: 2, display: { md: "none" } }}
+          <Box
+            sx={{
+              width: { xs: "100%", md: 300 },
+              flex: { xs: "100%", md: "0 0 250px" },
+              px: 1.5,
+              display: { xs: children ? "none" : "block", md: "block" },
+              minHeight: "100vh",
+              pt: { md: 0.5 },
+              height: { md: "100vh" },
+              overflowY: { md: "scroll" },
+              background: {
+                md: addHslAlpha(palette[3], 0.5),
+              },
+              ml: { md: -1 },
+            }}
+          >
+            <SidebarContext.Provider value={url}>
+              <Box
+                sx={{
+                  my: 4,
+                  px: { xs: 1.5, md: 0 },
+                  borderRadius: "15px!important",
+                }}
               >
-                {session.property.profile.type === "study group"
-                  ? "Belongings"
-                  : "Inventory"}
-              </Typography>
-              <OptionsGroup
-                currentOption={viewBy}
-                setOption={setViewBy}
-                options={["Room", "Category"]}
-              />
-            </Box>
-            {viewBy === "Room" ? (
-              <>
-                {session.property.profile.type === "study group" ? (
-                  <Action
-                    icon="backpack"
-                    room="Backpack"
-                    count={data?.byRoom}
-                  />
-                ) : (
-                  rooms.map((action: any) => (
+                <Typography
+                  variant="h2"
+                  className="font-heading"
+                  sx={{ mb: 2, display: { md: "none" } }}
+                >
+                  {session.property.profile.type === "study group"
+                    ? "Belongings"
+                    : "Inventory"}
+                </Typography>
+                <OptionsGroup
+                  currentOption={viewBy}
+                  setOption={setViewBy}
+                  options={["Room", "Category"]}
+                />
+              </Box>
+              {viewBy === "Room" ? (
+                <>
+                  {session.property.profile.type === "study group" ? (
                     <Action
-                      key={action.primary}
-                      {...action}
+                      icon="backpack"
+                      room="Backpack"
                       count={data?.byRoom}
                     />
-                  ))
-                )}
-                <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-                <Rooms data={dataRooms} error={error} count={data?.byRoom} />
-                <CreateRoom />
-                <Divider sx={{ my: 1.5, opacity: 0.7 }} />
-                <Action icon="star" room="Starred" />
-                <Action icon="delete" room="Trash" />
-                <Toolbar />
-              </>
-            ) : (
-              <CategoryList />
-            )}
-          </SidebarContext.Provider>
-        </Box>
+                  ) : (
+                    rooms.map((action: any) => (
+                      <Action
+                        key={action.primary}
+                        {...action}
+                        count={data?.byRoom}
+                      />
+                    ))
+                  )}
+                  <Divider sx={{ my: 1.5, opacity: 0.7 }} />
+                  <Rooms data={dataRooms} error={error} count={data?.byRoom} />
+                  <CreateRoom />
+                  <Divider sx={{ my: 1.5, opacity: 0.7 }} />
+                  <Action icon="star" room="Starred" />
+                  <Action icon="delete" room="Trash" />
+                  <Toolbar />
+                </>
+              ) : (
+                <CategoryList />
+              )}
+            </SidebarContext.Provider>
+          </Box>
+        </motion.div>
         {children ? (
           <Box
             sx={{
