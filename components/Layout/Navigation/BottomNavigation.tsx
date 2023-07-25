@@ -127,7 +127,7 @@ export function BottomNav() {
         },
         background: `linear-gradient(${addHslAlpha(
           palette[3],
-          0.8
+          0.8,
         )}, ${addHslAlpha(palette[2], 0.8)})`,
         borderRadius: "20px 20px 0 0",
         backdropFilter: "blur(10px)",
@@ -139,7 +139,7 @@ export function BottomNav() {
         sx={styles(
           router.asPath === "/" ||
             router.asPath === "" ||
-            router.asPath.includes("/mood-history")
+            router.asPath.includes("/mood-history"),
         )}
       >
         <span
@@ -198,7 +198,7 @@ export function BottomNav() {
           router.asPath === "/items" ||
             router.asPath.includes("rooms") ||
             router.asPath === "/starred" ||
-            router.asPath === "/trash"
+            router.asPath === "/trash",
         )}
         onClick={() => router.push("/items")}
       >
