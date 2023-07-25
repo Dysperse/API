@@ -6,7 +6,6 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
-import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -15,7 +14,7 @@ import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
 import { UpdateButton } from "./Navigation/UpdateButton";
 const KeyboardShortcutsModal = dynamic(
-  () => import("./Navigation/KeyboardShortcutsModal"),
+  () => import("./Navigation/KeyboardShortcutsModal")
 );
 
 const ReleaseModal = dynamic(() => import("./ReleaseModal"));
@@ -25,7 +24,11 @@ const ReleaseModal = dynamic(() => import("./ReleaseModal"));
  * @param {any} {children} Children
  * @returns {any}
  */
-function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
+export default function AppLayout({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element {
   // Check if user has reached storage limits
   const { data, error } = useApi("property/storage");
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
@@ -64,7 +67,7 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   const router = useRouter();
 
   const shouldUseXAxis = ["/users", "/groups"].find((path) =>
-    router.asPath.includes(path),
+    router.asPath.includes(path)
   );
 
   if (session.properties.length === 0) {
@@ -78,116 +81,84 @@ function AppLayout({ children }: { children: JSX.Element }): JSX.Element {
   }
 
   return (
-    <AnimatePresence
-      mode="wait"
-      initial={false}
-      onExitComplete={() => window.scrollTo(0, 0)}
-    >
-      <Box
-        key={
-          router.asPath.includes("/tasks")
-            ? "/tasks"
-            : router.asPath.includes("/settings")
-            ? "/settings"
-            : router.asPath
-        }
-        onContextMenu={(e) => e.preventDefault()}
-        sx={{ display: "flex" }}
-      >
-        <ReleaseModal />
-        <Snackbar
-          open={!dismissed && hasReachedLimit && !error}
-          autoHideDuration={6000}
-          onClose={() => null}
-          sx={{
-            mb: { xs: 7, sm: 2 },
-            transition: "all .3s",
-            zIndex: 999,
-            userSelect: "none",
-          }}
-          action={
-            <>
-              <Button
-                size="small"
-                color="inherit"
-                sx={{ color: isDark ? "#000" : "#fff" }}
-                onClick={() => setDismissed(true)}
-              >
-                Hide for now
-              </Button>
-              <Button
-                onClick={() =>
-                  router.push(`/groups/${session.property.propertyId}`)
-                }
-                color="inherit"
-                size="small"
-                sx={{ color: isDark ? "#000" : "#fff" }}
-              >
-                More info
-              </Button>
-            </>
-          }
-          message="You've reached the storage limits for this group."
-        />
-        <Snackbar
-          open={Boolean(error)}
-          autoHideDuration={6000}
-          onClose={() => null}
-          sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
-          message="An error occured while trying to get your account storage information"
-        />
-        <UpdateButton />
-        <KeyboardShortcutsModal />
-        <Box
-          sx={{
-            width: { md: "85px" },
-            flexShrink: { md: 0 },
-          }}
-        >
-          <Sidebar />
-        </Box>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 90,
-            p: 0,
-            ml: { md: "-85px" },
-            position: "relative",
-            width: {
-              xs: "100%",
-              sm: "calc(100% - 65px)",
-              md: "calc(100% - 85px)",
-            },
-          }}
-        >
-          <motion.div
-            initial={{ [shouldUseXAxis ? "x" : "y"]: 100, opacity: 0 }}
-            animate={{ [shouldUseXAxis ? "x" : "y"]: 0, opacity: 1 }}
-            exit={{
-              [shouldUseXAxis ? "x" : "y"]: shouldUseXAxis ? -100 : 10,
-              opacity: 0,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 260,
-              damping: 20,
-            }}
-          >
-            <Box
-              sx={{
-                height: "70px",
-                pl: { md: "85px" },
-              }}
+    <Box onContextMenu={(e) => e.preventDefault()} sx={{ display: "flex" }}>
+      <ReleaseModal />
+      <Snackbar
+        open={!dismissed && hasReachedLimit && !error}
+        autoHideDuration={6000}
+        onClose={() => null}
+        sx={{
+          mb: { xs: 7, sm: 2 },
+          transition: "all .3s",
+          zIndex: 999,
+          userSelect: "none",
+        }}
+        action={
+          <>
+            <Button
+              size="small"
+              color="inherit"
+              sx={{ color: isDark ? "#000" : "#fff" }}
+              onClick={() => setDismissed(true)}
             >
-              {children}
-            </Box>
-          </motion.div>
-          <CssBaseline />
-          <BottomNav />
-        </Box>
+              Hide for now
+            </Button>
+            <Button
+              onClick={() =>
+                router.push(`/groups/${session.property.propertyId}`)
+              }
+              color="inherit"
+              size="small"
+              sx={{ color: isDark ? "#000" : "#fff" }}
+            >
+              More info
+            </Button>
+          </>
+        }
+        message="You've reached the storage limits for this group."
+      />
+      <Snackbar
+        open={Boolean(error)}
+        autoHideDuration={6000}
+        onClose={() => null}
+        sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+        message="An error occured while trying to get your account storage information"
+      />
+      <UpdateButton />
+      <KeyboardShortcutsModal />
+      <Box
+        sx={{
+          width: { md: "85px" },
+          flexShrink: { md: 0 },
+        }}
+      >
+        <Sidebar />
       </Box>
-    </AnimatePresence>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 90,
+          p: 0,
+          ml: { md: "-85px" },
+          position: "relative",
+          width: {
+            xs: "100%",
+            sm: "calc(100% - 65px)",
+            md: "calc(100% - 85px)",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            height: "70px",
+            pl: { md: "85px" },
+          }}
+        >
+          {children}
+        </Box>
+        <CssBaseline />
+        <BottomNav />
+      </Box>
+    </Box>
   );
 }
-
-export default AppLayout;
