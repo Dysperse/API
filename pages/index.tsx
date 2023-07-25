@@ -211,9 +211,11 @@ export default function Home() {
   };
 
   return (
-    <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
-      <Box sx={{ ml: { sm: -1 } }}>
+    <Box sx={{ ml: { sm: -1 } }}>
+      <motion.div initial={{ y: -100 }} animate={{ y: 0 }}>
         {isMobile && <Navbar showLogo />}
+      </motion.div>
+      <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
           sx={{
             pt: { xs: 7, sm: 23 },
@@ -221,8 +223,8 @@ export default function Home() {
         >
           <Box
             sx={{
-              mb: { xs: 10, sm: 2 },
-              textAlign: "center",
+              mb: { xs: 7, sm: 2 },
+              px: { xs: 4, sm: 6 },
             }}
           >
             <Typography
@@ -237,23 +239,27 @@ export default function Home() {
                     onMouseLeave: close,
                   })}
               sx={{
-                px: { xs: 2, sm: 4 },
                 fontSize: {
-                  xs: "50px",
+                  xs: "15vw",
                   sm: "80px",
                 },
-                whiteSpace: "nowrap",
-                userSelect: "none",
-                overflow: "hidden",
                 background: `linear-gradient(${palette[11]}, ${palette[5]})`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
+                userSelect: "none",
+                overflow: "hidden",
                 textOverflow: "ellipsis",
-                maxWidth: "100%",
+                whiteSpace: "nowrap",
               }}
               variant="h4"
             >
               {isHover ? currentTime : greeting}
+            </Typography>
+            <Typography
+              sx={{ fontWeight: 700, color: palette[8] }}
+              variant="h6"
+            >
+              {dayjs().format("MMMM DD")}
             </Typography>
           </Box>
         </Box>
@@ -375,7 +381,7 @@ export default function Home() {
           </ListItemButton>
         </Box>
         <Toolbar />
-      </Box>
-    </motion.div>
+      </motion.div>
+    </Box>
   );
 }
