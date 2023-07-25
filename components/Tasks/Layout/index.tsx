@@ -837,21 +837,26 @@ export function TasksLayout({ open, setOpen, children }) {
             </Box>
           </Grow>
         </SwipeableDrawer>
-        <Box
-          sx={{
-            width: { xs: "100%", md: 300 },
-            flex: { xs: "100%", md: "0 0 250px" },
-            ml: -1,
-            background: addHslAlpha(palette[3], 0.5),
-            display: { xs: "none", md: "flex" },
-            minHeight: "100vh",
-            height: { md: "100vh" },
-            overflowY: { md: "scroll" },
-            flexDirection: "column",
-          }}
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
         >
-          {menuChildren}
-        </Box>
+          <Box
+            sx={{
+              width: { xs: "100%", md: 300 },
+              flex: { xs: "100%", md: "0 0 250px" },
+              ml: -1,
+              background: addHslAlpha(palette[3], 0.5),
+              display: { xs: "none", md: "flex" },
+              minHeight: "100vh",
+              height: { md: "100vh" },
+              overflowY: { md: "scroll" },
+              flexDirection: "column",
+            }}
+          >
+            {menuChildren}
+          </Box>
+        </motion.div>
         <Box
           sx={{
             maxHeight: { md: "100vh" },

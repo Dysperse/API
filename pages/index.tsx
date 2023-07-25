@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
@@ -210,165 +211,171 @@ export default function Home() {
   };
 
   return (
-    <Box sx={{ ml: { sm: -1 } }}>
-      {isMobile && <Navbar showLogo />}
-      <Box
-        sx={{
-          pt: { xs: 7, sm: 23 },
-        }}
-      >
+    <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
+      <Box sx={{ ml: { sm: -1 } }}>
+        {isMobile && <Navbar showLogo />}
         <Box
           sx={{
-            mb: { xs: 10, sm: 2 },
-            textAlign: "center",
+            pt: { xs: 7, sm: 23 },
           }}
         >
-          <Typography
-            className="font-heading"
-            {...(isMobile
-              ? {
-                  onTouchStart: open,
-                  onTouchEnd: close,
-                }
-              : {
-                  onMouseEnter: open,
-                  onMouseLeave: close,
-                })}
+          <Box
             sx={{
-              px: { xs: 2, sm: 4 },
-              fontSize: {
-                xs: "50px",
-                sm: "80px",
-              },
-              whiteSpace: "nowrap",
-              userSelect: "none",
-              overflow: "hidden",
-              background: `linear-gradient(${palette[11]}, ${palette[5]})`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              textOverflow: "ellipsis",
-              maxWidth: "100%",
+              mb: { xs: 10, sm: 2 },
+              textAlign: "center",
             }}
-            variant="h4"
           >
-            {isHover ? currentTime : greeting}
-          </Typography>
+            <Typography
+              className="font-heading"
+              {...(isMobile
+                ? {
+                    onTouchStart: open,
+                    onTouchEnd: close,
+                  }
+                : {
+                    onMouseEnter: open,
+                    onMouseLeave: close,
+                  })}
+              sx={{
+                px: { xs: 2, sm: 4 },
+                fontSize: {
+                  xs: "50px",
+                  sm: "80px",
+                },
+                whiteSpace: "nowrap",
+                userSelect: "none",
+                overflow: "hidden",
+                background: `linear-gradient(${palette[11]}, ${palette[5]})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                textOverflow: "ellipsis",
+                maxWidth: "100%",
+              }}
+              variant="h4"
+            >
+              {isHover ? currentTime : greeting}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          width: "500px",
-          maxWidth: "calc(100% - 40px)",
-          mx: "auto",
-          flexDirection: "column",
-          gap: 2,
-        }}
-      >
-        <DailyCheckIn />
-        <ListItemButton
+        <Box
           sx={{
-            ...listItemStyles,
-            ...(!(dayjs().hour() >= 13) && { order: -1 }),
-            ...(completedDailyGoals && { order: 1 }),
+            display: "flex",
+            width: "500px",
+            maxWidth: "calc(100% - 40px)",
+            mx: "auto",
+            flexDirection: "column",
+            gap: 2,
           }}
-          onClick={() => router.push("/coach/routine")}
         >
-          <ListItemText
-            primary={<b>Daily goals</b>}
-            secondary={
-              coachData &&
-              completedGoals.length ==
-                coachData.filter((g) => !g.completed).length
-                ? null
-                : `Tap to ${completedGoals.length > 0 ? "resume" : "begin"}`
-            }
-          />
-          {completedDailyGoals && (
-            <Icon
-              sx={{
-                color: green[isDark ? "A400" : "A700"],
-                fontSize: "30px!important",
-              }}
-            >
-              check_circle
-            </Icon>
-          )}
-          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-        </ListItemButton>
-        <ListItemButton
-          sx={{ ...listItemStyles, ...(completedTodaysTasks && { order: 1 }) }}
-          onClick={() => router.push("/tasks/agenda/week")}
-        >
-          <ListItemText
-            primary={<b>Today&apos;s agenda</b>}
-            secondary={
-              data
-                ? data?.length === 0
-                  ? "No tasks"
-                  : data &&
-                    data.length -
-                      data.filter((task) => task.completed).length ==
-                      0
-                  ? "You finished all your tasks today!"
-                  : `${
-                      data &&
-                      data.length - data.filter((task) => task.completed).length
-                    } ${
-                      data &&
+          <DailyCheckIn />
+          <ListItemButton
+            sx={{
+              ...listItemStyles,
+              ...(!(dayjs().hour() >= 13) && { order: -1 }),
+              ...(completedDailyGoals && { order: 1 }),
+            }}
+            onClick={() => router.push("/coach/routine")}
+          >
+            <ListItemText
+              primary={<b>Daily goals</b>}
+              secondary={
+                coachData &&
+                completedGoals.length ==
+                  coachData.filter((g) => !g.completed).length
+                  ? null
+                  : `Tap to ${completedGoals.length > 0 ? "resume" : "begin"}`
+              }
+            />
+            {completedDailyGoals && (
+              <Icon
+                sx={{
+                  color: green[isDark ? "A400" : "A700"],
+                  fontSize: "30px!important",
+                }}
+              >
+                check_circle
+              </Icon>
+            )}
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+          </ListItemButton>
+          <ListItemButton
+            sx={{
+              ...listItemStyles,
+              ...(completedTodaysTasks && { order: 1 }),
+            }}
+            onClick={() => router.push("/tasks/agenda/week")}
+          >
+            <ListItemText
+              primary={<b>Today&apos;s agenda</b>}
+              secondary={
+                data
+                  ? data?.length === 0
+                    ? "No tasks"
+                    : data &&
                       data.length -
-                        data.filter((task) => task.completed).length !==
-                        1
-                        ? "tasks"
-                        : "task"
-                    } left`
-                : "Loading..."
-            }
-          />
-          {completedTodaysTasks && (
-            <Icon
-              sx={{
-                color: green[isDark ? "A400" : "A700"],
-                fontSize: "30px!important",
-              }}
-            >
-              check_circle
-            </Icon>
-          )}
-          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-        </ListItemButton>
-        <ListItemButton
-          sx={{
-            ...listItemStyles,
-            ...(backlogData?.length == 0 && { order: 1 }),
-          }}
-          onClick={() => router.push("/tasks/stream")}
-        >
-          <ListItemText
-            primary={<b>Backlog</b>}
-            secondary={`${(backlogData || []).length} unfinished task${
-              (backlogData || []).length !== 1 ? "s" : ""
-            }`}
-          />
-          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-        </ListItemButton>
-        <ListItemButton
-          sx={{
-            ...listItemStyles,
-            ...(upcomingData?.length == 0 && { order: 1 }),
-          }}
-          onClick={() => router.push("/tasks/stream")}
-        >
-          <ListItemText
-            primary={<b>Upcoming</b>}
-            secondary={`${(upcomingData || []).length} task${
-              (upcomingData || []).length !== 1 ? "s" : ""
-            }`}
-          />
-          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-        </ListItemButton>
+                        data.filter((task) => task.completed).length ==
+                        0
+                    ? "You finished all your tasks today!"
+                    : `${
+                        data &&
+                        data.length -
+                          data.filter((task) => task.completed).length
+                      } ${
+                        data &&
+                        data.length -
+                          data.filter((task) => task.completed).length !==
+                          1
+                          ? "tasks"
+                          : "task"
+                      } left`
+                  : "Loading..."
+              }
+            />
+            {completedTodaysTasks && (
+              <Icon
+                sx={{
+                  color: green[isDark ? "A400" : "A700"],
+                  fontSize: "30px!important",
+                }}
+              >
+                check_circle
+              </Icon>
+            )}
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+          </ListItemButton>
+          <ListItemButton
+            sx={{
+              ...listItemStyles,
+              ...(backlogData?.length == 0 && { order: 1 }),
+            }}
+            onClick={() => router.push("/tasks/stream")}
+          >
+            <ListItemText
+              primary={<b>Backlog</b>}
+              secondary={`${(backlogData || []).length} unfinished task${
+                (backlogData || []).length !== 1 ? "s" : ""
+              }`}
+            />
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+          </ListItemButton>
+          <ListItemButton
+            sx={{
+              ...listItemStyles,
+              ...(upcomingData?.length == 0 && { order: 1 }),
+            }}
+            onClick={() => router.push("/tasks/stream")}
+          >
+            <ListItemText
+              primary={<b>Upcoming</b>}
+              secondary={`${(upcomingData || []).length} task${
+                (upcomingData || []).length !== 1 ? "s" : ""
+              }`}
+            />
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+          </ListItemButton>
+        </Box>
+        <Toolbar />
       </Box>
-      <Toolbar />
-    </Box>
+    </motion.div>
   );
 }

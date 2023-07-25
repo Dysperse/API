@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { orange } from "@radix-ui/colors";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
@@ -41,7 +42,7 @@ export default function Render() {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
-    <Box>
+    <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
       {isMobile && (
         <Navbar
           showLogo
@@ -128,6 +129,6 @@ export default function Render() {
         </CardActionArea>
         <MyGoals />
       </Box>
-    </Box>
+    </motion.div>
   );
 }
