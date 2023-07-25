@@ -223,8 +223,9 @@ export default function Home() {
         >
           <Box
             sx={{
-              mb: { xs: 7, sm: 2 },
+              mb: { xs: 7, sm: 5 },
               px: { xs: 4, sm: 6 },
+              textAlign: { sm: "center" },
             }}
           >
             <Typography
