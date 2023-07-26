@@ -217,6 +217,7 @@ export default function Dashboard() {
                 sx={{
                   p: { sm: 3 },
                   pt: 10,
+                  pb: { xs: 10, sm: 3 },
                   maxWidth: "100vw",
                 }}
               >
