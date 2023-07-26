@@ -309,3 +309,12 @@ a {
     max-width: 0px;
   }
 }
+
+
+body {
+  /* Vendor-specific prefixes */
+  -webkit-overflow-scrolling: touch; /* For older Android versions */
+  -webkit-backface-visibility: hidden; /* For smooth scrolling on some devices */
+  /* Standard property */
+  overscroll-behavior: contain; /* This makes the scrolling elastic and stretchy */
+}
