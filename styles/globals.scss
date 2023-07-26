@@ -311,7 +311,7 @@ a {
 }
 
 
-body {
+html, body {
   /* Vendor-specific prefixes */
   -webkit-overflow-scrolling: touch; /* For older Android versions */
   -webkit-backface-visibility: hidden; /* For smooth scrolling on some devices */
