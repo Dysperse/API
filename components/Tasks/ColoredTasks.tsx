@@ -51,7 +51,7 @@ export function ColoredTasks({ setDrawerOpen }) {
       </Head>
       {data && data.length > 0 && (
         <Box sx={{ p: 3, pb: 1, pt: 5 }}>
-          <Typography className="font-heading" variant="h4" gutterBottom>
+          <Typography className="font-heading" variant="h3">
             Color coded
           </Typography>
           <Typography sx={{ mb: 2 }}>
