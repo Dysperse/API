@@ -16,12 +16,12 @@ import {
   Icon,
   IconButton,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   SwipeableDrawer,
   TextField,
   Tooltip,
   Typography,
+  colors,
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -74,17 +74,28 @@ const TaskColorPicker = React.memo(function TaskColorPicker({
             "teal",
             "green",
           ].map((colorChoice) => (
-            <ListItemButton key={color} selected={color === colorChoice}>
+            <ListItemButton
+              key={color}
+              selected={color === colorChoice}
+              onClick={() => {
+                setColor(colorChoice);
+                setOpen(false);
+              }}
+            >
+              <Box
+                sx={{
+                  background: colors[colorChoice][500],
+                  width: 15,
+                  height: 15,
+                  borderRadius: 999,
+                }}
+              />
               <ListItemText
                 primary={capitalizeFirstLetter(
                   colorChoice.replace("grey", "gray")
                 )}
               />
-              {color === colorChoice && (
-                <ListItemIcon>
-                  <Icon>check</Icon>
-                </ListItemIcon>
-              )}
+              {color === colorChoice && <Icon sx={{ ml: "auto" }}>check</Icon>}
             </ListItemButton>
           ))}
         </Box>
@@ -205,6 +216,7 @@ export const CreateTask = React.memo(function CreateTask({
         due: date ? date.toISOString() : "false",
         ...(parent && { parent }),
         boardId,
+        color,
         columnId: (column || { id: -1 }).id,
       });
       toast.dismiss();
@@ -731,7 +743,16 @@ export const CreateTask = React.memo(function CreateTask({
               </Tooltip>
               <Tooltip title={`Color (alt • h)`} placement="top">
                 <TaskColorPicker color={color} setColor={setColor}>
-                  <IconButton sx={styles(palette, pinned)} size="small">
+                  <IconButton
+                    sx={{
+                      ...styles(palette, false),
+                      ...(color !== "grey" && {
+                        background: colors[color][500],
+                        color: colors[color][100],
+                      }),
+                    }}
+                    size="small"
+                  >
                     <Icon className="outlined">label</Icon>
                   </IconButton>
                 </TaskColorPicker>

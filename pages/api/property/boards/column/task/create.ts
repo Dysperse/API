@@ -24,6 +24,7 @@ const handler = async (req, res) => {
             },
           },
         }),
+        color: req.query.color || "grey",
         completed: false,
         ...(req.query.image && { image: req.query.image }),
         pinned: req.query.pinned === "true",
