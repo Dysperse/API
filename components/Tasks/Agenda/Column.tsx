@@ -112,7 +112,7 @@ function ShareProgress({ day, children, data, tasksLeft }) {
               ? "Conquered my entire to-do list like a boss."
               : `Only ${tasksLeft} task${
                   tasksLeft === 1 ? "" : "s"
-                } left to conquer today.`}
+                } left to conquer.`}
           </Typography>
         </Box>
         <Box sx={{ p: 2 }}>
