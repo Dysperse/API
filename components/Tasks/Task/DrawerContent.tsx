@@ -119,6 +119,7 @@ export default function DrawerContent({
   const palette = useColor(session.themeColor, isDark);
 
   const handlePriorityChange = useCallback(async () => {
+    setAnchorEl(null);
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
     toast.promise(
       new Promise(async (resolve, reject) => {

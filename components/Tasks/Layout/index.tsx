@@ -683,55 +683,62 @@ export function TasksLayout({ open, setOpen, children }) {
           >
             <Icon>close</Icon>
             {taskSelection.filter((e) => e !== "-1").length}
+            {taskSelection.filter((e) => e !== "-1").length == 0 && "selected"}
           </Button>
-          <IconButton sx={{ color: palette[8] }}>
-            <Icon className="outlined">label</Icon>
-          </IconButton>
-          <IconButton sx={{ color: palette[8] }}>
-            <Icon className="outlined">check_circle</Icon>
-          </IconButton>
-          <ConfirmationModal
-            title={`Delete ${
-              taskSelection.filter((e) => e !== "-1").length
-            } item${
-              taskSelection.filter((e) => e !== "-1").length !== 1 ? "s" : ""
-            }?`}
-            question="This action cannot be undone"
-            callback={async () => {
-              try {
-                const res = await fetchRawApi(
-                  session,
-                  "property/boards/column/task/deleteMany",
-                  {
-                    selection: JSON.stringify(
-                      taskSelection.filter((e) => e !== "-1")
-                    ),
+          {taskSelection.filter((e) => e !== "-1").length !== 0 && (
+            <>
+              <IconButton sx={{ color: palette[8] }}>
+                <Icon className="outlined">label</Icon>
+              </IconButton>
+              <IconButton sx={{ color: palette[8] }}>
+                <Icon className="outlined">check_circle</Icon>
+              </IconButton>
+              <ConfirmationModal
+                title={`Delete ${
+                  taskSelection.filter((e) => e !== "-1").length
+                } item${
+                  taskSelection.filter((e) => e !== "-1").length !== 1
+                    ? "s"
+                    : ""
+                }?`}
+                question="This action cannot be undone"
+                callback={async () => {
+                  try {
+                    const res = await fetchRawApi(
+                      session,
+                      "property/boards/column/task/deleteMany",
+                      {
+                        selection: JSON.stringify(
+                          taskSelection.filter((e) => e !== "-1")
+                        ),
+                      }
+                    );
+                    if (res.errors !== 0) {
+                      toast.error(
+                        `Couldn't delete ${res.errors} item${
+                          res.errors == 1 ? "" : "s"
+                        }`,
+                        toastStyles
+                      );
+                      return;
+                    }
+                    toast.success("Deleted!", toastStyles);
+                    setTaskSelection([]);
+                  } catch {
+                    toast.error(
+                      "Couldn't delete tasks. Try again later.",
+                      toastStyles
+                    );
                   }
-                );
-                if (res.errors !== 0) {
-                  toast.error(
-                    `Couldn't delete ${res.errors} item${
-                      res.errors == 1 ? "" : "s"
-                    }`,
-                    toastStyles
-                  );
-                  return;
-                }
-                toast.success("Deleted!", toastStyles);
-                setTaskSelection([]);
-              } catch {
-                toast.error(
-                  "Couldn't delete tasks. Try again later.",
-                  toastStyles
-                );
-              }
-            }}
-            buttonText="Delete"
-          >
-            <IconButton sx={{ color: palette[8] }}>
-              <Icon className="outlined">delete</Icon>
-            </IconButton>
-          </ConfirmationModal>
+                }}
+                buttonText="Delete"
+              >
+                <IconButton sx={{ color: palette[8] }}>
+                  <Icon className="outlined">delete</Icon>
+                </IconButton>
+              </ConfirmationModal>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       {isMobile && (
