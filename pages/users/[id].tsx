@@ -174,23 +174,13 @@ function Page() {
         position="sticky"
         sx={{
           background: palette[1],
-          borderColor: palette[3],
+          borderColor: "transparent",
         }}
       >
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
           <IconButton onClick={() => router.push("/users")}>
-            <Icon>west</Icon>
+            <Icon>arrow_back_ios_new</Icon>
           </IconButton>
-          <Typography
-            sx={{
-              fontWeight: 700,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {data ? data.name : "Profile"}
-          </Typography>
           <SearchUser />
           {!isCurrentUser && data?.color && (
             <ConfirmationModal

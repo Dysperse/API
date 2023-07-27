@@ -19,7 +19,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Task } from ".";
@@ -93,7 +93,7 @@ export function isAddress(str) {
   return false;
 }
 
-export default function DrawerContent({
+const DrawerContent = React.memo(function DrawerContent({
   handleDelete,
   handleMutate,
   isDateDependent,
@@ -101,13 +101,12 @@ export default function DrawerContent({
   setTaskData,
   mutationUrl,
   data,
-}) {
+}: any) {
   const storage = useAccountStorage();
   const session = useSession();
   const dateRef = useRef();
 
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const [open, setOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
   const handleMenuClick = (event: any) => setAnchorEl(event.currentTarget);
@@ -633,4 +632,5 @@ export default function DrawerContent({
       </Box> */}
     </>
   );
-}
+});
+export default DrawerContent;

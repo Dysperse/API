@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";
-import {
+import React, {
   useCallback,
   useContext,
   useEffect,
@@ -38,7 +38,7 @@ const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
 );
 
-export const Task: any = function Task({
+export const Task: any = React.memo(function Task({
   sx = {},
   handleMutate = () => {},
   isDateDependent = false,
@@ -218,7 +218,7 @@ export const Task: any = function Task({
               },
             },
             "&:focus-within": {
-              background: palette[2],
+              background: { sm: palette[2] },
             },
             ...sx,
             ...(isSelected && {
@@ -454,4 +454,4 @@ export const Task: any = function Task({
         ))}
     </>
   );
-};
+});

@@ -428,7 +428,7 @@ export default function Page() {
         >
           <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
             <IconButton onClick={() => router.push("/")}>
-              <Icon>west</Icon>
+              <Icon>arrow_back_ios_new</Icon>
             </IconButton>
             <IconButton
               onClick={() => router.push("/settings")}
