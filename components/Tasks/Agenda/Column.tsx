@@ -221,7 +221,7 @@ export const Column: any = memo(function Column({
         const dueDate = new Date(task.due);
         return dueDate >= startTime && dueDate <= endTime;
       }),
-    [data, startTime, endTime]
+    [data, startTime, endTime],
   );
 
   const isPast =
@@ -267,9 +267,9 @@ export const Column: any = memo(function Column({
           ? -1
           : !e.pinned && d.pinned
           ? 1
-          : 0
+          : 0,
       ),
-    [data]
+    [data],
   );
 
   const ref: any = useRef();
@@ -302,7 +302,7 @@ export const Column: any = memo(function Column({
     } catch (e) {
       toast.error(
         "Yikes! We couldn't get your tasks. Please try again later",
-        toastStyles
+        toastStyles,
       );
     }
     setLoading(false);
