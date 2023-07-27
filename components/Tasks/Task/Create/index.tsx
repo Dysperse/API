@@ -144,6 +144,8 @@ export const CreateTask = React.memo(function CreateTask({
   const palette = useColor(session.themeColor, isDark);
   const selection = useContext(SelectionContext);
 
+  const [imageUploading, setImageUploading] = useState<boolean>(false);
+
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState("");
@@ -242,6 +244,7 @@ export const CreateTask = React.memo(function CreateTask({
       pinned,
       deferredTitle,
       session,
+      color,
     ]
   );
 
@@ -686,7 +689,13 @@ export const CreateTask = React.memo(function CreateTask({
                   </Icon>
                 </IconButton>
               </Tooltip>
-              <ImageModal styles={styles} image={image} setImage={setImage} />
+              <ImageModal
+                imageUploading={imageUploading}
+                setImageUploading={setImageUploading}
+                styles={styles}
+                image={image}
+                setImage={setImage}
+              />
               <Tooltip title="Emoji (alt • d)" placement="top">
                 <div>
                   <EmojiPicker
@@ -748,7 +757,7 @@ export const CreateTask = React.memo(function CreateTask({
                       ...styles(palette, false),
                       ...(color !== "grey" && {
                         "& *": {
-                          color: colors[color]['A700'] + "!important",
+                          color: colors[color]["A700"] + "!important",
                         },
                       }),
                     }}
@@ -786,7 +795,7 @@ export const CreateTask = React.memo(function CreateTask({
                   <LoadingButton
                     loading={loading}
                     disabled={
-                      deferredTitle.trim() === "" || deferredTitle.length > 200
+                      deferredTitle.trim() === "" || deferredTitle.length > 200 || imageUploading
                     }
                     type="submit"
                     disableRipple

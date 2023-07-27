@@ -8,16 +8,21 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { FileDrop } from "react-file-drop";
 import toast from "react-hot-toast";
 
-export function ImageModal({ image, setImage, styles }) {
+export const ImageModal = React.memo(function ImageModal({
+  imageUploading,
+  setImageUploading,
+  image,
+  setImage,
+  styles,
+}: any) {
   const session = useSession();
   const fileInputRef: any = useRef(null);
 
-  const [imageUploading, setImageUploading] = useState<boolean>(false);
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const handleUpload = useCallback(
@@ -115,4 +120,4 @@ export function ImageModal({ image, setImage, styles }) {
       />
     </>
   );
-}
+});
