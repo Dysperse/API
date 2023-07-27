@@ -414,6 +414,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           tooltip: ({ theme }) =>
             theme.unstable_sx({
+              pointerEvents: "none",
               "& .MuiTooltip-arrow::before": {
                 background: palette[11],
               },
