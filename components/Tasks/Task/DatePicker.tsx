@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
-import { cloneElement, useState } from "react";
+import React, { cloneElement, useState } from "react";
 import DatePicker from "react-calendar";
 
-export const SelectDateModal: any = function SelectDateModal({
+export const SelectDateModal: any = React.memo(function SelectDateModal({
   ref,
   styles,
   date,
@@ -217,4 +217,4 @@ export const SelectDateModal: any = function SelectDateModal({
       </SwipeableDrawer>
     </>
   );
-};
+});

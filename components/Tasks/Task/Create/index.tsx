@@ -1,3 +1,4 @@
+import { Puller } from "@/components/Puller";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
@@ -15,6 +16,8 @@ import {
   Icon,
   IconButton,
   ListItemButton,
+  ListItemIcon,
+  ListItemText,
   SwipeableDrawer,
   TextField,
   Tooltip,
@@ -26,6 +29,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { motion } from "framer-motion";
 import React, {
+  cloneElement,
   useCallback,
   useContext,
   useDeferredValue,
@@ -40,6 +44,54 @@ import EmojiPicker from "../../../EmojiPicker";
 import { SelectionContext } from "../../Layout";
 import { SelectDateModal } from "../DatePicker";
 import { ImageModal } from "./ImageModal";
+
+const TaskColorPicker = React.memo(function TaskColorPicker({
+  children,
+  color,
+  setColor,
+}: any) {
+  const [open, setOpen] = useState(false);
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen(true),
+  });
+  return (
+    <>
+      {trigger}
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor="bottom"
+      >
+        <Puller showOnDesktop />
+        <Box sx={{ p: 2, pt: 0 }}>
+          {[
+            "grey",
+            "orange",
+            "red",
+            "pink",
+            "purple",
+            "indigo",
+            "teal",
+            "green",
+          ].map((colorChoice) => (
+            <ListItemButton key={color} selected={color === colorChoice}>
+              <ListItemText
+                primary={capitalizeFirstLetter(
+                  colorChoice.replace("grey", "gray")
+                )}
+              />
+              {color === colorChoice && (
+                <ListItemIcon>
+                  <Icon>check</Icon>
+                </ListItemIcon>
+              )}
+            </ListItemButton>
+          ))}
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+});
 
 export const taskButtonStyles = (palette) => ({
   color: palette[12],
@@ -85,6 +137,7 @@ export const CreateTask = React.memo(function CreateTask({
   const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [color, setColor] = useState("grey");
   const [pinned, setPinned] = useState<boolean>(false);
   const [image, setImage] = useState<string | null>(null);
   const [showDescription, setShowDescription] = useState<boolean>(false);
@@ -677,13 +730,11 @@ export const CreateTask = React.memo(function CreateTask({
                 </IconButton>
               </Tooltip>
               <Tooltip title={`Color (alt • h)`} placement="top">
-                <IconButton
-                  onClick={togglePin}
-                  sx={styles(palette, pinned)}
-                  size="small"
-                >
-                  <Icon className="outlined">label</Icon>
-                </IconButton>
+                <TaskColorPicker color={color} setColor={setColor}>
+                  <IconButton sx={styles(palette, pinned)} size="small">
+                    <Icon className="outlined">label</Icon>
+                  </IconButton>
+                </TaskColorPicker>
               </Tooltip>
               {!isSubTask && (
                 <SelectDateModal
