@@ -12,18 +12,11 @@ export const sessionData = async (providedToken) => {
     providedToken,
     process.env.SECRET_COOKIE_PASSWORD
   );
+  
+   const token: string = accessToken;
+   const info = await getUserData(token);
 
-  const value = cacheData.get(accessToken);
-  if (value) {
-    return value;
-  } else {
-    const hours = 69;
-    const token: string = accessToken;
-    const info = await getUserData(token);
-
-    cacheData.put(accessToken, info, hours * 1000 * 60 * 60);
-    return JSON.parse(JSON.stringify(info));
-  }
+  return JSON.parse(JSON.stringify(info));
 };
 
 /**
