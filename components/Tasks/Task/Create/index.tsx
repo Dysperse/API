@@ -682,13 +682,7 @@ export function CreateTask({
                   sx={styles(palette, pinned)}
                   size="small"
                 >
-                  <Icon
-                    sx={{
-                      transition: "all .2s",
-                    }}
-                  >
-                    label
-                  </Icon>
+                  <Icon className="outlined">label</Icon>
                 </IconButton>
               </Tooltip>
               {!isSubTask && (
