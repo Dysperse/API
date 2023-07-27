@@ -77,7 +77,7 @@ const TaskColorPicker = React.memo(function TaskColorPicker({
             <ListItemButton key={color} selected={color === colorChoice}>
               <ListItemText
                 primary={capitalizeFirstLetter(
-                  colorChoice.replace("grey", "gray")
+                  colorChoice.replace("grey", "gray"),
                 )}
               />
               {color === colorChoice && (
@@ -146,7 +146,7 @@ export const CreateTask = React.memo(function CreateTask({
   const [showLocation, setShowLocation] = useState<boolean>(false);
 
   const [date, setDate] = useState<any>(
-    new Date(defaultDate || new Date().toISOString()) || new Date()
+    new Date(defaultDate || new Date().toISOString()) || new Date(),
   );
 
   const deferredDate = useDeferredValue(date);
@@ -230,7 +230,7 @@ export const CreateTask = React.memo(function CreateTask({
       pinned,
       deferredTitle,
       session,
-    ]
+    ],
   );
 
   const toggleDescription = () => {
@@ -286,7 +286,7 @@ export const CreateTask = React.memo(function CreateTask({
         }),
       };
     },
-    [palette]
+    [palette],
   );
 
   useEffect(() => {
@@ -306,7 +306,7 @@ export const CreateTask = React.memo(function CreateTask({
       containScroll: "trimSnaps",
       loop: false,
     },
-    [WheelGesturesPlugin() as any]
+    [WheelGesturesPlugin() as any],
   );
 
   const generateChipLabel = useCallback(
@@ -332,13 +332,13 @@ export const CreateTask = React.memo(function CreateTask({
               onClick={() =>
                 setDate(
                   dayjs(deferredDate).hour(
-                    Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
-                  )
+                    Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0),
+                  ),
                 )
               }
               sx={chipStyles(
                 dayjs(deferredDate).hour() ===
-                  Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
+                  Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0),
               )}
             />
           </motion.div>
@@ -347,7 +347,7 @@ export const CreateTask = React.memo(function CreateTask({
 
       return null;
     },
-    [chipStyles, deferredDate]
+    [chipStyles, deferredDate],
   );
 
   const [chipComponent, setChipComponent] = useState<any>(null);
@@ -370,7 +370,7 @@ export const CreateTask = React.memo(function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, pinned]
+    [open, pinned],
   );
 
   useHotkeys(
@@ -382,7 +382,7 @@ export const CreateTask = React.memo(function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open]
+    [open],
   );
 
   useHotkeys(
@@ -394,7 +394,7 @@ export const CreateTask = React.memo(function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, emojiRef]
+    [open, emojiRef],
   );
 
   useHotkeys(
@@ -406,7 +406,7 @@ export const CreateTask = React.memo(function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, toggleLocation]
+    [open, toggleLocation],
   );
   useHotkeys(
     "alt+g",
@@ -417,7 +417,7 @@ export const CreateTask = React.memo(function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, toggleDescription]
+    [open, toggleDescription],
   );
 
   useHotkeys(
@@ -429,7 +429,7 @@ export const CreateTask = React.memo(function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open]
+    [open],
   );
 
   return (
@@ -594,7 +594,7 @@ export const CreateTask = React.memo(function CreateTask({
               onChange={(e) => {
                 if (e.target.value.length === 1) {
                   setTitle(
-                    capitalizeFirstLetter(e.target.value.replace(/\n/g, ""))
+                    capitalizeFirstLetter(e.target.value.replace(/\n/g, "")),
                   );
                 } else {
                   setTitle(e.target.value.replace(/\n/g, ""));
