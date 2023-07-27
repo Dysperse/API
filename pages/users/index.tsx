@@ -556,29 +556,24 @@ export default function Page() {
               <CircularProgress />
             </Box>
           )}
-          <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
-            Birthdays
-          </Typography>
+          {data && data.friends.length !== 0 && (
+            <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
+              Birthdays
+            </Typography>
+          )}
           <UpcomingBirthdays data={data} />
           {data && data.friends.length == 0 && (
             <Box sx={{ px: 2 }}>
-              <Alert severity="info">
-                You aren&apos;t following anyone yet. Follow someone to view
-                their birthday
+              <Alert severity="info" sx={{ mb: 2 }}>
+                You aren&apos;t following anyone yet.
               </Alert>
             </Box>
           )}
-          {data && data.friends.length == 0 && (
-            <Box sx={{ px: 2 }}>
-              <Alert severity="info">
-                You aren&apos;t following anyone yet. Follow someone to view
-                their availability
-              </Alert>
-            </Box>
+          {data && data.friends.length !== 0 && (
+            <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
+              Friends
+            </Typography>
           )}
-          <Typography variant="h6" sx={{ px: 2, mt: 3, mb: 2 }}>
-            Friends
-          </Typography>
           <Box sx={{ px: { sm: 2 }, mt: 1 }}>
             <Box sx={{ mr: isMobile ? 0 : -2 }}>
               <Masonry columns={{ xs: 1, sm: 3 }} spacing={isMobile ? 0 : 2}>
