@@ -75,7 +75,7 @@ const TaskColorPicker = React.memo(function TaskColorPicker({
             "green",
           ].map((colorChoice) => (
             <ListItemButton
-              key={color}
+              key={colorChoice}
               selected={color === colorChoice}
               onClick={() => {
                 setColor(colorChoice);
@@ -747,13 +747,15 @@ export const CreateTask = React.memo(function CreateTask({
                     sx={{
                       ...styles(palette, false),
                       ...(color !== "grey" && {
-                        background: colors[color][500],
+                        background: colors[color][900],
                         color: colors[color][100],
                       }),
                     }}
                     size="small"
                   >
-                    <Icon className="outlined">label</Icon>
+                    <Icon className={color === "grey" ? "outlined" : ""}>
+                      label
+                    </Icon>
                   </IconButton>
                 </TaskColorPicker>
               </Tooltip>
