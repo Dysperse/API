@@ -93,7 +93,7 @@ export function CreateTask({
   const [showLocation, setShowLocation] = useState<boolean>(false);
 
   const [date, setDate] = useState<any>(
-    new Date(defaultDate || new Date().toISOString()) || new Date()
+    new Date(defaultDate || new Date().toISOString()) || new Date(),
   );
 
   const deferredDate = useDeferredValue(date);
@@ -177,7 +177,7 @@ export function CreateTask({
       pinned,
       deferredTitle,
       session,
-    ]
+    ],
   );
 
   const toggleDescription = () => {
@@ -233,7 +233,7 @@ export function CreateTask({
         }),
       };
     },
-    [palette]
+    [palette],
   );
 
   useEffect(() => {
@@ -253,7 +253,7 @@ export function CreateTask({
       containScroll: "trimSnaps",
       loop: false,
     },
-    [WheelGesturesPlugin() as any]
+    [WheelGesturesPlugin() as any],
   );
 
   const generateChipLabel = useCallback(
@@ -279,13 +279,13 @@ export function CreateTask({
               onClick={() =>
                 setDate(
                   dayjs(deferredDate).hour(
-                    Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
-                  )
+                    Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0),
+                  ),
                 )
               }
               sx={chipStyles(
                 dayjs(deferredDate).hour() ===
-                  Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
+                  Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0),
               )}
             />
           </motion.div>
@@ -294,7 +294,7 @@ export function CreateTask({
 
       return null;
     },
-    [chipStyles, deferredDate]
+    [chipStyles, deferredDate],
   );
 
   const [chipComponent, setChipComponent] = useState<any>(null);
@@ -317,7 +317,7 @@ export function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, pinned]
+    [open, pinned],
   );
 
   useHotkeys(
@@ -329,7 +329,7 @@ export function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open]
+    [open],
   );
 
   useHotkeys(
@@ -341,7 +341,7 @@ export function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, emojiRef]
+    [open, emojiRef],
   );
 
   useHotkeys(
@@ -353,7 +353,7 @@ export function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, toggleLocation]
+    [open, toggleLocation],
   );
   useHotkeys(
     "alt+g",
@@ -364,7 +364,7 @@ export function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, toggleDescription]
+    [open, toggleDescription],
   );
 
   useHotkeys(
@@ -376,7 +376,7 @@ export function CreateTask({
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open]
+    [open],
   );
 
   return (
@@ -541,7 +541,7 @@ export function CreateTask({
               onChange={(e) => {
                 if (e.target.value.length === 1) {
                   setTitle(
-                    capitalizeFirstLetter(e.target.value.replace(/\n/g, ""))
+                    capitalizeFirstLetter(e.target.value.replace(/\n/g, "")),
                   );
                 } else {
                   setTitle(e.target.value.replace(/\n/g, ""));
