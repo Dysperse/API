@@ -552,7 +552,7 @@ const DrawerContent = React.memo(function DrawerContent({
           placeholder={
             storage?.isReached === true
               ? "You've reached your account storage limits and you can't add a description."
-              : "Click to add description"
+              : "Click to add note..."
           }
           disabled={
             storage?.isReached === true || session.permission === "read-only"

@@ -410,6 +410,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         defaultProps: {
           enterDelay: 0,
           arrow: true,
+          disableInteractive: true,
         },
         styleOverrides: {
           tooltip: ({ theme }) =>
