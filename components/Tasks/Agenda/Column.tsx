@@ -54,6 +54,8 @@ function ShareProgress({ day, children, data, tasksLeft }) {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
   const trigger = cloneElement(children, {
     onClick: (e) => {
       e.stopPropagation();
@@ -61,8 +63,12 @@ function ShareProgress({ day, children, data, tasksLeft }) {
     },
   });
 
-  const handleExport = () => {
-    exportAsImage(ref.current, "progress.png");
+  const handleExport = async () => {
+    setExporting(true);
+    setTimeout(async () => {
+      await exportAsImage(ref.current, "progress.png");
+    }, 50);
+    setExporting(false);
   };
 
   return (
@@ -84,6 +90,9 @@ function ShareProgress({ day, children, data, tasksLeft }) {
             p: 3,
             position: "relative",
             color: "#000",
+            ...(exporting && {
+              transform: "scale(3)",
+            }),
           }}
           ref={ref}
         >
@@ -119,6 +128,7 @@ function ShareProgress({ day, children, data, tasksLeft }) {
             onClick={handleExport}
             variant="outlined"
             size="large"
+            disabled={exporting}
             fullWidth
             sx={{ borderWidth: "2px!important" }}
           >
