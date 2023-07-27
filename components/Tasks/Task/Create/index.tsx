@@ -47,9 +47,14 @@ export const taskButtonStyles = (palette) => ({
   borderRadius: { xs: 0, sm: 3 },
   transition: "none",
   gap: 1.5,
-  "&:focus-within, &:hover, &:active": {
+  "&:focus-within,  &:active": {
     background: {
       xs: `${palette[2]} !important`,
+      sm: `${palette[3]} !important`,
+    },
+  },
+  "&:hover": {
+    background: {
       sm: `${palette[3]} !important`,
     },
   },
