@@ -25,7 +25,7 @@ import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { motion } from "framer-motion";
-import {
+import React, {
   useCallback,
   useContext,
   useDeferredValue,
@@ -62,7 +62,7 @@ export const taskButtonStyles = (palette) => ({
   px: { xs: 2.5, sm: 1.5 },
 });
 
-export function CreateTask({
+export const CreateTask = React.memo(function CreateTask({
   isSubTask = false,
   sx = {},
   closeOnCreate = false,
@@ -797,4 +797,4 @@ export function CreateTask({
       </ListItemButton>
     </>
   );
-}
+});

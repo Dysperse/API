@@ -1,3 +1,5 @@
+import { exportAsImage } from "@/components/Coach/Goal/Options";
+import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -7,11 +9,15 @@ import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
   Box,
+  Button,
   CircularProgress,
   Collapse,
   Divider,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
+  SwipeableDrawer,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -19,7 +25,15 @@ import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  cloneElement,
+  memo,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { SelectionContext } from "../Layout";
@@ -33,6 +47,136 @@ interface AgendaColumnProps {
   data: any;
   navigation: number;
 }
+
+function ShareProgress({ children }) {
+  const ref = useRef();
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const [open, setOpen] = useState(false);
+  const trigger = cloneElement(children, {
+    onClick: (e) => {
+      e.stopPropagation();
+      setOpen(true);
+    },
+  });
+
+  const handleExport = () => {
+    exportAsImage(ref.current, "progress.png");
+  };
+
+  return (
+    <>
+      {trigger}
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        anchor="bottom"
+        sx={{ zIndex: 9999999 }}
+        onKeyDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Puller showOnDesktop />
+        <Box
+          sx={{
+            background: palette[9],
+            p: 3,
+            position: "relative",
+            color: palette[1],
+          }}
+          ref={ref}
+        >
+          <picture>
+            <img
+              src="/logo.svg"
+              alt="Logo"
+              style={{
+                position: "absolute",
+                top: "20px",
+                right: "20px",
+                width: "40px",
+                height: "40px",
+              }}
+            />
+          </picture>
+
+          <Typography sx={{ opacity: 0.7, mt: 10 }}>
+            {dayjs().format("MMMM D, YYYY")}
+          </Typography>
+          <Typography
+            variant="h3"
+            className="font-heading"
+            gutterBottom
+            sx={{ mt: 1 }}
+          >
+            I finished __ tasks today!
+          </Typography>
+        </Box>
+        <Box sx={{ p: 2 }}>
+          <Button
+            onClick={handleExport}
+            variant="outlined"
+            size="large"
+            fullWidth
+            sx={{ borderWidth: "2px!important" }}
+          >
+            <Icon>download</Icon>Save to gallery
+          </Button>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
+const ColumnMenu = React.memo(function ColumnMenu({ day }: any) {
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const selection = useContext(SelectionContext);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event: any) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => setAnchorEl(null);
+
+  return (
+    <>
+      <IconButton
+        onClick={handleClick}
+        sx={{
+          ml: "auto",
+          color: palette[6],
+          mr: -1,
+          ...(selection.values.length > 0 && { opacity: 0 }),
+        }}
+      >
+        <Icon className="outlined">more_horiz</Icon>
+      </IconButton>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        <MenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClose();
+            selection.set([...new Set([...selection.values, "-1"])]);
+          }}
+        >
+          <Icon>select</Icon>
+          Select
+        </MenuItem>
+
+        <ShareProgress>
+          <MenuItem>
+            <Icon>ios_share</Icon>
+            Share progress
+          </MenuItem>
+        </ShareProgress>
+      </Menu>
+    </>
+  );
+});
 
 export const Column: any = memo(function Column({
   mutationUrl,
@@ -262,21 +406,7 @@ export const Column: any = memo(function Column({
               {dayjs(day.unchanged).format(day.heading)}
             </Typography>
 
-            <IconButton
-              size="small"
-              sx={{
-                ml: "auto",
-                color: palette[6],
-                mr: -1,
-                ...(selection.values.length > 0 && { opacity: 0 }),
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                selection.set([...new Set([...selection.values, "-1"])]);
-              }}
-            >
-              <Icon className="outlined">edit</Icon>
-            </IconButton>
+            <ColumnMenu day={day} />
           </Box>
           {subheading !== "-" && (
             <Typography
