@@ -16,7 +16,7 @@ import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Task";
 
-export function ColoredTasks({ setDrawerOpen }) {
+export function ColoredTasks() {
   const { data, url, error } = useApi("property/tasks/color-coded", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });

@@ -664,6 +664,7 @@ export function TasksLayout({ open, setOpen, children }) {
           ...(!isSelecting && {
             opacity: 0,
             transform: "scale(.5)",
+            pointerEvents: "none",
           }),
           transition: "all .4s",
           zIndex: 999999,
