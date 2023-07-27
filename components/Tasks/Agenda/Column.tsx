@@ -48,7 +48,7 @@ interface AgendaColumnProps {
   navigation: number;
 }
 
-function ShareProgress({ children }) {
+function ShareProgress({ day, children, data, tasksLeft }) {
   const ref = useRef();
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -102,15 +102,17 @@ function ShareProgress({ children }) {
           </picture>
 
           <Typography sx={{ opacity: 0.7, mt: 10 }}>
-            {dayjs().format("MMMM D, YYYY")}
+            {dayjs(day.unchanged).format("MMMM D, YYYY")}
           </Typography>
-          <Typography
-            variant="h3"
-            className="font-heading"
-            gutterBottom
-            sx={{ mt: 1 }}
-          >
-            I finished __ tasks today!
+          <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
+            I finished {data.length - tasksLeft} tasks today!
+          </Typography>
+          <Typography variant="h6" gutterBottom sx={{ opacity: 0.8 }}>
+            {tasksLeft === 0
+              ? "Conquered my entire to-do list like a boss."
+              : `Only ${tasksLeft} task${
+                  tasksLeft === 1 ? "" : "s"
+                } left to conquer today.`}
           </Typography>
         </Box>
         <Box sx={{ p: 2 }}>
@@ -128,7 +130,11 @@ function ShareProgress({ children }) {
     </>
   );
 }
-const ColumnMenu = React.memo(function ColumnMenu({ day }: any) {
+const ColumnMenu = React.memo(function ColumnMenu({
+  day,
+  tasksLeft,
+  data,
+}: any) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const selection = useContext(SelectionContext);
@@ -167,8 +173,8 @@ const ColumnMenu = React.memo(function ColumnMenu({ day }: any) {
           Select
         </MenuItem>
 
-        <ShareProgress>
-          <MenuItem>
+        <ShareProgress data={data} tasksLeft={tasksLeft} day={day}>
+          <MenuItem disabled={data.length == 0 || data.length === tasksLeft}>
             <Icon>ios_share</Icon>
             Share progress
           </MenuItem>
@@ -406,7 +412,7 @@ export const Column: any = memo(function Column({
               {dayjs(day.unchanged).format(day.heading)}
             </Typography>
 
-            <ColumnMenu day={day} />
+            <ColumnMenu tasksLeft={tasksLeft} data={data} day={day} />
           </Box>
           {subheading !== "-" && (
             <Typography
