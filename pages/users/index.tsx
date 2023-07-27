@@ -74,7 +74,7 @@ function Friend({ friend }) {
 
   // Parse the working hours string into an array of objects
   const workingHours = JSON.parse(
-    friend?.following?.Profile?.workingHours || "[]"
+    friend?.following?.Profile?.workingHours || "[]",
   );
 
   // Get the current day of the week (1 = Monday, 2 = Tuesday, etc.)
@@ -82,7 +82,7 @@ function Friend({ friend }) {
 
   // Find the working hours for the current day of the week
   const currentWorkingHours = workingHours.find(
-    (hours) => hours.dayOfWeek === currentDayOfWeek
+    (hours) => hours.dayOfWeek === currentDayOfWeek,
   );
 
   // Check if the current time falls within the working hours
@@ -309,7 +309,7 @@ export function GroupModal({
 
   const palette = useColor(
     session?.property?.profile?.color,
-    useDarkMode(session.darkMode)
+    useDarkMode(session.darkMode),
   );
 
   const properties = [...session.properties, ...(data || [])]
@@ -441,7 +441,7 @@ export default function Page() {
               onClick={() =>
                 window.open(
                   "https://blog.dysperse.com/series/support?utm_source=" +
-                    window.location.hostname
+                    window.location.hostname,
                 )
               }
             >

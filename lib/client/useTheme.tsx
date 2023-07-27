@@ -6,14 +6,14 @@ import { useColor } from "./useColor";
 
 const Transition = React.forwardRef(function Transition(
   props: any,
-  ref: React.Ref<unknown>
+  ref: React.Ref<unknown>,
 ) {
   return <Grow in={props.open} ref={ref} {...props} />;
 });
 
 const DrawerTransition = React.forwardRef(function Transition(
   props: any,
-  ref: React.Ref<unknown>
+  ref: React.Ref<unknown>,
 ) {
   return (
     <Slide
