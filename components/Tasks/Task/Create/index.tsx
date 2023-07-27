@@ -47,13 +47,13 @@ export const taskButtonStyles = (palette) => ({
   borderRadius: { xs: 0, sm: 3 },
   transition: "none",
   gap: 1.5,
-  "&:focus-within,  &:active": {
+  "&:active": {
     background: {
       xs: `${palette[2]} !important`,
       sm: `${palette[3]} !important`,
     },
   },
-  "&:hover": {
+  "&:focus-within, &:hover": {
     background: {
       sm: `${palette[3]} !important`,
     },
@@ -662,7 +662,7 @@ export function CreateTask({
                   </Icon>
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Description (alt • g)" placement="top">
+              <Tooltip title="Note (alt • g)" placement="top">
                 <IconButton
                   onClick={toggleDescription}
                   sx={{
@@ -673,6 +673,22 @@ export function CreateTask({
                 >
                   <Icon {...(!showDescription && { className: "outlined" })}>
                     sticky_note_2
+                  </Icon>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={`Color (alt • h)`} placement="top">
+                <IconButton
+                  onClick={togglePin}
+                  sx={styles(palette, pinned)}
+                  size="small"
+                >
+                  <Icon
+                    className={pinned ? "rounded" : "outlined"}
+                    sx={{
+                      transition: "all .2s",
+                    }}
+                  >
+                    label
                   </Icon>
                 </IconButton>
               </Tooltip>
