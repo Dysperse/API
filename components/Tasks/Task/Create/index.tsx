@@ -747,8 +747,9 @@ export const CreateTask = React.memo(function CreateTask({
                     sx={{
                       ...styles(palette, false),
                       ...(color !== "grey" && {
-                        background: colors[color][900],
-                        color: colors[color][100],
+                        "& *": {
+                          color: colors[color][900] + "!important",
+                        },
                       }),
                     }}
                     size="small"
