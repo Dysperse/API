@@ -83,7 +83,7 @@ function ShareProgress({ day, children, data, tasksLeft }) {
             background: palette[9],
             p: 3,
             position: "relative",
-            color: palette[1],
+            color: "#000",
           }}
           ref={ref}
         >
@@ -111,9 +111,7 @@ function ShareProgress({ day, children, data, tasksLeft }) {
           <Typography variant="h6" gutterBottom sx={{ opacity: 0.8 }}>
             {tasksLeft === 0
               ? "Conquered my entire to-do list like a boss."
-              : `Only ${tasksLeft} task${
-                  tasksLeft === 1 ? "" : "s"
-                } left to conquer.`}
+              : `Only ${tasksLeft} more to conquer.`}
           </Typography>
         </Box>
         <Box sx={{ p: 2 }}>
