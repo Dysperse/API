@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 
 export function AboutStep({ styles, navigation }) {
   return (
@@ -17,6 +17,9 @@ export function AboutStep({ styles, navigation }) {
         <Typography>
           It&apos;s time to redefine the standard for productivity.
         </Typography>
+        <Button size="small" sx={{ mt: 2 }} onClick={() => navigation.set(5)}>
+          Skip setup
+        </Button>
       </Container>
     </Box>
   );
