@@ -215,6 +215,9 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                 lineHeight: "85px",
                 textOverflow: "ellipsis",
                 overflow: "hidden",
+                display: "-webkit-box",
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: "vertical",
               }}
               className="font-heading"
             >
