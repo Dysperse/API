@@ -683,7 +683,7 @@ export function TasksLayout({ open, setOpen, children }) {
           >
             <Icon>close</Icon>
             {taskSelection.filter((e) => e !== "-1").length}
-            {taskSelection.filter((e) => e !== "-1").length == 0 && "selected"}
+            {taskSelection.filter((e) => e !== "-1").length == 0 && "selecte d"}
           </Button>
           {taskSelection.filter((e) => e !== "-1").length !== 0 && (
             <>

@@ -126,10 +126,13 @@ export const Column: any = memo(function Column({
   const ref: any = useRef();
 
   const [loading, setLoading] = useState(false);
-  const scrollIntoView = async () => {
+  const scrollIntoView = async (load = true) => {
     if (window.innerWidth > 600) {
-      document.body.scrollTop = 0;
-      ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+      if (load) {
+        document.body.scrollTop = 0;
+        ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
       setTimeout(() => {
         ref.current?.scrollIntoView({
           block: "nearest",
@@ -140,6 +143,8 @@ export const Column: any = memo(function Column({
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+
+    if (!load) return;
 
     setLoading(true);
     try {
@@ -163,6 +168,7 @@ export const Column: any = memo(function Column({
     <Box
       ref={ref}
       {...(isToday && { id: "activeHighlight" })}
+      onClick={() => scrollIntoView(false)}
       sx={{
         scrollSnapAlign: "center",
         borderRight: { sm: "1px solid" },
@@ -208,7 +214,7 @@ export const Column: any = memo(function Column({
         </Collapse>
 
         <Box
-          onClick={scrollIntoView}
+          onClick={() => scrollIntoView(true)}
           sx={{
             color: isDark ? "#fff" : "#000",
             py: 3.5,
