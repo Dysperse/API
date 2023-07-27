@@ -683,7 +683,6 @@ export function CreateTask({
                   size="small"
                 >
                   <Icon
-                    className={pinned ? "rounded" : "outlined"}
                     sx={{
                       transition: "all .2s",
                     }}
