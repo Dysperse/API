@@ -105,7 +105,8 @@ function ShareProgress({ day, children, data, tasksLeft }) {
             {dayjs(day.unchanged).format("MMMM D, YYYY")}
           </Typography>
           <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
-            I finished {data.length - tasksLeft} tasks today!
+            I finished {data.length - tasksLeft} task
+            {data.length - tasksLeft !== 1 && "s"} today!
           </Typography>
           <Typography variant="h6" gutterBottom sx={{ opacity: 0.8 }}>
             {tasksLeft === 0
