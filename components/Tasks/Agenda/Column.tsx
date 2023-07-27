@@ -170,7 +170,7 @@ const ColumnMenu = React.memo(function ColumnMenu({
       >
         <Icon className="outlined">more_horiz</Icon>
       </IconButton>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose} onClick={(e) => e.stopPropagation()}>
         <MenuItem
           onClick={(e) => {
             e.stopPropagation();
