@@ -571,7 +571,7 @@ export function CreateTask({
                 onChange={(e) => setDescription(e.target.value)}
                 inputRef={descriptionRef}
                 variant="standard"
-                placeholder="Add description..."
+                placeholder="Add note..."
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
                 }}
@@ -666,7 +666,7 @@ export function CreateTask({
                 <IconButton
                   onClick={toggleDescription}
                   sx={{
-                    ml: 0.5,
+                    mx: 0.5,
                     ...styles(palette, showDescription),
                   }}
                   size="small"
