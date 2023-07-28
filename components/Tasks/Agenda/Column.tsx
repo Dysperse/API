@@ -170,7 +170,12 @@ const ColumnMenu = React.memo(function ColumnMenu({
       >
         <Icon className="outlined">more_horiz</Icon>
       </IconButton>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose} onClick={(e) => e.stopPropagation()}>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        onClick={(e) => e.stopPropagation()}
+      >
         <MenuItem
           onClick={(e) => {
             e.stopPropagation();
@@ -231,7 +236,7 @@ export const Column: any = memo(function Column({
         const dueDate = new Date(task.due);
         return dueDate >= startTime && dueDate <= endTime;
       }),
-    [data, startTime, endTime]
+    [data, startTime, endTime],
   );
 
   const isPast =
@@ -277,9 +282,9 @@ export const Column: any = memo(function Column({
           ? -1
           : !e.pinned && d.pinned
           ? 1
-          : 0
+          : 0,
       ),
-    [data]
+    [data],
   );
 
   const ref: any = useRef();
@@ -312,7 +317,7 @@ export const Column: any = memo(function Column({
     } catch (e) {
       toast.error(
         "Yikes! We couldn't get your tasks. Please try again later",
-        toastStyles
+        toastStyles,
       );
     }
     setLoading(false);
@@ -328,7 +333,7 @@ export const Column: any = memo(function Column({
       ref={ref}
       {...(isToday && { id: "activeHighlight" })}
       onClick={() => {
-        if(window.innerWidth < 600) return;
+        if (window.innerWidth < 600) return;
         scrollIntoView(false);
       }}
       sx={{
