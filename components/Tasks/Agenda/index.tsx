@@ -4,24 +4,11 @@ import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
-import {
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  useMediaQuery,
-  useScrollTrigger,
-} from "@mui/material";
+import { Box, Button, Icon, IconButton, useMediaQuery } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import {
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Column } from "./Column";
 
@@ -37,10 +24,16 @@ export function Agenda({
   );
 
   useEffect(() => {
-    if (window.location.hash) {
-      const hash = window.location.hash.replace("#", "");
-      if (hash) setNavigation(parseInt(hash));
-    }
+    const set = () => {
+      if (window.location.hash) {
+        const hash = window.location.hash.replace("#", "");
+        if (hash) setNavigation(parseInt(hash));
+      }
+    };
+
+    set();
+
+    window.addEventListener("hashchange", set);
   }, []);
 
   useEffect(() => {
@@ -59,12 +52,6 @@ export function Agenda({
     e.preventDefault();
     setNavigation(0);
   });
-  const trigger1 = useScrollTrigger({
-    threshold: 0,
-    target: window ? window : undefined,
-  });
-
-  const trigger = useDeferredValue(trigger1);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -193,10 +180,6 @@ export function Agenda({
                 md: "30px",
               },
             },
-            opacity: trigger ? 0 : 1,
-            transform: trigger
-              ? "translateY(20px) scale(0.9)"
-              : "translateY(0px) scale(1)",
             mr: {
               xs: 1.5,
               md: 3,
