@@ -327,7 +327,10 @@ export const Column: any = memo(function Column({
     <Box
       ref={ref}
       {...(isToday && { id: "activeHighlight" })}
-      onClick={() => scrollIntoView(false)}
+      onClick={() => {
+        if(window.innerWidth < 600) return;
+        scrollIntoView(false);
+      }}
       sx={{
         scrollSnapAlign: "center",
         borderRight: { sm: "1px solid" },
