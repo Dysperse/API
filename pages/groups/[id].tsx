@@ -14,7 +14,6 @@ import {
   Icon,
   IconButton,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { Property } from "@prisma/client";
 import { useRouter } from "next/router";
@@ -41,9 +40,8 @@ function Group({ group, handleMutate }) {
       >
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
           <IconButton onClick={() => router.push("/users")}>
-            <Icon>west</Icon>
+            <Icon>arrow_back_ios_new</Icon>
           </IconButton>
-          <Typography sx={{ fontWeight: 700 }}>Group</Typography>
           {group && (
             <Changelog
               disabled={group.profile.id !== session.property.propertyId}

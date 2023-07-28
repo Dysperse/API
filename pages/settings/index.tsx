@@ -80,7 +80,10 @@ export default function Layout({ children }: any) {
           display: "flex",
           alignItems: "center",
           marginBottom: "15px",
-          gap: 1,
+          gap: 2,
+          pt: 1,
+          pl: 1,
+          fontSize: "35px",
         }}
       >
         <Image
@@ -97,7 +100,7 @@ export default function Layout({ children }: any) {
           }}
         />
 
-        <span className="e">Settings</span>
+        <span className="e font-heading">Settings</span>
       </Box>
       {[
         { icon: "account_circle", text: "Account" },
@@ -106,29 +109,31 @@ export default function Layout({ children }: any) {
         { icon: "notifications", text: "Notifications" },
         { icon: "lock", text: "Two-factor authentication" },
       ].map((button) => (
-        <Link
-          href={`/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`}
-          onClick={() => setOpen(false)}
+        <Button
           key={button.icon}
-          style={{ display: "block", cursor: "default" }}
+          onClick={() => {
+            setOpen(false);
+            setTimeout(() => {
+              router.push(
+                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
+              );
+            }, 200);
+          }}
+          sx={styles(
+            router.pathname ===
+              `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
+          )}
         >
-          <Button
-            sx={styles(
+          <Icon
+            {...(!(
               router.pathname ===
-                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
-            )}
+              `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
+            ) && { className: "outlined" })}
           >
-            <Icon
-              {...(!(
-                router.pathname ===
-                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
-              ) && { className: "outlined" })}
-            >
-              {button.icon}
-            </Icon>
-            <span>{button.text}</span>
-          </Button>
-        </Link>
+            {button.icon}
+          </Icon>
+          <span>{button.text}</span>
+        </Button>
       ))}
       <Link
         href={`/onboarding`}
@@ -171,7 +176,7 @@ export default function Layout({ children }: any) {
         width: "100vw",
         left: 0,
         zIndex: 999,
-        background: palette[1],
+        background: palette[2],
       }}
     >
       {!isMobile && (
@@ -211,15 +216,12 @@ export default function Layout({ children }: any) {
         <SwipeableDrawer
           open={open}
           onClose={() => setOpen(false)}
-          sx={{
-            zIndex: 9999999999,
-          }}
           PaperProps={{
             sx: {
               width: { xs: "calc(100vw - 50px)", md: 300 },
               flex: { xs: "calc(100vw - 50px)", md: "0 0 250px" },
               p: 2,
-              background: palette[1],
+              background: palette[3],
               borderRadius: "0 20px 20px 0",
               minHeight: "100vh",
               height: "100vh",
@@ -250,15 +252,18 @@ export default function Layout({ children }: any) {
         >
           {router.asPath !== "/settings" &&
             (isMobile ? (
-              <AppBar>
+              <AppBar sx={{ pr: 5, background: "transparent" }}>
                 <Toolbar>
-                  <IconButton onClick={() => setOpen(true)}>
-                    <Icon>expand_all</Icon>
+                  <IconButton onClick={() => router.push("/users")}>
+                    <Icon>arrow_back_ios_new</Icon>
                   </IconButton>
                   <Button
-                    size="small"
                     onClick={() => setOpen(true)}
-                    sx={{ color: "inherit" }}
+                    sx={{
+                      color: "inherit",
+                      mx: "auto",
+                      background: palette[3] + "!important",
+                    }}
                   >
                     {capitalizeFirstLetter(
                       router.asPath
@@ -266,13 +271,8 @@ export default function Layout({ children }: any) {
                         .replaceAll("-", " ")
                         .replace("/", "") || "Settings"
                     )}
+                    <Icon sx={{ fontSize: "20px!important" }}>expand_all</Icon>
                   </Button>
-                  <IconButton
-                    onClick={() => router.push("/")}
-                    sx={{ ml: "auto" }}
-                  >
-                    <Icon>close</Icon>
-                  </IconButton>
                 </Toolbar>
               </AppBar>
             ) : (

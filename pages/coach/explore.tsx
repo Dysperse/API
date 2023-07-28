@@ -5,7 +5,14 @@ import {
   goals,
 } from "@/components/Coach/Goal/Create/goalTemplates";
 import { Masonry } from "@mui/lab";
-import { Box, Button, Icon, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Icon,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import Link from "next/link";
@@ -19,16 +26,20 @@ export default function Page() {
       <Head>
         <title>Explore &bull; Coach</title>
       </Head>
+      <AppBar sx={{ border: 0, position: "fixed", top: 0, left: 0 }}>
+        <Toolbar>
+          <Link href="/coach">
+            <IconButton>
+              <Icon>arrow_back_ios_new</Icon>
+            </IconButton>
+          </Link>
+        </Toolbar>
+      </AppBar>
       <Box sx={{ p: { xs: 2, sm: 4 } }}>
-        <Link href="/coach">
-          <Button size="small" variant="contained" sx={{ mb: 5 }}>
-            <Icon>west</Icon>
-            Back
-          </Button>
-        </Link>
         <Box
           sx={{
             px: { xs: 1, sm: 2 },
+            pt: { xs: 8 },
           }}
         >
           <CreateGoal />

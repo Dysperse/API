@@ -43,16 +43,19 @@ export default function Render() {
 
   return (
     <>
-      <motion.div initial={{ y: -100 }} animate={{ y: 0 }}>
-        {isMobile && (
-          <Navbar
-            showLogo
-            showRightContent
-            right={
+      {isMobile && (
+        <Navbar
+          showLogo
+          showRightContent
+          right={
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              style={{ marginLeft: "auto" }}
+            >
               <Button
                 onClick={() => router.push("/coach/explore")}
                 sx={{
-                  ml: "auto",
                   mr: 1,
                   color: palette[8],
                   background: palette[2],
@@ -61,10 +64,10 @@ export default function Render() {
               >
                 <Icon className="outlined">add_circle</Icon>Create
               </Button>
-            }
-          />
-        )}
-      </motion.div>
+            </motion.div>
+          }
+        />
+      )}
       <Head>
         <title>Coach</title>
       </Head>
