@@ -85,6 +85,7 @@ export function BottomNav() {
   const shouldHide = [
     "/claim-esb",
     "/users",
+    "/coach/explore",
     "/rooms/",
     "/groups",
     "/onboarding",
