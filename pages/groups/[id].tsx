@@ -26,7 +26,7 @@ function Group({ group, handleMutate }) {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(
     group ? group.profile.color : session.themeColor,
-    isDark
+    isDark,
   );
 
   return (
@@ -75,7 +75,7 @@ export default function Page() {
   const palette = useColor(color, isDark);
 
   const accessToken = session.properties.find(
-    (property) => property.propertyId == id
+    (property) => property.propertyId == id,
   )?.accessToken;
 
   const { data, url, error } = useApi("property", {
