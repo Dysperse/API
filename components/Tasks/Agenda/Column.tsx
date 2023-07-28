@@ -565,7 +565,7 @@ export const Column: any = memo(function Column({
                 after 14 days.
               </Alert>
             )}
-          <Box sx={{ mb: 5 }} />
+          <Box sx={{ mb: 2 }} />
         </Box>
       </motion.div>
     </Box>
