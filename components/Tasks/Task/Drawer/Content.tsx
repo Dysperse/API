@@ -79,7 +79,7 @@ const DrawerContent = React.memo(function DrawerContent({
         success: data.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
       },
-      toastStyles
+      toastStyles,
     );
   }, [data.pinned, data.id, mutationUrl, setTaskData, session]);
 
@@ -94,7 +94,7 @@ const DrawerContent = React.memo(function DrawerContent({
         mutate(mutationUrl);
       });
     },
-    [mutationUrl, setTaskData, session]
+    [mutationUrl, setTaskData, session],
   );
 
   const handleComplete = useCallback(async () => {
@@ -128,7 +128,7 @@ const DrawerContent = React.memo(function DrawerContent({
       handleEdit(
         data.id,
         "due",
-        dayjs(data.due).add(count, type).toISOString()
+        dayjs(data.due).add(count, type).toISOString(),
       );
     },
     [
@@ -138,7 +138,7 @@ const DrawerContent = React.memo(function DrawerContent({
       handleEdit,
       isDateDependent,
       handleParentClose,
-    ]
+    ],
   );
 
   const styles = {
@@ -182,7 +182,14 @@ const DrawerContent = React.memo(function DrawerContent({
 
   return (
     <>
-      <AppBar sx={{ border: 0, position: { xs: "fixed", sm: "sticky" }, top: 0, left: 0 }}>
+      <AppBar
+        sx={{
+          border: 0,
+          position: { xs: "fixed", sm: "sticky" },
+          top: 0,
+          left: 0,
+        }}
+      >
         <Toolbar>
           <IconButton
             onClick={handleParentClose}
@@ -343,7 +350,7 @@ const DrawerContent = React.memo(function DrawerContent({
           </Box>
         </Toolbar>
       </AppBar>
-      <Box sx={{ p: { xs: 3, sm: 4 }, pt: { xs: 11, sm: 4 },  pb: { sm: 1 } }}>
+      <Box sx={{ p: { xs: 3, sm: 4 }, pt: { xs: 11, sm: 4 }, pb: { sm: 1 } }}>
         <Box sx={{ display: "flex", gap: 1.5, flexWrap: "wrap" }}>
           <ColorPopover
             mutationUrl={mutationUrl}
