@@ -15,6 +15,7 @@ import {
   Button,
   Chip,
   Divider,
+  Drawer,
   Fade,
   Grow,
   Icon,
@@ -793,7 +794,7 @@ export function TasksLayout({ open, setOpen, children }) {
       )}
       {isMobile && <Box sx={{ height: "65px" }} />}
       <Box sx={{ display: "flex" }}>
-        <SwipeableDrawer
+        <Drawer
           keepMounted
           ModalProps={{ keepMounted: true }}
           anchor="top"
@@ -842,16 +843,9 @@ export function TasksLayout({ open, setOpen, children }) {
               }}
             >
               {menuChildren}
-              <Puller
-                sx={{
-                  position: "sticky",
-                  bottom: 0,
-                  mb: -4,
-                }}
-              />
             </Box>
           </Grow>
-        </SwipeableDrawer>
+        </Drawer>
         <Box
           sx={{
             width: { xs: "100%", md: 300 },
