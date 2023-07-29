@@ -489,7 +489,7 @@ const DrawerContent = React.memo(function DrawerContent({
             onKeyDown={(e: any) =>
               e.key === "Enter" && !e.shiftKey && e.target.blur()
             }
-            placeholder={"Click to add location"}
+            placeholder={"Location or URL"}
             disabled={shouldDisable}
             fullWidth
             defaultValue={parseEmojis(data.where || "")}
@@ -552,7 +552,7 @@ const DrawerContent = React.memo(function DrawerContent({
             placeholder={
               storage?.isReached === true
                 ? "You've reached your account storage limits and you can't add a description."
-                : "Click to add note..."
+                : "Note"
             }
             disabled={shouldDisable}
             fullWidth
