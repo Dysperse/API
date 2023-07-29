@@ -839,6 +839,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 maxHeight: "calc(100vh - 190px)",
                 maxWidth: "calc(100vw - 100px)",
                 overflowY: "scroll",
+                overscrollBehavior: "contain",
                 background: addHslAlpha(palette[3], 0.7),
               }}
             >
