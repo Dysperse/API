@@ -61,8 +61,8 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
                     if (isAddress(data.where)) {
                       window.open(
                         `https://maps.google.com/?q=${encodeURIComponent(
-                          data.where
-                        )}`
+                          data.where,
+                        )}`,
                       );
                       return;
                     }
@@ -71,7 +71,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
                 >
                   <Icon>
                     {videoChatPlatforms.find((platform) =>
-                      data.where.includes(platform)
+                      data.where.includes(platform),
                     )
                       ? "call"
                       : isAddress(data.where)
@@ -79,7 +79,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
                       : "link"}
                   </Icon>
                   {videoChatPlatforms.find((platform) =>
-                    data.where.includes(platform)
+                    data.where.includes(platform),
                   )
                     ? "Call"
                     : isAddress(data.where)
