@@ -11,10 +11,6 @@ import {
   Chip,
   Icon,
   IconButton,
-  InputAdornment,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Menu,
   MenuItem,
   TextField,
@@ -22,7 +18,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
 import React, { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -31,188 +26,10 @@ import { Task } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import { CreateTask } from "../Create";
 import { SelectDateModal } from "../DatePicker";
-import { ImageViewer } from "../ImageViewer";
 import { ColorPopover } from "./ColorPopover";
+import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
-import {
-  isAddress,
-  isValidHttpUrl,
-  videoChatPlatforms,
-} from "./locationHelpers";
-
-function TaskDetailsSection({ handleEdit, data, styles, shouldDisable }) {
-  const storage = useAccountStorage();
-  const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-
-  return (
-    <Box sx={styles.section}>
-      <TextField
-        className="item"
-        onBlur={(e) => handleEdit(data.id, "where", e.target.value)}
-        onKeyDown={(e: any) =>
-          e.key === "Enter" && !e.shiftKey && e.target.blur()
-        }
-        placeholder={"Location or URL"}
-        disabled={shouldDisable}
-        fullWidth
-        defaultValue={parseEmojis(data.where || "")}
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-          sx: {
-            py: 1,
-            px: 3,
-          },
-          ...((isValidHttpUrl(data.where) || isAddress(data.where)) && {
-            endAdornment: (
-              <InputAdornment position="end">
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={() => {
-                    if (isAddress(data.where)) {
-                      window.open(
-                        `https://maps.google.com/?q=${encodeURIComponent(
-                          data.where
-                        )}`
-                      );
-                      return;
-                    }
-                    window.open(data.where);
-                  }}
-                >
-                  <Icon>
-                    {videoChatPlatforms.find((platform) =>
-                      data.where.includes(platform)
-                    )
-                      ? "call"
-                      : isAddress(data.where)
-                      ? "location_on"
-                      : "link"}
-                  </Icon>
-                  {videoChatPlatforms.find((platform) =>
-                    data.where.includes(platform)
-                  )
-                    ? "Call"
-                    : isAddress(data.where)
-                    ? "Maps"
-                    : "Open"}
-                </Button>
-              </InputAdornment>
-            ),
-          }),
-        }}
-      />
-
-      {/* Description */}
-      <TextField
-        className="item"
-        onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
-        onKeyDown={(e: any) =>
-          e.key === "Enter" && !e.shiftKey && e.target.blur()
-        }
-        multiline
-        placeholder={
-          storage?.isReached === true
-            ? "You've reached your account storage limits and you can't add a description."
-            : "Note"
-        }
-        disabled={shouldDisable}
-        fullWidth
-        defaultValue={parseEmojis(data.description || "")}
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-          sx: { py: 1.5, px: 3 },
-        }}
-      />
-      <ListItem className="item">
-        <ListItemText primary="Attachments" />
-        <Box
-          sx={{
-            ml: "auto",
-            display: "flex",
-            gap: 1.5,
-            alignItems: "center",
-          }}
-        >
-          {data.image && <ImageViewer url={data.image} small />}
-          <IconButton
-            sx={{ background: palette[3] }}
-            disabled={shouldDisable}
-            onClick={() => toast("Coming soon!")}
-          >
-            <Icon>{data.image ? "close" : "add"}</Icon>
-          </IconButton>
-        </Box>
-      </ListItem>
-    </Box>
-  );
-}
-
-function LinkedContent({ data, styles }) {
-  const router = useRouter();
-
-  return (
-    <Box sx={styles.section}>
-      {data.id.includes("-event-assignment") && (
-        <ListItem className="item" sx={{ gap: 1.5 }}>
-          <Box
-            sx={{
-              background: "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
-              color: "#000!important",
-              width: 13,
-              height: 13,
-              borderRadius: 999,
-            }}
-          />
-          <ListItemText primary={`Imported from Canvas LMS`} />
-        </ListItem>
-      )}
-      <ListItem className="item">
-        <ListItemText
-          primary={`Edited  ${dayjs(data.lastUpdated).fromNow()}`}
-          sx={{ fontStyle: "italic" }}
-        />
-      </ListItem>
-      <ListItemButton
-        className="item"
-        onClick={() => router.push(`/groups/${data.property.id}`)}
-      >
-        <ListItemText
-          primary={
-            !(data?.column?.board?.public === false)
-              ? data.property.name
-              : "Only visible to you"
-          }
-          secondary={
-            !(data?.column?.board?.public === false)
-              ? "Visible to group"
-              : `Not visible to others in "${data.property.name}"`
-          }
-        />
-        <Icon sx={{ ml: "auto" }} className="outlined">
-          {!(data?.column?.board?.public === false) ? "group" : "lock"}
-        </Icon>
-      </ListItemButton>
-      {data.column && (
-        <ListItemButton
-          className="item"
-          onClick={() => router.push(`/tasks/boards/${data.column.board.id}`)}
-        >
-          <ListItemText
-            secondary={data.column.name}
-            primary={`Found in "${data.column.board.name}"`}
-          />
-          <Icon sx={{ ml: "auto" }} className="outlined">
-            view_kanban
-          </Icon>
-        </ListItemButton>
-      )}
-    </Box>
-  );
-}
+import { TaskDetailsSection } from "./TaskDetailsSection";
 
 const DrawerContent = React.memo(function DrawerContent({
   handleDelete,
