@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
-import { taskButtonStyles } from "./Create";
+import { taskButtonStyles } from "../Create";
 
 export function ExperimentalAiSubtask({ task }) {
   const session = useSession();

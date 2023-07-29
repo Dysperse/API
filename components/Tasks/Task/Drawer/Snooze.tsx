@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { cloneElement, useRef, useState } from "react";
-import { Puller } from "../../Puller";
-import { SelectDateModal } from "./DatePicker";
+import { Puller } from "../../../Puller";
+import { SelectDateModal } from "../DatePicker";
 
 export function RescheduleModal({
   data,

@@ -6,8 +6,8 @@ import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
-import { ErrorHandler } from "../../Error";
-import DrawerContent from "./DrawerContent";
+import { ErrorHandler } from "../../../Error";
+import DrawerContent from "./Content";
 
 export const parseEmojis = (value) => {
   const emojisArray = toArray(value);

@@ -18,7 +18,7 @@ import {
 import dayjs from "dayjs";
 import { Twemoji } from "react-emoji-render";
 import { CreateTask } from "../Tasks/Task/Create";
-import { TaskDrawer } from "../Tasks/Task/TaskDrawer";
+import { TaskDrawer } from "../Tasks/Task/Drawer";
 
 export function RecentItems() {
   const trigger = useMediaQuery("(min-width: 600px)");

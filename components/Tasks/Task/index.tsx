@@ -31,8 +31,12 @@ import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { SelectionContext } from "../Layout";
-import { isAddress, isValidHttpUrl, videoChatPlatforms } from "./DrawerContent";
-import { TaskDrawer } from "./TaskDrawer";
+import { TaskDrawer } from "./Drawer";
+import {
+  isAddress,
+  isValidHttpUrl,
+  videoChatPlatforms,
+} from "./Drawer/locationHelpers";
 
 const ImageViewer = dynamic(() =>
   import("./ImageViewer").then((mod) => mod.ImageViewer)
