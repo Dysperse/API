@@ -143,7 +143,7 @@ const DrawerContent = React.memo(function DrawerContent({
         success: data.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
       },
-      toastStyles
+      toastStyles,
     );
   }, [data.pinned, data.id, mutationUrl, setTaskData, session]);
 
@@ -158,7 +158,7 @@ const DrawerContent = React.memo(function DrawerContent({
         mutate(mutationUrl);
       });
     },
-    [mutationUrl, setTaskData, session]
+    [mutationUrl, setTaskData, session],
   );
 
   const handleComplete = useCallback(async () => {
@@ -191,7 +191,7 @@ const DrawerContent = React.memo(function DrawerContent({
       handleEdit(
         data.id,
         "due",
-        dayjs(data.due).add(count, type).toISOString()
+        dayjs(data.due).add(count, type).toISOString(),
       );
     },
     [
@@ -201,7 +201,7 @@ const DrawerContent = React.memo(function DrawerContent({
       handleEdit,
       isDateDependent,
       handleParentClose,
-    ]
+    ],
   );
 
   const styles = {
@@ -514,8 +514,8 @@ const DrawerContent = React.memo(function DrawerContent({
                         if (isAddress(data.where)) {
                           window.open(
                             `https://maps.google.com/?q=${encodeURIComponent(
-                              data.where
-                            )}`
+                              data.where,
+                            )}`,
                           );
                           return;
                         }
@@ -524,7 +524,7 @@ const DrawerContent = React.memo(function DrawerContent({
                     >
                       <Icon>
                         {videoChatPlatforms.find((platform) =>
-                          data.where.includes(platform)
+                          data.where.includes(platform),
                         )
                           ? "call"
                           : isAddress(data.where)
@@ -532,7 +532,7 @@ const DrawerContent = React.memo(function DrawerContent({
                           : "link"}
                       </Icon>
                       {videoChatPlatforms.find((platform) =>
-                        data.where.includes(platform)
+                        data.where.includes(platform),
                       )
                         ? "Call"
                         : isAddress(data.where)

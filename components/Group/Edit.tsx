@@ -44,11 +44,11 @@ export function EditProperty({
 
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState(
-    propertyData.profile.name || "Untitled property"
+    propertyData.profile.name || "Untitled property",
   );
 
   const [vanishingTasks, setVanishingTasks] = useState<boolean>(
-    propertyData.profile.vanishingTasks
+    propertyData.profile.vanishingTasks,
   );
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export function EditProperty({
     (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
     },
-    []
+    [],
   );
   /**
    * Set property type
@@ -75,11 +75,11 @@ export function EditProperty({
   const handleCloseMenu = useCallback(
     (type) => {
       updateSettings(session, "type", type, false, null, true).then(() =>
-        setTimeout(mutatePropertyData, 1000)
+        setTimeout(mutatePropertyData, 1000),
       );
       setAnchorEl(null);
     },
-    [session, mutatePropertyData]
+    [session, mutatePropertyData],
   );
   const isDark = useDarkMode(session.darkMode);
 
@@ -90,7 +90,7 @@ export function EditProperty({
   const handleUpdateName = useCallback(() => {
     if (deferredName !== propertyData.profile.name) {
       updateSettings(session, "name", deferredName, false, null, true).then(
-        () => setTimeout(mutatePropertyData, 1000)
+        () => setTimeout(mutatePropertyData, 1000),
       );
     }
   }, [session, propertyData.profile.name, mutatePropertyData, deferredName]);
@@ -248,7 +248,7 @@ export function EditProperty({
                     newValue ? "true" : "false",
                     false,
                     null,
-                    true
+                    true,
                   ).then(() => setTimeout(mutatePropertyData, 1000));
                 }}
               />

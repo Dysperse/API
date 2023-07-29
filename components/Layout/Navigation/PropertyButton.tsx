@@ -42,12 +42,12 @@ export function PropertyButton({ handleClose, group, list }: any) {
               <span>
                 Switched to &nbsp;<u>{res.profile.name}</u>
               </span>,
-              toastStyles
+              toastStyles,
             );
           } catch {
             toast.error(
               "Yikes! Something went wrong when trying to switch groups",
-              toastStyles
+              toastStyles,
             );
           }
           setLoading(false);

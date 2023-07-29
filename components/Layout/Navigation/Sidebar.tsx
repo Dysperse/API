@@ -20,7 +20,7 @@ export function Sidebar() {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const groupPalette = useColor(
     session.property.profile.color,
-    useDarkMode(session.darkMode)
+    useDarkMode(session.darkMode),
   );
   const [clickCount, setClickCount] = useState(0);
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -48,7 +48,7 @@ export function Sidebar() {
         {
           ...toastStyles,
           icon: "🥚",
-        }
+        },
       );
       updateSettings(session, "color", "blueGrey");
       setClickCount(0);
@@ -61,7 +61,7 @@ export function Sidebar() {
       e.preventDefault();
       router.push(`/groups/${session.property.propertyId}`);
     },
-    [open]
+    [open],
   );
 
   useHotkeys(
@@ -70,7 +70,7 @@ export function Sidebar() {
       e.preventDefault();
       router.push(`/users`);
     },
-    [open]
+    [open],
   );
 
   useHotkeys(
@@ -79,7 +79,7 @@ export function Sidebar() {
       e.preventDefault();
       router.push(`/settings/account`);
     },
-    [open]
+    [open],
   );
 
   useHotkeys(
@@ -88,7 +88,7 @@ export function Sidebar() {
       e.preventDefault();
       router.push(`/users/${session.user.email}`);
     },
-    [open]
+    [open],
   );
 
   useHotkeys(
@@ -97,7 +97,7 @@ export function Sidebar() {
       e.preventDefault();
       router.push("/");
     },
-    [open]
+    [open],
   );
 
   useHotkeys(
@@ -106,7 +106,7 @@ export function Sidebar() {
       e.preventDefault();
       router.push("/items");
     },
-    [open]
+    [open],
   );
   useHotkeys(
     "ctrl+shift+3",
@@ -114,7 +114,7 @@ export function Sidebar() {
       e.preventDefault();
       router.push("/coach");
     },
-    [open]
+    [open],
   );
   useHotkeys(
     "ctrl+shift+2",
@@ -122,7 +122,7 @@ export function Sidebar() {
       e.preventDefault();
       router.push("/tasks/agenda/week");
     },
-    [open]
+    [open],
   );
 
   const isDark = useDarkMode(session.darkMode);
@@ -253,7 +253,7 @@ export function Sidebar() {
           router.asPath === "/items" ||
             router.asPath === "/trash" ||
             router.asPath === "/starred" ||
-            router.asPath.includes("rooms")
+            router.asPath.includes("rooms"),
         )}
         onClick={() => router.push("/items")}
         onMouseDown={() => router.push("/items")}
