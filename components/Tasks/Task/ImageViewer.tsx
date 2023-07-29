@@ -2,7 +2,15 @@ import { useBackButton } from "@/lib/client/useBackButton";
 import { Box, Button, Dialog, Icon, IconButton } from "@mui/material";
 import { useState } from "react";
 
-export function ImageViewer({ url, trimHeight = false }) {
+export function ImageViewer({
+  url,
+  trimHeight = false,
+  small = false,
+}: {
+  url: string;
+  trimHeight?: boolean;
+  small?: boolean;
+}) {
   const [open, setOpen] = useState<boolean>(false);
   useBackButton(() => setOpen(false));
 
@@ -102,13 +110,13 @@ export function ImageViewer({ url, trimHeight = false }) {
       >
         <picture>
           <img
-            alt="asdf"
+            alt="Attached image"
             draggable={false}
             src={url}
             style={{
-              width: "100%",
-              borderRadius: "5px",
-              height: "100%",
+              width: small ? "35px" : "100%",
+              borderRadius: "10px",
+              height: small ? "35px" : "100%",
               ...(trimHeight && {
                 maxHeight: "100px",
               }),

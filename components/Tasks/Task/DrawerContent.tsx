@@ -31,6 +31,7 @@ import { ConfirmationModal } from "../../ConfirmationModal";
 import { ColorPopover } from "./ColorPopover";
 import { CreateTask } from "./Create";
 import { SelectDateModal } from "./DatePicker";
+import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./Snooze";
 import { parseEmojis } from "./TaskDrawer";
 
@@ -572,6 +573,19 @@ const DrawerContent = React.memo(function DrawerContent({
           />
           <ListItem className="item">
             <ListItemText primary="Attachments" />
+            <Box
+              sx={{
+                ml: "auto",
+                display: "flex",
+                gap: 1.5,
+                alignItems: "center",
+              }}
+            >
+              {data.image && <ImageViewer url={data.image} small />}
+              <IconButton sx={{ background: palette[3] }}>
+                <Icon>{data.image ? "close" : "add"}</Icon>
+              </IconButton>
+            </Box>
           </ListItem>
         </Box>
 
