@@ -4,15 +4,16 @@ import { useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
+import React from "react";
 import { mutate } from "swr";
 
-export function Color({
+export const Color = React.memo(function Color({
   task,
   mutationUrl,
   color,
   setTaskData,
 }: {
-  task;
+  task: { color: string; id: number };
   mutationUrl;
   color: string;
   setTaskData: any;
@@ -55,4 +56,4 @@ export function Color({
       }}
     />
   );
-}
+});

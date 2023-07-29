@@ -10,17 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { cloneElement, useRef, useState } from "react";
+import React, { cloneElement, useRef, useState } from "react";
 import { Puller } from "../../../Puller";
 import { SelectDateModal } from "../DatePicker";
 
-export function RescheduleModal({
+export const RescheduleModal = React.memo(function RescheduleModal({
   data,
   children,
   handlePostpone,
   setTaskData,
   handleEdit,
-}) {
+}: any) {
   const session = useSession();
   const dateRef = useRef();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -178,4 +178,4 @@ export function RescheduleModal({
       </SwipeableDrawer>
     </>
   );
-}
+});

@@ -161,18 +161,19 @@ const DrawerContent = React.memo(function DrawerContent({
         borderColor: palette[3],
       },
     },
-  };
-  const buttonStyles = {
-    transition: "none",
-    background: palette[3],
-    color: palette[12],
-    "&:hover": {
-      background: { sm: palette[4] },
-      color: { sm: palette[11] },
-    },
-    "&:active": {
-      background: palette[5],
-      color: palette[10],
+
+    button: {
+      transition: "none",
+      background: palette[3],
+      color: palette[12],
+      "&:hover": {
+        background: { sm: palette[4] },
+        color: { sm: palette[11] },
+      },
+      "&:active": {
+        background: palette[5],
+        color: palette[10],
+      },
     },
   };
 
@@ -186,7 +187,7 @@ const DrawerContent = React.memo(function DrawerContent({
           <IconButton
             onClick={handleParentClose}
             size="small"
-            sx={buttonStyles}
+            sx={styles.button}
           >
             <Icon>close</Icon>
           </IconButton>
@@ -227,16 +228,13 @@ const DrawerContent = React.memo(function DrawerContent({
             <Button
               disableRipple
               onClick={handleComplete}
-              disabled={
-                storage?.isReached === true ||
-                session.permission === "read-only"
-              }
+              disabled={shouldDisable}
               sx={{
                 "& .text": {
                   display: { xs: "none", sm: "inline" },
                 },
                 px: 1.5,
-                ...buttonStyles,
+                ...styles.button,
                 ...(data.completed && {
                   background: greenPalette[2],
                   "&:hover": {
@@ -266,7 +264,7 @@ const DrawerContent = React.memo(function DrawerContent({
                 disabled={!data.due}
                 sx={{
                   px: 1.5,
-                  ...buttonStyles,
+                  ...styles.button,
                 }}
               >
                 <Icon className="outlined">bedtime</Icon>
@@ -279,7 +277,7 @@ const DrawerContent = React.memo(function DrawerContent({
                 size="small"
                 sx={{
                   flexShrink: 0,
-                  ...buttonStyles,
+                  ...styles.button,
                   ...(data.pinned && {
                     background: orangePalette[3],
                     "&:hover": {
@@ -312,12 +310,9 @@ const DrawerContent = React.memo(function DrawerContent({
                 size="small"
                 sx={{
                   flexShrink: 0,
-                  ...buttonStyles,
+                  ...styles.button,
                 }}
-                disabled={
-                  storage?.isReached === true ||
-                  session.permission === "read-only"
-                }
+                disabled={shouldDisable}
               >
                 <Icon>more_vert</Icon>
               </IconButton>
@@ -338,7 +333,7 @@ const DrawerContent = React.memo(function DrawerContent({
                   size="small"
                   sx={{
                     flexShrink: 0,
-                    ...buttonStyles,
+                    ...styles.button,
                   }}
                 >
                   <Icon className="outlined">delete</Icon>
@@ -375,10 +370,7 @@ const DrawerContent = React.memo(function DrawerContent({
                 label={
                   data.due && dayjs(data.due).format("MMMM D, YYYY [at] h:mm A")
                 }
-                disabled={
-                  storage?.isReached === true ||
-                  session.permission === "read-only"
-                }
+                disabled={shouldDisable}
               />
             </SelectDateModal>
           )}

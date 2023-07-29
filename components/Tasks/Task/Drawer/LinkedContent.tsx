@@ -7,8 +7,12 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import React from "react";
 
-export function LinkedContent({ data, styles }) {
+export const LinkedContent = React.memo(function LinkedContent({
+  data,
+  styles,
+}: any) {
   const router = useRouter();
 
   return (
@@ -69,4 +73,4 @@ export function LinkedContent({ data, styles }) {
       )}
     </Box>
   );
-}
+});

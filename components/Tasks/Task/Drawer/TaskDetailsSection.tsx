@@ -12,6 +12,7 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
+import React from "react";
 import toast from "react-hot-toast";
 import { parseEmojis } from ".";
 import { ImageViewer } from "../ImageViewer";
@@ -21,12 +22,12 @@ import {
   videoChatPlatforms,
 } from "./locationHelpers";
 
-export function TaskDetailsSection({
+export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   handleEdit,
   data,
   styles,
   shouldDisable,
-}) {
+}: any) {
   const storage = useAccountStorage();
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -135,4 +136,4 @@ export function TaskDetailsSection({
       </ListItem>
     </Box>
   );
-}
+});

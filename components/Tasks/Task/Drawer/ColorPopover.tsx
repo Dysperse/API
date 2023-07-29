@@ -89,7 +89,7 @@ export function ColorPopover({ data, setTaskData, mutationUrl }) {
               color={color}
               mutationUrl={mutationUrl}
               setTaskData={setTaskData}
-              task={data}
+              task={{color:data.color, id:data.id}}
             />
           ))}
         </Box>
