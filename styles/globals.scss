@@ -115,12 +115,20 @@ body {
   -webkit-font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
   min-width: fit-content;
-  font-variation-settings: "FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 350,
+    "GRAD" 0,
+    "opsz" 40;
 }
 
 .material-symbols-rounded {
   font-display: block !important;
-  font-variation-settings: "FILL" 1, "wght" 300, "GRAD" 0, "opsz" 40;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 300,
+    "GRAD" 0,
+    "opsz" 40;
   min-width: fit-content;
 }
 
@@ -310,8 +318,8 @@ a {
   }
 }
 
-
-html, body {
+html,
+body {
   /* Vendor-specific prefixes */
   -webkit-overflow-scrolling: touch; /* For older Android versions */
   -webkit-backface-visibility: hidden; /* For smooth scrolling on some devices */
