@@ -577,7 +577,11 @@ const DrawerContent = React.memo(function DrawerContent({
               }}
             >
               {data.image && <ImageViewer url={data.image} small />}
-              <IconButton sx={{ background: palette[3] }}>
+              <IconButton
+                sx={{ background: palette[3] }}
+                disabled={shouldDisable}
+                onClick={() => toast("Coming soon!")}
+              >
                 <Icon>{data.image ? "close" : "add"}</Icon>
               </IconButton>
             </Box>
