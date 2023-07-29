@@ -16,6 +16,7 @@ import {
   Toolbar,
 } from "@mui/material";
 import { Property } from "@prisma/client";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { mutate } from "swr";
@@ -104,24 +105,26 @@ export default function Page() {
         overflow: "auto",
       }}
     >
-      {error && (
-        <ErrorHandler error="Yikes! We couldn't load this group! Please try again later" />
-      )}
-      {data ? (
-        <Group handleMutate={() => mutate(url)} group={data} />
-      ) : (
-        <Box
-          sx={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      )}
+      <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
+        {error && (
+          <ErrorHandler error="Yikes! We couldn't load this group! Please try again later" />
+        )}
+        {data ? (
+          <Group handleMutate={() => mutate(url)} group={data} />
+        ) : (
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+      </motion.div>
     </Box>
   );
 }

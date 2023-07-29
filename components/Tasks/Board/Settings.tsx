@@ -45,7 +45,6 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
   return (
     <>
       <Menu
-        id="basic-menu"
         keepMounted
         anchorEl={anchorEl}
         open={open}

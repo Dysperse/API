@@ -48,7 +48,6 @@ export function RoomActionMenu({
       }}
     >
       <Menu
-        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}

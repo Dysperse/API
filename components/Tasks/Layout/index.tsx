@@ -1,4 +1,5 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { GroupModal } from "@/components/Group/GroupModal";
 import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -8,7 +9,6 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
-import { GroupModal } from "@/pages/users";
 import {
   AppBar,
   Box,
@@ -334,51 +334,49 @@ export function TasksLayout({ open, setOpen, children }) {
           error="An error occurred while loading your tasks"
         />
       )}
-      {!isMobile && (
-        <Box sx={{ p: 2, mb: -3 }}>
-          <GroupModal useRightClick={false}>
+      <Box sx={{ p: 2, mb: { xs: -4, sm: -3 } }} onClick={() => setOpen(false)}>
+        <GroupModal useRightClick={false}>
+          <Box
+            sx={{
+              display: "flex",
+              px: 2,
+              gap: 1.5,
+              py: 1,
+              borderRadius: 5,
+              background: palette[4],
+              alignItems: "center",
+              "&:hover": {
+                background: palette[5],
+              },
+              "&:active": {
+                background: palette[6],
+              },
+            }}
+          >
             <Box
               sx={{
-                display: "flex",
-                px: 2,
-                gap: 1.5,
-                py: 1,
-                borderRadius: 5,
-                background: palette[4],
-                alignItems: "center",
-                "&:hover": {
-                  background: palette[5],
-                },
-                "&:active": {
-                  background: palette[6],
-                },
+                width: 15,
+                borderRadius: 99,
+                height: 15,
+                flexShrink: 0,
+                background: groupPalette[9],
+              }}
+            />
+            <Typography
+              sx={{
+                fontWeight: 900,
+                minWidth: 0,
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
               }}
             >
-              <Box
-                sx={{
-                  width: 15,
-                  borderRadius: 99,
-                  height: 15,
-                  flexShrink: 0,
-                  background: groupPalette[9],
-                }}
-              />
-              <Typography
-                sx={{
-                  fontWeight: 900,
-                  minWidth: 0,
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {session.property.profile.name}
-              </Typography>
-              <Icon sx={{ ml: "auto" }}>expand_more</Icon>
-            </Box>
-          </GroupModal>
-        </Box>
-      )}
+              {session.property.profile.name}
+            </Typography>
+            <Icon sx={{ ml: "auto" }}>expand_more</Icon>
+          </Box>
+        </GroupModal>
+      </Box>
       <Box
         sx={{
           p: 3,
@@ -796,6 +794,8 @@ export function TasksLayout({ open, setOpen, children }) {
       {isMobile && <Box sx={{ height: "65px" }} />}
       <Box sx={{ display: "flex" }}>
         <SwipeableDrawer
+          keepMounted
+          ModalProps={{ keepMounted: true }}
           anchor="top"
           onClose={() => {
             setOpen(false);

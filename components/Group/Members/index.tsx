@@ -132,7 +132,6 @@ function Member({
         {member.user.email}
       </Typography>
       <Menu
-        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}

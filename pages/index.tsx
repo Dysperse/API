@@ -4,7 +4,6 @@ import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
-import { GroupModal } from "@/pages/users";
 import {
   Box,
   Icon,
@@ -20,6 +19,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
+import { GroupModal } from "../components/Group/GroupModal";
 
 export function Logo({ intensity = 4, size = 45 }: any) {
   const session = useSession();

@@ -161,7 +161,6 @@ export function Toolbar({
       <SearchBar setItems={setItems} data={data} />
       <Button
         disableRipple
-        id="basic-button"
         variant="contained"
         ref={ref}
         sx={{
@@ -177,7 +176,6 @@ export function Toolbar({
         <Icon className="outlined">filter_list</Icon>
       </Button>
       <Menu
-        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}

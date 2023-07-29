@@ -255,7 +255,6 @@ export function EditProperty({
             </ListItemSecondaryAction>
           </ListItemButton>
           <Menu
-            id="basic-menu"
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={() => setAnchorEl(null)}

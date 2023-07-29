@@ -12,6 +12,9 @@ import {
   Icon,
   IconButton,
   InputAdornment,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   Menu,
   MenuItem,
   TextField,
@@ -19,6 +22,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import React, { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -27,8 +31,6 @@ import { ConfirmationModal } from "../../ConfirmationModal";
 import { ColorPopover } from "./ColorPopover";
 import { CreateTask } from "./Create";
 import { SelectDateModal } from "./DatePicker";
-import { ExperimentalAiSubtask } from "./ExperimentalAiSubtask";
-import { ImageViewer } from "./ImageViewer";
 import { RescheduleModal } from "./Snooze";
 import { parseEmojis } from "./TaskDrawer";
 
@@ -74,7 +76,7 @@ export function isAddress(str) {
   if (!str) return false;
 
   const mapUrls = ["maps.google.com"];
-  if (mapUrls.some((url) => str.includes(url))) return true;
+  if (mapUrls.find((url) => str.includes(url))) return true;
 
   if (
     /^[\w\s.,#-]+$/.test(str) ||
@@ -105,6 +107,7 @@ const DrawerContent = React.memo(function DrawerContent({
   const storage = useAccountStorage();
   const session = useSession();
   const dateRef = useRef();
+  const router = useRouter();
 
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -116,10 +119,12 @@ const DrawerContent = React.memo(function DrawerContent({
   const isSubTask = data.parentTasks.length !== 0;
 
   const palette = useColor(session.themeColor, isDark);
+  const greenPalette = useColor("green", isDark);
 
   const handlePriorityChange = useCallback(async () => {
     setAnchorEl(null);
     setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
+
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
@@ -199,19 +204,43 @@ const DrawerContent = React.memo(function DrawerContent({
     ]
   );
 
+  const styles = {
+    section: {
+      background: palette[2],
+      borderRadius: 5,
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden",
+      mb: 3,
+      "& .item": {
+        color: palette[12],
+        borderRadius: 0,
+        "&.MuiListItem-root, &.MuiListItemButton-root": {
+          px: 3,
+        },
+      },
+      "& .item:not(:last-child)": {
+        borderBottom: "1px solid",
+        borderColor: palette[3],
+      },
+    },
+  };
   const buttonStyles = {
     transition: "none",
     background: palette[3],
     color: palette[12],
     "&:hover": {
-      background: palette[4],
-      color: palette[11],
+      background: { sm: palette[4] },
+      color: { sm: palette[11] },
     },
     "&:active": {
       background: palette[5],
       color: palette[10],
     },
   };
+
+  const shouldDisable =
+    storage?.isReached === true || session.permission === "read-only";
 
   return (
     <>
@@ -224,22 +253,8 @@ const DrawerContent = React.memo(function DrawerContent({
           >
             <Icon>close</Icon>
           </IconButton>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={menuOpen}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            <MenuItem
-              onClick={handlePriorityChange}
-              disabled={
-                storage?.isReached === true ||
-                session.permission === "read-only"
-              }
-            >
+          <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleClose}>
+            <MenuItem onClick={handlePriorityChange} disabled={shouldDisable}>
               <Icon
                 {...(!data.pinned && { className: "outlined" })}
                 sx={{
@@ -286,18 +301,12 @@ const DrawerContent = React.memo(function DrawerContent({
                 px: 1.5,
                 ...buttonStyles,
                 ...(data.completed && {
-                  background: isDark
-                    ? "hsl(154, 48.4%, 12.9%)"
-                    : "hsl(141, 43.7%, 86.0%)",
+                  background: greenPalette[2],
                   "&:hover": {
-                    background: isDark
-                      ? "hsl(154, 49.7%, 14.9%)"
-                      : "hsl(143, 40.3%, 79.0%)",
+                    background: { sm: greenPalette[3] },
                   },
                   "&:active": {
-                    background: isDark
-                      ? "hsl(154, 49.7%, 14.9%)"
-                      : "hsl(146, 38.5%, 69.0%)",
+                    background: greenPalette[4],
                   },
                 }),
               }}
@@ -350,10 +359,7 @@ const DrawerContent = React.memo(function DrawerContent({
                     },
                   }),
                 }}
-                disabled={
-                  storage?.isReached === true ||
-                  session.permission === "read-only"
-                }
+                disabled={shouldDisable}
               >
                 <Icon
                   {...(!data.pinned && { className: "outlined" })}
@@ -447,9 +453,7 @@ const DrawerContent = React.memo(function DrawerContent({
           )}
         </Box>
         <TextField
-          disabled={
-            storage?.isReached === true || session.permission === "read-only"
-          }
+          disabled={shouldDisable}
           multiline
           placeholder="Task name"
           fullWidth
@@ -482,154 +486,191 @@ const DrawerContent = React.memo(function DrawerContent({
           }}
         />
 
-        <TextField
-          onBlur={(e) => handleEdit(data.id, "where", e.target.value)}
-          onKeyDown={(e: any) =>
-            e.key === "Enter" && !e.shiftKey && e.target.blur()
-          }
-          placeholder={"Click to add location"}
-          disabled={
-            storage?.isReached === true || session.permission === "read-only"
-          }
-          fullWidth
-          defaultValue={parseEmojis(data.where || "")}
-          variant="standard"
-          InputProps={{
-            disableUnderline: true,
-            sx: {
-              py: 1,
-              mb: 1,
-              borderBottom: "1px solid",
-              borderColor: palette[3],
-            },
-            ...((isValidHttpUrl(data.where) || isAddress(data.where)) && {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() => {
-                      if (isAddress(data.where)) {
-                        window.open(
-                          `https://maps.google.com/?q=${encodeURIComponent(
-                            data.where
-                          )}`
-                        );
-                        return;
-                      }
-                      window.open(data.where);
-                    }}
-                  >
-                    <Icon>
+        <Box sx={styles.section}>
+          <TextField
+            className="item"
+            onBlur={(e) => handleEdit(data.id, "where", e.target.value)}
+            onKeyDown={(e: any) =>
+              e.key === "Enter" && !e.shiftKey && e.target.blur()
+            }
+            placeholder={"Click to add location"}
+            disabled={shouldDisable}
+            fullWidth
+            defaultValue={parseEmojis(data.where || "")}
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                py: 1,
+                px: 3,
+              },
+              ...((isValidHttpUrl(data.where) || isAddress(data.where)) && {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        if (isAddress(data.where)) {
+                          window.open(
+                            `https://maps.google.com/?q=${encodeURIComponent(
+                              data.where
+                            )}`
+                          );
+                          return;
+                        }
+                        window.open(data.where);
+                      }}
+                    >
+                      <Icon>
+                        {videoChatPlatforms.find((platform) =>
+                          data.where.includes(platform)
+                        )
+                          ? "call"
+                          : isAddress(data.where)
+                          ? "location_on"
+                          : "link"}
+                      </Icon>
                       {videoChatPlatforms.find((platform) =>
                         data.where.includes(platform)
                       )
-                        ? "call"
+                        ? "Call"
                         : isAddress(data.where)
-                        ? "location_on"
-                        : "link"}
-                    </Icon>
-                    {videoChatPlatforms.find((platform) =>
-                      data.where.includes(platform)
-                    )
-                      ? "Call"
-                      : isAddress(data.where)
-                      ? "Maps"
-                      : "Open"}
-                  </Button>
-                </InputAdornment>
-              ),
-            }),
-          }}
-        />
-        {/* Description */}
-        <TextField
-          onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
-          onKeyDown={(e: any) =>
-            e.key === "Enter" && !e.shiftKey && e.target.blur()
-          }
-          multiline
-          placeholder={
-            storage?.isReached === true
-              ? "You've reached your account storage limits and you can't add a description."
-              : "Click to add note..."
-          }
-          disabled={
-            storage?.isReached === true || session.permission === "read-only"
-          }
-          fullWidth
-          defaultValue={parseEmojis(data.description || "")}
-          variant="standard"
-          InputProps={{
-            disableUnderline: true,
-            sx: {
-              borderRadius: 5,
-            },
-          }}
-        />
-
-        {data.image && <Box sx={{ mt: 2 }} />}
-        {data.image && <ImageViewer url={data.image} />}
-      </Box>
-
-      {!isSubTask && (
-        <Box sx={{ px: { sm: 2.5 } }}>
-          <CreateTask
-            isSubTask
-            column={{ id: "-1", name: "" }}
-            sx={{ mb: 0 }}
-            parent={data.id}
-            label="Create a subtask"
-            placeholder="Add a subtask..."
-            handleMutate={handleMutate}
-            boardId={1}
-          />
-          <ExperimentalAiSubtask task={data} />
-
-          {!isSubTask &&
-            data.subTasks.map((subTask) => (
-              <Task
-                key={subTask.id}
-                isSubTask
-                sx={{
-                  pl: { xs: 2.6, sm: 1.7 },
-                  "& .date": {
-                    display: "none",
-                  },
-                }}
-                board={subTask.board || false}
-                columnId={subTask.column ? subTask.column.id : -1}
-                mutationUrl=""
-                handleMutate={handleMutate}
-                task={subTask}
-              />
-            ))}
-        </Box>
-      )}
-      {/* <Box
-        sx={{
-          textAlign: "center",
-          display: "flex",
-          alignItems: "center",
-          flexWrap: "wrap",
-          px: { xs: 3, sm: 4 },
-          gap: 2,
-          mb: 3,
-          ...(option !== "Details" && { display: "none" }),
-        }}
-      >
-        {data.id.includes("-event-assignment") && (
-          <Chip
-            label="Synced to Canvas LMS"
-            sx={{
-              fontWeight: 700,
-              background: "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
-              color: "#000!important",
+                        ? "Maps"
+                        : "Open"}
+                    </Button>
+                  </InputAdornment>
+                ),
+              }),
             }}
           />
-        )}
-        <Chip label={`Last updated ${dayjs(data.lastUpdated).fromNow()}`} />
-      </Box> */}
+
+          {/* Description */}
+          <TextField
+            className="item"
+            onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
+            onKeyDown={(e: any) =>
+              e.key === "Enter" && !e.shiftKey && e.target.blur()
+            }
+            multiline
+            placeholder={
+              storage?.isReached === true
+                ? "You've reached your account storage limits and you can't add a description."
+                : "Click to add note..."
+            }
+            disabled={shouldDisable}
+            fullWidth
+            defaultValue={parseEmojis(data.description || "")}
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                py: 1.5,
+                px: 3,
+              },
+            }}
+          />
+          <ListItem className="item">
+            <ListItemText primary="Attachments" />
+          </ListItem>
+        </Box>
+
+        <Box sx={styles.section}>
+          {!isSubTask && (
+            <>
+              <CreateTask
+                isSubTask
+                column={{ id: "-1", name: "" }}
+                sx={{ mb: 0 }}
+                parent={data.id}
+                label="Create a subtask"
+                placeholder="Add a subtask..."
+                handleMutate={handleMutate}
+                boardId={1}
+              />
+              {/* <ExperimentalAiSubtask task={data} /> */}
+              {!isSubTask &&
+                data.subTasks.map((subTask) => (
+                  <Task
+                    key={subTask.id}
+                    isSubTask
+                    sx={{
+                      pl: { xs: 2.6, sm: 1.7 },
+                      "& .date": {
+                        display: "none",
+                      },
+                    }}
+                    board={subTask.board || false}
+                    columnId={subTask.column ? subTask.column.id : -1}
+                    mutationUrl=""
+                    handleMutate={handleMutate}
+                    task={subTask}
+                  />
+                ))}
+            </>
+          )}
+        </Box>
+
+        <Box sx={styles.section}>
+          {data.id.includes("-event-assignment") && (
+            <ListItem className="item" sx={{ gap: 1.5 }}>
+              <Box
+                sx={{
+                  background:
+                    "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
+                  color: "#000!important",
+                  width: 13,
+                  height: 13,
+                  borderRadius: 999,
+                }}
+              />
+              <ListItemText primary={`Imported from Canvas LMS`} />
+            </ListItem>
+          )}
+          <ListItem className="item">
+            <ListItemText
+              primary={`Edited  ${dayjs(data.lastUpdated).fromNow()}`}
+              sx={{ fontStyle: "italic" }}
+            />
+          </ListItem>
+          <ListItemButton
+            className="item"
+            onClick={() => router.push(`/groups/${data.property.id}`)}
+          >
+            <ListItemText
+              primary={
+                !(data?.column?.board?.public === false)
+                  ? data.property.name
+                  : "Only visible to you"
+              }
+              secondary={
+                !(data?.column?.board?.public === false)
+                  ? "Visible to group"
+                  : `Not visible to others in "${data.property.name}"`
+              }
+            />
+            <Icon sx={{ ml: "auto" }} className="outlined">
+              {!(data?.column?.board?.public === false) ? "group" : "lock"}
+            </Icon>
+          </ListItemButton>
+          {data.column && (
+            <ListItemButton
+              className="item"
+              onClick={() =>
+                router.push(`/tasks/boards/${data.column.board.id}`)
+              }
+            >
+              <ListItemText
+                secondary={data.column.name}
+                primary={`Found in "${data.column.board.name}"`}
+              />
+              <Icon sx={{ ml: "auto" }} className="outlined">
+                view_kanban
+              </Icon>
+            </ListItemButton>
+          )}
+        </Box>
+      </Box>
     </>
   );
 });

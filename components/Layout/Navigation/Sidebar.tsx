@@ -1,9 +1,9 @@
+import { GroupModal } from "@/components/Group/GroupModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Logo } from "@/pages";
-import { GroupModal } from "@/pages/users";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";

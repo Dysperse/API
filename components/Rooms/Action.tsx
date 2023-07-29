@@ -173,12 +173,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
         )}
       </ListItemButton>
       {isCustom && (
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-        >
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           <Rename
             handleClose={handleClose}
             room={room}

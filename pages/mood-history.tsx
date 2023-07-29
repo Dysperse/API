@@ -129,10 +129,6 @@ export default function History() {
               }}
             >
               <Button
-                id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
                 size="small"
                 variant="outlined"
@@ -140,15 +136,7 @@ export default function History() {
               >
                 Last {lastBy} days <Icon>expand_more</Icon>
               </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-              >
+              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
                 {[7, 14, 30, 60, 90, 365].map((days) => (
                   <MenuItem
                     disabled={lastBy === days}

@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -60,7 +61,7 @@ export function PropertyButton({ handleClose, group, list }: any) {
       })}
       sx={{
         gap: 2,
-        borderRadius: { xs: 0, sm: "10px" },
+        borderRadius: 99,
         transition: "transform .2s",
         background: "transparent!important",
         "&:active": {
@@ -71,8 +72,14 @@ export function PropertyButton({ handleClose, group, list }: any) {
           overflow: "hidden",
           textOverflow: "ellipsis",
         },
+        "&:hover": {
+          background: { sm: palette[2] + "!important" },
+        },
         ...(group.propertyId === session.property.propertyId && {
           background: handleClose ? palette[2] : { sm: palette[2] },
+          "&:hover": {
+            background: { sm: palette[3] + "!important" },
+          },
         }),
       }}
     >
@@ -83,6 +90,7 @@ export function PropertyButton({ handleClose, group, list }: any) {
           background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[11]})`,
           color: groupPalette[1],
           borderRadius: 99,
+          flexShrink: 0,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -100,11 +108,8 @@ export function PropertyButton({ handleClose, group, list }: any) {
       </Box>
       <ListItemText
         primary={<b>{group.profile.name}</b>}
-        secondary={group.profile.type}
-        sx={{
-          color: palette[12],
-          textTransform: "capitalize",
-        }}
+        secondary={capitalizeFirstLetter(group.profile.type)}
+        sx={{ color: palette[12] }}
       />
       <ListItemIcon sx={{ minWidth: "unset" }}>
         {loading ? <CircularProgress /> : <Icon>arrow_forward_ios</Icon>}

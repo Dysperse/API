@@ -31,7 +31,6 @@ export function FilterMenu({
   return (
     <>
       <Menu
-        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         anchorOrigin={{

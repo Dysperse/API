@@ -302,7 +302,6 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       ) : (
         <Menu
           onClick={(event) => event.stopPropagation()}
-          id="basic-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}

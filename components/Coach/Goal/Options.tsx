@@ -128,12 +128,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
 
   return (
     <>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <ShareGoal goal={goal}>
           <MenuItem>
             <Icon>ios_share</Icon>

@@ -192,7 +192,7 @@ export const Task: any = React.memo(function Task({
           disableRipple
           onContextMenu={handleSelect}
           tabIndex={0}
-          className="cursor-unset"
+          className="cursor-unset item"
           sx={{
             color: colors["grey"][isDark ? "A100" : "800"],
             fontWeight: 700,

@@ -832,7 +832,7 @@ export const CreateTask = React.memo(function CreateTask({
         }
         disableRipple
         id="createTask"
-        className="cursor-unset"
+        className="item cursor-unset"
         sx={{
           ...taskButtonStyles(palette),
           mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },

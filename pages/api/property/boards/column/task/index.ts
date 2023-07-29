@@ -10,7 +10,14 @@ const handler = async (req, res) => {
 
     const data = await prisma.task.findUnique({
       where: { id: req.query.id },
-      include: { parentTasks: true, subTasks: true },
+      include: {
+        parentTasks: true,
+        subTasks: true,
+        property: { select: { name: true, id: true } },
+        column: {
+          include: { board: { select: { id: true, name: true, public: true } } },
+        },
+      },
     });
     res.json(data);
   } catch (e: any) {
