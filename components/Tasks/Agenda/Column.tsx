@@ -163,7 +163,7 @@ const ColumnMenu = React.memo(function ColumnMenu({
         onClick={handleClick}
         sx={{
           ml: "auto",
-          color: palette[6],
+          color: palette[9],
           mr: -1,
           ...(selection.values.length > 0 && { opacity: 0 }),
         }}
