@@ -121,6 +121,7 @@ const DrawerContent = React.memo(function DrawerContent({
 
   const palette = useColor(session.themeColor, isDark);
   const greenPalette = useColor("green", isDark);
+  const orangePalette = useColor("orange", isDark);
 
   const handlePriorityChange = useCallback(async () => {
     setAnchorEl(null);
@@ -345,18 +346,12 @@ const DrawerContent = React.memo(function DrawerContent({
                   flexShrink: 0,
                   ...buttonStyles,
                   ...(data.pinned && {
-                    background: isDark
-                      ? "hsl(24, 88.6%, 19.8%)"
-                      : "hsl(25, 100%, 82.8%)",
+                    background: palette[3],
                     "&:hover": {
-                      background: isDark
-                        ? "hsl(24, 92.4%, 24.0%)"
-                        : "hsl(24, 100%, 75.3%)",
+                      background: palette[4],
                     },
                     "&:active": {
-                      background: isDark
-                        ? "hsl(25, 100%, 29.0%)"
-                        : "hsl(24, 94.5%, 64.3%)",
+                      background: palette[5],
                     },
                   }),
                 }}
