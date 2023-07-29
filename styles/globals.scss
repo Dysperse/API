@@ -319,6 +319,6 @@ html, body {
   overscroll-behavior: contain; /* This makes the scrolling elastic and stretchy */
 }
 
-.MuiPaper-root {
+.MuiPaper-root, .MuiBackdrop-root {
   overscroll-behavior: contain;
 }
