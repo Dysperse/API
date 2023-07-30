@@ -119,13 +119,13 @@ export default function Layout({ children }: any) {
             setOpen(false);
             setTimeout(() => {
               router.push(
-                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
+                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`,
               );
             }, 200);
           }}
           sx={styles(
             router.pathname ===
-              `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
+              `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`,
           )}
         >
           <Icon
@@ -277,7 +277,7 @@ export default function Layout({ children }: any) {
                       router.asPath
                         .replace("/settings/", "")
                         .replaceAll("-", " ")
-                        .replace("/", "") || "Settings"
+                        .replace("/", "") || "Settings",
                     )}
                     <Icon sx={{ fontSize: "20px!important" }}>expand_all</Icon>
                   </Button>
@@ -288,7 +288,7 @@ export default function Layout({ children }: any) {
                 {capitalizeFirstLetter(
                   router.asPath
                     .replace("/settings/", "")
-                    .replaceAll("-", " ") || "Settings"
+                    .replaceAll("-", " ") || "Settings",
                 )}
               </Typography>
             ))}

@@ -39,7 +39,7 @@ import {
 } from "./Drawer/locationHelpers";
 
 const ImageViewer = dynamic(() =>
-  import("./ImageViewer").then((mod) => mod.ImageViewer)
+  import("./ImageViewer").then((mod) => mod.ImageViewer),
 );
 
 export const Task: any = React.memo(function Task({
@@ -80,7 +80,7 @@ export const Task: any = React.memo(function Task({
           opacity: 0.5,
         },
       })),
-    [taskData.color, isDark]
+    [taskData.color, isDark],
   );
 
   const BpCheckedIcon: any = useMemo(
@@ -106,7 +106,7 @@ export const Task: any = React.memo(function Task({
           content: '""',
         },
       }),
-    [taskData.color, isDark, BpIcon]
+    [taskData.color, isDark, BpIcon],
   );
 
   const handleCompletion = useCallback(
@@ -122,7 +122,7 @@ export const Task: any = React.memo(function Task({
         toast.error("An error occured while updating the task", toastStyles);
       }
     },
-    [taskData.id, session]
+    [taskData.id, session],
   );
 
   const handlePriorityChange = useCallback(async () => {
@@ -150,7 +150,7 @@ export const Task: any = React.memo(function Task({
         success: taskData.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
       },
-      toastStyles
+      toastStyles,
     );
   }, [
     taskData.pinned,
@@ -166,7 +166,7 @@ export const Task: any = React.memo(function Task({
       (board && board.archived) ||
       session?.permission === "read-only" ||
       storage?.isReached === true,
-    [board, session, storage]
+    [board, session, storage],
   );
 
   const selection = useContext(SelectionContext);
@@ -402,7 +402,7 @@ export const Task: any = React.memo(function Task({
                     <Chip
                       label={
                         videoChatPlatforms.find((platform) =>
-                          taskData.where.includes(platform)
+                          taskData.where.includes(platform),
                         )
                           ? "Call"
                           : isAddress(taskData.where)
@@ -416,8 +416,8 @@ export const Task: any = React.memo(function Task({
                         if (isAddress(taskData.where)) {
                           window.open(
                             `https://maps.google.com/?q=${encodeURIComponent(
-                              taskData.where
-                            )}`
+                              taskData.where,
+                            )}`,
                           );
                           return;
                         }
@@ -426,7 +426,7 @@ export const Task: any = React.memo(function Task({
                       icon={
                         <Icon>
                           {videoChatPlatforms.find((platform) =>
-                            taskData.where.includes(platform)
+                            taskData.where.includes(platform),
                           )
                             ? "call"
                             : isAddress(taskData.where)

@@ -27,7 +27,7 @@ export function GroupModal({
 
   const palette = useColor(
     session?.property?.profile?.color,
-    useDarkMode(session.darkMode)
+    useDarkMode(session.darkMode),
   );
 
   const properties = [...session.properties, ...(data || [])]
