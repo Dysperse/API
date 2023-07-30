@@ -17,7 +17,7 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import isoWeek from "dayjs/plugin/isoWeek";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
@@ -30,10 +30,13 @@ const AgendaContext = createContext<any>(null);
 
 function Column({ column, data }) {
   const session = useSession();
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  const { url, start, end, type } = useContext(AgendaContext);
+  const { url, type } = useContext(AgendaContext);
+
+  const [isScrolling, setIsScrolling] = useState(false);
 
   const heading = {
     days: "dddd",
@@ -85,18 +88,8 @@ function Column({ column, data }) {
   );
   const tasksLeft = sortedTasks.length - completedTasks.length;
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "100%",
-        flex: { xs: "0 0 100%", sm: "0 0 300px" },
-        flexDirection: "column",
-        width: { xs: "100%", sm: "300px" },
-        borderRight: "1.5px solid",
-        borderColor: palette[3],
-      }}
-    >
+  const header = (
+    <div style={{ paddingTop: isMobile ? "65px" : 0 }}>
       <Box sx={{ p: 3, borderBottom: "1.5px solid", borderColor: palette[3] }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography
@@ -185,7 +178,7 @@ function Column({ column, data }) {
           </Typography>
         </Typography>
       </Box>
-      <Box sx={{ px: 1, mt: 1, mb: 0.5 }}>
+      <Box sx={{ p: { sm: 1 }, pb: { sm: 0.5 } }}>
         <CreateTask
           column={{ id: "-1", name: "" }}
           defaultDate={column}
@@ -195,9 +188,28 @@ function Column({ column, data }) {
           boardId={1}
         />
       </Box>
-      <Box sx={{ px: 1, height: "100%" }}>
+    </div>
+  );
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        flex: { xs: "0 0 100%", sm: "0 0 300px" },
+        flexDirection: "column",
+        width: { xs: "100%", sm: "300px" },
+        borderRight: "1.5px solid",
+        borderColor: palette[3],
+      }}
+    >
+      {header}
+      <Box sx={{ px: { sm: 1 }, height: "100%" }}>
         <Virtuoso
-          style={{ height: "100%" }}
+          isScrolling={setIsScrolling}
+          useWindowScroll={isMobile}
+          style={{
+            height: "100%",
+          }}
           totalCount={sortedTasks.length}
           itemContent={(index) => {
             const task = sortedTasks[index];
@@ -206,6 +218,7 @@ function Column({ column, data }) {
                 isAgenda={true}
                 isDateDependent={true}
                 key={task.id}
+                isScrolling={isScrolling}
                 board={task.board || false}
                 columnId={task.column ? task.column.id : -1}
                 mutationUrl={url}
@@ -214,6 +227,7 @@ function Column({ column, data }) {
             );
           }}
         />
+        {isMobile && <div style={{ height: "calc(60px + var(--sab))" }} />}
       </Box>
     </Box>
   );
@@ -279,7 +293,8 @@ export function Agenda({ type, date }) {
     <AgendaContext.Provider value={{ start, end, url, type }}>
       <Head>
         <title>
-          {dayjs(start).format(viewHeadingFormats[type])}&bull;Agenda
+          {dayjs(start).format(viewHeadingFormats[type])}&bull;
+          {capitalizeFirstLetter(type)}
         </title>
       </Head>
       <Box
@@ -288,8 +303,7 @@ export function Agenda({ type, date }) {
           alignItems: "center",
           flexDirection: "column",
           height: "100%",
-          minHeight: "calc(100vh - 65px)",
-          pt: { xs: "65px", sm: 0 },
+          minHeight: "100vh",
         }}
       >
         <Box
@@ -348,6 +362,22 @@ export function Agenda({ type, date }) {
             ))}
         </Box>
       </Box>
+      {isMobile && (
+        <Box sx={{ position: "fixed", bottom: 0, right: 0, m: 2 }}>
+          <IconButton
+            sx={{ color: palette[8] }}
+            onClick={() => document.getElementById("agendaNext")?.click()}
+          >
+            <Icon className="outlined">arrow_forward_ios</Icon>
+          </IconButton>
+          <IconButton
+            sx={{ color: palette[8] }}
+            onClick={() => document.getElementById("agendaPrev")?.click()}
+          >
+            <Icon className="outlined">arrow_back_ios_new</Icon>
+          </IconButton>
+        </Box>
+      )}
     </AgendaContext.Provider>
   );
 }

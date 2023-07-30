@@ -569,14 +569,6 @@ export function TasksLayout({ open, setOpen, children }) {
             <Toolbar sx={{ mt: { sm: -0.5 } }}>
               {trigger}
               <SearchTasks setOpen={setOpen} />
-              {isAgenda && (
-                <IconButton
-                  sx={{ color: palette[8] }}
-                  onClick={() => document.getElementById("agendaPrev")?.click()}
-                >
-                  <Icon className="outlined">arrow_back_ios_new</Icon>
-                </IconButton>
-              )}
               <IconButton
                 sx={{
                   color: palette[8],
@@ -602,14 +594,6 @@ export function TasksLayout({ open, setOpen, children }) {
                   {isBoard ? "more_horiz" : isAgenda ? "today" : "add"}
                 </Icon>
               </IconButton>
-              {isAgenda && (
-                <IconButton
-                  sx={{ color: palette[8] }}
-                  onClick={() => document.getElementById("agendaNext")?.click()}
-                >
-                  <Icon className="outlined">arrow_forward_ios</Icon>
-                </IconButton>
-              )}
             </Toolbar>
           </AppBar>
         </motion.div>

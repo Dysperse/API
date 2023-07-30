@@ -101,6 +101,10 @@ export function ImageViewer({
             filter: "brightness(90%)",
             cursor: "pointer",
           },
+          ...(trimHeight && {
+            height: "100px",
+            maxHeight: "100px",
+          }),
         }}
         onClick={(e) => {
           e.stopPropagation();
@@ -115,9 +119,10 @@ export function ImageViewer({
             src={url}
             style={{
               width: small ? "35px" : "100%",
-              borderRadius: "10px",
+              borderRadius: "20px",
               height: small ? "35px" : "100%",
               ...(trimHeight && {
+                height: "100px",
                 maxHeight: "100px",
               }),
               objectFit: "cover",
