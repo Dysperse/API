@@ -127,7 +127,7 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
             await fetchRawApi(session, "property/boards/delete", {
               id: board.id,
             });
-            router.push("/tasks/agenda/week");
+            router.push("/tasks/agenda/weeks");
             await mutate(mutationUrls.boardData);
           }}
         >

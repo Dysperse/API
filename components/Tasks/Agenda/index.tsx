@@ -1,234 +1,353 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { vibrate } from "@/lib/client/vibration";
-import { Box, Button, Icon, IconButton, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import isoWeek from "dayjs/plugin/isoWeek";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { Column } from "./Column";
+import { useRouter } from "next/router";
+import { createContext, useContext, useMemo } from "react";
+import { Virtuoso } from "react-virtuoso";
+import { Task } from "../Task";
+import { CreateTask } from "../Task/Create";
+import { ColumnMenu } from "./Column";
 
-export function Agenda({ setDrawerOpen, view }) {
-  const [navigation, setNavigation] = useState(
-    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0,
-  );
+dayjs.extend(advancedFormat);
+dayjs.extend(isoWeek);
 
-  useEffect(() => {
-    const set = () => {
-      if (window.location.hash) {
-        const hash = window.location.hash.replace("#", "");
-        if (hash) setNavigation(parseInt(hash));
-      }
-    };
+const AgendaContext = createContext<any>(null);
 
-    set();
-
-    window.addEventListener("hashchange", set);
-  }, []);
-
-  useEffect(() => {
-    window.location.hash = `#${navigation}`;
-  }, [navigation]);
-
-  useHotkeys("alt+n", (e) => {
-    e.preventDefault();
-    setNavigation((n) => n + 1);
-  });
-  useHotkeys("alt+p", (e) => {
-    e.preventDefault();
-    setNavigation((n) => n - 1);
-  });
-  useHotkeys("alt+t", (e) => {
-    e.preventDefault();
-    setNavigation(0);
-  });
-
-  const isMobile = useMediaQuery("(max-width: 600px)");
-  const viewModifier = isMobile ? "day" : view;
-
-  const startOfWeek = dayjs()
-    .add(navigation, viewModifier)
-    .startOf(viewModifier);
-
-  const endOfWeek = dayjs().add(navigation, viewModifier).endOf(viewModifier);
-
-  const days: any[] = [];
-  const heading =
-    view === "week" || view === "day"
-      ? "dddd"
-      : view === "month"
-      ? "MMMM"
-      : "YYYY";
-
-  for (
-    let i = 0;
-    i <=
-    endOfWeek.diff(startOfWeek, viewModifier == "week" ? "day" : viewModifier);
-    i++
-  ) {
-    const currentDay = startOfWeek.add(
-      i,
-      viewModifier == "week" ? "day" : viewModifier,
-    );
-    days.push({
-      unchanged: currentDay,
-      heading,
-      date: currentDay.format(heading),
-      day: currentDay.format("dddd"),
-    });
-  }
-
-  console.log(endOfWeek.diff(startOfWeek, viewModifier));
-
-  const handlePrev = () => {
-    setNavigation(navigation - 1);
-    document.getElementById("agendaContainer")?.scrollTo(0, 0);
-  };
-
-  const handleNext = () => {
-    setNavigation(navigation + 1);
-    document.getElementById("agendaContainer")?.scrollTo(0, 0);
-  };
-
-  const handleToday = () => {
-    setNavigation(0);
-    setTimeout(() => {
-      const activeHighlight = document.getElementById("activeHighlight");
-      if (activeHighlight)
-        activeHighlight.scrollIntoView({
-          block: "nearest",
-          inline: "center",
-        });
-      window.scrollTo(0, 0);
-    }, 1);
-  };
-
-  const { data, loading, url } = useApi("property/tasks/agenda", {
-    startTime: startOfWeek.toISOString(),
-    endTime: endOfWeek.toISOString(),
-  });
-
-  const [alreadyScrolled, setAlreadyScrolled] = useState(false);
-
-  useEffect(() => {
-    if (navigation === 0 && data && !alreadyScrolled) {
-      setTimeout(() => {
-        setAlreadyScrolled(true);
-        const activeHighlight = document.getElementById("activeHighlight");
-        if (activeHighlight)
-          activeHighlight.scrollIntoView({
-            block: "nearest",
-            inline: "center",
-          });
-        window.scrollTo(0, 0);
-      }, 1);
-    }
-  }, [data, navigation, alreadyScrolled]);
-
+function Column({ column, data }) {
   const session = useSession();
-  const handleOpen = () => {
-    vibrate(50);
-    setDrawerOpen(true);
-  };
-
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
+  const { url, start, end, type } = useContext(AgendaContext);
+
+  const heading = {
+    days: "dddd",
+    weeks: "[Week #]W",
+    months: "MMMM",
+  }[type];
+  const columnMap = {
+    days: "day",
+    weeks: "week",
+    months: "month",
+  }[type];
+
+  const subheading = {
+    days: "MMMM Do",
+    weeks: "MMMM Do",
+    months: "YYYY",
+  }[type];
+
+  const isToday = dayjs(column).isSame(dayjs().startOf(columnMap), type);
+  const isPast = dayjs(column).isBefore(dayjs().startOf(columnMap), type);
+
+  /**
+   * Sort the tasks in a "[pinned, incompleted, completed]" order
+   */
+  const sortedTasks = useMemo(
+    () =>
+      data
+        .filter((task) => {
+          const dueDate = new Date(task.due);
+          const columnStart = dayjs(column).startOf(type).toDate();
+          const columnEnd = dayjs(columnStart).endOf(type).toDate();
+          return dueDate >= columnStart && dueDate <= columnEnd;
+        })
+        .sort((e, d) =>
+          e.completed && !d.completed
+            ? 1
+            : (!e.completed && d.completed) || (e.pinned && !d.pinned)
+            ? -1
+            : !e.pinned && d.pinned
+            ? 1
+            : 0
+        ),
+    [data, column, type]
+  );
+
+  const completedTasks = useMemo(
+    () => sortedTasks.filter((task) => task.completed),
+    [sortedTasks]
+  );
+  const tasksLeft = sortedTasks.length - completedTasks.length;
+
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        flex: { xs: "0 0 100%", sm: "0 0 300px" },
+        flexDirection: "column",
+        width: { xs: "100%", sm: "300px" },
+        borderRight: "1.5px solid",
+        borderColor: palette[3],
+      }}
+    >
+      <Box sx={{ p: 3, borderBottom: "1.5px solid", borderColor: palette[3] }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography
+            variant="h4"
+            className="font-heading"
+            sx={{
+              fontSize: {
+                xs: "55px",
+                sm: "35px",
+              },
+              ...(isToday && {
+                color: "#000!important",
+                background: `linear-gradient(${palette[7]}, ${palette[9]})`,
+                px: 0.5,
+                ml: -0.5,
+              }),
+              borderRadius: 1,
+              width: "auto",
+              height: { xs: 65, sm: 45 },
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              ...(isPast && { opacity: 0.5 }),
+              mb: 0.7,
+            }}
+          >
+            {dayjs(column).format(heading)}
+          </Typography>
+          <ColumnMenu tasksLeft={tasksLeft} data={data} day={column} />
+        </Box>
+
+        <Typography
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            fontSize: "20px",
+          }}
+        >
+          <Tooltip
+            placement="bottom-start"
+            title={
+              <Typography>
+                <Typography sx={{ fontWeight: 700 }}>
+                  {isToday
+                    ? "Today"
+                    : capitalizeFirstLetter(dayjs(column).fromNow())}
+                </Typography>
+                <Typography variant="body2">
+                  {dayjs(column).format("dddd, MMMM D, YYYY")}
+                </Typography>
+              </Typography>
+            }
+          >
+            <span
+              style={{
+                ...(isPast && {
+                  textDecoration: "line-through",
+                  ...(isPast && { opacity: 0.5 }),
+                }),
+              }}
+            >
+              {dayjs(column).format(subheading)}
+            </span>
+          </Tooltip>
+          <Typography
+            variant="body2"
+            sx={{
+              ml: "auto",
+              opacity: data.length === 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
+            }}
+          >
+            {tasksLeft !== 0 ? (
+              <>
+                {tasksLeft} {isPast ? "unfinished" : "left"}
+              </>
+            ) : (
+              <Icon
+                sx={{
+                  color: green[isDark ? "A700" : "800"],
+                }}
+                className="outlined"
+              >
+                check_circle
+              </Icon>
+            )}
+          </Typography>
+        </Typography>
+      </Box>
+      <Box sx={{ px: 1, mt: 1, mb: 0.5 }}>
+        <CreateTask
+          column={{ id: "-1", name: "" }}
+          defaultDate={column}
+          label="New task"
+          placeholder="Create a task..."
+          mutationUrl={url}
+          boardId={1}
+        />
+      </Box>
+      <Box sx={{ px: 1, height: "100%" }}>
+        <Virtuoso
+          style={{ height: "100%" }}
+          totalCount={sortedTasks.length}
+          itemContent={(index) => {
+            const task = sortedTasks[index];
+            return (
+              <Task
+                isAgenda={true}
+                isDateDependent={true}
+                key={task.id}
+                board={task.board || false}
+                columnId={task.column ? task.column.id : -1}
+                mutationUrl={url}
+                task={task}
+              />
+            );
+          }}
+        />
+      </Box>
+    </Box>
+  );
+}
+
+/**
+ * Agenda container
+ * "days": Opens days in week
+ * "week": Opens weeks in month
+ * "months": Opens months in year
+ *
+ * @param {string} type
+ * @param {string} date
+ */
+export function Agenda({ type, date }) {
+  const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const columnMap = {
+    days: isMobile ? "day" : "week",
+    weeks: isMobile ? "week" : "month",
+    months: isMobile ? "month" : "year",
+  };
+
+  const viewHeadingFormats = {
+    days: "[Week #]W",
+    weeks: "MMMM YYYY",
+    months: "YYYY",
+  };
+
+  const handleNext = () =>
+    router.push(
+      `/tasks/agenda/${type}/${dayjs(date)
+        .add(1, columnMap[type])
+        .format("YYYY-MM-DD")}`
+    );
+
+  const handlePrev = () =>
+    router.push(
+      `/tasks/agenda/${type}/${dayjs(date)
+        .subtract(1, columnMap[type])
+        .format("YYYY-MM-DD")}`
+    );
+
+  const start = dayjs(date).startOf(columnMap[type]);
+  const end = dayjs(date).endOf(columnMap[type]);
+
+  // Create an array of columns for each [type] in [columnMap]
+  const columns = Array.from(
+    { length: Math.ceil(end.diff(start, type, true)) },
+    (_, index) => start.clone().add(index, type)
+  );
+
+  const { data, url, error } = useApi("property/tasks/agenda", {
+    startTime: start.toISOString(),
+    endTime: end.toISOString(),
+  });
+
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  return (
+    <AgendaContext.Provider value={{ start, end, url, type }}>
       <Head>
         <title>
-          {capitalizeFirstLetter(view === "week" ? "day" : view)} &bull; Agenda
+          {dayjs(start).format(viewHeadingFormats[type])}&bull;Agenda
         </title>
       </Head>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.2, delay: 0.4 }}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          height: "100%",
+          minHeight: "calc(100vh - 65px)",
+          pt: { xs: "65px", sm: 0 },
+        }}
       >
         <Box
           sx={{
-            position: "fixed",
-            bottom: { xs: "70px", md: "30px" },
-            ".hideBottomNav &": { bottom: { xs: "30px", md: "30px" } },
-            mr: { xs: 1.5, md: 3 },
-            zIndex: 9,
-            background: addHslAlpha(palette[3], 0.5),
-            border: "1px solid",
-            transition: "transform .2s, opacity .2s, bottom .3s",
-            backdropFilter: "blur(10px)",
-            borderRadius: 999,
-            borderColor: addHslAlpha(palette[3], 0.5),
-            right: "0",
-            color: isDark ? "#fff" : "#000",
-            display: "flex",
+            px: 4,
+            py: 1.5,
+            textAlign: "left",
+            display: { xs: "none", sm: "flex" },
             alignItems: "center",
-            p: 0.5,
+            borderBottom: "1.5px solid",
+            borderColor: palette[3],
+            width: "100%",
           }}
         >
-          <IconButton
-            onClick={handlePrev}
-            disabled={navigation === 0 && view === "month"}
-            sx={{ color: palette[9] }}
-          >
-            <Icon>west</Icon>
-          </IconButton>
-          <motion.div
-            animate={{
-              opacity: navigation === 0 ? 0 : 1,
-              width: navigation === 0 ? 0 : "auto",
-            }}
-          >
+          <Typography variant="h6">
+            {dayjs(start).format(viewHeadingFormats[type])}
+          </Typography>
+          <Box sx={{ ml: "auto" }}>
+            <IconButton onClick={handlePrev} id="agendaPrev">
+              <Icon className="outlined">arrow_back_ios_new</Icon>
+            </IconButton>
             <Button
-              onClick={handleToday}
-              disableRipple
-              sx={{
-                "&:active": {
-                  background: `${
-                    isDark ? "hsla(240,11%,25%, 0.3)" : "rgba(0,0,0,0.1)"
-                  }`,
-                },
-                color: palette[9],
-                px: 1,
-                minWidth: "unset",
-              }}
-              color="inherit"
+              id="agendaToday"
+              onClick={() =>
+                router.push(
+                  `/tasks/agenda/${type}/${dayjs().format("YYYY-MM-DD")}`
+                )
+              }
+              disabled={
+                dayjs(start) <= dayjs() && dayjs() <= dayjs(end) ? true : false
+              }
+              size="large"
+              sx={{ px: 0, color: "inherit" }}
             >
               Today
             </Button>
-          </motion.div>
-          <IconButton onClick={handleNext} sx={{ color: palette[9] }}>
-            <Icon>east</Icon>
-          </IconButton>
+            <IconButton onClick={handleNext} id="agendaNext">
+              <Icon className="outlined">arrow_forward_ios</Icon>
+            </IconButton>
+          </Box>
         </Box>
-      </motion.div>
-
-      <Box
-        id="agendaContainer"
-        sx={{
-          scrollSnapType: { xs: "x mandatory", sm: "unset" },
-          display: "flex",
-          maxWidth: "100vw",
-          overflowX: "scroll",
-          height: { md: "100vh" },
-          ...(loading && { pointerEvents: "none", filter: "blur(10px)" }),
-        }}
-      >
-        {days.map((day) => (
-          <Column
-            navigation={navigation}
-            key={day.day}
-            day={day}
-            view={view}
-            data={data}
-            mutationUrl={url}
-          />
-        ))}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexGrow: 1,
+            maxWidth: "100%",
+            overflowX: "scroll",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          {data &&
+            columns.map((column: any) => (
+              <Column key={column} column={column} data={data} />
+            ))}
+        </Box>
       </Box>
-    </>
+    </AgendaContext.Provider>
   );
 }

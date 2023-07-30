@@ -310,7 +310,7 @@ export default function Home() {
               ...listItemStyles,
               ...(completedTodaysTasks && { order: 1 }),
             }}
-            onClick={() => router.push("/tasks/agenda/week")}
+            onClick={() => router.push("/tasks/agenda/weeks")}
           >
             <ListItemText
               primary={<b>Today&apos;s agenda</b>}

@@ -52,26 +52,20 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     },
     {
       title: "Days",
-      onTrigger: () => router.push("/tasks/agenda/day"),
+      onTrigger: () => router.push("/tasks/agenda/days"),
       icon: "calendar_today",
       badge: "Agenda",
     },
     {
       title: "Weeks",
-      onTrigger: () => router.push("/tasks/agenda/week"),
+      onTrigger: () => router.push("/tasks/agenda/weeks"),
       icon: "view_week",
       badge: "Agenda",
     },
     {
       title: "Months",
-      onTrigger: () => router.push("/tasks#/agenda/month"),
+      onTrigger: () => router.push("/tasks#/agenda/months"),
       icon: "calendar_view_month",
-      badge: "Agenda",
-    },
-    {
-      title: "Years",
-      onTrigger: () => router.push("/tasks#/agenda/year"),
-      icon: "calendar_month",
       badge: "Agenda",
     },
     {
@@ -168,7 +162,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           return {
             title: property.profile.name,
             onTrigger: () => {
-              router.push("/tasks/agenda/week");
+              router.push("/tasks/agenda/weeks");
               fetchRawApi(session, "property/switch", {
                 email: session.user.email,
                 accessToken1: property.accessToken,
@@ -177,7 +171,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                   <span>
                     Switched to &nbsp;<u>{res.profile.name}</u>
                   </span>,
-                  toastStyles,
+                  toastStyles
                 );
                 mutate("/api/session");
               });
@@ -222,14 +216,14 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       onTrigger: () => {
         toast.promise(
           fetchRawApi(session, "auth/logout").then(() =>
-            mutate("/api/session"),
+            mutate("/api/session")
           ),
           {
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",
             success: "Redirecting you...",
           },
-          toastStyles,
+          toastStyles
         );
       },
       icon: "logout",
@@ -285,12 +279,12 @@ export default function Spotlight() {
     let results = await getSpotlightActions(roomData, boardData, session);
 
     results = results.filter((result) =>
-      result.title.toLowerCase().includes(value.toLowerCase()),
+      result.title.toLowerCase().includes(value.toLowerCase())
     );
 
     if (badge) {
       results = results.filter(
-        (result) => result?.badge?.toLowerCase() === badge,
+        (result) => result?.badge?.toLowerCase() === badge
       );
     }
 
@@ -301,7 +295,7 @@ export default function Spotlight() {
 
   useEffect(
     () => debouncedHandleSearch(inputValue),
-    [inputValue, debouncedHandleSearch],
+    [inputValue, debouncedHandleSearch]
   );
 
   useHotkeys(
@@ -318,22 +312,22 @@ export default function Spotlight() {
     },
     {
       enableOnFormTags: true,
-    },
+    }
   );
 
   useHotkeys(
     "ArrowDown",
     (e) => setSelectedIndex((prev) => (prev + 1) % results.length),
-    { enableOnFormTags: true },
+    { enableOnFormTags: true }
   );
 
   useHotkeys(
     "ArrowUp",
     (e) =>
       setSelectedIndex((prev) =>
-        prev === 0 ? 0 : (prev - 1) % results.length,
+        prev === 0 ? 0 : (prev - 1) % results.length
       ),
-    { enableOnFormTags: true },
+    { enableOnFormTags: true }
   );
 
   useHotkeys(
@@ -345,7 +339,7 @@ export default function Spotlight() {
     },
     {
       enableOnFormTags: true,
-    },
+    }
   );
 
   return (

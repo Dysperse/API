@@ -29,9 +29,32 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   shouldDisable,
 }: any) {
   const storage = useAccountStorage();
-  const session = useSession();
   const task = useTaskContext();
+  const session = useSession();
+
+  const parsedWhere = parseEmojis(data.where || "");
+  const isHttpOrAddress = isValidHttpUrl(data.where) || isAddress(data.where);
+  const isImage = !!data.image;
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const handleLocationButtonClick = () => {
+    if (isAddress(data.where)) {
+      window.open(
+        `https://maps.google.com/?q=${encodeURIComponent(data.where)}`
+      );
+      return;
+    }
+    window.open(data.where);
+  };
+
+  const handleAttachmentButtonClick = () => {
+    if (isImage) {
+      toast("Coming soon!", toastStyles);
+    } else {
+      // Add attachment functionality here (currently using a placeholder toast)
+      toast("Coming soon!", toastStyles);
+    }
+  };
 
   return (
     <Box sx={styles.section}>
@@ -44,31 +67,18 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
         placeholder={"Location or URL"}
         disabled={shouldDisable}
         fullWidth
-        defaultValue={parseEmojis(data.where || "")}
+        defaultValue={parsedWhere}
         variant="standard"
         InputProps={{
           disableUnderline: true,
-          sx: {
-            py: 1,
-            px: 3,
-          },
-          ...((isValidHttpUrl(data.where) || isAddress(data.where)) && {
+          sx: { py: 1, px: 3 },
+          ...(isHttpOrAddress && {
             endAdornment: (
               <InputAdornment position="end">
                 <Button
                   variant="contained"
                   size="small"
-                  onClick={() => {
-                    if (isAddress(data.where)) {
-                      window.open(
-                        `https://maps.google.com/?q=${encodeURIComponent(
-                          data.where
-                        )}`
-                      );
-                      return;
-                    }
-                    window.open(data.where);
-                  }}
+                  onClick={handleLocationButtonClick}
                 >
                   <Icon>
                     {videoChatPlatforms.find((platform) =>
@@ -118,20 +128,15 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
       <ListItem className="item">
         <ListItemText primary="Attachments" />
         <Box
-          sx={{
-            ml: "auto",
-            display: "flex",
-            gap: 1.5,
-            alignItems: "center",
-          }}
+          sx={{ ml: "auto", display: "flex", gap: 1.5, alignItems: "center" }}
         >
-          {data.image && <ImageViewer url={data.image} small />}
+          {isImage && <ImageViewer url={data.image} small />}
           <IconButton
             sx={{ background: palette[3] }}
             disabled={shouldDisable}
-            onClick={() => toast("Coming soon!", toastStyles)}
+            onClick={handleAttachmentButtonClick}
           >
-            <Icon>{data.image ? "close" : "add"}</Icon>
+            <Icon>{isImage ? "close" : "add"}</Icon>
           </IconButton>
         </Box>
       </ListItem>

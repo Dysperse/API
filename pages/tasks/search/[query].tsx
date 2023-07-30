@@ -79,7 +79,7 @@ export default function Dashboard() {
         </IconButton>
         <IconButton
           size="large"
-          onClick={() => router.push("/tasks/agenda/day")}
+          onClick={() => router.push("/tasks/agenda/days")}
           sx={{
             ...taskStyles(palette).menu,
             right: "20px",

@@ -16,53 +16,59 @@ export const LinkedContent = React.memo(function LinkedContent({
   const router = useRouter();
   const task = useTaskContext();
 
+  const isTaskImported = task.id.includes("-event-assignment");
+  const isBoardPublic = task?.column?.board?.public !== false;
+  const groupName = task.property.name;
+  const isGroupVisible = !(task?.column?.board?.public === false);
+
+  const handleGroupClick = () => {
+    router.push(`/groups/${task.property.id}`);
+  };
+
+  const handleBoardClick = () => {
+    router.push(`/tasks/boards/${task.column.board.id}`);
+  };
+
   return (
     <Box sx={styles.section}>
-      {task.id.includes("-event-assignment") && (
-        <ListItem className="item" sx={{ gap: 1.5 }}>
+      {isTaskImported && (
+        <ListItem className="item">
           <Box
             sx={{
-              background: "linear-gradient(45deg, #ff0f7b, #f89b29)!important",
-              color: "#000!important",
+              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+              color: "#000",
               width: 13,
               height: 13,
-              borderRadius: 999,
+              borderRadius: "50%",
             }}
           />
           <ListItemText primary={`Imported from Canvas LMS`} />
         </ListItem>
       )}
+
       <ListItem className="item">
         <ListItemText
-          primary={`Edited  ${dayjs(task.lastUpdated).fromNow()}`}
+          primary={`Edited ${dayjs(task.lastUpdated).fromNow()}`}
           sx={{ fontStyle: "italic" }}
         />
       </ListItem>
-      <ListItemButton
-        className="item"
-        onClick={() => router.push(`/groups/${task.property.id}`)}
-      >
+
+      <ListItemButton className="item" onClick={handleGroupClick}>
         <ListItemText
-          primary={
-            !(task?.column?.board?.public === false)
-              ? task.property.name
-              : "Only visible to you"
-          }
+          primary={isGroupVisible ? groupName : "Only visible to you"}
           secondary={
-            !(task?.column?.board?.public === false)
+            isGroupVisible
               ? "Visible to group"
-              : `Not visible to others in "${task.property.name}"`
+              : `Not visible to others in "${groupName}"`
           }
         />
         <Icon sx={{ ml: "auto" }} className="outlined">
-          {!(task?.column?.board?.public === false) ? "group" : "lock"}
+          {isBoardPublic ? "group" : "lock"}
         </Icon>
       </ListItemButton>
+
       {task.column && (
-        <ListItemButton
-          className="item"
-          onClick={() => router.push(`/tasks/boards/${task.column.board.id}`)}
-        >
+        <ListItemButton className="item" onClick={handleBoardClick}>
           <ListItemText
             secondary={task.column.name}
             primary={`Found in "${task.column.board.name}"`}

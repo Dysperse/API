@@ -8,15 +8,12 @@ import { useState } from "react";
  */
 export default function Dashboard() {
   const router = useRouter();
-  const view =
-    router && router.query && router.query.view && router.query.view[0];
+  const [view, start] = router?.query?.view || [];
   const [open, setOpen] = useState(false);
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>
-      {view && (
-        <Agenda setDrawerOpen={() => setOpen(true)} view={view as any} />
-      )}
+      {view && <Agenda type={view as any} date={start as any} />}
     </TasksLayout>
   );
 }

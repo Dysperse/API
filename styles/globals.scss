@@ -113,6 +113,7 @@ body {
   word-wrap: normal;
   direction: ltr;
   -webkit-font-feature-settings: "liga";
+  font-feature-settings: "liga";
   -webkit-font-smoothing: antialiased;
   min-width: fit-content;
   font-variation-settings: "FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40;
@@ -310,8 +311,8 @@ a {
   }
 }
 
-
-html, body {
+html,
+body {
   /* Vendor-specific prefixes */
   -webkit-overflow-scrolling: touch; /* For older Android versions */
   -webkit-backface-visibility: hidden; /* For smooth scrolling on some devices */
@@ -319,6 +320,7 @@ html, body {
   overscroll-behavior: contain; /* This makes the scrolling elastic and stretchy */
 }
 
-.MuiPaper-root, .MuiBackdrop-root {
+.MuiPaper-root,
+.MuiBackdrop-root {
   overscroll-behavior: contain;
 }

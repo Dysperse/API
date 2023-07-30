@@ -155,14 +155,13 @@ export function TasksLayout({ open, setOpen, children }) {
     document.getElementById("createTask")?.click();
   });
 
-  useHotkeys("d", () => router.push("/tasks/agenda/day"));
-  useHotkeys("w", () => router.push("/tasks/agenda/week"));
-  useHotkeys("m", () => router.push("/tasks/agenda/month"));
-  useHotkeys("y", () => router.push("/tasks/agenda/year"));
+  useHotkeys("d", () => router.push("/tasks/agenda/days"));
+  useHotkeys("w", () => router.push("/tasks/agenda/weeks"));
+  useHotkeys("m", () => router.push("/tasks/agenda/months"));
 
   const groupPalette = useColor(
     session.property.profile.color,
-    useDarkMode(session.darkMode),
+    useDarkMode(session.darkMode)
   );
 
   const handleClose = () => {
@@ -174,38 +173,33 @@ export function TasksLayout({ open, setOpen, children }) {
     if (!data) return { active: [], archived: [], shared: [] };
 
     const active = data.filter(
-      (x) => !x.archived && x.propertyId === session?.property?.propertyId,
+      (x) => !x.archived && x.propertyId === session?.property?.propertyId
     );
 
     const archived = data.filter((x) => x.archived);
 
     const shared = data.filter(
-      (x) => x.propertyId !== session?.property?.propertyId,
+      (x) => x.propertyId !== session?.property?.propertyId
     );
 
     return { active, archived, shared };
   }, [data, session?.property?.propertyId]);
 
   const perspectives = [
-    !isMobile && {
-      hash: "agenda/day",
+    {
+      hash: "agenda/days",
       icon: "calendar_today",
       label: "Days",
     },
     {
-      hash: "agenda/week",
-      icon: isMobile ? "calendar_today" : "view_week",
-      label: isMobile ? "Days" : "Weeks",
+      hash: "agenda/weeks",
+      icon: "view_week",
+      label: "Weeks",
     },
     {
-      hash: "agenda/month",
+      hash: "agenda/months",
       icon: "calendar_view_month",
       label: "Months",
-    },
-    {
-      hash: "agenda/year",
-      icon: "calendar_month",
-      label: "Years",
     },
   ];
 
@@ -218,10 +212,7 @@ export function TasksLayout({ open, setOpen, children }) {
             error="An error occurred while loading your tasks"
           />
         )}
-        <Box
-          sx={{ p: 2, mb: { xs: -4, sm: -3 } }}
-          
-        >
+        <Box sx={{ p: 2, mb: { xs: -4, sm: -3 } }}>
           <GroupModal useRightClick={false}>
             <Button
               variant="contained"
@@ -277,7 +268,7 @@ export function TasksLayout({ open, setOpen, children }) {
                     id={`__agenda.${button.hash}`}
                     sx={buttonStyles(
                       palette,
-                      router.asPath === `/tasks/${button.hash}`,
+                      router.asPath === `/tasks/${button.hash}`
                     )}
                   >
                     <Icon
@@ -371,7 +362,7 @@ export function TasksLayout({ open, setOpen, children }) {
               sx={{
                 ...buttonStyles(
                   palette,
-                  router.asPath == "/tasks/boards/create",
+                  router.asPath == "/tasks/boards/create"
                 ),
                 px: 2,
                 cursor: "default",
@@ -416,6 +407,7 @@ export function TasksLayout({ open, setOpen, children }) {
   });
 
   const isBoard = router.asPath.includes("/tasks/boards/");
+  const isAgenda = router.asPath.includes("/tasks/agenda/");
 
   const trigger = (
     <Button
@@ -527,16 +519,16 @@ export function TasksLayout({ open, setOpen, children }) {
                       "property/boards/column/task/deleteMany",
                       {
                         selection: JSON.stringify(
-                          taskSelection.filter((e) => e !== "-1"),
+                          taskSelection.filter((e) => e !== "-1")
                         ),
-                      },
+                      }
                     );
                     if (res.errors !== 0) {
                       toast.error(
                         `Couldn't delete ${res.errors} item${
                           res.errors == 1 ? "" : "s"
                         }`,
-                        toastStyles,
+                        toastStyles
                       );
                       return;
                     }
@@ -545,7 +537,7 @@ export function TasksLayout({ open, setOpen, children }) {
                   } catch {
                     toast.error(
                       "Couldn't delete tasks. Try again later.",
-                      toastStyles,
+                      toastStyles
                     );
                   }
                 }}
@@ -577,6 +569,14 @@ export function TasksLayout({ open, setOpen, children }) {
             <Toolbar sx={{ mt: { sm: -0.5 } }}>
               {trigger}
               <SearchTasks setOpen={setOpen} />
+              {isAgenda && (
+                <IconButton
+                  sx={{ color: palette[8] }}
+                  onClick={() => document.getElementById("agendaPrev")?.click()}
+                >
+                  <Icon className="outlined">arrow_back_ios_new</Icon>
+                </IconButton>
+              )}
               <IconButton
                 sx={{
                   color: palette[8],
@@ -584,24 +584,38 @@ export function TasksLayout({ open, setOpen, children }) {
                   "&:active": {
                     transform: "scale(0.9)",
                   },
-                  ml: 0.5,
                   transition: "all .2s",
                 }}
                 onClick={() => {
                   document
-                    .getElementById(isBoard ? "boardInfoTrigger" : "createTask")
+                    .getElementById(
+                      isBoard
+                        ? "boardInfoTrigger"
+                        : isAgenda
+                        ? "agendaToday"
+                        : "createTask"
+                    )
                     ?.click();
                 }}
               >
                 <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                  {isBoard ? "more_horiz" : "add"}
+                  {isBoard ? "more_horiz" : isAgenda ? "today" : "add"}
                 </Icon>
               </IconButton>
+              {isAgenda && (
+                <IconButton
+                  sx={{ color: palette[8] }}
+                  onClick={() => document.getElementById("agendaNext")?.click()}
+                >
+                  <Icon className="outlined">arrow_forward_ios</Icon>
+                </IconButton>
+              )}
             </Toolbar>
           </AppBar>
         </motion.div>
       )}
-      {isMobile && <Box sx={{ height: "65px" }} />}
+      {isMobile && !isAgenda && <Box sx={{ height: "65px" }} />}
+
       <Box sx={{ display: "flex" }}>
         <Drawer
           keepMounted
