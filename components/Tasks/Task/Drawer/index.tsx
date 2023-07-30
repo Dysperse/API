@@ -40,6 +40,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   mutationUrl: string;
   onClick?: any;
 }) {
+  const session = useSession();
   const palette = useColor(session.themeColor, isDark);
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<null | any>(null);
@@ -48,7 +49,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
-  const session = useSession();
+
 
   /**
    * Fetch task data
