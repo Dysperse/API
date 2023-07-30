@@ -510,7 +510,8 @@ export const CreateTask = React.memo(function CreateTask({
                   pr: "0!important",
                   ...chipStyles(false),
                   ...(color !== "grey" && {
-                    background: colors[color]["600"] + "!important",
+                    background: colors[color]["A400"] + "!important",
+                    borderColor: colors[color]["A400"] + "!important",
                     "& *": {
                       color: colors[color]["50"] + "!important",
                     },
