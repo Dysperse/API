@@ -580,18 +580,12 @@ export function TasksLayout({ open, setOpen, children }) {
                 }}
                 onClick={() => {
                   document
-                    .getElementById(
-                      isBoard
-                        ? "boardInfoTrigger"
-                        : isAgenda
-                        ? "agendaToday"
-                        : "createTask"
-                    )
+                    .getElementById(isBoard ? "boardInfoTrigger" : "createTask")
                     ?.click();
                 }}
               >
                 <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                  {isBoard ? "more_horiz" : isAgenda ? "today" : "add"}
+                  {isBoard ? "more_horiz" : "add"}
                 </Icon>
               </IconButton>
             </Toolbar>

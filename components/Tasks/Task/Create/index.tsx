@@ -45,12 +45,6 @@ export const taskButtonStyles = (palette) => ({
   borderRadius: { xs: 0, sm: 3 },
   transition: "none",
   gap: 1.5,
-  "&:active": {
-    background: {
-      xs: `${palette[2]} !important`,
-      sm: `${palette[3]} !important`,
-    },
-  },
   "&:focus-within, &:hover": {
     background: {
       xs: `transparent !important`,
@@ -338,6 +332,12 @@ export const CreateTask = React.memo(function CreateTask({
           mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },
           ...(label && { mb: -0.5 }),
           ...sx,
+          "&:active": {
+            background: {
+              xs: palette[2] + "!important",
+              sm: palette[3] + "!important",
+            },
+          },
         }}
         onClick={() => {
           setOpen(true);

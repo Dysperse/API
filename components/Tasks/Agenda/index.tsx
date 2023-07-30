@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
@@ -178,7 +179,7 @@ function Column({ column, data }) {
           </Typography>
         </Typography>
       </Box>
-      <Box sx={{ p: { sm: 1 }, pb: { sm: 0.5 } }}>
+      <Box sx={{ p: { sm: 1 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
         <CreateTask
           column={{ id: "-1", name: "" }}
           defaultDate={column}
@@ -287,7 +288,8 @@ export function Agenda({ type, date }) {
   });
 
   const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   return (
     <AgendaContext.Provider value={{ start, end, url, type }}>
@@ -363,18 +365,60 @@ export function Agenda({ type, date }) {
         </Box>
       </Box>
       {isMobile && (
-        <Box sx={{ position: "fixed", bottom: 0, right: 0, m: 2 }}>
-          <IconButton
-            sx={{ color: palette[8] }}
-            onClick={() => document.getElementById("agendaNext")?.click()}
-          >
-            <Icon className="outlined">arrow_forward_ios</Icon>
-          </IconButton>
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: {
+              xs: "70px",
+              md: "30px",
+            },
+            ".hideBottomNav &": {
+              bottom: {
+                xs: "30px",
+                md: "30px",
+              },
+            },
+            opacity: 1,
+            mr: {
+              xs: 1.5,
+              md: 3,
+            },
+            zIndex: 9,
+            background: addHslAlpha(palette[3], 0.5),
+            border: "1px solid",
+            transition: "transform .2s, opacity .2s, bottom .3s",
+            backdropFilter: "blur(10px)",
+            borderRadius: 999,
+            borderColor: addHslAlpha(palette[3], 0.5),
+            right: "0",
+            color: isDark ? "#fff" : "#000",
+            display: "flex",
+            alignItems: "center",
+            p: 0.5,
+          }}
+        >
           <IconButton
             sx={{ color: palette[8] }}
             onClick={() => document.getElementById("agendaPrev")?.click()}
           >
             <Icon className="outlined">arrow_back_ios_new</Icon>
+          </IconButton>
+          <Button
+            id="agendaToday"
+            onClick={() => document.getElementById("agendaToday")?.click()}
+            disabled={
+              dayjs(start) <= dayjs() && dayjs() <= dayjs(end) ? true : false
+            }
+            size="large"
+            sx={{ px: 0 }}
+          >
+            Today
+          </Button>
+          <IconButton
+            sx={{ color: palette[8] }}
+            onClick={() => document.getElementById("agendaNext")?.click()}
+          >
+            <Icon className="outlined">arrow_forward_ios</Icon>
           </IconButton>
         </Box>
       )}
