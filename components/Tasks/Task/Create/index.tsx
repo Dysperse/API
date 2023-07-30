@@ -25,8 +25,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { motion } from "framer-motion";
 import React, {
   cloneElement,
@@ -34,6 +32,7 @@ import React, {
   useContext,
   useDeferredValue,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -59,7 +58,10 @@ const TaskColorPicker = React.memo(function TaskColorPicker({
       {trigger}
       <SwipeableDrawer
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          document.getElementById("title")?.focus();
+        }}
         anchor="bottom"
       >
         <Puller showOnDesktop />
@@ -118,7 +120,8 @@ export const taskButtonStyles = (palette) => ({
   },
   "&:focus-within, &:hover": {
     background: {
-      sm: `${palette[3]} !important`,
+      xs: `transparent !important`,
+      sm: `${palette[2]} !important`,
     },
   },
   py: { xs: 2, sm: 1.5 },
@@ -138,25 +141,24 @@ export const CreateTask = React.memo(function CreateTask({
   column,
 }: any) {
   const session = useSession();
-  const storage = useAccountStorage();
   const emojiRef: any = useRef(null);
+  const storage = useAccountStorage();
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
   const selection = useContext(SelectionContext);
+  const palette = useColor(session.themeColor, isDark);
 
-  const [imageUploading, setImageUploading] = useState<boolean>(false);
-
-  const [open, setOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [color, setColor] = useState("grey");
+  const [open, setOpen] = useState<boolean>(false);
+  const [description, setDescription] = useState("");
   const [pinned, setPinned] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [image, setImage] = useState<string | null>(null);
-  const [showDescription, setShowDescription] = useState<boolean>(false);
-
   const [location, setLocation] = useState<string | null>(null);
   const [showLocation, setShowLocation] = useState<boolean>(false);
+  const [imageUploading, setImageUploading] = useState<boolean>(false);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
 
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
@@ -165,26 +167,37 @@ export const CreateTask = React.memo(function CreateTask({
   const deferredDate = useDeferredValue(date);
   const deferredTitle = useDeferredValue(title);
 
-  const trigger = useMediaQuery("(min-width: 600px)");
+  const placeholderValue = useMemo(
+    () =>
+      placeholder
+        ? placeholder
+        : 'Add an item to "' + (column || { name: "this task" }).name + '"',
+    [placeholder, column]
+  );
+
   const titleRef = useRef<HTMLInputElement>(null);
-  const dateModalButtonRef = useRef<HTMLButtonElement>(null);
+  const trigger = useMediaQuery("(min-width: 600px)");
   const descriptionRef = useRef<HTMLInputElement>(null);
+  const dateModalButtonRef = useRef<HTMLButtonElement>(null);
 
   useBackButton(() => setOpen(false));
 
-  const styles = (palette, active) => ({
-    color: palette[12],
-    ...(active && {
-      background: palette[4] + "!important",
-      color: palette[11] + "!important",
+  const styles = useMemo(
+    () => (palette, active) => ({
+      color: palette[12],
+      ...(active && {
+        background: palette[4] + "!important",
+        color: palette[11] + "!important",
+      }),
+      "&:hover": {
+        background: palette[4] + "!important",
+      },
+      cursor: "default",
+      borderRadius: 3,
+      transition: "none",
     }),
-    "&:hover": {
-      background: palette[4] + "!important",
-    },
-    cursor: "default",
-    borderRadius: 3,
-    transition: "none",
-  });
+    []
+  );
 
   useEffect(() => {
     if (
@@ -199,13 +212,8 @@ export const CreateTask = React.memo(function CreateTask({
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (closeOnCreate) {
-        setOpen(false);
-      }
-      if (deferredTitle.trim() === "") {
-        toast.error("You can't have an empty task... 🤦", toastStyles);
-        return;
-      }
+      if (closeOnCreate) setOpen(false);
+      if (deferredTitle.trim() === "") return;
       vibrate(50);
       setLoading(true);
       fetchRawApi(session, "property/boards/column/task/create", {
@@ -223,7 +231,6 @@ export const CreateTask = React.memo(function CreateTask({
       });
       toast.dismiss();
       toast.success("Created task!", toastStyles);
-
       setLoading(false);
       setTitle("");
       setDescription("");
@@ -248,29 +255,29 @@ export const CreateTask = React.memo(function CreateTask({
     ]
   );
 
-  const toggleDescription = () => {
+  const toggleDescription = useCallback(() => {
     vibrate(50);
-    setShowDescription(!showDescription);
+    setShowDescription((prev) => !prev);
     setTimeout(() => {
-      if (!showDescription) document.getElementById("description")?.focus();
-      else document.getElementById("title")?.focus();
+      if (!showDescription) descriptionRef.current?.focus();
+      else titleRef.current?.focus();
     }, 100);
-  };
+  }, [descriptionRef, showDescription]);
 
-  const toggleLocation = () => {
+  const toggleLocation = useCallback(() => {
     vibrate(50);
-    setShowLocation(!showLocation);
+    setShowLocation((prev) => !prev);
     setTimeout(() => {
-      if (!showLocation) document.getElementById("location")?.focus();
-      else document.getElementById("title")?.focus();
+      if (!showLocation) descriptionRef.current?.focus();
+      else titleRef.current?.focus();
     }, 100);
-  };
+  }, [descriptionRef, showLocation]);
 
-  const togglePin = () => {
+  const togglePin = useCallback(() => {
     vibrate(50);
-    setPinned(!pinned);
+    setPinned((prev) => !prev);
     titleRef.current?.focus();
-  };
+  }, [titleRef]);
 
   const chipStyles = useCallback(
     (condition: boolean) => {
@@ -314,16 +321,6 @@ export const CreateTask = React.memo(function CreateTask({
     }, 100);
   }, [open, titleRef]);
 
-  const [emblaRef] = useEmblaCarousel(
-    {
-      dragFree: true,
-      align: "start",
-      containScroll: "trimSnaps",
-      loop: false,
-    },
-    [WheelGesturesPlugin() as any]
-  );
-
   const generateChipLabel = useCallback(
     (inputString) => {
       const regex = /(?:at|from|during)\s(\d+)/i;
@@ -331,7 +328,7 @@ export const CreateTask = React.memo(function CreateTask({
 
       if (match) {
         const time = match[1];
-        const amPm = inputString.includes("am") ? "am" : "pm";
+        const amPm = inputString.toLowerCase().includes("am") ? "am" : "pm";
 
         if (Number(time) > 12) return null;
 
@@ -447,383 +444,16 @@ export const CreateTask = React.memo(function CreateTask({
     [open]
   );
 
+  const handleTitleChange = useCallback((e) => {
+    if (e.target.value.length === 1) {
+      setTitle(capitalizeFirstLetter(e.target.value.replace(/\n/g, "")));
+    } else {
+      setTitle(e.target.value.replace(/\n/g, ""));
+    }
+  }, []);
+
   return (
     <>
-      <SwipeableDrawer
-        {...(trigger && {
-          TransitionComponent: Grow,
-        })}
-        anchor="bottom"
-        open={open}
-        onClose={() => {
-          setOpen(false);
-          mutate(mutationUrl);
-        }}
-        PaperProps={{
-          sx: {
-            maxWidth: "600px",
-            mb: { sm: 5 },
-            border: "0!important",
-            background: "transparent!important",
-            borderRadius: 0,
-            maxHeight: "calc(100vh - 100px)",
-            mx: "auto",
-          },
-        }}
-      >
-        {!isSubTask && (
-          <Box
-            sx={{
-              mb: 2,
-              pl: { xs: 1, sm: 0 },
-              overflowX: "scroll",
-              overflowY: "visible",
-              whiteSpace: "nowrap",
-            }}
-            ref={emblaRef}
-            onClick={() => titleRef.current?.focus()}
-          >
-            <div>
-              {chipComponent}
-              {[
-                "meet",
-                "visit",
-                "watch",
-                "go to",
-                "drive ",
-                "fly ",
-                "attend ",
-              ].some((word) => deferredTitle.toLowerCase().includes(word)) && (
-                <motion.div
-                  style={{ display: "inline-block" }}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                >
-                  <Chip
-                    label="Add location?"
-                    icon={<Icon>location_on</Icon>}
-                    onClick={toggleLocation}
-                    sx={chipStyles(showLocation)}
-                  />
-                </motion.div>
-              )}
-              {[
-                { label: "Today", days: 0 },
-                { label: "Tomorrow", days: 1 },
-                { label: "In a week", days: 7 },
-                { label: "In 2 weeks", days: 14 },
-                { label: "In a month", days: 30 },
-              ].map(({ label, days }) => {
-                const isActive =
-                  deferredDate &&
-                  dayjs(deferredDate.toISOString())
-                    .startOf("day")
-                    .toISOString() ==
-                    dayjs().startOf("day").add(days, "day").toISOString();
-
-                return (
-                  <Chip
-                    key={label}
-                    label={label}
-                    sx={chipStyles(isActive)}
-                    icon={<Icon>today</Icon>}
-                    onClick={() => {
-                      vibrate(50);
-                      const tomorrow = new Date();
-                      tomorrow.setDate(tomorrow.getDate() + days);
-                      tomorrow.setHours(0);
-                      tomorrow.setMinutes(0);
-                      tomorrow.setSeconds(0);
-                      setDate(tomorrow);
-                    }}
-                  />
-                );
-              })}
-            </div>
-          </Box>
-        )}
-        <Box
-          sx={{
-            p: 3,
-            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
-            background: palette[2],
-            border: { sm: "1px solid" },
-            borderColor: {
-              sm: palette[3],
-            },
-          }}
-        >
-          <form onSubmit={handleSubmit}>
-            {image && (
-              <Box
-                sx={{
-                  width: 300,
-                  position: "relative",
-                  borderRadius: 5,
-                  overflow: "hidden",
-                  boxShadow:
-                    "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-                  mb: 2,
-                  height: 200,
-                }}
-              >
-                <picture>
-                  <img
-                    alt="Uploaded"
-                    width="100%"
-                    height="100%"
-                    draggable={false}
-                    src={JSON.parse(image).display_url}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </picture>
-                <IconButton
-                  sx={{
-                    position: "absolute",
-                    top: 0,
-                    m: 1,
-                    right: 0,
-                    background: "rgba(0,0,0,0.7)!important",
-                    color: "#fff!important",
-                    minWidth: "unset",
-                    borderRadius: 999,
-                    zIndex: 999,
-                  }}
-                  onClick={() => setImage(null)}
-                >
-                  <Icon className="outlined" sx={{ fontSize: "20px" }}>
-                    delete
-                  </Icon>
-                </IconButton>
-              </Box>
-            )}
-            <TextField
-              multiline
-              inputRef={titleRef}
-              id="title"
-              value={title}
-              onChange={(e) => {
-                if (e.target.value.length === 1) {
-                  setTitle(
-                    capitalizeFirstLetter(e.target.value.replace(/\n/g, ""))
-                  );
-                } else {
-                  setTitle(e.target.value.replace(/\n/g, ""));
-                }
-              }}
-              autoFocus
-              variant="standard"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleSubmit(e);
-              }}
-              placeholder={
-                placeholder
-                  ? placeholder
-                  : 'Add an item to "' +
-                    (column || { name: "this task" }).name +
-                    '"'
-              }
-              InputProps={{
-                disableUnderline: true,
-                sx: { fontSize: 19 },
-              }}
-            />
-            <Collapse in={showDescription}>
-              <TextField
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                inputRef={descriptionRef}
-                variant="standard"
-                placeholder="Add note..."
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
-                }}
-                multiline
-                InputProps={{
-                  disableUnderline: true,
-                  sx: { fontSize: 15 },
-                }}
-              />
-            </Collapse>
-            <Collapse in={showLocation}>
-              <TextField
-                id="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                inputRef={descriptionRef}
-                variant="standard"
-                placeholder="Add location..."
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
-                }}
-                multiline
-                InputProps={{
-                  disableUnderline: true,
-                  sx: { fontSize: 15 },
-                }}
-              />
-            </Collapse>
-            <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
-              <Tooltip
-                title={`${pinned ? "Unpin" : "Pin"} (alt • a)`}
-                placement="top"
-              >
-                <IconButton
-                  onClick={togglePin}
-                  sx={styles(palette, pinned)}
-                  size="small"
-                >
-                  <Icon
-                    className={pinned ? "rounded" : "outlined"}
-                    sx={{
-                      ...(pinned && { transform: "rotate(-40deg)" }),
-                      transition: "all .2s",
-                    }}
-                  >
-                    push_pin
-                  </Icon>
-                </IconButton>
-              </Tooltip>
-              <ImageModal
-                imageUploading={imageUploading}
-                setImageUploading={setImageUploading}
-                styles={styles}
-                image={image}
-                setImage={setImage}
-              />
-              <Tooltip title="Emoji (alt • d)" placement="top">
-                <div>
-                  <EmojiPicker
-                    emoji={""}
-                    useNativeEmoji
-                    setEmoji={(emoji) => {
-                      setTitle((t) => t + emoji);
-                      setTimeout(() => {
-                        const input: any = titleRef.current;
-                        titleRef.current?.focus();
-                        input.selectionStart = input.selectionEnd =
-                          input.value.length;
-                      }, 100);
-                    }}
-                  >
-                    <IconButton
-                      onClick={() => vibrate(50)}
-                      ref={emojiRef}
-                      sx={{
-                        ...styles(palette, false),
-                        display: { xs: "none", sm: "flex" },
-                      }}
-                      size="small"
-                    >
-                      <Icon className="outlined">mood</Icon>
-                    </IconButton>
-                  </EmojiPicker>
-                </div>
-              </Tooltip>
-              <Tooltip title="Location (alt • f)" placement="top">
-                <IconButton
-                  onClick={toggleLocation}
-                  sx={styles(palette, showLocation)}
-                  size="small"
-                >
-                  <Icon {...(!showLocation && { className: "outlined" })}>
-                    location_on
-                  </Icon>
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Note (alt • g)" placement="top">
-                <IconButton
-                  onClick={toggleDescription}
-                  sx={{
-                    mx: 0.5,
-                    ...styles(palette, showDescription),
-                  }}
-                  size="small"
-                >
-                  <Icon {...(!showDescription && { className: "outlined" })}>
-                    sticky_note_2
-                  </Icon>
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={`Color (alt • h)`} placement="top">
-                <TaskColorPicker color={color} setColor={setColor}>
-                  <IconButton
-                    sx={{
-                      ...styles(palette, false),
-                      ...(color !== "grey" && {
-                        "& *": {
-                          color: colors[color]["A700"] + "!important",
-                        },
-                      }),
-                    }}
-                    size="small"
-                  >
-                    <Icon className={color === "grey" ? "outlined" : ""}>
-                      label
-                    </Icon>
-                  </IconButton>
-                </TaskColorPicker>
-              </Tooltip>
-              {!isSubTask && (
-                <SelectDateModal
-                  ref={dateModalButtonRef}
-                  styles={styles}
-                  date={date}
-                  setDate={(e) => {
-                    setDate(e);
-                    setTimeout(() => {
-                      titleRef.current?.focus();
-                    }, 100);
-                  }}
-                />
-              )}
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 2,
-                  mt: 0,
-                  alignItems: "center",
-                  ...(isSubTask && { ml: "auto" }),
-                }}
-              >
-                <div>
-                  <LoadingButton
-                    loading={loading}
-                    disabled={
-                      deferredTitle.trim() === "" || deferredTitle.length > 200 || imageUploading
-                    }
-                    type="submit"
-                    disableRipple
-                    color="inherit"
-                    sx={{
-                      ...(deferredTitle.trim() !== "" && {
-                        color: isDark ? "#fff" : "#000",
-                      }),
-                      "&:active": {
-                        transform: "scale(.95)",
-                        transition: "none",
-                        opacity: ".6",
-                      },
-                      transition: "all .2s",
-                      borderRadius: 5,
-                      px: 2,
-                      minWidth: "auto",
-                    }}
-                    variant="contained"
-                  >
-                    <Icon>add</Icon>
-                  </LoadingButton>
-                </div>
-              </Box>
-            </Box>
-          </form>
-        </Box>
-      </SwipeableDrawer>
       <ListItemButton
         disabled={
           storage?.isReached === true ||
@@ -866,9 +496,6 @@ export const CreateTask = React.memo(function CreateTask({
             className="outlined"
             style={{
               color: palette[12],
-              fontSize: "21px",
-              fontVariationSettings:
-                "'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important",
             }}
           >
             add
@@ -879,6 +506,355 @@ export const CreateTask = React.memo(function CreateTask({
           {parent ? "New subtask" : label || "New list item"}
         </Typography>
       </ListItemButton>
+
+      <SwipeableDrawer
+        {...(trigger && {
+          TransitionComponent: Grow,
+        })}
+        anchor="bottom"
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          mutate(mutationUrl);
+        }}
+        PaperProps={{
+          sx: {
+            maxWidth: "600px",
+            mb: { sm: 5 },
+            border: "0!important",
+            background: "transparent!important",
+            borderRadius: 0,
+            maxHeight: "calc(100vh - 100px)",
+            mx: "auto",
+          },
+        }}
+      >
+        {!isSubTask && (
+          <Box
+            sx={{
+              mb: 2,
+              pl: { xs: 1, sm: 0 },
+              overflowX: "scroll",
+              overflowY: "visible",
+              whiteSpace: "nowrap",
+              display: "flex",
+            }}
+            onClick={() => titleRef.current?.focus()}
+          >
+            {chipComponent}
+            {[
+              "meet",
+              "visit",
+              "watch",
+              "go to",
+              "drive ",
+              "fly ",
+              "attend ",
+            ].some((word) => deferredTitle.toLowerCase().includes(word)) && (
+              <motion.div
+                style={{ display: "inline-block" }}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <Chip
+                  label="Add location?"
+                  icon={<Icon>location_on</Icon>}
+                  onClick={toggleLocation}
+                  sx={chipStyles(showLocation)}
+                />
+              </motion.div>
+            )}
+            <TaskColorPicker color={color} setColor={setColor}>
+              <Chip
+                icon={<Icon sx={{ pl: 2 }}>label</Icon>}
+                onClick={toggleLocation}
+                sx={{
+                  pr: "0!important",
+                  ...chipStyles(false),
+                  ...(color !== "grey" && {
+                    background: colors[color]["A400"] + "!important",
+                    borderColor: colors[color]["A400"] + "!important",
+                    "& *": {
+                      color: colors[color]["50"] + "!important",
+                    },
+                  }),
+                }}
+              />
+            </TaskColorPicker>
+            {[
+              { label: "Today", days: 0 },
+              { label: "Tomorrow", days: 1 },
+              { label: "Next week", days: 7 },
+            ].map(({ label, days }) => {
+              const isActive =
+                deferredDate &&
+                dayjs(deferredDate.toISOString())
+                  .startOf("day")
+                  .toISOString() ==
+                  dayjs().startOf("day").add(days, "day").toISOString();
+
+              return (
+                <Chip
+                  key={label}
+                  label={label}
+                  sx={chipStyles(isActive)}
+                  icon={<Icon>today</Icon>}
+                  onClick={() => {
+                    vibrate(50);
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + days);
+                    tomorrow.setHours(0);
+                    tomorrow.setMinutes(0);
+                    tomorrow.setSeconds(0);
+                    setDate(tomorrow);
+                  }}
+                />
+              );
+            })}
+          </Box>
+        )}
+        <Box
+          sx={{
+            p: 3,
+            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
+            background: palette[2],
+            border: { sm: "1px solid" },
+            borderColor: {
+              sm: palette[3],
+            },
+          }}
+        >
+          <form onSubmit={handleSubmit}>
+            {image && (
+              <Box
+                sx={{
+                  width: 300,
+                  position: "relative",
+                  borderRadius: 5,
+                  overflow: "hidden",
+                  mb: 2,
+                  height: 200,
+                }}
+              >
+                <picture>
+                  <img
+                    alt="Uploaded"
+                    width="100%"
+                    height="100%"
+                    draggable={false}
+                    src={JSON.parse(image).display_url}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </picture>
+                <IconButton
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    m: 1,
+                    right: 0,
+                    background: "rgba(0,0,0,0.7)!important",
+                    color: "#fff!important",
+                    minWidth: "unset",
+                    zIndex: 999,
+                  }}
+                  onClick={() => setImage(null)}
+                >
+                  <Icon className="outlined" sx={{ fontSize: "20px" }}>
+                    delete
+                  </Icon>
+                </IconButton>
+              </Box>
+            )}
+            <TextField
+              multiline
+              inputRef={titleRef}
+              id="title"
+              value={title}
+              onChange={handleTitleChange}
+              autoFocus
+              variant="standard"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSubmit(e);
+              }}
+              placeholder={placeholderValue}
+              InputProps={{
+                disableUnderline: true,
+                sx: { fontSize: 19 },
+              }}
+            />
+            <Collapse in={showDescription}>
+              <TextField
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                inputRef={descriptionRef}
+                variant="standard"
+                placeholder="Add note..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
+                }}
+                multiline
+                InputProps={{
+                  disableUnderline: true,
+                }}
+              />
+            </Collapse>
+            <Collapse in={showLocation}>
+              <TextField
+                id="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                inputRef={descriptionRef}
+                variant="standard"
+                placeholder="Add location..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
+                }}
+                multiline
+                InputProps={{
+                  disableUnderline: true,
+                }}
+              />
+            </Collapse>
+            <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
+              <Tooltip
+                title={`${pinned ? "Unpin" : "Pin"} (alt • a)`}
+                placement="top"
+              >
+                <IconButton
+                  onClick={togglePin}
+                  sx={styles(palette, pinned)}
+                  size="small"
+                >
+                  <Icon
+                    className={pinned ? "rounded" : "outlined"}
+                    sx={{
+                      ...(pinned && { transform: "rotate(-40deg)" }),
+                      transition: "all .2s",
+                    }}
+                  >
+                    push_pin
+                  </Icon>
+                </IconButton>
+              </Tooltip>
+
+              {!isMobile && (
+                <Tooltip title="Emoji (alt • d)" placement="top">
+                  <div>
+                    <EmojiPicker
+                      emoji={""}
+                      useNativeEmoji
+                      setEmoji={(emoji) => {
+                        setTitle((t) => t + emoji);
+                        setTimeout(() => {
+                          const input: any = titleRef.current;
+                          titleRef.current?.focus();
+                          input.selectionStart = input.selectionEnd =
+                            input.value.length;
+                        }, 100);
+                      }}
+                    >
+                      <IconButton
+                        onClick={() => vibrate(50)}
+                        ref={emojiRef}
+                        sx={styles(palette, false)}
+                        size="small"
+                      >
+                        <Icon className="outlined">mood</Icon>
+                      </IconButton>
+                    </EmojiPicker>
+                  </div>
+                </Tooltip>
+              )}
+              <Tooltip title="Location (alt • f)" placement="top">
+                <IconButton
+                  onClick={toggleLocation}
+                  sx={styles(palette, showLocation)}
+                  size="small"
+                >
+                  <Icon {...(!showLocation && { className: "outlined" })}>
+                    location_on
+                  </Icon>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Note (alt • g)" placement="top">
+                <IconButton
+                  onClick={toggleDescription}
+                  sx={{
+                    ml: 0.5,
+                    ...styles(palette, showDescription),
+                  }}
+                  size="small"
+                >
+                  <Icon {...(!showDescription && { className: "outlined" })}>
+                    sticky_note_2
+                  </Icon>
+                </IconButton>
+              </Tooltip>
+              <ImageModal
+                imageUploading={imageUploading}
+                setImageUploading={setImageUploading}
+                styles={styles}
+                image={image}
+                setImage={setImage}
+              />
+              {!isSubTask && (
+                <SelectDateModal
+                  ref={dateModalButtonRef}
+                  styles={styles}
+                  date={date}
+                  setDate={(e) => {
+                    setDate(e);
+                    setTimeout(() => {
+                      titleRef.current?.focus();
+                    }, 100);
+                  }}
+                />
+              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  mt: 0,
+                  alignItems: "center",
+                  ...(isSubTask && { ml: "auto" }),
+                }}
+              >
+                <div>
+                  <LoadingButton
+                    loading={loading}
+                    disabled={
+                      deferredTitle.trim() === "" ||
+                      deferredTitle.length > 200 ||
+                      imageUploading
+                    }
+                    type="submit"
+                    disableRipple
+                    color="inherit"
+                    sx={{
+                      ...(deferredTitle.trim() !== "" && {
+                        color: isDark ? "#fff" : "#000",
+                      }),
+                      "&:active": {
+                        opacity: ".6",
+                      },
+                      px: 2,
+                      minWidth: "auto",
+                    }}
+                    variant="contained"
+                  >
+                    <Icon>add</Icon>
+                  </LoadingButton>
+                </div>
+              </Box>
+            </Box>
+          </form>
+        </Box>
+      </SwipeableDrawer>
     </>
   );
 });

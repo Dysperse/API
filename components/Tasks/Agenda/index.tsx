@@ -8,19 +8,13 @@ import { Box, Button, Icon, IconButton, useMediaQuery } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Column } from "./Column";
 
-export function Agenda({
-  setDrawerOpen,
-  view,
-}: {
-  setDrawerOpen: any;
-  view: "day" | "week" | "month" | "year";
-}) {
+export function Agenda({ setDrawerOpen, view }) {
   const [navigation, setNavigation] = useState(
-    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0
+    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0,
   );
 
   useEffect(() => {
@@ -54,45 +48,32 @@ export function Agenda({
   });
 
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const viewModifier = isMobile ? "day" : view;
 
-  const e = useMemo(() => {
-    if (view === "week" || view === "day") return "day";
-    if (view === "month") return "month";
-    return "year";
-  }, [view]);
+  const startOfWeek = dayjs()
+    .add(navigation, viewModifier)
+    .startOf(viewModifier);
 
-  const startOfWeek = useMemo(() => {
-    const modifier = isMobile ? e : view;
-    return dayjs().add(navigation, modifier).startOf(modifier);
-  }, [navigation, e, isMobile, view]);
+  const endOfWeek = dayjs().add(navigation, viewModifier).endOf(viewModifier);
 
-  const endOfWeek = useMemo(() => {
-    const modifier = isMobile ? e : view;
-    let endOfWeek = dayjs().add(navigation, modifier).endOf(modifier);
+  const days: any[] = [];
+  const heading =
+    view === "week" || view === "day"
+      ? "dddd"
+      : view === "month"
+      ? "MMMM"
+      : "YYYY";
 
-    switch (view) {
-      case "month":
-        endOfWeek = endOfWeek.add(isMobile ? 0 : 2, "month");
-        break;
-      case "year":
-        endOfWeek = endOfWeek.add(isMobile ? 0 : 3, "year");
-        break;
-    }
-
-    return endOfWeek;
-  }, [navigation, e, isMobile, view]);
-
-  const days: any = [];
-
-  for (let i = 0; i <= endOfWeek.diff(startOfWeek, e); i++) {
-    const currentDay = startOfWeek.add(i, e);
-    const heading =
-      view === "week" || view === "day"
-        ? "dddd"
-        : view === "month"
-        ? "MMMM"
-        : "YYYY";
-
+  for (
+    let i = 0;
+    i <=
+    endOfWeek.diff(startOfWeek, viewModifier == "week" ? "day" : viewModifier);
+    i++
+  ) {
+    const currentDay = startOfWeek.add(
+      i,
+      viewModifier == "week" ? "day" : viewModifier,
+    );
     days.push({
       unchanged: currentDay,
       heading,
@@ -101,17 +82,19 @@ export function Agenda({
     });
   }
 
-  const handlePrev = useCallback(() => {
+  console.log(endOfWeek.diff(startOfWeek, viewModifier));
+
+  const handlePrev = () => {
     setNavigation(navigation - 1);
     document.getElementById("agendaContainer")?.scrollTo(0, 0);
-  }, [navigation]);
+  };
 
-  const handleNext = useCallback(() => {
+  const handleNext = () => {
     setNavigation(navigation + 1);
     document.getElementById("agendaContainer")?.scrollTo(0, 0);
-  }, [navigation]);
+  };
 
-  const handleToday = useCallback(() => {
+  const handleToday = () => {
     setNavigation(0);
     setTimeout(() => {
       const activeHighlight = document.getElementById("activeHighlight");
@@ -122,7 +105,7 @@ export function Agenda({
         });
       window.scrollTo(0, 0);
     }, 1);
-  }, []);
+  };
 
   const { data, loading, url } = useApi("property/tasks/agenda", {
     startTime: startOfWeek.toISOString(),
@@ -159,7 +142,7 @@ export function Agenda({
     <>
       <Head>
         <title>
-          {capitalizeFirstLetter(view == "week" ? "day" : view)} &bull; Agenda
+          {capitalizeFirstLetter(view === "week" ? "day" : view)} &bull; Agenda
         </title>
       </Head>
       <motion.div
@@ -170,20 +153,9 @@ export function Agenda({
         <Box
           sx={{
             position: "fixed",
-            bottom: {
-              xs: "70px",
-              md: "30px",
-            },
-            ".hideBottomNav &": {
-              bottom: {
-                xs: "30px",
-                md: "30px",
-              },
-            },
-            mr: {
-              xs: 1.5,
-              md: 3,
-            },
+            bottom: { xs: "70px", md: "30px" },
+            ".hideBottomNav &": { bottom: { xs: "30px", md: "30px" } },
+            mr: { xs: 1.5, md: 3 },
             zIndex: 9,
             background: addHslAlpha(palette[3], 0.5),
             border: "1px solid",

@@ -81,7 +81,7 @@ export const ImageModal = React.memo(function ImageModal({
         </FileDrop>,
         document.body
       )}
-      <Tooltip title="Attach image (alt • s)" placement="top">
+      <Tooltip title="Image (alt • s)" placement="top">
         <IconButton
           size="small"
           onClick={() => {
@@ -96,7 +96,12 @@ export const ImageModal = React.memo(function ImageModal({
           {imageUploading ? (
             <CircularProgress size={20} sx={{ mx: 0.5 }} />
           ) : (
-            <Icon {...(!image && { className: "outlined" })}>image</Icon>
+            <Icon
+              {...(!image && { className: "outlined" })}
+              sx={{ transform: "rotate(-45deg)" }}
+            >
+              attach_file
+            </Icon>
           )}
         </IconButton>
       </Tooltip>

@@ -4,8 +4,8 @@ version = 1
 name = "javascript"
 enabled = true
 
-  [analyzers.meta]
-  plugins = ["react"]
+[analyzers.meta]
+plugins = ["react"]
 
 # [[analyzers]]
 # name = "test-coverage"
@@ -13,4 +13,4 @@ enabled = true
 
 [[transformers]]
 name = "prettier"
-enabled = true
+enabled = false

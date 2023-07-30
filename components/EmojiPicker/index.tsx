@@ -2,7 +2,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, SwipeableDrawer, TextField, Typography } from "@mui/material";
 import { SearchIndex, init } from "emoji-mart";
-import { cloneElement, useEffect, useRef, useState } from "react";
+import React, { cloneElement, useEffect, useRef, useState } from "react";
 import { Puller } from "../Puller";
 import { EmojiButton } from "./button";
 
@@ -16,7 +16,7 @@ export function debounce(func: (...args: any[]) => void, delay: number) {
   };
 }
 
-export default function EmojiPicker({
+const EmojiPicker = React.memo(function EmojiPicker({
   children,
   emoji,
   setEmoji,
@@ -159,4 +159,6 @@ export default function EmojiPicker({
       </SwipeableDrawer>
     </>
   );
-}
+});
+
+export default EmojiPicker;
