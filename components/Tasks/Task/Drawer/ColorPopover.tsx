@@ -3,9 +3,11 @@ import { colors } from "@/lib/colors";
 import { Box, Chip, Icon, Popover } from "@mui/material";
 import { useState } from "react";
 import { Color } from "./Color";
+import { useTaskContext } from "./Context";
 
-export function ColorPopover({ data, setTaskData, mutationUrl }) {
+export function ColorPopover() {
   const session = useSession();
+  const task = useTaskContext();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: any) => setAnchorEl(event.currentTarget);
@@ -20,9 +22,9 @@ export function ColorPopover({ data, setTaskData, mutationUrl }) {
       icon={
         <>
           <Icon
-            {...(data.color === "grey" && { className: "outlined" })}
+            {...(task.color === "grey" && { className: "outlined" })}
             sx={{
-              color: data.color !== "grey" ? "#000!important" : "inherit",
+              color: task.color !== "grey" ? "#000!important" : "inherit",
               mr: -1.5,
               ml: 1.8,
             }}
@@ -33,13 +35,13 @@ export function ColorPopover({ data, setTaskData, mutationUrl }) {
       }
       sx={{
         background:
-          data.color === "grey"
+          task.color === "grey"
             ? ``
-            : colors[data.color][session.darkMode ? "A200" : 100] +
+            : colors[task.color][session.darkMode ? "A200" : 100] +
               "!important",
       }}
       onClick={handleClick}
-      {...(data.color === "grey" && { variant: "outlined" })}
+      {...(task.color === "grey" && { variant: "outlined" })}
     />
   );
 
@@ -84,13 +86,7 @@ export function ColorPopover({ data, setTaskData, mutationUrl }) {
             "green",
             "grey",
           ].map((color) => (
-            <Color
-              key={color}
-              color={color}
-              mutationUrl={mutationUrl}
-              setTaskData={setTaskData}
-              task={{color:data.color, id:data.id}}
-            />
+            <Color key={color} color={color} />
           ))}
         </Box>
       </Popover>

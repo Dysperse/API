@@ -1,13 +1,15 @@
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { Alert, Box, CircularProgress, SwipeableDrawer } from "@mui/material";
+import { Box, CircularProgress, SwipeableDrawer } from "@mui/material";
+import dayjs from "dayjs";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../../Error";
 import DrawerContent from "./Content";
+import { TaskContext } from "./Context";
 
 export const parseEmojis = (value) => {
   const emojisArray = toArray(value);
@@ -45,41 +47,29 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const ref: any = useRef();
   const session = useSession();
 
-  // Fetch data when the trigger is clicked on
-  const handleOpen = useCallback(async () => {
-    setOpen(true);
-    setLoading(true);
-    try {
-      const data = await fetchRawApi(session, "property/boards/column/task", {
-        id,
-      });
-      setData(data);
-      setLoading(false);
-      setError(null);
-      ref.current.scrollTop = 0;
-    } catch (e: any) {
-      setError(e.message);
-      setLoading(false);
-    }
-  }, [id, session]);
-
-  // Fetch data when the trigger is clicked on
-  const handleMutate = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await fetchRawApi(session, "property/boards/column/task", {
-        id: id,
-      });
-      setData(res);
-      document.getElementById("detailsTrigger")?.click();
-      setLoading(false);
-      setError(null);
-      ref.current.scrollTop = 0;
-    } catch (e: any) {
-      setError(e.message);
-      setLoading(false);
-    }
-  }, [id, session]);
+  /**
+   * Fetch task data
+   * @param {boolean} mutate - Hides the loader if this is set to true
+   */
+  const handleFetch = useCallback(
+    async (mutate = false) => {
+      setOpen(true);
+      if (!mutate) setLoading(true);
+      try {
+        const data = await fetchRawApi(session, "property/boards/column/task", {
+          id,
+        });
+        setData(data);
+        setError(null);
+        setLoading(false);
+        if (!mutate) ref.current.scrollTop = 0;
+      } catch (e: any) {
+        setLoading(false);
+        setError(e.message);
+      }
+    },
+    [id, session]
+  );
 
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
@@ -87,10 +77,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       await fetchRawApi(session, "property/boards/column/task/delete", {
         id: taskId,
       });
-      handleMutate();
+      handleFetch(true);
       mutate(mutationUrl);
     },
-    [mutationUrl, setData, handleMutate, session]
+    [mutationUrl, setData, handleFetch, session]
   );
 
   useHotkeys(
@@ -105,47 +95,53 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   // Callback function when drawer is closed
   const handleClose = useCallback(() => {
     setOpen(false);
-    handleMutate();
     mutate(mutationUrl);
-    if (data && data.parentTasks.length !== 0) {
-      setTimeout(() => {
-        const trigger: any = document.getElementById("subtaskTrigger");
-        if (trigger) trigger.click();
-        if (trigger) trigger.click();
-      }, 200);
-    } else {
-      const trigger: any = document.getElementById("detailsTrigger");
-      if (trigger) trigger.click();
-    }
-  }, [data, handleMutate, mutationUrl]);
+  }, [mutationUrl]);
+
+  const handleEdit = useCallback(
+    function handleEdit(id, key, value) {
+      setData((prev) => ({ ...prev, [key]: value }));
+      fetchRawApi(session, "property/boards/column/task/edit", {
+        id,
+        date: dayjs().toISOString(),
+        [key]: [value],
+      }).then(() => handleFetch(true));
+    },
+    [setData, session, handleFetch]
+  );
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
-    onClick: onClick || handleOpen,
+    onClick: onClick || handleFetch,
   });
 
-  // Some basic drawer styles
-  const drawerStyles = {
-    maxWidth: "500px",
-    width: "100%",
-    height: "100vh",
-  };
-
   return (
-    <>
+    <TaskContext.Provider
+      value={{
+        ...data,
+        set: setData,
+        edit: handleEdit,
+        close: handleClose,
+        mutate: () => handleFetch(true),
+      }}
+    >
       {trigger}
       <SwipeableDrawer
         open={open}
         onClose={handleClose}
         anchor="right"
-        PaperProps={{ sx: drawerStyles, ref }}
+        PaperProps={{
+          sx: {
+            maxWidth: "500px",
+            width: "100%",
+            height: "100vh",
+          },
+          ref,
+        }}
       >
         {open && !loading && error && (
           <Box sx={{ p: 3, pt: { xs: 0, sm: 3 } }}>
-            <ErrorHandler
-              callback={() => mutate(mutationUrl)}
-              error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support"
-            />
+            <ErrorHandler error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support" />
           </Box>
         )}
         {loading && !data && open && (
@@ -158,39 +154,24 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               justifyContent: "center",
             }}
           >
-            <CircularProgress
-              disableShrink
-              sx={{ animationDuration: "0.5s" }}
-            />
+            <CircularProgress />
           </Box>
         )}
         <Box
           sx={{
             opacity: loading ? 0.5 : 1,
             transition: "all .2s",
-            transform: `scale(${loading && data ? 0.99 : 1})`,
           }}
         >
           {data && data !== "deleted" && (
             <DrawerContent
               handleDelete={handleDelete}
-              handleMutate={handleMutate}
               isDateDependent={isDateDependent}
               handleParentClose={handleClose}
-              data={data}
-              mutationUrl={mutationUrl}
-              setTaskData={setData}
             />
           )}
         </Box>
-        {data === "deleted" && (
-          <Box sx={{ p: 3, pt: { xs: 0, sm: 3 } }}>
-            <Alert severity="info" icon="💥">
-              This task has &quot;mysteriously&quot; vanished into thin air
-            </Alert>
-          </Box>
-        )}
       </SwipeableDrawer>
-    </>
+    </TaskContext.Provider>
   );
 });

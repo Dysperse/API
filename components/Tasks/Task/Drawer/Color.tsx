@@ -5,21 +5,12 @@ import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
-import { mutate } from "swr";
+import { useTaskContext } from "./Context";
 
-export const Color = React.memo(function Color({
-  task,
-  mutationUrl,
-  color,
-  setTaskData,
-}: {
-  task: { color: string; id: number };
-  mutationUrl;
-  color: string;
-  setTaskData: any;
-}) {
+export const Color = React.memo(function Color({ color }: { color: string }) {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
+  const task = useTaskContext();
 
   return (
     <Box
@@ -45,14 +36,12 @@ export const Color = React.memo(function Color({
         },
       }}
       onClick={() => {
-        setTaskData((item) => ({ ...item, color }));
+        task.set((item) => ({ ...item, color }));
         fetchRawApi(session, "property/boards/column/task/edit", {
           color: color,
           date: dayjs().toISOString(),
           id: task.id,
-        }).then(() => {
-          mutate(mutationUrl);
-        });
+        }).then(task.mutate);
       }}
     />
   );

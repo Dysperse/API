@@ -8,16 +8,17 @@ import {
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
+import { useTaskContext } from "./Context";
 
 export const LinkedContent = React.memo(function LinkedContent({
-  data,
   styles,
 }: any) {
   const router = useRouter();
+  const task = useTaskContext();
 
   return (
     <Box sx={styles.section}>
-      {data.id.includes("-event-assignment") && (
+      {task.id.includes("-event-assignment") && (
         <ListItem className="item" sx={{ gap: 1.5 }}>
           <Box
             sx={{
@@ -33,38 +34,38 @@ export const LinkedContent = React.memo(function LinkedContent({
       )}
       <ListItem className="item">
         <ListItemText
-          primary={`Edited  ${dayjs(data.lastUpdated).fromNow()}`}
+          primary={`Edited  ${dayjs(task.lastUpdated).fromNow()}`}
           sx={{ fontStyle: "italic" }}
         />
       </ListItem>
       <ListItemButton
         className="item"
-        onClick={() => router.push(`/groups/${data.property.id}`)}
+        onClick={() => router.push(`/groups/${task.property.id}`)}
       >
         <ListItemText
           primary={
-            !(data?.column?.board?.public === false)
-              ? data.property.name
+            !(task?.column?.board?.public === false)
+              ? task.property.name
               : "Only visible to you"
           }
           secondary={
-            !(data?.column?.board?.public === false)
+            !(task?.column?.board?.public === false)
               ? "Visible to group"
-              : `Not visible to others in "${data.property.name}"`
+              : `Not visible to others in "${task.property.name}"`
           }
         />
         <Icon sx={{ ml: "auto" }} className="outlined">
-          {!(data?.column?.board?.public === false) ? "group" : "lock"}
+          {!(task?.column?.board?.public === false) ? "group" : "lock"}
         </Icon>
       </ListItemButton>
-      {data.column && (
+      {task.column && (
         <ListItemButton
           className="item"
-          onClick={() => router.push(`/tasks/boards/${data.column.board.id}`)}
+          onClick={() => router.push(`/tasks/boards/${task.column.board.id}`)}
         >
           <ListItemText
-            secondary={data.column.name}
-            primary={`Found in "${data.column.board.name}"`}
+            secondary={task.column.name}
+            primary={`Found in "${task.column.board.name}"`}
           />
           <Icon sx={{ ml: "auto" }} className="outlined">
             view_kanban

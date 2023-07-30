@@ -13,17 +13,16 @@ import dayjs from "dayjs";
 import React, { cloneElement, useRef, useState } from "react";
 import { Puller } from "../../../Puller";
 import { SelectDateModal } from "../DatePicker";
+import { useTaskContext } from "./Context";
 
 export const RescheduleModal = React.memo(function RescheduleModal({
-  data,
   children,
   handlePostpone,
-  setTaskData,
-  handleEdit,
 }: any) {
   const session = useSession();
   const dateRef = useRef();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const task = useTaskContext();
 
   const [value, setValue] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
@@ -122,13 +121,13 @@ export const RescheduleModal = React.memo(function RescheduleModal({
         <SelectDateModal
           ref={dateRef}
           styles={() => {}}
-          date={data.due}
+          date={task.due}
           setDate={(d) => {
-            setTaskData((prev) => ({
+            task.set((prev) => ({
               ...prev,
               due: d ? null : d?.toISOString(),
             }));
-            handleEdit(data.id, "due", d.toISOString());
+            task.edit(task.id, "due", d.toISOString());
           }}
         >
           <CardActionArea sx={{ mb: 2, borderRadius: 99 }}>
@@ -136,7 +135,7 @@ export const RescheduleModal = React.memo(function RescheduleModal({
               variant="h6"
               sx={{ textAlign: "center", textDecoration: "underline" }}
             >
-              {dayjs(data.due).format("dddd, MMMM D")}
+              {dayjs(task.due).format("dddd, MMMM D")}
             </Typography>
           </CardActionArea>
         </SelectDateModal>
@@ -170,7 +169,7 @@ export const RescheduleModal = React.memo(function RescheduleModal({
               <span>
                 <Typography sx={{ fontWeight: 700 }}>{action.label}</Typography>
                 <Typography variant="body2">
-                  {dayjs(data.due).add(action.days, "day").format("MMMM D")}
+                  {dayjs(task.due).add(action.days, "day").format("MMMM D")}
                 </Typography>
               </span>
             </MenuItem>

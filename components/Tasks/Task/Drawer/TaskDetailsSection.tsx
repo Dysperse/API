@@ -16,6 +16,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { parseEmojis } from ".";
 import { ImageViewer } from "../ImageViewer";
+import { useTaskContext } from "./Context";
 import {
   isAddress,
   isValidHttpUrl,
@@ -23,20 +24,20 @@ import {
 } from "./locationHelpers";
 
 export const TaskDetailsSection = React.memo(function TaskDetailsSection({
-  handleEdit,
   data,
   styles,
   shouldDisable,
 }: any) {
   const storage = useAccountStorage();
   const session = useSession();
+  const task = useTaskContext();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
     <Box sx={styles.section}>
       <TextField
         className="item"
-        onBlur={(e) => handleEdit(data.id, "where", e.target.value)}
+        onBlur={(e) => task.edit(data.id, "where", e.target.value)}
         onKeyDown={(e: any) =>
           e.key === "Enter" && !e.shiftKey && e.target.blur()
         }
@@ -95,7 +96,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
       {/* Description */}
       <TextField
         className="item"
-        onBlur={(e) => handleEdit(data.id, "description", e.target.value)}
+        onBlur={(e) => task.edit(data.id, "description", e.target.value)}
         onKeyDown={(e: any) =>
           e.key === "Enter" && !e.shiftKey && e.target.blur()
         }
