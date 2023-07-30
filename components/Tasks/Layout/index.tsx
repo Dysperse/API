@@ -624,7 +624,6 @@ export function TasksLayout({ open, setOpen, children }) {
               },
             },
           }}
-          sx={{ zIndex: 999999999999 }}
         >
           <Box sx={{ display: "flex", mt: -0.3, ml: 0.95, mb: 1 }}>
             {trigger}
