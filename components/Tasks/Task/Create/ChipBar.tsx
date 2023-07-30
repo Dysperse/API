@@ -168,7 +168,7 @@ const ChipBar = React.memo(function ChipBar({
       <TaskColorPicker
         color={data.color}
         setColor={(e) => {
-          setData({ ...data, color: e.target.value });
+          setData({ ...data, color: e });
         }}
       >
         <Chip
