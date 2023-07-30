@@ -3,7 +3,7 @@ import { TasksLayout } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
-import { useDarkMode } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
 import {
   Box,
@@ -25,6 +25,7 @@ export function ColoredTasks() {
 
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
 
   if (!data) {
     return (
@@ -178,7 +179,7 @@ export function ColoredTasks() {
                   alignItems: "center",
                   justifyContent: "center",
                   flexDirection: "column",
-                  background: `hsl(240,11%,${isDark ? 30 : 95}%)`,
+                  background: palette[2],
                   borderRadius: 5,
                   userSelect: "none",
                 }}
