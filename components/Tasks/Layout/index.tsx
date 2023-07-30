@@ -162,7 +162,7 @@ export function TasksLayout({ open, setOpen, children }) {
 
   const groupPalette = useColor(
     session.property.profile.color,
-    useDarkMode(session.darkMode)
+    useDarkMode(session.darkMode),
   );
 
   const handleClose = () => {
@@ -174,13 +174,13 @@ export function TasksLayout({ open, setOpen, children }) {
     if (!data) return { active: [], archived: [], shared: [] };
 
     const active = data.filter(
-      (x) => !x.archived && x.propertyId === session?.property?.propertyId
+      (x) => !x.archived && x.propertyId === session?.property?.propertyId,
     );
 
     const archived = data.filter((x) => x.archived);
 
     const shared = data.filter(
-      (x) => x.propertyId !== session?.property?.propertyId
+      (x) => x.propertyId !== session?.property?.propertyId,
     );
 
     return { active, archived, shared };
@@ -277,7 +277,7 @@ export function TasksLayout({ open, setOpen, children }) {
                     id={`__agenda.${button.hash}`}
                     sx={buttonStyles(
                       palette,
-                      router.asPath === `/tasks/${button.hash}`
+                      router.asPath === `/tasks/${button.hash}`,
                     )}
                   >
                     <Icon
@@ -371,7 +371,7 @@ export function TasksLayout({ open, setOpen, children }) {
               sx={{
                 ...buttonStyles(
                   palette,
-                  router.asPath == "/tasks/boards/create"
+                  router.asPath == "/tasks/boards/create",
                 ),
                 px: 2,
                 cursor: "default",
@@ -527,16 +527,16 @@ export function TasksLayout({ open, setOpen, children }) {
                       "property/boards/column/task/deleteMany",
                       {
                         selection: JSON.stringify(
-                          taskSelection.filter((e) => e !== "-1")
+                          taskSelection.filter((e) => e !== "-1"),
                         ),
-                      }
+                      },
                     );
                     if (res.errors !== 0) {
                       toast.error(
                         `Couldn't delete ${res.errors} item${
                           res.errors == 1 ? "" : "s"
                         }`,
-                        toastStyles
+                        toastStyles,
                       );
                       return;
                     }
@@ -545,7 +545,7 @@ export function TasksLayout({ open, setOpen, children }) {
                   } catch {
                     toast.error(
                       "Couldn't delete tasks. Try again later.",
-                      toastStyles
+                      toastStyles,
                     );
                   }
                 }}

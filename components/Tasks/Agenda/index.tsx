@@ -14,7 +14,7 @@ import { Column } from "./Column";
 
 export function Agenda({ setDrawerOpen, view }) {
   const [navigation, setNavigation] = useState(
-    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0
+    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0,
   );
 
   useEffect(() => {
