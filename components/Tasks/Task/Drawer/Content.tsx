@@ -159,7 +159,7 @@ const DrawerContent = React.memo(function DrawerContent({
         }}
       >
         <Toolbar>
-          <IconButton onClick={task.close} size="small" sx={styles.button}>
+          <IconButton onClick={task.close} sx={styles.button}>
             <Icon>close</Icon>
           </IconButton>
           <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleClose}>
@@ -191,10 +191,7 @@ const DrawerContent = React.memo(function DrawerContent({
               </MenuItem>
             </ConfirmationModal>
           </Menu>
-          <Box
-            sx={{ ml: "auto", display: "flex", gap: 0.5 }}
-            id="subtaskTrigger"
-          >
+          <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
             <Button
               disableRipple
               onClick={handleComplete}
@@ -206,12 +203,10 @@ const DrawerContent = React.memo(function DrawerContent({
                 px: 1.5,
                 ...styles.button,
                 ...(task.completed && {
-                  background: greenPalette[2],
+                  background: greenPalette[6] + "!important",
+                  color: greenPalette[11] + "!important",
                   "&:hover": {
                     background: { sm: greenPalette[3] },
-                  },
-                  "&:active": {
-                    background: greenPalette[4],
                   },
                 }),
               }}
@@ -239,7 +234,6 @@ const DrawerContent = React.memo(function DrawerContent({
             {!isMobile && (
               <IconButton
                 onClick={handlePriorityChange}
-                size="small"
                 sx={{
                   flexShrink: 0,
                   ...styles.button,
@@ -272,14 +266,13 @@ const DrawerContent = React.memo(function DrawerContent({
             {isMobile && (
               <IconButton
                 onClick={handleMenuClick}
-                size="small"
                 sx={{
                   flexShrink: 0,
                   ...styles.button,
                 }}
                 disabled={shouldDisable}
               >
-                <Icon>more_vert</Icon>
+                <Icon>more_horiz</Icon>
               </IconButton>
             )}
             {!isMobile && (
@@ -293,7 +286,6 @@ const DrawerContent = React.memo(function DrawerContent({
                 }}
               >
                 <IconButton
-                  size="small"
                   sx={{
                     flexShrink: 0,
                     ...styles.button,
