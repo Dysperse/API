@@ -143,6 +143,7 @@ export const CreateTask = React.memo(function CreateTask({
   const session = useSession();
   const emojiRef: any = useRef(null);
   const storage = useAccountStorage();
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
   const selection = useContext(SelectionContext);
   const palette = useColor(session.themeColor, isDark);
@@ -158,7 +159,6 @@ export const CreateTask = React.memo(function CreateTask({
   const [showLocation, setShowLocation] = useState<boolean>(false);
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const [showDescription, setShowDescription] = useState<boolean>(false);
- 
 
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
@@ -167,10 +167,18 @@ export const CreateTask = React.memo(function CreateTask({
   const deferredDate = useDeferredValue(date);
   const deferredTitle = useDeferredValue(title);
 
-  const trigger = useMediaQuery("(min-width: 600px)");
+  const placeholderValue = useMemo(
+    () =>
+      placeholder
+        ? placeholder
+        : 'Add an item to "' + (column || { name: "this task" }).name + '"',
+    [placeholder, column]
+  );
+
   const titleRef = useRef<HTMLInputElement>(null);
-  const dateModalButtonRef = useRef<HTMLButtonElement>(null);
+  const trigger = useMediaQuery("(min-width: 600px)");
   const descriptionRef = useRef<HTMLInputElement>(null);
+  const dateModalButtonRef = useRef<HTMLButtonElement>(null);
 
   useBackButton(() => setOpen(false));
 
@@ -204,13 +212,8 @@ export const CreateTask = React.memo(function CreateTask({
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (closeOnCreate) {
-        setOpen(false);
-      }
-      if (deferredTitle.trim() === "") {
-        toast.error("You can't have an empty task... 🤦", toastStyles);
-        return;
-      }
+      if (closeOnCreate) setOpen(false);
+      if (deferredTitle.trim() === "") return;
       vibrate(50);
       setLoading(true);
       fetchRawApi(session, "property/boards/column/task/create", {
@@ -228,7 +231,6 @@ export const CreateTask = React.memo(function CreateTask({
       });
       toast.dismiss();
       toast.success("Created task!", toastStyles);
-
       setLoading(false);
       setTitle("");
       setDescription("");
@@ -442,8 +444,69 @@ export const CreateTask = React.memo(function CreateTask({
     [open]
   );
 
+  const handleTitleChange = useCallback((e) => {
+    if (e.target.value.length === 1) {
+      setTitle(capitalizeFirstLetter(e.target.value.replace(/\n/g, "")));
+    } else {
+      setTitle(e.target.value.replace(/\n/g, ""));
+    }
+  }, []);
+
   return (
     <>
+      <ListItemButton
+        disabled={
+          storage?.isReached === true ||
+          session?.permission === "read-only" ||
+          selection?.values?.length > 0
+        }
+        disableRipple
+        id="createTask"
+        className="item cursor-unset"
+        sx={{
+          ...taskButtonStyles(palette),
+          mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },
+          ...(label && { mb: -0.5 }),
+          ...sx,
+        }}
+        onClick={() => {
+          setOpen(true);
+          if (defaultDate) {
+            setDate(defaultDate);
+          }
+          setTimeout(() => {
+            titleRef.current?.focus();
+          }, 100);
+        }}
+      >
+        <Box
+          sx={{
+            boxShadow: `${`inset 0 0 0 1.5px ${palette[12]}`}`,
+            borderRadius: "10px",
+            display: "flex",
+            opacity: 0.5,
+            width: 25,
+            height: 25,
+            ml: 0.3,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon
+            className="outlined"
+            style={{
+              color: palette[12],
+            }}
+          >
+            add
+          </Icon>
+        </Box>
+
+        <Typography sx={{ ml: 0.5, fontWeight: 400 }}>
+          {parent ? "New subtask" : label || "New list item"}
+        </Typography>
+      </ListItemButton>
+
       <SwipeableDrawer
         {...(trigger && {
           TransitionComponent: Grow,
@@ -569,8 +632,6 @@ export const CreateTask = React.memo(function CreateTask({
                   position: "relative",
                   borderRadius: 5,
                   overflow: "hidden",
-                  boxShadow:
-                    "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
                   mb: 2,
                   height: 200,
                 }}
@@ -598,7 +659,6 @@ export const CreateTask = React.memo(function CreateTask({
                     background: "rgba(0,0,0,0.7)!important",
                     color: "#fff!important",
                     minWidth: "unset",
-                    borderRadius: 999,
                     zIndex: 999,
                   }}
                   onClick={() => setImage(null)}
@@ -614,27 +674,13 @@ export const CreateTask = React.memo(function CreateTask({
               inputRef={titleRef}
               id="title"
               value={title}
-              onChange={(e) => {
-                if (e.target.value.length === 1) {
-                  setTitle(
-                    capitalizeFirstLetter(e.target.value.replace(/\n/g, ""))
-                  );
-                } else {
-                  setTitle(e.target.value.replace(/\n/g, ""));
-                }
-              }}
+              onChange={handleTitleChange}
               autoFocus
               variant="standard"
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleSubmit(e);
               }}
-              placeholder={
-                placeholder
-                  ? placeholder
-                  : 'Add an item to "' +
-                    (column || { name: "this task" }).name +
-                    '"'
-              }
+              placeholder={placeholderValue}
               InputProps={{
                 disableUnderline: true,
                 sx: { fontSize: 19 },
@@ -654,7 +700,6 @@ export const CreateTask = React.memo(function CreateTask({
                 multiline
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: 15 },
                 }}
               />
             </Collapse>
@@ -672,7 +717,6 @@ export const CreateTask = React.memo(function CreateTask({
                 multiline
                 InputProps={{
                   disableUnderline: true,
-                  sx: { fontSize: 15 },
                 }}
               />
             </Collapse>
@@ -697,42 +741,35 @@ export const CreateTask = React.memo(function CreateTask({
                   </Icon>
                 </IconButton>
               </Tooltip>
-              <ImageModal
-                imageUploading={imageUploading}
-                setImageUploading={setImageUploading}
-                styles={styles}
-                image={image}
-                setImage={setImage}
-              />
-              <Tooltip title="Emoji (alt • d)" placement="top">
-                <div>
-                  <EmojiPicker
-                    emoji={""}
-                    useNativeEmoji
-                    setEmoji={(emoji) => {
-                      setTitle((t) => t + emoji);
-                      setTimeout(() => {
-                        const input: any = titleRef.current;
-                        titleRef.current?.focus();
-                        input.selectionStart = input.selectionEnd =
-                          input.value.length;
-                      }, 100);
-                    }}
-                  >
-                    <IconButton
-                      onClick={() => vibrate(50)}
-                      ref={emojiRef}
-                      sx={{
-                        ...styles(palette, false),
-                        display: { xs: "none", sm: "flex" },
+
+              {!isMobile && (
+                <Tooltip title="Emoji (alt • d)" placement="top">
+                  <div>
+                    <EmojiPicker
+                      emoji={""}
+                      useNativeEmoji
+                      setEmoji={(emoji) => {
+                        setTitle((t) => t + emoji);
+                        setTimeout(() => {
+                          const input: any = titleRef.current;
+                          titleRef.current?.focus();
+                          input.selectionStart = input.selectionEnd =
+                            input.value.length;
+                        }, 100);
                       }}
-                      size="small"
                     >
-                      <Icon className="outlined">mood</Icon>
-                    </IconButton>
-                  </EmojiPicker>
-                </div>
-              </Tooltip>
+                      <IconButton
+                        onClick={() => vibrate(50)}
+                        ref={emojiRef}
+                        sx={styles(palette, false)}
+                        size="small"
+                      >
+                        <Icon className="outlined">mood</Icon>
+                      </IconButton>
+                    </EmojiPicker>
+                  </div>
+                </Tooltip>
+              )}
               <Tooltip title="Location (alt • f)" placement="top">
                 <IconButton
                   onClick={toggleLocation}
@@ -748,7 +785,7 @@ export const CreateTask = React.memo(function CreateTask({
                 <IconButton
                   onClick={toggleDescription}
                   sx={{
-                    mx: 0.5,
+                    ml: 0.5,
                     ...styles(palette, showDescription),
                   }}
                   size="small"
@@ -758,6 +795,13 @@ export const CreateTask = React.memo(function CreateTask({
                   </Icon>
                 </IconButton>
               </Tooltip>
+              <ImageModal
+                imageUploading={imageUploading}
+                setImageUploading={setImageUploading}
+                styles={styles}
+                image={image}
+                setImage={setImage}
+              />
               {!isSubTask && (
                 <SelectDateModal
                   ref={dateModalButtonRef}
@@ -796,12 +840,8 @@ export const CreateTask = React.memo(function CreateTask({
                         color: isDark ? "#fff" : "#000",
                       }),
                       "&:active": {
-                        transform: "scale(.95)",
-                        transition: "none",
                         opacity: ".6",
                       },
-                      transition: "all .2s",
-                      borderRadius: 5,
                       px: 2,
                       minWidth: "auto",
                     }}
@@ -815,58 +855,6 @@ export const CreateTask = React.memo(function CreateTask({
           </form>
         </Box>
       </SwipeableDrawer>
-      <ListItemButton
-        disabled={
-          storage?.isReached === true ||
-          session?.permission === "read-only" ||
-          selection?.values?.length > 0
-        }
-        disableRipple
-        id="createTask"
-        className="item cursor-unset"
-        sx={{
-          ...taskButtonStyles(palette),
-          mt: { xs: label ? -0.5 : 0, sm: label ? 0 : 2 },
-          ...(label && { mb: -0.5 }),
-          ...sx,
-        }}
-        onClick={() => {
-          setOpen(true);
-          if (defaultDate) {
-            setDate(defaultDate);
-          }
-          setTimeout(() => {
-            titleRef.current?.focus();
-          }, 100);
-        }}
-      >
-        <Box
-          sx={{
-            boxShadow: `${`inset 0 0 0 1.5px ${palette[12]}`}`,
-            borderRadius: "10px",
-            display: "flex",
-            opacity: 0.5,
-            width: 25,
-            height: 25,
-            ml: 0.3,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Icon
-            className="outlined"
-            style={{
-              color: palette[12],
-            }}
-          >
-            add
-          </Icon>
-        </Box>
-
-        <Typography sx={{ ml: 0.5, fontWeight: 400 }}>
-          {parent ? "New subtask" : label || "New list item"}
-        </Typography>
-      </ListItemButton>
     </>
   );
 });
