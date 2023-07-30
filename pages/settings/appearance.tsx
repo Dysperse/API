@@ -36,9 +36,15 @@ function ThemeColorSettings() {
   useStatusBar(open ? previewPalette[9] : previewPalette[1]);
 
   return (
-    <Box>
-      <ListSubheader>Theme color</ListSubheader>
-      <Button onClick={() => setOpen(true)}>Change</Button>
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <ListSubheader>Color</ListSubheader>
+      <Button
+        onClick={() => setOpen(true)}
+        variant="contained"
+        sx={{ ml: "auto" }}
+      >
+        Change
+      </Button>
       <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
@@ -51,7 +57,6 @@ function ThemeColorSettings() {
             flexDirection: "column",
             overflow: "visible",
             background: previewPalette[9],
-            transition: "background .2s !important",
           },
         }}
       >

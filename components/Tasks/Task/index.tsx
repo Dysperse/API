@@ -212,6 +212,7 @@ export const Task: any = React.memo(function Task({
             gap: 1.5,
             "&:hover": {
               background: {
+                xs: "transparent",
                 sm: palette[2],
               },
             },

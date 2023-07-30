@@ -1,8 +1,11 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import {
   AppBar,
   Box,
@@ -36,6 +39,7 @@ export default function Layout({ children }: any) {
   const isDark = useDarkMode(session.darkMode);
 
   const palette = useColor(session.themeColor, isDark);
+  useStatusBar(palette[2]);
 
   const closeRef: any = useRef();
   useHotkeys("esc", () => closeRef.current?.click());
@@ -77,7 +81,7 @@ export default function Layout({ children }: any) {
     <>
       <Box
         sx={{
-          display: "flex",
+          display: { xs: "none", md: "flex" },
           alignItems: "center",
           marginBottom: "15px",
           gap: 2,
@@ -176,7 +180,7 @@ export default function Layout({ children }: any) {
         width: "100vw",
         left: 0,
         zIndex: 999,
-        background: palette[2],
+        background: `linear-gradient(90deg, ${palette[2]} 0%, ${palette[1]} 25%)`,
       }}
     >
       {!isMobile && (
@@ -215,16 +219,17 @@ export default function Layout({ children }: any) {
       {isMobile && (
         <SwipeableDrawer
           open={open}
+          anchor="top"
           onClose={() => setOpen(false)}
           PaperProps={{
             sx: {
-              width: { xs: "calc(100vw - 50px)", md: 300 },
+              width: { xs: "100vw", md: 300 },
               flex: { xs: "calc(100vw - 50px)", md: "0 0 250px" },
               p: 2,
-              background: palette[3],
-              borderRadius: "0 20px 20px 0",
-              minHeight: "100vh",
-              height: "100vh",
+              background: addHslAlpha(palette[3], 0.6),
+              backdropFilter: "blur(10px)",
+              borderRadius: "0 0 20px 20px",
+              height: "auto",
               overflowY: "scroll",
               overflowX: "hidden",
               display: "flex",
@@ -232,7 +237,10 @@ export default function Layout({ children }: any) {
             },
           }}
         >
-          {sidebar}{" "}
+          {sidebar}
+          <Puller
+            sx={{ position: "sticky", bottom: 0, top: "unset", mb: -3 }}
+          />
         </SwipeableDrawer>
       )}
       <Box

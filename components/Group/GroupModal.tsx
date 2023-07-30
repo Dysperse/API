@@ -22,7 +22,7 @@ export function GroupModal({
   useRightClick = true,
 }: any) {
   const session = useSession();
-  const { data, fetcher, url, error } = useApi("user/properties");
+  const { data, fetcher, url } = useApi("user/properties");
   const [showMore, setShowMore] = useState(false);
 
   const palette = useColor(
@@ -49,7 +49,7 @@ export function GroupModal({
       open={showMore}
       onClose={() => setShowMore(false)}
       PaperProps={{
-        sx: { px: 1.5 },
+        sx: { px: 1.5, pb: 3 },
       }}
     >
       <Puller showOnDesktop />

@@ -402,7 +402,6 @@ export default function Spotlight() {
         }}
       >
         <Box sx={{ mr: 1 }} />
-        {/* Get unique badges */}
         {[...new Set(results.map((result) => result?.badge?.toLowerCase()))]
           .filter((badge) => badge)
           .map((_badge) => (
