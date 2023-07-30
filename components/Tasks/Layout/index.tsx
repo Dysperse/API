@@ -102,6 +102,40 @@ export const taskStyles = (palette) => {
   };
 };
 
+const buttonStyles = (palette, condition: boolean) => ({
+  cursor: { sm: "unset!important" },
+  transition: "none!important",
+  px: 1.5,
+  gap: 1.5,
+  py: 0.8,
+  mr: 1,
+  mb: 0.3,
+  width: "100%",
+  fontSize: "15px",
+  justifyContent: "flex-start",
+  borderRadius: 4,
+  "&:hover, &:focus": {
+    background: addHslAlpha(palette[4], 0.5),
+  },
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  ...(!condition
+    ? {
+        color: addHslAlpha(palette[12], 0.7),
+        "&:hover": {
+          background: addHslAlpha(palette[4], 0.5),
+        },
+      }
+    : {
+        color: palette[12],
+        background: addHslAlpha(palette[6], 0.5),
+        "&:hover, &:focus": {
+          background: addHslAlpha(palette[7], 0.5),
+        },
+      }),
+});
+
 export function TasksLayout({ open, setOpen, children }) {
   const storage = useAccountStorage();
   const router = useRouter();
@@ -126,46 +160,9 @@ export function TasksLayout({ open, setOpen, children }) {
   useHotkeys("m", () => router.push("/tasks/agenda/month"));
   useHotkeys("y", () => router.push("/tasks/agenda/year"));
 
-  const buttonStyles = (condition: boolean) => ({
-    cursor: { sm: "unset!important" },
-    transition: "none!important",
-    px: 1.5,
-    gap: 1.5,
-    py: 0.8,
-    mr: 1,
-    mb: 0.3,
-    width: "100%",
-    fontSize: "15px",
-    justifyContent: "flex-start",
-    borderRadius: 4,
-    "&:hover, &:focus": {
-      background: addHslAlpha(palette[4], 0.5),
-    },
-    ...(isDark && {
-      color: palette[11],
-    }),
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    ...(!condition
-      ? {
-          color: addHslAlpha(palette[12], 0.7),
-          "&:hover": {
-            background: addHslAlpha(palette[4], 0.5),
-          },
-        }
-      : {
-          color: palette[12],
-          background: addHslAlpha(palette[6], 0.5),
-          "&:hover, &:focus": {
-            background: addHslAlpha(palette[7], 0.5),
-          },
-        }),
-  });
-
   const groupPalette = useColor(
     session.property.profile.color,
-    useDarkMode(session.darkMode),
+    useDarkMode(session.darkMode)
   );
 
   const handleClose = () => {
@@ -177,13 +174,13 @@ export function TasksLayout({ open, setOpen, children }) {
     if (!data) return { active: [], archived: [], shared: [] };
 
     const active = data.filter(
-      (x) => !x.archived && x.propertyId === session?.property?.propertyId,
+      (x) => !x.archived && x.propertyId === session?.property?.propertyId
     );
 
     const archived = data.filter((x) => x.archived);
 
     const shared = data.filter(
-      (x) => x.propertyId !== session?.property?.propertyId,
+      (x) => x.propertyId !== session?.property?.propertyId
     );
 
     return { active, archived, shared };
@@ -278,7 +275,10 @@ export function TasksLayout({ open, setOpen, children }) {
                   <Button
                     size="large"
                     id={`__agenda.${button.hash}`}
-                    sx={buttonStyles(router.asPath === `/tasks/${button.hash}`)}
+                    sx={buttonStyles(
+                      palette,
+                      router.asPath === `/tasks/${button.hash}`
+                    )}
                   >
                     <Icon
                       className={
@@ -311,7 +311,7 @@ export function TasksLayout({ open, setOpen, children }) {
               <Link key={index} href={link.href} style={{ cursor: "default" }}>
                 <Button
                   size="large"
-                  sx={buttonStyles(router.asPath === link.href)}
+                  sx={buttonStyles(palette, router.asPath === link.href)}
                 >
                   <Icon
                     className={router.asPath === link.href ? "" : "outlined"}
@@ -369,7 +369,10 @@ export function TasksLayout({ open, setOpen, children }) {
               size="large"
               onClick={() => setOpen(false)}
               sx={{
-                ...buttonStyles(router.asPath == "/tasks/boards/create"),
+                ...buttonStyles(
+                  palette,
+                  router.asPath == "/tasks/boards/create"
+                ),
                 px: 2,
                 cursor: "default",
                 ...((storage?.isReached === true ||
@@ -524,16 +527,16 @@ export function TasksLayout({ open, setOpen, children }) {
                       "property/boards/column/task/deleteMany",
                       {
                         selection: JSON.stringify(
-                          taskSelection.filter((e) => e !== "-1"),
+                          taskSelection.filter((e) => e !== "-1")
                         ),
-                      },
+                      }
                     );
                     if (res.errors !== 0) {
                       toast.error(
                         `Couldn't delete ${res.errors} item${
                           res.errors == 1 ? "" : "s"
                         }`,
-                        toastStyles,
+                        toastStyles
                       );
                       return;
                     }
@@ -542,7 +545,7 @@ export function TasksLayout({ open, setOpen, children }) {
                   } catch {
                     toast.error(
                       "Couldn't delete tasks. Try again later.",
-                      toastStyles,
+                      toastStyles
                     );
                   }
                 }}

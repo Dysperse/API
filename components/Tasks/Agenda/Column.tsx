@@ -1,15 +1,11 @@
-import { exportAsImage } from "@/components/Coach/Goal/Options";
-import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
   Box,
-  Button,
   CircularProgress,
   Collapse,
   Divider,
@@ -17,17 +13,16 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  SwipeableDrawer,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import dynamic from "next/dynamic";
 import React, {
-  cloneElement,
   memo,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -39,6 +34,8 @@ import { mutate } from "swr";
 import { SelectionContext } from "../Layout";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
+import { ShareProgress } from "./ShareProgress";
+const Image = dynamic(() => import("next/image"), { ssr: false });
 
 interface AgendaColumnProps {
   mutationUrl: string;
@@ -48,97 +45,6 @@ interface AgendaColumnProps {
   navigation: number;
 }
 
-function ShareProgress({ day, children, data, tasksLeft }) {
-  const ref = useRef();
-  const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-
-  const [open, setOpen] = useState(false);
-  const [exporting, setExporting] = useState(false);
-
-  const trigger = cloneElement(children, {
-    onClick: (e) => {
-      e.stopPropagation();
-      setOpen(true);
-    },
-  });
-
-  const handleExport = async () => {
-    setExporting(true);
-    setTimeout(async () => {
-      await exportAsImage(ref.current, "progress.png");
-    }, 50);
-    setExporting(false);
-  };
-
-  return (
-    <>
-      {trigger}
-      <SwipeableDrawer
-        open={open}
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        anchor="bottom"
-        sx={{ zIndex: 9999999 }}
-        onKeyDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Puller showOnDesktop />
-        <Box
-          sx={{
-            background: palette[9],
-            p: 3,
-            position: "relative",
-            color: "#000",
-            ...(exporting && {
-              transform: "scale(3)",
-            }),
-          }}
-          ref={ref}
-        >
-          <picture>
-            <img
-              src="/logo.svg"
-              alt="Logo"
-              style={{
-                position: "absolute",
-                top: "20px",
-                right: "20px",
-                width: "40px",
-                height: "40px",
-              }}
-            />
-          </picture>
-
-          <Typography sx={{ opacity: 0.7, mt: 10 }}>
-            {dayjs(day.unchanged).format("MMMM D, YYYY")}
-          </Typography>
-          <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
-            I finished {data.length - tasksLeft} task
-            {data.length - tasksLeft !== 1 && "s"} today!
-          </Typography>
-          <Typography variant="h6" gutterBottom sx={{ opacity: 0.8 }}>
-            {tasksLeft === 0
-              ? "Conquered my entire to-do list like a boss."
-              : `Only ${tasksLeft} more to conquer.`}
-          </Typography>
-        </Box>
-        <Box sx={{ p: 2 }}>
-          <Button
-            onClick={handleExport}
-            variant="outlined"
-            size="large"
-            disabled={exporting}
-            fullWidth
-            sx={{ borderWidth: "2px!important" }}
-          >
-            <Icon>download</Icon>Save to gallery
-          </Button>
-        </Box>
-      </SwipeableDrawer>
-    </>
-  );
-}
 const ColumnMenu = React.memo(function ColumnMenu({
   day,
   tasksLeft,
@@ -170,7 +76,12 @@ const ColumnMenu = React.memo(function ColumnMenu({
       >
         <Icon className="outlined">more_horiz</Icon>
       </IconButton>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose} onClick={(e) => e.stopPropagation()}>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        onClick={(e) => e.stopPropagation()}
+      >
         <MenuItem
           onClick={(e) => {
             e.stopPropagation();
@@ -202,7 +113,6 @@ export const Column: any = memo(function Column({
 }: AgendaColumnProps) {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
-  const selection = useContext(SelectionContext);
 
   const palette = useColor(session.themeColor, isDark);
 
@@ -285,50 +195,52 @@ export const Column: any = memo(function Column({
   const ref: any = useRef();
 
   const [loading, setLoading] = useState(false);
-  const scrollIntoView = async (load = true) => {
-    if (window.innerWidth > 600) {
-      if (load) {
-        document.body.scrollTop = 0;
-        ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+
+  const scrollIntoView = useCallback(
+    async (load = true) => {
+      if (window.innerWidth > 600) {
+        if (load) {
+          document.body.scrollTop = 0;
+          ref.current?.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        setTimeout(() => {
+          ref.current?.scrollIntoView({
+            block: "nearest",
+            inline: "center",
+            behavior: "smooth",
+          });
+        }, 50);
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      setTimeout(() => {
-        ref.current?.scrollIntoView({
-          block: "nearest",
-          inline: "center",
-          behavior: "smooth",
-        });
-      }, 50);
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+      if (!load) return;
 
-    if (!load) return;
-
-    setLoading(true);
-    try {
-      await mutate(mutationUrl);
-      await new Promise((r) => setTimeout(() => r(""), 500));
-    } catch (e) {
-      toast.error(
-        "Yikes! We couldn't get your tasks. Please try again later",
-        toastStyles
-      );
-    }
-    setLoading(false);
-  };
+      setLoading(true);
+      try {
+        await mutate(mutationUrl);
+        await new Promise((r) => setTimeout(() => r(""), 500));
+      } catch (e) {
+        toast.error(
+          "Yikes! We couldn't get your tasks. Please try again later",
+          toastStyles
+        );
+      }
+      setLoading(false);
+    },
+    [mutationUrl]
+  );
 
   const completedTasks = sortedTasks.filter((task) => task.completed);
   const tasksLeft = sortedTasks.length - completedTasks.length;
-
-  const mount = useDelayedMount(loading, 1000);
 
   return (
     <Box
       ref={ref}
       {...(isToday && { id: "activeHighlight" })}
       onClick={() => {
-        if(window.innerWidth < 600) return;
+        if (window.innerWidth < 600) return;
         scrollIntoView(false);
       }}
       sx={{
@@ -371,7 +283,7 @@ export const Column: any = memo(function Column({
               background: palette[3],
             }}
           >
-            {mount && <CircularProgress />}
+            <CircularProgress />
           </Box>
         </Collapse>
 

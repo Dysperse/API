@@ -17,7 +17,6 @@ import {
   styled,
 } from "@mui/material";
 import dayjs from "dayjs";
-import dynamic from "next/dynamic";
 import React, {
   useCallback,
   useContext,
@@ -38,9 +37,7 @@ import {
   videoChatPlatforms,
 } from "./Drawer/locationHelpers";
 
-const ImageViewer = dynamic(() =>
-  import("./ImageViewer").then((mod) => mod.ImageViewer),
-);
+import { ImageViewer } from "./ImageViewer";
 
 export const Task: any = React.memo(function Task({
   sx = {},
@@ -80,7 +77,7 @@ export const Task: any = React.memo(function Task({
           opacity: 0.5,
         },
       })),
-    [taskData.color, isDark],
+    [taskData.color, isDark]
   );
 
   const BpCheckedIcon: any = useMemo(
@@ -106,7 +103,7 @@ export const Task: any = React.memo(function Task({
           content: '""',
         },
       }),
-    [taskData.color, isDark, BpIcon],
+    [taskData.color, isDark, BpIcon]
   );
 
   const handleCompletion = useCallback(
@@ -122,7 +119,7 @@ export const Task: any = React.memo(function Task({
         toast.error("An error occured while updating the task", toastStyles);
       }
     },
-    [taskData.id, session],
+    [taskData.id, session]
   );
 
   const handlePriorityChange = useCallback(async () => {
@@ -150,7 +147,7 @@ export const Task: any = React.memo(function Task({
         success: taskData.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
       },
-      toastStyles,
+      toastStyles
     );
   }, [
     taskData.pinned,
@@ -166,7 +163,7 @@ export const Task: any = React.memo(function Task({
       (board && board.archived) ||
       session?.permission === "read-only" ||
       storage?.isReached === true,
-    [board, session, storage],
+    [board, session, storage]
   );
 
   const selection = useContext(SelectionContext);
@@ -180,6 +177,25 @@ export const Task: any = React.memo(function Task({
       selection.set([...new Set([...selection.values, taskData.id])]);
     }
   };
+
+  const subTasks = useMemo(
+    () =>
+      taskData && taskData.subTasks
+        ? taskData.subTasks.map((subtask) => (
+            <Task
+              key={subtask.id}
+              isSubTask
+              board={board}
+              isAgenda={isAgenda}
+              columnId={columnId}
+              mutationUrl={mutationUrl}
+              task={subtask}
+              checkList={checkList}
+            />
+          ))
+        : [],
+    [board, columnId, isAgenda, mutationUrl, checkList, taskData]
+  );
 
   return !taskData ? (
     <div />
@@ -402,7 +418,7 @@ export const Task: any = React.memo(function Task({
                     <Chip
                       label={
                         videoChatPlatforms.find((platform) =>
-                          taskData.where.includes(platform),
+                          taskData.where.includes(platform)
                         )
                           ? "Call"
                           : isAddress(taskData.where)
@@ -416,8 +432,8 @@ export const Task: any = React.memo(function Task({
                         if (isAddress(taskData.where)) {
                           window.open(
                             `https://maps.google.com/?q=${encodeURIComponent(
-                              taskData.where,
-                            )}`,
+                              taskData.where
+                            )}`
                           );
                           return;
                         }
@@ -426,7 +442,7 @@ export const Task: any = React.memo(function Task({
                       icon={
                         <Icon>
                           {videoChatPlatforms.find((platform) =>
-                            taskData.where.includes(platform),
+                            taskData.where.includes(platform)
                           )
                             ? "call"
                             : isAddress(taskData.where)
@@ -443,20 +459,7 @@ export const Task: any = React.memo(function Task({
         </ListItemButton>
       </TaskDrawer>
 
-      {taskData &&
-        taskData.subTasks &&
-        taskData.subTasks.map((subtask) => (
-          <Task
-            key={subtask.id}
-            isSubTask
-            board={board}
-            isAgenda={isAgenda}
-            columnId={columnId}
-            mutationUrl={mutationUrl}
-            task={subtask}
-            checkList={checkList}
-          />
-        ))}
+      {subTasks}
     </>
   );
 });
