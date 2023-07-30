@@ -220,7 +220,7 @@ export function TasksLayout({ open, setOpen, children }) {
         )}
         <Box
           sx={{ p: 2, mb: { xs: -4, sm: -3 } }}
-          onClick={() => setOpen(false)}
+          
         >
           <GroupModal useRightClick={false}>
             <Button
