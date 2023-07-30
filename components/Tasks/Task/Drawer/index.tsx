@@ -10,8 +10,6 @@ import { mutate } from "swr";
 import { ErrorHandler } from "../../../Error";
 import DrawerContent from "./Content";
 import { TaskContext } from "./Context";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 
 export const parseEmojis = (value) => {
   const emojisArray = toArray(value);
@@ -41,7 +39,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   onClick?: any;
 }) {
   const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<null | any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,7 +46,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
-
 
   /**
    * Fetch task data
@@ -78,13 +74,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
       setData("deleted");
+      setOpen(false);
       await fetchRawApi(session, "property/boards/column/task/delete", {
         id: taskId,
       });
       handleFetch(true);
       mutate(mutationUrl);
     },
-    [mutationUrl, setData, handleFetch, session]
+    [mutationUrl, setData, handleFetch, session, setOpen]
   );
 
   useHotkeys(
@@ -138,9 +135,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           sx: {
             maxWidth: "500px",
             width: "100%",
-            background: addHslAlpha(palette[1], 0.6),
             height: "100vh",
-            backdropFilter: "blur(10px)",
           },
           ref,
         }}

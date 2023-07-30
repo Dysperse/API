@@ -182,7 +182,6 @@ const DrawerContent = React.memo(function DrawerContent({
               question={`This task has ${task.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
               disabled={task.subTasks.length === 0}
               callback={async () => {
-                task.close();
                 await handleDelete(task.id);
                 await task.mutate();
               }}
@@ -289,13 +288,11 @@ const DrawerContent = React.memo(function DrawerContent({
                 question={`This task has ${task.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
                 disabled={task.subTasks.length === 0}
                 callback={async () => {
-                  task.close();
                   await handleDelete(task.id);
                   await task.mutate();
                 }}
               >
                 <IconButton
-                  onClick={task.close}
                   size="small"
                   sx={{
                     flexShrink: 0,

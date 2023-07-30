@@ -86,7 +86,7 @@ export const CreateTask = React.memo(function CreateTask({
     color: "grey",
     description: "",
     pinned: false,
-    image: null,
+    image: "",
     location: "",
     date: new Date(defaultDate || new Date().toISOString()),
   });
@@ -148,14 +148,15 @@ export const CreateTask = React.memo(function CreateTask({
       if (deferredData.title.trim() === "") return;
       vibrate(50);
       setLoading(true);
+      console.log(data);
       fetchRawApi(session, "property/boards/column/task/create", {
         ...data,
         ...(data.image && { image: JSON.parse(data.image).url }),
         pinned: data.pinned ? "true" : "false",
         due: data.date ? data.date.toISOString() : "false",
-        ...(parent && { parent }),
         boardId,
         columnId: (column || { id: -1 }).id,
+        ...(parent && { parent }),
       });
       toast.dismiss();
       toast.success("Created task!", toastStyles);
