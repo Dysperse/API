@@ -25,8 +25,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import useEmblaCarousel from "embla-carousel-react";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { motion } from "framer-motion";
 import React, {
   cloneElement,
@@ -34,6 +32,7 @@ import React, {
   useContext,
   useDeferredValue,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -121,7 +120,8 @@ export const taskButtonStyles = (palette) => ({
   },
   "&:focus-within, &:hover": {
     background: {
-      sm: `${palette[3]} !important`,
+      xs: `transparent !important`,
+      sm: `${palette[2]} !important`,
     },
   },
   py: { xs: 2, sm: 1.5 },
@@ -175,19 +175,22 @@ export const CreateTask = React.memo(function CreateTask({
 
   useBackButton(() => setOpen(false));
 
-  const styles = (palette, active) => ({
-    color: palette[12],
-    ...(active && {
-      background: palette[4] + "!important",
-      color: palette[11] + "!important",
+  const styles = useMemo(
+    () => (palette, active) => ({
+      color: palette[12],
+      ...(active && {
+        background: palette[4] + "!important",
+        color: palette[11] + "!important",
+      }),
+      "&:hover": {
+        background: palette[4] + "!important",
+      },
+      cursor: "default",
+      borderRadius: 3,
+      transition: "none",
     }),
-    "&:hover": {
-      background: palette[4] + "!important",
-    },
-    cursor: "default",
-    borderRadius: 3,
-    transition: "none",
-  });
+    []
+  );
 
   useEffect(() => {
     if (
@@ -251,29 +254,29 @@ export const CreateTask = React.memo(function CreateTask({
     ]
   );
 
-  const toggleDescription = () => {
+  const toggleDescription = useCallback(() => {
     vibrate(50);
-    setShowDescription(!showDescription);
+    setShowDescription((prev) => !prev);
     setTimeout(() => {
-      if (!showDescription) document.getElementById("description")?.focus();
-      else document.getElementById("title")?.focus();
+      if (!showDescription) descriptionRef.current?.focus();
+      else titleRef.current?.focus();
     }, 100);
-  };
+  }, [descriptionRef, showDescription]);
 
-  const toggleLocation = () => {
+  const toggleLocation = useCallback(() => {
     vibrate(50);
-    setShowLocation(!showLocation);
+    setShowLocation((prev) => !prev);
     setTimeout(() => {
-      if (!showLocation) document.getElementById("location")?.focus();
-      else document.getElementById("title")?.focus();
+      if (!showLocation) descriptionRef.current?.focus();
+      else titleRef.current?.focus();
     }, 100);
-  };
+  }, [descriptionRef, showLocation]);
 
-  const togglePin = () => {
+  const togglePin = useCallback(() => {
     vibrate(50);
-    setPinned(!pinned);
+    setPinned((prev) => !prev);
     titleRef.current?.focus();
-  };
+  }, [titleRef]);
 
   const chipStyles = useCallback(
     (condition: boolean) => {
@@ -317,16 +320,6 @@ export const CreateTask = React.memo(function CreateTask({
     }, 100);
   }, [open, titleRef]);
 
-  const [emblaRef] = useEmblaCarousel(
-    {
-      dragFree: true,
-      align: "start",
-      containScroll: "trimSnaps",
-      loop: false,
-    },
-    [WheelGesturesPlugin() as any]
-  );
-
   const generateChipLabel = useCallback(
     (inputString) => {
       const regex = /(?:at|from|during)\s(\d+)/i;
@@ -334,7 +327,7 @@ export const CreateTask = React.memo(function CreateTask({
 
       if (match) {
         const time = match[1];
-        const amPm = inputString.includes("am") ? "am" : "pm";
+        const amPm = inputString.toLowerCase().includes("am") ? "am" : "pm";
 
         if (Number(time) > 12) return null;
 
@@ -482,67 +475,78 @@ export const CreateTask = React.memo(function CreateTask({
               overflowX: "scroll",
               overflowY: "visible",
               whiteSpace: "nowrap",
+              display: "flex",
             }}
-            ref={emblaRef}
             onClick={() => titleRef.current?.focus()}
           >
-            <div>
-              {chipComponent}
-              {[
-                "meet",
-                "visit",
-                "watch",
-                "go to",
-                "drive ",
-                "fly ",
-                "attend ",
-              ].some((word) => deferredTitle.toLowerCase().includes(word)) && (
-                <motion.div
-                  style={{ display: "inline-block" }}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                >
-                  <Chip
-                    label="Add location?"
-                    icon={<Icon>location_on</Icon>}
-                    onClick={toggleLocation}
-                    sx={chipStyles(showLocation)}
-                  />
-                </motion.div>
-              )}
-              {[
-                { label: "Today", days: 0 },
-                { label: "Tomorrow", days: 1 },
-                { label: "In a week", days: 7 },
-                { label: "In 2 weeks", days: 14 },
-                { label: "In a month", days: 30 },
-              ].map(({ label, days }) => {
-                const isActive =
-                  deferredDate &&
-                  dayjs(deferredDate.toISOString())
-                    .startOf("day")
-                    .toISOString() ==
-                    dayjs().startOf("day").add(days, "day").toISOString();
+            {chipComponent}
+            {[
+              "meet",
+              "visit",
+              "watch",
+              "go to",
+              "drive ",
+              "fly ",
+              "attend ",
+            ].some((word) => deferredTitle.toLowerCase().includes(word)) && (
+              <motion.div
+                style={{ display: "inline-block" }}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <Chip
+                  label="Add location?"
+                  icon={<Icon>location_on</Icon>}
+                  onClick={toggleLocation}
+                  sx={chipStyles(showLocation)}
+                />
+              </motion.div>
+            )}
+            <TaskColorPicker color={color} setColor={setColor}>
+              <Chip
+                icon={<Icon sx={{ pl: 2 }}>label</Icon>}
+                onClick={toggleLocation}
+                sx={{
+                  pr: "0!important",
+                  ...chipStyles(false),
+                  ...(color !== "grey" && {
+                    "& *": {
+                      color: colors[color]["A700"] + "!important",
+                    },
+                  }),
+                }}
+              />
+            </TaskColorPicker>
+            {[
+              { label: "Today", days: 0 },
+              { label: "Tomorrow", days: 1 },
+              { label: "Next week", days: 7 },
+            ].map(({ label, days }) => {
+              const isActive =
+                deferredDate &&
+                dayjs(deferredDate.toISOString())
+                  .startOf("day")
+                  .toISOString() ==
+                  dayjs().startOf("day").add(days, "day").toISOString();
 
-                return (
-                  <Chip
-                    key={label}
-                    label={label}
-                    sx={chipStyles(isActive)}
-                    icon={<Icon>today</Icon>}
-                    onClick={() => {
-                      vibrate(50);
-                      const tomorrow = new Date();
-                      tomorrow.setDate(tomorrow.getDate() + days);
-                      tomorrow.setHours(0);
-                      tomorrow.setMinutes(0);
-                      tomorrow.setSeconds(0);
-                      setDate(tomorrow);
-                    }}
-                  />
-                );
-              })}
-            </div>
+              return (
+                <Chip
+                  key={label}
+                  label={label}
+                  sx={chipStyles(isActive)}
+                  icon={<Icon>today</Icon>}
+                  onClick={() => {
+                    vibrate(50);
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + days);
+                    tomorrow.setHours(0);
+                    tomorrow.setMinutes(0);
+                    tomorrow.setSeconds(0);
+                    setDate(tomorrow);
+                  }}
+                />
+              );
+            })}
           </Box>
         )}
         <Box
@@ -753,25 +757,6 @@ export const CreateTask = React.memo(function CreateTask({
                   </Icon>
                 </IconButton>
               </Tooltip>
-              <Tooltip title={`Color (alt • h)`} placement="top">
-                <TaskColorPicker color={color} setColor={setColor}>
-                  <IconButton
-                    sx={{
-                      ...styles(palette, false),
-                      ...(color !== "grey" && {
-                        "& *": {
-                          color: colors[color]["A700"] + "!important",
-                        },
-                      }),
-                    }}
-                    size="small"
-                  >
-                    <Icon className={color === "grey" ? "outlined" : ""}>
-                      label
-                    </Icon>
-                  </IconButton>
-                </TaskColorPicker>
-              </Tooltip>
               {!isSubTask && (
                 <SelectDateModal
                   ref={dateModalButtonRef}
@@ -871,9 +856,6 @@ export const CreateTask = React.memo(function CreateTask({
             className="outlined"
             style={{
               color: palette[12],
-              fontSize: "21px",
-              fontVariationSettings:
-                "'FILL' 1, 'wght' 500, 'GRAD' 200, 'opsz' 20!important",
             }}
           >
             add
