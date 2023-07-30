@@ -38,7 +38,7 @@ export default function AuthLoading() {
           }}
           onClick={() =>
             router.push(
-              "/auth?next=" + encodeURIComponent(window.location.href)
+              "/auth?next=" + encodeURIComponent(window.location.href),
             )
           }
         />

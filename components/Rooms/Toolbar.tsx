@@ -59,8 +59,8 @@ function SearchBar({
                 JSON.parse(item.category)
                   .join(",")
                   .toLowerCase()
-                  .includes(value.toLowerCase())
-            )
+                  .includes(value.toLowerCase()),
+            ),
           );
         }, 50);
       }}
@@ -135,7 +135,7 @@ export function Toolbar({
       e.preventDefault();
       ref.current?.click();
     },
-    [ref]
+    [ref],
   );
   const session = useSession();
 
@@ -191,7 +191,9 @@ export function Toolbar({
         <MenuItem
           onClick={() =>
             handleSort((items) =>
-              items.sort((itemA, itemB) => itemA.name.localeCompare(itemB.name))
+              items.sort((itemA, itemB) =>
+                itemA.name.localeCompare(itemB.name),
+              ),
             )
           }
         >
@@ -202,7 +204,7 @@ export function Toolbar({
             handleSort((items) =>
               items
                 .sort((itemA, itemB) => itemA.name.localeCompare(itemB.name))
-                .reverse()
+                .reverse(),
             )
           }
         >
@@ -212,8 +214,8 @@ export function Toolbar({
           onClick={() =>
             handleSort((items) =>
               items.sort((itemA, itemB) =>
-                itemA.quantity.localeCompare(itemB.quantity)
-              )
+                itemA.quantity.localeCompare(itemB.quantity),
+              ),
             )
           }
         >
@@ -223,8 +225,8 @@ export function Toolbar({
           onClick={() =>
             handleSort((items) =>
               items.sort(
-                (itemA, itemB) => itemB.lastModified - itemA.lastModified
-              )
+                (itemA, itemB) => itemB.lastModified - itemA.lastModified,
+              ),
             )
           }
         >
@@ -234,8 +236,8 @@ export function Toolbar({
           onClick={() =>
             handleSort((items) =>
               items.sort(
-                (itemA, itemB) => itemA.lastModified - itemB.lastModified
-              )
+                (itemA, itemB) => itemA.lastModified - itemB.lastModified,
+              ),
             )
           }
         >

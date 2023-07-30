@@ -3,7 +3,7 @@ export async function validateCaptcha(token: string) {
   const secret: any = process.env.CAPTCHA_KEY;
 
   const body = `secret=${encodeURIComponent(
-    secret
+    secret,
   )}&response=${encodeURIComponent(token)}`;
 
   const captchaRequest = await fetch(endpoint, {

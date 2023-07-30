@@ -45,7 +45,7 @@ export function Prompt({
         `/api/user/settings/2fa/verify?${new URLSearchParams({
           code: code,
           token: session.current.token,
-        }).toString()}`
+        }).toString()}`,
       );
       const data = await res.json();
       if (data.success) {
@@ -59,7 +59,7 @@ export function Prompt({
     } catch (error) {
       toast.error(
         "An error occured while verifying your code. Please try again later.",
-        toastStyles
+        toastStyles,
       );
       setButtonLoading(false);
     }

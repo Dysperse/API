@@ -24,7 +24,7 @@ export function WorkingHours({
 }) {
   const session = useSession();
   const [workingHours, setWorkingHours] = useState(
-    JSON.parse(profile.workingHours || "[]")
+    JSON.parse(profile.workingHours || "[]"),
   );
 
   const handleChange = (index, field, value) => {

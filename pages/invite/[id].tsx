@@ -34,12 +34,12 @@ export default function Onboarding() {
   const { data } = useApi(
     "property/members/inviteLink/info",
     { token: id as string },
-    true
+    true,
   );
 
   const palette = useColor(
     data?.property?.color || "gray",
-    session?.user?.darkMode || false
+    session?.user?.darkMode || false,
   );
 
   const handleAccept = () => {
@@ -52,7 +52,7 @@ export default function Onboarding() {
             email: session.user.email,
             property: data.property.id,
             sessionId: session.token,
-          })
+          }),
       )
         .then(() => {
           mutate("/api/session");
@@ -63,7 +63,7 @@ export default function Onboarding() {
           console.error(e);
           toast.error(
             "Something went wrong while accepting the invite. Please try again later.",
-            toastStyles
+            toastStyles,
           );
           setLoading(false);
         });
@@ -72,7 +72,7 @@ export default function Onboarding() {
         500,
         1000,
         "/signup?close=true",
-        "Please sign in to your Dysperse account"
+        "Please sign in to your Dysperse account",
       );
       setLoading(false);
     }

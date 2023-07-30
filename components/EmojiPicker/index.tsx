@@ -41,7 +41,7 @@ export default function EmojiPicker({
 
   useEffect(
     () => debouncedHandleSearch(inputValue),
-    [inputValue, debouncedHandleSearch]
+    [inputValue, debouncedHandleSearch],
   );
 
   async function handleSearch(value) {

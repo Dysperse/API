@@ -18,7 +18,7 @@ export const DispatchNotification = async ({
     webPush.setVapidDetails(
       `mailto:${process.env.WEB_PUSH_EMAIL}`,
       process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
-      process.env.WEB_PUSH_PRIVATE_KEY
+      process.env.WEB_PUSH_PRIVATE_KEY,
     );
 
     await webPush.sendNotification(
@@ -28,7 +28,7 @@ export const DispatchNotification = async ({
         body,
         actions: actions ?? [{ title: "⚡ View", action: "view" }],
         icon,
-      })
+      }),
     );
     return { success: true };
   } catch (error: any) {
@@ -39,7 +39,7 @@ export const DispatchNotification = async ({
 export const DispatchGroupNotification = async (
   propertyId,
   accessToken,
-  options
+  options,
 ) => {
   try {
     const members = await prisma.notificationSettings.findMany({

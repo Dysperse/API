@@ -20,7 +20,7 @@ const handler = {
     // Delete vanishing tasks
     await fetch(
       "https://my.dysperse.com/api/cron/deleteVanishingTasks",
-      params
+      params,
     );
 
     // Daily check in nudge
@@ -29,7 +29,7 @@ const handler = {
     // Daily check in nudge
     await fetch(
       "https://my.dysperse.com/api/cron/deleteExpiredQrCodes",
-      params
+      params,
     );
 
     await SentryFinish(id);

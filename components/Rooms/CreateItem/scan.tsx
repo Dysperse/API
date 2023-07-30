@@ -74,7 +74,7 @@ const WebcamComponent = ({
               {title} &bull; {qty}
             </Typography>
           </Box>,
-          toastStyles
+          toastStyles,
         );
       } else {
         setTitle(title);

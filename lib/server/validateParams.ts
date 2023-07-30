@@ -6,11 +6,11 @@
  */
 export const validateParams = (provided: any, required: string[]) => {
   const missingParams = required.filter(
-    (key) => !provided.hasOwnProperty(key) || !provided[key]
+    (key) => !provided.hasOwnProperty(key) || !provided[key],
   );
   if (missingParams.length > 0) {
     throw new Error(
-      `Couldn't validate parameters: Missing ${missingParams.join(", ")}`
+      `Couldn't validate parameters: Missing ${missingParams.join(", ")}`,
     );
   }
   return true;

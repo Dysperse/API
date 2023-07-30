@@ -36,7 +36,7 @@ export default function App() {
       }).toString()}`,
       {
         method: "POST",
-      }
+      },
     )
       .then((res) => res.json())
       .then((res) => {

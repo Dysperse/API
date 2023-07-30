@@ -10,11 +10,11 @@ import { getUserData } from "../../lib/server/getUserData";
 export const sessionData = async (providedToken) => {
   const { accessToken } = jwt.verify(
     providedToken,
-    process.env.SECRET_COOKIE_PASSWORD
+    process.env.SECRET_COOKIE_PASSWORD,
   );
-  
-   const token: string = accessToken;
-   const info = await getUserData(token);
+
+  const token: string = accessToken;
+  const info = await getUserData(token);
 
   return JSON.parse(JSON.stringify(info));
 };

@@ -196,15 +196,15 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
             0: { name: defaultData?.reason },
             1: defaultData?.stress,
             2: (questions as any)[2].choices.find(
-              ({ id }) => id == defaultData?.rest
+              ({ id }) => id == defaultData?.rest,
             ),
             3: defaultData?.pain,
             4: (questions as any)[4].choices.find(
-              ({ id }) => id == defaultData?.food
+              ({ id }) => id == defaultData?.food,
             ),
           }
         : {},
-    [defaultData]
+    [defaultData],
   );
 
   const [answers, setAnswers] = useState({

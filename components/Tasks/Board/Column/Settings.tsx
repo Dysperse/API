@@ -56,7 +56,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       vibrate(50);
       setAnchorEl(event.currentTarget);
     },
-    [setAnchorEl]
+    [setAnchorEl],
   );
   const handleClose = useCallback(() => {
     setAnchorEl(null);
@@ -81,7 +81,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       <FilterMenu
         handleParentClose={handleClose}
         originalTasks={column.tasks.filter(
-          (task) => task.parentTasks.length === 0
+          (task) => task.parentTasks.length === 0,
         )}
         setColumnTasks={setColumnTasks}
       >
@@ -143,7 +143,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       <FilterMenu
         handleParentClose={handleClose}
         originalTasks={column.tasks.filter(
-          (task) => task.parentTasks.length === 0
+          (task) => task.parentTasks.length === 0,
         )}
         setColumnTasks={setColumnTasks}
       >
@@ -241,7 +241,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
                     success: "Edited column!",
                     error: "Yikes! An error occured - Please try again later!",
                   },
-                  toastStyles
+                  toastStyles,
                 );
                 setOpen(false);
               }}

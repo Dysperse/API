@@ -43,7 +43,6 @@ export const goals = [
     category: "Fitness",
     description: "Drink 2 liters of water every day, for 30 days",
     durationDays: 30,
-    
   },
   {
     name: "Go for a walk",
@@ -51,7 +50,6 @@ export const goals = [
     category: "Fitness",
     description: "Go for a walk every day, for 30 days",
     durationDays: 30,
-    
   },
   {
     name: "Go to the gym",
@@ -59,7 +57,6 @@ export const goals = [
     category: "Fitness",
     description: "Go to the gym every day, for 30 days",
     durationDays: 30,
-    
   },
   {
     name: "Write a blog post",
@@ -67,7 +64,6 @@ export const goals = [
     category: "Career",
     description: "Write a blog post every day, for 30 days",
     durationDays: 30,
-    
   },
   {
     name: "Take a class",
@@ -75,7 +71,6 @@ export const goals = [
     category: "Education",
     description: "Take a class every day, for 30 days",
     durationDays: 30,
-    
   },
   {
     name: "Write an email to a friend",
@@ -83,7 +78,6 @@ export const goals = [
     category: "Relationships",
     description: "Write an email to a friend every day, for 30 days",
     durationDays: 30,
-    
   },
   {
     name: "Call a friend",
@@ -91,7 +85,6 @@ export const goals = [
     category: "Relationships",
     description: "Call a friend every day, for 30 days",
     durationDays: 30,
-    
   },
   {
     name: "Cook a new recipe",
@@ -99,7 +92,6 @@ export const goals = [
     category: "Fitness",
     description: "Cook a new recipe every day, for 7 days",
     durationDays: 7,
-    
   },
   {
     name: "Learn a new language",
@@ -107,7 +99,6 @@ export const goals = [
     category: "Education",
     description: "Learn a new language every day, for 100 days",
     durationDays: 100,
-    
   },
   {
     name: "Learn a new skill",
@@ -115,7 +106,6 @@ export const goals = [
     category: "Education",
     description: "Learn a new skill every day, for 7 days",
     durationDays: 7,
-    
   },
   {
     name: "Write a book",
@@ -123,7 +113,6 @@ export const goals = [
     category: "Education",
     description: "Work on a book every day, for a year",
     durationDays: 365,
-    
   },
   {
     name: "Write a poem",
@@ -131,7 +120,6 @@ export const goals = [
     category: "Education",
     description: "Write a poem every day, for 100 days",
     durationDays: 100,
-    
   },
   {
     name: "Learn to play an instrument",
@@ -139,7 +127,6 @@ export const goals = [
     category: "Hobbies",
     description: "Learn to play an instrument every day, for 100 days",
     durationDays: 100,
-    
   },
   {
     name: "Learn to dance",
@@ -147,7 +134,6 @@ export const goals = [
     category: "Hobbies",
     description: "Learn to dance every day, for 10 days",
     durationDays: 10,
-    
   },
   {
     name: "Visit a place",
@@ -155,7 +141,6 @@ export const goals = [
     category: "Hobbies",
     description: "Visit a place every day, for 7 days",
     durationDays: 7,
-    
   },
   {
     name: "Limit your screen time to 1.5 hours",
@@ -163,7 +148,6 @@ export const goals = [
     category: "Mental health",
     description: "Limit your screen time to 1.5 hours every day, for 30 days",
     durationDays: 30,
-    
   },
 
   {
@@ -172,7 +156,6 @@ export const goals = [
     category: "Finance",
     description: "Research and create a retirement plan within the next month",
     durationDays: 30,
-    
   },
 
   {
@@ -181,7 +164,6 @@ export const goals = [
     category: "Finance",
     description: "Pay off all credit card debt within 3 months",
     durationDays: 90,
-    
   },
   {
     name: "Save $1000",
@@ -189,7 +171,6 @@ export const goals = [
     category: "Finance",
     description: "Save $1000 in your savings account within 3 months",
     durationDays: 90,
-    
   },
 ];
 

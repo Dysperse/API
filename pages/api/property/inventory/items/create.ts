@@ -14,12 +14,12 @@ const handler = async (req, res) => {
         name:
           CryptoJS.AES.encrypt(
             req.query.name,
-            process.env.INVENTORY_ENCRYPTION_KEY
+            process.env.INVENTORY_ENCRYPTION_KEY,
           ).toString() || "",
         quantity:
           CryptoJS.AES.encrypt(
             req.query.quantity,
-            process.env.INVENTORY_ENCRYPTION_KEY
+            process.env.INVENTORY_ENCRYPTION_KEY,
           ).toString() ?? "",
         lastModified: new Date(req.query.lastModified) || new Date(),
         starred: false,
@@ -28,12 +28,12 @@ const handler = async (req, res) => {
         note:
           CryptoJS.AES.encrypt(
             "",
-            process.env.INVENTORY_ENCRYPTION_KEY
+            process.env.INVENTORY_ENCRYPTION_KEY,
           ).toString() ?? "",
         category:
           CryptoJS.AES.encrypt(
             req.query.category,
-            process.env.INVENTORY_ENCRYPTION_KEY
+            process.env.INVENTORY_ENCRYPTION_KEY,
           ).toString() ?? "[]",
         property: {
           connect: { id: req.query.property },

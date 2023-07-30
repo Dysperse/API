@@ -137,7 +137,7 @@ export function AddPersonModal({
 
   const handleChange = useCallback(
     (event: SelectChangeEvent) => setPermission(event.target.value as string),
-    []
+    [],
   );
 
   useBackButton(() => setOpen(false));

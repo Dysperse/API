@@ -118,7 +118,7 @@ export default function CategoryModal({
     if (JSON.parse(item.category).includes(category)) {
       setItemData(() => {
         const c = JSON.stringify(
-          JSON.parse(item.category).filter((c: string) => c !== category)
+          JSON.parse(item.category).filter((c: string) => c !== category),
         );
         handleItemChange("category", c);
         return {

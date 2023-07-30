@@ -19,7 +19,7 @@ export async function updateSettings(
   debug = false,
   callback: null | (() => void) = null,
   property = false,
-  hideToast = false
+  hideToast = false,
 ) {
   const promise = new Promise(async (resolve, reject) => {
     try {
@@ -64,6 +64,6 @@ export async function updateSettings(
       success: (message: any) => message,
       error: (err: any) => err,
     },
-    toastStyles
+    toastStyles,
   );
 }

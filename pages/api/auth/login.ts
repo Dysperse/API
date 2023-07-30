@@ -31,7 +31,7 @@ export async function createSession(id: any, res, ip: any) {
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 * 4 * 12, // 1 year
       accessToken: token,
     },
-    process.env.SECRET_COOKIE_PASSWORD
+    process.env.SECRET_COOKIE_PASSWORD,
   );
   const now = new Date();
   now.setDate(now.getDate() * 7 * 4);
@@ -41,7 +41,7 @@ export async function createSession(id: any, res, ip: any) {
       path: "/",
       maxAge: 60 * 60 * 24 * 7 * 4, // 1 month
       expires: now,
-    })
+    }),
   );
   return encoded;
 }
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
   const endpoint = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
   const secret: any = process.env.CAPTCHA_KEY;
   const body = `secret=${encodeURIComponent(
-    secret
+    secret,
   )}&response=${encodeURIComponent(req.body.token)}`;
 
   const captchaRequest = await fetch(endpoint, {
@@ -127,7 +127,7 @@ export default async function handler(req, res) {
     if (req.body.twoFactorCode) {
       const login = twofactor.verifyToken(
         user.twoFactorSecret,
-        req.body.twoFactorCode
+        req.body.twoFactorCode,
       );
 
       if (!login || login.delta !== 0) {

@@ -11,7 +11,7 @@ export const multipliers = { items: 1.5, tasks: 0.5 };
 export const getTotal = (data, tasks, items) =>
   Math.round(
     ((data && tasks) || 0) * multipliers.tasks +
-      ((data && items) || { count: 0 }).count * multipliers.items
+      ((data && items) || { count: 0 }).count * multipliers.items,
   );
 
 /**

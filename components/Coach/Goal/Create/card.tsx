@@ -33,7 +33,7 @@ export function ExploreGoalCard({ goal }) {
       setLoading(false);
       toast.error(
         "An error occurred while trying to set your goal. Please try again.",
-        toastStyles
+        toastStyles,
       );
     }
   };

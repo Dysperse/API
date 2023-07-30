@@ -18,21 +18,21 @@ const handler = async (req, res) => {
           name:
             CryptoJS.AES.encrypt(
               req.query.name,
-              process.env.INVENTORY_ENCRYPTION_KEY
+              process.env.INVENTORY_ENCRYPTION_KEY,
             ).toString() ?? "",
         }),
         ...(req.query.quantity && {
           quantity:
             CryptoJS.AES.encrypt(
               req.query.quantity,
-              process.env.INVENTORY_ENCRYPTION_KEY
+              process.env.INVENTORY_ENCRYPTION_KEY,
             ).toString() ?? "",
         }),
         ...(req.query.note && {
           note:
             CryptoJS.AES.encrypt(
               req.query.note,
-              process.env.INVENTORY_ENCRYPTION_KEY
+              process.env.INVENTORY_ENCRYPTION_KEY,
             ).toString() ?? "",
         }),
         ...(req.query.starred && {
@@ -43,7 +43,7 @@ const handler = async (req, res) => {
           category:
             CryptoJS.AES.encrypt(
               req.query.category,
-              process.env.INVENTORY_ENCRYPTION_KEY
+              process.env.INVENTORY_ENCRYPTION_KEY,
             ).toString() ?? "",
         }),
       },

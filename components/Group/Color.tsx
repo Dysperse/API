@@ -21,12 +21,12 @@ export function Color({
 }) {
   const session = useSession();
   const invertColors = ["lime", "cyan", "green", "teal", "blue"].includes(
-    color
+    color,
   );
 
   const handleClick = () => {
     updateSettings(session, "color", color, false, null, true).then(() =>
-      setTimeout(mutatePropertyData, 1000)
+      setTimeout(mutatePropertyData, 1000),
     );
   };
 

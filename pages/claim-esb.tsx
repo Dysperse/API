@@ -31,7 +31,7 @@ export default function Page() {
       setLoading(false);
       toast.error(
         "Yikes! Something went wrong while trying to claim your badge. Please try again later.",
-        toastStyles
+        toastStyles,
       );
     }
   };

@@ -9,7 +9,7 @@ const getInfo = (
   property: any,
   user: any,
   removeDefaultParams: boolean = false,
-  current: any
+  current: any,
 ) => {
   const params = removeDefaultParams
     ? {
@@ -64,7 +64,7 @@ export interface ApiResponse {
 export function useApi(
   path: string,
   initialParams = {},
-  removeDefaultParams = false
+  removeDefaultParams = false,
 ): ApiResponse {
   let session = useSession() || { property: "", user: "" };
   const { property, current, user } = session;
@@ -77,9 +77,9 @@ export function useApi(
         property,
         user,
         removeDefaultParams,
-        current
+        current,
       ),
-    [path, initialParams, property, user, removeDefaultParams, current]
+    [path, initialParams, property, user, removeDefaultParams, current],
   );
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -117,7 +117,7 @@ export async function fetchRawApi(
   session,
   path,
   initialParams = {},
-  removeDefaultParams = false
+  removeDefaultParams = false,
 ) {
   const { url } = getInfo(
     path,
@@ -125,7 +125,7 @@ export async function fetchRawApi(
     session.property,
     session?.user,
     removeDefaultParams,
-    session?.current
+    session?.current,
   );
   const res = await fetch(url);
   return await res.json();

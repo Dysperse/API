@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   try {
     res.setHeader(
       "Cache-Control",
-      "public, s-maxage=10, stale-while-revalidate=59"
+      "public, s-maxage=10, stale-while-revalidate=59",
     );
     await validatePermissions({
       minimum: "read-only",
@@ -23,7 +23,7 @@ const handler = async (req, res) => {
     const itemCount = await getItemCount(
       res,
       req.query.property,
-      req.query.accessToken
+      req.query.accessToken,
     );
 
     res.json({

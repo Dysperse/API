@@ -24,7 +24,7 @@ self.addEventListener("push", (event) => {
       vibrate: [200, 100, 200],
       badge: "https://assets.dysperse.com/v6/20230123_114910_0000.png",
       actions: JSON.parse(event?.data?.text() ?? "{}").actions ?? [],
-    })
+    }),
   );
 });
 
@@ -62,7 +62,7 @@ self.addEventListener("notificationclick", function (event) {
           return client.focus();
         }
         return clients.openWindow(path);
-      })
+      }),
   );
 });
 
@@ -70,15 +70,17 @@ self.addEventListener("pushsubscriptionchange", function (event) {
   event.waitUntil(
     Promise.all([
       Promise.resolve(
-        event.oldSubscription ? deleteSubscription(event.oldSubscription) : true
+        event.oldSubscription
+          ? deleteSubscription(event.oldSubscription)
+          : true,
       ),
       Promise.resolve(
         event.newSubscription
           ? event.newSubscription
-          : subscribePush(registration)
+          : subscribePush(registration),
       ).then(function (sub) {
         return saveSubscription(sub);
       }),
-    ])
+    ]),
   );
 });

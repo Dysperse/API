@@ -57,19 +57,19 @@ const handler = async (req, res) => {
           ...item,
           name: CryptoJS.AES.decrypt(
             item.name,
-            process.env.INVENTORY_ENCRYPTION_KEY
+            process.env.INVENTORY_ENCRYPTION_KEY,
           ).toString(CryptoJS.enc.Utf8),
           quantity: CryptoJS.AES.decrypt(
             item.quantity,
-            process.env.INVENTORY_ENCRYPTION_KEY
+            process.env.INVENTORY_ENCRYPTION_KEY,
           ).toString(CryptoJS.enc.Utf8),
           note: CryptoJS.AES.decrypt(
             item.note,
-            process.env.INVENTORY_ENCRYPTION_KEY
+            process.env.INVENTORY_ENCRYPTION_KEY,
           ).toString(CryptoJS.enc.Utf8),
           category: CryptoJS.AES.decrypt(
             item.category,
-            process.env.INVENTORY_ENCRYPTION_KEY
+            process.env.INVENTORY_ENCRYPTION_KEY,
           ).toString(CryptoJS.enc.Utf8),
         };
       }),
