@@ -112,7 +112,7 @@ export function ItemCard({
                           }}
                         />
                       );
-                    }
+                    },
                   )}
                 </div>
               </Box>

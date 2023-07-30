@@ -72,7 +72,7 @@ export function UserProfile({
     if (birthdayRef?.current && editMode)
       setTimeout(() => {
         birthdayRef.current.value = dayjs(profile.birthday).format(
-          "YYYY-MM-DD"
+          "YYYY-MM-DD",
         );
       }, 100);
   }, [profile.birthday, editMode]);
@@ -187,7 +187,9 @@ export function UserProfile({
                       setHobbies(
                         newValue
                           .slice(0, 5)
-                          .map((c) => capitalizeFirstLetter(c.substring(0, 20)))
+                          .map((c) =>
+                            capitalizeFirstLetter(c.substring(0, 20)),
+                          ),
                       );
                       handleChange("hobbies", JSON.stringify(newValue));
                     }}
@@ -228,7 +230,7 @@ export function UserProfile({
                 onBlur={(e) =>
                   handleChange(
                     "birthday",
-                    dayjs(e.target.value).set("hour", 1).toISOString()
+                    dayjs(e.target.value).set("hour", 1).toISOString(),
                   )
                 }
               />

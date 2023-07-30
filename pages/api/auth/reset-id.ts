@@ -63,7 +63,7 @@ export default async function handler(req, res) {
 
   const emailRes = await fetch(
     "https://api.emailjs.com/api/v1.0/email/send",
-    requestOptions
+    requestOptions,
   ).then((res) => res.text());
   console.log(emailRes);
   res.json({ success: true });

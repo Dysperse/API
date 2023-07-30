@@ -64,7 +64,7 @@ export function CreateGoal() {
       setLoading(false);
       toast.error(
         "An error occurred while trying to set your goal. Please try again.",
-        toastStyles
+        toastStyles,
       );
     }
   };

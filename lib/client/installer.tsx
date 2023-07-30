@@ -6,13 +6,13 @@ const PWAInstallerPrompt = ({ render: InstallButton, callback }): any => {
     return {
       isInstallAllowed: Object.prototype.hasOwnProperty.call(
         object,
-        "isInstallAllowed"
+        "isInstallAllowed",
       )
         ? object.isInstallAllowed
         : false,
       isInstallWatingConfirm: Object.prototype.hasOwnProperty.call(
         object,
-        "isInstallWatingConfirm"
+        "isInstallWatingConfirm",
       )
         ? object.isInstallWatingConfirm
         : false,
@@ -21,19 +21,19 @@ const PWAInstallerPrompt = ({ render: InstallButton, callback }): any => {
         : false,
       isInstallCancelled: Object.prototype.hasOwnProperty.call(
         object,
-        "isInstallCancelled"
+        "isInstallCancelled",
       )
         ? object.isInstallCancelled
         : false,
       isInstallSuccess: Object.prototype.hasOwnProperty.call(
         object,
-        "isInstallSuccess"
+        "isInstallSuccess",
       )
         ? object.isInstallSuccess
         : false,
       isInstallFailed: Object.prototype.hasOwnProperty.call(
         object,
-        "isInstallFailed"
+        "isInstallFailed",
       )
         ? object.isInstallFailed
         : false,
@@ -60,13 +60,13 @@ const PWAInstallerPrompt = ({ render: InstallButton, callback }): any => {
               createStatus({
                 isInstallAllowed: true,
                 isInstallCancelled: installStatus.isInstallCancelled,
-              })
+              }),
             );
           }
         }
       }
     },
-    [installStatus]
+    [installStatus],
   );
 
   const appInstalledHandler = useCallback(
@@ -74,25 +74,25 @@ const PWAInstallerPrompt = ({ render: InstallButton, callback }): any => {
       if (!installStatus.isInstallSuccess) {
         window.removeEventListener(
           "beforeinstallprompt",
-          beforeAppInstallpromptHandler
+          beforeAppInstallpromptHandler,
         );
         e.preventDefault();
         setInstallStatus(createStatus({ isInstallSuccess: true }));
       }
     },
-    [installStatus.isInstallSuccess, beforeAppInstallpromptHandler]
+    [installStatus.isInstallSuccess, beforeAppInstallpromptHandler],
   );
 
   useEffect(() => {
     window.addEventListener(
       "beforeinstallprompt",
-      beforeAppInstallpromptHandler
+      beforeAppInstallpromptHandler,
     );
     window.addEventListener("appinstalled", appInstalledHandler);
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
-        beforeAppInstallpromptHandler
+        beforeAppInstallpromptHandler,
       );
       window.removeEventListener("appinstalled", appInstalledHandler);
     };
@@ -105,17 +105,17 @@ const PWAInstallerPrompt = ({ render: InstallButton, callback }): any => {
       .then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           setInstallStatus(
-            createStatus({ isInstalling: true, isInstallAllowed: false })
+            createStatus({ isInstalling: true, isInstallAllowed: false }),
           );
         } else {
           setInstallStatus(
-            createStatus({ isInstallCancelled: true, isInstallAllowed: true })
+            createStatus({ isInstallCancelled: true, isInstallAllowed: true }),
           );
         }
       })
       .catch(() => {
         setInstallStatus(
-          createStatus({ isInstallFailed: true, isInstallAllowed: true })
+          createStatus({ isInstallFailed: true, isInstallAllowed: true }),
         );
       });
     setInstallEvent(null);

@@ -43,7 +43,7 @@ export default function Prompt() {
           } else {
             toast.error(
               "An error occurred while trying to change your password.",
-              toastStyles
+              toastStyles,
             );
             setButtonLoading(false);
           }
@@ -51,17 +51,17 @@ export default function Prompt() {
         .catch(() => {
           toast.error(
             "An error occurred while trying to change your password",
-            toastStyles
+            toastStyles,
           );
           setButtonLoading(false);
         });
     },
-    [router, password]
+    [router, password],
   );
   useStatusBar(
     typeof window !== "undefined" && window.innerWidth < 600
       ? "#c4b5b5"
-      : "#6b4b4b"
+      : "#6b4b4b",
   );
 
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");

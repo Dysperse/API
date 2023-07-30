@@ -29,7 +29,7 @@ import { Navbar } from ".";
 const Action = dynamic(() => import("@/components/Rooms/Action"));
 
 const CategoryModal = dynamic(
-  () => import("@/components/Rooms/items/CategoryModal")
+  () => import("@/components/Rooms/items/CategoryModal"),
 );
 
 export const SidebarContext = createContext("");

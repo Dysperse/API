@@ -82,7 +82,7 @@ export function ExperimentalAiSubtask({ task }) {
       setLoading(false);
       toast.error(
         "Dysperse AI couldn't generate your tasks! Please try again later",
-        toastStyles
+        toastStyles,
       );
     }
   };

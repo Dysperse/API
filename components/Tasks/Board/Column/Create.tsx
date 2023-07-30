@@ -65,7 +65,7 @@ export default function CreateColumn({
         setLoading(false);
         toast.error(
           "An error occurred while creating the column. Try again later.",
-          toastStyles
+          toastStyles,
         );
       });
   }, [emoji, id, mutationUrls, setCurrentColumn, session, name]);

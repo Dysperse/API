@@ -43,7 +43,7 @@ const Session: any = React.memo(function Session({
           whiteSpace: "nowrap",
         }}
         primary={dayjs(data[index].timestamp).format(
-          "dddd, MMMM D, YYYY h:mm A"
+          "dddd, MMMM D, YYYY h:mm A",
         )}
         secondary={
           <span

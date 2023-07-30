@@ -9,7 +9,7 @@ export const createInboxNotification = async (
   propertyId: string,
   accessToken: string,
   req,
-  res
+  res,
 ) => {
   try {
     await validatePermissions({
@@ -41,7 +41,7 @@ export const createInboxNotification = async (
       members.reduce((acc, item) => {
         acc[item.user.identifier] = item;
         return acc;
-      }, {})
+      }, {}),
     );
 
     // Send a notification to each member
@@ -51,7 +51,7 @@ export const createInboxNotification = async (
         webPush.setVapidDetails(
           `mailto:${process.env.WEB_PUSH_EMAIL}`,
           process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
-          process.env.WEB_PUSH_PRIVATE_KEY
+          process.env.WEB_PUSH_PRIVATE_KEY,
         );
 
         webPush.sendNotification(
@@ -60,7 +60,7 @@ export const createInboxNotification = async (
             title: `${who} has edited your group`,
             body: `${who} ${what}`,
             actions: [{ title: "⚡ View", action: "viewGroupModification" }],
-          })
+          }),
         );
       }
     }

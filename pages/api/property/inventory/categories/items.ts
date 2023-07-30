@@ -23,7 +23,7 @@ const handler = async (req, res) => {
       data.map((item: Item) => {
         const original = CryptoJS.AES.decrypt(
           item.category,
-          process.env.INVENTORY_ENCRYPTION_KEY
+          process.env.INVENTORY_ENCRYPTION_KEY,
         ).toString(CryptoJS.enc.Utf8);
 
         const parsed = JSON.parse(original);
@@ -32,19 +32,19 @@ const handler = async (req, res) => {
             ...item,
             name: CryptoJS.AES.decrypt(
               item.name,
-              process.env.INVENTORY_ENCRYPTION_KEY
+              process.env.INVENTORY_ENCRYPTION_KEY,
             ).toString(CryptoJS.enc.Utf8),
             quantity: CryptoJS.AES.decrypt(
               item.quantity,
-              process.env.INVENTORY_ENCRYPTION_KEY
+              process.env.INVENTORY_ENCRYPTION_KEY,
             ).toString(CryptoJS.enc.Utf8),
             note: CryptoJS.AES.decrypt(
               item.note,
-              process.env.INVENTORY_ENCRYPTION_KEY
+              process.env.INVENTORY_ENCRYPTION_KEY,
             ).toString(CryptoJS.enc.Utf8),
             category: original,
           };
-      })
+      }),
     );
   } catch (e: any) {
     res.json({ error: e.message });

@@ -50,7 +50,7 @@ const CategoryModal = memo(function CategoryModal({
       })
       .catch(() => {
         toast.error(
-          "An error occured while trying to get items with this category"
+          "An error occured while trying to get items with this category",
         );
         setLoading(false);
       });

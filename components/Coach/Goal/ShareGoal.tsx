@@ -85,7 +85,7 @@ export function ShareGoal({ children, goal }) {
       containScroll: "trimSnaps",
       loop: false,
     },
-    [WheelGesturesPlugin() as any]
+    [WheelGesturesPlugin() as any],
   );
 
   const [emblaCardRef, emblaCardApi] = useEmblaCarousel({ loop: false }, [

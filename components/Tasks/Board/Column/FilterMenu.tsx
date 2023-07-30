@@ -77,7 +77,7 @@ export function FilterMenu({
         <MenuItem
           onClick={() =>
             handleMenuClick(
-              (a, b) => (new Date(a.due) as any) - (new Date(b.due) as any)
+              (a, b) => (new Date(a.due) as any) - (new Date(b.due) as any),
             )
           }
         >
@@ -86,7 +86,7 @@ export function FilterMenu({
         <MenuItem
           onClick={() =>
             handleMenuClick(
-              (a, b) => (new Date(b.due) as any) - (new Date(a.due) as any)
+              (a, b) => (new Date(b.due) as any) - (new Date(a.due) as any),
             )
           }
         >

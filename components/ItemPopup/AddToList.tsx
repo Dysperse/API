@@ -35,7 +35,7 @@ function BoardModal({ itemId, title, list }) {
     } catch (e) {
       toast.error(
         "An error occured while trying to create a task",
-        toastStyles
+        toastStyles,
       );
     }
   };

@@ -29,7 +29,7 @@ export const validatePermissions = async (config: {
 
     if (foundPermissionsInteger < minimumPermissionsInteger)
       throw new Error(
-        "Couldn't validate permissions: Insufficient permissions"
+        "Couldn't validate permissions: Insufficient permissions",
       );
 
     console.timeEnd("🔑 User permission validation took");
@@ -52,7 +52,7 @@ export const validatePermissions = async (config: {
 
     if (foundPermissionsInteger < minimumPermissionsInteger)
       throw new Error(
-        "Couldn't validate permissions: Insufficient permissions"
+        "Couldn't validate permissions: Insufficient permissions",
       );
 
     cacheData.put(
@@ -61,7 +61,7 @@ export const validatePermissions = async (config: {
       // Value (if there's no permission defined, make the minimum permission "owner" for maximum security)
       permissions ? permissions.permission : "owner",
       // Hours to store it
-      hours * 1000 * 60 * 60
+      hours * 1000 * 60 * 60,
     );
     // 🎉 User meets the minimum required permissions!
     return { authorized: true };

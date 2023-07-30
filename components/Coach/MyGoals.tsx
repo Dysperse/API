@@ -26,10 +26,10 @@ export function MyGoals(): JSX.Element {
     () =>
       data
         ? data.filter(
-            (goal) => goal.progress >= goal.durationDays && !goal.completed
+            (goal) => goal.progress >= goal.durationDays && !goal.completed,
           ).length
         : 0,
-    [data]
+    [data],
   );
 
   const deferredQuery = useDeferredValue(query);
@@ -43,7 +43,7 @@ export function MyGoals(): JSX.Element {
               ? 1
               : s.progress === s.durationDays
               ? -1
-              : s.progress / s.durationDays - r.progress / r.durationDays
+              : s.progress / s.durationDays - r.progress / r.durationDays,
           )
         : []
       ).filter(
@@ -52,9 +52,9 @@ export function MyGoals(): JSX.Element {
           `${e.timeOfDay}:00`
             .toLowerCase()
             .includes(deferredQuery.toLowerCase()) ||
-          e.stepName.toLowerCase().includes(deferredQuery.toLowerCase())
+          e.stepName.toLowerCase().includes(deferredQuery.toLowerCase()),
       ),
-    [data, deferredQuery]
+    [data, deferredQuery],
   );
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -107,7 +107,7 @@ export function MyGoals(): JSX.Element {
           {
             // if goals are completed
             data.filter(
-              (goal) => goal.progress >= goal.durationDays && !goal.completed
+              (goal) => goal.progress >= goal.durationDays && !goal.completed,
             ).length > 0 && (
               <Typography
                 sx={{

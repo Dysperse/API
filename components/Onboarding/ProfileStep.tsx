@@ -31,7 +31,7 @@ export function ProfileStep({ styles, navigation }) {
     if (birthdayRef?.current && data?.Profile?.birthday)
       setTimeout(() => {
         birthdayRef.current.value = dayjs(data.Profile.birthday).format(
-          "YYYY-MM-DD"
+          "YYYY-MM-DD",
         );
       }, 100);
   }, [data]);
@@ -87,7 +87,7 @@ export function ProfileStep({ styles, navigation }) {
               onBlur={(e) =>
                 handleChange(
                   "birthday",
-                  dayjs(e.target.value).set("hour", 1).toISOString()
+                  dayjs(e.target.value).set("hour", 1).toISOString(),
                 )
               }
             />

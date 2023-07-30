@@ -137,7 +137,7 @@ export default function MoveToRoom({ item, styles }) {
               "Garden",
             ]
               .filter(
-                (index) => index.toLowerCase() !== item.room.toLowerCase()
+                (index) => index.toLowerCase() !== item.room.toLowerCase(),
               )
               .map((index) => (
                 <Room

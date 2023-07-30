@@ -30,7 +30,7 @@ const handler = async (req, res) => {
       req.query.property,
       req.query.accessToken,
       req,
-      res
+      res,
     );
 
     const data = await prisma.propertyInvite.create({

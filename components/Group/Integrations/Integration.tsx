@@ -28,7 +28,7 @@ export function Integration({ closeParent, integration }) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [params, setParams] = useState(
-    integration.params.reduce((acc, curr) => ((acc[curr.name] = ""), acc), {})
+    integration.params.reduce((acc, curr) => ((acc[curr.name] = ""), acc), {}),
   );
 
   const handleParamUpdate = useCallback(
@@ -38,7 +38,7 @@ export function Integration({ closeParent, integration }) {
         [key]: value,
       });
     },
-    [params]
+    [params],
   );
 
   const handleSubmit = async (e) => {
@@ -130,8 +130,8 @@ export function Integration({ closeParent, integration }) {
                       key={board.id}
                       disabled={Boolean(
                         board.integrations.find(
-                          (integration) => integration.name === "Canvas LMS"
-                        )
+                          (integration) => integration.name === "Canvas LMS",
+                        ),
                       )}
                     >
                       {board.name}

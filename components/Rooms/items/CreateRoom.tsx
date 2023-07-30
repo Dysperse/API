@@ -47,7 +47,7 @@ export function CreateRoom(): JSX.Element {
       .catch(() => {
         toast.error(
           "An error occurred while trying to create your room. Please try again later.",
-          toastStyles
+          toastStyles,
         );
         setLoading(false);
       });

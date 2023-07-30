@@ -26,7 +26,7 @@ function DeleteCard({ item }) {
     }).catch(() => {
       toast.error(
         "An error occured while trying to delete this item. Please try again later",
-        toastStyles
+        toastStyles,
       );
       setHidden(false);
     });
@@ -141,7 +141,7 @@ export default function Trash() {
                 .catch(() => {
                   toast.error(
                     "An error occured while trying to empty your trash. Please try again later",
-                    toastStyles
+                    toastStyles,
                   );
                 })
                 .then(() => {

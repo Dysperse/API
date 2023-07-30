@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     const data = await getItemCount(
       res,
       req.query.property,
-      req.query.accessToken
+      req.query.accessToken,
     );
 
     res.json(data);

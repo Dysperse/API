@@ -36,7 +36,7 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
       }).then(() => {
         toast.success(
           !board.pinned ? "Pinned board!" : "Unpinned board!",
-          toastStyles
+          toastStyles,
         );
       });
     }, 100);

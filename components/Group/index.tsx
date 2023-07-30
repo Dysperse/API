@@ -66,13 +66,13 @@ export function PropertyInfo({
                     <span>
                       Switched to &nbsp;<u>{res.profile.name}</u>
                     </span>,
-                    toastStyles
+                    toastStyles,
                   );
                   setLoading(false);
                 } catch (e) {
                   toast.error(
                     "An error occured while trying to switch groups",
-                    toastStyles
+                    toastStyles,
                   );
                 }
               }}
@@ -86,7 +86,7 @@ export function PropertyInfo({
       )}
       {session.properties &&
         !session.properties.find(
-          (property: any) => property.propertyId == propertyData.propertyId
+          (property: any) => property.propertyId == propertyData.propertyId,
         )?.accepted && (
           <Alert
             severity="info"
@@ -120,13 +120,13 @@ export function PropertyInfo({
                       <span>
                         Joined &nbsp;<u>{res.profile.name}</u>
                       </span>,
-                      toastStyles
+                      toastStyles,
                     );
                     setLoading(false);
                   } catch (e) {
                     toast.error(
                       "An error occured while trying to switch groups",
-                      toastStyles
+                      toastStyles,
                     );
                   }
                 }}

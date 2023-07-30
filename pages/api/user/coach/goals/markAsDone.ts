@@ -58,7 +58,7 @@ export default async function handler(req: any, res: any) {
     if (lastStreakDateInUserTz.getTime() !== currentTimeInUserTz.getTime()) {
       const differenceInDays = dayjs(currentTimeInUserTz).diff(
         dayjs(lastStreakDateInUserTz),
-        "day"
+        "day",
       );
 
       await prisma.coachData.update({

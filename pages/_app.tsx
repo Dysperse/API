@@ -92,7 +92,7 @@ export default function App({
     useCustomTheme({
       darkMode: isDark,
       themeColor: themeColor,
-    })
+    }),
   );
 
   if (

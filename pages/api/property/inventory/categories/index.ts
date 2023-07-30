@@ -25,8 +25,8 @@ const handler = async (req, res) => {
       return JSON.parse(
         CryptoJS.AES.decrypt(
           item.category,
-          process.env.INVENTORY_ENCRYPTION_KEY
-        ).toString(CryptoJS.enc.Utf8)
+          process.env.INVENTORY_ENCRYPTION_KEY,
+        ).toString(CryptoJS.enc.Utf8),
       );
     });
     raw.forEach((item) => {

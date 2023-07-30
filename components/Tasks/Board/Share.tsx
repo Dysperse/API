@@ -65,12 +65,12 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
         data?.find((share) => share.user.email === deferredEmail) ||
         (board.public &&
           board.property.members.find(
-            (member) => member.user.email === deferredEmail
+            (member) => member.user.email === deferredEmail,
           ))
       ) {
         toast.error(
           "This person already has access to this board",
-          toastStyles
+          toastStyles,
         );
         setLoading(false);
         return;
@@ -87,13 +87,13 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
         }
         toast.success(
           "The share link has been generated successfully!",
-          toastStyles
+          toastStyles,
         );
         await mutate(url);
       } catch (e) {
         toast.error(
           "Could not generate the share link! Is the email correct?",
-          toastStyles
+          toastStyles,
         );
         setLoading(false);
       }
@@ -102,7 +102,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
     } catch (e) {
       toast.error(
         "Yikes! Something happened while trying to generate the share link! Please try again later.",
-        toastStyles
+        toastStyles,
       );
       setLoading(false);
     }
@@ -135,7 +135,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
     } catch (e) {
       toast.error(
         "Yikes! Something happened while trying to change the group visibility! Please try again later.",
-        toastStyles
+        toastStyles,
       );
       setLoadingGroupVisibility(false);
     }
@@ -245,10 +245,10 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
               .filter(
                 (member, index, self) =>
                   self.findIndex((m) => m.user.email === member.user.email) ===
-                  index
+                  index,
               )
               .filter(
-                (m) => board.public || m.user.email === session.user.email
+                (m) => board.public || m.user.email === session.user.email,
               )
               .map((member) => (
                 <ListItem

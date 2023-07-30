@@ -23,7 +23,7 @@ export function useUser(): {
 } {
   const url = "/api/session";
   const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
+    fetch(url).then((res) => res.json()),
   );
 
   return {

@@ -16,7 +16,7 @@ export const useDelayedMount = (condition: boolean, timeout: number) => {
       () => {
         setMounted(condition);
       },
-      condition ? 0 : timeout
+      condition ? 0 : timeout,
     );
 
     return () => clearTimeout(timeoutId);

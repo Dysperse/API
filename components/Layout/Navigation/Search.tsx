@@ -177,7 +177,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                   <span>
                     Switched to &nbsp;<u>{res.profile.name}</u>
                   </span>,
-                  toastStyles
+                  toastStyles,
                 );
                 mutate("/api/session");
               });
@@ -222,14 +222,14 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       onTrigger: () => {
         toast.promise(
           fetchRawApi(session, "auth/logout").then(() =>
-            mutate("/api/session")
+            mutate("/api/session"),
           ),
           {
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",
             success: "Redirecting you...",
           },
-          toastStyles
+          toastStyles,
         );
       },
       icon: "logout",
@@ -285,12 +285,12 @@ export default function Spotlight() {
     let results = await getSpotlightActions(roomData, boardData, session);
 
     results = results.filter((result) =>
-      result.title.toLowerCase().includes(value.toLowerCase())
+      result.title.toLowerCase().includes(value.toLowerCase()),
     );
 
     if (badge) {
       results = results.filter(
-        (result) => result?.badge?.toLowerCase() === badge
+        (result) => result?.badge?.toLowerCase() === badge,
       );
     }
 
@@ -301,7 +301,7 @@ export default function Spotlight() {
 
   useEffect(
     () => debouncedHandleSearch(inputValue),
-    [inputValue, debouncedHandleSearch]
+    [inputValue, debouncedHandleSearch],
   );
 
   useHotkeys(
@@ -318,22 +318,22 @@ export default function Spotlight() {
     },
     {
       enableOnFormTags: true,
-    }
+    },
   );
 
   useHotkeys(
     "ArrowDown",
     (e) => setSelectedIndex((prev) => (prev + 1) % results.length),
-    { enableOnFormTags: true }
+    { enableOnFormTags: true },
   );
 
   useHotkeys(
     "ArrowUp",
     (e) =>
       setSelectedIndex((prev) =>
-        prev === 0 ? 0 : (prev - 1) % results.length
+        prev === 0 ? 0 : (prev - 1) % results.length,
       ),
-    { enableOnFormTags: true }
+    { enableOnFormTags: true },
   );
 
   useHotkeys(
@@ -345,7 +345,7 @@ export default function Spotlight() {
     },
     {
       enableOnFormTags: true,
-    }
+    },
   );
 
   return (

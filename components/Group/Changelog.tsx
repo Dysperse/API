@@ -34,7 +34,7 @@ export function Changelog({ disabled }) {
       e.preventDefault();
       setOpen(true);
     },
-    [open]
+    [open],
   );
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 

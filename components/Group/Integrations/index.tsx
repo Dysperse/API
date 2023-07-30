@@ -111,8 +111,8 @@ export default function Integrations({ handleClose }) {
           window.open(
             `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
               "https://",
-              ""
-            )}`
+              "",
+            )}`,
           );
         }}
       >

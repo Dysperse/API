@@ -45,13 +45,13 @@ const Notification = async (req, res) => {
 
   // Make sure that user actually has routines
   subscriptions = subscriptions.filter(
-    (subscription) => subscription.user.RoutineItem.length > 0
+    (subscription) => subscription.user.RoutineItem.length > 0,
   );
 
   webPush.setVapidDetails(
     `mailto:${process.env.WEB_PUSH_EMAIL}`,
     process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
-    process.env.WEB_PUSH_PRIVATE_KEY
+    process.env.WEB_PUSH_PRIVATE_KEY,
   );
 
   // For each user
@@ -65,7 +65,7 @@ const Notification = async (req, res) => {
 
     const currentRoutine = RoutineItem.find(
       (routine: RoutineItem) =>
-        routine.timeOfDay + 1 === currentTimeInUserTimeZone
+        routine.timeOfDay + 1 === currentTimeInUserTimeZone,
     );
 
     if (currentRoutine) {

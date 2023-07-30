@@ -69,7 +69,7 @@ function QrLogin({ handleRedirect }) {
                 success: "Success!",
                 error: "An error occured. Please try again later",
               },
-              toastStyles
+              toastStyles,
             );
             handleRedirect(res);
           }
@@ -94,7 +94,7 @@ function QrLogin({ handleRedirect }) {
     navigator.clipboard.writeText(url);
     toast.success(
       "Copied to clipboard and rechecking if you scanned it...",
-      toastStyles
+      toastStyles,
     );
   };
 
@@ -233,7 +233,7 @@ export default function Prompt() {
         toast.dismiss();
       }
     },
-    [router]
+    [router],
   );
 
   const proTips = [
@@ -262,7 +262,7 @@ export default function Prompt() {
   ];
 
   const [proTip, setProTip] = useState(
-    proTips[Math.floor(Math.random() * proTips.length)]
+    proTips[Math.floor(Math.random() * proTips.length)],
   );
 
   // Login form
@@ -300,7 +300,7 @@ export default function Prompt() {
         ) {
           toast.error(
             "Oh no! Our servers are down. Please try again later!",
-            toastStyles
+            toastStyles,
           );
           setButtonLoading(false);
           setStep(1);
@@ -328,7 +328,7 @@ export default function Prompt() {
             success: "Success!",
             error: "An error occured. Please try again later",
           },
-          toastStyles
+          toastStyles,
         );
 
         handleRedirect(res);
@@ -338,7 +338,7 @@ export default function Prompt() {
         setButtonLoading(false);
       }
     },
-    [captchaToken, email, password, router, twoFactorCode, handleRedirect]
+    [captchaToken, email, password, router, twoFactorCode, handleRedirect],
   );
 
   useEffect(() => {
@@ -501,14 +501,14 @@ export default function Prompt() {
                         ref.current?.reset();
                         toast.error(
                           "An error occured. Retrying...",
-                          toastStyles
+                          toastStyles,
                         );
                       }}
                       onExpire={() => {
                         ref.current?.reset();
                         toast.error(
                           "Captcha expired. Retrying...",
-                          toastStyles
+                          toastStyles,
                         );
                       }}
                       scriptOptions={{ defer: true }}

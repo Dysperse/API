@@ -74,7 +74,7 @@ export default function Notifications() {
     const sub = await registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: base64ToUint8Array(
-        process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY
+        process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
       ),
     });
     setSubscription(sub);
@@ -100,7 +100,7 @@ export default function Notifications() {
   };
 
   const isInPwa = useMediaQuery(
-    "(display-mode: standalone), (display-mode: window-controls-overlay)"
+    "(display-mode: standalone), (display-mode: window-controls-overlay)",
   );
 
   const handleNotificationChange = async (name, value) => {
@@ -124,7 +124,7 @@ export default function Notifications() {
         success: "Saved!",
         error: "Failed to save",
       },
-      toastStyles
+      toastStyles,
     );
   };
 
@@ -219,7 +219,7 @@ export default function Notifications() {
                 onClick={(e: any) =>
                   handleNotificationChange(
                     "dailyRoutineNudge",
-                    e.target.checked
+                    e.target.checked,
                   )
                 }
               />
@@ -234,7 +234,7 @@ export default function Notifications() {
                 onClick={(e: any) =>
                   handleNotificationChange(
                     "dailyCheckInNudge",
-                    e.target.checked
+                    e.target.checked,
                   )
                 }
               />

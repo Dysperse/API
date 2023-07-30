@@ -73,7 +73,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
         error:
           "Yikes! An error occured while trying to update this item. Please try again later",
       },
-      toastStyles
+      toastStyles,
     );
   };
   /**
@@ -121,7 +121,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
           </Button>
         </span>
       ),
-      toastStyles
+      toastStyles,
     );
   };
 
@@ -189,7 +189,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
         {[capitalizeFirstLetter(itemData.room), ...categories].map(
           (category) => (
             <Chip label={category} key={category} />
-          )
+          ),
         )}
         <CategoryModal
           setItemData={setItemData}
@@ -271,7 +271,7 @@ export default function ItemDrawer({
         setError(true);
       }
     },
-    [id]
+    [id],
   );
 
   const handleClose = useCallback(() => {

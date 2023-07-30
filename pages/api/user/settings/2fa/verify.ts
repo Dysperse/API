@@ -25,7 +25,7 @@ const handler = async (req, res) => {
   twofactor.generateToken(twoFactorSecret);
   const login: null | { delta: number } = twofactor.verifyToken(
     twoFactorSecret,
-    req.query.code
+    req.query.code,
   );
 
   cacheData.clear();

@@ -33,7 +33,7 @@ const handler = async (req, res) => {
 
     const inputParams = JSON.parse(data1.inputParams);
     const calendar = await fetch(inputParams["Canvas feed URL"]).then((res) =>
-      res.text()
+      res.text(),
     );
 
     const parsed = ical.parseICS(calendar);
@@ -58,7 +58,7 @@ const handler = async (req, res) => {
 
         const taskId = `${data1.boardId}-${item.uid}`;
         const columnId = `${data1.boardId}-${extractTextInBrackets(
-          item.summary
+          item.summary,
         )}`;
 
         let due = new Date();
