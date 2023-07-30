@@ -336,6 +336,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             }),
         },
       },
+      MuiListItem: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              gap: 2,
+            }),
+        },
+      },
       MuiListItemButton: {
         styleOverrides: {
           root: ({ theme }) =>
