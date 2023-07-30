@@ -14,7 +14,7 @@ import { Column } from "./Column";
 
 export function Agenda({ setDrawerOpen, view }) {
   const [navigation, setNavigation] = useState(
-    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0,
+    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0
   );
 
   useEffect(() => {
@@ -53,6 +53,7 @@ export function Agenda({ setDrawerOpen, view }) {
   const startOfWeek = dayjs()
     .add(navigation, viewModifier)
     .startOf(viewModifier);
+
   const endOfWeek = dayjs().add(navigation, viewModifier).endOf(viewModifier);
 
   const days: any[] = [];
@@ -63,8 +64,16 @@ export function Agenda({ setDrawerOpen, view }) {
       ? "MMMM"
       : "YYYY";
 
-  for (let i = 0; i <= endOfWeek.diff(startOfWeek, viewModifier); i++) {
-    const currentDay = startOfWeek.add(i, viewModifier);
+  for (
+    let i = 0;
+    i <=
+    endOfWeek.diff(startOfWeek, viewModifier == "week" ? "day" : viewModifier);
+    i++
+  ) {
+    const currentDay = startOfWeek.add(
+      i,
+      viewModifier == "week" ? "day" : viewModifier
+    );
     days.push({
       unchanged: currentDay,
       heading,
@@ -72,6 +81,8 @@ export function Agenda({ setDrawerOpen, view }) {
       day: currentDay.format("dddd"),
     });
   }
+
+  console.log(endOfWeek.diff(startOfWeek, viewModifier));
 
   const handlePrev = () => {
     setNavigation(navigation - 1);
