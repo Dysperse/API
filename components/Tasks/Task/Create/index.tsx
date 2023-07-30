@@ -256,8 +256,7 @@ export const CreateTask = React.memo(function CreateTask({
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const [showDescription, setShowDescription] = useState<boolean>(false);
 
-  const deferredDate = useDeferredValue(data.date);
-  const deferredTitle = useDeferredValue(data.title);
+  const deferredData = useDeferredValue(data);
 
   const placeholderValue = useMemo(
     () =>
@@ -293,19 +292,19 @@ export const CreateTask = React.memo(function CreateTask({
 
   useEffect(() => {
     if (
-      deferredTitle.includes("!!") ||
-      (deferredTitle === deferredTitle.toUpperCase() &&
-        deferredTitle.trim().length >= 3)
+      deferredData.title.includes("!!") ||
+      (deferredData.title === deferredData.title.toUpperCase() &&
+        deferredData.title.trim().length >= 3)
     ) {
       setData((d) => ({ ...d, pinned: true }));
     }
-  }, [deferredTitle]);
+  }, [deferredData.title]);
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       if (closeOnCreate) setOpen(false);
-      if (deferredTitle.trim() === "") return;
+      if (deferredData.title.trim() === "") return;
       vibrate(50);
       setLoading(true);
       fetchRawApi(session, "property/boards/column/task/create", {
@@ -330,7 +329,7 @@ export const CreateTask = React.memo(function CreateTask({
       });
       titleRef.current?.focus();
     },
-    [boardId, closeOnCreate, column, data, parent, deferredTitle, session]
+    [boardId, closeOnCreate, column, data, parent, deferredData.title, session]
   );
 
   const toggleDescription = useCallback(() => {
@@ -422,13 +421,13 @@ export const CreateTask = React.memo(function CreateTask({
               onClick={() =>
                 setData((d) => ({
                   ...d,
-                  date: dayjs(deferredDate).hour(
+                  date: dayjs(deferredData.date).hour(
                     Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
                   ),
                 }))
               }
               sx={chipStyles(
-                dayjs(deferredDate).hour() ===
+                dayjs(deferredData.date).hour() ===
                   Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
               )}
             />
@@ -438,19 +437,19 @@ export const CreateTask = React.memo(function CreateTask({
 
       return null;
     },
-    [chipStyles, deferredDate]
+    [chipStyles, deferredData.date]
   );
 
   const [chipComponent, setChipComponent] = useState<any>(null);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
-      const chip = generateChipLabel(deferredTitle);
+      const chip = generateChipLabel(deferredData.title);
       setChipComponent(chip);
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [deferredTitle, generateChipLabel]);
+  }, [deferredData.title, generateChipLabel]);
 
   useHotkeys(
     "alt+a",
@@ -618,7 +617,7 @@ export const CreateTask = React.memo(function CreateTask({
             showLocation={showLocation}
             chipComponent={chipComponent}
             titleRef={titleRef}
-            data={data}
+            data={deferredData}
             setData={setData}
           />
         )}
@@ -843,15 +842,15 @@ export const CreateTask = React.memo(function CreateTask({
                   <LoadingButton
                     loading={loading}
                     disabled={
-                      deferredTitle.trim() === "" ||
-                      deferredTitle.length > 200 ||
+                      deferredData.title.trim() === "" ||
+                      deferredData.title.length > 200 ||
                       imageUploading
                     }
                     type="submit"
                     disableRipple
                     color="inherit"
                     sx={{
-                      ...(deferredTitle.trim() !== "" && {
+                      ...(deferredData.title.trim() !== "" && {
                         color: isDark ? "#fff" : "#000",
                       }),
                       "&:active": {
