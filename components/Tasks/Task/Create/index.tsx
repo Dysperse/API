@@ -141,25 +141,24 @@ export const CreateTask = React.memo(function CreateTask({
   column,
 }: any) {
   const session = useSession();
-  const storage = useAccountStorage();
   const emojiRef: any = useRef(null);
+  const storage = useAccountStorage();
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
   const selection = useContext(SelectionContext);
+  const palette = useColor(session.themeColor, isDark);
 
-  const [imageUploading, setImageUploading] = useState<boolean>(false);
-
-  const [open, setOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [color, setColor] = useState("grey");
+  const [open, setOpen] = useState<boolean>(false);
+  const [description, setDescription] = useState("");
   const [pinned, setPinned] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [image, setImage] = useState<string | null>(null);
-  const [showDescription, setShowDescription] = useState<boolean>(false);
-
   const [location, setLocation] = useState<string | null>(null);
   const [showLocation, setShowLocation] = useState<boolean>(false);
+  const [imageUploading, setImageUploading] = useState<boolean>(false);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
+ 
 
   const [date, setDate] = useState<any>(
     new Date(defaultDate || new Date().toISOString()) || new Date()
