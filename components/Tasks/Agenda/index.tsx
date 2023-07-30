@@ -228,7 +228,7 @@ function Column({ column, data }) {
             );
           }}
         />
-        {isMobile && <div style={{ height: "calc(60px + var(--sab))" }} />}
+        {isMobile && <div style={{ height: "calc(130px + var(--sab))" }} />}
       </Box>
     </Box>
   );
