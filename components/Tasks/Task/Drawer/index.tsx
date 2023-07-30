@@ -40,6 +40,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   mutationUrl: string;
   onClick?: any;
 }) {
+  const palette = useColor(session.themeColor, isDark);
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<null | any>(null);
   const [loading, setLoading] = useState<boolean>(true);
