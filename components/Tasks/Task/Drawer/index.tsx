@@ -131,6 +131,11 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         open={open}
         onClose={handleClose}
         anchor="right"
+        slotProps={{
+          backdrop: {
+            sx: { opacity: "0!important" },
+          },
+        }}
         PaperProps={{
           sx: {
             maxWidth: "500px",
