@@ -14,7 +14,7 @@ import { Column } from "./Column";
 
 export function Agenda({ setDrawerOpen, view }) {
   const [navigation, setNavigation] = useState(
-    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0
+    window.location.hash ? parseInt(window.location.hash.replace("#", "")) : 0,
   );
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export function Agenda({ setDrawerOpen, view }) {
   ) {
     const currentDay = startOfWeek.add(
       i,
-      viewModifier == "week" ? "day" : viewModifier
+      viewModifier == "week" ? "day" : viewModifier,
     );
     days.push({
       unchanged: currentDay,
