@@ -59,7 +59,10 @@ const TaskColorPicker = React.memo(function TaskColorPicker({
       {trigger}
       <SwipeableDrawer
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          document.getElementById("title")?.focus();
+        }}
         anchor="bottom"
       >
         <Puller showOnDesktop />
@@ -795,7 +798,9 @@ export const CreateTask = React.memo(function CreateTask({
                   <LoadingButton
                     loading={loading}
                     disabled={
-                      deferredTitle.trim() === "" || deferredTitle.length > 200 || imageUploading
+                      deferredTitle.trim() === "" ||
+                      deferredTitle.length > 200 ||
+                      imageUploading
                     }
                     type="submit"
                     disableRipple
