@@ -148,24 +148,24 @@ export const CreateTask = React.memo(function CreateTask({
   const selection = useContext(SelectionContext);
   const palette = useColor(session.themeColor, isDark);
 
-  const [title, setTitle] = useState("");
-  const [color, setColor] = useState("grey");
+  const [data, setData] = useState<any>({
+    title: "",
+    color: "grey",
+    description: "",
+    pinned: false,
+    image: null,
+    location: "",
+    date: new Date(defaultDate || new Date().toISOString()),
+  });
+
   const [open, setOpen] = useState<boolean>(false);
-  const [description, setDescription] = useState("");
-  const [pinned, setPinned] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [image, setImage] = useState<string | null>(null);
-  const [location, setLocation] = useState<string | null>(null);
   const [showLocation, setShowLocation] = useState<boolean>(false);
   const [imageUploading, setImageUploading] = useState<boolean>(false);
   const [showDescription, setShowDescription] = useState<boolean>(false);
 
-  const [date, setDate] = useState<any>(
-    new Date(defaultDate || new Date().toISOString()) || new Date()
-  );
-
-  const deferredDate = useDeferredValue(date);
-  const deferredTitle = useDeferredValue(title);
+  const deferredDate = useDeferredValue(data.date);
+  const deferredTitle = useDeferredValue(data.title);
 
   const placeholderValue = useMemo(
     () =>
@@ -205,7 +205,7 @@ export const CreateTask = React.memo(function CreateTask({
       (deferredTitle === deferredTitle.toUpperCase() &&
         deferredTitle.trim().length >= 3)
     ) {
-      setPinned(true);
+      setData((d) => ({ ...d, pinned: true }));
     }
   }, [deferredTitle]);
 
@@ -217,42 +217,28 @@ export const CreateTask = React.memo(function CreateTask({
       vibrate(50);
       setLoading(true);
       fetchRawApi(session, "property/boards/column/task/create", {
-        title: deferredTitle,
-        description,
-        ...(location && { location }),
-        ...(image && { image: JSON.parse(image).url }),
-        date,
-        pinned: pinned ? "true" : "false",
-        due: date ? date.toISOString() : "false",
+        ...data,
+        ...(data.image && { image: JSON.parse(data.image).url }),
+        pinned: data.pinned ? "true" : "false",
+        due: data.date ? data.date.toISOString() : "false",
         ...(parent && { parent }),
         boardId,
-        color,
         columnId: (column || { id: -1 }).id,
       });
       toast.dismiss();
       toast.success("Created task!", toastStyles);
       setLoading(false);
-      setTitle("");
-      setDescription("");
-      setLocation("");
-      setImage(null);
-      setPinned(false);
+      setData({
+        ...data,
+        title: "",
+        description: "",
+        pinned: false,
+        location: "",
+        image: "",
+      });
       titleRef.current?.focus();
     },
-    [
-      boardId,
-      closeOnCreate,
-      column,
-      date,
-      description,
-      location,
-      image,
-      parent,
-      pinned,
-      deferredTitle,
-      session,
-      color,
-    ]
+    [boardId, closeOnCreate, column, data, parent, deferredTitle, session]
   );
 
   const toggleDescription = useCallback(() => {
@@ -275,7 +261,7 @@ export const CreateTask = React.memo(function CreateTask({
 
   const togglePin = useCallback(() => {
     vibrate(50);
-    setPinned((prev) => !prev);
+    setData((d) => ({ ...d, pinned: !d.pinned }));
     titleRef.current?.focus();
   }, [titleRef]);
 
@@ -342,11 +328,12 @@ export const CreateTask = React.memo(function CreateTask({
               label={`${time} ${amPm}`}
               icon={<Icon>access_time</Icon>}
               onClick={() =>
-                setDate(
-                  dayjs(deferredDate).hour(
+                setData((d) => ({
+                  ...d,
+                  date: dayjs(deferredDate).hour(
                     Number(time) + (amPm === "pm" && time !== "12" ? 12 : 0)
-                  )
-                )
+                  ),
+                }))
               }
               sx={chipStyles(
                 dayjs(deferredDate).hour() ===
@@ -378,11 +365,11 @@ export const CreateTask = React.memo(function CreateTask({
     (e) => {
       if (open) {
         e.preventDefault();
-        setPinned(!pinned);
+        togglePin();
       }
     },
     { enableOnFormTags: ["INPUT", "TEXTAREA"] },
-    [open, pinned]
+    [open, togglePin]
   );
 
   useHotkeys(
@@ -446,9 +433,12 @@ export const CreateTask = React.memo(function CreateTask({
 
   const handleTitleChange = useCallback((e) => {
     if (e.target.value.length === 1) {
-      setTitle(capitalizeFirstLetter(e.target.value.replace(/\n/g, "")));
+      setData((d) => ({
+        ...d,
+        title: capitalizeFirstLetter(e.target.value.replace(/\n/g, "")),
+      }));
     } else {
-      setTitle(e.target.value.replace(/\n/g, ""));
+      setData((d) => ({ ...d, title: e.target.value.replace(/\n/g, "") }));
     }
   }, []);
 
@@ -472,7 +462,7 @@ export const CreateTask = React.memo(function CreateTask({
         onClick={() => {
           setOpen(true);
           if (defaultDate) {
-            setDate(defaultDate);
+            setData((d) => ({ ...d, date: defaultDate }));
           }
           setTimeout(() => {
             titleRef.current?.focus();
@@ -564,18 +554,23 @@ export const CreateTask = React.memo(function CreateTask({
                 />
               </motion.div>
             )}
-            <TaskColorPicker color={color} setColor={setColor}>
+            <TaskColorPicker
+              color={data.color}
+              setColor={(e) => {
+                setData({ ...data, color: e.target.value });
+              }}
+            >
               <Chip
                 icon={<Icon sx={{ pl: 2 }}>label</Icon>}
                 onClick={toggleLocation}
                 sx={{
                   pr: "0!important",
                   ...chipStyles(false),
-                  ...(color !== "grey" && {
-                    background: colors[color]["A400"] + "!important",
-                    borderColor: colors[color]["A400"] + "!important",
+                  ...(data.color !== "grey" && {
+                    background: colors[data.color]["A400"] + "!important",
+                    borderColor: colors[data.color]["A400"] + "!important",
                     "& *": {
-                      color: colors[color]["50"] + "!important",
+                      color: colors[data.color]["50"] + "!important",
                     },
                   }),
                 }}
@@ -606,7 +601,7 @@ export const CreateTask = React.memo(function CreateTask({
                     tomorrow.setHours(0);
                     tomorrow.setMinutes(0);
                     tomorrow.setSeconds(0);
-                    setDate(tomorrow);
+                    setData((d) => ({ ...d, date: tomorrow }));
                   }}
                 />
               );
@@ -625,7 +620,7 @@ export const CreateTask = React.memo(function CreateTask({
           }}
         >
           <form onSubmit={handleSubmit}>
-            {image && (
+            {data.image && (
               <Box
                 sx={{
                   width: 300,
@@ -642,7 +637,7 @@ export const CreateTask = React.memo(function CreateTask({
                     width="100%"
                     height="100%"
                     draggable={false}
-                    src={JSON.parse(image).display_url}
+                    src={JSON.parse(data.image).display_url}
                     style={{
                       width: "100%",
                       height: "100%",
@@ -661,7 +656,7 @@ export const CreateTask = React.memo(function CreateTask({
                     minWidth: "unset",
                     zIndex: 999,
                   }}
-                  onClick={() => setImage(null)}
+                  onClick={() => setData({ ...data, image: null })}
                 >
                   <Icon className="outlined" sx={{ fontSize: "20px" }}>
                     delete
@@ -673,7 +668,7 @@ export const CreateTask = React.memo(function CreateTask({
               multiline
               inputRef={titleRef}
               id="title"
-              value={title}
+              value={data.title}
               onChange={handleTitleChange}
               autoFocus
               variant="standard"
@@ -689,8 +684,10 @@ export const CreateTask = React.memo(function CreateTask({
             <Collapse in={showDescription}>
               <TextField
                 id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={data.description}
+                onChange={(e) =>
+                  setData({ ...data, description: e.target.value })
+                }
                 inputRef={descriptionRef}
                 variant="standard"
                 placeholder="Add note..."
@@ -707,7 +704,9 @@ export const CreateTask = React.memo(function CreateTask({
               <TextField
                 id="location"
                 value={location}
-                onChange={(e) => setLocation(e.target.value)}
+                onChange={(e) =>
+                  setData((d) => ({ ...d, location: e.target.value }))
+                }
                 inputRef={descriptionRef}
                 variant="standard"
                 placeholder="Add location..."
@@ -722,18 +721,18 @@ export const CreateTask = React.memo(function CreateTask({
             </Collapse>
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <Tooltip
-                title={`${pinned ? "Unpin" : "Pin"} (alt • a)`}
+                title={`${data.pinned ? "Unpin" : "Pin"} (alt • a)`}
                 placement="top"
               >
                 <IconButton
                   onClick={togglePin}
-                  sx={styles(palette, pinned)}
+                  sx={styles(palette, data.pinned)}
                   size="small"
                 >
                   <Icon
-                    className={pinned ? "rounded" : "outlined"}
+                    className={data.pinned ? "rounded" : "outlined"}
                     sx={{
-                      ...(pinned && { transform: "rotate(-40deg)" }),
+                      ...(data.pinned && { transform: "rotate(-40deg)" }),
                       transition: "all .2s",
                     }}
                   >
@@ -749,7 +748,7 @@ export const CreateTask = React.memo(function CreateTask({
                       emoji={""}
                       useNativeEmoji
                       setEmoji={(emoji) => {
-                        setTitle((t) => t + emoji);
+                        setData((d) => ({ ...d, title: d.title + emoji }));
                         setTimeout(() => {
                           const input: any = titleRef.current;
                           titleRef.current?.focus();
@@ -799,16 +798,18 @@ export const CreateTask = React.memo(function CreateTask({
                 imageUploading={imageUploading}
                 setImageUploading={setImageUploading}
                 styles={styles}
-                image={image}
-                setImage={setImage}
+                image={data.image}
+                setImage={(image) =>
+                  setData({ ...data, image: JSON.stringify(image) })
+                }
               />
               {!isSubTask && (
                 <SelectDateModal
                   ref={dateModalButtonRef}
                   styles={styles}
-                  date={date}
+                  date={data.date}
                   setDate={(e) => {
-                    setDate(e);
+                    setData((d) => ({ ...d, date: e }));
                     setTimeout(() => {
                       titleRef.current?.focus();
                     }, 100);
