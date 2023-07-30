@@ -156,9 +156,6 @@ const DrawerContent = React.memo(function DrawerContent({
       <AppBar
         sx={{
           border: 0,
-          position: { xs: "fixed", sm: "sticky" },
-          top: 0,
-          left: 0,
         }}
       >
         <Toolbar>
