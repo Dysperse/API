@@ -7,7 +7,6 @@ import {
   Button,
   Chip,
   LinearProgress,
-  Skeleton,
   Slider,
   SwipeableDrawer,
   Typography,
@@ -27,19 +26,11 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
 
   const router = useRouter();
 
-  return isScrolling ? (
-    <Skeleton
-      variant="rectangular"
-      height={122}
-      animation={false}
-      sx={{ width: "100%", borderRadius: 5, mb: 2 }}
-    />
-  ) : (
-    <Box sx={{ mb: 2, height: 122, overflow: "hidden" }}>
+  return (
+    <Box sx={{ overflow: "hidden", pb: 2 }}>
       <Box
         onClick={() => setOpen(true)}
         sx={{
-          height: 120,
           borderRadius: 5,
           py: 2,
           transition: "transform .2s!important",
@@ -55,7 +46,6 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
             transform: "scale(.98)",
             transition: { sm: "none!important" },
           },
-          mb: { xs: 3, sm: 0 },
           userSelect: "none",
         }}
       >
