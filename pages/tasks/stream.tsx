@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 
 /**
@@ -31,15 +32,23 @@ export function Upcoming({ setMobileView }) {
     upcoming: true,
   });
 
+  const [isScrolling, setIsScrolling] = useState(false);
   const [loading, setLoading] = useState(false);
   const isDark = useDarkMode(session.darkMode);
-
   const palette = useColor(session.themeColor, isDark);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
-    <motion.div initial={{ x: 100, opacity: 0 }} animate={{ x: 0, opacity: 1 }}>
+    <motion.div
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      style={{
+        height: "100%",
+      }}
+    >
       <Box
         sx={{
+          height: "100%",
           ...(!data &&
             !error && {
               filter: "blur(10px)",
@@ -54,6 +63,7 @@ export function Upcoming({ setMobileView }) {
             p: { sm: 3 },
             pt: 10,
             maxWidth: "100vw",
+            height: "100%",
           }}
         >
           <Box sx={{ textAlign: "center" }}>
@@ -128,19 +138,25 @@ export function Upcoming({ setMobileView }) {
                   </Box>
                 </Box>
               )}
-              {[
-                ...data.filter((task) => task.pinned),
-                ...data.filter((task) => !task.pinned),
-              ].map((task) => (
-                <Task
-                  isDateDependent={true}
-                  key={task.id}
-                  board={task.board || false}
-                  columnId={task.column ? task.column.id : -1}
-                  mutationUrl={url}
-                  task={task}
-                />
-              ))}
+              <Virtuoso
+                isScrolling={setIsScrolling}
+                data={[
+                  ...data.filter((task) => task.pinned),
+                  ...data.filter((task) => !task.pinned),
+                ]}
+                useWindowScroll={isMobile}
+                style={{ height: "100%" }}
+                itemContent={(_, task) => (
+                  <Task
+                    isDateDependent={true}
+                    key={task.id}
+                    board={task.board || false}
+                    columnId={task.column ? task.column.id : -1}
+                    mutationUrl={url}
+                    task={task}
+                  />
+                )}
+              />
             </>
           )}
         </Box>
@@ -165,6 +181,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+
+  const [isScrolling, setIsScrolling] = useState(false);
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>
@@ -201,6 +219,9 @@ export default function Dashboard() {
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
+            style={{
+              height: "100%",
+            }}
           >
             <Box
               sx={{
@@ -211,14 +232,18 @@ export default function Dashboard() {
                     transition: "all .2s",
                     pointerEvents: "none",
                   }),
+                height: "100%",
               }}
             >
               <Box
                 sx={{
                   p: { sm: 3 },
                   pt: 10,
-                  pb: { xs: 10, sm: 3 },
+                  pb: { xs: 10, sm: 0 },
                   maxWidth: "100vw",
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
                 }}
               >
                 <Box sx={{ textAlign: "center" }}>
@@ -263,7 +288,11 @@ export default function Dashboard() {
                   />
                 )}
                 {data && (
-                  <Box>
+                  <Box
+                    sx={{
+                      height: "100%",
+                    }}
+                  >
                     {data.length === 0 && (
                       <Box
                         sx={{
@@ -299,19 +328,25 @@ export default function Dashboard() {
                         </Box>
                       </Box>
                     )}
-                    {[
-                      ...data.filter((task) => task.pinned),
-                      ...data.filter((task) => !task.pinned),
-                    ].map((task) => (
-                      <Task
-                        isDateDependent={true}
-                        key={task.id}
-                        board={task.board || false}
-                        columnId={task.column ? task.column.id : -1}
-                        mutationUrl={url}
-                        task={task}
-                      />
-                    ))}
+                    <Virtuoso
+                      isScrolling={setIsScrolling}
+                      data={[
+                        ...data.filter((task) => task.pinned),
+                        ...data.filter((task) => !task.pinned),
+                      ]}
+                      useWindowScroll={isMobile}
+                      style={{ height: "100%" }}
+                      itemContent={(_, task) => (
+                        <Task
+                          isDateDependent={true}
+                          key={task.id}
+                          board={task.board || false}
+                          columnId={task.column ? task.column.id : -1}
+                          mutationUrl={url}
+                          task={task}
+                        />
+                      )}
+                    />
                   </Box>
                 )}
               </Box>

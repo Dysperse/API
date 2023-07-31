@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Task";
@@ -20,7 +21,9 @@ export function ColoredTasks() {
   const { data, url, error } = useApi("property/tasks/color-coded", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
+
   const [color, setColor] = useState("all");
+  const [isScrolling, setIsScrolling] = useState(false);
 
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -153,19 +156,25 @@ export function ColoredTasks() {
             </Box>
           </Box>
         )}
-        {[
-          ...data
-            .filter((task) => color === "all" || task.color === color)
-            .sort((a, b) => (a.pinned === b.pinned ? 0 : a.pinned ? -1 : 1)),
-        ].map((task) => (
-          <Task
-            key={task.id}
-            board={task.board || false}
-            columnId={task.column ? task.column.id : -1}
-            mutationUrl={url}
-            task={task}
-          />
-        ))}
+        <Virtuoso
+          isScrolling={setIsScrolling}
+          data={[
+            ...data
+              .filter((task) => color === "all" || task.color === color)
+              .sort((a, b) => (a.pinned === b.pinned ? 0 : a.pinned ? -1 : 1)),
+          ]}
+          useWindowScroll
+          itemContent={(_, task) => (
+            <Task
+              key={task.id}
+              board={task.board || false}
+              columnId={task.column ? task.column.id : -1}
+              mutationUrl={url}
+              task={task}
+              isScrolling={isScrolling}
+            />
+          )}
+        />
         {!data.find((task) => color === "all" || task.color === color) &&
           data.length >= 1 && (
             <Box sx={{ textAlign: "center", mt: 5 }}>
