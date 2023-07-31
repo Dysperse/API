@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Collapse,
   Divider,
   Icon,
   IconButton,
@@ -30,6 +31,7 @@ import React, {
   useState,
 } from "react";
 import { Virtuoso } from "react-virtuoso";
+import { mutate } from "swr";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
 import { ColumnMenu } from "./Column";
@@ -99,6 +101,7 @@ const Column = React.memo(function Column({ column, data }: any) {
     [sortedTasks]
   );
   const tasksLeft = sortedTasks.length - completedTasks.length;
+  const [loading, setLoading] = useState(false);
 
   const header = (
     <div style={{ paddingTop: isMobile ? "65px" : 0 }}>
@@ -108,6 +111,11 @@ const Column = React.memo(function Column({ column, data }: any) {
           borderBottom: { sm: "1.5px solid" },
           borderColor: { sm: palette[3] },
           height: { xs: "140px", sm: "120px" },
+        }}
+        onClick={async () => {
+          setLoading(true);
+          await mutate(url);
+          setLoading(false);
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -221,6 +229,19 @@ const Column = React.memo(function Column({ column, data }: any) {
         borderColor: palette[3],
       }}
     >
+      <Collapse in={loading}>
+        <Box
+          sx={{
+            height: { xs: "140px", sm: "100px" },
+            display: "flex",
+            justifyContent: "center",
+            mt: { xs: "65px", sm: "0px" },
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      </Collapse>
       {header}
       <Box sx={{ px: { sm: 1 }, height: "100%" }}>
         <Virtuoso
