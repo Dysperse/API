@@ -34,8 +34,6 @@ export function DailyCheckIn() {
   return (
     <Box
       sx={{
-        border: "1px solid",
-        borderColor: palette[3],
         background: palette[2],
         borderRadius: 5,
         ...(mood && { order: 1 }),

@@ -6,6 +6,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
+  Button,
   Icon,
   IconButton,
   ListItemButton,
@@ -172,12 +173,14 @@ export default function Home() {
     data.length !== 0;
 
   const listItemStyles = {
-    border: "1px solid",
-    borderColor: palette[3],
     background: palette[2],
+    "&:hover": {
+      background: palette[3],
+    },
     gap: 2,
     transition: "transform .2s",
     "&:active": {
+      background: palette[3],
       transform: "scale(.98)",
     },
     px: 3,
@@ -223,7 +226,7 @@ export default function Home() {
         >
           <Box
             sx={{
-              mb: { xs: 7, sm: 5 },
+              mb: { xs: 3, sm: 5 },
               px: { xs: 4, sm: 6 },
               textAlign: { sm: "center" },
             }}
@@ -260,7 +263,7 @@ export default function Home() {
               sx={{ fontWeight: 700, color: palette[8] }}
               variant="h6"
             >
-              {dayjs().format("MMMM DD")}
+              {dayjs().format("MMMM D")}
             </Typography>
           </Box>
         </Box>
@@ -274,6 +277,17 @@ export default function Home() {
             gap: 2,
           }}
         >
+          <Button
+            fullWidth
+            sx={{ px: 2, mb: 2, justifyContent: "start" }}
+            onClick={() => openSpotlight()}
+            variant="contained"
+            size="large"
+          >
+            <Icon>bolt</Icon>
+            Jump to
+          </Button>
+
           <DailyCheckIn />
           <ListItemButton
             sx={{
@@ -284,7 +298,7 @@ export default function Home() {
             onClick={() => router.push("/coach/routine")}
           >
             <ListItemText
-              primary={<b>Daily goals</b>}
+              primary={<b>Goals</b>}
               secondary={
                 coachData &&
                 completedGoals.length ==
@@ -313,7 +327,7 @@ export default function Home() {
             onClick={() => router.push("/tasks/agenda/weeks")}
           >
             <ListItemText
-              primary={<b>Today&apos;s agenda</b>}
+              primary={<b>Agenda</b>}
               secondary={
                 data
                   ? data?.length === 0
@@ -348,36 +362,6 @@ export default function Home() {
                 check_circle
               </Icon>
             )}
-            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-          </ListItemButton>
-          <ListItemButton
-            sx={{
-              ...listItemStyles,
-              ...(backlogData?.length == 0 && { order: 1 }),
-            }}
-            onClick={() => router.push("/tasks/stream")}
-          >
-            <ListItemText
-              primary={<b>Backlog</b>}
-              secondary={`${(backlogData || []).length} unfinished task${
-                (backlogData || []).length !== 1 ? "s" : ""
-              }`}
-            />
-            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-          </ListItemButton>
-          <ListItemButton
-            sx={{
-              ...listItemStyles,
-              ...(upcomingData?.length == 0 && { order: 1 }),
-            }}
-            onClick={() => router.push("/tasks/stream")}
-          >
-            <ListItemText
-              primary={<b>Upcoming</b>}
-              secondary={`${(upcomingData || []).length} task${
-                (upcomingData || []).length !== 1 ? "s" : ""
-              }`}
-            />
             <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
           </ListItemButton>
         </Box>
