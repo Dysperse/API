@@ -107,7 +107,7 @@ const Column = React.memo(function Column({ column, data }: any) {
           p: 3,
           borderBottom: "1.5px solid",
           borderColor: palette[3],
-          height: "120px",
+          height: { xs: "130px", sm: "120px" },
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
