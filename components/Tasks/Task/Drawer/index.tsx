@@ -1,7 +1,12 @@
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { Box, CircularProgress, SwipeableDrawer } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  SwipeableDrawer,
+  useMediaQuery,
+} from "@mui/material";
 import dayjs from "dayjs";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
@@ -39,6 +44,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   onClick?: any;
 }) {
   const session = useSession();
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<null | any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -131,11 +137,13 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         open={open}
         onClose={handleClose}
         anchor="right"
-        slotProps={{
-          backdrop: {
-            sx: { opacity: "0!important" },
+        {...(isMobile && {
+          slotProps: {
+            backdrop: {
+              sx: { opacity: "0!important" },
+            },
           },
-        }}
+        })}
         PaperProps={{
           sx: {
             maxWidth: "500px",

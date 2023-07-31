@@ -390,6 +390,7 @@ export const CreateTask = React.memo(function CreateTask({
         PaperProps={{
           sx: {
             maxWidth: "600px",
+            overflow: "visible",
             mb: { sm: 5 },
             border: "0!important",
             background: "transparent!important",

@@ -6,6 +6,8 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
+  CircularProgress,
+  Divider,
   Icon,
   IconButton,
   Tooltip,
@@ -16,9 +18,17 @@ import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import isoWeek from "dayjs/plugin/isoWeek";
+import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { createContext, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Virtuoso } from "react-virtuoso";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
@@ -29,10 +39,10 @@ dayjs.extend(isoWeek);
 
 const AgendaContext = createContext<any>(null);
 
-function Column({ column, data }) {
+const Column = React.memo(function Column({ column, data }: any) {
   const session = useSession();
-  const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
 
   const { url, type } = useContext(AgendaContext);
@@ -44,6 +54,7 @@ function Column({ column, data }) {
     weeks: "[Week #]W",
     months: "MMMM",
   }[type];
+
   const columnMap = {
     days: "day",
     weeks: "week",
@@ -51,8 +62,8 @@ function Column({ column, data }) {
   }[type];
 
   const subheading = {
-    days: "MMMM Do",
-    weeks: "MMMM Do",
+    days: "MMMM D",
+    weeks: "MMMM D",
     months: "YYYY",
   }[type];
 
@@ -91,7 +102,14 @@ function Column({ column, data }) {
 
   const header = (
     <div style={{ paddingTop: isMobile ? "65px" : 0 }}>
-      <Box sx={{ p: 3, borderBottom: "1.5px solid", borderColor: palette[3] }}>
+      <Box
+        sx={{
+          p: 3,
+          borderBottom: "1.5px solid",
+          borderColor: palette[3],
+          height: "120px",
+        }}
+      >
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography
             variant="h4"
@@ -109,7 +127,6 @@ function Column({ column, data }) {
               }),
               borderRadius: 1,
               width: "auto",
-              height: { xs: 65, sm: 45 },
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
@@ -126,7 +143,7 @@ function Column({ column, data }) {
           sx={{
             display: "flex",
             alignItems: "center",
-            fontSize: "20px",
+            fontSize: "17px",
           }}
         >
           <Tooltip
@@ -193,6 +210,7 @@ function Column({ column, data }) {
   );
   return (
     <Box
+      {...(isToday && { id: "active" })}
       sx={{
         display: "flex",
         height: "100%",
@@ -205,6 +223,48 @@ function Column({ column, data }) {
     >
       {header}
       <Box sx={{ px: { sm: 1 }, height: "100%" }}>
+        {sortedTasks.filter((task) => !task.completed).length === 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mx: "auto",
+              py: { sm: 2 },
+              alignItems: { xs: "center", sm: "start" },
+              textAlign: { xs: "center", sm: "left" },
+              flexDirection: "column",
+              "& img": {
+                display: { sm: "none" },
+              },
+            }}
+          >
+            <Image
+              src="/images/noTasks.png"
+              width={256}
+              height={256}
+              style={{
+                ...(isDark && {
+                  filter: "invert(100%)",
+                }),
+              }}
+              alt="No items found"
+            />
+
+            <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
+              <Typography variant="h6" gutterBottom>
+                {sortedTasks.length === 0 ? "No tasks (yet!)" : "Let's go!"}
+              </Typography>
+              <Typography gutterBottom sx={{ fontWeight: 300 }}>
+                {sortedTasks.length === 0
+                  ? "Nothing planned for this time!"
+                  : "You have no tasks remaining!"}
+              </Typography>
+            </Box>
+            <Box sx={{ width: "100%", mt: 1 }}>
+              {sortedTasks.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
+            </Box>
+          </Box>
+        )}
         <Virtuoso
           isScrolling={setIsScrolling}
           useWindowScroll={isMobile}
@@ -232,7 +292,7 @@ function Column({ column, data }) {
       </Box>
     </Box>
   );
-}
+});
 
 /**
  * Agenda container
@@ -254,9 +314,15 @@ export function Agenda({ type, date }) {
   };
 
   const viewHeadingFormats = {
-    days: "[Week #]W",
-    weeks: "MMMM YYYY",
+    days: "MMMM YYYY",
+    weeks: "MMMM",
     months: "YYYY",
+  };
+
+  const viewSubHeadingFormats = {
+    days: "[Week] W",
+    weeks: "YYYY",
+    months: "-",
   };
 
   const handleNext = () =>
@@ -291,11 +357,18 @@ export function Agenda({ type, date }) {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
+  useEffect(() => {
+    const column = document.getElementById("active");
+    if (data && column) {
+      column.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [data]);
+
   return (
     <AgendaContext.Provider value={{ start, end, url, type }}>
       <Head>
         <title>
-          {dayjs(start).format(viewHeadingFormats[type])}&bull;
+          {dayjs(start).format(viewHeadingFormats[type])} &bull;{" "}
           {capitalizeFirstLetter(type)}
         </title>
       </Head>
@@ -308,47 +381,70 @@ export function Agenda({ type, date }) {
           minHeight: "100vh",
         }}
       >
-        <Box
-          sx={{
-            px: 4,
-            py: 1.5,
-            textAlign: "left",
-            display: { xs: "none", sm: "flex" },
-            alignItems: "center",
-            borderBottom: "1.5px solid",
-            borderColor: palette[3],
-            width: "100%",
-          }}
+        <motion.div
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          style={{ width: "100%" }}
         >
-          <Typography variant="h6">
-            {dayjs(start).format(viewHeadingFormats[type])}
-          </Typography>
-          <Box sx={{ ml: "auto" }}>
-            <IconButton onClick={handlePrev} id="agendaPrev">
-              <Icon className="outlined">arrow_back_ios_new</Icon>
-            </IconButton>
-            <Button
-              id="agendaToday"
-              onClick={() =>
-                router.push(
-                  `/tasks/agenda/${type}/${dayjs().format("YYYY-MM-DD")}`
-                )
-              }
-              disabled={
-                dayjs(start) <= dayjs() && dayjs() <= dayjs(end) ? true : false
-              }
-              size="large"
-              sx={{ px: 0, color: "inherit" }}
-            >
-              Today
-            </Button>
-            <IconButton onClick={handleNext} id="agendaNext">
-              <Icon className="outlined">arrow_forward_ios</Icon>
-            </IconButton>
+          <Box
+            sx={{
+              px: 4,
+              py: 1.5,
+              textAlign: "left",
+              display: { xs: "none", sm: "flex" },
+              alignItems: "center",
+              background: `linear-gradient(${palette[1]}, ${palette[2]})`,
+              width: "100%",
+            }}
+          >
+            <Box>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={dayjs(start).format(viewHeadingFormats[type])}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <Typography sx={{ fontWeight: 900 }}>
+                    {dayjs(start).format(viewHeadingFormats[type])}
+                  </Typography>
+                  {viewSubHeadingFormats[type] !== "-" && (
+                    <Typography variant="body2" sx={{ mt: -0.5 }}>
+                      {dayjs(start).format(viewSubHeadingFormats[type])}
+                    </Typography>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </Box>
+            <Box sx={{ ml: "auto" }}>
+              <IconButton onClick={handlePrev} id="agendaPrev">
+                <Icon className="outlined">arrow_back_ios_new</Icon>
+              </IconButton>
+              <Button
+                id="agendaToday"
+                onClick={() =>
+                  router.push(
+                    `/tasks/agenda/${type}/${dayjs().format("YYYY-MM-DD")}`
+                  )
+                }
+                disabled={dayjs(start) <= dayjs() && dayjs() <= dayjs(end)}
+                size="large"
+                sx={{ px: 0, color: "inherit" }}
+              >
+                Today
+              </Button>
+              <IconButton onClick={handleNext} id="agendaNext">
+                <Icon className="outlined">arrow_forward_ios</Icon>
+              </IconButton>
+            </Box>
           </Box>
-        </Box>
+        </motion.div>
         <Box
           sx={{
+            ...(!data && {
+              alignItems: "center",
+              justifyContent: "center",
+            }),
             display: "flex",
             flexDirection: "row",
             flexGrow: 1,
@@ -358,10 +454,13 @@ export function Agenda({ type, date }) {
             height: "100%",
           }}
         >
-          {data &&
+          {data ? (
             columns.map((column: any) => (
               <Column key={column} column={column} data={data} />
-            ))}
+            ))
+          ) : (
+            <CircularProgress />
+          )}
         </Box>
       </Box>
       {isMobile && (

@@ -139,9 +139,15 @@ const ChipBar = React.memo(function ChipBar({
   return (
     <div>
       <motion.div
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{
+          delay: 1,
+          duration: 2,
+          type: "spring",
+          stiffness: 260,
+          damping: 20,
+        }}
       >
         <Box
           sx={{
