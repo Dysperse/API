@@ -380,7 +380,7 @@ export function Agenda({ type, date }) {
       <Head>
         <title>
           {dayjs(start).format(viewHeadingFormats[type])} &bull;{" "}
-          {capitalizeFirstLetter(type)}
+          {dayjs(start).format(viewSubHeadingFormats[type])}
         </title>
       </Head>
       <Box
