@@ -223,56 +223,67 @@ const Column = React.memo(function Column({ column, data }: any) {
     >
       {header}
       <Box sx={{ px: { sm: 1 }, height: "100%" }}>
-        {sortedTasks.filter((task) => !task.completed).length === 0 && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mx: "auto",
-              py: { sm: 2 },
-              alignItems: { xs: "center", sm: "start" },
-              textAlign: { xs: "center", sm: "left" },
-              flexDirection: "column",
-              "& img": {
-                display: { sm: "none" },
-              },
-            }}
-          >
-            <Image
-              src="/images/noTasks.png"
-              width={256}
-              height={256}
-              style={{
-                ...(isDark && {
-                  filter: "invert(100%)",
-                }),
-              }}
-              alt="No items found"
-            />
-
-            <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
-              <Typography variant="h6" gutterBottom>
-                {sortedTasks.length === 0 ? "No tasks (yet!)" : "Let's go!"}
-              </Typography>
-              <Typography gutterBottom sx={{ fontWeight: 300 }}>
-                {sortedTasks.length === 0
-                  ? "Nothing planned for this time!"
-                  : "You have no tasks remaining!"}
-              </Typography>
-            </Box>
-            <Box sx={{ width: "100%", mt: 1 }}>
-              {sortedTasks.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
-            </Box>
-          </Box>
-        )}
         <Virtuoso
           isScrolling={setIsScrolling}
           useWindowScroll={isMobile}
           style={{
             height: "100%",
           }}
-          totalCount={sortedTasks.length}
+          totalCount={
+            sortedTasks.length +
+            (sortedTasks.filter((task) => !task.completed).length === 0 ? 1 : 0)
+          }
           itemContent={(index) => {
+            if (
+              index === 0 &&
+              sortedTasks.filter((task) => !task.completed).length === 0
+            ) {
+              return (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    mx: "auto",
+                    py: { sm: 2 },
+                    alignItems: { xs: "center", sm: "start" },
+                    textAlign: { xs: "center", sm: "left" },
+                    flexDirection: "column",
+                    "& img": {
+                      display: { sm: "none" },
+                    },
+                  }}
+                >
+                  <Image
+                    src="/images/noTasks.png"
+                    width={256}
+                    height={256}
+                    style={{
+                      ...(isDark && {
+                        filter: "invert(100%)",
+                      }),
+                    }}
+                    alt="No items found"
+                  />
+
+                  <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
+                    <Typography variant="h6" gutterBottom>
+                      {sortedTasks.length === 0 ? "No tasks!" : "Let's go!"}
+                    </Typography>
+                    <Typography gutterBottom sx={{ fontWeight: 300 }}>
+                      {sortedTasks.length === 0
+                        ? "Nothing planned for this time"
+                        : "You have no tasks remaining!"}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ width: "100%", mt: 1 }}>
+                    {sortedTasks.length !== 0 && (
+                      <Divider sx={{ mt: 2, mb: -1 }} />
+                    )}
+                  </Box>
+                </Box>
+              );
+            }
+            if (index === sortedTasks.length) return;
             const task = sortedTasks[index];
             return (
               <Task
