@@ -31,7 +31,7 @@ export default function Layout({ children }: any) {
 
   useEffect(() => {
     if (router.asPath === "/settings") {
-      router.push("/settings/account");
+      router.push("/settings/profile");
     }
   }, [router]);
 
@@ -107,7 +107,7 @@ export default function Layout({ children }: any) {
         <span className="e font-heading">Settings</span>
       </Box>
       {[
-        { icon: "account_circle", text: "Account" },
+        { icon: "account_circle", text: "Profile" },
         { icon: "palette", text: "Appearance" },
         { icon: "change_history", text: "Login Activity" },
         { icon: "notifications", text: "Notifications" },
@@ -119,13 +119,13 @@ export default function Layout({ children }: any) {
             setOpen(false);
             setTimeout(() => {
               router.push(
-                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`,
+                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
               );
             }, 200);
           }}
           sx={styles(
             router.pathname ===
-              `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`,
+              `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
           )}
         >
           <Icon
@@ -277,7 +277,7 @@ export default function Layout({ children }: any) {
                       router.asPath
                         .replace("/settings/", "")
                         .replaceAll("-", " ")
-                        .replace("/", "") || "Settings",
+                        .replace("/", "") || "Settings"
                     )}
                     <Icon sx={{ fontSize: "20px!important" }}>expand_all</Icon>
                   </Button>
@@ -288,7 +288,7 @@ export default function Layout({ children }: any) {
                 {capitalizeFirstLetter(
                   router.asPath
                     .replace("/settings/", "")
-                    .replaceAll("-", " ") || "Settings",
+                    .replaceAll("-", " ") || "Settings"
                 )}
               </Typography>
             ))}

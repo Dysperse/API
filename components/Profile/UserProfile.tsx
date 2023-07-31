@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
@@ -68,15 +68,6 @@ export function UserProfile({
     });
     await mutate(mutationUrl);
   };
-
-  useEffect(() => {
-    if (birthdayRef?.current && editMode)
-      setTimeout(() => {
-        birthdayRef.current.value = dayjs(profile.birthday).format(
-          "YYYY-MM-DD"
-        );
-      }, 100);
-  }, [profile.birthday, editMode]);
 
   const today = dayjs();
   const nextBirthday = dayjs(profile.birthday).year(today.year());
@@ -221,57 +212,28 @@ export function UserProfile({
           )}
           <Box sx={profileCardStyles}>
             <Typography sx={profileCardStyles.heading}>Birthday</Typography>
-            {editMode ? (
-              <TextField
-                type="date"
-                inputRef={birthdayRef}
-                onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-                onBlur={(e) =>
-                  handleChange(
-                    "birthday",
-                    dayjs(e.target.value).set("hour", 1).toISOString()
-                  )
-                }
-              />
-            ) : (
-              <>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    mt: 0.5,
-                    color: palette[12],
-                  }}
-                >
-                  {dayjs(profile.birthday).format("MMMM D")}
-                </Typography>
-                <Typography sx={{ color: palette[11] }}>
-                  In {daysUntilNextBirthday} days
-                </Typography>
-              </>
-            )}
+            <>
+              <Typography
+                variant="h5"
+                sx={{
+                  mt: 0.5,
+                  color: palette[12],
+                }}
+              >
+                {dayjs(profile.birthday).format("MMMM D")}
+              </Typography>
+              <Typography sx={{ color: palette[11] }}>
+                In {daysUntilNextBirthday} days
+              </Typography>
+            </>
           </Box>
           {(profile.bio || editMode) && (
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>About</Typography>
-              {isCurrentUser && editMode ? (
-                <TextField
-                  multiline
-                  label="Add a bio..."
-                  sx={{ mt: 0.5 }}
-                  onBlur={(e: any) =>
-                    handleChange("bio", e.target.value.substring(0, 300))
-                  }
-                  defaultValue={profile.bio}
-                  minRows={4}
-                  placeholder="My name is Jeff Bezos and I'm an entrepreneur and investor"
-                />
-              ) : (
-                profile &&
-                profile.bio && (
-                  <Typography sx={{ fontSize: "17px" }}>
-                    <Twemoji>{profile?.bio || ""}</Twemoji>
-                  </Typography>
-                )
+              {profile && profile.bio && (
+                <Typography sx={{ fontSize: "17px" }}>
+                  <Twemoji>{profile?.bio || ""}</Twemoji>
+                </Typography>
               )}
             </Box>
           )}
