@@ -38,7 +38,8 @@ export function UserProfile({
   const birthdayRef: any = useRef();
 
   const profile = data.Profile;
-  const chipStyles = (color = false) => ({
+
+  const chipStyles = () => ({
     color: palette[11],
     background: palette[3],
     "&:hover": {
@@ -103,7 +104,7 @@ export function UserProfile({
       >
         <Tooltip title="Goals completed">
           <Chip
-            sx={chipStyles(true)}
+            sx={chipStyles}
             label={data.trophies}
             icon={
               <Icon sx={{ color: "inherit!important" }}>military_tech</Icon>
@@ -112,7 +113,7 @@ export function UserProfile({
         </Tooltip>
         <Tooltip title="Timezone">
           <Chip
-            sx={chipStyles(true)}
+            sx={chipStyles}
             label={
               <>
                 <b>
@@ -138,7 +139,7 @@ export function UserProfile({
                         color: colors.orange[isDark ? 50 : 900],
                       },
                     }
-                  : chipStyles(true)),
+                  : chipStyles),
               }}
               label={data.CoachData.streakCount}
               icon={
@@ -152,7 +153,7 @@ export function UserProfile({
         {profile &&
           profile.badges.map((badge) => (
             <Chip
-              sx={chipStyles(true)}
+              sx={chipStyles}
               label={badge}
               key={badge}
               {...(badge === "Early supporter" && {
@@ -171,7 +172,7 @@ export function UserProfile({
                   profile &&
                   profile.hobbies.map((badge) => (
                     <Chip
-                      sx={{ ...chipStyles(false), textTransform: "capitalize" }}
+                      sx={{ ...chipStyles, textTransform: "capitalize" }}
                       label={badge}
                       size="small"
                       key={badge}

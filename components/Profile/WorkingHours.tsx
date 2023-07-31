@@ -108,17 +108,15 @@ export function WorkingHours({
         >
           {!editMode ? (
             <b>
-              {
-                [
-                  "Sunday",
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                ][hour.dayOfWeek]
-              }
+              {[
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+              ][hour.dayOfWeek].substring(0, 3)}
             </b>
           ) : (
             <FormControl fullWidth variant="standard">
@@ -151,7 +149,7 @@ export function WorkingHours({
             </FormControl>
           )}
           {!editMode && (
-            <Typography sx={{ color: palette[9] }}>from</Typography>
+            <Typography sx={{ color: palette[9], flexGrow: 1 }}></Typography>
           )}
           {!editMode ? (
             <b>
@@ -181,7 +179,7 @@ export function WorkingHours({
               </Select>
             </FormControl>
           )}
-          {!editMode && <Typography sx={{ color: palette[9] }}>to</Typography>}
+          {!editMode && <Typography sx={{ color: palette[9] }}>-</Typography>}
           {!editMode ? (
             <b>
               {((hour.endTime + 1) % 12 || 12) +

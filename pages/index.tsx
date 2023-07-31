@@ -292,8 +292,6 @@ export default function Home() {
           <ListItemButton
             sx={{
               ...listItemStyles,
-              ...(!(dayjs().hour() >= 13) && { order: -1 }),
-              ...(completedDailyGoals && { order: 1 }),
             }}
             onClick={() => router.push("/coach/routine")}
           >
@@ -322,7 +320,6 @@ export default function Home() {
           <ListItemButton
             sx={{
               ...listItemStyles,
-              ...(completedTodaysTasks && { order: 1 }),
             }}
             onClick={() => router.push("/tasks/agenda/weeks")}
           >
