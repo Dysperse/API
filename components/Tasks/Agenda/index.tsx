@@ -106,7 +106,7 @@ const Column = React.memo(function Column({ column, data }: any) {
         sx={{
           p: 3,
           borderBottom: { sm: "1.5px solid" },
-          borderColor: palette[3],
+          borderColor: { sm: palette[3] },
           height: { xs: "140px", sm: "120px" },
         }}
       >
