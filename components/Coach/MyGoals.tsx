@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
@@ -122,21 +123,19 @@ export function MyGoals(): JSX.Element {
             )
           }
           {sortedGoals.length >= 1 ? (
-            <Box
-              sx={{
-                ...(!trigger && {
-                  overflowY: "scroll",
-                }),
-              }}
-            >
-              {sortedGoals.map((goal) => (
-                <Goal
-                  isScrolling={isScrolling}
-                  key={goal.id}
-                  goal={goal}
-                  mutationUrl={url}
-                />
-              ))}
+            <Box>
+              <Virtuoso
+                useWindowScroll
+                data={sortedGoals}
+                itemContent={(index, goal) => (
+                  <Goal
+                    isScrolling={isScrolling}
+                    key={goal.id}
+                    goal={goal}
+                    mutationUrl={url}
+                  />
+                )}
+              />
             </Box>
           ) : (
             <Box
