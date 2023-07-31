@@ -1,5 +1,3 @@
-import { ConfirmationModal } from "@/components/ConfirmationModal";
-import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -8,9 +6,7 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import { Masonry } from "@mui/lab";
 import {
-  Autocomplete,
   Box,
-  Button,
   Chip,
   Icon,
   IconButton,
@@ -27,8 +23,6 @@ import { mutate } from "swr";
 import { WorkingHours } from "./WorkingHours";
 
 export function UserProfile({
-  setEditMode,
-  editMode,
   mutationUrl,
   isCurrentUser,
   data,
@@ -155,12 +149,11 @@ export function UserProfile({
       </Box>
       <Box sx={{ mr: -2 }}>
         <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2 }} spacing={2}>
-          {((profile && profile.hobbies.length > 0) || editMode) && (
+          {profile && profile.hobbies.length > 0 && (
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
               <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                {!editMode &&
-                  profile &&
+                {profile &&
                   profile.hobbies.map((badge) => (
                     <Chip
                       sx={{ ...chipStyles, textTransform: "capitalize" }}
@@ -169,40 +162,12 @@ export function UserProfile({
                       key={badge}
                     />
                   ))}
-                {isCurrentUser && data.Profile && editMode && (
-                  <Autocomplete
-                    multiple
-                    getOptionLabel={(option) => option}
-                    options={[]}
-                    value={hobbies}
-                    onChange={(_, newValue) => {
-                      setHobbies(
-                        newValue
-                          .slice(0, 5)
-                          .map((c) => capitalizeFirstLetter(c.substring(0, 20)))
-                      );
-                      handleChange("hobbies", JSON.stringify(newValue));
-                    }}
-                    freeSolo
-                    fullWidth
-                    filterSelectedOptions
-                    sx={{ mt: 1.5 }}
-                    limitTags={5}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="What are your hobbies?"
-                        placeholder="Press enter once you're done..."
-                      />
-                    )}
-                  />
-                )}
               </Box>
             </Box>
           )}
-          {(profile || editMode) && (
+          {(profile) && (
             <WorkingHours
-              editMode={editMode}
+              editMode={false}
               color={data.color}
               isCurrentUser={isCurrentUser}
               mutationUrl={mutationUrl}
@@ -227,7 +192,7 @@ export function UserProfile({
               </Typography>
             </>
           </Box>
-          {(profile.bio || editMode) && (
+          {profile.bio && (
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>About</Typography>
               {profile && profile.bio && (
@@ -291,7 +256,7 @@ export function UserProfile({
           </Box>
         </Masonry>
       </Box>
-      {editMode && (
+      {/* {editMode && (
         <Box sx={{ gap: 2, mt: 2, display: "flex" }}>
           <ConfirmationModal
             callback={handleDelete}
@@ -318,7 +283,7 @@ export function UserProfile({
             Done
           </Button>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 }

@@ -161,13 +161,11 @@ function Page() {
           }}
           size="large"
           onClick={() =>
-            data.Profile ? setEditMode((e) => !e) : createProfile()
+            data.Profile ? router.push("/settings/profile") : createProfile()
           }
         >
-          <Icon className="outlined">
-            {!data?.Profile ? "add" : editMode ? "check" : "edit"}
-          </Icon>
-          {!data?.Profile ? "Create profile" : editMode ? "Done" : "Edit"}
+          <Icon className="outlined">{!data?.Profile ? "add" : "edit"}</Icon>
+          {!data?.Profile ? "Create profile" : "Edit"}
         </LoadingButton>
       )}
       <AppBar
@@ -391,9 +389,7 @@ function Page() {
                 {data.Profile && (
                   <UserProfile
                     profileCardStyles={profileCardStyles}
-                    setEditMode={setEditMode}
                     mutationUrl={url}
-                    editMode={editMode}
                     isCurrentUser={isCurrentUser}
                     data={data}
                   />
