@@ -505,11 +505,10 @@ export const CreateTask = React.memo(function CreateTask({
             <Collapse in={showLocation}>
               <TextField
                 id="location"
-                value={location}
+                value={data.location}
                 onChange={(e) =>
                   setData((d) => ({ ...d, location: e.target.value }))
                 }
-                inputRef={descriptionRef}
                 variant="standard"
                 placeholder="Add location..."
                 onKeyDown={(e) => {
