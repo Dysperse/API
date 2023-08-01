@@ -461,7 +461,12 @@ export function Agenda({ type, date }) {
                 }
                 disabled={dayjs(start) <= dayjs() && dayjs() <= dayjs(end)}
                 size="large"
-                sx={{ px: 0, color: "inherit" }}
+                sx={{
+                  px: 0,
+                  color: "inherit",
+                  ...(dayjs(start) <= dayjs() &&
+                    dayjs() <= dayjs(end) && { display: "none" }),
+                }}
               >
                 Today
               </Button>

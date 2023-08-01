@@ -62,12 +62,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   useEffect(() => {
     if (open) {
       window.location.hash = "#task";
-    } else {
-      history.pushState(
-        "",
-        document.title,
-        window.location.pathname + window.location.search
-      );
     }
   }, [open]);
 
@@ -119,6 +113,11 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   // Callback function when drawer is closed
   const handleClose = useCallback(() => {
+    history.pushState(
+      "",
+      document.title,
+      window.location.pathname + window.location.search
+    );
     setOpen(false);
     mutate(mutationUrl);
   }, [mutationUrl]);
