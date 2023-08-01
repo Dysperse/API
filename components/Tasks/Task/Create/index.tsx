@@ -594,10 +594,10 @@ export const CreateTask = React.memo(function CreateTask({
                 </IconButton>
               </Tooltip>
               <ImageModal
-                imageUploading={imageUploading}
-                setImageUploading={setImageUploading}
                 styles={styles}
                 image={deferredData.image}
+                imageUploading={imageUploading}
+                setImageUploading={setImageUploading}
                 setImage={(image) =>
                   setData({ ...data, image: JSON.stringify(image) })
                 }
