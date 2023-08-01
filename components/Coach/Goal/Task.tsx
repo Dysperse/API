@@ -35,9 +35,12 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const [showProgress, setShowProgress] = useState<boolean>(
-    dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
-      dayjs().format("YYYY-MM-DD") || false
+    (dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
+      dayjs().format("YYYY-MM-DD") &&
+      goal.progress !== goal.durationDays) ||
+      false
   );
+
   const [showProgressLoader, setShowProgressLoader] = useState(false);
   const [progressData, setProgressData] = useState<null | any>(null);
 
@@ -63,12 +66,14 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
     if (goal.progress === goal.durationDays) {
       setStepTwoOpen(true);
     } else {
-      setShowProgress(true);
-      setShowProgressLoader(true);
-      setTimeout(() => {
-        setSlide((s) => s + 1);
-      }, 2300);
-      setDisabled(true);
+      if (goal.progress - 1 !== goal.durationDays) {
+        setShowProgress(true);
+        setShowProgressLoader(true);
+        setTimeout(() => {
+          setSlide((s) => s + 1);
+        }, 2300);
+        setDisabled(true);
+      }
       fetchRawApi(session, "user/coach/goals/markAsDone", {
         date: dayjs().toISOString(),
         progress:
@@ -323,8 +328,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                     const hasCompleted =
                       progressData.find(
                         (day) => dayjs(day.date).format("YYYY-MM-DD") === curr
-                      ) ||
-                      curr == dayjs(goal.lastCompleted).format("YYYY-MM-DD");
+                      ) || curr == dayjs().format("YYYY-MM-DD");
 
                     const isFuture = dayjs(curr).isAfter(dayjs());
 
@@ -404,9 +408,10 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
               fullWidth
               onClick={handleNext}
               disabled={
-                disabled ||
-                dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
-                  dayjs().format("YYYY-MM-DD")
+                (disabled ||
+                  dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
+                    dayjs().format("YYYY-MM-DD")) &&
+                goal.progress !== goal.durationDays
               }
             >
               {isCompleted ? "Claim" : "Done"} <Icon>east</Icon>
