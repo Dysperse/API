@@ -1,11 +1,9 @@
 import { isEmail } from "@/components/Group/Members";
 import { useSession } from "@/lib/client/session";
 import { useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { Button, Icon, IconButton, Popover, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 
 export function SearchUser() {
   const router = useRouter();
@@ -24,12 +22,7 @@ export function SearchUser() {
   };
 
   const open = Boolean(anchorEl);
-
   const handleSubmit = () => {
-    if (!isEmail(email)) {
-      toast.error("Please enter an email", toastStyles);
-      return;
-    }
     router.push(`/users/${encodeURIComponent(email)}`);
     setAnchorEl(null);
   };
@@ -65,7 +58,7 @@ export function SearchUser() {
           autoFocus
           onChange={(e) => setEmail(e.target.value)}
           onKeyDown={(e) => e.key == "Enter" && handleSubmit()}
-          placeholder="Type an email..."
+          placeholder="Type an email or username..."
           sx={{ mb: 2 }}
         />
         <Button
