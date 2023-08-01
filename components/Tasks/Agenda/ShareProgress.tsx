@@ -90,7 +90,7 @@ export function ShareProgress({ day, children, data, tasksLeft }) {
             fullWidth
             sx={{ borderWidth: "2px!important" }}
           >
-            <Icon>download</Icon>Save to gallery
+            <Icon>download</Icon>Save to camera roll
           </Button>
         </Box>
       </SwipeableDrawer>

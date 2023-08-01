@@ -260,7 +260,7 @@ export default function Layout({ children }: any) {
         >
           {router.asPath !== "/settings" &&
             (isMobile ? (
-              <AppBar sx={{ pr: 5, background: "transparent" }}>
+              <AppBar sx={{ pr: 5, background: "transparent", border: 0 }}>
                 <Toolbar>
                   <IconButton onClick={() => router.push("/users")}>
                     <Icon>arrow_back_ios_new</Icon>
@@ -269,9 +269,8 @@ export default function Layout({ children }: any) {
                     onClick={() => setOpen(true)}
                     sx={{
                       color: "inherit",
-                      mx: "auto",
-                      background: palette[3] + "!important",
                     }}
+                    size="small"
                   >
                     {capitalizeFirstLetter(
                       router.asPath
@@ -279,7 +278,7 @@ export default function Layout({ children }: any) {
                         .replaceAll("-", " ")
                         .replace("/", "") || "Settings"
                     )}
-                    <Icon sx={{ fontSize: "20px!important" }}>expand_all</Icon>
+                    <Icon sx={{ fontSize: "20px!important" }}>expand_more</Icon>
                   </Button>
                 </Toolbar>
               </AppBar>

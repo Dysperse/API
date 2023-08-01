@@ -1,3 +1,4 @@
+import { exportAsImage } from "@/components/Coach/Goal/Options";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { AddPersonModal } from "@/components/Group/Members/Add";
@@ -6,6 +7,7 @@ import { UserProfile } from "@/components/Profile//UserProfile";
 import { Followers } from "@/components/Profile/Followers";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SearchUser } from "@/components/Profile/SearchUser";
+import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
@@ -16,10 +18,13 @@ import {
   Alert,
   AppBar,
   Box,
+  Button,
   CircularProgress,
   Container,
+  Grid,
   Icon,
   IconButton,
+  SwipeableDrawer,
   TextField,
   Toolbar,
   Typography,
@@ -27,10 +32,128 @@ import {
 import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { cloneElement, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
+
+function ShareProfileModal({ user, children }) {
+  const session = useSession();
+  const ref = useRef();
+  const palette = useColor(user?.color || session.themeColor, user?.darkMode);
+
+  const [open, setOpen] = useState(false);
+  const trigger = cloneElement(children, { onClick: () => setOpen(true) });
+
+  const typographyStyles = {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  };
+
+  return (
+    <>
+      {trigger}
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <Puller />
+        <Box
+          ref={ref}
+          sx={{
+            background: palette[9],
+            color: "#000!important",
+            p: 3,
+            position: "relative",
+          }}
+        >
+          <picture>
+            <img
+              src="/logo.svg"
+              alt="Logo"
+              style={{
+                position: "absolute",
+                top: "20px",
+                right: "20px",
+                width: "40px",
+                height: "40px",
+              }}
+            />
+          </picture>
+
+          <Grid container columnSpacing={2} sx={{ mt: 4 }}>
+            <Grid item xs={4}>
+              <Box>
+                {user && (
+                  <ProfilePicture
+                    data={user}
+                    mutationUrl=""
+                    size={"100%" as any}
+                  />
+                )}
+              </Box>
+            </Grid>
+            <Grid item xs={8}>
+              <Box
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  className="font-heading"
+                  sx={typographyStyles}
+                >
+                  <b>{user?.name}</b>
+                </Typography>
+                <Typography variant="body2" sx={{ ...typographyStyles, mb: 2 }}>
+                  <b>
+                    {user?.username && "@"}
+                    {user?.username || user?.email}
+                  </b>
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+        <Box sx={{ p: 2, display: "flex", gap: 2 }}>
+          <Button
+            onClick={() => {
+              navigator.share({
+                url: `https://${window.location.hostname}/u/${
+                  user?.username || user?.email
+                }`,
+              });
+            }}
+            variant="outlined"
+            size="large"
+          >
+            <Icon>ios_share</Icon>
+          </Button>
+          <Button
+            onClick={() => {
+              exportAsImage(
+                ref.current,
+                (user?.username || user?.email).replace("@", "")
+              );
+            }}
+            fullWidth
+            variant="contained"
+            size="large"
+          >
+            <Icon>Download</Icon>
+            Save card
+          </Button>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 function Page() {
   const router = useRouter();
@@ -175,11 +298,16 @@ function Page() {
           borderColor: "transparent",
         }}
       >
-        <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
+        <Toolbar>
           <IconButton onClick={() => router.push("/users")}>
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
           <SearchUser />
+          <ShareProfileModal user={data}>
+            <IconButton>
+              <Icon>ios_share</Icon>
+            </IconButton>
+          </ShareProfileModal>
           {!isCurrentUser && data?.color && (
             <ConfirmationModal
               disabled={!isFollowing}

@@ -482,7 +482,7 @@ export function ShareGoal({ children, goal }) {
                 color: "hsl(240,11%,90%)",
               }}
             >
-              Save to gallery <Icon>download</Icon>
+              Save to camera roll <Icon>download</Icon>
             </Button>
           </Box>
         </SwipeableDrawer>

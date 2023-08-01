@@ -2,23 +2,12 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import { Masonry } from "@mui/lab";
-import {
-  Box,
-  Chip,
-  Icon,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Chip, Icon, Tooltip, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
-import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { WorkingHours } from "./WorkingHours";
 
@@ -165,7 +154,7 @@ export function UserProfile({
               </Box>
             </Box>
           )}
-          {(profile) && (
+          {profile && (
             <WorkingHours
               editMode={false}
               color={data.color}
@@ -202,58 +191,6 @@ export function UserProfile({
               )}
             </Box>
           )}
-          <Box sx={profileCardStyles}>
-            <Typography sx={profileCardStyles.heading}>Share</Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1.5,
-                mt: 2,
-              }}
-            >
-              <TextField
-                size="small"
-                label="Link"
-                value={window.location.href}
-                InputProps={{
-                  readOnly: true,
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => {
-                          navigator.clipboard.writeText(window.location.href);
-                          toast.success("Copied to clipboard!", toastStyles);
-                        }}
-                      >
-                        <Icon className="outlined">content_copy</Icon>
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                label="Email"
-                size="small"
-                value={data.email}
-                InputProps={{
-                  readOnly: true,
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => {
-                          navigator.clipboard.writeText(data.email);
-                          toast.success("Copied to clipboard!", toastStyles);
-                        }}
-                      >
-                        <Icon className="outlined">content_copy</Icon>
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Box>
-          </Box>
         </Masonry>
       </Box>
       {/* {editMode && (

@@ -32,6 +32,7 @@ export default function AppearanceSettings() {
   });
 
   const [bio, setBio] = useState(data?.Profile?.bio || "");
+  const [username, setUsername] = useState(session.user.username || "");
 
   const handleSubmit = async () => {
     if (name.trim() !== "") updateSettings(session, "name", name);
@@ -62,7 +63,14 @@ export default function AppearanceSettings() {
   return (
     <Layout>
       {error && <ErrorHandler error={error.message} />}
-      <Box sx={{ display: "flex", mb: 2, gap: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          mb: 2,
+          gap: 3,
+        }}
+      >
         {data && <ProfilePicture data={data} mutationUrl={url} editMode />}
         <Box sx={{ flexGrow: 1 }}>
           <TextField

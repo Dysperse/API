@@ -60,14 +60,15 @@ export default function History() {
     router.push("/");
   });
   const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
   const styles = {
     border: "1px solid",
-    borderColor: `hsl(240,11%,${isDark ? 15 : 90}%)`,
+    borderColor: palette[2],
     p: 3,
     borderRadius: 5,
     "& .MuiTypography-body2": { mb: 2 },
   };
-  const palette = useColor(session.themeColor, isDark);
 
   const dataByDate = data
     ? data.sort(
@@ -281,9 +282,7 @@ export default function History() {
                     background: "transparent",
                     minWidth: "1000px",
                     "& *": {
-                      borderColor: `hsl(240,11%,${
-                        isDark ? 15 : 90
-                      }%)!important`,
+                      borderColor: palette[2],
                     },
                   }}
                   aria-label="simple table"
