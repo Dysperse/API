@@ -392,7 +392,7 @@ const DrawerContent = React.memo(function DrawerContent({
                     board={subTask.board || false}
                     columnId={subTask.column ? subTask.column.id : -1}
                     handleMutate={task.mutate}
-                    data={subTask}
+                    task={subTask}
                   />
                 ))}
             </>
