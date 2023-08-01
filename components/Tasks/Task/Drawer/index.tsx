@@ -8,7 +8,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { cloneElement, useCallback, useRef, useState } from "react";
+import React, {
+  cloneElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { toArray } from "react-emoji-render";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
@@ -52,6 +58,18 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
+
+  useEffect(() => {
+    if (open) {
+      window.location.hash = "#task";
+    } else {
+      history.pushState(
+        "",
+        document.title,
+        window.location.pathname + window.location.search
+      );
+    }
+  }, [open]);
 
   /**
    * Fetch task data
