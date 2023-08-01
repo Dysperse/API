@@ -120,7 +120,7 @@ export function Sidebar() {
     "ctrl+shift+2",
     (e) => {
       e.preventDefault();
-      router.push("/tasks/agenda/weeks");
+      router.push("/tasks/agenda/days");
     },
     [open]
   );
@@ -220,8 +220,8 @@ export function Sidebar() {
       </Box>
       <Box
         sx={styles(router.asPath.includes("/tasks"))}
-        onClick={() => router.push("/tasks/agenda/weeks")}
-        onMouseDown={() => router.push("/tasks/agenda/weeks")}
+        onClick={() => router.push("/tasks/agenda/days")}
+        onMouseDown={() => router.push("/tasks/agenda/days")}
       >
         <Tooltip title="Tasks" placement="right">
           <span
