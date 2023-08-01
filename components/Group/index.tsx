@@ -186,7 +186,10 @@ export function PropertyInfo({
         >
           {propertyData.profile.name}
         </Typography>
-        <Typography>{propertyData.profile.members.length} members</Typography>
+        <Typography>
+          {propertyData.profile.members.length} member
+          {propertyData.profile.members.length !== 1 && "s"}
+        </Typography>
       </Box>
       <Storage
         color={propertyData.profile.color}
