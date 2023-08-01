@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import Layout from ".";
 
 /**
@@ -51,7 +52,8 @@ export default function AppearanceSettings() {
   };
 
   const handleUsernameSubmit = async () => {
-    if (username.trim() !== "") updateSettings(session, "username", username);
+      if (username.trim() !== "")
+        updateSettings(session, "username", username, false, null, false, false, "Username already exists!");
   };
 
   useEffect(() => {

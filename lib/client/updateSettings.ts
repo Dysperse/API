@@ -1,4 +1,3 @@
-import { useSession } from "@/lib/client/session";
 import { toastStyles } from "@/lib/client/useTheme";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
@@ -19,7 +18,8 @@ export async function updateSettings(
   debug = false,
   callback: null | (() => void) = null,
   property = false,
-  hideToast = false
+  hideToast = false,
+  errorText = "Couldn't save settings."
 ) {
   const promise = new Promise(async (resolve, reject) => {
     try {
@@ -62,7 +62,7 @@ export async function updateSettings(
     {
       loading: "Saving...",
       success: (message: any) => message,
-      error: (err: any) => err,
+      error: errorText,
     },
     toastStyles
   );
