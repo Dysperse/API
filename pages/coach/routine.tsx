@@ -132,7 +132,7 @@ export default function Routine() {
           zIndex: 9999,
         }}
       >
-        <Icon>west</Icon>
+        <Icon>arrow_back_ios_new</Icon>
       </IconButton>
       {slide === -1 && (
         <Box
