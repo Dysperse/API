@@ -68,13 +68,18 @@ export function Following({ styles, data }): JSX.Element {
             const follower = data.following[i];
             return (
               <Link
-                href={`/users/${follower.following.email}`}
+                href={`/users/${
+                  follower.following.username || follower.following.email
+                }`}
                 style={{ color: "inherit" }}
               >
                 <ListItemButton sx={{ borderRadius: 0 }}>
                   <ListItemText
                     primary={follower.following.name}
-                    secondary={follower.following.email}
+                    secondary={
+                      (follower.following.username ? "@" : "") +
+                      (follower.following.username || follower.following.email)
+                    }
                   />
                 </ListItemButton>
               </Link>

@@ -129,13 +129,13 @@ function ShareProfileModal({ user, children }) {
               <Grid container>
                 <Grid item xs={6}>
                   <Typography variant="h4" className="font-heading">
-                    {user?.followers.length}
+                    {user?.followers?.length}
                   </Typography>
                   <Typography variant="body2">followers</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Typography variant="h4" className="font-heading">
-                    {user?.following.length}
+                    {user?.following?.length}
                   </Typography>
                   <Typography variant="body2">following</Typography>
                 </Grid>
@@ -184,7 +184,9 @@ function Page() {
   const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
-  const isCurrentUser = email === session.user.email;
+  const isCurrentUser =
+    email === session.user.email || email === session.user.username;
+
   const isFollowing =
     data &&
     data.followers &&
@@ -468,7 +470,8 @@ function Page() {
                         fontSize: { xs: 20, sm: 25 },
                       }}
                     >
-                      {data.email}
+                      {data?.username && "@"}
+                      {data?.username || data?.email}
                     </Typography>
                   </Box>
                   {!isCurrentUser && (

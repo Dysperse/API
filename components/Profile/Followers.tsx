@@ -73,12 +73,19 @@ export function Followers({ styles, data }) {
               <ListItemButton
                 sx={{ borderRadius: 0 }}
                 onClick={() => {
-                  router.push(`/users/${follower.follower.email}`);
+                  router.push(
+                    `/users/${
+                      follower.follower.username || follower.follower.email
+                    }`
+                  );
                 }}
               >
                 <ListItemText
                   primary={follower.follower.name}
-                  secondary={follower.follower.email}
+                  secondary={
+                    (follower.follower.username ? "@" : "") +
+                    (follower.follower.username || follower.follower.email)
+                  }
                 />
               </ListItemButton>
             );

@@ -6,12 +6,13 @@ export default async function handler(req, res) {
     validateParams(req.query, ["email"]);
     let data: any = await prisma.user.findFirstOrThrow({
       where: {
-        email: req.query.email,
+        OR: [{ username: req.query.email }, { email: req.query.email }],
       },
       select: {
         CoachData: true,
         timeZone: true,
         trophies: true,
+        username: true,
         color: true,
         name: true,
         email: true,
@@ -20,6 +21,7 @@ export default async function handler(req, res) {
             follower: {
               select: {
                 name: true,
+                username: true,
                 email: true,
               },
             },
@@ -30,6 +32,7 @@ export default async function handler(req, res) {
             following: {
               select: {
                 name: true,
+                username: true,
                 email: true,
               },
             },
