@@ -42,6 +42,7 @@ export const ColumnMenu = React.memo(function ColumnMenu({
           color: palette[9],
           mr: -1,
           ...(selection.values.length > 0 && { opacity: 0 }),
+          ...(open && { background: palette[2] }),
         }}
       >
         <Icon className="outlined">more_horiz</Icon>
