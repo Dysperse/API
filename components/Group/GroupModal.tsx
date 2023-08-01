@@ -9,6 +9,9 @@ import {
   Chip,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
@@ -24,10 +27,15 @@ export function GroupModal({
   const session = useSession();
   const { data, fetcher, url } = useApi("user/properties");
   const [showMore, setShowMore] = useState(false);
+  const [showInvitations, setShowInvitations] = useState(false);
 
+  const personPalette = useColor(
+    session.themeColor,
+    useDarkMode(session.darkMode)
+  );
   const palette = useColor(
     session?.property?.profile?.color,
-    useDarkMode(session.darkMode),
+    useDarkMode(session.darkMode)
   );
 
   const properties = [...session.properties, ...(data || [])]
@@ -59,16 +67,82 @@ export function GroupModal({
         sx={{ textAlign: "center" }}
         gutterBottom
       >
-        Groups
+        {showInvitations ? "Invitations" : "Groups"}
       </Typography>
-      {properties.map((group: any) => (
-        <PropertyButton
-          list={list}
-          handleClose={() => setShowMore(false)}
-          key={group.id}
-          group={group}
+      {properties
+        .filter((p) => (showInvitations ? !p.accepted : p.accepted))
+        .map((group: any) => (
+          <PropertyButton
+            list={list}
+            handleClose={() => setShowMore(false)}
+            key={group.id}
+            group={group}
+          />
+        ))}
+      {showInvitations && properties.filter((p) => !p.accepted).length == 0 && (
+        <Box
+          sx={{
+            background: personPalette[2],
+            p: 2,
+            borderRadius: 5,
+            mb: 2,
+          }}
+        >
+          <Typography>
+            Groups you&apos;re invited to will appear here
+          </Typography>
+        </Box>
+      )}
+      <ListItemButton
+        sx={{
+          gap: 2,
+          borderRadius: 99,
+          transition: "transform .2s",
+          background: "transparent!important",
+          "&:active": {
+            transform: { sm: "scale(0.97)" },
+          },
+          "& *": {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          },
+          "&:hover": {
+            background: { sm: personPalette[2] + "!important" },
+          },
+        }}
+        onClick={() => {
+          setShowInvitations(!showInvitations);
+        }}
+      >
+        <Box
+          sx={{
+            width: 40,
+            height: 40,
+            background: personPalette[2],
+            color: personPalette[9],
+            borderRadius: 99,
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon>{showInvitations ? "arrow_back_ios_new" : "person_add"}</Icon>
+        </Box>
+        <ListItemText
+          primary={showInvitations ? "Groups" : "Invitations"}
+          sx={{ color: personPalette[12] }}
+          secondary={
+            showInvitations
+              ? null
+              : properties.filter((p) => !p.accepted).length + " new"
+          }
         />
-      ))}
+        <ListItemIcon sx={{ minWidth: "unset" }}>
+          <Icon>{showInvitations ? "" : "arrow_forward_ios"}</Icon>
+        </ListItemIcon>
+      </ListItemButton>
     </SwipeableDrawer>
   );
 
