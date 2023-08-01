@@ -468,16 +468,16 @@ export const CreateTask = React.memo(function CreateTask({
             )}
             <TextField
               multiline
-              inputRef={titleRef}
-              id="title"
-              value={data.title}
-              onChange={handleTitleChange}
               autoFocus
+              id="title"
               variant="standard"
+              value={data.title}
+              inputRef={titleRef}
+              onChange={handleTitleChange}
+              placeholder={placeholderValue}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleSubmit(e);
               }}
-              placeholder={placeholderValue}
               InputProps={{
                 disableUnderline: true,
                 sx: { fontSize: 19 },
@@ -485,55 +485,53 @@ export const CreateTask = React.memo(function CreateTask({
             />
             <Collapse in={showDescription}>
               <TextField
+                multiline
                 id="description"
+                variant="standard"
+                placeholder="Add note..."
                 value={data.description}
+                inputRef={descriptionRef}
+                InputProps={{ disableUnderline: true }}
                 onChange={(e) =>
                   setData({ ...data, description: e.target.value })
                 }
-                inputRef={descriptionRef}
-                variant="standard"
-                placeholder="Add note..."
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
-                }}
-                multiline
-                InputProps={{
-                  disableUnderline: true,
                 }}
               />
             </Collapse>
             <Collapse in={showLocation}>
               <TextField
+                multiline
                 id="location"
+                variant="standard"
+                placeholder="Add location..."
                 value={data.location}
                 onChange={(e) =>
                   setData((d) => ({ ...d, location: e.target.value }))
                 }
-                variant="standard"
-                placeholder="Add location..."
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && e.ctrlKey) handleSubmit(e);
                 }}
-                multiline
-                InputProps={{
-                  disableUnderline: true,
-                }}
+                InputProps={{ disableUnderline: true }}
               />
             </Collapse>
             <Box sx={{ display: "flex", mt: 1, mb: -1, alignItems: "center" }}>
               <Tooltip
-                title={`${data.pinned ? "Unpin" : "Pin"} (alt • a)`}
+                title={`${deferredData.pinned ? "Unpin" : "Pin"} (alt • a)`}
                 placement="top"
               >
                 <IconButton
                   onClick={togglePin}
-                  sx={styles(palette, data.pinned)}
+                  sx={styles(palette, deferredData.pinned)}
                   size="small"
                 >
                   <Icon
-                    className={data.pinned ? "rounded" : "outlined"}
+                    className={deferredData.pinned ? "rounded" : "outlined"}
                     sx={{
-                      ...(data.pinned && { transform: "rotate(-40deg)" }),
+                      ...(deferredData.pinned && {
+                        transform: "rotate(-40deg)",
+                      }),
                       transition: "all .2s",
                     }}
                   >
@@ -599,7 +597,7 @@ export const CreateTask = React.memo(function CreateTask({
                 imageUploading={imageUploading}
                 setImageUploading={setImageUploading}
                 styles={styles}
-                image={data.image}
+                image={deferredData.image}
                 setImage={(image) =>
                   setData({ ...data, image: JSON.stringify(image) })
                 }
@@ -608,7 +606,7 @@ export const CreateTask = React.memo(function CreateTask({
                 <SelectDateModal
                   ref={dateModalButtonRef}
                   styles={styles}
-                  date={data.date}
+                  date={deferredData.date}
                   setDate={(e) => {
                     setData((d) => ({ ...d, date: e }));
                     setTimeout(() => {
