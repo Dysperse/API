@@ -67,6 +67,10 @@ function ShareProfileModal({ user, children }) {
             color: "#000!important",
             p: 3,
             position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
           }}
         >
           <picture>
@@ -83,43 +87,58 @@ function ShareProfileModal({ user, children }) {
             />
           </picture>
 
-          <Grid container columnSpacing={2} sx={{ mt: 4 }}>
-            <Grid item xs={4}>
-              <Box>
-                {user && (
-                  <ProfilePicture
-                    data={user}
-                    mutationUrl=""
-                    size={"100%" as any}
-                  />
-                )}
-              </Box>
-            </Grid>
-            <Grid item xs={8}>
-              <Box
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
+          <Box sx={{ mt: 5 }}>
+            {user && (
+              <ProfilePicture
+                data={{
+                  ...user,
+                  Profile: {
+                    ...user.Profile,
+                    picture: `https://${window.location.hostname}/api/proxy?url=${user.Profile?.picture}`,
+                  },
                 }}
-              >
-                <Typography
-                  variant="h4"
-                  className="font-heading"
-                  sx={typographyStyles}
-                >
-                  <b>{user?.name}</b>
+                mutationUrl=""
+                size={100}
+              />
+            )}
+          </Box>
+          <Box
+            sx={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              mt: 2,
+            }}
+          >
+            <Typography
+              variant="h4"
+              className="font-heading"
+              sx={typographyStyles}
+            >
+              <b>{user?.name}</b>
+            </Typography>
+            <Typography sx={{ ...typographyStyles, mb: 2 }}>
+              <b>
+                {user?.username && "@"}
+                {user?.username || user?.email}
+              </b>
+            </Typography>
+            <Grid container>
+              <Grid item xs={6}>
+                <Typography variant="h4" className="font-heading">
+                  {user?.followers.length}
                 </Typography>
-                <Typography variant="body2" sx={{ ...typographyStyles, mb: 2 }}>
-                  <b>
-                    {user?.username && "@"}
-                    {user?.username || user?.email}
-                  </b>
+                <Typography variant="body2">followers</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="h4" className="font-heading">
+                  {user?.following.length}
                 </Typography>
-              </Box>
+                <Typography variant="body2">following</Typography>
+              </Grid>
             </Grid>
-          </Grid>
+          </Box>
         </Box>
         <Box sx={{ p: 2, display: "flex", gap: 2 }}>
           <Button
@@ -137,10 +156,7 @@ function ShareProfileModal({ user, children }) {
           </Button>
           <Button
             onClick={() => {
-              exportAsImage(
-                ref.current,
-                (user?.username || user?.email).replace("@", "")
-              );
+              exportAsImage(ref.current, "profile");
             }}
             fullWidth
             variant="contained"
