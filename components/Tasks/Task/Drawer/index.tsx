@@ -4,6 +4,7 @@ import { useBackButton } from "@/lib/client/useBackButton";
 import {
   Box,
   CircularProgress,
+  Drawer,
   SwipeableDrawer,
   useMediaQuery,
 } from "@mui/material";
@@ -55,6 +56,11 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const [data, setData] = useState<null | any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
+
+  const isIos = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+  };
 
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
@@ -139,6 +145,8 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     onClick: onClick || handleFetch,
   });
 
+  const DrawerElement = isIos() ? Drawer : SwipeableDrawer;
+
   return (
     <TaskContext.Provider
       value={{
@@ -150,7 +158,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       }}
     >
       {trigger}
-      <SwipeableDrawer
+      <DrawerElement
         open={open}
         onClose={handleClose}
         anchor="right"
@@ -202,7 +210,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             />
           )}
         </Box>
-      </SwipeableDrawer>
+      </DrawerElement>
     </TaskContext.Provider>
   );
 });
