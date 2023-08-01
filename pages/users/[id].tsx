@@ -60,86 +60,89 @@ function ShareProfileModal({ user, children }) {
         onClose={() => setOpen(false)}
       >
         <Puller />
-        <Box
-          ref={ref}
-          sx={{
-            background: palette[9],
-            color: "#000!important",
-            p: 3,
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <picture>
-            <img
-              src="/logo.svg"
-              alt="Logo"
-              style={{
-                position: "absolute",
-                top: "20px",
-                right: "20px",
-                width: "40px",
-                height: "40px",
-              }}
-            />
-          </picture>
-
-          <Box sx={{ mt: 5 }}>
-            {user && (
-              <ProfilePicture
-                data={{
-                  ...user,
-                  Profile: {
-                    ...user.Profile,
-                    picture: `https://${window.location.hostname}/api/proxy?url=${user.Profile?.picture}`,
-                  },
-                }}
-                mutationUrl=""
-                size={100}
-              />
-            )}
-          </Box>
+        <div style={{ overflow: "scroll" }}>
           <Box
+            ref={ref}
             sx={{
-              height: "100%",
+              background: palette[9],
+              color: "#000!important",
+              p: 3,
+              position: "relative",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center",
-              mt: 2,
+              alignItems: "center",
+              width: "500px",
+              textAlign: "center",
             }}
           >
-            <Typography
-              variant="h4"
-              className="font-heading"
-              sx={typographyStyles}
+            <picture>
+              <img
+                src="/logo.svg"
+                alt="Logo"
+                style={{
+                  position: "absolute",
+                  top: "20px",
+                  right: "20px",
+                  width: "40px",
+                  height: "40px",
+                }}
+              />
+            </picture>
+
+            <Box sx={{ mt: 5 }}>
+              {user && (
+                <ProfilePicture
+                  data={{
+                    ...user,
+                    Profile: {
+                      ...user.Profile,
+                      picture: `https://${window.location.hostname}/api/proxy?url=${user.Profile?.picture}`,
+                    },
+                  }}
+                  mutationUrl=""
+                  size={100}
+                />
+              )}
+            </Box>
+            <Box
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                mt: 2,
+              }}
             >
-              <b>{user?.name}</b>
-            </Typography>
-            <Typography sx={{ ...typographyStyles, mb: 2 }}>
-              <b>
-                {user?.username && "@"}
-                {user?.username || user?.email}
-              </b>
-            </Typography>
-            <Grid container>
-              <Grid item xs={6}>
-                <Typography variant="h4" className="font-heading">
-                  {user?.followers.length}
-                </Typography>
-                <Typography variant="body2">followers</Typography>
+              <Typography
+                variant="h3"
+                className="font-heading"
+                sx={typographyStyles}
+              >
+                <b>{user?.name}</b>
+              </Typography>
+              <Typography sx={{ ...typographyStyles, mb: 2 }}>
+                <b>
+                  {user?.username && "@"}
+                  {user?.username || user?.email}
+                </b>
+              </Typography>
+              <Grid container>
+                <Grid item xs={6}>
+                  <Typography variant="h4" className="font-heading">
+                    {user?.followers.length}
+                  </Typography>
+                  <Typography variant="body2">followers</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="h4" className="font-heading">
+                    {user?.following.length}
+                  </Typography>
+                  <Typography variant="body2">following</Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <Typography variant="h4" className="font-heading">
-                  {user?.following.length}
-                </Typography>
-                <Typography variant="body2">following</Typography>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
+        </div>
         <Box sx={{ p: 2, display: "flex", gap: 2 }}>
           <Button
             onClick={() => {

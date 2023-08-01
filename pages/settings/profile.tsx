@@ -11,8 +11,11 @@ import {
   Autocomplete,
   Box,
   Button,
+  Icon,
+  InputAdornment,
   Link,
   TextField,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -165,12 +168,44 @@ export default function AppearanceSettings() {
               please contact us
             </Link>
           </Alert>
+          <Box sx={{ display: "flex" }}>
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              sx={{ ml: "auto" }}
+            >
+              Save
+            </Button>
+          </Box>
+
+          <Typography sx={{ mt: 3, mb: 1 }} variant="h6">
+            Username
+          </Typography>
+          <TextField
+            value={session?.user && session.user.username}
+            label="Username"
+            placeholder="Choose a unique username!"
+            margin="dense"
+            sx={{ mb: 2 }}
+            helperText="This is how people can find you on Dysperse. Usernames can only contain letters, numbers, underscores and periods."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>alternate_email</Icon>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Box sx={{ display: "flex" }}>
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              sx={{ ml: "auto" }}
+            >
+              Change
+            </Button>
+          </Box>
         </Box>
-      </Box>
-      <Box sx={{ display: "flex" }}>
-        <Button onClick={handleSubmit} variant="contained" sx={{ ml: "auto" }}>
-          Save
-        </Button>
       </Box>
     </Layout>
   );
