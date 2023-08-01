@@ -50,6 +50,10 @@ export default function AppearanceSettings() {
     });
   };
 
+  const handleUsernameSubmit = async () => {
+    if (username.trim() !== "") updateSettings(session, "username", username);
+  };
+
   useEffect(() => {
     if (birthdayRef?.current && data?.Profile?.birthday)
       setTimeout(() => {
@@ -182,7 +186,8 @@ export default function AppearanceSettings() {
             Username
           </Typography>
           <TextField
-            value={session?.user && session.user.username}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             label="Username"
             placeholder="Choose a unique username!"
             margin="dense"
@@ -198,7 +203,7 @@ export default function AppearanceSettings() {
           />
           <Box sx={{ display: "flex" }}>
             <Button
-              onClick={handleSubmit}
+              onClick={handleUsernameSubmit}
               variant="contained"
               sx={{ ml: "auto" }}
             >

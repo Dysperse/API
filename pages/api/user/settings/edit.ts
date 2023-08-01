@@ -25,6 +25,7 @@ const handler = async (req, res) => {
     },
     data: {
       name: req.query.name || undefined,
+      username: req.query.username || undefined,
       lastReleaseVersionViewed:
         parseInt(req.query.lastReleaseVersionViewed) || undefined,
       email: req.query.email || undefined,
