@@ -5,14 +5,14 @@ import https from "https";
 import { parse } from "url";
 
 export default function handler(req, res) {
-  const { query } = parse(req.url, true);
-  const { url } = query;
+  const { query }: any = parse(req.url, true);
+  const { url }: any = query;
 
   if (!url) {
     return res.status(400).json({ error: 'Missing "url" query parameter.' });
   }
 
-  const protocol = url.startsWith("https") ? https : http;
+  const protocol: any = url.startsWith("https") ? https : http;
 
   try {
     protocol.get(url, (response) => {
