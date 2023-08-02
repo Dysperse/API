@@ -10,13 +10,16 @@ export function Integration({ closeParent, integration }) {
     <>
       <ListItemButton
         sx={{ mb: 1, gap: 2 }}
-        onClick={() =>
-          router.push(
-            `/integrations/${integration.name
-              .toLowerCase()
-              .replaceAll(" ", "-")}`
-          )
-        }
+        onClick={() => {
+          closeParent();
+          setTimeout(() => {
+            router.push(
+              `/integrations/${integration.name
+                .toLowerCase()
+                .replaceAll(" ", "-")}`
+            );
+          }, 400);
+        }}
       >
         <Avatar src={integration.image} sx={{ borderRadius: 3 }} />
         <ListItemText
