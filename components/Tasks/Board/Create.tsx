@@ -674,7 +674,12 @@ export function CreateBoard({
         </Grid>
       </Box>
 
-      <Box sx={{ mt: 2, mb: 15 }}>
+      <Box
+        sx={{
+          mt: 2,
+          mb: 15,
+        }}
+      >
         <Virtuoso
           useWindowScroll
           customScrollParent={parentRef}
@@ -703,7 +708,7 @@ export function CreateBoard({
                   sx={{
                     background: palette[3],
                     borderRadius: 5,
-                    maxWidth: "400px",
+                    maxWidth: "100%",
                     mx: "auto",
                     ...(template.name === "Blank board" &&
                       onboarding && {
@@ -723,7 +728,7 @@ export function CreateBoard({
                       }}
                     >
                       <Avatar
-                        size="400px"
+                        size="100%"
                         square
                         name={template.name}
                         variant="marble"
