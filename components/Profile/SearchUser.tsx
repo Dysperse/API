@@ -1,4 +1,3 @@
-import { isEmail } from "@/components/Group/Members";
 import { useSession } from "@/lib/client/session";
 import { useDarkMode } from "@/lib/client/useColor";
 import { Button, Icon, IconButton, Popover, TextField } from "@mui/material";
@@ -63,7 +62,7 @@ export function SearchUser() {
         />
         <Button
           onClick={handleSubmit}
-          disabled={!isEmail(email)}
+          disabled={email.trim() === ""}
           variant="contained"
           fullWidth
         >
