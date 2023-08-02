@@ -28,6 +28,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { Virtuoso } from "react-virtuoso";
@@ -104,12 +105,21 @@ const Column = React.memo(function Column({ column, data }: any) {
   const [loading, setLoading] = useState(false);
 
   const header = (
-    <div style={{ paddingTop: isMobile ? "65px" : 0 }}>
+    <Box
+      sx={{
+        pt: isMobile ? "65px" : 0,
+        backdropFilter: { sm: "blur(20px)" },
+        position: { sm: "sticky" },
+        background: { sm: addHslAlpha(palette[1], 0.7) },
+        zIndex: 99,
+        top: "0",
+      }}
+    >
       <Box
         sx={{
           p: 3,
           borderBottom: { sm: "1.5px solid" },
-          borderColor: { sm: palette[3] },
+          borderColor: { sm: addHslAlpha(palette[3], 0.9) },
           height: { xs: "140px", sm: "120px" },
         }}
         onClick={async () => {
@@ -204,20 +214,13 @@ const Column = React.memo(function Column({ column, data }: any) {
           </Typography>
         </Typography>
       </Box>
-      <Box sx={{ p: { sm: 1 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
-        <CreateTask
-          column={{ id: "-1", name: "" }}
-          defaultDate={column}
-          label="New task"
-          placeholder="Create a task..."
-          mutationUrl={url}
-          boardId={1}
-        />
-      </Box>
-    </div>
+    </Box>
   );
+  const scrollParentRef = useRef();
+
   return (
     <Box
+      ref={scrollParentRef}
       {...(isToday && { id: "active" })}
       sx={{
         display: "flex",
@@ -227,6 +230,9 @@ const Column = React.memo(function Column({ column, data }: any) {
         width: { xs: "100%", sm: "300px" },
         borderRight: "1.5px solid",
         borderColor: palette[3],
+        ...(!isMobile && {
+          overflowY: "scroll",
+        }),
       }}
     >
       <Collapse in={loading}>
@@ -242,11 +248,24 @@ const Column = React.memo(function Column({ column, data }: any) {
           <CircularProgress />
         </Box>
       </Collapse>
-      {header}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        {header}
+        <Box sx={{ p: { sm: 1 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
+          <CreateTask
+            column={{ id: "-1", name: "" }}
+            defaultDate={column}
+            label="New task"
+            placeholder="Create a task..."
+            mutationUrl={url}
+            boardId={1}
+          />
+        </Box>
+      </motion.div>
       <Box sx={{ px: { sm: 1 }, height: "100%" }}>
         <Virtuoso
           isScrolling={setIsScrolling}
-          useWindowScroll={isMobile}
+          customScrollParent={scrollParentRef.current}
+          useWindowScroll
           style={{
             height: "100%",
           }}

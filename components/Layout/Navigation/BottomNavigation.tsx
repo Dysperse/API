@@ -3,7 +3,6 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 /**
  * Bottom navigation bar
@@ -22,27 +21,6 @@ export function BottomNav() {
   };
 
   const session = useSession();
-
-  useEffect(() => {
-    const handleTouchMove = (event) => {
-      const { touches } = event;
-      if (touches.length > 1) {
-        // Multiple touches detected, likely a pinch or zoom gesture
-        return;
-      }
-      const touch = touches[0];
-      if (touch.clientX < 30) {
-        // Swipe detected from the left edge (you can adjust the threshold as needed)
-        event.preventDefault();
-      }
-    };
-
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
-
-    return () => {
-      document.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, []);
 
   const styles = (active) => {
     return {
