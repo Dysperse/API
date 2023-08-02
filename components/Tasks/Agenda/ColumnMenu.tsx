@@ -1,11 +1,9 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Icon, IconButton, Menu, MenuItem } from "@mui/material";
-import dynamic from "next/dynamic";
 import React, { useContext, useState } from "react";
 import { SelectionContext } from "../Layout";
 import { ShareProgress } from "./ShareProgress";
-const Image = dynamic(() => import("next/image"), { ssr: false });
 
 interface AgendaColumnProps {
   mutationUrl: string;
