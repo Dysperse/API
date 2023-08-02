@@ -22,45 +22,45 @@ import { useState } from "react";
 import { mutate } from "swr";
 import { Integration } from "./Integration";
 
-export default function Integrations({ handleClose }) {
-  const integrations = [
-    {
-      name: "Canvas LMS",
-      description: "Sync your Canvas Calendar to your boards",
-      image:
-        "https://www.instructure.com/sites/default/files/image/2021-12/canvas_reversed_logo.png",
-      type: "board",
-      params: [
-        {
-          type: "url",
-          placeholder: "https://****/feeds/calendars/****.ics",
-          name: "Canvas feed URL",
-          helperText:
-            'You can find your Canvas feed URL by visiting "Calendar → Calendar feed (scroll down to view button in right sidebar)" (web only)',
-          required: true,
-        },
-      ],
-    },
-    {
-      name: "Google Calendar",
-      description: "Sync your Google Calendar to your boards",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png",
-      type: "board",
-      params: [
-        {
-          type: "url",
-          placeholder:
-            "https://calendar.google.com/calendar/ical/****/***/basic.ics",
-          name: "Secret address in iCal format",
-          helperText:
-            'You can find your calendar feed URL by going to your settings (for your calendars) and scrolling down and copying the text in "secret address in iCal format" (web only)',
-          required: true,
-        },
-      ],
-    },
-  ];
+export const integrations = [
+  {
+    name: "Canvas LMS",
+    description: "Sync your Canvas Calendar to your boards",
+    image:
+      "https://www.instructure.com/sites/default/files/image/2021-12/canvas_reversed_logo.png",
+    type: "board",
+    params: [
+      {
+        type: "url",
+        placeholder: "https://****/feeds/calendars/****.ics",
+        name: "Canvas feed URL",
+        helperText:
+          'You can find your Canvas feed URL by visiting "Calendar → Calendar feed (scroll down to view button in right sidebar)" (web only)',
+        required: true,
+      },
+    ],
+  },
+  {
+    name: "Google Calendar",
+    description: "Sync your Google Calendar to your boards",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png",
+    type: "board",
+    params: [
+      {
+        type: "url",
+        placeholder:
+          "https://calendar.google.com/calendar/ical/****/***/basic.ics",
+        name: "Secret address in iCal format",
+        helperText:
+          'You can find your calendar feed URL by going to your settings (for your calendars) and scrolling down and copying the text in "secret address in iCal format" (web only)',
+        required: true,
+      },
+    ],
+  },
+];
 
+export default function Integrations({ handleClose }) {
   const { data, url, error } = useApi("property/integrations");
   const session = useSession();
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}`;

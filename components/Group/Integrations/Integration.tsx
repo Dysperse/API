@@ -4,14 +4,13 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
-  Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   ListItemButton,
   ListItemText,
   MenuItem,
   Select,
+  SwipeableDrawer,
   TextField,
 } from "@mui/material";
 import { useRouter } from "next/router";
@@ -87,9 +86,12 @@ export function Integration({ closeParent, integration }) {
           secondary={integration.description}
         />
       </ListItemButton>
-      <Dialog open={open} onClose={() => setOpen(false)} keepMounted={false}>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+      >
         <form onSubmit={handleSubmit}>
-          <DialogTitle>Add integration</DialogTitle>
           <DialogContent sx={{ pt: "20px!important" }}>
             {integration.params.map((param) => (
               <TextField
@@ -142,11 +144,11 @@ export function Integration({ closeParent, integration }) {
           </DialogContent>
           <DialogActions>
             <LoadingButton loading={loading} type="submit">
-              Configure
+              Connect
             </LoadingButton>
           </DialogActions>
         </form>
-      </Dialog>
+      </SwipeableDrawer>
     </>
   );
 }
