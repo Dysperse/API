@@ -17,7 +17,8 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createContext, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
+import { mutate } from "swr";
 import Column from "./Column";
 
 dayjs.extend(advancedFormat);
@@ -37,6 +38,7 @@ export const AgendaContext = createContext<any>(null);
 export function Agenda({ type, date }) {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const [loading, setLoading] = useState(false);
 
   const columnMap = {
     days: isMobile ? "day" : "week",
@@ -148,6 +150,26 @@ export function Agenda({ type, date }) {
               </AnimatePresence>
             </Box>
             <Box sx={{ ml: "auto" }}>
+              <IconButton
+                onClick={async () => {
+                  setLoading(true);
+                  await mutate(url);
+                  setLoading(false);
+                }}
+                disabled={loading}
+              >
+                <Icon
+                  className="outlined"
+                  sx={{
+                    transform: loading
+                      ? "scale(1.2) rotate(360deg)"
+                      : "scale(1.2)",
+                    transition: loading ? "transform 0.5s ease" : "",
+                  }}
+                >
+                  refresh
+                </Icon>
+              </IconButton>
               <IconButton onClick={handlePrev} id="agendaPrev">
                 <Icon className="outlined">arrow_back_ios_new</Icon>
               </IconButton>

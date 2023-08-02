@@ -1,3 +1,4 @@
+import { FileDropInput } from "@/components/FileDrop";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -14,8 +15,6 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
-import { createPortal } from "react-dom";
-import { FileDrop } from "react-file-drop";
 import toast from "react-hot-toast";
 import { parseEmojis } from ".";
 import { ImageViewer } from "../ImageViewer";
@@ -64,52 +63,6 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
 
   return (
     <Box sx={styles.section}>
-      {createPortal(
-        <FileDrop
-          onFrameDragEnter={(event) => console.log("onFrameDragEnter", event)}
-          onFrameDragLeave={(event) => console.log("onFrameDragLeave", event)}
-          onFrameDrop={async (e: any) => {
-            const key = "9fb5ded732b6b50da7aca563dbe66dec";
-            const form = new FormData();
-            form.append("image", e["dataTransfer"].files[0]);
-            try {
-              const res = await fetch(
-                `https://api.imgbb.com/1/upload?name=image&key=${key}`,
-                { method: "POST", body: form }
-              ).then((res) => res.json());
-
-              await fetchRawApi(session, "property/boards/column/task/edit", {
-                image: res.data.url,
-                id: task.id,
-              });
-              await task.mutate();
-            } catch (e) {
-              toast.error(
-                "Yikes! An error occured while trying to upload your image. Please try again later"
-              );
-            }
-          }}
-          onDragOver={(event) => console.log("onDragOver", event)}
-          onDragLeave={(event) => console.log("onDragLeave", event)}
-          onDrop={(files, event) => console.log("onDrop!", files, event)}
-        >
-          <Box
-            sx={{
-              background: "rgba(255,255,255,0.1)",
-              display: "flex",
-              alignItems: "center",
-              p: 1,
-              px: 2,
-              borderRadius: 99,
-              gap: 2,
-            }}
-          >
-            <Icon>upload</Icon>
-            Drop to upload an image
-          </Box>
-        </FileDrop>,
-        document.body
-      )}
       <TextField
         className="item"
         onBlur={(e) => task.edit(data.id, "where", e.target.value)}
@@ -183,13 +136,35 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
           sx={{ ml: "auto", display: "flex", gap: 1.5, alignItems: "center" }}
         >
           {isImage && <ImageViewer url={data.image} small />}
-          <IconButton
-            sx={{ background: palette[3] }}
-            disabled={shouldDisable}
-            onClick={handleAttachmentButtonClick}
-          >
-            <Icon>{isImage ? "close" : "add"}</Icon>
-          </IconButton>
+          {isImage ? (
+            <IconButton
+              sx={{ background: palette[3] }}
+              disabled={shouldDisable}
+              onClick={handleAttachmentButtonClick}
+            >
+              <Icon>close</Icon>
+            </IconButton>
+          ) : (
+            <FileDropInput
+              onError={() => toast.error("Couldn't upload")}
+              onSuccess={async (res) => {
+                await fetchRawApi(session, "property/boards/column/task/edit", {
+                  image: res.url,
+                  id: task.id,
+                });
+                await task.mutate();
+              }}
+              onUploadStart={() => {}}
+            >
+              <IconButton
+                sx={{ background: palette[3] }}
+                disabled={shouldDisable}
+                onClick={handleAttachmentButtonClick}
+              >
+                <Icon>add</Icon>
+              </IconButton>
+            </FileDropInput>
+          )}
         </Box>
       </ListItem>
     </Box>

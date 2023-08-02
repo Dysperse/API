@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import React, { useContext, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
@@ -92,9 +91,10 @@ const Column = React.memo(function Column({ column, data }: any): JSX.Element {
         pt: isMobile ? "65px" : 0,
         backdropFilter: { sm: "blur(20px)" },
         position: { sm: "sticky" },
+        top: 0,
+        left: 0,
         background: { sm: addHslAlpha(palette[1], 0.7) },
         zIndex: 99,
-        top: "0",
       }}
     >
       <Box
@@ -230,19 +230,17 @@ const Column = React.memo(function Column({ column, data }: any): JSX.Element {
           <CircularProgress />
         </Box>
       </Collapse>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        {header}
-        <Box sx={{ p: { sm: 1 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
-          <CreateTask
-            column={{ id: "-1", name: "" }}
-            defaultDate={column}
-            label="New task"
-            placeholder="Create a task..."
-            mutationUrl={url}
-            boardId={1}
-          />
-        </Box>
-      </motion.div>
+      {header}
+      <Box sx={{ p: { sm: 1 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
+        <CreateTask
+          column={{ id: "-1", name: "" }}
+          defaultDate={column}
+          label="New task"
+          placeholder="Create a task..."
+          mutationUrl={url}
+          boardId={1}
+        />
+      </Box>
       <Box sx={{ px: { sm: 1 }, height: "100%" }}>
         <Virtuoso
           isScrolling={setIsScrolling}
