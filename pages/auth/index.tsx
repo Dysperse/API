@@ -389,7 +389,7 @@ export default function Prompt() {
                     inputRef={emailRef}
                     disabled={buttonLoading}
                     label="Email or username"
-                    placeholder="jeffbezos@gmail.com"
+                    placeholder="jeffbezos"
                     value={email}
                     spellCheck={false}
                     fullWidth

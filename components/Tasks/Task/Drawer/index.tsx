@@ -57,19 +57,13 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
 
-  const isIos = () => {
+  const isIos = useCallback(() => {
     const userAgent = window.navigator.userAgent.toLowerCase();
     return /iphone|ipad|ipod/.test(userAgent);
-  };
+  }, []);
 
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
-
-  useEffect(() => {
-    if (open) {
-      window.location.hash = "#task";
-    }
-  }, [open]);
 
   /**
    * Fetch task data
@@ -144,6 +138,16 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const trigger = cloneElement(children, {
     onClick: onClick || handleFetch,
   });
+
+  useEffect(() => {
+    if (open) {
+      window.location.hash = "#task";
+      if (isMobile && isIos()) {
+        // add event listener to close drawer when window url mutates
+        window.addEventListener("hashchange", handleClose);
+      }
+    }
+  }, [open, handleClose, isIos, isMobile]);
 
   const DrawerElement = isIos() ? Drawer : SwipeableDrawer;
 
