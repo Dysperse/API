@@ -18,8 +18,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useCallback, useRef, useState } from "react";
-
+import { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { parseEmojis } from ".";
 import { Task } from "..";
@@ -32,10 +31,7 @@ import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
-const DrawerContent = React.memo(function DrawerContent({
-  handleDelete,
-  isDateDependent,
-}: any) {
+function DrawerContent({ handleDelete, isDateDependent }: any) {
   const dateRef = useRef();
   const session = useSession();
   const task = useTaskContext();
@@ -404,5 +400,5 @@ const DrawerContent = React.memo(function DrawerContent({
       </Box>
     </>
   );
-});
+}
 export default DrawerContent;
