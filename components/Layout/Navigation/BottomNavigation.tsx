@@ -115,9 +115,6 @@ export function BottomNav() {
           xs: "flex",
           md: "none",
         },
-        ["@media (max-height: 500px)"]: {
-          display: "none",
-        },
         zIndex: 998,
         minHeight: "55px",
         height: "calc(55px + calc(var(--sab) - 20px))",
