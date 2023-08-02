@@ -274,7 +274,7 @@
       "name": "Inventory",
       "short_name": "Inventory",
       "description": "View your personal inventory",
-      "url": "/inventory",
+      "url": "/items",
       "icons": [
         {
           "src": "/shortcuts/4.png",
