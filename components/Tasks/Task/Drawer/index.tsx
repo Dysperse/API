@@ -4,18 +4,11 @@ import { useBackButton } from "@/lib/client/useBackButton";
 import {
   Box,
   CircularProgress,
-  Drawer,
   SwipeableDrawer,
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, {
-  cloneElement,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
@@ -139,18 +132,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     onClick: onClick || handleFetch,
   });
 
-  useEffect(() => {
-    if (open) {
-      window.location.hash = "#task";
-      if (isMobile && isIos()) {
-        // add event listener to close drawer when window url mutates
-        window.addEventListener("hashchange", handleClose);
-      }
-    }
-  }, [open, handleClose, isIos, isMobile]);
-
-  const DrawerElement = isIos() ? Drawer : SwipeableDrawer;
-
   return (
     <TaskContext.Provider
       value={{
@@ -162,7 +143,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       }}
     >
       {trigger}
-      <DrawerElement
+      <SwipeableDrawer
         open={open}
         onClose={handleClose}
         anchor="right"
@@ -214,7 +195,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             />
           )}
         </Box>
-      </DrawerElement>
+      </SwipeableDrawer>
     </TaskContext.Provider>
   );
 });
