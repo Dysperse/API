@@ -4,7 +4,7 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
-import { LoadingButton, Masonry } from "@mui/lab";
+import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
   Box,
@@ -27,6 +27,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { cloneElement, useDeferredValue, useState } from "react";
 import { toast } from "react-hot-toast";
+import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 
 const checklistCardStyles = (palette) => ({
@@ -187,7 +188,7 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
                 if (onboarding) {
                   toast.success(
                     "Board created! You can explore other templates.",
-                    toastStyles,
+                    toastStyles
                   );
                   setLoading(false);
                   setOpen(false);
@@ -548,7 +549,11 @@ export const templates = [
   },
 ];
 
-export function CreateBoard({ onboarding = false, mutationUrl }: any) {
+export function CreateBoard({
+  parentRef,
+  onboarding = false,
+  mutationUrl,
+}: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");
@@ -669,101 +674,105 @@ export function CreateBoard({ onboarding = false, mutationUrl }: any) {
         </Grid>
       </Box>
 
-      <Box sx={{ mt: 2 }}>
-        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mr: -2 }}>
-          <Masonry columns={{ xs: 1, sm: 3 }} spacing={2}>
-            {templates
-              .filter(
-                (template) =>
-                  template.name
-                    .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase()) ||
-                  template.category
-                    .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase()),
-              )
-              .filter(
-                (template) => !(onboarding && template.name === "Blank board"),
-              )
-              .map((template, index) => (
-                <Box key={index}>
-                  <Template
-                    onboarding={onboarding}
-                    template={template}
-                    mutationUrl={mutationUrl}
-                  >
-                    <Card
+      <Box sx={{ mt: 2, mb: 15 }}>
+        <Virtuoso
+          useWindowScroll
+          customScrollParent={parentRef}
+          data={templates
+            .filter(
+              (template) =>
+                template.name
+                  .toLowerCase()
+                  .includes(deferredSearchQuery.toLowerCase()) ||
+                template.category
+                  .toLowerCase()
+                  .includes(deferredSearchQuery.toLowerCase())
+            )
+            .filter((template) => {
+              if (onboarding && template.name === "Blank board") return false;
+              return true;
+            })}
+          itemContent={(index, template) => (
+            <Box key={template.name} sx={{ mb: 2 }}>
+              <Template
+                onboarding={onboarding}
+                template={template}
+                mutationUrl={mutationUrl}
+              >
+                <Card
+                  sx={{
+                    background: palette[3],
+                    borderRadius: 5,
+                    maxWidth: "400px",
+                    mx: "auto",
+                    ...(template.name === "Blank board" &&
+                      onboarding && {
+                        display: "none",
+                      }),
+                  }}
+                >
+                  <CardActionArea sx={{ height: "100%" }}>
+                    <Box
                       sx={{
-                        background: palette[3],
-                        borderRadius: 5,
+                        maxHeight: "70px",
+                        overflow: "hidden",
+                        position: "relative",
                         ...(template.name === "Blank board" && {
                           display: "none",
                         }),
                       }}
                     >
-                      <CardActionArea sx={{ height: "100%" }}>
-                        <Box
+                      <Avatar
+                        size="400px"
+                        square
+                        name={template.name}
+                        variant="marble"
+                        colors={[
+                          "#0A0310",
+                          "#49007E",
+                          "#FF005B",
+                          "#FF7D10",
+                          "#FFB238",
+                        ]}
+                      />
+                      {template.category && (
+                        <Chip
                           sx={{
-                            maxHeight: "70px",
-                            overflow: "hidden",
-                            position: "relative",
-                            ...(template.name === "Blank board" && {
-                              display: "none",
-                            }),
+                            position: "absolute",
+                            top: 0,
+                            right: 0,
+                            m: 1,
+                            background: addHslAlpha(palette[2], 0.4),
+                            backdropFilter: "blur(10px)",
                           }}
+                          label={template.category}
+                          size="small"
+                        />
+                      )}
+                    </Box>
+                    <Box sx={{ p: 3 }}>
+                      <Typography
+                        variant={onboarding ? "h5" : "h3"}
+                        className={onboarding ? "" : "font-heading"}
+                      >
+                        {template.name}
+                      </Typography>
+                      {template.columns.length > 0 && (
+                        <Typography
+                          variant="body2"
+                          gutterBottom
+                          className="font-body"
                         >
-                          <Avatar
-                            size="400px"
-                            square
-                            name={template.name}
-                            variant="marble"
-                            colors={[
-                              "#0A0310",
-                              "#49007E",
-                              "#FF005B",
-                              "#FF7D10",
-                              "#FFB238",
-                            ]}
-                          />
-                          {template.category && (
-                            <Chip
-                              sx={{
-                                position: "absolute",
-                                top: 0,
-                                right: 0,
-                                m: 1,
-                                background: addHslAlpha(palette[2], 0.4),
-                                backdropFilter: "blur(10px)",
-                              }}
-                              label={template.category}
-                              size="small"
-                            />
-                          )}
-                        </Box>
-                        <Box sx={{ p: 3 }}>
-                          <Typography
-                            variant={onboarding ? "h5" : "h3"}
-                            className={onboarding ? "" : "font-heading"}
-                          >
-                            {template.name}
-                          </Typography>
-                          {template.columns.length > 0 && (
-                            <Typography
-                              variant="body2"
-                              gutterBottom
-                              className="font-body"
-                            >
-                              {template.columns.length} columns
-                            </Typography>
-                          )}
-                        </Box>
-                      </CardActionArea>
-                    </Card>
-                  </Template>
-                </Box>
-              ))}
-          </Masonry>
-        </Box>
+                          {template.columns.length} columns
+                        </Typography>
+                      )}
+                    </Box>
+                  </CardActionArea>
+                </Card>
+              </Template>
+            </Box>
+          )}
+        />
       </Box>
     </Box>
   );

@@ -136,7 +136,17 @@ const buttonStyles = (palette, condition: boolean) => ({
       }),
 });
 
-export function TasksLayout({ open, setOpen, children }) {
+export function TasksLayout({
+  contentRef,
+  open,
+  setOpen,
+  children,
+}: {
+  contentRef?: any;
+  open: boolean;
+  setOpen: any;
+  children: any;
+}) {
   const storage = useAccountStorage();
   const router = useRouter();
   const session = useSession();
@@ -666,6 +676,7 @@ export function TasksLayout({ open, setOpen, children }) {
             overflowY: { md: "auto" },
             flexGrow: 1,
           }}
+          {...(contentRef && { ref: contentRef })}
           id="boardContainer"
         >
           {children}
