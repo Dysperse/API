@@ -9,9 +9,10 @@ export function BoardsStep({ styles, navigation }) {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
   const parentRef = useRef();
+
   return (
-    <Box sx={{ ...styles.container, overflow: "hidden" }} ref={parentRef}>
-      <Container sx={{ mt: { sm: 20 } }}>
+    <Box sx={{ ...styles.container, overflow: "hidden" }}>
+      <Container ref={parentRef as any} sx={{ mt: { sm: 20 }, mb: 10 }}>
         <Typography variant="h1" className="font-heading" sx={styles.heading}>
           Create some boards
         </Typography>
