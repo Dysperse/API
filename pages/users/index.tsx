@@ -314,7 +314,7 @@ export default function Page() {
           top: 0,
           left: 0,
           width: "100vw",
-          height: "100vh",
+          height: "100dvh",
           background: palette[1],
           zIndex: 999,
           overflow: "auto",
@@ -448,7 +448,7 @@ export default function Page() {
               sx={{
                 display: "flex",
                 width: "100%",
-                height: "100vh",
+                height: "100dvh",
                 justifyContent: "center",
                 alignItems: "center",
               }}

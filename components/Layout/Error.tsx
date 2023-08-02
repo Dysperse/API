@@ -58,7 +58,7 @@ export function Error() {
           userSelect: "none",
           maxWidth: "calc(100vw - 20px)",
           width: "370px",
-          maxHeight: "calc(100vh - 20px)",
+          maxHeight: "calc(100dvh - 20px)",
           overflowY: "scroll",
           transform: "translate(-50%, -50%)",
           textAlign: "center",

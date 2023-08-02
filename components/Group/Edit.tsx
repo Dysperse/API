@@ -113,7 +113,7 @@ export function EditProperty({
           sx: {
             background: palette[1],
             width: { xs: "100vw", sm: "50vw" },
-            height: { xs: "100vh", sm: "auto" },
+            height: { xs: "100dvh", sm: "auto" },
           },
         }}
       >

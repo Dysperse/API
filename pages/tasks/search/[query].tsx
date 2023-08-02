@@ -63,7 +63,7 @@ export default function Dashboard() {
             top: 0,
             left: 0,
             width: "100vw",
-            height: "100vh",
+            height: "100dvh",
             zIndex: 9999,
             background: palette[1],
           }),
@@ -95,7 +95,7 @@ export default function Dashboard() {
             pb: 1,
             pt: 5,
             gap: 3,
-            height: "100vh",
+            height: "100dvh",
             display: "flex",
             flexDirection: "column",
           }}

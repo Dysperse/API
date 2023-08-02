@@ -349,8 +349,8 @@ export default function Spotlight() {
       anchor="bottom"
       PaperProps={{
         sx: {
-          minHeight: "calc(100vh - 50px)",
-          height: "calc(100vh - 50px)",
+          minHeight: "calc(100dvh - 50px)",
+          height: "calc(100dvh - 50px)",
           display: "flex",
           flexDirection: "column",
         },
@@ -418,7 +418,7 @@ export default function Spotlight() {
       </Box>
       <Box sx={{ mt: 1, px: 2, flexGrow: 1 }}>
         <Virtuoso
-          style={{ height: "100%", maxHeight: "calc(100vh - 100px)" }}
+          style={{ height: "100%", maxHeight: "calc(100dvh - 100px)" }}
           totalCount={results.length + 1}
           itemContent={(index) => {
             const result = results[index];

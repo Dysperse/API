@@ -52,7 +52,7 @@ function ThemeColorSettings() {
         PaperProps={{
           sx: {
             borderRadius: 0,
-            height: "100vh",
+            height: "100dvh",
             display: "flex",
             flexDirection: "column",
             overflow: "visible",

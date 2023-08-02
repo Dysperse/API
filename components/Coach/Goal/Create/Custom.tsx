@@ -96,7 +96,7 @@ export function CreateGoal() {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            height: "100vh",
+            height: "100dvh",
             width: "100vw",
             maxWidth: "100vw",
             borderRadius: 0,

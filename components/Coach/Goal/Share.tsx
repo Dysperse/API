@@ -133,7 +133,7 @@ export function ShareGoal({ children, goal }) {
         }}
         PaperProps={{
           sx: {
-            height: "100vh",
+            height: "100dvh",
             background: "hsl(240,11%,10%)",
             color: "hsl(240,11%,90%)",
             borderRadius: 0,

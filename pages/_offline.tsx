@@ -12,7 +12,7 @@ export function OfflineBox() {
         alignItems: "center",
         justifyContent: "center",
         width: "100vw",
-        height: "100vh",
+        height: "100dvh",
         position: "fixed",
         top: 0,
         left: 0,
@@ -42,7 +42,7 @@ export function OfflineBox() {
           borderRadius: 5,
           fontSize: { xs: "25px", sm: "40px" },
           maxWidth: "calc(100vw - 40px)",
-          maxHeight: "calc(100vh - 40px)",
+          maxHeight: "calc(100dvh - 40px)",
         }}
       >
         Please connect to the internet to access Dysperse.

@@ -42,7 +42,7 @@ export default function Page() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
+        height: "100dvh",
         position: "fixed",
         top: 0,
         left: 0,

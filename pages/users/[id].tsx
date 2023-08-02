@@ -277,7 +277,7 @@ function Page() {
         top: 0,
         left: 0,
         width: "100vw",
-        height: "100vh",
+        height: "100dvh",
         background: palette[1],
         zIndex: 999,
         overflow: "auto",
@@ -553,7 +553,7 @@ function Page() {
             <Box
               sx={{
                 display: "flex",
-                height: "100vh",
+                height: "100dvh",
                 alignItems: "center",
                 justifyContent: "center",
                 width: "100%",

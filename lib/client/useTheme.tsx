@@ -403,7 +403,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             margin: "auto",
           },
           root: {
-            height: "100vh!important",
+            height: "100dvh!important",
             overflow: "hidden!important",
           },
           paper: {

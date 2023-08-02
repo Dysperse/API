@@ -16,7 +16,7 @@ export function Completion({ styles, navigation }) {
         textAlign: "center",
         alignItems: "center",
         gap: 1,
-        height: "100vh",
+        height: "100dvh",
         pt: 0,
       }}
     >
@@ -40,7 +40,7 @@ export function Completion({ styles, navigation }) {
               async () => {
                 router.push((router.query.next as string) || "/");
               },
-              false,
+              false
             );
           }}
         >

@@ -205,7 +205,7 @@ export default function Dashboard() {
           md={6}
           sx={{
             width: "100%",
-            height: { sm: "100vh" },
+            height: { sm: "100dvh" },
             overflowY: { sm: "scroll" },
             borderRight: { sm: "5px solid " + palette[2] },
             display: {
@@ -362,7 +362,7 @@ export default function Dashboard() {
               xs: mobileView == "upcoming" ? "block" : "none",
               sm: "block",
             },
-            height: { sm: "100vh" },
+            height: { sm: "100dvh" },
             overflowY: { sm: "scroll" },
             background: palette[1],
             borderLeft: { sm: "5px solid " + palette[2] },

@@ -146,9 +146,9 @@ export default function Inventory({ children = null }: any) {
           <Box
             sx={{
               px: 1.5,
-              minHeight: "100vh",
+              minHeight: "100dvh",
               pt: { md: 0.5 },
-              height: { md: "100vh" },
+              height: { md: "100dvh" },
               overflowY: { md: "scroll" },
               background: {
                 md: addHslAlpha(palette[3], 0.5),
@@ -213,9 +213,9 @@ export default function Inventory({ children = null }: any) {
         {children ? (
           <Box
             sx={{
-              maxHeight: { md: "100vh" },
-              minHeight: { md: "100vh" },
-              height: { md: "100vh" },
+              maxHeight: { md: "100dvh" },
+              minHeight: { md: "100dvh" },
+              height: { md: "100dvh" },
               overflowY: { md: "auto" },
               flexGrow: 1,
             }}
@@ -230,7 +230,7 @@ export default function Inventory({ children = null }: any) {
               flexDirection: "column",
               gap: 2,
               alignItems: "center",
-              height: "100vh",
+              height: "100dvh",
               width: "100%",
               color: `hsl(240,11%,${isDark ? 90 : 10}%)`,
             }}

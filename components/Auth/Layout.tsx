@@ -115,7 +115,7 @@ export const authStyles = (palette) => ({
     p: { xs: 2, sm: 5 },
     mt: { sm: 5 },
     pt: { xs: 6, sm: 5 },
-    height: { xs: "100vh", sm: "auto" },
+    height: { xs: "100dvh", sm: "auto" },
   },
   link: {
     textTransform: "none",

@@ -73,7 +73,7 @@ export default function Onboarding() {
       overflow: "auto",
       pt: { xs: 15, sm: 0 },
       px: { xs: 3, sm: 0 },
-      minHeight: { sm: "100vh" },
+      minHeight: { sm: "100dvh" },
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",

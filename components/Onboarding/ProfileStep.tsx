@@ -51,7 +51,7 @@ export function ProfileStep({ styles, navigation }) {
           container
           columnSpacing={2}
           sx={{
-            height: { sm: "100vh" },
+            height: { sm: "100dvh" },
             display: "flex",
             alignItems: "center",
           }}
@@ -112,7 +112,7 @@ export function ProfileStep({ styles, navigation }) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              height: { sm: "100vh" },
+              height: { sm: "100dvh" },
               py: { xs: 4, sm: 0 },
             }}
           >

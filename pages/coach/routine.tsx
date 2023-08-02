@@ -89,7 +89,7 @@ export default function Routine() {
         mx: "auto",
         left: 0,
         width: "100vw",
-        height: "100vh",
+        height: "100dvh",
         background: palette[1],
         overflow: "auto",
       }}
@@ -150,7 +150,7 @@ export default function Routine() {
       )}
       <Box
         sx={{
-          height: "100vh",
+          height: "100dvh",
           width: "50vw",
           position: "absolute",
           right: 0,
@@ -163,7 +163,7 @@ export default function Routine() {
       />
       <Box
         sx={{
-          height: "100vh",
+          height: "100dvh",
           width: "50vw",
           position: "absolute",
           left: 0,
@@ -198,7 +198,7 @@ export default function Routine() {
               alignItems: "center",
               justifyContent: "center",
               flexDirection: "column",
-              height: "100vh",
+              height: "100dvh",
             }}
           >
             <Typography variant="h1" sx={{ mb: 1 }} className="font-heading">

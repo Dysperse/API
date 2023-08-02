@@ -158,7 +158,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           sx: {
             maxWidth: "500px",
             width: "100%",
-            height: "100vh",
+            height: "100dvh",
           },
           ref,
         }}
@@ -171,7 +171,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         {loading && !data && open && (
           <Box
             sx={{
-              height: "100vh",
+              height: "100dvh",
               display: "flex",
               width: "100%",
               alignItems: "center",

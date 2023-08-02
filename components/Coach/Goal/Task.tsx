@@ -136,7 +136,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
         transformOrigin: "top center",
         transition: "transform 0.3s",
         display: "flex",
-        height: "100vh",
+        height: "100dvh",
         mx: "auto",
         width: "100vw",
         alignItems: "center",
@@ -254,7 +254,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                 top: 0,
                 left: 0,
                 width: "100vw",
-                height: "100vh",
+                height: "100dvh",
               }}
             />
             <motion.div

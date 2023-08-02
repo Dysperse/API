@@ -30,7 +30,7 @@ export default function Room() {
             sx={{
               display: "flex",
               alignItems: "center",
-              height: "100vh",
+              height: "100dvh",
               width: "100%",
               justifyContent: "center",
               flexDirection: "column",
@@ -62,7 +62,7 @@ export default function Room() {
           sx={{
             display: "flex",
             alignItems: "center",
-            height: "100vh",
+            height: "100dvh",
             width: "100%",
             justifyContent: "center",
           }}

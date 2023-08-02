@@ -27,7 +27,7 @@ function Group({ group, handleMutate }) {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(
     group ? group.profile.color : session.themeColor,
-    isDark,
+    isDark
   );
 
   return (
@@ -76,7 +76,7 @@ export default function Page() {
   const palette = useColor(color, isDark);
 
   const accessToken = session.properties.find(
-    (property) => property.propertyId == id,
+    (property) => property.propertyId == id
   )?.accessToken;
 
   const { data, url, error } = useApi("property", {
@@ -99,7 +99,7 @@ export default function Page() {
         top: 0,
         left: 0,
         width: "100vw",
-        height: "100vh",
+        height: "100dvh",
         background: palette[1],
         zIndex: 999,
         overflow: "auto",
@@ -115,7 +115,7 @@ export default function Page() {
           <Box
             sx={{
               width: "100vw",
-              height: "100vh",
+              height: "100dvh",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",

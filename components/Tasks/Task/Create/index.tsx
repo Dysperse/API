@@ -395,7 +395,7 @@ export const CreateTask = React.memo(function CreateTask({
             border: "0!important",
             background: "transparent!important",
             borderRadius: 0,
-            maxHeight: "calc(100vh - 100px)",
+            maxHeight: "calc(100dvh - 100px)",
             mx: "auto",
           },
         }}

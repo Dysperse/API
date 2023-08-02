@@ -190,8 +190,8 @@ export default function Layout({ children }: any) {
             flex: { xs: "100%", md: "0 0 250px" },
             p: 2,
             background: palette[2],
-            minHeight: "100vh",
-            height: "100vh",
+            minHeight: "100dvh",
+            height: "100dvh",
             overflowY: "scroll",
             "& .container": {
               display: "flex",
@@ -245,9 +245,9 @@ export default function Layout({ children }: any) {
       )}
       <Box
         sx={{
-          maxHeight: "100vh",
-          minHeight: "100vh",
-          height: "100vh",
+          maxHeight: "100dvh",
+          minHeight: "100dvh",
+          height: "100dvh",
           overflowY: "auto",
           flexGrow: 1,
           p: { xs: 0, sm: 5 },

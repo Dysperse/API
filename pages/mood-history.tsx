@@ -413,7 +413,7 @@ export default function History() {
       ) : (
         <Box
           sx={{
-            height: "100vh",
+            height: "100dvh",
             display: "flex",
             width: "100%",
             alignItems: "center",

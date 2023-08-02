@@ -66,7 +66,7 @@ const CategoryModal = memo(function CategoryModal({
           sx: {
             width: "100%",
             maxWidth: "600px",
-            maxHeight: "100vh",
+            maxHeight: "100dvh",
           },
         }}
       >

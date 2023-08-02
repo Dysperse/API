@@ -88,7 +88,7 @@ export function Loading(): JSX.Element {
               display: { xs: "none", sm: "flex" },
               flexDirection: "column",
               alignItems: "center",
-              height: "100vh",
+              height: "100dvh",
               gap: 2,
               background: palette[3],
               justifyContent: "center",
@@ -215,7 +215,7 @@ export function Loading(): JSX.Element {
                       width: { xs: "100vw", sm: "300px" },
                       flex: { xs: "0 0 100vw", sm: "0 0 300px" },
                       borderRight: { sm: "1px solid" },
-                      height: "100vh",
+                      height: "100dvh",
                       borderColor: palette[3] + "!important",
                     }}
                   >

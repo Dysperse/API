@@ -59,7 +59,7 @@ function RenderBoard({ tasks }) {
         display: "flex",
         maxWidth: "100%",
         overflowX: "scroll",
-        minHeight: "100vh",
+        minHeight: "100dvh",
       }}
     >
       {!isMobile && (
@@ -83,7 +83,7 @@ function RenderBoard({ tasks }) {
             m: "20px",
             width: "calc(100vw - 40px)!important",
             maxWidth: "400px",
-            maxHeight: "calc(100vh - 40px)!important",
+            maxHeight: "calc(100dvh - 40px)!important",
             ...(!isDark && { background: "#fff" }),
           },
         }}
@@ -126,7 +126,7 @@ function RenderBoard({ tasks }) {
         ))}
       <Box
         sx={{
-          height: { sm: "100vh" },
+          height: { sm: "100dvh" },
           display: { xs: "none", sm: "flex" },
           alignItems: "center",
           justifyContent: "center",
@@ -150,7 +150,7 @@ function RenderBoard({ tasks }) {
         <Box
           sx={{
             display: "flex",
-            height: "100vh",
+            height: "100dvh",
             width: "100%",
             alignItems: "center",
             justifyContent: "center",
@@ -215,7 +215,7 @@ export function Board({ mutationUrl, board }) {
       <Box
         sx={{
           width: "100%",
-          height: "100vh",
+          height: "100dvh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

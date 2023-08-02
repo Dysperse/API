@@ -152,7 +152,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
         sx={{ zIndex: 999 }}
         onKeyDown={(e) => e.stopPropagation()}
         PaperProps={{
-          sx: { height: "100vh" },
+          sx: { height: "100dvh" },
         }}
       >
         <AppBar sx={{ border: 0 }}>

@@ -100,7 +100,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
         borderRadius: 5,
         mt: { xs: 0, md: "10px" },
         ml: { xs: 0, md: "10px" },
-        height: { xs: "500px", md: "calc(100vh - 20px)" },
+        height: { xs: "500px", md: "calc(100dvh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },
         background: {
           xs: `linear-gradient(${addHslAlpha(palette[4], 0.3)}, ${addHslAlpha(

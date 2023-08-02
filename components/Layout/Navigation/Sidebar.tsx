@@ -190,7 +190,7 @@ export function Sidebar() {
         borderRightColor: {
           sm: useOutlinedTheme ? addHslAlpha(palette[4], 0.8) : "transparent",
         },
-        height: "100vh",
+        height: "100dvh",
         backdropFilter: "blur(10px)",
         position: "fixed",
         left: "0px",

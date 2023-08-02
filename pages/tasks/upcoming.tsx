@@ -95,8 +95,8 @@ export default function Upcoming() {
                   flexDirection: "column",
                   userSelect: "none",
                   height: {
-                    xs: "calc(100vh - var(--navbar-height) - 55px)",
-                    sm: "100vh",
+                    xs: "calc(100dvh - var(--navbar-height) - 55px)",
+                    sm: "100dvh",
                   },
                 }}
               >
@@ -145,7 +145,7 @@ export default function Upcoming() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            height: "100vh",
+            height: "100dvh",
             width: "100%",
           }}
         >

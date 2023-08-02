@@ -301,7 +301,7 @@ export function Emoji({ mutationUrl, emoji, defaultData }) {
         onClose={handleClose}
         PaperProps={{
           sx: {
-            height: "100vh",
+            height: "100dvh",
             borderRadius: 0,
           },
         }}

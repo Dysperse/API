@@ -117,7 +117,7 @@ export function CreateItemModal({
           sx: {
             width: "100vw",
             borderRadius: { xs: "0!important", sm: "20px 20px 0 0" },
-            height: "100vh",
+            height: "100dvh",
           },
         }}
         anchor="bottom"

@@ -55,7 +55,7 @@ export function GroupStep({ styles, navigation }) {
             xs={12}
             sm={7}
             sx={{
-              height: { sm: "100vh" },
+              height: { sm: "100dvh" },
               display: "flex",
               alignItems: "center",
             }}
@@ -181,7 +181,7 @@ export function GroupStep({ styles, navigation }) {
             xs={12}
             sm={5}
             sx={{
-              height: { sm: "100vh" },
+              height: { sm: "100dvh" },
               display: "flex",
               alignItems: "center",
               justifyContent: "center",

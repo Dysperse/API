@@ -33,8 +33,8 @@ export function ColoredTasks() {
         sx={{
           width: "100%",
           height: {
-            xs: "calc(100vh - var(--navbar-height) - 55px)",
-            sm: "100vh",
+            xs: "calc(100dvh - var(--navbar-height) - 55px)",
+            sm: "100dvh",
           },
           display: "flex",
           alignItems: "center",
@@ -128,8 +128,8 @@ export function ColoredTasks() {
               flexDirection: "column",
               userSelect: "none",
               height: {
-                xs: "calc(100vh - var(--navbar-height) - 55px)",
-                sm: "100vh",
+                xs: "calc(100dvh - var(--navbar-height) - 55px)",
+                sm: "100dvh",
               },
             }}
           >

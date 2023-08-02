@@ -6,8 +6,8 @@ export function Loading() {
       sx={{
         width: "100%",
         height: {
-          xs: "calc(100vh - var(--navbar-height) - 55px)",
-          sm: "100vh",
+          xs: "calc(100dvh - var(--navbar-height) - 55px)",
+          sm: "100dvh",
         },
         display: "flex",
         alignItems: "center",

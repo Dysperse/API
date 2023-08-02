@@ -107,7 +107,7 @@ const WebcamComponent = ({
         screenshotFormat="image/png"
         videoConstraints={videoConstraints}
         width={"100vw"}
-        height={"100vh"}
+        height={"100dvh"}
         style={{
           position: "fixed",
           top: 0,
@@ -116,7 +116,7 @@ const WebcamComponent = ({
           bottom: 0,
           transition: "opacity .1s",
           width: "100vw",
-          height: "100vh",
+          height: "100dvh",
         }}
       />
       <Box

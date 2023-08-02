@@ -21,7 +21,7 @@ export default function Trash() {
       {data?.length === 0 && (
         <Box
           sx={{
-            height: "100vh",
+            height: "100dvh",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

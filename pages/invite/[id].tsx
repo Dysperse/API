@@ -83,7 +83,7 @@ export default function Onboarding() {
       <Box
         sx={{
           width: "100vw",
-          height: "100vh",
+          height: "100dvh",
           position: "absolute",
           zIndex: 1,
           top: 0,

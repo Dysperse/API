@@ -45,7 +45,7 @@ export function Followers({ styles, data }) {
         PaperProps={{
           sx: {
             background: palette[1],
-            height: "calc(100vh - 200px)",
+            height: "calc(100dvh - 200px)",
           },
         }}
       >

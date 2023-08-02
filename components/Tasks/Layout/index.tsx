@@ -628,7 +628,7 @@ export function TasksLayout({ open, setOpen, children }) {
                 ml: 1,
                 pb: 0,
                 borderRadius: 5,
-                maxHeight: "calc(100vh - 190px)",
+                maxHeight: "calc(100dvh - 190px)",
                 maxWidth: "calc(100vw - 100px)",
                 overflowY: "scroll",
                 background: addHslAlpha(palette[3], 0.7),
@@ -645,8 +645,8 @@ export function TasksLayout({ open, setOpen, children }) {
             ml: -1,
             background: addHslAlpha(palette[3], 0.5),
             display: { xs: "none", md: "flex" },
-            minHeight: "100vh",
-            height: { md: "100vh" },
+            minHeight: "100dvh",
+            height: { md: "100dvh" },
             overflowY: { md: "scroll" },
             flexDirection: "column",
           }}
@@ -660,9 +660,9 @@ export function TasksLayout({ open, setOpen, children }) {
         </Box>
         <Box
           sx={{
-            maxHeight: { md: "100vh" },
-            minHeight: { md: "100vh" },
-            height: { md: "100vh" },
+            maxHeight: { md: "100dvh" },
+            minHeight: { md: "100dvh" },
+            height: { md: "100dvh" },
             overflowY: { md: "auto" },
             flexGrow: 1,
           }}

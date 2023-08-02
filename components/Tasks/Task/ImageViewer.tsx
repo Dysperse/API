@@ -37,7 +37,7 @@ export function ImageViewer({
             height: "auto",
             borderRadius: 0,
             maxWidth: "100vw",
-            maxHeight: "calc(100vh - 20px)",
+            maxHeight: "calc(100dvh - 20px)",
           },
         }}
       >
@@ -48,7 +48,7 @@ export function ImageViewer({
             "& img": {
               width: { xs: "100%", sm: "auto" },
               height: { xs: "auto", sm: "100%" },
-              maxHeight: "calc(100vh - 20px)",
+              maxHeight: "calc(100dvh - 20px)",
               maxWidth: "100vw",
             },
             filter:
