@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import * as colors from "@radix-ui/colors";
 import Router from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
@@ -238,8 +238,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
   ];
 };
 
-export default function Spotlight() {
-  // Primarily state management and callback functions for opening/closing the modal
+const Spotlight = React.memo(function Spotlight() {
   const ref: any = useRef();
   const session: any = useSession();
 
@@ -275,21 +274,24 @@ export default function Spotlight() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   // Input event handling
-  const handleSearch = async (value) => {
-    let results = await getSpotlightActions(roomData, boardData, session);
+  const handleSearch = useCallback(
+    async (value) => {
+      let results = await getSpotlightActions(roomData, boardData, session);
 
-    results = results.filter((result) =>
-      result.title.toLowerCase().includes(value.toLowerCase())
-    );
-
-    if (badge) {
-      results = results.filter(
-        (result) => result?.badge?.toLowerCase() === badge
+      results = results.filter((result) =>
+        result.title.toLowerCase().includes(value.toLowerCase())
       );
-    }
 
-    setResults(results);
-  };
+      if (badge) {
+        results = results.filter(
+          (result) => result?.badge?.toLowerCase() === badge
+        );
+      }
+
+      setResults(results);
+    },
+    [badge, boardData, roomData, session]
+  );
 
   const debouncedHandleSearch = debounce(handleSearch, 500);
 
@@ -507,4 +509,6 @@ export default function Spotlight() {
       </Box>
     </SwipeableDrawer>
   );
-}
+});
+
+export default Spotlight;
