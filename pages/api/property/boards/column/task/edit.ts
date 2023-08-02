@@ -32,6 +32,9 @@ const handler = async (req, res) => {
           due: null,
         }),
         ...(req.query.color && { color: req.query.color }),
+        ...(req.query.image && {
+          image: req.query.image == "null" ? null : req.query.image,
+        }),
       },
     });
 

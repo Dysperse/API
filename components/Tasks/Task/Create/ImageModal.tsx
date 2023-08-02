@@ -41,7 +41,6 @@ export const ImageModal = React.memo(function ImageModal({
         ).then((res) => res.json());
 
         setImage(JSON.stringify(res.data));
-
         setImageUploading(false);
       } catch (e) {
         toast.error(
@@ -50,7 +49,7 @@ export const ImageModal = React.memo(function ImageModal({
         setImageUploading(false);
       }
     },
-    [setImage]
+    [setImage, setImageUploading]
   );
 
   return (
