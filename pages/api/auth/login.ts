@@ -80,9 +80,9 @@ export default async function handler(req, res) {
 
   try {
     // Find the user in the database
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirstOrThrow({
       where: {
-        email: email.toLowerCase(),
+        OR: [{ email: email.toLowerCase() }, { username: email.toLowerCase() }],
       },
       select: {
         id: true,

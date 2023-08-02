@@ -1,6 +1,5 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
-import { isEmail } from "@/components/Group/Members";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -389,12 +388,12 @@ export default function Prompt() {
                   <TextField
                     inputRef={emailRef}
                     disabled={buttonLoading}
-                    label="Your email address"
+                    label="Email or username"
                     placeholder="jeffbezos@gmail.com"
                     value={email}
                     spellCheck={false}
                     fullWidth
-                    name="email"
+                    name="text"
                     onChange={(e: any) => setEmail(e.target.value)}
                     sx={authStyles(palette).input}
                     variant="outlined"
@@ -443,11 +442,9 @@ export default function Prompt() {
                   <Box sx={authStyles(palette).footer}>
                     <Tooltip
                       title={
-                        !isEmail(email)
-                          ? "Please type a valid email address"
-                          : password.length < 8 ||
-                            !/\d/.test(password) ||
-                            !/[a-z]/i.test(password)
+                        password.length < 8 ||
+                        !/\d/.test(password) ||
+                        !/[a-z]/i.test(password)
                           ? "Your password looks incorrect"
                           : ""
                       }
@@ -462,11 +459,7 @@ export default function Prompt() {
                           id="_loading"
                           sx={authStyles(palette).submit}
                           size="large"
-                          disabled={
-                            !isEmail(email) ||
-                            email.trim() === "" ||
-                            password.length < 8
-                          }
+                          disabled={email.trim() === "" || password.length < 8}
                           onClick={() => setStep(2)}
                         >
                           Continue
