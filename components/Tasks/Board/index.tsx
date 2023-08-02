@@ -156,17 +156,33 @@ function RenderBoard({ tasks }) {
             justifyContent: "center",
           }}
         >
-          <Button
-            onClick={() => {
-              setMobileOpen(true);
-              document.getElementById("newColumn")?.click();
-            }}
-            variant="contained"
-            size="large"
-            sx={{ px: 2 }}
-          >
-            <Icon>add</Icon>New column
-          </Button>
+          {board.integrations.length > 0 ? (
+            <Button
+              onClick={() => {
+                setMobileOpen(true);
+                setTimeout(() => {
+                  document.getElementById("syncChip")?.click();
+                }, 200);
+              }}
+              variant="contained"
+              size="large"
+              sx={{ px: 2 }}
+            >
+              <Icon>refresh</Icon>Resync
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                setMobileOpen(true);
+                document.getElementById("newColumn")?.click();
+              }}
+              variant="contained"
+              size="large"
+              sx={{ px: 2 }}
+            >
+              <Icon>add</Icon>New column
+            </Button>
+          )}
         </Box>
       )}
     </Box>

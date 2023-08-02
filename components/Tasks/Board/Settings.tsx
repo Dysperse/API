@@ -58,6 +58,19 @@ export default function BoardSettings({ isShared, mutationUrls, board }) {
           vertical: "bottom",
         }}
       >
+        <MenuItem
+          sx={{
+            flexShrink: 0,
+            ml: "auto",
+            flex: "0 0 auto",
+          }}
+          disabled={board.archived || storage?.isReached === true || isShared}
+          onClick={() => router.push(`/groups/${session.property.propertyId}`)}
+        >
+          <Icon className={"outlined"}>sync_alt</Icon>
+          Integrations
+        </MenuItem>
+
         <ConfirmationModal
           title={board.pinned ? "Unpin?" : "Pin?"}
           buttonText="Yes!"

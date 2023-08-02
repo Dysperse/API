@@ -43,7 +43,7 @@ const IntegrationChip = ({
       }),
       {
         loading: "Syncing... (This might take a while)",
-        success: "Synced!",
+        success: "Up to date!",
         error: "An error occurred while syncing",
       },
       toastStyles
@@ -53,6 +53,7 @@ const IntegrationChip = ({
 
   return (
     <Chip
+      id="syncChip"
       onClick={handleIntegrationClick}
       disabled={session.permission === "read-only" || isLoading}
       label={`Sync to ${integration.name.replace(" LMS", "").trim()}`}

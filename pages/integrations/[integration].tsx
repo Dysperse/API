@@ -1,7 +1,9 @@
 import { integrations } from "@/components/Group/Integrations";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
+import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
   Avatar,
@@ -21,6 +23,7 @@ import {
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 
 function Layout() {
@@ -34,7 +37,7 @@ function Layout() {
     " "
   );
 
-  const integration = useMemo(
+  const integration: any = useMemo(
     () => integrations.find((i) => i.name.toLowerCase() === integrationName),
     [integrationName]
   );
@@ -60,15 +63,42 @@ function Layout() {
     [params]
   );
 
-  const handleSubmit = () => {};
-
   const { data, url, error } = useApi("property/boards");
 
   const [query, setQuery] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const boardData = (data || []).filter((board) =>
     board.name.toLowerCase().includes(query.toLowerCase())
   );
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (integration.type === "board" && boardId === "-1") {
+      toast.error("Please select a board", toastStyles);
+      return;
+    }
+    setLoading(true);
+    await fetchRawApi(session, "property/integrations/create", {
+      name: integration.name,
+      inputParams: JSON.stringify(params),
+      outputType: integration.type,
+      ...(integration.type === "board" && { boardId }),
+    });
+
+    toast.success("Added integration!", toastStyles);
+
+    if (integration.type === "board") {
+      setTimeout(() => {
+        router.push(`/tasks/boards/${boardId}`);
+      });
+      return;
+    } else {
+      router.push(`/groups/${session.property.propertyId}`);
+    }
+
+    setLoading(false);
+  };
 
   return integration ? (
     <Box
@@ -88,7 +118,7 @@ function Layout() {
           <IconButton
             onClick={() => {
               if (step == 0) {
-                router.push("/users");
+                router.push(`/groups/${session.property.propertyId}`);
               } else {
                 setStep(step - 1);
               }
@@ -319,14 +349,15 @@ function Layout() {
                 Just tap the button below to finish setup!
               </Typography>
             </motion.div>
-            <Button
+            <LoadingButton
+              loading={loading}
               variant="contained"
               sx={{ mt: "auto", mb: 2 }}
               onClick={handleSubmit}
             >
               Finish
               <Icon>check</Icon>
-            </Button>
+            </LoadingButton>
           </>
         )}
       </Container>
