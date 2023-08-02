@@ -25,11 +25,13 @@ const handler = async (req, res) => {
     },
     data: {
       name: req.query.name || undefined,
-      username:
-        req.query.username
-          .replace(/\s+/g, "_")
-          .toLowerCase()
-          .replace(/[^a-z0-9_.]/g, "") || undefined,
+      ...(req.query.username && {
+        username:
+          req.query.username
+            .replace(/\s+/g, "_")
+            .toLowerCase()
+            .replace(/[^a-z0-9_.]/g, "") || undefined,
+      }),
       lastReleaseVersionViewed:
         parseInt(req.query.lastReleaseVersionViewed) || undefined,
       email: req.query.email || undefined,
