@@ -1,5 +1,6 @@
 import { useMediaQuery } from "@mui/material";
 import * as colors from "@radix-ui/colors";
+import { useMemo } from "react";
 
 /**
  * Returns a color palette.
@@ -8,17 +9,19 @@ import * as colors from "@radix-ui/colors";
  * @returns Color palette
  */
 export function useColor(base: keyof typeof colors, dark: boolean) {
-  const colorPalette = colors[dark ? `${base}Dark` : base];
-  const _colorPalette = {};
+  return useMemo(() => {
+    const colorPalette = colors[dark ? `${base}Dark` : base];
+    const _colorPalette = {};
 
-  for (const key in colorPalette) {
-    if (key.includes(base)) {
-      const index = parseInt(key.replace(base, ""));
-      _colorPalette[index] = colorPalette[key];
+    for (const key in colorPalette) {
+      if (key.includes(base)) {
+        const index = parseInt(key.replace(base, ""));
+        _colorPalette[index] = colorPalette[key];
+      }
     }
-  }
 
-  return _colorPalette;
+    return _colorPalette;
+  }, [base, dark]);
 }
 
 /**
@@ -29,9 +32,11 @@ export function useColor(base: keyof typeof colors, dark: boolean) {
 export function useDarkMode(setting: "light" | "dark" | "system"): boolean {
   const system = useMediaQuery("(prefers-color-scheme: dark)");
 
-  if (setting === "system") {
-    return system;
-  } else {
-    return setting === "dark";
-  }
+  return useMemo(() => {
+    if (setting === "system") {
+      return system;
+    } else {
+      return setting === "dark";
+    }
+  }, [setting, system]);
 }

@@ -40,6 +40,158 @@ import {
 
 import { ImageViewer } from "./ImageViewer";
 
+const TaskChips = React.memo(function TaskChips({
+  taskData,
+  isDark,
+  palette,
+  isAgenda,
+  isSubTask,
+  handlePriorityChange,
+}: any) {
+  const isPinned = taskData.pinned;
+  const isDue = taskData.due && !isAgenda;
+  const isTimeDue =
+    taskData.due &&
+    dayjs(taskData.due).hour() !== 0 &&
+    dayjs(taskData.due).minute() !== 0 &&
+    !isSubTask;
+  const isWhereValid =
+    isValidHttpUrl(taskData.where) || isAddress(taskData.where);
+  const isVideoChatPlatform = videoChatPlatforms.some((platform) =>
+    taskData.where.includes(platform)
+  );
+
+  const urgentChip = (
+    <ConfirmationModal
+      title="Change priority?"
+      question="Unpin this task?"
+      callback={handlePriorityChange}
+    >
+      <Tooltip
+        placement="top"
+        title={
+          <Box>
+            <Typography variant="body2">
+              <b>Task marked as important</b>
+            </Typography>
+            <Typography variant="body2">Tap to change</Typography>
+          </Box>
+        }
+      >
+        <Chip
+          size="small"
+          sx={{
+            background: isDark ? "#642302" : colors.orange[100],
+            color: colors.orange[isDark ? "50" : "900"],
+          }}
+          label="Urgent"
+          icon={
+            <Icon
+              className="outlined"
+              sx={{
+                fontSize: "20px!important",
+                color: "inherit!important",
+                ml: 1,
+              }}
+            >
+              priority_high
+            </Icon>
+          }
+        />
+      </Tooltip>
+    </ConfirmationModal>
+  );
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        gap: 1,
+        flexWrap: "wrap",
+        "& .MuiChip-root": {
+          mt: 0.5,
+        },
+      }}
+    >
+      {isPinned && urgentChip}
+
+      {isDue && (
+        <Tooltip
+          title={dayjs(taskData.due).format("MMMM D, YYYY")}
+          placement="top"
+        >
+          <Chip
+            size="small"
+            className="date"
+            sx={{ background: palette[3] }}
+            label={dayjs(taskData.due).fromNow()}
+            icon={
+              <Icon
+                className="outlined"
+                sx={{ fontSize: "20px!important", ml: 1 }}
+              >
+                today
+              </Icon>
+            }
+          />
+        </Tooltip>
+      )}
+
+      {isTimeDue && (
+        <Chip
+          size="small"
+          className="date"
+          label={dayjs(taskData.due).format("h:mm A")}
+          sx={{ background: palette[3] }}
+          icon={
+            <Icon
+              className="outlined"
+              sx={{ fontSize: "20px!important", ml: 1 }}
+            >
+              access_time
+            </Icon>
+          }
+        />
+      )}
+
+      {isWhereValid && (
+        <Chip
+          label={
+            isVideoChatPlatform
+              ? "Call"
+              : isAddress(taskData.where)
+              ? "Maps"
+              : "Open"
+          }
+          sx={{ background: palette[3] }}
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (isAddress(taskData.where)) {
+              window.open(
+                `https://maps.google.com/?q=${encodeURIComponent(
+                  taskData.where
+                )}`
+              );
+            } else {
+              window.open(taskData.where);
+            }
+          }}
+          icon={
+            <Icon>
+              {isVideoChatPlatform
+                ? "call"
+                : isAddress(taskData.where)
+                ? "location_on"
+                : "link"}
+            </Icon>
+          }
+        />
+      )}
+    </Box>
+  );
+});
+
 export const Task: any = React.memo(function Task({
   sx = {},
   handleMutate = () => {},
@@ -328,149 +480,19 @@ export const Task: any = React.memo(function Task({
                   ) : (
                     <ImageViewer trimHeight url={taskData.image} />
                   ))}
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 1,
-                    flexWrap: "wrap",
-                    "& .MuiChip-root": {
-                      mt: 0.5,
-                    },
-                  }}
-                >
-                  {taskData.pinned && (
-                    <ConfirmationModal
-                      title="Change priority?"
-                      question="Unpin this task?"
-                      callback={handlePriorityChange}
-                    >
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <Box>
-                            <Typography variant="body2">
-                              <b>Task marked as important</b>
-                            </Typography>
-                            <Typography variant="body2">
-                              Tap to change
-                            </Typography>
-                          </Box>
-                        }
-                      >
-                        <Chip
-                          size="small"
-                          sx={{
-                            background:
-                              (isDark ? "#642302" : colors.orange[100]) +
-                              "!important",
-                            color:
-                              colors.orange[isDark ? "50" : "900"] +
-                              "!important",
-                          }}
-                          label="Urgent"
-                          icon={
-                            <Icon
-                              className="outlined"
-                              sx={{
-                                fontSize: "20px!important",
-                                color: "inherit!important",
-                                ml: 1,
-                              }}
-                            >
-                              priority_high
-                            </Icon>
-                          }
-                        />
-                      </Tooltip>
-                    </ConfirmationModal>
-                  )}
-                  {taskData.due && !isAgenda ? (
-                    <Tooltip
-                      title={dayjs(taskData.due).format("MMMM D, YYYY")}
-                      placement="top"
-                    >
-                      <Chip
-                        size="small"
-                        className="date"
-                        sx={{ background: palette[3] }}
-                        label={dayjs(taskData.due).fromNow()}
-                        icon={
-                          <Icon
-                            className="outlined"
-                            sx={{ fontSize: "20px!important", ml: 1 }}
-                          >
-                            today
-                          </Icon>
-                        }
-                      />
-                    </Tooltip>
-                  ) : (
-                    taskData.due &&
-                    (dayjs(taskData.due).hour() !== 0 ||
-                      dayjs(taskData.due).minute() !== 0) &&
-                    !isSubTask && (
-                      <Chip
-                        size="small"
-                        className="date"
-                        label={dayjs(taskData.due).format("h:mm A")}
-                        sx={{ background: palette[3] }}
-                        icon={
-                          <Icon
-                            className="outlined"
-                            sx={{ fontSize: "20px!important", ml: 1 }}
-                          >
-                            access_time
-                          </Icon>
-                        }
-                      />
-                    )
-                  )}
-                  {(isValidHttpUrl(taskData.where) ||
-                    isAddress(taskData.where)) && (
-                    <Chip
-                      label={
-                        videoChatPlatforms.find((platform) =>
-                          taskData.where.includes(platform)
-                        )
-                          ? "Call"
-                          : isAddress(taskData.where)
-                          ? "Maps"
-                          : "Open"
-                      }
-                      sx={{ background: palette[3] }}
-                      size="small"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (isAddress(taskData.where)) {
-                          window.open(
-                            `https://maps.google.com/?q=${encodeURIComponent(
-                              taskData.where
-                            )}`
-                          );
-                          return;
-                        }
-                        window.open(taskData.where);
-                      }}
-                      icon={
-                        <Icon>
-                          {videoChatPlatforms.find((platform) =>
-                            taskData.where.includes(platform)
-                          )
-                            ? "call"
-                            : isAddress(taskData.where)
-                            ? "location_on"
-                            : "link"}
-                        </Icon>
-                      }
-                    />
-                  )}
-                </Box>
+                <TaskChips
+                  taskData={taskData}
+                  isDark={isDark}
+                  palette={palette}
+                  isAgenda={isAgenda}
+                  isSubTask={isSubTask}
+                  handlePriorityChange={handlePriorityChange}
+                />
               </>
             }
           />
         </ListItemButton>
       </TaskDrawer>
-
       {subTasks}
     </>
   );
