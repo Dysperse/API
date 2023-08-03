@@ -267,7 +267,7 @@ const Spotlight = React.memo(function Spotlight() {
   openSpotlight = handleOpen;
 
   const { data: roomData } = useApi("property/inventory/rooms");
-  const { data: boardData } = useApi("property/boards");
+  const { data: boardData } = useApi("property/boards");``
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [badge, setBadge] = useState<null | string>(null);
