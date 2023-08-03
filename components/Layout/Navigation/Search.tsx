@@ -25,6 +25,96 @@ import { Puller } from "../../Puller";
 
 export let openSpotlight = () => {};
 
+function SearchResult({
+  selectedIndex,
+  index,
+  handleClose,
+  inputValue,
+  results,
+  badge,
+}) {
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const result = results[index];
+
+  if (!results[index]) {
+    return (
+      <ListItemButton
+        key={index}
+        {...(index == selectedIndex && {
+          id: "activeSearchHighlight",
+        })}
+        sx={{
+          gap: 2,
+          mb: 0.2,
+          transition: "none",
+          ...((!inputValue || (badge && badge !== "agenda")) && {
+            display: "none",
+          }),
+          ...(index == selectedIndex && {
+            background: palette[2],
+            "& *": {
+              fontWeight: 700,
+            },
+          }),
+        }}
+        onClick={() => {
+          Router.push(`/tasks/search/${inputValue}`);
+          setTimeout(handleClose, 500);
+        }}
+      >
+        <Icon {...(index !== selectedIndex && { className: "outlined" })}>
+          check_circle
+        </Icon>
+        <ListItemText primary={`Search for "${inputValue}"`} />
+        <Chip size="small" label={index == 0 ? "↵ enter" : "Tasks"} />
+      </ListItemButton>
+    );
+  }
+  const handleClick = () => {
+    handleClose();
+    setTimeout(result.onTrigger, 500);
+  };
+
+  return (
+    <ListItemButton
+      key={index}
+      {...(index == selectedIndex && { id: "activeSearchHighlight" })}
+      sx={{
+        gap: 2,
+        mb: 0.2,
+        transition: "none",
+        ...(index == selectedIndex && {
+          background: palette[2],
+          "& *": {
+            fontWeight: 700,
+          },
+        }),
+      }}
+      onClick={handleClick}
+    >
+      {typeof result.icon == "string" ? (
+        <Icon {...(index !== selectedIndex && { className: "outlined" })}>
+          {result.icon}
+        </Icon>
+      ) : (
+        result.icon
+      )}
+      <ListItemText primary={result.title} />
+      {(result.badge || index == selectedIndex) && (
+        <Chip
+          size="small"
+          label={
+            index == selectedIndex
+              ? "↵ enter"
+              : capitalizeFirstLetter(result.badge)
+          }
+        />
+      )}
+    </ListItemButton>
+  );
+}
+
 export let getSpotlightActions = async (roomData, boardData, session) => {
   const router = Router;
 
@@ -267,7 +357,7 @@ const Spotlight = React.memo(function Spotlight() {
   openSpotlight = handleOpen;
 
   const { data: roomData } = useApi("property/inventory/rooms");
-  const { data: boardData } = useApi("property/boards");``
+  const { data: boardData } = useApi("property/boards");
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [badge, setBadge] = useState<null | string>(null);
@@ -422,89 +512,16 @@ const Spotlight = React.memo(function Spotlight() {
         <Virtuoso
           style={{ height: "100%", maxHeight: "calc(100dvh - 100px)" }}
           totalCount={results.length + 1}
-          itemContent={(index) => {
-            const result = results[index];
-            if (!results[index]) {
-              return (
-                <ListItemButton
-                  key={index}
-                  {...(index == selectedIndex && {
-                    id: "activeSearchHighlight",
-                  })}
-                  sx={{
-                    gap: 2,
-                    mb: 0.2,
-                    transition: "none",
-                    ...((!inputValue || (badge && badge !== "agenda")) && {
-                      display: "none",
-                    }),
-                    ...(index == selectedIndex && {
-                      background: palette[2],
-                      "& *": {
-                        fontWeight: 700,
-                      },
-                    }),
-                  }}
-                  onClick={() => {
-                    Router.push(`/tasks/search/${inputValue}`);
-                    setTimeout(handleClose, 500);
-                  }}
-                >
-                  <Icon
-                    {...(index !== selectedIndex && { className: "outlined" })}
-                  >
-                    check_circle
-                  </Icon>
-                  <ListItemText primary={`Search for "${inputValue}"`} />
-                  <Chip size="small" label={index == 0 ? "↵ enter" : "Tasks"} />
-                </ListItemButton>
-              );
-            }
-            const handleClick = () => {
-              handleClose();
-              setTimeout(result.onTrigger, 500);
-            };
-
-            return (
-              <ListItemButton
-                key={index}
-                {...(index == selectedIndex && { id: "activeSearchHighlight" })}
-                sx={{
-                  gap: 2,
-                  mb: 0.2,
-                  transition: "none",
-                  ...(index == selectedIndex && {
-                    background: palette[2],
-                    "& *": {
-                      fontWeight: 700,
-                    },
-                  }),
-                }}
-                onClick={handleClick}
-              >
-                {typeof result.icon == "string" ? (
-                  <Icon
-                    {...(index !== selectedIndex && { className: "outlined" })}
-                  >
-                    {result.icon}
-                  </Icon>
-                ) : (
-                  result.icon
-                )}
-                <ListItemText primary={result.title} />
-                {(result.badge || index == selectedIndex) && (
-                  <Chip
-                    size="small"
-                    label={
-                      index == selectedIndex
-                        ? "↵ enter"
-                        : capitalizeFirstLetter(result.badge)
-                    }
-                  />
-                )}
-              </ListItemButton>
-            );
-          }}
+          itemContent={(index) => (
+            <SearchResult
+              index={index}
+              selectedIndex={selectedIndex}
+              badge={badge}
+              handleClose={handleClose}
+              results={results}
+              inputValue={inputValue}
+            />
+          )}
         />
       </Box>
     </SwipeableDrawer>

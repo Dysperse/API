@@ -116,14 +116,19 @@ export function Navbar({
   );
 }
 
-const HeadingComponent = ({
-  greeting,
-  isHover,
-  palette,
-  isMobile,
-  open,
-  close,
-}) => {
+const HeadingComponent = ({ palette, isMobile }) => {
+  const [isHover, setIsHover] = useState(false);
+  const time = new Date().getHours();
+
+  const open = () => {
+    vibrate(50);
+    setIsHover(true);
+  };
+  const close = () => {
+    vibrate(50);
+    setIsHover(false);
+  };
+
   const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm:ss A"));
 
   useEffect(() => {
@@ -135,6 +140,22 @@ const HeadingComponent = ({
       return () => clearInterval(interval);
     }
   }, [isHover]);
+
+  const getGreeting = useMemo(() => {
+    if (time < 12) return "Good morning.";
+    else if (time < 17) return "Good afternoon.";
+    else if (time < 20) return "Good evening.";
+    else return "Good night.";
+  }, [time]);
+
+  const [greeting, setGreeting] = useState(getGreeting);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGreeting(getGreeting);
+    }, 1000 * 60 * 60);
+    return () => clearInterval(interval);
+  });
 
   return (
     <Typography
@@ -171,26 +192,9 @@ const HeadingComponent = ({
 export default function Home() {
   const router = useRouter();
   const session = useSession();
-  const time = new Date().getHours();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
-
-  const getGreeting = useMemo(() => {
-    if (time < 12) return "Good morning.";
-    else if (time < 17) return "Good afternoon.";
-    else if (time < 20) return "Good evening.";
-    else return "Good night.";
-  }, [time]);
-
-  const [greeting, setGreeting] = useState(getGreeting);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGreeting(getGreeting);
-    }, 1000 * 60 * 60);
-    return () => clearInterval(interval);
-  });
 
   const { data } = useApi("property/tasks/agenda", {
     startTime: dayjs().startOf("day").toISOString(),
@@ -232,17 +236,6 @@ export default function Home() {
     coachData &&
     completedGoals.length == coachData.filter((g) => !g.completed).length;
 
-  const [isHover, setIsHover] = useState(false);
-
-  const open = () => {
-    vibrate(50);
-    setIsHover(true);
-  };
-  const close = () => {
-    vibrate(50);
-    setIsHover(false);
-  };
-
   return (
     <Box sx={{ ml: { sm: -1 } }}>
       <motion.div initial={{ y: -100 }} animate={{ y: 0 }}>
@@ -261,14 +254,7 @@ export default function Home() {
               textAlign: { sm: "center" },
             }}
           >
-            <HeadingComponent
-              open={open}
-              close={close}
-              greeting={greeting}
-              isHover={isHover}
-              palette={palette}
-              isMobile={isMobile}
-            />
+            <HeadingComponent palette={palette} isMobile={isMobile} />
             <Typography
               sx={{ fontWeight: 700, color: palette[8] }}
               variant="h6"
