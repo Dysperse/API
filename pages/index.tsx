@@ -116,6 +116,58 @@ export function Navbar({
   );
 }
 
+const HeadingComponent = ({
+  greeting,
+  isHover,
+  palette,
+  isMobile,
+  open,
+  close,
+}) => {
+  const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm:ss A"));
+
+  useEffect(() => {
+    if (isHover) {
+      setCurrentTime(dayjs().format("hh:mm:ss A"));
+      const interval = setInterval(() => {
+        setCurrentTime(dayjs().format("hh:mm:ss A"));
+      });
+      return () => clearInterval(interval);
+    }
+  }, [isHover]);
+
+  return (
+    <Typography
+      className="font-heading"
+      {...(isMobile
+        ? {
+            onTouchStart: open,
+            onTouchEnd: close,
+          }
+        : {
+            onMouseEnter: open,
+            onMouseLeave: close,
+          })}
+      sx={{
+        fontSize: {
+          xs: "15vw",
+          sm: "80px",
+        },
+        background: `linear-gradient(${palette[11]}, ${palette[5]})`,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        userSelect: "none",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+      }}
+      variant="h4"
+    >
+      {isHover ? currentTime : greeting}
+    </Typography>
+  );
+};
+
 export default function Home() {
   const router = useRouter();
   const session = useSession();
@@ -144,17 +196,6 @@ export default function Home() {
     startTime: dayjs().startOf("day").toISOString(),
     endTime: dayjs().endOf("day").toISOString(),
     count: true,
-  });
-
-  const { data: backlogData } = useApi("property/tasks/backlog", {
-    count: true,
-    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
-  });
-
-  const { data: upcomingData } = useApi("property/tasks/backlog", {
-    count: true,
-    upcoming: true,
-    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
 
   const { data: coachData } = useApi("user/coach");
@@ -192,17 +233,6 @@ export default function Home() {
     completedGoals.length == coachData.filter((g) => !g.completed).length;
 
   const [isHover, setIsHover] = useState(false);
-  const [currentTime, setCurrentTime] = useState(dayjs().format("hh:mm:ss A"));
-
-  useEffect(() => {
-    if (isHover) {
-      setCurrentTime(dayjs().format("hh:mm:ss A"));
-      const interval = setInterval(() => {
-        setCurrentTime(dayjs().format("hh:mm:ss A"));
-      });
-      return () => clearInterval(interval);
-    }
-  }, [isHover]);
 
   const open = () => {
     vibrate(50);
@@ -231,34 +261,14 @@ export default function Home() {
               textAlign: { sm: "center" },
             }}
           >
-            <Typography
-              className="font-heading"
-              {...(isMobile
-                ? {
-                    onTouchStart: open,
-                    onTouchEnd: close,
-                  }
-                : {
-                    onMouseEnter: open,
-                    onMouseLeave: close,
-                  })}
-              sx={{
-                fontSize: {
-                  xs: "15vw",
-                  sm: "80px",
-                },
-                background: `linear-gradient(${palette[11]}, ${palette[5]})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                userSelect: "none",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-              variant="h4"
-            >
-              {isHover ? currentTime : greeting}
-            </Typography>
+            <HeadingComponent
+              open={open}
+              close={close}
+              greeting={greeting}
+              isHover={isHover}
+              palette={palette}
+              isMobile={isMobile}
+            />
             <Typography
               sx={{ fontWeight: 700, color: palette[8] }}
               variant="h6"

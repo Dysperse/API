@@ -56,9 +56,10 @@ const TaskChips = React.memo(function TaskChips({
     dayjs(taskData.due).minute() !== 0 &&
     !isSubTask;
   const isWhereValid =
-    isValidHttpUrl(taskData.where) || isAddress(taskData.where);
+    taskData.where &&
+    (isValidHttpUrl(taskData.where) || isAddress(taskData.where));
   const isVideoChatPlatform = videoChatPlatforms.some((platform) =>
-    taskData.where.includes(platform)
+    taskData?.where?.includes(platform)
   );
 
   const urgentChip = (
@@ -493,6 +494,7 @@ export const Task: any = React.memo(function Task({
           />
         </ListItemButton>
       </TaskDrawer>
+
       {subTasks}
     </>
   );
