@@ -1,17 +1,16 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
+import React from "react";
 
 /**
  * @name Puller
  * @description A puller is a component that pulls in swipeable drawers from bottom of the screen.
  */
-export function Puller({
-  useDarkStyles = false,
+export const Puller = React.memo(function Puller({
   showOnDesktop = false,
   sx = {},
 }: {
-  useDarkStyles?: boolean;
   showOnDesktop?: boolean;
   sx?: any;
 }) {
@@ -52,4 +51,4 @@ export function Puller({
       />
     </>
   );
-}
+});

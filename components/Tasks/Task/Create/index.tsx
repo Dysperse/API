@@ -35,7 +35,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import EmojiPicker from "../../../EmojiPicker";
 import { SelectionContext } from "../../Layout";
-import { SelectDateModal } from "../DatePicker";
+import SelectDateModal from "../DatePicker";
 import { ImageModal } from "./ImageModal";
 const ChipBar = dynamic(() => import("./ChipBar"), { ssr: false });
 

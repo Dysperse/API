@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { updateSettings } from "../../../lib/client/updateSettings";
 import { openSpotlight } from "./Search";
-const SearchPopup = dynamic(() => import("./Search"));
+const SearchPopup = dynamic(() => import("./Search"), { ssr: false });
 
 export function Sidebar() {
   const router = useRouter();

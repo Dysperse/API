@@ -10,9 +10,15 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { cloneElement, useRef, useState } from "react";
+import React, {
+  cloneElement,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Puller } from "../../../Puller";
-import { SelectDateModal } from "../DatePicker";
+import SelectDateModal from "../DatePicker";
 import { useTaskContext } from "./Context";
 
 export const RescheduleModal = React.memo(function RescheduleModal({
@@ -33,58 +39,80 @@ export const RescheduleModal = React.memo(function RescheduleModal({
     onClick: handleClick,
   });
 
-  const actions = [
-    {
-      label: "In one day",
-      icon: "chevron_right",
-      days: 1,
+  const actions = useMemo(
+    () => [
+      {
+        label: "In one day",
+        icon: "chevron_right",
+        days: 1,
+      },
+      {
+        label: "In two days",
+        icon: "keyboard_double_arrow_right",
+        days: 2,
+      },
+      {
+        label: "In three days",
+        icon: "north_east",
+        days: 3,
+      },
+      {
+        label: "In one week",
+        icon: "view_week",
+        days: 7,
+      },
+      {
+        label: "In one month",
+        icon: "calendar_view_month",
+        days: 30,
+      },
+      {
+        label: "One day before",
+        icon: "chevron_left",
+        days: -1,
+      },
+      {
+        label: "Two days before",
+        icon: "keyboard_double_arrow_left",
+        days: -2,
+      },
+      {
+        label: "Three days before",
+        icon: "south_west",
+        days: -3,
+      },
+      {
+        label: "One week before",
+        icon: "view_week",
+        days: -7,
+      },
+      {
+        label: "One month before",
+        icon: "calendar_view_month",
+        days: -30,
+      },
+    ],
+    []
+  );
+
+  const setDate = useCallback(
+    (d) => {
+      task.set((prev) => ({
+        ...prev,
+        due: d ? null : d?.toISOString(),
+      }));
+      task.edit(task.id, "due", d.toISOString());
     },
-    {
-      label: "In two days",
-      icon: "keyboard_double_arrow_right",
-      days: 2,
-    },
-    {
-      label: "In three days",
-      icon: "north_east",
-      days: 3,
-    },
-    {
-      label: "In one week",
-      icon: "view_week",
-      days: 7,
-    },
-    {
-      label: "In one month",
-      icon: "calendar_view_month",
-      days: 30,
-    },
-    {
-      label: "One day before",
-      icon: "chevron_left",
-      days: -1,
-    },
-    {
-      label: "Two days before",
-      icon: "keyboard_double_arrow_left",
-      days: -2,
-    },
-    {
-      label: "Three days before",
-      icon: "south_west",
-      days: -3,
-    },
-    {
-      label: "One week before",
-      icon: "view_week",
-      days: -7,
-    },
-    {
-      label: "One month before",
-      icon: "calendar_view_month",
-      days: -30,
-    },
-  ];
+    [task]
+  );
+
+  const currentActions = useMemo(
+    () =>
+      actions.filter((action) =>
+        value == 0 ? action.days > 0 : action.days < 0
+      ),
+    [value, actions]
+  );
 
   return (
     <>
@@ -122,13 +150,7 @@ export const RescheduleModal = React.memo(function RescheduleModal({
           ref={dateRef}
           styles={() => {}}
           date={task.due}
-          setDate={(d) => {
-            task.set((prev) => ({
-              ...prev,
-              due: d ? null : d?.toISOString(),
-            }));
-            task.edit(task.id, "due", d.toISOString());
-          }}
+          setDate={setDate}
         >
           <CardActionArea sx={{ mb: 2, borderRadius: 99 }}>
             <Typography
@@ -155,25 +177,23 @@ export const RescheduleModal = React.memo(function RescheduleModal({
             Postpone
           </Button>
         </Box>
-        {actions
-          .filter((action) => (value == 0 ? action.days > 0 : action.days < 0))
-          .map((action, index) => (
-            <MenuItem
-              onClick={() => {
-                handleClose();
-                handlePostpone(action.days, "day");
-              }}
-              key={index}
-            >
-              <Icon className="outlined">{action.icon}</Icon>
-              <span>
-                <Typography sx={{ fontWeight: 700 }}>{action.label}</Typography>
-                <Typography variant="body2">
-                  {dayjs(task.due).add(action.days, "day").format("MMMM D")}
-                </Typography>
-              </span>
-            </MenuItem>
-          ))}
+        {currentActions.map((action, index) => (
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              handlePostpone(action.days, "day");
+            }}
+            key={index}
+          >
+            <Icon className="outlined">{action.icon}</Icon>
+            <span>
+              <Typography sx={{ fontWeight: 700 }}>{action.label}</Typography>
+              <Typography variant="body2">
+                {dayjs(task.due).add(action.days, "day").format("MMMM D")}
+              </Typography>
+            </span>
+          </MenuItem>
+        ))}
       </SwipeableDrawer>
     </>
   );

@@ -50,11 +50,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<null | string>(null);
 
-  const isIos = useCallback(() => {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
-  }, []);
-
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
 

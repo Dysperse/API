@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { cloneElement, useState } from "react";
+import React, { cloneElement, useMemo, useState } from "react";
 import DatePicker from "react-calendar";
 
-export const SelectDateModal: any = React.memo(function SelectDateModal({
+const SelectDateModal: any = React.memo(function SelectDateModal({
   ref,
   styles,
   date,
@@ -40,67 +40,70 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
   const handleClose = () => setAnchorEl(null);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  let trigger = (
-    <Tooltip title="Date (alt • f)" placement="top">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={dayjs(date).format("MMMM D h:mm a")}
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            duration: 0.05,
-            type: "spring",
-            stiffness: 260,
-            damping: 20,
-          }}
-          style={{
-            marginLeft: "auto",
-          }}
-        >
-          <IconButton
-            id="dateModal"
-            size="small"
-            ref={ref}
-            disableRipple
-            sx={{
-              ...styles(palette, Boolean(date)),
-              gap: 1,
-              mr: 1,
-              ...(!isMobile && { borderRadius: 99, px: 1 }),
+  let trigger = useMemo(
+    () => (
+      <Tooltip title="Date (alt • f)" placement="top">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={dayjs(date).format("MMMM D h:mm a")}
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 0.05,
+              type: "spring",
+              stiffness: 260,
+              damping: 20,
             }}
-            onClick={() => setOpen(!open)}
+            style={{
+              marginLeft: "auto",
+            }}
           >
-            <Icon>today</Icon>
-            <Typography
+            <IconButton
+              id="dateModal"
+              size="small"
+              ref={ref}
+              disableRipple
               sx={{
-                fontSize: hasTime ? "13px" : "15px",
-                ...(hasTime && { mt: -0.4 }),
-                display: { xs: "none", sm: "inline-flex" },
-                textAlign: "left",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                flexDirection: "column",
+                ...styles(palette, Boolean(date)),
+                gap: 1,
+                mr: 1,
+                ...(!isMobile && { borderRadius: 99, px: 1 }),
               }}
+              onClick={() => setOpen(!open)}
             >
-              {date && dayjs(date).format("MMMM D")}
-              {hasTime && (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontSize: "11px",
-                    mt: -0.5,
-                    mb: -0.5,
-                  }}
-                >
-                  {dayjs(date).format("h:mm a")}
-                </Typography>
-              )}
-            </Typography>
-          </IconButton>
-        </motion.div>
-      </AnimatePresence>
-    </Tooltip>
+              <Icon>today</Icon>
+              <Typography
+                sx={{
+                  fontSize: hasTime ? "13px" : "15px",
+                  ...(hasTime && { mt: -0.4 }),
+                  display: { xs: "none", sm: "inline-flex" },
+                  textAlign: "left",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  flexDirection: "column",
+                }}
+              >
+                {date && dayjs(date).format("MMMM D")}
+                {hasTime && (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: "11px",
+                      mt: -0.5,
+                      mb: -0.5,
+                    }}
+                  >
+                    {dayjs(date).format("h:mm a")}
+                  </Typography>
+                )}
+              </Typography>
+            </IconButton>
+          </motion.div>
+        </AnimatePresence>
+      </Tooltip>
+    ),
+    [date, isMobile, open, palette, ref, styles, hasTime]
   );
 
   if (children) {
@@ -218,3 +221,4 @@ export const SelectDateModal: any = React.memo(function SelectDateModal({
     </>
   );
 });
+export default SelectDateModal;

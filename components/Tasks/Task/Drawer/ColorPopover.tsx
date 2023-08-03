@@ -53,6 +53,7 @@ export function ColorPopover() {
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
+        keepMounted={false}
         anchorOrigin={{
           vertical: "top",
           horizontal: "left",

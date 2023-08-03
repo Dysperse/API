@@ -24,12 +24,73 @@ import { parseEmojis } from ".";
 import { Task } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import { CreateTask } from "../Create";
-import { SelectDateModal } from "../DatePicker";
+import SelectDateModal from "../DatePicker";
 import { ColorPopover } from "./ColorPopover";
 import { useTaskContext } from "./Context";
 import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
+
+function DrawerMenu({
+  task,
+  handlePriorityChange,
+  shouldDisable,
+  handleDelete,
+  styles,
+}) {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const handleClose = () => setAnchorEl(null);
+  const menuOpen = Boolean(anchorEl);
+  const handleMenuClick = (event: any) => setAnchorEl(event.currentTarget);
+
+  return (
+    <>
+      <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleClose}>
+        <MenuItem onClick={handlePriorityChange} disabled={shouldDisable}>
+          <Icon
+            {...(!task.pinned && { className: "outlined" })}
+            sx={{
+              ...(task.pinned && {
+                transform: "rotate(-20deg)",
+              }),
+              transition: "all .2s",
+            }}
+          >
+            push_pin
+          </Icon>
+          {task.pinned ? "Pinned" : "Pin"}
+        </MenuItem>
+        <ConfirmationModal
+          title="Delete task?"
+          question={`This task has ${task.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
+          disabled={task.subTasks.length === 0}
+          callback={async () => {
+            await handleDelete(task.id);
+            await task.mutate();
+          }}
+        >
+          <MenuItem>
+            <Icon className="outlined">delete</Icon>Delete
+          </MenuItem>
+        </ConfirmationModal>
+      </Menu>
+      {isMobile && (
+        <IconButton
+          onClick={handleMenuClick}
+          sx={{
+            flexShrink: 0,
+            ...styles.button,
+          }}
+          disabled={shouldDisable}
+        >
+          <Icon>more_horiz</Icon>
+        </IconButton>
+      )}
+    </>
+  );
+}
 
 function DrawerContent({ handleDelete, isDateDependent }: any) {
   const dateRef = useRef();
@@ -40,11 +101,6 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
   const isDark = useDarkMode(session.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleClose = () => setAnchorEl(null);
-  const menuOpen = Boolean(anchorEl);
-  const handleMenuClick = (event: any) => setAnchorEl(event.currentTarget);
-
   const isSubTask = task.parentTasks.length !== 0;
 
   const greenPalette = useColor("green", isDark);
@@ -52,7 +108,6 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
   const palette = useColor(session.themeColor, isDark);
 
   const handlePriorityChange = useCallback(async () => {
-    setAnchorEl(null);
     task.set((prev) => ({ ...prev, pinned: !prev.pinned }));
 
     toast.promise(
@@ -159,35 +214,6 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
           <IconButton onClick={task.close} sx={styles.button}>
             <Icon>close</Icon>
           </IconButton>
-          <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleClose}>
-            <MenuItem onClick={handlePriorityChange} disabled={shouldDisable}>
-              <Icon
-                {...(!task.pinned && { className: "outlined" })}
-                sx={{
-                  ...(task.pinned && {
-                    transform: "rotate(-20deg)",
-                  }),
-                  transition: "all .2s",
-                }}
-              >
-                push_pin
-              </Icon>
-              {task.pinned ? "Pinned" : "Pin"}
-            </MenuItem>
-            <ConfirmationModal
-              title="Delete task?"
-              question={`This task has ${task.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
-              disabled={task.subTasks.length === 0}
-              callback={async () => {
-                await handleDelete(task.id);
-                await task.mutate();
-              }}
-            >
-              <MenuItem>
-                <Icon className="outlined">delete</Icon>Delete
-              </MenuItem>
-            </ConfirmationModal>
-          </Menu>
           <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
             <Button
               disableRipple
@@ -228,6 +254,13 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
                 Snooze
               </Button>
             </RescheduleModal>
+            <DrawerMenu
+              handlePriorityChange={handlePriorityChange}
+              shouldDisable={shouldDisable}
+              task={task}
+              handleDelete={handleDelete}
+              styles={styles}
+            />
             {!isMobile && (
               <IconButton
                 onClick={handlePriorityChange}
@@ -260,18 +293,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
                 </Icon>
               </IconButton>
             )}
-            {isMobile && (
-              <IconButton
-                onClick={handleMenuClick}
-                sx={{
-                  flexShrink: 0,
-                  ...styles.button,
-                }}
-                disabled={shouldDisable}
-              >
-                <Icon>more_horiz</Icon>
-              </IconButton>
-            )}
+
             {!isMobile && (
               <ConfirmationModal
                 title="Delete task?"
