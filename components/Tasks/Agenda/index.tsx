@@ -61,19 +61,23 @@ export function Agenda({ type, date }) {
     months: "-",
   };
 
-  const handleNext = () =>
+  const handleNext = () => {
     router.push(
       `/tasks/agenda/${type}/${dayjs(date)
         .add(1, columnMap[type])
         .format("YYYY-MM-DD")}`
     );
+    setView("all");
+  };
 
-  const handlePrev = () =>
+  const handlePrev = () => {
     router.push(
       `/tasks/agenda/${type}/${dayjs(date)
         .subtract(1, columnMap[type])
         .format("YYYY-MM-DD")}`
     );
+    setView("all");
+  };
 
   const start = dayjs(date).startOf(columnMap[type]);
   const end = dayjs(date).endOf(columnMap[type]);

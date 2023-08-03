@@ -198,18 +198,18 @@ export function TasksLayout({
   const perspectives = [
     {
       hash: "agenda/days",
-      icon: "calendar_today",
-      label: "Days",
+      icon: "calendar_view_day",
+      label: "Weeks",
     },
     {
       hash: "agenda/weeks",
       icon: "view_week",
-      label: "Weeks",
+      label: "Months",
     },
     {
       hash: "agenda/months",
       icon: "calendar_view_month",
-      label: "Months",
+      label: "Years",
     },
   ];
 
@@ -305,7 +305,7 @@ export function TasksLayout({
               },
               {
                 href: "/tasks/stream",
-                icon: "conversion_path",
+                icon: "pending",
                 label: "Stream",
               },
             ].map((link, index) => (
