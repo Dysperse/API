@@ -2,6 +2,7 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -18,6 +19,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import Column from "./Column";
 
@@ -39,6 +41,7 @@ export function Agenda({ type, date }) {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [loading, setLoading] = useState(false);
+  const [view, setView] = useState("all");
 
   const columnMap = {
     days: isMobile ? "day" : "week",
@@ -93,7 +96,11 @@ export function Agenda({ type, date }) {
   useEffect(() => {
     const column = document.getElementById("active");
     if (data && column) {
-      column.scrollIntoView({ behavior: "smooth", block: "center" });
+      column.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
     }
   }, [data]);
 
@@ -126,8 +133,25 @@ export function Agenda({ type, date }) {
               textAlign: "left",
               display: { xs: "none", sm: "flex" },
               alignItems: "center",
-              background: `linear-gradient(${palette[1]}, ${palette[2]})`,
+              background:
+                view === "priority"
+                  ? ""
+                  : `linear-gradient(${palette[1]}, ${palette[2]})`,
+              borderBottom: `1.5px solid ${
+                palette[view === "priority" ? 3 : 2]
+              }`,
               width: "100%",
+              transition: "all .2s",
+
+              ...(view === "priority" && {
+                "& .priority-hidden": {
+                  opacity: 0,
+                  transition: "opacity 0.2s",
+                },
+                "&:hover .priority-hidden": {
+                  opacity: 1,
+                },
+              }),
             }}
           >
             <Box>
@@ -138,16 +162,53 @@ export function Agenda({ type, date }) {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }}
                 >
-                  <Typography sx={{ fontWeight: 900 }}>
+                  <Typography
+                    sx={{ fontWeight: 900 }}
+                    className="priority-hidden"
+                  >
                     {dayjs(start).format(viewHeadingFormats[type])}
                   </Typography>
                   {viewSubHeadingFormats[type] !== "-" && (
-                    <Typography variant="body2" sx={{ mt: -0.5 }}>
+                    <Typography
+                      variant="body2"
+                      sx={{ mt: -0.5 }}
+                      className="priority-hidden"
+                    >
                       {dayjs(start).format(viewSubHeadingFormats[type])}
                     </Typography>
                   )}
                 </motion.div>
               </AnimatePresence>
+            </Box>
+            <Box sx={{ borderRadius: 999, background: palette[3], ml: "auto" }}>
+              <IconButton
+                onClick={() => {
+                  setView("priority");
+                  toast("Target mode", toastStyles);
+                }}
+                sx={{
+                  ...(view == "priority" && {
+                    background: palette[5] + "!important",
+                  }),
+                  color: palette[view === "priority" ? 11 : 8],
+                }}
+              >
+                <Icon className="outlined">target</Icon>
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  setView("all");
+                  toast("All tasks", toastStyles);
+                }}
+                sx={{
+                  ...(view == "all" && {
+                    background: palette[5] + "!important",
+                  }),
+                  color: palette[view === "all" ? 11 : 8],
+                }}
+              >
+                <Icon className="outlined">task_alt</Icon>
+              </IconButton>
             </Box>
             <Box sx={{ ml: "auto" }}>
               <IconButton
@@ -157,6 +218,7 @@ export function Agenda({ type, date }) {
                   setLoading(false);
                 }}
                 disabled={loading}
+                className="priority-hidden"
               >
                 <Icon
                   className="outlined"
@@ -170,10 +232,15 @@ export function Agenda({ type, date }) {
                   refresh
                 </Icon>
               </IconButton>
-              <IconButton onClick={handlePrev} id="agendaPrev">
+              <IconButton
+                onClick={handlePrev}
+                id="agendaPrev"
+                className="priority-hidden"
+              >
                 <Icon className="outlined">arrow_back_ios_new</Icon>
               </IconButton>
               <Button
+                className="priority-hidden"
                 id="agendaToday"
                 onClick={() =>
                   router.push(
@@ -191,7 +258,11 @@ export function Agenda({ type, date }) {
               >
                 Today
               </Button>
-              <IconButton onClick={handleNext} id="agendaNext">
+              <IconButton
+                onClick={handleNext}
+                id="agendaNext"
+                className="priority-hidden"
+              >
                 <Icon className="outlined">arrow_forward_ios</Icon>
               </IconButton>
             </Box>
@@ -214,7 +285,7 @@ export function Agenda({ type, date }) {
         >
           {data ? (
             columns.map((column: any) => (
-              <Column key={column} column={column} data={data} />
+              <Column key={column} column={column} data={data} view={view} />
             ))
           ) : (
             <CircularProgress />

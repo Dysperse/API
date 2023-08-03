@@ -23,7 +23,11 @@ import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
 import { ColumnMenu } from "./ColumnMenu";
 
-const Column = React.memo(function Column({ column, data }: any): JSX.Element {
+const Column = React.memo(function Column({
+  column,
+  data,
+  view,
+}: any): JSX.Element {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -66,6 +70,10 @@ const Column = React.memo(function Column({ column, data }: any): JSX.Element {
           const columnEnd = dayjs(columnStart).endOf(type).toDate();
           return dueDate >= columnStart && dueDate <= columnEnd;
         })
+        // .filter((task) => {
+        //   if (view === "priority" && !task.pinned) return false;
+        //   return true;
+        // })
         .sort((e, d) =>
           e.completed && !d.completed
             ? 1
@@ -125,6 +133,7 @@ const Column = React.memo(function Column({ column, data }: any): JSX.Element {
                 px: 0.5,
                 ml: -0.5,
               }),
+
               borderRadius: 1,
               width: "auto",
               display: "inline-flex",
@@ -211,10 +220,23 @@ const Column = React.memo(function Column({ column, data }: any): JSX.Element {
         flexDirection: "column",
         width: { xs: "100%", sm: "300px" },
         borderRight: "1.5px solid",
-        borderColor: palette[3],
         ...(!isMobile && {
           overflowY: "scroll",
         }),
+        ...(view === "priority" &&
+          !isToday && {
+            opacity: 0.2,
+            filter: "blur(5px)",
+            transition: "all 0.2s ease-in-out",
+            "&:hover": {
+              opacity: 1,
+              filter: "none",
+            },
+          }),
+        ...(view === "priority" && {
+          borderLeft: "1.5px solid",
+        }),
+        borderColor: palette[3],
       }}
     >
       <Collapse in={loading}>
