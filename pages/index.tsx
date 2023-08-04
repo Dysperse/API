@@ -280,7 +280,7 @@ const Friend = memo(function Friend({ friend }: any) {
             label={capitalizeFirstLetter(friend?.Status?.status ?? "Away")}
           />
           {friend.Status && !isExpired && (
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 2, background: palette[2], borderRadius: 5, p: 2 }}>
               <LinearProgress
                 variant="determinate"
                 sx={{
@@ -297,7 +297,7 @@ const Friend = memo(function Friend({ friend }: any) {
                   100
                 }
               />
-              <Typography variant="body2">
+              <Typography variant="body2" sx={{ opacity: 0.7 }}>
                 Until {dayjs(friend.Status.until).format("h:mm A")}
               </Typography>
             </Box>
