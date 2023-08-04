@@ -15,6 +15,7 @@ import {
   Icon,
   IconButton,
   InputAdornment,
+  LinearProgress,
   ListItem,
   ListItemButton,
   ListItemText,
@@ -278,6 +279,30 @@ const Friend = memo(function Friend({ friend }: any) {
             }}
             label={capitalizeFirstLetter(friend?.Status?.status ?? "Away")}
           />
+          {friend.Status && !isExpired && (
+            <Box sx={{ mt: 2 }}>
+              <LinearProgress
+                variant="determinate"
+                sx={{
+                  my: 1,
+                  height: 10,
+                  borderRadius: 99,
+                }}
+                value={
+                  (dayjs().diff(friend.Status.started, "minute") /
+                    dayjs(friend.Status.until).diff(
+                      friend.Status.started,
+                      "minute"
+                    )) *
+                  100
+                }
+              />
+              <Typography variant="body2">
+                Until {dayjs(friend.Status.until).format("h:mm A")}
+              </Typography>
+            </Box>
+          )}
+
           <Button
             onClick={() =>
               router.push(`/users/${friend.username || friend.email}`)
