@@ -15,8 +15,10 @@ import {
   Icon,
   IconButton,
   InputAdornment,
+  ListItem,
   ListItemButton,
   ListItemText,
+  Skeleton,
   SwipeableDrawer,
   TextField,
   Toolbar,
@@ -596,15 +598,29 @@ export default function Home() {
         >
           <StatusSelector mutationUrl={url} />
 
-          {/* <DailyCheckIn /> */}
-          {data &&
-            data.friends
-              .sort(({ following: friend }) => {
-                if (friend?.Status?.status) return -1;
-                else return 1;
-              })
-              .map(({ following: friend }) => (
-                <Friend friend={friend} key={friend.email} />
+          {data
+            ? data.friends
+                .sort(({ following: friend }) => {
+                  if (friend?.Status?.status) return -1;
+                  else return 1;
+                })
+                .map(({ following: friend }) => (
+                  <Friend friend={friend} key={friend.email} />
+                ))
+            : [...new Array(10)].map((_, i) => (
+                <ListItem key={i} sx={{ mb: 2 }}>
+                  <Skeleton variant="circular" width="60px" height="60px" />
+                  <ListItemText
+                    sx={{ ml: 1 }}
+                    primary={<Skeleton width="100px" />}
+                  />
+                  <Skeleton
+                    variant="circular"
+                    width="24px"
+                    height="24px"
+                    sx={{ ml: "auto" }}
+                  />
+                </ListItem>
               ))}
           <SearchFriend mutationUrl={url} />
           <ListItemButton
