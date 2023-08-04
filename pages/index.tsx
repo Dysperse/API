@@ -229,7 +229,7 @@ const Friend = memo(function Friend({ friend }: any) {
           </Box>
         </Box>
         <ListItemText
-          primary={friend.name}
+          primary={capitalizeFirstLetter(friend.name)}
           secondary={
             friend?.Status &&
             "Until " + dayjs(friend?.Status?.until).format("h:mm A")
