@@ -406,6 +406,7 @@ function Page() {
                           position: "absolute",
                           bottom: "-8px",
                           right: "-6px",
+                          boxShadow: `0 0 0 3px ${palette[1]}!important`,
                         }}
                         icon={
                           <Icon sx={{ color: "inherit!important" }}>

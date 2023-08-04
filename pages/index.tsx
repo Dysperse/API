@@ -191,6 +191,10 @@ const Friend = memo(function Friend({ friend }: any) {
   const session = useSession();
   const router = useRouter();
 
+  const userPalette = useColor(
+    session.themeColor,
+    useDarkMode(session.darkMode)
+  );
   const palette = useColor(friend.color, useDarkMode(session.darkMode));
   const redPalette = useColor("red", useDarkMode(session.darkMode));
   const grayPalette = useColor("gray", useDarkMode(session.darkMode));
@@ -226,6 +230,7 @@ const Friend = memo(function Friend({ friend }: any) {
               borderRadius: 999,
               fontSize: "10px",
               px: 1,
+              boxShadow: `0 0 0 3px ${userPalette[1]}!important`,
               py: 0.1,
               background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
             }}
