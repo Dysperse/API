@@ -196,14 +196,18 @@ const Friend = memo(function Friend({ friend }: any) {
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
   const greenPalette = useColor("green", useDarkMode(session.darkMode));
 
-  const chipPalette =
-    friend?.Status?.status === "available"
-      ? greenPalette
-      : friend?.Status?.status === "busy"
-      ? redPalette
-      : friend?.Status?.status === "away"
-      ? orangePalette
-      : grayPalette;
+  const isExpired =
+    friend?.Status?.until && dayjs().isAfter(friend?.Status?.until);
+
+  const chipPalette = isExpired
+    ? grayPalette
+    : friend?.Status?.status === "available"
+    ? greenPalette
+    : friend?.Status?.status === "busy"
+    ? redPalette
+    : friend?.Status?.status === "away"
+    ? orangePalette
+    : grayPalette;
 
   const [open, setOpen] = useState(false);
 
@@ -225,13 +229,14 @@ const Friend = memo(function Friend({ friend }: any) {
               background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
             }}
           >
-            {friend?.Status?.status ?? "Away"}
+            {(!isExpired && friend?.Status?.status) || "Away"}
           </Box>
         </Box>
         <ListItemText
           primary={capitalizeFirstLetter(friend.name)}
           secondary={
             friend?.Status &&
+            !isExpired &&
             "Until " + dayjs(friend?.Status?.until).format("h:mm A")
           }
           sx={{ ml: 1 }}
@@ -601,7 +606,11 @@ export default function Home() {
           {data
             ? data.friends
                 .sort(({ following: friend }) => {
-                  if (friend?.Status?.status) return -1;
+                  if (
+                    friend?.Status?.status &&
+                    dayjs(friend?.Status?.until).isAfter(dayjs())
+                  )
+                    return -1;
                   else return 1;
                 })
                 .map(({ following: friend }) => (
