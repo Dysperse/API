@@ -228,7 +228,7 @@ const Friend = memo(function Friend({ friend }: any) {
               textTransform: "capitalize",
               right: "-10px",
               borderRadius: 999,
-              fontSize: "10px",
+              fontSize: "13px",
               px: 1,
               boxShadow: `0 0 0 3px ${userPalette[1]}!important`,
               py: 0.1,
