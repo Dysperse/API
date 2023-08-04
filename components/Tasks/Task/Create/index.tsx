@@ -247,7 +247,7 @@ export const CreateTask = React.memo(function CreateTask({
   );
 
   useHotkeys(
-    "alt+s",
+    "alt+w",
     (e) => {
       if (open) {
         e.preventDefault();
@@ -259,7 +259,7 @@ export const CreateTask = React.memo(function CreateTask({
   );
 
   useHotkeys(
-    "alt+d",
+    "alt+e",
     (e) => {
       if (open) {
         e.preventDefault();
@@ -271,7 +271,7 @@ export const CreateTask = React.memo(function CreateTask({
   );
 
   useHotkeys(
-    "alt+f",
+    "alt+l",
     (e) => {
       if (open) {
         e.preventDefault();
@@ -282,7 +282,7 @@ export const CreateTask = React.memo(function CreateTask({
     [open, toggleLocation]
   );
   useHotkeys(
-    "alt+g",
+    "alt+d",
     (e) => {
       if (open) {
         e.preventDefault();
@@ -294,7 +294,7 @@ export const CreateTask = React.memo(function CreateTask({
   );
 
   useHotkeys(
-    "alt+h",
+    "alt+s",
     (e) => {
       if (open) {
         e.preventDefault();

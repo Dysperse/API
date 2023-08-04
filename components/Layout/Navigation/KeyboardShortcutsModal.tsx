@@ -109,23 +109,19 @@ export default function KeyboardShortcutsModal() {
                 name: "Navigate 1 room downwards",
                 keys: ["ctrl", <>&#8595;</>],
               },
-              {
-                name: "Sort",
-                keys: ["s"],
-              },
+              { name: "Sort", keys: ["s"] },
             ],
           },
           {
-            name: "Boards",
+            name: "Task creation",
             shortcuts: [
-              {
-                name: "Create a task",
-                keys: ["c (when hovered over a column)"],
-              },
-              {
-                name: "Toggle options menu",
-                keys: ["e (when hovered over a column)"],
-              },
+              { name: "Open dialog", keys: ["/"] },
+              { name: "Toggle priority", keys: ["alt", "a"] },
+              { name: "Attach image", keys: ["alt", "w"] },
+              { name: "Insert emoji", keys: ["alt", "e"] },
+              { name: "Add location", keys: ["alt", "l"] },
+              { name: "Add note", keys: ["alt", "d"] },
+              { name: "Set date", keys: ["alt", "s"] },
             ],
           },
           {

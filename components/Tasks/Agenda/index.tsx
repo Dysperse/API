@@ -97,16 +97,28 @@ export function Agenda({ type, date }) {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  useEffect(() => {
+  const scrollIntoView = () => {
     const column = document.getElementById("active");
-    if (data && column) {
+    if (column) {
       column.scrollIntoView({
         behavior: "smooth",
         block: "center",
         inline: "center",
       });
     }
+  };
+
+  useEffect(() => {
+    if (data) {
+      scrollIntoView();
+    }
   }, [data]);
+
+  useEffect(() => {
+    document.body.classList[view === "priority" ? "add" : "remove"](
+      "priorityMode"
+    );
+  }, [view]);
 
   return (
     <AgendaContext.Provider value={{ start, end, url, type }}>
@@ -188,7 +200,12 @@ export function Agenda({ type, date }) {
               <IconButton
                 onClick={() => {
                   setView("priority");
-                  toast("Target mode", toastStyles);
+                  scrollIntoView();
+                  toast.dismiss();
+                  toast("Target mode", {
+                    ...toastStyles,
+                    icon: <Icon>target</Icon>,
+                  });
                 }}
                 sx={{
                   ...(view == "priority" && {
@@ -202,7 +219,12 @@ export function Agenda({ type, date }) {
               <IconButton
                 onClick={() => {
                   setView("all");
-                  toast("All tasks", toastStyles);
+                  scrollIntoView();
+                  toast.dismiss();
+                  toast("Viewing all tasks", {
+                    ...toastStyles,
+                    icon: <Icon>task_alt</Icon>,
+                  });
                 }}
                 sx={{
                   ...(view == "all" && {

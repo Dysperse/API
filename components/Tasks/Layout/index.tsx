@@ -325,84 +325,21 @@ export function TasksLayout({
             ))}
           </Box>
 
-          {boards.shared.length > 0 && (
-            <Divider sx={taskStyles(palette).divider} />
-          )}
-          {boards.shared.length > 0 && (
-            <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
-          )}
-          {boards.shared.map((board) => (
-            <Tab
-              setDrawerOpen={setOpen}
-              key={board.id}
-              styles={buttonStyles}
-              board={board}
-            />
-          ))}
-          <Divider sx={taskStyles(palette).divider} />
-          <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
-          {boards.active.map((board) => (
-            <Tab
-              setDrawerOpen={setOpen}
-              key={board.id}
-              styles={buttonStyles}
-              board={board}
-            />
-          ))}
-          <Link
-            href={
-              Boolean(storage?.isReached) ||
-              data?.filter((board) => !board.archived).length >= 7 ||
-              session.permission === "read-only"
-                ? "/tasks"
-                : "/tasks/boards/create"
-            }
-            style={{ width: "100%" }}
+          <Box
+            sx={{
+              transition: "all .2s",
+              ".priorityMode &": { opacity: 0, "&:hover": { opacity: 1 } },
+            }}
           >
-            <Button
-              fullWidth
-              disabled={
-                Boolean(storage?.isReached) ||
-                data?.filter((board) => !board.archived).length >= 7 ||
-                session.permission === "read-only"
-              }
-              ref={ref}
-              size="large"
-              onClick={() => setOpen(false)}
-              sx={{
-                ...buttonStyles(
-                  palette,
-                  router.asPath == "/tasks/boards/create"
-                ),
-                px: 2,
-                cursor: "default",
-                ...((storage?.isReached === true ||
-                  (data &&
-                    data.filter((board) => !board.archived).length >= 7)) && {
-                  opacity: 0.5,
-                }),
-                justifyContent: "start",
-              }}
-            >
-              <Icon
-                className={router.asPath == "/tasks/create" ? "" : "outlined"}
-                sx={{ ml: -0.5 }}
-              >
-                add_circle
-              </Icon>
-              New board
-            </Button>
-          </Link>
-          <Box>
-            {data && data.filter((x) => x.archived).length !== 0 && (
-              <>
-                <Divider sx={taskStyles(palette).divider} />
-                <Typography sx={taskStyles(palette).subheading}>
-                  Archived
-                </Typography>
-              </>
+            {boards.shared.length > 0 && (
+              <Divider sx={taskStyles(palette).divider} />
             )}
-            {boards.archived.map((board) => (
+            {boards.shared.length > 0 && (
+              <Typography sx={taskStyles(palette).subheading}>
+                Shared
+              </Typography>
+            )}
+            {boards.shared.map((board) => (
               <Tab
                 setDrawerOpen={setOpen}
                 key={board.id}
@@ -410,6 +347,78 @@ export function TasksLayout({
                 board={board}
               />
             ))}
+            <Divider sx={taskStyles(palette).divider} />
+            <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
+            {boards.active.map((board) => (
+              <Tab
+                setDrawerOpen={setOpen}
+                key={board.id}
+                styles={buttonStyles}
+                board={board}
+              />
+            ))}
+            <Link
+              href={
+                Boolean(storage?.isReached) ||
+                data?.filter((board) => !board.archived).length >= 7 ||
+                session.permission === "read-only"
+                  ? "/tasks"
+                  : "/tasks/boards/create"
+              }
+              style={{ width: "100%" }}
+            >
+              <Button
+                fullWidth
+                disabled={
+                  Boolean(storage?.isReached) ||
+                  data?.filter((board) => !board.archived).length >= 7 ||
+                  session.permission === "read-only"
+                }
+                ref={ref}
+                size="large"
+                onClick={() => setOpen(false)}
+                sx={{
+                  ...buttonStyles(
+                    palette,
+                    router.asPath == "/tasks/boards/create"
+                  ),
+                  px: 2,
+                  cursor: "default",
+                  ...((storage?.isReached === true ||
+                    (data &&
+                      data.filter((board) => !board.archived).length >= 7)) && {
+                    opacity: 0.5,
+                  }),
+                  justifyContent: "start",
+                }}
+              >
+                <Icon
+                  className={router.asPath == "/tasks/create" ? "" : "outlined"}
+                  sx={{ ml: -0.5 }}
+                >
+                  add_circle
+                </Icon>
+                New board
+              </Button>
+            </Link>
+            <Box>
+              {data && data.filter((x) => x.archived).length !== 0 && (
+                <>
+                  <Divider sx={taskStyles(palette).divider} />
+                  <Typography sx={taskStyles(palette).subheading}>
+                    Archived
+                  </Typography>
+                </>
+              )}
+              {boards.archived.map((board) => (
+                <Tab
+                  setDrawerOpen={setOpen}
+                  key={board.id}
+                  styles={buttonStyles}
+                  board={board}
+                />
+              ))}
+            </Box>
           </Box>
         </Box>
       </>
@@ -658,6 +667,7 @@ export function TasksLayout({
             minHeight: "100dvh",
             height: { md: "100dvh" },
             overflowY: { md: "scroll" },
+            transition: "all .2s",
             flexDirection: "column",
           }}
         >

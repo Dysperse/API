@@ -24,6 +24,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { GroupModal } from "../../components/Group/GroupModal";
 
@@ -305,6 +306,8 @@ export default function Page() {
   });
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  useHotkeys("esc", () => router.push("/"));
 
   return (
     <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
