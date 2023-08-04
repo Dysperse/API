@@ -8,7 +8,6 @@ import { SearchUser } from "@/components/Profile/SearchUser";
 import { Puller } from "@/components/Puller";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -25,7 +24,6 @@ import {
   Icon,
   IconButton,
   SwipeableDrawer,
-  TextField,
   Toolbar,
   Tooltip,
   Typography,
@@ -460,31 +458,9 @@ function Page() {
                         minWidth: 0,
                       }}
                     >
-                      {editMode ? (
-                        <TextField
-                          variant="standard"
-                          InputProps={{
-                            sx: {
-                              fontWeight: 900,
-                              "& input": {
-                                textAlign: { xs: "center", sm: "left" },
-                              },
-                              fontSize: "33px",
-                              mt: -0.5,
-                            },
-                          }}
-                          onKeyDown={(e: any) =>
-                            e.code === "Enter" && e.target.blur()
-                          }
-                          onBlur={(e: any) =>
-                            updateSettings(session, "name", e.target.value)
-                          }
-                          sx={{ mr: "auto", width: "auto" }}
-                          fullWidth
-                          defaultValue={session.user.name}
-                        />
-                      ) : (
-                        <span style={{ fontWeight: 900 }}>{data.name}</span>
+                      <span style={{ fontWeight: 900 }}>{data.name}</span>{" "}
+                      {data?.email === "manusvathgurudath@gmail.com" && (
+                        <Icon>verified</Icon>
                       )}
                     </Typography>
                     <Typography
