@@ -585,25 +585,27 @@ export default function Home() {
     date: dayjs().startOf("day").toISOString(),
   });
 
-  const { data: coachData } = useApi("user/coach");
-
-  const completedGoals = (coachData || [])
-    .filter((goal) => !goal.completed)
-    .filter(
-      (goal) =>
-        dayjs(goal.lastCompleted).format("YYYY-MM-DD") ==
-        dayjs().format("YYYY-MM-DD")
-    );
-
   return (
     <Box sx={{ ml: { sm: -1 } }}>
       <motion.div initial={{ y: -100 }} animate={{ y: 0 }}>
-        {isMobile && <Navbar showLogo />}
+        <Navbar
+          showLogo={isMobile}
+          {...(isMobile && {
+            right: (
+              <IconButton
+                sx={{ ml: "auto", color: palette[8] }}
+                onClick={() => router.push("/settings/profile")}
+              >
+                <Icon>settings</Icon>
+              </IconButton>
+            ),
+          })}
+        />
       </motion.div>
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
           sx={{
-            pt: { xs: 7, sm: 23 },
+            pt: { xs: 7, sm: 20 },
           }}
         >
           <Box
