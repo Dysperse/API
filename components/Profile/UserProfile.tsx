@@ -1,10 +1,18 @@
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { colors } from "@/lib/colors";
 import { Masonry } from "@mui/lab";
-import { Box, Chip, Icon, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Icon,
+  LinearProgress,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
@@ -191,36 +199,52 @@ export function UserProfile({
               )}
             </Box>
           )}
+
+          {data.Status && (
+            <Box sx={profileCardStyles}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  width: 70,
+                  height: 70,
+                  background: palette[2],
+                  borderRadius: 2,
+                }}
+              >
+                <Typography variant="body2">{dayjs().format("MMM")}</Typography>
+                <Typography variant="h5">{dayjs().format("D")}</Typography>
+              </Box>
+              <Box sx={{ mt: 5 }} />
+              <Typography sx={profileCardStyles.heading}>Right now</Typography>
+              <Typography variant="h4">
+                {capitalizeFirstLetter(data.Status.status)}
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                sx={{
+                  my: 1,
+                  height: 10,
+                  borderRadius: 99,
+                }}
+                value={
+                  (dayjs().diff(data.Status.started, "minute") /
+                    dayjs(data.Status.until).diff(
+                      data.Status.started,
+                      "minute"
+                    )) *
+                  100
+                }
+              />
+              <Typography variant="body2">
+                Until {dayjs(data.Status.until).format("h:mm A")}
+              </Typography>
+            </Box>
+          )}
         </Masonry>
       </Box>
-      {/* {editMode && (
-        <Box sx={{ gap: 2, mt: 2, display: "flex" }}>
-          <ConfirmationModal
-            callback={handleDelete}
-            title="Delete profile?"
-            question="Are you sure you want to permanently delete your profile? You can always create it again."
-          >
-            <Button
-              variant="outlined"
-              size="large"
-              color="error"
-              sx={{ mr: "auto" }}
-            >
-              <Icon>delete</Icon>
-              Delete
-            </Button>
-          </ConfirmationModal>
-          <Button
-            variant="contained"
-            size="large"
-            color="error"
-            onClick={() => setEditMode(false)}
-          >
-            <Icon>check</Icon>
-            Done
-          </Button>
-        </Box>
-      )} */}
     </Box>
   );
 }

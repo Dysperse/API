@@ -8,6 +8,7 @@ import { Followers } from "@/components/Profile/Followers";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SearchUser } from "@/components/Profile/SearchUser";
 import { Puller } from "@/components/Puller";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
@@ -19,6 +20,7 @@ import {
   AppBar,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Container,
   Grid,
@@ -27,8 +29,10 @@ import {
   SwipeableDrawer,
   TextField,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -71,7 +75,8 @@ function ShareProfileModal({ user, children }) {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              width: "500px",
+              width: "400px",
+              mx: "auto",
               textAlign: "center",
             }}
           >
@@ -270,6 +275,23 @@ function Page() {
     router.push("/");
   });
 
+  const redPalette = useColor("red", useDarkMode(session.darkMode));
+  const grayPalette = useColor("gray", useDarkMode(session.darkMode));
+  const orangePalette = useColor("orange", useDarkMode(session.darkMode));
+  const greenPalette = useColor("green", useDarkMode(session.darkMode));
+
+  const isExpired = data?.Status?.until && dayjs().isAfter(data?.Status?.until);
+
+  const chipPalette = isExpired
+    ? grayPalette
+    : data?.Status?.status === "available"
+    ? greenPalette
+    : data?.Status?.status === "busy"
+    ? redPalette
+    : data?.Status?.status === "away"
+    ? orangePalette
+    : grayPalette;
+
   return (
     <Box
       sx={{
@@ -386,11 +408,39 @@ function Page() {
                 gap: { xs: 0, sm: 5 },
               }}
             >
-              <ProfilePicture
-                mutationUrl={url}
-                data={data}
-                editMode={editMode}
-              />
+              <Box>
+                <Box sx={{ position: "relative" }}>
+                  <ProfilePicture
+                    mutationUrl={url}
+                    data={data}
+                    editMode={editMode}
+                  />
+                  {data.Status && !isExpired && (
+                    <Tooltip title="Status">
+                      <Chip
+                        label={capitalizeFirstLetter(data.Status.status)}
+                        sx={{
+                          background: `linear-gradient( ${chipPalette[9]}, ${chipPalette[8]})!important`,
+                          position: "absolute",
+                          bottom: "-8px",
+                          right: "-6px",
+                        }}
+                        icon={
+                          <Icon sx={{ color: "inherit!important" }}>
+                            {data.Status.status === "available"
+                              ? "check_circle"
+                              : data.Status.status === "busy"
+                              ? "remove_circle"
+                              : data.Status.status === "away"
+                              ? "dark_mode"
+                              : "circle"}
+                          </Icon>
+                        }
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
+              </Box>
               <Box
                 sx={{
                   flexGrow: 1,
