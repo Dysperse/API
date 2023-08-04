@@ -151,17 +151,19 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
   }, [task, session]);
 
   const handlePostpone: any = useCallback(
-    (count, type) => {
-      if (isDateDependent) {
-        task.close();
-      }
+    async (count, type) => {
       task.set((prev) => ({
         ...prev,
         due: dayjs(task.due).add(count, type).toISOString(),
       }));
-      task.edit(task.id, "due", dayjs(task.due).add(count, type).toISOString());
+      await task.edit(
+        task.id,
+        "due",
+        dayjs(task.due).add(count, type).toISOString()
+      );
+      task.close();
     },
-    [task, isDateDependent]
+    [task]
   );
 
   const styles = {

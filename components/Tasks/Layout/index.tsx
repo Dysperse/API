@@ -328,7 +328,7 @@ export function TasksLayout({
           <Box
             sx={{
               transition: "all .2s",
-              ".priorityMode &": { opacity: 0, "&:hover": { opacity: 1 } },
+              // ".priorityMode &": { opacity: 0, "&:hover": { opacity: 1 } },
             }}
           >
             {boards.shared.length > 0 && (

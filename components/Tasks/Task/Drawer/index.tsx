@@ -59,8 +59,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
    */
   const handleFetch = useCallback(
     async (mutate = false) => {
-      setOpen(true);
-      if (!mutate) setLoading(true);
+      if (!mutate) {
+        setLoading(true);
+      }
       try {
         const data = await fetchRawApi(session, "property/boards/column/task", {
           id,
@@ -111,9 +112,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   }, [mutationUrl]);
 
   const handleEdit = useCallback(
-    function handleEdit(id, key, value) {
+    async function handleEdit(id, key, value) {
       setData((prev) => ({ ...prev, [key]: value }));
-      fetchRawApi(session, "property/boards/column/task/edit", {
+      return await fetchRawApi(session, "property/boards/column/task/edit", {
         id,
         date: dayjs().toISOString(),
         [key]: [value],
@@ -124,7 +125,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
-    onClick: onClick || handleFetch,
+    onClick: () => {
+      (onClick || handleFetch)();
+      setOpen(true);
+    },
   });
 
   return (
