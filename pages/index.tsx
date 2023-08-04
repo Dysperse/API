@@ -100,7 +100,7 @@ function StatusSelector({ mutationUrl }) {
           px: 2,
           mb: 2,
           mt: -2,
-          mx: "auto",
+          mx: { sm: "auto" },
           "&, &:hover": {
             background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
             color: `${chipPalette[12]} !important`,
