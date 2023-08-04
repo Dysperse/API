@@ -17,6 +17,8 @@ import dayjs from "dayjs";
 import { useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import { mutate } from "swr";
+import { Followers } from "./Followers";
+import { Following } from "./Following";
 import { WorkingHours } from "./WorkingHours";
 
 export function UserProfile({
@@ -73,12 +75,27 @@ export function UserProfile({
 
   useStatusBar(palette[1]);
 
+  const styles = {
+    color: palette[11],
+    textAlign: "center",
+    width: { sm: "auto" },
+    px: 2,
+    py: 2,
+    borderRadius: "20px",
+    "& h6": {
+      mt: -1,
+      fontSize: 27,
+      fontWeight: 900,
+    },
+  };
+
   return (
     <Box>
       <Box
         sx={{
           display: "flex",
           gap: 1,
+          mt: 2,
           alignItems: "center",
           justifyContent: { xs: "center", sm: "flex-start" },
           flexWrap: "wrap",
@@ -144,6 +161,20 @@ export function UserProfile({
             />
           ))}
       </Box>
+      <Typography
+        variant="body2"
+        sx={{
+          gap: 1,
+          display: "flex",
+          mb: 2,
+          mt: 1,
+          opacity: 0.7,
+          color: palette[9],
+        }}
+      >
+        <Followers styles={styles} data={data} />
+        <Following styles={styles} data={data} />
+      </Typography>
       <Box sx={{ mr: -2 }}>
         <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2 }} spacing={2}>
           {profile && profile.hobbies.length > 0 && (

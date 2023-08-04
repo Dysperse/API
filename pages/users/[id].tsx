@@ -2,9 +2,7 @@ import { exportAsImage } from "@/components/Coach/Goal/Options";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { AddPersonModal } from "@/components/Group/Members/Add";
-import { Following } from "@/components/Profile//Following";
 import { UserProfile } from "@/components/Profile//UserProfile";
-import { Followers } from "@/components/Profile/Followers";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SearchUser } from "@/components/Profile/SearchUser";
 import { Puller } from "@/components/Puller";
@@ -233,25 +231,11 @@ function Page() {
     }
   };
 
-  const styles = {
-    color: palette[11],
-    textAlign: "center",
-    width: { sm: "auto" },
-    px: 2,
-    py: 2,
-    borderRadius: "20px",
-    "& h6": {
-      mt: -1,
-      fontSize: 27,
-      fontWeight: 900,
-    },
-  };
-
   const profileCardStyles = {
     border: "1px solid",
     borderColor: palette[3],
     color: palette[11],
-    boxShadow: `10px 10px 20px ${palette[3]}`,
+    boxShadow: `10px 10px 20px ${palette[2]}`,
     p: 3,
     borderRadius: 5,
     heading: {
@@ -546,20 +530,6 @@ function Page() {
                     </Box>
                   )}
                 </Box>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    gap: 1,
-                    display: "flex",
-                    mb: 2,
-                    mt: 1,
-                    opacity: 0.7,
-                    color: palette[9],
-                  }}
-                >
-                  <Followers styles={styles} data={data} />
-                  <Following styles={styles} data={data} />
-                </Typography>
                 {!data.Profile && (
                   <Alert
                     severity="info"
