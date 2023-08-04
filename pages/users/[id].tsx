@@ -267,7 +267,7 @@ function Page() {
   });
 
   useHotkeys("esc", () => {
-    router.push("/users");
+    router.push("/");
   });
 
   return (
@@ -320,7 +320,7 @@ function Page() {
         }}
       >
         <Toolbar>
-          <IconButton onClick={() => router.push("/users")}>
+          <IconButton onClick={() => router.push("/")}>
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
           <SearchUser />

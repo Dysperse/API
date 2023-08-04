@@ -283,11 +283,6 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       icon: "settings",
       badge: "Settings",
     },
-    {
-      title: "Friends",
-      onTrigger: () => router.push("/users"),
-      icon: "group",
-    },
     ...[
       "Account",
       "Appearance",

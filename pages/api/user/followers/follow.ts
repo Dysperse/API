@@ -6,21 +6,30 @@ export default async function handler(req, res) {
     validateParams(req.query, ["followerEmail", "followingEmail"]);
     const { followerEmail, followingEmail }: any = req.query;
 
-    const data = await prisma.follows.upsert({
+    const follower = await prisma.user.findFirstOrThrow({
+      where: {
+        OR: [{ email: followingEmail }, { username: followingEmail }],
+      },
+      select: {
+        email: true,
+      },
+    });
+
+    await prisma.follows.upsert({
       where: {
         followerId_followingId: {
           followerId: followerEmail,
-          followingId: followingEmail,
+          followingId: follower.email,
         },
       },
       update: {},
       create: {
         follower: { connect: { email: followerEmail } },
-        following: { connect: { email: followingEmail } },
+        following: { connect: { email: follower.email } },
       },
     });
-    res.json(data);
+    res.json({ success: true });
   } catch ({ message: error }: any) {
-    res.status(401).json({ error });
+    res.status(500).json({ error });
   }
 }

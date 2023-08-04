@@ -11,6 +11,7 @@ export default async function handler(req, res) {
       select: {
         name: true,
         email: true,
+        username: true,
         Profile: true,
       },
     });
@@ -24,42 +25,14 @@ export default async function handler(req, res) {
       include: {
         following: {
           select: {
+            Status: true,
             name: true,
             email: true,
             color: true,
+            username: true,
             CoachData: {
               select: {
                 streakCount: true,
-              },
-            },
-            properties: {
-              select: {
-                profile: {
-                  select: {
-                    Task: {
-                      select: { due: true },
-                      where: {
-                        AND: [
-                          { completed: false },
-                          { due: { gte: new Date(req.query.date) } },
-                        ],
-                      },
-                      take: 3,
-                      orderBy: {
-                        due: "asc",
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            sessions: {
-              orderBy: {
-                timestamp: "desc",
-              },
-              take: 1,
-              select: {
-                timestamp: true,
               },
             },
             Profile: {

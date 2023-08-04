@@ -34,6 +34,7 @@ model User {
 
   CustomRoom           CustomRoom[]
   NotificationSettings NotificationSettings?
+  Status               Status?
   Profile              Profile?
   CoachData            CoachData?
   OAuthToken           OAuthToken[]
@@ -86,6 +87,20 @@ model NotificationSettings {
   dailyCheckInNudge Boolean @default(true)
 
   boards Boolean @default(true)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+// Customizable notification settings (1 row per user)
+model Status {
+  id String @id @unique @default(uuid())
+
+  status  String    @default("")
+  text    String?
+  
+  until   DateTime?
+  started DateTime?
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)

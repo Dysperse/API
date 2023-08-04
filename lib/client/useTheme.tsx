@@ -206,6 +206,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         defaultProps: {
           autoComplete: "off",
           fullWidth: true,
+          InputProps: {
+            autoComplete: "off",
+          },
         },
       },
       MuiSkeleton: {

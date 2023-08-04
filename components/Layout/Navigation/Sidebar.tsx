@@ -307,10 +307,12 @@ export function Sidebar() {
                 height: 40,
               },
             }}
-            onClick={() => router.push(`/users`)}
+            onClick={() =>
+              router.push(`/groups/${session.property.propertyId}`)
+            }
           >
-            <Tooltip title="Friends" placement="right">
-              <span className={`material-symbols-outlined`}>group</span>
+            <Tooltip title={session.property.profile.name} placement="right">
+              <span className={`material-symbols-outlined`}>tag</span>
             </Tooltip>
           </Box>
         </GroupModal>

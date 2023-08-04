@@ -40,7 +40,7 @@ function Group({ group, handleMutate }) {
         }}
       >
         <Toolbar sx={{ gap: { xs: 1, sm: 2 } }}>
-          <IconButton onClick={() => router.push("/users")}>
+          <IconButton onClick={() => router.push("/")}>
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
           {group && (
