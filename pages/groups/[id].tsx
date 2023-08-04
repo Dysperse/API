@@ -1,6 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { PropertyInfo } from "@/components/Group";
 import { Changelog } from "@/components/Group/Changelog";
+import { GroupModal } from "@/components/Group/GroupModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
@@ -43,6 +44,11 @@ function Group({ group, handleMutate }) {
           <IconButton onClick={() => router.push("/")}>
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
+          <GroupModal useRightClick={false} onSuccess={() => router.push("/")}>
+            <IconButton sx={{ ml: "auto" }}>
+              <Icon>expand_all</Icon>
+            </IconButton>
+          </GroupModal>
           {group && (
             <Changelog
               disabled={group.profile.id !== session.property.propertyId}

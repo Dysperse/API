@@ -16,7 +16,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
-export function PropertyButton({ handleClose, group, list }: any) {
+export function PropertyButton({ handleClose, group, list, onSuccess }: any) {
   const session = useSession();
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -44,6 +44,7 @@ export function PropertyButton({ handleClose, group, list }: any) {
               </span>,
               toastStyles
             );
+            onSuccess();
           } catch {
             toast.error(
               "Yikes! Something went wrong when trying to switch groups",

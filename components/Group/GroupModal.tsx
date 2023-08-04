@@ -23,6 +23,7 @@ export function GroupModal({
   children,
   list = false,
   useRightClick = true,
+  onSuccess = () => {},
 }: any) {
   const session = useSession();
   const { data, fetcher, url } = useApi("user/properties");
@@ -77,6 +78,7 @@ export function GroupModal({
             handleClose={() => setShowMore(false)}
             key={group.id}
             group={group}
+            onSuccess={onSuccess}
           />
         ))}
       {showInvitations && properties.filter((p) => !p.accepted).length == 0 && (
