@@ -98,9 +98,11 @@ function StatusSelector({ mutationUrl }) {
         onClick={() => setOpen(true)}
         sx={{
           px: 2,
-          mb: 2,
-          mt: -2,
+          mb: { xs: 0, sm: 2 },
+          mt: { xs: -1, sm: -2 },
           mx: { sm: "auto" },
+          mr: { xs: "auto" },
+          ml: { xs: 2, sm: "auto" },
           "&, &:hover": {
             background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
             color: `${chipPalette[12]} !important`,
@@ -205,7 +207,7 @@ const Friend = memo(function Friend({ friend }: any) {
 
   return (
     <>
-      <ListItemButton onClick={() => setOpen(true)}>
+      <ListItemButton onClick={() => setOpen(true)} sx={{ mb: 2 }}>
         <Box sx={{ position: "relative" }}>
           <ProfilePicture data={friend} mutationUrl="" size={60} />
           <Box
@@ -488,10 +490,17 @@ function SearchFriend({ mutationUrl }) {
   return (
     <>
       <ListItemButton onClick={() => setOpen(true)}>
-        <Avatar sx={{ background: palette[2], color: palette[11] }}>
+        <Avatar
+          sx={{
+            background: palette[2],
+            color: palette[11],
+            width: "60px",
+            height: "60px",
+          }}
+        >
           <Icon>add</Icon>
         </Avatar>
-        <ListItemText primary="Add friend..." />
+        <ListItemText sx={{ ml: 1 }} primary="Add friend..." />
       </ListItemButton>
       <SwipeableDrawer
         open={open}
@@ -528,6 +537,7 @@ function SearchFriend({ mutationUrl }) {
 }
 
 export default function Home() {
+  const router = useRouter();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -582,7 +592,6 @@ export default function Home() {
             maxWidth: "calc(100% - 40px)",
             mx: "auto",
             flexDirection: "column",
-            gap: 2,
           }}
         >
           <StatusSelector mutationUrl={url} />
@@ -598,6 +607,25 @@ export default function Home() {
                 <Friend friend={friend} key={friend.email} />
               ))}
           <SearchFriend mutationUrl={url} />
+          <ListItemButton
+            onClick={() =>
+              router.push(
+                `/users/${session.user.username || session.user.email}`
+              )
+            }
+          >
+            <Avatar
+              sx={{
+                background: palette[2],
+                color: palette[11],
+                width: "60px",
+                height: "60px",
+              }}
+            >
+              <Icon className="outlined">person</Icon>
+            </Avatar>
+            <ListItemText sx={{ ml: 1 }} primary="My profile" />
+          </ListItemButton>
         </Box>
         <Toolbar />
       </motion.div>
