@@ -273,7 +273,15 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
             !isExpired &&
             "Until " + dayjs(friend?.Status?.until).format("h:mm A")
           }
-          sx={{ ml: 1 }}
+          sx={{
+            ml: 1,
+            "& *": {
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              minWidth: 0,
+            },
+          }}
         />
         <Box sx={{ ml: "auto" }}>
           {isBirthday && <Chip label={<Icon sx={{ mb: -0.5 }}>cake</Icon>} />}
@@ -287,7 +295,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
-        PaperProps={{ sx: { background: palette[1] } }}
+        PaperProps={{ sx: { background: palette[1], maxHeight: "70vh" } }}
       >
         <Box
           sx={{
