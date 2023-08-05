@@ -21,21 +21,20 @@ import { Followers } from "./Followers";
 import { Following } from "./Following";
 import { WorkingHours } from "./WorkingHours";
 
-function SpotifyCard({ mutationUrl, styles, profile }) {
+export function SpotifyCard({ mutationUrl, styles, email, profile }) {
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState<null | any>(null);
 
   const getSpotifyData = useCallback(async () => {
-    const { access_token } = profile.spotify;
-    const response = await fetch(
-      `https://api.spotify.com/v1/me/player/currently-playing`,
+    const response = await fetchRawApi(
+      session,
+      "user/spotify/currently-playing",
       {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
+        spotify: JSON.stringify(profile.spotify),
+        email,
       }
-    ).then((res) => res.json());
+    );
 
     setLoading(false);
     setPlaying(response);
@@ -364,6 +363,7 @@ export function UserProfile({
 
           {profile.spotify && (
             <SpotifyCard
+              email={data.email}
               styles={profileCardStyles}
               profile={profile}
               mutationUrl={mutationUrl}

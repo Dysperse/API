@@ -1,5 +1,6 @@
 import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { SpotifyCard } from "@/components/Profile/UserProfile";
 import { Puller } from "@/components/Puller";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -322,6 +323,15 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
                 Until {dayjs(friend.Status.until).format("h:mm A")}
               </Typography>
             </Box>
+          )}
+          {JSON.stringify(friend?.Profile?.spotify)}
+          {friend?.Profile?.spotify && (
+            <SpotifyCard
+              email={friend.email}
+              styles={{}}
+              profile={friend?.Profile}
+              mutationUrl={""}
+            />
           )}
 
           <Button
