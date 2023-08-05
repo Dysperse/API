@@ -18,7 +18,6 @@ export default async function handler(req, res) {
   let response = await getSong(access_token);
 
   if (response.error) {
-    // refresh token
     const refreshResponse = await fetch(
       "https://accounts.spotify.com/api/token",
       {
