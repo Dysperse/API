@@ -12,6 +12,7 @@ import {
   Box,
   Button,
   Chip,
+  Grid,
   Icon,
   IconButton,
   InputAdornment,
@@ -288,51 +289,71 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
             {friend.username && "@"}
             {friend.username || friend.email}
           </Typography>
-          <Chip
-            sx={{
-              background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
-              mt: 1,
-            }}
-            label={capitalizeFirstLetter(
-              (!isExpired && friend?.Status?.status) || "Away"
+          <Grid container>
+            {friend.Status && !isExpired && (
+              <Grid item xs={12} sm={6} sx={{ p: 1 }}>
+                <Box
+                  sx={{
+                    background: palette[2],
+                    borderRadius: 5,
+                    height: "100%",
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Box sx={{ mb: "auto" }}>
+                    <Chip
+                      sx={{
+                        background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
+                        my: 1,
+                      }}
+                      label={capitalizeFirstLetter(
+                        (!isExpired && friend?.Status?.status) || "Away"
+                      )}
+                    />
+                  </Box>
+                  <LinearProgress
+                    variant="determinate"
+                    sx={{
+                      my: 1,
+                      background: palette[3],
+                      "& .MuiLinearProgress-bar": {
+                        background: palette[11],
+                      },
+                      height: 10,
+                      borderRadius: 99,
+                    }}
+                    value={
+                      (dayjs().diff(friend.Status.started, "minute") /
+                        dayjs(friend.Status.until).diff(
+                          friend.Status.started,
+                          "minute"
+                        )) *
+                      100
+                    }
+                  />
+                  <Typography variant="h6" sx={{ opacity: 0.7 }}>
+                    Until {dayjs(friend.Status.until).format("h:mm A")}
+                  </Typography>
+                </Box>
+              </Grid>
             )}
-          />
-          {friend.Status && !isExpired && (
-            <Box sx={{ mt: 2, background: palette[2], borderRadius: 5, p: 2 }}>
-              <LinearProgress
-                variant="determinate"
-                sx={{
-                  my: 1,
-                  background: palette[3],
-                  "& .MuiLinearProgress-bar": {
-                    background: palette[11],
-                  },
-                  height: 10,
-                  borderRadius: 99,
-                }}
-                value={
-                  (dayjs().diff(friend.Status.started, "minute") /
-                    dayjs(friend.Status.until).diff(
-                      friend.Status.started,
-                      "minute"
-                    )) *
-                  100
-                }
-              />
-              <Typography variant="body2" sx={{ opacity: 0.7 }}>
-                Until {dayjs(friend.Status.until).format("h:mm A")}
-              </Typography>
-            </Box>
-          )}
-          {JSON.stringify(friend?.Profile?.spotify)}
-          {friend?.Profile?.spotify && (
-            <SpotifyCard
-              email={friend.email}
-              styles={{}}
-              profile={friend?.Profile}
-              mutationUrl={""}
-            />
-          )}
+
+            {friend?.Profile?.spotify && (
+              <Grid item xs={12} sm={6} sx={{ p: 1 }}>
+                <SpotifyCard
+                  email={friend.email}
+                  styles={{
+                    borderRadius: 5,
+                    p: 2,
+                  }}
+                  profile={friend?.Profile}
+                  mutationUrl={""}
+                />
+              </Grid>
+            )}
+          </Grid>
 
           <Button
             variant="contained"

@@ -58,6 +58,7 @@ export default async function handler(req, res) {
             Profile: {
               select: {
                 birthday: true,
+                spotify: true,
                 picture: true,
                 workingHours: true,
               },
