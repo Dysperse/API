@@ -21,12 +21,13 @@ import { Followers } from "./Followers";
 import { Following } from "./Following";
 import { WorkingHours } from "./WorkingHours";
 
-function SpotifyCard({ styles, profile }) {
+function SpotifyCard({ mutationUrl, styles, profile }) {
   const session = useSession();
+  const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState<null | any>(null);
 
   const getSpotifyData = useCallback(async () => {
-    const { access_token, refresh_token } = profile.spotify;
+    const { access_token } = profile.spotify;
     const response = await fetch(
       `https://api.spotify.com/v1/me/player/currently-playing`,
       {
@@ -36,14 +37,15 @@ function SpotifyCard({ styles, profile }) {
       }
     ).then((res) => res.json());
 
+    setLoading(false);
     setPlaying(response);
 
     if (response.error?.status === 401) {
-      await fetchRawApi(session, "user/spotify/refresh", {
-        refresh_token,
-      });
+      await fetchRawApi(session, "user/spotify/refresh");
+      await mutate(mutationUrl);
+      await getSpotifyData();
     }
-  }, [profile.spotify, session]);
+  }, [profile.spotify, session, mutationUrl]);
 
   useEffect(() => {
     getSpotifyData();
@@ -140,6 +142,8 @@ function SpotifyCard({ styles, profile }) {
             </Box>
           </Box>
         </>
+      ) : loading ? (
+        "Loading..."
       ) : (
         "Not playing anything - check back later!"
       )}
@@ -359,7 +363,11 @@ export function UserProfile({
           )}
 
           {profile.spotify && (
-            <SpotifyCard styles={profileCardStyles} profile={profile} />
+            <SpotifyCard
+              styles={profileCardStyles}
+              profile={profile}
+              mutationUrl={mutationUrl}
+            />
           )}
 
           {data.Status && (
