@@ -1,3 +1,4 @@
+import { prisma } from "@/lib/server/prisma";
 import { sessionData } from "../../session";
 
 export default async function handler(req, res) {
