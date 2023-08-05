@@ -9,6 +9,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -197,6 +198,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
     session.themeColor,
     useDarkMode(session.darkMode)
   );
+
   const palette = useColor(friend.color, useDarkMode(session.darkMode));
   const redPalette = useColor("red", useDarkMode(session.darkMode));
   const grayPalette = useColor("gray", useDarkMode(session.darkMode));
@@ -205,6 +207,15 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
 
   const isExpired =
     friend?.Status?.until && dayjs().isAfter(friend?.Status?.until);
+
+  const isBirthday = useMemo(
+    () =>
+      (friend?.Profile?.birthday &&
+        dayjs(friend?.Profile?.birthday).format("MM DD") ===
+          dayjs().format("MM DD")) ||
+      friend.email == "manusvathgurudath@gmail.com",
+    [friend?.Profile?.birthday]
+  );
 
   const chipPalette = isExpired
     ? grayPalette
@@ -217,6 +228,12 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
     : grayPalette;
 
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (open && isBirthday) {
+      new Audio("/sfx/birthday.mp3").play();
+    }
+  });
 
   return (
     <Box sx={{ pb: 2 }}>
@@ -259,9 +276,12 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
           }
           sx={{ ml: 1 }}
         />
-        <IconButton>
-          <Icon>arrow_forward_ios</Icon>
-        </IconButton>
+        <Box sx={{ ml: "auto" }}>
+          {isBirthday && <Chip label={<Icon sx={{ mb: -0.5 }}>cake</Icon>} />}
+          <IconButton>
+            <Icon>arrow_forward_ios</Icon>
+          </IconButton>
+        </Box>
       </ListItemButton>
 
       <SwipeableDrawer
@@ -282,6 +302,25 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
           </Box>
         </Box>
         <Box sx={{ p: 4, mt: 2 }}>
+          {isBirthday && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Alert
+                severity="success"
+                icon={<Icon>cake</Icon>}
+                sx={{ mb: 2, mt: 1 }}
+              >
+                It&apos;s{" "}
+                {friend.name.includes(" ")
+                  ? friend.name.split(" ")[0]
+                  : friend.name}
+                &apos;s birthday today!
+              </Alert>
+            </motion.div>
+          )}
           <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
             {friend.name}
           </Typography>
@@ -291,7 +330,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
           </Typography>
           <Grid container>
             {friend.Status && !isExpired && (
-              <Grid item xs={12} sm={6} sx={{ p: 1 }}>
+              <Grid item xs={12} sm={5} sx={{ p: 1 }}>
                 <Box
                   sx={{
                     background: palette[2],
@@ -341,7 +380,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
             )}
 
             {friend?.Profile?.spotify && (
-              <Grid item xs={12} sm={6} sx={{ p: 1 }}>
+              <Grid item xs={12} sm={7} sx={{ p: 1 }}>
                 <SpotifyCard
                   email={friend.email}
                   styles={{
