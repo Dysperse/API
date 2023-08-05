@@ -31,6 +31,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
+import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { GroupModal } from "../components/Group/GroupModal";
 
@@ -187,7 +188,7 @@ function StatusSelector({ mutationUrl }) {
   );
 }
 
-const Friend = memo(function Friend({ friend }: any) {
+const Friend = memo(function Friend({ isScrolling, friend }: any) {
   const session = useSession();
   const router = useRouter();
 
@@ -217,10 +218,19 @@ const Friend = memo(function Friend({ friend }: any) {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <ListItemButton onClick={() => setOpen(true)} sx={{ mb: 2 }}>
+    <Box sx={{ pb: 2 }}>
+      <ListItemButton onClick={() => setOpen(true)}>
         <Box sx={{ position: "relative" }}>
-          <ProfilePicture data={friend} mutationUrl="" size={60} />
+          {isScrolling ? (
+            <Skeleton
+              variant="circular"
+              width={60}
+              height={60}
+              animation={false}
+            />
+          ) : (
+            <ProfilePicture data={friend} mutationUrl="" size={60} />
+          )}
           <Box
             sx={{
               position: "absolute",
@@ -332,7 +342,7 @@ const Friend = memo(function Friend({ friend }: any) {
           </Button>
         </Box>
       </SwipeableDrawer>
-    </>
+    </Box>
   );
 });
 
@@ -592,6 +602,22 @@ export default function Home() {
     date: dayjs().startOf("day").toISOString(),
   });
 
+  const sortedFriends = useMemo(() => {
+    return (
+      data &&
+      data.friends.sort(({ following: friend }) => {
+        if (
+          friend?.Status?.status &&
+          dayjs(friend?.Status?.until).isAfter(dayjs())
+        )
+          return -1;
+        else return 1;
+      })
+    );
+  }, [data]);
+
+  const [isScrolling, setIsScrolling] = useState(false);
+
   return (
     <Box sx={{ ml: { sm: -1 } }}>
       <motion.div initial={{ y: -100 }} animate={{ y: 0 }}>
@@ -640,35 +666,36 @@ export default function Home() {
           }}
         >
           <StatusSelector mutationUrl={url} />
-
-          {data
-            ? data.friends
-                .sort(({ following: friend }) => {
-                  if (
-                    friend?.Status?.status &&
-                    dayjs(friend?.Status?.until).isAfter(dayjs())
-                  )
-                    return -1;
-                  else return 1;
-                })
-                .map(({ following: friend }) => (
-                  <Friend friend={friend} key={friend.email} />
-                ))
-            : [...new Array(10)].map((_, i) => (
-                <ListItem key={i} sx={{ mb: 2 }}>
-                  <Skeleton variant="circular" width="60px" height="60px" />
-                  <ListItemText
-                    sx={{ ml: 1 }}
-                    primary={<Skeleton width="100px" />}
-                  />
-                  <Skeleton
-                    variant="circular"
-                    width="24px"
-                    height="24px"
-                    sx={{ ml: "auto" }}
-                  />
-                </ListItem>
-              ))}
+          {data ? (
+            <Virtuoso
+              isScrolling={setIsScrolling}
+              useWindowScroll
+              totalCount={sortedFriends.length}
+              itemContent={(i) => (
+                <Friend
+                  isScrolling={isScrolling}
+                  friend={sortedFriends[i].following}
+                  key={sortedFriends[i].following.email}
+                />
+              )}
+            />
+          ) : (
+            [...new Array(10)].map((_, i) => (
+              <ListItem key={i} sx={{ mb: 2 }}>
+                <Skeleton variant="circular" width="60px" height="60px" />
+                <ListItemText
+                  sx={{ ml: 1 }}
+                  primary={<Skeleton width="100px" />}
+                />
+                <Skeleton
+                  variant="circular"
+                  width="24px"
+                  height="24px"
+                  sx={{ ml: "auto" }}
+                />
+              </ListItem>
+            ))
+          )}
           <SearchFriend mutationUrl={url} />
           <ListItemButton
             onClick={() =>

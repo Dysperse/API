@@ -1,6 +1,26 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
+
 export default async function handler(req, res) {
   try {
     validateParams(req.query, ["email"]);
@@ -50,7 +70,7 @@ export default async function handler(req, res) {
 
     res.json({
       user,
-      friends,
+      friends: shuffle(friends),
     });
   } catch (e: any) {
     res.status(401).json({ error: e.message });
