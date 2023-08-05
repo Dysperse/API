@@ -96,9 +96,9 @@ model NotificationSettings {
 model Status {
   id String @id @unique @default(uuid())
 
-  status  String    @default("")
-  text    String?
-  
+  status String  @default("")
+  text   String?
+
   until   DateTime?
   started DateTime?
 
@@ -110,6 +110,7 @@ model Status {
 model Profile {
   id           String   @id @unique @default(uuid())
   picture      String?
+  spotify      Json?
   birthday     DateTime @default(now())
   hobbies      String[]
   badges       String[]

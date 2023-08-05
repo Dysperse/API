@@ -14,12 +14,138 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import { mutate } from "swr";
 import { Followers } from "./Followers";
 import { Following } from "./Following";
 import { WorkingHours } from "./WorkingHours";
+
+function SpotifyCard({ styles, profile }) {
+  const session = useSession();
+  const [playing, setPlaying] = useState<null | any>(null);
+
+  const getSpotifyData = useCallback(async () => {
+    const { access_token, refresh_token } = profile.spotify;
+    const response = await fetch(
+      `https://api.spotify.com/v1/me/player/currently-playing`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    ).then((res) => res.json());
+
+    setPlaying(response);
+
+    if (response.error?.status === 401) {
+      await fetchRawApi(session, "user/spotify/refresh", {
+        refresh_token,
+      });
+    }
+  }, [profile.spotify, session]);
+
+  useEffect(() => {
+    getSpotifyData();
+    const interval = setInterval(() => {
+      getSpotifyData();
+    }, 10000);
+
+    window.addEventListener("focus", getSpotifyData);
+    return () => {
+      window.removeEventListener("focus", getSpotifyData);
+      clearInterval(interval);
+    };
+  }, [getSpotifyData]);
+
+  return (
+    <Box
+      sx={{
+        ...styles,
+        background: "#1db954",
+        color: "#fff",
+        cursor: "pointer",
+        transition: "transform .2s",
+        "&:hover": {
+          transform: "scale(1.02)",
+        },
+        "&:active": {
+          transform: "scale(.95)",
+        },
+      }}
+      onClick={() =>
+        window.open(
+          playing?.item?.external_urls?.spotify || "https://open.spotify.com"
+        )
+      }
+    >
+      {playing?.item ? (
+        <>
+          <Box sx={{ display: "flex", gap: 3 }}>
+            <picture>
+              <img
+                src={playing?.item?.album.images[0].url}
+                alt="Spotify album cover"
+                style={{ width: "100%", borderRadius: "25px" }}
+              />
+            </picture>
+            <picture>
+              <img
+                src={
+                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
+                }
+                alt="Spotify"
+                style={{ width: "45px", height: "45px" }}
+              />
+            </picture>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              overflow: "hidden",
+            }}
+          >
+            <Icon className="outlined" sx={{ fontSize: "40px!important" }}>
+              {playing.is_playing ? "pause_circle_filled" : "play_circle"}
+            </Icon>
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 1 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {playing.item.name}
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                {playing.item.artists.map((artist) => artist.name).join(", ")}
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={(playing.progress_ms / playing.item.duration_ms) * 100}
+                sx={{
+                  height: 10,
+                  borderRadius: 99,
+                  background: "rgba(255, 255, 255, 0.2)",
+                  "& .MuiLinearProgress-bar": {
+                    borderRadius: 99,
+                    background: "#fff",
+                  },
+                }}
+              />
+            </Box>
+          </Box>
+        </>
+      ) : (
+        "Not playing anything - check back later!"
+      )}
+    </Box>
+  );
+}
 
 export function UserProfile({
   mutationUrl,
@@ -176,7 +302,7 @@ export function UserProfile({
         <Following styles={styles} data={data} />
       </Typography>
       <Box sx={{ mr: -2 }}>
-        <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2 }} spacing={2}>
+        <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
           {profile && profile.hobbies.length > 0 && (
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
@@ -220,6 +346,7 @@ export function UserProfile({
               </Typography>
             </>
           </Box>
+
           {profile.bio && (
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>About</Typography>
@@ -229,6 +356,10 @@ export function UserProfile({
                 </Typography>
               )}
             </Box>
+          )}
+
+          {profile.spotify && (
+            <SpotifyCard styles={profileCardStyles} profile={profile} />
           )}
 
           {data.Status && (

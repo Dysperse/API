@@ -262,7 +262,7 @@ export default function Layout({ children }: any) {
             (isMobile ? (
               <AppBar sx={{ pr: 5, background: "transparent", border: 0 }}>
                 <Toolbar>
-                  <IconButton onClick={() => router.push("/users")}>
+                  <IconButton onClick={() => router.push("/")}>
                     <Icon>arrow_back_ios_new</Icon>
                   </IconButton>
                   <Button

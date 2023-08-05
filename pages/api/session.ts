@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import cacheData from "memory-cache";
 import { getUserData } from "../../lib/server/getUserData";
 
 /**
@@ -12,9 +11,9 @@ export const sessionData = async (providedToken) => {
     providedToken,
     process.env.SECRET_COOKIE_PASSWORD
   );
-  
-   const token: string = accessToken;
-   const info = await getUserData(token);
+
+  const token: string = accessToken;
+  const info = await getUserData(token);
 
   return JSON.parse(JSON.stringify(info));
 };

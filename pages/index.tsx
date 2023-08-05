@@ -8,7 +8,6 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
-  Avatar,
   Box,
   Button,
   Chip,
@@ -326,6 +325,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
           )}
 
           <Button
+            variant="contained"
             onClick={() =>
               router.push(`/users/${friend.username || friend.email}`)
             }
@@ -543,19 +543,10 @@ function SearchFriend({ mutationUrl }) {
 
   return (
     <>
-      <ListItemButton onClick={() => setOpen(true)}>
-        <Avatar
-          sx={{
-            background: palette[3],
-            color: palette[11],
-            width: "60px",
-            height: "60px",
-          }}
-        >
-          <Icon>add</Icon>
-        </Avatar>
-        <ListItemText sx={{ ml: 1 }} primary="Add friend..." />
-      </ListItemButton>
+      <Button variant="contained" onClick={() => setOpen(true)}>
+        <Icon className="outlined">search</Icon>
+        Add friend
+      </Button>
       <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
@@ -696,26 +687,20 @@ export default function Home() {
               </ListItem>
             ))
           )}
-          <SearchFriend mutationUrl={url} />
-          <ListItemButton
-            onClick={() =>
-              router.push(
-                `/users/${session.user.username || session.user.email}`
-              )
-            }
-          >
-            <Avatar
-              sx={{
-                background: palette[3],
-                color: palette[11],
-                width: "60px",
-                height: "60px",
-              }}
+          <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
+            <SearchFriend mutationUrl={url} />
+            <Button
+              variant="contained"
+              onClick={() =>
+                router.push(
+                  `/users/${session.user.username || session.user.email}`
+                )
+              }
             >
               <Icon className="outlined">person</Icon>
-            </Avatar>
-            <ListItemText sx={{ ml: 1 }} primary="My profile" />
-          </ListItemButton>
+              My profile
+            </Button>
+          </Box>
         </Box>
         <Toolbar />
       </motion.div>

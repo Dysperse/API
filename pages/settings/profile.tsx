@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 import Layout from ".";
 
 /**
@@ -52,8 +51,17 @@ export default function AppearanceSettings() {
   };
 
   const handleUsernameSubmit = async () => {
-      if (username.trim() !== "")
-        updateSettings(session, "username", username, false, null, false, false, "Username already exists!");
+    if (username.trim() !== "")
+      updateSettings(
+        session,
+        "username",
+        username,
+        false,
+        null,
+        false,
+        false,
+        "Username already exists!"
+      );
   };
 
   useEffect(() => {
@@ -82,6 +90,15 @@ export default function AppearanceSettings() {
       >
         {data && <ProfilePicture data={data} mutationUrl={url} editMode />}
         <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ display: "flex", justifyContent: "end" }}>
+            <Button
+              href="/api/user/spotify/auth"
+              variant="contained"
+              sx={{ mb: 2 }}
+            >
+              Link your Spotify account
+            </Button>
+          </Box>
           <TextField
             onKeyDown={(e) => e.stopPropagation()}
             label="Name"

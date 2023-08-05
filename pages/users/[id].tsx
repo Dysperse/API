@@ -183,7 +183,6 @@ function Page() {
   const { data, url, error } = useApi("user/profile", { email });
 
   const [loading, setLoading] = useState(false);
-  const [editMode, setEditMode] = useState(false);
 
   const isCurrentUser =
     email === session.user.email || email === session.user.username;
@@ -395,7 +394,7 @@ function Page() {
                   <ProfilePicture
                     mutationUrl={url}
                     data={data}
-                    editMode={editMode}
+                    editMode={false}
                   />
                   {data.Status && !isExpired && (
                     <Tooltip title="Status">
