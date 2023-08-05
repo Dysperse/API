@@ -591,17 +591,15 @@ export default function Home() {
       <motion.div initial={{ y: -100 }} animate={{ y: 0 }}>
         <Navbar
           showLogo={isMobile}
-          {...(!isMobile && {
-            showRightContent: isMobile,
-            right: (
-              <IconButton
-                sx={{ ml: "auto", color: palette[8] }}
-                onClick={() => router.push("/settings/profile")}
-              >
-                <Icon className="outlined">settings</Icon>
-              </IconButton>
-            ),
-          })}
+          showRightContent={isMobile}
+          right={
+            <IconButton
+              sx={{ ml: "auto", color: palette[8] }}
+              onClick={() => router.push("/settings/profile")}
+            >
+              <Icon className="outlined">settings</Icon>
+            </IconButton>
+          }
         />
       </motion.div>
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
