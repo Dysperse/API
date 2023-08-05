@@ -44,7 +44,7 @@ export function SpotifyCard({ mutationUrl, styles, email, profile }) {
       await mutate(mutationUrl);
       await getSpotifyData();
     }
-  }, [profile.spotify, session, mutationUrl]);
+  }, [profile.spotify, session, mutationUrl, email]);
 
   useEffect(() => {
     getSpotifyData();
