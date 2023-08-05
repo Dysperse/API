@@ -291,6 +291,10 @@ const Friend = memo(function Friend({ friend }: any) {
                 variant="determinate"
                 sx={{
                   my: 1,
+                  background: palette[3],
+                  "& .MuiLinearProgress-bar": {
+                    background: palette[11],
+                  },
                   height: 10,
                   borderRadius: 99,
                 }}
