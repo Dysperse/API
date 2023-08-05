@@ -21,7 +21,13 @@ import { Followers } from "./Followers";
 import { Following } from "./Following";
 import { WorkingHours } from "./WorkingHours";
 
-export function SpotifyCard({ mutationUrl, styles, email, profile }) {
+export function SpotifyCard({
+  mutationUrl,
+  styles,
+  email,
+  profile,
+  hideIfNotPlaying = false,
+}: any) {
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState<null | any>(null);
@@ -58,6 +64,8 @@ export function SpotifyCard({ mutationUrl, styles, email, profile }) {
       clearInterval(interval);
     };
   }, [getSpotifyData]);
+
+  if (hideIfNotPlaying && !playing?.item) return null;
 
   return (
     <Box

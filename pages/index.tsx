@@ -387,6 +387,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
                     p: 2,
                   }}
                   profile={friend?.Profile}
+                  hideIfNotPlaying
                   mutationUrl={""}
                 />
               </Grid>
