@@ -233,6 +233,7 @@ const Friend = memo(function Friend({ friend }: any) {
               boxShadow: `0 0 0 3px ${userPalette[1]}!important`,
               py: 0.1,
               background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
+              color: `${chipPalette[12]} !important`,
             }}
           >
             {(!isExpired && friend?.Status?.status) || "Away"}
@@ -590,13 +591,13 @@ export default function Home() {
       <motion.div initial={{ y: -100 }} animate={{ y: 0 }}>
         <Navbar
           showLogo={isMobile}
-          {...(isMobile && {
+          {...(!isMobile && {
             right: (
               <IconButton
                 sx={{ ml: "auto", color: palette[8] }}
                 onClick={() => router.push("/settings/profile")}
               >
-                <Icon>settings</Icon>
+                <Icon className="outlined">settings</Icon>
               </IconButton>
             ),
           })}
