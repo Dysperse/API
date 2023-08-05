@@ -101,7 +101,7 @@ function StatusSelector({ mutationUrl }) {
         onClick={() => setOpen(true)}
         sx={{
           px: 2,
-          mb: { xs: 0, sm: 2 },
+          mb: 2,
           mt: { xs: -1, sm: -2 },
           mx: { sm: "auto" },
           mr: { xs: "auto" },
@@ -530,7 +530,7 @@ function SearchFriend({ mutationUrl }) {
       <ListItemButton onClick={() => setOpen(true)}>
         <Avatar
           sx={{
-            background: palette[2],
+            background: palette[3],
             color: palette[11],
             width: "60px",
             height: "60px",
@@ -592,6 +592,7 @@ export default function Home() {
         <Navbar
           showLogo={isMobile}
           {...(!isMobile && {
+            showRightContent: isMobile,
             right: (
               <IconButton
                 sx={{ ml: "auto", color: palette[8] }}
@@ -674,7 +675,7 @@ export default function Home() {
           >
             <Avatar
               sx={{
-                background: palette[2],
+                background: palette[3],
                 color: palette[11],
                 width: "60px",
                 height: "60px",
