@@ -210,10 +210,9 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
 
   const isBirthday = useMemo(
     () =>
-      (friend?.Profile?.birthday &&
-        dayjs(friend?.Profile?.birthday).format("MM DD") ===
-          dayjs().format("MM DD")) ||
-      friend.email == "manusvathgurudath@gmail.com",
+      friend?.Profile?.birthday &&
+      dayjs(friend?.Profile?.birthday).format("MM DD") ===
+        dayjs().format("MM DD"),
     [friend?.Profile?.birthday]
   );
 
