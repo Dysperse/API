@@ -363,7 +363,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
             fullWidth
             sx={{
               "&, &:hover": {
-                background: palette[2],
+                background: palette[2] + "!important",
                 color: palette[11],
               },
               mt: 2,
