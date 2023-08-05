@@ -551,6 +551,7 @@ export function TasksLayout({
                       );
                       return;
                     }
+                    document.getElementById("agendaTrigger")?.click();
                     toast.success("Deleted!", toastStyles);
                     setTaskSelection([]);
                   } catch {

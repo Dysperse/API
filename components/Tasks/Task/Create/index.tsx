@@ -386,6 +386,7 @@ export const CreateTask = React.memo(function CreateTask({
         onClose={() => {
           setOpen(false);
           mutate(mutationUrl);
+          document.getElementById("agendaTrigger")?.click();
         }}
         PaperProps={{
           sx: {

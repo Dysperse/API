@@ -283,7 +283,9 @@ const Friend = memo(function Friend({ friend }: any) {
               background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
               mt: 1,
             }}
-            label={capitalizeFirstLetter(friend?.Status?.status ?? "Away")}
+            label={capitalizeFirstLetter(
+              (!isExpired && friend?.Status?.status) || "Away"
+            )}
           />
           {friend.Status && !isExpired && (
             <Box sx={{ mt: 2, background: palette[2], borderRadius: 5, p: 2 }}>
