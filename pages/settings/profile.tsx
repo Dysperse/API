@@ -92,7 +92,7 @@ export default function AppearanceSettings() {
         <Box sx={{ flexGrow: 1 }}>
           <Box sx={{ display: "flex", justifyContent: "end" }}>
             <Button
-              href="/api/user/spotify/auth"
+              href="/api/user/spotify/redirect"
               variant="contained"
               sx={{ mb: 2 }}
             >
