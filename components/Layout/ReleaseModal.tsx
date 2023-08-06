@@ -32,7 +32,7 @@ export default function ReleaseModal() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!alreadyOpened && !error && router.asPath !== "/onboarding") {
+    if (!alreadyOpened && !error && router.asPath === "/") {
       if (
         data &&
         data[0] &&

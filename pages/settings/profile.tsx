@@ -90,13 +90,16 @@ export default function AppearanceSettings() {
       >
         {data && <ProfilePicture data={data} mutationUrl={url} editMode />}
         <Box sx={{ flexGrow: 1 }}>
-          <Box sx={{ display: "flex", justifyContent: "end" }}>
-            <Button
-              href="/api/user/spotify/redirect"
-              variant="contained"
-              sx={{ mb: 2 }}
-            >
+          <Box sx={{ display: "flex", justifyContent: "end", mb: 2 }}>
+            <Button href="/api/user/spotify/redirect" variant="contained">
               Link your Spotify account
+            </Button>
+            <Button
+              href="/api/user/google/redirect"
+              variant="contained"
+              color="primary"
+            >
+              Sync Google contacts
             </Button>
           </Box>
           <TextField

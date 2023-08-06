@@ -1,12 +1,14 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi } from "@/lib/client/useApi";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { colors } from "@/lib/colors";
 import { Masonry } from "@mui/lab";
 import {
+  Alert,
   Box,
+  Button,
   Chip,
   Icon,
   LinearProgress,
@@ -14,12 +16,93 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Twemoji } from "react-emoji-render";
 import { mutate } from "swr";
 import { Followers } from "./Followers";
 import { Following } from "./Following";
+import { ProfilePicture } from "./ProfilePicture";
 import { WorkingHours } from "./WorkingHours";
+
+function Contacts({ profile }) {
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const { data, url } = useApi("/user/google/contacts", {
+    tokenObj: JSON.stringify(profile.google),
+    email: session.user.email,
+  });
+
+  return (
+    <>
+      {data && data.length > 0 && (
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          People you might know
+        </Typography>
+      )}
+      {data &&
+        data.length === 0 &&
+        window.location.href.includes("override") && (
+          <Alert
+            title="New contacts not found"
+            variant="filled"
+            severity="info"
+          >
+            We don&apos;t have any suggestions for you right now. Try adding
+            more contacts to your Google account and check back later!
+          </Alert>
+        )}
+      {data && data.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            overflowX: "auto",
+            gap: 2,
+            mb: 2,
+          }}
+        >
+          {data.map((contact) => (
+            <Box
+              key={contact.email}
+              sx={{
+                width: "180px",
+                flexBasis: "180px",
+                background: palette[2],
+                borderRadius: 5,
+                gap: 1,
+                p: 2,
+                textAlign: "center",
+              }}
+            >
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <ProfilePicture data={contact} mutationUrl="" size={70} />
+              </Box>
+              <Typography
+                variant="h6"
+                sx={{
+                  my: 1,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {contact.name}
+              </Typography>
+              <Link href={`/users/${contact.email}`}>
+                <Button variant="contained">
+                  <Icon>person</Icon>
+                  Open
+                </Button>
+              </Link>
+            </Box>
+          ))}
+        </Box>
+      )}
+    </>
+  );
+}
 
 export function SpotifyCard({
   mutationUrl,
@@ -312,6 +395,7 @@ export function UserProfile({
         <Followers styles={styles} data={data} />
         <Following styles={styles} data={data} />
       </Typography>
+      <Contacts profile={profile} />
       <Box sx={{ mr: -2 }}>
         <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
           {profile && profile.hobbies.length > 0 && (

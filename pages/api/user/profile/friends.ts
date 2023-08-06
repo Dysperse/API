@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 
-function shuffle(array) {
+export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
 

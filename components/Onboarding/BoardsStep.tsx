@@ -11,8 +11,11 @@ export function BoardsStep({ styles, navigation }) {
   const parentRef = useRef();
 
   return (
-    <Box sx={{ ...styles.container, overflow: "hidden" }}>
-      <Container ref={parentRef as any} sx={{ mt: { sm: 20 }, mb: 10 }}>
+    <Box
+      sx={{ ...styles.container, overflow: "hidden" }}
+      ref={parentRef as any}
+    >
+      <Container sx={{ mt: { sm: 20 }, mb: 10 }}>
         <Typography variant="h1" className="font-heading" sx={styles.heading}>
           Create some boards
         </Typography>

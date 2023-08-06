@@ -104,11 +104,6 @@ function StatusSelector({ mutationUrl }) {
         onClick={() => setOpen(true)}
         sx={{
           px: 2,
-          mb: 2,
-          mt: { xs: -1, sm: -2 },
-          mx: { sm: "auto" },
-          mr: { xs: "auto" },
-          ml: { xs: 2, sm: "auto" },
           "&, &:hover": {
             background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
             color: `${chipPalette[12]} !important`,
@@ -461,6 +456,33 @@ export function Logo({ intensity = 4, size = 45 }: any) {
   );
 }
 
+function ContactSync() {
+  const session = useSession();
+  const { data, error } = useApi("user/profile", {
+    email: session.user.email,
+  });
+
+  return (
+    <>
+      {data && !data?.Profile?.google && (
+        <Alert
+          severity="info"
+          sx={{
+            mb: 2,
+            cursor: "pointer",
+            "&:active": { transform: "scale(.96)" },
+            transition: "all .2s",
+          }}
+          onClick={() => (window.location.href = "/api/user/google/redirect")}
+        >
+          <Typography variant="h6">Find others you know</Typography>
+          <Typography variant="body2">Tap to sync your contacts</Typography>
+        </Alert>
+      )}
+    </>
+  );
+}
+
 export function Navbar({
   showLogo = false,
   right,
@@ -621,9 +643,17 @@ function SearchFriend({ mutationUrl }) {
 
   return (
     <>
-      <Button variant="contained" onClick={() => setOpen(true)}>
+      <Button
+        variant="contained"
+        onClick={() => {
+          setOpen(true);
+          setTimeout(
+            () => document.getElementById("searchFriend")?.focus(),
+            50
+          );
+        }}
+      >
         <Icon className="outlined">search</Icon>
-        Add friend
       </Button>
       <SwipeableDrawer
         open={open}
@@ -635,6 +665,7 @@ function SearchFriend({ mutationUrl }) {
           <TextField
             fullWidth
             value={query}
+            id="searchFriend"
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Email or username..."
             InputProps={{
@@ -734,39 +765,21 @@ export default function Home() {
             flexDirection: "column",
           }}
         >
-          <StatusSelector mutationUrl={url} />
-          {data ? (
-            <Virtuoso
-              isScrolling={setIsScrolling}
-              useWindowScroll
-              totalCount={sortedFriends.length}
-              itemContent={(i) => (
-                <Friend
-                  isScrolling={isScrolling}
-                  friend={sortedFriends[i].following}
-                  key={sortedFriends[i].following.email}
-                />
-              )}
-            />
-          ) : (
-            [...new Array(10)].map((_, i) => (
-              <ListItem key={i} sx={{ mb: 2 }}>
-                <Skeleton variant="circular" width="60px" height="60px" />
-                <ListItemText
-                  sx={{ ml: 1 }}
-                  primary={<Skeleton width="100px" />}
-                />
-                <Skeleton
-                  variant="circular"
-                  width="24px"
-                  height="24px"
-                  sx={{ ml: "auto" }}
-                />
-              </ListItem>
-            ))
-          )}
-          <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              justifyContent: "center",
+
+              mb: 2,
+              mt: { xs: -1, sm: -2 },
+              mx: { sm: "auto" },
+              mr: { xs: "auto" },
+              ml: { xs: 2, sm: "auto" },
+            }}
+          >
             <SearchFriend mutationUrl={url} />
+            <StatusSelector mutationUrl={url} />
             <Button
               variant="contained"
               onClick={() =>
@@ -776,9 +789,67 @@ export default function Home() {
               }
             >
               <Icon className="outlined">person</Icon>
-              My profile
             </Button>
           </Box>
+          <Box>
+            {data && sortedFriends.length === 0 && (
+              <Box sx={{ p: 1 }}>
+                <Box
+                  sx={{
+                    mb: 1,
+                    borderRadius: 5,
+                    p: 2,
+                    background: palette[2],
+                    textAlign: "center",
+                  }}
+                >
+                  Friends you add will appear here.
+                </Box>
+              </Box>
+            )}
+            {data && sortedFriends.length > 0 ? (
+              <Virtuoso
+                isScrolling={setIsScrolling}
+                useWindowScroll
+                totalCount={sortedFriends.length}
+                itemContent={(i) => (
+                  <Friend
+                    isScrolling={isScrolling}
+                    friend={sortedFriends[i].following}
+                    key={sortedFriends[i].following.email}
+                  />
+                )}
+              />
+            ) : (
+              [...new Array(data ? 5 : 10)].map((_, i) => (
+                <ListItem key={i} sx={{ mb: 2 }}>
+                  <Skeleton
+                    variant="circular"
+                    width="60px"
+                    height="60px"
+                    animation={data ? false : "wave"}
+                  />
+                  <ListItemText
+                    sx={{ ml: 1 }}
+                    primary={
+                      <Skeleton
+                        width="100px"
+                        animation={data ? false : "wave"}
+                      />
+                    }
+                  />
+                  <Skeleton
+                    variant="circular"
+                    width="24px"
+                    height="24px"
+                    animation={data ? false : "wave"}
+                    sx={{ ml: "auto" }}
+                  />
+                </ListItem>
+              ))
+            )}
+          </Box>
+          <ContactSync />
         </Box>
         <Toolbar />
       </motion.div>

@@ -34,6 +34,7 @@
     "embla-carousel-wheel-gestures": "^8.0.0-rc04",
     "emoji-mart": "^5.5.2",
     "framer-motion": "^10.12.17",
+    "googleapis": "^123.0.0",
     "gpt-free": "^1.7.1",
     "hex-to-rgba": "^2.0.1",
     "html2canvas": "^1.4.1",

@@ -108,9 +108,12 @@ model Status {
 
 // Customizable notification settings (1 row per user)
 model Profile {
-  id           String   @id @unique @default(uuid())
-  picture      String?
-  spotify      Json?
+  id      String  @id @unique @default(uuid())
+  picture String?
+
+  spotify Json?
+  google  Json?
+
   birthday     DateTime @default(now())
   hobbies      String[]
   badges       String[]
