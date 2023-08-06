@@ -759,39 +759,39 @@ export default function Home() {
         <Box
           sx={{
             display: "flex",
+            justifyContent: { sm: "center" },
+            overflowX: "scroll",
+            maxWidth: "100%",
+            px: 3,
+            mb: 2,
+            gap: 2,
+            "& *": {
+              flexShrink: 0,
+            },
+          }}
+        >
+          <SearchFriend mutationUrl={url} />
+          <StatusSelector mutationUrl={url} />
+          <Button
+            variant="contained"
+            onClick={() =>
+              router.push(
+                `/users/${session.user.username || session.user.email}`
+              )
+            }
+          >
+            <Icon className="outlined">person</Icon>
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
             width: "500px",
             maxWidth: "calc(100% - 40px)",
             mx: "auto",
             flexDirection: "column",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-              justifyContent: "center",
-              overflowX: "scroll",
-              flexWrap: "wrap",
-              mb: 2,
-              mt: { xs: -1, sm: -2 },
-              mx: { sm: "auto" },
-              mr: { xs: "auto" },
-              ml: { xs: 2, sm: "auto" },
-            }}
-          >
-            <SearchFriend mutationUrl={url} />
-            <StatusSelector mutationUrl={url} />
-            <Button
-              variant="contained"
-              onClick={() =>
-                router.push(
-                  `/users/${session.user.username || session.user.email}`
-                )
-              }
-            >
-              <Icon className="outlined">person</Icon>
-            </Button>
-          </Box>
           <Box>
             {data && sortedFriends?.length === 0 && (
               <Box sx={{ p: 1 }}>
