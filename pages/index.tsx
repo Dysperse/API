@@ -704,7 +704,7 @@ export default function Home() {
 
   const sortedFriends = useMemo(() => {
     return (
-      data &&
+      data?.friends &&
       data.friends.sort(({ following: friend }) => {
         if (
           friend?.Status?.status &&
@@ -793,7 +793,7 @@ export default function Home() {
             </Button>
           </Box>
           <Box>
-            {data && sortedFriends.length === 0 && (
+            {data && sortedFriends?.length === 0 && (
               <Box sx={{ p: 1 }}>
                 <Box
                   sx={{
@@ -808,7 +808,7 @@ export default function Home() {
                 </Box>
               </Box>
             )}
-            {data && sortedFriends.length > 0 ? (
+            {data && sortedFriends?.length > 0 ? (
               <Virtuoso
                 isScrolling={setIsScrolling}
                 useWindowScroll

@@ -17,7 +17,11 @@ export default async function handler(req, res) {
 
     console.log(data);
 
-    const calendar = ical({ name: "Dysperse" });
+    const calendar = ical({
+      name: "Dysperse",
+      description: "Tasks from your Dysperse account at my.dysperse.com",
+      url: "https://my.dysperse.com",
+    });
 
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
