@@ -771,6 +771,7 @@ export default function Home() {
               gap: 2,
               justifyContent: "center",
               overflowX: "scroll",
+              flexWrap: "wrap",
               mb: 2,
               mt: { xs: -1, sm: -2 },
               mx: { sm: "auto" },
