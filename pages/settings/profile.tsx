@@ -90,7 +90,7 @@ export default function AppearanceSettings() {
       >
         {data && <ProfilePicture data={data} mutationUrl={url} editMode />}
         <Box sx={{ flexGrow: 1 }}>
-          <Box sx={{ display: "flex", justifyContent: "end", mb: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "end", mb: 2, gap: 2 }}>
             <Button href="/api/user/spotify/redirect" variant="contained">
               Link your Spotify account
             </Button>
