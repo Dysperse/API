@@ -51,10 +51,16 @@ function StatusSelector({ mutationUrl }) {
   );
   const [time, setTime] = useState(60);
 
-  const handleStatusSelect = (status: string) => () => setStatus(status);
-  const handleTimeSelect = (time: number) => () => setTime(time);
+  const handleStatusSelect = useCallback(
+    (status: string) => () => setStatus(status),
+    []
+  );
+  const handleTimeSelect = useCallback(
+    (time: number) => () => setTime(time),
+    []
+  );
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     await fetchRawApi(session, "user/status/set", {
       status,
       start: new Date().toISOString(),
@@ -67,7 +73,8 @@ function StatusSelector({ mutationUrl }) {
     );
     mutate(url);
     mutate(mutationUrl);
-  };
+  }, [session, status, time, url, mutationUrl]);
+
   const resetStatus = useCallback(
     () =>
       setStatus(
@@ -211,15 +218,19 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
     [friend?.Profile?.birthday]
   );
 
-  const chipPalette = isExpired
-    ? grayPalette
-    : friend?.Status?.status === "available"
-    ? greenPalette
-    : friend?.Status?.status === "busy"
-    ? redPalette
-    : friend?.Status?.status === "away"
-    ? orangePalette
-    : grayPalette;
+  const chipPalette = useMemo(
+    () =>
+      isExpired
+        ? grayPalette
+        : friend?.Status?.status === "available"
+        ? greenPalette
+        : friend?.Status?.status === "busy"
+        ? redPalette
+        : friend?.Status?.status === "away"
+        ? orangePalette
+        : grayPalette,
+    [isExpired, friend?.Status?.status]
+  );
 
   const [open, setOpen] = useState(false);
 
