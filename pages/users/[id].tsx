@@ -389,8 +389,20 @@ function Page() {
                 gap: { xs: 0, sm: 5 },
               }}
             >
-              <Box>
-                <Box sx={{ position: "relative" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "relative",
+                    display: "inline-flex",
+                    mx: "auto",
+                    width: 150,
+                  }}
+                >
                   <ProfilePicture
                     mutationUrl={url}
                     data={data}
@@ -456,6 +468,9 @@ function Page() {
                         overflow: "hidden",
                         maxWidth: "100%",
                         minWidth: 0,
+                        display: "flex",
+
+                        whiteSpace: "nowrap",
                       }}
                     >
                       <span style={{ fontWeight: 900 }}>{data.name}</span>{" "}
