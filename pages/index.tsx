@@ -770,7 +770,7 @@ export default function Home() {
               display: "flex",
               gap: 2,
               justifyContent: "center",
-
+              overflowX: "scroll",
               mb: 2,
               mt: { xs: -1, sm: -2 },
               mx: { sm: "auto" },
