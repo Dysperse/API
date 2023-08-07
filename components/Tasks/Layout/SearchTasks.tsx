@@ -84,7 +84,7 @@ export function SearchTasks({ setOpen }) {
       closeOnCreate
       defaultDate={dayjs().startOf("day").toDate()}
       onSuccess={() => {
-        document.getElementById("agendaTrigger")?.click();
+        document.getElementById("taskMutationTrigger")?.click();
       }}
     >
       {children}

@@ -393,7 +393,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
                 parentId={task.id}
                 onSuccess={() => {
                   task.mutate();
-                  document.getElementById("agendaTrigger")?.click();
+                  document.getElementById("taskMutationTrigger")?.click();
                 }}
               >
                 <Button variant="contained">

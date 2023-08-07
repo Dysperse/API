@@ -551,7 +551,7 @@ export function TasksLayout({
                       );
                       return;
                     }
-                    document.getElementById("agendaTrigger")?.click();
+                    document.getElementById("taskMutationTrigger")?.click();
                     toast.success("Deleted!", toastStyles);
                     setTaskSelection([]);
                   } catch {

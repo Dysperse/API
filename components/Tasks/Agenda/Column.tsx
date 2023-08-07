@@ -112,7 +112,7 @@ const Column = React.memo(function Column({
           borderColor: { sm: addHslAlpha(palette[3], 0.9) },
           height: { xs: "140px", sm: "120px" },
         }}
-        id="agendaTrigger"
+        id="taskMutationTrigger"
         onClick={async () => {
           setLoading(true);
           await mutate(url);

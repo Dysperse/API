@@ -7,10 +7,9 @@ import {
   Box,
   Button,
   CardActionArea,
-  CircularProgress,
-  Collapse,
   Icon,
   IconButton,
+  LinearProgress,
   SwipeableDrawer,
   TextField,
   Typography,
@@ -28,6 +27,7 @@ import {
   useState,
 } from "react";
 import { toast } from "react-hot-toast";
+import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { BoardContext, ColumnContext } from "..";
 import EmojiPicker from "../../../EmojiPicker";
@@ -40,13 +40,17 @@ export function Column({
   useReverseAnimation,
   setUseReverseAnimation,
 }) {
+  const columnRef = useRef();
   const { column, navigation, columnLength } = useContext(ColumnContext);
   const { board, mutationUrls, mutateData } = useContext(BoardContext);
 
+  const [isScrolling, setIsScrolling] = useState(false);
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [columnTasks, setColumnTasks] = useState(column.tasks);
 
   useEffect(() => setColumnTasks(column.tasks), [column.tasks]);
+
+  const sortedTasks = columnTasks.filter((task) => !task.completed);
 
   const toggleShowCompleted = useCallback(
     () => setShowCompleted((e) => !e),
@@ -132,6 +136,7 @@ export function Column({
           mutateData();
           setOpen(false);
         }}
+        id="taskMutationTrigger"
         PaperProps={{
           sx: {
             maxWidth: "400px",
@@ -216,6 +221,7 @@ export function Column({
         </Box>
       </SwipeableDrawer>
       <Box
+        ref={columnRef}
         sx={{
           scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
@@ -236,31 +242,17 @@ export function Column({
           maxWidth: "100vw",
         }}
       >
-        <Collapse
-          in={loading}
-          orientation="vertical"
-          mountOnEnter
-          sx={{
-            px: { xs: 2, sm: 0 },
-            borderRadius: { xs: 5, sm: 0 },
-            overflow: "hidden",
-          }}
-        >
-          <Box
+        {loading && (
+          <LinearProgress
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: { xs: 5, sm: 0 },
+              position: "fixed",
+              top: 0,
+              left: 0,
               width: "100%",
-              height: "100px",
-              mt: { xs: 2, sm: 0 },
-              background: palette[3],
+              zIndex: 999999999,
             }}
-          >
-            <CircularProgress />
-          </Box>
-        </Collapse>
+          />
+        )}
         <Box
           onClick={scrollIntoView}
           sx={{
@@ -442,8 +434,8 @@ export function Column({
               columnId: column.id,
             }}
           >
-            <Button variant="contained">
-              <Icon>add</Icon>List item
+            <Button variant="contained" fullWidth>
+              <Icon>add_circle</Icon>List item
             </Button>
           </CreateTask>
           {columnTasks.filter((task) => !task.completed).length === 0 && (
@@ -485,17 +477,22 @@ export function Column({
             </Box>
           )}
 
-          {columnTasks
-            .filter((task) => !task.completed)
-            .map((task) => (
+          <Virtuoso
+            isScrolling={setIsScrolling}
+            useWindowScroll
+            customScrollParent={columnRef.current}
+            data={sortedTasks}
+            itemContent={(index, task) => (
               <Task
                 key={task.id}
+                isScrolling={isScrolling}
                 board={board}
                 columnId={column.id}
                 mutationUrl={mutationUrls.tasks}
                 task={task}
               />
-            ))}
+            )}
+          />
 
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button
@@ -538,18 +535,22 @@ export function Column({
               initial={{ opacity: 0, y: -40 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              {showCompleted &&
-                columnTasks
-                  .filter((task) => task.completed)
-                  .map((task) => (
-                    <Task
-                      key={task.id}
-                      board={board}
-                      columnId={column.id}
-                      mutationUrl={mutationUrls.tasks}
-                      task={task}
-                    />
-                  ))}
+              <Virtuoso
+                isScrolling={setIsScrolling}
+                useWindowScroll
+                customScrollParent={columnRef.current}
+                data={columnTasks.filter((task) => task.completed)}
+                itemContent={(index, task) => (
+                  <Task
+                    isScrolling={isScrolling}
+                    key={task.id}
+                    board={board}
+                    columnId={column.id}
+                    mutationUrl={mutationUrls.tasks}
+                    task={task}
+                  />
+                )}
+              />
             </motion.div>
           )}
         </Box>
