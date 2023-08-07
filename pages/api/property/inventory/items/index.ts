@@ -14,11 +14,11 @@ const handler = async (req, res) => {
         id: req.query.id,
       },
     });
+
     if (!item) {
       res.json(null);
       return;
     }
-
     res.json({
       ...item,
       name: CryptoJS.AES.decrypt(
@@ -39,7 +39,8 @@ const handler = async (req, res) => {
       ).toString(CryptoJS.enc.Utf8),
     });
   } catch (e: any) {
-    res.json({ error: e.message });
+    console.log(e);
+    res.status(500).json({ error: e.message });
   }
 };
 

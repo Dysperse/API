@@ -251,6 +251,7 @@ export default function ItemDrawer({
   children: JSX.Element;
   mutationUrl?: string;
 }): JSX.Element {
+  const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [itemData, setItemData] = useState<null | Item>(null);
   const [error, setError] = useState<boolean>(false);
@@ -262,16 +263,17 @@ export default function ItemDrawer({
       setOpen(true);
       setError(false);
       try {
-        const data = await fetchRawApi("property/inventory/items", {
+        const data = await fetchRawApi(session, "property/inventory/items", {
           id,
         });
+        console.log(data);
         setItemData(data);
         setLoading(false);
       } catch (e) {
         setError(true);
       }
     },
-    [id]
+    [session, id]
   );
 
   const handleClose = useCallback(() => {
