@@ -12,7 +12,9 @@ export default async function handler(req, res) {
   let q = url.parse(req.url, true).query;
 
   // Get access and refresh tokens (if access_type is offline)
+
   let { tokens } = await oauth2Client.getToken(q.code);
+
   oauth2Client.setCredentials(tokens);
 
   await prisma?.profile.update({
@@ -22,5 +24,7 @@ export default async function handler(req, res) {
     data: { google: tokens as any },
   });
 
-  res.redirect(`/users/${session.user.username || session.user.email}?override`);
+  res.redirect(
+    `/users/${session.user.username || session.user.email}?override`
+  );
 }
