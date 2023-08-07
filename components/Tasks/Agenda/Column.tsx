@@ -252,7 +252,7 @@ const Column = React.memo(function Column({
         />
       )}
       {header}
-      <Box sx={{ p: { sm: 2 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
+      <Box sx={{ p: { xs: 2 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
         <CreateTask
           onSuccess={() => mutate(url)}
           defaultDate={dayjs(column).startOf(type).toDate()}
