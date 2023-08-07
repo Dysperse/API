@@ -49,6 +49,10 @@ const Notification = async (req, res) => {
 
     // Current time in user's timezone
     const currentTimeInUserTimeZone = dayjs().tz(timeZone).hour();
+    const notificationBuffer = dayjs().tz(timeZone).add(5, "minutes").toDate();
+
+    if (dayjs(notificationBuffer).diff(dayjs().tz(timeZone), "minutes") > 5)
+      return;
 
     // Check if user has enabled routine for that day
     if (

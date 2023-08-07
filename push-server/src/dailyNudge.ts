@@ -26,6 +26,9 @@ const handler = {
     // Daily check in nudge
     await fetch("https://my.dysperse.com/api/cron/dailyCheckInNudge", params);
 
+    // Task thingy
+    await fetch("https://my.dysperse.com/api/cron/taskReminder", params);
+
     // Daily check in nudge
     await fetch(
       "https://my.dysperse.com/api/cron/deleteExpiredQrCodes",
