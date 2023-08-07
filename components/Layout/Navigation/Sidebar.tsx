@@ -4,6 +4,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Logo } from "@/pages";
+import { RoutineTrigger } from "@/pages/coach";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -246,8 +247,10 @@ export function Sidebar() {
             className={`material-symbols-${
               router.asPath.includes("/coach") ? "rounded" : "outlined"
             }`}
+            style={{ position: "relative" }}
           >
             rocket_launch
+            <RoutineTrigger sidebar />
           </span>
         </Tooltip>
       </Box>

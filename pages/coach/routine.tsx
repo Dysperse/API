@@ -200,6 +200,7 @@ export default function Routine() {
               justifyContent: "center",
               flexDirection: "column",
               height: "100dvh",
+              p: 2,
             }}
           >
             <Typography variant="h1" sx={{ mb: 1 }} className="font-heading">

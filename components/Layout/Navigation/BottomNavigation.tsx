@@ -1,6 +1,7 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { RoutineTrigger } from "@/pages/coach";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 
@@ -166,8 +167,12 @@ export function BottomNav() {
           className={`material-symbols-${
             router.asPath.includes("/coach") ? "rounded" : "outlined"
           }`}
+          style={{
+            position: "relative",
+          }}
         >
           rocket_launch
+          <RoutineTrigger sidebar bottomNav />
         </span>
       </Box>
 

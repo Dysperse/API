@@ -139,7 +139,7 @@ export default function CreateGoal() {
     <Box
       sx={{
         display: "flex",
-        height: "100vh",
+        height: "100dvh",
         alignItems: "center",
         width: "100vw",
         position: "fixed",

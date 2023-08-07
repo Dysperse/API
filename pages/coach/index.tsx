@@ -19,23 +19,97 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { Navbar } from "..";
+
+export function RoutineTrigger({ sidebar = false, bottomNav = false }: any) {
+  const router = useRouter();
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const redPalette = useColor("red", useDarkMode(session.darkMode));
+
+  const dayIndex = dayjs().diff(dayjs().startOf("week"), "days");
+  const { data, error } = useApi("user/coach");
+
+  const incompleteGoals = useMemo(
+    () =>
+      data &&
+      data
+        .filter((goal) => !goal.completed)
+        // check for days of week
+        .filter((goal) => goal.daysOfWeek[dayIndex])
+        // check for last time goal was completed
+        .filter(
+          (goal) =>
+            dayjs(goal.lastCompleted).format("YYYY-MM-DD") !==
+            dayjs().format("YYYY-MM-DD")
+        ),
+    [data, dayIndex]
+  );
+
+  return sidebar &&
+    incompleteGoals?.length > 0 &&
+    !router.asPath.includes("coach") ? (
+    <Box
+      sx={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: bottomNav ? 15 : 17,
+        height: bottomNav ? 15 : 17,
+        m: bottomNav ? 4.3 : 3.5,
+        mt: bottomNav ? 0.5 : 1,
+        borderRadius: 99,
+        background: redPalette[9],
+        border: "3px solid " + palette[bottomNav ? 2 : 1],
+      }}
+    />
+  ) : sidebar ? (
+    <></>
+  ) : (
+    <CardActionArea
+      onClick={() => router.push("/coach/routine")}
+      sx={{
+        flexGrow: 1,
+        p: 3,
+        my: 3,
+        px: { sm: 3 },
+        display: "flex",
+        background: { xs: palette[3], sm: palette[4] },
+        borderRadius: 5,
+        alignItems: "center",
+      }}
+    >
+      <Box>
+        <Typography sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          {incompleteGoals?.length > 0 && (
+            <Box
+              sx={{
+                width: 13,
+                height: 13,
+                borderRadius: 99,
+                background: redPalette[9],
+              }}
+            />
+          )}
+          <b>Today&apos;s routine</b>
+        </Typography>
+        {incompleteGoals?.length > 0 && (
+          <Typography>{incompleteGoals.length} remaining</Typography>
+        )}
+      </Box>
+      <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+    </CardActionArea>
+  );
+}
 
 export default function Render() {
   const session = useSession();
   const router = useRouter();
 
   const { data, url, error } = useApi("user/coach/streaks");
-  const isTimeRunningOut = dayjs().hour() > 18;
-
-  // const hasCompletedForToday =
-  //   dayjs().startOf("day").toDate().getTime() ===
-  //   dayjs(data ? data.lastStreakDate : new Date())
-  //     .startOf("day")
-  //     .toDate()
-  //     .getTime();
 
   const isStreakBroken =
     dayjs().diff(dayjs(data ? data.lastStreakDate : new Date()), "day") >= 2;
@@ -127,26 +201,7 @@ export default function Render() {
             />
           )}
 
-          <CardActionArea
-            onClick={() => router.push("/coach/routine")}
-            sx={{
-              flexGrow: 1,
-              p: 3,
-              my: 3,
-              px: { sm: 3 },
-              display: "flex",
-              background: { xs: palette[3], sm: palette[4] },
-              borderRadius: 5,
-              alignItems: "center",
-            }}
-          >
-            <Box>
-              <Typography>
-                <b>Daily goals</b>
-              </Typography>
-            </Box>
-            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-          </CardActionArea>
+          <RoutineTrigger />
           <MyGoals />
         </Box>
       </motion.div>
