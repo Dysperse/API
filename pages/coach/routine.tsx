@@ -1,3 +1,4 @@
+import { DailyCheckIn } from "@/components/CheckIns";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -204,7 +205,9 @@ export default function Routine() {
             <Typography variant="h1" sx={{ mb: 1 }} className="font-heading">
               All done.
             </Typography>
-            <Typography sx={{ mb: 2 }}>Come back tomorrow for more.</Typography>
+            <Box sx={{ zIndex: 9999999, mb: 2 }}>
+              <DailyCheckIn />
+            </Box>
             <Button
               onClick={() => router.push("/coach")}
               sx={{ zIndex: 999 }}
