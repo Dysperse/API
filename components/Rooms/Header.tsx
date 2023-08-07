@@ -130,7 +130,7 @@ export function Header({
           onClick={() => router.push("/items")}
           sx={{ display: { xs: "none", md: "inline-flex" } }}
         >
-          <Icon className="outlined">close</Icon>
+          <Icon className="outlined">arrow_back_ios_new</Icon>
         </IconButton>
       </ListItemAvatar>
     </ListItem>

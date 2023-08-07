@@ -112,7 +112,7 @@ export function CreateTask({
       if (closeOnCreate) setOpen(false);
       if (formData.title.trim() === "") return;
       vibrate(50);
-      fetchRawApi(session, "property/boards/column/task/create", {
+      await fetchRawApi(session, "property/boards/column/task/create", {
         ...formData,
         ...(formData.image && { image: JSON.parse(formData.image).url }),
         pinned: formData.pinned ? "true" : "false",
@@ -121,6 +121,7 @@ export function CreateTask({
         // columnId: (column || { id: -1 }).id,
         columnId: -1,
       });
+      onSuccess && onSuccess();
       toast.dismiss();
       toast.success("Created task!", toastStyles);
 
@@ -180,10 +181,7 @@ export function CreateTask({
             onChange={handleInputChange}
             InputProps={{
               disableUnderline: true,
-              sx: {
-                fontSize: "20px",
-                textDecoration: "underline",
-              },
+              sx: { fontSize: "20px" },
             }}
           />
 
@@ -263,7 +261,6 @@ export function CreateTask({
                 <Icon className="outlined">attach_file</Icon>
               </IconButton>
             </FileDropInput>
-
             <Button
               disableRipple
               variant="contained"
@@ -271,7 +268,7 @@ export function CreateTask({
               onClick={handleSubmit}
               sx={{ ml: "auto", px: 2, minWidth: "unset" }}
             >
-              <Icon>keyboard_arrow_up</Icon>
+              <Icon>arrow_upward</Icon>
             </Button>
           </Box>
         </Box>

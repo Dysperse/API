@@ -252,7 +252,7 @@ const Column = React.memo(function Column({
         />
       )}
       {header}
-      <Box sx={{ p: { xs: 2 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
+      <Box sx={{ p: 2, pb: 1 }}>
         <CreateTask
           onSuccess={() => mutate(url)}
           defaultDate={dayjs(column).startOf(type).toDate()}
@@ -309,12 +309,9 @@ const Column = React.memo(function Column({
 
                   <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
                     <Typography variant="h6" gutterBottom>
-                      {sortedTasks.length === 0 ? "No tasks!" : "Let's go!"}
-                    </Typography>
-                    <Typography gutterBottom sx={{ fontWeight: 300 }}>
                       {sortedTasks.length === 0
                         ? "Nothing planned for this time"
-                        : "You have no tasks remaining!"}
+                        : "You finished everything!"}
                     </Typography>
                   </Box>
                   <Box sx={{ width: "100%", mt: 1 }}>

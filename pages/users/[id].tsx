@@ -469,8 +469,7 @@ function Page() {
                         maxWidth: "100%",
                         minWidth: 0,
                         display: "flex",
-
-                        whiteSpace: "nowrap",
+                        alignItems: "center",
                       }}
                     >
                       <span style={{ fontWeight: 900 }}>{data.name}</span>{" "}

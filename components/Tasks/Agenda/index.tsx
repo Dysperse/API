@@ -50,13 +50,13 @@ export function Agenda({ type, date }) {
   };
 
   const viewHeadingFormats = {
-    days: "MMMM YYYY",
+    days: "MMMM",
     weeks: "MMMM",
     months: "YYYY",
   };
 
   const viewSubHeadingFormats = {
-    days: "[Week] W",
+    days: "YYYY",
     weeks: "YYYY",
     months: "-",
   };
