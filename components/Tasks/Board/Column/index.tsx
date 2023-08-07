@@ -40,7 +40,9 @@ export function Column({
   useReverseAnimation,
   setUseReverseAnimation,
 }) {
-  const columnRef = useRef();
+  const ref: any = useRef();
+  const buttonRef: any = useRef();
+  const columnRef: any = useRef();
   const { column, navigation, columnLength } = useContext(ColumnContext);
   const { board, mutationUrls, mutateData } = useContext(BoardContext);
 
@@ -61,8 +63,6 @@ export function Column({
   const [emoji, setEmoji] = useState(column.emoji);
   const [loading, setLoading] = useState(false);
 
-  const ref: any = useRef();
-  const buttonRef: any = useRef();
   const [open, setOpen] = useState<boolean>(false);
   const session = useSession();
 
@@ -74,6 +74,7 @@ export function Column({
   const scrollIntoView = async () => {
     if (window.innerWidth > 600) {
       document.body.scrollTop = 0;
+      columnRef.current?.scrollTo({ top: 0, behavior: "smooth" });
       ref.current?.scrollTo({ top: 0, behavior: "smooth" });
       setTimeout(() => {
         ref.current?.scrollIntoView({
@@ -115,6 +116,22 @@ export function Column({
         : `${board.name} • Board`;
     }
   });
+
+  const expandTitle = useCallback(() => {
+    toast(column.name, {
+      ...toastStyles,
+      icon: (
+        <picture>
+          <img
+            alt="Emoji"
+            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+            width={20}
+            height={20}
+          />
+        </picture>
+      ),
+    });
+  }, [column.name, column.emoji]);
 
   return (
     <motion.div
@@ -255,6 +272,9 @@ export function Column({
         )}
         <Box
           onClick={scrollIntoView}
+          onContextMenu={() => {
+            if (!isMobile) expandTitle();
+          }}
           sx={{
             color: isDark ? "#fff" : "#000",
             p: { xs: 2, sm: column.name === "" ? 1 : 3 },
@@ -317,21 +337,7 @@ export function Column({
                     background: { xs: palette[2], sm: "transparent" },
                     py: { xs: 1, sm: 0 },
                   }}
-                  onContextMenu={() => {
-                    toast(column.name, {
-                      ...toastStyles,
-                      icon: (
-                        <picture>
-                          <img
-                            alt="Emoji"
-                            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                            width={20}
-                            height={20}
-                          />
-                        </picture>
-                      ),
-                    });
-                  }}
+                  onContextMenu={expandTitle}
                 >
                   <Typography
                     variant="h4"
@@ -370,13 +376,14 @@ export function Column({
                         height={50}
                       />
                     </picture>
-                    <Box sx={{ display: "flex", gap: 1 }}>
+                    <Box sx={{ display: "flex", gap: 1, minWidth: 0 }}>
                       <span
                         style={{
                           overflow: "hidden",
                           whiteSpace: "nowrap",
                           textOverflow: "ellipsis",
                           fontWeight: "200",
+                          minWidth: 0,
                         }}
                         className="font-heading"
                       >
