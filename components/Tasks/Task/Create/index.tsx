@@ -117,6 +117,7 @@ export function CreateTask({
         due: formData.date ? formData.date.toISOString() : "false",
         // boardId,
         // columnId: (column || { id: -1 }).id,
+        columnId: -1,
       });
       toast.dismiss();
       toast.success("Created task!", toastStyles);
