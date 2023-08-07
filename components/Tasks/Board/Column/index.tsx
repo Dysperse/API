@@ -426,7 +426,7 @@ export function Column({
             </Box>
           </Box>
         </Box>
-        <Box sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}>
+        <Box sx={{ p: 2, mb: { xs: 15, sm: 0 } }}>
           <CreateTask
             onSuccess={() => mutate(mutationUrls.tasks)}
             boardData={{
@@ -434,7 +434,7 @@ export function Column({
               columnId: column.id,
             }}
           >
-            <Button variant="contained" fullWidth>
+            <Button variant="contained" fullWidth sx={{ mb: 1 }}>
               <Icon>add_circle</Icon>List item
             </Button>
           </CreateTask>
