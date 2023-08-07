@@ -105,6 +105,7 @@ const Notification = async (req, res) => {
             body: dayjs(task.due).fromNow(),
           });
         } catch (e) {
+          console.log(e);
           console.log("Error while dispatching notification");
         }
       }
