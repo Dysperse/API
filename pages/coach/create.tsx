@@ -1,3 +1,5 @@
+import EmojiPicker from "@/components/EmojiPicker";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -15,8 +17,9 @@ import {
   TextField,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -33,7 +36,8 @@ function TimeSelector({ time, setTime }) {
   return (
     <div>
       <Button variant="contained" onClick={handleClick}>
-        {time + 1}:00 <Icon>expand_more</Icon>
+        {time + 1 - (time >= 12 ? 12 : 0)}
+        {time + 1 > 12 ? "PM" : "AM"} <Icon>expand_more</Icon>
       </Button>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {[...new Array(24)].map((_, hour) => (
@@ -55,8 +59,8 @@ function TimeSelector({ time, setTime }) {
 }
 export default function CreateGoal() {
   const session = useSession();
+  const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const isMobile = useMediaQuery("(min-width: 600px)");
   const numberRef: any = useRef();
 
   const steps = [
@@ -83,6 +87,11 @@ export default function CreateGoal() {
       name: "What time do you want to work on this goal?",
       id: "timeOfDay",
     },
+    {
+      type: "emoji",
+      name: "Choose an icon",
+      id: "emoji",
+    },
   ];
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -91,6 +100,7 @@ export default function CreateGoal() {
     durationDays: 7,
     timeOfDay: 7,
     stepName: "",
+    emoji: "1f3af",
     daysOfWeek: [true, true, true, true, true, true, true],
   });
 
@@ -103,6 +113,8 @@ export default function CreateGoal() {
   const handleInputChange = (event) => {
     let { id, type, value } = event.target;
     if (type === "number" && value < 5) value = 5;
+    if (type === "text" && value.length < 2)
+      value = capitalizeFirstLetter(value);
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
@@ -112,6 +124,7 @@ export default function CreateGoal() {
       await fetchRawApi(session, "user/coach/goals/create", {
         ...formData,
         name: formData.stepName,
+        category: "",
       });
       setLoading(false);
     } catch (e) {
@@ -134,9 +147,18 @@ export default function CreateGoal() {
     >
       <AppBar sx={{ position: "fixed", left: 0, top: 0 }}>
         <Toolbar>
-          <IconButton onClick={() => setCurrentStep(currentStep - 1)}>
+          <IconButton
+            onClick={() => {
+              if (currentStep == 0) {
+                router.push("/coach/explore");
+              } else {
+                setCurrentStep(currentStep - 1);
+              }
+            }}
+          >
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
+          <Typography sx={{ ml: 2 }}>Create goal</Typography>
         </Toolbar>
         <LinearProgress
           variant="determinate"
@@ -147,134 +169,178 @@ export default function CreateGoal() {
         sx={{
           width: "500px",
           mx: "auto",
-          px: 5,
           maxWidth: "100vw",
         }}
       >
-        <Typography variant="h2" className="font-heading" sx={{ mb: 1 }}>
-          {steps[currentStep].name}
-        </Typography>
-        {steps[currentStep].helperText && (
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            {steps[currentStep].helperText}
-          </Typography>
-        )}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -100, opacity: 0 }}
+          >
+            <Typography
+              variant="h2"
+              className="font-heading"
+              sx={{ mb: 1, px: { xs: 2, sm: 5 } }}
+            >
+              {steps[currentStep].name}
+            </Typography>
+            {steps[currentStep].helperText && (
+              <Typography variant="h6" sx={{ mb: 2, px: { xs: 2, sm: 5 } }}>
+                {steps[currentStep].helperText}
+              </Typography>
+            )}
+            <Box sx={{ px: { xs: 2, sm: 5 } }}>
+              {steps[currentStep].type === "text" && (
+                <TextField
+                  placeholder={steps[currentStep].placeholder}
+                  variant="outlined"
+                  id={steps[currentStep].id}
+                  value={formData[steps[currentStep].id] || ""}
+                  onChange={handleInputChange}
+                  InputProps={{
+                    startAdornment: currentStep == 1 && (
+                      <InputAdornment position="start">
+                        <Icon>check_circle</Icon>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
 
-        {steps[currentStep].type === "text" && (
-          <TextField
-            placeholder={steps[currentStep].placeholder}
-            variant="outlined"
-            id={steps[currentStep].id}
-            value={formData[steps[currentStep].id] || ""}
-            onChange={handleInputChange}
-            InputProps={{
-              startAdornment: currentStep == 1 && (
-                <InputAdornment position="start">
-                  <Icon>check_circle</Icon>
-                </InputAdornment>
-              ),
-            }}
-          />
-        )}
+              {steps[currentStep].type === "emoji" && (
+                <EmojiPicker
+                  emoji={formData[steps[currentStep].id]}
+                  setEmoji={(s) => setFormData((d) => ({ ...d, emoji: s }))}
+                >
+                  <IconButton sx={{ width: 70, height: 70 }}>
+                    <picture>
+                      <img
+                        width={60}
+                        height={60}
+                        alt="Emoji"
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+                          formData[steps[currentStep].id]
+                        }.png`}
+                      />
+                    </picture>
+                  </IconButton>
+                </EmojiPicker>
+              )}
+              {steps[currentStep].type === "time" && (
+                <TimeSelector
+                  time={formData.timeOfDay}
+                  setTime={(s) => setFormData((d) => ({ ...d, timeOfDay: s }))}
+                />
+              )}
 
-        {steps[currentStep].type === "daySelector" && (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {[...new Array(7)].map((_, index) => (
-              <IconButton
-                key={index}
+              {steps[currentStep].type === "number" && (
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  <IconButton
+                    disabled={formData[steps[currentStep].id] <= 5}
+                    onClick={() =>
+                      setFormData((s) => ({
+                        ...s,
+                        [steps[currentStep].id]:
+                          parseInt(formData[steps[currentStep].id]) - 1,
+                      }))
+                    }
+                  >
+                    <Icon className="outlined">remove_circle</Icon>
+                  </IconButton>
+                  <TextField
+                    inputRef={numberRef}
+                    variant="outlined"
+                    placeholder={steps[currentStep].placeholder}
+                    type="number"
+                    size="small"
+                    fullWidth
+                    id={steps[currentStep].id}
+                    value={formData[steps[currentStep].id] || ""}
+                    onChange={handleInputChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">days</InputAdornment>
+                      ),
+                    }}
+                  />
+                  <IconButton
+                    onClick={() =>
+                      setFormData((s) => ({
+                        ...s,
+                        [steps[currentStep].id]:
+                          parseInt(formData[steps[currentStep].id]) + 1,
+                      }))
+                    }
+                  >
+                    <Icon className="outlined">add_circle</Icon>
+                  </IconButton>
+                </Box>
+              )}
+            </Box>
+            {steps[currentStep].type === "daySelector" && (
+              <Box
                 sx={{
-                  width: 45,
-                  color: palette[12] + "!important",
-                  height: 45,
-                  ...(formData.daysOfWeek[index] && {
-                    background: palette[3] + "!important",
-                    color: palette[11] + "!important",
-                  }),
-                }}
-                onClick={() => {
-                  let temp = formData.daysOfWeek;
-                  temp[index] = !formData.daysOfWeek[index];
-                  setFormData((data) => ({
-                    ...data,
-                    daysOfWeek: temp,
-                  }));
+                  display: "flex",
+                  overflowX: "scroll",
+                  justifyContent: { sm: "center" },
+                  alignItems: "center",
+                  gap: 2,
                 }}
               >
-                {["S", "M", "T", "W", "T", "F", "S"][index]}
-              </IconButton>
-            ))}
-          </Box>
-        )}
+                {[...new Array(7)].map((_, index) => (
+                  <IconButton
+                    key={index}
+                    sx={{
+                      width: 45,
+                      color: palette[12] + "!important",
+                      height: 45,
+                      ...(formData.daysOfWeek[index] && {
+                        background: palette[3] + "!important",
+                        color: palette[11] + "!important",
+                      }),
+                    }}
+                    onClick={() => {
+                      let temp = formData.daysOfWeek;
+                      temp[index] = !formData.daysOfWeek[index];
+                      setFormData((data) => ({
+                        ...data,
+                        daysOfWeek: temp,
+                      }));
+                    }}
+                  >
+                    {["S", "M", "T", "W", "T", "F", "S"][index]}
+                  </IconButton>
+                ))}
+              </Box>
+            )}
 
-        {steps[currentStep].type === "time" && (
-          <TimeSelector
-            time={formData.timeOfDay}
-            setTime={(s) => setFormData((d) => ({ ...d, timeOfDay: s }))}
-          />
-        )}
+            {/* Handle other input types (e.g., checkboxes) as needed */}
 
-        {steps[currentStep].type === "number" && (
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <IconButton
-              disabled={formData[steps[currentStep].id] <= 5}
-              onClick={() =>
-                setFormData((s) => ({
-                  ...s,
-                  [steps[currentStep].id]:
-                    parseInt(formData[steps[currentStep].id]) - 1,
-                }))
-              }
-            >
-              <Icon className="outlined">remove_circle</Icon>
-            </IconButton>
-            <TextField
-              inputRef={numberRef}
-              variant="outlined"
-              placeholder={steps[currentStep].placeholder}
-              type="number"
-              size="small"
-              fullWidth
-              id={steps[currentStep].id}
-              value={formData[steps[currentStep].id] || ""}
-              onChange={handleInputChange}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">days</InputAdornment>
-                ),
-              }}
-            />
-            <IconButton
-              onClick={() =>
-                setFormData((s) => ({
-                  ...s,
-                  [steps[currentStep].id]:
-                    parseInt(formData[steps[currentStep].id]) + 1,
-                }))
-              }
-            >
-              <Icon className="outlined">add_circle</Icon>
-            </IconButton>
-          </Box>
-        )}
-
-        {/* Handle other input types (e.g., checkboxes) as needed */}
-
-        <LoadingButton
-          loading={loading}
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={
-            currentStep === steps.length - 1 ? handleSubmit : handleNextStep
-          }
-          disabled={
-            formData[steps[currentStep].id]?.length === 0 ||
-            formData[steps[currentStep].id] === 0
-          }
-          style={{ marginTop: "16px" }}
-        >
-          {currentStep === steps.length - 1 ? "Create Goal" : "Next"}
-        </LoadingButton>
+            <Box sx={{ px: { xs: 2, sm: 5 } }}>
+              <LoadingButton
+                loading={loading}
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={
+                  currentStep === steps.length - 1
+                    ? handleSubmit
+                    : handleNextStep
+                }
+                disabled={
+                  formData[steps[currentStep].id]?.length === 0 ||
+                  formData[steps[currentStep].id] === 0
+                }
+                style={{ marginTop: "16px" }}
+              >
+                {currentStep === steps.length - 1 ? "Create goal" : "Next"}
+                <Icon>arrow_forward_ios</Icon>
+              </LoadingButton>
+            </Box>
+          </motion.div>
+        </AnimatePresence>
       </Box>
     </Box>
   );
