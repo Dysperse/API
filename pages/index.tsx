@@ -524,7 +524,7 @@ export function Navbar({
         <>
           <IconButton
             sx={{
-              ml: showRightContent ? "" : "auto",
+              ml: showRightContent && right ? "" : "auto",
               color: palette[8],
               "&:active": { transform: "scale(.9)" },
               transition: "all .4s",
@@ -544,9 +544,17 @@ export function Navbar({
                 router.push("/groups/" + session?.property?.propertyId)
               }
             >
-              <Icon className="outlined">tag</Icon>
+              <Icon className="outlined">group</Icon>
             </IconButton>
           </GroupModal>
+          {router.asPath === "/" && (
+            <IconButton
+              sx={{ color: palette[8] }}
+              onClick={() => router.push("/settings/profile")}
+            >
+              <Icon className="outlined">settings</Icon>
+            </IconButton>
+          )}
         </>
       )}
     </Box>
@@ -736,12 +744,14 @@ export default function Home() {
           showLogo={isMobile}
           showRightContent={isMobile}
           right={
-            <IconButton
-              sx={{ ml: "auto", color: palette[8] }}
-              onClick={() => router.push("/settings/profile")}
-            >
-              <Icon className="outlined">settings</Icon>
-            </IconButton>
+            isMobile ? undefined : (
+              <IconButton
+                sx={{ ml: "auto", color: palette[8] }}
+                onClick={() => router.push("/settings/profile")}
+              >
+                <Icon className="outlined">settings</Icon>
+              </IconButton>
+            )
           }
         />
       </motion.div>

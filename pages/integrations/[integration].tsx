@@ -46,6 +46,7 @@ function Layout() {
 
   const steps = [
     ...(integration?.params ?? []),
+    ...(integration?.slides ?? []),
     ...(integration?.type === "board" && (["selectBoard"] as any)),
   ].filter((s) => s);
 
@@ -71,6 +72,8 @@ function Layout() {
   const boardData = (data || []).filter((board) =>
     board.name.toLowerCase().includes(query.toLowerCase())
   );
+
+  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -294,6 +297,66 @@ function Layout() {
                 Finish <Icon>arrow_forward_ios</Icon>
               </Button>
             </>
+          ) : steps[step - 1]?.type === "slide" ? (
+            <motion.div
+              key={"slide"}
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h4" sx={{ mt: "auto" }}>
+                {steps[step - 1].name}
+              </Typography>
+              <Typography sx={{ mb: 1, color: palette[11] }} variant="body2">
+                {steps[step - 1].description}
+              </Typography>
+              <TextField
+                variant="outlined"
+                size="small"
+                value={steps[step - 1].url.replace("[DYSPERSE_ICAL]", icalUrl)}
+                sx={{ mb: "auto" }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => {
+                          navigator.clipboard.writeText(icalUrl);
+                          toast.success("Copied to clipboard!", toastStyles);
+                        }}
+                      >
+                        <Icon className="outlined">content_copy</Icon>
+                      </IconButton>
+                      <IconButton
+                        onClick={() => {
+                          window.open(
+                            `webcal://${icalUrl.replace("https://", "")}`
+                          );
+                        }}
+                      >
+                        <Icon className="outlined">open_in_new</Icon>
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 2 }}
+                disabled={
+                  steps[step - 1].required &&
+                  params[steps[step - 1].name].trim().length == 0
+                }
+                onClick={() => setStep(step + 1)}
+              >
+                Next <Icon>arrow_forward_ios</Icon>
+              </Button>
+            </motion.div>
           ) : (
             <>
               <motion.div
