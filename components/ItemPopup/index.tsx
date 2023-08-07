@@ -59,7 +59,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 
   const handleItemChange = async (key: string, value: string) => {
     toast.promise(
-      fetchRawApi("property/inventory/items/edit", {
+      fetchRawApi(session, "property/inventory/items/edit", {
         id: itemData.id.toString(),
         [key]: value,
         lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
@@ -90,7 +90,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
   };
 
   const handleItemDelete = () => {
-    fetchRawApi("property/inventory/trash/item", {
+    fetchRawApi(session, "property/inventory/trash/item", {
       id: itemData.id.toString(),
       lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     });
