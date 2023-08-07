@@ -96,8 +96,10 @@ export function RoutineTrigger({ sidebar = false, bottomNav = false }: any) {
           )}
           <b>Today&apos;s routine</b>
         </Typography>
-        {incompleteGoals?.length > 0 && (
+        {incompleteGoals?.length > 0 ? (
           <Typography>{incompleteGoals.length} remaining</Typography>
+        ) : (
+          <Typography>Complete!</Typography>
         )}
       </Box>
       <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
