@@ -55,61 +55,63 @@ const Notification = async (req, res) => {
 
   // For each user
   for (let i = 0; i < subscriptions.length; i++) {
-    const subscription = subscriptions[i];
-    const { notificationSubscription, timeZone }: any = subscription.user;
-    const propertyId = subscription.user.properties[0].propertyId;
+    try {
+      const subscription = subscriptions[i];
+      const { notificationSubscription, timeZone }: any = subscription.user;
+      const propertyId = subscription.user.properties[0].propertyId;
 
-    const currentTimeInUserTimeZone = dayjs().tz(timeZone).toDate();
+      const currentTimeInUserTimeZone = dayjs().tz(timeZone).toDate();
 
-    // notifies users ~5 mins before event starts
-    const notificationBuffer = dayjs().tz(timeZone).add(5, "minutes").toDate();
+      // notifies users ~5 mins before event starts
+      const notificationBuffer = dayjs()
+        .tz(timeZone)
+        .add(5, "minutes")
+        .toDate();
 
-    const tasks = await prisma.task.findMany({
-      where: {
-        AND: [
-          { propertyId },
-          { due: { gte: currentTimeInUserTimeZone } },
-          { due: { lte: notificationBuffer } },
-          {
-            NOT: {
-              AND: [
-                { column: { board: { public: false } } },
-                {
-                  column: {
-                    board: { user: { id: { not: subscription.user.id } } },
+      const tasks = await prisma.task.findMany({
+        where: {
+          AND: [
+            { propertyId },
+            { due: { gte: currentTimeInUserTimeZone } },
+            { due: { lte: notificationBuffer } },
+            {
+              NOT: {
+                AND: [
+                  { column: { board: { public: false } } },
+                  {
+                    column: {
+                      board: { user: { id: { not: subscription.user.id } } },
+                    },
                   },
-                },
-              ],
+                ],
+              },
             },
-          },
-        ],
-      },
-      select: {
-        name: true,
-        id: true,
-        pinned: true,
-        due: true,
-      },
-    });
+          ],
+        },
+        select: {
+          name: true,
+          id: true,
+          pinned: true,
+          due: true,
+        },
+      });
 
-    for (let i = 0; i < tasks.length; i++) {
-      const task = tasks[i];
-      try {
-        await DispatchNotification({
-          subscription: notificationSubscription,
-          title: task.name,
-          body: dayjs(task.due).fromNow(),
-        });
-      } catch (e) {
-        console.log("error");
+      for (let i = 0; i < tasks.length; i++) {
+        const task = tasks[i];
+        try {
+          await DispatchNotification({
+            subscription: notificationSubscription,
+            title: task.name,
+            body: dayjs(task.due).fromNow(),
+          });
+        } catch (e) {
+          console.log("Error while dispatching notification");
+        }
       }
+    } catch (e) {
+      console.log("Error while fetching tasks");
     }
-
-    res.json(tasks);
-    return;
   }
-
-  //   res.json({ subscriptions });
 
   res.status(200).json({ message: "Notification sent" });
 };
