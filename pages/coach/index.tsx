@@ -133,8 +133,6 @@ export default function Render() {
               flexGrow: 1,
               p: 3,
               my: 3,
-              mb: 10,
-              borderRadius: 5,
               px: { sm: 3 },
               display: "flex",
               background: { xs: palette[3], sm: palette[4] },
