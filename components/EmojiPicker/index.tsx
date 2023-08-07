@@ -2,7 +2,13 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, SwipeableDrawer, TextField, Typography } from "@mui/material";
 import { SearchIndex, init } from "emoji-mart";
-import React, { cloneElement, useEffect, useRef, useState } from "react";
+import React, {
+  cloneElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Puller } from "../Puller";
 import { EmojiButton } from "./button";
 
@@ -33,30 +39,24 @@ const EmojiPicker = React.memo(function EmojiPicker({
   const [inputValue, setInputValue] = useState("");
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = () => setOpen(false);
 
-  const trigger = cloneElement(children, { onClick: handleOpen });
-  const debouncedHandleSearch = debounce(handleSearch, 500);
-
-  useEffect(
-    () => debouncedHandleSearch(inputValue),
-    [inputValue, debouncedHandleSearch]
-  );
-
-  async function handleSearch(value) {
+  const handleSearch = useCallback(async function handleSearch(value: any) {
     const data = (await import("@emoji-mart/data")).default;
     init({ data });
     const emojis = await SearchIndex.search(value || "face");
     setResults(emojis);
-  }
+  }, []);
+
+  const trigger = cloneElement(children, { onClick: handleOpen });
 
   useEffect(() => {
     if (inputValue.length === 0) {
       handleSearch("face");
       setInputValue("");
     }
-  }, [inputValue.length]);
+  }, [inputValue.length, handleSearch]);
 
   function handleEmojiSelect(emoji) {
     const code = useNativeEmoji
@@ -108,7 +108,7 @@ const EmojiPicker = React.memo(function EmojiPicker({
             inputRef={ref}
             onChange={(e: any) => {
               setInputValue(e.target.value);
-              debouncedHandleSearch(e.target.value);
+              handleSearch(e.target.value);
             }}
             value={inputValue}
           />

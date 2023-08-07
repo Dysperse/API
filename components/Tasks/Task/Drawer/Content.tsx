@@ -389,7 +389,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
         <Box sx={styles.section}>
           {!isSubTask && (
             <>
-              <CreateTask
+              {/* <CreateTask
                 isSubTask
                 column={{ id: "-1", name: "" }}
                 sx={{ mb: 0 }}
@@ -398,7 +398,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
                 placeholder="Add a subtask..."
                 handleMutate={task.mutate}
                 boardId={1}
-              />
+              /> */}
               {!isSubTask &&
                 task.subTasks.map((subTask) => (
                   <Task

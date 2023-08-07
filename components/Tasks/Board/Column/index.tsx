@@ -434,11 +434,11 @@ export function Column({
           </Box>
         </Box>
         <Box sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}>
-          <CreateTask
+          {/* <CreateTask
             mutationUrl={mutationUrls.tasks}
             boardId={board.id}
             column={column}
-          />
+          /> */}
           {columnTasks.filter((task) => !task.completed).length === 0 && (
             <Box sx={{ p: 2 }}>
               <Box

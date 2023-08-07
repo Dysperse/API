@@ -12,7 +12,15 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import React, { cloneElement, useCallback, useEffect, useState } from "react";
+import React, {
+  cloneElement,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+
+const MemoizedChip = memo(Chip);
 
 const TaskColorPicker = React.memo(function TaskColorPicker({
   children,
@@ -75,10 +83,10 @@ const TaskColorPicker = React.memo(function TaskColorPicker({
     </>
   );
 });
+
 const ChipBar = React.memo(function ChipBar({
-  toggleLocation,
-  showLocation,
-  titleRef,
+  showedFields,
+  setShowedFields,
   data,
   setData,
   chipStyles,
@@ -100,7 +108,7 @@ const ChipBar = React.memo(function ChipBar({
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <Chip
+            <MemoizedChip
               label={`${time} ${amPm}`}
               icon={<Icon>access_time</Icon>}
               onClick={() =>
@@ -136,6 +144,13 @@ const ChipBar = React.memo(function ChipBar({
     return () => clearTimeout(delayDebounceFn);
   }, [data.title, generateChipLabel]);
 
+  const setTaskColor = useCallback(
+    (e) => {
+      setData((d) => ({ ...d, color: e }));
+    },
+    [setData]
+  );
+
   return (
     <div>
       <motion.div
@@ -158,7 +173,7 @@ const ChipBar = React.memo(function ChipBar({
             whiteSpace: "nowrap",
             display: "flex",
           }}
-          onClick={() => titleRef.current?.focus()}
+          onClick={() => document.getElementById("title")?.focus()}
         >
           {chipComponent}
           {[
@@ -175,23 +190,22 @@ const ChipBar = React.memo(function ChipBar({
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
             >
-              <Chip
+              <MemoizedChip
                 label="Add location?"
                 icon={<Icon>location_on</Icon>}
-                onClick={toggleLocation}
-                sx={chipStyles(showLocation)}
+                onClick={() =>
+                  setShowedFields((s) => ({ ...s, location: !s.location }))
+                }
+                sx={chipStyles(showedFields.location)}
               />
             </motion.div>
           )}
-          <TaskColorPicker
-            color={data.color}
-            setColor={(e) => {
-              setData({ ...data, color: e });
-            }}
-          >
-            <Chip
+          <TaskColorPicker color={data.color} setColor={setTaskColor}>
+            <MemoizedChip
               icon={<Icon sx={{ pl: 2 }}>label</Icon>}
-              onClick={toggleLocation}
+              onClick={() =>
+                setShowedFields((s) => ({ ...s, location: !s.location }))
+              }
               sx={{
                 pr: "0!important",
                 ...chipStyles(false),
@@ -216,7 +230,7 @@ const ChipBar = React.memo(function ChipBar({
                 dayjs().startOf("day").add(days, "day").toISOString();
 
             return (
-              <Chip
+              <MemoizedChip
                 key={label}
                 label={label}
                 sx={chipStyles(isActive)}

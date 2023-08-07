@@ -1,6 +1,11 @@
 import { Box, Tooltip } from "@mui/material";
+import React from "react";
 
-export function EmojiButton({ emoji, selectedEmoji, handleEmojiSelect }: any) {
+export const EmojiButton = React.memo(function EmojiButton({
+  emoji,
+  selectedEmoji,
+  handleEmojiSelect,
+}: any) {
   return (
     <Tooltip
       title={emoji.name}
@@ -38,4 +43,4 @@ export function EmojiButton({ emoji, selectedEmoji, handleEmojiSelect }: any) {
       </Box>
     </Tooltip>
   );
-}
+});

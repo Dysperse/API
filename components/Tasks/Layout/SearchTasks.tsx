@@ -81,7 +81,7 @@ export function SearchTasks({ setOpen }) {
 
   const createTask = (
     <Box sx={{ display: "none" }}>
-      <CreateTask
+      {/* <CreateTask
         closeOnCreate
         column={{ id: "-1", name: "" }}
         defaultDate={dayjs().startOf("day")}
@@ -89,7 +89,7 @@ export function SearchTasks({ setOpen }) {
         placeholder="Create a task..."
         mutationUrl={""}
         boardId={1}
-      />
+      /> */}
     </Box>
   );
   return isMobile ? (
