@@ -42,12 +42,19 @@ interface TaskCreationProps {
   onSuccess?: () => void;
   closeOnCreate?: boolean;
   defaultDate?: Date;
+  parentId?: string;
+  boardData?: {
+    boardId: string;
+    columnId: string;
+  };
 }
 
 export function CreateTask({
   children,
   onSuccess,
   closeOnCreate = false,
+  boardData,
+  parentId,
   defaultDate = dayjs().startOf("day").toDate(),
 }: TaskCreationProps) {
   const session = useSession();
@@ -146,9 +153,9 @@ export function CreateTask({
         ...(formData.image && { image: JSON.parse(formData.image).url }),
         pinned: formData.pinned ? "true" : "false",
         due: formData.date ? formData.date.toISOString() : "false",
-        // boardId,
-        // columnId: (column || { id: -1 }).id,
         columnId: -1,
+        ...(boardData && { ...boardData }),
+        ...(parentId && { parent: parentId }),
       });
       onSuccess && onSuccess();
       toast.dismiss();
@@ -164,7 +171,7 @@ export function CreateTask({
       });
       document.getElementById("title")?.focus();
     },
-    [closeOnCreate, formData, session, onSuccess]
+    [closeOnCreate, formData, session, onSuccess, boardData]
   );
 
   return (

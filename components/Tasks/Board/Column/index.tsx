@@ -28,6 +28,7 @@ import {
   useState,
 } from "react";
 import { toast } from "react-hot-toast";
+import { mutate } from "swr";
 import { BoardContext, ColumnContext } from "..";
 import EmojiPicker from "../../../EmojiPicker";
 import { Task } from "../../Task";
@@ -434,11 +435,17 @@ export function Column({
           </Box>
         </Box>
         <Box sx={{ p: { sm: 2 }, mb: { xs: 15, md: 0 } }}>
-          {/* <CreateTask
-            mutationUrl={mutationUrls.tasks}
-            boardId={board.id}
-            column={column}
-          /> */}
+          <CreateTask
+            onSuccess={() => mutate(mutationUrls.tasks)}
+            boardData={{
+              boardId: board.id,
+              columnId: column.id,
+            }}
+          >
+            <Button variant="contained">
+              <Icon>add</Icon>List item
+            </Button>
+          </CreateTask>
           {columnTasks.filter((task) => !task.completed).length === 0 && (
             <Box sx={{ p: 2 }}>
               <Box

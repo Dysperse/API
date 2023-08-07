@@ -389,16 +389,17 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
         <Box sx={styles.section}>
           {!isSubTask && (
             <>
-              {/* <CreateTask
-                isSubTask
-                column={{ id: "-1", name: "" }}
-                sx={{ mb: 0 }}
-                parent={task.id}
-                label="Create a subtask"
-                placeholder="Add a subtask..."
-                handleMutate={task.mutate}
-                boardId={1}
-              /> */}
+              <CreateTask
+                parentId={task.id}
+                onSuccess={() => {
+                  task.mutate();
+                  document.getElementById("agendaTrigger")?.click();
+                }}
+              >
+                <Button variant="contained">
+                  <Icon>add_circle</Icon>Subtask
+                </Button>
+              </CreateTask>
               {!isSubTask &&
                 task.subTasks.map((subTask) => (
                   <Task

@@ -79,18 +79,16 @@ export function SearchTasks({ setOpen }) {
     />
   );
 
-  const createTask = (
-    <Box sx={{ display: "none" }}>
-      {/* <CreateTask
-        closeOnCreate
-        column={{ id: "-1", name: "" }}
-        defaultDate={dayjs().startOf("day")}
-        label="New task"
-        placeholder="Create a task..."
-        mutationUrl={""}
-        boardId={1}
-      /> */}
-    </Box>
+  const CreateTaskWrapper = ({ children }) => (
+    <CreateTask
+      closeOnCreate
+      defaultDate={dayjs().startOf("day").toDate()}
+      onSuccess={() => {
+        document.getElementById("agendaTrigger")?.click();
+      }}
+    >
+      {children}
+    </CreateTask>
   );
   return isMobile ? (
     <>
@@ -131,16 +129,17 @@ export function SearchTasks({ setOpen }) {
         </Box>
         <Puller sx={{ mb: 0 }} />
       </SwipeableDrawer>
-      <IconButton
-        sx={{ ml: "auto", color: palette[8] }}
-        onClick={() => {
-          setMobileOpen(true);
-          setTimeout(() => ref?.current?.focus(), 100);
-        }}
-      >
-        <Icon>search</Icon>
-      </IconButton>
-      {createTask}
+      <CreateTaskWrapper>
+        <IconButton
+          sx={{ ml: "auto", color: palette[8] }}
+          onClick={() => {
+            setMobileOpen(true);
+            setTimeout(() => ref?.current?.focus(), 100);
+          }}
+        >
+          <Icon>search</Icon>
+        </IconButton>
+      </CreateTaskWrapper>
     </>
   ) : (
     <Box
@@ -152,7 +151,6 @@ export function SearchTasks({ setOpen }) {
       }}
     >
       {input}
-      {createTask}
 
       <Tooltip
         placement="right"
@@ -171,29 +169,30 @@ export function SearchTasks({ setOpen }) {
           </Box>
         }
       >
-        <IconButton
-          onClick={() => {
-            document.getElementById("createTask")?.click();
-            setOpen(false);
-          }}
-          sx={{
-            ...(Boolean(query.trim()) && {
-              transform: "scale(0)",
-            }),
-            cursor: "default",
-            transition: "transform .2s",
-            background: palette[4],
-            color: palette[12],
-            "&:hover": {
-              background: palette[5],
-            },
-            "&:active": {
-              background: palette[6],
-            },
-          }}
-        >
-          <Icon>add</Icon>
-        </IconButton>
+        <CreateTaskWrapper>
+          <IconButton
+            onClick={() => {
+              setOpen(false);
+            }}
+            sx={{
+              ...(Boolean(query.trim()) && {
+                transform: "scale(0)",
+              }),
+              cursor: "default",
+              transition: "transform .2s",
+              background: palette[4],
+              color: palette[12],
+              "&:hover": {
+                background: palette[5],
+              },
+              "&:active": {
+                background: palette[6],
+              },
+            }}
+          >
+            <Icon>add</Icon>
+          </IconButton>
+        </CreateTaskWrapper>
       </Tooltip>
     </Box>
   );
