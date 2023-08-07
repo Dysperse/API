@@ -402,6 +402,7 @@ function Page() {
                     display: "inline-flex",
                     mx: "auto",
                     width: 150,
+                    height: 150,
                   }}
                 >
                   <ProfilePicture
