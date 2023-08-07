@@ -439,7 +439,7 @@ export function Column({
             </Button>
           </CreateTask>
           {columnTasks.filter((task) => !task.completed).length === 0 && (
-            <Box sx={{ p: 2 }}>
+            <Box sx={{ py: 1 }}>
               <Box
                 sx={{
                   display: "flex",
