@@ -253,7 +253,10 @@ const Column = React.memo(function Column({
       )}
       {header}
       <Box sx={{ p: { sm: 2 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
-        <CreateTask onSuccess={() => mutate(url)}>
+        <CreateTask
+          onSuccess={() => mutate(url)}
+          defaultDate={dayjs(column).startOf(type).toDate()}
+        >
           <Button variant="contained" fullWidth>
             <Icon>add_circle</Icon>
             New task

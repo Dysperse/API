@@ -32,12 +32,14 @@ interface TaskCreationProps {
   children: JSX.Element;
   onSuccess?: () => void;
   closeOnCreate?: boolean;
+  defaultDate?: Date;
 }
 
 export function CreateTask({
   children,
   onSuccess,
   closeOnCreate = false,
+  defaultDate = dayjs().startOf("day").toDate(),
 }: TaskCreationProps) {
   const session = useSession();
   const titleRef: any = useRef();
@@ -52,7 +54,7 @@ export function CreateTask({
     location: "",
     image: "",
     pinned: false,
-    date: dayjs().startOf("day"),
+    date: defaultDate,
   });
 
   const [showedFields, setShowedFields] = useState({
