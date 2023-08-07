@@ -52,8 +52,7 @@ const TaskChips = React.memo(function TaskChips({
   const isDue = taskData.due && !isAgenda;
   const isTimeDue =
     taskData.due &&
-    dayjs(taskData.due).hour() !== 0 &&
-    dayjs(taskData.due).minute() !== 0 &&
+    (dayjs(taskData.due).hour() !== 0 || dayjs(taskData.due).minute() !== 0) &&
     !isSubTask;
   const isWhereValid =
     taskData.where &&
