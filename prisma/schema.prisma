@@ -12,19 +12,19 @@ datasource db {
 // Models for user accounts
 // TODO: Add separate table for user settings, such as theme colors, dark mode, etc. 
 model User {
-  id         String  @id @unique @default(uuid())
-  identifier String  @unique @default(uuid())
-  name       String
-  username   String? @unique
-  email      String  @unique
-  password   String
-  darkMode   String  @default("system")
+  id         String @id @unique @default(uuid())
+  identifier String @unique @default(uuid())
+
+  name     String
+  username String? @unique
+  email    String  @unique
+  password String
+  darkMode String  @default("system")
 
   color          String   @default("lime")
   unlockedColors String[]
 
   onboardingComplete       Boolean @default(false)
-  verifiedEmail            Boolean @default(false)
   trophies                 Int     @default(0)
   twoFactorSecret          String  @default("")
   notificationSubscription String? @db.VarChar(900)
@@ -37,7 +37,6 @@ model User {
   Status               Status?
   Profile              Profile?
   CoachData            CoachData?
-  OAuthToken           OAuthToken[]
   PasswordResetToken   PasswordResetToken[]
   properties           PropertyInvite[]
   RoutineItem          RoutineItem[]
@@ -144,14 +143,6 @@ model Session {
   userId    String
   timestamp DateTime? @default(now())
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-// oAuth token passed to apps such as availability
-model OAuthToken {
-  id          String @id @unique @default(uuid())
-  userId      String
-  accessToken String @unique @default(uuid())
-  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Property modal box
