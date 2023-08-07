@@ -133,6 +133,61 @@ export default function Notifications() {
     session.user.notificationSubscription !== JSON.stringify(subscription);
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const notificationSettings = [
+    {
+      key: "accountUpdates",
+      comingSoon: false,
+      disabled: true,
+      primary: "Account",
+      secondary: "Recieve security notifications",
+    },
+    {
+      key: "dailyRoutineNudge",
+      comingSoon: false,
+      disabled: false,
+      primary: "Coach",
+      secondary: "Get reminders to work on your goals",
+    },
+    {
+      key: "dailyCheckInNudge",
+      comingSoon: false,
+      disabled: false,
+      primary: "Check-in",
+      secondary: "Recieve daily reminders to check-in on how you're feeling",
+    },
+
+    {
+      key: "followerUpdates",
+      comingSoon: true,
+      disabled: false,
+      primary: "Follows",
+      secondary: "Get notified when someone follows you",
+    },
+    {
+      key: "statusUpdates",
+      comingSoon: true,
+      disabled: false,
+      primary: "Status updates",
+      secondary: "Get notified when your friends set their status",
+    },
+    {
+      key: "todoListUpdates",
+      comingSoon: true,
+      disabled: false,
+      primary: "Tasks",
+      secondary: "Recieve notifiations when you set due dates to tasks",
+    },
+    {
+      key: "lowItemCount",
+      comingSoon: true,
+      disabled: false,
+      primary: "Low item count reminders",
+      secondary:
+        "Recieve a notification when you have less than 5 items in your inventory",
+    },
+  ];
+
   return (
     <Layout>
       {isInPwa || process.env.NODE_ENV === "development" ? (
@@ -202,87 +257,33 @@ export default function Notifications() {
                 />
               )}
             </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Account activity"
-                secondary="Recieve a notification when suspicious or new activity is detected on your account"
-              />
-              <Switch disabled checked />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Coach"
-                secondary="Get reminders to work on your daily routines"
-              />
-              <Switch
-                checked={data.dailyRoutineNudge}
-                onClick={(e: any) =>
-                  handleNotificationChange(
-                    "dailyRoutineNudge",
-                    e.target.checked
-                  )
-                }
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Daily check-in"
-                secondary="Recieve daily reminders to check-in on how you're feeling"
-              />
-              <Switch
-                checked={data.dailyCheckInNudge}
-                onClick={(e: any) =>
-                  handleNotificationChange(
-                    "dailyCheckInNudge",
-                    e.target.checked
-                  )
-                }
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary={
-                  <>
-                    To-do updates{" "}
-                    <Chip
-                      size="small"
-                      label="Coming soon"
-                      sx={{ fontWeight: 700, ml: 1 }}
-                    />
-                  </>
-                }
-                secondary="Recieve notifiations when you set due dates to tasks"
-              />
-              <Switch
-                disabled
-                checked={data.todoListUpdates}
-                onClick={(e: any) =>
-                  handleNotificationChange("todoListUpdates", e.target.checked)
-                }
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary={
-                  <>
-                    Low item count reminders{" "}
-                    <Chip
-                      size="small"
-                      label="Coming soon"
-                      sx={{ fontWeight: 700, ml: 1 }}
-                    />
-                  </>
-                }
-                secondary="Recieve a notification when you have less than 5 items in your inventory"
-              />
-              <Switch
-                disabled
-                checked={false}
-                onClick={(e: any) =>
-                  handleNotificationChange("lowItemCount", e.target.checked)
-                }
-              />
-            </ListItem>
+            {/* Map through the notification settings */}
+            {notificationSettings.map((setting) => (
+              <ListItem key={setting.key}>
+                <ListItemText
+                  primary={
+                    <>
+                      {setting.primary}
+                      {setting.comingSoon && (
+                        <Chip
+                          size="small"
+                          label="Coming soon"
+                          sx={{ fontWeight: 700, ml: 1 }}
+                        />
+                      )}
+                    </>
+                  }
+                  secondary={setting.secondary}
+                />
+                <Switch
+                  disabled={setting.comingSoon || setting.disabled}
+                  checked={data[setting.key]}
+                  onClick={(e: any) =>
+                    handleNotificationChange(setting.key, e.target.checked)
+                  }
+                />
+              </ListItem>
+            ))}
           </Box>
         ) : error ? (
           <ErrorHandler
