@@ -135,25 +135,6 @@ export default async function handler(req, res) {
       }
     }
 
-    if (req.body.application) {
-      const token = await prisma.oAuthToken.create({
-        data: {
-          user: {
-            connect: {
-              id: user.id,
-            },
-          },
-        },
-      });
-      await DispatchNotification({
-        subscription: user.notificationSubscription as string,
-        title: "Account activity alert",
-        body: "Your Dysperse ID has been used to sign into an authorized application",
-        actions: [],
-      });
-      return res.json({ success: true, accessToken: token.accessToken });
-    }
-
     await DispatchNotification({
       subscription: user.notificationSubscription as string,
       title: "Account activity alert",
