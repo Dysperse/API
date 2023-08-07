@@ -105,6 +105,9 @@ export function CreateTask({
         px: 1,
         background: palette[active ? 8 : 3] + "!important",
         transition: "none!important",
+        "&, & *": {
+          color: palette[active ? 12 : 11] + "!important",
+        },
       }),
       button: (active) => ({
         background: palette[active ? 5 : 2] + "!important",
