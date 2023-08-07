@@ -8,6 +8,8 @@ import {
   IconButton,
   InputAdornment,
   LinearProgress,
+  Menu,
+  MenuItem,
   TextField,
   Toolbar,
   Typography,
@@ -15,11 +17,43 @@ import {
 } from "@mui/material";
 import { useRef, useState } from "react";
 
+function TimeSelector({ time, setTime }) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <Button variant="contained" onClick={handleClick}>
+        {time + 1}:00 <Icon>expand_more</Icon>
+      </Button>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {[...new Array(24)].map((_, hour) => (
+          <MenuItem
+            onClick={() => {
+              setTime(hour);
+              handleClose();
+            }}
+            key={hour}
+            selected={time === hour + 1}
+          >
+            {hour + 1 - (hour >= 12 ? 12 : 0)}
+            {hour + 1 > 12 ? "PM" : "AM"}
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
+  );
+}
 export default function CreateGoal() {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(min-width: 600px)");
-
   const numberRef: any = useRef();
 
   const steps = [
@@ -34,22 +68,26 @@ export default function CreateGoal() {
       type: "number",
       placeholder: "5 days",
       name: "How long do you want to work on this goal?",
-      id: "stepDuration",
+      id: "durationDays",
     },
     {
-      type: "text",
+      type: "daySelector",
       name: "What days do you want to work on this goal?",
-      id: "stepDays",
+      id: "daysOfWeek",
     },
     {
-      type: "number",
+      type: "time",
       name: "What time do you want to work on this goal?",
-      id: "stepTime",
+      id: "timeOfDay",
     },
   ];
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    durationDays: 7,
+    timeOfDay: 7,
+    daysOfWeek: [true, true, true, true, true, true, true],
+  });
 
   const handleNextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -62,7 +100,7 @@ export default function CreateGoal() {
 
   const handleInputChange = (event) => {
     let { id, type, value } = event.target;
-    if (type === "number" && value < 1) return;
+    if (type === "number" && value < 5) return;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
@@ -123,14 +161,50 @@ export default function CreateGoal() {
           />
         )}
 
+        {steps[currentStep].type === "daySelector" && (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            {[...new Array(7)].map((_, index) => (
+              <IconButton
+                key={index}
+                sx={{
+                  width: 45,
+                  color: palette[12] + "!important",
+                  height: 45,
+                  ...(formData.daysOfWeek[index] && {
+                    background: palette[3] + "!important",
+                    color: palette[11] + "!important",
+                  }),
+                }}
+                onClick={() => {
+                  let temp = formData.daysOfWeek;
+                  temp[index] = !formData.daysOfWeek[index];
+                  setFormData((data) => ({
+                    ...data,
+                    daysOfWeek: temp,
+                  }));
+                }}
+              >
+                {["S", "M", "T", "W", "T", "F", "S"][index]}
+              </IconButton>
+            ))}
+          </Box>
+        )}
+
+        {steps[currentStep].type === "time" && (
+          <TimeSelector
+            time={formData.timeOfDay}
+            setTime={(s) => setFormData((d) => ({ ...d, timeOfDay: s }))}
+          />
+        )}
+
         {steps[currentStep].type === "number" && (
           <Box sx={{ display: "flex", gap: 2 }}>
             <IconButton
-              disabled={formData[steps[currentStep].id] == 1}
+              disabled={formData[steps[currentStep].id] <= 5}
               onClick={() =>
                 setFormData((s) => ({
                   ...s,
-                  [steps[currentStep].id]: formData[steps[currentStep].id] + 1,
+                  [steps[currentStep].id]: formData[steps[currentStep].id] - 1,
                 }))
               }
             >
@@ -143,7 +217,6 @@ export default function CreateGoal() {
               type="number"
               size="small"
               fullWidth
-              defaultValue={7}
               id={steps[currentStep].id}
               value={formData[steps[currentStep].id] || ""}
               onChange={handleInputChange}
@@ -174,7 +247,7 @@ export default function CreateGoal() {
           fullWidth
           onClick={handleNextStep}
           disabled={
-            formData[steps[currentStep].id]?.trim() === "" ||
+            formData[steps[currentStep].id]?.length === 0 ||
             formData[steps[currentStep].id] === 0
           }
           style={{ marginTop: "16px" }}
