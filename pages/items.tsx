@@ -109,7 +109,7 @@ export default function Inventory({ children = null }: any) {
                   sx={{ color: palette[8] }}
                   onClick={() => router.push("/items")}
                 >
-                  <Icon>close</Icon>
+                  <Icon>arrow_back_ios_new</Icon>
                 </IconButton>
                 <IconButton
                   sx={{ color: palette[8], ml: "auto" }}
