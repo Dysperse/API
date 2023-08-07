@@ -37,7 +37,7 @@ import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { GroupModal } from "../components/Group/GroupModal";
 
-function StatusSelector({ mutationUrl }) {
+function StatusSelector({ profile, mutationUrl }) {
   const session = useSession();
   const now = useMemo(() => dayjs(), []);
 
@@ -65,6 +65,8 @@ function StatusSelector({ mutationUrl }) {
       status,
       start: new Date().toISOString(),
       until: time,
+      timeZone: session.user.timeZone,
+      profile: JSON.stringify(profile),
     });
     setOpen(false);
     toast.success(
@@ -73,7 +75,7 @@ function StatusSelector({ mutationUrl }) {
     );
     mutate(url);
     mutate(mutationUrl);
-  }, [session, status, time, url, mutationUrl]);
+  }, [session, status, time, url, mutationUrl, profile]);
 
   const resetStatus = useCallback(
     () =>
@@ -229,7 +231,14 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
         : friend?.Status?.status === "away"
         ? orangePalette
         : grayPalette,
-    [isExpired, friend?.Status?.status]
+    [
+      isExpired,
+      friend?.Status?.status,
+      grayPalette,
+      greenPalette,
+      redPalette,
+      orangePalette,
+    ]
   );
 
   const [open, setOpen] = useState(false);
@@ -395,6 +404,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
             {friend?.Profile?.spotify && (
               <Grid item xs={12} sm={7} sx={{ p: 1 }}>
                 <SpotifyCard
+                  open={open}
                   email={friend.email}
                   styles={{
                     borderRadius: 5,
@@ -721,6 +731,10 @@ export default function Home() {
     date: dayjs().startOf("day").toISOString(),
   });
 
+  const { data: profileData } = useApi("user/profile", {
+    email: session.user.email,
+  });
+
   const sortedFriends = useMemo(() => {
     return (
       data?.friends &&
@@ -792,7 +806,7 @@ export default function Home() {
           }}
         >
           <SearchFriend mutationUrl={url} />
-          <StatusSelector mutationUrl={url} />
+          <StatusSelector mutationUrl={url} profile={profileData} />
           <Button
             variant="contained"
             onClick={() =>

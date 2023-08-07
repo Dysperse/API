@@ -139,6 +139,7 @@ export default function Notifications() {
       key: "accountUpdates",
       comingSoon: false,
       disabled: true,
+      enabled: true,
       primary: "Account",
       secondary: "Recieve security notifications",
     },
@@ -146,6 +147,7 @@ export default function Notifications() {
       key: "dailyRoutineNudge",
       comingSoon: false,
       disabled: false,
+      enabled: null,
       primary: "Coach",
       secondary: "Get reminders to work on your goals",
     },
@@ -153,6 +155,7 @@ export default function Notifications() {
       key: "dailyCheckInNudge",
       comingSoon: false,
       disabled: false,
+      enabled: null,
       primary: "Check-in",
       secondary: "Recieve daily reminders to check-in on how you're feeling",
     },
@@ -161,6 +164,7 @@ export default function Notifications() {
       key: "followerUpdates",
       comingSoon: true,
       disabled: false,
+      enabled: null,
       primary: "Follows",
       secondary: "Get notified when someone follows you",
     },
@@ -168,6 +172,7 @@ export default function Notifications() {
       key: "statusUpdates",
       comingSoon: true,
       disabled: false,
+      enabled: null,
       primary: "Status updates",
       secondary: "Get notified when your friends set their status",
     },
@@ -175,6 +180,7 @@ export default function Notifications() {
       key: "todoListUpdates",
       comingSoon: true,
       disabled: false,
+      enabled: null,
       primary: "Tasks",
       secondary: "Recieve notifiations when you set due dates to tasks",
     },
@@ -182,6 +188,7 @@ export default function Notifications() {
       key: "lowItemCount",
       comingSoon: true,
       disabled: false,
+      enabled: null,
       primary: "Low item count reminders",
       secondary:
         "Recieve a notification when you have less than 5 items in your inventory",
@@ -277,7 +284,7 @@ export default function Notifications() {
                 />
                 <Switch
                   disabled={setting.comingSoon || setting.disabled}
-                  checked={data[setting.key]}
+                  checked={setting.enabled || data[setting.key]}
                   onClick={(e: any) =>
                     handleNotificationChange(setting.key, e.target.checked)
                   }

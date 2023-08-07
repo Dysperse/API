@@ -80,10 +80,12 @@ model Integration {
 
 // Customizable notification settings (1 row per user)
 model NotificationSettings {
-  id                String  @id @unique @default(uuid())
+  id String @id @unique @default(uuid())
+
   todoListUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
   dailyCheckInNudge Boolean @default(true)
+  statusUpdates     Boolean @default(true)
 
   boards Boolean @default(true)
 

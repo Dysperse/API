@@ -126,6 +126,7 @@ export function SpotifyCard({
   email,
   profile,
   hideIfNotPlaying = false,
+  open = false,
 }: any) {
   const session = useSession();
   const [loading, setLoading] = useState(true);
@@ -143,26 +144,22 @@ export function SpotifyCard({
 
     setLoading(false);
     setPlaying(response);
-
-    if (response.error?.status === 401) {
-      await fetchRawApi(session, "user/spotify/refresh");
-      await mutate(mutationUrl);
-      await getSpotifyData();
-    }
-  }, [profile.spotify, session, mutationUrl, email]);
+  }, [profile.spotify, session, email]);
 
   useEffect(() => {
-    getSpotifyData();
-    const interval = setInterval(() => {
+    if (open) {
       getSpotifyData();
-    }, 10000);
+      const interval = setInterval(() => {
+        getSpotifyData();
+      }, 10000);
 
-    window.addEventListener("focus", getSpotifyData);
-    return () => {
-      window.removeEventListener("focus", getSpotifyData);
-      clearInterval(interval);
-    };
-  }, [getSpotifyData]);
+      window.addEventListener("focus", getSpotifyData);
+      return () => {
+        window.removeEventListener("focus", getSpotifyData);
+        clearInterval(interval);
+      };
+    }
+  }, [getSpotifyData, open]);
 
   if (hideIfNotPlaying && !playing?.item) return null;
 
@@ -528,6 +525,7 @@ export function UserProfile({
 
           {profile.spotify && (
             <SpotifyCard
+              open
               email={data.email}
               styles={profileCardStyles}
               profile={profile}

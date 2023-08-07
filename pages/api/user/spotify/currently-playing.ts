@@ -34,10 +34,11 @@ export default async function handler(req, res) {
       }
     ).then((res) => res.json());
 
-    await prisma.profile.updateMany({
-      where: { user: { email: req.query.email } },
-      data: { spotify: { ...refreshResponse, refresh_token } },
-    });
+    if (refresh_token && refreshResponse.access_token)
+      await prisma.profile.updateMany({
+        where: { user: { email: req.query.email } },
+        data: { spotify: { ...refreshResponse, refresh_token } },
+      });
 
     response = await getSong(refreshResponse.access_token);
   }

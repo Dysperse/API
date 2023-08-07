@@ -1,19 +1,23 @@
 const webPush = require("web-push");
 import { prisma } from "@/lib/server/prisma";
 
+export namespace Dysperse {
+  export interface Notification {
+    subscription: string;
+    title: string;
+    body?: string;
+    actions?: { title: string; action: string }[];
+    icon?: string;
+  }
+}
+
 export const DispatchNotification = async ({
   subscription,
   title,
   body,
   actions,
   icon = "https://assets.dysperse.com/v7/ios/192.png",
-}: {
-  subscription: string;
-  title: string;
-  body?: string;
-  actions?: { title: string; action: string }[];
-  icon?: string;
-}) => {
+}: Dysperse.Notification) => {
   try {
     webPush.setVapidDetails(
       `mailto:${process.env.WEB_PUSH_EMAIL}`,
