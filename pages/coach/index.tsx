@@ -136,6 +136,7 @@ export default function Render() {
               px: { sm: 3 },
               display: "flex",
               background: { xs: palette[3], sm: palette[4] },
+              borderRadius: 5,
               alignItems: "center",
             }}
           >
