@@ -4,10 +4,10 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
-  CircularProgress,
-  Collapse,
+  Button,
   Divider,
   Icon,
+  LinearProgress,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -240,29 +240,25 @@ const Column = React.memo(function Column({
         borderColor: palette[3],
       }}
     >
-      <Collapse in={loading}>
-        <Box
+      {loading && (
+        <LinearProgress
           sx={{
-            height: { xs: "140px", sm: "100px" },
-            display: "flex",
-            justifyContent: "center",
-            mt: { xs: "65px", sm: "0px" },
-            alignItems: "center",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            zIndex: 999999999,
           }}
-        >
-          <CircularProgress />
-        </Box>
-      </Collapse>
-      {header}
-      <Box sx={{ p: { sm: 1 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
-        <CreateTask
-          column={{ id: "-1", name: "" }}
-          defaultDate={column}
-          label="New task"
-          placeholder="Create a task..."
-          mutationUrl={url}
-          boardId={1}
         />
+      )}
+      {header}
+      <Box sx={{ p: { sm: 2 }, pt: { xs: 1 }, pb: { sm: 0.5 } }}>
+        <CreateTask onSuccess={() => mutate(url)}>
+          <Button variant="contained" fullWidth>
+            <Icon>add_circle</Icon>
+            New task
+          </Button>
+        </CreateTask>
       </Box>
       <Box sx={{ px: { sm: 1 }, height: "100%" }}>
         <Virtuoso
