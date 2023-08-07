@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     const data = await prisma.task.findMany({
       where: {
-        propertyId: req.query.id,
+        AND: [{ propertyId: req.query.id || "-1" }, { due: { not: null } }],
       },
       include: {
         column: { select: { name: true } },
@@ -21,6 +21,7 @@ export default async function handler(req, res) {
       name: "Dysperse",
       description: "Tasks from your Dysperse account at my.dysperse.com",
       url: "https://my.dysperse.com",
+      timezone: req.query.timeZone,
     });
 
     for (let i = 0; i < data.length; i++) {
@@ -39,8 +40,8 @@ export default async function handler(req, res) {
       });
     }
 
-    // res.send(calendar.toString());
-    calendar.serve(res);
+    res.send(calendar.toString());
+    // calendar.serve(res);
   } catch (e: any) {
     res.status(500).json({ error: e.message });
   }

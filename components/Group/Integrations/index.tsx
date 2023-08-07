@@ -72,7 +72,7 @@ export const integrations = [
 export default function Integrations({ handleClose }) {
   const { data, url, error } = useApi("property/integrations");
   const session = useSession();
-  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}`;
+  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
 
   const [open, setOpen] = useState(false);
 

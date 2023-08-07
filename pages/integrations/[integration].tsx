@@ -73,7 +73,7 @@ function Layout() {
     board.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}`;
+  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
