@@ -338,7 +338,7 @@ function Layout() {
                           );
                         }}
                       >
-                        <Icon className="outlined">open_in_new</Icon>
+                        <Icon className="outlined">add_circle</Icon>
                       </IconButton>
                     </InputAdornment>
                   ),
