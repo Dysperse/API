@@ -62,9 +62,9 @@ const Notification = async (req, res) => {
 
     // Current time in user's timezone
     const currentTimeInUserTimeZone = dayjs().tz(timeZone).hour();
-    const bufferStart = dayjs().tz(timeZone).startOf("hour")
+    const bufferStart = dayjs().tz(timeZone).startOf("hour");
 
-    if (bufferStart.diff(dayjs().tz(timeZone), "minutes") > 5) return;
+    if (dayjs().tz(timeZone).diff(bufferStart, "minutes") > 5) return;
 
     const currentRoutine = RoutineItem.find(
       (routine: RoutineItem) =>
