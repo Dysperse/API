@@ -163,6 +163,7 @@ export function Sidebar() {
   const shouldHide = [
     "/claim-esb",
     "/users",
+    "/coach/explore",
     "/settings",
     "/coach/routine",
     "/groups",

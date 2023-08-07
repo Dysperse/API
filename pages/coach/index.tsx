@@ -3,6 +3,7 @@ import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -18,6 +19,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import { Navbar } from "..";
 
@@ -43,31 +45,29 @@ export default function Render() {
 
   return (
     <>
-      {isMobile && (
-        <Navbar
-          showLogo
-          showRightContent
-          right={
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              style={{ marginLeft: "auto" }}
+      <Navbar
+        showLogo={isMobile}
+        showRightContent={isMobile}
+        right={
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            style={{ marginLeft: "auto" }}
+          >
+            <Button
+              onClick={() => router.push("/coach/explore")}
+              sx={{
+                mr: 1,
+                color: palette[8],
+                background: palette[2],
+                px: 2,
+              }}
             >
-              <Button
-                onClick={() => router.push("/coach/explore")}
-                sx={{
-                  mr: 1,
-                  color: palette[8],
-                  background: palette[2],
-                  px: 2,
-                }}
-              >
-                <Icon className="outlined">add_circle</Icon>Create
-              </Button>
-            </motion.div>
-          }
-        />
-      )}
+              <Icon className="outlined">add_circle</Icon>Create
+            </Button>
+          </motion.div>
+        }
+      />
       <Head>
         <title>Coach</title>
       </Head>
@@ -82,6 +82,13 @@ export default function Render() {
             <Box sx={{ display: "flex", gap: 1 }}>
               <Tooltip title="Streak">
                 <Chip
+                  onClick={() => {
+                    toast.dismiss();
+                    toast("Streak", {
+                      ...toastStyles,
+                      icon: <Icon>local_fire_department</Icon>,
+                    });
+                  }}
                   sx={{
                     ...(useStreakStyles && {
                       background: orange["orange9"] + "!important",
@@ -98,16 +105,19 @@ export default function Render() {
                   }
                 />
               </Tooltip>
-              <Tooltip title="Trophies earned">
-                <Chip
-                  icon={
-                    <Icon sx={{ color: "inherit!important" }}>
-                      military_tech
-                    </Icon>
-                  }
-                  label={session.user.trophies}
-                />
-              </Tooltip>
+              <Chip
+                onClick={() => {
+                  toast.dismiss();
+                  toast("Trophies earned", {
+                    ...toastStyles,
+                    icon: <Icon>military_tech</Icon>,
+                  });
+                }}
+                icon={
+                  <Icon sx={{ color: "inherit!important" }}>military_tech</Icon>
+                }
+                label={session.user.trophies}
+              />
             </Box>
           </Box>
           {error && (
