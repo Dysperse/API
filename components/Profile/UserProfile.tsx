@@ -464,7 +464,7 @@ export function UserProfile({
             />
           )}
 
-          {data.Status && (
+          {data.Status && dayjs(data?.Status?.until).isAfter(dayjs()) && (
             <Box sx={profileCardStyles}>
               <Box
                 sx={{
@@ -492,6 +492,10 @@ export function UserProfile({
                   my: 1,
                   height: 10,
                   borderRadius: 99,
+                  background: palette[3],
+                  "& *": {
+                    background: palette[9] + "!important",
+                  },
                 }}
                 value={
                   (dayjs().diff(data.Status.started, "minute") /
