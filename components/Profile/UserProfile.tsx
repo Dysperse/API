@@ -234,6 +234,8 @@ export function SpotifyCard({
         </>
       ) : loading ? (
         "Loading..."
+      ) : playing?.currently_playing_type === "ad" ? (
+        "Listening to ad"
       ) : (
         "Not playing anything - check back later!"
       )}
