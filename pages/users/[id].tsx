@@ -6,6 +6,7 @@ import { UserProfile } from "@/components/Profile//UserProfile";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SearchUser } from "@/components/Profile/SearchUser";
 import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
@@ -318,7 +319,7 @@ function Page() {
       <AppBar
         position="sticky"
         sx={{
-          background: palette[1],
+          background: addHslAlpha(palette[1], 0.9),
           borderColor: "transparent",
         }}
       >
@@ -468,13 +469,18 @@ function Page() {
                         overflow: "hidden",
                         maxWidth: "100%",
                         minWidth: 0,
-                        display: "flex",
-                        alignItems: "center",
                       }}
                     >
-                      <span style={{ fontWeight: 900 }}>{data.name}</span>{" "}
+                      <span style={{ fontWeight: 900 }}>{data.name}</span>
                       {data?.email === "manusvathgurudath@gmail.com" && (
-                        <Icon>verified</Icon>
+                        <Icon
+                          sx={{
+                            verticalAlign: "middle",
+                            ml: 1,
+                          }}
+                        >
+                          verified
+                        </Icon>
                       )}
                     </Typography>
                     <Typography
