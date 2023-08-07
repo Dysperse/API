@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
   let response = await getSong(access_token);
 
-  if (response.error && refresh_token) {
+  if ((response.error && refresh_token) || true) {
     const refreshResponse = await fetch(
       "https://accounts.spotify.com/api/token",
       {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
     await prisma.profile.updateMany({
       where: { user: { email: req.query.email } },
-      data: { spotify: refreshResponse },
+      data: { spotify: { ...refreshResponse, refresh_token } },
     });
 
     response = await getSong(refreshResponse.access_token);
