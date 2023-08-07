@@ -224,6 +224,29 @@ function Layout() {
                   ),
                 }}
               />
+              <ListItemButton
+                onClick={() => {
+                  fetchRawApi(session, "property/boards/create", {
+                    board: JSON.stringify({
+                      for: [],
+                      category: "",
+                      name: "Integration",
+                      columns: [],
+                    }),
+                  }).then(async (res) => {
+                    setBoardId(res.id);
+                    setStep(step + 1);
+                    toast.success("We've created a new board for you!");
+                  });
+                }}
+                sx={{
+                  background: palette[2] + "!important",
+                  mb: 2,
+                }}
+              >
+                <Icon className="outlined">add_circle</Icon>
+                <ListItemText primary="Create board" />
+              </ListItemButton>
               {data && (
                 <motion.div
                   initial={{ x: 100, opacity: 0 }}

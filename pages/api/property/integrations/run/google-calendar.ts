@@ -29,7 +29,10 @@ const handler = async (req, res) => {
     const inputParams = JSON.parse(data1.inputParams);
     console.log(inputParams);
     const calendar = await fetch(
-      decodeURIComponent(inputParams["Secret address in iCal format"])
+      decodeURIComponent(
+        inputParams["Secret address in iCal format"] ||
+          inputParams["Connect Dysperse to Google Calendar"]
+      )
     ).then((res) => res.text());
 
     const parsed = ical.parseICS(calendar);
@@ -79,6 +82,7 @@ const handler = async (req, res) => {
           name: summary,
           where: location,
           description,
+          completed: dayjs(due).isAfter(dayjs().tz(req.query.timeZone)),
           ...(due && { due }),
           property: { connect: { id: req.query.property } },
           column: {
