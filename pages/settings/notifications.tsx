@@ -170,7 +170,7 @@ export default function Notifications() {
     },
     {
       key: "statusUpdates",
-      comingSoon: true,
+      comingSoon: false,
       disabled: false,
       enabled: null,
       primary: "Status updates",
