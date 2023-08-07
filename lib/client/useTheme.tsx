@@ -204,10 +204,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiTextField: {
         defaultProps: {
-          autoComplete: "off",
+          autoComplete: "no",
           fullWidth: true,
           InputProps: {
-            autoComplete: "off",
+            autoComplete: "no",
           },
         },
       },
