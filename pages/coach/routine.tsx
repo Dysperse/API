@@ -205,7 +205,7 @@ export default function Routine() {
             <Typography variant="h1" sx={{ mb: 1 }} className="font-heading">
               All done.
             </Typography>
-            <Box sx={{ zIndex: 9999999, mb: 2 }}>
+            <Box sx={{ zIndex: 9999999, mb: 3 }}>
               <DailyCheckIn />
             </Box>
             <Button
