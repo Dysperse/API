@@ -11,7 +11,9 @@ import {
   Button,
   Chip,
   Icon,
+  IconButton,
   LinearProgress,
+  Skeleton,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -28,79 +30,93 @@ import { WorkingHours } from "./WorkingHours";
 function Contacts({ profile }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const [open, setOpen] = useState(true);
 
   const { data, url } = useApi("/user/google/contacts", {
     tokenObj: JSON.stringify(profile.google),
     email: session.user.email,
   });
 
-  return (
-    <>
-      {data && data.length > 0 && (
-        <Typography variant="h6" sx={{ mb: 1 }}>
-          People you might know
+  return data && data.length > 0 && open ? (
+    <Box
+      sx={{
+        border: "1px solid",
+        borderColor: palette[3],
+        mb: 2,
+        pb: 2,
+        borderRadius: 5,
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          p: 3,
+          py: 1,
+          mb: 2,
+          borderBottom: `1px solid ${palette[3]}`,
+        }}
+      >
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          Suggestions for you
         </Typography>
-      )}
-      {data &&
-        data.length === 0 &&
-        window.location.href.includes("override") && (
-          <Alert
-            title="New contacts not found"
-            variant="filled"
-            severity="info"
+        <IconButton onClick={() => setOpen(false)}>
+          <Icon>close</Icon>
+        </IconButton>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          px: 3,
+          overflowX: "auto",
+          gap: 2,
+        }}
+      >
+        {data.map((contact) => (
+          <Box
+            key={contact.email}
+            sx={{
+              width: "180px",
+              flexBasis: "180px",
+              background: palette[2],
+              borderRadius: 5,
+              gap: 1,
+              p: 2,
+              textAlign: "center",
+            }}
           >
-            We don&apos;t have any suggestions for you right now. Try adding
-            more contacts to your Google account and check back later!
-          </Alert>
-        )}
-      {data && data.length > 0 && (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            overflowX: "auto",
-            gap: 2,
-            mb: 2,
-          }}
-        >
-          {data.map((contact) => (
-            <Box
-              key={contact.email}
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <ProfilePicture data={contact} mutationUrl="" size={70} />
+            </Box>
+            <Typography
+              variant="h6"
               sx={{
-                width: "180px",
-                flexBasis: "180px",
-                background: palette[2],
-                borderRadius: 5,
-                gap: 1,
-                p: 2,
-                textAlign: "center",
+                my: 1,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <ProfilePicture data={contact} mutationUrl="" size={70} />
-              </Box>
-              <Typography
-                variant="h6"
-                sx={{
-                  my: 1,
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {contact.name}
-              </Typography>
-              <Link href={`/users/${contact.email}`}>
-                <Button variant="contained">
-                  <Icon>person</Icon>
-                  Open
-                </Button>
-              </Link>
-            </Box>
-          ))}
-        </Box>
-      )}
-    </>
+              {contact.name}
+            </Typography>
+            <Link href={`/users/${contact.email}`}>
+              <Button variant="contained">
+                <Icon>person</Icon>
+                Open
+              </Button>
+            </Link>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  ) : data && data.length === 0 && window.location.href.includes("override") ? (
+    <Alert title="New contacts not found" variant="filled" severity="info">
+      We don&apos;t have any suggestions for you right now. Try adding more
+      contacts to your Google account and check back later!
+    </Alert>
+  ) : (
+    <></>
   );
 }
 
@@ -232,12 +248,67 @@ export function SpotifyCard({
             </Box>
           </Box>
         </>
-      ) : loading ? (
-        "Loading..."
-      ) : playing?.currently_playing_type === "ad" ? (
-        "Listening to ad"
+      ) : loading || playing?.currently_playing_type === "ad" ? (
+        <>
+          <Box sx={{ display: "flex", gap: 3 }}>
+            <Box sx={{ width: "100%" }}>
+              <Box
+                sx={{
+                  borderRadius: 5,
+                  aspectRatio: "1 / 1",
+                  width: "100%",
+                  background: "rgba(255,255,255,.2)",
+                }}
+              />
+            </Box>
+            <picture>
+              <img
+                src={
+                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
+                }
+                alt="Spotify"
+                style={{ width: "45px", height: "45px" }}
+              />
+            </picture>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              overflow: "hidden",
+            }}
+          >
+            <Skeleton
+              animation={false}
+              variant="circular"
+              width={35}
+              height={35}
+            />
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 1 }}>
+              <Skeleton animation={false} width="50%" height={70} />
+              <Skeleton animation={false} width="80%" />
+              <Skeleton animation={false} width="100%" />
+            </Box>
+          </Box>
+        </>
       ) : (
-        "Not playing anything - check back later!"
+        <>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              Not playing
+            </Typography>
+            <picture>
+              <img
+                src={
+                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
+                }
+                alt="Spotify"
+                style={{ width: "45px", height: "45px" }}
+              />
+            </picture>
+          </Box>
+        </>
       )}
     </Box>
   );
