@@ -12,6 +12,13 @@ async function getSong(access_token) {
 export default async function handler(req, res) {
   await validateParams(req.query, ["email"]);
   const { access_token, refresh_token } = JSON.parse(req.query.spotify);
+
+  console.log({
+    email: req.query.email,
+    access_token,
+    refresh_token,
+  });
+
   const client_id = process.env.SPOTIFY_CLIENT_ID;
   const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 

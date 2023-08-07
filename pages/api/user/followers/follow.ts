@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       try {
         await DispatchNotification({
           subscription: victim.notificationSubscription,
-          title: "You've gained a new follower",
+          title: "You have a new follower!",
           body: "Tap to view profile",
         });
       } catch {}
