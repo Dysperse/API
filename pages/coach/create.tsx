@@ -3,6 +3,7 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
@@ -126,12 +127,13 @@ export default function CreateGoal() {
         name: formData.stepName,
         category: "",
       });
-      setLoading(false);
+      toast.success("Goal set!", toastStyles);
+      router.push("/coach");
     } catch (e) {
       setLoading(false);
-      toast.error("Something went wrong. Please try again later.");
+      toast.error("Something went wrong. Please try again later.", toastStyles);
     }
-  }, [formData, session, setLoading]);
+  }, [formData, session, router, setLoading]);
 
   return (
     <Box
@@ -214,7 +216,14 @@ export default function CreateGoal() {
                   emoji={formData[steps[currentStep].id]}
                   setEmoji={(s) => setFormData((d) => ({ ...d, emoji: s }))}
                 >
-                  <IconButton sx={{ width: 70, height: 70 }}>
+                  <IconButton
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      border: "2px solid",
+                      borderColor: palette[3],
+                    }}
+                  >
                     <picture>
                       <img
                         width={60}
