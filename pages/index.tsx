@@ -301,7 +301,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
-        PaperProps={{ sx: { background: palette[1], maxHeight: "70vh" } }}
+        PaperProps={{ sx: { background: palette[1] } }}
       >
         <Box
           sx={{
