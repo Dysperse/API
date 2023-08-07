@@ -1,6 +1,7 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -17,6 +18,7 @@ import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { cloneElement, useMemo, useState } from "react";
 import DatePicker from "react-calendar";
+import { toast } from "react-hot-toast";
 
 const SelectDateModal: any = React.memo(function SelectDateModal({
   ref,
@@ -192,6 +194,19 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
           value={new Date(date)}
           onChange={(e: any) => {
             setDate(e);
+            toast(
+              <span>
+                <b>{dayjs(date).format("dddd, MMMM D")}</b>{" "}
+                {dayjs(date).format("HHmm") !== "0000" && (
+                  <>
+                    {" "}
+                    at <b>{dayjs(date).format("h:mm A")}</b>
+                  </>
+                )}
+              </span>,
+              toastStyles
+            );
+            setTimeout(() => setOpen(false), 50);
           }}
         />
         <Box

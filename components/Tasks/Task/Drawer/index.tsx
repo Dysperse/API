@@ -94,6 +94,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   useHotkeys(
     "delete",
     () => {
+      if (!open) return;
       handleDelete(id);
       setOpen(false);
     },

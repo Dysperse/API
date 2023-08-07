@@ -13,8 +13,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import advancedFormat from "dayjs/plugin/advancedFormat";
-import isoWeek from "dayjs/plugin/isoWeek";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -23,8 +21,6 @@ import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import Column from "./Column";
 
-dayjs.extend(advancedFormat);
-dayjs.extend(isoWeek);
 
 export const AgendaContext = createContext<any>(null);
 

@@ -26,6 +26,7 @@ const TaskColorPicker = React.memo(function TaskColorPicker({
   children,
   color,
   setColor,
+  titleRef,
 }: any) {
   const [open, setOpen] = useState(false);
   const trigger = cloneElement(children, {
@@ -38,7 +39,7 @@ const TaskColorPicker = React.memo(function TaskColorPicker({
         open={open}
         onClose={() => {
           setOpen(false);
-          document.getElementById("title")?.focus();
+          titleRef?.current?.focus();
         }}
         anchor="bottom"
       >
@@ -90,6 +91,7 @@ const ChipBar = React.memo(function ChipBar({
   data,
   setData,
   chipStyles,
+  titleRef,
 }: any) {
   const generateChipLabel = useCallback(
     (inputString) => {
@@ -173,7 +175,7 @@ const ChipBar = React.memo(function ChipBar({
             whiteSpace: "nowrap",
             display: "flex",
           }}
-          onClick={() => document.getElementById("title")?.focus()}
+          onClick={() => titleRef?.current?.focus()}
         >
           {chipComponent}
           {[
@@ -193,19 +195,24 @@ const ChipBar = React.memo(function ChipBar({
               <MemoizedChip
                 label="Add location?"
                 icon={<Icon>location_on</Icon>}
-                onClick={() =>
-                  setShowedFields((s) => ({ ...s, location: !s.location }))
-                }
+                onClick={() => {
+                  setShowedFields((s) => ({ ...s, location: !s.location }));
+                }}
                 sx={chipStyles(showedFields.location)}
               />
             </motion.div>
           )}
-          <TaskColorPicker color={data.color} setColor={setTaskColor}>
+          <TaskColorPicker
+            color={data.color}
+            setColor={setTaskColor}
+            titleRef={titleRef}
+          >
             <MemoizedChip
               icon={<Icon sx={{ pl: 2 }}>label</Icon>}
-              onClick={() =>
-                setShowedFields((s) => ({ ...s, location: !s.location }))
-              }
+              onClick={() => {
+                setShowedFields((s) => ({ ...s, location: !s.location }));
+                titleRef?.current?.blur();
+              }}
               sx={{
                 pr: "0!important",
                 ...chipStyles(false),

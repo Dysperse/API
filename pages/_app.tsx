@@ -14,7 +14,9 @@ import "../styles/normalize.scss";
 
 // Day.JS
 import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 import isBetween from "dayjs/plugin/isBetween";
+import isoWeek from "dayjs/plugin/isoWeek";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 // Hooks
@@ -34,6 +36,8 @@ const AuthLoading = dynamic(() => import("@/components/Auth/Loading"), {
   loading: () => <Loading />,
 });
 
+dayjs.extend(advancedFormat);
+dayjs.extend(isoWeek);
 dayjs.extend(relativeTime);
 dayjs.extend(isBetween);
 

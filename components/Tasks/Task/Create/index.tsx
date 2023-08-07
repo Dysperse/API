@@ -1,19 +1,27 @@
 import EmojiPicker from "@/components/EmojiPicker";
 import { FileDropInput } from "@/components/FileDrop";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
+  Avatar,
   Box,
   Button,
   Icon,
   IconButton,
+  InputAdornment,
+  ListItem,
+  ListItemText,
   SwipeableDrawer,
   TextField,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   cloneElement,
   memo,
@@ -24,6 +32,7 @@ import {
   useState,
 } from "react";
 import { toast } from "react-hot-toast";
+import SelectDateModal from "../DatePicker";
 import ChipBar from "./ChipBar";
 
 const MemoizedTextField = memo(TextField);
@@ -43,6 +52,8 @@ export function CreateTask({
 }: TaskCreationProps) {
   const session = useSession();
   const titleRef: any = useRef();
+  const locationRef: any = useRef();
+  const descriptionRef: any = useRef();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -73,20 +84,38 @@ export function CreateTask({
     const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value.replaceAll("\n", ""),
+      [name]:
+        name === "title"
+          ? capitalizeFirstLetter(value.replaceAll("\n", ""))
+          : value,
     }));
   }, []);
 
   const styles = useMemo(
     () => ({
+      chip: (active) => ({
+        mr: 1,
+        px: 1,
+        background: palette[active ? 8 : 3] + "!important",
+        transition: "none!important",
+      }),
       button: (active) => ({
         background: palette[active ? 5 : 2] + "!important",
+        "&:hover": {
+          background: { sm: palette[active ? 6 : 3] + "!important" },
+        },
         color: palette[active ? 11 : 12] + "!important",
         borderRadius: 3,
         p: 0.5,
         mr: 0.3,
+        "& *": {
+          transition: "all .2s!important",
+          fontVariationSettings:
+            '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
+        },
         ...(active && {
           "& *": {
+            transition: "all .2s!important",
             fontVariationSettings:
               '"FILL" 1, "wght" 350, "GRAD" 0, "opsz" 40!important',
           },
@@ -135,7 +164,7 @@ export function CreateTask({
       });
       document.getElementById("title")?.focus();
     },
-    [closeOnCreate, formData, session]
+    [closeOnCreate, formData, session, onSuccess]
   );
 
   return (
@@ -148,15 +177,12 @@ export function CreateTask({
         PaperProps={{ sx: { background: "transparent", borderRadius: 0 } }}
       >
         <ChipBar
+          titleRef={titleRef}
           showedFields={showedFields}
           setShowedFields={setShowedFields}
           data={formData}
           setData={setFormData}
-          chipStyles={(e) => ({
-            mr: 1,
-            px: 1,
-            background: palette[e ? 8 : 3] + "!important",
-          })}
+          chipStyles={styles.chip}
         />
         <Box
           sx={{
@@ -167,6 +193,7 @@ export function CreateTask({
           }}
         >
           <MemoizedTextField
+            autoFocus
             multiline
             placeholder="Task name..."
             variant="standard"
@@ -184,39 +211,96 @@ export function CreateTask({
               sx: { fontSize: "20px" },
             }}
           />
+          <Box
+            sx={{
+              borderRadius: 5,
+              mb: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+              "& .MuiAvatar-root": {
+                background: palette[3],
+                color: palette[9],
+              },
+            }}
+          >
+            {showedFields.description && (
+              <MemoizedTextField
+                multiline
+                placeholder="Note"
+                variant="standard"
+                inputRef={descriptionRef}
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                InputProps={{
+                  disableUnderline: true,
+                  startAdornment: (
+                    <InputAdornment position="start" sx={{ height: "40px" }}>
+                      <Avatar>
+                        <Icon className="outlined">sticky_note_2</Icon>
+                      </Avatar>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+            {showedFields.location && (
+              <MemoizedTextField
+                placeholder="Meeting URL or location"
+                variant="standard"
+                name="location"
+                inputRef={locationRef}
+                value={formData.location}
+                onChange={handleInputChange}
+                InputProps={{
+                  disableUnderline: true,
+                  startAdornment: (
+                    <InputAdornment position="start" sx={{ height: "40px" }}>
+                      <Avatar>
+                        <Icon className="outlined">location_on</Icon>
+                      </Avatar>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+            {formData.image && (
+              <ListItem sx={{ p: 0 }}>
+                <Avatar
+                  sx={{ background: palette[5], color: palette[9] }}
+                  src={JSON.parse(formData.image).url}
+                />
+                <ListItemText primary="1 attachment" />
+                <IconButton
+                  onClick={() => setFormData((s) => ({ ...s, image: "" }))}
+                >
+                  <Icon>close</Icon>
+                </IconButton>
+              </ListItem>
+            )}
+          </Box>
 
-          {showedFields.description && (
-            <MemoizedTextField
-              placeholder="Note"
-              variant="standard"
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              InputProps={{ disableUnderline: true }}
-            />
-          )}
-
-          {showedFields.location && (
-            <MemoizedTextField
-              placeholder="Meeting URL or location"
-              variant="standard"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              InputProps={{ disableUnderline: true }}
-            />
-          )}
-
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center" }}
+            onClick={() => {
+              titleRef?.current?.focus();
+            }}
+          >
             <IconButton
               size="small"
               sx={{ ...styles.button(formData.pinned), ml: -0.5 }}
               onClick={() => {
                 setFormData((s) => ({ ...s, pinned: !s.pinned }));
-                titleRef?.current?.focus();
               }}
             >
-              <Icon className="outlined">push_pin</Icon>
+              <Icon
+                sx={{
+                  ...(formData.pinned && { transform: "rotate(-35deg)" }),
+                }}
+              >
+                push_pin
+              </Icon>
             </IconButton>
             <EmojiPicker
               emoji=""
@@ -225,51 +309,102 @@ export function CreateTask({
               }}
               useNativeEmoji
             >
-              <IconButton size="small" sx={styles.button(false)}>
-                <Icon className="outlined">sentiment_satisfied</Icon>
+              <IconButton
+                size="small"
+                sx={{
+                  ...styles.button(false),
+                  display: { xs: "none", sm: "flex" },
+                }}
+              >
+                <Icon>sentiment_satisfied</Icon>
               </IconButton>
             </EmojiPicker>
             <IconButton
               size="small"
               sx={styles.button(showedFields.location)}
-              onClick={() =>
-                setShowedFields((s) => ({ ...s, location: !s.location }))
-              }
+              onClick={(e) => {
+                setShowedFields((s) => ({ ...s, location: !s.location }));
+                setTimeout(() => locationRef?.current?.focus());
+              }}
             >
-              <Icon className="outlined">location_on</Icon>
+              <Icon>location_on</Icon>
             </IconButton>
             <IconButton
               size="small"
               sx={styles.button(showedFields.description)}
-              onClick={() =>
-                setShowedFields((s) => ({ ...s, description: !s.description }))
-              }
+              onClick={() => {
+                setShowedFields((s) => ({ ...s, description: !s.description }));
+                setTimeout(() => descriptionRef?.current?.focus());
+              }}
             >
-              <Icon className="outlined">sticky_note_2</Icon>
+              <Icon>sticky_note_2</Icon>
             </IconButton>
             <FileDropInput
               onError={() => toast.error("Couldn't upload")}
               onSuccess={(res) => {
                 setFormData((s) => ({
                   ...s,
-                  image: JSON.stringify(res),
+                  image: JSON.stringify(res.data),
                 }));
               }}
               onUploadStart={() => {}}
             >
-              <IconButton size="small">
-                <Icon className="outlined">attach_file</Icon>
+              <IconButton size="small" sx={styles.button(formData.image)}>
+                <Icon>attach_file</Icon>
               </IconButton>
             </FileDropInput>
-            <Button
-              disableRipple
-              variant="contained"
-              disabled={formData.title.trim() === ""}
-              onClick={handleSubmit}
-              sx={{ ml: "auto", px: 2, minWidth: "unset" }}
-            >
-              <Icon>arrow_upward</Icon>
-            </Button>
+            <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
+              <AnimatePresence>
+                <SelectDateModal
+                  styles={() => {}}
+                  date={formData.date}
+                  setDate={(date) => setFormData((s) => ({ ...s, date }))}
+                >
+                  <Tooltip
+                    title={
+                      <Box>
+                        <Typography>
+                          <b>{dayjs(formData.date).format("dddd, MMMM D")}</b>
+                        </Typography>
+                        {dayjs(formData.date).format("HHmm") !== "0000" && (
+                          <Typography variant="body2">
+                            {dayjs(formData.date).format("h:mm A")}
+                          </Typography>
+                        )}
+                      </Box>
+                    }
+                  >
+                    <motion.div
+                      initial={{ scale: 0.5 }}
+                      animate={{ scale: 1 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 1000,
+                        damping: 20,
+                      }}
+                      key={formData.date.toISOString()}
+                    >
+                      <Button
+                        disableRipple
+                        variant="contained"
+                        sx={{ px: 2, minWidth: "unset" }}
+                      >
+                        <Icon>today</Icon>
+                      </Button>
+                    </motion.div>
+                  </Tooltip>
+                </SelectDateModal>
+              </AnimatePresence>
+              <Button
+                disableRipple
+                variant="contained"
+                disabled={formData.title.trim() === ""}
+                onClick={handleSubmit}
+                sx={{ px: 2, minWidth: "unset" }}
+              >
+                <Icon>arrow_upward</Icon>
+              </Button>
+            </Box>
           </Box>
         </Box>
       </SwipeableDrawer>
