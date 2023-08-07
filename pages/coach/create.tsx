@@ -1,5 +1,7 @@
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
   Box,
@@ -15,7 +17,8 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 
 function TimeSelector({ time, setTime }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -83,26 +86,39 @@ export default function CreateGoal() {
   ];
 
   const [currentStep, setCurrentStep] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     durationDays: 7,
     timeOfDay: 7,
+    stepName: "",
     daysOfWeek: [true, true, true, true, true, true, true],
   });
 
   const handleNextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
-    } else {
-      // Perform action to create goal using formData
-      console.log("Form data:", formData);
     }
   };
 
   const handleInputChange = (event) => {
     let { id, type, value } = event.target;
-    if (type === "number" && value < 5) return;
+    if (type === "number" && value < 5) value = 5;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
+
+  const handleSubmit = useCallback(async () => {
+    try {
+      setLoading(true);
+      await fetchRawApi(session, "user/coach/goals/create", {
+        ...formData,
+        name: formData.stepName,
+      });
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      toast.error("Something went wrong. Please try again later.");
+    }
+  }, [formData, session, setLoading]);
 
   return (
     <Box
@@ -204,11 +220,12 @@ export default function CreateGoal() {
               onClick={() =>
                 setFormData((s) => ({
                   ...s,
-                  [steps[currentStep].id]: formData[steps[currentStep].id] - 1,
+                  [steps[currentStep].id]:
+                    parseInt(formData[steps[currentStep].id]) - 1,
                 }))
               }
             >
-              <Icon>remove_circle</Icon>
+              <Icon className="outlined">remove_circle</Icon>
             </IconButton>
             <TextField
               inputRef={numberRef}
@@ -230,22 +247,26 @@ export default function CreateGoal() {
               onClick={() =>
                 setFormData((s) => ({
                   ...s,
-                  [steps[currentStep].id]: formData[steps[currentStep].id] + 1,
+                  [steps[currentStep].id]:
+                    parseInt(formData[steps[currentStep].id]) + 1,
                 }))
               }
             >
-              <Icon>add_circle</Icon>
+              <Icon className="outlined">add_circle</Icon>
             </IconButton>
           </Box>
         )}
 
         {/* Handle other input types (e.g., checkboxes) as needed */}
 
-        <Button
+        <LoadingButton
+          loading={loading}
           variant="contained"
           color="primary"
           fullWidth
-          onClick={handleNextStep}
+          onClick={
+            currentStep === steps.length - 1 ? handleSubmit : handleNextStep
+          }
           disabled={
             formData[steps[currentStep].id]?.length === 0 ||
             formData[steps[currentStep].id] === 0
@@ -253,7 +274,7 @@ export default function CreateGoal() {
           style={{ marginTop: "16px" }}
         >
           {currentStep === steps.length - 1 ? "Create Goal" : "Next"}
-        </Button>
+        </LoadingButton>
       </Box>
     </Box>
   );
