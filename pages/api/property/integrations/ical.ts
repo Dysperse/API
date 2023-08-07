@@ -40,8 +40,8 @@ export default async function handler(req, res) {
       });
     }
 
-    res.send(calendar.toString());
-    // calendar.serve(res);
+    // res.send(calendar.toString());
+    calendar.serve(res);
   } catch (e: any) {
     res.status(500).json({ error: e.message });
   }
