@@ -111,7 +111,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
             }}
             onClick={() => {
               toast.dismiss(t.id);
-              fetchRawApi("property/inventory/restore", {
+              fetchRawApi(session, "property/inventory/restore", {
                 id: itemData.id.toString(),
                 lastModified: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               });
