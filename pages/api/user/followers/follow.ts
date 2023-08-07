@@ -1,31 +1,44 @@
+import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 
 export default async function handler(req, res) {
   try {
     validateParams(req.query, ["followerEmail", "followingEmail"]);
+
     const { followerEmail, followingEmail }: any = req.query;
 
-    const follower = await prisma.user.findFirstOrThrow({
+    const victim = await prisma.user.findFirstOrThrow({
       where: {
         OR: [{ email: followingEmail }, { username: followingEmail }],
       },
       select: {
+        notificationSubscription: true,
         email: true,
       },
     });
+
+    if (victim.notificationSubscription) {
+      try {
+        await DispatchNotification({
+          subscription: victim.notificationSubscription,
+          title: "You've gained a new follower",
+          body: "Tap to view profile",
+        });
+      } catch {}
+    }
 
     await prisma.follows.upsert({
       where: {
         followerId_followingId: {
           followerId: followerEmail,
-          followingId: follower.email,
+          followingId: victim.email,
         },
       },
       update: {},
       create: {
         follower: { connect: { email: followerEmail } },
-        following: { connect: { email: follower.email } },
+        following: { connect: { email: victim.email } },
       },
     });
     res.json({ success: true });

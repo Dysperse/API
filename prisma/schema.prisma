@@ -293,22 +293,24 @@ model Task {
 }
 
 model RoutineItem {
-  id            String  @id @unique @default(uuid())
-  name          String
-  stepName      String
-  category      String
-  durationDays  Int
-  progress      Int     @default(0)
-  emoji         String
-  lastCompleted String?
-  completed     Boolean @default(false)
-  feedback      String? @default("")
-  timeOfDay     Int     @default(12)
+  id           String @id @unique @default(uuid())
+  name         String
+  stepName     String
+  category     String
+  durationDays Int
+  progress     Int    @default(0)
+  emoji        String
+
+  timeOfDay  Int       @default(12)
+  daysOfWeek Boolean[] @default([true, true, true, true, true, true, true])
+
+  lastCompleted       String?
+  completed           Boolean               @default(false)
+  feedback            String?               @default("")
+  RoutineActivityData RoutineActivityData[]
 
   userId String
   user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-
-  RoutineActivityData RoutineActivityData[]
 }
 
 model RoutineActivityData {

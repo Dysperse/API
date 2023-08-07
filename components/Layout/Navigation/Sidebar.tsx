@@ -164,6 +164,7 @@ export function Sidebar() {
     "/claim-esb",
     "/users",
     "/coach/explore",
+    "/coach/create",
     "/settings",
     "/coach/routine",
     "/groups",

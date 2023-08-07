@@ -64,6 +64,7 @@ export function BottomNav() {
     "/claim-esb",
     "/users",
     "/coach/explore",
+    "/coach/create",
     "/integrations",
     "/rooms/",
     "/groups",
