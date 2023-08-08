@@ -6,7 +6,6 @@ import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
-  Alert,
   Box,
   Button,
   Chip,
@@ -196,148 +195,129 @@ export default function Notifications() {
 
   return (
     <Layout>
-      {isInPwa || process.env.NODE_ENV === "development" ? (
-        data ? (
-          <Box sx={{ mb: 3 }}>
-            <ListItem
-              sx={{
-                background: palette[3],
-                borderRadius: 3,
-                mb: 2,
-              }}
-            >
+      {data ? (
+        <Box sx={{ mb: 3 }}>
+          <ListItem
+            sx={{
+              background: palette[3],
+              borderRadius: 3,
+              mb: 2,
+            }}
+          >
+            <ListItemText
+              primary="Enable notifications"
+              secondary={
+                <>
+                  <span
+                    style={{
+                      display: "block",
+                    }}
+                  >
+                    Receive push notifications on one device
+                  </span>
+                  <Button
+                    onClick={sendNotificationButtonOnClick}
+                    disabled={
+                      !isSubscribed && !session.user.notificationSubscription
+                    }
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      mt: 1,
+                      boxShadow: 0,
+                    }}
+                  >
+                    Send test notification
+                  </Button>
+                </>
+              }
+            />
+            <button
+              style={{ display: "none" }}
+              id="enable-notifications"
+              onClick={(event) => subscribeButtonOnClick(event)}
+            />
+            {enabledOnAnotherDevice ? (
+              <ConfirmationModal
+                title="Recieve notifications on this device?"
+                question="If you've enabled notifications on another device, enabling them here will disable them on the other device."
+                callback={() =>
+                  document.getElementById("enable-notifications")?.click()
+                }
+              >
+                <Button variant="contained">Enable</Button>
+              </ConfirmationModal>
+            ) : (
+              <Switch
+                checked={isSubscribed}
+                disabled={enabledOnAnotherDevice}
+                onClick={(event) => {
+                  if (isSubscribed) {
+                    unsubscribeButtonOnClick(event);
+                  } else {
+                    subscribeButtonOnClick(event);
+                  }
+                }}
+              />
+            )}
+          </ListItem>
+          {/* Map through the notification settings */}
+          {notificationSettings.map((setting) => (
+            <ListItem key={setting.key}>
               <ListItemText
-                primary="Enable notifications"
-                secondary={
+                primary={
                   <>
-                    <span
-                      style={{
-                        display: "block",
-                      }}
-                    >
-                      Receive push notifications on one device
-                    </span>
-                    <Button
-                      onClick={sendNotificationButtonOnClick}
-                      disabled={
-                        !isSubscribed && !session.user.notificationSubscription
-                      }
-                      variant="outlined"
-                      size="small"
-                      sx={{
-                        mt: 1,
-                        boxShadow: 0,
-                      }}
-                    >
-                      Send test notification
-                    </Button>
+                    {setting.primary}
+                    {setting.comingSoon && (
+                      <Chip
+                        size="small"
+                        label="Coming soon"
+                        sx={{ fontWeight: 700, ml: 1 }}
+                      />
+                    )}
                   </>
                 }
+                secondary={setting.secondary}
               />
-              <button
-                style={{ display: "none" }}
-                id="enable-notifications"
-                onClick={(event) => subscribeButtonOnClick(event)}
+              <Switch
+                disabled={setting.comingSoon || setting.disabled}
+                checked={setting.enabled || data[setting.key]}
+                onClick={(e: any) =>
+                  handleNotificationChange(setting.key, e.target.checked)
+                }
               />
-              {enabledOnAnotherDevice ? (
-                <ConfirmationModal
-                  title="Recieve notifications on this device?"
-                  question="If you've enabled notifications on another device, enabling them here will disable them on the other device."
-                  callback={() =>
-                    document.getElementById("enable-notifications")?.click()
-                  }
-                >
-                  <Button variant="contained">Enable</Button>
-                </ConfirmationModal>
-              ) : (
-                <Switch
-                  checked={isSubscribed}
-                  disabled={enabledOnAnotherDevice}
-                  onClick={(event) => {
-                    if (isSubscribed) {
-                      unsubscribeButtonOnClick(event);
-                    } else {
-                      subscribeButtonOnClick(event);
-                    }
-                  }}
-                />
-              )}
             </ListItem>
-            {/* Map through the notification settings */}
-            {notificationSettings.map((setting) => (
-              <ListItem key={setting.key}>
-                <ListItemText
-                  primary={
-                    <>
-                      {setting.primary}
-                      {setting.comingSoon && (
-                        <Chip
-                          size="small"
-                          label="Coming soon"
-                          sx={{ fontWeight: 700, ml: 1 }}
-                        />
-                      )}
-                    </>
-                  }
-                  secondary={setting.secondary}
-                />
-                <Switch
-                  disabled={setting.comingSoon || setting.disabled}
-                  checked={setting.enabled || data[setting.key]}
-                  onClick={(e: any) =>
-                    handleNotificationChange(setting.key, e.target.checked)
-                  }
-                />
-              </ListItem>
-            ))}
-          </Box>
-        ) : error ? (
-          <ErrorHandler
-            callback={() => mutate(url)}
-            error="An error occured while trying to fetch your notification settings"
-          />
-        ) : (
-          <Box
-            sx={{
-              my: 10,
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <CircularProgress size={30} />
-            <Typography
-              sx={{
-                textAlign: "center",
-                px: 3,
-              }}
-            >
-              <b>Loading your preferences...</b>
-              <br />
-              Keep in mind that this feature is still in beta, and you might
-              encounter issues
-            </Typography>
-          </Box>
-        )
+          ))}
+        </Box>
+      ) : error ? (
+        <ErrorHandler
+          callback={() => mutate(url)}
+          error="An error occured while trying to fetch your notification settings"
+        />
       ) : (
-        <Alert sx={{ mb: 3 }} severity="info">
-          Use the Dysperse PWA to enable notifications for Android, Desktop, and
-          Chrome OS
-          <Button
-            variant="contained"
-            fullWidth
-            href="//my.dysperse.com"
-            target="_blank"
+        <Box
+          sx={{
+            my: 10,
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress size={30} />
+          <Typography
             sx={{
-              mt: 2,
-              borderRadius: 9999,
+              textAlign: "center",
+              px: 3,
             }}
           >
-            Open
-          </Button>
-        </Alert>
+            <b>Loading your preferences...</b>
+            <br />
+            Keep in mind that this feature is still in beta, and you might
+            encounter issues
+          </Typography>
+        </Box>
       )}
     </Layout>
   );
