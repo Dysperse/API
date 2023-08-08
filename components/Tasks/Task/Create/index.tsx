@@ -41,7 +41,7 @@ interface TaskCreationProps {
   children: JSX.Element;
   onSuccess?: () => void;
   closeOnCreate?: boolean;
-  defaultDate?: Date;
+  defaultDate?: Date | null;
   parentId?: string;
   boardData?: {
     boardId: string;
@@ -383,16 +383,18 @@ export function CreateTask({
                 >
                   <Tooltip
                     title={
-                      <Box>
-                        <Typography>
-                          <b>{dayjs(formData.date).format("dddd, MMMM D")}</b>
-                        </Typography>
-                        {dayjs(formData.date).format("HHmm") !== "0000" && (
-                          <Typography variant="body2">
-                            {dayjs(formData.date).format("h:mm A")}
+                      formData.date && (
+                        <Box>
+                          <Typography>
+                            <b>{dayjs(formData.date).format("dddd, MMMM D")}</b>
                           </Typography>
-                        )}
-                      </Box>
+                          {dayjs(formData.date).format("HHmm") !== "0000" && (
+                            <Typography variant="body2">
+                              {dayjs(formData.date).format("h:mm A")}
+                            </Typography>
+                          )}
+                        </Box>
+                      )
                     }
                   >
                     <motion.div
@@ -403,11 +405,11 @@ export function CreateTask({
                         stiffness: 1000,
                         damping: 20,
                       }}
-                      key={formData.date.toISOString()}
+                      key={formData.date && formData.date.toISOString()}
                     >
                       <Button
                         disableRipple
-                        variant="contained"
+                        variant={!formData.date ? undefined : "contained"}
                         sx={{ px: 2, minWidth: "unset" }}
                       >
                         <Icon>today</Icon>

@@ -436,6 +436,7 @@ export function Column({
         <Box sx={{ p: 2, mb: { xs: 15, sm: 0 } }}>
           <CreateTask
             onSuccess={() => mutate(mutationUrls.tasks)}
+            defaultDate={null}
             boardData={{
               boardId: board.id,
               columnId: column.id,
