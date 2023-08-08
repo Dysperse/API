@@ -64,6 +64,7 @@ export function CreateTask({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -150,6 +151,7 @@ export function CreateTask({
       e.preventDefault();
       if (closeOnCreate) setOpen(false);
       if (formData.title.trim() === "") return;
+      setLoading(true);
       vibrate(50);
       await fetchRawApi(session, "property/boards/column/task/create", {
         ...formData,
@@ -173,8 +175,17 @@ export function CreateTask({
         image: "",
       });
       document.getElementById("title")?.focus();
+      setLoading(false);
     },
-    [closeOnCreate, formData, session, onSuccess, boardData]
+    [
+      closeOnCreate,
+      formData,
+      session,
+      onSuccess,
+      boardData,
+      setLoading,
+      parentId,
+    ]
   );
 
   return (
@@ -408,7 +419,7 @@ export function CreateTask({
               <Button
                 disableRipple
                 variant="contained"
-                disabled={formData.title.trim() === ""}
+                disabled={loading || formData.title.trim() === ""}
                 onClick={handleSubmit}
                 sx={{ px: 2, minWidth: "unset" }}
               >
