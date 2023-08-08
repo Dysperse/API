@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 
     if (
       victim.notificationSubscription &&
-      victim.notificationSubscription.followerUpdates
+      victim.NotificationSettings?.followerUpdates
     ) {
       try {
         await DispatchNotification({
