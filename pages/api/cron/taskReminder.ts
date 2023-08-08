@@ -2,9 +2,9 @@ const webPush = require("web-push");
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -74,6 +74,7 @@ const Notification = async (req, res) => {
         where: {
           AND: [
             { propertyId },
+            { completed: false },
             { due: { gte: currentTimeInUserTimeZone } },
             { due: { lte: notificationBuffer } },
             {
