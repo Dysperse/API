@@ -3,7 +3,8 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, Icon, SwipeableDrawer, TextField } from "@mui/material";
 import dayjs from "dayjs";
-import React, { cloneElement, useState } from "react";
+import { motion } from "framer-motion";
+import React, { cloneElement, useRef, useState } from "react";
 import DatePicker from "react-calendar";
 import { toast } from "react-hot-toast";
 
@@ -15,6 +16,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
   children,
 }: any) {
   const session = useSession();
+  const timeRef: any = useRef();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -46,45 +48,64 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
         }}
       >
         {timeOpen ? (
-          <Box sx={{ p: 2 }}>
-            <TextField
-              type="time"
-              value={dayjs(date).format("HH:mm")}
-              onChange={(e) => {
-                const [hours, minutes] = e.target.value.split(":");
-                const roundedMinutes = Math.round(parseInt(minutes) / 5) * 5; // Round minutes to nearest 5
-                setDate(
-                  dayjs(date)
-                    .set("hour", parseInt(hours))
-                    .set("minute", roundedMinutes)
+          <motion.div
+            key="time"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <Box sx={{ p: 2, display: "flex", gap: 2 }}>
+              <TextField
+                type="time"
+                defaultValue={dayjs(date).format("HH:mm")}
+                inputRef={timeRef}
+                size="small"
+                inputProps={{
+                  step: "600",
+                }}
+              />
+              <Button
+                onClick={() => {
+                  const [hours, minutes] = timeRef.current.value.split(":");
+                  const roundedMinutes = Math.round(parseInt(minutes) / 5) * 5; // Round minutes to nearest 5
+                  setDate(
+                    dayjs(date)
+                      .set("hour", parseInt(hours))
+                      .set("minute", roundedMinutes)
+                  );
+                }}
+                variant="contained"
+              >
+                <Icon>check</Icon>
+              </Button>
+            </Box>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="date"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <DatePicker
+              calendarType="US"
+              value={new Date(date)}
+              onChange={(e: any) => {
+                setDate(e);
+                toast(
+                  <span>
+                    <b>{dayjs(date).format("dddd, MMMM D")}</b>{" "}
+                    {dayjs(date).format("HHmm") !== "0000" && (
+                      <>
+                        {" "}
+                        at <b>{dayjs(date).format("h:mm A")}</b>
+                      </>
+                    )}
+                  </span>,
+                  toastStyles
                 );
-              }}
-              inputProps={{
-                step: "600",
+                setTimeout(() => setOpen(false), 50);
               }}
             />
-          </Box>
-        ) : (
-          <DatePicker
-            calendarType="US"
-            value={new Date(date)}
-            onChange={(e: any) => {
-              setDate(e);
-              toast(
-                <span>
-                  <b>{dayjs(date).format("dddd, MMMM D")}</b>{" "}
-                  {dayjs(date).format("HHmm") !== "0000" && (
-                    <>
-                      {" "}
-                      at <b>{dayjs(date).format("h:mm A")}</b>
-                    </>
-                  )}
-                </span>,
-                toastStyles
-              );
-              setTimeout(() => setOpen(false), 50);
-            }}
-          />
+          </motion.div>
         )}
         <Box
           sx={{
@@ -96,8 +117,8 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
           }}
         >
           <Button fullWidth variant="contained" onClick={handleClick}>
-            <Icon>access_time</Icon>
-            {dayjs(date).format("h:mm a")}
+            <Icon>{timeOpen ? "today" : "access_time"}</Icon>
+            {dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")}
           </Button>
           <Button
             sx={{ borderRadius: 9 }}
