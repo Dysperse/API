@@ -129,17 +129,15 @@ export function SearchTasks({ setOpen }) {
         </Box>
         <Puller sx={{ mb: 0 }} />
       </SwipeableDrawer>
-      <CreateTaskWrapper>
-        <IconButton
-          sx={{ ml: "auto", color: palette[8] }}
-          onClick={() => {
-            setMobileOpen(true);
-            setTimeout(() => ref?.current?.focus(), 100);
-          }}
-        >
-          <Icon>search</Icon>
-        </IconButton>
-      </CreateTaskWrapper>
+      <IconButton
+        sx={{ ml: "auto", color: palette[8] }}
+        onClick={() => {
+          setMobileOpen(true);
+          setTimeout(() => ref?.current?.focus(), 100);
+        }}
+      >
+        <Icon>search</Icon>
+      </IconButton>
     </>
   ) : (
     <Box
@@ -171,9 +169,6 @@ export function SearchTasks({ setOpen }) {
       >
         <CreateTaskWrapper>
           <IconButton
-            onClick={() => {
-              setOpen(false);
-            }}
             sx={{
               ...(Boolean(query.trim()) && {
                 transform: "scale(0)",

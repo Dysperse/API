@@ -37,8 +37,10 @@ import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
+import { CreateTask } from "../Task/Create";
 import { SearchTasks } from "./SearchTasks";
 import { Tab } from "./Tab";
+import dayjs from "dayjs";
 
 export const SelectionContext = createContext<null | any>(null);
 
@@ -589,25 +591,28 @@ export function TasksLayout({
             <Toolbar sx={{ mt: { sm: -0.5 } }}>
               {trigger}
               <SearchTasks setOpen={setOpen} />
-              <IconButton
-                sx={{
-                  color: palette[8],
-                  background: addHslAlpha(palette[3], 0.5),
-                  "&:active": {
-                    transform: "scale(0.9)",
-                  },
-                  transition: "all .2s",
-                }}
-                onClick={() => {
-                  document
-                    .getElementById(isBoard ? "boardInfoTrigger" : "createTask")
-                    ?.click();
+              <CreateTask
+                closeOnCreate
+                defaultDate={dayjs().startOf("day").toDate()}
+                onSuccess={() => {
+                  document.getElementById("taskMutationTrigger")?.click();
                 }}
               >
-                <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                  {isBoard ? "more_horiz" : "add"}
-                </Icon>
-              </IconButton>
+                <IconButton
+                  sx={{
+                    color: palette[8],
+                    background: addHslAlpha(palette[3], 0.5),
+                    "&:active": {
+                      transform: "scale(0.9)",
+                    },
+                    transition: "all .2s",
+                  }}
+                >
+                  <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
+                    {isBoard ? "more_horiz" : "add"}
+                  </Icon>
+                </IconButton>
+              </CreateTask>
             </Toolbar>
           </AppBar>
         </motion.div>
