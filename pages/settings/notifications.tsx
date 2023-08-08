@@ -159,14 +159,13 @@ export default function Notifications() {
       primary: "Check-in",
       secondary: "Recieve daily reminders to check-in on how you're feeling",
     },
-
     {
-      key: "followerUpdates",
-      comingSoon: true,
+      key: "todoListUpdates",
+      comingSoon: false,
       disabled: false,
       enabled: null,
-      primary: "Follows",
-      secondary: "Get notified when someone follows you",
+      primary: "Tasks",
+      secondary: "Recieve notifiations when you set due dates to tasks",
     },
     {
       key: "statusUpdates",
@@ -177,12 +176,12 @@ export default function Notifications() {
       secondary: "Get notified when your friends set their status",
     },
     {
-      key: "todoListUpdates",
+      key: "followerUpdates",
       comingSoon: true,
       disabled: false,
       enabled: null,
-      primary: "Tasks",
-      secondary: "Recieve notifiations when you set due dates to tasks",
+      primary: "Follows",
+      secondary: "Get notified when someone follows you",
     },
     {
       key: "lowItemCount",
