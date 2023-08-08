@@ -64,6 +64,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
                 }}
               />
               <Button
+                disableRipple
                 onClick={() => {
                   const [hours, minutes] = timeRef.current.value.split(":");
                   const roundedMinutes = Math.round(parseInt(minutes) / 5) * 5; // Round minutes to nearest 5
@@ -116,15 +117,22 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             width: "100%",
           }}
         >
-          <Button fullWidth variant="contained" onClick={handleClick}>
+          <Button
+            disableRipple
+            fullWidth
+            variant="contained"
+            onClick={handleClick}
+          >
             <Icon>{timeOpen ? "today" : "access_time"}</Icon>
             {dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")}
           </Button>
           <Button
+            disableRipple
             sx={{ borderRadius: 9 }}
             variant="contained"
             onClick={() => {
               setDate(today);
+              setTimeOpen(false);
             }}
           >
             <Icon>refresh</Icon>
