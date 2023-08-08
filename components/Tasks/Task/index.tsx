@@ -37,7 +37,6 @@ import {
   isValidHttpUrl,
   videoChatPlatforms,
 } from "./Drawer/locationHelpers";
-
 import { ImageViewer } from "./ImageViewer";
 
 const TaskChips = React.memo(function TaskChips({
