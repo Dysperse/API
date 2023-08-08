@@ -14,11 +14,17 @@ export default async function handler(req, res) {
       },
       select: {
         notificationSubscription: true,
+        NotificationSettings: {
+          select: { followerUpdates: true },
+        },
         email: true,
       },
     });
 
-    if (victim.notificationSubscription) {
+    if (
+      victim.notificationSubscription &&
+      victim.notificationSubscription.followerUpdates
+    ) {
       try {
         await DispatchNotification({
           subscription: victim.notificationSubscription,

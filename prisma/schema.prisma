@@ -83,6 +83,7 @@ model NotificationSettings {
   id String @id @unique @default(uuid())
 
   todoListUpdates   Boolean @default(true)
+  followerUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
   dailyCheckInNudge Boolean @default(true)
   statusUpdates     Boolean @default(true)
