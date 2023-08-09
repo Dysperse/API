@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       name: req.query.name,
       stepName: req.query.stepName,
       category: req.query.category,
-      timeOfDay: parseInt(req.query.timeOfDay),
+      timeOfDay: parseInt(req.query.timeOfDay) + 1,
       durationDays: parseInt(req.query.durationDays),
       emoji: "",
       user: {
