@@ -86,6 +86,7 @@ export const TaskColorPicker = React.memo(function TaskColorPicker({
 });
 
 const ChipBar = React.memo(function ChipBar({
+  locationRef,
   showedFields,
   setShowedFields,
   data,
@@ -197,6 +198,7 @@ const ChipBar = React.memo(function ChipBar({
                 icon={<Icon>location_on</Icon>}
                 onClick={() => {
                   setShowedFields((s) => ({ ...s, location: !s.location }));
+                  setTimeout(() => locationRef.current?.focus(), 50);
                 }}
                 sx={chipStyles(showedFields.location)}
               />

@@ -199,6 +199,7 @@ export function CreateTask({
         PaperProps={{ sx: { background: "transparent", borderRadius: 0 } }}
       >
         <ChipBar
+          locationRef={locationRef}
           titleRef={titleRef}
           showedFields={showedFields}
           setShowedFields={setShowedFields}
