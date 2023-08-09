@@ -20,7 +20,6 @@ import {
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Twemoji } from "react-emoji-render";
 import { mutate } from "swr";
 import { Followers } from "./Followers";
 import { Following } from "./Following";
@@ -517,9 +516,7 @@ export function UserProfile({
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>About</Typography>
               {profile && profile.bio && (
-                <Typography sx={{ fontSize: "17px" }}>
-                  <Twemoji>{profile?.bio || ""}</Twemoji>
-                </Typography>
+                <Typography sx={{ fontSize: "17px" }}>profile?.bio</Typography>
               )}
             </Box>
           )}

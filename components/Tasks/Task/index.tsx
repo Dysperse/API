@@ -26,7 +26,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Twemoji } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
@@ -426,12 +425,6 @@ export const Task: any = React.memo(function Task({
                   textOverflow: "ellipsis",
                   fontWeight: 200,
                   whiteSpace: "nowrap",
-                  "& span img": {
-                    display: "inline-flex !important",
-                    width: "23px!important",
-                    height: "23px!important",
-                    verticalAlign: "top !important",
-                  },
                   ...(taskData.completed && {
                     textDecoration: "line-through",
                     opacity: 0.6,
@@ -439,9 +432,7 @@ export const Task: any = React.memo(function Task({
                   textDecorationThickness: "2px",
                 }}
               >
-                <span>
-                  <Twemoji>{taskData.name || " "}</Twemoji>
-                </span>
+                {taskData.name}
               </Box>
             }
             secondary={
@@ -452,19 +443,13 @@ export const Task: any = React.memo(function Task({
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    "& img": {
-                      display: "inline-flex !important",
-                      width: "20px!important",
-                      height: "20px!important",
-                      verticalAlign: "top !important",
-                    },
                     ...(taskData.completed && {
                       textDecoration: "line-through",
                       opacity: 0.7,
                     }),
                   }}
                 >
-                  <Twemoji>{taskData.description || " "}</Twemoji>
+                  {taskData.description}
                 </Typography>
                 {taskData.image &&
                   taskData.image !== "null" &&
