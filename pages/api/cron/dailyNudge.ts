@@ -64,7 +64,7 @@ const Notification = async (req, res) => {
     const currentTimeInUserTimeZone = dayjs().tz(timeZone).hour();
     const bufferStart = dayjs().tz(timeZone).startOf("hour");
 
-    if (dayjs().tz(timeZone).diff(bufferStart, "minutes") > 5) {
+    if (dayjs().tz(timeZone).diff(bufferStart, "minutes") >= 5) {
       res.json({ wait: true });
       return;
     }
