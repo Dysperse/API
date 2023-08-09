@@ -597,6 +597,8 @@ export function TasksLayout({
               {isSearch && (
                 <TextField
                   variant="outlined"
+                  placeholder="Search tasks..."
+                  defaultValue={router.query.query}
                   size="small"
                   InputProps={{
                     sx: { borderRadius: 99 },
@@ -615,8 +617,6 @@ export function TasksLayout({
                     },
                     transition: "all .2s",
                   }}
-                  placeholder="Search tasks..."
-                  defaultValue={router.query.query}
                   onClick={() => {
                     if (isSearch) {
                       router.push(
