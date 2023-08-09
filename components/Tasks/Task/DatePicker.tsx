@@ -86,7 +86,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
           >
             <DatePicker
               calendarType="US"
-              value={new Date(date)}
+              value={dayjs(date).isValid() ? new Date(date) : new Date()}
               onChange={(e: any) => {
                 setDate(e);
                 toast(
@@ -122,7 +122,9 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             onClick={handleClick}
           >
             <Icon>{timeOpen ? "today" : "access_time"}</Icon>
-            {dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")}
+            {dayjs(date).isValid()
+              ? dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")
+              : `Set ${timeOpen ? "date" : "time"}`}
           </Button>
           <Button
             disableRipple

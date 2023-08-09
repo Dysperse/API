@@ -644,7 +644,7 @@ export function TasksLayout({
               </BulkColorCode>
               <BulkCompletion />
               <SelectDateModal
-                date={new Date()}
+                date={null}
                 setDate={async (newDate) => {
                   try {
                     setOpen(false);
