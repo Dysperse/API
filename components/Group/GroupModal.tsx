@@ -72,11 +72,11 @@ export function GroupModal({
       </Typography>
       {properties
         .filter((p) => (showInvitations ? !p.accepted : p.accepted))
-        .map((group: any) => (
+        .map((group: any, index) => (
           <PropertyButton
+            key={index}
             list={list}
             handleClose={() => setShowMore(false)}
-            key={group.id}
             group={group}
             onSuccess={onSuccess}
           />
