@@ -692,12 +692,14 @@ function SearchFriend({ mutationUrl }) {
         <Puller showOnDesktop />
         <Box sx={{ px: 2, pb: 2 }}>
           <TextField
+            autoFocus
             fullWidth
             value={query}
             id="searchFriend"
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Email or username..."
             InputProps={{
+              autoFocus: true,
               startAdornment: (
                 <InputAdornment position="start">
                   <Icon>alternate_email</Icon>
