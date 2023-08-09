@@ -346,7 +346,7 @@ const FocusTimer = () => {
                   onClose={handleMenuClose}
                 >
                   {[1, 5, 10, 15, 20, 25, 30, 45, 60].map((m) => (
-                    <MenuItem onClick={() => handleTimeSelect(m)} key={m}>
+                    <MenuItem onClick={() => handleTimeSelect(m)} key={m} selected={timeInMinutes == m}>
                       {m} minute{m !== 1 && "s"}
                     </MenuItem>
                   ))}
