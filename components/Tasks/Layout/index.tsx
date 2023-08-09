@@ -1,5 +1,6 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { GroupModal } from "@/components/Group/GroupModal";
+import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
@@ -18,6 +19,9 @@ import {
   Grow,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemText,
+  SwipeableDrawer,
   TextField,
   Toolbar,
   Typography,
@@ -30,6 +34,7 @@ import { useRouter } from "next/router";
 import {
   createContext,
   memo,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -40,6 +45,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 import { CreateTask } from "../Task/Create";
+import { TaskColorPicker } from "../Task/Create/ChipBar";
+import SelectDateModal from "../Task/DatePicker";
 import { SearchTasks } from "./SearchTasks";
 import { Tab } from "./Tab";
 
@@ -138,6 +145,115 @@ const buttonStyles = (palette, condition: boolean) => ({
         },
       }),
 });
+
+function BulkCompletion() {
+  const session = useSession();
+  const taskSelection = useContext(SelectionContext);
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = async (completed) => {
+    try {
+      setOpen(false);
+      const res = await fetchRawApi(
+        session,
+        "property/boards/column/task/editMany",
+        {
+          selection: JSON.stringify(
+            taskSelection.values.filter((e) => e !== "-1")
+          ),
+          completed,
+        }
+      );
+      if (res.errors !== 0) {
+        toast.error(
+          `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`,
+          toastStyles
+        );
+        return;
+      }
+      document.getElementById("taskMutationTrigger")?.click();
+      toast.success(`Marked as ${completed ? "" : "not"} done!`, toastStyles);
+    } catch {
+      toast.error(
+        `Couldn't mark as ${
+          completed ? "" : "not"
+        } done! Please try again later`,
+        toastStyles
+      );
+    }
+  };
+
+  return (
+    <>
+      <IconButton sx={{ color: palette[8] }} onClick={() => setOpen(true)}>
+        <Icon className="outlined">check_circle</Icon>
+      </IconButton>
+
+      <SwipeableDrawer
+        open={open}
+        anchor="bottom"
+        onClose={() => setOpen(false)}
+      >
+        <Puller showOnDesktop />
+        <Box sx={{ p: 2, pt: 0 }}>
+          <ListItemButton onClick={() => handleSubmit(true)}>
+            <Icon>check_circle</Icon>
+            <ListItemText primary="Mark as done" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleSubmit(true)}>
+            <Icon className="outlined">circle</Icon>
+            <ListItemText primary="Mark as not done" />
+          </ListItemButton>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
+
+function BulkColorCode({ children }) {
+  const session = useSession();
+  const taskSelection = useContext(SelectionContext);
+
+  return (
+    <TaskColorPicker
+      color="null"
+      setColor={async (e) => {
+        try {
+          const res = await fetchRawApi(
+            session,
+            "property/boards/column/task/editMany",
+            {
+              selection: JSON.stringify(
+                taskSelection.values.filter((e) => e !== "-1")
+              ),
+              color: e,
+            }
+          );
+          if (res.errors !== 0) {
+            toast.error(
+              `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`,
+              toastStyles
+            );
+            return;
+          }
+          document.getElementById("taskMutationTrigger")?.click();
+          toast.success("Applied label!", toastStyles);
+          taskSelection.set([]);
+        } catch {
+          toast.error(
+            "Couldn't apply label! Please try again later",
+            toastStyles
+          );
+        }
+      }}
+      titleRef={null}
+    >
+      {children}
+    </TaskColorPicker>
+  );
+}
 
 export function TasksLayout({
   contentRef,
@@ -521,12 +637,50 @@ export function TasksLayout({
           </Button>
           {taskSelection.filter((e) => e !== "-1").length !== 0 && (
             <>
-              <IconButton sx={{ color: palette[8] }}>
-                <Icon className="outlined">label</Icon>
-              </IconButton>
-              <IconButton sx={{ color: palette[8] }}>
-                <Icon className="outlined">check_circle</Icon>
-              </IconButton>
+              <BulkColorCode>
+                <IconButton sx={{ color: palette[8] }}>
+                  <Icon className="outlined">label</Icon>
+                </IconButton>
+              </BulkColorCode>
+              <BulkCompletion />
+              <SelectDateModal
+                date={new Date()}
+                setDate={async (newDate) => {
+                  try {
+                    setOpen(false);
+                    const res = await fetchRawApi(
+                      session,
+                      "property/boards/column/task/editMany",
+                      {
+                        selection: JSON.stringify(
+                          taskSelection.filter((e) => e !== "-1")
+                        ),
+                        due: newDate.toISOString(),
+                      }
+                    );
+                    if (res.errors !== 0) {
+                      toast.error(
+                        `Couldn't edit ${res.errors} item${
+                          res.errors == 1 ? "" : "s"
+                        }`,
+                        toastStyles
+                      );
+                      return;
+                    }
+                    document.getElementById("taskMutationTrigger")?.click();
+                    toast.success(`Updated due date!`, toastStyles);
+                  } catch {
+                    toast.error(
+                      `Couldn't update due dates! Please try again later`,
+                      toastStyles
+                    );
+                  }
+                }}
+              >
+                <IconButton sx={{ color: palette[8] }}>
+                  <Icon className="outlined">today</Icon>
+                </IconButton>
+              </SelectDateModal>
               <ConfirmationModal
                 title={`Delete ${
                   taskSelection.filter((e) => e !== "-1").length

@@ -9,8 +9,6 @@ import DatePicker from "react-calendar";
 import { toast } from "react-hot-toast";
 
 const SelectDateModal: any = React.memo(function SelectDateModal({
-  ref,
-  styles,
   date,
   setDate,
   children,
@@ -93,11 +91,11 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
                 setDate(e);
                 toast(
                   <span>
-                    <b>{dayjs(date).format("dddd, MMMM D")}</b>{" "}
-                    {dayjs(date).format("HHmm") !== "0000" && (
+                    <b>{dayjs(e).format("dddd, MMMM D")}</b>{" "}
+                    {dayjs(e).format("HHmm") !== "0000" && (
                       <>
                         {" "}
-                        at <b>{dayjs(date).format("h:mm A")}</b>
+                        at <b>{dayjs(e).format("h:mm A")}</b>
                       </>
                     )}
                   </span>,

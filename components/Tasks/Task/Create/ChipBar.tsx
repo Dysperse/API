@@ -22,7 +22,7 @@ import React, {
 
 const MemoizedChip = memo(Chip);
 
-const TaskColorPicker = React.memo(function TaskColorPicker({
+export const TaskColorPicker = React.memo(function TaskColorPicker({
   children,
   color,
   setColor,
