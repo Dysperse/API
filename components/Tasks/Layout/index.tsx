@@ -22,6 +22,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -40,7 +41,6 @@ import { ErrorHandler } from "../../Error";
 import { CreateTask } from "../Task/Create";
 import { SearchTasks } from "./SearchTasks";
 import { Tab } from "./Tab";
-import dayjs from "dayjs";
 
 export const SelectionContext = createContext<null | any>(null);
 
@@ -591,13 +591,7 @@ export function TasksLayout({
             <Toolbar sx={{ mt: { sm: -0.5 } }}>
               {trigger}
               <SearchTasks setOpen={setOpen} />
-              <CreateTask
-                closeOnCreate
-                defaultDate={dayjs().startOf("day").toDate()}
-                onSuccess={() => {
-                  document.getElementById("taskMutationTrigger")?.click();
-                }}
-              >
+              {isBoard ? (
                 <IconButton
                   sx={{
                     color: palette[8],
@@ -607,12 +601,38 @@ export function TasksLayout({
                     },
                     transition: "all .2s",
                   }}
+                  onClick={() =>
+                    document.getElementById("boardInfoTrigger")?.click()
+                  }
                 >
                   <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                    {isBoard ? "more_horiz" : "add"}
+                    more_horiz
                   </Icon>
                 </IconButton>
-              </CreateTask>
+              ) : (
+                <CreateTask
+                  closeOnCreate
+                  defaultDate={dayjs().startOf("day").toDate()}
+                  onSuccess={() => {
+                    document.getElementById("taskMutationTrigger")?.click();
+                  }}
+                >
+                  <IconButton
+                    sx={{
+                      color: palette[8],
+                      background: addHslAlpha(palette[3], 0.5),
+                      "&:active": {
+                        transform: "scale(0.9)",
+                      },
+                      transition: "all .2s",
+                    }}
+                  >
+                    <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
+                      add{" "}
+                    </Icon>
+                  </IconButton>
+                </CreateTask>
+              )}
             </Toolbar>
           </AppBar>
         </motion.div>

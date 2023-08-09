@@ -265,7 +265,7 @@ const Column = React.memo(function Column({
           </Button>
         </CreateTask>
       </Box>
-      <Box sx={{ px: { sm: 1 }, height: "100%" }}>
+      <Box sx={{ px: { sm: 1 }, height: { sm: "100%" } }}>
         {sortedTasks.filter((task) => !task.completed).length === 0 && (
           <Box
             sx={{
