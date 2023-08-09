@@ -53,6 +53,7 @@
     "react-calendar": "^4.6.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
+    "react-draggable": "^4.4.5",
     "react-email": "^1.9.4",
     "react-emoji-render": "^2.0.1",
     "react-file-drop": "^3.1.6",
