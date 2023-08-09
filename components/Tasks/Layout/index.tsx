@@ -87,7 +87,6 @@ export const taskStyles = (palette) => {
         px: 1,
       },
       transition: "all .4s",
-      zIndex: 999,
       border: 0,
       background: addHslAlpha(palette[2], 0.9),
     },
