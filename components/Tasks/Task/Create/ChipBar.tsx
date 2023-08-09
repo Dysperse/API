@@ -179,31 +179,32 @@ const ChipBar = React.memo(function ChipBar({
           onClick={() => titleRef?.current?.focus()}
         >
           {chipComponent}
-          {[
-            "meet",
-            "visit",
-            "watch",
-            "go to",
-            "drive ",
-            "fly ",
-            "attend ",
-          ].some((word) => data.title.toLowerCase().includes(word)) && (
-            <motion.div
-              style={{ display: "inline-block" }}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-            >
-              <MemoizedChip
-                label="Add location?"
-                icon={<Icon>location_on</Icon>}
-                onClick={() => {
-                  setShowedFields((s) => ({ ...s, location: !s.location }));
-                  setTimeout(() => locationRef.current?.focus(), 50);
-                }}
-                sx={chipStyles(showedFields.location)}
-              />
-            </motion.div>
-          )}
+          {!showedFields.location &&
+            [
+              "meet",
+              "visit",
+              "watch",
+              "go to",
+              "drive ",
+              "fly ",
+              "attend ",
+            ].some((word) => data.title.toLowerCase().includes(word)) && (
+              <motion.div
+                style={{ display: "inline-block" }}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <MemoizedChip
+                  label="Add location?"
+                  icon={<Icon>location_on</Icon>}
+                  onClick={() => {
+                    setShowedFields((s) => ({ ...s, location: !s.location }));
+                    setTimeout(() => locationRef.current?.focus(), 50);
+                  }}
+                  sx={chipStyles(showedFields.location)}
+                />
+              </motion.div>
+            )}
           <TaskColorPicker
             color={data.color}
             setColor={setTaskColor}
