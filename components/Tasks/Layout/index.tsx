@@ -743,6 +743,7 @@ export function TasksLayout({
               ...(isSelecting && {
                 opacity: 0,
                 transform: "scale(.5)",
+                pointerEvents: "none",
               }),
             }}
           >
