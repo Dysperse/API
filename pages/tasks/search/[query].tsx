@@ -54,29 +54,9 @@ export default function Dashboard() {
   return (
     <TasksLayout open={open} setOpen={setOpen}>
       <Head>
-        <title>Search results &bull; Tasks</title>
+        <title>{filteredData.length} results &bull; Search</title>
       </Head>
-      <Box
-        sx={{
-          ...(isMobile && {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100dvh",
-            zIndex: 9999,
-            background: palette[1],
-          }),
-        }}
-      >
-        <IconButton
-          size="large"
-          onContextMenu={() => setOpen(true)}
-          onClick={() => setOpen(true)}
-          sx={{ ...taskStyles(palette).menu, bottom: "20px" }}
-        >
-          <Icon>menu</Icon>
-        </IconButton>
+      <Box>
         <IconButton
           size="large"
           onClick={() => router.push("/tasks/agenda/days")}
@@ -91,27 +71,23 @@ export default function Dashboard() {
         </IconButton>
         <Box
           sx={{
-            p: 3,
             pb: 1,
-            pt: 5,
+            pt: 3,
             gap: 3,
-            height: "100dvh",
-            display: "flex",
-            flexDirection: "column",
+            px: { sm: 3 },
+            maxWidth: "100vw",
           }}
         >
-          <Box sx={{ px: { sm: 1.5 } }}>
-            <Typography
-              className="font-heading"
-              variant={isMobile ? "h5" : "h4"}
-              sx={{ mb: 1 }}
+          <Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1.5,
+                overflowX: "scroll",
+                px: { xs: 3, sm: 0 },
+                mb: 1,
+              }}
             >
-              &ldquo;{router?.query?.query}&rdquo;
-            </Typography>
-            <Typography sx={{ mb: 2 }} {...(isMobile && { variant: "body2" })}>
-              {filteredData.length} results
-            </Typography>
-            <Box sx={{ display: "flex", gap: 1.5, mt: 1, overflowX: "scroll" }}>
               <Chip
                 variant="outlined"
                 icon={<Icon>push_pin</Icon>}
@@ -150,63 +126,52 @@ export default function Dashboard() {
               />
             </Box>
           </Box>
-          <Box
-            sx={{
-              p: "10px",
-              mb: 2,
-              flexGrow: 1,
-              borderRadius: 5,
-              height: "100%",
-              position: "relative",
-              background: palette[2],
-            }}
-          >
-            {error && (
-              <ErrorHandler error="Oh no! We couldn't complete your search. Please try again later." />
-            )}
-            {data && filteredData.length == 0 ? (
-              <Box
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  width: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <picture>
-                  <img
-                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
-                    alt="Crying emoji"
-                  />
-                </picture>
-                <Typography variant="h6">No results found</Typography>
-                <Typography>Try broadening your search</Typography>
-              </Box>
-            ) : (
-              <Virtuoso
-                style={{ height: "100%", width: "100%" }}
-                totalCount={filteredData.length}
-                itemContent={(index) => {
-                  const task = filteredData[index];
+          {error && (
+            <ErrorHandler error="Oh no! We couldn't complete your search. Please try again later." />
+          )}
+          {data && filteredData.length == 0 ? (
+            <Box
+              sx={{
+                height: "100%",
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <picture>
+                <img
+                  src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
+                  alt="Crying emoji"
+                />
+              </picture>
+              <Typography variant="h6">No results found</Typography>
+              <Typography>Try broadening your search</Typography>
+            </Box>
+          ) : (
+            <Virtuoso
+              useWindowScroll
+              style={{ height: "100%", width: "100%" }}
+              totalCount={filteredData.length}
+              itemContent={(index) => {
+                const task = filteredData[index];
 
-                  return (
-                    <>
-                      <Task
-                        key={index}
-                        isDateDependent={true}
-                        board={task.board || false}
-                        columnId={task.column ? task.column.id : -1}
-                        mutationUrl={url}
-                        task={task}
-                      />
-                    </>
-                  );
-                }}
-              />
-            )}
-          </Box>
+                return (
+                  <>
+                    <Task
+                      key={index}
+                      isDateDependent={true}
+                      board={task.board || false}
+                      columnId={task.column ? task.column.id : -1}
+                      mutationUrl={url}
+                      task={task}
+                    />
+                  </>
+                );
+              }}
+            />
+          )}
         </Box>
       </Box>
     </TasksLayout>
