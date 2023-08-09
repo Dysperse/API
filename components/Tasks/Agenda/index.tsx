@@ -21,7 +21,6 @@ import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 import Column from "./Column";
 
-
 export const AgendaContext = createContext<any>(null);
 
 /**

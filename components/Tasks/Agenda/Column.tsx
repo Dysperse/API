@@ -15,7 +15,7 @@ import {
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
-import React, { useContext, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { AgendaContext } from ".";
@@ -28,6 +28,7 @@ const Column = React.memo(function Column({
   data,
   view,
 }: any): JSX.Element {
+  const scrollParentRef = useRef();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -70,10 +71,6 @@ const Column = React.memo(function Column({
           const columnEnd = dayjs(columnStart).endOf(type).toDate();
           return dueDate >= columnStart && dueDate <= columnEnd;
         })
-        // .filter((task) => {
-        //   if (view === "priority" && !task.pinned) return false;
-        //   return true;
-        // })
         .sort((e, d) =>
           e.completed && !d.completed
             ? 1
@@ -92,6 +89,15 @@ const Column = React.memo(function Column({
   );
   const tasksLeft = sortedTasks.length - completedTasks.length;
   const [loading, setLoading] = useState(false);
+
+  // bruh
+
+  const [shouldRenderVirtuoso, setShouldRenderVirtuoso] = useState(false);
+
+  // Use the useEffect hook to set the state variable after the initial render
+  useEffect(() => {
+    setShouldRenderVirtuoso(true);
+  }, []);
 
   const header = (
     <Box
@@ -208,17 +214,14 @@ const Column = React.memo(function Column({
       </Box>
     </Box>
   );
-  const scrollParentRef = useRef();
 
   return (
     <Box
       ref={scrollParentRef}
       {...(isToday && { id: "active" })}
       sx={{
-        display: "flex",
         height: "100%",
         flex: { xs: "0 0 100%", sm: "0 0 300px" },
-        flexDirection: "column",
         width: { xs: "100%", sm: "300px" },
         borderRight: "1.5px solid",
         ...(!isMobile && {
@@ -304,28 +307,22 @@ const Column = React.memo(function Column({
           </Box>
         )}
         <Virtuoso
+          useWindowScroll
           isScrolling={setIsScrolling}
           customScrollParent={scrollParentRef.current}
-          useWindowScroll
-          style={{
-            height: "100%",
-          }}
-          totalCount={sortedTasks.length}
-          itemContent={(index) => {
-            const task = sortedTasks[index];
-            return (
-              <Task
-                isAgenda={true}
-                isDateDependent={true}
-                key={task.id}
-                isScrolling={isScrolling}
-                board={task.board || false}
-                columnId={task.column ? task.column.id : -1}
-                mutationUrl={url}
-                task={task}
-              />
-            );
-          }}
+          data={sortedTasks}
+          itemContent={(_, task) => (
+            <Task
+              isAgenda={true}
+              isDateDependent={true}
+              key={task.id}
+              isScrolling={isScrolling}
+              board={task.board || false}
+              columnId={task.column ? task.column.id : -1}
+              mutationUrl={url}
+              task={task}
+            />
+          )}
         />
         {isMobile && <div style={{ height: "calc(130px + var(--sab))" }} />}
       </Box>
