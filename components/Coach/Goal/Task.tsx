@@ -344,6 +344,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                       >
                         <Avatar
                           sx={{
+                            transform: { xs: "scale(.95)", sm: "scale(1)" },
                             background: !hasCompleted ? palette[4] : palette[9],
                             color: hasCompleted ? palette[4] : palette[9],
                           }}
