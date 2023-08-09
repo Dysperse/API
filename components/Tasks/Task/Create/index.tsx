@@ -195,6 +195,7 @@ export function CreateTask({
         anchor="bottom"
         onClose={() => setOpen(false)}
         open={open}
+        onClick={() => titleRef?.current?.focus()}
         PaperProps={{ sx: { background: "transparent", borderRadius: 0 } }}
       >
         <ChipBar

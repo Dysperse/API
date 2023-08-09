@@ -43,6 +43,7 @@ export function SearchTasks({ setOpen }) {
     <TextField
       inputRef={ref}
       size="small"
+      autoFocus
       variant="outlined"
       placeholder="Search tasks..."
       {...(query.trim() && { label: "Search tasks..." })}
@@ -62,6 +63,7 @@ export function SearchTasks({ setOpen }) {
       }}
       onChange={(e) => setQuery(e.target.value)}
       InputProps={{
+        autoFocus: true,
         sx: {
           cursor: "default",
           borderRadius: 4,
