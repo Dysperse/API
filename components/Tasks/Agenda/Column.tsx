@@ -15,6 +15,7 @@ import {
 import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
@@ -30,6 +31,7 @@ const Column = React.memo(function Column({
 }: any): JSX.Element {
   const scrollParentRef = useRef();
   const session = useSession();
+  const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
@@ -266,6 +268,18 @@ const Column = React.memo(function Column({
             New task
           </Button>
         </CreateTask>
+        {type === "days" && isToday && (
+          <Button
+            onClick={() => router.push("/coach/routine")}
+            variant="outlined"
+            sx={{ mt: 1, borderWidth: "2px!important" }}
+            fullWidth
+            size="small"
+          >
+            <Icon>data_usage</Icon>
+            Today&apos;s routine
+          </Button>
+        )}
       </Box>
       <Box sx={{ px: { sm: 1 }, height: { sm: "100%" } }}>
         {sortedTasks.filter((task) => !task.completed).length === 0 && (
