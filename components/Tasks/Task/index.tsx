@@ -212,6 +212,12 @@ export const Task: any = React.memo(function Task({
 
   useEffect(() => setTaskData(task), [task]);
 
+  const [opacity, setOpacity] = useState(false);
+
+  useEffect(() => {
+    setOpacity(true);
+  }, []);
+
   const BpIcon: any = useMemo(
     () =>
       styled("span")(() => ({
@@ -352,7 +358,15 @@ export const Task: any = React.memo(function Task({
   return !taskData ? (
     <div />
   ) : (
-    <>
+    <Box
+      sx={{
+        opacity: "0!important",
+        transition: "opacity .4s",
+        ...(opacity && {
+          opacity: "1!important",
+        }),
+      }}
+    >
       <TaskDrawer
         id={taskData.id}
         mutationUrl={mutationUrl}
@@ -479,6 +493,6 @@ export const Task: any = React.memo(function Task({
       </TaskDrawer>
 
       {subTasks}
-    </>
+    </Box>
   );
 });

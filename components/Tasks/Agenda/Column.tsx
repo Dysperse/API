@@ -323,7 +323,7 @@ const Column = React.memo(function Column({
             />
           )}
         />
-        {isMobile && <div style={{ height: "calc(130px + var(--sab))" }} />}
+        <div style={{ height: "calc(130px + var(--sab))" }} />
       </Box>
     </Box>
   );
