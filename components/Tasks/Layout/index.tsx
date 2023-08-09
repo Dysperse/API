@@ -18,6 +18,7 @@ import {
   Grow,
   Icon,
   IconButton,
+  TextField,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -428,6 +429,7 @@ export function TasksLayout({
   });
 
   const isBoard = router.asPath.includes("/tasks/boards/");
+  const isSearch = router.asPath.includes("/tasks/search");
   const isAgenda = router.asPath.includes("/tasks/agenda/");
 
   const trigger = (
@@ -476,6 +478,7 @@ export function TasksLayout({
 
   const isSelecting = taskSelection.length > 0;
 
+  const searchRef: any = useRef();
   useHotkeys("esc", () => setTaskSelection([]));
 
   useEffect(() => {
@@ -589,9 +592,20 @@ export function TasksLayout({
             }}
           >
             <Toolbar sx={{ mt: { sm: -0.5 } }}>
-              {trigger}
-              <SearchTasks setOpen={setOpen} />
-              {isBoard ? (
+              {!isSearch && trigger}
+              {isSearch ? <></> : <SearchTasks setOpen={setOpen} />}
+              {isSearch && (
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  InputProps={{
+                    sx: { borderRadius: 99 },
+                  }}
+                  sx={{ mr: 1 }}
+                  inputRef={searchRef}
+                />
+              )}
+              {isBoard || isSearch ? (
                 <IconButton
                   sx={{
                     color: palette[8],
@@ -601,12 +615,22 @@ export function TasksLayout({
                     },
                     transition: "all .2s",
                   }}
-                  onClick={() =>
-                    document.getElementById("boardInfoTrigger")?.click()
-                  }
+                  placeholder="Search tasks..."
+                  defaultValue={router.query.query}
+                  onClick={() => {
+                    if (isSearch) {
+                      router.push(
+                        `/tasks/search/${encodeURIComponent(
+                          searchRef.current?.value
+                        )}`
+                      );
+                    } else {
+                      document.getElementById("boardInfoTrigger")?.click();
+                    }
+                  }}
                 >
                   <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                    more_horiz
+                    {isSearch ? "search" : "more_horiz"}
                   </Icon>
                 </IconButton>
               ) : (
