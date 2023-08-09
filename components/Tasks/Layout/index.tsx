@@ -202,17 +202,17 @@ export function TasksLayout({
     {
       hash: "agenda/days",
       icon: "calendar_view_day",
-      label: "Weeks",
+      label: "Days",
     },
     {
       hash: "agenda/weeks",
       icon: "view_week",
-      label: "Months",
+      label: "Weeks",
     },
     {
       hash: "agenda/months",
       icon: "calendar_view_month",
-      label: "Years",
+      label: "Months",
     },
   ];
 
