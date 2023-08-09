@@ -80,6 +80,7 @@ export const taskStyles = (palette) => {
       width: "calc(100vw - 20px)",
       maxWidth: "400px",
       mx: "auto",
+      zIndex: 999,
       height: 55,
       px: 0,
       "& .MuiToolbar-root": {
