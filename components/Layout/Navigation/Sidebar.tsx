@@ -317,7 +317,7 @@ export function Sidebar() {
             }
           >
             <Tooltip title={session.property.profile.name} placement="right">
-              <span className={`material-symbols-outlined`}>group</span>
+              <span className={`material-symbols-outlined`}>groups</span>
             </Tooltip>
           </Box>
         </GroupModal>
