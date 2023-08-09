@@ -90,9 +90,8 @@ const Column = React.memo(function Column({
   const tasksLeft = sortedTasks.length - completedTasks.length;
   const [loading, setLoading] = useState(false);
 
-  // bruh
-
-  const [shouldRenderVirtuoso, setShouldRenderVirtuoso] = useState(false);
+  // stupid virtuoso bug where it only renders 1st set of items and scroll doesn't work on desktop!?
+  const [shouldRenderVirtuo, setShouldRenderVirtuoso] = useState(false);
 
   // Use the useEffect hook to set the state variable after the initial render
   useEffect(() => {
