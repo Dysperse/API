@@ -128,7 +128,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const trigger = cloneElement(children, {
     onClick: () => {
       (onClick || handleFetch)();
-      setOpen(true);
+      if (!onClick) setOpen(true);
     },
   });
 
