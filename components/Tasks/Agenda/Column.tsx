@@ -36,6 +36,9 @@ const Column = React.memo(function Column({
 
   const { url, type } = useContext(AgendaContext);
 
+  const columnStart = dayjs(column).startOf(type).toDate();
+  const columnEnd = dayjs(columnStart).endOf(type).toDate();
+
   const [isScrolling, setIsScrolling] = useState(false);
 
   const heading = {
@@ -67,8 +70,6 @@ const Column = React.memo(function Column({
       data
         .filter((task) => {
           const dueDate = new Date(task.due);
-          const columnStart = dayjs(column).startOf(type).toDate();
-          const columnEnd = dayjs(columnStart).endOf(type).toDate();
           return dueDate >= columnStart && dueDate <= columnEnd;
         })
         .sort((e, d) =>
@@ -80,7 +81,7 @@ const Column = React.memo(function Column({
             ? 1
             : 0
         ),
-    [data, column, type]
+    [data, columnEnd, columnStart]
   );
 
   const completedTasks = useMemo(
@@ -185,6 +186,7 @@ const Column = React.memo(function Column({
               }}
             >
               {dayjs(column).format(subheading)}
+              {type === "weeks" && " - " + dayjs(columnEnd).format("DD")}
             </span>
           </Tooltip>
           <Typography

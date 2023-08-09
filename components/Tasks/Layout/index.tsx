@@ -583,11 +583,12 @@ export function TasksLayout({
         <Typography sx={{ fontWeight: 900 }}>
           {title.includes("•") ? title.split("•")[0] : ""}
         </Typography>
-        {title.includes("•") && title.split("•")[1] !== "-" && (
-          <Typography variant="body2" sx={{ mt: -0.5 }}>
-            {title.split("•")[1]}
-          </Typography>
-        )}
+        {title.includes("•") &&
+          title.split("•")[1].toString().trim() !== "-" && (
+            <Typography variant="body2" sx={{ mt: -0.5 }}>
+              {title.split("•")[1]}
+            </Typography>
+          )}
       </Box>
     </Button>
   );
