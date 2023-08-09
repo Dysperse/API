@@ -345,24 +345,11 @@ const FocusTimer = () => {
                   open={Boolean(anchorEl)}
                   onClose={handleMenuClose}
                 >
-                  <MenuItem onClick={() => handleTimeSelect(0.1)}>
-                    1 minute
-                  </MenuItem>
-                  <MenuItem onClick={() => handleTimeSelect(1)}>
-                    1 minute
-                  </MenuItem>
-                  <MenuItem onClick={() => handleTimeSelect(25)}>
-                    25 minutes
-                  </MenuItem>
-                  <MenuItem onClick={() => handleTimeSelect(30)}>
-                    30 minutes
-                  </MenuItem>
-                  <MenuItem onClick={() => handleTimeSelect(45)}>
-                    45 minutes
-                  </MenuItem>
-                  <MenuItem onClick={() => handleTimeSelect(60)}>
-                    1 hour
-                  </MenuItem>
+                  {[1, 5, 10, 15, 20, 25, 30, 45, 60].map((m) => (
+                    <MenuItem onClick={() => handleTimeSelect(m)} key={m}>
+                      {m} minute{m !== 1 && "s"}
+                    </MenuItem>
+                  ))}
                 </Menu>
                 {startTime > 0 ? (
                   <Button
