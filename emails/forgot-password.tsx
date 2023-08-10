@@ -30,7 +30,7 @@ export default function ForgotPasswordEmail({
           pX={20}
           pY={12}
           className="bg-[#000000] rounded-full text-white text-[12px] font-semibold no-underline text-center"
-          href="https://my.dysperse.com"
+          href={link}
         >
           Reset my password
         </Button>
