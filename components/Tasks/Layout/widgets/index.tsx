@@ -68,15 +68,19 @@ export function WidgetBar({ view, setView }) {
   }, []);
 
   useEffect(() => {
-    navigator.wakeLock.request("screen").then((e: any) => {
-      setWakeLock(e);
-      document.addEventListener("visibilitychange", async () => {
-        if (wakeLock !== null && document.visibilityState === "visible") {
-          const f = await navigator.wakeLock.request("screen");
-          setWakeLock(f);
-        }
+    try {
+      navigator.wakeLock.request("screen").then((e: any) => {
+        setWakeLock(e);
+        document.addEventListener("visibilitychange", async () => {
+          if (wakeLock !== null && document.visibilityState === "visible") {
+            const f = await navigator.wakeLock.request("screen");
+            setWakeLock(f);
+          }
+        });
       });
-    });
+    } catch (e) {
+      console.log(e);
+    }
   }, [wakeLock]);
 
   useEffect(() => {
@@ -94,7 +98,7 @@ export function WidgetBar({ view, setView }) {
     }
   }, [view, wakeLock]);
 
-  return (
+  return view === "priority" ? (
     <Box
       sx={{
         "& .container": {
@@ -161,5 +165,7 @@ export function WidgetBar({ view, setView }) {
         </CreateTask>
       </motion.div>
     </Box>
+  ) : (
+    <></>
   );
 }

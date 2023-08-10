@@ -123,7 +123,7 @@ export function Agenda({ type, date }) {
           {dayjs(start).format(viewSubHeadingFormats[type])}
         </title>
       </Head>
-      {view === "priority" && <WidgetBar view={view} setView={setView} />}
+      {!isMobile &&<WidgetBar view={view} setView={setView} />}
       <Box
         sx={{
           display: "flex",
