@@ -446,7 +446,6 @@ export function TasksLayout({
           <Box
             sx={{
               transition: "all .2s",
-              // ".priorityMode &": { opacity: 0, "&:hover": { opacity: 1 } },
             }}
           >
             {boards.shared.length > 0 && (
@@ -870,7 +869,13 @@ export function TasksLayout({
             background: addHslAlpha(palette[3], 0.5),
             display: { xs: "none", md: "flex" },
             minHeight: "100dvh",
-            ".priorityMode &": { display: "none" },
+            maxWidth: "250px",
+            opacity: 1,
+            ".priorityMode &": {
+              visbility: "hidden",
+              opacity: 0,
+              maxWidth: 0,
+            },
             height: { md: "100dvh" },
             overflowY: { md: "scroll" },
             transition: "all .2s",

@@ -1,4 +1,3 @@
-import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
@@ -21,11 +20,8 @@ import { createContext, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
-import { FocusTimer } from "../Layout/widgets/FocusTimer";
-import { WeatherWidget } from "../Layout/widgets/Weather";
-import { CreateTask } from "../Task/Create";
-import Column from "./Column";
 import { WidgetBar } from "../Layout/widgets";
+import Column from "./Column";
 
 export const AgendaContext = createContext<any>(null);
 
@@ -123,32 +119,6 @@ export function Agenda({ type, date }) {
     };
   }, [view]);
 
-  const focusToolsStyles = useMemo(
-    () => ({
-      button: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "90px",
-        py: 2,
-        borderRadius: 0,
-        background: palette[2],
-        "&:hover": {
-          background: palette[3],
-        },
-        "&[data-active='true'], &:active": {
-          background: palette[4],
-        },
-        color: palette[11],
-        fontSize: "13px",
-        "& .MuiIcon-root": {
-          color: addHslAlpha(palette[11], 0.8),
-        },
-      },
-    }),
-    [palette]
-  );
-
   useHotkeys("esc", () => {
     if (view === "priority") {
       document.getElementById("exitFocus")?.click();
@@ -163,71 +133,7 @@ export function Agenda({ type, date }) {
           {dayjs(start).format(viewSubHeadingFormats[type])}
         </title>
       </Head>
-      {view === "priority" && (
-        <WidgetBar>
-        <Box
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            height: "100dvh",
-            background: palette[2],
-            backdropFilter: "blur(10px)",
-            width: "90px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            py: 2,
-            borderRadius: "0 10px 10px 0",
-            zIndex: 999,
-          }}
-        >
-          <ConfirmationModal
-            callback={() => setView("all")}
-            title="Exit focus mode?"
-            question="Any timers set or notes created will be cleared."
-          >
-            <IconButton
-              id="exitFocus"
-              sx={{ background: palette[3], mb: "auto" }}
-              size="large"
-            >
-              <Icon className="outlined">close</Icon>
-            </IconButton>
-          </ConfirmationModal>
-          <FocusTimer>
-            <Box sx={focusToolsStyles.button}>
-              <Icon className="outlined">timer</Icon>
-              Timer
-            </Box>
-          </FocusTimer>
-          <Box sx={focusToolsStyles.button}>
-            <Icon className="outlined">sticky_note_2</Icon>
-            Note
-          </Box>
-          <Box sx={focusToolsStyles.button}>
-            <Icon className="outlined">data_usage</Icon>
-            Status
-          </Box>
-          <WeatherWidget>
-            <Box sx={focusToolsStyles.button}>
-              <Icon className="outlined">partly_cloudy_day</Icon>
-              Weather
-            </Box>
-          </WeatherWidget>
-
-          <CreateTask>
-            <IconButton
-              sx={{ mt: "auto", background: palette[3] }}
-              size="large"
-            >
-              <Icon className="outlined">add</Icon>
-            </IconButton>
-          </CreateTask>
-        </Box>
-        </WidgetBar>
-      )}
+      {view === "priority" && <WidgetBar setView={setView} />}
       <Box
         sx={{
           display: "flex",
