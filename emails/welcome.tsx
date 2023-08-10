@@ -35,7 +35,7 @@ export const WelcomeEmail = ({
       <Head>
         <Font
           fontFamily="Space Grotesk"
-          fallbackFontFamily="Verdana"
+          fallbackFontFamily="Georgia"
           webFont={{
             url: "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj7oUXskPMA.woff2",
             format: "woff2",
