@@ -5,7 +5,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
 import interact from "interactjs";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CreateTask } from "../../Task/Create";
 import { FocusTimer } from "./FocusTimer";
 import { WeatherWidget } from "./Weather";
@@ -65,14 +65,19 @@ export function WidgetBar({ setView }) {
     });
   }, []);
 
+  const [wakeLock, setWakeLock] = useState<null | WakeLockSentinel>(null);
+
   useEffect(() => {
-    navigator.wakeLock.request("screen");
-    document.addEventListener("visibilitychange", async () => {
-      if (wakeLock !== null && document.visibilityState === "visible") {
-        wakeLock = await navigator.wakeLock.request("screen");
-      }
+    navigator.wakeLock.request("screen").then((e: any) => {
+      setWakeLock(e);
+      document.addEventListener("visibilitychange", async () => {
+        if (wakeLock !== null && document.visibilityState === "visible") {
+          const f = await navigator.wakeLock.request("screen");
+          setWakeLock(f);
+        }
+      });
     });
-  }, []);
+  }, [wakeLock]);
 
   return (
     <Box
