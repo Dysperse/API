@@ -109,16 +109,6 @@ export function Agenda({ type, date }) {
     }
   }, [data]);
 
-  useEffect(() => {
-    document.body.classList[view === "priority" ? "add" : "remove"](
-      "priorityMode"
-    );
-    window.onbeforeunload = () => {
-      if (view === "priority") return false;
-      else return null;
-    };
-  }, [view]);
-
   useHotkeys("esc", () => {
     if (view === "priority") {
       document.getElementById("exitFocus")?.click();
@@ -133,7 +123,7 @@ export function Agenda({ type, date }) {
           {dayjs(start).format(viewSubHeadingFormats[type])}
         </title>
       </Head>
-      {view === "priority" && <WidgetBar setView={setView} />}
+      {view === "priority" && <WidgetBar view={view} setView={setView} />}
       <Box
         sx={{
           display: "flex",

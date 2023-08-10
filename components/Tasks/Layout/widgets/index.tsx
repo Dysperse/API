@@ -10,10 +10,12 @@ import { CreateTask } from "../../Task/Create";
 import { FocusTimer } from "./FocusTimer";
 import { WeatherWidget } from "./Weather";
 
-export function WidgetBar({ setView }) {
+export function WidgetBar({ view, setView }) {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+
+  const [wakeLock, setWakeLock] = useState<null | WakeLockSentinel>(null);
 
   const focusToolsStyles = useMemo(
     () => ({
@@ -65,8 +67,6 @@ export function WidgetBar({ setView }) {
     });
   }, []);
 
-  const [wakeLock, setWakeLock] = useState<null | WakeLockSentinel>(null);
-
   useEffect(() => {
     navigator.wakeLock.request("screen").then((e: any) => {
       setWakeLock(e);
@@ -78,6 +78,16 @@ export function WidgetBar({ setView }) {
       });
     });
   }, [wakeLock]);
+
+  useEffect(() => {
+    document.body.classList[view === "priority" ? "add" : "remove"](
+      "priorityMode"
+    );
+    window.onbeforeunload = () => {
+      if (view === "priority") return false;
+      else return null;
+    };
+  }, [view]);
 
   return (
     <Box
