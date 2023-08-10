@@ -150,7 +150,7 @@ export function FocusTimer({ children }) {
               bottom: 20,
               left: "50%",
               transform: "translateX(-50%)",
-              zIndex: 99999,
+              zIndex: 999,
               "& #close": {
                 display: "none",
               },

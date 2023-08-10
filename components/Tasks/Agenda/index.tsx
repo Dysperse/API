@@ -287,6 +287,7 @@ export function Agenda({ type, date }) {
               </AnimatePresence>
             </Box>
             <Button
+              variant="outlined"
               onClick={() => {
                 setView("priority");
                 scrollIntoView();
