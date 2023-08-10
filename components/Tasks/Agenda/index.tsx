@@ -135,7 +135,7 @@ export function Agenda({ type, date }) {
         "&:hover": {
           background: palette[3],
         },
-        "&:active": {
+        "&[data-active='true'], &:active": {
           background: palette[4],
         },
         color: palette[11],

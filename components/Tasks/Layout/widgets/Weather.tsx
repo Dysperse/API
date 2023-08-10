@@ -21,7 +21,10 @@ export function WeatherWidget({ children }) {
   const [locationData, setLocationData] = useState<any>(null);
   const [weatherData, setWeatherData] = useState<any>(null);
 
-  const trigger = cloneElement(children, { onClick: () => setOpen((s) => !s) });
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen((s) => !s),
+    ...(open && { "data-active": true }),
+  });
 
   const isNight = () => {
     const currentHour = new Date().getHours();

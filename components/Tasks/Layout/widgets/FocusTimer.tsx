@@ -47,7 +47,10 @@ export function FocusTimer({ children }) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isTimerDone, setIsTimerDone] = useState(false);
 
-  const trigger = cloneElement(children, { onClick: () => setOpen((s) => !s) });
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen((s) => !s),
+    ...(open && { "data-active": true }),
+  });
 
   const alarmAudio = useMemo(() => new Audio("/sfx/alarm_gentle.wav"), []);
 
