@@ -18,7 +18,7 @@ export function WeatherWidget({ children }) {
   const palette = useColor(session.user.color, isDark);
 
   const [open, setOpen] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [locationData, setLocationData] = useState<any>(null);
   const [weatherData, setWeatherData] = useState<any>(null);
 
   const trigger = cloneElement(children, { onClick: () => setOpen((s) => !s) });
@@ -32,6 +32,9 @@ export function WeatherWidget({ children }) {
     navigator.geolocation.getCurrentPosition(async (position) => {
       let lat = position.coords.latitude;
       let long = position.coords.longitude;
+      fetch(`https://geocode.maps.co/reverse?lat=${lat}&lon=${long}`)
+        .then((res) => res.json())
+        .then((res) => setLocationData(res));
       const res = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,apparent_temperature,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=1`
       ).then((res) => res.json());
@@ -61,7 +64,9 @@ export function WeatherWidget({ children }) {
               bottom: "40px",
               left: "40px",
               borderRadius: 5,
+              overflow: "hidden",
               p: 3,
+              width: "300px",
               "& .close": {
                 display: "none",
               },
@@ -102,12 +107,24 @@ export function WeatherWidget({ children }) {
             >
               <Icon>close</Icon>
             </IconButton>
+            <Typography sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+              <Icon className="outlined">location_on</Icon>
+              <span>
+                {locationData
+                  ? `${locationData?.address?.city}, ${locationData?.address?.state}`
+                  : "Loading..."}
+              </span>
+            </Typography>
             {!weatherData ? (
               <CircularProgress />
             ) : (
               <>
                 <Box sx={{ display: "flex" }}>
-                  <Typography variant="h1" className="font-heading">
+                  <Typography
+                    variant="h1"
+                    className="font-heading"
+                    flexGrow={1}
+                  >
                     {weatherData.current_weather.temperature}°
                   </Typography>
                   <picture>
@@ -132,26 +149,39 @@ export function WeatherWidget({ children }) {
                     />
                   </picture>
                 </Box>
-                <Box sx={{ display: "flex", gap: 4 }}>
-                  <Typography variant="h5">
-                    {isNight()
-                      ? weatherCodes[weatherData.current_weather.weathercode]
-                          .night.description
-                      : weatherCodes[weatherData.current_weather.weathercode]
-                          .day.description}
-                  </Typography>
-                  <Sparklines data={weatherData.hourly.temperature_2m}>
-                    <SparklinesSpots style={{ display: "none" }} />
-                    <SparklinesLine
-                      style={{ fill: "none", strokeWidth: 3 }}
-                      color={
-                        weatherCodes[weatherData.current_weather.weathercode][
-                          isNight() ? "night" : "day"
-                        ].textColor
-                      }
-                    />
-                  </Sparklines>
-                </Box>
+                <Typography variant="h5">
+                  {isNight()
+                    ? weatherCodes[weatherData.current_weather.weathercode]
+                        .night.description
+                    : weatherCodes[weatherData.current_weather.weathercode].day
+                        .description}
+                </Typography>
+                <Sparklines
+                  data={weatherData.hourly.temperature_2m}
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    zIndex: -1,
+                    opacity: 0.2,
+                    left: 0,
+                    width: "100%",
+                  }}
+                >
+                  <SparklinesSpots style={{ display: "none" }} />
+                  <SparklinesLine
+                    style={{
+                      fill: weatherCodes[
+                        weatherData.current_weather.weathercode
+                      ][isNight() ? "night" : "day"].textColor,
+                      strokeWidth: 2,
+                    }}
+                    color={
+                      weatherCodes[weatherData.current_weather.weathercode][
+                        isNight() ? "night" : "day"
+                      ].textColor
+                    }
+                  />
+                </Sparklines>
               </>
             )}
           </Box>

@@ -135,6 +135,9 @@ export function Agenda({ type, date }) {
         "&:hover": {
           background: palette[3],
         },
+        "&:active": {
+          background: palette[4],
+        },
         color: palette[11],
         fontSize: "13px",
         "& .MuiIcon-root": {
