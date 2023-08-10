@@ -67,7 +67,6 @@ export function Agenda({ type, date }) {
         .add(1, columnMap[type])
         .format("YYYY-MM-DD")}`
     );
-    setView("all");
   };
 
   const handlePrev = () => {
@@ -76,7 +75,6 @@ export function Agenda({ type, date }) {
         .subtract(1, columnMap[type])
         .format("YYYY-MM-DD")}`
     );
-    setView("all");
   };
 
   const start = dayjs(date).startOf(columnMap[type]);
