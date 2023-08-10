@@ -1,28 +1,20 @@
+import { WelcomeEmail } from "@/emails/welcome";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { validateCaptcha } from "@/lib/server/captcha";
 import { prisma } from "@/lib/server/prisma";
 import argon2 from "argon2";
+import { Resend } from "resend";
 import { createSession } from "./login";
 
-async function sendEmail(email) {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+export async function sendEmail(name, email) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const raw = JSON.stringify({
-    service_id: "service_bhq01y6",
-    template_id: "template_mlzdt43",
-    user_id: "6Q4BZ_DN9bCSJFZYM",
-    accessToken: process.env.EMAILJS_ACCESS_TOKEN,
-    template_params: { to: email },
+  resend.sendEmail({
+    from: "Dysperse <hello@dysperse.com>",
+    to: email,
+    subject: "Welcome to the #dysperse family 👋",
+    react: WelcomeEmail({ name, email }),
   });
-
-  const emailRes = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  }).then((res) => res.text());
-
-  console.log(emailRes);
 }
 
 const validateEmail = (email) => {
@@ -123,7 +115,7 @@ export default async function handler(req, res) {
   });
 
   try {
-    await sendEmail(body.email);
+    await sendEmail(capitalizeFirstLetter(name), email.toLowerCase());
   } catch (e) {
     console.error("Something happened when trying to send the email", e);
   }

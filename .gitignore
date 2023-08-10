@@ -87,6 +87,9 @@ web_modules/
 /.next
 out
 
+# Next.js build output
+/.react-email
+
 # Nuxt.js build / generate output
 .nuxt
 dist
