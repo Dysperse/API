@@ -76,6 +76,7 @@ export function WeatherWidget({ children }) {
               "&:hover .close": {
                 display: "flex",
               },
+              background: palette[3],
               ...(weatherData && {
                 color:
                   weatherCodes[weatherData.current_weather.weathercode][
@@ -119,7 +120,7 @@ export function WeatherWidget({ children }) {
               </span>
             </Typography>
             {!weatherData ? (
-              <CircularProgress />
+              <CircularProgress sx={{ mt: 2 }} />
             ) : (
               <>
                 <Box sx={{ display: "flex" }}>
