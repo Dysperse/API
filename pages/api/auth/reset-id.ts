@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   // Find the user in the database
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { id: true },
+    select: { name: true, id: true },
   });
 
   // If the user doesn't exist, return an error
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
 
-  const { id } = user;
+  const { id, name } = user;
 
   // Send an email with a link to reset the password
   const token = await prisma.passwordResetToken.create({
