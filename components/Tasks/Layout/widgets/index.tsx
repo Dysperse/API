@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CreateTask } from "../../Task/Create";
 import { FocusTimer } from "./FocusTimer";
 import { WeatherWidget } from "./Weather";
+import { Notes } from "./Notes";
 
 export function WidgetBar({ view, setView }) {
   const session = useSession();
@@ -143,10 +144,12 @@ export function WidgetBar({ view, setView }) {
             Timer
           </Box>
         </FocusTimer>
-        <Box sx={focusToolsStyles.button}>
+        <Notes>
+            <Box sx={focusToolsStyles.button}>
           <Icon className="outlined">sticky_note_2</Icon>
           Note
         </Box>
+        </Notes>
         <Box sx={focusToolsStyles.button}>
           <Icon className="outlined">data_usage</Icon>
           Status
