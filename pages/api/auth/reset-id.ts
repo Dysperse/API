@@ -1,4 +1,4 @@
-import { ForgotPasswordEmail } from "@/emails/forgot-password";
+import ForgotPasswordEmail from "@/emails/forgot-password";
 import { validateCaptcha } from "@/lib/server/captcha";
 import { prisma } from "@/lib/server/prisma";
 import { Resend } from "resend";

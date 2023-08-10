@@ -49,7 +49,7 @@ export function EmailWrapper({
       <Tailwind>
         <Body className="bg-white my-auto mx-auto font-sans">
           <Img
-            src={`https://dysperse.com/footer.svg`}
+            src={`https://assets.dysperse.com/footer.png`}
             width={192}
             height={48}
             alt="Dysperse"
