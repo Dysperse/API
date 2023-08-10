@@ -41,7 +41,6 @@ export function WeatherWidget({ children }) {
       const res = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,apparent_temperature,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=1`
       ).then((res) => res.json());
-
       setWeatherData(res);
     });
   };
@@ -49,7 +48,7 @@ export function WeatherWidget({ children }) {
   useEffect(() => {
     if (open) {
       getWeather();
-      const interval = setInterval(getWeather, 30 * 60 * 1000); // Update every 30 minutes
+      const interval = setInterval(getWeather, 5 * 60 * 1000); // Update every 5 minutes
       return () => clearInterval(interval);
     }
   }, [open]);
