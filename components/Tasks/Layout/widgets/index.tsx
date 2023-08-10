@@ -67,6 +67,11 @@ export function WidgetBar({ setView }) {
 
   useEffect(() => {
     navigator.wakeLock.request("screen");
+    document.addEventListener("visibilitychange", async () => {
+      if (wakeLock !== null && document.visibilityState === "visible") {
+        wakeLock = await navigator.wakeLock.request("screen");
+      }
+    });
   }, []);
 
   return (
