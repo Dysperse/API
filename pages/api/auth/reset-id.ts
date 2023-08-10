@@ -1,5 +1,7 @@
+import { ForgotPasswordEmail } from "@/emails/forgot-password";
 import { validateCaptcha } from "@/lib/server/captcha";
 import { prisma } from "@/lib/server/prisma";
+import { Resend } from "resend";
 
 /**
  * API handler for the /api/login endpoint
@@ -40,31 +42,13 @@ export default async function handler(req, res) {
 
   const url = `https://my.dysperse.com/auth/reset-password/${token.token}`;
 
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const raw = JSON.stringify({
-    service_id: "service_bhq01y6",
-    template_id: "template_evbixeg",
-    user_id: "6Q4BZ_DN9bCSJFZYM",
-    accessToken: process.env.EMAILJS_ACCESS_TOKEN,
-    template_params: {
-      to: email,
-      link: url,
-    },
+  resend.sendEmail({
+    from: "Dysperse <hello@dysperse.com>",
+    to: email,
+    subject: "Forgot your password?",
+    react: ForgotPasswordEmail({ name, email, link: url }),
   });
-
-  const requestOptions: any = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  };
-
-  const emailRes = await fetch(
-    "https://api.emailjs.com/api/v1.0/email/send",
-    requestOptions
-  ).then((res) => res.text());
-  console.log(emailRes);
   res.json({ success: true });
 }
