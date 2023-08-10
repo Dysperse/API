@@ -87,7 +87,12 @@ export function WidgetBar({ view, setView }) {
       if (view === "priority") return false;
       else return null;
     };
-  }, [view]);
+    if (view !== "priority" && wakeLock) {
+      wakeLock.release().then(() => {
+        setWakeLock(null);
+      });
+    }
+  }, [view, wakeLock]);
 
   return (
     <Box
