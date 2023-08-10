@@ -7,6 +7,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { cloneElement, useEffect, useState } from "react";
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
@@ -41,6 +42,7 @@ export function WeatherWidget({ children }) {
       const res = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,apparent_temperature,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=1`
       ).then((res) => res.json());
+      console.log(res);
       setWeatherData(res);
     });
   };
@@ -72,6 +74,7 @@ export function WeatherWidget({ children }) {
             animate={{ scale: 1, opacity: 1 }}
           >
             <Box
+              onClick={getWeather}
               sx={{
                 borderRadius: 5,
                 overflow: "hidden",
@@ -113,8 +116,15 @@ export function WeatherWidget({ children }) {
                 sx={{
                   position: "absolute",
                   top: 0,
-                  background: "rgba(255,255,255,.1)!important",
                   color: "#fff!important",
+                  background: "rgba(255,255,255,.1)!important",
+                  ...(weatherData &&
+                    weatherCodes[weatherData.current_weather.weathercode][
+                      isNight() ? "night" : "day"
+                    ].textColor == "#000" && {
+                      color: "#000!important",
+                      background: "rgba(0,0,0,.1)!important",
+                    }),
                   right: 0,
                   m: 1,
                 }}
@@ -178,12 +188,17 @@ export function WeatherWidget({ children }) {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.8 }}
                   >
-                    <Typography variant="h5">
+                    <Typography variant="h6">
                       {isNight()
                         ? weatherCodes[weatherData.current_weather.weathercode]
                             .night.description
                         : weatherCodes[weatherData.current_weather.weathercode]
-                            .day.description}
+                            .day.description}{" "}
+                      &bull; Feels like{" "}
+                      {Math.round(
+                        weatherData.hourly.apparent_temperature[dayjs().hour()]
+                      )}
+                      &deg;
                     </Typography>
                   </motion.div>
                   <motion.div
