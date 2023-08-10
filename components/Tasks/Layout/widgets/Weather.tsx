@@ -1,11 +1,11 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-  Box,
-  CircularProgress,
-  Icon,
-  IconButton,
-  Typography,
+    Box,
+    CircularProgress,
+    Icon,
+    IconButton,
+    Typography,
 } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import Draggable from "react-draggable";
@@ -103,6 +103,7 @@ export function WeatherWidget({ children }) {
                 position: "absolute",
                 top: 0,
                 background: "rgba(255,255,255,.1)!important",
+                color: "#000!important",
                 right: 0,
                 m: 1,
               }}
