@@ -1,3 +1,4 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
@@ -16,9 +17,13 @@ import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
+import { FocusTimer } from "../Layout/widgets/FocusTimer";
+import { WeatherWidget } from "../Layout/widgets/Weather";
+import { CreateTask } from "../Task/Create";
 import Column from "./Column";
 
 export const AgendaContext = createContext<any>(null);
@@ -113,7 +118,40 @@ export function Agenda({ type, date }) {
     document.body.classList[view === "priority" ? "add" : "remove"](
       "priorityMode"
     );
+    window.onbeforeunload = () => {
+      if (view === "priority") return false;
+      else return null;
+    };
   }, [view]);
+
+  const focusToolsStyles = useMemo(
+    () => ({
+      button: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "90px",
+        py: 2,
+        borderRadius: 0,
+        background: palette[2],
+        "&:hover": {
+          background: palette[3],
+        },
+        color: palette[11],
+        fontSize: "13px",
+        "& .MuiIcon-root": {
+          color: addHslAlpha(palette[11], 0.8),
+        },
+      },
+    }),
+    [palette]
+  );
+
+  useHotkeys("esc", () => {
+    if (view === "priority") {
+      document.getElementById("exitFocus")?.click();
+    }
+  });
 
   return (
     <AgendaContext.Provider value={{ start, end, url, type }}>
@@ -123,6 +161,69 @@ export function Agenda({ type, date }) {
           {dayjs(start).format(viewSubHeadingFormats[type])}
         </title>
       </Head>
+      {view === "priority" && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            height: "100dvh",
+            background: palette[2],
+            backdropFilter: "blur(10px)",
+            width: "90px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            py: 2,
+            borderRadius: "0 10px 10px 0",
+            zIndex: 999,
+          }}
+        >
+          <ConfirmationModal
+            callback={() => setView("all")}
+            title="Exit focus mode?"
+            question="Any timers set or notes created will be cleared."
+          >
+            <IconButton
+              id="exitFocus"
+              sx={{ background: palette[3], mb: "auto" }}
+              size="large"
+            >
+              <Icon className="outlined">close</Icon>
+            </IconButton>
+          </ConfirmationModal>
+          <FocusTimer>
+            <Box sx={focusToolsStyles.button}>
+              <Icon className="outlined">timer</Icon>
+              Timer
+            </Box>
+          </FocusTimer>
+          <Box sx={focusToolsStyles.button}>
+            <Icon className="outlined">sticky_note_2</Icon>
+            Note
+          </Box>
+          <Box sx={focusToolsStyles.button}>
+            <Icon className="outlined">data_usage</Icon>
+            Status
+          </Box>
+          <WeatherWidget>
+            <Box sx={focusToolsStyles.button}>
+              <Icon className="outlined">partly_cloudy_day</Icon>
+              Weather
+            </Box>
+          </WeatherWidget>
+
+          <CreateTask>
+            <IconButton
+              sx={{ mt: "auto", background: palette[3] }}
+              size="large"
+            >
+              <Icon className="outlined">add</Icon>
+            </IconButton>
+          </CreateTask>
+        </Box>
+      )}
       <Box
         sx={{
           display: "flex",
@@ -173,64 +274,34 @@ export function Agenda({ type, date }) {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }}
                 >
-                  <Typography
-                    sx={{ fontWeight: 900 }}
-                    className="priority-hidden"
-                  >
+                  <Typography sx={{ fontWeight: 900 }}>
                     {dayjs(start).format(viewHeadingFormats[type])}
                   </Typography>
                   {viewSubHeadingFormats[type] !== "-" && (
-                    <Typography
-                      variant="body2"
-                      sx={{ mt: -0.5 }}
-                      className="priority-hidden"
-                    >
+                    <Typography variant="body2" sx={{ mt: -0.5 }}>
                       {dayjs(start).format(viewSubHeadingFormats[type])}
                     </Typography>
                   )}
                 </motion.div>
               </AnimatePresence>
             </Box>
-            <Box sx={{ borderRadius: 999, background: palette[3], ml: "auto" }}>
-              <IconButton
-                onClick={() => {
-                  setView("priority");
-                  scrollIntoView();
-                  toast.dismiss();
-                  toast("Target mode", {
-                    ...toastStyles,
-                    icon: <Icon>target</Icon>,
-                  });
-                }}
-                sx={{
-                  ...(view == "priority" && {
-                    background: palette[5] + "!important",
-                  }),
-                  color: palette[view === "priority" ? 11 : 8],
-                }}
-              >
-                <Icon className="outlined">target</Icon>
-              </IconButton>
-              <IconButton
-                onClick={() => {
-                  setView("all");
-                  scrollIntoView();
-                  toast.dismiss();
-                  toast("Viewing all tasks", {
-                    ...toastStyles,
-                    icon: <Icon>task_alt</Icon>,
-                  });
-                }}
-                sx={{
-                  ...(view == "all" && {
-                    background: palette[5] + "!important",
-                  }),
-                  color: palette[view === "all" ? 11 : 8],
-                }}
-              >
-                <Icon className="outlined">task_alt</Icon>
-              </IconButton>
-            </Box>
+            <Button
+              onClick={() => {
+                setView("priority");
+                scrollIntoView();
+                toast.dismiss();
+                toast("Focus mode", {
+                  ...toastStyles,
+                  icon: <Icon>target</Icon>,
+                });
+              }}
+              sx={{
+                ml: "auto",
+                ...(view === "priority" && { visibility: "hidden" }),
+              }}
+            >
+              <Icon className="outlined">target</Icon>Focus
+            </Button>
             <Box sx={{ ml: "auto" }}>
               <IconButton
                 onClick={async () => {
