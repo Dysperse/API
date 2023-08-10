@@ -83,7 +83,11 @@ export default function Document() {
         ))}
         <link href="/manifest.json" rel="manifest" />
       </Head>
-      <body>
+      <body
+        style={{
+          height: "100dvh",
+        }}
+      >
         <Main />
         <NextScript />
       </body>

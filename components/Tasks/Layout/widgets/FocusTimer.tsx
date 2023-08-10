@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { cloneElement, useCallback, useEffect, useMemo, useState } from "react";
-import Draggable from "react-draggable";
 
 export function FocusTimer({ children }) {
   const session = useSession();
@@ -139,17 +138,15 @@ export function FocusTimer({ children }) {
       {!open ? (
         <></>
       ) : (
-        <Draggable>
+        <Box>
           <Box
+            className="drag-widget"
             sx={{
               position: "fixed",
               display: "none",
               ".priorityMode &": {
                 display: "block",
               },
-              bottom: 20,
-              left: "50%",
-              transform: "translateX(-50%)",
               zIndex: 999,
               "& #close": {
                 display: "none",
@@ -271,7 +268,7 @@ export function FocusTimer({ children }) {
               </Box>
             </motion.div>
           </Box>
-        </Draggable>
+        </Box>
       )}
     </>
   );

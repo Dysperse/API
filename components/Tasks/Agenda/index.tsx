@@ -25,6 +25,7 @@ import { FocusTimer } from "../Layout/widgets/FocusTimer";
 import { WeatherWidget } from "../Layout/widgets/Weather";
 import { CreateTask } from "../Task/Create";
 import Column from "./Column";
+import { WidgetBar } from "../Layout/widgets";
 
 export const AgendaContext = createContext<any>(null);
 
@@ -163,6 +164,7 @@ export function Agenda({ type, date }) {
         </title>
       </Head>
       {view === "priority" && (
+        <WidgetBar>
         <Box
           sx={{
             position: "fixed",
@@ -224,6 +226,7 @@ export function Agenda({ type, date }) {
             </IconButton>
           </CreateTask>
         </Box>
+        </WidgetBar>
       )}
       <Box
         sx={{
