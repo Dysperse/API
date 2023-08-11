@@ -13,7 +13,9 @@
   "handle_links": "preferred",
   "theme_color": "#17151f",
   "prefer_related_applications": true,
-  "launch_handler": "navigate-existing",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   "edge_side_panel": {
     "preferred_width": 400
   },
