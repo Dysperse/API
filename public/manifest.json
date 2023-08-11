@@ -10,17 +10,22 @@
   "display": "standalone",
   "orientation": "portrait",
   "short_name": "Dysperse",
+  "handle_links": "preferred",
   "theme_color": "#17151f",
   "prefer_related_applications": true,
+  "launch_handler": "navigate-existing",
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "dysperse+task",
+      "url": "/protocol?action=task&track=%s"
+    }
+  ],
   "capture_links": "new-client",
-  "categories": [
-    "productivity",
-    "education",
-    "home"
-  ],
-  "display_override": [
-    "window-controls-overlay"
-  ],
+  "categories": ["productivity", "education", "home"],
+  "display_override": ["window-controls-overlay"],
   "screenshots": [
     {
       "src": "/screenshots/1.png",
