@@ -37,68 +37,76 @@ export function Notes({ children }) {
   return (
     <>
       {cloneElement(children, { onClick: addNote })}
-      {filteredNotes.map((note, index) => (
-        <Box
-          key={index}
-          className="drag-widget"
-          sx={{
-            position: "fixed",
-            top: 20,
-            width: 200,
-            borderRadius: 5,
-            left: 0,
-            background: note.color,
-          }}
-        >
-          <TextField
-            placeholder="Add note..."
-            multiline
-            variant="standard"
-            InputProps={{
-              disableUnderline: true,
-              sx: {
-                p: 2,
-                pb: 1,
-                pt: 3,
-                color: "#000",
-                fontWeight: "900",
+      {filteredNotes.map((note, index) => {
+        return (
+          <Box
+            key={index}
+            className="drag-widget"
+            sx={{
+              position: "fixed",
+              top: 20,
+              width: 200,
+              borderRadius: 5,
+              left: 0,
+              background: note.color,
+              "& .toolbar": {
+                display: "none",
+              },
+              "&:hover .toolbar": {
+                display: "flex",
               },
             }}
-            defaultValue={note.value}
-            onBlur={(e) => updateNoteValue(index, e.target.value)}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              gap: 1.5,
-              px: 2,
-              pb: 2,
-              alignItems: "center",
-            }}
           >
-            {["#feff9c", "#ff65a3", "#7afcff", "#fff740"].map((color) => (
-              <Box
-                key={color}
-                onClick={() => updateNoteColor(index, color as Note["color"])}
-                sx={{
-                  width: 20,
-                  height: 20,
-                  background: color,
-                  cursor: "pointer",
-                  filter: "brightness(80%)",
-                  borderRadius: 99,
-                }}
-              />
-            ))}
-            <IconButton
-              sx={{ ml: "auto", color: "#000!important" }}
-              onClick={() => deleteNote(index)}
+            <TextField
+              placeholder="Add note..."
+              multiline
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  p: 2,
+                  color: "#000",
+                  fontWeight: "900",
+                },
+              }}
+              defaultValue={note.value}
+              onBlur={(e) => updateNoteValue(index, e.target.value)}
+            />
+            <Box
+              className="toolbar"
+              sx={{
+                display: "flex",
+                gap: 1.5,
+                px: 2,
+                py: 1,
+                alignItems: "center",
+                background: "rgba(0,0,0,0.1)",
+              }}
             >
-              <Icon>delete</Icon>
-            </IconButton>
+              {["#feff9c", "#ff65a3", "#7afcff", "#fff740"].map((color) => (
+                <Box
+                  key={color}
+                  onClick={() => updateNoteColor(index, color as Note["color"])}
+                  sx={{
+                    width: 20,
+                    height: 20,
+                    background: color,
+                    cursor: "pointer",
+                    filter: "brightness(80%)",
+                    borderRadius: 99,
+                  }}
+                />
+              ))}
+              <IconButton
+                sx={{ ml: "auto", color: "#000!important" }}
+                onClick={() => deleteNote(index)}
+              >
+                <Icon>delete</Icon>
+              </IconButton>
+            </Box>
           </Box>
-        </Box>
-      ))}
+        );
+      })}
     </>
   );
 }
