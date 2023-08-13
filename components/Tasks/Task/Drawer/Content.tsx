@@ -210,6 +210,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
       <AppBar
         sx={{
           border: 0,
+          background: "transparent!important",
         }}
       >
         <Toolbar>

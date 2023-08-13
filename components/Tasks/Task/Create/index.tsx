@@ -251,59 +251,74 @@ export function CreateTask({
             }}
           >
             {showedFields.description && (
-              <MemoizedTextField
-                multiline
-                placeholder="Note"
-                variant="standard"
-                inputRef={descriptionRef}
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                InputProps={{
-                  disableUnderline: true,
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ height: "40px" }}>
-                      <Avatar>
-                        <Icon className="outlined">sticky_note_2</Icon>
-                      </Avatar>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+              <motion.div
+                initial={{ x: 100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+              >
+                <MemoizedTextField
+                  multiline
+                  placeholder="Note"
+                  variant="standard"
+                  inputRef={descriptionRef}
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  InputProps={{
+                    disableUnderline: true,
+                    startAdornment: (
+                      <InputAdornment position="start" sx={{ height: "40px" }}>
+                        <Avatar>
+                          <Icon className="outlined">sticky_note_2</Icon>
+                        </Avatar>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </motion.div>
             )}
             {showedFields.location && (
-              <MemoizedTextField
-                placeholder="Meeting URL or location"
-                variant="standard"
-                name="location"
-                inputRef={locationRef}
-                value={formData.location}
-                onChange={handleInputChange}
-                InputProps={{
-                  disableUnderline: true,
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ height: "40px" }}>
-                      <Avatar>
-                        <Icon className="outlined">location_on</Icon>
-                      </Avatar>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+              <motion.div
+                initial={{ x: 100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+              >
+                <MemoizedTextField
+                  placeholder="Meeting URL or location"
+                  variant="standard"
+                  name="location"
+                  inputRef={locationRef}
+                  value={formData.location}
+                  onChange={handleInputChange}
+                  InputProps={{
+                    disableUnderline: true,
+                    startAdornment: (
+                      <InputAdornment position="start" sx={{ height: "40px" }}>
+                        <Avatar>
+                          <Icon className="outlined">location_on</Icon>
+                        </Avatar>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </motion.div>
             )}
             {formData.image && (
-              <ListItem sx={{ p: 0 }}>
-                <Avatar
-                  sx={{ background: palette[5], color: palette[9] }}
-                  src={JSON.parse(formData.image).url}
-                />
-                <ListItemText primary="1 attachment" />
-                <IconButton
-                  onClick={() => setFormData((s) => ({ ...s, image: "" }))}
-                >
-                  <Icon>close</Icon>
-                </IconButton>
-              </ListItem>
+              <motion.div
+                initial={{ x: 100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+              >
+                <ListItem sx={{ p: 0 }}>
+                  <Avatar
+                    sx={{ background: palette[5], color: palette[9] }}
+                    src={JSON.parse(formData.image).url}
+                  />
+                  <ListItemText primary="1 attachment" />
+                  <IconButton
+                    onClick={() => setFormData((s) => ({ ...s, image: "" }))}
+                  >
+                    <Icon>close</Icon>
+                  </IconButton>
+                </ListItem>
+              </motion.div>
             )}
           </Box>
 
