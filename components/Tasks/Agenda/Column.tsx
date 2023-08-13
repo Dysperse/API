@@ -154,7 +154,7 @@ const Column = React.memo(function Column({
           >
             {dayjs(column).format(heading)}
           </Typography>
-          <ColumnMenu tasksLeft={tasksLeft} data={data} day={column} />
+          <ColumnMenu tasksLeft={tasksLeft} data={sortedTasks} day={column} />
         </Box>
 
         <Typography

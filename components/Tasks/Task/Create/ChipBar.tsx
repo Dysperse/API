@@ -47,13 +47,16 @@ export const TaskColorPicker = React.memo(function TaskColorPicker({
         <Box sx={{ p: 2, pt: 0 }}>
           {[
             "grey",
-            "orange",
-            "red",
             "pink",
             "purple",
             "indigo",
+            "blue",
+            "cyan",
             "teal",
             "green",
+            "yellow",
+            "orange",
+            "brown",
           ].map((colorChoice) => (
             <ListItemButton
               key={colorChoice}
@@ -224,7 +227,7 @@ const ChipBar = React.memo(function ChipBar({
                   background: colors[data.color]["A400"] + "!important",
                   borderColor: colors[data.color]["A400"] + "!important",
                   "& *": {
-                    color: colors[data.color]["50"] + "!important",
+                    color: "#000 !important",
                   },
                 }),
               }}

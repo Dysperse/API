@@ -39,7 +39,6 @@ export const ColumnMenu = React.memo(function ColumnMenu({
           ml: "auto",
           color: palette[9],
           mr: -1,
-          ...(selection.values.length > 0 && { opacity: 0 }),
           ...(open && { background: palette[2] }),
         }}
       >
@@ -60,6 +59,18 @@ export const ColumnMenu = React.memo(function ColumnMenu({
         >
           <Icon>select</Icon>
           Select
+        </MenuItem>
+        <MenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            handleClose();
+            selection.set([
+              ...new Set([...selection.values, ...data.map((task) => task.id)]),
+            ]);
+          }}
+        >
+          <Icon>select_all</Icon>
+          Select all
         </MenuItem>
 
         <ShareProgress data={data} tasksLeft={tasksLeft} day={day}>
