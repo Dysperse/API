@@ -42,6 +42,7 @@ interface TaskCreationProps {
   onSuccess?: () => void;
   closeOnCreate?: boolean;
   defaultDate?: Date | null;
+  isSubTask?: boolean;
   parentId?: string;
   boardData?: {
     boardId: string;
@@ -53,6 +54,7 @@ export function CreateTask({
   children,
   onSuccess,
   closeOnCreate = false,
+  isSubTask = false,
   boardData,
   parentId,
   defaultDate = dayjs().startOf("day").toDate(),
@@ -206,6 +208,7 @@ export function CreateTask({
           data={formData}
           setData={setFormData}
           chipStyles={styles.chip}
+          isSubTask={isSubTask}
         />
         <Box
           sx={{

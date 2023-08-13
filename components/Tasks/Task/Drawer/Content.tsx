@@ -389,6 +389,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
           {!isSubTask && (
             <>
               <CreateTask
+                isSubTask
                 parentId={task.id}
                 onSuccess={() => {
                   task.mutate();

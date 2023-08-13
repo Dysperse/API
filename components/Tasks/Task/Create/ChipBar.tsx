@@ -86,6 +86,7 @@ export const TaskColorPicker = React.memo(function TaskColorPicker({
 });
 
 const ChipBar = React.memo(function ChipBar({
+  isSubTask,
   locationRef,
   showedFields,
   setShowedFields,
@@ -229,34 +230,35 @@ const ChipBar = React.memo(function ChipBar({
               }}
             />
           </TaskColorPicker>
-          {[
-            { label: "Today", days: 0 },
-            { label: "Tomorrow", days: 1 },
-            { label: "Next week", days: 7 },
-          ].map(({ label, days }) => {
-            const isActive =
-              data.date &&
-              dayjs(data.date.toISOString()).startOf("day").toISOString() ==
-                dayjs().startOf("day").add(days, "day").toISOString();
+          {!isSubTask &&
+            [
+              { label: "Today", days: 0 },
+              { label: "Tomorrow", days: 1 },
+              { label: "Next week", days: 7 },
+            ].map(({ label, days }) => {
+              const isActive =
+                data.date &&
+                dayjs(data.date.toISOString()).startOf("day").toISOString() ==
+                  dayjs().startOf("day").add(days, "day").toISOString();
 
-            return (
-              <MemoizedChip
-                key={label}
-                label={label}
-                sx={chipStyles(isActive)}
-                icon={<Icon>today</Icon>}
-                onClick={() => {
-                  vibrate(50);
-                  const tomorrow = new Date();
-                  tomorrow.setDate(tomorrow.getDate() + days);
-                  tomorrow.setHours(0);
-                  tomorrow.setMinutes(0);
-                  tomorrow.setSeconds(0);
-                  setData((d) => ({ ...d, date: tomorrow }));
-                }}
-              />
-            );
-          })}
+              return (
+                <MemoizedChip
+                  key={label}
+                  label={label}
+                  sx={chipStyles(isActive)}
+                  icon={<Icon>today</Icon>}
+                  onClick={() => {
+                    vibrate(50);
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + days);
+                    tomorrow.setHours(0);
+                    tomorrow.setMinutes(0);
+                    tomorrow.setSeconds(0);
+                    setData((d) => ({ ...d, date: tomorrow }));
+                  }}
+                />
+              );
+            })}
         </Box>
       </motion.div>
     </div>
