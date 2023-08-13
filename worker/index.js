@@ -44,7 +44,7 @@ self.addEventListener("notificationclick", function (event) {
       }
 
       if (event.action.match(/^dailyCheckIn-(\d+)$/)) {
-        path = `/#/dailyCheckIn-${match[1]}`;
+        path = `/coach/routine#${match[1]}`;
       }
   }
 

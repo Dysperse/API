@@ -83,6 +83,7 @@ export function Upcoming({ setMobileView }) {
                 await mutate(url);
                 setLoading(false);
               }}
+              id="taskMutationTrigger"
               disabled={loading}
             >
               <Icon
@@ -259,6 +260,7 @@ export default function Dashboard() {
                       await mutate(url);
                       setLoading(false);
                     }}
+                    id="taskMutationTrigger"
                     disabled={loading}
                   >
                     <Icon
