@@ -668,6 +668,7 @@ export function TasksLayout({
                     }
                     document.getElementById("taskMutationTrigger")?.click();
                     toast.success(`Updated due date!`, toastStyles);
+                    setTaskSelection([]);
                   } catch {
                     toast.error(
                       `Couldn't update due dates! Please try again later`,

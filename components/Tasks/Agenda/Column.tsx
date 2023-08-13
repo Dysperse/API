@@ -328,7 +328,7 @@ const Column = React.memo(function Column({
           data={sortedTasks}
           itemContent={(_, task) => (
             <Task
-              isAgenda={true}
+              isAgenda
               isDateDependent={true}
               key={task.id}
               isScrolling={isScrolling}

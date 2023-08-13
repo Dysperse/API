@@ -8,8 +8,8 @@ import interact from "interactjs";
 import { useEffect, useMemo, useState } from "react";
 import { CreateTask } from "../../Task/Create";
 import { FocusTimer } from "./FocusTimer";
-import { WeatherWidget } from "./Weather";
 import { Notes } from "./Notes";
+import { WeatherWidget } from "./Weather";
 
 export function WidgetBar({ view, setView }) {
   const session = useSession();
@@ -69,18 +69,18 @@ export function WidgetBar({ view, setView }) {
   }, []);
 
   useEffect(() => {
-    try {
-      navigator.wakeLock.request("screen").then((e: any) => {
-        setWakeLock(e);
-        document.addEventListener("visibilitychange", async () => {
-          if (wakeLock !== null && document.visibilityState === "visible") {
-            const f = await navigator.wakeLock.request("screen");
-            setWakeLock(f);
-          }
+    if (document.hasFocus() && process.env.NODE_ENV === "production") {
+      try {
+        navigator.wakeLock.request("screen").then((e: any) => {
+          setWakeLock(e);
+          document.addEventListener("visibilitychange", async () => {
+            if (wakeLock !== null && document.visibilityState === "visible") {
+              const f = await navigator.wakeLock.request("screen");
+              setWakeLock(f);
+            }
+          });
         });
-      });
-    } catch (e) {
-      console.log(e);
+      } catch (e) {}
     }
   }, [wakeLock]);
 
@@ -92,7 +92,7 @@ export function WidgetBar({ view, setView }) {
       if (view === "priority") return false;
       else return null;
     };
-    if (view !== "priority" && wakeLock) {
+    if (view !== "priority" && wakeLock && document.hasFocus()) {
       wakeLock.release().then(() => {
         setWakeLock(null);
       });
@@ -145,10 +145,10 @@ export function WidgetBar({ view, setView }) {
           </Box>
         </FocusTimer>
         <Notes>
-            <Box sx={focusToolsStyles.button}>
-          <Icon className="outlined">sticky_note_2</Icon>
-          Note
-        </Box>
+          <Box sx={focusToolsStyles.button}>
+            <Icon className="outlined">sticky_note_2</Icon>
+            Note
+          </Box>
         </Notes>
         <Box sx={focusToolsStyles.button}>
           <Icon className="outlined">data_usage</Icon>

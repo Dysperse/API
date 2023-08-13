@@ -324,7 +324,6 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
           <ColorPopover />
           {!isSubTask && (
             <SelectDateModal
-              ref={dateRef}
               styles={() => {}}
               date={task.due}
               setDate={(d) => {

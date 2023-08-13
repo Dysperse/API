@@ -122,7 +122,11 @@ const TaskChips = React.memo(function TaskChips({
             size="small"
             className="date"
             sx={{ background: palette[3] }}
-            label={dayjs(taskData.due).fromNow()}
+            label={
+              taskData.due === dayjs().startOf("day")
+                ? "Today"
+                : dayjs(taskData.due).fromNow()
+            }
             icon={
               <Icon
                 className="outlined"
