@@ -142,6 +142,8 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
     try {
       await fetchRawApi(session, "property/boards/column/task/edit", {
         completed: completed ? "true" : "false",
+        completedAt: new Date().toISOString(),
+        completedBy: session.user.email,
         id: task.id,
       });
       await task.mutate();
@@ -160,6 +162,19 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
         task.id,
         "due",
         dayjs(task.due).add(count, type).toISOString()
+      );
+
+      toast(
+        <span>
+          <b>{dayjs(task.due).add(count, type).format("dddd, MMMM D")}</b>{" "}
+          {dayjs(task.due).add(count, type).format("HHmm") !== "0000" && (
+            <>
+              {" "}
+              at <b>{dayjs(task.due).add(count, type).format("h:mm A")}</b>
+            </>
+          )}
+        </span>,
+        toastStyles
       );
       task.close();
     },

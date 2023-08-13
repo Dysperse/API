@@ -274,8 +274,10 @@ export const Task: any = React.memo(function Task({
       setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
       try {
         await fetchRawApi(session, "property/boards/column/task/edit", {
-          completed: e.target.checked ? "true" : "false",
           id: taskData.id,
+          completed: e.target.checked ? "true" : "false",
+          completedAt: new Date().toISOString(),
+          completedBy: session.user.email
         });
       } catch (e) {
         toast.error("An error occured while updating the task", toastStyles);

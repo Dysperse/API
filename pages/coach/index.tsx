@@ -204,6 +204,28 @@ export default function Render() {
           )}
 
           <RoutineTrigger />
+          <CardActionArea
+            onClick={() => router.push("/mood-history")}
+            sx={{
+              flexGrow: 1,
+              p: 3,
+              my: 3,
+              px: { sm: 3 },
+              display: "flex",
+              background: { xs: palette[3], sm: palette[4] },
+              borderRadius: 5,
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <Typography
+                sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              >
+                <b>Mood history</b>
+              </Typography>
+            </Box>
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+          </CardActionArea>
           <MyGoals />
         </Box>
       </motion.div>

@@ -27,6 +27,7 @@
     "@sentry/nextjs": "^7.61.1",
     "@sentry/node": "^7.61.1",
     "@sentry/replay": "^7.61.1",
+    "@types/victory": "^35.0.0",
     "@typescript-eslint/parser": "^6.2.1",
     "@vercel/analytics": "^1.0.1",
     "argon2": "^0.31.0",
@@ -71,6 +72,7 @@
     "resend": "^0.17.2",
     "sass": "^1.64.2",
     "swr": "^2.2.0",
+    "victory": "^36.6.11",
     "web-push": "^3.6.4",
     "window-popup": "^1.1.0"
   },

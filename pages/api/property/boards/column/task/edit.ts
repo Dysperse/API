@@ -18,6 +18,15 @@ const handler = async (req, res) => {
         ...(req.query.where && { where: req.query.where }),
         ...(req.query.completed && {
           completed: req.query.completed === "true",
+          completedAt:
+            req.query.completed === "true"
+              ? new Date(req.query.completedAt)
+              : null,
+          completedBy: {
+            connect: {
+              email: req.query.completedBy,
+            },
+          },
         }),
         ...(req.query.pinned && { pinned: req.query.pinned === "true" }),
         ...(req.query.columnId && { columnId: req.query.columnId }),

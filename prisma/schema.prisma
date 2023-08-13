@@ -49,6 +49,7 @@ model User {
   followers  Follows[]    @relation("following")
   following  Follows[]    @relation("follower")
   ShareToken ShareToken[]
+  Task       Task[]
 }
 
 model Follows {
@@ -282,17 +283,22 @@ model Task {
   due         DateTime?
   color       String    @default("grey")
   pinned      Boolean   @default(false)
+
   completed   Boolean   @default(false)
+  completedBy User?     @relation(fields: [userId], references: [id])
+  completedAt DateTime?
+
   image       String?
   columnId    String?
-  lastUpdated DateTime  @default(now())
-  column      Column?   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  lastUpdated DateTime @default(now())
+  column      Column?  @relation(fields: [columnId], references: [id], onDelete: Cascade)
 
   parentTasks Task[] @relation("subtasks")
   subTasks    Task[] @relation("subtasks")
 
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  userId     String?
 }
 
 model RoutineItem {
