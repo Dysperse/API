@@ -249,20 +249,26 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
     }
   });
 
+  const [opacity, setOpacity] = useState(false);
+
+  useEffect(() => {
+    setOpacity(true);
+  }, []);
+
   return (
-    <Box sx={{ pb: 2 }}>
+    <Box
+      sx={{
+        pb: 2,
+        opacity: "0!important",
+        transition: "opacity .4s",
+        ...(opacity && {
+          opacity: "1!important",
+        }),
+      }}
+    >
       <ListItemButton onClick={() => setOpen(true)}>
         <Box sx={{ position: "relative" }}>
-          {isScrolling ? (
-            <Skeleton
-              variant="circular"
-              width={60}
-              height={60}
-              animation={false}
-            />
-          ) : (
-            <ProfilePicture data={friend} mutationUrl="" size={60} />
-          )}
+          <ProfilePicture data={friend} mutationUrl="" size={60} />
           <Box
             sx={{
               position: "absolute",
