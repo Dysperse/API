@@ -1,7 +1,9 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { StatusSelector } from "@/pages";
 import { Box, Icon, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
 import interact from "interactjs";
@@ -67,6 +69,10 @@ export function WidgetBar({ view, setView }) {
       },
     });
   }, []);
+
+  const { data: profileData, url } = useApi("user/profile", {
+    email: session.user.email,
+  });
 
   useEffect(() => {
     if (document.hasFocus() && process.env.NODE_ENV === "production") {
@@ -150,10 +156,14 @@ export function WidgetBar({ view, setView }) {
             Note
           </Box>
         </Notes>
-        <Box sx={focusToolsStyles.button}>
-          <Icon className="outlined">data_usage</Icon>
-          Status
-        </Box>
+        {profileData && (
+          <StatusSelector profile={profileData} mutationUrl={url}>
+            <Box sx={focusToolsStyles.button}>
+              <Icon className="outlined">data_usage</Icon>
+              Status
+            </Box>
+          </StatusSelector>
+        )}
         <WeatherWidget>
           <Box sx={focusToolsStyles.button}>
             <Icon className="outlined">partly_cloudy_day</Icon>

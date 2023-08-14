@@ -31,13 +31,21 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { cloneElement, memo, useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { GroupModal } from "../components/Group/GroupModal";
 
-function StatusSelector({ profile, mutationUrl }) {
+export function StatusSelector({
+  children,
+  profile,
+  mutationUrl,
+}: {
+  children?: JSX.Element;
+  profile: any;
+  mutationUrl: string;
+}) {
   const session = useSession();
   const now = useMemo(() => dayjs(), []);
 
@@ -107,31 +115,39 @@ function StatusSelector({ profile, mutationUrl }) {
       ? orangePalette
       : grayPalette;
 
+      const trigger = cloneElement(
+        children || (
+          <Button
+            sx={{
+              px: 2,
+              "&, &:hover": {
+                background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
+                color: `${chipPalette[12]} !important`,
+              },
+            }}
+            variant="contained"
+            size="large"
+          >
+            <Icon className="outlined">
+              {status === "available"
+                ? "check_circle"
+                : status === "busy"
+                ? "remove_circle"
+                : status === "away"
+                ? "dark_mode"
+                : "circle"}
+            </Icon>
+            {status ? capitalizeFirstLetter(status) : "Set status"}
+          </Button>
+        ),
+        {
+          onClick: () => setOpen(true),
+        }
+      );
+
   return (
     <>
-      <Button
-        onClick={() => setOpen(true)}
-        sx={{
-          px: 2,
-          "&, &:hover": {
-            background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
-            color: `${chipPalette[12]} !important`,
-          },
-        }}
-        variant="contained"
-        size="large"
-      >
-        <Icon className="outlined">
-          {status === "available"
-            ? "check_circle"
-            : status === "busy"
-            ? "remove_circle"
-            : status === "away"
-            ? "dark_mode"
-            : "circle"}
-        </Icon>
-        {status ? capitalizeFirstLetter(status) : "Set status"}
-      </Button>
+      {trigger}
       <SwipeableDrawer
         anchor="bottom"
         open={open}
