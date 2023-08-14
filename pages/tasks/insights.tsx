@@ -63,19 +63,15 @@ function Insights({ tasks }) {
     () =>
       [...Array(24)].map((_, hour) => ({
         hour,
-        tasks: tasks.filter((task) => new Date(task.due).getHours() === hour)
-          .length,
+        tasks: tasks.filter(
+          (task) => new Date(task.completedAt).getHours() === hour
+        ).length,
       })),
     [tasks]
   );
 
   const mostProductiveHour = hours.reduce((maxHour, currentHour) =>
     currentHour.tasks > maxHour.tasks ? currentHour : maxHour
-  );
-
-  const completedTasksToday = tasks.filter(
-    (task) =>
-      new Date(task.completedAt).toDateString() === new Date().toDateString()
   );
 
   const mostProductiveDay = Object.entries(
@@ -89,6 +85,7 @@ function Insights({ tasks }) {
       (tasks > max.tasks ? { day: date, tasks } : max) as any,
     { day: null, tasks: 0 }
   );
+
   const priorityPercentage = useMemo(
     () => (tasks.filter((t) => t.pinned).length / tasks.length) * 100,
     [tasks]
@@ -157,7 +154,6 @@ function Insights({ tasks }) {
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
             <Box sx={cardStyles}>
-              {JSON.stringify(mostProductiveHour)}
               <Typography variant="h4">
                 {hourIntTo12(mostProductiveHour.hour)}
               </Typography>
