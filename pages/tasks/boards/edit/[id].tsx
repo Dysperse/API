@@ -92,6 +92,16 @@ function BoardColumnSettings({ data, styles, mutate }) {
             <ConfirmationModal
               title="Delete column?"
               question={`Deleting this column will also permanently delete ${column.tasks.length} inside it. Continue?`}
+              callback={async () => {
+                await fetchRawApi(session, "property/boards/column/delete", {
+                  id: column.id,
+                  who: session.user.name,
+                  boardName: data.name,
+                  boardEmoji: data.emoji,
+                  columnName: column.name,
+                });
+                await mutate();
+              }}
             >
               <IconButton>
                 <Icon className="outlined">delete</Icon>
