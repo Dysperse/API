@@ -74,6 +74,7 @@ export function BottomNav() {
     "/onboarding",
     "/coach/routine",
     "/settings",
+    "/tasks/insights",
   ].find((path) => router.asPath.includes(path));
 
   /**
