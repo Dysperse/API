@@ -55,6 +55,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
       id: data.id,
     })
       .then(async () => {
+        setName("");
         await mutate();
         toast.success("Created column!", toastStyles);
         setOpen(false);
@@ -83,7 +84,10 @@ function BoardColumnSettings({ data, styles, mutate }) {
               height={30}
             />
           </picture>
-          <ListItemText primary={<b>{column.name}</b>} secondary={`${column.tasks.length} tasks`} />
+          <ListItemText
+            primary={<b>{column.name}</b>}
+            secondary={`${column.tasks.length} tasks`}
+          />
           <IconButton disabled>
             <Icon className="outlined">edit</Icon>
           </IconButton>
