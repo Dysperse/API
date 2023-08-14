@@ -83,16 +83,18 @@ function BoardColumnSettings({ data, styles, mutate }) {
               height={30}
             />
           </picture>
-          <ListItemText
-            primary={<b>{column.name}</b>}
-            secondary={column.tasks.length + " tasks"}
-          />
+          <ListItemText primary={<b>{column.name}</b>} secondary={`${column.tasks.length} tasks`} />
           <IconButton disabled>
             <Icon className="outlined">edit</Icon>
           </IconButton>
-          <IconButton>
-            <Icon className="outlined">delete</Icon>
-          </IconButton>
+          <ConfirmationModal
+            title="Delete column?"
+            question={`Deleting this column will also permanently delete ${column.tasks.length} inside it. Continue?`}
+          >
+            <IconButton>
+              <Icon className="outlined">delete</Icon>
+            </IconButton>
+          </ConfirmationModal>
           <IconButton disabled>
             <Icon>drag_handle</Icon>
           </IconButton>
