@@ -17,7 +17,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 
@@ -35,8 +35,7 @@ export function Upcoming({ setMobileView }) {
   const [isScrolling, setIsScrolling] = useState(false);
   const [loading, setLoading] = useState(false);
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const scrollerRef = useRef();
 
   return (
     <motion.div
@@ -47,8 +46,10 @@ export function Upcoming({ setMobileView }) {
       }}
     >
       <Box
+        ref={scrollerRef}
         sx={{
           height: "100%",
+          overflow: "scroll",
           ...(!data &&
             !error && {
               filter: "blur(10px)",
@@ -98,7 +99,7 @@ export function Upcoming({ setMobileView }) {
             {error && (
               <ErrorHandler
                 callback={() => mutate(url)}
-                error="Yikes! An error occured while trying to fetch your backlog. Please try again later."
+                error="Yikes! An error occured while trying to fetch your upcoming items. Please try again later."
               />
             )}
           </Box>
@@ -141,16 +142,18 @@ export function Upcoming({ setMobileView }) {
               )}
               <Virtuoso
                 isScrolling={setIsScrolling}
+                customScrollParent={scrollerRef.current}
                 data={[
                   ...data.filter((task) => task.pinned),
                   ...data.filter((task) => !task.pinned),
                 ]}
-                useWindowScroll={isMobile}
+                useWindowScroll
                 style={{ height: "100%" }}
                 itemContent={(_, task) => (
                   <Task
                     isDateDependent={true}
                     key={task.id}
+                    isScrolling={isScrolling}
                     board={task.board || false}
                     columnId={task.column ? task.column.id : -1}
                     mutationUrl={url}
@@ -171,6 +174,7 @@ export function Upcoming({ setMobileView }) {
  */
 export default function Dashboard() {
   const session = useSession();
+  const scrollerRef = useRef();
   const [open, setOpen] = useState(false);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -225,7 +229,9 @@ export default function Dashboard() {
             }}
           >
             <Box
+              ref={scrollerRef}
               sx={{
+                overflow: "scroll",
                 ...(!data &&
                   !error && {
                     filter: "blur(10px)",
@@ -336,7 +342,8 @@ export default function Dashboard() {
                         ...data.filter((task) => task.pinned),
                         ...data.filter((task) => !task.pinned),
                       ]}
-                      useWindowScroll={isMobile}
+                      useWindowScroll
+                      customScrollParent={scrollerRef.current}
                       style={{ height: "100%" }}
                       itemContent={(_, task) => (
                         <Task

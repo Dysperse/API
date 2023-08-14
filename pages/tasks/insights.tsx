@@ -151,7 +151,7 @@ function Insights({ tasks }) {
         <Typography variant="h3" className="font-heading" sx={{ mt: 4, mb: 2 }}>
           Overall
         </Typography>
-        <Box sx={{ mr: -2, mb: 5 }}>
+        <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
             <Box sx={cardStyles}>
               <Typography variant="h4" className="cont-heading">
