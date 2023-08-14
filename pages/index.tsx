@@ -163,7 +163,7 @@ function StatusSelector({ profile, mutationUrl }) {
             Clear after...
           </Typography>
           <Box sx={{ display: "flex", overflowX: "scroll", gap: 2, px: 2 }}>
-            {[60, 120, 240, 1440].map((_time) => (
+            {[60, 120, 240, 600, 1440].map((_time) => (
               <Button
                 key={_time}
                 onClick={handleTimeSelect(_time)}
