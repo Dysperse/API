@@ -14,6 +14,7 @@ import {
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { VictoryAxis, VictoryBar, VictoryChart } from "victory";
 
 function hourIntTo12(hour) {
   const period = hour >= 12 ? "PM" : "AM";
@@ -154,6 +155,34 @@ function Insights({ tasks }) {
         </Typography>
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
+            <Box sx={{ ...cardStyles, p: 0 }}>
+              <VictoryChart>
+                <VictoryAxis
+                  style={{
+                    axis: { stroke: palette[8] },
+                    axisLabel: { fontSize: 20, padding: 30 },
+                    grid: {
+                      stroke: palette[6],
+                    },
+                    ticks: { stroke: palette[6], size: 5 },
+                    tickLabels: {
+                      fontSize: 10,
+                      padding: 5,
+                    },
+                  }}
+                  tickCount={12}
+                  tickFormat={(e) =>
+                    hourIntTo12(e).replace(" ", "").toLowerCase()
+                  }
+                />
+                <VictoryBar
+                  style={{ data: { fill: palette[11] } }}
+                  data={hours}
+                  x="hours"
+                  y="tasks"
+                />
+              </VictoryChart>
+            </Box>
             <Box sx={cardStyles}>
               <Typography variant="h4">
                 {hourIntTo12(mostProductiveHour.hour)}
