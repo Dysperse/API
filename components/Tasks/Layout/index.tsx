@@ -78,7 +78,6 @@ export const taskStyles = (palette) => {
       borderRadius: 999,
       left: "10px",
       width: "calc(100vw - 20px)",
-      maxWidth: "400px",
       mx: "auto",
       zIndex: 999,
       height: 55,
@@ -96,7 +95,7 @@ export const taskStyles = (palette) => {
       position: "fixed",
       bottom: {
         xs: "70px",
-        md: "30px",
+        sm: "30px",
       },
       left: "10px",
       zIndex: 9,
@@ -105,7 +104,7 @@ export const taskStyles = (palette) => {
       border: "1px solid",
       borderColor: addHslAlpha(palette[3], 0.5),
       fontWeight: "700",
-      display: { md: "none" },
+      display: { sm: "none" },
       fontSize: "15px",
       color: palette[12],
     },
@@ -876,11 +875,11 @@ export function TasksLayout({
         </Drawer>
         <Box
           sx={{
-            width: { xs: "100%", md: 300 },
-            flex: { xs: "100%", md: "0 0 250px" },
+            width: { xs: "100%", sm: 300 },
+            flex: { xs: "100%", sm: "0 0 250px" },
             ml: -1,
             background: addHslAlpha(palette[3], 0.5),
-            display: { xs: "none", md: "flex" },
+            display: { xs: "none", sm: "flex" },
             minHeight: "100dvh",
             maxWidth: "250px",
             opacity: 1,
@@ -889,8 +888,8 @@ export function TasksLayout({
               opacity: 0,
               maxWidth: 0,
             },
-            height: { md: "100dvh" },
-            overflowY: { md: "scroll" },
+            height: { sm: "100dvh" },
+            overflowY: { sm: "scroll" },
             transition: "all .2s",
             flexDirection: "column",
           }}
@@ -899,10 +898,10 @@ export function TasksLayout({
         </Box>
         <Box
           sx={{
-            maxHeight: { md: "100dvh" },
-            minHeight: { md: "100dvh" },
-            height: { md: "100dvh" },
-            overflowY: { md: "auto" },
+            maxHeight: { sm: "100dvh" },
+            minHeight: { sm: "100dvh" },
+            height: { sm: "100dvh" },
+            overflowY: { sm: "auto" },
             flexGrow: 1,
           }}
           {...(contentRef && { ref: contentRef })}

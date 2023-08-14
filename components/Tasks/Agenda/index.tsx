@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
@@ -123,7 +123,7 @@ export function Agenda({ type, date }) {
           {dayjs(start).format(viewSubHeadingFormats[type])}
         </title>
       </Head>
-      {!isMobile &&<WidgetBar view={view} setView={setView} />}
+      {!isMobile && <WidgetBar view={view} setView={setView} />}
       <Box
         sx={{
           display: "flex",
