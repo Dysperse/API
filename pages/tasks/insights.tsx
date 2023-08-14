@@ -119,7 +119,7 @@ function Insights({ tasks }) {
               >
                 TODAY
               </Typography>
-              <Typography variant="h4" className="cont-heading">
+              <Typography variant="h4">
                 {getTasksCompletedInRange(tasks, 1).length} tasks
               </Typography>
               <Typography>
@@ -138,7 +138,7 @@ function Insights({ tasks }) {
               >
                 THIS WEEK
               </Typography>
-              <Typography variant="h4" className="cont-heading">
+              <Typography variant="h4">
                 {getTasksCompletedInRange(tasks, 7).length} tasks
               </Typography>
               <Typography>
@@ -157,7 +157,8 @@ function Insights({ tasks }) {
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
             <Box sx={cardStyles}>
-              <Typography variant="h4" className="cont-heading">
+              {JSON.stringify(mostProductiveHour)}
+              <Typography variant="h4">
                 {hourIntTo12(mostProductiveHour.hour)}
               </Typography>
               <Typography>
@@ -184,9 +185,7 @@ function Insights({ tasks }) {
               </Typography>
             </Box>
             <Box sx={cardStyles}>
-              <Typography variant="h4" className="cont-heading">
-                {tasks.length}
-              </Typography>
+              <Typography variant="h4">{tasks.length}</Typography>
               <Typography>Task{tasks.length !== 1 && "s"} completed</Typography>
               <LinearProgress
                 sx={{ my: 1, borderRadius: 999 }}

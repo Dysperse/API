@@ -82,7 +82,7 @@ export function EmailWrapper({
                 href="mailto:hello@dysperse.com"
                 className="text-blue-600 no-underline"
               >
-                helo@dysperse.com
+                hello@dysperse.com
               </Link>{" "}
               right away.Since this is an important update regarding your
               account you cannot unsubscribe from these updates.
