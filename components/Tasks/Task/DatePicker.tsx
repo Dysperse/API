@@ -12,6 +12,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
   date,
   setDate,
   children,
+  dateOnly = false,
 }: any) {
   const session = useSession();
   const timeRef: any = useRef();
@@ -106,38 +107,40 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             />
           </motion.div>
         )}
-        <Box
-          sx={{
-            mt: -1,
-            gap: 1,
-            display: "flex",
-            p: 2,
-            width: "100%",
-          }}
-        >
-          <Button
-            disableRipple
-            fullWidth
-            variant="contained"
-            onClick={handleClick}
-          >
-            <Icon>{timeOpen ? "today" : "access_time"}</Icon>
-            {dayjs(date).isValid()
-              ? dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")
-              : `Set ${timeOpen ? "date" : "time"}`}
-          </Button>
-          <Button
-            disableRipple
-            sx={{ borderRadius: 9 }}
-            variant="contained"
-            onClick={() => {
-              setDate(today);
-              setTimeOpen(false);
+        {!dateOnly && (
+          <Box
+            sx={{
+              mt: -1,
+              gap: 1,
+              display: "flex",
+              p: 2,
+              width: "100%",
             }}
           >
-            <Icon>refresh</Icon>
-          </Button>
-        </Box>
+            <Button
+              disableRipple
+              fullWidth
+              variant="contained"
+              onClick={handleClick}
+            >
+              <Icon>{timeOpen ? "today" : "access_time"}</Icon>
+              {dayjs(date).isValid()
+                ? dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")
+                : `Set ${timeOpen ? "date" : "time"}`}
+            </Button>
+            <Button
+              disableRipple
+              sx={{ borderRadius: 9 }}
+              variant="contained"
+              onClick={() => {
+                setDate(today);
+                setTimeOpen(false);
+              }}
+            >
+              <Icon>refresh</Icon>
+            </Button>
+          </Box>
+        )}
       </SwipeableDrawer>
     </>
   );

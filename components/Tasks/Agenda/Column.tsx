@@ -22,6 +22,7 @@ import { mutate } from "swr";
 import { AgendaContext } from ".";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
+import SelectDateModal from "../Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
 
 const Column = React.memo(function Column({
@@ -164,33 +165,35 @@ const Column = React.memo(function Column({
             fontSize: "17px",
           }}
         >
-          <Tooltip
-            placement="bottom-start"
-            title={
-              <Typography>
-                <Typography sx={{ fontWeight: 700 }}>
-                  {isToday
-                    ? "Today"
-                    : capitalizeFirstLetter(dayjs(column).fromNow())}
+          <SelectDateModal date={dayjs(column).toDate()} setDate={() => {}} dateOnly>
+            <Tooltip
+              placement="bottom-start"
+              title={
+                <Typography>
+                  <Typography sx={{ fontWeight: 700 }}>
+                    {isToday
+                      ? "Today"
+                      : capitalizeFirstLetter(dayjs(column).fromNow())}
+                  </Typography>
+                  <Typography variant="body2">
+                    {dayjs(column).format("dddd, MMMM D, YYYY")}
+                  </Typography>
                 </Typography>
-                <Typography variant="body2">
-                  {dayjs(column).format("dddd, MMMM D, YYYY")}
-                </Typography>
-              </Typography>
-            }
-          >
-            <span
-              style={{
-                ...(isPast && {
-                  textDecoration: "line-through",
-                  ...(isPast && { opacity: 0.5 }),
-                }),
-              }}
+              }
             >
-              {dayjs(column).format(subheading)}
-              {type === "weeks" && " - " + dayjs(columnEnd).format("DD")}
-            </span>
-          </Tooltip>
+              <span
+                style={{
+                  ...(isPast && {
+                    textDecoration: "line-through",
+                    ...(isPast && { opacity: 0.5 }),
+                  }),
+                }}
+              >
+                {dayjs(column).format(subheading)}
+                {type === "weeks" && " - " + dayjs(columnEnd).format("DD")}
+              </span>
+            </Tooltip>
+          </SelectDateModal>
           <Typography
             variant="body2"
             sx={{
