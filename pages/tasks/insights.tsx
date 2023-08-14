@@ -121,9 +121,9 @@ function Insights({ tasks }) {
               </Typography>
               <Typography>
                 {calculatePercentImprovement(
-                  getTasksCompletedInRange(tasks, 1).length,
                   getTasksCompletedInRange(tasks, 2).length -
-                    getTasksCompletedInRange(tasks, 1).length
+                    getTasksCompletedInRange(tasks, 1).length,
+                  getTasksCompletedInRange(tasks, 1).length
                 )}{" "}
                 compared to yesterday
               </Typography>
@@ -140,8 +140,9 @@ function Insights({ tasks }) {
               </Typography>
               <Typography>
                 {calculatePercentImprovement(
-                  getTasksCompletedInRange(tasks, 7).length,
-                  getTasksCompletedInRange(tasks, 14).length
+                  getTasksCompletedInRange(tasks, 14).length -
+                    getTasksCompletedInRange(tasks, 7).length,
+                  getTasksCompletedInRange(tasks, 7).length
                 )}{" "}
                 compared to last week
               </Typography>
