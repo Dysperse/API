@@ -96,7 +96,10 @@ function Insights({ tasks }) {
 
   return (
     <Box sx={{ p: { xs: 2, sm: 4 } }}>
-      <IconButton onClick={() => router.push("/tasks/days")} sx={{ mb: 2 }}>
+      <IconButton
+        onClick={() => router.push("/tasks/agenda/days")}
+        sx={{ mb: 2 }}
+      >
         <Icon>arrow_back_ios_new</Icon>
       </IconButton>
       <Box sx={{ p: 2 }}>
