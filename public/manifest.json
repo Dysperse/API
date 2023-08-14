@@ -21,7 +21,7 @@
   },
   "protocol_handlers": [
     {
-      "protocol": "dysperse+task",
+      "protocol": "web+dysperse",
       "url": "/protocol?action=task&track=%s"
     }
   ],
