@@ -167,7 +167,7 @@ function Insights({ tasks }) {
                     },
                     ticks: { stroke: palette[6], size: 5 },
                     tickLabels: {
-                      fontSize: 15,
+                      fontSize: isMobile ? 15 : 11,
                       padding: 5,
                     },
                   }}
