@@ -60,6 +60,7 @@ function TimeSelector({ time, setTime }) {
 }
 export default function CreateGoal() {
   const session = useSession();
+  c
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const numberRef: any = useRef();

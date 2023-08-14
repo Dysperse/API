@@ -10,6 +10,7 @@ import {
   IconButton,
   LinearProgress,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -91,9 +92,9 @@ function Insights({ tasks }) {
     () => (tasks.filter((t) => t.pinned).length / tasks.length) * 100,
     [tasks]
   );
-
+  const isMobile = useMediaQuery("(max-width:600px)");
   return (
-    <Box sx={{ p: { xs: 2, sm: 4 } }}>
+    <Box sx={{ p: { xs: 1, sm: 4 } }}>
       <IconButton
         onClick={() => router.push("/tasks/agenda/days")}
         sx={{ mb: 2 }}
@@ -166,11 +167,11 @@ function Insights({ tasks }) {
                     },
                     ticks: { stroke: palette[6], size: 5 },
                     tickLabels: {
-                      fontSize: 10,
+                      fontSize: 15,
                       padding: 5,
                     },
                   }}
-                  tickCount={12}
+                  tickCount={isMobile ? 6 : 12}
                   tickFormat={(e) =>
                     hourIntTo12(e).replace(" ", "").toLowerCase()
                   }
