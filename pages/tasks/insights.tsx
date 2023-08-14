@@ -187,6 +187,10 @@ function Insights({ tasks }) {
                   }
                 />
                 <VictoryBar
+                  animate={{
+                    duration: 2000,
+                    onLoad: { duration: 1000 },
+                  }}
                   style={{ data: { fill: palette[11] } }}
                   data={hours}
                   x="hours"
