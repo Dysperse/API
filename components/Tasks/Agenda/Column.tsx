@@ -165,7 +165,15 @@ const Column = React.memo(function Column({
             fontSize: "17px",
           }}
         >
-          <SelectDateModal date={dayjs(column).toDate()} setDate={() => {}} dateOnly>
+          <SelectDateModal
+            date={dayjs(column).toDate()}
+            setDate={(date) => {
+              router.push(
+                "/tasks/agenda/days/" + dayjs(date).format("YYYY-MM-DD")
+              );
+            }}
+            dateOnly
+          >
             <Tooltip
               placement="bottom-start"
               title={
