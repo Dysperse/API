@@ -99,99 +99,103 @@ function Insights({ tasks }) {
       <Typography variant="h3" className="font-heading" sx={{ mb: 2 }}>
         Recent
       </Typography>
-      <Masonry columns={2} spacing={2}>
-        <Box sx={cardStyles}>
-          <Typography
-            variant="body2"
-            sx={{ color: palette[11], fontWeight: 900 }}
-          >
-            TODAY
-          </Typography>
-          <Typography variant="h4" className="cont-heading">
-            {getTasksCompletedInRange(tasks, 1).length} tasks
-          </Typography>
-          <Typography>
-            {calculatePercentImprovement(
-              getTasksCompletedInRange(tasks, 1).length,
-              getTasksCompletedInRange(tasks, 2).length -
-                getTasksCompletedInRange(tasks, 1).length
-            )}{" "}
-            compared to yesterday
-          </Typography>
-        </Box>
-        <Box sx={cardStyles}>
-          <Typography
-            variant="body2"
-            sx={{ color: palette[11], fontWeight: 900 }}
-          >
-            THIS WEEK
-          </Typography>
-          <Typography variant="h4" className="cont-heading">
-            {getTasksCompletedInRange(tasks, 7).length} tasks
-          </Typography>
-          <Typography>
-            {calculatePercentImprovement(
-              getTasksCompletedInRange(tasks, 7).length,
-              getTasksCompletedInRange(tasks, 14).length
-            )}{" "}
-            compared to last week
-          </Typography>
-        </Box>
-      </Masonry>
+      <Box sx={{ mr: -2 }}>
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
+          <Box sx={cardStyles}>
+            <Typography
+              variant="body2"
+              sx={{ color: palette[11], fontWeight: 900 }}
+            >
+              TODAY
+            </Typography>
+            <Typography variant="h4" className="cont-heading">
+              {getTasksCompletedInRange(tasks, 1).length} tasks
+            </Typography>
+            <Typography>
+              {calculatePercentImprovement(
+                getTasksCompletedInRange(tasks, 1).length,
+                getTasksCompletedInRange(tasks, 2).length -
+                  getTasksCompletedInRange(tasks, 1).length
+              )}{" "}
+              compared to yesterday
+            </Typography>
+          </Box>
+          <Box sx={cardStyles}>
+            <Typography
+              variant="body2"
+              sx={{ color: palette[11], fontWeight: 900 }}
+            >
+              THIS WEEK
+            </Typography>
+            <Typography variant="h4" className="cont-heading">
+              {getTasksCompletedInRange(tasks, 7).length} tasks
+            </Typography>
+            <Typography>
+              {calculatePercentImprovement(
+                getTasksCompletedInRange(tasks, 7).length,
+                getTasksCompletedInRange(tasks, 14).length
+              )}{" "}
+              compared to last week
+            </Typography>
+          </Box>
+        </Masonry>
+      </Box>
       <Typography variant="h3" className="font-heading" sx={{ mt: 4, mb: 2 }}>
         Overall
       </Typography>
-      <Masonry columns={2} spacing={2}>
-        <Box sx={cardStyles}>
-          <Typography variant="h4" className="cont-heading">
-            {hourIntTo12(mostProductiveHour.hour)}
-          </Typography>
-          <Typography>
-            My most productive hour &bull; {mostProductiveHour.tasks} task
-            {mostProductiveHour.tasks !== 1 && "s"}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            ...cardStyles,
-            background: `linear-gradient(${palette[9]}, ${palette[11]})`,
-            color: palette[1],
-          }}
-        >
-          <Typography variant="h4">
-            <b>{mostProductiveDay.tasks}</b> task
-            {mostProductiveDay.tasks !== 1 && "s"}
-          </Typography>
-          <Typography>
-            Most productive day &bull;{" "}
-            <b>
-              <u>{dayjs(mostProductiveDay.day).format("MMMM Do, YYYY")}</u>
-            </b>
-          </Typography>
-        </Box>
-        <Box sx={cardStyles}>
-          <Typography variant="h4" className="cont-heading">
-            {tasks.length}
-          </Typography>
-          <Typography>Task{tasks.length !== 1 && "s"} completed</Typography>
-          <LinearProgress
-            sx={{ my: 1, borderRadius: 999 }}
-            variant="determinate"
-            value={priorityPercentage}
-          />
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Chip
-              size="small"
-              label={tasks.filter((t) => t.pinned).length + " priority"}
-            />
-            <Chip
-              size="small"
-              sx={{ ml: "auto" }}
-              label={tasks.filter((t) => !t.pinned).length + " other"}
-            />
+      <Box sx={{ mr: -2 }}>
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
+          <Box sx={cardStyles}>
+            <Typography variant="h4" className="cont-heading">
+              {hourIntTo12(mostProductiveHour.hour)}
+            </Typography>
+            <Typography>
+              My most productive hour &bull; {mostProductiveHour.tasks} task
+              {mostProductiveHour.tasks !== 1 && "s"}
+            </Typography>
           </Box>
-        </Box>
-      </Masonry>
+          <Box
+            sx={{
+              ...cardStyles,
+              background: `linear-gradient(${palette[9]}, ${palette[11]})`,
+              color: palette[1],
+            }}
+          >
+            <Typography variant="h4">
+              <b>{mostProductiveDay.tasks}</b> task
+              {mostProductiveDay.tasks !== 1 && "s"}
+            </Typography>
+            <Typography>
+              Most productive day &bull;{" "}
+              <b>
+                <u>{dayjs(mostProductiveDay.day).format("MMMM Do, YYYY")}</u>
+              </b>
+            </Typography>
+          </Box>
+          <Box sx={cardStyles}>
+            <Typography variant="h4" className="cont-heading">
+              {tasks.length}
+            </Typography>
+            <Typography>Task{tasks.length !== 1 && "s"} completed</Typography>
+            <LinearProgress
+              sx={{ my: 1, borderRadius: 999 }}
+              variant="determinate"
+              value={priorityPercentage}
+            />
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Chip
+                size="small"
+                label={tasks.filter((t) => t.pinned).length + " priority"}
+              />
+              <Chip
+                size="small"
+                sx={{ ml: "auto" }}
+                label={tasks.filter((t) => !t.pinned).length + " other"}
+              />
+            </Box>
+          </Box>
+        </Masonry>
+      </Box>
     </Box>
   );
 }

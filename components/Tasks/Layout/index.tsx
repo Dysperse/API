@@ -330,11 +330,11 @@ export function TasksLayout({
       icon: "calendar_view_month",
       label: "Months",
     },
-    // {
-    //   hash: "insights",
-    //   icon: "insights",
-    //   label: "Insights",
-    // },
+    {
+      hash: "insights",
+      icon: "insights",
+      label: "Insights",
+    },
   ];
 
   const MenuChildren = memo(function MenuChildren() {
