@@ -214,5 +214,19 @@ export default function Page() {
   const { data, url } = useApi("property/tasks/insights", {
     email: session.user.email,
   });
-  return data ? <Insights tasks={data} /> : <CircularProgress />;
+  return data ? (
+    <Insights tasks={data} />
+  ) : (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
 }
