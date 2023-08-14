@@ -204,7 +204,7 @@ export function PropertyInfo({
       />
       {propertyData &&
         propertyData.profile.id === session.property.propertyId && (
-          <Integrations handleClose={handleClose} />
+          <Integrations board={""} handleClose={handleClose} />
         )}
       <br />
       <br />

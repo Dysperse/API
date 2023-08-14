@@ -30,11 +30,14 @@ function Layout() {
   const router = useRouter();
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const [boardId, setBoardId] = useState<string | null>("-1");
 
-  const integrationName = (router.query.integration as string).replace(
-    "-",
-    " "
+  const name = (router.query.integration as string).replace("-", " ");
+  const integrationName = name.includes("?board=")
+    ? name.split("?board=")[1]
+    : name;
+
+  const [boardId, setBoardId] = useState<string | null>(
+    String(router.query?.board) || "-1"
   );
 
   const integration: any = useMemo(

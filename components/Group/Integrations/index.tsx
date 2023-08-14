@@ -186,6 +186,7 @@ export default function Integrations({
       {board ? (
         integrations.map((integration) => (
           <Integration
+            board={board}
             integration={integration}
             key={integration.name}
             closeParent={() => {
@@ -210,6 +211,7 @@ export default function Integrations({
             </Box>
             {integrations.map((integration) => (
               <Integration
+                board={data?.id}
                 integration={integration}
                 key={integration.name}
                 closeParent={() => {
