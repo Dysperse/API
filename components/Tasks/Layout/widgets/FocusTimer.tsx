@@ -78,6 +78,7 @@ export function FocusTimer({ children }) {
 
   const handleStartTimer = () => {
     alarmAudio.pause();
+    alarmAudio.currentTime = 0;
     setStartTime(Date.now());
     setIsTimerRunning(true);
   };
