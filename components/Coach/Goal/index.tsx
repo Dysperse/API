@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Puller } from "../../Puller";
 import { MoreOptions } from "./Options";
 
@@ -26,14 +26,25 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
 
   const router = useRouter();
 
+  const [opacity, setOpacity] = useState(false);
+
+  useEffect(() => {
+    setOpacity(true);
+  }, []);
+
   return (
     <Box sx={{ overflow: "hidden", pb: 2 }}>
       <Box
         onClick={() => setOpen(true)}
         sx={{
+          opacity: "0!important",
+          ...(opacity && {
+            opacity: "1!important",
+          }),
+
           borderRadius: 5,
           py: 2,
-          transition: "transform .2s!important",
+          transition: "opacity .4s, transform .2s!important",
           px: 3,
           background: {
             xs: palette[2],

@@ -1,6 +1,7 @@
 import { CreateBoard } from "@/components/Tasks/Board/Create";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { useApi } from "@/lib/client/useApi";
+import { Box } from "@mui/material";
 import { useRef, useState } from "react";
 
 /**

@@ -37,6 +37,12 @@ function SearchResult({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const result = results[index];
 
+  const [opacity, setOpacity] = useState(false);
+
+  useEffect(() => {
+    setOpacity(true);
+  }, []);
+
   if (!results[index]) {
     return (
       <ListItemButton
@@ -47,7 +53,6 @@ function SearchResult({
         sx={{
           gap: 2,
           mb: 0.2,
-          transition: "none",
           ...((!inputValue || (badge && badge !== "agenda")) && {
             display: "none",
           }),
@@ -56,6 +61,12 @@ function SearchResult({
             "& *": {
               fontWeight: 700,
             },
+          }),
+
+          opacity: "0!important",
+          transition: "opacity .4s",
+          ...(opacity && {
+            opacity: "1!important",
           }),
         }}
         onClick={() => {
@@ -83,12 +94,16 @@ function SearchResult({
       sx={{
         gap: 2,
         mb: 0.2,
-        transition: "none",
         ...(index == selectedIndex && {
           background: palette[2],
           "& *": {
             fontWeight: 700,
           },
+        }),
+        opacity: "0!important",
+        transition: "opacity .4s",
+        ...(opacity && {
+          opacity: "1!important",
         }),
       }}
       onClick={handleClick}

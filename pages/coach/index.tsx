@@ -120,7 +120,7 @@ export default function Render() {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
-    <Box sx={{ mb: "100px" }}>
+    <Box sx={{ pb: "60px" }}>
       <Navbar
         showLogo={isMobile}
         showRightContent={isMobile}

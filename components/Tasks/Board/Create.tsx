@@ -603,7 +603,13 @@ export function CreateBoard({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
-    <Box sx={{ p: onboarding ? 0 : { xs: 2, sm: 5 }, maxWidth: "100vw" }}>
+    <Box
+      sx={{
+        p: onboarding ? 0 : { xs: 2, sm: 5 },
+        maxWidth: "100vw",
+        pb: { xs: 50 },
+      }}
+    >
       {!onboarding && (
         <Head>
           <title>Explore &bull; {currentOption}s</title>
