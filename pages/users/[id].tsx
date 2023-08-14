@@ -473,7 +473,11 @@ function Page() {
                       }}
                     >
                       <span style={{ fontWeight: 900 }}>{data.name}</span>
-                      {data?.email === "manusvathgurudath@gmail.com" && (
+                      {[
+                        "manusvathgurudath@gmail.com",
+                        "aryanitinh@gmail.com",
+                        "gouravkittur@gmail.com",
+                      ].includes(data?.email) && (
                         <Icon
                           sx={{
                             verticalAlign: "middle",
