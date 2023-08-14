@@ -99,7 +99,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
       />
 
       <Typography sx={styles.subheader}>Other</Typography>
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         <Button
           variant="contained"
           onClick={() =>
