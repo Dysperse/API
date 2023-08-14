@@ -284,6 +284,9 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               size="large"
               sx={{ ml: { xs: "auto", sm: "0" } }}
               disabled={board.archived}
+              onClick={() =>
+                router.push(`/tasks/boards/edit/${board.id}#permissions`)
+              }
             >
               <Icon className="outlined">ios_share</Icon>
             </IconButton>

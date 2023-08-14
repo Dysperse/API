@@ -2,6 +2,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import Integrations from "@/components/Group/Integrations";
 import { ShareBoard } from "@/components/Tasks/Board/Share";
 import { TasksLayout } from "@/components/Tasks/Layout";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -20,7 +21,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 
@@ -157,12 +158,24 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
 function EditLayout({ id, data, url, mutate }) {
   const session = useSession();
   const router = useRouter();
-  const [view, setView] = useState("Appearance");
+  const [view, setView] = useState<any>(null);
 
   const palette = useColor(
     session.themeColor,
     useDarkMode(session.user.darkMode)
   );
+
+  useEffect(() => {
+    if (view) window.location.hash = view.toLowerCase();
+  }, [view]);
+
+  useEffect(() => {
+    if (window.location.hash) {
+      setView(capitalizeFirstLetter(window.location.hash.replace("#", "")));
+    } else {
+      setView("Appearance");
+    }
+  }, []);
 
   const styles: {
     [key: string]: SxProps;
