@@ -157,7 +157,17 @@ function Insights({ tasks }) {
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
             <Box sx={{ ...cardStyles, p: 0 }}>
-              <VictoryChart>
+              <VictoryChart
+                theme={{
+                  axis: {
+                    style: {
+                      tickLabels: {
+                        fill: palette[12],
+                      },
+                    },
+                  },
+                }}
+              >
                 <VictoryAxis
                   style={{
                     axis: { stroke: palette[8] },
@@ -169,7 +179,6 @@ function Insights({ tasks }) {
                     tickLabels: {
                       fontSize: isMobile ? 15 : 11,
                       padding: 5,
-                      color: palette[12],
                     },
                   }}
                   tickCount={isMobile ? 6 : 12}
