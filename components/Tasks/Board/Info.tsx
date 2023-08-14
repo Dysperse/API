@@ -279,11 +279,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               width: "100%",
             }}
           >
-            <BoardSettings
-              isShared={isShared}
-              mutationUrls={mutationUrls}
-              board={board}
-            />
+            <BoardSettings id={board.id} />
             <IconButton
               size="large"
               sx={{ ml: { xs: "auto", sm: "0" } }}

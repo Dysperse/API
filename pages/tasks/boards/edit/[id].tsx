@@ -1,13 +1,16 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import Integrations from "@/components/Group/Integrations";
 import { ShareBoard } from "@/components/Tasks/Board/Share";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
   Box,
   Button,
+  CircularProgress,
   Icon,
   IconButton,
   SxProps,
@@ -18,10 +21,38 @@ import {
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 
-function BoardAppearanceSettings({ data, styles }) {
+function BoardAppearanceSettings({ data, styles, mutate }) {
+  const session = useSession();
+  const router = useRouter();
+
+  const handleEdit = (key, value, callback = () => {}) => {
+    setLoading(true);
+    fetchRawApi(session, "property/boards/edit", {
+      id: data.id,
+      [key]: value,
+    })
+      .then(async () => {
+        callback();
+        await mutate();
+        setLoading(false);
+      })
+      .then(() => setLoading(false));
+  };
+
+  const [loading, setLoading] = useState(false);
+
   return (
-    <Box sx={{ maxWidth: "500px", p: 2, pt: 0 }}>
+    <Box
+      sx={{
+        maxWidth: "500px",
+        p: 2,
+        pt: 0,
+        ...(loading && { opacity: 0.6, filter: "blur(2px)" }),
+      }}
+    >
       <Typography sx={styles.subheader}>Board name</Typography>
       <TextField
         defaultValue={data.name}
@@ -31,8 +62,12 @@ function BoardAppearanceSettings({ data, styles }) {
           disableUnderline: true,
           sx: styles.input,
         }}
+        onBlur={(e) => {
+          handleEdit("name", e.target.value, () => {
+            toast.success("Saved!", toastStyles);
+          });
+        }}
       />
-
       <Typography sx={styles.subheader}>Description</Typography>
       <TextField
         defaultValue={data.description}
@@ -43,6 +78,11 @@ function BoardAppearanceSettings({ data, styles }) {
         InputProps={{
           disableUnderline: true,
           sx: styles.input,
+        }}
+        onBlur={(e) => {
+          handleEdit("description", e.target.value, () => {
+            toast.success("Saved!", toastStyles);
+          });
         }}
       />
 
@@ -56,12 +96,67 @@ function BoardAppearanceSettings({ data, styles }) {
           sx: styles.input,
         }}
       />
+
+      <Typography sx={styles.subheader}>Other</Typography>
+      <Box sx={{ display: "flex", gap: 2 }}>
+        <Button
+          variant="contained"
+          onClick={() =>
+            handleEdit("pinned", !data.pinned ? "true" : "false", () => {
+              toast.success(
+                !data.pinned ? "Pinned board!" : "Unpinned board!",
+                toastStyles
+              );
+            })
+          }
+        >
+          <Icon className={data.pinned ? "" : "outlined"}>push_pin</Icon>Pin
+          {data.pinned && "ned"}
+        </Button>
+        <ConfirmationModal
+          title="Archive board?"
+          question={
+            data.archived
+              ? "Are you sure you want to unarchive this board?"
+              : "Are you sure you want to archive this board? You won't be able to add/edit items, or share it with anyone."
+          }
+          callback={() => {
+            handleEdit("archived", !data.archived ? "true" : "false", () => {
+              toast.success(
+                !data.archived ? "Archived board!" : "Unarchived board!",
+                toastStyles
+              );
+            });
+          }}
+        >
+          <Button variant="contained">
+            <Icon className={data.archived ? "" : "outlined"}>inventory_2</Icon>
+            Archive{data.archived && "d"}
+          </Button>
+        </ConfirmationModal>
+
+        <ConfirmationModal
+          title="Delete board?"
+          question="Are you sure you want to delete this board? This action annot be undone."
+          callback={async () => {
+            await fetchRawApi(session, "property/boards/delete", {
+              id: data.id,
+            });
+            router.push("/tasks/agenda/weeks");
+          }}
+        >
+          <Button variant="contained">
+            <Icon className="outlined">delete</Icon>Delete
+          </Button>
+        </ConfirmationModal>
+      </Box>
     </Box>
   );
 }
 
-function EditLayout({ id, data, url }) {
+function EditLayout({ id, data, url, mutate }) {
   const session = useSession();
+  const router = useRouter();
   const [view, setView] = useState("Appearance");
 
   const palette = useColor(
@@ -96,7 +191,12 @@ function EditLayout({ id, data, url }) {
     <Box>
       <AppBar sx={{ border: 0 }}>
         <Toolbar>
-          <IconButton sx={{ background: palette[3] }}>
+          <IconButton
+            sx={{ background: palette[3] }}
+            onClick={() =>
+              router.push("/" + window.location.pathname.replace("/edit", ""))
+            }
+          >
             <Icon>close</Icon>
           </IconButton>
         </Toolbar>
@@ -120,7 +220,11 @@ function EditLayout({ id, data, url }) {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
           >
-            <BoardAppearanceSettings data={data} styles={styles} />
+            <BoardAppearanceSettings
+              data={data}
+              styles={styles}
+              mutate={mutate}
+            />
           </motion.div>
         )}
         {view === "Permissions" && (
@@ -177,7 +281,23 @@ const Dashboard = () => {
 
   return (
     <TasksLayout open={open} setOpen={setOpen}>
-      {data && data[0] && id && <EditLayout id={id} data={data[0]} url={url} />}
+      {data && data[0] && id ? (
+        <EditLayout
+          mutate={async () => await mutate(url)}
+          id={id}
+          data={data[0]}
+          url={url}
+        />
+      ) : (
+        <Box
+          sx={{
+            textAlign: "center",
+            py: 10,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
     </TasksLayout>
   );
 };
