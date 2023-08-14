@@ -35,7 +35,7 @@ const BoardContainer = ({ id, shareToken }) => {
 
 const Dashboard = () => {
   const router = useRouter();
-  const id = router?.query?.id?.[0];
+  const { id } = router?.query;
   const shareToken = router?.query?.share;
   const [open, setOpen] = useState(false);
 

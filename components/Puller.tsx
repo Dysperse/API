@@ -17,7 +17,7 @@ export const Puller = React.memo(function Puller({
   const session = useSession();
   const palette = useColor(
     session?.themeColor ?? "gray",
-    useDarkMode(session?.user?.darkMode ?? "light")
+    useDarkMode(session?.user?.darkMode ?? "system")
   );
 
   return (

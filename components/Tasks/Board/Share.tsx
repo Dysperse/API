@@ -5,7 +5,6 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
-  AppBar,
   Avatar,
   Box,
   Chip,
@@ -20,10 +19,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  SwipeableDrawer,
   TextField,
-  Toolbar,
-  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { cloneElement, useDeferredValue, useState } from "react";
@@ -142,192 +138,155 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
   };
 
   return (
-    <>
-      {trigger}
-      <SwipeableDrawer
-        open={open}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        anchor="bottom"
-        sx={{ zIndex: 999 }}
-        onKeyDown={(e) => e.stopPropagation()}
-        PaperProps={{
-          sx: { height: "100dvh" },
-        }}
-      >
-        <AppBar sx={{ border: 0 }}>
-          <Toolbar>
-            <IconButton onClick={handleClose}>
-              <Icon>close</Icon>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Box sx={{ px: 5, pt: 4 }}>
-          <Typography variant="h2" className="font-heading">
-            Share
-          </Typography>
-          {!isShared && (
-            <TextField
-              label="Type an email..."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="hello@dysperse.com"
-              fullWidth
-              size="small"
-              sx={{ mt: 1 }}
+    <Box sx={{ p: 2 }}>
+      <Box sx={{ display: "flex", gap: 2 }}>
+        <TextField
+          label="Type an email..."
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="hello@dysperse.com"
+          fullWidth
+          size="small"
+        />
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">
+            Allow access for...
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={expiration}
+            MenuProps={{
+              sx: {
+                zIndex: 99999999,
+              },
+            }}
+            label="Allow access for..."
+            onChange={handleChange}
+            size="small"
+          >
+            <MenuItem value={1}>1 day</MenuItem>
+            <MenuItem value={7}>1 week</MenuItem>
+            <MenuItem value={30}>1 month</MenuItem>
+            <MenuItem value={60}>2 months</MenuItem>
+            <MenuItem value={90}>3 months</MenuItem>
+            <MenuItem value={365}>1 year</MenuItem>
+          </Select>
+        </FormControl>
+        <LoadingButton
+          loading={loading}
+          onClick={handleGenerate}
+          variant="contained"
+          sx={{ px: 2, flexShrink: 0 }}
+        >
+          Invite <Icon>send</Icon>
+        </LoadingButton>
+      </Box>
+
+      <Box sx={boxStyles}>
+        {session.property.propertyId === board.property.id && (
+          <ListItem
+            sx={{
+              px: 0,
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+            }}
+          >
+            <ListItemText
+              primary={session.property?.profile?.name}
+              secondary="Your group"
             />
-          )}
-          <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="demo-simple-select-label">
-              Allow access for...
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={expiration}
-              MenuProps={{
-                sx: {
-                  zIndex: 99999999,
-                },
+            <IconButton
+              sx={{ ml: "auto" }}
+              disabled={loadingGroupVisibility}
+              onClick={toggleGroupVisibility}
+            >
+              <Icon className="outlined">
+                visibility{!board.public && "_off"}
+              </Icon>
+            </IconButton>
+          </ListItem>
+        )}
+        {session.property.propertyId === board.property.id && (
+          <Divider sx={{ my: 1 }} />
+        )}
+        {board.property.members
+          .filter(
+            (member, index, self) =>
+              self.findIndex((m) => m.user.email === member.user.email) ===
+              index
+          )
+          .filter((m) => board.public || m.user.email === session.user.email)
+          .map((member) => (
+            <ListItem
+              key={member.user.email}
+              sx={{
+                px: 0,
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
               }}
-              label="Allow access for..."
-              onChange={handleChange}
-              size="small"
             >
-              <MenuItem value={1}>1 day</MenuItem>
-              <MenuItem value={7}>1 week</MenuItem>
-              <MenuItem value={30}>1 month</MenuItem>
-              <MenuItem value={60}>2 months</MenuItem>
-              <MenuItem value={90}>3 months</MenuItem>
-              <MenuItem value={365}>1 year</MenuItem>
-            </Select>
-          </FormControl>
-          {!isShared && (
-            <LoadingButton
-              loading={loading}
-              onClick={handleGenerate}
-              sx={{ mt: 1 }}
-              variant="contained"
-              fullWidth
+              <Avatar sx={{ mr: 2 }} src={member.user?.Profile?.picture}>
+                {member.user.name.substring(0, 2).toUpperCase()}
+              </Avatar>
+              <ListItemText primary={member.user.name} secondary="In group" />
+              {board.user.email === member.user.email && <Chip label="Owner" />}
+            </ListItem>
+          ))}
+        {data ? (
+          data.map((share) => (
+            <ListItem
+              key={share.id}
+              sx={{
+                ...(dayjs(share.expiresAt).isBefore(dayjs()) && {
+                  opacity: 0.6,
+                }),
+                px: 0,
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
             >
-              Invite
-            </LoadingButton>
-          )}
-          <Box sx={boxStyles}>
-            {session.property.propertyId === board.property.id && (
-              <ListItem
-                sx={{
-                  px: 0,
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                }}
+              <Avatar sx={{ mr: 2 }} src={share.user?.Profile?.picture}>
+                {share.user.name.substring(0, 2).toUpperCase()}
+              </Avatar>
+              <ListItemText
+                primary={share.user.name}
+                secondary={
+                  (dayjs(share.expiresAt).isBefore(dayjs())
+                    ? "Expired "
+                    : "Expires ") + dayjs(share.expiresAt).fromNow()
+                }
+              />
+              <IconButton
+                sx={{ ml: "auto" }}
+                disabled={window.location.href.includes(share.token)}
+                onClick={() => handleRevoke(share.token)}
               >
-                <ListItemText
-                  primary={session.property?.profile?.name}
-                  secondary="Your group"
-                />
-                <IconButton
-                  sx={{ ml: "auto" }}
-                  disabled={loadingGroupVisibility || isShared}
-                  onClick={toggleGroupVisibility}
-                >
-                  <Icon className="outlined">
-                    visibility{!board.public && "_off"}
-                  </Icon>
-                </IconButton>
-              </ListItem>
-            )}
-            {session.property.propertyId === board.property.id && (
-              <Divider sx={{ my: 1 }} />
-            )}
-            {board.property.members
-              .filter(
-                (member, index, self) =>
-                  self.findIndex((m) => m.user.email === member.user.email) ===
-                  index
-              )
-              .filter(
-                (m) => board.public || m.user.email === session.user.email
-              )
-              .map((member) => (
-                <ListItem
-                  key={member.user.email}
-                  sx={{
-                    px: 0,
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Avatar sx={{ mr: 2 }} src={member.user?.Profile?.picture}>
-                    {member.user.name.substring(0, 2).toUpperCase()}
-                  </Avatar>
-                  <ListItemText
-                    primary={member.user.name}
-                    secondary="In group"
-                  />
-                  {board.user.email === member.user.email && (
-                    <Chip label="Owner" />
-                  )}
-                </ListItem>
-              ))}
-            {data ? (
-              data.map((share) => (
-                <ListItem
-                  key={share.id}
-                  sx={{
-                    ...(dayjs(share.expiresAt).isBefore(dayjs()) && {
-                      opacity: 0.6,
-                    }),
-                    px: 0,
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Avatar sx={{ mr: 2 }} src={share.user?.Profile?.picture}>
-                    {share.user.name.substring(0, 2).toUpperCase()}
-                  </Avatar>
-                  <ListItemText
-                    primary={share.user.name}
-                    secondary={
-                      (dayjs(share.expiresAt).isBefore(dayjs())
-                        ? "Expired "
-                        : "Expires ") + dayjs(share.expiresAt).fromNow()
-                    }
-                  />
-                  <IconButton
-                    sx={{ ml: "auto" }}
-                    disabled={
-                      window.location.href.includes(share.token) || isShared
-                    }
-                    onClick={() => handleRevoke(share.token)}
-                  >
-                    <Icon className="outlined">
-                      {share.user.email === session.user.email
-                        ? "logout"
-                        : "delete"}
-                    </Icon>
-                  </IconButton>
-                </ListItem>
-              ))
-            ) : data?.error ? (
-              <ErrorHandler
-                error="Oh no! An error occured while trying to get your active share links!"
-                callback={() => mutate(url)}
-              />
-            ) : error ? (
-              <ErrorHandler
-                callback={() => mutate(url)}
-                error="Oh no! An error occured while trying to get your active share links!"
-              />
-            ) : (
-              <CircularProgress />
-            )}
-          </Box>
-        </Box>
-      </SwipeableDrawer>
-    </>
+                <Icon className="outlined">
+                  {share.user.email === session.user.email
+                    ? "logout"
+                    : "delete"}
+                </Icon>
+              </IconButton>
+            </ListItem>
+          ))
+        ) : data?.error ? (
+          <ErrorHandler
+            error="Oh no! An error occured while trying to get your active share links!"
+            callback={() => mutate(url)}
+          />
+        ) : error ? (
+          <ErrorHandler
+            callback={() => mutate(url)}
+            error="Oh no! An error occured while trying to get your active share links!"
+          />
+        ) : (
+          <CircularProgress />
+        )}
+      </Box>
+    </Box>
   );
 }

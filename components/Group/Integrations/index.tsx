@@ -3,13 +3,16 @@ import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
   Box,
   Button,
   Chip,
+  Divider,
   Icon,
   IconButton,
+  InputAdornment,
   ListItemButton,
   ListItemSecondaryAction,
   ListItemText,
@@ -19,13 +22,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { Integration } from "./Integration";
 
 export const integrations = [
   {
     name: "Canvas LMS",
-    description: "Sync your Canvas Calendar to your boards",
+    description: "Import Canvas assignments & tests to your boards",
     image:
       "https://www.instructure.com/sites/default/files/image/2021-12/canvas_reversed_logo.png",
     type: "board",
@@ -42,7 +46,7 @@ export const integrations = [
   },
   {
     name: "Google Calendar",
-    description: "Sync your Google Calendar to your boards",
+    description: "Import Google Calendar events to your boards",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png",
     type: "board",
@@ -69,7 +73,13 @@ export const integrations = [
   },
 ];
 
-export default function Integrations({ handleClose }) {
+export default function Integrations({
+  board,
+  handleClose,
+}: {
+  board?: string;
+  handleClose: any;
+}) {
   const { data, url, error } = useApi("property/integrations");
   const session = useSession();
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
@@ -78,87 +88,40 @@ export default function Integrations({ handleClose }) {
 
   return (
     <>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          mt: 4,
-          alignItems: "center",
-          mb: 3,
-          px: 1,
-        }}
-      >
-        <Typography variant="h6">
-          iCal URL
-          <Chip
-            size="small"
-            label="ALPHA"
-            sx={{
-              ml: 1,
-              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
-              color: "#000",
-            }}
-          />
-        </Typography>
-      </Box>
-      <TextField
-        InputProps={{ readOnly: true }}
-        sx={{ mb: 1 }}
-        value={icalUrl}
-        helperText="Please do not share this link with anyone, as this gives full access to all your group's tasks"
-      />
-      <Button
-        onClick={() => {
-          window.open(`webcal://${icalUrl.replace("https://", "")}`);
-        }}
-        variant="contained"
-      >
-        Open calendar
-      </Button>
-      <Button
-        onClick={() => {
-          window.open(
-            `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
-              "https://",
-              ""
-            )}`
-          );
-        }}
-      >
-        Add to Google Calendar
-      </Button>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          mt: 4,
-          alignItems: "center",
-          mb: 3,
-          px: 1,
-        }}
-      >
-        <Typography variant="h6">
-          Integrations
-          <Chip
-            size="small"
-            label="ALPHA"
-            sx={{
-              ml: 1,
-              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
-              color: "#000",
-            }}
-          />
-        </Typography>
-        <Button
-          onClick={() => setOpen(true)}
-          sx={{ ml: "auto", px: 2 }}
-          variant="contained"
-          disabled={data?.length >= 5}
+      {!board && (
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            mt: 4,
+            alignItems: "center",
+            mb: 3,
+            px: 1,
+          }}
         >
-          <Icon className="outlined">add</Icon>Add
-        </Button>
-      </Box>
-      {data ? (
+          <Typography variant="h6">
+            Integrations
+            <Chip
+              size="small"
+              label="ALPHA"
+              sx={{
+                ml: 1,
+                background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+                color: "#000",
+              }}
+            />
+          </Typography>
+          <Button
+            onClick={() => setOpen(true)}
+            sx={{ ml: "auto", px: 2 }}
+            variant="contained"
+            disabled={data?.length >= 5}
+          >
+            <Icon className="outlined">add</Icon>Add
+          </Button>
+        </Box>
+      )}
+      {!board && data ? (
         <>
           {data.length == 0 && (
             <Alert severity="info">
@@ -213,36 +176,96 @@ export default function Integrations({ handleClose }) {
           ))}
         </>
       ) : (
-        <Skeleton
-          variant="rectangular"
-          sx={{ borderRadius: 5, width: "100%", height: 30 }}
-        />
+        !board && (
+          <Skeleton
+            variant="rectangular"
+            sx={{ borderRadius: 5, width: "100%", height: 30 }}
+          />
+        )
       )}
-      <SwipeableDrawer
-        open={open}
-        onClose={() => setOpen(false)}
-        anchor="bottom"
-      >
-        <Puller showOnDesktop />
-        <Box sx={{ p: 2, pt: 0 }}>
-          <Box sx={{ px: 1 }}>
-            <Typography variant="h6">
-              Available integrations ({integrations.length})
-            </Typography>
-            <Typography gutterBottom>More coming soon!</Typography>
+      {board ? (
+        integrations.map((integration) => (
+          <Integration
+            integration={integration}
+            key={integration.name}
+            closeParent={() => {
+              handleClose();
+              setOpen(false);
+            }}
+          />
+        ))
+      ) : (
+        <SwipeableDrawer
+          open={open}
+          onClose={() => setOpen(false)}
+          anchor="bottom"
+        >
+          <Puller showOnDesktop />
+          <Box sx={{ p: 2, pt: 0 }}>
+            <Box sx={{ px: 1 }}>
+              <Typography variant="h6">
+                Available integrations ({integrations.length})
+              </Typography>
+              <Typography gutterBottom>More coming soon!</Typography>
+            </Box>
+            {integrations.map((integration) => (
+              <Integration
+                integration={integration}
+                key={integration.name}
+                closeParent={() => {
+                  handleClose();
+                  setOpen(false);
+                }}
+              />
+            ))}
           </Box>
-          {integrations.map((integration) => (
-            <Integration
-              integration={integration}
-              key={integration.name}
-              closeParent={() => {
-                handleClose();
-                setOpen(false);
-              }}
-            />
-          ))}
+        </SwipeableDrawer>
+      )}
+
+      <Divider sx={{ my: 4 }} />
+      <Box sx={{ textAlign: "left" }}>
+        <Typography variant="h6">Calendar subscription URL</Typography>
+        <Typography variant="body2" sx={{ mb: 2 }}>
+          Careful! Anyone with this link can see your tasks
+        </Typography>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <TextField
+            size="small"
+            InputProps={{
+              readOnly: true,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      navigator.clipboard.writeText(icalUrl);
+                      toast.success("Copied to clipboard!", toastStyles);
+                    }}
+                  >
+                    <Icon className="outlined">content_copy</Icon>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            value={icalUrl}
+          />
+          <Button
+            sx={{ flexShrink: 0 }}
+            onClick={() => {
+              window.open(
+                /(android)/i.test(navigator.userAgent)
+                  ? `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
+                      "https://",
+                      ""
+                    )}`
+                  : `webcal://${icalUrl.replace("https://", "")}`
+              );
+            }}
+            variant="contained"
+          >
+            Add to calendar
+          </Button>
         </Box>
-      </SwipeableDrawer>
+      </Box>
     </>
   );
 }

@@ -22,7 +22,6 @@ import { mutate } from "swr";
 import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
-import { ShareBoard } from "./Share";
 
 export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
   const { board, isShared, mutationUrls } = useContext(BoardContext);
@@ -285,19 +284,13 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               mutationUrls={mutationUrls}
               board={board}
             />
-            <ShareBoard
-              board={board}
-              isShared={isShared}
-              mutationUrls={mutationUrls}
+            <IconButton
+              size="large"
+              sx={{ ml: { xs: "auto", sm: "0" } }}
+              disabled={board.archived}
             >
-              <IconButton
-                size="large"
-                sx={{ ml: { xs: "auto", sm: "0" } }}
-                disabled={board.archived}
-              >
-                <Icon className="outlined">ios_share</Icon>
-              </IconButton>
-            </ShareBoard>
+              <Icon className="outlined">ios_share</Icon>
+            </IconButton>
             <IconButton
               size="large"
               sx={{
