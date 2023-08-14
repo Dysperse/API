@@ -18,6 +18,30 @@ function hourIntTo12(hour) {
   return `${hour12} ${period}`;
 }
 
+function calculatePercentImprovement(prevCount, currentCount) {
+  if (prevCount === 0) {
+    return currentCount === 0 ? "0%" : "+100%";
+  }
+  const improvement = ((currentCount - prevCount) / prevCount) * 100;
+  return improvement >= 0
+    ? `+${improvement.toFixed(2)}%`
+    : `${improvement.toFixed(2)}%`;
+}
+
+function getTasksCompletedInRange(tasks, days) {
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(endDate.getDate() - days);
+
+  const tasksCompletedInRange = tasks.filter(
+    (task) =>
+      new Date(task.completedAt) >= startDate &&
+      new Date(task.completedAt) <= endDate
+  );
+
+  return tasksCompletedInRange;
+}
+
 function Insights({ tasks }) {
   const session = useSession();
 
@@ -45,6 +69,11 @@ function Insights({ tasks }) {
     currentHour.tasks > maxHour.tasks ? currentHour : maxHour
   );
 
+  const completedTasksToday = tasks.filter(
+    (task) =>
+      new Date(task.completedAt).toDateString() === new Date().toDateString()
+  );
+
   const mostProductiveDay = Object.entries(
     tasks.reduce((acc, task) => {
       const date = new Date(task.completedAt).toLocaleDateString();
@@ -63,15 +92,64 @@ function Insights({ tasks }) {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h3" className="font-heading" sx={{ mb: 2 }}>
+      <Typography variant="h2" className="font-heading" sx={{ mb: 4 }}>
         Insights
+      </Typography>
+
+      <Typography variant="h3" className="font-heading" sx={{ mb: 2 }}>
+        Recent
+      </Typography>
+      <Masonry columns={2} spacing={2}>
+        <Box sx={cardStyles}>
+          <Typography
+            variant="body2"
+            sx={{ color: palette[11], fontWeight: 900 }}
+          >
+            TODAY
+          </Typography>
+          <Typography variant="h4" className="cont-heading">
+            {getTasksCompletedInRange(tasks, 1).length} tasks
+          </Typography>
+          <Typography>
+            {calculatePercentImprovement(
+              getTasksCompletedInRange(tasks, 1).length,
+              getTasksCompletedInRange(tasks, 2).length -
+                getTasksCompletedInRange(tasks, 1).length
+            )}{" "}
+            compared to yesterday
+          </Typography>
+        </Box>
+        <Box sx={cardStyles}>
+          <Typography
+            variant="body2"
+            sx={{ color: palette[11], fontWeight: 900 }}
+          >
+            THIS WEEK
+          </Typography>
+          <Typography variant="h4" className="cont-heading">
+            {getTasksCompletedInRange(tasks, 7).length} tasks
+          </Typography>
+          <Typography>
+            {calculatePercentImprovement(
+              getTasksCompletedInRange(tasks, 7).length,
+              getTasksCompletedInRange(tasks, 14).length
+            )}{" "}
+            compared to last week
+          </Typography>
+        </Box>
+      </Masonry>
+      <Typography variant="h3" className="font-heading" sx={{ mt: 4, mb: 2 }}>
+        Overall
       </Typography>
       <Masonry columns={2} spacing={2}>
         <Box sx={cardStyles}>
           <Typography variant="h4" className="cont-heading">
             {hourIntTo12(mostProductiveHour.hour)}
           </Typography>
-          <Typography>My most productive hour</Typography>
+          <Typography>
+            My most productive hour &bull; {mostProductiveHour.tasks} task
+            {mostProductiveHour.tasks !== 1 && "s"}
+          </Typography>
         </Box>
         <Box
           sx={{
@@ -81,16 +159,14 @@ function Insights({ tasks }) {
           }}
         >
           <Typography variant="h4">
-            I completed{" "}
-            <b>
-              <u>{mostProductiveDay.tasks}</u>
-            </b>{" "}
-            task
-            {mostProductiveDay.tasks !== 1 && "s"} on{" "}
+            <b>{mostProductiveDay.tasks}</b> task
+            {mostProductiveDay.tasks !== 1 && "s"}
+          </Typography>
+          <Typography>
+            Most productive day &bull;{" "}
             <b>
               <u>{dayjs(mostProductiveDay.day).format("MMMM Do, YYYY")}</u>
             </b>
-            , setting my new productivity record!
           </Typography>
         </Box>
         <Box sx={cardStyles}>

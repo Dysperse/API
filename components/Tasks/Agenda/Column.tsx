@@ -339,7 +339,7 @@ const Column = React.memo(function Column({
             />
           )}
         />
-        <div style={{ height: "calc(130px + var(--sab))" }} />
+        <Box sx={{ height: { xs: "calc(130px + var(--sab))", sm: "10px" } }} />
       </Box>
     </Box>
   );
