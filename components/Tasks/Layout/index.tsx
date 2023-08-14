@@ -547,7 +547,9 @@ export function TasksLayout({
     );
   });
 
-  const isBoard = router.asPath.includes("/tasks/boards/");
+  const isBoard =
+    router.asPath.includes("/tasks/boards/") &&
+    !router.asPath.includes("create");
   const isSearch = router.asPath.includes("/tasks/search");
   const isAgenda = router.asPath.includes("/tasks/agenda/");
 
