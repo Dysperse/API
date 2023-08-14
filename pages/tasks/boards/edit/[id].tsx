@@ -1,5 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import EmojiPicker from "@/components/EmojiPicker";
 import Integrations from "@/components/Group/Integrations";
+import { Puller } from "@/components/Puller";
 import { ShareBoard } from "@/components/Tasks/Board/Share";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
@@ -7,13 +9,19 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
+import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   CircularProgress,
   Icon,
   IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  SwipeableDrawer,
   SxProps,
   TextField,
   Toolbar,
@@ -25,6 +33,133 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 
+function BoardColumnSettings({ data, styles, mutate }) {
+  const session = useSession();
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [emoji, setEmoji] = useState("1f3af");
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    if (name.trim() === "") {
+      toast.error("Enter a name for this column", toastStyles);
+      setLoading(false);
+      return;
+    }
+    fetchRawApi(session, "property/boards/column/create", {
+      who: session.user.name,
+      boardName: name,
+      title: name,
+      emoji,
+      id: data.id,
+    })
+      .then(async () => {
+        await mutate();
+        toast.success("Created column!", toastStyles);
+        setOpen(false);
+        setLoading(false);
+        setEmoji("1f3af");
+        setOpen(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        toast.error(
+          "An error occurred while creating the column. Try again later.",
+          toastStyles
+        );
+      });
+  };
+
+  return (
+    <>
+      {data.columns.map((column) => (
+        <ListItem key={column.id}>
+          <picture>
+            <img
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+              alt="Emoji"
+              width={30}
+              height={30}
+            />
+          </picture>
+          <ListItemText
+            primary={<b>{column.name}</b>}
+            secondary={column.tasks.length + " tasks"}
+          />
+          <IconButton disabled>
+            <Icon className="outlined">edit</Icon>
+          </IconButton>
+          <IconButton>
+            <Icon className="outlined">delete</Icon>
+          </IconButton>
+          <IconButton disabled>
+            <Icon>drag_handle</Icon>
+          </IconButton>
+        </ListItem>
+      ))}
+      <ListItemButton onClick={() => setOpen(true)}>
+        <Avatar sx={{ width: 30, height: 30, color: "#000" }}>
+          <Icon>add</Icon>
+        </Avatar>
+        New column
+      </ListItemButton>
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor="bottom"
+      >
+        <Puller showOnDesktop />
+        <Box
+          sx={{
+            px: 2,
+            gap: 2,
+            pb: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+            <IconButton
+              size="large"
+              sx={{
+                border: "2px dashed #ccc",
+                width: 120,
+                height: 120,
+              }}
+            >
+              <picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                  alt="Emoji"
+                  width={80}
+                  height={80}
+                />
+              </picture>
+            </IconButton>
+          </EmojiPicker>
+          <TextField
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            label="Column name"
+            placeholder="What's this column about?"
+            autoFocus
+          />
+          <LoadingButton
+            size="large"
+            fullWidth
+            variant="contained"
+            onClick={handleSubmit}
+            loading={loading}
+          >
+            <Icon>add</Icon>Create
+          </LoadingButton>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 function BoardAppearanceSettings({ data, styles, mutate }) {
   const session = useSession();
   const router = useRouter();
@@ -217,16 +352,18 @@ function EditLayout({ id, data, url, mutate }) {
 
       <Box sx={{ p: 2 }}>
         <Box sx={{ p: 2, background: palette[2], borderRadius: 5 }}>
-          {["Appearance", "Permissions", "Integrations"].map((button) => (
-            <Button
-              sx={{ px: 2 }}
-              onClick={() => setView(button)}
-              variant={view === button ? "contained" : "text"}
-              key={button}
-            >
-              {button}
-            </Button>
-          ))}
+          {["Appearance", "Columns", "Permissions", "Integrations"].map(
+            (button) => (
+              <Button
+                sx={{ px: 2 }}
+                onClick={() => setView(button)}
+                variant={view === button ? "contained" : "text"}
+                key={button}
+              >
+                {button}
+              </Button>
+            )
+          )}
         </Box>
         {view === "Appearance" && (
           <motion.div
@@ -238,6 +375,14 @@ function EditLayout({ id, data, url, mutate }) {
               styles={styles}
               mutate={mutate}
             />
+          </motion.div>
+        )}
+        {view === "Columns" && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+          >
+            <BoardColumnSettings data={data} styles={styles} mutate={mutate} />
           </motion.div>
         )}
         {view === "Permissions" && (

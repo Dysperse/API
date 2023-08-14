@@ -70,7 +70,7 @@ export default function CreateColumn({
       });
   }, [emoji, id, mutationUrls, setCurrentColumn, session, name]);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (open || mobileOpen) {
       setTimeout(() => {
         const el = document.getElementById("create-column-title");

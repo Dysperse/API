@@ -549,7 +549,7 @@ export function TasksLayout({
 
   const isBoard =
     router.asPath.includes("/tasks/boards/") &&
-    !router.asPath.includes("create");
+    !router.asPath.includes("creategi");
   const isSearch = router.asPath.includes("/tasks/search");
   const isAgenda = router.asPath.includes("/tasks/agenda/");
 
