@@ -88,7 +88,7 @@ function Insights({ tasks }) {
             task
             {mostProductiveDay.tasks !== 1 && "s"} on{" "}
             <b>
-              <u>{dayjs(mostProductiveDay.day).format("dddd, MMMM YYYY")}</u>
+              <u>{dayjs(mostProductiveDay.day).format("MMMM Do, YYYY")}</u>
             </b>
             , setting my new productivity record!
           </Typography>
