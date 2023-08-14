@@ -139,7 +139,13 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          flexDirection: { xs: "column", sm: "row" },
+        }}
+      >
         <TextField
           label="Type an email..."
           value={email}

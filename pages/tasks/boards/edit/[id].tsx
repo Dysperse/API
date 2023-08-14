@@ -88,20 +88,19 @@ function BoardColumnSettings({ data, styles, mutate }) {
             primary={<b>{column.name}</b>}
             secondary={`${column.tasks.length} tasks`}
           />
-          <IconButton disabled>
-            <Icon className="outlined">edit</Icon>
-          </IconButton>
-          <ConfirmationModal
-            title="Delete column?"
-            question={`Deleting this column will also permanently delete ${column.tasks.length} inside it. Continue?`}
-          >
-            <IconButton>
-              <Icon className="outlined">delete</Icon>
+          <Box sx={{ display: "flex" }}>
+            <ConfirmationModal
+              title="Delete column?"
+              question={`Deleting this column will also permanently delete ${column.tasks.length} inside it. Continue?`}
+            >
+              <IconButton>
+                <Icon className="outlined">delete</Icon>
+              </IconButton>
+            </ConfirmationModal>
+            <IconButton disabled>
+              <Icon>drag_handle</Icon>
             </IconButton>
-          </ConfirmationModal>
-          <IconButton disabled>
-            <Icon>drag_handle</Icon>
-          </IconButton>
+          </Box>
         </ListItem>
       ))}
       <ListItemButton onClick={() => setOpen(true)}>
@@ -356,8 +355,17 @@ function EditLayout({ id, data, url, mutate }) {
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ p: 2 }}>
-        <Box sx={{ p: 2, background: palette[2], borderRadius: 5 }}>
+      <Box sx={{ p: 2, maxWidth: "100vw" }}>
+        <Box
+          sx={{
+            p: 2,
+            background: palette[2],
+            borderRadius: 5,
+            maxWidth: "100%",
+            whiteSpace: "nowrap",
+            overflowX: "scroll",
+          }}
+        >
           {["Appearance", "Columns", "Permissions", "Integrations"].map(
             (button) => (
               <Button
