@@ -477,6 +477,7 @@ function Page() {
                         "manusvathgurudath@gmail.com",
                         "aryanitinh@gmail.com",
                         "gouravkittur@gmail.com",
+                        "achinthyakashyap@gmail.com",
                       ].includes(data?.email) && (
                         <Icon
                           sx={{
