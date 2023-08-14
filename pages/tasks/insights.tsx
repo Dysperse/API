@@ -169,6 +169,7 @@ function Insights({ tasks }) {
                     tickLabels: {
                       fontSize: isMobile ? 15 : 11,
                       padding: 5,
+                      color: palette[12],
                     },
                   }}
                   tickCount={isMobile ? 6 : 12}
