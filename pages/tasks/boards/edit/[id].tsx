@@ -11,6 +11,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
+  Alert,
   AppBar,
   Avatar,
   Box,
@@ -461,6 +462,18 @@ const Dashboard = () => {
     shareToken: "",
   });
 
+  if (data?.[0]?.shareTokens?.[0]?.readOnly) {
+    return (
+      <TasksLayout open={open} setOpen={setOpen}>
+        <Box sx={{ p: 4 }}>
+          <Alert severity="error">
+            You don&apos;t have permission to edit this board. Contact the owner
+            if you think this is a mistake
+          </Alert>
+        </Box>
+      </TasksLayout>
+    );
+  }
   return (
     <TasksLayout open={open} setOpen={setOpen}>
       {data && data[0] && id ? (
