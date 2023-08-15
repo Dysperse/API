@@ -92,7 +92,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
           <Box sx={{ display: "flex" }}>
             <ConfirmationModal
               title="Delete column?"
-              question={`Deleting this column will also permanently delete ${column.tasks.length} inside it. Continue?`}
+              question={`Deleting this column will also permanently delete ${column.tasks.length} tasks inside it. Continue?`}
               callback={async () => {
                 await fetchRawApi(session, "property/boards/column/delete", {
                   id: column.id,
