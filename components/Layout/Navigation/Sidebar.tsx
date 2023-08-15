@@ -27,6 +27,7 @@ export function Sidebar() {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const useOutlinedTheme =
+    router.asPath === "/tasks/insights" ||
     router.asPath === "/coach" ||
     router.asPath === "/" ||
     router.asPath === "/mood-history" ||

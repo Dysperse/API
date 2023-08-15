@@ -156,8 +156,13 @@ function Insights({ tasks }) {
         </Typography>
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-            <Box sx={{ ...cardStyles, p: 0 }}>
+            <Box sx={cardStyles}>
               <VictoryChart
+                padding={{
+                  left: 5,
+                  right: 5,
+                  bottom: isMobile ? 20 : 17,
+                }}
                 theme={{
                   axis: {
                     style: {
