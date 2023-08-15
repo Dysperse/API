@@ -202,7 +202,7 @@ export function Board({ mutationUrl, board }) {
     data?.[0]?.propertyId &&
     data?.[0]?.propertyId !== session.property.propertyId;
 
-  const readOnly = board?.shareTokens?.[0]?.readOnly ?? true;
+  const readOnly = board?.shareTokens?.[0]?.readOnly ?? false;
 
   if (error || (!board && !loading)) {
     return (
