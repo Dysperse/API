@@ -80,6 +80,7 @@ export function ShareBoard({ mutate, isShared, board, children }) {
       try {
         const res = await fetchRawApi(session, "property/shareTokens/create", {
           board: board.id,
+          readOnly: permissions,
           email: deferredEmail,
           boardProperty: board.property.id,
           expiresAt: dayjs().add(parseInt(expiration), "day").toISOString(),
@@ -116,6 +117,7 @@ export function ShareBoard({ mutate, isShared, board, children }) {
       token,
     });
     await mutate();
+    await mutateUrl(url);
   };
 
   const boxStyles = {
@@ -134,6 +136,7 @@ export function ShareBoard({ mutate, isShared, board, children }) {
         public: !board.public,
       });
       await mutate();
+      await mutateUrl(url);
       setLoadingGroupVisibility(false);
     } catch (e) {
       toast.error(
