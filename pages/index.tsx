@@ -529,6 +529,25 @@ function ContactSync() {
           <Typography variant="body2">Tap to sync your contacts</Typography>
         </Alert>
       )}
+      {data && !data?.Profile?.spotify && (
+        <Alert
+          severity="info"
+          sx={{
+            mb: 2,
+            cursor: "pointer",
+            "&:active": { transform: "scale(.96)" },
+            transition: "all .2s",
+          }}
+          onClick={() => (window.location.href = "/api/user/spotify/redirect")}
+        >
+          <Typography variant="h6">
+            Let others know what you&apos;re listening to
+          </Typography>
+          <Typography variant="body2">
+            Tap to connect your Spotify account
+          </Typography>
+        </Alert>
+      )}
     </>
   );
 }
