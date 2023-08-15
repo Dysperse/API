@@ -36,7 +36,13 @@ const handler = async (req, res) => {
       include: {
         user: { select: { email: true } },
         shareTokens: {
+          where: {
+            user: { identifier: req.query.userIdentifier },
+          },
           select: {
+            createdAt: true,
+            expiresAt: true,
+            readOnly: true,
             user: {
               select: {
                 name: true,

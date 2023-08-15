@@ -10,6 +10,7 @@ const handler = async (req, res) => {
     const data = await prisma.shareToken.create({
       data: {
         expiresAt: new Date(req.query.expiresAt),
+        readOnly: req.query.readOnly === "true",
         property: { connect: { id: req.query.boardProperty } },
         ...(req.query.board && { board: { connect: { id: req.query.board } } }),
         user: { connect: { email: req.query.email } },

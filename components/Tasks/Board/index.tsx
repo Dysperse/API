@@ -14,6 +14,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { mutate } from "swr";
 import { Column } from "./Column";
@@ -23,6 +24,7 @@ export const BoardContext = createContext<null | any>(null);
 export const ColumnContext = createContext<null | any>(null);
 
 function RenderBoard({ tasks }) {
+  const router = useRouter();
   const [showInfo, setShowInfo] = useState<boolean | null>(null);
   const [useReverseAnimation, setUseReverseAnimation] = useState(false);
 
@@ -50,7 +52,7 @@ function RenderBoard({ tasks }) {
 
   const isDark = useDarkMode(session.darkMode);
 
-  const { board } = useContext(BoardContext);
+  const { board, permissions } = useContext(BoardContext);
 
   return (
     <Box
@@ -133,20 +135,21 @@ function RenderBoard({ tasks }) {
           px: 4,
         }}
       >
-        <IconButton
-          sx={{
-            cursor: "default",
-            background: palette[3],
-          }}
-          onClick={() => {
-            setMobileOpen(true);
-            document.getElementById("newColumn")?.click();
-          }}
-        >
-          <Icon>add</Icon>
-        </IconButton>
+        {permissions !== "read" && (
+          <IconButton
+            sx={{
+              cursor: "default",
+              background: palette[3],
+            }}
+            onClick={() => {
+              router.push("/tasks/boards/edit/" + board.id);
+            }}
+          >
+            <Icon>add</Icon>
+          </IconButton>
+        )}
       </Box>
-      {tasks.length == 0 && (
+      {tasks.length == 0 && permissions !== "read" && (
         <Box
           sx={{
             display: "flex",
@@ -173,8 +176,7 @@ function RenderBoard({ tasks }) {
           ) : (
             <Button
               onClick={() => {
-                setMobileOpen(true);
-                document.getElementById("newColumn")?.click();
+                router.push("/tasks/boards/edit/" + board.id);
               }}
               variant="contained"
               size="large"
@@ -199,6 +201,8 @@ export function Board({ mutationUrl, board }) {
     data &&
     data?.[0]?.propertyId &&
     data?.[0]?.propertyId !== session.property.propertyId;
+
+  const readOnly = board?.shareTokens?.[0]?.readOnly ?? true;
 
   if (error || (!board && !loading)) {
     return (
@@ -239,6 +243,7 @@ export function Board({ mutationUrl, board }) {
       <BoardContext.Provider
         value={{
           board,
+          permissions: readOnly ? "read" : "edit",
           isShared,
           mutateData,
           mutationUrls: {

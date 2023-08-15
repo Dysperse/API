@@ -31,12 +31,14 @@ export const parseEmojis = (value) => {
 };
 
 export const TaskDrawer = React.memo(function TaskDrawer({
+  isDisabled = false,
   isDateDependent = false,
   children,
   id,
   mutationUrl,
   onClick,
 }: {
+  isDisabled?: boolean;
   isDateDependent?: boolean;
   children: JSX.Element;
   id: number;
@@ -189,6 +191,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         >
           {data && data !== "deleted" && (
             <DrawerContent
+              isDisabled={isDisabled}
               handleDelete={handleDelete}
               isDateDependent={isDateDependent}
               handleParentClose={handleClose}

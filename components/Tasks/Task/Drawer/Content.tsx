@@ -71,7 +71,7 @@ function DrawerMenu({
             await task.mutate();
           }}
         >
-          <MenuItem>
+          <MenuItem disabled={shouldDisable}>
             <Icon className="outlined">delete</Icon>Delete
           </MenuItem>
         </ConfirmationModal>
@@ -92,7 +92,7 @@ function DrawerMenu({
   );
 }
 
-function DrawerContent({ handleDelete, isDateDependent }: any) {
+function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
   const dateRef = useRef();
   const session = useSession();
   const task = useTaskContext();
@@ -218,10 +218,18 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
   };
 
   const shouldDisable =
-    storage?.isReached === true || session.permission === "read-only";
+    storage?.isReached === true ||
+    session.permission === "read-only" ||
+    isDisabled;
 
   return (
-    <>
+    <Box
+      sx={{
+        "& .Mui-disabled": {
+          opacity: "1!important",
+        },
+      }}
+    >
       <AppBar
         sx={{
           border: 0,
@@ -262,7 +270,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
             <RescheduleModal handlePostpone={handlePostpone}>
               <Button
                 disableRipple
-                disabled={!task.due}
+                disabled={shouldDisable || !task.due}
                 sx={{
                   px: 1.5,
                   ...styles.button,
@@ -323,6 +331,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
                 }}
               >
                 <IconButton
+                  disabled={shouldDisable}
                   sx={{
                     flexShrink: 0,
                     ...styles.button,
@@ -335,9 +344,14 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
           </Box>
         </Toolbar>
       </AppBar>
-      <Box sx={{ p: { xs: 3, sm: 4 }, pb: { sm: 1 } }}>
+      <Box
+        sx={{
+          p: { xs: 3, sm: 4 },
+          pb: { sm: 1 },
+        }}
+      >
         <Box sx={{ display: "flex", gap: 1.5, flexWrap: "wrap" }}>
-          <ColorPopover />
+          <ColorPopover disabled={shouldDisable} />
           {!isSubTask && (
             <SelectDateModal
               styles={() => {}}
@@ -402,7 +416,7 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
         />
 
         <Box sx={styles.section}>
-          {!isSubTask && (
+          {!isSubTask && !shouldDisable && (
             <>
               <CreateTask
                 isSubTask
@@ -436,10 +450,9 @@ function DrawerContent({ handleDelete, isDateDependent }: any) {
             </>
           )}
         </Box>
-
         <LinkedContent data={task} styles={styles} />
       </Box>
-    </>
+    </Box>
   );
 }
 export default DrawerContent;

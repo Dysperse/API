@@ -44,7 +44,8 @@ export function Column({
   const buttonRef: any = useRef();
   const columnRef: any = useRef();
   const { column, navigation, columnLength } = useContext(ColumnContext);
-  const { board, mutationUrls, mutateData } = useContext(BoardContext);
+  const { board, permissions, mutationUrls, mutateData } =
+    useContext(BoardContext);
 
   const [isScrolling, setIsScrolling] = useState(false);
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
@@ -442,7 +443,12 @@ export function Column({
               columnId: column.id,
             }}
           >
-            <Button variant="contained" fullWidth sx={{ mb: 1 }}>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{ mb: 1 }}
+              disabled={permissions === "read"}
+            >
               <Icon>add_circle</Icon>List item
             </Button>
           </CreateTask>
@@ -484,14 +490,14 @@ export function Column({
               </Box>
             </Box>
           )}
-
           <Virtuoso
             isScrolling={setIsScrolling}
             useWindowScroll
             customScrollParent={columnRef.current}
             data={sortedTasks}
-            itemContent={(index, task) => (
+            itemContent={(_, task) => (
               <Task
+                permissions={permissions}
                 key={task.id}
                 isScrolling={isScrolling}
                 board={board}
@@ -550,6 +556,7 @@ export function Column({
                 data={columnTasks.filter((task) => task.completed)}
                 itemContent={(index, task) => (
                   <Task
+                    permissions={permissions}
                     isScrolling={isScrolling}
                     key={task.id}
                     board={board}

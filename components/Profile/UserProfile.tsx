@@ -294,7 +294,6 @@ export function SpotifyCard({
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
               Not playing
             </Typography>
-            {JSON.stringify(profile.spotify)}
             <picture>
               <img
                 src={

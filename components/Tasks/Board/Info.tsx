@@ -24,7 +24,8 @@ import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
 export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
-  const { board, isShared, mutationUrls } = useContext(BoardContext);
+  const { board, permissions, isShared, mutationUrls } =
+    useContext(BoardContext);
 
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
@@ -173,7 +174,11 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
             )}
             <TextField
               spellCheck={false}
-              disabled={session.permission === "read-only" || board.archived}
+              disabled={
+                session.permission === "read-only" ||
+                board.archived ||
+                permissions == "read"
+              }
               defaultValue={board.name}
               onChange={(e: any) => {
                 e.target.value = e.target.value.replace(/\n|\r/g, "");
@@ -208,7 +213,11 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               multiline
               defaultValue={board.description}
               inputRef={descriptionRef}
-              disabled={session.permission === "read-only" || board.archived}
+              disabled={
+                session.permission === "read-only" ||
+                board.archived ||
+                permissions == "read"
+              }
               onBlur={handleSave}
               placeholder="Click to add description"
               variant="standard"
@@ -238,6 +247,13 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
                   icon={<Icon>lock</Icon>}
                 />
               )}
+              {permissions === "read" && (
+                <Chip
+                  sx={{ mr: 1, mb: 1 }}
+                  label={"View only"}
+                  icon={<Icon>visibility</Icon>}
+                />
+              )}
               {board.pinned && !isShared && (
                 <Chip
                   label="Pinned"
@@ -259,16 +275,17 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
                   icon={<Icon>inventory_2</Icon>}
                 />
               )}
-              {board.integrations?.map((integration) => (
-                <IntegrationChip
-                  mutationUrls={mutationUrls}
-                  key={integration.name}
-                  integration={integration}
-                  boardId={board.id}
-                  session={session}
-                  mutate={mutate}
-                />
-              ))}
+              {permissions !== "read" &&
+                board.integrations?.map((integration) => (
+                  <IntegrationChip
+                    mutationUrls={mutationUrls}
+                    key={integration.name}
+                    integration={integration}
+                    boardId={board.id}
+                    session={session}
+                    mutate={mutate}
+                  />
+                ))}
             </Box>
           </Box>
 
@@ -279,17 +296,19 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               width: "100%",
             }}
           >
-            <BoardSettings id={board.id} />
-            <IconButton
-              size="large"
-              sx={{ ml: { xs: "auto", sm: "0" } }}
-              disabled={board.archived}
-              onClick={() =>
-                router.push(`/tasks/boards/edit/${board.id}#permissions`)
-              }
-            >
-              <Icon className="outlined">ios_share</Icon>
-            </IconButton>
+            {permissions !== "read" && <BoardSettings id={board.id} />}
+            {permissions !== "read" && (
+              <IconButton
+                size="large"
+                sx={{ ml: { xs: "auto", sm: "0" } }}
+                disabled={board.archived}
+                onClick={() =>
+                  router.push(`/tasks/boards/edit/${board.id}#permissions`)
+                }
+              >
+                <Icon className="outlined">ios_share</Icon>
+              </IconButton>
+            )}
             <IconButton
               size="large"
               sx={{

@@ -230,15 +230,16 @@ model PasswordResetToken {
 }
 
 model ShareToken {
-  id        String    @id @unique @default(uuid())
-  // users don't need to be logged in, so skip the relation between user and sharetoken
+  id String @id @unique @default(uuid())
+
   createdAt DateTime  @default(now())
   expiresAt DateTime?
   token     String    @unique @default(uuid())
 
-  // boardId is optional, if it's not set, the sharetoken is for a room, for example
   boardId String?
   board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  readOnly Boolean @default(true)
 
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)

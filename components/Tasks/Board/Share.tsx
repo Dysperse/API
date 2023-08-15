@@ -49,9 +49,14 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
 
   const deferredEmail = useDeferredValue(email);
   const [expiration, setExpiration] = useState<string>("7");
+  const [permissions, setPermissions] = useState<string>("true");
 
   const handleChange = (event: SelectChangeEvent) => {
     setExpiration(event.target.value as string);
+  };
+
+  const handlePermissionsChange = (event: SelectChangeEvent) => {
+    setPermissions(event.target.value as string);
   };
 
   const handleGenerate = async () => {
@@ -154,6 +159,24 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
           fullWidth
           size="small"
         />
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Permission</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={permissions}
+            MenuProps={{
+              sx: { zIndex: 99999999 },
+            }}
+            label="Permission"
+            onChange={handlePermissionsChange}
+            size="small"
+          >
+            <MenuItem value={"true"}>Read-only</MenuItem>
+            <MenuItem value={"false"}>Edit</MenuItem>
+          </Select>
+        </FormControl>
+
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">
             Allow access for...
@@ -266,6 +289,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
                     : "Expires ") + dayjs(share.expiresAt).fromNow()
                 }
               />
+              <Chip label={share.readOnly ? "Read only" : "Edit"} />
               <IconButton
                 sx={{ ml: "auto" }}
                 disabled={window.location.href.includes(share.token)}

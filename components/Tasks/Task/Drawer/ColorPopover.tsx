@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Color } from "./Color";
 import { useTaskContext } from "./Context";
 
-export function ColorPopover() {
+export function ColorPopover({ disabled }) {
   const session = useSession();
   const task = useTaskContext();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -19,6 +19,7 @@ export function ColorPopover() {
 
   const trigger = (
     <Chip
+      disabled={disabled}
       icon={
         <>
           <Icon

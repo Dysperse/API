@@ -196,6 +196,7 @@ const TaskChips = React.memo(function TaskChips({
 
 export const Task: any = React.memo(function Task({
   sx = {},
+  permissions = "edit",
   handleMutate = () => {},
   isScrolling = false,
   isDateDependent = false,
@@ -277,7 +278,7 @@ export const Task: any = React.memo(function Task({
           id: taskData.id,
           completed: e.target.checked ? "true" : "false",
           completedAt: new Date().toISOString(),
-          completedBy: session.user.email
+          completedBy: session.user.email,
         });
       } catch (e) {
         toast.error("An error occured while updating the task", toastStyles);
@@ -321,13 +322,13 @@ export const Task: any = React.memo(function Task({
     handleMutate,
     session,
   ]);
-
   const isDisabled = useMemo(
     () =>
       (board && board.archived) ||
       session?.permission === "read-only" ||
-      storage?.isReached === true,
-    [board, session, storage]
+      storage?.isReached === true ||
+      permissions === "read",
+    [board, session, storage, permissions]
   );
 
   const selection = useContext(SelectionContext);
@@ -376,6 +377,7 @@ export const Task: any = React.memo(function Task({
       <TaskDrawer
         id={taskData.id}
         mutationUrl={mutationUrl}
+        isDisabled={isDisabled}
         isDateDependent={isDateDependent}
         {...(selection.values.length > 0 && { onClick: handleSelect })}
       >

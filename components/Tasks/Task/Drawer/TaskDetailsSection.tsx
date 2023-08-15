@@ -145,25 +145,30 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
               <Icon>close</Icon>
             </IconButton>
           ) : (
-            <FileDropInput
-              onError={() => toast.error("Couldn't upload")}
-              onSuccess={async (res) => {
-                await fetchRawApi(session, "property/boards/column/task/edit", {
-                  image: res.url,
-                  id: task.id,
-                });
-                await task.mutate();
-              }}
-              onUploadStart={() => {}}
-            >
-              <IconButton
-                sx={{ background: palette[3] }}
-                disabled={shouldDisable}
-                onClick={handleAttachmentButtonClick}
+            !shouldDisable && (
+              <FileDropInput
+                onError={() => toast.error("Couldn't upload")}
+                onSuccess={async (res) => {
+                  await fetchRawApi(
+                    session,
+                    "property/boards/column/task/edit",
+                    {
+                      image: res.url,
+                      id: task.id,
+                    }
+                  );
+                  await task.mutate();
+                }}
+                onUploadStart={() => {}}
               >
-                <Icon>add</Icon>
-              </IconButton>
-            </FileDropInput>
+                <IconButton
+                  sx={{ background: palette[3] }}
+                  onClick={handleAttachmentButtonClick}
+                >
+                  <Icon>add</Icon>
+                </IconButton>
+              </FileDropInput>
+            )
           )}
         </Box>
       </ListItem>
