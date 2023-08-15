@@ -115,7 +115,7 @@ export default function Integrations({
             onClick={() => setOpen(true)}
             sx={{ ml: "auto", px: 2 }}
             variant="contained"
-            disabled={data?.length >= 5}
+            disabled={data?.length >= 5 || session.permission === "read-only"}
           >
             <Icon className="outlined">add</Icon>Add
           </Button>
@@ -139,41 +139,46 @@ export default function Integrations({
               callback={() => mutate(url)}
             />
           )}
-          {data.map((integration) => (
-            <ListItemButton key={integration.id} disableRipple>
-              <ListItemText
-                primary={integration.name}
-                secondary={
-                  <Chip
-                    sx={{ mt: 0.5 }}
-                    icon={<Icon>sync</Icon>}
-                    label={
-                      <>
-                        Synced with <b>{integration.board.name}</b>
-                      </>
-                    }
-                    size="small"
-                  />
-                }
-              />
-              <ListItemSecondaryAction>
-                <ConfirmationModal
-                  title="Are you sure you want to remove this integration?"
-                  question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
-                  callback={async () => {
-                    await fetchRawApi(session, "property/integrations/delete", {
-                      id: integration.id,
-                    });
-                    mutate(url);
-                  }}
-                >
-                  <IconButton>
-                    <Icon className="outlined">delete</Icon>
-                  </IconButton>
-                </ConfirmationModal>
-              </ListItemSecondaryAction>
-            </ListItemButton>
-          ))}
+          {session.permission !== "read-only" &&
+            data.map((integration) => (
+              <ListItemButton key={integration.id} disableRipple>
+                <ListItemText
+                  primary={integration.name}
+                  secondary={
+                    <Chip
+                      sx={{ mt: 0.5 }}
+                      icon={<Icon>sync</Icon>}
+                      label={
+                        <>
+                          Synced with <b>{integration.board.name}</b>
+                        </>
+                      }
+                      size="small"
+                    />
+                  }
+                />
+                <ListItemSecondaryAction>
+                  <ConfirmationModal
+                    title="Are you sure you want to remove this integration?"
+                    question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
+                    callback={async () => {
+                      await fetchRawApi(
+                        session,
+                        "property/integrations/delete",
+                        {
+                          id: integration.id,
+                        }
+                      );
+                      mutate(url);
+                    }}
+                  >
+                    <IconButton>
+                      <Icon className="outlined">delete</Icon>
+                    </IconButton>
+                  </ConfirmationModal>
+                </ListItemSecondaryAction>
+              </ListItemButton>
+            ))}
         </>
       ) : (
         !board && (
