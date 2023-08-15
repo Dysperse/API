@@ -108,7 +108,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          router.push(`/tasks/boards/edit/${board.id}`);
+          router.push(`/tasks/boards/edit/${board.id}#columns`);
           handleClose();
         }}
       >
