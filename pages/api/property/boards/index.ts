@@ -27,7 +27,11 @@ const handler = async (req, res) => {
                 AND: { property: { id: req.query.property } },
               },
               {
-                AND: [{ public: false }, { userId: req.query.userIdentifier }],
+                AND: [
+                  { public: false },
+                  { userId: req.query.userIdentifier },
+                  { property: { id: req.query.property } },
+                ],
               },
             ],
           },
