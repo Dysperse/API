@@ -189,11 +189,15 @@ export function Agenda({ type, date }) {
               sx={{
                 ml: "auto",
                 ...(view === "priority" && { visibility: "hidden" }),
-                background: `linear-gradient(${palette[6]}, ${palette[9]})`,
+                background: `linear-gradient(45deg, ${palette[6]}, ${palette[9]})`,
                 "&:hover": {
                   boxShadow: `0 0 25px 1px ${palette[8]}`,
-                  background: `linear-gradient(${palette[9]}, ${palette[11]})`,
+                  background: `linear-gradient(45deg, ${palette[9]}, ${palette[8]})`,
                 },
+                "&:active": {
+                  transform: "scale(.95)",
+                },
+                transition: "transform .2s",
                 display: "flex",
                 width: "147px",
                 height: "46px",
