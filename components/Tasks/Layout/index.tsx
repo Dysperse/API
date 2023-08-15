@@ -631,6 +631,8 @@ export function TasksLayout({
             transform: "scale(.5)",
             pointerEvents: "none",
           }),
+          maxWidth: { md: "400px" },
+          pt: "0!important",
         }}
       >
         <Toolbar sx={{ mt: { sm: -0.5 } }}>
