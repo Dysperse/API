@@ -168,9 +168,11 @@ const Column = React.memo(function Column({
           <SelectDateModal
             date={dayjs(column).toDate()}
             setDate={(date) => {
-              router.push(
-                "/tasks/agenda/days/" + dayjs(date).format("YYYY-MM-DD")
-              );
+              setTimeout(() => {
+                router.push(
+                  "/tasks/agenda/days/" + dayjs(date).format("YYYY-MM-DD")
+                );
+              }, 500);
             }}
             dateOnly
           >
