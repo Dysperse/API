@@ -13,6 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { VictoryAxis, VictoryBar, VictoryChart } from "victory";
@@ -263,7 +264,9 @@ export default function Page() {
     email: session.user.email,
   });
   return data ? (
-    <Insights tasks={data} />
+    <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
+      <Insights tasks={data} />
+    </motion.div>
   ) : (
     <Box
       sx={{
