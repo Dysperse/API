@@ -51,7 +51,8 @@ export function FileDropInput({ children, onUploadStart, onSuccess, onError }) {
       for (const item of items) {
         if (item.type.indexOf("image") !== -1) {
           const blob = item.getAsFile();
-          handleUpload(blob, false, true);
+          if (!blob) return;
+          handleUpload(blob, true, true);
         }
       }
     };

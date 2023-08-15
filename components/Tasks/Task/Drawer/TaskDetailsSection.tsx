@@ -153,7 +153,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
                     session,
                     "property/boards/column/task/edit",
                     {
-                      image: res.url,
+                      image: res.data.url,
                       id: task.id,
                     }
                   );
