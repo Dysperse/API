@@ -185,24 +185,47 @@ export function Agenda({ type, date }) {
                 </motion.div>
               </AnimatePresence>
             </Box>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setView("priority");
-                scrollIntoView();
-                toast.dismiss();
-                toast("Focus mode", {
-                  ...toastStyles,
-                  icon: <Icon>target</Icon>,
-                });
-              }}
+            <Box
               sx={{
                 ml: "auto",
                 ...(view === "priority" && { visibility: "hidden" }),
+                background: `linear-gradient(${palette[6]}, ${palette[9]})`,
+                "&:hover": {
+                  boxShadow: `0 0 25px 1px ${palette[8]}`,
+                  background: `linear-gradient(${palette[9]}, ${palette[11]})`,
+                },
+                display: "flex",
+                width: "147px",
+                height: "46px",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 999,
               }}
             >
-              <Icon className="outlined">target</Icon>Focus
-            </Button>
+              <Box
+                sx={{
+                  "&, &:hover": { background: palette[1] },
+                  width: "140px",
+                  height: "40px",
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: 999,
+                  justifyContent: "center",
+                  gap: 2,
+                }}
+                onClick={() => {
+                  setView("priority");
+                  scrollIntoView();
+                  toast.dismiss();
+                  toast("Focus mode", {
+                    ...toastStyles,
+                    icon: <Icon>target</Icon>,
+                  });
+                }}
+              >
+                <Icon className="outlined">target</Icon>Focus
+              </Box>
+            </Box>
             <Box sx={{ ml: "auto" }}>
               <IconButton
                 onClick={async () => {
