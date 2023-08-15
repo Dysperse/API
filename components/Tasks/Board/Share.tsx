@@ -246,7 +246,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
               self.findIndex((m) => m.user.email === member.user.email) ===
               index
           )
-          .filter((m) => board.public || m.user.email === session.user.email)
+          .filter((m) => board.public || m.user.email !== session.user.email)
           .map((member) => (
             <ListItem
               key={member.user.email}
