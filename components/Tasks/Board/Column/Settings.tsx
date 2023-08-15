@@ -18,6 +18,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import {
   cloneElement,
   useCallback,
@@ -30,16 +31,19 @@ import { toast } from "react-hot-toast";
 import { BoardContext, ColumnContext } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
+import { SelectionContext } from "../../Layout";
 import { FilterMenu } from "./FilterMenu";
 
 export function ColumnSettings({ children, setColumnTasks }: any) {
   const storage = useAccountStorage();
   const ref: any = useRef();
   const buttonRef: any = useRef();
+  const router = useRouter();
   const session = useSession();
 
   const { board, mutateData } = useContext(BoardContext);
   const { column, length } = useContext(ColumnContext);
+  const selection = useContext(SelectionContext);
 
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -94,11 +98,21 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         </MenuItem>
       </FilterMenu>
       <Divider />
-      <MenuItem disabled>
-        <Icon className="outlined">east</Icon>Move right
+      <MenuItem
+        onClick={() => {
+          selection.set(["-1"]);
+          handleClose();
+        }}
+      >
+        <Icon className="outlined">select</Icon>Select
       </MenuItem>
-      <MenuItem disabled>
-        <Icon className="outlined">west</Icon>Move left
+      <MenuItem
+        onClick={() => {
+          router.push(`/tasks/boards/edit/${board.id}`);
+          handleClose();
+        }}
+      >
+        <Icon className="outlined">swipe</Icon>Reorder columns
       </MenuItem>
       <Divider />
       <MenuItem
