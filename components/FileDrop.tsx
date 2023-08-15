@@ -1,6 +1,12 @@
 import { useSession } from "@/lib/client/session";
 import { Box, Icon } from "@mui/material";
-import { MutableRefObject, cloneElement, useCallback, useRef } from "react";
+import {
+  MutableRefObject,
+  cloneElement,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { createPortal } from "react-dom";
 import { FileDrop } from "react-file-drop";
 import { toast } from "react-hot-toast";
@@ -10,11 +16,15 @@ export function FileDropInput({ children, onUploadStart, onSuccess, onError }) {
   const inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
 
   const handleUpload = useCallback(
-    async (e: any, drop: boolean = false) => {
+    async (e: any, drop: boolean = false, image: null | boolean = null) => {
       const form = new FormData();
       const key = "9fb5ded732b6b50da7aca563dbe66dec";
 
-      form.append("image", e[drop ? "dataTransfer" : "target"].files[0]);
+      if (image) {
+        form.append("image", e);
+      } else {
+        form.append("image", e[drop ? "dataTransfer" : "target"].files[0]);
+      }
 
       try {
         onUploadStart();
@@ -32,6 +42,26 @@ export function FileDropInput({ children, onUploadStart, onSuccess, onError }) {
     },
     [onError, onUploadStart, onSuccess]
   );
+
+  useEffect(() => {
+    const handlePaste = (event) => {
+      const items = (event.clipboardData || (window as any).clipboardData)
+        .items;
+
+      for (const item of items) {
+        if (item.type.indexOf("image") !== -1) {
+          const blob = item.getAsFile();
+          handleUpload(blob, false, true);
+        }
+      }
+    };
+
+    document.addEventListener("paste", handlePaste);
+
+    return () => {
+      document.removeEventListener("paste", handlePaste);
+    };
+  }, [handleUpload]);
 
   const trigger = cloneElement(children, {
     onClick: () => inputRef.current?.click(),
