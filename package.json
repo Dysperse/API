@@ -9,7 +9,8 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "lint": "next lint",
-    "email-dev": "email dev"
+    "email-dev": "email dev",
+    "build-desktop": "nativefier --darwin-dark-mode-support --name 'Dysperse' 'https://my.dysperse.com' --electron-version '26.0.0' --platform windows"
   },
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
@@ -51,6 +52,7 @@
     "markdown-to-jsx": "^7.3.2",
     "memory-cache": "^0.2.0",
     "mui-one-time-password-input": "^1.1.1",
+    "nativefier": "^51.0.1",
     "next": "^13.4.13",
     "next-pwa": "^5.6.0",
     "node-2fa": "^2.0.3",
