@@ -415,7 +415,7 @@ function EditLayout({ id, data, url, mutate }) {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
           >
-            <ShareBoard isShared board={data} mutationUrls={{}}>
+            <ShareBoard isShared board={data} mutate={mutate}>
               <Box>open</Box>
             </ShareBoard>
           </motion.div>

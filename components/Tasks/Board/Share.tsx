@@ -25,9 +25,9 @@ import {
 import dayjs from "dayjs";
 import { cloneElement, useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
+import { mutate as mutateUrl } from "swr";
 
-export function ShareBoard({ isShared, board, children, mutationUrls }) {
+export function ShareBoard({ mutate, isShared, board, children }) {
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -91,7 +91,8 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
           "The share link has been generated successfully!",
           toastStyles
         );
-        await mutate(url);
+        await mutate();
+        mutateUrl(url);
       } catch (e) {
         toast.error(
           "Could not generate the share link! Is the email correct?",
@@ -114,7 +115,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
     await fetchRawApi(session, "property/shareTokens/revoke", {
       token,
     });
-    await mutate(url);
+    await mutate();
   };
 
   const boxStyles = {
@@ -132,7 +133,7 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
         id: board.id,
         public: !board.public,
       });
-      await mutate(mutationUrls.boardData);
+      await mutate();
       setLoadingGroupVisibility(false);
     } catch (e) {
       toast.error(
@@ -251,9 +252,6 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
             </Icon>
           </IconButton>
         </ListItem>
-        {session.property.propertyId === board.property.id && (
-          <Divider sx={{ my: 1 }} />
-        )}
         {board.property.members
           .filter(
             (member, index, self) =>
@@ -277,8 +275,8 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
               <ListItemText primary={member.user.name} secondary="In group" />
               {board.user.email === member.user.email && <Chip label="Owner" />}
             </ListItem>
-          ))}{" "}
-        <Divider />
+          ))}
+        {data && data.length > 0 && <Divider />}
         {data ? (
           data.map((share) => (
             <ListItem
@@ -321,11 +319,11 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
         ) : data?.error ? (
           <ErrorHandler
             error="Oh no! An error occured while trying to get your active share links!"
-            callback={() => mutate(url)}
+            callback={mutate}
           />
         ) : error ? (
           <ErrorHandler
-            callback={() => mutate(url)}
+            callback={mutate}
             error="Oh no! An error occured while trying to get your active share links!"
           />
         ) : (
