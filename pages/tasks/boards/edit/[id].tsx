@@ -454,6 +454,7 @@ function EditLayout({ id, data, url, mutate }) {
 
 const Dashboard = () => {
   const router = useRouter();
+  const session = useSession();
   const id = router?.query?.id;
   const [open, setOpen] = useState(false);
 
@@ -462,7 +463,10 @@ const Dashboard = () => {
     shareToken: "",
   });
 
-  if (data?.[0]?.shareTokens?.[0]?.readOnly) {
+  if (
+    data?.[0]?.shareTokens?.[0]?.readOnly ||
+    session.permission === "read-only"
+  ) {
     return (
       <TasksLayout open={open} setOpen={setOpen}>
         <Box sx={{ p: 4 }}>
