@@ -311,11 +311,13 @@ export function TasksLayout({
     const archived = data.filter((x) => x.archived);
 
     const shared = data.filter(
-      (x) => x.propertyId !== session?.property?.propertyId
+      (x) =>
+        x.propertyId !== session?.property?.propertyId ||
+        x.shareTokens?.[0]?.user?.email === session.user.email
     );
 
     return { active, archived, shared };
-  }, [data, session?.property?.propertyId]);
+  }, [data, session]);
 
   const perspectives = [
     {

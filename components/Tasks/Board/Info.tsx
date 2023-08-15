@@ -80,7 +80,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
       ? [...board.property.members, ...board.shareTokens]
       : [
           ...board.property.members.filter(
-            (m) => m.user.email == session.user.email
+            (m) => m.user.email !== session.user.email
           ),
           ...board.shareTokens,
         ]

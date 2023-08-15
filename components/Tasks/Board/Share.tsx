@@ -15,6 +15,7 @@ import {
   IconButton,
   InputLabel,
   ListItem,
+  ListItemAvatar,
   ListItemText,
   MenuItem,
   Select,
@@ -213,30 +214,43 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
       </Box>
 
       <Box sx={boxStyles}>
-        {session.property.propertyId === board.property.id && (
-          <ListItem
-            sx={{
-              px: 0,
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-            }}
-          >
-            <ListItemText
-              primary={session.property?.profile?.name}
-              secondary="Your group"
-            />
-            <IconButton
-              sx={{ ml: "auto" }}
-              disabled={loadingGroupVisibility}
-              onClick={toggleGroupVisibility}
-            >
+        <ListItem
+          sx={{
+            px: 0,
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          <ListItemAvatar>
+            <Avatar>
               <Icon className="outlined">
-                visibility{!board.public && "_off"}
+                {board.property?.type === "dorm"
+                  ? "cottage"
+                  : board.property?.type === "apartment"
+                  ? "location_city"
+                  : board.property?.type === "study group"
+                  ? "school"
+                  : "home"}
               </Icon>
-            </IconButton>
-          </ListItem>
-        )}
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={board.property?.name}
+            secondary={
+              board.public ? "Visible to members" : "Hidden from members"
+            }
+          />
+          <IconButton
+            sx={{ ml: "auto" }}
+            disabled={loadingGroupVisibility}
+            onClick={toggleGroupVisibility}
+          >
+            <Icon className="outlined">
+              visibility{!board.public && "_off"}
+            </Icon>
+          </IconButton>
+        </ListItem>
         {session.property.propertyId === board.property.id && (
           <Divider sx={{ my: 1 }} />
         )}
@@ -263,7 +277,8 @@ export function ShareBoard({ isShared, board, children, mutationUrls }) {
               <ListItemText primary={member.user.name} secondary="In group" />
               {board.user.email === member.user.email && <Chip label="Owner" />}
             </ListItem>
-          ))}
+          ))}{" "}
+        <Divider />
         {data ? (
           data.map((share) => (
             <ListItem
