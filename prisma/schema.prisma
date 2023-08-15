@@ -269,6 +269,7 @@ model Board {
 
 model Column {
   id      String @id @unique @default(uuid())
+  order   Int    @default(1)
   name    String
   emoji   String
   boardId String

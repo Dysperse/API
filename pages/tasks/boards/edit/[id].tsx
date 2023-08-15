@@ -31,8 +31,25 @@ import {
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+
+import { DroppableProps } from "react-beautiful-dnd";
+export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    const animation = requestAnimationFrame(() => setEnabled(true));
+    return () => {
+      cancelAnimationFrame(animation);
+      setEnabled(false);
+    };
+  }, []);
+  if (!enabled) {
+    return null;
+  }
+  return <Droppable {...props}>{children}</Droppable>;
+};
 
 function BoardColumnSettings({ data, styles, mutate }) {
   const session = useSession();
@@ -73,47 +90,97 @@ function BoardColumnSettings({ data, styles, mutate }) {
       });
   };
 
+  const [items, setItems] = useState(data.columns);
+
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const updatedItems = [...items];
+    const [movedItem] = updatedItems.splice(result.source.index, 1);
+    updatedItems.splice(result.destination.index, 0, movedItem);
+
+    const orderObj = updatedItems.map((column, index) => {
+      return {
+        order: index,
+        id: column.id,
+        name: column.name,
+      };
+    });
+
+    fetchRawApi(session, "property/boards/column/setOrder", {
+      order: JSON.stringify(orderObj),
+    });
+    setItems(updatedItems);
+  };
+
   return (
     <>
-      {data.columns.map((column) => (
-        <ListItem key={column.id}>
-          <picture>
-            <img
-              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-              alt="Emoji"
-              width={30}
-              height={30}
-            />
-          </picture>
-          <ListItemText
-            primary={<b>{column.name}</b>}
-            secondary={`${column.tasks.length} tasks`}
-          />
-          <Box sx={{ display: "flex" }}>
-            <ConfirmationModal
-              title="Delete column?"
-              question={`Deleting this column will also permanently delete ${column.tasks.length} tasks inside it. Continue?`}
-              callback={async () => {
-                await fetchRawApi(session, "property/boards/column/delete", {
-                  id: column.id,
-                  who: session.user.name,
-                  boardName: data.name,
-                  boardEmoji: data.emoji,
-                  columnName: column.name,
-                });
-                await mutate();
-              }}
-            >
-              <IconButton>
-                <Icon className="outlined">delete</Icon>
-              </IconButton>
-            </ConfirmationModal>
-            <IconButton disabled>
-              <Icon>drag_handle</Icon>
-            </IconButton>
-          </Box>
-        </ListItem>
-      ))}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <StrictModeDroppable droppableId="droppable" direction="vertical">
+          {(provided) => (
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {items.map((column, index) => (
+                <Draggable
+                  key={column.id}
+                  draggableId={column.id}
+                  index={index}
+                >
+                  {(provided) => (
+                    <ListItem
+                      id={column.id}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <picture>
+                        <img
+                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                          alt="Emoji"
+                          width={30}
+                          height={30}
+                        />
+                      </picture>
+                      <ListItemText
+                        primary={<b>{column.name}</b>}
+                        secondary={`${column.tasks.length} tasks`}
+                      />
+                      <Box sx={{ display: "flex" }}>
+                        <ConfirmationModal
+                          title="Delete column?"
+                          question={`Deleting this column will also permanently delete ${column.tasks.length} tasks inside it. Continue?`}
+                          callback={async () => {
+                            await fetchRawApi(
+                              session,
+                              "property/boards/column/delete",
+                              {
+                                id: column.id,
+                                who: session.user.name,
+                                boardName: data.name,
+                                boardEmoji: data.emoji,
+                                columnName: column.name,
+                              }
+                            );
+                            await mutate();
+                          }}
+                        >
+                          <IconButton>
+                            <Icon className="outlined">delete</Icon>
+                          </IconButton>
+                        </ConfirmationModal>
+                        <IconButton disabled>
+                          <Icon>drag_handle</Icon>
+                        </IconButton>
+                      </Box>
+                    </ListItem>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </StrictModeDroppable>
+      </DragDropContext>
+
       <ListItemButton onClick={() => setOpen(true)}>
         <Avatar sx={{ width: 30, height: 30, color: "#000" }}>
           <Icon>add</Icon>

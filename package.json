@@ -58,6 +58,7 @@
     "node-2fa": "^2.0.3",
     "npm": "^9.8.1",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-calendar": "^4.6.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",

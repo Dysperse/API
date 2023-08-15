@@ -4,22 +4,22 @@ import { validatePermissions } from "@/lib/server/validatePermissions";
 const handler = async (req, res) => {
   try {
     await validatePermissions({
-      minimum: "read-only",
+      minimum: "member",
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    //  List all tasks for a board from the column
-    const data = await prisma.column.findMany({
-      where: {
-        board: { id: req.query.id },
-      },
-      orderBy: { order: "asc" },
-      include: {
-        tasks: { include: { subTasks: true, parentTasks: true } },
-      },
+    const orderObj = JSON.parse(req.query.order);
+
+    orderObj.forEach(async (column) => {
+      await prisma.column.update({
+        where: { id: column.id },
+        data: {
+          order: column.order,
+        },
+      });
     });
 
-    res.json(data);
+    res.json({ success: true });
   } catch (e: any) {
     res.json({ error: e.message });
   }

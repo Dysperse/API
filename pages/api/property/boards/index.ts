@@ -75,7 +75,7 @@ const handler = async (req, res) => {
           },
         },
         columns: {
-          orderBy: { id: "desc" },
+          orderBy: { order: "asc" },
           include: {
             tasks: {
               select: {
