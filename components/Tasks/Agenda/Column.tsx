@@ -269,16 +269,18 @@ const Column = React.memo(function Column({
         />
       )}
       {header}
-      <Box sx={{ p: 2, pb: 1 }}>
-        <CreateTask
-          onSuccess={() => mutate(url)}
-          defaultDate={dayjs(column).startOf(type).toDate()}
-        >
-          <Button variant="contained" fullWidth>
-            <Icon>add_circle</Icon>
-            New task
-          </Button>
-        </CreateTask>
+      <Box sx={{ p: 2, py: 1 }}>
+        {session.permission !== "read-only" && (
+          <CreateTask
+            onSuccess={() => mutate(url)}
+            defaultDate={dayjs(column).startOf(type).toDate()}
+          >
+            <Button variant="contained" fullWidth>
+              <Icon>add_circle</Icon>
+              New task
+            </Button>
+          </CreateTask>
+        )}
         {type === "days" && isToday && (
           <Button
             onClick={() => router.push("/coach/routine")}

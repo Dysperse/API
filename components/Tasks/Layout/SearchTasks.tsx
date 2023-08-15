@@ -152,45 +152,47 @@ export function SearchTasks({ setOpen }) {
     >
       {input}
 
-      <Tooltip
-        placement="right"
-        title={
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            New task
-            <span
-              style={{
-                background: `hsla(240,11%,${isDark ? 90 : 10}%, .1)`,
-                padding: "0 10px",
-                borderRadius: "5px",
+      {session.permission !== "read-only" && (
+        <Tooltip
+          placement="right"
+          title={
+            <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+              New task
+              <span
+                style={{
+                  background: `hsla(240,11%,${isDark ? 90 : 10}%, .1)`,
+                  padding: "0 10px",
+                  borderRadius: "5px",
+                }}
+              >
+                /
+              </span>
+            </Box>
+          }
+        >
+          <CreateTaskWrapper>
+            <IconButton
+              sx={{
+                ...(Boolean(query.trim()) && {
+                  transform: "scale(0)",
+                }),
+                cursor: "default",
+                transition: "transform .2s",
+                background: palette[4],
+                color: palette[12],
+                "&:hover": {
+                  background: palette[5],
+                },
+                "&:active": {
+                  background: palette[6],
+                },
               }}
             >
-              /
-            </span>
-          </Box>
-        }
-      >
-        <CreateTaskWrapper>
-          <IconButton
-            sx={{
-              ...(Boolean(query.trim()) && {
-                transform: "scale(0)",
-              }),
-              cursor: "default",
-              transition: "transform .2s",
-              background: palette[4],
-              color: palette[12],
-              "&:hover": {
-                background: palette[5],
-              },
-              "&:active": {
-                background: palette[6],
-              },
-            }}
-          >
-            <Icon>add</Icon>
-          </IconButton>
-        </CreateTaskWrapper>
-      </Tooltip>
+              <Icon>add</Icon>
+            </IconButton>
+          </CreateTaskWrapper>
+        </Tooltip>
+      )}
     </Box>
   );
 }
