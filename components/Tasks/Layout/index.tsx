@@ -184,7 +184,9 @@ function BulkCompletion() {
     }
   };
 
-  return (
+  return session.permission === "read-only" ? (
+    <></>
+  ) : (
     <>
       <IconButton sx={{ color: palette[8] }} onClick={() => setOpen(true)}>
         <Icon className="outlined">check_circle</Icon>
@@ -215,7 +217,9 @@ function BulkColorCode({ children }) {
   const session = useSession();
   const taskSelection = useContext(SelectionContext);
 
-  return (
+  return session.permission === "read-only" ? (
+    <></>
+  ) : (
     <TaskColorPicker
       color="null"
       setColor={async (e) => {
@@ -648,90 +652,94 @@ export function TasksLayout({
                 </IconButton>
               </BulkColorCode>
               <BulkCompletion />
-              <SelectDateModal
-                date={null}
-                setDate={async (newDate) => {
-                  try {
-                    setOpen(false);
-                    const res = await fetchRawApi(
-                      session,
-                      "property/boards/column/task/editMany",
-                      {
-                        selection: JSON.stringify(
-                          taskSelection.filter((e) => e !== "-1")
-                        ),
-                        due: newDate.toISOString(),
+              {session.permission !== "read-only" && (
+                <SelectDateModal
+                  date={null}
+                  setDate={async (newDate) => {
+                    try {
+                      setOpen(false);
+                      const res = await fetchRawApi(
+                        session,
+                        "property/boards/column/task/editMany",
+                        {
+                          selection: JSON.stringify(
+                            taskSelection.filter((e) => e !== "-1")
+                          ),
+                          due: newDate.toISOString(),
+                        }
+                      );
+                      if (res.errors !== 0) {
+                        toast.error(
+                          `Couldn't edit ${res.errors} item${
+                            res.errors == 1 ? "" : "s"
+                          }`,
+                          toastStyles
+                        );
+                        return;
                       }
-                    );
-                    if (res.errors !== 0) {
+                      document.getElementById("taskMutationTrigger")?.click();
+                      toast.success(`Updated due date!`, toastStyles);
+                      setTaskSelection([]);
+                    } catch {
                       toast.error(
-                        `Couldn't edit ${res.errors} item${
-                          res.errors == 1 ? "" : "s"
-                        }`,
+                        `Couldn't update due dates! Please try again later`,
                         toastStyles
                       );
-                      return;
                     }
-                    document.getElementById("taskMutationTrigger")?.click();
-                    toast.success(`Updated due date!`, toastStyles);
-                    setTaskSelection([]);
-                  } catch {
-                    toast.error(
-                      `Couldn't update due dates! Please try again later`,
-                      toastStyles
-                    );
-                  }
-                }}
-              >
-                <IconButton sx={{ color: palette[8] }}>
-                  <Icon className="outlined">today</Icon>
-                </IconButton>
-              </SelectDateModal>
-              <ConfirmationModal
-                title={`Delete ${
-                  taskSelection.filter((e) => e !== "-1").length
-                } item${
-                  taskSelection.filter((e) => e !== "-1").length !== 1
-                    ? "s"
-                    : ""
-                }?`}
-                question="This action cannot be undone"
-                callback={async () => {
-                  try {
-                    const res = await fetchRawApi(
-                      session,
-                      "property/boards/column/task/deleteMany",
-                      {
-                        selection: JSON.stringify(
-                          taskSelection.filter((e) => e !== "-1")
-                        ),
+                  }}
+                >
+                  <IconButton sx={{ color: palette[8] }}>
+                    <Icon className="outlined">today</Icon>
+                  </IconButton>
+                </SelectDateModal>
+              )}
+              {session.permission !== "read-only" && (
+                <ConfirmationModal
+                  title={`Delete ${
+                    taskSelection.filter((e) => e !== "-1").length
+                  } item${
+                    taskSelection.filter((e) => e !== "-1").length !== 1
+                      ? "s"
+                      : ""
+                  }?`}
+                  question="This action cannot be undone"
+                  callback={async () => {
+                    try {
+                      const res = await fetchRawApi(
+                        session,
+                        "property/boards/column/task/deleteMany",
+                        {
+                          selection: JSON.stringify(
+                            taskSelection.filter((e) => e !== "-1")
+                          ),
+                        }
+                      );
+                      if (res.errors !== 0) {
+                        toast.error(
+                          `Couldn't delete ${res.errors} item${
+                            res.errors == 1 ? "" : "s"
+                          }`,
+                          toastStyles
+                        );
+                        return;
                       }
-                    );
-                    if (res.errors !== 0) {
+                      document.getElementById("taskMutationTrigger")?.click();
+                      toast.success("Deleted!", toastStyles);
+                      setTaskSelection([]);
+                    } catch {
                       toast.error(
-                        `Couldn't delete ${res.errors} item${
-                          res.errors == 1 ? "" : "s"
-                        }`,
+                        "Couldn't delete tasks. Try again later.",
                         toastStyles
                       );
-                      return;
                     }
-                    document.getElementById("taskMutationTrigger")?.click();
-                    toast.success("Deleted!", toastStyles);
-                    setTaskSelection([]);
-                  } catch {
-                    toast.error(
-                      "Couldn't delete tasks. Try again later.",
-                      toastStyles
-                    );
-                  }
-                }}
-                buttonText="Delete"
-              >
-                <IconButton sx={{ color: palette[8] }}>
-                  <Icon className="outlined">delete</Icon>
-                </IconButton>
-              </ConfirmationModal>
+                  }}
+                  buttonText="Delete"
+                >
+                  <IconButton sx={{ color: palette[8] }}>
+                    <Icon className="outlined">delete</Icon>
+                  </IconButton>
+                </ConfirmationModal>
+              )}
             </>
           )}
         </Toolbar>
