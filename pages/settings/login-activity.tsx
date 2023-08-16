@@ -4,6 +4,7 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  Box,
   Button,
   Chip,
   Icon,
@@ -14,7 +15,7 @@ import {
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import Layout from ".";
@@ -102,47 +103,52 @@ const Session: any = React.memo(function Session({
 export default function LoginActivity() {
   const { data, url, error } = useApi("user/settings/sessions");
   const session = useSession();
+  const ref = useRef();
 
   return (
     <Layout>
-      <ConfirmationModal
-        title="Log out of all other devices?"
-        question="You won't be logged out of the one you're on right now"
-        callback={async () => {
-          await fetchRawApi(session, "user/settings/sessions/delete");
-          await mutate(url);
-        }}
-      >
-        <Button
-          color="error"
-          variant="contained"
-          sx={{
-            float: "right",
-            mb: 2,
-            "&, &:hover": {
-              color: "#fff!important",
-              background: red["A700"] + "!important",
-            },
+      <Box ref={ref}>
+        <ConfirmationModal
+          title="Log out of all other devices?"
+          question="You won't be logged out of the one you're on right now"
+          callback={async () => {
+            await fetchRawApi(session, "user/settings/sessions/delete");
+            await mutate(url);
           }}
         >
-          Sign out from everywhere
-        </Button>
-      </ConfirmationModal>
-      {error && (
-        <ErrorHandler
-          callback={() => mutate(url)}
-          error="An error occured while trying to fetch your logged-in devices"
-        />
-      )}
-      {data && (
-        <Virtuoso
-          style={{ height: "100dvh", width: "100%" }}
-          totalCount={data.length}
-          itemContent={(index) => (
-            <Session mutationUrl={url} index={index} data={data} />
-          )}
-        />
-      )}
+          <Button
+            color="error"
+            variant="contained"
+            sx={{
+              float: "right",
+              mb: 2,
+              "&, &:hover": {
+                color: "#fff!important",
+                background: red["A700"] + "!important",
+              },
+            }}
+          >
+            Sign out from everywhere
+          </Button>
+        </ConfirmationModal>
+        {error && (
+          <ErrorHandler
+            callback={() => mutate(url)}
+            error="An error occured while trying to fetch your logged-in devices"
+          />
+        )}
+        {data && (
+          <Virtuoso
+            style={{ width: "100%" }}
+            totalCount={data.length}
+            useWindowScroll
+            customScrollParent={ref.current}
+            itemContent={(index) => (
+              <Session mutationUrl={url} index={index} data={data} />
+            )}
+          />
+        )}
+      </Box>
     </Layout>
   );
 }

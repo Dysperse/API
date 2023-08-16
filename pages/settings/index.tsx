@@ -180,7 +180,7 @@ export default function Layout({ children }: any) {
         width: "100vw",
         left: 0,
         zIndex: 999,
-        background: `linear-gradient(90deg, ${palette[2]} 0%, ${palette[1]} 25%)`,
+        background: palette[2],
       }}
     >
       {!isMobile && (
