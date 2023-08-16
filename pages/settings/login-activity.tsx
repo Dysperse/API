@@ -120,7 +120,6 @@ export default function LoginActivity() {
             color="error"
             variant="contained"
             sx={{
-              float: "right",
               mb: 2,
               "&, &:hover": {
                 color: "#fff!important",
