@@ -191,7 +191,15 @@ export function CreateTask({
     ]
   );
 
-  useHotkeys("alt+a", () => document.getElementById("pinTrigger")?.click(), []);
+  useHotkeys(
+    "alt+a",
+    (e) => {
+      e.preventDefault();
+      document.getElementById("pinTrigger")?.click();
+    },
+    { enableOnFormTags: true },
+    []
+  );
   useHotkeys(
     "alt+e",
     (e) => {
