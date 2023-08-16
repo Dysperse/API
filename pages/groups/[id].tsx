@@ -109,6 +109,7 @@ export default function Page() {
         background: palette[1],
         zIndex: 999,
         overflow: "auto",
+        overscrollBehavior: "none",
       }}
     >
       <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
