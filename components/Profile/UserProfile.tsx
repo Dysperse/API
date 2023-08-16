@@ -515,7 +515,9 @@ export function UserProfile({
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>About</Typography>
               {profile && profile.bio && (
-                <Typography sx={{ fontSize: "17px" }}>profile?.bio</Typography>
+                <Typography sx={{ fontSize: "17px" }}>
+                  {profile?.bio}
+                </Typography>
               )}
             </Box>
           )}

@@ -157,7 +157,8 @@ function Insights({ tasks }) {
         </Typography>
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-            <Box sx={cardStyles}>
+            {/* idk this is blocking scroll */}
+            <Box sx={{ ...cardStyles, pointerEvents: "none" }}>
               <VictoryChart
                 padding={{
                   left: 5,

@@ -1,5 +1,5 @@
 import { useSession } from "@/lib/client/session";
-import { useDarkMode } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Button, Icon, IconButton, Popover, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -8,6 +8,8 @@ export function SearchUser() {
   const router = useRouter();
   const session = useSession();
   const ref: any = useRef();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
   const [email, setEmail] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const isDark = useDarkMode(session.darkMode);
@@ -45,7 +47,7 @@ export function SearchUser() {
             p: 3,
             borderRadius: 5,
             boxShadow: 0,
-            background: `hsl(240,11%,${isDark ? 15 : 95}%)`,
+            background: palette[3],
           },
         }}
       >

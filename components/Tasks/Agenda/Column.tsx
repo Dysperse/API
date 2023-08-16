@@ -236,7 +236,7 @@ const Column = React.memo(function Column({
       ref={scrollParentRef}
       {...(isToday && { id: "active" })}
       sx={{
-        height: { sm: "100%" },
+        height: { xs: "auto", sm: "100%" },
         flex: { xs: "0 0 100%", sm: "0 0 300px" },
         width: { xs: "100%", sm: "300px" },
         borderRight: "1.5px solid",
