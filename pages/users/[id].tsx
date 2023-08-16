@@ -285,6 +285,7 @@ function Page() {
         background: palette[1],
         zIndex: 999,
         overflow: "auto",
+        overscrollBehavior: "none",
       }}
     >
       <Head>
