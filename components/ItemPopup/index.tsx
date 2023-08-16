@@ -2,6 +2,7 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -256,6 +257,8 @@ export default function ItemDrawer({
   const [itemData, setItemData] = useState<null | Item>(null);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+
+  useBackButton(() => setOpen(false));
 
   const handleOpen = useCallback(
     async (e) => {
