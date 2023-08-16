@@ -244,7 +244,7 @@ export function SpotifyCard({
             </Box>
           </Box>
         </>
-      ) : loading || playing?.currently_playing_type === "ad" ? (
+      ) : playing && (loading || playing?.currently_playing_type === "ad") ? (
         <>
           <Box sx={{ display: "flex", gap: 3 }}>
             <Box sx={{ width: "100%" }}>
