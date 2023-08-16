@@ -180,7 +180,7 @@ export default function Layout({ children }: any) {
         width: "100vw",
         left: 0,
         zIndex: 999,
-        background: palette[2],
+        background: palette[1],
       }}
     >
       {!isMobile && (
