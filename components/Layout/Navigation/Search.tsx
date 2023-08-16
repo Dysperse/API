@@ -466,6 +466,7 @@ const Spotlight = React.memo(function Spotlight() {
           variant="standard"
           sx={{ mb: 2 }}
           InputProps={{
+            autoComplete: "off",
             disableUnderline: true,
             sx: {
               px: 2,
