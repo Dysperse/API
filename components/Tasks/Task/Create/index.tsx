@@ -32,6 +32,7 @@ import {
   useState,
 } from "react";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import SelectDateModal from "../DatePicker";
 import ChipBar from "./ChipBar";
 
@@ -190,6 +191,39 @@ export function CreateTask({
     ]
   );
 
+  useHotkeys("alt+a", () => document.getElementById("pinTrigger")?.click(), []);
+  useHotkeys(
+    "alt+e",
+    () => document.getElementById("emojiTrigger")?.click(),
+    []
+  );
+  useHotkeys(
+    "alt+w",
+    () => document.getElementById("fileTrigger")?.click(),
+    []
+  );
+
+  useHotkeys(
+    "alt+l",
+    () => document.getElementById("locationTrigger")?.click(),
+    []
+  );
+  useHotkeys(
+    "alt+d",
+    () => document.getElementById("descriptionTrigger")?.click(),
+    []
+  );
+  useHotkeys(
+    "alt+w",
+    () => document.getElementById("fileTrigger")?.click(),
+    []
+  );
+  useHotkeys(
+    "alt+s",
+    () => document.getElementById("dateTrigger")?.click(),
+    []
+  );
+
   return (
     <>
       {trigger}
@@ -329,6 +363,7 @@ export function CreateTask({
             }}
           >
             <IconButton
+              id="pinTrigger"
               size="small"
               sx={{ ...styles.button(formData.pinned), ml: -0.5 }}
               onClick={() => {
@@ -351,6 +386,7 @@ export function CreateTask({
               useNativeEmoji
             >
               <IconButton
+                id="emojiTrigger"
                 size="small"
                 sx={{
                   ...styles.button(false),
@@ -361,6 +397,7 @@ export function CreateTask({
               </IconButton>
             </EmojiPicker>
             <IconButton
+              id="locationTrigger"
               size="small"
               sx={styles.button(showedFields.location)}
               onClick={(e) => {
@@ -371,6 +408,7 @@ export function CreateTask({
               <Icon>location_on</Icon>
             </IconButton>
             <IconButton
+              id="descriptionTrigger"
               size="small"
               sx={styles.button(showedFields.description)}
               onClick={() => {
@@ -390,7 +428,11 @@ export function CreateTask({
               }}
               onUploadStart={() => {}}
             >
-              <IconButton size="small" sx={styles.button(formData.image)}>
+              <IconButton
+                size="small"
+                sx={styles.button(formData.image)}
+                id="fileTrigger"
+              >
                 <Icon>attach_file</Icon>
               </IconButton>
             </FileDropInput>
@@ -429,6 +471,7 @@ export function CreateTask({
                     >
                       <Button
                         disableRipple
+                        id="dateTrigger"
                         variant={!formData.date ? undefined : "contained"}
                         sx={{ px: 2, minWidth: "unset" }}
                       >
