@@ -72,6 +72,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
                       .set("hour", parseInt(hours))
                       .set("minute", roundedMinutes)
                   );
+                  setTimeOpen(false);
                 }}
                 variant="contained"
               >
