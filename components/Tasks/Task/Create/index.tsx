@@ -194,33 +194,57 @@ export function CreateTask({
   useHotkeys("alt+a", () => document.getElementById("pinTrigger")?.click(), []);
   useHotkeys(
     "alt+e",
-    () => document.getElementById("emojiTrigger")?.click(),
+    (e) => {
+      e.preventDefault();
+      document.getElementById("emojiTrigger")?.click();
+    },
+    { enableOnFormTags: true },
     []
   );
   useHotkeys(
     "alt+w",
-    () => document.getElementById("fileTrigger")?.click(),
+    (e) => {
+      e.preventDefault();
+      document.getElementById("fileTrigger")?.click();
+    },
+    { enableOnFormTags: true },
     []
   );
 
   useHotkeys(
     "alt+l",
-    () => document.getElementById("locationTrigger")?.click(),
+    (e) => {
+      e.preventDefault();
+      document.getElementById("locationTrigger")?.click();
+    },
+    { enableOnFormTags: true },
     []
   );
   useHotkeys(
     "alt+d",
-    () => document.getElementById("descriptionTrigger")?.click(),
+    (e) => {
+      e.preventDefault();
+      document.getElementById("descriptionTrigger")?.click();
+    },
+    { enableOnFormTags: true },
     []
   );
   useHotkeys(
     "alt+w",
-    () => document.getElementById("fileTrigger")?.click(),
+    (e) => {
+      e.preventDefault();
+      document.getElementById("fileTrigger")?.click();
+    },
+    { enableOnFormTags: true },
     []
   );
   useHotkeys(
     "alt+s",
-    () => document.getElementById("dateTrigger")?.click(),
+    (e) => {
+      e.preventDefault();
+      document.getElementById("dateTrigger")?.click();
+    },
+    { enableOnFormTags: true },
     []
   );
 
