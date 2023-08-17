@@ -3,7 +3,7 @@
   "name": "Dysperse",
   "start_url": "/",
   "scope": "/",
-  "background_color": "#17151f",
+  "background_color": "#342a58",
   "description": "The next standard in productivity",
   "dir": "ltr",
   "lang": "en-US",
@@ -11,7 +11,7 @@
   "orientation": "portrait",
   "short_name": "Dysperse",
   "handle_links": "preferred",
-  "theme_color": "#17151f",
+  "theme_color": "#342a58",
   "prefer_related_applications": true,
   "launch_handler": {
     "client_mode": "navigate-existing"
