@@ -8,6 +8,7 @@ import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
+import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   Box,
@@ -65,6 +66,7 @@ export function StatusSelector({
       : ""
   );
   const [time, setTime] = useState(60);
+  const [loading, setLoading] = useState(false);
 
   const handleStatusSelect = useCallback(
     (status: string) => () => setStatus(status),
@@ -76,6 +78,7 @@ export function StatusSelector({
   );
 
   const handleSubmit = useCallback(async () => {
+    setLoading(true);
     await fetchRawApi(session, "user/status/set", {
       status,
       start: new Date().toISOString(),
@@ -90,7 +93,8 @@ export function StatusSelector({
     );
     mutate(url);
     mutate(mutationUrl);
-  }, [session, status, time, url, mutationUrl, profile]);
+    setLoading(false);
+  }, [session, status, time, url, mutationUrl, profile, setLoading]);
 
   const resetStatus = useCallback(
     () =>
@@ -124,7 +128,8 @@ export function StatusSelector({
 
   const trigger = cloneElement(
     children || (
-      <Button
+      <LoadingButton
+        loading={loading}
         sx={{
           px: 2,
           "&, &:hover": {
@@ -145,7 +150,7 @@ export function StatusSelector({
             : "circle"}
         </Icon>
         {status ? capitalizeFirstLetter(status) : "Set status"}
-      </Button>
+      </LoadingButton>
     ),
     {
       onClick: () => setOpen(true),
@@ -200,7 +205,8 @@ export function StatusSelector({
             ))}
           </Box>
           <Box sx={{ px: 2 }}>
-            <Button
+            <LoadingButton
+              loading={loading}
               onClick={handleSubmit}
               sx={{ px: 2, mb: 2, mx: "auto", mt: 2 }}
               variant="contained"
@@ -209,7 +215,7 @@ export function StatusSelector({
               disabled={!status || !time}
             >
               Done
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </SwipeableDrawer>
