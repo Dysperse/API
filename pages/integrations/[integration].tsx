@@ -147,7 +147,7 @@ function Layout() {
               <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
                 <motion.div initial={{ x: -100 }} animate={{ x: 5 }}>
                   <Avatar
-                    src={"https://assets.dysperse.com/v7-ios/57.png"}
+                    src={"https://assets.dysperse.com/v8-ios/57.png"}
                     sx={{ width: "75px", height: "75px" }}
                   />
                 </motion.div>

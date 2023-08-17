@@ -68,7 +68,7 @@ const Notification = async (req, res) => {
       res.json({ wait: true });
       return;
     }
-    
+
     const currentRoutine = RoutineItem.find(
       (routine: RoutineItem) =>
         routine.timeOfDay + 1 === currentTimeInUserTimeZone
@@ -92,7 +92,7 @@ const Notification = async (req, res) => {
 
         await DispatchNotification({
           title: currentRoutine.stepName.trim(),
-          icon: "https://assets.dysperse.com/v7/ios/192.png",
+          icon: "https://assets.dysperse.com/v8/ios/192.png",
           body: random,
           actions: [
             {

@@ -132,7 +132,7 @@ export default function App({
             <meta name="theme-color" content={palette[1]} />
             <link
               rel="shortcut icon"
-              href="https://assets.dysperse.com/v7/android/android-launchericon-48-48.png"
+              href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"
             />
           </Head>
           <Analytics />

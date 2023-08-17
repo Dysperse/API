@@ -16,7 +16,7 @@ export const DispatchNotification = async ({
   title,
   body,
   actions,
-  icon = "https://assets.dysperse.com/v7/ios/192.png",
+  icon = "https://assets.dysperse.com/v8/ios/192.png",
 }: Dysperse.Notification) => {
   try {
     webPush.setVapidDetails(

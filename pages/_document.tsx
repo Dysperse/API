@@ -78,7 +78,7 @@ export default function Document() {
             key={size}
             rel="apple-touch-icon"
             sizes={`${size}x${size}`}
-            href={`https://assets.dysperse.com/v7-ios/${size}.png`}
+            href={`https://assets.dysperse.com/v8-ios/${size}.png`}
           />
         ))}
         <link href="/manifest.json" rel="manifest" />
