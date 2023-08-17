@@ -324,9 +324,15 @@ export function CreateTask({
                 <MemoizedTextField
                   multiline
                   placeholder="Note"
+                  onClick={(e) => e.stopPropagation()}
                   variant="standard"
                   inputRef={descriptionRef}
                   name="description"
+                  onKeyDown={(e) => {
+                    if (e.code === "Enter" && !e.shiftKey) {
+                      handleSubmit(e);
+                    }
+                  }}
                   value={formData.description}
                   onChange={handleInputChange}
                   InputProps={{
@@ -350,7 +356,13 @@ export function CreateTask({
                 <MemoizedTextField
                   placeholder="Meeting URL or location"
                   variant="standard"
+                  onClick={(e) => e.stopPropagation()}
                   name="location"
+                  onKeyDown={(e) => {
+                    if (e.code === "Enter") {
+                      handleSubmit(e);
+                    }
+                  }}
                   inputRef={locationRef}
                   value={formData.location}
                   onChange={handleInputChange}
