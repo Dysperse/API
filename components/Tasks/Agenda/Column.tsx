@@ -21,6 +21,7 @@ import React, {
   memo,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -273,6 +274,12 @@ const Column = React.memo(function Column({
 
   const isToday = dayjs(column).isSame(dayjs().startOf(columnMap), type);
   const isPast = dayjs(column).isBefore(dayjs().startOf(columnMap), type);
+
+  // stupid virtuoso bug
+  const [rerender, setRerender] = useState(false);
+  useEffect(() => {
+    if (!isMobile) setRerender(true);
+  }, [isMobile]);
 
   /**
    * Sort the tasks in a "[pinned, incompleted, completed]" order
