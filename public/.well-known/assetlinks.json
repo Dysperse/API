@@ -1,10 +1,8 @@
 [{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.dysperse.my.twa",
-    "sha256_cert_fingerprints": [
-      "08:95:C7:74:1A:A0:80:91:D5:3A:9B:6C:6B:2F:68:9B:20:D9:09:C1:6D:54:53:E9:8B:C5:1E:30:19:B9:E8:3F"
-    ]
-  }
-}]
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.dysperse.my.twa",
+        "sha256_cert_fingerprints": ["6F:D7:7E:81:37:5A:03:F3:34:FE:6A:9F:2B:38:62:0E:F6:FA:9F:10:4D:8A:4B:60:1E:40:9E:E1:D9:84:64:97"]
+      }
+    }]
