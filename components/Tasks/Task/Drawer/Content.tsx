@@ -370,7 +370,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 label={
                   task.due
                     ? dayjs(task.due).format("MMMM D, YYYY [at] h:mm A")
-                    : "Set date"
+                    : "Tap to set date"
                 }
                 disabled={shouldDisable}
               />
