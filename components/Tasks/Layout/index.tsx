@@ -28,7 +28,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
@@ -749,41 +748,85 @@ export function TasksLayout({
         </Toolbar>
       </AppBar>
       {isMobile && (
-        <motion.div
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.5 }}
+        <AppBar
+          sx={{
+            ...taskStyles(palette).appBar,
+            ...(isSelecting && {
+              opacity: 0,
+              transform: "scale(.5)",
+              pointerEvents: "none",
+            }),
+            ...(router.asPath.includes("/edit/") && {
+              display: "none",
+            }),
+          }}
         >
-          <AppBar
-            sx={{
-              ...taskStyles(palette).appBar,
-              ...(isSelecting && {
-                opacity: 0,
-                transform: "scale(.5)",
-                pointerEvents: "none",
-              }),
-              ...(router.asPath.includes("/edit/") && {
-                display: "none",
-              }),
-            }}
-          >
-            <Toolbar sx={{ mt: { sm: -0.5 } }}>
-              {!isSearch && trigger}
-              {isSearch ? <></> : <SearchTasks setOpen={setOpen} />}
-              {isSearch && (
-                <TextField
-                  variant="outlined"
-                  placeholder="Search tasks..."
-                  defaultValue={router.query.query}
-                  size="small"
-                  InputProps={{
-                    sx: { borderRadius: 99 },
-                  }}
-                  sx={{ mr: 1 }}
-                  inputRef={searchRef}
-                />
-              )}
-              {isBoard || isSearch ? (
+          <Toolbar sx={{ mt: { sm: -0.5 } }}>
+            {!isSearch && trigger}
+            {isSearch ? <></> : <SearchTasks setOpen={setOpen} />}
+            {isSearch && (
+              <TextField
+                variant="outlined"
+                placeholder="Search tasks..."
+                defaultValue={router.query.query}
+                size="small"
+                InputProps={{
+                  sx: { borderRadius: 99 },
+                }}
+                sx={{ mr: 1 }}
+                inputRef={searchRef}
+              />
+            )}
+            {isBoard || isSearch ? (
+              <IconButton
+                sx={{
+                  color: palette[8],
+                  background: addHslAlpha(palette[3], 0.5),
+                  "&:active": {
+                    transform: "scale(0.9)",
+                  },
+                  transition: "all .2s",
+                }}
+                onClick={() => {
+                  if (isSearch) {
+                    router.push(
+                      `/tasks/search/${encodeURIComponent(
+                        searchRef.current?.value
+                      )}`
+                    );
+                  } else {
+                    document.getElementById("boardInfoTrigger")?.click();
+                  }
+                }}
+              >
+                <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
+                  {isSearch ? "search" : "more_horiz"}
+                </Icon>
+              </IconButton>
+            ) : isAgenda ? (
+              <IconButton
+                sx={{
+                  color: palette[8],
+                  background: addHslAlpha(palette[3], 0.5),
+                  "&:active": {
+                    transform: "scale(0.9)",
+                  },
+                  fontSize: "15px",
+                  borderRadius: 999,
+                  transition: "all .2s",
+                }}
+                onClick={() => document.getElementById("agendaToday")?.click()}
+              >
+                Today
+              </IconButton>
+            ) : (
+              <CreateTask
+                closeOnCreate
+                defaultDate={dayjs().startOf("day").toDate()}
+                onSuccess={() => {
+                  document.getElementById("taskMutationTrigger")?.click();
+                }}
+              >
                 <IconButton
                   sx={{
                     color: palette[8],
@@ -793,49 +836,15 @@ export function TasksLayout({
                     },
                     transition: "all .2s",
                   }}
-                  onClick={() => {
-                    if (isSearch) {
-                      router.push(
-                        `/tasks/search/${encodeURIComponent(
-                          searchRef.current?.value
-                        )}`
-                      );
-                    } else {
-                      document.getElementById("boardInfoTrigger")?.click();
-                    }
-                  }}
                 >
                   <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                    {isSearch ? "search" : "more_horiz"}
+                    add
                   </Icon>
                 </IconButton>
-              ) : (
-                <CreateTask
-                  closeOnCreate
-                  defaultDate={dayjs().startOf("day").toDate()}
-                  onSuccess={() => {
-                    document.getElementById("taskMutationTrigger")?.click();
-                  }}
-                >
-                  <IconButton
-                    sx={{
-                      color: palette[8],
-                      background: addHslAlpha(palette[3], 0.5),
-                      "&:active": {
-                        transform: "scale(0.9)",
-                      },
-                      transition: "all .2s",
-                    }}
-                  >
-                    <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                      add{" "}
-                    </Icon>
-                  </IconButton>
-                </CreateTask>
-              )}
-            </Toolbar>
-          </AppBar>
-        </motion.div>
+              </CreateTask>
+            )}
+          </Toolbar>
+        </AppBar>
       )}
       {isMobile && !isAgenda && !router.asPath.includes("/edit/") && (
         <Box sx={{ height: "65px" }} />

@@ -7,16 +7,24 @@ import {
   Button,
   Divider,
   Icon,
+  IconButton,
   LinearProgress,
   Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { green } from "@mui/material/colors";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Virtuoso } from "react-virtuoso";
 import { mutate } from "swr";
 import { AgendaContext } from ".";
@@ -24,6 +32,203 @@ import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
 import SelectDateModal from "../Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
+
+const Header = memo(function Header({
+  type,
+  subheading,
+  url,
+  column,
+  isToday,
+  tasksLeft,
+  isPast,
+  sortedTasks,
+  heading,
+  columnEnd,
+  handleMutate,
+}: any) {
+  const session = useSession();
+  const router = useRouter();
+  const isDark = useDarkMode(session.darkMode);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const palette = useColor(session.themeColor, isDark);
+
+  console.log("Header component re-rendered!");
+
+  return (
+    <Box
+      sx={{
+        pt: isMobile ? "65px" : 0,
+        backdropFilter: { sm: "blur(20px)" },
+        position: { sm: "sticky" },
+        top: 0,
+        left: 0,
+        background: { sm: addHslAlpha(palette[1], 0.7) },
+        zIndex: 99,
+      }}
+    >
+      <motion.div
+        key="header"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <Box
+          sx={{
+            p: { xs: 2, sm: 3 },
+            pt: { xs: 4 },
+            maxWidth: "100vw",
+            mb: { xs: 0, sm: 2 },
+            borderBottom: { sm: "1.5px solid" },
+            borderColor: { sm: addHslAlpha(palette[3], 0.9) },
+            height: "auto",
+          }}
+          id="taskMutationTrigger"
+          onClick={handleMutate}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconButton
+              sx={{ color: palette[8] }}
+              onClick={(e) => {
+                e.stopPropagation();
+                document.getElementById("agendaPrev")?.click();
+              }}
+            >
+              <Icon className="outlined">arrow_back_ios_new</Icon>
+            </IconButton>
+            <SelectDateModal
+              date={dayjs(column).toDate()}
+              setDate={(date) => {
+                setTimeout(() => {
+                  router.push(
+                    "/tasks/agenda/days/" + dayjs(date).format("YYYY-MM-DD")
+                  );
+                }, 500);
+              }}
+              dateOnly
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  mx: "auto",
+                  justifyContent: "cneter",
+                  gap: 2,
+                  maxWidth: "100%",
+                  overflow: "hidden",
+                  minWidth: 0,
+                }}
+              >
+                <Typography
+                  variant="h5"
+                  sx={{
+                    ...(isToday
+                      ? {
+                          color: "#000!important",
+                          background: `linear-gradient(${palette[7]}, ${palette[9]})`,
+                          px: 0.5,
+                        }
+                      : {
+                          background: `linear-gradient(${palette[4]}, ${palette[4]})`,
+                          px: 0.5,
+                        }),
+                    borderRadius: 1,
+                    width: "auto",
+                    display: "inline-flex",
+                    flexShrink: 0,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    ...(isPast && { opacity: 0.5 }),
+                  }}
+                >
+                  {dayjs(column).format(heading)}
+                </Typography>
+
+                <Typography
+                  variant="h5"
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <Tooltip
+                    placement="bottom-start"
+                    title={
+                      <Typography>
+                        <Typography sx={{ fontWeight: 700 }}>
+                          {isToday
+                            ? "Today"
+                            : capitalizeFirstLetter(dayjs(column).fromNow())}
+                        </Typography>
+                        <Typography variant="body2">
+                          {dayjs(column).format("dddd, MMMM D, YYYY")}
+                        </Typography>
+                      </Typography>
+                    }
+                  >
+                    <span
+                      style={{
+                        ...(isPast && {
+                          textDecoration: "line-through",
+                          ...(isPast && { opacity: 0.5 }),
+                        }),
+                      }}
+                    >
+                      {dayjs(column).format(subheading)}
+                      {type === "weeks" &&
+                        " - " + dayjs(columnEnd).format("DD")}
+                    </span>
+                  </Tooltip>
+                </Typography>
+              </Box>
+            </SelectDateModal>
+            <IconButton
+              sx={{ color: palette[8] }}
+              onClick={(e) => {
+                e.stopPropagation();
+                document.getElementById("agendaNext")?.click();
+              }}
+            >
+              <Icon className="outlined">arrow_forward_ios</Icon>
+            </IconButton>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            px: 3,
+            mb: 2,
+            justifyContent: "center",
+          }}
+        >
+          {session.permission !== "read-only" && (
+            <CreateTask
+              onSuccess={() => mutate(url)}
+              defaultDate={dayjs(column).startOf(type).toDate()}
+            >
+              <Button variant="contained" fullWidth>
+                <Icon>add_circle</Icon>
+                New task
+              </Button>
+            </CreateTask>
+          )}
+          <ColumnMenu tasksLeft={tasksLeft} data={sortedTasks} day={column}>
+            <Button variant="outlined" size="small">
+              <Icon>more_horiz</Icon>
+            </Button>
+          </ColumnMenu>
+        </Box>
+      </motion.div>
+    </Box>
+  );
+});
 
 const Column = React.memo(function Column({
   column,
@@ -45,9 +250,9 @@ const Column = React.memo(function Column({
   const [isScrolling, setIsScrolling] = useState(false);
 
   const heading = {
-    days: "dddd",
-    weeks: "[Week #]W",
-    months: "MMMM",
+    days: "DD",
+    weeks: "#W",
+    months: "YYYY",
   }[type];
 
   const columnMap = {
@@ -57,9 +262,9 @@ const Column = React.memo(function Column({
   }[type];
 
   const subheading = {
-    days: "MMMM D",
-    weeks: "MMMM D",
-    months: "YYYY",
+    days: "dddd",
+    weeks: "D",
+    months: "MMM",
   }[type];
 
   const isToday = dayjs(column).isSame(dayjs().startOf(columnMap), type);
@@ -91,145 +296,15 @@ const Column = React.memo(function Column({
     () => sortedTasks.filter((task) => task.completed),
     [sortedTasks]
   );
+
   const tasksLeft = sortedTasks.length - completedTasks.length;
   const [loading, setLoading] = useState(false);
 
-  // stupid virtuoso bug where it only renders 1st set of items and scroll doesn't work on desktop!?
-  const [shouldRenderVirtuo, setShouldRenderVirtuoso] = useState(false);
-
-  // Use the useEffect hook to set the state variable after the initial render
-  useEffect(() => {
-    setShouldRenderVirtuoso(true);
-  }, []);
-
-  const header = (
-    <Box
-      sx={{
-        pt: isMobile ? "65px" : 0,
-        backdropFilter: { sm: "blur(20px)" },
-        position: { sm: "sticky" },
-        top: 0,
-        left: 0,
-        background: { sm: addHslAlpha(palette[1], 0.7) },
-        zIndex: 99,
-      }}
-    >
-      <Box
-        sx={{
-          p: 3,
-          borderBottom: { sm: "1.5px solid" },
-          borderColor: { sm: addHslAlpha(palette[3], 0.9) },
-          height: { xs: "140px", sm: "120px" },
-        }}
-        id="taskMutationTrigger"
-        onClick={async () => {
-          setLoading(true);
-          await mutate(url);
-          setLoading(false);
-        }}
-      >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography
-            variant="h4"
-            className="font-heading"
-            sx={{
-              fontSize: {
-                xs: "55px",
-                sm: "35px",
-              },
-              ...(isToday && {
-                color: "#000!important",
-                background: `linear-gradient(${palette[7]}, ${palette[9]})`,
-                px: 0.5,
-                ml: -0.5,
-              }),
-
-              borderRadius: 1,
-              width: "auto",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              ...(isPast && { opacity: 0.5 }),
-              mb: 0.7,
-            }}
-          >
-            {dayjs(column).format(heading)}
-          </Typography>
-          <ColumnMenu tasksLeft={tasksLeft} data={sortedTasks} day={column} />
-        </Box>
-
-        <Typography
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            fontSize: "17px",
-          }}
-        >
-          <SelectDateModal
-            date={dayjs(column).toDate()}
-            setDate={(date) => {
-              setTimeout(() => {
-                router.push(
-                  "/tasks/agenda/days/" + dayjs(date).format("YYYY-MM-DD")
-                );
-              }, 500);
-            }}
-            dateOnly
-          >
-            <Tooltip
-              placement="bottom-start"
-              title={
-                <Typography>
-                  <Typography sx={{ fontWeight: 700 }}>
-                    {isToday
-                      ? "Today"
-                      : capitalizeFirstLetter(dayjs(column).fromNow())}
-                  </Typography>
-                  <Typography variant="body2">
-                    {dayjs(column).format("dddd, MMMM D, YYYY")}
-                  </Typography>
-                </Typography>
-              }
-            >
-              <span
-                style={{
-                  ...(isPast && {
-                    textDecoration: "line-through",
-                    ...(isPast && { opacity: 0.5 }),
-                  }),
-                }}
-              >
-                {dayjs(column).format(subheading)}
-                {type === "weeks" && " - " + dayjs(columnEnd).format("DD")}
-              </span>
-            </Tooltip>
-          </SelectDateModal>
-          <Typography
-            variant="body2"
-            sx={{
-              ml: "auto",
-              opacity: data.length === 0 ? 0 : tasksLeft === 0 ? 1 : 0.6,
-            }}
-          >
-            {tasksLeft !== 0 ? (
-              <>
-                {tasksLeft} {isPast ? "unfinished" : "left"}
-              </>
-            ) : (
-              <Icon
-                sx={{
-                  color: green[isDark ? "A700" : "800"],
-                }}
-                className="outlined"
-              >
-                check_circle
-              </Icon>
-            )}
-          </Typography>
-        </Typography>
-      </Box>
-    </Box>
-  );
+  const handleMutate = useCallback(async () => {
+    setLoading(true);
+    await mutate(url);
+    setLoading(false);
+  }, [url]);
 
   return (
     <Box
@@ -270,32 +345,20 @@ const Column = React.memo(function Column({
           }}
         />
       )}
-      {header}
-      <Box sx={{ p: 2, py: 1 }}>
-        {session.permission !== "read-only" && (
-          <CreateTask
-            onSuccess={() => mutate(url)}
-            defaultDate={dayjs(column).startOf(type).toDate()}
-          >
-            <Button variant="contained" fullWidth>
-              <Icon>add_circle</Icon>
-              New task
-            </Button>
-          </CreateTask>
-        )}
-        {type === "days" && isToday && (
-          <Button
-            onClick={() => router.push("/coach/routine")}
-            variant="outlined"
-            sx={{ mt: 1, borderWidth: "2px!important" }}
-            fullWidth
-            size="small"
-          >
-            <Icon>data_usage</Icon>
-            Today&apos;s routine
-          </Button>
-        )}
-      </Box>
+      <Header
+        handleMutate={handleMutate}
+        type={type}
+        subheading={subheading}
+        url={url}
+        column={column}
+        isToday={isToday}
+        tasksLeft={tasksLeft}
+        loading={loading}
+        isPast={isPast}
+        sortedTasks={sortedTasks}
+        heading={heading}
+        columnEnd={columnEnd}
+      />
       <Box sx={{ px: { sm: 1 }, height: { sm: "100%" } }}>
         {sortedTasks.filter((task) => !task.completed).length === 0 && (
           <Box
@@ -339,7 +402,7 @@ const Column = React.memo(function Column({
         <Virtuoso
           useWindowScroll
           isScrolling={setIsScrolling}
-          customScrollParent={scrollParentRef.current}
+          {...(!isMobile && { customScrollParent: scrollParentRef.current })}
           data={sortedTasks}
           itemContent={(_, task) => (
             <Task

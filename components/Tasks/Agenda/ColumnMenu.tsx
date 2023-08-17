@@ -1,7 +1,7 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Icon, IconButton, Menu, MenuItem } from "@mui/material";
-import React, { useContext, useState } from "react";
+import { Icon, Menu, MenuItem } from "@mui/material";
+import React, { cloneElement, useContext, useState } from "react";
 import { SelectionContext } from "../Layout";
 import { ShareProgress } from "./ShareProgress";
 
@@ -17,33 +17,29 @@ export const ColumnMenu = React.memo(function ColumnMenu({
   day,
   tasksLeft,
   data,
+  children,
 }: any) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const selection = useContext(SelectionContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const open = Boolean(anchorEl);
+  
   const handleClick = (event: any) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => setAnchorEl(null);
+
+  const trigger = cloneElement(children, {
+    onClick: handleClick,
+  });
 
   return (
     <>
-      <IconButton
-        onClick={handleClick}
-        sx={{
-          ml: "auto",
-          color: palette[9],
-          mr: -1,
-          ...(open && { background: palette[2] }),
-        }}
-      >
-        <Icon className="outlined">more_horiz</Icon>
-      </IconButton>
+      {trigger}
       <Menu
         anchorEl={anchorEl}
         open={open}

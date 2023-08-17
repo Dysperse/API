@@ -69,7 +69,7 @@ export function useApi(
   let session = useSession() || { property: "", user: "" };
   const { property, current, user } = session;
 
-  const { url } = useMemo(
+  const memoizedInfo = useMemo(
     () =>
       getInfo(
         path,
@@ -81,6 +81,8 @@ export function useApi(
       ),
     [path, initialParams, property, user, removeDefaultParams, current]
   );
+
+  const { url } = memoizedInfo;
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, error } = useSWR(url, fetcher);

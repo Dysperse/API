@@ -1,4 +1,3 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -303,7 +302,7 @@ export function Agenda({ type, date }) {
             height: "100%",
           }}
         >
-          {data ? (
+          {data && columns?.length > 0 ? (
             columns.map((column: any) => (
               <Column key={column} column={column} data={data} view={view} />
             ))
@@ -312,64 +311,6 @@ export function Agenda({ type, date }) {
           )}
         </Box>
       </Box>
-      {isMobile && (
-        <Box
-          sx={{
-            position: "fixed",
-            bottom: {
-              xs: "70px",
-              md: "30px",
-            },
-            ".hideBottomNav &": {
-              bottom: {
-                xs: "30px",
-                md: "30px",
-              },
-            },
-            opacity: 1,
-            mr: {
-              xs: 1.5,
-              md: 3,
-            },
-            zIndex: 9,
-            background: addHslAlpha(palette[3], 0.5),
-            border: "1px solid",
-            transition: "transform .2s, opacity .2s, bottom .3s",
-            backdropFilter: "blur(10px)",
-            borderRadius: 999,
-            borderColor: addHslAlpha(palette[3], 0.5),
-            right: "0",
-            color: isDark ? "#fff" : "#000",
-            display: "flex",
-            alignItems: "center",
-            p: 0.5,
-          }}
-        >
-          <IconButton
-            sx={{ color: palette[8] }}
-            onClick={() => document.getElementById("agendaPrev")?.click()}
-          >
-            <Icon className="outlined">arrow_back_ios_new</Icon>
-          </IconButton>
-          <Button
-            id="agendaToday"
-            onClick={() => document.getElementById("agendaToday")?.click()}
-            disabled={
-              dayjs(start) <= dayjs() && dayjs() <= dayjs(end) ? true : false
-            }
-            size="large"
-            sx={{ px: 0 }}
-          >
-            Today
-          </Button>
-          <IconButton
-            sx={{ color: palette[8] }}
-            onClick={() => document.getElementById("agendaNext")?.click()}
-          >
-            <Icon className="outlined">arrow_forward_ios</Icon>
-          </IconButton>
-        </Box>
-      )}
     </AgendaContext.Provider>
   );
 }
