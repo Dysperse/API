@@ -20,6 +20,7 @@ const handler = async (req, res) => {
             data: board.columns.map((column) => ({
               name: column.name,
               emoji: column.emoji,
+              order: column.order,
             })),
           },
         },
