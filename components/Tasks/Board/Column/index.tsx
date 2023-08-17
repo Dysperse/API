@@ -434,7 +434,7 @@ export function Column({
             </Box>
           </Box>
         </Box>
-        <Box sx={{ p: 2, mb: { xs: 15, sm: 0 } }}>
+        <Box sx={{ p: { xs: 0, sm: 2 }, mb: { xs: 15, sm: 0 } }}>
           <CreateTask
             onSuccess={() => mutate(mutationUrls.tasks)}
             defaultDate={null}
@@ -443,14 +443,16 @@ export function Column({
               columnId: column.id,
             }}
           >
-            <Button
-              variant="contained"
-              fullWidth
-              sx={{ mb: 1 }}
-              disabled={permissions === "read"}
-            >
-              <Icon>add_circle</Icon>List item
-            </Button>
+            <Box sx={{ px: { xs: 2, sm: 0 } }}>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 1 }}
+                disabled={permissions === "read"}
+              >
+                <Icon>add_circle</Icon>List item
+              </Button>
+            </Box>
           </CreateTask>
           {columnTasks.filter((task) => !task.completed).length === 0 && (
             <Box sx={{ py: 1 }}>
