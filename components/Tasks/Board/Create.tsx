@@ -182,7 +182,10 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
             onClick={() => {
               setLoading(true);
               fetchRawApi(session, "property/boards/create", {
-                board: JSON.stringify(template),
+                board: JSON.stringify({
+                  ...template,
+                  columns: template.columns.map((c, o) => ({ ...c, order: o })),
+                }),
               }).then(async (res) => {
                 await mutate(mutationUrl);
                 if (onboarding) {
