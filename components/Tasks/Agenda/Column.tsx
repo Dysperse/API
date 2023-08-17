@@ -92,15 +92,17 @@ const Header = memo(function Header({
               justifyContent: "center",
             }}
           >
-            <IconButton
-              sx={{ color: palette[8] }}
-              onClick={(e) => {
-                e.stopPropagation();
-                document.getElementById("agendaPrev")?.click();
-              }}
-            >
-              <Icon className="outlined">arrow_back_ios_new</Icon>
-            </IconButton>
+            {isMobile && (
+              <IconButton
+                sx={{ color: palette[8] }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  document.getElementById("agendaPrev")?.click();
+                }}
+              >
+                <Icon className="outlined">arrow_back_ios_new</Icon>
+              </IconButton>
+            )}
             <SelectDateModal
               date={dayjs(column).toDate()}
               setDate={(date) => {
@@ -188,15 +190,17 @@ const Header = memo(function Header({
                 </Typography>
               </Box>
             </SelectDateModal>
-            <IconButton
-              sx={{ color: palette[8] }}
-              onClick={(e) => {
-                e.stopPropagation();
-                document.getElementById("agendaNext")?.click();
-              }}
-            >
-              <Icon className="outlined">arrow_forward_ios</Icon>
-            </IconButton>
+            {isMobile && (
+              <IconButton
+                sx={{ color: palette[8] }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  document.getElementById("agendaNext")?.click();
+                }}
+              >
+                <Icon className="outlined">arrow_forward_ios</Icon>
+              </IconButton>
+            )}
           </Box>
         </Box>
         <Box

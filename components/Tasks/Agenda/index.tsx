@@ -191,15 +191,15 @@ export function Agenda({ type, date }) {
                 background: `linear-gradient(45deg, ${palette[6]}, ${palette[9]})`,
                 "&:hover": {
                   boxShadow: `0 0 25px 1px ${palette[8]}`,
-                  background: `linear-gradient(45deg, ${palette[9]}, ${palette[8]})`,
+                  background: `linear-gradient(45deg, ${palette[11]}, ${palette[9]})`,
                 },
                 "&:active": {
                   transform: "scale(.95)",
                 },
                 transition: "transform .2s",
                 display: "flex",
-                width: "145px",
-                height: "45px",
+                width: "146px",
+                height: "46px",
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: 999,
