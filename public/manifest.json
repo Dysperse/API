@@ -31,212 +31,219 @@
   "screenshots": [
     {
       "src": "/screenshots/1.png",
-      "sizes": "1080x1920",
+      "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
       "label": "Dysperse is a radically different, unified productivity platform"
     },
     {
       "src": "/screenshots/2.png",
-      "sizes": "1080x1920",
+      "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Schedule anything: With Agenda"
+      "label": "Agenda"
     },
     {
       "src": "/screenshots/3.png",
-      "sizes": "1080x1920",
+      "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Plan visually: With Boards"
+      "label": "Boards"
     },
     {
       "src": "/screenshots/4.png",
-      "sizes": "1080x1920",
+      "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Achieve more: With Coach"
+      "label": "Coach"
     },
     {
       "src": "/screenshots/5.png",
-      "sizes": "1080x1920",
+      "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Scan and track: With Inventory"
+      "label": "Inventory"
     },
     {
       "src": "/screenshots/6.png",
-      "sizes": "1080x1920",
+      "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Understand yourself: With Mood Tracking"
+      "label": "Profiles"
     },
     {
       "src": "/screenshots/7.png",
-      "sizes": "1080x1920",
+      "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
-      "label": "Meet your absolute productivity weapon: With Dysperse AI"
+      "label": "More features you'll love"
+    },
+    {
+      "src": "/screenshots/8.png",
+      "sizes": "1485x2640",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Join now!"
     }
   ],
   "icons": [
     {
-      "src": "https://assets.dysperse.com/v7/android/android-launchericon-512-512.png",
+      "src": "https://assets.dysperse.com/v8/android/android-launchericon-512-512.png",
       "sizes": "512x512",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/android/android-launchericon-192-192.png",
+      "src": "https://assets.dysperse.com/v8/android/android-launchericon-192-192.png",
       "sizes": "192x192",
       "purpose": "any"
     },
     {
-      "src": "https://assets.dysperse.com/v7/android/android-launchericon-144-144.png",
+      "src": "https://assets.dysperse.com/v8/android/android-launchericon-144-144.png",
       "sizes": "144x144",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/android/android-launchericon-96-96.png",
+      "src": "https://assets.dysperse.com/v8/android/android-launchericon-96-96.png",
       "sizes": "96x96",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/android/android-launchericon-72-72.png",
+      "src": "https://assets.dysperse.com/v8/android/android-launchericon-72-72.png",
       "sizes": "72x72",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/android/android-launchericon-48-48.png",
+      "src": "https://assets.dysperse.com/v8/android/android-launchericon-48-48.png",
       "sizes": "48x48",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/16.png",
+      "src": "https://assets.dysperse.com/v8/ios/16.png",
       "sizes": "16x16",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/20.png",
+      "src": "https://assets.dysperse.com/v8/ios/20.png",
       "sizes": "20x20",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/29.png",
+      "src": "https://assets.dysperse.com/v8/ios/29.png",
       "sizes": "29x29",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/32.png",
+      "src": "https://assets.dysperse.com/v8/ios/32.png",
       "sizes": "32x32",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/40.png",
+      "src": "https://assets.dysperse.com/v8/ios/40.png",
       "sizes": "40x40",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/50.png",
+      "src": "https://assets.dysperse.com/v8/ios/50.png",
       "sizes": "50x50",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/57.png",
+      "src": "https://assets.dysperse.com/v8/ios/57.png",
       "sizes": "57x57",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/58.png",
+      "src": "https://assets.dysperse.com/v8/ios/58.png",
       "sizes": "58x58",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/60.png",
+      "src": "https://assets.dysperse.com/v8/ios/60.png",
       "sizes": "60x60",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/64.png",
+      "src": "https://assets.dysperse.com/v8/ios/64.png",
       "sizes": "64x64",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/72.png",
+      "src": "https://assets.dysperse.com/v8/ios/72.png",
       "sizes": "72x72",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/76.png",
+      "src": "https://assets.dysperse.com/v8/ios/76.png",
       "sizes": "76x76",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/80.png",
+      "src": "https://assets.dysperse.com/v8/ios/80.png",
       "sizes": "80x80",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/87.png",
+      "src": "https://assets.dysperse.com/v8/ios/87.png",
       "sizes": "87x87",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/100.png",
+      "src": "https://assets.dysperse.com/v8/ios/100.png",
       "sizes": "100x100",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/114.png",
+      "src": "https://assets.dysperse.com/v8/ios/114.png",
       "sizes": "114x114",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/120.png",
+      "src": "https://assets.dysperse.com/v8/ios/120.png",
       "sizes": "120x120",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/128.png",
+      "src": "https://assets.dysperse.com/v8/ios/128.png",
       "sizes": "128x128",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/144.png",
+      "src": "https://assets.dysperse.com/v8/ios/144.png",
       "sizes": "144x144",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/152.png",
+      "src": "https://assets.dysperse.com/v8/ios/152.png",
       "sizes": "152x152",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/167.png",
+      "src": "https://assets.dysperse.com/v8/ios/167.png",
       "sizes": "167x167",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/180.png",
+      "src": "https://assets.dysperse.com/v8/ios/180.png",
       "sizes": "180x180",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/192.png",
+      "src": "https://assets.dysperse.com/v8/ios/192.png",
       "sizes": "192x192",
       "purpose": "any"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/256.png",
+      "src": "https://assets.dysperse.com/v8/ios/256.png",
       "sizes": "256x256",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/512.png",
+      "src": "https://assets.dysperse.com/v8/ios/512.png",
       "sizes": "512x512",
       "purpose": "maskable"
     },
     {
-      "src": "https://assets.dysperse.com/v7/ios/1024.png",
+      "src": "https://assets.dysperse.com/v8/ios/1024.png",
       "sizes": "1024x1024"
     }
   ],
