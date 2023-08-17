@@ -399,7 +399,7 @@ export function Column({
                       fontSize: { xs: "15px", sm: "18px" },
                     }}
                   >
-                    {incompleteLength} task{incompleteLength !== 1 && "s"}
+                    {incompleteLength} item{incompleteLength !== 1 && "s"}
                   </Typography>
                 </CardActionArea>
               </ColumnSettings>
