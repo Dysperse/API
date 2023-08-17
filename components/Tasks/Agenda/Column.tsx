@@ -379,28 +379,45 @@ const Column = React.memo(function Column({
               },
             }}
           >
-            <Image
-              src="/images/noTasks.png"
-              width={256}
-              height={256}
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Image
+                src="/images/noTasks.png"
+                width={256}
+                height={256}
+                style={{
+                  borderRadius: "20px",
+                  ...(isDark && {
+                    filter: "invert(100%)",
+                  }),
+                }}
+                alt="No items found"
+              />
+            </motion.div>
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
               style={{
-                ...(isDark && {
-                  filter: "invert(100%)",
-                }),
+                alignItems: "center",
+                display: "flex",
+                flexDirection: "column",
               }}
-              alt="No items found"
-            />
-
-            <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
-              <Typography variant="h6" gutterBottom>
-                {sortedTasks.length === 0
-                  ? "Nothing planned for this time"
-                  : "You finished everything!"}
-              </Typography>
-            </Box>
-            <Box sx={{ width: "100%", mt: 1 }}>
-              {sortedTasks.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
-            </Box>
+            >
+              <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
+                <Typography variant="h6" gutterBottom>
+                  {sortedTasks.length === 0
+                    ? "Nothing planned for this time"
+                    : "You finished everything!"}
+                </Typography>
+              </Box>
+              <Box sx={{ width: "100%", mt: 1 }}>
+                {sortedTasks.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
+              </Box>
+            </motion.div>
           </Box>
         )}
         <Virtuoso
