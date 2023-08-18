@@ -78,7 +78,7 @@ const Header = memo(function Header({
             maxWidth: "100vw",
             mb: { xs: 0, sm: 2 },
             borderBottom: { sm: "1.5px solid" },
-            borderColor: { sm: addHslAlpha(palette[3], 0.9) },
+            borderColor: { sm: addHslAlpha(palette[4], 0.5) },
             height: "auto",
           }}
           id="taskMutationTrigger"
@@ -345,7 +345,7 @@ const Column = React.memo(function Column({
         ...(view === "priority" && {
           borderLeft: "1.5px solid",
         }),
-        borderColor: palette[3],
+        borderColor: addHslAlpha(palette[4], 0.5),
       }}
     >
       {loading && (
