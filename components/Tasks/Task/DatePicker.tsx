@@ -29,7 +29,12 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
   const handleClick = (event) => setTimeOpen((s) => !s);
   const handleClose = () => setAnchorEl(null);
 
-  const trigger = cloneElement(children, { onClick: () => setOpen(true) });
+  const trigger = cloneElement(children, {
+    onClick: (e) => {
+      e.stopPropagation();
+      setOpen(true);
+    },
+  });
 
   return (
     <>
