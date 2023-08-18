@@ -142,8 +142,7 @@ export default function App({
           ) : (
             <>
               {isLoading && <Loading />}
-              {(!isLoading && !isError) ||
-                (!isLoading && data.error && <AuthLoading />)}
+              {!isLoading && !isError && data.error && <AuthLoading />}
               {!isLoading && !isError && !data.error && (
                 <Layout>{children}</Layout>
               )}
