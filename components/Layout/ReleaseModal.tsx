@@ -26,8 +26,10 @@ export default function ReleaseModal() {
   const url =
     "https://api.github.com/repos/dysperse/dysperse/releases?per_page=1";
 
-  const { data, error } = useSWR(url, () =>
-    fetch(url).then((res) => res.json())
+  const { data, error } = useSWR(
+    url,
+    () => fetch(url).then((res) => res.json()),
+    { revalidateOnFocus: false }
   );
   const router = useRouter();
 

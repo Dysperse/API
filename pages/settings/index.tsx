@@ -1,18 +1,26 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi } from "@/lib/client/useApi";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Icon,
   IconButton,
+  InputAdornment,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   SwipeableDrawer,
+  TextField,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -21,19 +29,173 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { mutate } from "swr";
+
+function Page() {
+  const router = useRouter();
+  const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  const { data, url, error } = useApi("user/profile", {
+    email: session.user.email,
+  });
+
+  const groupPalette = useColor(session.property.profile.color, isDark);
+
+  return (
+    <>
+      <TextField
+        variant="standard"
+        onClick={() => toast("Coming soon!", toastStyles)}
+        placeholder="Search..."
+        InputProps={{
+          readOnly: true,
+          disableUnderline: true,
+          sx: {
+            background: palette[2],
+            "&:focus-within": {
+              background: palette[3],
+            },
+            transition: "all .2s",
+            mb: 2,
+            px: 2,
+            py: 0.3,
+            borderRadius: 3,
+          },
+          startAdornment: (
+            <InputAdornment position="start">
+              <Icon>search</Icon>
+            </InputAdornment>
+          ),
+        }}
+      />
+      <ListItemButton
+        onClick={() => router.push("/settings")}
+        sx={{
+          background: palette[2] + "!important",
+          mb: 2,
+          "& *": {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          },
+        }}
+      >
+        {data && <ProfilePicture data={data} mutationUrl={url} size={40} />}
+        <ListItemText
+          primary={<b>{session.user.name}</b>}
+          secondary="Account settings"
+        />
+        <Icon sx={{ color: palette[8] }}>chevron_right</Icon>
+      </ListItemButton>
+      <ListItemButton
+        sx={{
+          background: palette[2] + "!important",
+          mb: 2,
+          "& *": {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          },
+        }}
+        onClick={() => router.push("/groups/" + session.property.propertyId)}
+      >
+        <Avatar
+          sx={{
+            width: 40,
+            height: 40,
+            background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[6]})`,
+          }}
+        >
+          <Icon>
+            {session.property.profile.type === "home"
+              ? "home"
+              : session.property.profile.type === "apartment"
+              ? "apartment"
+              : session.property.profile.type === "dorm"
+              ? "cottage"
+              : "school"}
+          </Icon>
+        </Avatar>
+        <ListItemText
+          primary={<b>{session.property.profile.name}</b>}
+          secondary="My group"
+        />
+        <Icon sx={{ color: palette[8] }}>chevron_right</Icon>
+      </ListItemButton>
+      <Box sx={{ background: palette[2], borderRadius: 3, mb: 2 }}>
+        {[
+          { icon: "palette", text: "Appearance" },
+          { icon: "change_history", text: "Login activity" },
+          { icon: "notifications", text: "Notifications" },
+          { icon: "lock", text: "2FA" },
+          { icon: "restart_alt", text: "Onboarding" },
+        ].map((button) => (
+          <ListItemButton
+            key={button.icon}
+            onClick={() => {
+              router.push(
+                button.text === "onboarding"
+                  ? "/onboarding"
+                  : `/settings/${button.text
+                      .toLowerCase()
+                      .replaceAll(" ", "-")}`
+              );
+            }}
+            sx={{
+              "& *": {
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              },
+            }}
+          >
+            <Icon className="outlined">{button.icon}</Icon>
+            <ListItemText primary={button.text} />
+            <Icon sx={{ color: palette[8] }}>chevron_right</Icon>
+          </ListItemButton>
+        ))}
+        <ConfirmationModal
+          title="Sign out"
+          question="Are you sure you want to sign out?"
+          buttonText="Sign out"
+          callback={() =>
+            fetchRawApi(session, "auth/logout").then(() =>
+              mutate("/api/session")
+            )
+          }
+        >
+          <ListItemButton>
+            <Icon>logout</Icon>
+            <ListItemText primary="Sign out" />
+          </ListItemButton>
+        </ConfirmationModal>
+      </Box>
+      <Box sx={{ background: palette[2], borderRadius: 3 }}>
+        <ListItem>
+          <Icon className="outlined">link</Icon>
+          <ListItemText primary="Privacy policy" />
+        </ListItem>
+        <ListItem>
+          <Icon className="outlined">link</Icon>
+          <ListItemText primary="Terms of service" />
+        </ListItem>
+        <ListItem>
+          <Icon className="outlined">help</Icon>
+          <ListItemText primary="Support" />
+        </ListItem>
+      </Box>
+    </>
+  );
+}
 
 export default function Layout({ children }: any) {
   const session = useSession();
   const router = useRouter();
-
-  useEffect(() => {
-    if (router.asPath === "/settings") {
-      router.push("/settings/profile");
-    }
-  }, [router]);
 
   const [open, setOpen] = useState(false);
   const isDark = useDarkMode(session.darkMode);
@@ -258,40 +420,37 @@ export default function Layout({ children }: any) {
           animate={{ opacity: 1, x: 0 }}
           key="settings"
         >
-          {router.asPath !== "/settings" &&
-            (isMobile ? (
-              <AppBar sx={{ pr: 5, background: "transparent", border: 0 }}>
-                <Toolbar>
-                  <IconButton onClick={() => router.push("/")}>
-                    <Icon>arrow_back_ios_new</Icon>
-                  </IconButton>
-                  <Button
-                    onClick={() => setOpen(true)}
-                    sx={{
-                      color: "inherit",
-                    }}
-                    size="small"
-                  >
-                    {capitalizeFirstLetter(
-                      router.asPath
-                        .replace("/settings/", "")
-                        .replaceAll("-", " ")
-                        .replace("/", "") || "Settings"
-                    )}
-                    <Icon sx={{ fontSize: "20px!important" }}>expand_more</Icon>
-                  </Button>
-                </Toolbar>
-              </AppBar>
-            ) : (
-              <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-                {capitalizeFirstLetter(
-                  router.asPath
-                    .replace("/settings/", "")
-                    .replaceAll("-", " ") || "Settings"
+          {isMobile && (
+            <AppBar sx={{ pr: 5, background: "transparent", border: 0 }}>
+              <Toolbar>
+                <IconButton
+                  onClick={() =>
+                    router.push(
+                      router.asPath === "/settings" ? "/" : "/settings"
+                    )
+                  }
+                >
+                  <Icon>arrow_back_ios_new</Icon>
+                </IconButton>
+                {router.asPath !== "/settings" && (
+                  <Typography sx={{ ml: 1 }}>
+                    <b>Settings</b>
+                  </Typography>
                 )}
-              </Typography>
-            ))}
-          <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>{children}</Box>
+              </Toolbar>
+            </AppBar>
+          )}
+          <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>
+            <Typography variant="h2" sx={{ mb: 1 }} className="font-heading">
+              {capitalizeFirstLetter(
+                router.asPath
+                  .replace("/settings", "")
+                  .replaceAll("-", " ")
+                  .replaceAll("/", "") || "Settings"
+              )}
+            </Typography>
+            {children || <Page />}
+          </Box>
         </motion.div>
       </Box>
     </Box>

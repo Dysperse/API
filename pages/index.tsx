@@ -617,7 +617,7 @@ export function Navbar({
           {router.asPath === "/" && (
             <IconButton
               sx={{ color: palette[8] }}
-              onClick={() => router.push("/settings/profile")}
+              onClick={() => router.push("/settings")}
             >
               <Icon className="outlined">settings</Icon>
             </IconButton>
@@ -820,7 +820,7 @@ export default function Home() {
           isMobile ? undefined : (
             <IconButton
               sx={{ ml: "auto", color: palette[8] }}
-              onClick={() => router.push("/settings/profile")}
+              onClick={() => router.push("/settings")}
             >
               <Icon className="outlined">settings</Icon>
             </IconButton>
