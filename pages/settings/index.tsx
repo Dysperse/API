@@ -283,6 +283,7 @@ export default function Layout({ children }: any) {
               pr: 5,
               background: "transparent",
               border: 0,
+              position: "fixed",
               top: 0,
               left: 0,
             }}
@@ -303,7 +304,11 @@ export default function Layout({ children }: any) {
             </Toolbar>
           </AppBar>
           <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>
-            <Typography variant="h2" sx={{ mb: 1 }} className="font-heading">
+            <Typography
+              variant="h2"
+              sx={{ mb: 1, mt: 4 }}
+              className="font-heading"
+            >
               {capitalizeFirstLetter(
                 router.asPath
                   .replace("/settings", "")
