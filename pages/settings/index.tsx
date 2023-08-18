@@ -186,6 +186,11 @@ function Page() {
             icon: "help",
             href: "//blog.dysperse.com/series/support",
           },
+          {
+            name: `Version ${process.env.VERCEL_GIT_COMMIT_SHA}`,
+            icon: "help",
+            href: `//github.com/dysperse/dysperse`,
+          },
         ].map(({ name, icon, href }) => (
           <ListItem key={name} onClick={() => window.open(href)} sx={styles}>
             <Icon className="outlined">{icon}</Icon>
