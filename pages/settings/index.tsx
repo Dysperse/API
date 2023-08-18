@@ -188,7 +188,7 @@ function Page() {
           },
           {
             name: `Version ${process.env.VERCEL_GIT_COMMIT_SHA}`,
-            icon: "help",
+            icon: "info",
             href: `//github.com/dysperse/dysperse`,
           },
         ].map(({ name, icon, href }) => (
