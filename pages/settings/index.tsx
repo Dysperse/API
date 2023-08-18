@@ -38,6 +38,20 @@ function Page() {
     email: session.user.email,
   });
 
+  const styles = {
+    "&:hover": {
+      background: { sm: palette[3] + "!important" },
+    },
+    "&:active": {
+      background: palette[3] + "!important",
+    },
+    "& *": {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    },
+  };
+
   const groupPalette = useColor(session.property.profile.color, isDark);
 
   return (
@@ -71,18 +85,8 @@ function Page() {
         onClick={() => router.push("/settings/profile")}
         sx={{
           background: palette[2] + "!important",
-          "&:hover": {
-            background: { sm: palette[3] + "!important" },
-          },
-          "&:active": {
-            background: palette[3] + "!important",
-          },
           mb: 2,
-          "& *": {
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          },
+          ...styles,
         }}
       >
         {data && <ProfilePicture data={data} mutationUrl={url} size={40} />}
@@ -95,18 +99,8 @@ function Page() {
       <ListItemButton
         sx={{
           background: palette[2] + "!important",
-          "&:hover": {
-            background: { sm: palette[3] + "!important" },
-          },
-          "&:active": {
-            background: palette[3] + "!important",
-          },
+          ...styles,
           mb: 2,
-          "& *": {
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          },
         }}
         onClick={() => router.push("/groups/" + session.property.propertyId)}
       >
@@ -152,19 +146,7 @@ function Page() {
                       .replaceAll(" ", "-")}`
               );
             }}
-            sx={{
-              "&:hover": {
-                background: { sm: palette[3] + "!important" },
-              },
-              "&:active": {
-                background: palette[3] + "!important",
-              },
-              "& *": {
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              },
-            }}
+            sx={styles}
           >
             <Icon className="outlined">{button.icon}</Icon>
             <ListItemText primary={button.text} />
@@ -187,19 +169,29 @@ function Page() {
           </ListItemButton>
         </ConfirmationModal>
       </Box>
-      <Box sx={{ background: palette[2], borderRadius: 3 }}>
-        <ListItem>
-          <Icon className="outlined">link</Icon>
-          <ListItemText primary="Privacy policy" />
-        </ListItem>
-        <ListItem>
-          <Icon className="outlined">link</Icon>
-          <ListItemText primary="Terms of service" />
-        </ListItem>
-        <ListItem>
-          <Icon className="outlined">help</Icon>
-          <ListItemText primary="Support" />
-        </ListItem>
+      <Box sx={{ background: palette[2], borderRadius: 3, overflow: "hidden" }}>
+        {[
+          {
+            name: "Privacy policy",
+            icon: "link",
+            href: "//blog.dysperse.com/privacy-policy",
+          },
+          {
+            name: "Terms of service",
+            icon: "link",
+            href: "//blog.dysperse.com/terms-of-service",
+          },
+          {
+            name: "Support",
+            icon: "help",
+            href: "//blog.dysperse.com/series/support",
+          },
+        ].map(({ name, icon, href }) => (
+          <ListItem key={name} onClick={() => window.open(href)} sx={styles}>
+            <Icon className="outlined">{icon}</Icon>
+            <ListItemText primary={name} />
+          </ListItem>
+        ))}
       </Box>
     </>
   );
