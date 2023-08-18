@@ -95,6 +95,7 @@ const Header = memo(function Header({
           >
             {isMobile && (
               <IconButton
+                size="large"
                 sx={{ color: palette[8] }}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -193,6 +194,7 @@ const Header = memo(function Header({
             </SelectDateModal>
             {isMobile && (
               <IconButton
+                size="large"
                 sx={{ color: palette[8] }}
                 onClick={(e) => {
                   e.stopPropagation();
