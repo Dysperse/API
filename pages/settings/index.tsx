@@ -306,7 +306,7 @@ export default function Layout({ children }: any) {
           <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>
             <Typography
               variant="h2"
-              sx={{ mb: 1, mt: 10 }}
+              sx={{ mb: 1, mt: 8 }}
               className="font-heading"
             >
               {capitalizeFirstLetter(
