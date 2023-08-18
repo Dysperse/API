@@ -1,7 +1,5 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
-import { Puller } from "@/components/Puller";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
@@ -12,22 +10,18 @@ import {
   AppBar,
   Avatar,
   Box,
-  Button,
   Icon,
   IconButton,
   InputAdornment,
   ListItem,
   ListItemButton,
   ListItemText,
-  SwipeableDrawer,
   TextField,
   Toolbar,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -257,100 +251,6 @@ export default function Layout({ children }: any) {
 
   const isMobile = useMediaQuery("(max-width: 900px)");
 
-  const sidebar = (
-    <>
-      <Box
-        sx={{
-          display: { xs: "none", md: "flex" },
-          alignItems: "center",
-          marginBottom: "15px",
-          gap: 2,
-          pt: 1,
-          pl: 1,
-          fontSize: "35px",
-        }}
-      >
-        <Image
-          width={50}
-          height={50}
-          src="/logo.svg"
-          alt="logo"
-          style={{
-            marginTop: "-1px",
-            marginLeft: "-1px",
-            ...(isDark && {
-              filter: "invert(100%)",
-            }),
-          }}
-        />
-
-        <span className="e font-heading">Settings</span>
-      </Box>
-      {[
-        { icon: "account_circle", text: "Profile" },
-        { icon: "palette", text: "Appearance" },
-        { icon: "change_history", text: "Login Activity" },
-        { icon: "notifications", text: "Notifications" },
-        { icon: "lock", text: "Two-factor authentication" },
-      ].map((button) => (
-        <Button
-          key={button.icon}
-          onClick={() => {
-            setOpen(false);
-            setTimeout(() => {
-              router.push(
-                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
-              );
-            }, 200);
-          }}
-          sx={styles(
-            router.pathname ===
-              `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
-          )}
-        >
-          <Icon
-            {...(!(
-              router.pathname ===
-              `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
-            ) && { className: "outlined" })}
-          >
-            {button.icon}
-          </Icon>
-          <span>{button.text}</span>
-        </Button>
-      ))}
-      <Link
-        href={`/onboarding`}
-        onClick={() => setOpen(false)}
-        style={{ display: "block", cursor: "default" }}
-      >
-        <Button sx={styles(false)}>
-          <Icon className="outlined">restart_alt</Icon>
-          <span>Onboarding</span>
-        </Button>
-      </Link>
-      <ConfirmationModal
-        title="Sign out"
-        question="Are you sure you want to sign out?"
-        buttonText="Sign out"
-        callback={() =>
-          fetchRawApi(session, "auth/logout").then(() => mutate("/api/session"))
-        }
-      >
-        <Button sx={{ ...styles(false), mt: "auto" }}>
-          <Icon>logout</Icon>Sign out
-        </Button>
-      </ConfirmationModal>
-      {!isMobile && (
-        <Link href="/" style={{ cursor: "default" }} ref={closeRef}>
-          <Button sx={styles(false)}>
-            <Icon>close</Icon>Close
-          </Button>
-        </Link>
-      )}
-    </>
-  );
-
   return (
     <Box
       sx={{
@@ -363,66 +263,6 @@ export default function Layout({ children }: any) {
         background: palette[1],
       }}
     >
-      {!isMobile && (
-        <Box
-          sx={{
-            width: { xs: "100%", md: 300 },
-            flex: { xs: "100%", md: "0 0 250px" },
-            p: 2,
-            background: palette[2],
-            minHeight: "100dvh",
-            height: "100dvh",
-            overflowY: "scroll",
-            "& .container": {
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
-            },
-          }}
-        >
-          <motion.div
-            initial={{
-              x: -100,
-              opacity: 0,
-            }}
-            key="settingsContainer"
-            className="container"
-            animate={{
-              x: 0,
-              opacity: 1,
-            }}
-          >
-            {sidebar}
-          </motion.div>
-        </Box>
-      )}
-      {isMobile && (
-        <SwipeableDrawer
-          open={open}
-          anchor="top"
-          onClose={() => setOpen(false)}
-          PaperProps={{
-            sx: {
-              width: { xs: "100vw", md: 300 },
-              flex: { xs: "calc(100vw - 50px)", md: "0 0 250px" },
-              p: 2,
-              background: addHslAlpha(palette[3], 0.6),
-              backdropFilter: "blur(10px)",
-              borderRadius: "0 0 20px 20px",
-              height: "auto",
-              overflowY: "scroll",
-              overflowX: "hidden",
-              display: "flex",
-              flexDirection: "column",
-            },
-          }}
-        >
-          {sidebar}
-          <Puller
-            sx={{ position: "sticky", bottom: 0, top: "unset", mb: -3 }}
-          />
-        </SwipeableDrawer>
-      )}
       <Box
         sx={{
           maxHeight: "100dvh",
@@ -438,26 +278,30 @@ export default function Layout({ children }: any) {
           animate={{ opacity: 1, x: 0 }}
           key="settings"
         >
-          {isMobile && (
-            <AppBar sx={{ pr: 5, background: "transparent", border: 0 }}>
-              <Toolbar>
-                <IconButton
-                  onClick={() =>
-                    router.push(
-                      router.asPath === "/settings" ? "/" : "/settings"
-                    )
-                  }
-                >
-                  <Icon>arrow_back_ios_new</Icon>
-                </IconButton>
-                {router.asPath !== "/settings" && (
-                  <Typography sx={{ ml: 1 }}>
-                    <b>Settings</b>
-                  </Typography>
-                )}
-              </Toolbar>
-            </AppBar>
-          )}
+          <AppBar
+            sx={{
+              pr: 5,
+              background: "transparent",
+              border: 0,
+              top: 0,
+              left: 0,
+            }}
+          >
+            <Toolbar>
+              <IconButton
+                onClick={() =>
+                  router.push(router.asPath === "/settings" ? "/" : "/settings")
+                }
+              >
+                <Icon>arrow_back_ios_new</Icon>
+              </IconButton>
+              {router.asPath !== "/settings" && (
+                <Typography sx={{ ml: 1 }}>
+                  <b>Settings</b>
+                </Typography>
+              )}
+            </Toolbar>
+          </AppBar>
           <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>
             <Typography variant="h2" sx={{ mb: 1 }} className="font-heading">
               {capitalizeFirstLetter(
