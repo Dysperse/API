@@ -212,7 +212,7 @@ const Header = memo(function Header({
             display: "flex",
             gap: 2,
             px: 3,
-            mb: 2,
+            pb: 2,
             justifyContent: "center",
           }}
         >
