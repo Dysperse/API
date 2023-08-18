@@ -398,6 +398,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
+              cursor: "default",
               boxShadow: "none!important",
               background: palette[3],
               borderColor: palette[4],
@@ -406,8 +407,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 borderColor: { sm: palette[5] },
               },
               "&:active": {
-                background: palette[4],
-                borderColor: palette[5],
+                background: palette[5],
+                borderColor: palette[6],
               },
             }),
         },

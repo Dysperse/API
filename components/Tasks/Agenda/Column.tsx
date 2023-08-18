@@ -53,8 +53,6 @@ const Header = memo(function Header({
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
 
-  console.log("Header component re-rendered!");
-
   return (
     <Box
       sx={{
