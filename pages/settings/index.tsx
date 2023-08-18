@@ -74,7 +74,7 @@ function Page() {
         }}
       />
       <ListItemButton
-        onClick={() => router.push("/settings")}
+        onClick={() => router.push("/settings/profile")}
         sx={{
           background: palette[2] + "!important",
           "&:hover": {
