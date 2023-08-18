@@ -129,7 +129,7 @@ export function StatusSelector({
   const trigger = cloneElement(
     children || (
       <LoadingButton
-        loading={loading}
+        loading={!data}
         sx={{
           px: 2,
           "&, &:hover": {
