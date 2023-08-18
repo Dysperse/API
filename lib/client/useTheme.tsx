@@ -45,6 +45,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
 
   return {
     components: {
+      MuiButtonBase: {
+        defaultProps: {
+          disableRipple: true,
+        },
+      },
       MuiSnackbar: {
         styleOverrides: {
           root: ({ theme }) =>
@@ -135,14 +140,16 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           root: ({ theme }) =>
             theme.unstable_sx({
               transition: "none",
+              cursor: "default",
               "&:hover": {
-                color: { sm: palette[9] },
+                color: { sm: palette[8] },
                 background: {
-                  sm: addHslAlpha(palette[3], 0.3),
+                  sm: addHslAlpha(palette[4], 0.3),
                 },
               },
               "&:active": {
-                background: addHslAlpha(palette[4], 0.3),
+                background: addHslAlpha(palette[4], 0.6),
+                color: { sm: palette[9] },
               },
               "&:focus-visible": {
                 boxShadow: darkMode
@@ -162,33 +169,36 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           disableElevation: true,
         },
         styleOverrides: {
-          contained: {
-            boxShadow: "none!important",
-            background: `${palette[4]}!important`,
-            color: palette[11],
-            "&:hover": {
-              background: { sm: `${palette[5]}!important` },
-            },
-            "&:active": {
-              background: {
-                xs: `${palette[5]}!important`,
-                sm: `${palette[6]}!important`,
-              },
-            },
-            "&:disabled": {
-              cursor: "not-allowed!important",
-              opacity: 0.5,
+          contained: ({ theme }) =>
+            theme.unstable_sx({
+              boxShadow: "none!important",
+              background: `${palette[4]}!important`,
               color: palette[11],
-            },
-          },
-          outlined: {
-            color: `${palette[12]}!important`,
-            borderColor: palette[4],
-            "&:hover": {
-              borderColor: palette[3],
-              background: palette[3],
-            },
-          },
+              "&:hover": {
+                background: { sm: `${palette[5]}!important` },
+              },
+              "&:active": {
+                background: {
+                  xs: `${palette[5]}!important`,
+                  sm: `${palette[6]}!important`,
+                },
+              },
+              "&:disabled": {
+                cursor: "not-allowed!important",
+                opacity: 0.5,
+                color: palette[11],
+              },
+            }),
+          outlined: ({ theme }) =>
+            theme.unstable_sx({
+              color: `${palette[12]}!important`,
+              borderColor: palette[4],
+              "&:hover": {
+                borderColor: palette[3],
+                background: palette[3],
+              },
+            }),
+
           text: {
             color: palette[11],
           },
@@ -197,7 +207,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             theme.unstable_sx({
               gap: "10px",
               transition: "none!important",
-
+              cursor: "default",
               borderRadius: "999px",
               px: "30px",
               "&.MuiButton-sizeSmall": {

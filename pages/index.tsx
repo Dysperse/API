@@ -135,6 +135,9 @@ export function StatusSelector({
           "&, &:hover": {
             background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
             color: `${chipPalette[12]} !important`,
+            "&:active": {
+              background: `linear-gradient(${chipPalette[8]}, ${chipPalette[9]}) !important`,
+            },
           },
         }}
         variant="contained"
@@ -765,6 +768,7 @@ function SearchFriend({ mutationUrl }) {
             sx={{ mt: 2 }}
             variant="contained"
             fullWidth
+            disabled={query.trim().length === 0}
             onClick={addFriend}
           >
             Add
@@ -809,22 +813,20 @@ export default function Home() {
 
   return (
     <Box sx={{ ml: { sm: -1 } }}>
-      <motion.div initial={{ y: -100 }} animate={{ y: 0 }}>
-        <Navbar
-          showLogo={isMobile}
-          showRightContent={isMobile}
-          right={
-            isMobile ? undefined : (
-              <IconButton
-                sx={{ ml: "auto", color: palette[8] }}
-                onClick={() => router.push("/settings/profile")}
-              >
-                <Icon className="outlined">settings</Icon>
-              </IconButton>
-            )
-          }
-        />
-      </motion.div>
+      <Navbar
+        showLogo={isMobile}
+        showRightContent={isMobile}
+        right={
+          isMobile ? undefined : (
+            <IconButton
+              sx={{ ml: "auto", color: palette[8] }}
+              onClick={() => router.push("/settings/profile")}
+            >
+              <Icon className="outlined">settings</Icon>
+            </IconButton>
+          )
+        }
+      />
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
           sx={{
