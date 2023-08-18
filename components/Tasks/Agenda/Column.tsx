@@ -126,6 +126,9 @@ const Header = memo(function Header({
                   maxWidth: "100%",
                   overflow: "hidden",
                   minWidth: 0,
+                  "&:active": {
+                    opacity: 0.6,
+                  },
                 }}
               >
                 <Typography
