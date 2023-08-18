@@ -77,6 +77,12 @@ function Page() {
         onClick={() => router.push("/settings")}
         sx={{
           background: palette[2] + "!important",
+          "&:hover": {
+            background: { sm: palette[3] + "!important" },
+          },
+          "&:active": {
+            background: palette[3] + "!important",
+          },
           mb: 2,
           "& *": {
             whiteSpace: "nowrap",
@@ -95,6 +101,12 @@ function Page() {
       <ListItemButton
         sx={{
           background: palette[2] + "!important",
+          "&:hover": {
+            background: { sm: palette[3] + "!important" },
+          },
+          "&:active": {
+            background: palette[3] + "!important",
+          },
           mb: 2,
           "& *": {
             whiteSpace: "nowrap",
@@ -147,6 +159,12 @@ function Page() {
               );
             }}
             sx={{
+              "&:hover": {
+                background: { sm: palette[3] + "!important" },
+              },
+              "&:active": {
+                background: palette[3] + "!important",
+              },
               "& *": {
                 whiteSpace: "nowrap",
                 overflow: "hidden",
