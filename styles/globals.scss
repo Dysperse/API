@@ -38,22 +38,12 @@ body {
   }
 }
 
-// @media (max-width: 600px) {
-//   * {
-//     cursor: pointer !important;
-//   }
-// }
-
-/* __play_start_utilities__ */
-
 @media (prefers-color-scheme: dark) {
   .kbd {
     --tw-bg-opacity: 1;
     background-color: rgb(31 41 55 / var(--tw-bg-opacity));
   }
 }
-
-/* __play_end_utilities__ */
 
 a,
 img {

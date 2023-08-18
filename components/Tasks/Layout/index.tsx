@@ -51,6 +51,48 @@ import { Tab } from "./Tab";
 
 export const SelectionContext = createContext<null | any>(null);
 
+function GroupSelector() {
+  const session = useSession();
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+  const groupPalette = useColor(
+    session.property.profile.color,
+    useDarkMode(session.darkMode)
+  );
+
+  return (
+    <GroupModal useRightClick={false}>
+      <Button
+        variant="contained"
+        fullWidth
+        size="small"
+        sx={{ py: 1, color: palette[12] }}
+      >
+        <Box
+          sx={{
+            width: 15,
+            borderRadius: 99,
+            height: 15,
+            flexShrink: 0,
+            background: groupPalette[9],
+          }}
+        />
+        <Typography
+          sx={{
+            fontWeight: 900,
+            minWidth: 0,
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {session.property.profile.name}
+        </Typography>
+        <Icon sx={{ ml: "auto" }}>expand_more</Icon>
+      </Button>
+    </GroupModal>
+  );
+}
+
 export const taskStyles = (palette) => {
   return {
     divider: {
@@ -290,11 +332,6 @@ export function TasksLayout({
   useHotkeys("w", () => router.push("/tasks/agenda/weeks"));
   useHotkeys("m", () => router.push("/tasks/agenda/months"));
 
-  const groupPalette = useColor(
-    session.property.profile.color,
-    useDarkMode(session.darkMode)
-  );
-
   const handleClose = () => {
     setOpen(false);
     vibrate(50);
@@ -351,36 +388,7 @@ export function TasksLayout({
           />
         )}
         <Box sx={{ p: 2, mb: { xs: -4, sm: -3 } }}>
-          <GroupModal useRightClick={false}>
-            <Button
-              variant="contained"
-              fullWidth
-              size="small"
-              sx={{ py: 1, color: palette[12] }}
-            >
-              <Box
-                sx={{
-                  width: 15,
-                  borderRadius: 99,
-                  height: 15,
-                  flexShrink: 0,
-                  background: groupPalette[9],
-                }}
-              />
-              <Typography
-                sx={{
-                  fontWeight: 900,
-                  minWidth: 0,
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {session.property.profile.name}
-              </Typography>
-              <Icon sx={{ ml: "auto" }}>expand_more</Icon>
-            </Button>
-          </GroupModal>
+          <GroupSelector />
         </Box>
         <Box
           sx={{

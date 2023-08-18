@@ -290,7 +290,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
   return (
     <Box
       sx={{
-        pb: 2,
+        pb: 1.5,
         opacity: "0!important",
         transition: "opacity .4s",
         ...(opacity && {
@@ -916,7 +916,7 @@ export default function Home() {
               />
             ) : (
               [...new Array(data ? 5 : 10)].map((_, i) => (
-                <ListItem key={i} sx={{ mb: 2 }}>
+                <ListItem key={i} sx={{ mb: 1.5 }}>
                   <Skeleton
                     variant="circular"
                     width="60px"

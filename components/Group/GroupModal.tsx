@@ -15,6 +15,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { cloneElement, useState } from "react";
 import { preload } from "swr";
@@ -62,25 +63,37 @@ export function GroupModal({
       }}
     >
       <Puller showOnDesktop />
-      <Typography
-        variant="h4"
-        className="font-heading"
-        sx={{ textAlign: "center" }}
-        gutterBottom
-      >
-        {showInvitations ? "Invitations" : "Groups"}
-      </Typography>
-      {properties
-        .filter((p) => (showInvitations ? !p.accepted : p.accepted))
-        .map((group: any, index) => (
-          <PropertyButton
-            key={index}
-            list={list}
-            handleClose={() => setShowMore(false)}
-            group={group}
-            onSuccess={onSuccess}
-          />
-        ))}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={showInvitations ? "1" : "0"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <Typography
+            variant="h4"
+            className="font-heading"
+            sx={{ textAlign: "center" }}
+            gutterBottom
+          >
+            {showInvitations ? "Invitations" : "Groups"}
+          </Typography>
+        </motion.div>
+        <motion.div key={showInvitations ? "2" : "3"}>
+          {properties
+            .filter((p) => (showInvitations ? !p.accepted : p.accepted))
+            .map((group: any, index) => (
+              <PropertyButton
+                key={index}
+                list={list}
+                handleClose={() => setShowMore(false)}
+                group={group}
+                onSuccess={onSuccess}
+              />
+            ))}
+        </motion.div>
+      </AnimatePresence>
+
       {showInvitations && properties.filter((p) => !p.accepted).length == 0 && (
         <Box
           sx={{

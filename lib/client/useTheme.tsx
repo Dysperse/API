@@ -371,6 +371,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               gap: 2,
               transition: "none",
               userSelect: "none",
+              "&:hover": {
+                cursor: "default",
+                background: { sm: palette[2] },
+              },
             }),
         },
       },

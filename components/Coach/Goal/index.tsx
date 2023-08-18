@@ -80,7 +80,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
               opacity: 0.6,
             }),
             ...(goal.progress === goal.durationDays && {
-              color: colors[goal.completed ? "green" : "deepOrange"][500],
+              color: colors[goal.completed ? "green" : "deepOrange"]["A700"],
               fontWeight: 600,
             }),
           }}
@@ -124,7 +124,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
                 border: 0,
                 ...(goal.progress === goal.durationDays && {
                   background:
-                    colors[goal.completed ? "green" : "deepOrange"]["800"],
+                    colors[goal.completed ? "green" : "deepOrange"]["A700"],
                 }),
               },
               "& .MuiSlider-rail": {
@@ -212,7 +212,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
                 p: 3,
                 background: "rgba(0,0,0,.1)",
                 borderRadius: 5,
-                my: 2,
+                mt: 2,
               }}
             >
               <Typography variant="h5">Completed</Typography>
