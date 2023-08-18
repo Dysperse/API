@@ -403,7 +403,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               background: palette[3],
               borderColor: palette[4],
               "&:hover": {
-                background: { sm: palette[4] },
+                background: { sm: palette[4] + "!important" },
                 borderColor: { sm: palette[5] },
               },
               "&:active": {
