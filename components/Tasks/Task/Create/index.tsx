@@ -107,7 +107,7 @@ export function CreateTask({
       chip: (active) => ({
         mr: 1,
         px: 1,
-        "&, & *, &:hover, &:active": {
+        "&, &:hover, &:active": {
           background: palette[active ? 8 : 3] + "!important",
         },
         transition: "none!important",
