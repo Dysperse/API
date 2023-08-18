@@ -187,7 +187,7 @@ function Page() {
             href: "//blog.dysperse.com/series/support",
           },
           {
-            name: `Version ${process.env.VERCEL_GIT_COMMIT_SHA}`,
+            name: `Version ${session.user.lastReleaseVersionViewed}`,
             icon: "info",
             href: `//github.com/dysperse/dysperse`,
           },
