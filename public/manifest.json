@@ -10,6 +10,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "short_name": "Dysperse",
+  "iarc_rating_id": "2b640ca8-7f67-4e61-9516-5143640b12ae",
   "handle_links": "preferred",
   "theme_color": "#342a58",
   "prefer_related_applications": true,
