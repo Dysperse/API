@@ -57,7 +57,7 @@ export function StatusSelector({
   const session = useSession();
   const now = useMemo(() => dayjs(), []);
 
-  const { data, url } = useApi("user/status");
+  const { data, loading: isStatusLoading, url } = useApi("user/status");
 
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(
@@ -129,7 +129,7 @@ export function StatusSelector({
   const trigger = cloneElement(
     children || (
       <LoadingButton
-        loading={!data}
+        loading={isStatusLoading}
         sx={{
           px: 2,
           "&, &:hover": {
