@@ -375,6 +375,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 cursor: "default",
                 background: { sm: palette[2] },
               },
+              "&:active": {
+                background: palette[2],
+              },
             }),
         },
       },
