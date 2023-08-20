@@ -73,7 +73,7 @@ const Header = memo(function Header({
         <Box
           sx={{
             p: { xs: 2, sm: 3 },
-            pt: { xs: 4 },
+            pt: { xs: 2, sm: 4 },
             maxWidth: "100vw",
             mb: { xs: 0, sm: 2 },
             borderBottom: { sm: "1.5px solid" },
@@ -93,7 +93,7 @@ const Header = memo(function Header({
             {isMobile && (
               <IconButton
                 size="large"
-                sx={{ color: palette[8] }}
+                sx={{ color: palette[8], p: 3 }}
                 onClick={(e) => {
                   e.stopPropagation();
                   document.getElementById("agendaPrev")?.click();
@@ -113,68 +113,68 @@ const Header = memo(function Header({
               }}
               dateOnly
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  mx: "auto",
-                  justifyContent: "cneter",
-                  gap: 2,
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                  minWidth: 0,
-                  "&:active": {
-                    opacity: 0.6,
-                  },
-                }}
+              <Tooltip
+                placement="bottom-start"
+                title={
+                  <Typography>
+                    <Typography sx={{ fontWeight: 700 }}>
+                      {isToday
+                        ? "Today"
+                        : capitalizeFirstLetter(dayjs(column).fromNow())}
+                    </Typography>
+                    <Typography variant="body2">
+                      {dayjs(column).format("dddd, MMMM D, YYYY")}
+                    </Typography>
+                  </Typography>
+                }
               >
-                <Typography
-                  variant="h5"
+                <Box
                   sx={{
-                    ...(isToday
-                      ? {
-                          color: "#000!important",
-                          background: `linear-gradient(${palette[7]}, ${palette[9]})`,
-                          px: 0.5,
-                        }
-                      : {
-                          background: `linear-gradient(${palette[4]}, ${palette[4]})`,
-                          px: 0.5,
-                        }),
-                    borderRadius: 1,
-                    width: "auto",
-                    display: "inline-flex",
-                    flexShrink: 0,
+                    display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    ...(isPast && { opacity: 0.5 }),
-                  }}
-                >
-                  {dayjs(column).format(heading)}
-                </Typography>
-
-                <Typography
-                  variant="h5"
-                  sx={{
+                    mx: "auto",
+                    justifyContent: "cneter",
+                    gap: 2,
+                    maxWidth: "100%",
                     overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
+                    minWidth: 0,
+                    "&:active": {
+                      opacity: 0.6,
+                    },
                   }}
                 >
-                  <Tooltip
-                    placement="bottom-start"
-                    title={
-                      <Typography>
-                        <Typography sx={{ fontWeight: 700 }}>
-                          {isToday
-                            ? "Today"
-                            : capitalizeFirstLetter(dayjs(column).fromNow())}
-                        </Typography>
-                        <Typography variant="body2">
-                          {dayjs(column).format("dddd, MMMM D, YYYY")}
-                        </Typography>
-                      </Typography>
-                    }
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      ...(isToday
+                        ? {
+                            color: "#000!important",
+                            background: `linear-gradient(${palette[7]}, ${palette[9]})`,
+                            px: 0.5,
+                          }
+                        : {
+                            background: `linear-gradient(${palette[4]}, ${palette[4]})`,
+                            px: 0.5,
+                          }),
+                      borderRadius: 1,
+                      width: "auto",
+                      display: "inline-flex",
+                      flexShrink: 0,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      ...(isPast && { opacity: 0.5 }),
+                    }}
+                  >
+                    {dayjs(column).format(heading)}
+                  </Typography>
+
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
                   >
                     <span
                       style={{
@@ -188,14 +188,14 @@ const Header = memo(function Header({
                       {type === "weeks" &&
                         " - " + dayjs(columnEnd).format("DD")}
                     </span>
-                  </Tooltip>
-                </Typography>
-              </Box>
+                  </Typography>
+                </Box>
+              </Tooltip>
             </SelectDateModal>
             {isMobile && (
               <IconButton
                 size="large"
-                sx={{ color: palette[8] }}
+                sx={{ color: palette[8], p: 3 }}
                 onClick={(e) => {
                   e.stopPropagation();
                   document.getElementById("agendaNext")?.click();

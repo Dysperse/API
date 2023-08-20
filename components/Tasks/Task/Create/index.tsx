@@ -179,6 +179,10 @@ export function CreateTask({
         location: "",
         image: "",
       });
+      setShowedFields({
+        description: false,
+        location: false,
+      });
       document.getElementById("title")?.focus();
       setLoading(false);
     },
