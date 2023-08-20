@@ -1,3 +1,4 @@
+import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -50,6 +51,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
           },
         }}
       >
+        <Puller showOnDesktop sx={{ mt: 1, mb: -2 }} />
         {timeOpen ? (
           <motion.div
             key="time"
