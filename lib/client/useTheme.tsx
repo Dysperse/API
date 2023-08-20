@@ -376,7 +376,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 background: { sm: palette[2] },
               },
               "&:active": {
-                background: { xs: palette[2], sm: palette[3] },
+                background: {
+                  xs: palette[2],
+                  sm: addHslAlpha(palette[3], 0.5),
+                },
               },
             }),
         },
