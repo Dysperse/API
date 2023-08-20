@@ -143,26 +143,27 @@ export function UpdateButton() {
             maxWidth: "calc(100% - 30px)",
           }}
         >
-          <Typography variant="h3" className="font-heading">
-            Update required
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+            <Typography variant="h3" className="font-heading">
+              Update required
+            </Typography>
+            <IconButton
+              sx={{ ml: "auto", background: addHslAlpha(palette[3], 0.5) }}
+              onClick={() => {
+                setShowScreen(false);
+                setShowSnackbar(true);
+              }}
+            >
+              <Icon>expand_more</Icon>
+            </IconButton>
+          </Box>
           <Typography variant="body2" sx={{ mt: 1 }}>
             Your version of Dysperse is out of date. If this is taking too long,
             try hard refreshing the page (cmd + shift + r)
           </Typography>
           <Box sx={{ display: "flex", mt: 2, gap: 2 }}>
-            <LoadingButton
-              variant="outlined"
-              onClick={() => {
-                setShowScreen(false);
-                setShowSnackbar(true);
-              }}
-              fullWidth
-            >
-              Collapse
-            </LoadingButton>
-            <LoadingButton variant="outlined" onClick={handleReload} fullWidth>
-              Refresh
+            <LoadingButton variant="outlined" onClick={handleReload}>
+              <Icon>refresh</Icon>
             </LoadingButton>
             <LoadingButton
               loading
