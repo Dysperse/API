@@ -105,6 +105,7 @@ export default function Onboarding() {
     <>
       <Intro />
       <Box
+        className="noDrag"
         sx={{
           ["@keyframes showContent"]: {
             "0%": {
