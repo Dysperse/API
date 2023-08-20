@@ -5,7 +5,13 @@ import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { Box, Button, CssBaseline, Snackbar } from "@mui/material";
+import {
+  Box,
+  Button,
+  CssBaseline,
+  Snackbar,
+  useMediaQuery,
+} from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -65,6 +71,7 @@ export default function AppLayout({
   });
 
   const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const shouldUseXAxis = ["/users", "/groups"].find((path) =>
     router.asPath.includes(path)
@@ -79,9 +86,11 @@ export default function AppLayout({
       </Box>
     );
   }
-
   return (
-    <Box onContextMenu={(e) => e.preventDefault()} sx={{ display: "flex" }}>
+    <Box
+      onContextMenu={(e) => !isMobile && e.preventDefault()}
+      sx={{ display: "flex" }}
+    >
       <ReleaseModal />
       <Snackbar
         open={!dismissed && hasReachedLimit && !error}
