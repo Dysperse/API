@@ -376,7 +376,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 background: { sm: palette[2] },
               },
               "&:active": {
-                background: palette[2],
+                background: { xs: palette[2], sm: palette[3] },
               },
             }),
         },
