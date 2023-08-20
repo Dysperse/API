@@ -281,8 +281,8 @@ const Column = React.memo(function Column({
   // stupid virtuoso bug
   const [rerender, setRerender] = useState(false);
   useEffect(() => {
-    if (!isMobile) setRerender(true);
-  }, [isMobile]);
+    setRerender(true);
+  }, []);
 
   /**
    * Sort the tasks in a "[pinned, incompleted, completed]" order
