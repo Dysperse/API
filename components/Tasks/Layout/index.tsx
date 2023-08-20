@@ -837,7 +837,7 @@ export function TasksLayout({
                   },
                   fontSize: "15px",
                   borderRadius: 999,
-                  transition: "all .2s",
+                  transition: "transform .1s",
                 }}
                 onClick={() => document.getElementById("agendaToday")?.click()}
               >
@@ -858,7 +858,7 @@ export function TasksLayout({
                     "&:active": {
                       transform: "scale(0.9)",
                     },
-                    transition: "all .2s",
+                    transition: "transform .1s",
                   }}
                 >
                   <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
