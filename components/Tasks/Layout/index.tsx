@@ -165,7 +165,13 @@ const buttonStyles = (palette, condition: boolean) => ({
   justifyContent: "flex-start",
   borderRadius: 4,
   "&:hover, &:focus": {
-    background: addHslAlpha(palette[4], 0.5),
+    background: {
+      xs: "transparent!important",
+      sm: addHslAlpha(palette[4], 0.5),
+    },
+  },
+  "&:active": {
+    background: addHslAlpha(palette[4], 0.5) + "!important",
   },
   overflow: "hidden",
   textOverflow: "ellipsis",
