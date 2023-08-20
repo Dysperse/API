@@ -571,9 +571,19 @@ export function TasksLayout({
         color: palette[8],
         px: 1,
         height: 48,
+        ml: -0.5,
+        mt: -0.1,
         ...(!title.includes("•") && { minWidth: 0 }),
         whiteSpace: "nowrap",
+        transition: "transform .1s !important",
         overflow: "hidden",
+        "&:hover": {
+          background: "transparent",
+        },
+        "&:active": {
+          background: addHslAlpha(palette[3], 0.5),
+          transform: "scale(.95)",
+        },
       }}
       size="large"
       onClick={() => {
@@ -881,7 +891,7 @@ export function TasksLayout({
             },
           }}
         >
-          <Box sx={{ display: "flex", mt: -0.3, ml: 0.95, mb: 1 }}>
+          <Box sx={{ display: "flex", mt: -0.2, ml: 0.89, mb: 1 }}>
             {trigger}
             <div style={{ marginLeft: "auto" }} />
           </Box>
