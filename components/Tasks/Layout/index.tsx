@@ -773,6 +773,9 @@ export function TasksLayout({
       </AppBar>
       {isMobile && (
         <AppBar
+          // onClick={() => {
+          // window.scrollTo({ top: 0, behavior: "smooth" });
+          // }}
           sx={{
             ...taskStyles(palette).appBar,
             ...(isSelecting && {
