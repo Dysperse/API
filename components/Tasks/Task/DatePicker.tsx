@@ -31,7 +31,6 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
 
   const trigger = cloneElement(children, {
     onClick: (e) => {
-      e.stopPropagation();
       setOpen(true);
     },
   });

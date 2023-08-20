@@ -8,7 +8,6 @@ import {
   Divider,
   Icon,
   IconButton,
-  LinearProgress,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -348,17 +347,6 @@ const Column = React.memo(function Column({
         borderColor: addHslAlpha(palette[4], 0.5),
       }}
     >
-      {loading && (
-        <LinearProgress
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            zIndex: 999999999,
-          }}
-        />
-      )}
       <Header
         handleMutate={handleMutate}
         type={type}
