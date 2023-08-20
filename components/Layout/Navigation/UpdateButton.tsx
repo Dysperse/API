@@ -113,8 +113,27 @@ export function UpdateButton() {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
   return (
     <>
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={6000000000000}
+        onClose={() => null}
+        sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
+        message={
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <CircularProgress size={20} />
+            <Box>
+              <Typography>Updating Dysperse...</Typography>
+              <Typography sx={{ mt: -0.2 }} variant="body2">
+                App will reload once finished
+              </Typography>
+            </Box>
+          </Box>
+        }
+      />
       <Backdrop sx={{ zIndex: 9999999 }} open={showScreen}>
         <Box
           sx={{
@@ -132,6 +151,16 @@ export function UpdateButton() {
             try hard refreshing the page (cmd + shift + r)
           </Typography>
           <Box sx={{ display: "flex", mt: 2, gap: 2 }}>
+            <LoadingButton
+              variant="outlined"
+              onClick={() => {
+                setShowScreen(false);
+                setShowSnackbar(true);
+              }}
+              fullWidth
+            >
+              Collapse
+            </LoadingButton>
             <LoadingButton variant="outlined" onClick={handleReload} fullWidth>
               Refresh
             </LoadingButton>
