@@ -3,6 +3,7 @@
 # **Quick links**
 * [Homepage](https://dysperse.com)
 * [Dysperse dashboard](https://my.dysperse.com)
+* [Statys](https://status.dysperse.com)
 * [Blog](https://blog.dysperse.com)
 
 
