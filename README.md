@@ -1,54 +1,90 @@
-![image](https://user-images.githubusercontent.com/77016441/213094756-4a669972-285b-41f4-b0b2-15985bb189aa.png)
+![Dysperse](https://socialify.git.ci/Dysperse/Dysperse/image?description=1&descriptionEditable=The%20new%20standard%20for%20productivity&font=Jost&issues=1&logo=https%3A%2F%2Fassets.dysperse.com%2Fv8%2Fios%2F512.png&name=1&pattern=Plus&stargazers=1&theme=Auto)
 
-# Dysperse
+# **Quick links**
+* [Homepage](https://dysperse.com)
+* [Dysperse dashboard](https://my.dysperse.com)
+* [Blog](https://blog.dysperse.com)
 
-## Your all-in-one personal productivity platform
 
-![CB](https://img.shields.io/badge/Contributors-20-yellow?style=flat)
-![Frontend](https://img.shields.io/static/v1?label=Frontend&message=HTML,%20CSS,%20JS&color=%3CCOLOR%3E&style=flat)
-![Backend](https://img.shields.io/static/v1?label=Backend&message=PHP,%20SQL&color=red&style=flat)
-[![Build Status](https://img.shields.io/github/forks/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
-[![Build Status](https://img.shields.io/github/stars/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
-[![License](https://img.shields.io/github/license/Dysperse/Dysperse.svg?style=flat)](https://github.com/ManuTheCoder/Dysperse-desktop)
+# **Introduction**
 
-## Meet Dysperse.
+Dysperse is a revolutionary all-in-one unified productivity platform designed to enhance your efficiency and streamline your tasks. With a comprehensive suite of features, Dysperse empowers users with an array of tools to boost their productivity, track habits, collaborate seamlessly, and manage their tasks effectively. No matter your background or responsibilities – whether a high school student, college attendee, or working professional – Dysperse caters to your needs with its versatile and highly customizable interface.
 
-Dysperse is an app that helps users increase their productivity and organization by providing a free and open-source platform that allows people to organize their homes, belongings, tasks, checklists, and goals. The app has a user-friendly interface and customizable boards and checklists. It also has robust analytics and reporting, as well as gamification elements like achievements and rewards to motivate users. Dysperse is built with technologies such as TypeScript/JavaScript, React, React Native, and Electron, and also offers integration with popular virtual assistants. It is accessible for everyone and available on any device.
+# **Key features**
 
-## Why?
+- **Tasks**
+  - Dysperse's robust task management system allows you to efficiently organize your to-do lists, ensuring nothing falls through the cracks.
+  - Customize tasks with various features, including adding notes, locations, calls, and attachments.
+  - Sort tasks within both the perspectives (agenda) and kanban boards to align with your preferences.
+  - Search tasks effortlessly to quickly find what you need.
 
-Dysperse offers several unique features and benefits that may make it a more appealing option for users compared to other productivity apps. Some of these include:
+- **Agenda**
+  - Experience unparalleled organization with Dysperse's agenda feature, equipped with three unique "perspectives": days, weeks, and months.
+  - Accompanying the agenda is a color-coded task overview in the sidebar, offering instant insights into your upcoming tasks.
+  - Leverage productivity insights to gain analytics that reveal your most productive periods.
 
-- Free and open-source: Dysperse is completely free to use and the source code is available for anyone to review, modify, and contribute to. This makes it accessible to a wide range of users and allows for a strong community of developers to continue improving the app.
+- **Kanban boards**
+  - Dysperse offers an extensive array of kanban board templates to tailor your task management process.
+  - Customize board names, descriptions, categories, columns, and their respective names, emojis, and order.
+  - Foster collaboration by inviting others to boards with read-only or member permissions for designated timeframes.
 
-- Customizable boards and checklists: Dysperse allows users to create boards and checklists that fit their specific needs and preferences. This allows for a more personalized and effective experience.
+- **Focus mode**
+  - Elevate your focus and reduce overwhelm with Dysperse's unique focus mode for the agenda.
+  - Blur out tasks from other days to maintain a clear and manageable to-do list.
+  - Enjoy additional widgets such as weather, sticky notes, and a focus timer to enhance your productivity.
 
-- Gamification elements: Dysperse includes features such as achievements, trophies, and rewards to motivate and engage users. This can make the app more fun and enjoyable to use, encouraging users to keep coming back.
+- **Coach**
+  - Unlock your potential with Dysperse's coach feature, complete with templates and mood-tracking capabilities.
+  - Engage in daily check-ins to monitor emotions, sleep, and stress levels.
+  - Track your progress over weeks and years to gauge your goal activity.
 
-- Scan feature: Dysperse helps people quickly add items to their inventory by simply hovering their camera over an item, and using AI to recognize the item, which eliminates the need for typing and manual data entry.
+- **Inventory**
+  - Efficiently manage your belongings with the inventory feature, equipped with image recognition for swift creation of shareable lists.
+  - Personalize inventory items with stars, notes, categories, and custom rooms.
+  - Choose from default rooms like kitchen, bedroom, bathroom, or tailor rooms to your living space.
 
-- Collaboration: Dysperse allows users to share their boards, checklists, inventory, and goals with family and friends, which can be helpful for people living in a dorm or shared house to stay organized.
+- **Friends**
+  - Connect with friends on Dysperse to instantly view their statuses – available, busy, away, or offline.
+  - Create profiles and synchronize contacts and Spotify accounts to enhance your social interactions.
+  - Personalize profiles with images, bios, birthdays, names, usernames, locations, hobbies, and working hours.
 
-- Zero competition with other home inventory apps: Most existing solutions for home inventory apps have terrible reviews. Dysperse is one of the first apps that focus on home inventory, so it could be a solution for the people looking for a home inventory app
+- **Group collaboration**
+  - Dysperse facilitates collaborative efforts through group functionalities.
+  - Invite members to groups and collaborate on shared planners and inventory lists.
+  - Customize group details including name, color, and type (dorm, apartment, home, study group).
+  - Each group is allocated 500 "credits" of storage space, calculated based on tasks and items.
 
-- User-friendly interface: Dysperse has a user-friendly interface that makes it easy for users to navigate and understand how to use the app.
+- **Additional features**
+  - Enjoy a secure experience with two-factor authentication (2FA) and data encryption using AES 256 GCM encryption.
+  - Access Dysperse seamlessly across devices, with a progressive web app compatible with mobile devices.
+  - Choose from over 30 customizable themes, including a dark mode, to tailor the app to your preferences.
+  - Integrate Dysperse with Spotify, Google Calendar, and Canvas to further streamline your workflow.
+  - Benefit from push notifications that remind you of tasks and prompt you to achieve daily goals.
+  - Easily log in on desktop by scanning a QR code displayed on your signed-in phone.
 
-These features and benefits, along with the app's mission to empower people to take control of their productivity and organization, may make it a more appealing option for users compared to other productivity apps.
+# **Screenshots**
 
-### A bit about us
+| | |
+|---|---|
+| ![Screenshot 1](https://my.dysperse.com/screenshots/1.png) | ![Screenshot 2](https://my.dysperse.com/screenshots/2.png) |
+| ![Screenshot 3](https://my.dysperse.com/screenshots/3.png) | ![Screenshot 4](https://my.dysperse.com/screenshots/4.png) |
+| ![Screenshot 5](https://my.dysperse.com/screenshots/5.png) | ![Screenshot 6](https://my.dysperse.com/screenshots/6.png) |
+| ![Screenshot 7](https://my.dysperse.com/screenshots/7.png) | ![Screenshot 8](https://my.dysperse.com/screenshots/8.png) |
 
-As the COVID-19 pandemic hit, I started to face new challenges in terms of productivity and organization. With me working from home, the lines between personal and professional lives became blurred, and I felt the need for a tool to help me manage my tasks and responsibilities. Additionally, the pandemic created a sense of uncertainty and anxiety, which made it more difficult to focus and stay motivated. I saw this as an opportunity and decided to start working on an app that addresses these issues and empowers people to take control of their productivity and organization in the face of such adversity. That's how the idea of Dysperse came to life.
+# **Tech stack**
 
-### By students, for students & families
+- Dysperse is built using Next.js, React, and Material-UI.
+- The platform is deployed on Vercel and Cloudflare to ensure optimal performance.
+- Dysperse offers a range of integration options and features keyboard shortcuts for enhanced desktop usability.
 
-Hey! I'm Manu. I started Dysperse as a middle school project. Ever since, Dysperse (formerly Carbon) has grown into a huge app with over 100K users!
+# **Conclusion**
 
-## Top contributors
+Dysperse stands as a versatile, minimalistic, and highly customizable productivity app designed to accommodate users from diverse backgrounds and responsibilities. With its intuitive design, robust feature set, and focus on collaboration and personalization, Dysperse is poised to transform how users approach their daily tasks and achieve their goals. Whether you're a student or a professional, Dysperse empowers you to take control of your productivity journey.
 
-- @ManuTheCoder
-- @WaterBottlesHydrate
 
-## Sponsors <3
+# **Sponsors**
+Dysperse wouldn't have been able to run without our amazing sponsors! <3
 
-<a href="https://vercel.com/?utm_source=smartlist&utm_campaign=oss"><img src="https://user-images.githubusercontent.com/77016441/183126898-2412e41b-40fe-4981-bf9f-5e8349f77d4e.png" alt="Vercel" width="250px"></a>
-<a href="https://neon.tech"><img src="https://dysperse.com/neon.png" alt="Neon" width="250px"></a>
+| [Vercel](https://vercel.com?utm_source=dysperse&utm_campaign=oss) | [Cloudflare](https://cloudflare.com/?utm_source=dysperse) | [Neon](https://neon.tech?utm_source=dysperse) |
+|---|---|---|
+| [![image](https://github.com/Dysperse/Dysperse/assets/77016441/a1432962-69f1-4efb-8b5c-6fdbc6e8cc12)](https://vercel.com?utm_source=dysperse&utm_campaign=oss) | [![image](https://dysperse.com/sponsors/cloudflare.png)](https://cloudflare.com?utm_source=dysperse) | [![image](https://dysperse.com/sponsors/neon.png)](https://neon.tech?utm_source=dysperse) |
