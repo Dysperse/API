@@ -6,6 +6,13 @@
 * [Statys](https://status.dysperse.com)
 * [Blog](https://blog.dysperse.com)
 
+# **Get the apps**
+
+
+<a href="https://apps.microsoft.com/store/detail/9N42Z6V0RL94?launch=true&mode=mini">
+	<img src="https://get.microsoft.com/images/en-US%20dark.svg" width="200"/>
+</a>
+
 
 # **Introduction**
 
