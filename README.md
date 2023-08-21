@@ -85,6 +85,6 @@ Dysperse stands as a versatile, minimalistic, and highly customizable productivi
 # **Sponsors**
 Dysperse wouldn't have been able to run without our amazing sponsors! <3
 
-[![image](https://github.com/Dysperse/Dysperse/assets/77016441/d60db0e6-b621-4415-8c87-6c5a6cd6d8d7)](https://vercel.com?utm_source=dysperse&utm_campaign=oss)
+[![image](https://dysperse.com/sponsors/vercel.svg)](https://vercel.com?utm_source=dysperse&utm_campaign=oss)
 [![image](https://dysperse.com/sponsors/cloudflare.png)](https://cloudflare.com?utm_source=dysperse)
 [![image](https://dysperse.com/sponsors/neon.png)](https://neon.tech?utm_source=dysperse)
