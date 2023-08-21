@@ -14,6 +14,12 @@
   "handle_links": "preferred",
   "theme_color": "#342a58",
   "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "windows",
+      "url": "https://apps.microsoft.com/store/detail/dysperse/9N42Z6V0RL94"
+    }
+  ],
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
