@@ -14,6 +14,9 @@
   "handle_links": "preferred",
   "theme_color": "#342a58",
   "prefer_related_applications": true,
+  "scope_extensions": [
+    { "origin": "*.dysperse.com" }
+  ],
   "related_applications": [
     {
       "platform": "windows",
