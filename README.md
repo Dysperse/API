@@ -62,7 +62,15 @@ Dysperse is a revolutionary all-in-one unified productivity platform designed to
   - Benefit from push notifications that remind you of tasks and prompt you to achieve daily goals.
   - Easily log in on desktop by scanning a QR code displayed on your signed-in phone.
 
-  
+# **Screenshots**
+
+| | |
+|---|---|
+| ![Screenshot 1](https://my.dysperse.com/screenshots/1.png) | ![Screenshot 2](https://my.dysperse.com/screenshots/2.png) |
+| ![Screenshot 3](https://my.dysperse.com/screenshots/3.png) | ![Screenshot 4](https://my.dysperse.com/screenshots/4.png) |
+| ![Screenshot 5](https://my.dysperse.com/screenshots/5.png) | ![Screenshot 6](https://my.dysperse.com/screenshots/6.png) |
+| ![Screenshot 7](https://my.dysperse.com/screenshots/7.png) | ![Screenshot 8](https://my.dysperse.com/screenshots/8.png) |
+
 # **Tech stack**
 
 - Dysperse is built using Next.js, React, and Material-UI.
@@ -73,9 +81,9 @@ Dysperse is a revolutionary all-in-one unified productivity platform designed to
 
 Dysperse stands as a versatile, minimalistic, and highly customizable productivity app designed to accommodate users from diverse backgrounds and responsibilities. With its intuitive design, robust feature set, and focus on collaboration and personalization, Dysperse is poised to transform how users approach their daily tasks and achieve their goals. Whether you're a student or a professional, Dysperse empowers you to take control of your productivity journey.
 
-| | |
-|---|---|
-| ![Screenshot 1](https://my.dysperse.com/screenshots/1.png) | ![Screenshot 2](https://my.dysperse.com/screenshots/2.png) |
-| ![Screenshot 3](https://my.dysperse.com/screenshots/3.png) | ![Screenshot 4](https://my.dysperse.com/screenshots/4.png) |
-| ![Screenshot 5](https://my.dysperse.com/screenshots/5.png) | ![Screenshot 6](https://my.dysperse.com/screenshots/6.png) |
-| ![Screenshot 7](https://my.dysperse.com/screenshots/7.png) | ![Screenshot 8](https://my.dysperse.com/screenshots/8.png) |
+
+# **Sponsors**
+Dysperse wouldn't have been able to run without our amazing sponsors! <3
+
+[<img src="https://images.ctfassets.net/e5382hct74si/78Olo8EZRdUlcDUFQvnzG7/fa4cdb6dc04c40fceac194134788a0e2/1618983297-powered-by-vercel.svg" alt="Powered by Vercel"/>![image](https://github.com/Dysperse/Dysperse/assets/77016441/d60db0e6-b621-4415-8c87-6c5a6cd6d8d7)
+](https://vercel.com?utm_source=dysperse&utm_campaign=oss)
