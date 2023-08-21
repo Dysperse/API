@@ -167,7 +167,7 @@ const buttonStyles = (palette, condition: boolean) => ({
   "&:hover, &:focus": {
     background: {
       xs: "transparent!important",
-      sm: addHslAlpha(palette[4], 0.5),
+      sm: addHslAlpha(palette[4], 0.5) + "!important",
     },
   },
   "&:active": {
