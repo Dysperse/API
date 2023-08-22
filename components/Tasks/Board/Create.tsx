@@ -419,6 +419,17 @@ export const templates = [
     ],
   },
   {
+    for: ["High School Club"],
+    category: "School",
+    name: "Club Management",
+    columns: [
+      { name: "Tasks", emoji: "1f4cb" },
+      { name: "Projects", emoji: "1f4c3" },
+      { name: "Events", emoji: "1f3c3" },
+      { name: "Finance", emoji: "1f4b0" }
+    ]
+  },
+  {
     for: ["Event planner", "Organizer"],
     category: "Work",
     name: "Event Planning Checklist",
