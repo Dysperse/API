@@ -139,7 +139,7 @@ function Page() {
             key={button.icon}
             onClick={() => {
               router.push(
-                button.text === "onboarding"
+                button.text === "Onboarding"
                   ? "/onboarding"
                   : `/settings/${button.text
                       .toLowerCase()
