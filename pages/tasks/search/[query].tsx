@@ -155,7 +155,6 @@ export default function Dashboard() {
             <Virtuoso
               {...(!isMobile && { customScrollParent: ref?.current })}
               useWindowScroll
-              style={{ height: "100%", width: "100%" }}
               totalCount={filteredData.length}
               itemContent={(index) => {
                 const task = filteredData[index];
