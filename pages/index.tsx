@@ -203,7 +203,7 @@ export function StatusSelector({
                 size="large"
               >
                 {_time === time && <Icon>check</Icon>}
-                {_time / 60} hours
+                {_time / 60} hour{_time / 60 !== 1 && "s"}
               </Button>
             ))}
           </Box>
