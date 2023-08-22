@@ -40,7 +40,7 @@ export default function ReleaseModal() {
         data[0] &&
         session &&
         session.user.lastReleaseVersionViewed &&
-        session.user.lastReleaseVersionViewed !== data[0].id
+        session.user.lastReleaseVersionViewed !== data[0]?.id
       ) {
         setOpen(true);
         setAlreadyOpened(true);
@@ -53,7 +53,7 @@ export default function ReleaseModal() {
     updateSettings(
       session,
       "lastReleaseVersionViewed",
-      data[0].id,
+      data[0]?.id,
       false,
       null,
       false,
@@ -74,7 +74,7 @@ export default function ReleaseModal() {
         },
       }}
     >
-      {data && session.user.lastReleaseVersionViewed !== data[0].id && (
+      {data && session.user.lastReleaseVersionViewed !== data[0]?.id && (
         <>
           <Puller showOnDesktop />
           <DialogContent sx={{ pt: 0 }}>
