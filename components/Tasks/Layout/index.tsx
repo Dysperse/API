@@ -154,7 +154,7 @@ export const taskStyles = (palette) => {
 
 const buttonStyles = (palette, condition: boolean) => ({
   cursor: { sm: "unset!important" },
-  transition: "none!important",
+  transition: "transform .1s !important",
   px: 1.5,
   gap: 1.5,
   py: 0.8,
@@ -171,6 +171,7 @@ const buttonStyles = (palette, condition: boolean) => ({
     },
   },
   "&:active": {
+    transform: "scale(.95)",
     background: addHslAlpha(palette[4], 0.5) + "!important",
   },
   overflow: "hidden",
