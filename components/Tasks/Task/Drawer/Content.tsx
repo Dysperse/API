@@ -134,7 +134,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
   }, [task, session]);
 
   useHotkeys(
-    "!",
+    "shift+1",
     (e) => {
       e.preventDefault();
       handlePriorityChange();
