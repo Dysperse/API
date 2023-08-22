@@ -224,10 +224,12 @@ const ChipBar = React.memo(function ChipBar({
                 pr: "0!important",
                 ...chipStyles(false),
                 ...(data.color !== "grey" && {
-                  background: colors[data.color]["A400"] + "!important",
-                  borderColor: colors[data.color]["A400"] + "!important",
-                  "& *": {
-                    color: "#000 !important",
+                  "&, &:hover, &:active, &:focus": {
+                    background: colors[data.color]["A400"] + "!important",
+                    borderColor: colors[data.color]["A400"] + "!important",
+                    "& *": {
+                      color: "#000 !important",
+                    },
                   },
                 }),
               }}
