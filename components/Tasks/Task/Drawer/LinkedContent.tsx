@@ -37,7 +37,10 @@ export const LinkedContent = React.memo(function LinkedContent({
 
   const handleRemoveBoard = async (e) => {
     if (!task.due) {
-      toast.error("Set a due date to remove this task from a board");
+      toast.error(
+        "Set a due date to remove this task from a board",
+        toastStyles
+      );
       return;
     }
 
