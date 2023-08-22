@@ -27,6 +27,9 @@ export function ImageViewer({
           e.preventDefault();
           e.stopPropagation();
         }}
+        onContextMenu={(e) => {
+          e.stopPropagation();
+        }}
         PaperProps={{
           sx: {
             width: { xs: "100%", sm: "auto" },

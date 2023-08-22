@@ -53,7 +53,7 @@ export const ImageModal = React.memo(function ImageModal({
   );
 
   return (
-    <>
+  <>
       {createPortal(
         <FileDrop
           onFrameDragEnter={(event) => console.log("onFrameDragEnter", event)}
