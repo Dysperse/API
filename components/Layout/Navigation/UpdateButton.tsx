@@ -120,6 +120,10 @@ export function UpdateButton() {
       <Snackbar
         open={showSnackbar}
         autoHideDuration={6000000000000}
+        onClick={() => {
+          setShowSnackbar(false);
+          setShowScreen(true);
+        }}
         onClose={() => null}
         sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
         message={
