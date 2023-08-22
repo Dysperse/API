@@ -337,7 +337,7 @@ export const Task: any = React.memo(function Task({
   const palette = useColor(isSelected ? "blue" : session.themeColor, isDark);
 
   const handleSelect = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (selection.values.includes(taskData.id)) {
       selection.set(selection.values.filter((s) => s !== taskData.id));
     } else {
