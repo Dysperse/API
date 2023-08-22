@@ -54,11 +54,11 @@ export default function Dashboard() {
   const ref = useRef();
 
   return (
-    <TasksLayout open={open} setOpen={setOpen}>
+    <TasksLayout open={open} setOpen={setOpen} contentRef={ref}>
       <Head>
         <title>{filteredData.length} results &bull; Search</title>
       </Head>
-      <Box ref={ref}>
+      <Box>
         <IconButton
           size="large"
           onClick={() => router.push("/tasks/agenda/days")}
