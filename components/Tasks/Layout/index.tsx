@@ -885,6 +885,7 @@ export function TasksLayout({
           anchor="top"
           onClose={handleClose}
           onClick={handleClose}
+          onContextMenu={(e) => e.preventDefault()}
           open={open}
           {...{ TransitionComponent: Fade }}
           PaperProps={{
