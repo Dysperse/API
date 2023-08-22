@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 
 /**
@@ -51,12 +51,14 @@ export default function Dashboard() {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
+  const ref = useRef();
+
   return (
     <TasksLayout open={open} setOpen={setOpen}>
       <Head>
         <title>{filteredData.length} results &bull; Search</title>
       </Head>
-      <Box>
+      <Box ref={ref}>
         <IconButton
           size="large"
           onClick={() => router.push("/tasks/agenda/days")}
@@ -151,6 +153,7 @@ export default function Dashboard() {
             </Box>
           ) : (
             <Virtuoso
+              {...(!isMobile && { customScrollParent: ref?.current })}
               useWindowScroll
               style={{ height: "100%", width: "100%" }}
               totalCount={filteredData.length}
