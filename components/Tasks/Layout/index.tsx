@@ -171,7 +171,7 @@ const buttonStyles = (palette, condition: boolean) => ({
     },
   },
   "&:active": {
-    transform: "scale(.95)",
+    transform: { xs: "scale(.95)", sm: "none" },
     background: addHslAlpha(palette[4], 0.5) + "!important",
   },
   overflow: "hidden",
