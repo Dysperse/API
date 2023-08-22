@@ -29,7 +29,9 @@ const handler = async (req, res) => {
           },
         }),
         ...(req.query.pinned && { pinned: req.query.pinned === "true" }),
-        ...(req.query.columnId && { columnId: req.query.columnId }),
+        ...(req.query.columnId && {
+          columnId: req.query.columnId === "null" ? null : req.query.columnId,
+        }),
         ...((req.query.description || req.query.description === "") && {
           description: req.query.description,
         }),
