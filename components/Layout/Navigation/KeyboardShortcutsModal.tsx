@@ -77,20 +77,24 @@ export default function KeyboardShortcutsModal() {
             name: "Navigation",
             shortcuts: [
               {
-                name: "Zen",
-                keys: ["ctrl", "1"],
+                name: "Home",
+                keys: ["ctrl", "shift", "1"],
               },
               {
                 name: "Boards",
-                keys: ["ctrl", "2"],
+                keys: ["ctrl", "shift", "2"],
               },
               {
                 name: "Coach",
-                keys: ["ctrl", "3"],
+                keys: ["ctrl", "shift", "3"],
               },
               {
                 name: "Inventory",
-                keys: ["ctrl", "4"],
+                keys: ["ctrl", "shift", "4"],
+              },
+              {
+                name: "Profile",
+                keys: ["ctrl", "p"],
               },
               {
                 name: "Settings",
@@ -123,6 +127,10 @@ export default function KeyboardShortcutsModal() {
               { name: "Add note", keys: ["alt", "d"] },
               { name: "Set date", keys: ["alt", "s"] },
             ],
+          },
+          {
+            name: "Task management",
+            shortcuts: [{ name: "Toggle priority", keys: ["!"] }],
           },
           {
             name: "Item management",
