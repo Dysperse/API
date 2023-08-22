@@ -437,6 +437,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                   task.mutate();
                   document.getElementById("taskMutationTrigger")?.click();
                 }}
+                defaultDate={task.due ? new Date(task.due) : null}
               >
                 <Button variant="contained">
                   <Icon>add_circle</Icon>Subtask
