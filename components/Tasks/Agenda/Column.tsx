@@ -413,7 +413,7 @@ const Column = React.memo(function Column({
                 </Typography>
               </Box>
               <Box sx={{ width: "100%", mt: 1 }}>
-                {sortedTasks.length !== 0 && <Divider sx={{ mt: 2, mb: -1 }} />}
+                {sortedTasks.length !== 0 && <Divider sx={{ my: 2 }} />}
               </Box>
             </motion.div>
           </Box>
