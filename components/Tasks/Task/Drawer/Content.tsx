@@ -30,6 +30,7 @@ import { useTaskContext } from "./Context";
 import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
+import { useHotkeys } from "react-hotkeys-hook";
 
 function DrawerMenu({
   task,
@@ -131,6 +132,15 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
       toastStyles
     );
   }, [task, session]);
+
+  useHotkeys(
+    "!",
+    (e) => {
+      e.preventDefault();
+      handlePriorityChange();
+    },
+    []
+  );
 
   const handleComplete = useCallback(async () => {
     let completed = task.completed;
