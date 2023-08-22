@@ -437,6 +437,14 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                   task.mutate();
                   document.getElementById("taskMutationTrigger")?.click();
                 }}
+                boardData={
+                  task.column
+                    ? {
+                        boardId: "",
+                        columnId: task.column.id,
+                      }
+                    : undefined
+                }
                 defaultDate={task.due ? new Date(task.due) : null}
               >
                 <Button variant="contained">
