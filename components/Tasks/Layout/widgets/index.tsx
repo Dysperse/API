@@ -26,7 +26,7 @@ export function WidgetBar({ view, setView }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "90px",
+        width: "85px",
         py: 2,
         borderRadius: 0,
         background: palette[2],
