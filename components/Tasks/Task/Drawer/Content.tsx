@@ -137,7 +137,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
     "shift+1",
     (e) => {
       e.preventDefault();
-      handlePriorityChange();
+      document.getElementById("pinTask")?.click();
     },
     []
   );
@@ -299,6 +299,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
             />
             {!isMobile && (
               <IconButton
+                id="pinTask"
                 onClick={handlePriorityChange}
                 sx={{
                   flexShrink: 0,
