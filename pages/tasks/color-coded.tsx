@@ -14,6 +14,7 @@ import {
 import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { mutate } from "swr";
 
@@ -26,6 +27,61 @@ export function ColoredTasks() {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+
+  const emptyPlaceholder = (
+    <Box
+      sx={{
+        textAlign: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        userSelect: "none",
+        height: {
+          xs: "calc(100dvh - var(--navbar-height) - 55px)",
+          sm: "100dvh",
+        },
+      }}
+    >
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+      >
+        <Image
+          src="/images/colorCoded.png"
+          width={256}
+          height={256}
+          alt="Backlog"
+          style={{
+            ...(isDark && {
+              filter: "invert(100%)",
+            }),
+          }}
+        />
+      </motion.div>
+      <Box sx={{ width: "300px", maxWidth: "calc(100vw - 40px)", mb: 2 }}>
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          <Typography variant="h6" gutterBottom sx={{ mt: -2 }}>
+            Add some color!!
+          </Typography>
+        </motion.div>
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <Typography variant="body1">
+            Try adding a color to an incomplete task, and it&apos;ll appear
+            here.
+          </Typography>
+        </motion.div>
+      </Box>
+    </Box>
+  );
 
   if (!data) {
     return (
@@ -118,43 +174,8 @@ export function ColoredTasks() {
       <Box
         sx={{ px: { sm: 2 }, pb: data.length == 0 ? 0 : 15, maxWidth: "100vw" }}
       >
-        {data.length === 0 && (
-          <Box
-            sx={{
-              textAlign: "center",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              userSelect: "none",
-              height: {
-                xs: "calc(100dvh - var(--navbar-height) - 55px)",
-                sm: "100dvh",
-              },
-            }}
-          >
-            <Image
-              src="/images/colorCoded.png"
-              width={256}
-              height={256}
-              alt="Backlog"
-              style={{
-                ...(isDark && {
-                  filter: "invert(100%)",
-                }),
-              }}
-            />
-            <Box sx={{ width: "300px", maxWidth: "calc(100vw - 40px)", mb: 2 }}>
-              <Typography variant="h6" gutterBottom sx={{ mt: -2 }}>
-                Add some color!
-              </Typography>
-              <Typography variant="body1">
-                Try adding a color to an incomplete task, and it&apos;ll appear
-                here.
-              </Typography>
-            </Box>
-          </Box>
-        )}
+        {data.length === 0 && emptyPlaceholder}
+
         {[
           ...data
             .filter((task) => color === "all" || task.color === color)
@@ -169,50 +190,8 @@ export function ColoredTasks() {
           />
         ))}
         {!data.find((task) => color === "all" || task.color === color) &&
-          data.length >= 1 && (
-            <Box sx={{ textAlign: "center", mt: 5 }}>
-              <Box
-                sx={{
-                  textAlign: "center",
-                  display: "inline-flex",
-                  mx: "auto",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  background: palette[2],
-                  borderRadius: 5,
-                  userSelect: "none",
-                }}
-              >
-                <Image
-                  src="/images/colorCoded.png"
-                  width={256}
-                  height={256}
-                  alt="Backlog"
-                  style={{
-                    ...(isDark && {
-                      filter: "invert(100%)",
-                    }),
-                  }}
-                />
-                <Box
-                  sx={{
-                    width: "300px",
-                    maxWidth: "calc(100vw - 40px)",
-                    mb: 2,
-                  }}
-                >
-                  <Typography variant="h6" gutterBottom sx={{ mt: -2 }}>
-                    Add some color!
-                  </Typography>
-                  <Typography variant="body1">
-                    Try adding a color to an incomplete task, and it&apos;ll
-                    appear here.
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          )}
+          data.length >= 1 &&
+          emptyPlaceholder}
       </Box>
     </Box>
   );

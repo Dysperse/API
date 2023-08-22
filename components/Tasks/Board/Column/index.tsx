@@ -495,7 +495,7 @@ export function Column({
           <Virtuoso
             isScrolling={setIsScrolling}
             useWindowScroll
-            customScrollParent={columnRef.current}
+            {...(!isMobile && { customScrollParent: columnRef.current })}
             data={sortedTasks}
             itemContent={(_, task) => (
               <Task
