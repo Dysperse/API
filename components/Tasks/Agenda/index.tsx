@@ -297,7 +297,7 @@ export function Agenda({ type, date }) {
             flexDirection: "row",
             flexGrow: 1,
             maxWidth: "100%",
-            overflowX: "scroll",
+            overflowX: { xs: "hidden", sm: "auto" },
             width: "100%",
             height: "100%",
           }}
