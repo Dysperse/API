@@ -74,61 +74,63 @@ export default function ReleaseModal() {
         },
       }}
     >
-      {data && session.user.lastReleaseVersionViewed !== data[0]?.id && (
-        <>
-          <Puller showOnDesktop />
-          <DialogContent sx={{ pt: 0 }}>
-            <Typography variant="h6">
-              What&apos;s new in version {data[0].name.replace("v", "")}
-            </Typography>
-            <Typography>{dayjs(data[0].published_at).fromNow()}</Typography>
-            <Divider sx={{ mt: 2 }} />
-            <DialogContentText
-              sx={{
-                "& li": {
-                  mb: 1,
-                },
-                "& h4": {
-                  textDecoration: "underline",
-                },
-                "& img": {
-                  maxWidth: "100%",
-                  borderRadius: 5,
-                },
-                "& a": {
-                  color: "inherit",
-                },
-              }}
-            >
-              <Markdown>
-                {data[0].body.includes("<!--dysperse-changelog-end-->")
-                  ? data[0].body.split("<!--dysperse-changelog-end-->")[0]
-                  : data[0].body}
-              </Markdown>
-            </DialogContentText>
-            <DialogActions
-              sx={{
-                borderTop: "1px solid",
-                borderColor: palette[3],
-                pt: 2,
-              }}
-            >
-              <Typography variant="body2" sx={{ mr: "auto" }}>
-                Missed an update? Check out our{" "}
-                <Link
-                  target="_blank"
-                  href="https://github.com/Dysperse/Dysperse/releases"
-                >
-                  archive
-                </Link>
+      {data &&
+        data[0] &&
+        session.user.lastReleaseVersionViewed !== data[0]?.id && (
+          <>
+            <Puller showOnDesktop />
+            <DialogContent sx={{ pt: 0 }}>
+              <Typography variant="h6">
+                What&apos;s new in version {data[0].name.replace("v", "")}
               </Typography>
-              <Button variant="contained" onClick={handleClose}>
-                Okay!
-              </Button>
-            </DialogActions>
-          </DialogContent>
-        </>
-      )}
+              <Typography>{dayjs(data[0].published_at).fromNow()}</Typography>
+              <Divider sx={{ mt: 2 }} />
+              <DialogContentText
+                sx={{
+                  "& li": {
+                    mb: 1,
+                  },
+                  "& h4": {
+                    textDecoration: "underline",
+                  },
+                  "& img": {
+                    maxWidth: "100%",
+                    borderRadius: 5,
+                  },
+                  "& a": {
+                    color: "inherit",
+                  },
+                }}
+              >
+                <Markdown>
+                  {data[0].body.includes("<!--dysperse-changelog-end-->")
+                    ? data[0].body.split("<!--dysperse-changelog-end-->")[0]
+                    : data[0].body}
+                </Markdown>
+              </DialogContentText>
+              <DialogActions
+                sx={{
+                  borderTop: "1px solid",
+                  borderColor: palette[3],
+                  pt: 2,
+                }}
+              >
+                <Typography variant="body2" sx={{ mr: "auto" }}>
+                  Missed an update? Check out our{" "}
+                  <Link
+                    target="_blank"
+                    href="https://github.com/Dysperse/Dysperse/releases"
+                  >
+                    archive
+                  </Link>
+                </Typography>
+                <Button variant="contained" onClick={handleClose}>
+                  Okay!
+                </Button>
+              </DialogActions>
+            </DialogContent>
+          </>
+        )}
     </SwipeableDrawer>
   );
 }
