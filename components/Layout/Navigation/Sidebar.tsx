@@ -131,6 +131,7 @@ export function Sidebar() {
 
   const styles = (active: any = false) => {
     return {
+      WebkitAppRegion: "no-drag",
       color: palette[12],
       borderRadius: 3,
       my: 0.5,
@@ -177,6 +178,7 @@ export function Sidebar() {
   return (
     <Box
       sx={{
+        WebkitAppRegion: "drag",
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
@@ -287,6 +289,7 @@ export function Sidebar() {
           mb: 1,
           alignItems: "center",
           display: "flex",
+          WebkitAppRegion: "no-drag",
           flexDirection: "column",
         }}
       >
