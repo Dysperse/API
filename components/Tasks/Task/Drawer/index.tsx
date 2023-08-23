@@ -64,8 +64,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         id: taskId,
       });
       mutate();
+      mutateSWR(mutationUrl);
     },
-    [mutate, session, setOpen]
+    [mutate, session, setOpen, mutationUrl]
   );
 
   useHotkeys(
