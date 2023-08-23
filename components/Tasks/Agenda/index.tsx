@@ -135,7 +135,11 @@ export function Agenda({ type, date }) {
         <motion.div
           initial={{ y: -100 }}
           animate={{ y: 0 }}
-          style={{ width: "100%" }}
+          style={{
+            width: "100%",
+            zIndex: 999,
+            overflow: "visible",
+          }}
         >
           <Box
             sx={{
@@ -148,9 +152,8 @@ export function Agenda({ type, date }) {
                 view === "priority"
                   ? ""
                   : `linear-gradient(${palette[1]}, ${palette[2]})`,
-              borderBottom: `1.5px solid ${
-                palette[view === "priority" ? 3 : 2]
-              }`,
+              borderBottom: `1.5px solid ${palette[view === "priority" ? 3 : 2]
+                }`,
               width: "100%",
               transition: "all .2s",
 

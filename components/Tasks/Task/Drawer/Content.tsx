@@ -20,6 +20,7 @@ import {
 import dayjs from "dayjs";
 import { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { parseEmojis } from ".";
 import { Task } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
@@ -30,7 +31,6 @@ import { useTaskContext } from "./Context";
 import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
-import { useHotkeys } from "react-hotkeys-hook";
 
 function DrawerMenu({
   task,
@@ -277,10 +277,10 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 {task.completed ? "Completed" : "Complete"}
               </span>
             </Button>
-            <RescheduleModal handlePostpone={handlePostpone}>
+            {task.due ? <RescheduleModal handlePostpone={handlePostpone}>
               <Button
                 disableRipple
-                disabled={shouldDisable || !task.due}
+                disabled={shouldDisable}
                 sx={{
                   px: 1.5,
                   ...styles.button,
@@ -289,7 +289,33 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 <Icon className="outlined">bedtime</Icon>
                 Snooze
               </Button>
-            </RescheduleModal>
+            </RescheduleModal> :
+
+              <SelectDateModal
+                styles={() => { }}
+                date={task.due}
+                setDate={(d) => {
+                  task.close();
+                  task.set((prev) => ({
+                    ...prev,
+                    due: d ? null : d?.toISOString(),
+                  }));
+                  task.edit(task.id, "due", d.toISOString());
+                }}
+              >
+                <Button
+                  disableRipple
+                  disabled={shouldDisable}
+                  sx={{
+                    px: 1.5,
+                    ...styles.button,
+                  }}
+                >
+                  <Icon className="outlined">today</Icon>
+                  Schedule
+                </Button>
+              </SelectDateModal>
+            }
             <DrawerMenu
               handlePriorityChange={handlePriorityChange}
               shouldDisable={shouldDisable}
@@ -365,7 +391,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
           <ColorPopover disabled={shouldDisable} />
           {!isSubTask && (
             <SelectDateModal
-              styles={() => {}}
+              styles={() => { }}
               date={task.due}
               setDate={(d) => {
                 task.close();
@@ -441,9 +467,9 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 boardData={
                   task.column
                     ? {
-                        boardId: "",
-                        columnId: task.column.id,
-                      }
+                      boardId: "",
+                      columnId: task.column.id,
+                    }
                     : undefined
                 }
                 defaultDate={task.due ? new Date(task.due) : null}
