@@ -85,11 +85,16 @@ export function CreateTask({
   });
 
   useEffect(() => {
-    setFormData((e) => ({ ...e, ...defaultFields }));
-    if (defaultFields.description) {
-      setShowedFields((e) => ({ ...e, description: true }));
+    if (open) {
+      setFormData((prevFormData) => ({ ...prevFormData, ...defaultFields }));
+      if (defaultFields.description) {
+        setShowedFields((prevShowedFields) => ({
+          ...prevShowedFields,
+          description: true,
+        }));
+      }
     }
-  }, [defaultFields]);
+  }, [open, defaultFields]);
 
   const [showedFields, setShowedFields] = useState({
     location: false,
