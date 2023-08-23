@@ -19,11 +19,6 @@ const handler = async (req, res) => {
           completed: req.query.completed === "true",
           completedAt:
             req.query.completed === "true" ? new Date(req.query.date) : null,
-          completedBy: {
-            connect: {
-              email: req.query.completedBy,
-            },
-          },
         }),
         ...(req.query.pinned && { pinned: req.query.pinned === "true" }),
         ...(req.query.columnId && {

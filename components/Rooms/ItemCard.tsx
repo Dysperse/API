@@ -15,20 +15,14 @@ import type { Item as ItemType } from "@prisma/client";
 /**
  * Item card
  */
-export function ItemCard({
-  mutationUrl,
-  item,
-}: {
-  mutationUrl: string;
-  item: ItemType;
-}) {
+export function ItemCard({ mutate, item }: { mutate: any; item: ItemType }) {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
 
   const palette = useColor(session.themeColor, isDark);
 
   return (
-    <Item id={item.id as any} mutationUrl={mutationUrl}>
+    <Item id={item.id as any} mutate={mutate}>
       <Card
         sx={{
           boxShadow: "0",

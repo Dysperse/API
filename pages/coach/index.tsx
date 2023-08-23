@@ -21,7 +21,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import { Navbar } from "..";
 
 export function RoutineTrigger({ sidebar = false, bottomNav = false }: any) {
@@ -31,7 +30,7 @@ export function RoutineTrigger({ sidebar = false, bottomNav = false }: any) {
   const redPalette = useColor("red", useDarkMode(session.darkMode));
 
   const dayIndex = dayjs().diff(dayjs().startOf("week"), "days");
-  const { data, error } = useApi("user/coach");
+  const { data, mutate, error } = useApi("user/coach");
 
   const incompleteGoals = useMemo(
     () =>
@@ -199,7 +198,7 @@ export default function Render() {
           {error && (
             <ErrorHandler
               error="Yikes! We couldn't load your streak. Please try again later"
-              callback={() => mutate(url)}
+              callback={mutate}
             />
           )}
 

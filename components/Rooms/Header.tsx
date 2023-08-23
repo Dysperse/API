@@ -22,11 +22,11 @@ import { CreateItemModal } from "./CreateItem/modal";
  * @param itemCount
  */
 export function Header({
-  mutationUrl,
+  mutate,
   room,
   itemCount,
 }: {
-  mutationUrl: string;
+  mutate: any;
   room: any;
   itemCount: number;
 }) {
@@ -78,6 +78,7 @@ export function Header({
                   xs: "50px",
                   md: "55px",
                 },
+                mt: 2,
               }}
               gutterBottom
               variant="h4"
@@ -114,7 +115,7 @@ export function Header({
           gap: 1,
         }}
       >
-        <CreateItemModal room={room.id || room.name} mutationUrl={mutationUrl}>
+        <CreateItemModal room={room.id || room.name} mutate={mutate}>
           <IconButton
             sx={{
               background: "transparent",

@@ -19,7 +19,6 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { mutate } from "swr";
 
 /**
  * Top-level component for the dashboard page.
@@ -27,7 +26,7 @@ import { mutate } from "swr";
 export function Upcoming({ setMobileView }) {
   const session = useSession();
 
-  const { data, url, error } = useApi("property/tasks/backlog", {
+  const { data, mutate, url, error } = useApi("property/tasks/backlog", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
     upcoming: true,
   });
@@ -81,7 +80,7 @@ export function Upcoming({ setMobileView }) {
             <IconButton
               onClick={async () => {
                 setLoading(true);
-                await mutate(url);
+                await mutate();
                 setLoading(false);
               }}
               id="taskMutationTrigger"
@@ -98,7 +97,7 @@ export function Upcoming({ setMobileView }) {
             </IconButton>
             {error && (
               <ErrorHandler
-                callback={() => mutate(url)}
+                callback={mutate}
                 error="Yikes! An error occured while trying to fetch your upcoming items. Please try again later."
               />
             )}
@@ -263,7 +262,7 @@ export default function Dashboard() {
                   <IconButton
                     onClick={async () => {
                       setLoading(true);
-                      await mutate(url);
+                      await mutate();
                       setLoading(false);
                     }}
                     id="taskMutationTrigger"
@@ -291,7 +290,7 @@ export default function Dashboard() {
                 </Box>
                 {error && (
                   <ErrorHandler
-                    callback={() => mutate(url)}
+                    callback={mutate}
                     error="Yikes! An error occured while trying to fetch your backlog. Please try again later."
                   />
                 )}

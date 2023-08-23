@@ -42,7 +42,7 @@ const IntegrationChip = ({
         }
       }),
       {
-        loading: "Syncing... (This might take a while)",
+        loading: "Syncing to " + integration.name,
         success: "Up to date!",
         error: "An error occurred while syncing",
       },
@@ -56,16 +56,18 @@ const IntegrationChip = ({
       id="syncChip"
       onClick={handleIntegrationClick}
       disabled={session.permission === "read-only" || isLoading}
-      label={`Sync to ${integration.name.replace(" LMS", "").trim()}`}
+      label="Sync now"
       sx={{
         mr: 1,
         mb: 1,
         ...(!(session.permission === "read-only" || isLoading) && {
-          background:
-            "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%) !important",
-          color: "#000",
-          "& .MuiChip-icon": {
-            color: "#000!important",
+          "&, &:hover": {
+            background:
+              "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%) !important",
+            color: "#000",
+            "& .MuiChip-icon": {
+              color: "#000!important",
+            },
           },
         }),
       }}

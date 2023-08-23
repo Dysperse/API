@@ -15,6 +15,13 @@ const handler = async (req, res) => {
             id: req.query.property,
           },
         },
+        createdBy: {
+          user: {
+            connect: {
+              email: req.query.email,
+            },
+          },
+        },
         name: req.query.title,
         ...(req.query.location && { where: req.query.location }),
         ...(req.query.columnId !== "-1" && {

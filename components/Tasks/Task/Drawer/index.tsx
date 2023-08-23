@@ -111,7 +111,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         id,
         date: dayjs().toISOString(),
         [key]: String(value),
-        completedBy: session.user.email,
+        createdBy: session.user.email,
       });
     },
     [session, data, mutate]

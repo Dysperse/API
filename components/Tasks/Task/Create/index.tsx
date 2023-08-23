@@ -183,6 +183,8 @@ export function CreateTask({
         columnId: -1,
         ...(boardData && { ...boardData }),
         ...(parentId && { parent: parentId }),
+
+        createdBy: session.user.email,
       });
       onSuccess && onSuccess();
       toast.dismiss();

@@ -7,11 +7,10 @@ import { useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { mutate } from "swr";
 import Categories from "./items";
 
 export default function Trash() {
-  const { data, url, error } = useApi("property/inventory/starred");
+  const { data, url, mutate, error } = useApi("property/inventory/starred");
   const router = useRouter();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -87,7 +86,7 @@ export default function Trash() {
           )}
           {error && (
             <ErrorHandler
-              callback={() => mutate(url)}
+              callback={mutate}
               error="Oh no! An error occured while trying to get your starred items! Please try again later"
             />
           )}

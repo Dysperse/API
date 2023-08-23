@@ -17,14 +17,9 @@ import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
 import React, { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { mutate } from "swr";
 import Layout from ".";
 
-const Session: any = React.memo(function Session({
-  mutationUrl,
-  index,
-  data,
-}: any) {
+const Session: any = React.memo(function Session({ mutate, index, data }: any) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -84,7 +79,7 @@ const Session: any = React.memo(function Session({
               await fetchRawApi(session, "user/settings/sessions/delete", {
                 id: data[index].id,
               });
-              await mutate(mutationUrl);
+              await mutate();
             }}
           >
             <IconButton disabled={data[index].id === session.current.token}>
@@ -101,7 +96,7 @@ const Session: any = React.memo(function Session({
  * Top-level component for the account settings page.
  */
 export default function LoginActivity() {
-  const { data, url, error } = useApi("user/settings/sessions");
+  const { data, mutate, url, error } = useApi("user/settings/sessions");
   const session = useSession();
   const ref = useRef();
 
@@ -132,7 +127,7 @@ export default function LoginActivity() {
         </ConfirmationModal>
         {error && (
           <ErrorHandler
-            callback={() => mutate(url)}
+            callback={mutate}
             error="An error occured while trying to fetch your logged-in devices"
           />
         )}
@@ -143,7 +138,7 @@ export default function LoginActivity() {
             useWindowScroll
             customScrollParent={ref.current}
             itemContent={(index) => (
-              <Session mutationUrl={url} index={index} data={data} />
+              <Session mutate={mutate} index={index} data={data} />
             )}
           />
         )}

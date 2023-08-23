@@ -24,11 +24,11 @@ import { Toolbar } from "./Toolbar";
  * @returns {any}
  */
 export function RenderRoom({
-  mutationUrl,
+  mutate,
   items,
   room,
 }: {
-  mutationUrl: string;
+  mutate: string;
   items: Item[];
   room: string | string[] | undefined;
 }) {
@@ -39,7 +39,7 @@ export function RenderRoom({
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const header = (
-    <Header room={room} itemCount={items.length} mutationUrl={mutationUrl} />
+    <Header room={room} itemCount={items.length} mutate={mutate} />
   );
   const isDark = useDarkMode(session.darkMode);
 
@@ -127,7 +127,7 @@ export function RenderRoom({
 
             {_items.map((item: Item) => (
               <div key={item.id.toString()}>
-                <ItemCard item={item} mutationUrl={mutationUrl} />
+                <ItemCard item={item} mutate={mutate} />
               </div>
             ))}
           </Masonry>

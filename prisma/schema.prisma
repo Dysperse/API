@@ -287,8 +287,9 @@ model Task {
   pinned      Boolean   @default(false)
 
   completed   Boolean   @default(false)
-  completedBy User?     @relation(fields: [userId], references: [id])
   completedAt DateTime?
+
+  createdBy User? @relation(fields: [userId], references: [id])
 
   image       String?
   columnId    String?

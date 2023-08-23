@@ -23,7 +23,6 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import { Integration } from "./Integration";
 
 export const integrations = [
@@ -80,7 +79,7 @@ export default function Integrations({
   board?: string;
   handleClose: any;
 }) {
-  const { data, url, error } = useApi("property/integrations");
+  const { data, mutate, url, error } = useApi("property/integrations");
   const session = useSession();
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
 
@@ -136,7 +135,7 @@ export default function Integrations({
           {error && (
             <ErrorHandler
               error="Oh no! We couldn't get your integrations. Please try again later..."
-              callback={() => mutate(url)}
+              callback={mutate}
             />
           )}
           {session.permission !== "read-only" &&
@@ -169,7 +168,7 @@ export default function Integrations({
                           id: integration.id,
                         }
                       );
-                      mutate(url);
+                      mutate();
                     }}
                   >
                     <IconButton>

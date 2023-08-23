@@ -21,18 +21,17 @@ import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { cards } from "./cards";
 
 const ImageRecognition = dynamic(() => import("./scan"));
 
 export function CreateItemModal({
-  mutationUrl,
+  mutate,
   room,
   children,
 }: {
-  mutationUrl: string;
+  mutate: any;
   room: any;
   children: JSX.Element;
 }) {
@@ -54,8 +53,8 @@ export function CreateItemModal({
     setTitle("");
     setQuantity("");
     setCategory("[]");
-    mutate(mutationUrl);
-  }, [mutationUrl]);
+    mutate();
+  }, [mutate]);
 
   const trigger = cloneElement(children, { onClick: handleOpen });
 
@@ -86,7 +85,7 @@ export function CreateItemModal({
         toast("Created item!", toastStyles);
         setLoading(false);
         setOpen(false);
-        mutate(mutationUrl);
+        mutate();
         setTitle("");
         setQuantity("");
         setCategory("[]");
@@ -95,7 +94,7 @@ export function CreateItemModal({
         toast.error("Couldn't create item. Please try again.", toastStyles);
         setLoading(false);
       });
-  }, [category, mutationUrl, quantity, title, room, session]);
+  }, [category, mutate, quantity, title, room, session]);
 
   const storage = useAccountStorage();
   const isDark = useDarkMode(session.darkMode);

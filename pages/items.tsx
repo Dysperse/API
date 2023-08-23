@@ -23,7 +23,6 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { createContext, useState } from "react";
-import { mutate } from "swr";
 import { Navbar } from ".";
 
 const Action = dynamic(() => import("@/components/Rooms/Action"));
@@ -38,13 +37,13 @@ export const SidebarContext = createContext("");
  * Component to dispay items by category
  */
 const CategoryList = React.memo(function CategoryList() {
-  const { error, url, data } = useApi("property/inventory/categories");
+  const { error, mutate, url, data } = useApi("property/inventory/categories");
 
   return (
     <>
       {error && (
         <ErrorHandler
-          callback={() => mutate(url)}
+          callback={mutate}
           error="An error occured while trying to fetch your items"
         />
       )}

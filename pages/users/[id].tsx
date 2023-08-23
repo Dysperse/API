@@ -36,7 +36,6 @@ import { useRouter } from "next/router";
 import { cloneElement, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { mutate } from "swr";
 
 function ShareProfileModal({ user, children }) {
   const session = useSession();
@@ -181,7 +180,7 @@ function Page() {
   const session = useSession();
   const email = router.query.id;
 
-  const { data, url, error } = useApi("user/profile", { email });
+  const { data, mutate, url, error } = useApi("user/profile", { email });
 
   const [loading, setLoading] = useState(false);
 
@@ -204,13 +203,13 @@ function Page() {
         followerEmail: session.user.email,
         followingEmail: data?.email,
       });
-      await mutate(url);
+      await mutate();
     } else {
       await fetchRawApi(session, "user/followers/follow", {
         followerEmail: session.user.email,
         followingEmail: data?.email,
       });
-      await mutate(url);
+      await mutate();
     }
     setLoading(false);
   };
@@ -222,7 +221,7 @@ function Page() {
         create: "true",
         email: session.user.email,
       });
-      await mutate(url);
+      await mutate();
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -377,7 +376,7 @@ function Page() {
       <Container sx={{ my: 5 }}>
         {(error || data?.error) && (
           <ErrorHandler
-            callback={() => mutate(url)}
+            callback={mutate}
             error="On no! We couldn't find the user you were looking for."
           />
         )}

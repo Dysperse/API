@@ -19,13 +19,12 @@ import dayjs from "dayjs";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
-import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 
 export function Changelog({ disabled }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
-  const { error, url, data } = useApi("property/inbox");
+  const { error, mutate, url, data } = useApi("property/inbox");
   const session = useSession();
 
   useHotkeys(
@@ -77,7 +76,7 @@ export function Changelog({ disabled }) {
             >
               {error && (
                 <ErrorHandler
-                  callback={() => mutate(url)}
+                  callback={mutate}
                   error="An error occurred while trying to fetch your inbox"
                 />
               )}

@@ -5,7 +5,6 @@ import { LoadingButton } from "@mui/lab";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { mutate } from "swr";
 import Categories from "../items";
 
 /**
@@ -17,7 +16,7 @@ export default function Room() {
   const { room } = router.query;
   const [loading, setLoading] = useState(false);
 
-  const { data, url, error } = useApi("property/inventory/room", {
+  const { data, mutate, url, error } = useApi("property/inventory/room", {
     room: room?.[0] ?? "",
     ...(Boolean(room?.[1]) && { custom: "true" }),
   });
@@ -45,7 +44,7 @@ export default function Room() {
             <LoadingButton
               onClick={async () => {
                 setLoading(true);
-                await mutate(url);
+                await mutate();
                 setLoading(false);
               }}
               loading={loading}
@@ -55,7 +54,7 @@ export default function Room() {
             </LoadingButton>
           </Box>
         ) : (
-          <RenderRoom room={data.room} items={data.items} mutationUrl={url} />
+          <RenderRoom room={data.room} items={data.items} mutate={mutate} />
         )
       ) : (
         <Box
@@ -73,7 +72,7 @@ export default function Room() {
       {error && (
         <ErrorHandler
           error="Oh no! We couldn't load the items in this room. Please try again later"
-          callback={() => mutate(url)}
+          callback={mutate}
         />
       )}
     </Categories>

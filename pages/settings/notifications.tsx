@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import Layout from ".";
 
 const base64ToUint8Array = (base64) => {
@@ -37,7 +36,7 @@ const base64ToUint8Array = (base64) => {
  * Top-level component for the notification settings page.
  */
 export default function Notifications() {
-  const { data, url, error } = useApi("user/settings/notifications");
+  const { data, mutate, url, error } = useApi("user/settings/notifications");
 
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const [subscription, setSubscription] = useState<any>(null);
@@ -109,7 +108,7 @@ export default function Notifications() {
           name: name,
           value: value,
         });
-        await mutate(url);
+        await mutate();
         resolve("");
       } catch (error: any) {
         reject(error.message);
@@ -291,7 +290,7 @@ export default function Notifications() {
         </Box>
       ) : error ? (
         <ErrorHandler
-          callback={() => mutate(url)}
+          callback={mutate}
           error="An error occured while trying to fetch your notification settings"
         />
       ) : (

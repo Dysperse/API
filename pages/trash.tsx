@@ -11,7 +11,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import Categories from "./items";
 
 function DeleteCard({ item }) {
@@ -82,7 +81,7 @@ function DeleteCard({ item }) {
 }
 
 export default function Trash() {
-  const { data, url, error } = useApi("property/inventory/trash");
+  const { data, mutate, url, error } = useApi("property/inventory/trash");
   const router = useRouter();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -144,9 +143,7 @@ export default function Trash() {
                     toastStyles
                   );
                 })
-                .then(() => {
-                  mutate(url);
-                });
+                .then(mutate);
             }}
           >
             <Button
@@ -173,7 +170,7 @@ export default function Trash() {
           </ConfirmationModal>
           {error && (
             <ErrorHandler
-              callback={() => mutate(url)}
+              callback={mutate}
               error={
                 "Yikes! An error occured while trying to fetch your trash. Please try again later"
               }

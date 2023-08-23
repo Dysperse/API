@@ -21,7 +21,6 @@ import dayjs from "dayjs";
 import dynamic from "next/dynamic";
 import { cloneElement, useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 
@@ -31,7 +30,7 @@ const DeleteButton = dynamic(() => import("./DeleteButton"));
 const MoveToRoom = dynamic(() => import("./MoveToRoom"));
 const StarButton = dynamic(() => import("./StarButton"));
 
-function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
+function DrawerData({ handleOpen, mutate, itemData, setItemData }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -65,7 +64,7 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
         [key]: value,
         lastModified: new Date(dayjs().format("YYYY-MM-DD HH:mm:ss")),
       }).then(async () => {
-        mutationUrl && mutate(mutationUrl);
+        mutate();
         handleOpen();
       }),
       {
@@ -246,11 +245,11 @@ function DrawerData({ handleOpen, mutationUrl, itemData, setItemData }) {
 export default function ItemDrawer({
   id,
   children,
-  mutationUrl,
+  mutate,
 }: {
   id: number;
   children: JSX.Element;
-  mutationUrl?: string;
+  mutate?: any;
 }): JSX.Element {
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
@@ -281,8 +280,8 @@ export default function ItemDrawer({
 
   const handleClose = useCallback(() => {
     setOpen(false);
-    mutate(mutationUrl);
-  }, [mutationUrl]);
+    mutate();
+  }, [mutate]);
 
   const trigger = cloneElement(children, {
     onClick: handleOpen,
@@ -303,7 +302,7 @@ export default function ItemDrawer({
         <Puller />
         {error && (
           <ErrorHandler
-            callback={() => mutate(mutationUrl)}
+            callback={mutate}
             error="An error occured while trying to fetch the item's data. Please try again later"
           />
         )}
@@ -312,7 +311,7 @@ export default function ItemDrawer({
             itemData={itemData}
             handleOpen={handleOpen}
             setItemData={setItemData}
-            mutationUrl={mutationUrl}
+            mutate={mutate}
           />
         ) : !loading && itemData === null ? (
           <Box sx={{ p: 3 }}>

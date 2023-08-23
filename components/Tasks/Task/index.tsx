@@ -1,4 +1,5 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -50,6 +51,7 @@ const TaskChips = React.memo(function TaskChips({
   handlePriorityChange,
 }: any) {
   const router = useRouter();
+  const session = useSession();
   const isPinned = taskData.pinned;
   const isDue = taskData.due && !isAgenda;
   const isTimeDue =
@@ -109,10 +111,8 @@ const TaskChips = React.memo(function TaskChips({
       sx={{
         display: "flex",
         gap: 1,
+        "&:not(:empty)": { mt: 0.5 },
         flexWrap: "wrap",
-        "& .MuiChip-root": {
-          mt: 0.5,
-        },
       }}
     >
       {isPinned && urgentChip}
@@ -179,6 +179,27 @@ const TaskChips = React.memo(function TaskChips({
           />
         </Tooltip>
       )}
+
+      {taskData.createdBy &&
+        taskData.createdBy?.email !== session.user.email && (
+          <Tooltip
+            title={`Created by ${capitalizeFirstLetter(
+              taskData.createdBy.name
+            )}`}
+          >
+            <Chip
+              size="small"
+              className="date"
+              label={taskData.createdBy?.name}
+              sx={{ background: palette[3] }}
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push("/users/" + taskData.createdBy?.email);
+              }}
+              avatar={<Avatar src={taskData.createdBy?.Profile?.picture} />}
+            />
+          </Tooltip>
+        )}
 
       {isWhereValid && (
         <Chip
@@ -302,7 +323,7 @@ export const Task: any = React.memo(function Task({
           id: taskData.id,
           completed: e.target.checked ? "true" : "false",
           date: new Date().toISOString(),
-          completedBy: session.user.email,
+          createdBy: session.user.email,
         });
       } catch (e) {
         toast.error("An error occured while updating the task", toastStyles);

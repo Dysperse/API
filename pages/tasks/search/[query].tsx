@@ -25,9 +25,12 @@ export default function Dashboard() {
   const router = useRouter();
   const session = useSession();
 
-  const { data, url, error } = useApi("property/tasks/search", {
-    query: router?.query?.query,
-  });
+  const { data, url, error } = useApi(
+    router?.query?.query ? "property/tasks/search" : null,
+    {
+      query: router?.query?.query,
+    }
+  );
 
   const [filters, setFilters] = useState<any>({});
 
@@ -104,6 +107,15 @@ export default function Dashboard() {
                 icon={<Icon>priority</Icon>}
                 label="Completed"
                 onClick={() => setFilters({ ...filters, completed: true })}
+                {...(filters.completed && {
+                  onDelete: () => setFilters({ ...filters, completed: null }),
+                })}
+              />
+               <Chip
+                variant="outlined"
+                icon={<Icon>priority</Icon>}
+                label="Incomplete"
+                onClick={() => setFilters({ ...filters, completed: false })}
                 {...(filters.completed && {
                   onDelete: () => setFilters({ ...filters, completed: null }),
                 })}

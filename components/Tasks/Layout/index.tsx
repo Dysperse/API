@@ -41,7 +41,6 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { mutate } from "swr";
 import { ErrorHandler } from "../../Error";
 import { CreateTask } from "../Task/Create";
 import { TaskColorPicker } from "../Task/Create/ChipBar";
@@ -325,7 +324,7 @@ export function TasksLayout({
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
-  const { data, url, error } = useApi("property/boards");
+  const { data, mutate, url, error } = useApi("property/boards");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const [taskSelection, setTaskSelection] = useState([]);
@@ -390,7 +389,7 @@ export function TasksLayout({
       <>
         {error && (
           <ErrorHandler
-            callback={() => mutate(url)}
+            callback={mutate}
             error="An error occurred while loading your tasks"
           />
         )}

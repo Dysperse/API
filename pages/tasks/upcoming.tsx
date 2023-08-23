@@ -15,7 +15,6 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { mutate } from "swr";
 
 /**
  * Top-level component for the dashboard page.
@@ -24,7 +23,7 @@ export default function Upcoming() {
   const session = useSession();
   const [open, setOpen] = useState(false);
 
-  const { data, url, error } = useApi("property/tasks/backlog", {
+  const { data, mutate, url, error } = useApi("property/tasks/backlog", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
     upcoming: true,
   });
@@ -57,7 +56,7 @@ export default function Upcoming() {
                 <IconButton
                   onClick={async () => {
                     setLoading(true);
-                    await mutate(url);
+                    await mutate();
                     setLoading(false);
                   }}
                   sx={{ ml: "auto" }}
@@ -75,7 +74,7 @@ export default function Upcoming() {
               </Box>
               {error && (
                 <ErrorHandler
-                  callback={() => mutate(url)}
+                  callback={mutate}
                   error="Yikes! An error occured while trying to fetch your backlog. Please try again later."
                 />
               )}

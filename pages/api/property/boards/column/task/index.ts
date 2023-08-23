@@ -15,7 +15,18 @@ const handler = async (req, res) => {
         subTasks: true,
         property: { select: { name: true, id: true } },
         column: {
-          include: { board: { select: { id: true, name: true, public: true } } },
+          include: {
+            board: { select: { id: true, name: true, public: true } },
+          },
+        },
+        createdBy: {
+          select: {
+            name: true,
+            email: true,
+            Profile: {
+              select: { picture: true },
+            },
+          },
         },
       },
     });

@@ -12,14 +12,13 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { useState } from "react";
-import { mutate } from "swr";
 
 export function ColoredTasks() {
-  const { data, url, error } = useApi("property/tasks/color-coded", {
+  const { data, mutate, url, error } = useApi("property/tasks/color-coded", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
   const [color, setColor] = useState("all");
@@ -117,7 +116,7 @@ export function ColoredTasks() {
           </Typography>
           {error && (
             <ErrorHandler
-              callback={() => mutate(url)}
+              callback={mutate}
               error="Yikes! An error occured while trying to fetch your color coded tasks. Please try again later."
             />
           )}

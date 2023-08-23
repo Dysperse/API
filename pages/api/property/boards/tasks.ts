@@ -16,7 +16,19 @@ const handler = async (req, res) => {
       orderBy: { order: "asc" },
       include: {
         tasks: {
-          include: { subTasks: true, parentTasks: true },
+          include: {
+            subTasks: true,
+            parentTasks: true,
+            createdBy: {
+              select: {
+                name: true,
+                email: true,
+                Profile: {
+                  select: { picture: true },
+                },
+              },
+            },
+          },
           orderBy: { pinned: "desc" },
         },
       },
@@ -24,6 +36,7 @@ const handler = async (req, res) => {
 
     res.json(data);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };
