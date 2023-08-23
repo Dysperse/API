@@ -50,6 +50,11 @@ export function FilterMenu({
         }}
       >
         <MenuItem
+          onClick={() => handleMenuClick((a, b) => (a.pinned ? 1 : -1))}
+        >
+          Priority
+        </MenuItem>
+        <MenuItem
           onClick={() =>
             handleMenuClick((a, b) => a.name.localeCompare(b.name))
           }
