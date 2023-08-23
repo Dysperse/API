@@ -58,20 +58,13 @@ export function Agenda({ type, date }) {
   };
 
   const handleNext = () => {
-    alert(1);
-    router.push(
-      `/tasks/agenda/${type}/${dayjs(date)
-        .add(1, columnMap[type])
-        .format("YYYY-MM-DD")}`
-    );
+    const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
+    router.push(`/tasks/agenda/${type}/${next}`);
   };
 
   const handlePrev = () => {
-    router.push(
-      `/tasks/agenda/${type}/${dayjs(date)
-        .subtract(1, columnMap[type])
-        .format("YYYY-MM-DD")}`
-    );
+    const prev = dayjs(date).subtract(1, columnMap[type]).format("YYYY-MM-DD");
+    router.push(`/tasks/agenda/${type}/${prev}`);
   };
 
   const start = dayjs(date).startOf(columnMap[type]);
