@@ -57,7 +57,7 @@ export const integrations = [
           "https://calendar.google.com/calendar/ical/****/***/basic.ics",
         name: "Connect Dysperse to Google Calendar",
         helperText:
-          'You can find your calendar feed URL by going to your settings (for your calendars) and scrolling down and copying the text in "secret address in iCal format" (web only)',
+          'Paste the "Public address in iCal format" below. You can find this in your calendar settings',
         required: true,
       },
     ],
