@@ -3,6 +3,7 @@ import { updateSettings } from "@/lib/client/updateSettings";
 import { Box, Button, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { mutate } from "swr";
 
 export function Completion({ styles, navigation }) {
   const session = useSession();
@@ -38,6 +39,7 @@ export function Completion({ styles, navigation }) {
               "true",
               false,
               async () => {
+                await mutate("/api/session")
                 router.push((router.query.next as string) || "/");
               },
               false
