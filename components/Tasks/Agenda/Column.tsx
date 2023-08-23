@@ -154,7 +154,7 @@ function RandomTask({ date }) {
         "Select a documentary film to learn about a specific topic or real-life story.",
     },
     {
-      name: "Plan Your Dream Vacation",
+      name: "Plan my dream vacation",
       description:
         "Research and plan the details of your dream vacation, from destinations to activities.",
     },
@@ -184,7 +184,7 @@ function RandomTask({ date }) {
         "Experiment with a different workout routine to challenge your body in new ways.",
     },
     {
-      name: "Organize Your Closet",
+      name: "Organize my closet",
       description:
         "Sort through your clothes, shoes, and accessories to declutter and reorganize your closet.",
     },
@@ -201,7 +201,7 @@ function RandomTask({ date }) {
       defaultDate={date}
       defaultFields={{
         date: date,
-        title: taskIdeas[random].name,
+        title: capitalizeFirstLetter(taskIdeas[random].name.toLowerCase()),
         description: taskIdeas[random].description,
       }}
     >
