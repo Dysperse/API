@@ -100,9 +100,9 @@ export default function App({
   );
 
   if (
-    data?.user?.onboardingComplete === false &&
-    router.pathname !== "/onboarding" && 
-    !isLoading
+    !isLoading &&
+    data?.user?.onboardingComplete !== true &&
+    router.pathname !== "/onboarding"
   ) {
     router.push("/onboarding");
   }
