@@ -77,7 +77,6 @@ const handler = async (req, res) => {
             },
             name: true,
             emoji: true,
-            id: true,
           },
         },
       },
