@@ -290,6 +290,8 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
           anchor="bottom"
           open={Boolean(anchorEl)}
           onClose={handleClose}
+          keepMounted
+          PaperProps={{ keepMounted: true }}
         >
           <Puller />
           <Box
@@ -319,6 +321,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}
+          keepMounted
         >
           {menuChildren}
         </Menu>
