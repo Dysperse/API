@@ -179,7 +179,7 @@ export default function Dashboard() {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [mobileView, setMobileView] = useState("backlog");
 
-  const { data, url, error } = useApi("property/tasks/backlog", {
+  const { data, mutate, url, error } = useApi("property/tasks/backlog", {
     date: dayjs().startOf("day").subtract(1, "day").toISOString(),
   });
   const [loading, setLoading] = useState(false);
