@@ -19,6 +19,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
@@ -48,6 +49,8 @@ interface TaskCreationProps {
   boardData?: {
     boardId: string;
     columnId: string;
+    columnName: string;
+    columnEmoji: string;
   };
 
   defaultFields?: {
@@ -70,6 +73,7 @@ export function CreateTask({
   const locationRef: any = useRef();
   const descriptionRef: any = useRef();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -175,21 +179,17 @@ export function CreateTask({
       if (formData.title.trim() === "") return;
       setLoading(true);
       vibrate(50);
-      const res = await fetchRawApi(
-        session,
-        "property/boards/column/task/create",
-        {
-          ...formData,
-          ...(formData.image && { image: JSON.parse(formData.image).url }),
-          pinned: formData.pinned ? "true" : "false",
-          due: formData.date ? formData.date.toISOString() : "false",
-          columnId: -1,
-          ...(boardData && { ...boardData }),
-          ...(parentId && { parent: parentId }),
+      await fetchRawApi(session, "property/boards/column/task/create", {
+        ...formData,
+        ...(formData.image && { image: JSON.parse(formData.image).url }),
+        pinned: formData.pinned ? "true" : "false",
+        due: formData.date ? formData.date.toISOString() : "false",
+        columnId: -1,
+        ...(boardData && { ...boardData }),
+        ...(parentId && { parent: parentId }),
 
-          createdBy: session.user.email,
-        }
-      );
+        createdBy: session.user.email,
+      });
       onSuccess && onSuccess();
       toast.dismiss();
       toast.success("Created task!", toastStyles);
@@ -305,6 +305,30 @@ export function CreateTask({
           chipStyles={styles.chip}
           isSubTask={isSubTask}
         />
+        {boardData && !isMobile && (
+          <Box
+            sx={{
+              px: 3,
+              py: 1,
+              pb: 3,
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              mb: -2,
+              background: `linear-gradient(${palette[2]}, ${palette[3]})`,
+              borderRadius: "20px 20px 0 0",
+            }}
+          >
+            <picture>
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${boardData.columnEmoji}.png`}
+                alt=""
+                width={35}
+              />
+            </picture>
+            <Typography variant="h6">{boardData.columnName}</Typography>
+          </Box>
+        )}
         <Box
           sx={{
             p: 3,

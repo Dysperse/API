@@ -432,6 +432,8 @@ export function Column({
             boardData={{
               boardId: board.id,
               columnId: column.id,
+              columnName: column.name,
+              columnEmoji: column.emoji,
             }}
           >
             <Box sx={{ px: { xs: 2, sm: 0 } }}>

@@ -451,6 +451,8 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                     ? {
                         boardId: "",
                         columnId: task.column.id,
+                        columnName: task.column.name,
+                        columnEmoji: task.column.emoji,
                       }
                     : undefined
                 }
