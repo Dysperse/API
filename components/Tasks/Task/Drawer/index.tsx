@@ -88,7 +88,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     );
     setOpen(false);
     mutateSWR(mutationUrl);
-  }, [mutate, mutationUrl]);
+  }, [mutationUrl]);
 
   const handleEdit = useCallback(
     async function handleEdit(id, key, value) {

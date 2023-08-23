@@ -58,6 +58,7 @@ export function Agenda({ type, date }) {
   };
 
   const handleNext = () => {
+    alert(1);
     router.push(
       `/tasks/agenda/${type}/${dayjs(date)
         .add(1, columnMap[type])
@@ -152,8 +153,9 @@ export function Agenda({ type, date }) {
                 view === "priority"
                   ? ""
                   : `linear-gradient(${palette[1]}, ${palette[2]})`,
-              borderBottom: `1.5px solid ${palette[view === "priority" ? 3 : 2]
-                }`,
+              borderBottom: `1.5px solid ${
+                palette[view === "priority" ? 3 : 2]
+              }`,
               width: "100%",
               transition: "all .2s",
 
