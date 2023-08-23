@@ -206,11 +206,30 @@ export function Board({ mutationUrl, board }) {
     board?.shareTokens?.find((s) => s.user.email === session.user.email)
       ?.readOnly ?? false;
 
-  if (error || (!board && !loading)) {
+  if (error) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 4 }}>
         <Alert severity="error">
-          Yikes! An error occured while trying to load the items in this board.
+          Yikes! Something went wrong trying to load the items in this board.
+        </Alert>
+      </Box>
+    );
+  }
+  if (!board && !loading) {
+    return (
+      <Box sx={{ p: 4 }}>
+        <Alert
+          severity="error"
+          icon={
+            <img
+              src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
+              alt="Crying emoji"
+              width={30}
+            />
+          }
+        >
+          You don&apos;t have access to this board? Contact the owner if you
+          think this is a mistake.
         </Alert>
       </Box>
     );
