@@ -112,6 +112,7 @@ export function WidgetBar({ view, setView }) {
           position: "fixed",
           top: 0,
           left: 0,
+          WebkitAppRegion: "no-drag",
           height: "100dvh",
           background: palette[2],
           backdropFilter: "blur(10px)",
@@ -122,7 +123,7 @@ export function WidgetBar({ view, setView }) {
           flexDirection: "column",
           py: 2,
           borderRadius: "0 10px 10px 0",
-          zIndex: 99999999,
+          zIndex: 999,
         },
       }}
     >
