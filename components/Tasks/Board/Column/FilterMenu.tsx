@@ -50,7 +50,7 @@ export function FilterMenu({
         }}
       >
         <MenuItem
-          onClick={() => handleMenuClick((a, b) => (a.pinned ? 1 : -1))}
+          onClick={() => handleMenuClick((a, b) => (a.pinned ? -1 : 1))}
         >
           Priority
         </MenuItem>
