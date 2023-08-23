@@ -163,7 +163,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       >
         <IconButton
           onClick={(e) => e.stopPropagation()}
-          size="small"
+          size="large"
           sx={{
             mr: 1,
           }}
@@ -270,7 +270,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       ) : (
         <IconButton
           onClick={handleClick}
-          size="small"
+          size="large"
           sx={{
             ...(Boolean(anchorEl) && {
               background: `${
