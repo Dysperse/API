@@ -15,7 +15,10 @@ const handler = async (req, res) => {
       },
       orderBy: { order: "asc" },
       include: {
-        tasks: { include: { subTasks: true, parentTasks: true } },
+        tasks: {
+          include: { subTasks: true, parentTasks: true },
+          orderBy: { pinned: "desc" },
+        },
       },
     });
 

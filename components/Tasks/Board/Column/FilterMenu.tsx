@@ -10,7 +10,7 @@ export function FilterMenu({
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const [currentFilter, setCurrentFilter] = useState("default");
+  const [currentFilter, setCurrentFilter] = useState("priority");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
