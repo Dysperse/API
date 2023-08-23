@@ -93,6 +93,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             animate={{ opacity: 1, scale: 1 }}
           >
             <DatePicker
+              minDetail="year"
               calendarType="US"
               value={dayjs(date).isValid() ? new Date(date) : new Date()}
               onChange={(e: any) => {

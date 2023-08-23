@@ -11,7 +11,7 @@
     border: 2px solid transparent;
   }
 
-  &__tile--active {
+  &__tile--active, &__tile--hasActive {
     border-color: #200923;
     .dark & {
       border-color: #fff;
@@ -90,15 +90,6 @@
     cursor: pointer;
     border-radius: 9999px;
     background-color: transparent;
-
-    &--hasActive {
-      background-color: transparent;
-      color: #3f51b5;
-
-      &:hover {
-        background-color: #b3e5fc;
-      }
-    }
   }
 
   &__navigation button.react-calendar__navigation__label {

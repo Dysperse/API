@@ -107,7 +107,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
             palette[6],
             0.3
           )})`,
-          md: addHslAlpha(palette[3], 0.3),
+          md: addHslAlpha(palette[2], 0.8),
         },
         position: { md: "sticky" },
         left: "10px",
