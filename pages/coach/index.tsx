@@ -110,7 +110,7 @@ export default function Render() {
   const session = useSession();
   const router = useRouter();
 
-  const { data, url, error } = useApi("user/coach/streaks");
+  const { data, mutate, url, error } = useApi("user/coach/streaks");
 
   const isStreakBroken =
     dayjs().diff(dayjs(data ? data.lastStreakDate : new Date()), "day") >= 2;
