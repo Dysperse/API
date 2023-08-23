@@ -49,6 +49,10 @@ interface TaskCreationProps {
     boardId: string;
     columnId: string;
   };
+
+  defaultFields?: {
+    [key: string]: string | Date | null;
+  };
 }
 
 export function CreateTask({
@@ -59,6 +63,7 @@ export function CreateTask({
   boardData,
   parentId,
   defaultDate = dayjs().startOf("day").toDate(),
+  defaultFields = {},
 }: TaskCreationProps) {
   const session = useSession();
   const titleRef: any = useRef();
@@ -78,6 +83,13 @@ export function CreateTask({
     pinned: false,
     date: defaultDate,
   });
+
+  useEffect(() => {
+    setFormData((e) => ({ ...e, ...defaultFields }));
+    if (defaultFields.description) {
+      setShowedFields((e) => ({ ...e, description: true }));
+    }
+  }, [defaultFields]);
 
   const [showedFields, setShowedFields] = useState({
     location: false,

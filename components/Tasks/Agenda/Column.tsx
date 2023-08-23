@@ -33,6 +33,199 @@ import { CreateTask } from "../Task/Create";
 import SelectDateModal from "../Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
 
+function RandomTask({ date }) {
+  const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  const taskIdeas = [
+    {
+      name: "Write a Poem",
+      description: "Compose a creative poem about a topic of your choice.",
+    },
+    {
+      name: "Take a Nature Walk",
+      description:
+        "Explore the outdoors and take a leisurely walk in a natural setting.",
+    },
+    {
+      name: "Learn a New Recipe",
+      description:
+        "Discover a new recipe and try cooking a meal from a different cuisine.",
+    },
+    {
+      name: "Read a Chapter",
+      description:
+        "Dedicate time to reading a chapter from a book you've been meaning to finish.",
+    },
+    {
+      name: "Sketch Something",
+      description:
+        "Unleash your artistic side by sketching an object, scene, or person.",
+    },
+    {
+      name: "Listen to a Podcast",
+      description:
+        "Select an interesting podcast episode and listen while you go about your day.",
+    },
+    {
+      name: "Stretch Routine",
+      description:
+        "Engage in a 10-minute stretching routine to boost flexibility and relaxation.",
+    },
+    {
+      name: "Write a Gratitude Journal",
+      description:
+        "List things you're grateful for in a journal to foster a positive mindset.",
+    },
+    {
+      name: "Solve a Puzzle",
+      description:
+        "Challenge your mind with a puzzle or brainteaser to enhance cognitive skills.",
+    },
+    {
+      name: "Call a Friend",
+      description:
+        "Reach out to a friend for a catch-up conversation and strengthen connections.",
+    },
+    {
+      name: "Try Meditation",
+      description:
+        "Set aside time to meditate and achieve mental clarity and relaxation.",
+    },
+    {
+      name: "Learn a Dance Move",
+      description:
+        "Pick a dance tutorial online and learn a new move to get your body grooving.",
+    },
+    {
+      name: "Visit a Local Museum",
+      description:
+        "Explore the cultural offerings of your area by visiting a nearby museum.",
+    },
+    {
+      name: "Plan a Day Trip",
+      description:
+        "Research and plan an itinerary for a day trip to a nearby town or attraction.",
+    },
+    {
+      name: "Do a Digital Declutter",
+      description:
+        "Organize your digital spaces by deleting or organizing files, photos, and emails.",
+    },
+    {
+      name: "Write a Short Story",
+      description:
+        "Exercise your imagination by writing a short fictional story or narrative.",
+    },
+    {
+      name: "Practice a Musical Instrument",
+      description:
+        "Spend time practicing and improving your skills on a musical instrument.",
+    },
+    {
+      name: "Complete a Workout",
+      description:
+        "Follow a workout routine to stay active and maintain your fitness goals.",
+    },
+    {
+      name: "Research a New Topic",
+      description:
+        "Delve into a subject you're curious about and expand your knowledge.",
+    },
+    {
+      name: "Volunteer Virtually",
+      description:
+        "Find a virtual volunteering opportunity to contribute to a cause you care about.",
+    },
+    {
+      name: "Capture a Photo",
+      description:
+        "Capture an interesting moment or scene through photography using your smartphone or camera.",
+    },
+    {
+      name: "Try a New Hairstyle",
+      description:
+        "Experiment with a different hairstyle or hairdo to change up your look.",
+    },
+    {
+      name: "Watch a Documentary",
+      description:
+        "Select a documentary film to learn about a specific topic or real-life story.",
+    },
+    {
+      name: "Plan Your Dream Vacation",
+      description:
+        "Research and plan the details of your dream vacation, from destinations to activities.",
+    },
+    {
+      name: "Learn a Magic Trick",
+      description:
+        "Amaze your friends by mastering a magic trick and performing it with flair.",
+    },
+    {
+      name: "Do a Random Act of Kindness",
+      description:
+        "Brighten someone's day by performing a small act of kindness without expecting anything in return.",
+    },
+    {
+      name: "Write a Letter",
+      description:
+        "Compose a handwritten letter to a friend, family member, or yourself.",
+    },
+    {
+      name: "Create a Vision Board",
+      description:
+        "Gather images and words that represent your goals and aspirations on a digital or physical vision board.",
+    },
+    {
+      name: "Try a New Workout",
+      description:
+        "Experiment with a different workout routine to challenge your body in new ways.",
+    },
+    {
+      name: "Organize Your Closet",
+      description:
+        "Sort through your clothes, shoes, and accessories to declutter and reorganize your closet.",
+    },
+  ];
+
+  const [random, setRandom] = useState(1);
+
+  const handleClick = () => {
+    setRandom(Math.floor(Math.random() * taskIdeas.length));
+  };
+
+  return (
+    <CreateTask
+      defaultDate={date}
+      defaultFields={{
+        date: date,
+        title: taskIdeas[random].name,
+        description: taskIdeas[random].description,
+      }}
+    >
+      <IconButton
+        onTouchStart={handleClick}
+        onMouseDown={handleClick}
+        size="large"
+        sx={{
+          ml: "auto",
+          "&:active": {
+            opacity: 0.6,
+          },
+          "&:hover": {
+            background: { sm: palette[3] + "!important" },
+          },
+          color: palette[11] + "!important",
+        }}
+      >
+        <Icon className="outlined">casino</Icon>
+      </IconButton>
+    </CreateTask>
+  );
+}
+
 const Header = memo(function Header({
   type,
   subheading,
@@ -403,14 +596,29 @@ const Column = React.memo(function Column({
                 alignItems: "center",
                 display: "flex",
                 flexDirection: "column",
+                width: "100%",
               }}
             >
-              <Box sx={{ px: 1.5, maxWidth: "calc(100% - 50px)" }}>
-                <Typography variant="h6" gutterBottom>
+              <Box
+                sx={{
+                  maxWidth: "calc(100% - 20px)",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: palette[2],
+                  borderRadius: 5,
+                  py: 1,
+                  px: 2,
+                  mt: -1,
+                }}
+              >
+                <Typography variant="h6">
                   {sortedTasks.length === 0
-                    ? "Nothing planned for this time"
+                    ? "No tasks..."
                     : "You finished everything!"}
                 </Typography>
+                <RandomTask date={column} />
               </Box>
               <Box sx={{ width: "100%", mt: 1 }}>
                 {sortedTasks.length !== 0 && <Divider sx={{ my: 2 }} />}
