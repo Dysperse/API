@@ -915,7 +915,7 @@ export default function Home() {
                 )}
               />
             ) : (
-              [...new Array(data ? 5 : 10)].map((_, i) => (
+              [...new Array(data ? 3 : 10)].map((_, i) => (
                 <ListItem key={i} sx={{ mb: 1.5 }}>
                   <Skeleton
                     variant="circular"
