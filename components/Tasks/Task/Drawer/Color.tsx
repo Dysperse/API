@@ -1,9 +1,7 @@
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi } from "@/lib/client/useApi";
 import { useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
 import { Box } from "@mui/material";
-import dayjs from "dayjs";
 import React from "react";
 import { useTaskContext } from "./Context";
 
@@ -35,14 +33,7 @@ export const Color = React.memo(function Color({ color }: { color: string }) {
           background: `${colors[color]["500"]}!important`,
         },
       }}
-      onClick={() => {
-        task.set((item) => ({ ...item, color }));
-        fetchRawApi(session, "property/boards/column/task/edit", {
-          color: color,
-          date: dayjs().toISOString(),
-          id: task.id,
-        }).then(task.mutate);
-      }}
+      onClick={() => task.edit(task.id, "color", color)}
     />
   );
 });

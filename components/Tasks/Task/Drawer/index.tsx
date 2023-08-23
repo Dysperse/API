@@ -1,5 +1,5 @@
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi } from "@/lib/client/useApi";
+import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
 import {
   Box,
@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { useHotkeys } from "react-hotkeys-hook";
-import { mutate } from "swr";
+import { mutate as mutateSWR } from "swr";
 import { ErrorHandler } from "../../../Error";
 import DrawerContent from "./Content";
 import { TaskContext } from "./Context";
@@ -48,49 +48,24 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = useState<boolean>(false);
-  const [data, setData] = useState<null | any>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<null | string>(null);
 
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
 
-  /**
-   * Fetch task data
-   * @param {boolean} mutate - Hides the loader if this is set to true
-   */
-  const handleFetch = useCallback(
-    async (mutate = false) => {
-      if (!mutate) {
-        setLoading(true);
-      }
-      try {
-        const data = await fetchRawApi(session, "property/boards/column/task", {
-          id,
-        });
-        setData(data);
-        setError(null);
-        setLoading(false);
-        if (!mutate) ref.current.scrollTop = 0;
-      } catch (e: any) {
-        setLoading(false);
-        setError(e.message);
-      }
-    },
-    [id, session]
+  const { data, loading, mutate, error } = useApi(
+    !open ? null : "property/boards/column/task",
+    { id }
   );
 
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
-      setData("deleted");
       setOpen(false);
       await fetchRawApi(session, "property/boards/column/task/delete", {
         id: taskId,
       });
-      handleFetch(true);
-      mutate(mutationUrl);
+      mutate();
     },
-    [mutationUrl, setData, handleFetch, session, setOpen]
+    [mutate, session, setOpen]
   );
 
   useHotkeys(
@@ -111,25 +86,40 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       window.location.pathname + window.location.search
     );
     setOpen(false);
-    mutate(mutationUrl);
-  }, [mutationUrl]);
+    mutateSWR(mutationUrl);
+  }, [mutate, mutationUrl]);
 
   const handleEdit = useCallback(
     async function handleEdit(id, key, value) {
-      setData((prev) => ({ ...prev, [key]: value }));
+      console.log(key, value);
+
+      const newData = {
+        ...data,
+        [key]: value,
+        lastUpdated: dayjs().toISOString(),
+      };
+
+      console.log(newData);
+
+      mutate(newData, {
+        populateCache: newData,
+        revalidate: false,
+      });
+
       return await fetchRawApi(session, "property/boards/column/task/edit", {
         id,
         date: dayjs().toISOString(),
-        [key]: [value],
-      }).then(() => handleFetch(true));
+        [key]: String(value),
+        completedBy: session.user.email,
+      });
     },
-    [setData, session, handleFetch]
+    [session, data, mutate]
   );
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
     onClick: () => {
-      (onClick || handleFetch)();
+      onClick && onClick();
       if (!onClick) setOpen(true);
     },
   });
@@ -138,10 +128,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     <TaskContext.Provider
       value={{
         ...data,
-        set: setData,
+        set: (newObj) => mutate(newObj),
         edit: handleEdit,
         close: handleClose,
-        mutate: () => handleFetch(true),
+        mutate,
       }}
     >
       {trigger}

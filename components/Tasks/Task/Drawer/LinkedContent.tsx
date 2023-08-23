@@ -1,3 +1,6 @@
+import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
+import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Icon,
@@ -9,11 +12,8 @@ import {
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
-import { useTaskContext } from "./Context";
 import { toast } from "react-hot-toast";
-import { fetchRawApi } from "@/lib/client/useApi";
-import { useSession } from "@/lib/client/session";
-import { toastStyles } from "@/lib/client/useTheme";
+import { useTaskContext } from "./Context";
 
 export const LinkedContent = React.memo(function LinkedContent({
   styles,
@@ -45,6 +45,7 @@ export const LinkedContent = React.memo(function LinkedContent({
     }
 
     task.set((prev) => ({ ...prev, column: null, columnId: null }));
+    task.edit(task.id, "column", null);
 
     toast.promise(
       new Promise(async (resolve, reject) => {

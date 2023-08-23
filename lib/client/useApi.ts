@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { useSession } from "./session";
 
 const getInfo = (
-  path: string,
+  path: null | string,
   initialParams: any,
   property: any,
   user: any,
@@ -36,6 +36,7 @@ export interface ApiResponse {
    * Data returned from the API
    */
   data: any;
+  mutate: any;
   /**
    * URL can be used for either debugging or passed as a parameter for the SWR `mutate()` function
    */
@@ -62,7 +63,7 @@ export interface ApiResponse {
  * @returns @interface ApiResponse
  */
 export function useApi(
-  path: string,
+  path: null | string,
   initialParams = {},
   removeDefaultParams = false
 ): ApiResponse {
@@ -82,15 +83,16 @@ export function useApi(
     [path, initialParams, property, user, removeDefaultParams, current]
   );
 
-  const { url } = memoizedInfo;
+  const url = path ? memoizedInfo.url : null;
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error, isLoading, mutate } = useSWR(url, fetcher);
 
   const [response, setResponse] = useState<ApiResponse>({
     data,
-    url,
-    loading: !error && typeof data == "undefined",
+    url: url || "",
+    loading: isLoading,
+    mutate,
     error: error,
     fetcher: fetcher,
   });
@@ -98,12 +100,13 @@ export function useApi(
   useEffect(() => {
     setResponse({
       data,
-      url,
-      loading: !error && typeof data == "undefined",
+      url: url || "",
+      mutate,
+      loading: isLoading,
       error: error,
       fetcher: fetcher,
     });
-  }, [data, error]);
+  }, [data, error, mutate, isLoading]);
 
   return response;
 }

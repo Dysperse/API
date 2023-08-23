@@ -33,7 +33,6 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   const task = useTaskContext();
   const session = useSession();
 
-  const parsedWhere = parseEmojis(data.where || "");
   const isHttpOrAddress = isValidHttpUrl(data.where) || isAddress(data.where);
   const isImage = !!data.image;
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -72,7 +71,8 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
         placeholder={"Location or URL"}
         disabled={shouldDisable}
         fullWidth
-        defaultValue={parsedWhere}
+        defaultValue={data.where}
+        key={data.where}
         variant="standard"
         InputProps={{
           disableUnderline: true,
@@ -111,7 +111,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
       {/* Description */}
       <TextField
         className="item"
-        onBlur={(e) => task.edit(data.id, "description", e.target.value)}
+        onBlur={(e) => task.edit(task.id, "description", e.target.value)}
         onKeyDown={(e: any) =>
           e.key === "Enter" && !e.shiftKey && e.target.blur()
         }

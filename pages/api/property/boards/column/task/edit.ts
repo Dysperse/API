@@ -15,13 +15,10 @@ const handler = async (req, res) => {
       data: {
         lastUpdated: req.query.date,
         ...(req.query.name && { name: req.query.name }),
-        ...(req.query.where && { where: req.query.where }),
         ...(req.query.completed && {
           completed: req.query.completed === "true",
           completedAt:
-            req.query.completed === "true"
-              ? new Date(req.query.completedAt)
-              : null,
+            req.query.completed === "true" ? new Date(req.query.date) : null,
           completedBy: {
             connect: {
               email: req.query.completedBy,
@@ -32,17 +29,25 @@ const handler = async (req, res) => {
         ...(req.query.columnId && {
           columnId: req.query.columnId === "null" ? null : req.query.columnId,
         }),
+
         ...((req.query.description || req.query.description === "") && {
           description: req.query.description,
         }),
+        ...((req.query.where || req.query.where === "") && {
+          where: req.query.where,
+        }),
+
         ...(req.query.due &&
           req.query.due !== "" && {
             due: req.query.due,
           }),
+
         ...(req.query.due === "" && {
           due: null,
         }),
+
         ...(req.query.color && { color: req.query.color }),
+
         ...(req.query.image && {
           image: req.query.image == "null" ? null : req.query.image,
         }),
@@ -51,6 +56,7 @@ const handler = async (req, res) => {
 
     res.json(data);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };

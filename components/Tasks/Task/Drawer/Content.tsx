@@ -69,7 +69,6 @@ function DrawerMenu({
           disabled={task.subTasks.length === 0}
           callback={async () => {
             await handleDelete(task.id);
-            await task.mutate();
           }}
         >
           <MenuItem disabled={shouldDisable}>
@@ -109,7 +108,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
   const palette = useColor(session.themeColor, isDark);
 
   const handlePriorityChange = useCallback(async () => {
-    task.set((prev) => ({ ...prev, pinned: !prev.pinned }));
+    task.edit(task.id, "pinned", !task.pinned);
 
     toast.promise(
       new Promise(async (resolve, reject) => {
@@ -118,7 +117,6 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
             id: task.id,
             pinned: task.pinned ? "false" : "true",
           });
-          await task.mutate();
           resolve("");
         } catch (e) {
           reject(e);
@@ -143,24 +141,8 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
   );
 
   const handleComplete = useCallback(async () => {
-    let completed = task.completed;
-    task.set((prev) => {
-      completed = !prev.completed;
-      return { ...prev, completed };
-    });
-
-    try {
-      await fetchRawApi(session, "property/boards/column/task/edit", {
-        completed: completed ? "true" : "false",
-        completedAt: new Date().toISOString(),
-        completedBy: session.user.email,
-        id: task.id,
-      });
-      await task.mutate();
-    } catch (e) {
-      toast.error("An error occured while updating the task", toastStyles);
-    }
-  }, [task, session]);
+    task.edit(task.id, "completed", !task.completed);
+  }, [task]);
 
   const handlePostpone: any = useCallback(
     async (count, type) => {
@@ -277,22 +259,23 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 {task.completed ? "Completed" : "Complete"}
               </span>
             </Button>
-            {task.due ? <RescheduleModal handlePostpone={handlePostpone}>
-              <Button
-                disableRipple
-                disabled={shouldDisable}
-                sx={{
-                  px: 1.5,
-                  ...styles.button,
-                }}
-              >
-                <Icon className="outlined">bedtime</Icon>
-                Snooze
-              </Button>
-            </RescheduleModal> :
-
+            {task.due ? (
+              <RescheduleModal handlePostpone={handlePostpone}>
+                <Button
+                  disableRipple
+                  disabled={shouldDisable}
+                  sx={{
+                    px: 1.5,
+                    ...styles.button,
+                  }}
+                >
+                  <Icon className="outlined">bedtime</Icon>
+                  Snooze
+                </Button>
+              </RescheduleModal>
+            ) : (
               <SelectDateModal
-                styles={() => { }}
+                styles={() => {}}
                 date={task.due}
                 setDate={(d) => {
                   task.close();
@@ -315,7 +298,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                   Schedule
                 </Button>
               </SelectDateModal>
-            }
+            )}
             <DrawerMenu
               handlePriorityChange={handlePriorityChange}
               shouldDisable={shouldDisable}
@@ -364,7 +347,6 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 disabled={task.subTasks.length === 0}
                 callback={async () => {
                   await handleDelete(task.id);
-                  await task.mutate();
                 }}
               >
                 <IconButton
@@ -391,7 +373,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
           <ColorPopover disabled={shouldDisable} />
           {!isSubTask && (
             <SelectDateModal
-              styles={() => { }}
+              styles={() => {}}
               date={task.due}
               setDate={(d) => {
                 task.close();
@@ -467,9 +449,9 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 boardData={
                   task.column
                     ? {
-                      boardId: "",
-                      columnId: task.column.id,
-                    }
+                        boardId: "",
+                        columnId: task.column.id,
+                      }
                     : undefined
                 }
                 defaultDate={task.due ? new Date(task.due) : null}
