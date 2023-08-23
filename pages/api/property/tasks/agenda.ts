@@ -64,17 +64,23 @@ const handler = async (req, res) => {
           },
         ],
       },
-      ...(!req.query.count && {
-        include: {
-          subTasks: true,
-          parentTasks: true,
+      include: {
+        subTasks: true,
+        parentTasks: true,
+        column: {
+          select: {
+            board: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
+            name: true,
+            emoji: true,
+            id: true,
+          },
         },
-      }),
-      ...(req.query.count && {
-        select: {
-          completed: true,
-        },
-      }),
+      },
     });
     res.json(data);
   } catch (e: any) {

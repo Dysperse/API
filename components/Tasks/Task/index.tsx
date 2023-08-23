@@ -7,6 +7,7 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { colors } from "@/lib/colors";
 import {
+  Avatar,
   Box,
   Checkbox,
   Chip,
@@ -19,6 +20,7 @@ import {
   styled,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import React, {
   useCallback,
   useContext,
@@ -47,6 +49,7 @@ const TaskChips = React.memo(function TaskChips({
   isSubTask,
   handlePriorityChange,
 }: any) {
+  const router = useRouter();
   const isPinned = taskData.pinned;
   const isDue = taskData.due && !isAgenda;
   const isTimeDue =
@@ -155,6 +158,26 @@ const TaskChips = React.memo(function TaskChips({
             </Icon>
           }
         />
+      )}
+
+      {taskData.column && (
+        <Tooltip title={taskData.column?.name}>
+          <Chip
+            size="small"
+            className="date"
+            label={taskData.column?.board?.name}
+            sx={{ background: palette[3] }}
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push("/tasks/boards/" + taskData.column?.board?.id);
+            }}
+            avatar={
+              <Avatar
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${taskData.column?.emoji}.png`}
+              />
+            }
+          />
+        </Tooltip>
       )}
 
       {isWhereValid && (
