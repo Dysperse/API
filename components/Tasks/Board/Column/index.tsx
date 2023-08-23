@@ -9,7 +9,6 @@ import {
   CardActionArea,
   Icon,
   IconButton,
-  LinearProgress,
   SwipeableDrawer,
   TextField,
   Typography,
@@ -260,19 +259,11 @@ export function Column({
           maxWidth: "100vw",
         }}
       >
-        {loading && (
-          <LinearProgress
-            sx={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              zIndex: 999999999,
-            }}
-          />
-        )}
         <Box
-          onClick={scrollIntoView}
+          onClick={() => {
+            expandTitle();
+            scrollIntoView();
+          }}
           onContextMenu={() => {
             if (!isMobile) expandTitle();
           }}
