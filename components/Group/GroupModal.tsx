@@ -66,9 +66,9 @@ export function GroupModal({
       <AnimatePresence mode="wait">
         <motion.div
           key={showInvitations ? "1" : "0"}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
         >
           <Typography
             variant="h4"
@@ -78,8 +78,6 @@ export function GroupModal({
           >
             {showInvitations ? "Invitations" : "Groups"}
           </Typography>
-        </motion.div>
-        <motion.div key={showInvitations ? "2" : "3"}>
           {properties
             .filter((p) => (showInvitations ? !p.accepted : p.accepted))
             .map((group: any, index) => (
@@ -91,73 +89,75 @@ export function GroupModal({
                 onSuccess={onSuccess}
               />
             ))}
+          {showInvitations &&
+            properties.filter((p) => !p.accepted).length == 0 && (
+              <Box
+                sx={{
+                  background: personPalette[2],
+                  p: 2,
+                  borderRadius: 5,
+                  mb: 2,
+                }}
+              >
+                <Typography>
+                  Groups you&apos;re invited to will appear here
+                </Typography>
+              </Box>
+            )}
+          <ListItemButton
+            sx={{
+              gap: 2,
+              borderRadius: 99,
+              transition: "transform .2s",
+              background: "transparent!important",
+              "&:active": {
+                transform: { sm: "scale(0.97)" },
+              },
+              "& *": {
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              },
+              "&:hover": {
+                background: { sm: personPalette[2] + "!important" },
+              },
+            }}
+            onClick={() => {
+              setShowInvitations(!showInvitations);
+            }}
+          >
+            <Box
+              sx={{
+                width: 40,
+                height: 40,
+                background: personPalette[2],
+                color: personPalette[9],
+                borderRadius: 99,
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Icon>
+                {showInvitations ? "arrow_back_ios_new" : "person_add"}
+              </Icon>
+            </Box>
+            <ListItemText
+              primary={showInvitations ? "Groups" : "Invitations"}
+              sx={{ color: personPalette[12] }}
+              secondary={
+                showInvitations
+                  ? null
+                  : properties.filter((p) => !p.accepted).length + " new"
+              }
+            />
+            <ListItemIcon sx={{ minWidth: "unset" }}>
+              <Icon>{showInvitations ? "" : "arrow_forward_ios"}</Icon>
+            </ListItemIcon>
+          </ListItemButton>
         </motion.div>
       </AnimatePresence>
-
-      {showInvitations && properties.filter((p) => !p.accepted).length == 0 && (
-        <Box
-          sx={{
-            background: personPalette[2],
-            p: 2,
-            borderRadius: 5,
-            mb: 2,
-          }}
-        >
-          <Typography>
-            Groups you&apos;re invited to will appear here
-          </Typography>
-        </Box>
-      )}
-      <ListItemButton
-        sx={{
-          gap: 2,
-          borderRadius: 99,
-          transition: "transform .2s",
-          background: "transparent!important",
-          "&:active": {
-            transform: { sm: "scale(0.97)" },
-          },
-          "& *": {
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          },
-          "&:hover": {
-            background: { sm: personPalette[2] + "!important" },
-          },
-        }}
-        onClick={() => {
-          setShowInvitations(!showInvitations);
-        }}
-      >
-        <Box
-          sx={{
-            width: 40,
-            height: 40,
-            background: personPalette[2],
-            color: personPalette[9],
-            borderRadius: 99,
-            flexShrink: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Icon>{showInvitations ? "arrow_back_ios_new" : "person_add"}</Icon>
-        </Box>
-        <ListItemText
-          primary={showInvitations ? "Groups" : "Invitations"}
-          sx={{ color: personPalette[12] }}
-          secondary={
-            showInvitations
-              ? null
-              : properties.filter((p) => !p.accepted).length + " new"
-          }
-        />
-        <ListItemIcon sx={{ minWidth: "unset" }}>
-          <Icon>{showInvitations ? "" : "arrow_forward_ios"}</Icon>
-        </ListItemIcon>
-      </ListItemButton>
     </SwipeableDrawer>
   );
 
