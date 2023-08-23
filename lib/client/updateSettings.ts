@@ -1,6 +1,6 @@
 import { toastStyles } from "@/lib/client/useTheme";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
+import { mutate, cache } from "swr";
 
 /**
  * Function to update a user's setting and save it to the database.
@@ -44,6 +44,7 @@ export async function updateSettings(
       });
       res = await res.json();
       callback && callback();
+      cache?.clear()
       mutate("/api/session").then(() => resolve("Saved!"));
       if (debug) {
         resolve(JSON.stringify(res));
