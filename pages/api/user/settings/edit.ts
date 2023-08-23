@@ -43,10 +43,7 @@ const handler = async (req, res) => {
           : req.query.notificationSubscription || undefined,
       ...(req.query.darkMode && { darkMode: req.query.darkMode }),
       color: req.query.color || undefined,
-      onboardingComplete:
-        (req.query.onboardingComplete &&
-          req.query.onboardingComplete === "true") ||
-        undefined,
+      ...(req.query.onboardingComplete && { onboardingComplete: req.query.onboardingComplete === "true" }),
     },
   });
   cacheData.clear();
