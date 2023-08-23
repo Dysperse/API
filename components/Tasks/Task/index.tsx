@@ -278,7 +278,7 @@ export const Task: any = React.memo(function Task({
         await fetchRawApi(session, "property/boards/column/task/edit", {
           id: taskData.id,
           completed: e.target.checked ? "true" : "false",
-          completedAt: new Date().toISOString(),
+          date: new Date().toISOString(),
           completedBy: session.user.email,
         });
       } catch (e) {
