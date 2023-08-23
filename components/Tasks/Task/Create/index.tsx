@@ -58,6 +58,36 @@ interface TaskCreationProps {
   };
 }
 
+const ColumnData = memo(function ColumnData({ boardData }: any) {
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  return (
+    <Box
+      sx={{
+        px: 3,
+        py: 1,
+        pb: 3,
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        mb: -2,
+        background: `linear-gradient(${palette[2]}, ${palette[3]})`,
+        borderRadius: "20px 20px 0 0",
+      }}
+    >
+      <picture>
+        <img
+          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${boardData.columnEmoji}.png`}
+          alt=""
+          width={35}
+        />
+      </picture>
+      <Typography variant="h6">{boardData.columnName}</Typography>
+    </Box>
+  );
+});
+
 export function CreateTask({
   children,
   onSuccess,
@@ -305,30 +335,7 @@ export function CreateTask({
           chipStyles={styles.chip}
           isSubTask={isSubTask}
         />
-        {boardData && !isMobile && (
-          <Box
-            sx={{
-              px: 3,
-              py: 1,
-              pb: 3,
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              mb: -2,
-              background: `linear-gradient(${palette[2]}, ${palette[3]})`,
-              borderRadius: "20px 20px 0 0",
-            }}
-          >
-            <picture>
-              <img
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${boardData.columnEmoji}.png`}
-                alt=""
-                width={35}
-              />
-            </picture>
-            <Typography variant="h6">{boardData.columnName}</Typography>
-          </Box>
-        )}
+        {boardData && !isMobile && <ColumnData boardData={boardData} />}
         <Box
           sx={{
             p: 3,
