@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     users.forEach(async ({ user }) => {
       await DispatchNotification({
         subscription: user.notificationSubscription as any,
-        title: `${JSON.parse(req.query.profile)?.name} is ${
+        title: `${JSON.parse(req.query.profile)?.name.trim()} is ${
           req.query.status
         } until ${dayjs(dayjs(until).tz(req.query.timeZone)).format("h:mm A")}`,
         body: "Tap to view status update",

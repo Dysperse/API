@@ -175,17 +175,21 @@ export function CreateTask({
       if (formData.title.trim() === "") return;
       setLoading(true);
       vibrate(50);
-      await fetchRawApi(session, "property/boards/column/task/create", {
-        ...formData,
-        ...(formData.image && { image: JSON.parse(formData.image).url }),
-        pinned: formData.pinned ? "true" : "false",
-        due: formData.date ? formData.date.toISOString() : "false",
-        columnId: -1,
-        ...(boardData && { ...boardData }),
-        ...(parentId && { parent: parentId }),
+      const res = await fetchRawApi(
+        session,
+        "property/boards/column/task/create",
+        {
+          ...formData,
+          ...(formData.image && { image: JSON.parse(formData.image).url }),
+          pinned: formData.pinned ? "true" : "false",
+          due: formData.date ? formData.date.toISOString() : "false",
+          columnId: -1,
+          ...(boardData && { ...boardData }),
+          ...(parentId && { parent: parentId }),
 
-        createdBy: session.user.email,
-      });
+          createdBy: session.user.email,
+        }
+      );
       onSuccess && onSuccess();
       toast.dismiss();
       toast.success("Created task!", toastStyles);

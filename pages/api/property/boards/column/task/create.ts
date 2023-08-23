@@ -16,13 +16,17 @@ const handler = async (req, res) => {
           },
         },
         createdBy: {
-          user: {
-            connect: {
-              email: req.query.email,
-            },
+          connect: {
+            email: req.query.createdBy,
           },
         },
         name: req.query.title,
+        color: req.query.color || "grey",
+        completed: false,
+        ...(req.query.image && { image: req.query.image }),
+        pinned: req.query.pinned === "true",
+        due: req.query.due !== "false" ? new Date(req.query.due) : null,
+        description: req.query.description,
         ...(req.query.location && { where: req.query.location }),
         ...(req.query.columnId !== "-1" && {
           column: {
@@ -31,12 +35,6 @@ const handler = async (req, res) => {
             },
           },
         }),
-        color: req.query.color || "grey",
-        completed: false,
-        ...(req.query.image && { image: req.query.image }),
-        pinned: req.query.pinned === "true",
-        due: req.query.due !== "false" ? new Date(req.query.due) : null,
-        description: req.query.description,
         ...(req.query.parent && {
           parentTasks: {
             connect: {
