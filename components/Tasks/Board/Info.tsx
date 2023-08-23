@@ -150,6 +150,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
       {showInfo ? (
         <>
           <Box sx={{ mt: "auto" }}>
+            {/* {board.shareTokens.length} */}
             {collaborators.length > 1 && (
               <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
                 {collaborators.slice(0, 5).map((member) => (

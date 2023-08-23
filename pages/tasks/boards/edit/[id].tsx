@@ -531,7 +531,8 @@ const Dashboard = () => {
   });
 
   if (
-    data?.[0]?.shareTokens?.[0]?.readOnly ||
+    data?.find((s) => s.user.email === session.user.email)?.shareTokens?.[0]
+      ?.readOnly ||
     session.permission === "read-only"
   ) {
     return (

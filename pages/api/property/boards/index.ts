@@ -40,9 +40,9 @@ const handler = async (req, res) => {
       include: {
         user: { select: { email: true } },
         shareTokens: {
-          where: {
-            user: { identifier: req.query.userIdentifier },
-          },
+          // where: {
+          //   user: { identifier: req.query.userIdentifier },
+          // },
           select: {
             createdAt: true,
             expiresAt: true,
