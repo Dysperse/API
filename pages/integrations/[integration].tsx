@@ -391,7 +391,11 @@ function Layout() {
                 style={{ marginTop: "auto" }}
               >
                 <Typography variant="h4">
-                  What&apos;s the {steps[step - 1].name}?
+                  {steps[step - 1].name !==
+                    "Connect Dysperse to Google Calendar" && "What's the"}{" "}
+                  {steps[step - 1].name}
+                  {steps[step - 1].name !==
+                    "Connect Dysperse to Google Calendar" && "?"}
                 </Typography>
                 <Typography sx={{ mb: 1, color: palette[11] }} variant="body2">
                   {steps[step - 1].helperText}
