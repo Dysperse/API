@@ -101,6 +101,7 @@ export default function App({
 
   if (
     !isLoading &&
+    data &&
     data?.user?.onboardingComplete !== true &&
     router.pathname !== "/onboarding"
   ) {
