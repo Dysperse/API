@@ -879,50 +879,52 @@ export function TasksLayout({
       )}
 
       <Box sx={{ display: "flex" }}>
-        <Drawer
-          keepMounted
-          ModalProps={{ keepMounted: true }}
-          anchor="top"
-          onClose={handleClose}
-          onClick={handleClose}
-          onContextMenu={(e) => e.preventDefault()}
-          open={open}
-          {...{ TransitionComponent: Fade }}
-          PaperProps={{
-            sx: {
-              background: "transparent",
-              p: 2,
-            },
-          }}
-          slotProps={{
-            backdrop: {
+        {isMobile && (
+          <Drawer
+            keepMounted
+            ModalProps={{ keepMounted: true }}
+            anchor="top"
+            onClose={handleClose}
+            onClick={handleClose}
+            onContextMenu={(e) => e.preventDefault()}
+            open={open}
+            {...{ TransitionComponent: Fade }}
+            PaperProps={{
               sx: {
-                backdropFilter: "blur(15px)!important",
+                background: "transparent",
+                p: 2,
               },
-            },
-          }}
-        >
-          <Box sx={{ display: "flex", mt: -0.2, ml: 0.89, mb: 1 }}>
-            {trigger}
-            <div style={{ marginLeft: "auto" }} />
-          </Box>
-          <Grow in={open} style={{ transformOrigin: "0 0 0" }}>
-            <Box
-              onClick={(e) => e.stopPropagation()}
-              sx={{
-                ml: 1,
-                pb: 0,
-                borderRadius: 5,
-                maxHeight: "calc(100dvh - 190px)",
-                maxWidth: "calc(100vw - 100px)",
-                overflowY: "scroll",
-                background: addHslAlpha(palette[3], 0.7),
-              }}
-            >
-              <MenuChildren />
+            }}
+            slotProps={{
+              backdrop: {
+                sx: {
+                  backdropFilter: "blur(15px)!important",
+                },
+              },
+            }}
+          >
+            <Box sx={{ display: "flex", mt: -0.2, ml: 0.89, mb: 1 }}>
+              {trigger}
+              <div style={{ marginLeft: "auto" }} />
             </Box>
-          </Grow>
-        </Drawer>
+            <Grow in={open} style={{ transformOrigin: "0 0 0" }}>
+              <Box
+                onClick={(e) => e.stopPropagation()}
+                sx={{
+                  ml: 1,
+                  pb: 0,
+                  borderRadius: 5,
+                  maxHeight: "calc(100dvh - 190px)",
+                  maxWidth: "calc(100vw - 100px)",
+                  overflowY: "scroll",
+                  background: addHslAlpha(palette[3], 0.7),
+                }}
+              >
+                <MenuChildren />
+              </Box>
+            </Grow>
+          </Drawer>
+        )}
         <Box
           sx={{
             width: { xs: "100%", sm: 300 },
