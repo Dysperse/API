@@ -51,7 +51,7 @@ const CategoryList = React.memo(function CategoryList() {
         <>
           {[...new Set(data)].map((category: any) => (
             <CategoryModal
-              mutationUrl={url}
+              mutate={mutate}
               category={category}
               key={category.toString()}
             />

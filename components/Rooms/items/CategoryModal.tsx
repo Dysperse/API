@@ -17,7 +17,7 @@ import { toast } from "react-hot-toast";
 import { ItemCard } from "../ItemCard";
 
 interface CategoryModalProps {
-  mutationUrl: string;
+  mutate: any;
   category: string;
 }
 
@@ -26,7 +26,7 @@ interface CategoryModalProps {
  * @param {string} category - The category name
  */
 const CategoryModal = memo(function CategoryModal({
-  mutationUrl,
+  mutate,
   category,
 }: CategoryModalProps) {
   const [open, setOpen] = useState<boolean>(false);
@@ -100,7 +100,7 @@ const CategoryModal = memo(function CategoryModal({
             .filter((item) => item)
             .map((item: Item) => (
               <Box sx={{ mb: 1 }} key={item.id.toString()}>
-                <ItemCard item={item} mutationUrl={mutationUrl} />
+                <ItemCard item={item} mutate={mutate} />
               </Box>
             ))}
           {data.length === 0 && <>No items</>}

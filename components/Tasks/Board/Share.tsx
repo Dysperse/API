@@ -83,6 +83,7 @@ export function ShareBoard({ mutate, isShared, board, children }) {
           readOnly: permissions,
           email: deferredEmail,
           boardProperty: board.property.id,
+          name: session.user.name,
           expiresAt: dayjs().add(parseInt(expiration), "day").toISOString(),
         });
         if (res.error) {

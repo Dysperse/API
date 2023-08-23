@@ -1,7 +1,11 @@
+import { BoardEmail } from "@/emails/board";
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
+import { Resend } from "resend";
 
 const handler = async (req, res) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   try {
     await validatePermissions({
       minimum: "member",
@@ -15,6 +19,31 @@ const handler = async (req, res) => {
         ...(req.query.board && { board: { connect: { id: req.query.board } } }),
         user: { connect: { email: req.query.email } },
       },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        board: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    resend.sendEmail({
+      from: "Dysperse <hello@dysperse.com>",
+      to: req.query.email,
+      subject: "You've been invited to collaborate on a board!",
+      react: BoardEmail({
+        boardId: req.query.board,
+        toEmail: req.query.email,
+        boardName: data.board?.name,
+        toName: data.user.name,
+        fromName: req.query.name,
+      }),
     });
     res.json(data);
   } catch (e: any) {
