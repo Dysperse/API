@@ -197,6 +197,8 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             animate={{ opacity: 1, scale: 1 }}
           >
             <DatePicker
+              nextLabel={<Icon>arrow_forward_ios</Icon>}
+              prevLabel={<Icon>arrow_back_ios_new</Icon>}
               tileContent={({ date, view }) => (
                 <CalendarTileIndicator date={date} view={view} data={data} />
               )}
