@@ -1,13 +1,107 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
+import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
-import { Box, Button, Icon, SwipeableDrawer, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  SwipeableDrawer,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import React, { cloneElement, useRef, useState } from "react";
 import DatePicker from "react-calendar";
 import { toast } from "react-hot-toast";
+
+const CalendarTileIndicator = React.memo(function CalendarTileIndicator({
+  data,
+  date,
+  view,
+}: any): any {
+  const session = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  if (view !== "month") return null;
+
+  // Calculate day and count outside the render
+  const dayOfMonth = dayjs(date).date();
+
+  // Filter data using useMemo
+  const filteredData = React.useMemo(() => {
+    if (!data) return [];
+    return data.filter(({ due }) => dayjs(due).date() === dayOfMonth);
+  }, [data, dayOfMonth]);
+
+  if (filteredData.length > 0) {
+    const count = filteredData.reduce((sum, obj) => sum + obj._count._all, 0);
+    const renderCount = Math.min(count, 3);
+
+    return (
+      <>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 0.5,
+            mt: 0.4,
+            height: 4.4,
+            justifyContent: "center",
+          }}
+        >
+          {[...Array(renderCount)].map((_, f) => (
+            <Box
+              key={f}
+              sx={{
+                width: 4,
+                height: 4,
+                background: palette[9],
+                borderRadius: 9,
+              }}
+            />
+          ))}
+        </Box>
+        <Tooltip
+          title={
+            <Box>
+              <Typography>
+                <b>{dayjs(date).format("dddd, MMMM DD")}</b>
+              </Typography>
+              <Typography>{count} tasks</Typography>
+            </Box>
+          }
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        </Tooltip>
+      </>
+    );
+  } else if (!data) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            width: 17,
+            height: 4,
+            background: palette[4],
+            borderRadius: 9,
+          }}
+        />
+      </Box>
+    );
+  }
+});
 
 const SelectDateModal: any = React.memo(function SelectDateModal({
   date,
@@ -34,6 +128,16 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
     onClick: (e) => {
       setOpen(true);
     },
+  });
+
+  const { data, error } = useApi(open ? "property/tasks/agenda" : null, {
+    count: true,
+    startTime: dayjs(date || new Date())
+      .startOf("month")
+      .toISOString(),
+    endTime: dayjs(date || new Date())
+      .endOf("month")
+      .toISOString(),
   });
 
   return (
@@ -93,6 +197,9 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             animate={{ opacity: 1, scale: 1 }}
           >
             <DatePicker
+              tileContent={({ date, view }) => (
+                <CalendarTileIndicator date={date} view={view} data={data} />
+              )}
               minDetail="year"
               calendarType="US"
               value={dayjs(date).isValid() ? new Date(date) : new Date()}

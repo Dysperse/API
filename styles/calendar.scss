@@ -9,6 +9,7 @@
 
   &__tile {
     border: 2px solid transparent;
+    position:relative
   }
 
   &__tile--active, &__tile--hasActive {
