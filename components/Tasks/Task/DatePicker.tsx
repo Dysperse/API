@@ -27,8 +27,6 @@ const CalendarTileIndicator = React.memo(function CalendarTileIndicator({
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  if (view !== "month") return null;
-
   // Calculate day and count outside the render
   const dayOfMonth = dayjs(date).date();
 
@@ -37,7 +35,7 @@ const CalendarTileIndicator = React.memo(function CalendarTileIndicator({
     if (!data) return [];
     return data.filter(({ due }) => dayjs(due).date() === dayOfMonth);
   }, [data, dayOfMonth]);
-
+if (view !== "month") return null;
   if (filteredData.length > 0) {
     const count = filteredData.reduce((sum, obj) => sum + obj._count._all, 0);
     const renderCount = Math.min(count, 3);
