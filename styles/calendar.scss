@@ -45,7 +45,7 @@
     &--next {
       width: 36px;
       height: 36px;
-      border-radius: 50%;
+      border-radius: 9999px;
       font-size: 24px;
       display: flex;
       align-items: center;
@@ -121,15 +121,6 @@
       opacity: 0.6;
     }
   }
-
-  &__navigation button.react-calendar__navigation__arrow--prev svg {
-    transform: rotate(180deg);
-  }
-}
-
-.react-calendar__navigation__next2-button,
-.react-calendar__navigation__prev2-button {
-  display: none !important;
 }
 
 .react-calendar__navigation {
