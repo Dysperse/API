@@ -216,7 +216,7 @@ export function CreateTask({
         pinned: formData.pinned ? "true" : "false",
         due: formData.date ? formData.date.toISOString() : "false",
         columnId: -1,
-        notifications: JSON.stringify(formData.notifications),
+        notifications: JSON.stringify(formData.notifications.sort().reverse()),
         ...(boardData && { ...boardData }),
         ...(parentId && { parent: parentId }),
 
