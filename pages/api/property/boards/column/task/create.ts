@@ -20,6 +20,7 @@ const handler = async (req, res) => {
             email: req.query.createdBy,
           },
         },
+        notifications: JSON.parse(req.query.notifications),
         name: req.query.title,
         color: req.query.color || "grey",
         completed: false,

@@ -116,6 +116,7 @@ export function CreateTask({
     image: "",
     pinned: false,
     date: defaultDate,
+    notifications: [10],
   });
 
   useEffect(() => {
@@ -215,6 +216,7 @@ export function CreateTask({
         pinned: formData.pinned ? "true" : "false",
         due: formData.date ? formData.date.toISOString() : "false",
         columnId: -1,
+        notifications: JSON.stringify(formData.notifications),
         ...(boardData && { ...boardData }),
         ...(parentId && { parent: parentId }),
 
