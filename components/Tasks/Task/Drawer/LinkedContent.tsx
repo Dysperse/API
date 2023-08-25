@@ -102,7 +102,7 @@ export const LinkedContent = React.memo(function LinkedContent({
             router.push(`/users/${task.createdBy.email}`);
           }}
         >
-          <ListItemText primary={`Created by "${task.createdBy?.name}"`} />
+          <ListItemText primary={`Created by ${task.createdBy?.name}`} />
           <Avatar
             src={task.createdBy?.Profile?.picture}
             sx={{ width: 30, height: 30 }}
