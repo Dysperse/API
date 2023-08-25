@@ -39,11 +39,22 @@ const Notification = async (req, res) => {
         select: {
           notificationSubscription: true,
           id: true,
-          timeZone: true,
-          properties: {
-            select: { propertyId: true },
-            where: { selected: true },
+          Task: {
+            select: {
+              id: true,
+              name: true,
+              due: true,
+              notifications: true,
+              image: true,
+            },
+            where: {
+              AND: [
+                { notifications: { isEmpty: false } },
+                { completed: false },
+              ],
+            },
           },
+          timeZone: true,
         },
       },
     },
@@ -55,69 +66,55 @@ const Notification = async (req, res) => {
     process.env.WEB_PUSH_PRIVATE_KEY
   );
 
-  // For each user
-  for (let i = 0; i < subscriptions.length; i++) {
-    try {
-      const subscription = subscriptions[i];
-      const { notificationSubscription, timeZone }: any = subscription.user;
-      const propertyId = subscription.user.properties[0].propertyId;
+  for (const _i in subscriptions) {
+    const subscription = subscriptions[_i];
 
-      const currentTimeInUserTimeZone = dayjs().tz(timeZone).toDate();
+    const { notificationSubscription, timeZone }: any = subscription.user;
 
-      // notifies users ~5 mins before event starts
-      const notificationBuffer = dayjs()
-        .tz(timeZone)
-        .add(5, "minutes")
-        .toDate();
+    const time = dayjs().tz(timeZone);
 
-      const tasks = await prisma.task.findMany({
-        where: {
-          AND: [
-            { propertyId },
-            { completed: false },
-            { due: { gte: currentTimeInUserTimeZone } },
-            { due: { lte: notificationBuffer } },
+    for (const i in subscription.user.Task) {
+      const task = subscription.user.Task[i];
+      let notifications = task.notifications.sort().reverse();
+      console.log(notifications);
+
+      const due = dayjs(task.due).tz(timeZone);
+      const diff = dayjs(due).diff(time, "minute");
+
+      // If the largetst element in the notifications array is greater than or equal to the time, send the notification
+      if (Math.max(...notifications) >= diff) {
+        await DispatchNotification({
+          title: task.name,
+          icon: "https://assets.dysperse.com/v8/ios/192.png",
+          body: `In ${diff} minutes`,
+          actions: [
             {
-              NOT: {
-                AND: [
-                  { column: { board: { public: false } } },
-                  {
-                    column: {
-                      board: { user: { id: { not: subscription.user.id } } },
-                    },
-                  },
-                ],
-              },
+              title: "✅ Complete",
+              action: `task-complete-${task.id}`,
+            },
+            {
+              title: "👀 View",
+              action: `task-view-${task.id}`,
             },
           ],
-        },
-        select: {
-          name: true,
-          id: true,
-          pinned: true,
-          due: true,
-        },
-      });
+          subscription: notificationSubscription,
+        });
 
-      for (let i = 0; i < tasks.length; i++) {
-        const task = tasks[i];
-        try {
-          await DispatchNotification({
-            subscription: notificationSubscription,
-            title: task.name,
-            body: dayjs(task.due).fromNow(),
-          });
-        } catch (e) {
-          console.log(e);
-          console.log("Error while dispatching notification");
-        }
+        await prisma.task.update({
+          where: {
+            id: task.id,
+          },
+          data: {
+            notifications: notifications
+              .filter((n) => n !== Math.max(...notifications))
+              .sort()
+              .reverse(),
+          },
+        });
       }
-    } catch (e) {
-      console.log("Error while fetching tasks");
     }
   }
-
-  res.status(200).json({ message: "Notification sent" });
+  res.json({ success: true });
 };
 
 export default Notification;
