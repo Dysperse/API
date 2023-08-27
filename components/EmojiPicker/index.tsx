@@ -1,5 +1,5 @@
 import { useSession } from "@/lib/client/session";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useDarkMode } from "@/lib/client/useColor";
 import Picker from "@emoji-mart/react";
 import { Box, SwipeableDrawer } from "@mui/material";
 import React, { cloneElement, useCallback, useState } from "react";
@@ -28,7 +28,6 @@ const EmojiPicker = React.memo(function EmojiPicker({
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
 
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = () => setOpen(false);
@@ -37,7 +36,6 @@ const EmojiPicker = React.memo(function EmojiPicker({
 
   function handleEmojiSelect(emoji) {
     const code = emoji[useNativeEmoji ? "native" : "unified"];
-    alert(code);
     setEmoji(code);
     handleClose();
   }
