@@ -67,7 +67,7 @@ export function ImageViewer({ url }: { url: string }) {
           left: 0,
           zIndex: 9999999999,
           transition: "all .2s!important",
-          pb: !zoom ? "30px" : "0px",
+          pb: !zoom ? "40px" : "0px",
         }}
         onContextMenu={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
@@ -77,10 +77,10 @@ export function ImageViewer({ url }: { url: string }) {
             display: "flex",
             position: "absolute",
             zIndex: 999,
-            bottom: 10,
+            bottom: 14,
             borderRadius: 99,
             p: 0.5,
-            background: addHslAlpha(palette[3], 0.5),
+            background: addHslAlpha(palette[3], 0.9),
             backdropFilter: "blur(10px)",
             left: "50%",
             transform: "translateX(-50%)",
@@ -92,6 +92,7 @@ export function ImageViewer({ url }: { url: string }) {
           }}
         >
           <IconButton
+            size="large"
             onClick={(e: any) => {
               e.preventDefault();
               e.stopPropagation();
@@ -100,13 +101,13 @@ export function ImageViewer({ url }: { url: string }) {
           >
             <Icon>close</Icon>
           </IconButton>
-          <IconButton onClick={() => downloadImage(url)}>
+          <IconButton onClick={() => downloadImage(url)} size="large">
             <Icon>download</Icon>
           </IconButton>
-          <IconButton onClick={() => shareImage(url)}>
+          <IconButton onClick={() => shareImage(url)} size="large">
             <Icon>ios_share</Icon>
           </IconButton>
-          <IconButton onClick={() => window.open(url)}>
+          <IconButton onClick={() => window.open(url)} size="large">
             <Icon>open_in_new</Icon>
           </IconButton>
         </Box>
