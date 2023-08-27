@@ -1,6 +1,5 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { Box, SwipeableDrawer } from "@mui/material";
 import React, { cloneElement, useCallback, useState } from "react";
@@ -37,9 +36,8 @@ const EmojiPicker = React.memo(function EmojiPicker({
   const trigger = cloneElement(children, { onClick: handleOpen });
 
   function handleEmojiSelect(emoji) {
-    const code = useNativeEmoji
-      ? emoji.skins[0].native
-      : emoji.skins[0].unified;
+    const code = emoji[useNativeEmoji ? "native" : "unified"];
+    alert(code);
     setEmoji(code);
     handleClose();
   }
@@ -66,7 +64,13 @@ const EmojiPicker = React.memo(function EmojiPicker({
       >
         <Box sx={{ display: "flex", justifyContent: "center", pb: 5 }}>
           <Picker
-            data={data}
+            data={async () => {
+              const response = await fetch(
+                "https://cdn.jsdelivr.net/npm/@emoji-mart/data"
+              );
+
+              return response.json();
+            }}
             onEmojiSelect={handleEmojiSelect}
             theme={isDark ? "dark" : "light"}
           />
