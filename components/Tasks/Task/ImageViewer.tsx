@@ -4,6 +4,7 @@ import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Avatar, Backdrop, Box, Chip, Icon, IconButton } from "@mui/material";
 import { useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export function ImageViewer({
   url,
@@ -19,7 +20,6 @@ export function ImageViewer({
   const [zoom, setZoom] = useState(false);
 
   const [open, setOpen] = useState<boolean>(false);
-  useBackButton(() => setOpen(false));
 
   async function downloadImage(imageSrc) {
     const image = await fetch(imageSrc);
@@ -52,6 +52,17 @@ export function ImageViewer({
       console.error(err.name, err.message);
     }
   }
+
+  useHotkeys(
+    "esc",
+    () => {
+      if (open) {
+        setOpen(false);
+      }
+    },
+    [open]
+  );
+  useBackButton(() => setOpen(false));
 
   return (
     <>
