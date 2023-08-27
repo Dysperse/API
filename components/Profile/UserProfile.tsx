@@ -399,6 +399,13 @@ export function UserProfile({
             }
           />
         </Tooltip>
+        <Tooltip title="Local time">
+          <Chip
+            sx={chipStyles}
+            label={`${dayjs().tz(data.timeZone).format("h:mm A")}`}
+            icon={<Icon sx={{ color: "inherit!important" }}>access_time</Icon>}
+          />
+        </Tooltip>
         {data.CoachData && (
           <Tooltip title="Coach streak">
             <Chip
