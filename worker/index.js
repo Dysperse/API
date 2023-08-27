@@ -8,6 +8,17 @@ self.addEventListener("message", function (event) {
   }
 });
 
+self.addEventListener('periodicsync', event => {
+  if (event.tag == 'dysperse-integration-sync') {
+    async function resyncIntegrations() {
+      const res = await fetch("/api/property/integrations/resync")
+      console.log("Resyncing...")
+    }
+    event.waitUntil(resyncIntegrations());
+  }
+});
+
+
 self.addEventListener("push", (event) => {
   const data = event.data && JSON.parse(event.data.text());
   const title = data?.title || "You have a new notification";

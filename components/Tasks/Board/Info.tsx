@@ -93,6 +93,25 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
 
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  async function registerPeriodicSync() {
+    const registration = await navigator.serviceWorker.ready;
+    try {
+      await (registration as any).periodicSync.register(
+        "dysperse-integration-sync",
+        {
+          minInterval: 24 * 60 * 60 * 1000,
+        }
+      );
+      console.log("Periodic Sync registered!");
+    } catch {
+      console.log("Periodic Sync could not be registered!");
+    }
+  }
+
+  useEffect(() => {
+    registerPeriodicSync();
+  }, []);
+
   return (
     <Box
       onClick={(e) => {
