@@ -508,7 +508,6 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
                 background: palette[2] + "!important",
                 color: palette[11],
               },
-              mt: 2,
             }}
           >
             View full profile
