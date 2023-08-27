@@ -399,23 +399,6 @@ export function UserProfile({
             }
           />
         </Tooltip>
-        <Tooltip title="Timezone">
-          <Chip
-            sx={chipStyles}
-            label={
-              <>
-                <b>
-                  {data.timeZone.includes("/")
-                    ? data.timeZone.split("/")[1].replace("_", " ")
-                    : data.timeZone}
-                </b>
-                {data.timeZone.includes("/") &&
-                  ` - ${data.timeZone.split("/")[0]}`}
-              </>
-            }
-            icon={<Icon>location_on</Icon>}
-          />
-        </Tooltip>
         {data.CoachData && (
           <Tooltip title="Coach streak">
             <Chip
@@ -531,7 +514,6 @@ export function UserProfile({
               mutationUrl={mutationUrl}
             />
           )}
-
           {data.Status && dayjs(data?.Status?.until).isAfter(dayjs()) && (
             <Box sx={profileCardStyles}>
               <Box
@@ -546,8 +528,12 @@ export function UserProfile({
                   borderRadius: 2,
                 }}
               >
-                <Typography variant="body2">{dayjs().format("MMM")}</Typography>
-                <Typography variant="h5">{dayjs().format("D")}</Typography>
+                <Typography variant="body2">
+                  {dayjs().tz(data.timeZone).format("MMM")}
+                </Typography>
+                <Typography variant="h5">
+                  {dayjs().tz(data.timeZone).format("D")}
+                </Typography>
               </Box>
               <Box sx={{ mt: 5 }} />
               <Typography sx={profileCardStyles.heading}>Right now</Typography>
