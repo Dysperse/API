@@ -421,7 +421,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
                   Local time
                 </Typography>
                 <Chip
-                  sx={{ background: palette[4] }}
+                  sx={{ "&, &:hover": { background: palette[4] } }}
                   label={
                     isWithinWorkingHours
                       ? "Within working hours"
