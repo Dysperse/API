@@ -13,6 +13,7 @@ function extractTextInBrackets(text: string): string {
 }
 
 const handler = async (req, res) => {
+  console.log("run");
   try {
     let data = await prisma.integration.findMany({
       where: {
