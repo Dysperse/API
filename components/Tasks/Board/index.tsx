@@ -54,6 +54,15 @@ function RenderBoard({ tasks }) {
 
   const { board, permissions } = useContext(BoardContext);
 
+  useEffect(() => {
+    if (board.integrations.length > 0 && board.columns.length === 0) {
+      setMobileOpen(true);
+      setTimeout(() => {
+        document.getElementById("syncChip")?.click();
+      }, 200);
+    }
+  }, [board]);
+
   return (
     <Box
       sx={{
