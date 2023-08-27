@@ -402,7 +402,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
             {friend.username && "@"}
             {friend.username || friend.email}
           </Typography>
-          <Grid container>
+          <Grid container sx={{ mx: -1 }}>
             <Grid item xs={12} sm={6} sx={{ p: 1 }}>
               <Box
                 sx={{
@@ -421,7 +421,9 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
                   Local time
                 </Typography>
                 <Chip
-                  sx={{ "&, &:hover": { background: palette[4] } }}
+                  sx={{
+                    "&, &:hover": { background: palette[4] + "!important" },
+                  }}
                   label={
                     isWithinWorkingHours
                       ? "Within working hours"
