@@ -442,7 +442,10 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
                   }}
                 >
                   <Box sx={{ mb: "auto" }}>
-                    <Typography variant="h4" sx={{ mt: "auto" }}>
+                    <Typography
+                      variant="h4"
+                      sx={{ mt: "auto", textTransform: "capitalize" }}
+                    >
                       {(!isExpired && friend?.Status?.status) ||
                         (isWithinWorkingHours ? "" : "Away")}
                     </Typography>
