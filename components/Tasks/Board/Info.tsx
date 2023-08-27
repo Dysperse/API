@@ -99,7 +99,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
       await (registration as any).periodicSync.register(
         "dysperse-integration-sync",
         {
-          minInterval: 24 * 60 * 60 * 1000,
+          minInterval: 1 * 60 * 60 * 1000,
         }
       );
       console.log("Periodic Sync registered!");

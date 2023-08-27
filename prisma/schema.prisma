@@ -65,6 +65,8 @@ model Integration {
   id   String @id @unique @default(uuid())
   name String // Also used to identify the integration
 
+  lastSynced DateTime @default(now())
+
   inputParams String // Stuff like urls, auth tokens, etc... (SHOULD BE ENCRYPTED!!!)
   outputType  String @default("board")
 

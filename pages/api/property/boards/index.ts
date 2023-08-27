@@ -81,7 +81,7 @@ const handler = async (req, res) => {
             },
           },
         },
-        integrations: { select: { name: true } },
+        integrations: { select: { name: true, lastSynced: true } },
       },
       orderBy: { pinned: "desc" },
     });

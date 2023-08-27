@@ -9,7 +9,7 @@ dayjs.extend(timezone);
 
 const handler = async (req, res) => {
   try {
-    let data = await prisma.integration.findMany({
+    let data = await prisma.integration.findFirstOrThrow({
       where: {
         AND: [
           { name: "Google Calendar" },
@@ -20,13 +20,12 @@ const handler = async (req, res) => {
       take: 1,
     });
 
-    if (!data[0]) {
-      res.json({ error: true, message: "Integration does not exist" });
-    }
+    await prisma.integration.update({
+      where: { id: data.id },
+      data: { lastSynced: dayjs().tz(req.query.timeZone).toDate() },
+    });
 
-    const data1 = data[0];
-
-    const inputParams = JSON.parse(data1.inputParams);
+    const inputParams = JSON.parse(data.inputParams);
     const calendar = await fetch(
       decodeURIComponent(
         inputParams["Secret address in iCal format"] ||
@@ -37,7 +36,7 @@ const handler = async (req, res) => {
     const parsed = ical.parseICS(calendar);
     const events = Object.keys(parsed);
 
-    const columnId = "integrations-calendar-" + data1.id;
+    const columnId = "integrations-calendar-" + data.id;
 
     for (let i = 0; i < events.length; i++) {
       const id = `integrations-calendar-${events[i]}`;
@@ -91,7 +90,7 @@ const handler = async (req, res) => {
                 emoji: "1f3af",
                 name: "",
                 id: columnId,
-                board: { connect: { id: data1.boardId as string } },
+                board: { connect: { id: data.boardId as string } },
               },
             },
           },

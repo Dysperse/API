@@ -14,7 +14,7 @@ function extractTextInBrackets(text: string): string {
 
 const handler = async (req, res) => {
   try {
-    let data = await prisma.integration.findMany({
+    let data = await prisma.integration.findFirstOrThrow({
       where: {
         AND: [
           { name: "Canvas LMS" },
@@ -25,13 +25,12 @@ const handler = async (req, res) => {
       take: 1,
     });
 
-    if (!data[0]) {
-      res.json({ error: true, message: "Integration does not exist" });
-    }
+    await prisma.integration.update({
+      where: { id: data.id },
+      data: { lastSynced: dayjs().tz(req.query.timeZone).toDate() },
+    });
 
-    const data1 = data[0];
-
-    const inputParams = JSON.parse(data1.inputParams);
+    const inputParams = JSON.parse(data.inputParams);
     const calendar = await fetch(inputParams["Canvas feed URL"]).then((res) =>
       res.text()
     );
@@ -56,8 +55,8 @@ const handler = async (req, res) => {
       if (Object.prototype.hasOwnProperty.call(parsed, event)) {
         const item = parsed[event];
 
-        const taskId = `${data1.boardId}-${item.uid}`;
-        const columnId = `${data1.boardId}-${extractTextInBrackets(
+        const taskId = `${data.boardId}-${item.uid}`;
+        const columnId = `${data.boardId}-${extractTextInBrackets(
           item.summary
         )}`;
 
@@ -129,7 +128,7 @@ const handler = async (req, res) => {
                     id: columnId,
                     board: {
                       connect: {
-                        id: data1.boardId as string,
+                        id: data.boardId as string,
                       },
                     },
                   },

@@ -1,6 +1,7 @@
 import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
-import { Chip, CircularProgress, Icon } from "@mui/material";
+import { Chip, CircularProgress, Icon, Tooltip } from "@mui/material";
+import dayjs from "dayjs";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -33,7 +34,7 @@ const IntegrationChip = ({
                 : "false",
             }
           );
-          await mutate(mutationUrls.tasks);
+          await mutate();
           resolve(response);
           setLoading(false);
         } catch (e: any) {
@@ -52,40 +53,42 @@ const IntegrationChip = ({
   };
 
   return (
-    <Chip
-      id="syncChip"
-      onClick={handleIntegrationClick}
-      disabled={session.permission === "read-only" || isLoading}
-      label="Sync now"
-      sx={{
-        mr: 1,
-        mb: 1,
-        ...(!(session.permission === "read-only" || isLoading) && {
-          "&, &:hover": {
-            background:
-              "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%) !important",
-            color: "#000",
-            "& .MuiChip-icon": {
-              color: "#000!important",
+    <Tooltip title={`Last synced ${dayjs(integration.lastSynced).fromNow()} `}>
+      <Chip
+        id="syncChip"
+        onClick={handleIntegrationClick}
+        disabled={session.permission === "read-only" || isLoading}
+        label="Sync now"
+        sx={{
+          mr: 1,
+          mb: 1,
+          ...(!(session.permission === "read-only" || isLoading) && {
+            "&, &:hover": {
+              background:
+                "linear-gradient(45deg, #FF0080 0%, #FF8C00 100%) !important",
+              color: "#000",
+              "& .MuiChip-icon": {
+                color: "#000!important",
+              },
             },
-          },
-        }),
-      }}
-      icon={
-        isLoading ? (
-          <CircularProgress
-            size={20}
-            disableShrink={false}
-            thickness={3}
-            sx={{
-              animationDuration: "1s!important",
-            }}
-          />
-        ) : (
-          <Icon>refresh</Icon>
-        )
-      }
-    />
+          }),
+        }}
+        icon={
+          isLoading ? (
+            <CircularProgress
+              size={20}
+              disableShrink={false}
+              thickness={3}
+              sx={{
+                animationDuration: "1s!important",
+              }}
+            />
+          ) : (
+            <Icon>refresh</Icon>
+          )
+        }
+      />
+    </Tooltip>
   );
 };
 
