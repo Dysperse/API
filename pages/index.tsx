@@ -442,15 +442,10 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
                   }}
                 >
                   <Box sx={{ mb: "auto" }}>
-                    <Chip
-                      sx={{
-                        background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
-                        my: 1,
-                      }}
-                      label={capitalizeFirstLetter(
-                        (!isExpired && friend?.Status?.status) || "Away"
-                      )}
-                    />
+                    <Typography variant="h4" sx={{ mt: "auto" }}>
+                      {(!isExpired && friend?.Status?.status) ||
+                        (isWithinWorkingHours ? "" : "Away")}
+                    </Typography>
                   </Box>
                   <LinearProgress
                     variant="determinate"
