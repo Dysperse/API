@@ -126,6 +126,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
         justifyContent: "center",
         minWidth: { md: !showInfo ? "auto" : "320px" },
         maxWidth: { md: "300px" },
+        width: "20px",
         backdropFilter: "blur(20px)!important",
         ...(typeof showInfo !== "boolean" &&
           typeof showInfo !== "object" && {
@@ -366,13 +367,12 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
             }}
             className="font-heading"
           >
-            {board.name.substring(0, 15)}
-            {board.name.length > 15 && "..."}
+            {board.name.substring(0, 25)}
+            {board.name.length > 25 && "..."}
           </Typography>
           <IconButton
             onClick={() => {
               setShowInfo(true);
-
               localStorage.setItem("showInfo", "true");
             }}
           >
