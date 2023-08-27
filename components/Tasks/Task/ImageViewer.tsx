@@ -61,7 +61,7 @@ export function ImageViewer({ url }: { url: string }) {
     <>
       <Backdrop
         open={open}
-        sx={{ zIndex: 9999999999 }}
+        sx={{ position:"fixed", top:0,left:0,zIndex: 9999999999 }}
         onContextMenu={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
       >
