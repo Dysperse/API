@@ -43,7 +43,7 @@ const IntegrationChip = ({
         }
       }),
       {
-        loading: "Syncing to " + integration.name,
+        loading: "Syncing to " + integration.name + "...",
         success: "Up to date!",
         error: "An error occurred while syncing",
       },
