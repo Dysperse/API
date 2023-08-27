@@ -142,7 +142,7 @@ function RenderBoard({ tasks }) {
               background: palette[3],
             }}
             onClick={() => {
-              router.push("/tasks/boards/edit/" + board.id);
+              router.push("/tasks/boards/edit/" + board.id + "#columns");
             }}
           >
             <Icon>add</Icon>
@@ -176,7 +176,7 @@ function RenderBoard({ tasks }) {
           ) : (
             <Button
               onClick={() => {
-                router.push("/tasks/boards/edit/" + board.id);
+                router.push("/tasks/boards/edit/" + board.id + "#columns");
               }}
               variant="contained"
               size="large"
