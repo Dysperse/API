@@ -75,9 +75,11 @@ export const integrations = [
 export default function Integrations({
   board,
   handleClose,
+  hideNew = false,
 }: {
   board?: string;
   handleClose: any;
+  hideNew?: boolean;
 }) {
   const { data, mutate, url, error } = useApi("property/integrations");
   const session = useSession();
@@ -120,7 +122,7 @@ export default function Integrations({
           </Button>
         </Box>
       )}
-      {!board && data ? (
+      {(!board || !hideNew) && data ? (
         <>
           {data.length == 0 && (
             <Alert severity="info">
@@ -187,7 +189,7 @@ export default function Integrations({
           />
         )
       )}
-      {board ? (
+      {hideNew && board ? (
         integrations.map((integration) => (
           <Integration
             board={board}

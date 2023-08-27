@@ -58,7 +58,7 @@ const IntegrationChip = ({
         id="syncChip"
         onClick={handleIntegrationClick}
         disabled={session.permission === "read-only" || isLoading}
-        label="Sync now"
+        label={isLoading ? "Syncing..." : "Sync now"}
         sx={{
           mr: 1,
           mb: 1,

@@ -503,13 +503,21 @@ function EditLayout({ id, data, url, mutate }) {
               }}
             >
               <Typography variant="h3" sx={{ mb: 1 }} className="font-heading">
-                Seamlessly integrate your favorite platforms
+                {data.integrations.length == 0
+                  ? "Seamlessly integrate your favorite platforms"
+                  : "Integrations"}
               </Typography>
-              <Typography sx={{ mb: 2 }}>
-                Easily import your data from other applications you love
-              </Typography>
+              {data.integrations.length == 0 && (
+                <Typography sx={{ mb: 2 }}>
+                  Easily import your data from other applications you love
+                </Typography>
+              )}
               <Box sx={{ maxWidth: "500px", mx: "auto" }}>
-                <Integrations handleClose={() => {}} board={data.id} />
+                <Integrations
+                  handleClose={() => {}}
+                  board={data.id}
+                  hideNew={data.integrations.length == 0}
+                />
               </Box>
             </Box>
           </motion.div>
