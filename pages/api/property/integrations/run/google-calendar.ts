@@ -27,7 +27,6 @@ const handler = async (req, res) => {
     const data1 = data[0];
 
     const inputParams = JSON.parse(data1.inputParams);
-    console.log(inputParams);
     const calendar = await fetch(
       decodeURIComponent(
         inputParams["Secret address in iCal format"] ||
