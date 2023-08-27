@@ -15,7 +15,6 @@ import {
   Icon,
   ListItemButton,
   ListItemText,
-  Skeleton,
   Tooltip,
   Typography,
   styled,
@@ -519,19 +518,9 @@ export const Task: any = React.memo(function Task({
                 >
                   {taskData.description}
                 </Typography>
-                {taskData.image &&
-                  taskData.image !== "null" &&
-                  (isScrolling ? (
-                    <Skeleton
-                      width="100%"
-                      height="100px"
-                      animation={false}
-                      variant="rectangular"
-                      sx={{ borderRadius: "20px" }}
-                    />
-                  ) : (
-                    <ImageViewer trimHeight url={taskData.image} />
-                  ))}
+                {taskData.image && taskData.image !== "null" && (
+                  <ImageViewer small url={taskData.image} />
+                )}
                 <TaskChips
                   taskData={taskData}
                   isDark={isDark}

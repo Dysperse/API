@@ -1,5 +1,8 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { useSession } from "@/lib/client/session";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { Box, Button, Dialog, Icon, IconButton } from "@mui/material";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { Avatar, Backdrop, Box, Chip, Icon, IconButton } from "@mui/material";
 import { useState } from "react";
 
 export function ImageViewer({
@@ -11,128 +14,115 @@ export function ImageViewer({
   trimHeight?: boolean;
   small?: boolean;
 }) {
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const [zoom, setZoom] = useState(false);
+
   const [open, setOpen] = useState<boolean>(false);
   useBackButton(() => setOpen(false));
 
+  async function downloadImage(imageSrc) {
+    const image = await fetch(imageSrc);
+    const blob = await image.blob();
+    const imageURL = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = Date.now().toString();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  async function shareImage(imageSrc) {
+    const blob = await fetch(imageSrc).then((r) => r.blob());
+    const data = {
+      files: [
+        new File([blob], Date.now().toString() + ".png", {
+          type: blob.type,
+        }),
+      ],
+    };
+    try {
+      if (!navigator.canShare(data)) {
+        throw new Error("Can't share data.");
+      }
+      await navigator.share(data);
+    } catch (err: any) {
+      console.error(err.name, err.message);
+    }
+  }
+
   return (
     <>
-      <Dialog
+      <Backdrop
         open={open}
-        onClose={(e: any) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setOpen(false);
-        }}
-        onClick={(e: any) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-        onContextMenu={(e) => {
-          e.stopPropagation();
-        }}
-        PaperProps={{
-          sx: {
-            width: { xs: "100%", sm: "auto" },
-            background: "transparent",
-            filter: "none",
-            overflow: "visible",
-            border: 0,
-            height: "auto",
-            borderRadius: 0,
-            maxWidth: "100vw",
-            maxHeight: "calc(100dvh - 20px)",
-          },
-        }}
+        sx={{ zIndex: 9999999999 }}
+        onContextMenu={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <Box
           sx={{
-            borderRadius: 5,
-            overflow: "hidden",
-            "& img": {
-              width: { xs: "100%", sm: "auto" },
-              height: { xs: "auto", sm: "100%" },
-              maxHeight: "calc(100dvh - 20px)",
-              maxWidth: "100vw",
-            },
-            filter:
-              "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
+            display: "flex",
+            position: "absolute",
+            zIndex: 999,
+            bottom: 10,
+            borderRadius: 99,
+            p: 0.5,
+            background: addHslAlpha(palette[3], 0.5),
+            backdropFilter: "blur(10px)",
+            left: "50%",
+            transform: "translateX(-50%)",
+            transition: "all .2s",
+            ...(zoom && {
+              transform: "translateX(-50%) scale(.9)",
+              opacity: 0,
+            }),
           }}
         >
           <IconButton
-            sx={{
-              background: "black!important",
-              color: "#fff!important",
-              border: "none",
-              boxShadow: "none",
-              position: "absolute",
-              top: 5,
-              right: 5,
-            }}
-            onClick={() => setOpen(false)}
-          >
-            <Icon>close</Icon>
-          </IconButton>
-          <picture>
-            <img src={url} alt="Modal" />
-          </picture>
-        </Box>
-        <Box>
-          <Button
-            href={url}
             onClick={(e: any) => {
               e.preventDefault();
               e.stopPropagation();
-              window.open(url);
+              setOpen(false);
             }}
-            target="_blank"
-            sx={{
-              cursor: "pointer!important",
-              width: "auto",
-              mt: 1,
-            }}
-            size="small"
           >
-            Open in browser
-          </Button>
+            <Icon>close</Icon>
+          </IconButton>
+          <IconButton onClick={() => downloadImage(url)}>
+            <Icon>download</Icon>
+          </IconButton>
+          <IconButton onClick={() => shareImage(url)}>
+            <Icon>ios_share</Icon>
+          </IconButton>
+          <IconButton onClick={() => window.open(url)}>
+            <Icon>open_in_new</Icon>
+          </IconButton>
         </Box>
-      </Dialog>
-      <Box
-        sx={{
-          ...(!url && { display: "none" }),
-          filter: "brightness(95%)",
-          "&:hover": {
-            filter: "brightness(90%)",
-            cursor: "pointer",
-          },
-          ...(trimHeight && {
-            height: "100px",
-            maxHeight: "100px",
-          }),
-        }}
+        <img
+          onClick={(e) => {
+            setZoom(!zoom);
+          }}
+          src={url}
+          alt="Modal"
+          width="100%"
+          height="100%"
+          style={{
+            transition: "all .2s",
+            objectFit: "contain",
+            transform: zoom ? "scale(.98)" : "scale(.9)",
+          }}
+        />
+      </Backdrop>
+      <Chip
+        label={"Attachment"}
+        avatar={<Avatar src={url} />}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
           setOpen(true);
         }}
-      >
-        <picture>
-          <img
-            alt="Attached image"
-            draggable={false}
-            src={url}
-            style={{
-              width: small ? "35px" : "100%",
-              borderRadius: "20px",
-              height: small ? "35px" : "100%",
-              ...(trimHeight && {
-                height: "100px",
-                maxHeight: "100px",
-              }),
-              objectFit: "cover",
-            }}
-          />
-        </picture>
-      </Box>
+      />
     </>
   );
 }
