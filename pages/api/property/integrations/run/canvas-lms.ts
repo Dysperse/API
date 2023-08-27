@@ -106,8 +106,18 @@ const handler = async (req, res) => {
               description,
               where: location,
               ...(due && { due }),
+              createdBy: {
+                connect: {
+                  identifier: req.query.user,
+                },
+              },
             },
             create: {
+              createdBy: {
+                connect: {
+                  identifier: req.query.user,
+                },
+              },
               property: {
                 connect: { id: req.query.property },
               },

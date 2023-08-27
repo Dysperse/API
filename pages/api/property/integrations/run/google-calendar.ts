@@ -70,12 +70,22 @@ const handler = async (req, res) => {
           id: id,
         },
         update: {
+          createdBy: {
+            connect: {
+              identifier: req.query.user,
+            },
+          },
           name: summary,
           description,
           where: location,
           ...(due && { due }),
         },
         create: {
+          createdBy: {
+            connect: {
+              identifier: req.query.user,
+            },
+          },
           id,
           name: summary,
           where: location,

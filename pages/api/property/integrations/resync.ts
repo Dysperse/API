@@ -23,6 +23,7 @@ export default async function handler(req, res) {
           {
             property: integration.propertyId.toString(),
             boardId: (integration.boardId || "").toString(),
+            user: session.user.identifier,
             timeZone: session.user.timeZone,
             vanishingTasks: integration.property.vanishingTasks
               ? "true"

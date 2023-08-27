@@ -27,6 +27,7 @@ const IntegrationChip = ({
             session,
             `property/integrations/run/${integrationType}`,
             {
+              user: session.user.identifier,
               boardId: boardId,
               timeZone: session.user.timeZone,
               vanishingTasks: session.property.profile.vanishingTasks
