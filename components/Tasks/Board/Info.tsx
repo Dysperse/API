@@ -95,6 +95,12 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
 
   return (
     <Box
+      onClick={(e) => {
+        if (e.detail === 2) {
+          setShowInfo((s) => !s);
+          localStorage.setItem("showInfo", showInfo ? "true" : "false");
+        }
+      }}
       sx={{
         scrollSnapType: { xs: "x mandatory", sm: "unset" },
         borderRadius: 5,
