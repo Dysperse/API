@@ -116,7 +116,7 @@ const TaskChips = React.memo(function TaskChips({
     >
       {isPinned && urgentChip}
 
-      {isDue && (
+      {isDue && !isSubTask && (
         <Tooltip
           title={dayjs(taskData.due).format("MMMM D, YYYY")}
           placement="top"
