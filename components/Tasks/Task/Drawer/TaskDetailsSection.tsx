@@ -160,7 +160,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
         <Box
           sx={{ ml: "auto", display: "flex", gap: 1.5, alignItems: "center" }}
         >
-          {isImage && <ImageViewer url={data.image} small />}
+          {isImage && <ImageViewer url={data.image} />}
           {isImage ? (
             <IconButton
               sx={{ background: palette[3] }}

@@ -519,7 +519,7 @@ export const Task: any = React.memo(function Task({
                   {taskData.description}
                 </Typography>
                 {taskData.image && taskData.image !== "null" && (
-                  <ImageViewer small url={taskData.image} />
+                  <ImageViewer url={taskData.image} />
                 )}
                 <TaskChips
                   taskData={taskData}

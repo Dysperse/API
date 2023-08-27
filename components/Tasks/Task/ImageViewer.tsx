@@ -8,12 +8,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 export function ImageViewer({
   url,
-  trimHeight = false,
-  small = false,
 }: {
   url: string;
-  trimHeight?: boolean;
-  small?: boolean;
 }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
