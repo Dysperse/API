@@ -82,7 +82,7 @@ const Notification = async (req, res) => {
       const diff = dayjs(due).diff(time, "minute");
 
       // If the largetst element in the notifications array is greater than or equal to the time, send the notification
-      if (Math.max(...notifications) >= diff) {
+      if (Math.max(...notifications) >= diff && diff >= 0) {
         await DispatchNotification({
           title: task.name,
           icon: "https://assets.dysperse.com/v8/ios/192.png",
