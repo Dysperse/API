@@ -287,6 +287,18 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
     setOpacity(true);
   }, []);
 
+  const friendProfile = JSON.parse(friend?.Profile?.workingHours || "[]");
+  const currentDay = dayjs().tz(friend?.timeZone).day();
+  const workingHours = friendProfile.find(
+    (hours) => hours.dayOfWeek === currentDay
+  );
+  const currentHour = dayjs().tz(friend?.timeZone).hour();
+
+  const isWithinWorkingHours =
+    workingHours &&
+    currentHour >= workingHours.startTime &&
+    currentHour <= workingHours.endTime;
+
   return (
     <Box
       sx={{
@@ -316,7 +328,8 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
               color: `${chipPalette[12]} !important`,
             }}
           >
-            {(!isExpired && friend?.Status?.status) || "Away"}
+            {(!isExpired && friend?.Status?.status) ||
+              (isWithinWorkingHours ? "" : "Away")}
           </Box>
         </Box>
         <ListItemText
@@ -381,6 +394,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
               </Alert>
             </motion.div>
           )}
+
           <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
             {friend.name}
           </Typography>
@@ -389,8 +403,34 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
             {friend.username || friend.email}
           </Typography>
           <Grid container>
+            <Grid item xs={12} sm={6} sx={{ p: 1 }}>
+              <Box
+                sx={{
+                  background: palette[2],
+                  borderRadius: 5,
+                  height: "100%",
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="h4" sx={{ mt: "auto" }}>
+                  {dayjs().tz(friend.timeZone).format("h:mm A")}
+                </Typography>
+                <Typography variant="h6" sx={{ opacity: 0.7, mt: -1 }}>
+                  Local time
+                </Typography>
+                <Chip
+                  label={
+                    isWithinWorkingHours
+                      ? "Within working hours"
+                      : "Outside working hours"
+                  }
+                />
+              </Box>
+            </Grid>
             {friend.Status && !isExpired && (
-              <Grid item xs={12} sm={5} sx={{ p: 1 }}>
+              <Grid item xs={12} sm={6} sx={{ p: 1 }}>
                 <Box
                   sx={{
                     background: palette[2],
@@ -440,7 +480,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
             )}
 
             {friend?.Profile?.spotify && (
-              <Grid item xs={12} sm={7} sx={{ p: 1 }}>
+              <Grid item xs={12} sm={6} sx={{ p: 1 }}>
                 <SpotifyCard
                   open={open}
                   email={friend.email}

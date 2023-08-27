@@ -49,6 +49,7 @@ export default async function handler(req, res) {
             name: true,
             email: true,
             color: true,
+            timeZone: true,
             username: true,
             CoachData: {
               select: {
