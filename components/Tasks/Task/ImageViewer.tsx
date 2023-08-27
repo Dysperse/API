@@ -66,7 +66,7 @@ export function ImageViewer({ url }: { url: string }) {
           top: 0,
           left: 0,
           zIndex: 9999999999,
-          transition: "all .2s!important",
+          transition: "all .4s!important",
           pb: !zoom ? "40px" : "0px",
         }}
         onContextMenu={(e) => e.stopPropagation()}
@@ -84,7 +84,7 @@ export function ImageViewer({ url }: { url: string }) {
             backdropFilter: "blur(10px)",
             left: "50%",
             transform: "translateX(-50%)",
-            transition: "all .2s",
+            transition: "all .4s",
             ...(zoom && {
               transform: "translateX(-50%) scale(.9)",
               opacity: 0,
@@ -120,7 +120,7 @@ export function ImageViewer({ url }: { url: string }) {
           width="100%"
           height="100%"
           style={{
-            transition: "all .2s",
+            transition: "all .4s",
             objectFit: "contain",
             transform: zoom ? "scale(.98)" : "scale(.9)",
           }}
