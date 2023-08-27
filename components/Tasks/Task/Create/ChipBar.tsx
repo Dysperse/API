@@ -343,14 +343,15 @@ const ChipBar = React.memo(function ChipBar({
               }}
             />
           </TaskColorPicker>
-          {dayjs(data.date).format("HHmm") !== "0000" && (
-            <NotificationChip
-              titleRef={titleRef}
-              data={data}
-              setData={setData}
-              chipStyles={chipStyles}
-            />
-          )}
+          {dayjs(data.date).isValid() &&
+            dayjs(data.date).format("HHmm") !== "0000" && (
+              <NotificationChip
+                titleRef={titleRef}
+                data={data}
+                setData={setData}
+                chipStyles={chipStyles}
+              />
+            )}
           {!isSubTask &&
             [
               { label: "Today", days: 0 },
