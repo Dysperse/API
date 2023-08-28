@@ -60,12 +60,13 @@ export function ImageViewer({ url }: { url: string }) {
   return (
     <>
       <SwipeableDrawer
+        anchor="bottom"
         open={open}
         PaperProps={{
           sx: {
-            width: "100vw",
-            height: "100vh",
-            maxWidth: "100vh",
+            width: "100dvw",
+            height: "100dvh",
+            maxWidth: "100dvh",
             transition: "all .4s!important",
             pb: !zoom ? "40px" : "0px",
           }
