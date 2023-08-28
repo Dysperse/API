@@ -108,7 +108,7 @@ export function ImageViewer({ url }: { url: string }) {
             background: "transparent",
             width: "100dvw",
             height: "100dvh",
-            maxWidth: "100dvh",
+            maxWidth: "100dvw",
             borderRadius: 0,
             "& img": {
               "&:active": {
