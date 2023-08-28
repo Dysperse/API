@@ -65,7 +65,7 @@ export function ImageViewer({ url }: { url: string }) {
           position: "fixed",
           top: 0,
           left: 0,
-          zIndex: 9999999999,
+          zIndex: "9999999!important",
           transition: "all .4s!important",
           pb: !zoom ? "40px" : "0px",
         }}
