@@ -2,7 +2,7 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Avatar, Backdrop, Box, Chip, Icon, IconButton } from "@mui/material";
+import { Avatar, SwipeableDrawer, Box, Chip, Icon, IconButton } from "@mui/material";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -59,18 +59,20 @@ export function ImageViewer({ url }: { url: string }) {
 
   return (
     <>
-      <Backdrop
+      <SwipeableDrawer
         open={open}
-        sx={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          zIndex: "9999999!important",
-          transition: "all .4s!important",
-          pb: !zoom ? "40px" : "0px",
+        PaperProps={{
+          sx: {
+            width: "100vw",
+            height: "100vh",
+            maxWidth: "100vh",
+            transition: "all .4s!important",
+            pb: !zoom ? "40px" : "0px",
+          }
         }}
         onContextMenu={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
+        onClose={() => setOpen(false)}
       >
         <Box
           sx={{
@@ -125,7 +127,7 @@ export function ImageViewer({ url }: { url: string }) {
             transform: zoom ? "scale(.98)" : "scale(.9)",
           }}
         />
-      </Backdrop>
+      </SwipeableDrawer>
       <Chip
         label={"Attachment"}
         avatar={<Avatar src={url} alt="🖼" />}
