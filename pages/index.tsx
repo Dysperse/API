@@ -85,6 +85,7 @@ export function StatusSelector({
       until: time,
       timeZone: session.user.timeZone,
       profile: JSON.stringify(profile),
+      email: session.user.email
     });
     setOpen(false);
     toast.success(

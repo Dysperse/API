@@ -62,6 +62,7 @@ export default async function handler(req, res) {
       },
     });
 
+    console.log(users);
     users.forEach(async ({ user }) => {
       await DispatchNotification({
         subscription: user.notificationSubscription as any,
