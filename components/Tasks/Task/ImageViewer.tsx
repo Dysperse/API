@@ -9,6 +9,7 @@ import {
   Icon,
   IconButton,
   SwipeableDrawer,
+  Tooltip,
 } from "@mui/material";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -86,7 +87,7 @@ export function ImageViewer({ url }: { url: string }) {
     },
     [open, url]
   );
-  
+
   useHotkeys(
     "shift+o",
     () => {
@@ -104,6 +105,7 @@ export function ImageViewer({ url }: { url: string }) {
         open={open}
         PaperProps={{
           sx: {
+            background: "transparent",
             width: "100dvw",
             height: "100dvh",
             maxWidth: "100dvh",
@@ -149,15 +151,21 @@ export function ImageViewer({ url }: { url: string }) {
           >
             <Icon>close</Icon>
           </IconButton>
-          <IconButton onClick={() => downloadImage(url)} size="large">
-            <Icon>download</Icon>
-          </IconButton>
-          <IconButton onClick={() => shareImage(url)} size="large">
-            <Icon>ios_share</Icon>
-          </IconButton>
-          <IconButton onClick={() => window.open(url)} size="large">
-            <Icon>open_in_new</Icon>
-          </IconButton>
+          <Tooltip title="Download (shift + d)">
+            <IconButton onClick={() => downloadImage(url)} size="large">
+              <Icon>download</Icon>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Share (shift + s)">
+            <IconButton onClick={() => shareImage(url)} size="large">
+              <Icon>ios_share</Icon>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Open (shift + o)">
+            <IconButton onClick={() => window.open(url)} size="large">
+              <Icon>open_in_new</Icon>
+            </IconButton>
+          </Tooltip>
         </Box>
         <img
           onClick={(e) => {
