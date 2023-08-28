@@ -177,7 +177,7 @@ export function ImageViewer({ url }: { url: string }) {
             maxWidth: "100%",
             maxHeight: "100%",
             margin: "auto",
-            transition: "all .4s cubic-bezier(.17,.67,.32,1.58)",
+            transition: "all .4s cubic-bezier(.17,.67,.32,1.58), opacity 0s",
             objectFit: "contain",
             transform: zoom ? "scale(1)" : "scale(.9)",
             borderRadius: zoom ? "0px" : "28px",
