@@ -2,7 +2,14 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Avatar, SwipeableDrawer, Box, Chip, Icon, IconButton } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Chip,
+  Icon,
+  IconButton,
+  SwipeableDrawer,
+} from "@mui/material";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -67,9 +74,15 @@ export function ImageViewer({ url }: { url: string }) {
             width: "100dvw",
             height: "100dvh",
             maxWidth: "100dvh",
-            transition: "all .4s!important",
-            pb: !zoom ? "40px" : "0px",
-          }
+            transition: "all .4s cubic-bezier(.29,.79,.07,1.84) !important",
+            borderRadius: 0,
+            "& img": {
+              "&:active": {
+                opacity: 0.8,
+              },
+              cursor: zoom ? "zoom-out" : "zoom-in",
+            },
+          },
         }}
         onContextMenu={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
@@ -83,11 +96,11 @@ export function ImageViewer({ url }: { url: string }) {
             bottom: 14,
             borderRadius: 99,
             p: 0.5,
-            background: addHslAlpha(palette[3], 0.9),
+            background: addHslAlpha(palette[2], 0.9),
             backdropFilter: "blur(10px)",
             left: "50%",
             transform: "translateX(-50%)",
-            transition: "all .4s",
+            transition: "all .4s cubic-bezier(.29,.79,.07,1.84)",
             ...(zoom && {
               transform: "translateX(-50%) scale(.9)",
               opacity: 0,
@@ -120,12 +133,14 @@ export function ImageViewer({ url }: { url: string }) {
           }}
           src={url}
           alt="Modal"
-          width="100%"
-          height="100%"
           style={{
-            transition: "all .4s",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            margin: "auto",
+            transition: "all .4s cubic-bezier(.29,.79,.07,1.84)",
             objectFit: "contain",
-            transform: zoom ? "scale(.98)" : "scale(.9)",
+            transform: zoom ? "scale(1)" : "scale(.9)",
+            borderRadius: zoom ? "0px" : "28px",
           }}
         />
       </SwipeableDrawer>
