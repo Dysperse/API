@@ -1,5 +1,4 @@
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -13,12 +12,15 @@ import {
 import Image from "next/image";
 import { useDeferredValue, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 import { Goal } from "./Goal";
 
 export function MyGoals(): JSX.Element {
   const session = useSession();
-  const { data, mutate, error, url } = useApi("user/coach");
+  const { data, mutate, error } = useSWR(["user/coach"]);
+  const url = "";
+
   const [isScrolling, setIsScrolling] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -131,7 +133,7 @@ export function MyGoals(): JSX.Element {
                     isScrolling={isScrolling}
                     key={goal.id}
                     goal={goal}
-                    mutationUrl={url}
+                    mutate={mutate}
                   />
                 )}
               />

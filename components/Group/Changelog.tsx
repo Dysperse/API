@@ -1,5 +1,4 @@
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import Timeline from "@mui/lab/Timeline";
 import TimelineConnector from "@mui/lab/TimelineConnector";
@@ -19,12 +18,14 @@ import dayjs from "dayjs";
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
+import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 
 export function Changelog({ disabled }) {
   const [open, setOpen] = React.useState<boolean>(false);
 
-  const { error, mutate, url, data } = useApi("property/inbox");
+  const url = "";
+  const { error, mutate, data } = useSWR(["property/inbox"]);
   const session = useSession();
 
   useHotkeys(

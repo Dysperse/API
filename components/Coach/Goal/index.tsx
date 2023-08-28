@@ -17,7 +17,7 @@ import React, { useEffect, useState } from "react";
 import { Puller } from "../../Puller";
 import { MoreOptions } from "./Options";
 
-export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
+export function Goal({ isScrolling, goal, mutate }: any): JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false);
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -170,7 +170,7 @@ export function Goal({ isScrolling, goal, mutationUrl }: any): JSX.Element {
             <MoreOptions
               goal={goal}
               setOpen={setOpen}
-              mutationUrl={mutationUrl}
+              mutate={mutate}
             />
             <Box sx={{ mt: "auto" }}>
               <Typography

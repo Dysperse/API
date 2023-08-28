@@ -1,6 +1,5 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -17,6 +16,7 @@ import { motion } from "framer-motion";
 import React, { cloneElement, useRef, useState } from "react";
 import DatePicker from "react-calendar";
 import { toast } from "react-hot-toast";
+import useSWR from "swr";
 
 const CalendarTileIndicator = React.memo(function CalendarTileIndicator({
   data,
@@ -35,7 +35,7 @@ const CalendarTileIndicator = React.memo(function CalendarTileIndicator({
     if (!data) return [];
     return data.filter(({ due }) => dayjs(due).date() === dayOfMonth);
   }, [data, dayOfMonth]);
-if (view !== "month") return null;
+  if (view !== "month") return null;
   if (filteredData.length > 0) {
     const count = filteredData.reduce((sum, obj) => sum + obj._count._all, 0);
     const renderCount = Math.min(count, 3);
@@ -128,15 +128,18 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
     },
   });
 
-  const { data, error } = useApi(open ? "property/tasks/agenda" : null, {
-    count: true,
-    startTime: dayjs(date || new Date())
-      .startOf("month")
-      .toISOString(),
-    endTime: dayjs(date || new Date())
-      .endOf("month")
-      .toISOString(),
-  });
+  const { data, error } = useSWR([
+    open ? "property/tasks/agenda" : null,
+    {
+      count: true,
+      startTime: dayjs(date || new Date())
+        .startOf("month")
+        .toISOString(),
+      endTime: dayjs(date || new Date())
+        .endOf("month")
+        .toISOString(),
+    },
+  ]);
 
   return (
     <>

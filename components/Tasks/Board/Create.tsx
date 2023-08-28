@@ -50,7 +50,7 @@ const checklistCardStyles = (palette) => ({
   gap: 2,
 });
 
-function Template({ onboarding, children, template, mutationUrl }: any) {
+function Template({ onboarding, children, template, mutate }: any) {
   const router = useRouter();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -187,7 +187,7 @@ function Template({ onboarding, children, template, mutationUrl }: any) {
                   columns: template.columns.map((c, o) => ({ ...c, order: o })),
                 }),
               }).then(async (res) => {
-                await mutate(mutationUrl);
+                await mutate();
                 if (onboarding) {
                   toast.success(
                     "Board created! You can explore other templates.",
@@ -566,7 +566,7 @@ export const templates = [
 export function CreateBoard({
   parentRef,
   onboarding = false,
-  mutationUrl,
+  mutate,
 }: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
@@ -606,7 +606,7 @@ export function CreateBoard({
         columns: [],
       }),
     }).then(async (res) => {
-      await mutate(mutationUrl);
+      await mutate();
       router.push(`/tasks/boards/${res.id}`);
       setLoading(false);
     });
@@ -722,7 +722,7 @@ export function CreateBoard({
               <Template
                 onboarding={onboarding}
                 template={template}
-                mutationUrl={mutationUrl}
+                mutate={mutate}
               >
                 <Card
                   sx={{

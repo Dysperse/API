@@ -1,10 +1,10 @@
 import { ErrorHandler } from "@/components/Error";
 import { RenderRoom } from "@/components/Rooms/RenderRoom";
-import { useApi } from "@/lib/client/useApi";
 import { LoadingButton } from "@mui/lab";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useSWR from "swr";
 import Categories from "../items";
 
 /**
@@ -16,10 +16,13 @@ export default function Room() {
   const { room } = router.query;
   const [loading, setLoading] = useState(false);
 
-  const { data, mutate, url, error } = useApi("property/inventory/room", {
-    room: room?.[0] ?? "",
-    ...(Boolean(room?.[1]) && { custom: "true" }),
-  });
+  const { data, mutate, error } = useSWR([
+    "property/inventory/room",
+    {
+      room: room?.[0] ?? "",
+      ...(Boolean(room?.[1]) && { custom: "true" }),
+    },
+  ]);
 
   return (
     <Categories>

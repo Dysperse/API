@@ -2,7 +2,6 @@ import { ErrorHandler } from "@/components/Error";
 import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -16,7 +15,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-
+import useSWR from "swr";
 /**
  * Top-level component for the dashboard page.
  */
@@ -25,12 +24,12 @@ export default function Dashboard() {
   const router = useRouter();
   const session = useSession();
 
-  const { data, url, error } = useApi(
+  const url = "";
+
+  const { data, error } = useSWR([
     router?.query?.query ? "property/tasks/search" : null,
-    {
-      query: router?.query?.query,
-    }
-  );
+    { query: router?.query?.query || "" },
+  ]);
 
   const [filters, setFilters] = useState<any>({});
 
@@ -111,7 +110,7 @@ export default function Dashboard() {
                   onDelete: () => setFilters({ ...filters, completed: null }),
                 })}
               />
-               <Chip
+              <Chip
                 variant="outlined"
                 icon={<Icon>priority</Icon>}
                 label="Incomplete"

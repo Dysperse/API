@@ -1,6 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
@@ -15,11 +15,11 @@ import {
 import { Item as ItemType } from "@prisma/client";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
+import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 import { Puller } from "../Puller";
 
-function CreateCategoryModal({ setItemData, item, mutationUrl }) {
+function CreateCategoryModal({ setItemData, item, mutate }) {
   const ref: any = useRef();
   const session = useSession();
 
@@ -41,7 +41,7 @@ function CreateCategoryModal({ setItemData, item, mutationUrl }) {
         category: item.category,
         id: item.id,
       });
-      mutate(mutationUrl);
+      mutate();
       ref.current.value = "";
     }, 100);
   };
@@ -111,7 +111,7 @@ export default function CategoryModal({
 }) {
   const [open, setOpen] = useState<boolean>(false);
   const storage = useAccountStorage();
-  const { data, url, error } = useApi("property/inventory/categories");
+  const { data, mutate, error } = useSWR(["property/inventory/categories"]);
   const session = useSession();
 
   const handleClick = (category) => {
@@ -160,7 +160,7 @@ export default function CategoryModal({
           )}
           {error && (
             <ErrorHandler
-              callback={() => mutate(url)}
+              callback={mutate}
               error="An error occured while trying to fetch your categories"
             />
           )}
@@ -205,7 +205,7 @@ export default function CategoryModal({
           <CreateCategoryModal
             setItemData={setItemData}
             item={item}
-            mutationUrl={url}
+            mutate={mutate}
           />
         </Box>
       </SwipeableDrawer>

@@ -1,7 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -17,6 +17,7 @@ import { red } from "@mui/material/colors";
 import dayjs from "dayjs";
 import React, { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
+import useSWR from "swr";
 import Layout from ".";
 
 const Session: any = React.memo(function Session({ mutate, index, data }: any) {
@@ -96,7 +97,7 @@ const Session: any = React.memo(function Session({ mutate, index, data }: any) {
  * Top-level component for the account settings page.
  */
 export default function LoginActivity() {
-  const { data, mutate, url, error } = useApi("user/settings/sessions");
+  const { data, mutate, error } = useSWR(["user/settings/sessions"]);
   const session = useSession();
   const ref = useRef();
 
@@ -108,7 +109,7 @@ export default function LoginActivity() {
           question="You won't be logged out of the one you're on right now"
           callback={async () => {
             await fetchRawApi(session, "user/settings/sessions/delete");
-            await mutate(url);
+            await mutate();
           }}
         >
           <Button

@@ -1,5 +1,6 @@
+import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
@@ -11,15 +12,13 @@ import {
   Icon,
   Menu,
   MenuItem,
-  Skeleton,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
+import useSWR from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
-import { ErrorHandler } from "../../Error";
 import { AddPersonModal } from "./Add";
 
 /**
@@ -41,13 +40,13 @@ export function isEmail(email: string): boolean {
 function Member({
   propertyId,
   member,
-  mutationUrl,
+  mutate,
   handleParentClose,
 }: {
   propertyId: string;
   color: string;
   member: any;
-  mutationUrl: any;
+  mutate: any;
   handleParentClose: any;
 }): JSX.Element {
   const router = useRouter();
@@ -75,7 +74,7 @@ function Member({
       affectedName: member.user.name,
       timestamp: new Date().toISOString(),
     }).then(() => {
-      mutate(mutationUrl);
+      mutate();
       handleClose();
       toast.success("Updated permissions!", toastStyles);
     });
@@ -250,43 +249,21 @@ export function MemberList({
 
   const palette = useColor(color, isDark);
 
-  const { error, loading, data, url } = useApi("property/members", {
-    propertyId: propertyId,
-    propertyAccessToken: accessToken,
-  });
+  const {
+    error,
+    mutate,
+    isLoading,
+    data,
+  } = useSWR([
+    "property/members",
+    {
+      propertyId,
+      propertyAccessToken: accessToken,
+    },
+  ]);
   const [leaveLoading, setLeaveLoading] = React.useState<boolean>(false);
 
-  const images =
-    data && !data.error
-      ? [
-          ...[
-            ...new Map(data.map((item) => [item.user.email, item])).values(),
-          ].map((member: any) => {
-            return {
-              content: (
-                <Member
-                  handleParentClose={handleParentClose}
-                  propertyId={propertyId}
-                  color={color}
-                  member={member}
-                  mutationUrl={url}
-                />
-              ),
-            };
-          }),
-        ]
-      : [
-          {
-            content: <Skeleton animation="wave" />,
-          },
-        ];
-
-  return error ? (
-    <ErrorHandler
-      callback={() => mutate(url)}
-      error={"An error occured while trying to fetch your members"}
-    />
-  ) : (
+  return (
     <>
       <Box
         sx={{
@@ -303,23 +280,38 @@ export function MemberList({
           <AddPersonModal
             palette={palette}
             disabled={propertyId !== session.property.propertyId}
-            members={loading ? [] : data.map((member) => member.user.email)}
+            members={isLoading ? [] : data.map((member) => member.user.email)}
           />
         )}
       </Box>
-      {images.map((step, index) => (
-        <Box
-          key={index}
-          sx={{
-            mb: 2,
-            userSelect: "none",
-            borderRadius: 5,
-            background: palette[2],
-          }}
-        >
-          {step.content}
-        </Box>
-      ))}
+      {error && (
+        <ErrorHandler
+          callback={mutate}
+          error={"Something went wrong. Please try again later"}
+        />
+      )}
+      {data &&
+        [...new Map(data.map((item) => [item.user.email, item])).values()].map(
+          (member, index) => (
+            <Box
+              key={index}
+              sx={{
+                mb: 2,
+                userSelect: "none",
+                borderRadius: 5,
+                background: palette[2],
+              }}
+            >
+              <Member
+                handleParentClose={handleParentClose}
+                propertyId={propertyId}
+                color={color}
+                member={member}
+                mutate={mutate}
+              />
+            </Box>
+          )
+        )}
       <ConfirmationModal
         callback={async () => {
           setLeaveLoading(true);

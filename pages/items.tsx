@@ -5,7 +5,6 @@ import { Rooms } from "@/components/Rooms/items/Rooms";
 import { rooms } from "@/components/Rooms/rooms";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Alert,
@@ -23,6 +22,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { createContext, useState } from "react";
+import useSWR from "swr";
 import { Navbar } from ".";
 
 const Action = dynamic(() => import("@/components/Rooms/Action"));
@@ -31,13 +31,13 @@ const CategoryModal = dynamic(
   () => import("@/components/Rooms/items/CategoryModal")
 );
 
-export const SidebarContext = createContext("");
+export const SidebarContext = createContext("" as any);
 
 /**
  * Component to dispay items by category
  */
 const CategoryList = React.memo(function CategoryList() {
-  const { error, mutate, url, data } = useApi("property/inventory/categories");
+  const { error, mutate, data } = useSWR(["property/inventory/categories"]);
 
   return (
     <>
@@ -89,8 +89,9 @@ export default function Inventory({ children = null }: any) {
   const [viewBy, setViewBy] = useState("Room");
   const router = useRouter();
 
-  const { data } = useApi("property/inventory/count");
-  const { data: dataRooms, url, error } = useApi("property/inventory/rooms");
+  const url = "";
+  const { data } = useSWR(["property/inventory/count"]);
+  const { data: dataRooms, error } = useSWR(["property/inventory/rooms"]);
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");

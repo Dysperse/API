@@ -2,15 +2,15 @@ import { ErrorHandler } from "@/components/Error";
 import ItemDrawer from "@/components/ItemPopup";
 import { ItemCard } from "@/components/Rooms/ItemCard";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, CircularProgress, Icon, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import useSWR from "swr";
 import Categories from "./items";
 
 export default function Trash() {
-  const { data, url, mutate, error } = useApi("property/inventory/starred");
+  const { data, mutate, error } = useSWR(["property/inventory/starred"]);
   const router = useRouter();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);

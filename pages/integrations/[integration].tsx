@@ -1,6 +1,6 @@
 import { integrations } from "@/components/Group/Integrations";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
+import useSWR from "swr";
 
 function Layout() {
   const router = useRouter();
@@ -67,7 +68,8 @@ function Layout() {
     [params]
   );
 
-  const { data, url, error } = useApi("property/boards");
+  const url = "";
+  const { data, error } = useSWR(["property/boards"]);
 
   const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);

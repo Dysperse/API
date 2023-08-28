@@ -22,7 +22,7 @@ import { mutate } from "swr";
 import { Puller } from "../../Puller";
 
 export function CreateRoom(): JSX.Element {
-  const mutationUrl = useContext(SidebarContext);
+  const mutate = useContext(SidebarContext);
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -42,7 +42,7 @@ export function CreateRoom(): JSX.Element {
         setLoading(false);
         setName("");
         toast.success("Room created", toastStyles);
-        mutate(mutationUrl);
+        mutate();
       })
       .catch(() => {
         toast.error(

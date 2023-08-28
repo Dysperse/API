@@ -1,9 +1,10 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { colors } from "@/lib/colors";
+import { fetcher } from "@/pages/_app";
 import { Masonry } from "@mui/lab";
 import {
   Alert,
@@ -19,8 +20,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { mutate } from "swr";
+import { useRef, useState } from "react";
+import useSWR from "swr";
 import { Followers } from "./Followers";
 import { Following } from "./Following";
 import { ProfilePicture } from "./ProfilePicture";
@@ -31,10 +32,13 @@ function Contacts({ profile }) {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [open, setOpen] = useState(true);
 
-  const { data, url } = useApi("/user/google/contacts", {
-    tokenObj: JSON.stringify(profile.google),
-    email: session.user.email,
-  });
+  const { data, mutate } = useSWR([
+    "/user/google/contacts",
+    {
+      tokenObj: JSON.stringify(profile.google),
+      email: session.user.email,
+    },
+  ]);
 
   return data && data.length > 0 && open ? (
     <Box
@@ -86,7 +90,7 @@ function Contacts({ profile }) {
             }}
           >
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <ProfilePicture data={contact} mutationUrl="" size={70} />
+              <ProfilePicture data={contact} mutate={mutate} size={70} />
             </Box>
             <Typography
               variant="h6"
@@ -120,7 +124,7 @@ function Contacts({ profile }) {
 }
 
 export function SpotifyCard({
-  mutationUrl,
+  mutate,
   styles,
   email,
   profile,
@@ -128,39 +132,18 @@ export function SpotifyCard({
   open = false,
 }: any) {
   const session = useSession();
-  const [loading, setLoading] = useState(true);
-  const [playing, setPlaying] = useState<null | any>(null);
 
-  const getSpotifyData = useCallback(async () => {
-    const response = await fetchRawApi(
-      session,
+  const { data, isLoading, error } = useSWR(
+    [
       "user/spotify/currently-playing",
-      {
-        spotify: JSON.stringify(profile.spotify),
-        email,
-      }
-    );
+      { spotify: JSON.stringify(profile.spotify), email },
+    ],
+    fetcher,
+    { refreshInterval: 1000 }
+  );
 
-    setLoading(false);
-    setPlaying(response);
-  }, [profile.spotify, session, email]);
-
-  useEffect(() => {
-    if (open) {
-      getSpotifyData();
-      const interval = setInterval(() => {
-        getSpotifyData();
-      }, 10000);
-
-      window.addEventListener("focus", getSpotifyData);
-      return () => {
-        window.removeEventListener("focus", getSpotifyData);
-        clearInterval(interval);
-      };
-    }
-  }, [getSpotifyData, open]);
-
-  if (hideIfNotPlaying && !playing?.item) return null;
+  if (error) return <div>error</div>;
+  if (hideIfNotPlaying && !data?.item) return null;
 
   return (
     <Box
@@ -179,16 +162,16 @@ export function SpotifyCard({
       }}
       onClick={() =>
         window.open(
-          playing?.item?.external_urls?.spotify || "https://open.spotify.com"
+          data?.item?.external_urls?.spotify || "https://open.spotify.com"
         )
       }
     >
-      {playing?.item ? (
+      {data?.item ? (
         <>
           <Box sx={{ display: "flex", gap: 3 }}>
             <picture>
               <img
-                src={playing?.item?.album.images[0].url}
+                src={data?.item?.album.images[0].url}
                 alt="Spotify album cover"
                 style={{ width: "100%", borderRadius: "25px" }}
               />
@@ -212,7 +195,7 @@ export function SpotifyCard({
             }}
           >
             <Icon className="outlined" sx={{ fontSize: "40px!important" }}>
-              {playing.is_playing ? "pause_circle_filled" : "play_circle"}
+              {data.is_playing ? "pause_circle_filled" : "play_circle"}
             </Icon>
             <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 1 }}>
               <Typography
@@ -223,14 +206,14 @@ export function SpotifyCard({
                   whiteSpace: "nowrap",
                 }}
               >
-                {playing.item.name}
+                {data.item.name}
               </Typography>
               <Typography variant="body1" sx={{ mb: 1 }}>
-                {playing.item.artists.map((artist) => artist.name).join(", ")}
+                {data.item.artists.map((artist) => artist.name).join(", ")}
               </Typography>
               <LinearProgress
                 variant="determinate"
-                value={(playing.progress_ms / playing.item.duration_ms) * 100}
+                value={(data.progress_ms / data.item.duration_ms) * 100}
                 sx={{
                   height: 10,
                   borderRadius: 99,
@@ -244,7 +227,7 @@ export function SpotifyCard({
             </Box>
           </Box>
         </>
-      ) : playing && (loading || playing?.currently_playing_type === "ad") ? (
+      ) : data && (isLoading || data?.currently_playing_type === "ad") ? (
         <>
           <Box sx={{ display: "flex", gap: 3 }}>
             <Box sx={{ width: "100%" }}>
@@ -311,7 +294,7 @@ export function SpotifyCard({
 }
 
 export function UserProfile({
-  mutationUrl,
+  mutate,
   isCurrentUser,
   data,
   profileCardStyles,
@@ -341,14 +324,14 @@ export function UserProfile({
       email: session.user.email,
       [key]: value,
     });
-    await mutate(mutationUrl);
+    await mutate();
   };
 
   const handleDelete = async () => {
     await fetchRawApi(session, "user/profile/delete", {
       email: session.user.email,
     });
-    await mutate(mutationUrl);
+    await mutate();
   };
 
   const today = dayjs();
@@ -478,7 +461,7 @@ export function UserProfile({
               editMode={false}
               color={data.color}
               isCurrentUser={isCurrentUser}
-              mutationUrl={mutationUrl}
+              mutate={mutate}
               profile={profile}
               profileCardStyles={profileCardStyles}
             />
@@ -518,7 +501,7 @@ export function UserProfile({
               email={data.email}
               styles={profileCardStyles}
               profile={profile}
-              mutationUrl={mutationUrl}
+              mutate={mutate}
             />
           )}
           {data.Status && dayjs(data?.Status?.until).isAfter(dayjs()) && (

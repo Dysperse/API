@@ -1,7 +1,6 @@
 import { PropertyButton } from "@/components/Layout/Navigation/PropertyButton";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -18,6 +17,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { cloneElement, useState } from "react";
+import useSWR from "swr";
 
 export function GroupModal({
   children,
@@ -26,9 +26,10 @@ export function GroupModal({
   onSuccess = () => {},
 }: any) {
   const session = useSession();
-  const { data, url } = useApi("user/properties");
   const [showMore, setShowMore] = useState(false);
   const [showInvitations, setShowInvitations] = useState(false);
+
+  const { data } = useSWR(showMore ? null : ["user/properties"]);
 
   const personPalette = useColor(
     session.themeColor,

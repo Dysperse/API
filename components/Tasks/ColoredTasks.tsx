@@ -1,5 +1,4 @@
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
 import {
@@ -14,13 +13,18 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Task";
 
 export function ColoredTasks() {
-  const { data, mutate, url, error } = useApi("property/tasks/color-coded", {
-    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
-  });
+  const url = "";
+  const { data, mutate, error } = useSWR([
+    "property/tasks/color-coded",
+    {
+      date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+    },
+  ]);
 
   const [color, setColor] = useState("all");
   const [isScrolling, setIsScrolling] = useState(false);
@@ -188,7 +192,7 @@ export function ColoredTasks() {
               key={task.id}
               board={task.board || false}
               columnId={task.column ? task.column.id : -1}
-              mutationUrl={url}
+              mutate={mutate}
               task={task}
               isScrolling={isScrolling}
             />

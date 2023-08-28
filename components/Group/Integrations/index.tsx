@@ -2,7 +2,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useSWR from "swr";
 import { Integration } from "./Integration";
 
 export const integrations = [
@@ -81,7 +82,7 @@ export default function Integrations({
   handleClose: any;
   hideNew?: boolean;
 }) {
-  const { data, mutate, url, error } = useApi("property/integrations");
+  const { data, mutate, error } = useSWR(["property/integrations"]);
   const session = useSession();
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
 

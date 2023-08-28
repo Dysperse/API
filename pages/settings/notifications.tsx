@@ -2,7 +2,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import useSWR from "swr";
 import Layout from ".";
 
 const base64ToUint8Array = (base64) => {
@@ -36,7 +37,7 @@ const base64ToUint8Array = (base64) => {
  * Top-level component for the notification settings page.
  */
 export default function Notifications() {
-  const { data, mutate, url, error } = useApi("user/settings/notifications");
+  const { data, mutate, error } = useSWR(["user/settings/notifications"]);
 
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const [subscription, setSubscription] = useState<any>(null);

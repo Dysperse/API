@@ -2,7 +2,6 @@ import { ErrorHandler } from "@/components/Error";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
 import {
@@ -16,11 +15,16 @@ import { motion } from "framer-motion";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import useSWR from "swr";
 
 export function ColoredTasks() {
-  const { data, mutate, url, error } = useApi("property/tasks/color-coded", {
-    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
-  });
+  const url = "";
+  const { data, mutate, error } = useSWR([
+    "property/tasks/color-coded",
+    {
+      date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+    },
+  ]);
   const [color, setColor] = useState("all");
 
   const session = useSession();

@@ -1,6 +1,5 @@
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
 import {
@@ -17,6 +16,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import useSWR from "swr";
 import { VictoryAxis, VictoryBar, VictoryChart } from "victory";
 
 function hourIntTo12(hour) {
@@ -259,9 +259,13 @@ function Insights({ tasks }) {
 
 export default function Page() {
   const session = useSession();
-  const { data, url } = useApi("property/tasks/insights", {
-    email: session.user.email,
-  });
+  const url = "";
+
+  const { data } = useSWR([
+    "property/tasks/insights",
+    { email: session.user.email },
+  ]);
+
   return data ? (
     <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
       <Insights tasks={data} />

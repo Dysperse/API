@@ -10,7 +10,7 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -37,8 +37,9 @@ import { useRouter } from "next/router";
 import { cloneElement, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+import useSWR from "swr";
 
-function ShareProfileModal({ user, children }) {
+function ShareProfileModal({ mutate, user, children }) {
   const session = useSession();
   const ref = useRef();
   const palette = useColor(user?.color || session.themeColor, user?.darkMode);
@@ -101,7 +102,7 @@ function ShareProfileModal({ user, children }) {
                       picture: `https://${window.location.hostname}/api/proxy?url=${user.Profile?.picture}`,
                     },
                   }}
-                  mutationUrl=""
+                  mutate={mutate}
                   size={100}
                 />
               )}
@@ -181,7 +182,9 @@ function Page() {
   const session = useSession();
   const email = router.query.id;
 
-  const { data, mutate, url, error } = useApi("user/profile", { email });
+  const { data, mutate, error } = useSWR(["user/profile", { email }]);
+
+  const url = "";
 
   const [loading, setLoading] = useState(false);
 
@@ -249,9 +252,10 @@ function Page() {
     toast.success("Copied to clipboard", toastStyles);
   };
 
-  const { data: members } = useApi("property/members", {
-    propertyId: session.property.propertyId,
-  });
+  const { data: members } = useSWR([
+    "property/members",
+    { propertyId: session.property.propertyId },
+  ]);
 
   useHotkeys("esc", () => {
     router.push("/");
@@ -329,7 +333,7 @@ function Page() {
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
           <SearchUser />
-          <ShareProfileModal user={data}>
+          <ShareProfileModal user={data} mutate={mutate}>
             <IconButton>
               <Icon>ios_share</Icon>
             </IconButton>
@@ -407,7 +411,7 @@ function Page() {
                   }}
                 >
                   <ProfilePicture
-                    mutationUrl={url}
+                    mutate={mutate}
                     data={data}
                     editMode={false}
                   />
@@ -562,7 +566,7 @@ function Page() {
                 {data.Profile && (
                   <UserProfile
                     profileCardStyles={profileCardStyles}
-                    mutationUrl={url}
+                    mutate={mutate}
                     isCurrentUser={isCurrentUser}
                     data={data}
                   />

@@ -1,6 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Button,
@@ -18,6 +18,7 @@ import {
 import type { Item as ItemType } from "@prisma/client";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import useSWR from "swr";
 
 function BoardModal({ itemId, title, list }) {
   const [open, setOpen] = useState<boolean>(false);
@@ -118,7 +119,7 @@ function RoomList({
   itemId: string;
   title: string;
 }): JSX.Element {
-  const { data, error } = useApi("property/boards");
+  const { data, error } = useSWR(["property/boards"]);
 
   if (error) {
     return (
@@ -128,6 +129,7 @@ function RoomList({
       </>
     );
   }
+
   if (!data)
     return (
       <>

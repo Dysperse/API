@@ -4,15 +4,14 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Avatar, Box, CircularProgress, Icon, IconButton } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 
 export function ProfilePicture({
-  mutationUrl,
+  mutate,
   data,
   editMode,
   size = 150,
 }: {
-  mutationUrl: string;
+  mutate: any;
   data: any;
   editMode?: boolean;
   size?: number;
@@ -31,7 +30,7 @@ export function ProfilePicture({
       try {
         const res = await fetch(
           `https://api.imgbb.com/1/upload?name=image&key=${key}`,
-          { method: "POST", body: form },
+          { method: "POST", body: form }
         ).then((res) => res.json());
 
         setPhoto(res.data.thumb.url);
@@ -39,17 +38,17 @@ export function ProfilePicture({
           email: session.user.email,
           picture: res.data.thumb.url,
         });
-        await mutate(mutationUrl);
+        await mutate();
 
         setImageUploading(false);
       } catch (e) {
         toast.error(
-          "Yikes! An error occured while trying to upload your image. Please try again later",
+          "Yikes! An error occured while trying to upload your image. Please try again later"
         );
         setImageUploading(false);
       }
     },
-    [setPhoto, mutationUrl, session],
+    [setPhoto, mutate, session]
   );
 
   useEffect(() => setPhoto(data?.Profile?.picture), [data]);

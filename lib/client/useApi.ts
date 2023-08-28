@@ -25,7 +25,7 @@ const getInfo = (
 
   return {
     params,
-    url: `/api/${path}/?${new URLSearchParams(params).toString()}`,
+    url: `/${path}/?${new URLSearchParams(params).toString()}`,
   };
 };
 

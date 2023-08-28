@@ -5,16 +5,9 @@ import { useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 
-export function RoomActionMenu({
-  room,
-  itemRef,
-  isPrivate,
-  mutationUrl,
-  isCustom,
-}) {
+export function RoomActionMenu({ room, itemRef, isPrivate, mutate, isCustom }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -67,7 +60,7 @@ export function RoomActionMenu({
             await fetchRawApi(session, "property/inventory/room/delete", {
               id: room.id,
             });
-            await mutate(mutationUrl);
+            await mutate();
             toast.success("Deleted room!");
             handleClose();
           }}

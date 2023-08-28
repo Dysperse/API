@@ -1,7 +1,5 @@
 import { CreateBoard } from "@/components/Tasks/Board/Create";
 import { TasksLayout } from "@/components/Tasks/Layout";
-import { useApi } from "@/lib/client/useApi";
-import { Box } from "@mui/material";
 import { useRef, useState } from "react";
 
 /**
@@ -9,12 +7,12 @@ import { useRef, useState } from "react";
  */
 export default function Dashboard() {
   const [open, setOpen] = useState(false);
-  const { url } = useApi("property/boards");
   const parentRef = useRef();
 
+  // TODO: Update mutation url
   return (
     <TasksLayout open={open} setOpen={setOpen} contentRef={parentRef}>
-      <CreateBoard mutationUrl={url} parentRef={parentRef.current} />
+      <CreateBoard mutationUrl={""} parentRef={parentRef.current} />
     </TasksLayout>
   );
 }

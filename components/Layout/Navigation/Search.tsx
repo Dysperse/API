@@ -1,6 +1,6 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -18,7 +18,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { updateSettings } from "../../../lib/client/updateSettings";
 import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
@@ -366,8 +366,8 @@ const Spotlight = React.memo(function Spotlight() {
 
   openSpotlight = handleOpen;
 
-  const { data: roomData } = useApi("property/inventory/rooms");
-  const { data: boardData } = useApi("property/boards");
+  const { data: roomData } = useSWR(["property/inventory/rooms"]);
+  const { data: boardData } = useSWR(["property/boards"]);
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [badge, setBadge] = useState<null | string>(null);

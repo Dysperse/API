@@ -1,6 +1,5 @@
 import { Loading } from "@/components/Layout/Loading";
 import { useUser } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -15,7 +14,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 const popup = require("window-popup").windowPopup;
 
 export default function Onboarding() {
@@ -31,11 +30,10 @@ export default function Onboarding() {
 
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
 
-  const { data } = useApi(
+  const { data } = useSWR([
     "property/members/inviteLink/info",
     { token: id as string },
-    true
-  );
+  ]);
 
   const palette = useColor(
     data?.property?.color || "gray",

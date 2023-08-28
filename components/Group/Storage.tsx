@@ -1,8 +1,8 @@
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
+import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 
 export const max = 500;
@@ -30,10 +30,13 @@ export function Storage({
 
   const palette = useColor(color, isDark);
 
-  const { data, mutate, url, error } = useApi("property/storage", {
-    property: propertyId,
-    accessToken,
-  });
+  const { data, mutate, error } = useSWR([
+    "property/storage",
+    {
+      property: propertyId,
+      accessToken,
+    },
+  ]);
 
   const storage = {
     items:

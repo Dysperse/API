@@ -1,6 +1,5 @@
 import { DailyCheckIn } from "@/components/CheckIns";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -14,6 +13,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import useSWR from "swr";
 import { GoalTask } from "../../components/Coach/Goal/Task";
 
 export default function Routine() {
@@ -21,7 +21,7 @@ export default function Routine() {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const { data, url } = useApi("user/coach");
+  const { data, mutate } = useSWR(["user/coach"]);
 
   const [slide, setSlide] = useState(-1);
 
@@ -181,7 +181,7 @@ export default function Routine() {
             <GoalTask
               open={open}
               setOpen={setOpen}
-              mutationUrl={url}
+              mutate={mutate}
               setSlide={setSlide}
               goal={goal}
               key={goal.id}

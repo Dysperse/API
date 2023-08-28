@@ -1,6 +1,6 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -14,16 +14,20 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { mutate } from "swr";
+import useSWR from "swr";
 import { ProfilePicture } from "../Profile/ProfilePicture";
 
 export function ProfileStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const { data, url, error } = useApi("user/profile", {
-    email: session.user.email,
-  });
+  const url = "";
+  const { data, mutate, error } = useSWR([
+    "user/profile",
+    {
+      email: session.user.email,
+    },
+  ]);
 
   const birthdayRef: any = useRef();
 
@@ -74,7 +78,7 @@ export function ProfileStep({ styles, navigation }) {
                 ...data,
               }}
               editMode
-              mutationUrl={url}
+              mutate={mutate}
             />
             <Typography variant="h1" sx={styles.subheading}>
               Birthday
@@ -137,7 +141,7 @@ export function ProfileStep({ styles, navigation }) {
                   }}
                   size={70}
                   editMode={false}
-                  mutationUrl={url}
+                  mutate={mutate}
                 />
                 <Chip
                   label={"Busy"}

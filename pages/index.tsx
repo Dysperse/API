@@ -4,7 +4,7 @@ import { SpotifyCard } from "@/components/Profile/UserProfile";
 import { Puller } from "@/components/Puller";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
@@ -42,7 +42,7 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { GroupModal } from "../components/Group/GroupModal";
 
 export function StatusSelector({
@@ -57,7 +57,8 @@ export function StatusSelector({
   const session = useSession();
   const now = useMemo(() => dayjs(), []);
 
-  const { data, loading: isStatusLoading, url } = useApi("user/status");
+  const url = "";
+  const { data, isLoading: isStatusLoading } = useSWR(["user/status"]);
 
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(
@@ -227,7 +228,7 @@ export function StatusSelector({
   );
 }
 
-const Friend = memo(function Friend({ isScrolling, friend }: any) {
+const Friend = memo(function Friend({ mutate, friend }: any) {
   const session = useSession();
   const router = useRouter();
 
@@ -313,7 +314,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
     >
       <ListItemButton onClick={() => setOpen(true)}>
         <Box sx={{ position: "relative" }}>
-          <ProfilePicture data={friend} mutationUrl="" size={60} />
+          <ProfilePicture data={friend} mutate={mutate} size={60} />
           <Box
             sx={{
               position: "absolute",
@@ -372,7 +373,7 @@ const Friend = memo(function Friend({ isScrolling, friend }: any) {
           }}
         >
           <Box sx={{ mt: 5, ml: 3 }}>
-            <ProfilePicture data={friend} mutationUrl="" size={100} />
+            <ProfilePicture data={friend} mutate={mutate} size={100} />
           </Box>
         </Box>
         <Box sx={{ p: 4, mt: 2 }}>
@@ -558,9 +559,12 @@ export function Logo({ intensity = 4, size = 45 }: any) {
 
 function ContactSync() {
   const session = useSession();
-  const { data, error } = useApi("user/profile", {
-    email: session.user.email,
-  });
+  const { data, error } = useSWR([
+    "user/profile",
+    {
+      email: session.user.email,
+    },
+  ]);
 
   return (
     <>
@@ -827,14 +831,21 @@ export default function Home() {
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const { data, url } = useApi("user/profile/friends", {
-    email: session.user.email,
-    date: dayjs().startOf("day").toISOString(),
-  });
+  const url = "";
+  const { data, mutate } = useSWR([
+    "user/profile/friends",
+    {
+      email: session.user.email,
+      date: dayjs().startOf("day").toISOString(),
+    },
+  ]);
 
-  const { data: profileData } = useApi("user/profile", {
-    email: session.user.email,
-  });
+  const { data: profileData } = useSWR([
+    "user/profile",
+    {
+      email: session.user.email,
+    },
+  ]);
 
   const sortedFriends = useMemo(() => {
     return (
@@ -949,7 +960,7 @@ export default function Home() {
                 totalCount={sortedFriends.length}
                 itemContent={(i) => (
                   <Friend
-                    isScrolling={isScrolling}
+                    mutate={mutate}
                     friend={sortedFriends[i].following}
                     key={sortedFriends[i].following.email}
                   />

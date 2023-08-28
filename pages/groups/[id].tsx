@@ -4,7 +4,6 @@ import { Changelog } from "@/components/Group/Changelog";
 import { GroupModal } from "@/components/Group/GroupModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import {
@@ -20,7 +19,7 @@ import { Property } from "@prisma/client";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 
 function Group({ group, handleMutate }) {
   const session = useSession();
@@ -85,10 +84,14 @@ export default function Page() {
     (property) => property.propertyId == id
   )?.accessToken;
 
-  const { data, url, error } = useApi("property", {
-    id,
-    propertyAccessToken: accessToken,
-  });
+  const url = "";
+  const { data, error } = useSWR([
+    "property",
+    {
+      id,
+      propertyAccessToken: accessToken,
+    },
+  ]);
 
   useEffect(() => {
     if (data) {

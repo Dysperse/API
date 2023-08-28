@@ -21,10 +21,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import { GoalActivity } from "./Activity";
 
-export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
+export function GoalTask({ goal, setSlide, mutate, open, setOpen }) {
   const session = useSession();
   const { width, height } = useWindowDimensions();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -84,7 +83,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
             : 1,
         id: goal.id,
       })
-        .then(async () => await mutate(mutationUrl))
+        .then(mutate)
         .catch(() => {
           toast.error(
             "Yikes! Something went wrong while trying to mark your routine as done",
@@ -114,7 +113,7 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
         feedback: icon,
         id: goal.id,
       });
-      await mutate(mutationUrl);
+      await mutate();
       setStepTwoOpen(false);
       toast.success("You earned a trophy! Thanks for your feedback!", {
         ...toastStyles,
