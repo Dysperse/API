@@ -522,6 +522,10 @@ export function Column({
                   background: palette[3] + "!important",
                   color: palette[11],
                 }),
+                transition: "transform .1s !important",
+                "&:active": {
+                  transform: "scale(.95)",
+                },
               }}
               onClick={toggleShowCompleted}
             >
