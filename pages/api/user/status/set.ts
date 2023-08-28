@@ -16,7 +16,7 @@ dayjs.extend(timezone);
  */
 export default async function handler(req, res) {
   try {
-    validateParams(req.query, ["userIdentifier"]);
+    validateParams(req.query, ["userIdentifier", "email"]);
 
     const until = dayjs(req.query.start)
       .tz(req.query.timeZone)
