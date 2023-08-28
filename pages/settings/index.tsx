@@ -1,6 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -286,11 +287,7 @@ export default function Layout({ children }: any) {
             }}
           >
             <Toolbar>
-              <IconButton
-                onClick={() =>
-                  router.push(router.asPath === "/settings" ? "/" : "/settings")
-                }
-              >
+              <IconButton onClick={() => handleBack(router)}>
                 <Icon>arrow_back_ios_new</Icon>
               </IconButton>
               {router.asPath !== "/settings" && (

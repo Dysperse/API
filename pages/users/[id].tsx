@@ -8,6 +8,7 @@ import { SearchUser } from "@/components/Profile/SearchUser";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi, useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -324,7 +325,7 @@ function Page() {
         }}
       >
         <Toolbar>
-          <IconButton onClick={() => router.push("/")}>
+          <IconButton onClick={() => handleBack(router)}>
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
           <SearchUser />

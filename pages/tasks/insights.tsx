@@ -1,3 +1,4 @@
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -96,10 +97,7 @@ function Insights({ tasks }) {
   const isMobile = useMediaQuery("(max-width:600px)");
   return (
     <Box sx={{ p: { xs: 1, sm: 4 } }}>
-      <IconButton
-        onClick={() => router.push("/tasks/agenda/days")}
-        sx={{ mb: 2 }}
-      >
+      <IconButton onClick={() => handleBack(router)} sx={{ mb: 2 }}>
         <Icon>arrow_back_ios_new</Icon>
       </IconButton>
       <Box sx={{ p: 2 }}>
