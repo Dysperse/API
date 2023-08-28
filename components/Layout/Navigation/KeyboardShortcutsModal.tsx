@@ -129,6 +129,15 @@ export default function KeyboardShortcutsModal() {
             ],
           },
           {
+            name: "Image viewer",
+            shortcuts: [
+              { name: "Toggle zoom", keys: ["space"] },
+              { name: "Download", keys: ["shift", "d"] },
+              { name: "Share", keys: ["shift", "s"] },
+              { name: "Open", keys: ["shift", "o"] },
+            ],
+          },
+          {
             name: "Task management",
             shortcuts: [{ name: "Toggle priority", keys: ["!"] }],
           },

@@ -62,6 +62,39 @@ export function ImageViewer({ url }: { url: string }) {
     },
     [open]
   );
+
+  useHotkeys(
+    "space",
+    () => {
+      if (open) setZoom((z) => !z);
+    },
+    [open, setZoom]
+  );
+
+  useHotkeys(
+    "shift+d",
+    () => {
+      if (open) downloadImage(url);
+    },
+    [open, url]
+  );
+
+  useHotkeys(
+    "shift+s",
+    () => {
+      if (open) shareImage(url);
+    },
+    [open, url]
+  );
+  
+  useHotkeys(
+    "shift+o",
+    () => {
+      if (open) window.open(url);
+    },
+    [open, url]
+  );
+
   useBackButton(() => setOpen(false));
 
   return (
