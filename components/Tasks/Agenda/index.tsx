@@ -131,7 +131,7 @@ export function Agenda({ type, date }) {
           animate={{ y: 0 }}
           style={{
             width: "100%",
-            zIndex: 999,
+            // zIndex: 999,
             overflow: "visible",
           }}
         >

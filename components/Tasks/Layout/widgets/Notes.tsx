@@ -44,6 +44,7 @@ export function Notes({ children }) {
             className="drag-widget"
             sx={{
               position: "fixed",
+              
               top: 20,
               width: 200,
               borderRadius: 5,

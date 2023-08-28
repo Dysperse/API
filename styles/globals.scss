@@ -62,7 +62,6 @@ img {
 }
 
 .noDrag {
-
   &,
   & * {
     -webkit-app-region: d;
@@ -117,7 +116,9 @@ img {
   user-drag: none;
 }
 
-:not(.font-heading, .font-heading *):not(.MuiIcon-root):not(.material-symbols-outlined):not(.outlined):not(.material-symbols-rounded) {
+:not(.font-heading, .font-heading *):not(.MuiIcon-root):not(
+    .material-symbols-outlined
+  ):not(.outlined):not(.material-symbols-rounded) {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "Space Grotesk", sans-serif !important;
@@ -218,7 +219,6 @@ a {
 }
 
 @media (prefers-color-scheme: dark) {
-
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -322,4 +322,8 @@ body {
   img[loading="lazy"] {
     clip-path: inset(0.6px);
   }
+}
+
+.drag-widget {
+  z-index: 9999 !important;
 }
