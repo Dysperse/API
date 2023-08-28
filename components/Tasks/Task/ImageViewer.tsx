@@ -128,7 +128,7 @@ export function ImageViewer({ url }: { url: string }) {
       </Backdrop>
       <Chip
         label={"Attachment"}
-        avatar={<Avatar src={url} />}
+        avatar={<Avatar src={url} alt="🖼" />}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
