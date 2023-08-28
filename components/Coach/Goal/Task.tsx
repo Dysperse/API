@@ -463,7 +463,17 @@ export function GoalTask({ goal, setSlide, mutationUrl, open, setOpen }) {
                   }}
                 >
                   <GoalActivity goal={goal} open={open} setOpen={setOpen}>
-                    <Button sx={{ color: "#fff" }} size="small" id="activity">
+                    <Button
+                      sx={{
+                        color: "#fff",
+                        "&:active": {
+                          transform: "scale(.95)",
+                          transition: "all .1s",
+                        },
+                      }}
+                      size="small"
+                      id="activity"
+                    >
                       <Icon>local_fire_department</Icon>
                       Activity
                     </Button>
