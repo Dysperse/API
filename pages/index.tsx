@@ -85,7 +85,7 @@ export function StatusSelector({
       until: time,
       timeZone: session.user.timeZone,
       profile: JSON.stringify(profile),
-      email: session.user.email
+      email: session.user.email,
     });
     setOpen(false);
     toast.success(
@@ -876,7 +876,7 @@ export default function Home() {
         >
           <Box
             sx={{
-              mb: { xs: 3, sm: 5 },
+              mb: { xs: 2, sm: 5 },
               px: { xs: 4, sm: 6 },
               textAlign: { sm: "center" },
             }}
@@ -896,7 +896,7 @@ export default function Home() {
             justifyContent: { sm: "center" },
             overflowX: "scroll",
             maxWidth: "100%",
-            px: 3,
+            px: 4,
             mb: 2,
             gap: 2,
             "& *": {
