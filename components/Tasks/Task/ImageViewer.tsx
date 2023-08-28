@@ -74,7 +74,6 @@ export function ImageViewer({ url }: { url: string }) {
             width: "100dvw",
             height: "100dvh",
             maxWidth: "100dvh",
-            transition: "all .4s cubic-bezier(.29,.79,.07,1.84) !important",
             borderRadius: 0,
             "& img": {
               "&:active": {
