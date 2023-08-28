@@ -18,7 +18,6 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { cloneElement, useState } from "react";
-import { preload } from "swr";
 
 export function GroupModal({
   children,
@@ -27,7 +26,7 @@ export function GroupModal({
   onSuccess = () => {},
 }: any) {
   const session = useSession();
-  const { data, fetcher, url } = useApi("user/properties");
+  const { data, url } = useApi("user/properties");
   const [showMore, setShowMore] = useState(false);
   const [showInvitations, setShowInvitations] = useState(false);
 
@@ -49,8 +48,6 @@ export function GroupModal({
       return acc;
     }, [])
     .sort((a, b) => (a.name > b.name ? 1 : -1));
-
-  preload(url, fetcher);
 
   const drawer = (
     <SwipeableDrawer

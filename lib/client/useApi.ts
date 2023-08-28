@@ -49,10 +49,6 @@ export interface ApiResponse {
    * Returns if there was an error in fetching the request
    */
   error: null | any;
-  /**
-   * Function to actually fetch the url from the API. (Required for the SWR `preload()` function)
-   */
-  fetcher: any;
 }
 
 /**
@@ -85,8 +81,7 @@ export function useApi(
 
   const url = path ? memoizedInfo.url : null;
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading, mutate } = useSWR(url, fetcher);
+  const { data, error, isLoading, mutate } = useSWR(url);
 
   const [response, setResponse] = useState<ApiResponse>({
     data,
@@ -94,7 +89,6 @@ export function useApi(
     loading: isLoading,
     mutate,
     error: error,
-    fetcher: fetcher,
   });
 
   useEffect(() => {
@@ -104,7 +98,6 @@ export function useApi(
       mutate,
       loading: isLoading,
       error: error,
-      fetcher: fetcher,
     });
   }, [data, error, mutate, isLoading]);
 

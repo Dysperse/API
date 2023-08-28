@@ -31,6 +31,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { createContext } from "react";
+import { SWRConfig } from "swr";
 
 export const StorageContext: any = createContext(null);
 
@@ -119,44 +120,51 @@ export default function App({
   const children = <Component {...pageProps} />;
 
   return (
-    <SessionProvider
-      session={
-        data?.properties && {
-          ...data,
-          property: selectedProperty,
-          permission: selectedProperty.permission,
-          themeColor,
-          darkMode: data.user.darkMode,
-        }
-      }
+    <SWRConfig
+      value={{
+        fetcher: (resource, init) =>
+          fetch(resource, init).then((res) => res.json()),
+      }}
     >
-      <StorageContext.Provider value={{ isReached, setIsReached }}>
-        <ThemeProvider theme={userTheme}>
-          <Toaster containerClassName="noDrag" />
-          <Head>
-            <title>Dysperse</title>
-            <meta name="theme-color" content={palette[1]} />
-            <link
-              rel="shortcut icon"
-              href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"
-            />
-          </Head>
-          <Analytics />
+      <SessionProvider
+        session={
+          data?.properties && {
+            ...data,
+            property: selectedProperty,
+            permission: selectedProperty.permission,
+            themeColor,
+            darkMode: data.user.darkMode,
+          }
+        }
+      >
+        <StorageContext.Provider value={{ isReached, setIsReached }}>
+          <ThemeProvider theme={userTheme}>
+            <Toaster containerClassName="noDrag" />
+            <Head>
+              <title>Dysperse</title>
+              <meta name="theme-color" content={palette[1]} />
+              <link
+                rel="shortcut icon"
+                href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"
+              />
+            </Head>
+            <Analytics />
 
-          {disableLayout ? (
-            children
-          ) : (
-            <>
-              {isLoading && <Loading />}
-              {!isLoading && !isError && data.error && <AuthLoading />}
-              {!isLoading && !isError && !data.error && (
-                <Layout>{children}</Layout>
-              )}
-              {isError && <Error />}
-            </>
-          )}
-        </ThemeProvider>
-      </StorageContext.Provider>
-    </SessionProvider>
+            {disableLayout ? (
+              children
+            ) : (
+              <>
+                {isLoading && <Loading />}
+                {!isLoading && !isError && data.error && <AuthLoading />}
+                {!isLoading && !isError && !data.error && (
+                  <Layout>{children}</Layout>
+                )}
+                {isError && <Error />}
+              </>
+            )}
+          </ThemeProvider>
+        </StorageContext.Provider>
+      </SessionProvider>
+    </SWRConfig>
   );
 }
