@@ -235,7 +235,7 @@ function BulkCompletion() {
     <></>
   ) : (
     <>
-      <IconButton sx={{ color: palette[8] }} onClick={() => setOpen(true)}>
+      <IconButton sx={{ color: palette[9] }} onClick={() => setOpen(true)}>
         <Icon className="outlined">check_circle</Icon>
       </IconButton>
 
@@ -574,7 +574,7 @@ export function TasksLayout({
   const trigger = (
     <Button
       sx={{
-        color: palette[8],
+        color: palette[9],
         px: 1,
         height: 48,
         ml: -0.5,
@@ -654,6 +654,8 @@ export function TasksLayout({
             transform: "scale(.5)",
             pointerEvents: "none",
           }),
+          zIndex: 99999999,
+          background: palette[3],
           maxWidth: { md: "400px" },
           pt: "0!important",
         }}
@@ -674,7 +676,7 @@ export function TasksLayout({
           {taskSelection.filter((e) => e !== "-1").length !== 0 && (
             <>
               <BulkColorCode>
-                <IconButton sx={{ color: palette[8] }}>
+                <IconButton sx={{ color: palette[9] }}>
                   <Icon className="outlined">label</Icon>
                 </IconButton>
               </BulkColorCode>
@@ -715,7 +717,7 @@ export function TasksLayout({
                     }
                   }}
                 >
-                  <IconButton sx={{ color: palette[8] }}>
+                  <IconButton sx={{ color: palette[9] }}>
                     <Icon className="outlined">today</Icon>
                   </IconButton>
                 </SelectDateModal>
@@ -762,7 +764,7 @@ export function TasksLayout({
                   }}
                   buttonText="Delete"
                 >
-                  <IconButton sx={{ color: palette[8] }}>
+                  <IconButton sx={{ color: palette[9] }}>
                     <Icon className="outlined">delete</Icon>
                   </IconButton>
                 </ConfirmationModal>
@@ -807,7 +809,7 @@ export function TasksLayout({
             {isBoard || isSearch ? (
               <IconButton
                 sx={{
-                  color: palette[8],
+                  color: palette[9],
                   background: addHslAlpha(palette[3], 0.5),
                   "&:active": {
                     transform: "scale(0.9)",
@@ -833,7 +835,7 @@ export function TasksLayout({
             ) : isAgenda ? (
               <IconButton
                 sx={{
-                  color: palette[8],
+                  color: palette[9],
                   background: addHslAlpha(palette[3], 0.5),
                   "&:active": {
                     transform: "scale(0.9)",
@@ -856,7 +858,7 @@ export function TasksLayout({
               >
                 <IconButton
                   sx={{
-                    color: palette[8],
+                    color: palette[9],
                     background: addHslAlpha(palette[3], 0.5),
                     "&:active": {
                       transform: "scale(0.9)",
