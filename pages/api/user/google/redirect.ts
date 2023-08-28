@@ -17,7 +17,14 @@ export default async function handler(req, res) {
   const oauth2Client = googleClient(req);
 
   // Access scopes for read-only access to contacts and profile info
-  const scopes = ["https://www.googleapis.com/auth/contacts.readonly"];
+  const scopes = [
+    // For Google Contacts integration
+    "https://www.googleapis.com/auth/contacts.readonly",
+
+    // For Google Calendar integration
+    "https://www.googleapis.com/auth/calendar.readonly",
+    "https://www.googleapis.com/auth/calendar.events.readonly",
+  ];
 
   // Generate a url that asks permissions for the Drive activity scope
   const authorizationUrl = oauth2Client.generateAuthUrl({
