@@ -154,6 +154,10 @@ export default function App({
             <Head>
               <title>Dysperse</title>
               <meta name="theme-color" content={palette[1]} />
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content, viewport-fit=cover"
+              />
               <link
                 rel="shortcut icon"
                 href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"

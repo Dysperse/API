@@ -69,10 +69,6 @@ export default function Document() {
           content="hsl(240,11%,10%)"
         />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content, viewport-fit=cover"
-        />
         {[57, 72, 76, 114, 120, 144, 152, 180].map((size) => (
           <link
             key={size}
