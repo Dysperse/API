@@ -9,167 +9,134 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-// Models for user accounts
-// TODO: Add separate table for user settings, such as theme colors, dark mode, etc. 
 model User {
-  id         String @id @unique @default(uuid())
-  identifier String @unique @default(uuid())
-
-  name     String
-  username String? @unique
-  email    String  @unique
-  password String
-  darkMode String  @default("system")
-
-  color          String   @default("lime")
-  unlockedColors String[]
-
-  onboardingComplete       Boolean @default(false)
-  trophies                 Int     @default(0)
-  twoFactorSecret          String  @default("")
-  notificationSubscription String? @db.VarChar(900)
-  timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
-
-  lastReleaseVersionViewed Int @default(77711209)
-
-  CustomRoom           CustomRoom[]
-  NotificationSettings NotificationSettings?
-  Status               Status?
-  Profile              Profile?
-  CoachData            CoachData?
-  PasswordResetToken   PasswordResetToken[]
-  properties           PropertyInvite[]
-  RoutineItem          RoutineItem[]
-  sessions             Session[]
-  Board                Board[]
-  Integration          Integration[]
-  DailyCheckIn         DailyCheckIn[]
-  QrToken              QrToken[]
-
-  followers  Follows[]    @relation("following")
-  following  Follows[]    @relation("follower")
-  ShareToken ShareToken[]
-  Task       Task[]
+  id                       String                @id @unique @default(uuid())
+  identifier               String                @unique @default(uuid())
+  name                     String
+  email                    String                @unique
+  password                 String
+  darkMode                 String                @default("system")
+  color                    String                @default("lime")
+  onboardingComplete       Boolean               @default(false)
+  trophies                 Int                   @default(0)
+  twoFactorSecret          String                @default("")
+  notificationSubscription String?               @db.VarChar(900)
+  timeZone                 String                @default("America/Los_Angeles") @db.VarChar(255)
+  lastReleaseVersionViewed Int                   @default(77711209)
+  unlockedColors           String[]
+  username                 String?               @unique
+  Board                    Board[]
+  CoachData                CoachData?
+  CustomRoom               CustomRoom[]
+  DailyCheckIn             DailyCheckIn[]
+  following                Follows[]             @relation("follower")
+  followers                Follows[]             @relation("following")
+  Integration              Integration[]
+  NotificationSettings     NotificationSettings?
+  PasswordResetToken       PasswordResetToken[]
+  Profile                  Profile?
+  properties               PropertyInvite[]
+  QrToken                  QrToken[]
+  RoutineItem              RoutineItem[]
+  sessions                 Session[]
+  ShareToken               ShareToken[]
+  Status                   Status?
+  Task                     Task[]
 }
 
 model Follows {
-  follower    User   @relation("follower", fields: [followerId], references: [email])
   followerId  String
-  following   User   @relation("following", fields: [followingId], references: [email])
   followingId String
+  follower    User   @relation("follower", fields: [followerId], references: [email])
+  following   User   @relation("following", fields: [followingId], references: [email])
 
   @@id([followerId, followingId])
 }
 
 model Integration {
-  id   String @id @unique @default(uuid())
-  name String // Also used to identify the integration
-
-  lastSynced DateTime @default(now())
-
-  inputParams String // Stuff like urls, auth tokens, etc... (SHOULD BE ENCRYPTED!!!)
-  outputType  String @default("board")
-
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-
-  // Optional
-  boardId String?
-  board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
-
-  userId String
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  id          String   @id @unique @default(uuid())
+  name        String
+  userId      String
+  propertyId  String
+  inputParams String
+  boardId     String?
+  outputType  String   @default("board")
+  lastSynced  DateTime @default(now())
+  board       Board?   @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
-// Customizable notification settings (1 row per user)
 model NotificationSettings {
-  id String @id @unique @default(uuid())
-
+  id                String  @id @unique @default(uuid())
   todoListUpdates   Boolean @default(true)
-  followerUpdates   Boolean @default(true)
   dailyRoutineNudge Boolean @default(true)
+  userId            String  @unique
   dailyCheckInNudge Boolean @default(true)
+  boards            Boolean @default(true)
   statusUpdates     Boolean @default(true)
-
-  boards Boolean @default(true)
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  followerUpdates   Boolean @default(true)
+  user              User    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
-// Customizable notification settings (1 row per user)
 model Status {
-  id String @id @unique @default(uuid())
-
-  status String  @default("")
-  text   String?
-
+  id      String    @id @unique @default(uuid())
+  status  String    @default("")
   until   DateTime?
+  userId  String    @unique
   started DateTime?
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  text    String?
+  user    User      @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
-// Customizable notification settings (1 row per user)
 model Profile {
-  id      String  @id @unique @default(uuid())
-  picture String?
-
-  spotify Json?
-  google  Json?
-
+  id           String   @id @unique @default(uuid())
   birthday     DateTime @default(now())
   hobbies      String[]
   badges       String[]
+  bio          String   @default("")
+  private      Boolean  @default(false)
+  userId       String   @unique
+  picture      String?
   workingHours String?  @default("[]")
-
-  bio String @default("")
-
-  private Boolean @default(false)
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  spotify      Json?
+  google       Json?
+  user         User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model CoachData {
   id             String   @id @unique @default(uuid())
   lastStreakDate DateTime @default(now())
   streakCount    Int      @default(0)
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
-// User sessions are stored on the server
-// Important: If there's way too much storage being used, just truncate this table 😭
 model Session {
   id        String    @id @unique @default(uuid())
-  ip        String    @default("Unknown")
   userId    String
+  ip        String    @default("Unknown")
   timestamp DateTime? @default(now())
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// Property modal box
 model Property {
   id                  String               @id @unique @default(uuid())
   name                String               @default("My property")
   type                String               @default("apartment")
-  vanishingTasks      Boolean              @default(false)
   color               String               @default("cyan")
+  vanishingTasks      Boolean              @default(false)
   Board               Board[]
   customRooms         CustomRoom[]
   inbox               InboxItem[]
+  Integration         Integration[]
   inventory           Item[]
   members             PropertyInvite[]
   PropertyLinkInvites PropertyLinkInvite[]
-  Integration         Integration[]
-  Task                Task[]
   ShareToken          ShareToken[]
+  Task                Task[]
 }
 
-// List of invited members to properties with their user permissions
 model PropertyInvite {
   id          String   @id @unique @default(uuid())
   userId      String
@@ -232,121 +199,103 @@ model PasswordResetToken {
 }
 
 model ShareToken {
-  id String @id @unique @default(uuid())
-
-  createdAt DateTime  @default(now())
-  expiresAt DateTime?
-  token     String    @unique @default(uuid())
-
-  boardId String?
-  board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
-
-  readOnly Boolean @default(true)
-
+  id         String    @id @unique @default(uuid())
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime?
+  token      String    @unique @default(uuid())
+  boardId    String?
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  readOnly   Boolean   @default(true)
+  board      Board?    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  property   Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Board {
-  id          String  @id @unique @default(uuid())
-  name        String
-  description String  @default("")
-  public      Boolean @default(true)
-  pinned      Boolean @default(false)
-  archived    Boolean @default(false)
-
-  userId String?
-  user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-
-  shareTokens ShareToken[]
-
+  id           String        @id @unique @default(uuid())
+  name         String
+  public       Boolean       @default(true)
+  pinned       Boolean       @default(false)
+  archived     Boolean       @default(false)
   propertyId   String
+  description  String        @default("")
+  userId       String?
   property     Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user         User?         @relation(fields: [userId], references: [identifier], onDelete: Cascade)
   columns      Column[]
   integrations Integration[]
+  shareTokens  ShareToken[]
 }
 
 model Column {
   id      String @id @unique @default(uuid())
-  order   Int    @default(1)
   name    String
   emoji   String
   boardId String
+  order   Int    @default(1)
   board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
   tasks   Task[]
 }
 
 model Task {
-  id          String  @id @unique @default(uuid())
-  name        String
-  description String?
-  where       String?
-  color       String  @default("grey")
-  pinned      Boolean @default(false)
-
+  id            String    @id @unique @default(uuid())
+  name          String
+  description   String?
   due           DateTime?
+  color         String    @default("grey")
+  pinned        Boolean   @default(false)
+  completed     Boolean   @default(false)
+  image         String?
+  columnId      String?
+  propertyId    String
+  lastUpdated   DateTime  @default(now())
+  where         String?
+  completedAt   DateTime?
+  userId        String?
   notifications Int[]     @default([])
-
-  completed   Boolean   @default(false)
-  completedAt DateTime?
-
-  createdBy User? @relation(fields: [userId], references: [id])
-
-  image       String?
-  columnId    String?
-  lastUpdated DateTime @default(now())
-  column      Column?  @relation(fields: [columnId], references: [id], onDelete: Cascade)
-
-  parentTasks Task[] @relation("subtasks")
-  subTasks    Task[] @relation("subtasks")
-
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  userId     String?
+  column        Column?   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  property      Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdBy     User?     @relation(fields: [userId], references: [id])
+  Task_A        Task[]    @relation("subtasks")
+  Task_B        Task[]    @relation("subtasks")
 }
 
 model RoutineItem {
-  id           String @id @unique @default(uuid())
-  name         String
-  stepName     String
-  category     String
-  durationDays Int
-  progress     Int    @default(0)
-  emoji        String
-
-  timeOfDay  Int       @default(12)
-  daysOfWeek Boolean[] @default([true, true, true, true, true, true, true])
-
+  id                  String                @id @unique @default(uuid())
+  name                String
+  stepName            String
+  category            String
+  durationDays        Int
+  progress            Int                   @default(0)
+  emoji               String
   lastCompleted       String?
   completed           Boolean               @default(false)
   feedback            String?               @default("")
+  userId              String
+  timeOfDay           Int                   @default(12)
+  daysOfWeek          Boolean[]             @default([true, true, true, true, true, true, true])
   RoutineActivityData RoutineActivityData[]
-
-  userId String
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  user                User                  @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model RoutineActivityData {
-  id            String   @id @unique @default(uuid())
+  id            String      @id @unique @default(uuid())
   routineItemId String
   date          DateTime
-
-  routineItem RoutineItem @relation(fields: [routineItemId], references: [id], onDelete: Cascade)
+  routineItem   RoutineItem @relation(fields: [routineItemId], references: [id], onDelete: Cascade)
 }
 
 model DailyCheckIn {
   id     String   @id @unique @default(uuid())
   mood   String
-  reason String   @default("Something else")
-  stress Int      @default(0)
-  rest   Int      @default(0)
-  pain   Int      @default(1)
-  food   Int      @default(1)
   date   DateTime
   userId String
+  reason String   @default("Something else")
+  stress Int      @default(0)
+  food   Int      @default(1)
+  pain   Int      @default(1)
+  rest   Int      @default(0)
   user   User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
@@ -354,7 +303,6 @@ model QrToken {
   id      String   @id @unique @default(uuid())
   token   String   @unique @default(uuid())
   expires DateTime
-
-  userId String?
-  user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+  userId  String?
+  user    User?    @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
