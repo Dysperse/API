@@ -239,7 +239,6 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
           }}
           InputProps={{ sx: { fontWeight: 700 } }}
           placeholder="Column name"
-          size="small"
         />
         <Button
           ref={buttonRef}
