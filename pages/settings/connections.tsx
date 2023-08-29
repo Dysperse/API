@@ -1,4 +1,5 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -15,7 +16,7 @@ import { useColor, useDarkMode } from "../../lib/client/useColor";
 export default function ConnectionsSettings() {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
-  const { data, mutate } = useSWR([
+  const { data, error, mutate } = useSWR([
     "user/profile",
     { email: session.user.email },
   ]);
@@ -67,6 +68,12 @@ export default function ConnectionsSettings() {
           height: "100%",
         }}
       >
+        {error && (
+          <ErrorHandler
+            error="Something went wrong! Please try again later. "
+            callback={mutate}
+          />
+        )}
         <Grid container>
           <Grid item xs={12} sm={6} sx={styles("google")}>
             <IconButton href="/api/user/google/redirect" className="icon">
