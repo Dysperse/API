@@ -4,7 +4,7 @@ import { WorkingHours } from "@/components/Profile/WorkingHours";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Alert,
@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
+import useSWR from "swr";
 import Layout from ".";
 
 /**
@@ -30,9 +31,13 @@ export default function AppearanceSettings() {
   const [name, setName] = useState(session.user.name);
   const handleChange = useCallback((e) => setName(e.target.value), [setName]);
 
-  const { data, url, error } = useApi("user/profile", {
-    email: session.user.email,
-  });
+  const url = "";
+  const { data, mutate, error } = useSWR([
+    "user/profile",
+    {
+      email: session.user.email,
+    },
+  ]);
 
   const [bio, setBio] = useState(data?.Profile?.bio || "");
   const [username, setUsername] = useState(session.user.username || "");
@@ -88,7 +93,7 @@ export default function AppearanceSettings() {
           gap: 3,
         }}
       >
-        {data && <ProfilePicture data={data} mutationUrl={url} editMode />}
+        {data && <ProfilePicture data={data} mutate={mutate} editMode />}
         <Box sx={{ flexGrow: 1 }}>
           <Box sx={{ display: "flex", justifyContent: "end", mb: 2, gap: 2 }}>
             <Button href="/api/user/spotify/redirect" variant="contained">
@@ -172,7 +177,7 @@ export default function AppearanceSettings() {
               editMode
               color={session.themeColor}
               isCurrentUser
-              mutationUrl={url}
+              mutate={mutate}
               profile={data?.Profile}
               profileCardStyles={{
                 border: "1px solid #606060",

@@ -1,13 +1,14 @@
 import { ErrorHandler } from "@/components/Error";
 import { Board } from "@/components/Tasks/Board";
 import { TasksLayout } from "@/components/Tasks/Layout";
-import { useApi } from "@/lib/client/useApi";
 import { Box, CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useSWR from "swr";
 
 const BoardContainer = ({ id, shareToken }) => {
-  const { data, url, error } = useApi("property/boards", { id, shareToken });
+  const url = "";
+  const { data, mutate,error } = useSWR(["property/boards", { id, shareToken }]);
 
   return (
     <>
@@ -15,7 +16,7 @@ const BoardContainer = ({ id, shareToken }) => {
         <ErrorHandler error="An error occured while trying to get this board's information" />
       )}
       {data ? (
-        <Board mutationUrl={url} board={data[0]} />
+        <Board mutate={mutate} board={data[0]} />
       ) : (
         <Box
           sx={{

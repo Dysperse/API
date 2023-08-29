@@ -18,7 +18,7 @@ export function WorkingHours({
   color,
   isCurrentUser,
   editMode,
-  mutationUrl,
+  mutate,
   profileCardStyles,
   profile,
 }) {
@@ -47,8 +47,8 @@ export function WorkingHours({
       email: session.user.email,
       workingHours: JSON.stringify(workingHours),
     });
-    await mutate(mutationUrl);
-  }, [workingHours, mutationUrl, session]);
+    await mutate();
+  }, [workingHours, mutate, session]);
 
   // Save
   useEffect(() => {

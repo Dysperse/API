@@ -6,7 +6,7 @@ import { SelectionContext } from "../Layout";
 import { ShareProgress } from "./ShareProgress";
 
 interface AgendaColumnProps {
-  mutationUrl: string;
+  mutate: string;
   view: string;
   day: any;
   data: any;
@@ -25,7 +25,7 @@ export const ColumnMenu = React.memo(function ColumnMenu({
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  
+
   const handleClick = (event: any) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);

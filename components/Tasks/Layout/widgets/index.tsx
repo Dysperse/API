@@ -1,13 +1,13 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { StatusSelector } from "@/pages";
 import { Box, Icon, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
 import interact from "interactjs";
 import { useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
 import { CreateTask } from "../../Task/Create";
 import { FocusTimer } from "./FocusTimer";
 import { Notes } from "./Notes";
@@ -70,9 +70,13 @@ export function WidgetBar({ view, setView }) {
     });
   }, []);
 
-  const { data: profileData, url } = useApi("user/profile", {
-    email: session.user.email,
-  });
+  const url = "";
+  const { data: profileData } = useSWR([
+    "user/profile",
+    {
+      email: session.user.email,
+    },
+  ]);
 
   useEffect(() => {
     if (document.hasFocus() && process.env.NODE_ENV === "production") {

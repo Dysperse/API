@@ -1,9 +1,9 @@
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { DailyCheckInDrawer } from "./DailyCheckInDrawer";
 import { Emoji } from "./Reflect/Emoji";
 
@@ -27,7 +27,7 @@ export function DailyCheckIn() {
   const [mood, setMood] = useState<string | null>(null);
   const today = dayjs().startOf("day");
 
-  const { data, url: mutationUrl } = useApi("user/checkIns", { date: today });
+  const { data, mutate } = useSWR(["user/checkIns", { date: today }]);
   useEffect(() => setMood(data?.[0]?.mood ?? null), [data, mood, setMood]);
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -53,7 +53,7 @@ export function DailyCheckIn() {
         >
           {moodOptions.map((emoji) => (
             <Emoji
-              mutationUrl={mutationUrl}
+              mutate={mutate}
               defaultData={data?.[0]}
               key={emoji}
               emoji={emoji}

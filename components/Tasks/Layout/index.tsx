@@ -4,7 +4,7 @@ import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -41,6 +41,7 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+import useSWR from "swr";
 import { ErrorHandler } from "../../Error";
 import { CreateTask } from "../Task/Create";
 import { TaskColorPicker } from "../Task/Create/ChipBar";
@@ -324,7 +325,8 @@ export function TasksLayout({
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
-  const { data, mutate, url, error } = useApi("property/boards");
+  const url = "";
+  const { data, mutate, error } = useSWR(["property/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const [taskSelection, setTaskSelection] = useState([]);
@@ -574,7 +576,7 @@ export function TasksLayout({
   const trigger = (
     <Button
       sx={{
-        color: palette[9],
+        color: addHslAlpha(palette[9], 0.7),
         px: 1,
         height: 48,
         ml: -0.5,
@@ -809,7 +811,7 @@ export function TasksLayout({
             {isBoard || isSearch ? (
               <IconButton
                 sx={{
-                  color: palette[9],
+                  color: addHslAlpha(palette[9], 0.7),
                   background: addHslAlpha(palette[3], 0.5),
                   "&:active": {
                     transform: "scale(0.9)",
@@ -824,12 +826,14 @@ export function TasksLayout({
                       )}`
                     );
                   } else {
-                    document.getElementById("boardInfoTrigger")?.click();
+                    router.push(
+                      router.asPath.replace("/boards/", "/boards/edit/")
+                    );
                   }
                 }}
               >
                 <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                  {isSearch ? "search" : "more_horiz"}
+                  {isSearch ? "search" : "settings"}
                 </Icon>
               </IconButton>
             ) : isAgenda ? (

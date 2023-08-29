@@ -1,12 +1,13 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Button, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import useSWR from "swr";
 
 export function ExploreGoalCard({ goal }) {
   const router = useRouter();
@@ -16,7 +17,7 @@ export function ExploreGoalCard({ goal }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const { data, error } = useApi("user/coach/routines");
+  const { data, error } = useSWR(["user/coach/routines"]);
 
   const handleSubmit = async () => {
     setLoading(true);

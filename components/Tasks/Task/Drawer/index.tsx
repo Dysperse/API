@@ -1,5 +1,5 @@
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
 import {
   Box,
@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { useHotkeys } from "react-hotkeys-hook";
-import { mutate as mutateSWR } from "swr";
+import useSWR, { mutate as mutateSWR } from "swr";
 import { ErrorHandler } from "../../../Error";
 import DrawerContent from "./Content";
 import { TaskContext } from "./Context";
@@ -52,10 +52,12 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
 
-  const { data, loading, mutate, error } = useApi(
-    !open ? null : "property/boards/column/task",
-    { id }
-  );
+  const {
+    data,
+    isLoading: loading,
+    mutate,
+    error,
+  } = useSWR([!open ? null : "property/boards/column/task", { id }]);
 
   const handleDelete = useCallback(
     async function handleDelete(taskId) {

@@ -28,7 +28,7 @@ export function RenderRoom({
   items,
   room,
 }: {
-  mutate: string;
+  mutate: any;
   items: Item[];
   room: string | string[] | undefined;
 }) {

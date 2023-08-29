@@ -1,4 +1,5 @@
 import { openSpotlight } from "@/components/Layout/Navigation/Search";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
@@ -132,7 +133,7 @@ export function SearchTasks({ setOpen }) {
         <Puller sx={{ mb: 0 }} />
       </SwipeableDrawer>
       <IconButton
-        sx={{ ml: "auto", color: palette[8] }}
+        sx={{ ml: "auto", color: addHslAlpha(palette[9], 0.7) }}
         onClick={() => {
           setMobileOpen(true);
           setTimeout(() => ref?.current?.focus(), 100);

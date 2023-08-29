@@ -22,7 +22,6 @@ import {
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import { ConfirmationModal } from "../ConfirmationModal";
 import { Puller } from "../Puller";
 
@@ -32,7 +31,7 @@ interface RoomActionProps {
   count?: any;
 }
 
-function Rename({ mutationUrl, handleClose, room }) {
+function Rename({ mutate, handleClose, room }:any) {
   const session = useSession();
   const storage = useAccountStorage();
   const [open, setOpen] = useState(false);
@@ -45,7 +44,7 @@ function Rename({ mutationUrl, handleClose, room }) {
       name: value,
       id: room?.id,
     });
-    await mutate(mutationUrl);
+    await mutate();
     handleClose();
     setLoading(false);
   };
@@ -96,7 +95,7 @@ function Rename({ mutationUrl, handleClose, room }) {
 const Action = ({ icon, room, count = null }: RoomActionProps) => {
   const router = useRouter();
   const storage = useAccountStorage();
-  const mutationUrl = useContext(SidebarContext);
+  const mutate = useContext(SidebarContext);
   const session = useSession();
   const isCustom = Boolean(room?.id);
 
@@ -174,11 +173,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
       </ListItemButton>
       {isCustom && (
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          <Rename
-            handleClose={handleClose}
-            room={room}
-            mutationUrl={mutationUrl}
-          />
+          <Rename handleClose={handleClose} room={room} mutate={mutate} />
           <ConfirmationModal
             title={`Make room ${room.private ? "public" : "private"}?`}
             question={`Are you sure you want to make this room ${
@@ -191,7 +186,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
                 private: room.private ? "false" : "true",
                 id: room?.id,
               });
-              await mutate(mutationUrl);
+              await mutate();
               toast.success("Updated room!", toastStyles);
               handleClose();
             }}
@@ -216,7 +211,7 @@ const Action = ({ icon, room, count = null }: RoomActionProps) => {
               await fetchRawApi(session, "property/inventory/room/delete", {
                 id: room.id,
               });
-              await mutate(mutationUrl);
+              await mutate();
               toast.success("Deleted room!", toastStyles);
               handleClose();
             }}

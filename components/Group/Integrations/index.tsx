@@ -2,7 +2,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useSWR from "swr";
 import { Integration } from "./Integration";
 
 export const integrations = [
@@ -51,12 +52,10 @@ export const integrations = [
     type: "board",
     params: [
       {
-        type: "url",
-        placeholder:
-          "https://calendar.google.com/calendar/ical/****/***/basic.ics",
-        name: "Connect Dysperse to Google Calendar",
-        helperText:
-          'Paste the "Public address in iCal format" below. You can find this in your calendar settings',
+        type: "calendar",
+        placeholder: "",
+        name: "Connect",
+        helperText: "",
         required: true,
       },
     ],
@@ -65,7 +64,7 @@ export const integrations = [
         type: "slide",
         name: "Connect Google Calendar to Dysperse",
         description:
-          "Copy the link below to add Dysperse tasks to Google Calendar",
+          "Copy the iCal link below to add Dysperse tasks to Google Calendar (optional)",
         url: `[DYSPERSE_ICAL]`,
       },
     ],
@@ -81,7 +80,7 @@ export default function Integrations({
   handleClose: any;
   hideNew?: boolean;
 }) {
-  const { data, mutate, url, error } = useApi("property/integrations");
+  const { data, mutate, error } = useSWR(["property/integrations"]);
   const session = useSession();
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
 

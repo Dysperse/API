@@ -639,7 +639,7 @@ const Column = React.memo(function Column({
               isScrolling={isScrolling}
               board={task.board || false}
               columnId={task.column ? task.column.id : -1}
-              mutationUrl={url}
+              mutate={mutate}
               task={task}
             />
           )}

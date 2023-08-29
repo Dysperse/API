@@ -1,6 +1,6 @@
 import { integrations } from "@/components/Group/Integrations";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
+import useSWR from "swr";
 
 function Layout() {
   const router = useRouter();
@@ -67,7 +68,7 @@ function Layout() {
     [params]
   );
 
-  const { data, url, error } = useApi("property/boards");
+  const { data } = useSWR(["property/boards"]);
 
   const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -321,6 +322,45 @@ function Layout() {
                 onClick={() => setStep(step + 1)}
               >
                 Finish <Icon>arrow_forward_ios</Icon>
+              </Button>
+            </>
+          ) : steps[step - 1]?.type === "calendar" ? (
+            <>
+              <Typography
+                variant="h3"
+                className="font-heading"
+                sx={{ mt: "auto", textAlign: "center" }}
+              >
+                Connect your Google Account
+              </Typography>
+              <Typography sx={{ mt: 2, textAlign: "center" }}>
+                If you haven&apos;t already, connect your Google Account with
+                Dysperse to import your calendars &amp; contacts for friend
+                suggestions.
+              </Typography>
+              <Box
+                sx={{
+                  mb: "auto",
+                  mx: "auto",
+                  display: "inline-flex",
+                  mt: 2,
+                }}
+              >
+                <Button href="/api/user/google/redirect" variant="contained">
+                  Connect <Icon>arrow_forward_ios</Icon>
+                </Button>
+              </Box>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 2 }}
+                disabled={
+                  steps[step - 1].required &&
+                  params[steps[step - 1].name].trim().length == 0
+                }
+                onClick={() => setStep(step + 1)}
+              >
+                Next <Icon>arrow_forward_ios</Icon>
               </Button>
             </>
           ) : steps[step - 1]?.type === "slide" ? (

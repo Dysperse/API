@@ -1,9 +1,7 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useOnlineStatus } from "@/lib/client/useOnlineStatus";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import {
   Box,
@@ -15,10 +13,12 @@ import {
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { getTotal, max } from "../Group/Storage";
 import { BottomNav } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
 import { UpdateButton } from "./Navigation/UpdateButton";
+
 const KeyboardShortcutsModal = dynamic(
   () => import("./Navigation/KeyboardShortcutsModal")
 );
@@ -35,12 +35,10 @@ export default function AppLayout({
 }: {
   children: JSX.Element;
 }): JSX.Element {
-  // Check if user has reached storage limits
-  const { data, error } = useApi("property/storage");
+  const { data, error } = useSWR(["property/storage"]);
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
 
   const storage = useAccountStorage();
-  const isOnline = useOnlineStatus();
 
   useEffect(() => {
     if (error) {
@@ -72,10 +70,6 @@ export default function AppLayout({
 
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
-
-  const shouldUseXAxis = ["/users", "/groups"].find((path) =>
-    router.asPath.includes(path)
-  );
 
   if (session.properties.length === 0) {
     return (

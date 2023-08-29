@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import {
   useCallback,
   useContext,
@@ -100,6 +101,7 @@ export function Column({
     setLoading(false);
   };
 
+  const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -299,15 +301,19 @@ export function Column({
                   size="large"
                   onClick={(e) => {
                     setUseReverseAnimation(true);
+                    if (navigation.current == 0) {
+                      document.getElementById("boardInfoTrigger")?.click();
+                      return;
+                    }
                     navigation.setCurrent((i) => i - 1);
                   }}
-                  disabled={navigation.current == 0}
                   sx={{
-                    color:
-                      palette[navigation.current == 0 ? 6 : 8] + "!important",
+                    color: palette[8] + "!important",
                   }}
                 >
-                  <Icon className="outlined">arrow_back_ios_new</Icon>
+                  <Icon className="outlined">
+                    {navigation.current == 0 ? "info" : "arrow_back_ios_new"}
+                  </Icon>
                 </IconButton>
               </Box>
             )}
@@ -401,10 +407,10 @@ export function Column({
                 <IconButton
                   onClick={() => {
                     if (navigation.current === columnLength - 1) {
-                      setMobileOpen(true);
-                      setTimeout(() => {
-                        document.getElementById("newColumn")?.click();
-                      }, 200);
+                      router.push(
+                        router.asPath.replace("/boards/", "/boards/edit/") +
+                          "#columns"
+                      );
                       return;
                     }
                     setUseReverseAnimation(false);

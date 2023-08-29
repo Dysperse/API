@@ -15,7 +15,6 @@ import {
 import html2canvas from "html2canvas";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { ShareGoal } from "./Share";
 
@@ -36,7 +35,7 @@ export const exportAsImage = async (el, imageFileName) => {
   downloadImage(image, imageFileName);
 };
 
-function ChangeTime({ goal, mutationUrl }) {
+function ChangeTime({ goal, mutate }) {
   const session = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [time, setTime] = useState<number>(goal.timeOfDay);
@@ -50,7 +49,7 @@ function ChangeTime({ goal, mutationUrl }) {
         timeOfDay: time,
       });
       setOpen(false);
-      await mutate(mutationUrl);
+      await mutate();
       toast.success("Time changed!", toastStyles);
     } catch (e) {
       toast.error("Something went wrong! Please try again later", toastStyles);
@@ -108,7 +107,7 @@ function ChangeTime({ goal, mutationUrl }) {
   );
 }
 
-export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
+export function MoreOptions({ goal, mutate, setOpen }): JSX.Element {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
@@ -121,7 +120,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
     fetchRawApi(session, "user/coach/goals/delete", {
       id: goal.id,
     }).then(async () => {
-      await mutate(mutationUrl);
+      await mutate();
       setOpen(false);
     });
   };
@@ -135,7 +134,7 @@ export function MoreOptions({ goal, mutationUrl, setOpen }): JSX.Element {
             Share
           </MenuItem>
         </ShareGoal>
-        <ChangeTime goal={goal} mutationUrl={mutationUrl} />
+        <ChangeTime goal={goal} mutate={mutate} />
         <ConfirmationModal
           title="Stop goal?"
           question="Are you sure you want to stop working towards this goal? ALL your progress will be lost FOREVER. You won't be able to undo this action!"

@@ -3,7 +3,6 @@ import { TasksLayout } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -19,6 +18,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import useSWR from "swr";
 
 /**
  * Top-level component for the dashboard page.
@@ -26,10 +26,14 @@ import { Virtuoso } from "react-virtuoso";
 export function Upcoming({ setMobileView }) {
   const session = useSession();
 
-  const { data, mutate, url, error } = useApi("property/tasks/backlog", {
-    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
-    upcoming: true,
-  });
+  const url = "";
+  const { data, mutate, error } = useSWR([
+    "property/tasks/backlog",
+    {
+      date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+      upcoming: true,
+    },
+  ]);
 
   const [isScrolling, setIsScrolling] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -179,9 +183,13 @@ export default function Dashboard() {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [mobileView, setMobileView] = useState("backlog");
 
-  const { data, mutate, url, error } = useApi("property/tasks/backlog", {
-    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
-  });
+  const url = "";
+  const { data, mutate, error } = useSWR([
+    "property/tasks/backlog",
+    {
+      date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+    },
+  ]);
   const [loading, setLoading] = useState(false);
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);

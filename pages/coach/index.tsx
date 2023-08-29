@@ -1,7 +1,6 @@
 import { MyGoals } from "@/components/Coach/MyGoals";
 import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -21,6 +20,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { toast } from "react-hot-toast";
+import useSWR from "swr";
 import { Navbar } from "..";
 
 export function RoutineTrigger({ sidebar = false, bottomNav = false }: any) {
@@ -30,7 +30,7 @@ export function RoutineTrigger({ sidebar = false, bottomNav = false }: any) {
   const redPalette = useColor("red", useDarkMode(session.darkMode));
 
   const dayIndex = dayjs().diff(dayjs().startOf("week"), "days");
-  const { data, mutate, error } = useApi("user/coach");
+  const { data, mutate, error } = useSWR(["user/coach"]);
 
   const incompleteGoals = useMemo(
     () =>
@@ -110,7 +110,7 @@ export default function Render() {
   const session = useSession();
   const router = useRouter();
 
-  const { data, mutate, url, error } = useApi("user/coach/streaks");
+  const { data, mutate, error } = useSWR(["user/coach/streaks"]);
 
   const isStreakBroken =
     dayjs().diff(dayjs(data ? data.lastStreakDate : new Date()), "day") >= 2;

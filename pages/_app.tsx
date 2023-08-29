@@ -46,6 +46,23 @@ dayjs.extend(isBetween);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+export const fetcher = ([url, params], session) => {
+  const _params = {
+    sessionId: session?.current?.token,
+    property: session?.property?.propertyId,
+    accessToken: session?.property?.accessToken,
+    userIdentifier: session?.user?.identifier,
+    ...params,
+  };
+
+  const _url = `/api/${url}?${new URLSearchParams(_params)}`;
+
+  return fetch(_url).then((res) => {
+    console.log(session);
+    return res.json();
+  });
+};
+
 /**
  * Function to check whether to add a layout or not
  * @param router Next.JS router
@@ -106,8 +123,9 @@ export default function App({
 
   if (
     !isLoading &&
-    !data?.error &&
-    data?.user?.onboardingComplete !== true &&
+    data &&
+    !data.error &&
+    data.user?.onboardingComplete !== true &&
     router.pathname !== "/onboarding"
   ) {
     router.push("/onboarding");
@@ -119,24 +137,17 @@ export default function App({
 
   const children = <Component {...pageProps} />;
 
+  const s = data?.properties && {
+    ...data,
+    property: selectedProperty,
+    permission: selectedProperty.permission,
+    themeColor,
+    darkMode: data.user.darkMode,
+  };
+
   return (
-    <SWRConfig
-      value={{
-        fetcher: (resource, init) =>
-          fetch(resource, init).then((res) => res.json()),
-      }}
-    >
-      <SessionProvider
-        session={
-          data?.properties && {
-            ...data,
-            property: selectedProperty,
-            permission: selectedProperty.permission,
-            themeColor,
-            darkMode: data.user.darkMode,
-          }
-        }
-      >
+    <SWRConfig value={{ fetcher: (d) => fetcher(d, s) }}>
+      <SessionProvider session={s}>
         <StorageContext.Provider value={{ isReached, setIsReached }}>
           <ThemeProvider theme={userTheme}>
             <Toaster containerClassName="noDrag" />

@@ -151,7 +151,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
         justifyContent: "center",
         minWidth: { md: !showInfo ? "auto" : "320px" },
         maxWidth: { md: "300px" },
-        width: "20px",
+        width: { xs: "100%", sm: "20px" },
         backdropFilter: "blur(20px)!important",
         ...(typeof showInfo !== "boolean" &&
           typeof showInfo !== "object" && {

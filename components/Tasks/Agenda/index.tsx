@@ -1,5 +1,4 @@
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -18,7 +17,7 @@ import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { WidgetBar } from "../Layout/widgets";
 import Column from "./Column";
 
@@ -76,10 +75,14 @@ export function Agenda({ type, date }) {
     (_, index) => start.clone().add(index, type)
   );
 
-  const { data, url, error } = useApi("property/tasks/agenda", {
-    startTime: start.toISOString(),
-    endTime: end.toISOString(),
-  });
+  const url = "";
+  const { data, error } = useSWR([
+    "property/tasks/agenda",
+    {
+      startTime: start.toISOString(),
+      endTime: end.toISOString(),
+    },
+  ]);
 
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);

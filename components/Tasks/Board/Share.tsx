@@ -1,6 +1,6 @@
 import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -23,22 +23,19 @@ import {
   TextField,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { cloneElement, useDeferredValue, useState } from "react";
+import { useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
-import { mutate as mutateUrl } from "swr";
+import useSWR from "swr";
 
-export function ShareBoard({ mutate, isShared, board, children }) {
+export function ShareBoard({ mutate, board }) {
   const session = useSession();
-  const [open, setOpen] = useState<boolean>(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const trigger = cloneElement(children, { onClick: handleOpen });
-
-  const { data, url, error } = useApi("property/shareTokens", {
-    board: board.id,
-  });
+  const { data, error } = useSWR([
+    "property/shareTokens",
+    {
+      board: board.id,
+    },
+  ]);
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -94,7 +91,7 @@ export function ShareBoard({ mutate, isShared, board, children }) {
           toastStyles
         );
         await mutate();
-        mutateUrl(url);
+        // mutateUrl(url);
       } catch (e) {
         toast.error(
           "Could not generate the share link! Is the email correct?",
@@ -118,7 +115,7 @@ export function ShareBoard({ mutate, isShared, board, children }) {
       token,
     });
     await mutate();
-    await mutateUrl(url);
+    // await mutateUrl(url);
   };
 
   const boxStyles = {
@@ -137,7 +134,7 @@ export function ShareBoard({ mutate, isShared, board, children }) {
         public: !board.public,
       });
       await mutate();
-      await mutateUrl(url);
+      // await mutateUrl(url);
       setLoadingGroupVisibility(false);
     } catch (e) {
       toast.error(

@@ -1,7 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Masonry } from "@mui/lab";
@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useSWR from "swr";
 import Categories from "./items";
 
 function DeleteCard({ item }) {
@@ -81,7 +82,7 @@ function DeleteCard({ item }) {
 }
 
 export default function Trash() {
-  const { data, mutate, url, error } = useApi("property/inventory/trash");
+  const { data, mutate, error } = useSWR(["property/inventory/trash"]);
   const router = useRouter();
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);

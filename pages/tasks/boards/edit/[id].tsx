@@ -6,7 +6,7 @@ import { ShareBoard } from "@/components/Tasks/Board/Share";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
@@ -33,7 +33,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
+import useSWR from "swr";
 
 import { DroppableProps } from "react-beautiful-dnd";
 export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
@@ -373,7 +373,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
   );
 }
 
-function EditLayout({ id, data, url, mutate }) {
+function EditLayout({ id, data, mutate }) {
   const session = useSession();
   const router = useRouter();
   const [view, setView] = useState<any>(null);
@@ -482,9 +482,7 @@ function EditLayout({ id, data, url, mutate }) {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
           >
-            <ShareBoard isShared board={data} mutate={mutate}>
-              <Box>open</Box>
-            </ShareBoard>
+            <ShareBoard board={data} mutate={mutate} />
           </motion.div>
         )}
         {view === "Integrations" && (
@@ -533,10 +531,13 @@ const Dashboard = () => {
   const id = router?.query?.id;
   const [open, setOpen] = useState(false);
 
-  const { data, url, error } = useApi("property/boards", {
-    id,
-    shareToken: "",
-  });
+  const { data, mutate, error } = useSWR([
+    "property/boards",
+    {
+      id,
+      shareToken: "",
+    },
+  ]);
 
   if (
     data?.[0]?.shareTokens?.find((s) => s.user.email === session.user.email)
@@ -557,12 +558,7 @@ const Dashboard = () => {
   return (
     <TasksLayout open={open} setOpen={setOpen}>
       {data && data[0] && id ? (
-        <EditLayout
-          mutate={async () => await mutate(url)}
-          id={id}
-          data={data[0]}
-          url={url}
-        />
+        <EditLayout mutate={mutate} id={id} data={data[0]} />
       ) : (
         <Box
           sx={{

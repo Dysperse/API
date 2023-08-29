@@ -1,6 +1,5 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import {
@@ -16,7 +15,7 @@ import {
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
@@ -200,10 +199,18 @@ function RenderBoard({ tasks }) {
   );
 }
 
-export function Board({ mutationUrl, board }) {
-  const { data, url, error, loading } = useApi("property/boards/tasks", {
-    id: board?.id,
-  });
+export function Board({ mutate, board }) {
+  const url = "";
+  const {
+    data,
+    error,
+    isLoading: loading,
+  } = useSWR([
+    "property/boards/tasks",
+    {
+      id: board?.id,
+    },
+  ]);
 
   const session = useSession();
   const isShared =
@@ -261,8 +268,8 @@ export function Board({ mutationUrl, board }) {
   }
 
   const mutateData = async () => {
-    await mutate(mutationUrl);
-    await mutate(url);
+    await mutate();
+    // await mutate(url);
   };
 
   return (
@@ -277,7 +284,7 @@ export function Board({ mutationUrl, board }) {
           isShared,
           mutateData,
           mutationUrls: {
-            boardData: mutationUrl,
+            boardData: "",
             tasks: url,
           },
         }}

@@ -2,7 +2,6 @@ import { ErrorHandler } from "@/components/Error";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useSession } from "@/lib/client/session";
-import { useApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -15,6 +14,7 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import useSWR from "swr";
 
 /**
  * Top-level component for the dashboard page.
@@ -23,10 +23,14 @@ export default function Upcoming() {
   const session = useSession();
   const [open, setOpen] = useState(false);
 
-  const { data, mutate, url, error } = useApi("property/tasks/backlog", {
-    date: dayjs().startOf("day").subtract(1, "day").toISOString(),
-    upcoming: true,
-  });
+  const url = "";
+  const { data, mutate, error } = useSWR([
+    "property/tasks/backlog",
+    {
+      date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+      upcoming: true,
+    },
+  ]);
 
   const [loading, setLoading] = useState(false);
   const isDark = useDarkMode(session.darkMode);

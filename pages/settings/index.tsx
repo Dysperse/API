@@ -3,7 +3,7 @@ import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi, useApi } from "@/lib/client/useApi";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
@@ -27,7 +27,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { mutate } from "swr";
+import useSWR from "swr";
 
 function Page() {
   const router = useRouter();
@@ -35,9 +35,12 @@ function Page() {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  const { data, url, error } = useApi("user/profile", {
-    email: session.user.email,
-  });
+  const { data, mutate } = useSWR([
+    "user/profile",
+    {
+      email: session.user.email,
+    },
+  ]);
 
   const styles = {
     "&:hover": {
@@ -90,7 +93,7 @@ function Page() {
           ...styles,
         }}
       >
-        {data && <ProfilePicture data={data} mutationUrl={url} size={40} />}
+        {data && <ProfilePicture data={data} mutate={mutate} size={40} />}
         <ListItemText
           primary={<b>{session.user.name}</b>}
           secondary="Account settings"

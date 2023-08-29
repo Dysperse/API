@@ -25,7 +25,7 @@ const IntegrationChip = ({
 
           const response = await fetchRawApi(
             session,
-            `property/integrations/run/${integrationType}`,
+            `api/property/integrations/run/${integrationType}`,
             {
               user: session.user.identifier,
               boardId: boardId,
@@ -46,7 +46,7 @@ const IntegrationChip = ({
       {
         loading: "Syncing to " + integration.name + "...",
         success: "Up to date!",
-        error: "An error occurred while syncing",
+        error: (e) => e.message,
       },
       toastStyles
     );
