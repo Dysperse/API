@@ -125,6 +125,6 @@ export async function fetchRawApi(
     removeDefaultParams,
     session?.current
   );
-  const res = await fetch(url);
+  const res = await fetch("api/" + url);
   return await res.json();
 }

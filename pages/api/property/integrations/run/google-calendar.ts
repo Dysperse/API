@@ -38,23 +38,21 @@ export default async function handler(req, res) {
 
   oauth2Client.setCredentials(tokenObj);
 
-  const taskTemplate = (event) => {
-    return {
-      id: "dysperse-gcal-integration-task-" + event.id,
-      name: event.summary,
-      where: event.hangoutLink || event.location || event.htmlLink,
-      lastUpdated: dayjs(event.updated).tz(req.query.timeZone).toDate(),
-      due: dayjs(event.start?.dateTime).tz(req.query.timeZone).toDate(),
-      property: { connect: { id: req.query.property } },
-      createdBy: {
-        connect: { identifier: req.query.userIdentifier },
-      },
-      notifications:
-        event.reminders?.overrides?.length > 0
-          ? event.reminders.overrides.map(({ minutes }) => minutes)
-          : [10],
-    };
-  };
+  const taskTemplate = (event) => ({
+    id: "dysperse-gcal-integration-task-" + event.id,
+    name: event.summary,
+    where: event.hangoutLink || event.location || event.htmlLink,
+    lastUpdated: dayjs(event.updated).tz(req.query.timeZone).toDate(),
+    due: dayjs(event.start?.dateTime).tz(req.query.timeZone).toDate(),
+    property: { connect: { id: req.query.property } },
+    createdBy: {
+      connect: { identifier: req.query.userIdentifier },
+    },
+    notifications:
+      event.reminders?.overrides?.length > 0
+        ? event.reminders.overrides.map(({ minutes }) => minutes)
+        : [10],
+  });
 
   if (tokenObj.expiry_date < Date.now()) {
     console.log(tokenObj);
@@ -118,7 +116,7 @@ export default async function handler(req, res) {
         },
       });
       for (const item of items) {
-        console.log("dysperse-gcal-integration-task-" + item.id);
+        // console.log("dysperse-gcal-integration-task-" + item.id);
         await prisma.task.upsert({
           where: {
             id: "dysperse-gcal-integration-task-" + item.id,

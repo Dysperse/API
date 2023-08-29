@@ -133,7 +133,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         title="Delete column?"
         question="Are you sure you want to delete this column? This action annot be undone."
         callback={async () => {
-          await fetchRawApi(session, "api/property/boards/column/delete", {
+          await fetchRawApi(session, "property/boards/column/delete", {
             id: column.id,
             who: session.user.name,
             boardName: board.name,
