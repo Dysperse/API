@@ -25,7 +25,7 @@ const IntegrationChip = ({
 
           const response = await fetchRawApi(
             session,
-            `api/property/integrations/run/${integrationType}`,
+            `property/integrations/run/${integrationType}`,
             {
               user: session.user.identifier,
               boardId: boardId,

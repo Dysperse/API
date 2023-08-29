@@ -1,10 +1,8 @@
-import { useSession } from "@/lib/client/session";
 import { Avatar, ListItemButton, ListItemText } from "@mui/material";
 import { useRouter } from "next/router";
 
 export function Integration({ board, closeParent, integration }) {
   const router = useRouter();
-  const session = useSession();
 
   return (
     <>
