@@ -204,71 +204,72 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
           },
         }}
       >
-        <>
-          <Box
+        <Puller showOnDesktop />
+        <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+          <IconButton
+            size="large"
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 1.5,
+              mx: "auto",
+              mb: 2,
+              border: "2px dashed #ccc",
+              width: 120,
+              height: 120,
             }}
           >
-            <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
-              <Button variant="outlined" sx={{ py: 0, px: 1.5 }}>
-                <picture>
-                  <img
-                    width={40}
-                    height={40}
-                    alt="Emoji"
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                  />
-                </picture>
-              </Button>
-            </EmojiPicker>
-            <TextField
-              value={title}
-              onChange={(e: any) => setTitle(e.target.value)}
-              id={"renameInput"}
-              inputRef={ref}
-              disabled={storage?.isReached === true}
-              onKeyDown={(e) => {
-                if (e.code === "Enter") {
-                  buttonRef.current.click();
-                }
-              }}
-              InputProps={{ sx: { fontWeight: 700 } }}
-              placeholder="Column name"
-              size="small"
-            />
-            <IconButton
-              ref={buttonRef}
-              size="large"
-              disabled={
-                storage?.isReached === true ||
-                deferredTitle.trim() == "" ||
-                deferredTitle.length > 25
-              }
-              onClick={async () => {
-                toast.promise(
-                  fetchRawApi(session, "property/boards/column/edit", {
-                    id: column.id,
-                    name: title,
-                    emoji: emoji,
-                  }).then(mutateData),
-                  {
-                    loading: "Saving...",
-                    success: "Edited column!",
-                    error: "Yikes! An error occured - Please try again later!",
-                  },
-                  toastStyles
-                );
-                setOpen(false);
-              }}
-            >
-              <Icon className="outlined">check</Icon>
-            </IconButton>
-          </Box>
-        </>
+            <picture>
+              <img
+                width={40}
+                height={40}
+                alt="Emoji"
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+              />
+            </picture>
+          </IconButton>
+        </EmojiPicker>
+        <TextField
+          value={title}
+          onChange={(e: any) => setTitle(e.target.value)}
+          id={"renameInput"}
+          inputRef={ref}
+          disabled={storage?.isReached === true}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") {
+              buttonRef.current.click();
+            }
+          }}
+          InputProps={{ sx: { fontWeight: 700 } }}
+          placeholder="Column name"
+          size="small"
+        />
+        <Button
+          ref={buttonRef}
+          size="large"
+          variant="contained"
+          sx={{ mt: 2 }}
+          disabled={
+            storage?.isReached === true ||
+            deferredTitle.trim() == "" ||
+            deferredTitle.length > 25
+          }
+          onClick={async () => {
+            toast.promise(
+              fetchRawApi(session, "property/boards/column/edit", {
+                id: column.id,
+                name: title,
+                emoji: emoji,
+              }).then(mutateData),
+              {
+                loading: "Saving...",
+                success: "Edited column!",
+                error: "Yikes! An error occured - Please try again later!",
+              },
+              toastStyles
+            );
+            setOpen(false);
+          }}
+        >
+          Done <Icon className="outlined">check</Icon>
+        </Button>
       </SwipeableDrawer>
       {children ? (
         trigger
