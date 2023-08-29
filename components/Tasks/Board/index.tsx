@@ -15,7 +15,7 @@ import {
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
 
@@ -200,11 +200,11 @@ function RenderBoard({ tasks }) {
 }
 
 export function Board({ mutate, board }) {
-  const url = "";
   const {
     data,
     error,
     isLoading: loading,
+    mutate: mutateTasks,
   } = useSWR([
     "property/boards/tasks",
     {
@@ -269,7 +269,7 @@ export function Board({ mutate, board }) {
 
   const mutateData = async () => {
     await mutate();
-    // await mutate(url);
+    await mutateTasks();
   };
 
   return (
@@ -283,10 +283,6 @@ export function Board({ mutate, board }) {
           permissions: readOnly ? "read" : "edit",
           isShared,
           mutateData,
-          mutationUrls: {
-            boardData: "",
-            tasks: url,
-          },
         }}
       >
         <RenderBoard tasks={data} />

@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import { useHotkeys } from "react-hotkeys-hook";
-import useSWR, { mutate as mutateSWR } from "swr";
+import useSWR from "swr";
 import { ErrorHandler } from "../../../Error";
 import DrawerContent from "./Content";
 import { TaskContext } from "./Context";
@@ -35,14 +35,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   isDateDependent = false,
   children,
   id,
-  mutationUrl,
+  mutate,
   onClick,
 }: {
   isDisabled?: boolean;
   isDateDependent?: boolean;
   children: JSX.Element;
   id: number;
-  mutationUrl: string;
+  mutate: any;
   onClick?: any;
 }) {
   const session = useSession();
@@ -55,7 +55,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const {
     data,
     isLoading: loading,
-    mutate,
+    mutate: mutateTask,
     error,
   } = useSWR([!open ? null : "property/boards/column/task", { id }]);
 
@@ -66,9 +66,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         id: taskId,
       });
       mutate();
-      mutateSWR(mutationUrl);
+      mutateTask();
     },
-    [mutate, session, setOpen, mutationUrl]
+    [mutate, session, setOpen, mutateTask]
   );
 
   useHotkeys(
@@ -89,8 +89,8 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       window.location.pathname + window.location.search
     );
     setOpen(false);
-    mutateSWR(mutationUrl);
-  }, [mutationUrl]);
+    mutateTask()
+  }, [mutateTask]);
 
   const handleEdit = useCallback(
     async function handleEdit(id, key, value) {

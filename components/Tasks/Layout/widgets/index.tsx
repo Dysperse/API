@@ -70,8 +70,7 @@ export function WidgetBar({ view, setView }) {
     });
   }, []);
 
-  const url = "";
-  const { data: profileData } = useSWR([
+  const { data: profileData, mutate } = useSWR([
     "user/profile",
     {
       email: session.user.email,
@@ -162,7 +161,7 @@ export function WidgetBar({ view, setView }) {
           </Box>
         </Notes>
         {profileData && (
-          <StatusSelector profile={profileData} mutationUrl={url}>
+          <StatusSelector profile={profileData} mutate={mutate}>
             <Box sx={focusToolsStyles.button}>
               <Icon className="outlined">data_usage</Icon>
               Status

@@ -42,23 +42,27 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { GroupModal } from "../components/Group/GroupModal";
 
 export function StatusSelector({
   children,
   profile,
-  mutationUrl,
+  mutate,
 }: {
   children?: JSX.Element;
   profile: any;
-  mutationUrl: string;
+  mutate: any;
 }) {
   const session = useSession();
   const now = useMemo(() => dayjs(), []);
 
   const url = "";
-  const { data, isLoading: isStatusLoading } = useSWR(["user/status"]);
+  const {
+    data,
+    mutate: mutateStatus,
+    isLoading: isStatusLoading,
+  } = useSWR(["user/status"]);
 
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(
@@ -93,10 +97,10 @@ export function StatusSelector({
       "Status set until " + dayjs().add(time, "minute").format("h:mm A"),
       toastStyles
     );
-    mutate(url);
-    mutate(mutationUrl);
+    mutateStatus();
+    mutate();
     setLoading(false);
-  }, [session, status, time, url, mutationUrl, profile, setLoading]);
+  }, [session, status, time, url, mutate, profile, setLoading, mutateStatus]);
 
   const resetStatus = useCallback(
     () =>
@@ -496,7 +500,7 @@ const Friend = memo(function Friend({ mutate, friend }: any) {
                   }}
                   profile={friend?.Profile}
                   hideIfNotPlaying
-                  mutationUrl={""}
+                  mutate={mutate}
                 />
               </Grid>
             )}
@@ -749,7 +753,7 @@ const HeadingComponent = ({ palette, isMobile }) => {
   );
 };
 
-function SearchFriend({ mutationUrl }) {
+function SearchFriend({ mutate }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -766,7 +770,7 @@ function SearchFriend({ mutationUrl }) {
       if (!data?.success) throw new Error();
       toast.success("Added friend!", toastStyles);
       setOpen(false);
-      mutate(mutationUrl);
+      mutate();
     } catch (e) {
       toast.error(
         "Hmm... That didn't work. Make sure you typed the email or username correctly.",
@@ -918,8 +922,8 @@ export default function Home() {
             },
           }}
         >
-          <SearchFriend mutationUrl={url} />
-          <StatusSelector mutationUrl={url} profile={profileData} />
+          <SearchFriend mutate={mutate} />
+          <StatusSelector mutate={mutate} profile={profileData} />
           <Button
             variant="contained"
             onClick={() =>

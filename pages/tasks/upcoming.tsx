@@ -23,7 +23,6 @@ export default function Upcoming() {
   const session = useSession();
   const [open, setOpen] = useState(false);
 
-  const url = "";
   const { data, mutate, error } = useSWR([
     "property/tasks/backlog",
     {
@@ -135,7 +134,7 @@ export default function Upcoming() {
                 key={task.id}
                 board={task.board || false}
                 columnId={task.column ? task.column.id : -1}
-                mutationUrl={url}
+                mutate={mutate}
                 task={task}
               />
             ))}

@@ -18,14 +18,12 @@ import {
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
-import { mutate } from "swr";
 import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
 export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
-  const { board, permissions, isShared, mutationUrls } =
-    useContext(BoardContext);
+  const { board, permissions, isShared, mutateData } = useContext(BoardContext);
 
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
@@ -50,10 +48,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
           id: board.id,
           name: titleRef.current.value,
           description: descriptionRef.current.value,
-        }).then(async () => {
-          await mutate(mutationUrls.boardData);
-          await mutate(mutationUrls.tasks);
-        }),
+        }).then(mutateData),
         {
           loading: "Updating...",
           success: "Updated board!",
@@ -68,7 +63,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
     board.description,
     board.id,
     board.name,
-    mutationUrls,
+    mutateData,
     session,
   ]);
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -305,12 +300,10 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               {permissions !== "read" &&
                 board.integrations?.map((integration) => (
                   <IntegrationChip
-                    mutationUrls={mutationUrls}
                     key={integration.name}
                     integration={integration}
                     boardId={board.id}
                     session={session}
-                    mutate={mutate}
                   />
                 ))}
             </Box>

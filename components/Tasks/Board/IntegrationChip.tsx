@@ -2,16 +2,13 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Chip, CircularProgress, Icon, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
+import { BoardContext } from ".";
 
-const IntegrationChip = ({
-  mutationUrls,
-  integration,
-  boardId,
-  session,
-  mutate,
-}) => {
+const IntegrationChip = ({ integration, boardId, session }) => {
+  const { mutateData } = useContext(BoardContext);
+
   const [isLoading, setLoading] = useState(false);
 
   const handleIntegrationClick = async () => {
@@ -35,7 +32,7 @@ const IntegrationChip = ({
                 : "false",
             }
           );
-          await mutate();
+          await mutateData();
           resolve(response);
           setLoading(false);
         } catch (e: any) {

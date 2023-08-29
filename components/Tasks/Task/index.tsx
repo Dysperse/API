@@ -30,7 +30,6 @@ import React, {
   useState,
 } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { SelectionContext } from "../Layout";
 import { TaskDrawer } from "./Drawer";
@@ -241,7 +240,6 @@ const TaskChips = React.memo(function TaskChips({
 export const Task: any = React.memo(function Task({
   sx = {},
   permissions = "edit",
-  handleMutate = () => {},
   isScrolling = false,
   isDateDependent = false,
   isSubTask = false,
@@ -249,7 +247,7 @@ export const Task: any = React.memo(function Task({
   checkList = false,
   board,
   columnId,
-  mutationUrl,
+  mutate,
   task,
 }: any): JSX.Element {
   const [taskData, setTaskData] = useState(task);
@@ -339,11 +337,7 @@ export const Task: any = React.memo(function Task({
           fetchRawApi(session, "property/boards/column/task/edit", {
             id: taskData.id,
             pinned: !taskData.pinned ? "true" : "false",
-          }).then(() => {
-            handleMutate();
-            mutate(mutationUrl);
-          });
-          await mutate(mutationUrl);
+          }).then(mutate);
           resolve("");
         } catch (e) {
           reject(e);
@@ -361,11 +355,11 @@ export const Task: any = React.memo(function Task({
   }, [
     taskData.pinned,
     taskData.id,
-    mutationUrl,
+    mutate,
     setTaskData,
-    handleMutate,
     session,
   ]);
+  
   const isDisabled = useMemo(
     () =>
       (board && board.archived) ||
@@ -398,13 +392,13 @@ export const Task: any = React.memo(function Task({
               board={board}
               isAgenda={isAgenda}
               columnId={columnId}
-              mutationUrl={mutationUrl}
+              mutate={mutate}
               task={subtask}
               checkList={checkList}
             />
           ))
         : [],
-    [board, columnId, isAgenda, mutationUrl, checkList, taskData]
+    [board, columnId, isAgenda, mutate, checkList, taskData]
   );
 
   return !taskData ? (
@@ -421,7 +415,7 @@ export const Task: any = React.memo(function Task({
     >
       <TaskDrawer
         id={taskData.id}
-        mutationUrl={mutationUrl}
+        mutate={mutate}
         isDisabled={isDisabled}
         isDateDependent={isDateDependent}
         {...(selection.values.length > 0 && { onClick: handleSelect })}

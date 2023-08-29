@@ -12,9 +12,9 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
+import { BoardContext } from "..";
 import EmojiPicker from "../../../EmojiPicker";
 import { Puller } from "../../../Puller";
 
@@ -22,7 +22,6 @@ export default function CreateColumn({
   hide,
   setCurrentColumn,
   id,
-  mutationUrls,
   name,
 }: any) {
   const storage = useAccountStorage();
@@ -32,6 +31,7 @@ export default function CreateColumn({
   const ref: any = useRef();
   const [loading, setLoading] = useState<boolean>(false);
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const { mutateData } = useContext(BoardContext);
   const [emoji, setEmoji] = useState("1f3af");
 
   const handleSubmit = useCallback(() => {
@@ -54,8 +54,7 @@ export default function CreateColumn({
       .then(async () => {
         toast.success("Created column!", toastStyles);
         setOpen(false);
-        await mutate(mutationUrls.tasks);
-        await mutate(mutationUrls.boardData);
+        await mutateData();
         setCurrentColumn((e) => e + 1);
         setLoading(false);
         setEmoji("1f3af");
@@ -68,9 +67,9 @@ export default function CreateColumn({
           toastStyles
         );
       });
-  }, [emoji, id, mutationUrls, setCurrentColumn, session, name]);
+  }, [emoji, id, mutateData, setCurrentColumn, session, name]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (open || mobileOpen) {
       setTimeout(() => {
         const el = document.getElementById("create-column-title");

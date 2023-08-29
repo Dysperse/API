@@ -18,7 +18,6 @@ import { useState } from "react";
 import useSWR from "swr";
 
 export function ColoredTasks() {
-  const url = "";
   const { data, mutate, error } = useSWR([
     "property/tasks/color-coded",
     {
@@ -188,7 +187,7 @@ export function ColoredTasks() {
             key={task.id}
             board={task.board || false}
             columnId={task.column ? task.column.id : -1}
-            mutationUrl={url}
+            mutate={mutate}
             task={task}
           />
         ))}

@@ -26,7 +26,6 @@ import useSWR from "swr";
 export function Upcoming({ setMobileView }) {
   const session = useSession();
 
-  const url = "";
   const { data, mutate, error } = useSWR([
     "property/tasks/backlog",
     {
@@ -159,7 +158,7 @@ export function Upcoming({ setMobileView }) {
                     isScrolling={isScrolling}
                     board={task.board || false}
                     columnId={task.column ? task.column.id : -1}
-                    mutationUrl={url}
+                    mutate={mutate}
                     task={task}
                   />
                 )}
@@ -183,7 +182,6 @@ export default function Dashboard() {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [mobileView, setMobileView] = useState("backlog");
 
-  const url = "";
   const { data, mutate, error } = useSWR([
     "property/tasks/backlog",
     {
@@ -358,7 +356,7 @@ export default function Dashboard() {
                           key={task.id}
                           board={task.board || false}
                           columnId={task.column ? task.column.id : -1}
-                          mutationUrl={url}
+                          mutate={mutate}
                           task={task}
                         />
                       )}

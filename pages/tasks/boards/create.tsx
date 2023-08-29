@@ -12,7 +12,7 @@ export default function Dashboard() {
   // TODO: Update mutation url
   return (
     <TasksLayout open={open} setOpen={setOpen} contentRef={parentRef}>
-      <CreateBoard mutationUrl={""} parentRef={parentRef.current} />
+      <CreateBoard parentRef={parentRef.current} />
     </TasksLayout>
   );
 }

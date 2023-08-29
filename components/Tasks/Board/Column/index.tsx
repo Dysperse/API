@@ -28,7 +28,6 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
-import { mutate } from "swr";
 import { BoardContext, ColumnContext } from "..";
 import EmojiPicker from "../../../EmojiPicker";
 import { Task } from "../../Task";
@@ -44,8 +43,7 @@ export function Column({
   const buttonRef: any = useRef();
   const columnRef: any = useRef();
   const { column, navigation, columnLength } = useContext(ColumnContext);
-  const { board, permissions, mutationUrls, mutateData } =
-    useContext(BoardContext);
+  const { board, permissions, mutateData } = useContext(BoardContext);
 
   const [isScrolling, setIsScrolling] = useState(false);
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
@@ -433,7 +431,7 @@ export function Column({
         </Box>
         <Box sx={{ p: { xs: 0, sm: 2 }, mb: { xs: 15, sm: 0 } }}>
           <CreateTask
-            onSuccess={() => mutate(mutationUrls.tasks)}
+            onSuccess={mutateData}
             defaultDate={null}
             boardData={{
               boardId: board.id,
@@ -503,8 +501,8 @@ export function Column({
                 isScrolling={isScrolling}
                 board={board}
                 columnId={column.id}
-                mutationUrl={mutationUrls.tasks}
                 task={task}
+                mutate={mutateData}
               />
             )}
           />
@@ -566,7 +564,7 @@ export function Column({
                     key={task.id}
                     board={board}
                     columnId={column.id}
-                    mutationUrl={mutationUrls.tasks}
+                    mutate={mutateData}
                     task={task}
                   />
                 )}
