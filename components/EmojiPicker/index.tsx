@@ -75,8 +75,11 @@ const EmojiPicker = function EmojiPicker({
         .filter(
           (key) =>
             data.emojis[key].keywords.some((keyword) =>
-              keyword.includes(query)
-            ) || query === ""
+              keyword.toLowerCase().includes(query.toLowerCase())
+            ) ||
+            query === "" ||
+            data.emojis[key].name.toLowerCase().includes(query.toLowerCase()) ||
+            key.toLowerCase().includes(query.toLowerCase())
         )
         .map((key) => data.emojis[key])
     : [];
