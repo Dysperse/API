@@ -115,7 +115,12 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         <Icon className="outlined">swipe</Icon>Reorder columns
       </MenuItem>
       <Divider />
-      <MenuItem onClick={mutateData}>
+      <MenuItem
+        onClick={() => {
+          mutateData();
+          handleClose();
+        }}
+      >
         <Icon className="outlined">refresh</Icon>
         Refresh
       </MenuItem>
