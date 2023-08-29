@@ -53,7 +53,7 @@
     "markdown-to-jsx": "^7.3.2",
     "memory-cache": "^0.2.0",
     "mui-one-time-password-input": "^1.1.1",
-    "next": "^13.4.13",
+    "next": "^13.4.19",
     "next-pwa": "^5.6.0",
     "node-2fa": "^2.0.3",
     "npm": "^9.8.1",
@@ -72,9 +72,9 @@
     "react-sparklines": "^1.7.0",
     "react-virtuoso": "^4.5.0",
     "react-webcam": "^7.1.1",
-    "resend": "^0.17.2",
-    "sass": "^1.64.2",
-    "swr": "^2.2.0",
+    "resend": "^1.0.0",
+    "sass": "^1.66.1",
+    "swr": "^2.2.2",
     "victory": "^36.6.11",
     "web-push": "^3.6.4",
     "window-popup": "^1.1.0"
@@ -88,8 +88,8 @@
   ],
   "description": "A radically different unified productivity platform",
   "devDependencies": {
-    "eslint": "^8.46.0",
-    "eslint-config-next": "^13.4.13",
+    "eslint": "^8.48.0",
+    "eslint-config-next": "^13.4.19",
     "prisma": "^5.2.0",
     "typescript": "^5.1.6"
   }
