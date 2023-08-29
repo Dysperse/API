@@ -179,13 +179,13 @@ export function CreateTask({
         "& *": {
           transition: "all .2s!important",
           fontVariationSettings:
-            '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
+            '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
         },
         ...(active && {
           "& *": {
             transition: "all .2s!important",
             fontVariationSettings:
-              '"FILL" 1, "wght" 350, "GRAD" 0, "opsz" 40!important',
+              '"FILL" 1, "wght" 200, "GRAD" 0, "opsz" 40!important',
           },
         }),
       }),

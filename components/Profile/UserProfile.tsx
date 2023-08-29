@@ -173,7 +173,7 @@ export function SpotifyCard({
               <img
                 src={data?.item?.album.images[0].url}
                 alt="Spotify album cover"
-                style={{ width: "100%", borderRadius: "25px" }}
+                style={{ width: "100%" }}
               />
             </picture>
             <picture>
@@ -313,7 +313,7 @@ export function UserProfile({
     "& .MuiIcon-root": {
       color: palette[10] + "!important",
       fontVariationSettings:
-        '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
+        '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
     },
   });
 

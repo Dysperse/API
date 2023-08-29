@@ -20,11 +20,10 @@ import {
   TextField,
   Toolbar,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
@@ -134,6 +133,7 @@ function Page() {
       <Box sx={{ background: palette[2], borderRadius: 3, mb: 2 }}>
         {[
           { icon: "palette", text: "Appearance" },
+          { icon: "hub", text: "Connections" },
           { icon: "change_history", text: "Login activity" },
           { icon: "notifications", text: "Notifications" },
           { icon: "lock", text: "2FA" },
@@ -210,7 +210,6 @@ export default function Layout({ children }: any) {
   const session = useSession();
   const router = useRouter();
 
-  const [open, setOpen] = useState(false);
   const isDark = useDarkMode(session.darkMode);
 
   const palette = useColor(session.themeColor, isDark);
@@ -250,8 +249,6 @@ export default function Layout({ children }: any) {
     }),
   });
 
-  const isMobile = useMediaQuery("(max-width: 900px)");
-
   return (
     <Box
       sx={{
@@ -261,23 +258,30 @@ export default function Layout({ children }: any) {
         width: "100vw",
         left: 0,
         zIndex: 999,
+        height: "100dvh",
         background: palette[1],
       }}
     >
       <Box
         sx={{
-          maxHeight: "100dvh",
-          minHeight: "100dvh",
-          height: "100dvh",
-          overflowY: "auto",
-          flexGrow: 1,
-          p: { xs: 0, sm: 5 },
+          "& .settings": {
+            maxHeight: "100dvh",
+            minHeight: "100dvh",
+            height: "100dvh",
+            display: "flex",
+            flexDirection: "column",
+            width: "100dvw",
+            overflowY: "auto",
+            flexGrow: 1,
+            p: { xs: 0, sm: 5 },
+          },
         }}
       >
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           key="settings"
+          className="settings"
         >
           <AppBar
             sx={{
@@ -300,7 +304,16 @@ export default function Layout({ children }: any) {
               )}
             </Toolbar>
           </AppBar>
-          <Box sx={{ p: { xs: 3, sm: 0 }, height: "100%" }}>
+          <Box
+            sx={{
+              p: { xs: 3, sm: 0 },
+              width: "100%",
+              height: "100%",
+              flexGrow: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <Typography
               variant="h2"
               sx={{ mb: 1, mt: 8 }}
@@ -313,7 +326,15 @@ export default function Layout({ children }: any) {
                   .replaceAll("/", "") || "Settings"
               )}
             </Typography>
-            {children || <Page />}
+            <Box
+              sx={{
+                flexGrow: 1,
+                height: "100%",
+                width: "100%",
+              }}
+            >
+              {children || <Page />}
+            </Box>
           </Box>
         </motion.div>
       </Box>

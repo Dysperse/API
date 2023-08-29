@@ -127,7 +127,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             },
             style: {
               fontVariationSettings:
-                '"FILL" 0, "wght" 350, "GRAD" 0, "opsz" 40!important',
+                '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
             },
           },
         ],

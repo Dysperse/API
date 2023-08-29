@@ -29,6 +29,8 @@ export default async function handler(req, res) {
         ...(req.query.workingHours && { workingHours: req.query.workingHours }),
         ...(req.query.picture && { picture: req.query.picture }),
         ...(req.query.birthday && { birthday: new Date(req.query.birthday) }),
+        ...(req.query.google && { google: null }),
+        ...(req.query.spotify && { spotify: null }),
       },
     });
     console.log(data);
