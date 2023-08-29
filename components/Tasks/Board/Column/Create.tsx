@@ -192,6 +192,9 @@ export default function CreateColumn({
         sx={{
           zIndex: 9999999999,
         }}
+        onClick={(e) => e.stopPropagation()}
+        onContextMenu={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       >
         <Puller />
         <Children mobile />
