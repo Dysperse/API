@@ -107,7 +107,6 @@ const EmojiPicker = function EmojiPicker({
               display: "flex",
               width: "100%",
               height: "300px",
-              display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
