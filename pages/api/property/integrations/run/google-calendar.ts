@@ -20,6 +20,7 @@ export default async function handler(req, res) {
       ],
     },
     select: {
+      id: true,
       user: {
         select: { email: true },
       },
@@ -37,6 +38,11 @@ export default async function handler(req, res) {
   const tokenObj: any = data.google;
 
   oauth2Client.setCredentials(tokenObj);
+
+  await prisma.integration.update({
+    where: { id: integration.id },
+    data: { lastSynced: dayjs().tz(req.query.timeZone).toDate() },
+  });
 
   const taskTemplate = (event) => ({
     id: "dysperse-gcal-integration-task-" + event.id,
