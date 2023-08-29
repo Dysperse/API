@@ -20,8 +20,17 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
 import useSWR, { mutate } from "swr";
 import { updateSettings } from "../../../lib/client/updateSettings";
-import { debounce } from "../../EmojiPicker";
 import { Puller } from "../../Puller";
+
+export function debounce(func: (...args: any[]) => void, delay: number) {
+  let timeout;
+  return function (this: any, ...args: any[]) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
 
 export let openSpotlight = () => {};
 
