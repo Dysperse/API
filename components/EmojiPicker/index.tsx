@@ -8,6 +8,7 @@ import {
   InputAdornment,
   SwipeableDrawer,
   TextField,
+  Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { cloneElement, useCallback, useState } from "react";
@@ -106,6 +107,7 @@ const EmojiPicker = function EmojiPicker({
             sx={{
               display: "flex",
               width: "100%",
+              borderRadius: 5,
               height: "300px",
               alignItems: "center",
               justifyContent: "center",
@@ -141,51 +143,83 @@ const EmojiPicker = function EmojiPicker({
                   ),
                 }}
               />
-              {data && (
-                <VirtuosoGrid
-                  totalCount={filteredData.length}
-                  style={{
-                    height: "300px",
-                    background: palette[2],
-                    borderRadius: "17px",
-                  }}
-                  components={{
-                    Item: ItemContainer,
-                    List: ListContainer as any,
-                    ScrollSeekPlaceholder: ({ height, width, index }) => (
-                      <ItemContainer>
-                        <ItemWrapper></ItemWrapper>
-                      </ItemContainer>
-                    ),
-                  }}
-                  itemContent={(index) => (
-                    <Box sx={{ flex: 1 }}>
-                      <Box
-                        sx={{
-                          fontSize: "24px",
-                          "&:hover": { background: { sm: palette[3] } },
-                          "&:active": { background: { sm: palette[4] } },
-                          p: 1,
-                          borderRadius: 3,
-                        }}
-                        onClick={() => handleEmojiSelect(filteredData[index])}
-                      >
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
+              {data &&
+                (filteredData.length === 0 ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      height: "300px",
+                      alignItems: "center",
+                      borderRadius: 5,
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      background: palette[2],
+                    }}
+                  >
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                      <picture>
+                        <img
+                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+                            query !== "" ? "1f62d" : "1f615"
+                          }.png`}
+                          alt="Crying emoji"
+                        />
+                      </picture>
+                    </motion.div>
+                    <motion.div
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.6 }}
+                    >
+                      <Typography variant="h6">No results found</Typography>
+                    </motion.div>
+                  </Box>
+                ) : (
+                  <VirtuosoGrid
+                    totalCount={filteredData.length}
+                    style={{
+                      height: "300px",
+                      background: palette[2],
+                      borderRadius: "17px",
+                    }}
+                    components={{
+                      Item: ItemContainer,
+                      List: ListContainer as any,
+                      ScrollSeekPlaceholder: ({ height, width, index }) => (
+                        <ItemContainer>
+                          <ItemWrapper></ItemWrapper>
+                        </ItemContainer>
+                      ),
+                    }}
+                    itemContent={(index) => (
+                      <Box sx={{ flex: 1 }}>
+                        <Box
+                          sx={{
+                            fontSize: "24px",
+                            "&:hover": { background: { sm: palette[3] } },
+                            "&:active": { background: { sm: palette[4] } },
+                            p: 1,
+                            borderRadius: 3,
+                          }}
+                          onClick={() => handleEmojiSelect(filteredData[index])}
                         >
-                          {filteredData[index].skins[0].native}
-                        </motion.div>
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                          >
+                            {filteredData[index].skins[0].native}
+                          </motion.div>
+                        </Box>
                       </Box>
-                    </Box>
-                  )}
-                  scrollSeekConfiguration={{
-                    enter: (velocity) => Math.abs(velocity) > 200,
-                    exit: (velocity) => Math.abs(velocity) < 30,
-                    change: (_, range) => console.log({ range }),
-                  }}
-                />
-              )}
+                    )}
+                    scrollSeekConfiguration={{
+                      enter: (velocity) => Math.abs(velocity) > 200,
+                      exit: (velocity) => Math.abs(velocity) < 30,
+                      change: (_, range) => console.log({ range }),
+                    }}
+                  />
+                ))}
             </Box>
           </>
         )}
