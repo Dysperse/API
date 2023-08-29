@@ -328,6 +328,9 @@ const Friend = memo(function Friend({ mutate, friend }: any) {
               py: 0.1,
               background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
               color: `${chipPalette[12]} !important`,
+              "&:empty": {
+                display: "none",
+              },
             }}
           >
             {(!isExpired && friend?.Status?.status) ||
