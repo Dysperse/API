@@ -117,9 +117,9 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       <Divider />
       <MenuItem
         onClick={async () => {
+          handleClose();
           await mutateData();
           toast.success("Refreshed!", toastStyles);
-          handleClose();
         }}
       >
         <Icon className="outlined">refresh</Icon>
