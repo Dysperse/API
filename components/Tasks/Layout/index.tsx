@@ -576,7 +576,7 @@ export function TasksLayout({
   const trigger = (
     <Button
       sx={{
-        color: palette[9],
+        color: addHslAlpha(palette[9], 0.7),
         px: 1,
         height: 48,
         ml: -0.5,
@@ -811,7 +811,7 @@ export function TasksLayout({
             {isBoard || isSearch ? (
               <IconButton
                 sx={{
-                  color: palette[9],
+                  color: addHslAlpha(palette[9], 0.7),
                   background: addHslAlpha(palette[3], 0.5),
                   "&:active": {
                     transform: "scale(0.9)",
@@ -826,12 +826,14 @@ export function TasksLayout({
                       )}`
                     );
                   } else {
-                    document.getElementById("boardInfoTrigger")?.click();
+                    router.push(
+                      router.asPath.replace("/boards/", "/boards/edit/")
+                    );
                   }
                 }}
               >
                 <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                  {isSearch ? "search" : "more_horiz"}
+                  {isSearch ? "search" : "settings"}
                 </Icon>
               </IconButton>
             ) : isAgenda ? (
