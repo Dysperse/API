@@ -60,7 +60,7 @@ const EmojiPicker = function EmojiPicker({
   const trigger = cloneElement(children, { onClick: handleOpen });
 
   const { data, isLoading, error } = useSWRImmutable(
-    open ? "https://cdn.jsdelivr.net/npm/@emoji-mart/data" : null,
+    "https://cdn.jsdelivr.net/npm/@emoji-mart/data",
     (u) => fetch(u).then((res) => res.json())
   );
 
