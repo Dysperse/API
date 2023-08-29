@@ -98,79 +98,98 @@ const EmojiPicker = function EmojiPicker({
         }}
       >
         <Puller showOnDesktop />
-        {isLoading && <CircularProgress />}
         {error && (
           <ErrorHandler error="Couldn't load emojis. Please try again later" />
         )}
-        <Box sx={{ p: 2, pt: 0 }}>
-          <TextField
-            placeholder="Search..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            variant="standard"
-            InputProps={{
-              disableUnderline: true,
-              sx: {
-                background: palette[2],
-                "&:focus-within": {
-                  background: palette[3],
-                },
-                transition: "all .2s",
-                mb: 2,
-                px: 2,
-                py: 0.3,
-                borderRadius: 3,
-              },
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Icon>search</Icon>
-                </InputAdornment>
-              ),
+        {isLoading ? (
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              height: "300px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
-          {data && (
-            <VirtuosoGrid
-              totalCount={filteredData.length}
-              style={{
-                height: "300px",
-                background: palette[2],
-                borderRadius: "17px",
-              }}
-              components={{
-                Item: ItemContainer,
-                List: ListContainer as any,
-                ScrollSeekPlaceholder: ({ height, width, index }) => (
-                  <ItemContainer>
-                    <ItemWrapper></ItemWrapper>
-                  </ItemContainer>
-                ),
-              }}
-              itemContent={(index) => (
-                <Box sx={{ flex: 1 }}>
-                  <Box
-                    sx={{
-                      fontSize: "24px",
-                      "&:hover": { background: { sm: palette[3] } },
-                      "&:active": { background: { sm: palette[4] } },
-                      p: 1,
-                      borderRadius: 3,
-                    }}
-                    onClick={() => handleEmojiSelect(filteredData[index])}
-                  >
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                      {filteredData[index].skins[0].native}
-                    </motion.div>
-                  </Box>
-                </Box>
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <>
+            <Box sx={{ p: 2, pt: 0 }}>
+              <TextField
+                placeholder="Search..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    background: palette[2],
+                    "&:focus-within": {
+                      background: palette[3],
+                    },
+                    transition: "all .2s",
+                    mb: 2,
+                    px: 2,
+                    py: 0.3,
+                    borderRadius: 3,
+                  },
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Icon>search</Icon>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {data && (
+                <VirtuosoGrid
+                  totalCount={filteredData.length}
+                  style={{
+                    height: "300px",
+                    background: palette[2],
+                    borderRadius: "17px",
+                  }}
+                  components={{
+                    Item: ItemContainer,
+                    List: ListContainer as any,
+                    ScrollSeekPlaceholder: ({ height, width, index }) => (
+                      <ItemContainer>
+                        <ItemWrapper></ItemWrapper>
+                      </ItemContainer>
+                    ),
+                  }}
+                  itemContent={(index) => (
+                    <Box sx={{ flex: 1 }}>
+                      <Box
+                        sx={{
+                          fontSize: "24px",
+                          "&:hover": { background: { sm: palette[3] } },
+                          "&:active": { background: { sm: palette[4] } },
+                          p: 1,
+                          borderRadius: 3,
+                        }}
+                        onClick={() => handleEmojiSelect(filteredData[index])}
+                      >
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                        >
+                          {filteredData[index].skins[0].native}
+                        </motion.div>
+                      </Box>
+                    </Box>
+                  )}
+                  scrollSeekConfiguration={{
+                    enter: (velocity) => Math.abs(velocity) > 200,
+                    exit: (velocity) => Math.abs(velocity) < 30,
+                    change: (_, range) => console.log({ range }),
+                  }}
+                />
               )}
-              scrollSeekConfiguration={{
-                enter: (velocity) => Math.abs(velocity) > 200,
-                exit: (velocity) => Math.abs(velocity) < 30,
-                change: (_, range) => console.log({ range }),
-              }}
-            />
-          )}
-        </Box>
+            </Box>
+          </>
+        )}
       </SwipeableDrawer>
     </>
   );
