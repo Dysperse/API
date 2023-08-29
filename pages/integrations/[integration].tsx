@@ -40,7 +40,6 @@ function Layout() {
   const [boardId, setBoardId] = useState<string | null>(
     String(router.query?.board) || "-1"
   );
-  const [calendarId, setCalendarId] = useState<string | null>(null);
 
   const integration: any = useMemo(
     () => integrations.find((i) => i.name.toLowerCase() === integrationName),
@@ -70,17 +69,12 @@ function Layout() {
   );
 
   const { data } = useSWR(["property/boards"]);
-  const { data: calendars } = useSWR(["user/google/calendars"]);
 
   const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const boardData = (data || []).filter((board) =>
     board.name.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const calendarData = (calendars?.items || []).filter((c) =>
-    c.summary.toLowerCase().includes(query.toLowerCase())
   );
 
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
@@ -328,6 +322,45 @@ function Layout() {
                 onClick={() => setStep(step + 1)}
               >
                 Finish <Icon>arrow_forward_ios</Icon>
+              </Button>
+            </>
+          ) : steps[step - 1]?.type === "calendar" ? (
+            <>
+              <Typography
+                variant="h3"
+                className="font-heading"
+                sx={{ mt: "auto", textAlign: "center" }}
+              >
+                Connect your Google Account
+              </Typography>
+              <Typography sx={{ mt: 2, textAlign: "center" }}>
+                If you haven&apos;t already, connect your Google Account with
+                Dysperse to import your calendars &amp; contacts for friend
+                suggestions.
+              </Typography>
+              <Box
+                sx={{
+                  mb: "auto",
+                  mx: "auto",
+                  display: "inline-flex",
+                  mt: 2,
+                }}
+              >
+                <Button href="/api/user/google/redirect" variant="contained">
+                  Connect <Icon>arrow_forward_ios</Icon>
+                </Button>
+              </Box>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 2 }}
+                disabled={
+                  steps[step - 1].required &&
+                  params[steps[step - 1].name].trim().length == 0
+                }
+                onClick={() => setStep(step + 1)}
+              >
+                Next <Icon>arrow_forward_ios</Icon>
               </Button>
             </>
           ) : steps[step - 1]?.type === "slide" ? (
