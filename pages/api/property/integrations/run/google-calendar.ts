@@ -19,6 +19,11 @@ export default async function handler(req, res) {
         { boardId: req.query.boardId },
       ],
     },
+    select: {
+      user: {
+        select: { email: true },
+      },
+    },
   });
 
   const data = await prisma.profile.findFirstOrThrow({
@@ -28,13 +33,28 @@ export default async function handler(req, res) {
     select: { google: true },
   });
 
-  console.log(data);
-
   const oauth2Client = googleClient(req);
   const tokenObj: any = data.google;
 
-  // Get contact list from Google
   oauth2Client.setCredentials(tokenObj);
+
+  const taskTemplate = (event) => {
+    return {
+      id: "dysperse-gcal-integration-task-" + event.id,
+      name: event.summary,
+      where: event.hangoutLink || event.location || event.htmlLink,
+      lastUpdated: dayjs(event.updated).tz(req.query.timeZone).toDate(),
+      due: dayjs(event.start?.dateTime).tz(req.query.timeZone).toDate(),
+      property: { connect: { id: req.query.property } },
+      createdBy: {
+        connect: { identifier: req.query.userIdentifier },
+      },
+      notifications:
+        event.reminders?.overrides?.length > 0
+          ? event.reminders.overrides.map(({ minutes }) => minutes)
+          : [10],
+    };
+  };
 
   if (tokenObj.expiry_date < Date.now()) {
     console.log(tokenObj);
@@ -71,7 +91,7 @@ export default async function handler(req, res) {
 
   for (const calendar of calendars.items) {
     if (calendar.summary === "Dysperse") continue;
-    const { items } = await fetch(
+    let { items } = await fetch(
       `https://www.googleapis.com/calendar/v3/calendars/${calendar.id}/events`,
       {
         headers: {
@@ -80,27 +100,16 @@ export default async function handler(req, res) {
       }
     ).then((res) => res.json());
 
+    if (!items) continue;
+
+    items = items.filter((event) => !event?.iCalUID?.includes("dysperse-task"));
+
     try {
       const data = await prisma.column.upsert({
         where: {
           id: "dys-gcal-integration-" + calendar.id,
         },
-        update: {
-          tasks: {
-            createMany: {
-              data: items
-                .filter((event) => !event?.iCalUID?.includes("dysperse-task"))
-                .map((event) => ({
-                  id: "dysperse-gcal-integration-task-" + event.id,
-                  name: event.summary,
-                  where: event.hangoutLink || event.location || event.htmlLink,
-                  lastUpdated: dayjs(event.updated).tz(req.query.timeZone),
-                  due: dayjs(event.start.date).tz(req.query.timeZone),
-                  propertyId: req.query.property,
-                })),
-            },
-          },
-        },
+        update: {},
         create: {
           id: "dys-gcal-integration-" + calendar.id,
           emoji: "1f3af",
@@ -108,6 +117,16 @@ export default async function handler(req, res) {
           board: { connect: { id: req.query.boardId } },
         },
       });
+      for (const item of items) {
+        console.log("dysperse-gcal-integration-task-" + item.id);
+        await prisma.task.upsert({
+          where: {
+            id: "dysperse-gcal-integration-task-" + item.id,
+          },
+          update: taskTemplate(item),
+          create: taskTemplate(item),
+        });
+      }
     } catch (e) {
       console.log(e);
     }

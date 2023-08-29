@@ -330,132 +330,6 @@ function Layout() {
                 Finish <Icon>arrow_forward_ios</Icon>
               </Button>
             </>
-          ) : steps[step - 1]?.type === "calendar" ? (
-            <>
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-              >
-                <Avatar
-                  sx={{
-                    background: palette[3],
-                    color: palette[9],
-                    margin: "auto",
-                    mb: 1,
-                    mt: 4,
-                    p: 3,
-                  }}
-                >
-                  <Icon className="outlined">today</Icon>
-                </Avatar>
-              </motion.div>
-              <motion.div
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-              >
-                <Typography
-                  variant="h3"
-                  className="font-heading"
-                  sx={{ mt: "auto", textAlign: "center" }}
-                >
-                  Select a calendar
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ mb: 2, textAlign: "center", px: 4 }}
-                >
-                  Dysperse will import events from the calendar you select
-                  below.
-                </Typography>
-              </motion.div>
-              <TextField
-                variant="outlined"
-                placeholder="Search calendars..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                sx={{ mb: 2 }}
-                size="small"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Icon>search</Icon>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              {calendars && (
-                <motion.div
-                  initial={{ x: 100, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  style={{
-                    height: "100%",
-                  }}
-                >
-                  {calendarData.length == 0 ? (
-                    <div
-                      style={{
-                        height: "100%",
-                        background: palette[2],
-                        borderRadius: "25px",
-                        padding: "25px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      No calendars found
-                    </div>
-                  ) : (
-                    <Virtuoso
-                      style={{
-                        height: "100%",
-                        background: palette[2],
-                        borderRadius: "25px",
-                      }}
-                      totalCount={calendarData.length}
-                      itemContent={(index) => (
-                        <ListItemButton
-                          selected={params.calendar === calendarData[index].id}
-                          onClick={() =>
-                            handleParamUpdate(
-                              "calendar",
-                              calendarData[index].id
-                            )
-                          }
-                        >
-                          <Box
-                            sx={{
-                              width: 20,
-                              height: 20,
-                              borderRadius: 99,
-                              background: calendarData[index].backgroundColor,
-                            }}
-                          />
-                          <ListItemText
-                            primary={calendarData[index].summary}
-                            secondary={calendarData[index].description}
-                          />
-                          {params.calendar === calendarData[index].id && (
-                            <Icon sx={{ ml: "auto" }}>check</Icon>
-                          )}
-                        </ListItemButton>
-                      )}
-                    />
-                  )}
-                </motion.div>
-              )}
-              <Button
-                variant="contained"
-                sx={{ mt: "auto", my: 2 }}
-                disabled={calendarId == "-1"}
-                onClick={() => {
-                  setStep(step + 1);
-                  setQuery("");
-                }}
-              >
-                Next <Icon>arrow_forward_ios</Icon>
-              </Button>
-            </>
           ) : steps[step - 1]?.type === "slide" ? (
             <motion.div
               key={"slide"}
@@ -471,7 +345,7 @@ function Layout() {
               <Typography variant="h4" sx={{ mt: "auto" }}>
                 {steps[step - 1].name}
               </Typography>
-              <Typography sx={{ mb: 1, opacity: 0.6 }} variant="body2">
+              <Typography sx={{ mb: 1, color: palette[11] }} variant="body2">
                 {steps[step - 1].description}
               </Typography>
               <TextField
