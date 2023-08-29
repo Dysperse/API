@@ -194,7 +194,6 @@ export default function CreateColumn({
         }}
         onClick={(e) => e.stopPropagation()}
         onContextMenu={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
       >
         <Puller />
         <Children mobile />
