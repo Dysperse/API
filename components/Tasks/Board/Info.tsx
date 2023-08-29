@@ -110,7 +110,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
   return (
     <Box
       onClick={(e) => {
-        if (e.detail === 2) {
+        if (e.detail === 2 && !isMobile) {
           setShowInfo((s) => !s);
           localStorage.setItem("showInfo", showInfo ? "true" : "false");
         }
