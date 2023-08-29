@@ -151,11 +151,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 background: addHslAlpha(palette[4], 0.6),
                 color: { sm: palette[9] },
               },
-              "&:focus-visible": {
-                boxShadow: darkMode
-                  ? "0px 0px 0px 1.5px #fff !important"
-                  : "0px 0px 0px 1.5px #000 !important",
-              },
               "&:disabled": {
                 cursor: "not-allowed!important",
                 opacity: 0.5,
