@@ -473,6 +473,7 @@ function EditLayout({ id, data, mutate }) {
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
+            style={{ paddingTop: "20px" }}
           >
             <BoardColumnSettings data={data} styles={styles} mutate={mutate} />
           </motion.div>
