@@ -1,11 +1,21 @@
 import { prisma } from "@/lib/server/prisma";
+import { sessionData } from "@/pages/api/session";
 import { googleClient } from "../redirect";
 
 export default async function handler(req, res) {
-  const oauth2Client = googleClient(req);
-  let tokenObj = req.query.tokenObj;
+  const session = await sessionData(req.cookies.token);
 
-  tokenObj = JSON.parse(tokenObj);
+  const data = await prisma.profile.findFirstOrThrow({
+    where: {
+      user: { identifier: session.user.identifier },
+    },
+    select: { google: true },
+  });
+
+  console.log(data);
+
+  const oauth2Client = googleClient(req);
+  const tokenObj: any = data.google;
 
   // Get contact list from Google
   oauth2Client.setCredentials(tokenObj);

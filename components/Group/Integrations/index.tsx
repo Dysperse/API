@@ -52,12 +52,10 @@ export const integrations = [
     type: "board",
     params: [
       {
-        type: "url",
-        placeholder:
-          "https://calendar.google.com/calendar/ical/****/***/basic.ics",
-        name: "Connect Dysperse to Google Calendar",
-        helperText:
-          'Paste the "Public address in iCal format" below. You can find this in your calendar settings',
+        type: "calendar",
+        placeholder: "",
+        name: "Connect",
+        helperText: "",
         required: true,
       },
     ],
@@ -66,7 +64,7 @@ export const integrations = [
         type: "slide",
         name: "Connect Google Calendar to Dysperse",
         description:
-          "Copy the link below to add Dysperse tasks to Google Calendar",
+          "Copy the iCal link below to add Dysperse tasks to Google Calendar (optional)",
         url: `[DYSPERSE_ICAL]`,
       },
     ],
