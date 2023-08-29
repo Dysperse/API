@@ -123,8 +123,9 @@ export default function App({
 
   if (
     !isLoading &&
-    !data?.error &&
-    data?.user?.onboardingComplete !== true &&
+    data &&
+    !data.error &&
+    data.user?.onboardingComplete !== true &&
     router.pathname !== "/onboarding"
   ) {
     router.push("/onboarding");
