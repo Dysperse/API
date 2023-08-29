@@ -116,8 +116,9 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       </MenuItem>
       <Divider />
       <MenuItem
-        onClick={() => {
-          mutateData();
+        onClick={async () => {
+          await mutateData();
+          toast.success("Refreshed!");
           handleClose();
         }}
       >
