@@ -5,6 +5,7 @@ import {
   Box,
   CircularProgress,
   Icon,
+  IconButton,
   InputAdornment,
   SwipeableDrawer,
   TextField,
@@ -139,6 +140,17 @@ const EmojiPicker = function EmojiPicker({
                   startAdornment: (
                     <InputAdornment position="start">
                       <Icon>search</Icon>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {query !== "" && (
+                        <IconButton onClick={() => setQuery("")}>
+                          <Icon className="outlined" sx={{ opacity: 0.6 }}>
+                            cancel
+                          </Icon>
+                        </IconButton>
+                      )}
                     </InputAdornment>
                   ),
                 }}
