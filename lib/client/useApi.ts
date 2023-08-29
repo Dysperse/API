@@ -1,7 +1,4 @@
 /* eslint-disable */
-import { useEffect, useMemo, useState } from "react";
-import useSWR from "swr";
-import { useSession } from "./session";
 
 const getInfo = (
   path: null | string,
@@ -49,59 +46,6 @@ export interface ApiResponse {
    * Returns if there was an error in fetching the request
    */
   error: null | any;
-}
-
-/**
- *
- * @param path - The path of the API request
- * @param initialParams - Any parameters you want to send to the server goes here
- * @param removeDefaultParams - Change this to `true` if you want to prevent the default tokens and parameters from being passed to the server
- * @returns @interface ApiResponse
- */
-export function useApi(
-  path: null | string,
-  initialParams = {},
-  removeDefaultParams = false
-): ApiResponse {
-  let session = useSession() || { property: "", user: "" };
-  const { property, current, user } = session;
-
-  const memoizedInfo = useMemo(
-    () =>
-      getInfo(
-        path,
-        initialParams,
-        property,
-        user,
-        removeDefaultParams,
-        current
-      ),
-    [path, initialParams, property, user, removeDefaultParams, current]
-  );
-
-  const url = path ? memoizedInfo.url : null;
-
-  const { data, error, isLoading, mutate } = useSWR(url);
-
-  const [response, setResponse] = useState<ApiResponse>({
-    data,
-    url: url || "",
-    loading: isLoading,
-    mutate,
-    error: error,
-  });
-
-  useEffect(() => {
-    setResponse({
-      data,
-      url: url || "",
-      mutate,
-      loading: isLoading,
-      error: error,
-    });
-  }, [data, error, mutate, isLoading]);
-
-  return response;
 }
 
 /**
