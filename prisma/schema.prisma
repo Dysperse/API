@@ -22,8 +22,6 @@ model User {
   darkMode String  @default("system")
 
   color          String   @default("lime")
-
-  // TODO: Add unlocked
   unlockedColors String[]
 
   onboardingComplete       Boolean @default(false)
