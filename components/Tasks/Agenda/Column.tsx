@@ -437,7 +437,6 @@ const Column = React.memo(function Column({
 }: any): JSX.Element {
   const scrollParentRef = useRef();
   const session = useSession();
-  const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
@@ -589,7 +588,7 @@ const Column = React.memo(function Column({
               />
             </motion.div>
             <motion.div
-              initial={{ y: 50, opacity: 0 }}
+              initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}
               style={{
