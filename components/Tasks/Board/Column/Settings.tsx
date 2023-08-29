@@ -118,7 +118,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
       <MenuItem
         onClick={async () => {
           await mutateData();
-          toast.success("Refreshed!");
+          toast.success("Refreshed!", toastStyles);
           handleClose();
         }}
       >
