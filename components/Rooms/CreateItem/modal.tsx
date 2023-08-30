@@ -75,7 +75,7 @@ export function CreateItemModal({
     }
     setLoading(true);
     fetchRawApi(session, "property/inventory/items/create", {
-      room: room[0],
+      room: room.toLowerCase(),
       name: title,
       quantity: quantity,
       category,
@@ -168,6 +168,7 @@ export function CreateItemModal({
             InputProps={{
               className: "font-heading",
               sx: {
+                textTransform: "none!important",
                 borderRadius: 3,
                 px: 1.5,
                 fontSize: "40px",
