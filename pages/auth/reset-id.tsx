@@ -1,5 +1,5 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
-import { isEmail } from "@/components/Group/Members";
+import { isEmail } from "@/components/Group/Members/isEmail";
 import { useColor } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";

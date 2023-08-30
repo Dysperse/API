@@ -191,23 +191,12 @@ export function PropertyInfo({
           {propertyData.profile.members.length !== 1 && "s"}
         </Typography>
       </Box>
-      <Storage
-        color={propertyData.profile.color}
-        propertyId={propertyData.propertyId}
-        accessToken={accessToken}
-      />
       <MemberList
         handleParentClose={handleClose}
         color={propertyData.profile.color}
         propertyId={propertyData.propertyId}
         accessToken={accessToken}
       />
-      {propertyData &&
-        propertyData.profile.id === session.property.propertyId && (
-          <Integrations board={""} handleClose={handleClose} />
-        )}
-      <br />
-      <br />
     </Box>
   );
 }

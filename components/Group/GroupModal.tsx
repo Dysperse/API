@@ -20,6 +20,7 @@ import { cloneElement, useState } from "react";
 import useSWR from "swr";
 
 export function GroupModal({
+  defaultPalette,
   children,
   list = false,
   useRightClick = true,
@@ -32,7 +33,7 @@ export function GroupModal({
   const { data } = useSWR(showMore ? null : ["user/properties"]);
 
   const personPalette = useColor(
-    session.themeColor,
+    defaultPalette || session.themeColor,
     useDarkMode(session.darkMode)
   );
   const palette = useColor(
@@ -80,6 +81,7 @@ export function GroupModal({
             .filter((p) => (showInvitations ? !p.accepted : p.accepted))
             .map((group: any, index) => (
               <PropertyButton
+                defaultPalette={defaultPalette}
                 key={index}
                 list={list}
                 handleClose={() => setShowMore(false)}

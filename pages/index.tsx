@@ -660,7 +660,7 @@ export function Navbar({
                 transition: "all .4s",
               }}
               onClick={() =>
-                router.push("/groups/" + session?.property?.propertyId)
+                router.push("/spaces/" + session?.property?.propertyId)
               }
             >
               <Icon className="outlined">group</Icon>

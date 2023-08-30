@@ -101,7 +101,7 @@ function Layout() {
       });
       return;
     } else {
-      router.push(`/groups/${session.property.propertyId}`);
+      router.push(`/spaces/${session.property.propertyId}`);
     }
 
     setLoading(false);
@@ -125,7 +125,7 @@ function Layout() {
           <IconButton
             onClick={() => {
               if (step == 0) {
-                router.push(`/groups/${session.property.propertyId}`);
+                router.push(`/spaces/${session.property.propertyId}`);
               } else {
                 setStep(step - 1);
               }

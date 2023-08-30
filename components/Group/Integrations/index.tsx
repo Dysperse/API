@@ -3,6 +3,7 @@ import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Alert,
@@ -75,16 +76,22 @@ export default function Integrations({
   board,
   handleClose,
   hideNew = false,
+  defaultPalette,
 }: {
   board?: string;
   handleClose: any;
   hideNew?: boolean;
+  defaultPalette?: string;
 }) {
   const { data, mutate, error } = useSWR(["property/integrations"]);
   const session = useSession();
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
 
   const [open, setOpen] = useState(false);
+  const palette = useColor(
+    defaultPalette || session.themeColor,
+    useDarkMode(session.darkMode)
+  );
 
   return (
     <>
@@ -95,8 +102,7 @@ export default function Integrations({
             display: "flex",
             mt: 4,
             alignItems: "center",
-            mb: 3,
-            px: 1,
+            mb: 1,
           }}
         >
           <Typography variant="h6">
@@ -141,7 +147,11 @@ export default function Integrations({
           )}
           {session.permission !== "read-only" &&
             data.map((integration) => (
-              <ListItemButton key={integration.id} disableRipple>
+              <ListItemButton
+                key={integration.id}
+                disableRipple
+                sx={{ background: palette[2] }}
+              >
                 <ListItemText
                   primary={integration.name}
                   secondary={
@@ -229,7 +239,7 @@ export default function Integrations({
         </SwipeableDrawer>
       )}
 
-      <Divider sx={{ my: 4 }} />
+      <Divider sx={{ my: 2 }} />
       <Box sx={{ textAlign: "left" }}>
         <Typography variant="h6">Calendar subscription URL</Typography>
         <Typography variant="body2" sx={{ mb: 2 }}>

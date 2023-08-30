@@ -18,9 +18,9 @@ import {
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { useCallback, useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
-import { isEmail } from ".";
 import { Puller } from "../../Puller";
 import { Prompt } from "../../TwoFactorModal";
+import { isEmail } from "./isEmail";
 
 function LinkToken() {
   const session = useSession();
@@ -117,13 +117,15 @@ function LinkToken() {
  * @returns {any}
  */
 export function AddPersonModal({
-  palette,
-  disabled,
+  children,
+  mutate = () => {},
+  disabled = false,
   members,
   defaultValue,
 }: {
-  palette;
-  disabled;
+  mutate?: any;
+  children?: any;
+  disabled?: boolean;
   members: string[];
   defaultValue?: any;
 }) {
@@ -160,6 +162,7 @@ export function AddPersonModal({
         toast.success("Invited!", toastStyles);
         setOpen(false);
         setLoading(false);
+        mutate();
       } else {
         throw new Error("Please enter a valid email address");
       }
@@ -171,23 +174,19 @@ export function AddPersonModal({
   return (
     <>
       <Prompt callback={() => setOpen(true)}>
-        <Button
-          variant="contained"
-          disabled={disabled || session.property.permission !== "owner"}
-          sx={{
-            px: 2,
-            ml: "auto",
-            background: palette[2] + "!important",
-            color: palette[10] + "!important",
-            "&:hover": {
-              background: palette[3] + "!important",
-              color: palette[11] + "!important",
-            },
-          }}
-        >
-          <Icon>add</Icon>
-          Invite
-        </Button>
+        {children || (
+          <Button
+            variant="contained"
+            disabled={disabled || session.property.permission !== "owner"}
+            sx={{
+              px: 2,
+              ml: "auto",
+            }}
+          >
+            <Icon>add</Icon>
+            Invite
+          </Button>
+        )}
       </Prompt>
       <SwipeableDrawer
         open={open}

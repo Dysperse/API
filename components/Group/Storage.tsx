@@ -48,7 +48,7 @@ export function Storage({
 
   return error || !data ? (
     <Box>
-      <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
+      <Typography variant="h6" sx={{ px: 1 }}>
         Storage
       </Typography>
       {error ? (
@@ -85,7 +85,7 @@ export function Storage({
           deleting these to free up some space.
         </Alert>
       )}
-      <Typography variant="h6" sx={{ mt: 5, px: 1 }}>
+      <Typography variant="h6" sx={{ px: 1 }}>
         Storage
       </Typography>
       <Box

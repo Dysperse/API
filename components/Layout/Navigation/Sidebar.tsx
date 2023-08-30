@@ -61,7 +61,7 @@ export function Sidebar() {
     "ctrl+g",
     (e) => {
       e.preventDefault();
-      router.push(`/groups/${session.property.propertyId}`);
+      router.push(`/spaces/${session.property.propertyId}`);
     },
     [open]
   );
@@ -317,7 +317,7 @@ export function Sidebar() {
               },
             }}
             onClick={() =>
-              router.push(`/groups/${session.property.propertyId}`)
+              router.push(`/spaces/${session.property.propertyId}`)
             }
           >
             <Tooltip title={session.property.profile.name} placement="right">

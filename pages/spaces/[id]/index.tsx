@@ -1,0 +1,265 @@
+import { ErrorHandler } from "@/components/Error";
+import { EditProperty } from "@/components/Group/Edit";
+import { GroupModal } from "@/components/Group/GroupModal";
+import Integrations from "@/components/Group/Integrations";
+import { Storage } from "@/components/Group/Storage";
+import { handleBack } from "@/lib/client/handleBack";
+import { useSession } from "@/lib/client/session";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useStatusBar } from "@/lib/client/useStatusBar";
+import { useCustomTheme } from "@/lib/client/useTheme";
+import {
+  AppBar,
+  Avatar,
+  AvatarGroup,
+  Box,
+  Chip,
+  CircularProgress,
+  Icon,
+  IconButton,
+  ThemeProvider,
+  Toolbar,
+  Typography,
+  createTheme,
+} from "@mui/material";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useRef, useState } from "react";
+import useSWR from "swr";
+
+export default function SpacesLayout({ parentRef, children, title }: any) {
+  const session = useSession();
+  const router = useRouter();
+  const { id } = router.query;
+  const isDark = useDarkMode(session.darkMode);
+
+  const accessToken = session.properties.find(
+    (property) => property.propertyId == id
+  )?.accessToken;
+
+  const { data, mutate, error, isLoading } = useSWR([
+    id ? "property" : null,
+    {
+      id,
+      propertyAccessToken: accessToken,
+    },
+  ]);
+
+  const palette = useColor(data?.profile?.color || session.themeColor, isDark);
+
+  const userTheme = createTheme(
+    useCustomTheme({
+      darkMode: isDark,
+      themeColor: data?.profile?.color || session.themeColor,
+    })
+  );
+
+  // Navbar
+
+  let ref: any = useRef();
+  if (parentRef) ref = parentRef;
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!children) {
+      const handleScroll = () => {
+        if (ref?.current?.scrollTop >= 200) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
+      };
+
+      ref?.current?.addEventListener("scroll", handleScroll);
+
+      // Clean up the event listener when the component unmounts
+      return () => {
+        ref?.current?.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [children]);
+
+  useStatusBar(palette[children ? 3 : scrolled ? 2 : 9]);
+
+  const members = useMemo(
+    () => [
+      ...new Map(
+        data?.profile?.members?.map((item) => [item.user.email, item])
+      ).values(),
+    ],
+    [data]
+  );
+
+  return (
+    <ThemeProvider theme={userTheme}>
+      <Box
+        ref={ref}
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100dvw",
+          height: "100dvh",
+          ...(data && { background: palette[children ? 3 : 9] }),
+          zIndex: 999,
+          overflowX: "hidden",
+        }}
+      >
+        {error && !isLoading && (
+          <ErrorHandler error="Yikes! We couldn't load this group! Please try again later" />
+        )}
+        {data ? (
+          <>
+            <AppBar
+              sx={{
+                position: "sticky",
+                background: palette[children ? 3 : scrolled ? 2 : 9],
+                border: 0,
+                "& *": { color: palette[children ? 9 : scrolled ? 9 : 1] },
+              }}
+            >
+              <Toolbar sx={{ gap: { xs: 0 } }}>
+                <IconButton onClick={() => handleBack(router)}>
+                  <Icon>arrow_back_ios_new</Icon>
+                </IconButton>
+                {!children && (
+                  <>
+                    {" "}
+                    <EditProperty
+                      propertyData={data}
+                      color={data?.profile?.color}
+                      mutatePropertyData={mutate}
+                    >
+                      <IconButton sx={{ ml: "auto" }}>
+                        <Icon className="outlined">edit</Icon>
+                      </IconButton>
+                    </EditProperty>
+                    <IconButton
+                      onClick={() =>
+                        router.push(`/spaces/${data?.profile?.id}/changelog`)
+                      }
+                    >
+                      <Icon className="outlined">schedule</Icon>
+                    </IconButton>
+                    <GroupModal
+                      useRightClick={false}
+                      defaultPalette={data?.profile?.color}
+                    >
+                      <IconButton>
+                        <Icon className="outlined">pending</Icon>
+                      </IconButton>
+                    </GroupModal>
+                  </>
+                )}
+              </Toolbar>
+            </AppBar>
+            <Box sx={{ p: 3, color: palette[children ? 9 : 1] }}>
+              {!children && (
+                <Chip
+                  size="small"
+                  label="Space"
+                  icon={
+                    <Icon sx={{ color: palette[1] + "!important" }}>tag</Icon>
+                  }
+                  sx={{ background: palette[8], color: palette[1] }}
+                />
+              )}
+              <Typography
+                variant="h2"
+                className="font-heading"
+                sx={{
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+              >
+                {title || data?.profile?.name}
+              </Typography>
+              {!children && (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <AvatarGroup
+                    max={1}
+                    sx={{
+                      justifyContent: "start",
+                      "& .MuiAvatar-root": {
+                        borderColor: palette[9],
+                      },
+                    }}
+                  >
+                    {members?.map((member: any) => (
+                      <Avatar
+                        key={member.id}
+                        src={member.user?.Profile?.picture}
+                        sx={{
+                          width: 30,
+                          height: 30,
+                          fontSize: 13,
+                          background: palette[8],
+                          color: palette[1],
+                        }}
+                      >
+                        {member?.user?.name?.substring(0, 2)?.toUpperCase()}
+                      </Avatar>
+                    ))}
+                  </AvatarGroup>
+                  <Chip
+                    onClick={() =>
+                      router.push(`/spaces/${data?.profile?.id}/members`)
+                    }
+                    sx={{ background: palette[8], color: palette[2] }}
+                    label={
+                      <span style={{ display: "flex", alignItems: "center" }}>
+                        <span>
+                          {members.length} member{members.length !== 1 && "s"}
+                        </span>
+                        <Icon>arrow_forward_ios</Icon>
+                      </span>
+                    }
+                  />
+                </Box>
+              )}
+            </Box>
+            <Box
+              sx={{
+                p: 3,
+                py: 4,
+                minHeight: "100%",
+                background: palette[1],
+                borderRadius: "20px 20px 0 0",
+              }}
+            >
+              {children}
+              {!children && data && (
+                <Storage
+                  color={data.profile.color}
+                  propertyId={data.propertyId}
+                  accessToken={accessToken}
+                />
+              )}
+              {!children &&
+                data &&
+                data.profile.id === session.property.propertyId && (
+                  <Integrations
+                    board={""}
+                    handleClose={() => {}}
+                    defaultPalette={data?.profile?.color}
+                  />
+                )}
+            </Box>
+          </>
+        ) : (
+          <Box
+            sx={{
+              width: "100vw",
+              height: "100dvh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+      </Box>
+    </ThemeProvider>
+  );
+}

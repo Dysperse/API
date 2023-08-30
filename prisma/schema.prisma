@@ -153,11 +153,12 @@ model Session {
 
 // Property modal box
 model Property {
-  id                  String               @id @unique @default(uuid())
-  name                String               @default("My property")
-  type                String               @default("apartment")
-  vanishingTasks      Boolean              @default(false)
-  color               String               @default("cyan")
+  id             String  @id @unique @default(uuid())
+  name           String  @default("My property")
+  type           String  @default("apartment")
+  vanishingTasks Boolean @default(false)
+  color          String  @default("cyan")
+
   Board               Board[]
   customRooms         CustomRoom[]
   inbox               InboxItem[]

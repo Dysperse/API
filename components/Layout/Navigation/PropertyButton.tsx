@@ -16,10 +16,19 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { mutate } from "swr";
 
-export function PropertyButton({ handleClose, group, list, onSuccess }: any) {
+export function PropertyButton({
+  defaultPalette,
+  handleClose,
+  group,
+  list,
+  onSuccess,
+}: any) {
   const session = useSession();
   const router = useRouter();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const palette = useColor(
+    defaultPalette || session.themeColor,
+    useDarkMode(session.darkMode)
+  );
   const isDark = useDarkMode(session.darkMode);
 
   const groupPalette = useColor(group.profile.color, isDark);
@@ -55,7 +64,7 @@ export function PropertyButton({ handleClose, group, list, onSuccess }: any) {
           return;
         }
         handleClose && handleClose();
-        setTimeout(() => router.push(`/groups/${group.propertyId}`), 500);
+        setTimeout(() => router.push(`/spaces/${group.propertyId}`), 500);
       }}
       {...(group.propertyId === session.property.propertyId && {
         id: "activeProperty",

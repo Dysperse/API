@@ -108,7 +108,7 @@ export default function AppLayout({
             </Button>
             <Button
               onClick={() =>
-                router.push(`/groups/${session.property.propertyId}`)
+                router.push(`/spaces/${session.property.propertyId}`)
               }
               color="inherit"
               size="small"

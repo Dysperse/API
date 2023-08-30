@@ -69,7 +69,7 @@ export function Prompt({
 
   const openSettings = () => {
     setOpen(false);
-    setTimeout(() => router.push("/settings/two-factor-authentication"), 500);
+    setTimeout(() => router.push("/settings/2fa"), 500);
   };
 
   const handleSkip = () => {

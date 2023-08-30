@@ -105,7 +105,7 @@ function Page() {
           ...styles,
           mb: 2,
         }}
-        onClick={() => router.push("/groups/" + session.property.propertyId)}
+        onClick={() => router.push("/spaces/" + session.property.propertyId)}
       >
         <Avatar
           sx={{

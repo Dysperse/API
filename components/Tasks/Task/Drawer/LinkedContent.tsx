@@ -31,7 +31,7 @@ export const LinkedContent = React.memo(function LinkedContent({
   const isGroupVisible = !(task?.column?.board?.public === false);
 
   const handleGroupClick = () => {
-    router.push(`/groups/${task.property.id}`);
+    router.push(`/spaces/${task.property.id}`);
   };
 
   const handleBoardClick = () => {

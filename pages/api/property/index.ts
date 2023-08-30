@@ -17,7 +17,23 @@ const handler = async (req, res) => {
       },
       include: {
         profile: {
-          include: { members: { select: { id: true } } },
+          include: {
+            members: {
+              select: {
+                id: true,
+                user: {
+                  select: {
+                    name: true,
+                    Profile: {
+                      select: { picture: true },
+                    },
+                    email: true,
+                    username: true,
+                  },
+                },
+              },
+            },
+          },
         },
       },
       take: 1,
