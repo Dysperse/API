@@ -1,5 +1,4 @@
 import { ErrorHandler } from "@/components/Error";
-import { EditProperty } from "@/components/Group/Edit";
 import { GroupModal } from "@/components/Group/GroupModal";
 import Integrations from "@/components/Group/Integrations";
 import { Storage } from "@/components/Group/Storage";
@@ -123,16 +122,14 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                 </IconButton>
                 {!children && (
                   <>
-                    {" "}
-                    <EditProperty
-                      propertyData={data}
-                      color={data?.profile?.color}
-                      mutatePropertyData={mutate}
+                    <IconButton
+                      sx={{ ml: "auto" }}
+                      onClick={() =>
+                        router.push(`/spaces/${data?.profile?.id}/edit`)
+                      }
                     >
-                      <IconButton sx={{ ml: "auto" }}>
-                        <Icon className="outlined">edit</Icon>
-                      </IconButton>
-                    </EditProperty>
+                      <Icon className="outlined">edit</Icon>
+                    </IconButton>
                     <IconButton
                       onClick={() =>
                         router.push(`/spaces/${data?.profile?.id}/changelog`)
@@ -160,7 +157,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                   icon={
                     <Icon sx={{ color: palette[1] + "!important" }}>tag</Icon>
                   }
-                  sx={{ background: palette[8], color: palette[1] }}
+                  sx={{ background: "rgba(0,0,0,0.1)", color: palette[1] }}
                 />
               )}
               <Typography
@@ -205,7 +202,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                     onClick={() =>
                       router.push(`/spaces/${data?.profile?.id}/members`)
                     }
-                    sx={{ background: palette[8], color: palette[2] }}
+                    sx={{ background: "rgba(0,0,0,0.1)", color: palette[2] }}
                     label={
                       <span style={{ display: "flex", alignItems: "center" }}>
                         <span>

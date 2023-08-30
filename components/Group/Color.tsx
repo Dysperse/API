@@ -1,6 +1,6 @@
 import { useSession } from "@/lib/client/session";
-import { colors } from "@/lib/colors";
 import { CardActionArea } from "@mui/material";
+import * as colors from "@radix-ui/colors";
 import { updateSettings } from "../../lib/client/updateSettings";
 
 /**
@@ -24,10 +24,9 @@ export function Color({
     color
   );
 
-  const handleClick = () => {
-    updateSettings(session, "color", color, false, null, true).then(() =>
-      setTimeout(mutatePropertyData, 1000)
-    );
+  const handleClick = async () => {
+    await updateSettings(session, "color", color, false, null, true);
+    mutatePropertyData();
   };
 
   return (
@@ -40,9 +39,9 @@ export function Color({
         display: "inline-flex",
         mr: 1,
         mb: 1,
-        backgroundColor: `${colors[color]["A700"]}!important`,
+        backgroundColor: colors[color][color + "9"],
         "&:hover": {
-          backgroundColor: `${colors[color]["800"]}!important`,
+          backgroundColor: colors[color][color + "10"],
         },
       }}
     >

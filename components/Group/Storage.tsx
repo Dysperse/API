@@ -1,7 +1,7 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { colors } from "@/lib/colors";
 import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
+import * as colors from "@radix-ui/colors";
 import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 
@@ -111,14 +111,14 @@ export function Storage({
           <Box
             sx={{
               width: `${storage.items}%`,
-              background: colors[color][isDark ? 500 : 700],
+              background: colors[color][color + "8"],
               height: "100%",
             }}
           />
           <Box
             sx={{
               width: `${storage.tasks}%`,
-              background: colors[color][isDark ? 700 : 800],
+              background: colors[color][color + "9"],
               height: "100%",
               borderRadius: "0 99px 99px 0",
             }}
