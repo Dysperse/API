@@ -665,13 +665,13 @@ export function Navbar({
             <Button
               sx={{
                 minWidth: "unset",
-                px: 1,
+                px: showGroup ? 2 : 1,
                 color: palette[showGroup ? 9 : 8],
                 background: palette[showGroup ? 3 : 1],
-                gap: showGroup ? 2 : 0,
+                gap: showGroup ? 1.5 : 0,
                 "&:hover": { background: "transparent" },
                 "&:active": { background: palette[2] },
-                transition: "all .4s",
+                transition: "all .4s!important",
               }}
               onClick={() =>
                 router.push("/spaces/" + session?.property?.propertyId)
