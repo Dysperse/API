@@ -18,7 +18,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, {
   memo,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -26,7 +25,6 @@ import React, {
   useState,
 } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { mutate } from "swr";
 import { AgendaContext } from ".";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
@@ -227,9 +225,7 @@ function RandomTask({ date }) {
 }
 
 const Header = memo(function Header({
-  type,
   subheading,
-  url,
   column,
   isToday,
   tasksLeft,
@@ -237,13 +233,14 @@ const Header = memo(function Header({
   sortedTasks,
   heading,
   columnEnd,
-  handleMutate,
 }: any) {
   const session = useSession();
   const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
+
+  const { mutateList, type } = useContext(AgendaContext);
 
   return (
     <Box
@@ -274,7 +271,7 @@ const Header = memo(function Header({
             height: "auto",
           }}
           id="taskMutationTrigger"
-          onClick={handleMutate}
+          onClick={mutateList}
         >
           <Box
             sx={{
@@ -410,7 +407,7 @@ const Header = memo(function Header({
         >
           {session.permission !== "read-only" && (
             <CreateTask
-              onSuccess={() => mutate(url)}
+              onSuccess={mutateList}
               defaultDate={dayjs(column).startOf(type).toDate()}
             >
               <Button variant="contained" fullWidth>
@@ -441,7 +438,7 @@ const Column = React.memo(function Column({
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
 
-  const { url, type } = useContext(AgendaContext);
+  const { mutateList, type } = useContext(AgendaContext);
 
   const columnStart = dayjs(column).startOf(type).toDate();
   const columnEnd = dayjs(columnStart).endOf(type).toDate();
@@ -505,12 +502,6 @@ const Column = React.memo(function Column({
   const tasksLeft = sortedTasks.length - completedTasks.length;
   const [loading, setLoading] = useState(false);
 
-  const handleMutate = useCallback(async () => {
-    setLoading(true);
-    await mutate(url);
-    setLoading(false);
-  }, [url]);
-
   return (
     <Box
       ref={scrollParentRef}
@@ -540,10 +531,7 @@ const Column = React.memo(function Column({
       }}
     >
       <Header
-        handleMutate={handleMutate}
-        type={type}
         subheading={subheading}
-        url={url}
         column={column}
         isToday={isToday}
         tasksLeft={tasksLeft}
@@ -638,7 +626,8 @@ const Column = React.memo(function Column({
               isScrolling={isScrolling}
               board={task.board || false}
               columnId={task.column ? task.column.id : -1}
-              mutate={mutate}
+              mutate={() => {}}
+              mutateList={mutateList}
               task={task}
             />
           )}

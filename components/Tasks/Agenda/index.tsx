@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { WidgetBar } from "../Layout/widgets";
 import Column from "./Column";
 
@@ -75,8 +75,11 @@ export function Agenda({ type, date }) {
     (_, index) => start.clone().add(index, type)
   );
 
-  const url = "";
-  const { data, error } = useSWR([
+  const {
+    data,
+    mutate: mutateList,
+    error,
+  } = useSWR([
     "property/tasks/agenda",
     {
       startTime: start.toISOString(),
@@ -112,7 +115,7 @@ export function Agenda({ type, date }) {
   });
 
   return (
-    <AgendaContext.Provider value={{ start, end, url, type }}>
+    <AgendaContext.Provider value={{ start, end, mutateList, type }}>
       <Head>
         <title>
           {dayjs(start).format(viewHeadingFormats[type])} &bull;{" "}
@@ -234,7 +237,7 @@ export function Agenda({ type, date }) {
               <IconButton
                 onClick={async () => {
                   setLoading(true);
-                  await mutate(url);
+                  await mutateList();
                   setLoading(false);
                 }}
                 disabled={loading}

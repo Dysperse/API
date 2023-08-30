@@ -35,14 +35,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   isDateDependent = false,
   children,
   id,
-  mutate,
+  mutateList,
   onClick,
 }: {
   isDisabled?: boolean;
   isDateDependent?: boolean;
   children: JSX.Element;
   id: number;
-  mutate: any;
+  mutateList: any;
   onClick?: any;
 }) {
   const session = useSession();
@@ -65,10 +65,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       await fetchRawApi(session, "property/boards/column/task/delete", {
         id: taskId,
       });
-      mutate();
+      mutateList();
       mutateTask();
     },
-    [mutate, session, setOpen, mutateTask]
+    [mutateList, session, setOpen, mutateTask]
   );
 
   useHotkeys(
@@ -89,8 +89,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       window.location.pathname + window.location.search
     );
     setOpen(false);
-    mutateTask()
-  }, [mutateTask]);
+    mutateTask();
+    mutateList();
+  }, [mutateTask, mutateList]);
 
   const handleEdit = useCallback(
     async function handleEdit(id, key, value) {
@@ -104,7 +105,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
       console.log(newData);
 
-      mutate(newData, {
+      mutateTask(newData, {
         populateCache: newData,
         revalidate: false,
       });
@@ -116,7 +117,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         createdBy: session.user.email,
       });
     },
-    [session, data, mutate]
+    [session, data, mutateList]
   );
 
   // Attach the `onClick` handler to the trigger
@@ -131,10 +132,10 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     <TaskContext.Provider
       value={{
         ...data,
-        set: (newObj) => mutate(newObj),
+        set: (newObj) => mutateTask(newObj),
         edit: handleEdit,
         close: handleClose,
-        mutate,
+        mutate: mutateTask,
       }}
     >
       {trigger}

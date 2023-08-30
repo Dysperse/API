@@ -240,14 +240,13 @@ const TaskChips = React.memo(function TaskChips({
 export const Task: any = React.memo(function Task({
   sx = {},
   permissions = "edit",
-  isScrolling = false,
   isDateDependent = false,
   isSubTask = false,
   isAgenda = false,
   checkList = false,
   board,
   columnId,
-  mutate,
+  mutateList,
   task,
 }: any): JSX.Element {
   const [taskData, setTaskData] = useState(task);
@@ -337,7 +336,7 @@ export const Task: any = React.memo(function Task({
           fetchRawApi(session, "property/boards/column/task/edit", {
             id: taskData.id,
             pinned: !taskData.pinned ? "true" : "false",
-          }).then(mutate);
+          }).then(mutateList);
           resolve("");
         } catch (e) {
           reject(e);
@@ -352,14 +351,8 @@ export const Task: any = React.memo(function Task({
       },
       toastStyles
     );
-  }, [
-    taskData.pinned,
-    taskData.id,
-    mutate,
-    setTaskData,
-    session,
-  ]);
-  
+  }, [taskData.pinned, taskData.id, mutateList, setTaskData, session]);
+
   const isDisabled = useMemo(
     () =>
       (board && board.archived) ||
@@ -392,13 +385,13 @@ export const Task: any = React.memo(function Task({
               board={board}
               isAgenda={isAgenda}
               columnId={columnId}
-              mutate={mutate}
+              mutateList={mutateList}
               task={subtask}
               checkList={checkList}
             />
           ))
         : [],
-    [board, columnId, isAgenda, mutate, checkList, taskData]
+    [board, columnId, isAgenda, mutateList, checkList, taskData]
   );
 
   return !taskData ? (
@@ -415,7 +408,7 @@ export const Task: any = React.memo(function Task({
     >
       <TaskDrawer
         id={taskData.id}
-        mutate={mutate}
+        mutateList={mutateList}
         isDisabled={isDisabled}
         isDateDependent={isDateDependent}
         {...(selection.values.length > 0 && { onClick: handleSelect })}
