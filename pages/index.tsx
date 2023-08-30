@@ -632,7 +632,7 @@ export function Navbar({
   useEffect(() => {
     setTimeout(() => {
       setShowGroup(false);
-    }, 4000);
+    }, 3000);
   }, []);
 
   return (
