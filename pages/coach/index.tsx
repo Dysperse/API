@@ -133,8 +133,8 @@ export default function Render() {
               onClick={() => router.push("/coach/explore")}
               sx={{
                 mr: 1,
-                color: palette[8],
-                background: palette[2],
+                color: palette[9],
+                background: palette[3],
                 px: 2,
               }}
             >

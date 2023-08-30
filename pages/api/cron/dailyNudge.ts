@@ -37,7 +37,9 @@ const Notification = async (req, res) => {
         select: {
           notificationSubscription: true,
           timeZone: true,
-          RoutineItem: true,
+          RoutineItem: {
+            where: { completed: false },
+          },
         },
       },
     },
