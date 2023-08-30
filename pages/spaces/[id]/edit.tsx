@@ -7,10 +7,10 @@ import {
   Box,
   Button,
   CircularProgress,
-  Divider,
   Icon,
   IconButton,
-  ListItemButton,
+  List,
+  ListItem,
   ListItemSecondaryAction,
   ListItemText,
   Menu,
@@ -131,43 +131,55 @@ export default function Page() {
               ))}
           </Box>
 
-          <Box sx={{ p: 3 }}>
-            <Divider />
-            <Button
-              variant="outlined"
+          <Typography
+            variant="body2"
+            sx={{ mt: 4, opacity: 0.7, color: "#fff" }}
+          >
+            Space type
+          </Typography>
+          <Button
+            variant="outlined"
+            sx={{
+              my: 2,
+              px: 2,
+            }}
+            disabled={data.permission === "read-only"}
+            onClick={handleClick}
+            onMouseDown={handleClick}
+          >
+            <Typography
               sx={{
-                my: 2,
-                px: 2,
+                textTransform: "capitalize",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
               }}
-              disabled={data.permission === "read-only"}
-              onClick={handleClick}
-              onMouseDown={handleClick}
             >
-              <Typography
-                sx={{
-                  textTransform: "capitalize",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <Icon className="outlined">
-                  {data?.profile?.type === "dorm"
-                    ? "cottage"
-                    : data?.profile?.type === "apartment"
-                    ? "location_city"
-                    : data?.profile?.type === "study group"
-                    ? "school"
-                    : "home"}
-                </Icon>
-                {data?.profile?.type}
-              </Typography>
-            </Button>
-            <Alert severity="warning" sx={{ mb: 3 }}>
-              Heads up! Changing your group type may cause data loss. Change
-              this setting with caution.
-            </Alert>
-            <ListItemButton disableRipple>
+              <Icon className="outlined">
+                {data?.profile?.type === "dorm"
+                  ? "cottage"
+                  : data?.profile?.type === "apartment"
+                  ? "location_city"
+                  : data?.profile?.type === "study group"
+                  ? "school"
+                  : "home"}
+              </Icon>
+              {data?.profile?.type}
+            </Typography>
+          </Button>
+          <Alert severity="warning" sx={{ mb: 3 }}>
+            Heads up! Changing your space type may cause data loss. Change this
+            setting with caution.
+          </Alert>
+
+          <Typography
+            variant="body2"
+            sx={{ mt: 4, opacity: 0.7, color: "#fff" }}
+          >
+            Other
+          </Typography>
+          <List>
+            <ListItem sx={{ px: 0 }}>
               <ListItemText
                 primary="Vanishing tasks"
                 secondary="Delete completed tasks more than 14 days old"
@@ -189,24 +201,24 @@ export default function Page() {
                   }}
                 />
               </ListItemSecondaryAction>
-            </ListItemButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={() => setAnchorEl(null)}
-            >
-              {["house", "apartment", "dorm", "study group"].map((type) => (
-                <MenuItem
-                  onClick={() => handleCloseMenu(type)}
-                  value={type}
-                  disabled={type == data.profile.type}
-                  key={type}
-                >
-                  {capitalizeFirstLetter(type)}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+            </ListItem>
+          </List>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(null)}
+          >
+            {["house", "apartment", "dorm", "study group"].map((type) => (
+              <MenuItem
+                onClick={() => handleCloseMenu(type)}
+                value={type}
+                disabled={type == data.profile.type}
+                key={type}
+              >
+                {capitalizeFirstLetter(type)}
+              </MenuItem>
+            ))}
+          </Menu>
         </>
       ) : (
         <CircularProgress />
