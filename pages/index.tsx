@@ -627,7 +627,7 @@ export function Navbar({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const router = useRouter();
 
-  const [showGroup, setShowGroup] = useState(true);
+  const [showGroup, setShowGroup] = useState(router.asPath === "/");
 
   useEffect(() => {
     setTimeout(() => {
