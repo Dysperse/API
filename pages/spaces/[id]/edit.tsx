@@ -1,11 +1,21 @@
 import { Color } from "@/components/Group/Color";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import {
+  Alert,
   Box,
+  Button,
   CircularProgress,
+  Divider,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemSecondaryAction,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -33,6 +43,24 @@ export default function Page() {
   ]);
 
   const [name, setName] = useState(data?.profile.name || "Untitled space");
+  const [vanishingTasks, setVanishingTasks] = useState(
+    Boolean(data?.profile?.vanishingTasks)
+  );
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    },
+    []
+  );
+  const handleCloseMenu = useCallback(
+    async (type) => {
+      await updateSettings(session, "type", type, false, null, true);
+      await mutate();
+      setAnchorEl(null);
+    },
+    [session, mutate]
+  );
 
   const handleUpdateName = useCallback(() => {
     if (name !== data?.profile?.name) {
@@ -101,6 +129,83 @@ export default function Page() {
                   mutatePropertyData={mutate}
                 />
               ))}
+          </Box>
+
+          <Box sx={{ p: 3 }}>
+            <Divider />
+            <Button
+              variant="outlined"
+              sx={{
+                my: 2,
+                px: 2,
+              }}
+              disabled={data.permission === "read-only"}
+              onClick={handleClick}
+              onMouseDown={handleClick}
+            >
+              <Typography
+                sx={{
+                  textTransform: "capitalize",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <Icon className="outlined">
+                  {data?.profile?.type === "dorm"
+                    ? "cottage"
+                    : data?.profile?.type === "apartment"
+                    ? "location_city"
+                    : data?.profile?.type === "study group"
+                    ? "school"
+                    : "home"}
+                </Icon>
+                {data?.profile?.type}
+              </Typography>
+            </Button>
+            <Alert severity="warning" sx={{ mb: 3 }}>
+              Heads up! Changing your group type may cause data loss. Change
+              this setting with caution.
+            </Alert>
+            <ListItemButton disableRipple>
+              <ListItemText
+                primary="Vanishing tasks"
+                secondary="Delete completed tasks more than 14 days old"
+              />
+              <ListItemSecondaryAction>
+                <Switch
+                  checked={vanishingTasks}
+                  onChange={(_, newValue) => {
+                    setVanishingTasks(newValue);
+
+                    updateSettings(
+                      session,
+                      "vanishingTasks",
+                      newValue ? "true" : "false",
+                      false,
+                      null,
+                      true
+                    ).then(mutate);
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItemButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={() => setAnchorEl(null)}
+            >
+              {["house", "apartment", "dorm", "study group"].map((type) => (
+                <MenuItem
+                  onClick={() => handleCloseMenu(type)}
+                  value={type}
+                  disabled={type == data.profile.type}
+                  key={type}
+                >
+                  {capitalizeFirstLetter(type)}
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
         </>
       ) : (

@@ -54,10 +54,9 @@ export async function updateSettings(
   });
 
   if (hideToast) {
-    await promise;
-    return;
+    return await promise;
   }
-  toast.promise(
+  return toast.promise(
     promise,
     {
       loading: "Saving...",
