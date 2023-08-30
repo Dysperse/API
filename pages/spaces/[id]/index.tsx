@@ -21,6 +21,7 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
@@ -101,6 +102,13 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
           ...(data && { background: palette[children ? 3 : 9] }),
           zIndex: 999,
           overflowX: "hidden",
+          "& .container": {
+            p: 3,
+            py: 4,
+            minHeight: "100%",
+            background: palette[1],
+            borderRadius: "20px 20px 0 0",
+          },
         }}
       >
         {error && !isLoading && (
@@ -160,69 +168,76 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                   sx={{ background: "rgba(0,0,0,0.1)", color: palette[1] }}
                 />
               )}
-              <Typography
-                variant="h2"
-                className="font-heading"
-                sx={{
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                }}
+              <motion.div
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
               >
-                {title || data?.profile?.name}
-              </Typography>
-              {!children && (
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <AvatarGroup
-                    max={1}
-                    sx={{
-                      justifyContent: "start",
-                      "& .MuiAvatar-root": {
-                        borderColor: palette[9],
-                      },
-                    }}
-                  >
-                    {members?.map((member: any) => (
-                      <Avatar
-                        key={member.id}
-                        src={member.user?.Profile?.picture}
-                        sx={{
-                          width: 30,
-                          height: 30,
-                          fontSize: 13,
-                          background: palette[8],
-                          color: palette[1],
-                        }}
-                      >
-                        {member?.user?.name?.substring(0, 2)?.toUpperCase()}
-                      </Avatar>
-                    ))}
-                  </AvatarGroup>
-                  <Chip
-                    onClick={() =>
-                      router.push(`/spaces/${data?.profile?.id}/members`)
-                    }
-                    sx={{ background: "rgba(0,0,0,0.1)", color: palette[2] }}
-                    label={
-                      <span style={{ display: "flex", alignItems: "center" }}>
-                        <span>
-                          {members.length} member{members.length !== 1 && "s"}
+                <Typography
+                  variant="h2"
+                  className="font-heading"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                >
+                  {title || data?.profile?.name}
+                </Typography>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                {!children && (
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <AvatarGroup
+                      max={1}
+                      sx={{
+                        justifyContent: "start",
+                        "& .MuiAvatar-root": {
+                          borderColor: palette[9],
+                        },
+                      }}
+                    >
+                      {members?.map((member: any) => (
+                        <Avatar
+                          key={member.id}
+                          src={member.user?.Profile?.picture}
+                          sx={{
+                            width: 30,
+                            height: 30,
+                            fontSize: 13,
+                            background: palette[8],
+                            color: palette[1],
+                          }}
+                        >
+                          {member?.user?.name?.substring(0, 2)?.toUpperCase()}
+                        </Avatar>
+                      ))}
+                    </AvatarGroup>
+                    <Chip
+                      onClick={() =>
+                        router.push(`/spaces/${data?.profile?.id}/members`)
+                      }
+                      sx={{ background: "rgba(0,0,0,0.1)", color: palette[2] }}
+                      label={
+                        <span style={{ display: "flex", alignItems: "center" }}>
+                          <span>
+                            {members.length} member{members.length !== 1 && "s"}
+                          </span>
+                          <Icon>arrow_forward_ios</Icon>
                         </span>
-                        <Icon>arrow_forward_ios</Icon>
-                      </span>
-                    }
-                  />
-                </Box>
-              )}
+                      }
+                    />
+                  </Box>
+                )}
+              </motion.div>
             </Box>
-            <Box
-              sx={{
-                p: 3,
-                py: 4,
-                minHeight: "100%",
-                background: palette[1],
-                borderRadius: "20px 20px 0 0",
-              }}
+            <motion.div
+              className="container"
+              initial={{ y: 50 }}
+              animate={{ y: 0 }}
             >
               {children}
               {!children && data && (
@@ -241,7 +256,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                     defaultPalette={data?.profile?.color}
                   />
                 )}
-            </Box>
+            </motion.div>
           </>
         ) : (
           <Box
