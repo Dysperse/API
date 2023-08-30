@@ -14,6 +14,7 @@ import {
   Box,
   Button,
   Chip,
+  Collapse,
   Grid,
   Icon,
   IconButton,
@@ -626,6 +627,14 @@ export function Navbar({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const router = useRouter();
 
+  const [showGroup, setShowGroup] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowGroup(false);
+    }, 4000);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -653,9 +662,14 @@ export function Navbar({
             <Icon className="outlined">search</Icon>
           </IconButton>
           <GroupModal list>
-            <IconButton
+            <Button
               sx={{
-                color: palette[8],
+                minWidth: "unset",
+                px: 1,
+                color: palette[showGroup ? 9 : 8],
+                background: palette[showGroup ? 3 : 1],
+                gap: showGroup ? 2 : 0,
+                "&:hover": { background: "transparent" },
                 "&:active": { transform: "scale(.9)" },
                 transition: "all .4s",
               }}
@@ -664,7 +678,16 @@ export function Navbar({
               }
             >
               <Icon className="outlined">group</Icon>
-            </IconButton>
+              <Collapse
+                orientation="horizontal"
+                in={showGroup}
+                sx={{
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {session.property.profile.name}
+              </Collapse>
+            </Button>
           </GroupModal>
           {router.asPath === "/" && (
             <IconButton
