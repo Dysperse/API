@@ -670,7 +670,7 @@ export function Navbar({
                 background: palette[showGroup ? 3 : 1],
                 gap: showGroup ? 2 : 0,
                 "&:hover": { background: "transparent" },
-                "&:active": { transform: "scale(.9)" },
+                "&:active": { background: palette[2] },
                 transition: "all .4s",
               }}
               onClick={() =>
