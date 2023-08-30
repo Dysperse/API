@@ -1,20 +1,15 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Container, Typography } from "@mui/material";
-import { useRef } from "react";
 import { CreateBoard } from "../Tasks/Board/Create";
 
-export function BoardsStep({ styles, navigation }) {
+export function BoardsStep({ parentRef, styles, navigation }) {
   const session = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
-  const parentRef = useRef();
 
   return (
-    <Box
-      sx={{ ...styles.container, overflow: "hidden" }}
-      ref={parentRef as any}
-    >
+    <Box sx={{ ...styles.container, overflow: "hidden" }}>
       <Container sx={{ mt: { sm: 20 }, mb: 10 }}>
         <Typography variant="h1" className="font-heading" sx={styles.heading}>
           Create some boards

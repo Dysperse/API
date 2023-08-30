@@ -4,7 +4,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton, LinearProgress } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Logo } from ".";
 import { AboutStep } from "../components/Onboarding/AboutStep";
 import { AppearanceStep } from "../components/Onboarding/AppearanceStep";
@@ -92,12 +92,19 @@ export default function Onboarding() {
     set: (step) => setStep(step),
   };
 
+  const parentRef = useRef();
+
   const steps = [
     <AboutStep navigation={navigation} key={1} styles={styles} />,
     <AppearanceStep navigation={navigation} key={2} styles={styles} />,
     <ProfileStep navigation={navigation} key={3} styles={styles} />,
     <GroupStep navigation={navigation} key={4} styles={styles} />,
-    <BoardsStep navigation={navigation} key={5} styles={styles} />,
+    <BoardsStep
+      parentRef={parentRef}
+      navigation={navigation}
+      key={5}
+      styles={styles}
+    />,
     <Completion navigation={navigation} key={6} styles={styles} />,
   ];
 
@@ -155,6 +162,7 @@ export default function Onboarding() {
             backdropFilter: "blur(10px)",
             overflow: "scroll",
           }}
+          ref={parentRef}
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.div

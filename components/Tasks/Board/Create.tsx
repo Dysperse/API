@@ -23,12 +23,12 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Avatar from "boring-avatars";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { cloneElement, useDeferredValue, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
-import { mutate } from "swr";
 
 const checklistCardStyles = (palette) => ({
   background: palette[2],
@@ -426,8 +426,8 @@ export const templates = [
       { name: "Tasks", emoji: "1f4cb" },
       { name: "Projects", emoji: "1f4c3" },
       { name: "Events", emoji: "1f3c3" },
-      { name: "Finance", emoji: "1f4b0" }
-    ]
+      { name: "Finance", emoji: "1f4b0" },
+    ],
   },
   {
     for: ["Event planner", "Organizer"],
@@ -563,14 +563,11 @@ export const templates = [
   },
 ];
 
-export function CreateBoard({
-  parentRef,
-  onboarding = false,
-  mutate,
-}: any) {
+export function CreateBoard({ parentRef, onboarding = false, mutate }: any) {
   const [currentOption, setOption] = useState("Board");
   const session = useSession();
   const [searchQuery, setSearchQuery] = useState("");
+  const [category, setCategory] = useState<null | string>(null);
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
   const checklists = [
@@ -663,29 +660,36 @@ export function CreateBoard({
             { color: "purple", name: "School", icon: "history_edu" },
             { color: "red", name: "Personal", icon: "celebration" },
             { color: "green", name: "Checklists", icon: "task_alt" },
-          ].map((category) => (
-            <Grid item xs={12} sm={3} key={category.name}>
+          ].map((_category) => (
+            <Grid item xs={12} sm={3} key={_category.name}>
               <CardActionArea
-                key={category.name}
+                onClick={() => {
+                  setCategory(category ? null : _category.name);
+                }}
+                key={_category.name}
                 sx={{
                   background: palette[3],
                   p: 2,
                   borderRadius: 5,
                 }}
               >
+                {/* {category} */}
                 <Icon
                   className="outlined"
                   sx={{
-                    color: colors[category.color]["300"],
+                    color: colors[_category.color]["300"],
                     mb: 1,
                     fontSize: "30px!important",
                   }}
                 >
-                  {category.icon}
+                  {_category.icon}
                 </Icon>
-                <Typography variant="h5">{category.name}</Typography>
+                <Typography variant="h5">{_category.name}</Typography>
                 <Typography variant="body2">
-                  {templates.filter((d) => d.category === category.name).length}{" "}
+                  {
+                    templates.filter((d) => d.category === _category.name)
+                      .length
+                  }{" "}
                   templates
                 </Typography>
               </CardActionArea>
@@ -713,88 +717,91 @@ export function CreateBoard({
                   .toLowerCase()
                   .includes(deferredSearchQuery.toLowerCase())
             )
+            .filter((template) => category || true)
             .filter((template) => {
               if (onboarding && template.name === "Blank board") return false;
               return true;
             })}
           itemContent={(index, template) => (
             <Box key={template.name} sx={{ mb: 2 }}>
-              <Template
-                onboarding={onboarding}
-                template={template}
-                mutate={mutate}
-              >
-                <Card
-                  sx={{
-                    background: palette[3],
-                    borderRadius: 5,
-                    maxWidth: "100%",
-                    mx: "auto",
-                    ...(template.name === "Blank board" &&
-                      onboarding && {
-                        display: "none",
-                      }),
-                  }}
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <Template
+                  onboarding={onboarding}
+                  template={template}
+                  mutate={mutate}
                 >
-                  <CardActionArea sx={{ height: "100%" }}>
-                    <Box
-                      sx={{
-                        maxHeight: "70px",
-                        overflow: "hidden",
-                        position: "relative",
-                        ...(template.name === "Blank board" && {
+                  <Card
+                    sx={{
+                      background: palette[3],
+                      borderRadius: 5,
+                      maxWidth: "100%",
+                      mx: "auto",
+                      ...(template.name === "Blank board" &&
+                        onboarding && {
                           display: "none",
                         }),
-                      }}
-                    >
-                      <Avatar
-                        size="100%"
-                        square
-                        name={template.name}
-                        variant="marble"
-                        colors={[
-                          "#0A0310",
-                          "#49007E",
-                          "#FF005B",
-                          "#FF7D10",
-                          "#FFB238",
-                        ]}
-                      />
-                      {template.category && (
-                        <Chip
-                          sx={{
-                            position: "absolute",
-                            top: 0,
-                            right: 0,
-                            m: 1,
-                            background: addHslAlpha(palette[2], 0.4),
-                            backdropFilter: "blur(10px)",
-                          }}
-                          label={template.category}
-                          size="small"
-                        />
-                      )}
-                    </Box>
-                    <Box sx={{ p: 3 }}>
-                      <Typography
-                        variant={onboarding ? "h5" : "h3"}
-                        className={onboarding ? "" : "font-heading"}
+                    }}
+                  >
+                    <CardActionArea sx={{ height: "100%" }}>
+                      <Box
+                        sx={{
+                          maxHeight: "70px",
+                          overflow: "hidden",
+                          position: "relative",
+                          ...(template.name === "Blank board" && {
+                            display: "none",
+                          }),
+                        }}
                       >
-                        {template.name}
-                      </Typography>
-                      {template.columns.length > 0 && (
+                        <Avatar
+                          size="100%"
+                          square
+                          name={template.name}
+                          variant="marble"
+                          colors={[
+                            "#0A0310",
+                            "#49007E",
+                            "#FF005B",
+                            "#FF7D10",
+                            "#FFB238",
+                          ]}
+                        />
+                        {template.category && (
+                          <Chip
+                            sx={{
+                              position: "absolute",
+                              top: 0,
+                              right: 0,
+                              m: 1,
+                              background: addHslAlpha(palette[2], 0.4),
+                              backdropFilter: "blur(10px)",
+                            }}
+                            label={template.category}
+                            size="small"
+                          />
+                        )}
+                      </Box>
+                      <Box sx={{ p: 3 }}>
                         <Typography
-                          variant="body2"
-                          gutterBottom
-                          className="font-body"
+                          variant={onboarding ? "h5" : "h3"}
+                          className={onboarding ? "" : "font-heading"}
                         >
-                          {template.columns.length} columns
+                          {template.name}
                         </Typography>
-                      )}
-                    </Box>
-                  </CardActionArea>
-                </Card>
-              </Template>
+                        {template.columns.length > 0 && (
+                          <Typography
+                            variant="body2"
+                            gutterBottom
+                            className="font-body"
+                          >
+                            {template.columns.length} columns
+                          </Typography>
+                        )}
+                      </Box>
+                    </CardActionArea>
+                  </Card>
+                </Template>
+              </motion.div>
             </Box>
           )}
         />
