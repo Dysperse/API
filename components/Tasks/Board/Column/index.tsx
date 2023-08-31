@@ -502,7 +502,7 @@ export function Column({
                 board={board}
                 columnId={column.id}
                 task={task}
-                mutate={mutateData}
+                mutateList={mutateData}
               />
             )}
           />
