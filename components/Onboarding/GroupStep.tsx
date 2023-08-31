@@ -226,9 +226,8 @@ export function GroupStep({ styles, navigation }) {
                     }
                     onBlur={(e) =>
                       updateSettings(
-                        session,
-                        "property.profile.name",
-                        e.target.value
+                        ["name", e.target.value],
+                        { session, type: "property" }
                       )
                     }
                     InputProps={{
