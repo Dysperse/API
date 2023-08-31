@@ -338,10 +338,6 @@ export function Column({
                   <Typography
                     variant="h4"
                     sx={{
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                      maxWidth: "100%",
                       minWidth: 0,
                       fontSize: "35px",
                       borderRadius: 1,
@@ -372,7 +368,14 @@ export function Column({
                         height={50}
                       />
                     </picture>
-                    <Box sx={{ display: "flex", gap: 1, minWidth: 0 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        minWidth: 0,
+                        maxWidth: "100%",
+                      }}
+                    >
                       <span
                         style={{
                           overflow: "hidden",
@@ -380,6 +383,7 @@ export function Column({
                           textOverflow: "ellipsis",
                           fontWeight: "200",
                           minWidth: 0,
+                          maxWidth: "100%",
                         }}
                         className="font-heading"
                       >
