@@ -25,7 +25,7 @@ export function Intro() {
             ["@keyframes showHeader"]: {
               "0%": {
                 opacity: 0,
-                transform: "scale(2)",
+                transform: "scale(1.5)",
               },
               "30%": {
                 opacity: 1,

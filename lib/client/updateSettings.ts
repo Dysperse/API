@@ -30,8 +30,7 @@ export async function updateSettings(
     };
 
     const res = await fetchRawApi(session, endpoint, params);
-    await mutate("/api/user");
-
+    await mutate("/api/session");
     return res;
   } catch (e) {
     toast.error("Couldn't save changes. Please try again later", toastStyles);

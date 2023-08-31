@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import * as colors from "@radix-ui/colors";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { cloneElement, useState } from "react";
 import Layout from ".";
 import { useColor, useDarkMode } from "../../lib/client/useColor";
 import themes from "./themes.json";
@@ -26,7 +26,7 @@ import themes from "./themes.json";
 /**
  * Function to change theme color (Not dark mode!)
  */
-function ThemeColorSettings() {
+export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
   const session = useSession();
   const [open, setOpen] = useState(false);
 
@@ -35,9 +35,8 @@ function ThemeColorSettings() {
 
   useStatusBar(open ? previewPalette[9] : previewPalette[1]);
 
-  return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <ListSubheader>Color</ListSubheader>
+  const trigger = cloneElement(
+    children || (
       <Button
         onClick={() => setOpen(true)}
         variant="contained"
@@ -45,6 +44,14 @@ function ThemeColorSettings() {
       >
         Change
       </Button>
+    ),
+    {
+      onClick: () => setOpen(true),
+    }
+  );
+  return (
+    <>
+      {trigger}
       <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
@@ -213,8 +220,6 @@ function ThemeColorSettings() {
               className="_container"
             >
               {Object.keys(themes).map((theme) => {
-                const color = themes[theme];
-
                 return (
                   <IconButton
                     size="small"
@@ -222,17 +227,28 @@ function ThemeColorSettings() {
                     {...(currentTheme === theme && { id: "currentTheme" })}
                     onClick={() => setCurrentTheme(theme)}
                     sx={{
-                      color:
-                        colors[theme] &&
-                        colors[theme][theme + 9] + "!important",
-                      transition: "all 0.2s ease",
-                      ...(currentTheme === theme && {
-                        transform: "scale(1.5)",
-                      }),
+                      background: "transparent!important",
                     }}
                   >
-                    <Icon sx={{ fontSize: "40px!important" }}>
-                      change_history
+                    <Icon
+                      sx={{
+                        fontSize: "40px!important",
+                        background: `linear-gradient(45deg, ${
+                          colors[`${theme}Dark`][`${theme}9`]
+                        }, ${colors[`${theme}Dark`][`${theme}11`]})`,
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        fontVariationSettings:
+                          '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 90 !important',
+                        transition: "all 0.2s ease",
+                        ...(currentTheme === theme && {
+                          transform: "scale(1.2)",
+                          fontVariationSettings:
+                            '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 90 !important',
+                        }),
+                      }}
+                    >
+                      hexagon
                     </Icon>
                   </IconButton>
                 );
@@ -241,7 +257,7 @@ function ThemeColorSettings() {
           </Box>
         </AnimatePresence>
       </SwipeableDrawer>
-    </Box>
+    </>
   );
 }
 

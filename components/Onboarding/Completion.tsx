@@ -1,6 +1,7 @@
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { Box, Button, Icon, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Box, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { mutate } from "swr";
@@ -28,26 +29,19 @@ export function Completion({ styles, navigation }) {
         You can always come back to this page by visiting your account settings
       </Typography>
       <Box>
-        <Button
+        <LoadingButton
+          loading={loading}
           variant="contained"
           color="primary"
-          onClick={() => {
+          onClick={async () => {
             setLoading(true);
-            updateSettings(
-              session,
-              "onboardingComplete",
-              "true",
-              false,
-              async () => {
-                await mutate("/api/session")
-                router.push((router.query.next as string) || "/");
-              },
-              false
-            );
+            updateSettings(["onboardingComplete", "true"], { session });
+            await mutate("/api/session");
+            router.push((router.query.next as string) || "/");
           }}
         >
           Let&apos;s go <Icon>east</Icon>
-        </Button>
+        </LoadingButton>
       </Box>
     </Box>
   );

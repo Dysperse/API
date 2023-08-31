@@ -1,8 +1,12 @@
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Container, Icon, Typography } from "@mui/material";
+import { toastStyles } from "@/lib/client/useTheme";
+import { ThemeColorSettings } from "@/pages/settings/appearance";
+import themes from "@/pages/settings/themes.json";
+import { Box, Container, Typography } from "@mui/material";
 import * as colors from "@radix-ui/colors";
+import toast from "react-hot-toast";
 
 export function AppearanceStep({ styles, navigation }) {
   const session = useSession();
@@ -32,106 +36,110 @@ export function AppearanceStep({ styles, navigation }) {
         <Typography sx={styles.helper}>
           Pick your color, profile picture, and theme.
         </Typography>
-        <Typography variant="h1" sx={styles.subheading}>
-          Choose your color
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            gap: 1.5,
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          {Object.keys(colors)
-            .filter((color) => !color.includes("Dark"))
-            .filter((color) => !color.endsWith("A"))
-            .filter(
-              (color) =>
-                ![
-                  "bronze",
-                  "gold",
-                  "sand",
-                  "olive",
-                  "slate",
-                  "mauve",
-                  "gray",
-                ].includes(color)
-            )
-            .map((color) => (
+        <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="h1" sx={styles.subheading}>
+              Color
+            </Typography>
+            <ThemeColorSettings>
               <Box
-                key={color}
-                onClick={() =>
-                  updateSettings(["color", color.toLowerCase()], { session })
-                }
                 sx={{
-                  background:
-                    colors[color] &&
-                    `linear-gradient(45deg, ${
-                      colors[color][color + (isDark ? 10 : 7)]
-                    }, ${colors[color][color + (isDark ? 12 : 9)]})`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  ...circleStyles,
+                  p: 3,
+                  border: "2px solid " + palette[9],
+                  transition: "all .2s",
+                  "&:hover": {
+                    background: palette[2],
+                    boxShadow: `0 0 25px 1px ${palette[8]}`,
+                  },
+                  borderRadius: 5,
                 }}
               >
-                {session.themeColor == color.toLowerCase() && (
-                  <Icon
-                    sx={{
-                      color: "#fff",
-                    }}
-                  >
-                    check
-                  </Icon>
-                )}
+                <Typography variant="h5" className="font-heading">
+                  {themes[session.themeColor].name}
+                </Typography>
+                <Typography variant="body2">
+                  {themes[session.themeColor].description}
+                </Typography>
               </Box>
-            ))}
-        </Box>
-        <Typography variant="h1" sx={styles.subheading}>
-          Choose a theme
-        </Typography>
-        <Box sx={{ display: "flex", gap: 2, pb: 1 }}>
-          <Box
-            sx={{
-              background: colors.gray.gray4,
-              ...circleStyles,
-              ...(session.darkMode == "light" && {
-                boxShadow: "0px 0px 0px 3px " + palette[9],
-              }),
-            }}
-            onClick={() => updateSettings(["darkMode", "light"], { session })}
-          />
+            </ThemeColorSettings>
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="h1" sx={styles.subheading}>
+              Theme
+            </Typography>
+            <Box sx={{ display: "flex", gap: 2, pb: 1 }}>
+              <Box
+                sx={{
+                  background: colors.gray.gray4,
+                  ...circleStyles,
+                  ...(session.darkMode == "light" && {
+                    boxShadow: "0px 0px 0px 3px " + palette[9],
+                  }),
+                }}
+                onClick={() =>
+                  toast.promise(
+                    updateSettings(["darkMode", "light"], { session }),
+                    {
+                      loading: "Saving...",
+                      error: "Couldn't save",
+                      success: "Saved!",
+                    },
+                    toastStyles
+                  )
+                }
+              />
 
-          <Box
-            sx={{
-              background: colors.grayDark.gray2,
-              ...circleStyles,
-              ...(session.darkMode == "dark" && {
-                boxShadow: "0px 0px 0px 3px " + palette[9],
-              }),
-            }}
-            onClick={() => updateSettings(["darkMode", "dark"], { session })}
-          />
+              <Box
+                sx={{
+                  background: colors.grayDark.gray2,
+                  ...circleStyles,
+                  ...(session.darkMode == "dark" && {
+                    boxShadow: "0px 0px 0px 3px " + palette[9],
+                  }),
+                }}
+                onClick={() =>
+                  toast.promise(
+                    updateSettings(["darkMode", "dark"], { session }),
+                    {
+                      loading: "Saving...",
+                      error: "Couldn't save",
+                      success: "Saved!",
+                    },
+                    toastStyles
+                  )
+                }
+              />
 
-          <Box
-            sx={{
-              ...circleStyles,
-              background: colors.grayDark.gray5,
-              transform: "rotate(45deg)",
-              ...(session.darkMode == "system" && {
-                boxShadow: "0px 0px 0px 3px " + palette[9],
-              }),
-            }}
-            onClick={() => updateSettings(["darkMode", "system"], { session })}
-          >
-            <Box
-              sx={{
-                background: colors.gray.gray5,
-                height: "100%",
-                width: 15,
-              }}
-            />
+              <Box
+                sx={{
+                  ...circleStyles,
+                  background: colors.grayDark.gray5,
+                  transform: "rotate(45deg)",
+                  ...(session.darkMode == "system" && {
+                    boxShadow: "0px 0px 0px 3px " + palette[9],
+                  }),
+                }}
+                onClick={() =>
+                  toast.promise(
+                    updateSettings(["darkMode", "system"], { session }),
+                    {
+                      loading: "Saving...",
+                      error: "Couldn't save",
+                      success: "Saved!",
+                    },
+                    toastStyles
+                  )
+                }
+              >
+                <Box
+                  sx={{
+                    background: colors.gray.gray5,
+                    height: "100%",
+                    width: 15,
+                  }}
+                />
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Container>

@@ -5,20 +5,21 @@ export function AboutStep({ styles, navigation }) {
     <Box sx={styles.container}>
       <Container>
         <Typography
-          variant="h4"
+          className="font-heading"
+          variant="h2"
           sx={{
-            fontWeight: 900,
             mb: 1,
+            
           }}
         >
-          We&apos;re excited to have you here!
+          It&apos;s time to redefine the standard for productivity.
         </Typography>
 
         <Typography>
-          It&apos;s time to redefine the standard for productivity.
+          We&apos;re so excited to have you here. Let&apos;s get started
         </Typography>
         <Button
-          variant="contained"
+          variant="outlined"
           size="small"
           sx={{ mt: 2 }}
           onClick={() => navigation.set(5)}

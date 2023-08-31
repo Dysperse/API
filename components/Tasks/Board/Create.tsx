@@ -187,7 +187,7 @@ function Template({ onboarding, children, template, mutate }: any) {
                   columns: template.columns.map((c, o) => ({ ...c, order: o })),
                 }),
               }).then(async (res) => {
-                await mutate();
+                // await mutate();
                 if (onboarding) {
                   toast.success(
                     "Board created! You can explore other templates.",
