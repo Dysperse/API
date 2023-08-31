@@ -77,7 +77,7 @@ export default function Upcoming() {
               </Box>
               {error && (
                 <ErrorHandler
-                  callback={mutate}
+                  callback={() => mutate()}
                   error="Yikes! An error occured while trying to fetch your backlog. Please try again later."
                 />
               )}

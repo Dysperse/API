@@ -160,7 +160,7 @@ export default function CategoryModal({
           )}
           {error && (
             <ErrorHandler
-              callback={mutate}
+              callback={() => mutate()}
               error="An error occured while trying to fetch your categories"
             />
           )}

@@ -182,7 +182,7 @@ export function MyGoals(): JSX.Element {
     </Box>
   ) : error ? (
     <ErrorHandler
-      callback={mutate}
+      callback={() => mutate()}
       error="An error occured while trying to fetch your goals"
     />
   ) : (

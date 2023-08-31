@@ -142,7 +142,7 @@ export default function Integrations({
           {error && (
             <ErrorHandler
               error="Oh no! We couldn't get your integrations. Please try again later..."
-              callback={mutate}
+              callback={() => mutate()}
             />
           )}
           {session.permission !== "read-only" &&

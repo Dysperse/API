@@ -391,7 +391,7 @@ export function TasksLayout({
       <>
         {error && (
           <ErrorHandler
-            callback={mutate}
+            callback={() => mutate()}
             error="An error occurred while loading your tasks"
           />
         )}

@@ -71,7 +71,7 @@ export default function ConnectionsSettings() {
         {error && (
           <ErrorHandler
             error="Something went wrong! Please try again later. "
-            callback={mutate}
+            callback={() => mutate()}
           />
         )}
         <Grid container>

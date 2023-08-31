@@ -75,7 +75,7 @@ export default function Room() {
       {error && (
         <ErrorHandler
           error="Oh no! We couldn't load the items in this room. Please try again later"
-          callback={mutate}
+          callback={() => mutate()}
         />
       )}
     </Categories>

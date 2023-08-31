@@ -291,7 +291,7 @@ export default function Notifications() {
         </Box>
       ) : error ? (
         <ErrorHandler
-          callback={mutate}
+          callback={() => mutate()}
           error="An error occured while trying to fetch your notification settings"
         />
       ) : (

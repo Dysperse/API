@@ -121,7 +121,7 @@ export function ColoredTasks() {
           </Typography>
           {error && (
             <ErrorHandler
-              callback={mutate}
+              callback={() => mutate()}
               error="Yikes! An error occured while trying to fetch your color coded tasks. Please try again later."
             />
           )}

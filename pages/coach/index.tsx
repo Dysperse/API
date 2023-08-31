@@ -198,7 +198,7 @@ export default function Render() {
           {error && (
             <ErrorHandler
               error="Yikes! We couldn't load your streak. Please try again later"
-              callback={mutate}
+              callback={() => mutate()}
             />
           )}
 

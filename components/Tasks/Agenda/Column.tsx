@@ -271,7 +271,7 @@ const Header = memo(function Header({
             height: "auto",
           }}
           id="taskMutationTrigger"
-          onClick={mutateList}
+          onClick={() => mutateList()}
         >
           <Box
             sx={{

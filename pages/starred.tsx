@@ -86,7 +86,7 @@ export default function Trash() {
           )}
           {error && (
             <ErrorHandler
-              callback={mutate}
+              callback={() => mutate()}
               error="Oh no! An error occured while trying to get your starred items! Please try again later"
             />
           )}

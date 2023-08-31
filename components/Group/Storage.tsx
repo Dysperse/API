@@ -53,7 +53,7 @@ export function Storage({
       </Typography>
       {error ? (
         <ErrorHandler
-          callback={mutate}
+          callback={() => mutate()}
           error="An error occured while trying to get your account's storage information. Please try again later"
         />
       ) : (

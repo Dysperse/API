@@ -381,7 +381,7 @@ function Page() {
       <Container sx={{ my: 5 }}>
         {(error || data?.error) && (
           <ErrorHandler
-            callback={mutate}
+            callback={() => mutate()}
             error="On no! We couldn't find the user you were looking for."
           />
         )}
@@ -518,7 +518,7 @@ function Page() {
                   {!isCurrentUser && (
                     <Box sx={{ ml: { sm: "auto" }, mb: { xs: 1, sm: 0 } }}>
                       <AddPersonModal
-                      //  palette={palette}
+                        //  palette={palette}
                         defaultValue={data.email}
                         disabled={
                           session.permission !== "owner" ||

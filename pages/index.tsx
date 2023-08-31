@@ -905,7 +905,7 @@ export default function Home() {
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
           sx={{
-            pt: { xs: 7, sm: 10 },
+            pt: { xs: 7, sm: 15 },
           }}
         >
           <Box

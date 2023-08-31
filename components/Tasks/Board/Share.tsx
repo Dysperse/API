@@ -320,11 +320,11 @@ export function ShareBoard({ mutate, board }) {
         ) : data?.error ? (
           <ErrorHandler
             error="Oh no! An error occured while trying to get your active share links!"
-            callback={mutate}
+            callback={() => mutate()}
           />
         ) : error ? (
           <ErrorHandler
-            callback={mutate}
+            callback={() => mutate()}
             error="Oh no! An error occured while trying to get your active share links!"
           />
         ) : (

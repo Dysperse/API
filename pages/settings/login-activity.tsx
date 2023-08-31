@@ -128,7 +128,7 @@ export default function LoginActivity() {
         </ConfirmationModal>
         {error && (
           <ErrorHandler
-            callback={mutate}
+            callback={() => mutate()}
             error="An error occured while trying to fetch your logged-in devices"
           />
         )}

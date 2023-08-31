@@ -100,7 +100,7 @@ export function Upcoming({ setMobileView }) {
             </IconButton>
             {error && (
               <ErrorHandler
-                callback={mutate}
+                callback={() => mutate()}
                 error="Yikes! An error occured while trying to fetch your upcoming items. Please try again later."
               />
             )}
@@ -296,7 +296,7 @@ export default function Dashboard() {
                 </Box>
                 {error && (
                   <ErrorHandler
-                    callback={mutate}
+                    callback={() => mutate()}
                     error="Yikes! An error occured while trying to fetch your backlog. Please try again later."
                   />
                 )}
