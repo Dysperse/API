@@ -157,7 +157,7 @@ export function StatusSelector({
             ? "remove_circle"
             : status === "away"
             ? "dark_mode"
-            : "circle"}
+            : "data_usage"}
         </Icon>
         {status ? capitalizeFirstLetter(status) : "Set status"}
       </LoadingButton>
