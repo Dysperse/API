@@ -4,7 +4,7 @@ const handler = async (req, res) => {
   try {
     const data = await prisma.task.findMany({
       where: {
-        createdBy: { email: req.query.email },
+        AND: [{ createdBy: { email: req.query.email } }, { completed: true }],
       },
       select: { completedAt: true },
     });
