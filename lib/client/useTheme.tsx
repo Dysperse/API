@@ -205,6 +205,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           root: ({ theme }) =>
             theme.unstable_sx({
               gap: "10px",
+              whiteSpace:"nowrap",
               transition: "none!important",
               cursor: "default",
               borderRadius: "999px",
