@@ -6,6 +6,7 @@ import { useStatusBar } from "@/lib/client/useStatusBar";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import { fetcher } from "@/pages/_app";
+import Insights from "@/pages/tasks/insights";
 import { Masonry } from "@mui/lab";
 import {
   Alert,
@@ -559,6 +560,7 @@ export function UserProfile({
               </Typography>
             </Box>
           )}
+          <Insights email={data.email} profile palette={data.color} />
         </Masonry>
       </Box>
     </ThemeProvider>

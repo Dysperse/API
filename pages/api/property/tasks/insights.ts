@@ -1,17 +1,12 @@
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
 
 const handler = async (req, res) => {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
-
     const data = await prisma.task.findMany({
       where: {
         createdBy: { email: req.query.email },
       },
+      select: { completedAt: true },
     });
 
     res.json(data);

@@ -15,7 +15,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import useSWR from "swr";
 import { VictoryAxis, VictoryBar, VictoryChart } from "victory";
 
@@ -49,12 +49,12 @@ function getTasksCompletedInRange(tasks, days) {
   return tasksCompletedInRange;
 }
 
-function Insights({ tasks }) {
+function Insights({ profile, tasks, defaultPalette }) {
   const session = useSession();
   const router = useRouter();
 
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
+  const palette = useColor(defaultPalette || session.themeColor, isDark);
 
   const cardStyles = {
     borderRadius: 5,
@@ -94,182 +94,221 @@ function Insights({ tasks }) {
     () => (tasks.filter((t) => t.pinned).length / tasks.length) * 100,
     [tasks]
   );
+
   const isMobile = useMediaQuery("(max-width:600px)");
+
+  const children1 = (
+    <>
+      <Box sx={cardStyles}>
+        <Typography
+          variant="body2"
+          sx={{ color: palette[11], fontWeight: 900 }}
+        >
+          TODAY
+        </Typography>
+        <Typography variant="h4">
+          {getTasksCompletedInRange(tasks, 1).length} tasks
+        </Typography>
+        <Typography>
+          {calculatePercentImprovement(
+            getTasksCompletedInRange(tasks, 2).length -
+              getTasksCompletedInRange(tasks, 1).length,
+            getTasksCompletedInRange(tasks, 1).length
+          )}{" "}
+          compared to yesterday
+        </Typography>
+      </Box>
+      <Box sx={cardStyles}>
+        <Typography
+          variant="body2"
+          sx={{ color: palette[11], fontWeight: 900 }}
+        >
+          THIS WEEK
+        </Typography>
+        <Typography variant="h4">
+          {getTasksCompletedInRange(tasks, 7).length} tasks
+        </Typography>
+        <Typography>
+          {calculatePercentImprovement(
+            getTasksCompletedInRange(tasks, 14).length -
+              getTasksCompletedInRange(tasks, 7).length,
+            getTasksCompletedInRange(tasks, 7).length
+          )}{" "}
+          compared to last week
+        </Typography>
+      </Box>
+    </>
+  );
+
+  const children2 = (
+    <>
+      <Box sx={{ ...cardStyles, pointerEvents: "none!important" }}>
+        <VictoryChart
+          padding={{
+            left: 5,
+            right: 5,
+            bottom: isMobile ? 20 : 17,
+          }}
+          theme={{
+            axis: {
+              style: {
+                tickLabels: {
+                  fill: palette[12],
+                },
+              },
+            },
+          }}
+        >
+          <VictoryAxis
+            style={{
+              axis: { stroke: palette[8] },
+              axisLabel: { fontSize: 20, padding: 30 },
+              grid: {
+                stroke: palette[6],
+              },
+              ticks: { stroke: palette[6], size: 5 },
+              tickLabels: {
+                fontSize: isMobile ? 15 : 11,
+                padding: 5,
+              },
+            }}
+            tickCount={isMobile ? 6 : 12}
+            tickFormat={(e) => hourIntTo12(e).replace(" ", "").toLowerCase()}
+          />
+          <VictoryBar
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 1000 },
+            }}
+            style={{ data: { fill: palette[11] } }}
+            data={hours}
+            x="hours"
+            y="tasks"
+          />
+        </VictoryChart>
+      </Box>
+      <Box sx={cardStyles}>
+        <Typography variant="h4">
+          {hourIntTo12(mostProductiveHour.hour)}
+        </Typography>
+        <Typography>
+          My most productive hour &bull; {mostProductiveHour.tasks} task
+          {mostProductiveHour.tasks !== 1 && "s"}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          ...cardStyles,
+          background: `linear-gradient(${palette[9]}, ${palette[11]})`,
+          color: palette[1],
+        }}
+      >
+        <Typography variant="h4">
+          <b>{mostProductiveDay.tasks}</b> task
+          {mostProductiveDay.tasks !== 1 && "s"}
+        </Typography>
+        <Typography>
+          Most productive day &bull;{" "}
+          <b>
+            <u>{dayjs(mostProductiveDay.day).format("MMMM Do, YYYY")}</u>
+          </b>
+        </Typography>
+      </Box>
+      <Box sx={cardStyles}>
+        <Typography variant="h4">{tasks.length}</Typography>
+        <Typography>Task{tasks.length !== 1 && "s"} completed</Typography>
+        <LinearProgress
+          sx={{ my: 1, borderRadius: 999 }}
+          variant="determinate"
+          value={priorityPercentage}
+        />
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <Chip
+            size="small"
+            label={tasks.filter((t) => t.pinned).length + " priority"}
+          />
+          <Chip
+            size="small"
+            sx={{ ml: "auto" }}
+            label={tasks.filter((t) => !t.pinned).length + " other"}
+          />
+        </Box>
+      </Box>
+    </>
+  );
+
+  const InsightsContainer: any = profile
+    ? React.Fragment
+    : Box({
+        sx: {
+          p: profile ? 0 : { xs: 1, sm: 4 },
+        },
+      });
+
   return (
-    <Box sx={{ p: { xs: 1, sm: 4 } }}>
-      <IconButton onClick={() => handleBack(router)} sx={{ mb: 2 }}>
-        <Icon>arrow_back_ios_new</Icon>
-      </IconButton>
-      <Box sx={{ p: 2 }}>
+    <InsightsContainer>
+      {!profile && (
+        <IconButton onClick={() => handleBack(router)} sx={{ mb: 2 }}>
+          <Icon>arrow_back_ios_new</Icon>
+        </IconButton>
+      )}
+      {!profile && (
         <Typography variant="h2" className="font-heading" sx={{ mb: 4 }}>
           Insights
         </Typography>
+      )}
 
+      {!profile && (
         <Typography variant="h3" className="font-heading" sx={{ mb: 2 }}>
           Recent
         </Typography>
+      )}
+      {profile ? (
+        children1
+      ) : (
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-            <Box sx={cardStyles}>
-              <Typography
-                variant="body2"
-                sx={{ color: palette[11], fontWeight: 900 }}
-              >
-                TODAY
-              </Typography>
-              <Typography variant="h4">
-                {getTasksCompletedInRange(tasks, 1).length} tasks
-              </Typography>
-              <Typography>
-                {calculatePercentImprovement(
-                  getTasksCompletedInRange(tasks, 2).length -
-                    getTasksCompletedInRange(tasks, 1).length,
-                  getTasksCompletedInRange(tasks, 1).length
-                )}{" "}
-                compared to yesterday
-              </Typography>
-            </Box>
-            <Box sx={cardStyles}>
-              <Typography
-                variant="body2"
-                sx={{ color: palette[11], fontWeight: 900 }}
-              >
-                THIS WEEK
-              </Typography>
-              <Typography variant="h4">
-                {getTasksCompletedInRange(tasks, 7).length} tasks
-              </Typography>
-              <Typography>
-                {calculatePercentImprovement(
-                  getTasksCompletedInRange(tasks, 14).length -
-                    getTasksCompletedInRange(tasks, 7).length,
-                  getTasksCompletedInRange(tasks, 7).length
-                )}{" "}
-                compared to last week
-              </Typography>
-            </Box>
+            {children1}
           </Masonry>
         </Box>
+      )}
+      {!profile && (
         <Typography variant="h3" className="font-heading" sx={{ mt: 4, mb: 2 }}>
           Overall
         </Typography>
+      )}
+      {profile ? (
+        children2
+      ) : (
         <Box sx={{ mr: -2 }}>
           <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-            {/* idk this is blocking scroll */}
-            <Box sx={{ ...cardStyles, pointerEvents: "none" }}>
-              <VictoryChart
-                padding={{
-                  left: 5,
-                  right: 5,
-                  bottom: isMobile ? 20 : 17,
-                }}
-                theme={{
-                  axis: {
-                    style: {
-                      tickLabels: {
-                        fill: palette[12],
-                      },
-                    },
-                  },
-                }}
-              >
-                <VictoryAxis
-                  style={{
-                    axis: { stroke: palette[8] },
-                    axisLabel: { fontSize: 20, padding: 30 },
-                    grid: {
-                      stroke: palette[6],
-                    },
-                    ticks: { stroke: palette[6], size: 5 },
-                    tickLabels: {
-                      fontSize: isMobile ? 15 : 11,
-                      padding: 5,
-                    },
-                  }}
-                  tickCount={isMobile ? 6 : 12}
-                  tickFormat={(e) =>
-                    hourIntTo12(e).replace(" ", "").toLowerCase()
-                  }
-                />
-                <VictoryBar
-                  animate={{
-                    duration: 2000,
-                    onLoad: { duration: 1000 },
-                  }}
-                  style={{ data: { fill: palette[11] } }}
-                  data={hours}
-                  x="hours"
-                  y="tasks"
-                />
-              </VictoryChart>
-            </Box>
-            <Box sx={cardStyles}>
-              <Typography variant="h4">
-                {hourIntTo12(mostProductiveHour.hour)}
-              </Typography>
-              <Typography>
-                My most productive hour &bull; {mostProductiveHour.tasks} task
-                {mostProductiveHour.tasks !== 1 && "s"}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                ...cardStyles,
-                background: `linear-gradient(${palette[9]}, ${palette[11]})`,
-                color: palette[1],
-              }}
-            >
-              <Typography variant="h4">
-                <b>{mostProductiveDay.tasks}</b> task
-                {mostProductiveDay.tasks !== 1 && "s"}
-              </Typography>
-              <Typography>
-                Most productive day &bull;{" "}
-                <b>
-                  <u>{dayjs(mostProductiveDay.day).format("MMMM Do, YYYY")}</u>
-                </b>
-              </Typography>
-            </Box>
-            <Box sx={cardStyles}>
-              <Typography variant="h4">{tasks.length}</Typography>
-              <Typography>Task{tasks.length !== 1 && "s"} completed</Typography>
-              <LinearProgress
-                sx={{ my: 1, borderRadius: 999 }}
-                variant="determinate"
-                value={priorityPercentage}
-              />
-              <Box sx={{ display: "flex", gap: 1 }}>
-                <Chip
-                  size="small"
-                  label={tasks.filter((t) => t.pinned).length + " priority"}
-                />
-                <Chip
-                  size="small"
-                  sx={{ ml: "auto" }}
-                  label={tasks.filter((t) => !t.pinned).length + " other"}
-                />
-              </Box>
-            </Box>
+            {children2}
           </Masonry>
         </Box>
-      </Box>
-    </Box>
+      )}
+    </InsightsContainer>
   );
 }
 
-export default function Page() {
+export default function Page({ email, profile = false, palette }) {
   const session = useSession();
-  const url = "";
-
   const { data } = useSWR([
     "property/tasks/insights",
-    { email: session.user.email },
+    { email: email || session.user.email },
   ]);
 
+  const c = (
+    <Insights tasks={data} profile={profile} defaultPalette={palette} />
+  );
+
   return data ? (
-    <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
-      <Insights tasks={data} />
-    </motion.div>
+    profile ? (
+      c
+    ) : (
+      <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
+        {c}
+      </motion.div>
+    )
   ) : (
     <Box
       sx={{
