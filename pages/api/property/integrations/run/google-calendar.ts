@@ -59,7 +59,7 @@ export default async function handler(req, res) {
         ? event.reminders.overrides.map(({ minutes }) => minutes)
         : [10],
   });
-
+  if (!tokenObj) throw new Error("Token not found");
   if (tokenObj.expiry_date < Date.now()) {
     console.log(tokenObj);
     // Refresh the access token

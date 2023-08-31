@@ -625,6 +625,10 @@ export function Navbar({
 }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const groupPalette = useColor(
+    session.property.profile.color,
+    useDarkMode(session.darkMode)
+  );
   const router = useRouter();
 
   const [showGroup, setShowGroup] = useState(router.asPath === "/");
@@ -632,7 +636,7 @@ export function Navbar({
   useEffect(() => {
     setTimeout(() => {
       setShowGroup(false);
-    }, 2000);
+    }, 1000);
   }, []);
 
   return (
@@ -666,8 +670,8 @@ export function Navbar({
               sx={{
                 minWidth: "unset",
                 px: showGroup ? 2 : 1,
-                color: palette[showGroup ? 9 : 8],
-                background: palette[showGroup ? 3 : 1],
+                color: showGroup ? groupPalette[9] : palette[8],
+                background: showGroup ? groupPalette[3] : palette[1],
                 gap: showGroup ? 1.5 : 0,
                 "&:hover": { background: "transparent" },
                 "&:active": { background: palette[2] },

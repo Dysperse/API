@@ -11,6 +11,7 @@ export default async function handler(req, res) {
   // Get contact list from Google
   oauth2Client.setCredentials(tokenObj);
 
+  if (!tokenObj) throw new Error("Token not found");
   if (tokenObj.expiry_date < Date.now()) {
     console.log(tokenObj);
     // Refresh the access token
