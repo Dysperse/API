@@ -3,6 +3,7 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
+import { useCustomTheme } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import { fetcher } from "@/pages/_app";
 import { Masonry } from "@mui/lab";
@@ -15,8 +16,10 @@ import {
   IconButton,
   LinearProgress,
   Skeleton,
+  ThemeProvider,
   Tooltip,
   Typography,
+  createTheme,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Link from "next/link";
@@ -304,19 +307,6 @@ export function UserProfile({
 
   const profile = data.Profile;
 
-  const chipStyles = () => ({
-    color: palette[11],
-    background: palette[3],
-    "&:hover": {
-      background: palette[4],
-    },
-    "& .MuiIcon-root": {
-      color: palette[10] + "!important",
-      fontVariationSettings:
-        '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
-    },
-  });
-
   const [hobbies, setHobbies] = useState(data.Profile.hobbies);
 
   const handleChange = async (key, value) => {
@@ -361,8 +351,22 @@ export function UserProfile({
     },
   };
 
+  const userTheme = createTheme(
+    useCustomTheme({
+      darkMode: isDark,
+      themeColor: data?.color || "grey",
+    })
+  );
+
+  const chipStyles = () => ({
+    "& .MuiIcon-root": {
+      fontVariationSettings:
+        '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+    },
+  });
+
   return (
-    <Box>
+    <ThemeProvider theme={userTheme}>
       <Box
         sx={{
           display: "flex",
@@ -557,6 +561,6 @@ export function UserProfile({
           )}
         </Masonry>
       </Box>
-    </Box>
+    </ThemeProvider>
   );
 }
