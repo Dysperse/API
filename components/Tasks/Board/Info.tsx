@@ -380,6 +380,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               writingMode: "vertical-rl",
               textOrientation: "mixed",
               transform: "rotate(180deg)",
+              transition: "all .2s",
               my: "auto",
               fontSize: "30px",
             }}

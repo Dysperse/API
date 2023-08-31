@@ -317,7 +317,7 @@ function Layout() {
               )}
               <Button
                 variant="contained"
-                sx={{ mt: "auto", my: 2 }}
+                sx={{ mt: "auto", my: 2, flexShrink: 0 }}
                 disabled={boardId == "-1"}
                 onClick={() => setStep(step + 1)}
               >
