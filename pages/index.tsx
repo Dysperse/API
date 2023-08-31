@@ -733,10 +733,10 @@ const HeadingComponent = ({ palette, isMobile }) => {
   }, [isHover]);
 
   const getGreeting = useMemo(() => {
-    if (time < 12) return "Good morning.";
-    else if (time < 17) return "Good afternoon.";
-    else if (time < 20) return "Good evening.";
-    else return "Good night.";
+    if (time < 12) return "Good morning";
+    else if (time < 17) return "Good afternoon";
+    else if (time < 20) return "Good evening";
+    else return "Good night";
   }, [time]);
 
   const [greeting, setGreeting] = useState(getGreeting);
