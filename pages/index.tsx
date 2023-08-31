@@ -916,7 +916,7 @@ export default function Home() {
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
           sx={{
-            pt: { xs: 7, sm: 20 },
+            pt: { xs: 7, sm: 10 },
           }}
         >
           <Box
@@ -1001,7 +1001,7 @@ export default function Home() {
                 )}
               />
             ) : (
-              [...new Array(data ? 3 : 10)].map((_, i) => (
+              [...new Array(data ? 6 : 10)].map((_, i) => (
                 <ListItem key={i} sx={{ mb: 1.5 }}>
                   <Skeleton
                     variant="circular"
