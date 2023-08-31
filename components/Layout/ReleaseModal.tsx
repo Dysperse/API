@@ -51,13 +51,8 @@ export default function ReleaseModal() {
   const handleClose = () => {
     setOpen(false);
     updateSettings(
-      session,
-      "lastReleaseVersionViewed",
-      data[0]?.id,
-      false,
-      null,
-      false,
-      true
+      ["lastReleaseVersionViewed", data[0]?.id],
+      { session, type: "property" }
     );
   };
 
