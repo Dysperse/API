@@ -21,7 +21,6 @@ export function ProfileStep({ styles, navigation }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const url = "";
   const { data, mutate, error } = useSWR([
     "user/profile",
     {
@@ -45,7 +44,7 @@ export function ProfileStep({ styles, navigation }) {
       email: session.user.email,
       [key]: value,
     });
-    await mutate(url);
+    await mutate();
   };
 
   return (
