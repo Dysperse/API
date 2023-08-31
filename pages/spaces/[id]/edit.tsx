@@ -55,18 +55,17 @@ export default function Page() {
   );
   const handleCloseMenu = useCallback(
     async (type) => {
-      await updateSettings(session, "type", type, false, null, true);
+      await updateSettings(["type", type], { session, type: "property" });
       await mutate();
       setAnchorEl(null);
     },
     [session, mutate]
   );
 
-  const handleUpdateName = useCallback(() => {
+  const handleUpdateName = useCallback(async () => {
     if (name !== data?.profile?.name) {
-      updateSettings(session, "name", name, false, null, true).then(() =>
-        setTimeout(mutate, 1000)
-      );
+      await updateSettings(["name", name], { session, type: "property" });
+      mutate();
     }
   }, [session, mutate, name, data]);
 
@@ -187,17 +186,13 @@ export default function Page() {
               <ListItemSecondaryAction>
                 <Switch
                   checked={vanishingTasks}
-                  onChange={(_, newValue) => {
+                  onChange={async (_, newValue) => {
                     setVanishingTasks(newValue);
-
-                    updateSettings(
+                    await updateSettings(["vanishingTasks", newValue], {
                       session,
-                      "vanishingTasks",
-                      newValue ? "true" : "false",
-                      false,
-                      null,
-                      true
-                    ).then(mutate);
+                      type: "property",
+                    });
+                    mutate();
                   }}
                 />
               </ListItemSecondaryAction>

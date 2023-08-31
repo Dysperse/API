@@ -78,14 +78,16 @@ export default function Notifications() {
     });
     setSubscription(sub);
     setIsSubscribed(true);
-    updateSettings(session, "notificationSubscription", JSON.stringify(sub));
+    updateSettings(["notificationSubscription", JSON.stringify(sub)], {
+      session,
+    });
   };
   const session = useSession();
 
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();
     await subscription.unsubscribe();
-    updateSettings(session, "notificationSubscription", "");
+    updateSettings(["notificationSubscription", ""], { session });
     setSubscription(null);
     setIsSubscribed(false);
   };

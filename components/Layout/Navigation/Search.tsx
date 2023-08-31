@@ -192,7 +192,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Light mode",
       badge: "Appearance",
       onTrigger: async () => {
-        await updateSettings(session, "darkMode", "light");
+        await updateSettings(["darkMode", "light"], { session });
         mutate("/api/session");
       },
       icon: "light_mode",
@@ -201,7 +201,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "Dark mode",
       badge: "Appearance",
       onTrigger: async () => {
-        await updateSettings(session, "darkMode", "dark");
+        await updateSettings(["darkMode", "dark"], { session });
         mutate("/api/session");
       },
       icon: "dark_mode",
@@ -210,7 +210,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       title: "System theme",
       badge: "Appearance",
       onTrigger: async () => {
-        await updateSettings(session, "darkMode", "system");
+        await updateSettings(["darkMode", "system"], { session });
         mutate("/api/session");
       },
       icon: "dark_mode",
@@ -223,7 +223,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         title: `Change color to ${capitalizeFirstLetter(color)}`,
         badge: "Appearance",
         onTrigger: () => {
-          updateSettings(session, "color", color.toLowerCase());
+          updateSettings(["color", color.toLowerCase()], { session });
         },
         icon: (
           <Box

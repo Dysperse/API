@@ -53,12 +53,11 @@ export default function App() {
       });
   };
 
-  const handleDisable = () => {
+  const handleDisable = async () => {
     setLoadingDisable(true);
-    updateSettings(session, "twoFactorSecret", "", false, () => {
-      mutate("/api/session");
-      setLoadingDisable(false);
-    });
+    await updateSettings(["twoFactorSecret", false], { session });
+    mutate("/api/session");
+    setLoadingDisable(false);
   };
 
   return (

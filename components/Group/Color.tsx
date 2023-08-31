@@ -25,7 +25,7 @@ export function Color({
   );
 
   const handleClick = async () => {
-    await updateSettings(session, "color", color, false, null, true);
+    await updateSettings(["color", color], { session, type: "property" });
     mutatePropertyData();
   };
 

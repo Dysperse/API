@@ -73,10 +73,9 @@ export function EditProperty({
    * Set property type
    */
   const handleCloseMenu = useCallback(
-    (type) => {
-      updateSettings(session, "type", type, false, null, true).then(() =>
-        setTimeout(mutatePropertyData, 1000)
-      );
+    async (type) => {
+      await updateSettings(["type", type], { session, type: "property" });
+      mutatePropertyData();
       setAnchorEl(null);
     },
     [session, mutatePropertyData]
@@ -87,11 +86,13 @@ export function EditProperty({
    * Callback for updating note blur event
    * @param { React.FocusEvent<HTMLInputElement> } event
    */
-  const handleUpdateName = useCallback(() => {
+  const handleUpdateName = useCallback(async () => {
     if (deferredName !== propertyData.profile.name) {
-      updateSettings(session, "name", deferredName, false, null, true).then(
-        () => setTimeout(mutatePropertyData, 1000)
-      );
+      await updateSettings(["name", deferredName], {
+        session,
+        type: "property",
+      });
+      mutatePropertyData();
     }
   }, [session, propertyData.profile.name, mutatePropertyData, deferredName]);
 
@@ -239,17 +240,13 @@ export function EditProperty({
             <ListItemSecondaryAction>
               <Switch
                 checked={vanishingTasks}
-                onChange={(_, newValue) => {
+                onChange={async (_, newValue) => {
                   setVanishingTasks(newValue);
-
-                  updateSettings(
+                  await updateSettings(["vanishingTasks", newValue], {
                     session,
-                    "vanishingTasks",
-                    newValue ? "true" : "false",
-                    false,
-                    null,
-                    true
-                  ).then(() => setTimeout(mutatePropertyData, 1000));
+                    type: "property",
+                  });
+                  mutatePropertyData();
                 }}
               />
             </ListItemSecondaryAction>

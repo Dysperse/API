@@ -43,7 +43,7 @@ export default function AppearanceSettings() {
   const [username, setUsername] = useState(session.user.username || "");
 
   const handleSubmit = async () => {
-    if (name.trim() !== "") updateSettings(session, "name", name);
+    if (name.trim() !== "") updateSettings(["name", name], { session });
 
     await fetchRawApi(session, "user/profile/update", {
       email: session.user.email,
@@ -57,16 +57,7 @@ export default function AppearanceSettings() {
 
   const handleUsernameSubmit = async () => {
     if (username.trim() !== "")
-      updateSettings(
-        session,
-        "username",
-        username,
-        false,
-        null,
-        false,
-        false,
-        "Username already exists!"
-      );
+      await updateSettings(["username", username], { session });
   };
 
   useEffect(() => {

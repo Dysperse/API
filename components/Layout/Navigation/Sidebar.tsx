@@ -51,7 +51,7 @@ export function Sidebar() {
           icon: "🥚",
         }
       );
-      updateSettings(session, "color", "blueGrey");
+      updateSettings(["color", "blueGrey"], { session });
       setClickCount(0);
     }
   };

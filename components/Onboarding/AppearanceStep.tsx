@@ -62,7 +62,7 @@ export function AppearanceStep({ styles, navigation }) {
               <Box
                 key={color}
                 onClick={() =>
-                  updateSettings(session, "color", color.toLowerCase())
+                  updateSettings(["color", color.toLowerCase()], { session })
                 }
                 sx={{
                   background:
@@ -100,7 +100,7 @@ export function AppearanceStep({ styles, navigation }) {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
             }}
-            onClick={() => updateSettings(session, "darkMode", "light")}
+            onClick={() => updateSettings(["darkMode", "light"], { session })}
           />
 
           <Box
@@ -111,7 +111,7 @@ export function AppearanceStep({ styles, navigation }) {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
             }}
-            onClick={() => updateSettings(session, "darkMode", "dark")}
+            onClick={() => updateSettings(["darkMode", "dark"], { session })}
           />
 
           <Box
@@ -123,7 +123,7 @@ export function AppearanceStep({ styles, navigation }) {
                 boxShadow: "0px 0px 0px 3px " + palette[9],
               }),
             }}
-            onClick={() => updateSettings(session, "darkMode", "system")}
+            onClick={() => updateSettings(["darkMode", "system"], { session })}
           >
             <Box
               sx={{

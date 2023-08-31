@@ -181,7 +181,9 @@ function ThemeColorSettings() {
                   mb: 1,
                 }}
                 onClick={() => {
-                  updateSettings(session, "color", currentTheme.toLowerCase());
+                  updateSettings(["color", currentTheme.toLowerCase()], {
+                    session,
+                  });
                   setOpen(false);
                 }}
               >
@@ -256,11 +258,11 @@ export default function AppearanceSettings() {
       <ListSubheader sx={{ mt: 3 }}>Theme</ListSubheader>
       <RadioGroup name="controlled-radio-buttons-group">
         <ListItem
-          onClick={() => updateSettings(session, "darkMode", "dark")}
+          onClick={() => updateSettings(["darkMode", "dark"], { session })}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => updateSettings(session, "darkMode", "dark")}
+              onChange={() => updateSettings(["darkMode", "dark"], { session })}
               checked={session.darkMode === "dark"}
             />
           }
@@ -288,11 +290,13 @@ export default function AppearanceSettings() {
           </ListItemButton>
         </ListItem>
         <ListItem
-          onClick={() => updateSettings(session, "darkMode", "light")}
+          onClick={() => updateSettings(["darkMode", "light"], { session })}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => updateSettings(session, "darkMode", "light")}
+              onChange={() =>
+                updateSettings(["darkMode", "light"], { session })
+              }
               checked={session.darkMode === "light"}
             />
           }
@@ -320,11 +324,13 @@ export default function AppearanceSettings() {
           </ListItemButton>
         </ListItem>
         <ListItem
-          onClick={() => updateSettings(session, "darkMode", "system")}
+          onClick={() => updateSettings(["darkMode", "system"], { session })}
           secondaryAction={
             <Radio
               edge="end"
-              onChange={() => updateSettings(session, "darkMode", "system")}
+              onChange={() =>
+                updateSettings(["darkMode", "system"], { session })
+              }
               checked={session.darkMode === "system"}
             />
           }
