@@ -236,16 +236,14 @@ function Insights({ profile, tasks, defaultPalette }) {
       </Box>
     </>
   );
-  const InsightsContainer: any = profile
-    ? React.Fragment
-    : Box({
-        sx: {
-          p: profile ? 0 : { xs: 1, sm: 4 },
-        },
-      });
+  const InsightsContainer: any = profile ? React.Fragment : Box;
 
   return (
-    <InsightsContainer>
+    <InsightsContainer
+      sx={{
+        p: profile ? 0 : { xs: 1, sm: 4 },
+      }}
+    >
       {!profile && (
         <IconButton onClick={() => handleBack(router)} sx={{ mb: 2 }}>
           <Icon>arrow_back_ios_new</Icon>
