@@ -236,7 +236,6 @@ function Insights({ profile, tasks, defaultPalette }) {
       </Box>
     </>
   );
-
   const InsightsContainer: any = profile
     ? React.Fragment
     : Box({
