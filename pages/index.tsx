@@ -140,10 +140,10 @@ export function StatusSelector({
         sx={{
           px: 2,
           "&, &:hover": {
-            background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
+            background: `linear-gradient(${chipPalette[8]}, ${chipPalette[9]}) !important`,
             color: `${chipPalette[12]} !important`,
             "&:active": {
-              background: `linear-gradient(${chipPalette[8]}, ${chipPalette[9]}) !important`,
+              background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
             },
           },
         }}
@@ -331,7 +331,7 @@ const Friend = memo(function Friend({ mutate, friend }: any) {
               px: 1,
               boxShadow: `0 0 0 3px ${userPalette[1]}!important`,
               py: 0.1,
-              background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
+              background: `linear-gradient(${chipPalette[9]}, ${chipPalette[9]}) !important`,
               color: `${chipPalette[12]} !important`,
               "&:empty": {
                 display: "none",
@@ -656,8 +656,9 @@ export function Navbar({
         <>
           <IconButton
             sx={{
+              display: { sm: "none" },
               ml: showRightContent && right ? "" : "auto",
-              color: palette[8],
+              color: palette[9],
               "&:active": { transform: "scale(.9)" },
               transition: "all .4s",
             }}
@@ -668,9 +669,10 @@ export function Navbar({
           <GroupModal list>
             <Button
               sx={{
+                ml: { sm: "auto" },
                 minWidth: "unset",
                 px: showGroup ? 2 : 1,
-                color: showGroup ? groupPalette[9] : palette[8],
+                color: showGroup ? groupPalette[9] : palette[9],
                 background: showGroup ? groupPalette[3] : palette[1],
                 gap: showGroup ? 1.5 : 0,
                 "&:hover": { background: "transparent" },
@@ -695,7 +697,7 @@ export function Navbar({
           </GroupModal>
           {router.asPath === "/" && (
             <IconButton
-              sx={{ color: palette[8] }}
+              sx={{ color: palette[9] }}
               onClick={() => router.push("/settings")}
             >
               <Icon className="outlined">settings</Icon>
@@ -899,20 +901,7 @@ export default function Home() {
 
   return (
     <Box sx={{ ml: { sm: -1 } }}>
-      <Navbar
-        showLogo={isMobile}
-        showRightContent={isMobile}
-        right={
-          isMobile ? undefined : (
-            <IconButton
-              sx={{ ml: "auto", color: palette[8] }}
-              onClick={() => router.push("/settings")}
-            >
-              <Icon className="outlined">settings</Icon>
-            </IconButton>
-          )
-        }
-      />
+      <Navbar showLogo={isMobile} showRightContent={true} />
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
           sx={{
@@ -928,7 +917,7 @@ export default function Home() {
           >
             <HeadingComponent palette={palette} isMobile={isMobile} />
             <Typography
-              sx={{ fontWeight: 700, color: palette[8] }}
+              sx={{ fontWeight: 700, color: palette[9] }}
               variant="h6"
             >
               {dayjs().format("MMMM D")}

@@ -1,4 +1,3 @@
-import { GroupModal } from "@/components/Group/GroupModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -299,32 +298,14 @@ export function Sidebar() {
           onMouseDown={() => openSpotlight()}
           sx={{
             ...styles(false),
-            "& .material-symbols-outlined": {
-              height: 40,
-            },
+            background: palette[2],
+            borderRadius: 99,
           }}
         >
           <Tooltip title="Spotlight" placement="right">
             <span className="material-symbols-outlined">bolt</span>
           </Tooltip>
         </Box>
-        <GroupModal list>
-          <Box
-            sx={{
-              ...styles(router.asPath.includes("/users")),
-              "& .material-symbols-outlined": {
-                height: 40,
-              },
-            }}
-            onClick={() =>
-              router.push(`/spaces/${session.property.propertyId}`)
-            }
-          >
-            <Tooltip title={session.property.profile.name} placement="right">
-              <span className={`material-symbols-outlined`}>groups</span>
-            </Tooltip>
-          </Box>
-        </GroupModal>
       </Box>
     </Box>
   );
