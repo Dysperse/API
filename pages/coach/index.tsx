@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { toast } from "react-hot-toast";
 import useSWR from "swr";
-import { Navbar } from "..";
+import { Navbar } from "../../components/Navbar";
 
 export function RoutineTrigger({ sidebar = false, bottomNav = false }: any) {
   const router = useRouter();

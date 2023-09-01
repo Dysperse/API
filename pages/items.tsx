@@ -23,7 +23,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { createContext, useState } from "react";
 import useSWR from "swr";
-import { Navbar } from ".";
+import { Navbar } from "../components/Navbar";
 
 const Action = dynamic(() => import("@/components/Rooms/Action"));
 

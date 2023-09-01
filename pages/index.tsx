@@ -1,4 +1,3 @@
-import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SpotifyCard } from "@/components/Profile/UserProfile";
 import { Puller } from "@/components/Puller";
@@ -14,7 +13,6 @@ import {
   Box,
   Button,
   Chip,
-  Collapse,
   Grid,
   Icon,
   IconButton,
@@ -44,7 +42,7 @@ import {
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
-import { GroupModal } from "../components/Group/GroupModal";
+import { Navbar } from "../components/Navbar";
 
 export function StatusSelector({
   children,
@@ -614,101 +612,6 @@ function ContactSync() {
   );
 }
 
-export function Navbar({
-  showLogo = false,
-  right,
-  showRightContent = false,
-}: {
-  showLogo?: boolean;
-  right?: JSX.Element;
-  showRightContent?: boolean;
-}) {
-  const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const groupPalette = useColor(
-    session.property.profile.color,
-    useDarkMode(session.darkMode)
-  );
-  const router = useRouter();
-
-  const [showGroup, setShowGroup] = useState(router.asPath === "/");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowGroup(false);
-    }, 1000);
-  }, []);
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        p: 2,
-        "& svg": {
-          display: showLogo ? { sm: "none" } : "none",
-        },
-      }}
-    >
-      <Logo />
-      {right}
-      {(!right || showRightContent) && (
-        <>
-          <IconButton
-            sx={{
-              display: { sm: "none" },
-              ml: showRightContent && right ? "" : "auto",
-              color: palette[9],
-              "&:active": { transform: "scale(.9)" },
-              transition: "all .4s",
-            }}
-            onClick={openSpotlight}
-          >
-            <Icon className="outlined">search</Icon>
-          </IconButton>
-          <GroupModal list>
-            <Button
-              sx={{
-                ml: { sm: "auto" },
-                minWidth: "unset",
-                px: showGroup ? 2 : 1,
-                color: showGroup ? groupPalette[9] : palette[9],
-                background: showGroup ? groupPalette[3] : palette[1],
-                gap: showGroup ? 1.5 : 0,
-                "&:hover": { background: "transparent" },
-                "&:active": { background: palette[2] },
-                transition: "all .4s!important",
-              }}
-              onClick={() =>
-                router.push("/spaces/" + session?.property?.propertyId)
-              }
-            >
-              <Icon className="outlined">group</Icon>
-              <Collapse
-                orientation="horizontal"
-                in={showGroup}
-                sx={{
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {session.property.profile.name}
-              </Collapse>
-            </Button>
-          </GroupModal>
-          {router.asPath === "/" && (
-            <IconButton
-              sx={{ color: palette[9] }}
-              onClick={() => router.push("/settings")}
-            >
-              <Icon className="outlined">settings</Icon>
-            </IconButton>
-          )}
-        </>
-      )}
-    </Box>
-  );
-}
-
 const HeadingComponent = ({ palette, isMobile }) => {
   const [isHover, setIsHover] = useState(false);
   const time = new Date().getHours();
@@ -867,7 +770,6 @@ export default function Home() {
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const url = "";
   const { data, mutate } = useSWR([
     "user/profile/friends",
     {
@@ -897,8 +799,6 @@ export default function Home() {
     );
   }, [data]);
 
-  const [isScrolling, setIsScrolling] = useState(false);
-
   return (
     <Box sx={{ ml: { sm: -1 } }}>
       <Navbar showLogo={isMobile} showRightContent={true} />
@@ -917,7 +817,7 @@ export default function Home() {
           >
             <HeadingComponent palette={palette} isMobile={isMobile} />
             <Typography
-              sx={{ fontWeight: 700, color: palette[9] }}
+              sx={{ fontWeight: 700, color: palette[11], opacity: 0.4 }}
               variant="h6"
             >
               {dayjs().format("MMMM D")}
@@ -978,7 +878,6 @@ export default function Home() {
             )}
             {data && sortedFriends?.length > 0 ? (
               <Virtuoso
-                isScrolling={setIsScrolling}
                 useWindowScroll
                 totalCount={sortedFriends.length}
                 itemContent={(i) => (

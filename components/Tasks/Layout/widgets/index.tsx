@@ -45,10 +45,10 @@ export function WidgetBar({ view, setView }) {
     }),
     [palette]
   );
+
   useEffect(() => {
     interact(".drag-widget").draggable({
       inertia: true,
-
       modifiers: [
         interact.modifiers.restrictRect({
           restriction: "body",
@@ -78,7 +78,11 @@ export function WidgetBar({ view, setView }) {
   ]);
 
   useEffect(() => {
-    if (document.hasFocus() && process.env.NODE_ENV === "production") {
+    if (
+      document.hasFocus() &&
+      process.env.NODE_ENV === "production" &&
+      view === "priority"
+    ) {
       try {
         navigator.wakeLock.request("screen").then((e: any) => {
           setWakeLock(e);

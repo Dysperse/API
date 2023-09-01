@@ -165,7 +165,13 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                   icon={
                     <Icon sx={{ color: palette[1] + "!important" }}>tag</Icon>
                   }
-                  sx={{ background: "rgba(0,0,0,0.1)", color: palette[1] }}
+                  sx={{
+                    background: "rgba(0,0,0,0.1)!important",
+                    "&:hover": {
+                      background: "rgba(0,0,0,0.1)!important",
+                    },
+                    color: palette[1],
+                  }}
                 />
               )}
               <motion.div
@@ -220,7 +226,13 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                       onClick={() =>
                         router.push(`/spaces/${data?.profile?.id}/members`)
                       }
-                      sx={{ background: "rgba(0,0,0,0.1)", color: palette[2] }}
+                      sx={{
+                        background: "rgba(0,0,0,0.1)!important",
+                        "&:hover": {
+                          background: "rgba(0,0,0,0.15)!important",
+                        },
+                        color: palette[2],
+                      }}
                       label={
                         <span style={{ display: "flex", alignItems: "center" }}>
                           <span>
