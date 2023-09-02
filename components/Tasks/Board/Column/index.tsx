@@ -339,7 +339,7 @@ export function Column({
                       gap: { xs: 0, sm: 2 },
                       flexDirection: { xs: "column", sm: "row" },
                       ...(column.name === "" && { display: "none" }),
-                      "& picture img": {
+                      "& img": {
                         width: { xs: "45px", sm: "30px" },
                         height: { xs: "45px", sm: "30px" },
                         mb: -0.2,
