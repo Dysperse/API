@@ -61,7 +61,7 @@ export function RoutineTrigger({ sidebar = false, bottomNav = false }: any) {
         m: bottomNav ? 4.3 : 3.5,
         mt: bottomNav ? 0.5 : 1,
         borderRadius: 99,
-        background: redPalette[9],
+        background: "#ff1744",
         border: "3px solid " + palette[bottomNav ? 2 : 1],
       }}
     />
