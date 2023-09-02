@@ -121,14 +121,12 @@ export function Column({
     toast(column.name, {
       ...toastStyles,
       icon: (
-        <picture>
-          <img
-            alt="Emoji"
-            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-            width={20}
-            height={20}
-          />
-        </picture>
+        <img
+          alt="Emoji"
+          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+          width={20}
+          height={20}
+        />
       ),
     });
   }, [column.name, column.emoji]);
