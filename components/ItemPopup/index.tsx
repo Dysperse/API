@@ -209,7 +209,7 @@ function DrawerData({ handleOpen, mutate, itemData, setItemData }) {
         }}
         defaultValue={itemData.note}
         onBlur={(e: any) => handleItemChange("note", e.target.value)}
-        placeholder="Add a description"
+        placeholder="Add note..."
         rows={3}
       />
       <List
