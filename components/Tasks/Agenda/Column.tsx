@@ -250,6 +250,7 @@ const Header = memo(function Header({
         position: { sm: "sticky" },
         top: 0,
         left: 0,
+        maxWidth: "100dvw",
         background: { sm: addHslAlpha(palette[1], 0.7) },
         zIndex: 99,
       }}
@@ -264,7 +265,7 @@ const Header = memo(function Header({
           sx={{
             p: { xs: 2, sm: 3 },
             pt: { xs: 2, sm: 4 },
-            maxWidth: "100vw",
+            maxWidth: "100dvw",
             mb: { xs: 0, sm: 2 },
             borderBottom: { sm: "1.5px solid" },
             borderColor: { sm: addHslAlpha(palette[4], 0.5) },
