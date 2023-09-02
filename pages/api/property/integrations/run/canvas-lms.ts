@@ -121,6 +121,7 @@ const handler = async (req, res) => {
               property: {
                 connect: { id: req.query.property },
               },
+              notifications: [10],
               id: taskId,
               name,
               where: location,
