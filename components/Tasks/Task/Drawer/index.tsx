@@ -12,6 +12,7 @@ import {
 import dayjs from "dayjs";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
+import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { ErrorHandler } from "../../../Error";
@@ -124,6 +125,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     onClick: () => {
       onClick && onClick();
       if (!onClick) setOpen(true);
+      toast.dismiss();
     },
   });
 
