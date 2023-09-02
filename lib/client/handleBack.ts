@@ -1,4 +1,4 @@
-import { NextRouter } from "next/router";
+import Router, { NextRouter } from "next/router";
 
 export function handleBack(router: NextRouter) {
   if (window.history.length <= 2 && document.referrer === "") {
@@ -6,5 +6,6 @@ export function handleBack(router: NextRouter) {
     return;
   }
 
-  router.back();
+  // router.
+  Router.back();
 }
