@@ -1,6 +1,7 @@
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
@@ -110,10 +111,12 @@ export default function CategoryModal({
   setItemData: any;
   item: ItemType;
 }) {
-  const [open, setOpen] = useState<boolean>(false);
-  const storage = useAccountStorage();
-  const { data, mutate, error } = useSWR(["property/inventory/categories"]);
   const session = useSession();
+  const storage = useAccountStorage();
+
+  const [open, setOpen] = useState<boolean>(false);
+  const { data, mutate, error } = useSWR(["property/inventory/categories"]);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const handleClick = (category) => {
     if (JSON.parse(item.category).includes(category)) {
@@ -170,7 +173,7 @@ export default function CategoryModal({
               <ListItemButton
                 disabled={storage?.isReached === true}
                 key={category}
-                sx={{ gap: 2, borderRadius: 999 }}
+                sx={{ gap: 2, borderRadius: 999, background: palette[3] }}
                 onClick={() => handleClick(category)}
               >
                 <Box
