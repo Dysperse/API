@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import { Puller } from "../../Puller";
 
 export function CreateRoom(): JSX.Element {
@@ -81,6 +80,9 @@ export function CreateRoom(): JSX.Element {
                 ? "Container name (Example: backpack, drawer, etc.)"
                 : "Room name"
             }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSubmit();
+            }}
             variant="filled"
             margin="dense"
             autoFocus

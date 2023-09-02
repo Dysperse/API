@@ -89,8 +89,12 @@ export default function Inventory({ children = null }: any) {
   const [viewBy, setViewBy] = useState("Room");
   const router = useRouter();
 
-  const { data, mutate } = useSWR(["property/inventory/count"]);
-  const { data: dataRooms, error } = useSWR(["property/inventory/rooms"]);
+  const { data } = useSWR(["property/inventory/count"]);
+  const {
+    data: dataRooms,
+    error,
+    mutate,
+  } = useSWR(["property/inventory/rooms"]);
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
