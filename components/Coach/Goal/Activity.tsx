@@ -1,6 +1,5 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
@@ -11,31 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { cloneElement, useEffect, useMemo, useState } from "react";
+import { cloneElement, useMemo } from "react";
 import { toast } from "react-hot-toast";
+import useSWR from "swr";
 
 export function GoalActivity({ goal, children, open, setOpen }) {
   const session = useSession();
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    if (open) {
-      fetchRawApi(session, "user/coach/goals/activity", {
-        id: goal.id,
-      })
-        .then((res) => {
-          setData(res);
-        })
-        .catch(() =>
-          toast.error(
-            "Yikes! Something went wrong while trying to fetch your activity",
-            toastStyles
-          )
-        );
-    }
-  }, [open, session, goal, data]);
-
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const { data } = useSWR(
+    open ? ["user/coach/goals/activity", { id: goal.id }] : null
+  );
 
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),
