@@ -1,4 +1,5 @@
 import { integrations } from "@/components/Group/Integrations";
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -125,7 +126,7 @@ function Layout() {
           <IconButton
             onClick={() => {
               if (step == 0) {
-                router.push(`/spaces/${session.property.propertyId}`);
+                handleBack(router);
               } else {
                 setStep(step - 1);
               }
