@@ -299,7 +299,7 @@ export default function ItemDrawer({
         anchor="bottom"
         onClose={handleClose}
       >
-        <Puller />
+        <Puller showOnDesktop />
         {error && (
           <ErrorHandler
             callback={() => mutate()}

@@ -61,7 +61,8 @@ function CreateCategoryModal({ setItemData, item, mutate }) {
           borderRadius: 999,
         }}
       >
-        Create
+        <Icon className="outlined">add_circle</Icon>
+        New
       </Button>
       <SwipeableDrawer
         anchor="bottom"
