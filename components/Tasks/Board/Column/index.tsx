@@ -178,18 +178,10 @@ export function Column({
           }}
         >
           <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
-            <picture
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <img
-                alt="emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-              />
-            
+            <img
+              alt="emoji"
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+            />
           </EmojiPicker>
           <TextField
             value={title}
@@ -354,18 +346,13 @@ export function Column({
                       },
                     }}
                   >
-                    <picture
-                      style={{
-                        flexShrink: 0,
-                      }}
-                    >
-                      <img
-                        alt="Emoji"
-                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                        width={50}
-                        height={50}
-                      />
-                    
+                    <img
+                      alt="Emoji"
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                      width={50}
+                      height={50}
+                    />
+
                     <Box
                       sx={{
                         display: "flex",
