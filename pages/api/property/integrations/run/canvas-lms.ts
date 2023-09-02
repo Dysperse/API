@@ -103,7 +103,7 @@ const handler = async (req, res) => {
             },
             update: {
               name,
-              description,
+              // description,
               where: location,
               ...(due && { due }),
               createdBy: {
