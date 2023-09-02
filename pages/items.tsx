@@ -31,7 +31,7 @@ const CategoryModal = dynamic(
   () => import("@/components/Rooms/items/CategoryModal")
 );
 
-export const SidebarContext = createContext("" as any);
+export const SidebarContext = createContext(null as any);
 
 /**
  * Component to dispay items by category
@@ -89,8 +89,7 @@ export default function Inventory({ children = null }: any) {
   const [viewBy, setViewBy] = useState("Room");
   const router = useRouter();
 
-  const url = "";
-  const { data } = useSWR(["property/inventory/count"]);
+  const { data, mutate } = useSWR(["property/inventory/count"]);
   const { data: dataRooms, error } = useSWR(["property/inventory/rooms"]);
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -156,7 +155,7 @@ export default function Inventory({ children = null }: any) {
               ml: { md: -1 },
             }}
           >
-            <SidebarContext.Provider value={url}>
+            <SidebarContext.Provider value={mutate as any}>
               <Box
                 sx={{
                   my: 4,
