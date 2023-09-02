@@ -127,6 +127,8 @@ const TaskChips = React.memo(function TaskChips({
             label={
               taskData.due === dayjs().startOf("day")
                 ? "Today"
+                : dayjs(taskData.due).hour() == 0
+                ? dayjs(taskData.due).format("MMMM D")
                 : dayjs(taskData.due).fromNow()
             }
             icon={
