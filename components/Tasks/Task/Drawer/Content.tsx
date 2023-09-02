@@ -388,10 +388,24 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 variant="outlined"
                 label={
                   task.due
-                    ? dayjs(task.due).format("MMMM D, YYYY [at] h:mm A")
+                    ? dayjs(task.due).format(
+                        dayjs(task.due).hour() === 0
+                          ? "MMMM D, YYYY"
+                          : "MMMM D, YYYY [at] h:mm A"
+                      )
                     : "Tap to set date"
                 }
                 disabled={shouldDisable}
+                {...(task.column &&
+                  task.due && {
+                    onDelete: () => {
+                      task.set((prev) => ({
+                        ...prev,
+                        due: "",
+                      }));
+                      task.edit(task.id, "due", "");
+                    },
+                  })}
               />
             </SelectDateModal>
           )}
