@@ -2,6 +2,7 @@ import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -61,7 +62,7 @@ export function RoomActionMenu({ room, itemRef, isPrivate, mutate, isCustom }) {
               id: room.id,
             });
             await mutate();
-            toast.success("Deleted room!");
+            toast.success("Deleted room!", toastStyles);
             handleClose();
           }}
         >
