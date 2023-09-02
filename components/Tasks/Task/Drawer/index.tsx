@@ -1,6 +1,8 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   CircularProgress,
@@ -48,6 +50,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = useState<boolean>(false);
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   useBackButton(() => setOpen(false));
   const ref: any = useRef();
@@ -95,15 +98,11 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   const handleEdit = useCallback(
     async function handleEdit(id, key, value) {
-      console.log(key, value);
-
       const newData = {
         ...data,
         [key]: value,
         lastUpdated: dayjs().toISOString(),
       };
-
-      console.log(newData);
 
       mutateTask(newData, {
         populateCache: newData,
@@ -117,7 +116,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         createdBy: session.user.email,
       });
     },
-    [session, data, mutateList]
+    [session, data, mutateTask]
   );
 
   // Attach the `onClick` handler to the trigger
@@ -155,6 +154,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             maxWidth: "500px",
             width: "100%",
             height: "100dvh",
+            borderLeft: { sm: `2px solid ${addHslAlpha(palette[3], 0.7)}` },
           },
           ref,
         }}
