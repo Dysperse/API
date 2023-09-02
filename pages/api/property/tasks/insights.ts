@@ -6,7 +6,7 @@ const handler = async (req, res) => {
       where: {
         AND: [{ createdBy: { email: req.query.email } }, { completed: true }],
       },
-      select: { completedAt: true },
+      select: { completedAt: true, pinned: true },
     });
 
     res.json(data);
