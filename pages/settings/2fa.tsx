@@ -126,15 +126,13 @@ export default function App() {
               textAlign: "center",
             }}
           >
-            <picture>
-              <img
-                src={newSecret.qr}
-                alt="QR code"
-                style={{
-                  width: "100%",
-                }}
-              />
-            </picture>
+            <img
+              src={newSecret.qr}
+              alt="QR code"
+              style={{
+                width: "100%",
+              }}
+            />
           </div>
 
           <Typography variant="h6" sx={{ mt: 4 }}>

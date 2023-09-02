@@ -284,14 +284,12 @@ export function Emoji({ mutate, emoji, defaultData }) {
           background: "transparent!important",
         }}
       >
-        <picture>
-          <img
-            alt="emoji"
-            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-            width="100%"
-            height="100%"
-          />
-        </picture>
+        <img
+          alt="emoji"
+          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+          width="100%"
+          height="100%"
+        />
       </IconButton>
 
       <SwipeableDrawer

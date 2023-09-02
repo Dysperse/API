@@ -113,12 +113,10 @@ export default function CreateColumn({
                 borderRadius: 5,
               }}
             >
-              <picture>
-                <img
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                  alt="emoji"
-                />
-              </picture>
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                alt="emoji"
+              />
             </Button>
           </EmojiPicker>
           <TextField

@@ -142,13 +142,12 @@ function Template({ onboarding, children, template, mutate }: any) {
                 borderRadius: 3,
               }}
             >
-              <picture>
-                <img
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                  height="30px"
-                  alt="emoji"
-                />
-              </picture>
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                height="30px"
+                alt="emoji"
+              />
+
               <Typography
                 sx={{
                   fontSize: 18,

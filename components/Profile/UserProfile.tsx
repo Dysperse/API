@@ -173,22 +173,19 @@ export function SpotifyCard({
       {data?.item ? (
         <>
           <Box sx={{ display: "flex", gap: 3 }}>
-            <picture>
-              <img
-                src={data?.item?.album.images[0].url}
-                alt="Spotify album cover"
-                style={{ width: "100%" }}
-              />
-            </picture>
-            <picture>
-              <img
-                src={
-                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-                }
-                alt="Spotify"
-                style={{ width: "45px", height: "45px" }}
-              />
-            </picture>
+            <img
+              src={data?.item?.album.images[0].url}
+              alt="Spotify album cover"
+              style={{ width: "100%" }}
+            />
+
+            <img
+              src={
+                "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
+              }
+              alt="Spotify"
+              style={{ width: "45px", height: "45px" }}
+            />
           </Box>
           <Box
             sx={{
@@ -244,15 +241,14 @@ export function SpotifyCard({
                 }}
               />
             </Box>
-            <picture>
-              <img
-                src={
-                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-                }
-                alt="Spotify"
-                style={{ width: "45px", height: "45px" }}
-              />
-            </picture>
+
+            <img
+              src={
+                "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
+              }
+              alt="Spotify"
+              style={{ width: "45px", height: "45px" }}
+            />
           </Box>
           <Box
             sx={{
@@ -281,15 +277,14 @@ export function SpotifyCard({
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
               Not playing
             </Typography>
-            <picture>
-              <img
-                src={
-                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-                }
-                alt="Spotify"
-                style={{ width: "45px", height: "45px" }}
-              />
-            </picture>
+
+            <img
+              src={
+                "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
+              }
+              alt="Spotify"
+              style={{ width: "45px", height: "45px" }}
+            />
           </Box>
         </>
       )}

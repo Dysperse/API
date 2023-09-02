@@ -76,13 +76,12 @@ const ColumnData = memo(function ColumnData({ boardData }: any) {
         borderRadius: "20px 20px 0 0",
       }}
     >
-      <picture>
-        <img
-          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${boardData.columnEmoji}.png`}
-          alt=""
-          width={35}
-        />
-      </picture>
+      <img
+        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${boardData.columnEmoji}.png`}
+        alt=""
+        width={35}
+      />
+
       <Typography variant="h6">{boardData.columnName}</Typography>
     </Box>
   );

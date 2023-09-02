@@ -222,14 +222,12 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
               height: 120,
             }}
           >
-            <picture>
-              <img
-                width={40}
-                height={40}
-                alt="Emoji"
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-              />
-            </picture>
+            <img
+              width={40}
+              height={40}
+              alt="Emoji"
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+            />
           </IconButton>
         </EmojiPicker>
         <TextField
@@ -308,14 +306,13 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
           <Box
             sx={{ px: 2, mb: 2, display: "flex", gap: 2, alignItems: "center" }}
           >
-            <picture>
-              <img
-                width={40}
-                height={40}
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                alt="Emoji"
-              />
-            </picture>
+            <img
+              width={40}
+              height={40}
+              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+              alt="Emoji"
+            />
+
             <Box>
               <Typography variant="h6">{column.name}</Typography>
               <Typography>

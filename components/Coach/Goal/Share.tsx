@@ -54,19 +54,17 @@ export function ShareGoal({ children, goal }) {
   ];
 
   const header = (
-    <picture>
-      <img
-        src="/logo.svg"
-        alt="Logo"
-        style={{
-          position: "absolute",
-          top: "20px",
-          right: "20px",
-          width: "40px",
-          height: "40px",
-        }}
-      />
-    </picture>
+    <img
+      src="/logo.svg"
+      alt="Logo"
+      style={{
+        position: "absolute",
+        top: "20px",
+        right: "20px",
+        width: "40px",
+        height: "40px",
+      }}
+    />
   );
 
   const progressBarStyles = {

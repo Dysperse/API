@@ -189,7 +189,7 @@ export function Column({
                 alt="emoji"
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
               />
-            </picture>
+            
           </EmojiPicker>
           <TextField
             value={title}
@@ -365,7 +365,7 @@ export function Column({
                         width={50}
                         height={50}
                       />
-                    </picture>
+                    
                     <Box
                       sx={{
                         display: "flex",

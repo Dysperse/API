@@ -88,14 +88,13 @@ export function MyGoals(): JSX.Element {
       </Box>
       {data.length === 0 ? (
         <Box style={{ gap: "30px", textAlign: "center" }}>
-          <picture>
-            <Image
-              src="/images/no-goals.png"
-              alt="No goals created"
-              width={256}
-              height={256}
-            />
-          </picture>
+          <Image
+            src="/images/no-goals.png"
+            alt="No goals created"
+            width={256}
+            height={256}
+          />
+
           <Typography variant="h6" gutterBottom>
             You haven&apos;t set any goals (yet!)
           </Typography>
@@ -148,14 +147,13 @@ export function MyGoals(): JSX.Element {
                 justifyContent: "center",
               }}
             >
-              <picture>
-                <img
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
-                    query !== "" ? "1f62d" : "1f615"
-                  }.png`}
-                  alt="Crying emoji"
-                />
-              </picture>
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+                  query !== "" ? "1f62d" : "1f615"
+                }.png`}
+                alt="Crying emoji"
+              />
+
               <Typography sx={{ mt: 2 }} variant="h6">
                 No results found
               </Typography>

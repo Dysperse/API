@@ -334,14 +334,12 @@ export default function History() {
                         }}
                       >
                         <TableCell align="left" sx={{ width: 50 }}>
-                          <picture>
-                            <img
-                              src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${row.mood}.png`}
-                              alt="emoji"
-                              width={40}
-                              height={40}
-                            />
-                          </picture>
+                          <img
+                            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${row.mood}.png`}
+                            alt="emoji"
+                            width={40}
+                            height={40}
+                          />
                         </TableCell>
                         <TableCell>
                           <Typography sx={{ fontWeight: 700 }}>

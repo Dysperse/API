@@ -159,28 +159,27 @@ export function WeatherWidget({ children }) {
                       >
                         {weatherData.current_weather.temperature}°
                       </Typography>
-                      <picture>
-                        <img
-                          src={
-                            isNight()
-                              ? weatherCodes[
-                                  weatherData.current_weather.weathercode
-                                ].night.image
-                              : weatherCodes[
-                                  weatherData.current_weather.weathercode
-                                ].day.image
-                          }
-                          style={{
-                            ...(weatherCodes[
-                              weatherData.current_weather.weathercode
-                            ][isNight() ? "night" : "day"].textColor ==
-                              "#000" && {
-                              filter: "invert(1)",
-                            }),
-                          }}
-                          alt="Weather Icon"
-                        />
-                      </picture>
+
+                      <img
+                        src={
+                          isNight()
+                            ? weatherCodes[
+                                weatherData.current_weather.weathercode
+                              ].night.image
+                            : weatherCodes[
+                                weatherData.current_weather.weathercode
+                              ].day.image
+                        }
+                        style={{
+                          ...(weatherCodes[
+                            weatherData.current_weather.weathercode
+                          ][isNight() ? "night" : "day"].textColor ==
+                            "#000" && {
+                            filter: "invert(1)",
+                          }),
+                        }}
+                        alt="Weather Icon"
+                      />
                     </Box>
                   </motion.div>
                   <motion.div

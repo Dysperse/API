@@ -170,14 +170,12 @@ const EmojiPicker = function EmojiPicker({
                     }}
                   >
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                      <picture>
-                        <img
-                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
-                            query !== "" ? "1f62d" : "1f615"
-                          }.png`}
-                          alt="Crying emoji"
-                        />
-                      </picture>
+                      <img
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+                          query !== "" ? "1f62d" : "1f615"
+                        }.png`}
+                        alt="Crying emoji"
+                      />
                     </motion.div>
                     <motion.div
                       initial={{ y: 30, opacity: 0 }}

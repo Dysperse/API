@@ -151,12 +151,11 @@ export default function Dashboard() {
                 flexDirection: "column",
               }}
             >
-              <picture>
-                <img
-                  src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
-                  alt="Crying emoji"
-                />
-              </picture>
+              <img
+                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f62d.png"
+                alt="Crying emoji"
+              />
+
               <Typography variant="h6">No results found</Typography>
               <Typography>Try broadening your search</Typography>
             </Box>

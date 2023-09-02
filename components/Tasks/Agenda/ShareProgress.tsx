@@ -54,19 +54,17 @@ export function ShareProgress({ day, children, data, tasksLeft }) {
           }}
           ref={ref}
         >
-          <picture>
-            <img
-              src="/logo.svg"
-              alt="Logo"
-              style={{
-                position: "absolute",
-                top: "20px",
-                right: "20px",
-                width: "40px",
-                height: "40px",
-              }}
-            />
-          </picture>
+          <img
+            src="/logo.svg"
+            alt="Logo"
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              width: "40px",
+              height: "40px",
+            }}
+          />
 
           <Typography sx={{ opacity: 0.7, mt: 10 }}>
             {dayjs(day.unchanged).format("MMMM D, YYYY")}

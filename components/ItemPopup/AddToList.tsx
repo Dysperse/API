@@ -77,13 +77,11 @@ function BoardModal({ itemId, title, list }) {
               onClick={() => handleClick(column)}
             >
               {list.columns.length !== 1 && (
-                <picture>
-                  <img
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                    alt={column.name}
-                    width={25}
-                  />
-                </picture>
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                  alt={column.name}
+                  width={25}
+                />
               )}
               <ListItemText
                 primary={

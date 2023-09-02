@@ -224,16 +224,14 @@ export default function CreateGoal() {
                       borderColor: palette[3],
                     }}
                   >
-                    <picture>
-                      <img
-                        width={60}
-                        height={60}
-                        alt="Emoji"
-                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
-                          formData[steps[currentStep].id]
-                        }.png`}
-                      />
-                    </picture>
+                    <img
+                      width={60}
+                      height={60}
+                      alt="Emoji"
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${
+                        formData[steps[currentStep].id]
+                      }.png`}
+                    />
                   </IconButton>
                 </EmojiPicker>
               )}

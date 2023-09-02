@@ -132,14 +132,13 @@ function BoardColumnSettings({ data, styles, mutate }) {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <picture>
-                        <img
-                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                          alt="Emoji"
-                          width={30}
-                          height={30}
-                        />
-                      </picture>
+                      <img
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                        alt="Emoji"
+                        width={30}
+                        height={30}
+                      />
+
                       <ListItemText
                         primary={<b>{column.name}</b>}
                         secondary={`${column.tasks.length} tasks`}
@@ -212,14 +211,12 @@ function BoardColumnSettings({ data, styles, mutate }) {
                 height: 120,
               }}
             >
-              <picture>
-                <img
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                  alt="Emoji"
-                  width={80}
-                  height={80}
-                />
-              </picture>
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                alt="Emoji"
+                width={80}
+                height={80}
+              />
             </IconButton>
           </EmojiPicker>
           <TextField

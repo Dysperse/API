@@ -133,14 +133,13 @@ export function Goal({ isScrolling, goal, mutate }: any): JSX.Element {
               },
             }}
           />
-          <picture>
-            <img
-              src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
-              alt="trophy"
-              width={20}
-              height={20}
-            />
-          </picture>
+
+          <img
+            src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
+            alt="trophy"
+            width={20}
+            height={20}
+          />
         </div>
       </Box>
       {!isScrolling && (
@@ -167,11 +166,7 @@ export function Goal({ isScrolling, goal, mutate }: any): JSX.Element {
               display: "flex",
             }}
           >
-            <MoreOptions
-              goal={goal}
-              setOpen={setOpen}
-              mutate={mutate}
-            />
+            <MoreOptions goal={goal} setOpen={setOpen} mutate={mutate} />
             <Box sx={{ mt: "auto" }}>
               <Typography
                 variant="h3"

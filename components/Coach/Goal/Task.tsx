@@ -265,16 +265,14 @@ export function GoalTask({ goal, setSlide, mutate, open, setOpen }) {
                 height: 100,
               }}
             >
-              <picture>
-                <img
-                  alt="trophy"
-                  src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                  }}
-                />
-              </picture>
+              <img
+                alt="trophy"
+                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
