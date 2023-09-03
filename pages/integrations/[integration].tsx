@@ -355,10 +355,6 @@ function Layout() {
                 variant="contained"
                 fullWidth
                 sx={{ mb: 2 }}
-                disabled={
-                  steps[step - 1].required &&
-                  params[steps[step - 1].name].trim().length == 0
-                }
                 onClick={() => setStep(step + 1)}
               >
                 Next <Icon>arrow_forward_ios</Icon>
