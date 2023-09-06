@@ -659,10 +659,9 @@ export function TasksLayout({
           zIndex: 99999999,
           background: palette[3],
           maxWidth: { md: "400px" },
-          pt: "0!important",
         }}
       >
-        <Toolbar sx={{ mt: { sm: -0.5 } }}>
+        <Toolbar sx={{ mt: { sm: -0.5 }, pt: "0!important" }}>
           <Button
             variant="contained"
             sx={{
