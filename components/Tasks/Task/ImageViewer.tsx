@@ -111,9 +111,6 @@ export function ImageViewer({ url }: { url: string }) {
             maxWidth: "100dvw",
             borderRadius: 0,
             "& img": {
-              "&:active": {
-                opacity: 0.8,
-              },
               cursor: zoom ? "zoom-out" : "zoom-in",
             },
           },
