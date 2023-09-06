@@ -209,7 +209,7 @@ export function CreateTask({
       if (formData.title.trim() === "") return;
       setLoading(true);
       vibrate(50);
-      await fetchRawApi(session, "property/boards/column/task/create", {
+      fetchRawApi(session, "property/boards/column/task/create", {
         ...formData,
         ...(formData.image && { image: JSON.parse(formData.image).url }),
         pinned: formData.pinned ? "true" : "false",
