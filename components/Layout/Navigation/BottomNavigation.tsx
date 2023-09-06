@@ -1,7 +1,6 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { RoutineTrigger } from "@/pages/coach";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 
@@ -117,6 +116,18 @@ export function BottomNav() {
       }}
     >
       <Box
+        onClick={() => router.push("/tasks/agenda/days")}
+        sx={styles(router.asPath.includes("/tasks"))}
+      >
+        <span
+          className={`material-symbols-${
+            router.asPath.includes("/tasks") ? "rounded" : "outlined"
+          }`}
+        >
+          check_circle
+        </span>
+      </Box>
+      <Box
         onClick={() => router.push("/")}
         sx={styles(
           router.asPath === "/" ||
@@ -136,49 +147,6 @@ export function BottomNav() {
           change_history
         </span>
       </Box>
-      <Box
-        onClick={() => router.push("/tasks/agenda/days")}
-        sx={styles(router.asPath.includes("/tasks"))}
-      >
-        <span
-          className={`material-symbols-${
-            router.asPath.includes("/tasks") ? "rounded" : "outlined"
-          }`}
-        >
-          check_circle
-        </span>
-      </Box>
-      <Box
-        sx={styles(router.asPath.includes("/coach"))}
-        onDoubleClick={() => {
-          router.push("/coach").then(() => {
-            setTimeout(() => {
-              document.getElementById("routineTrigger")?.click();
-            }, 500);
-          });
-        }}
-        onContextMenu={() => {
-          router.push("/coach").then(() => {
-            setTimeout(() => {
-              document.getElementById("routineTrigger")?.click();
-            }, 500);
-          });
-        }}
-        onClick={() => router.push("/coach")}
-      >
-        <span
-          className={`material-symbols-${
-            router.asPath.includes("/coach") ? "rounded" : "outlined"
-          }`}
-          style={{
-            position: "relative",
-          }}
-        >
-          rocket_launch
-          <RoutineTrigger sidebar bottomNav />
-        </span>
-      </Box>
-
       <Box
         sx={styles(
           router.asPath === "/items" ||
