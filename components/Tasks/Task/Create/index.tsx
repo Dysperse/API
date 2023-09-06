@@ -205,40 +205,46 @@ export function CreateTask({
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (closeOnCreate) setOpen(false);
-      if (formData.title.trim() === "") return;
-      setLoading(true);
-      vibrate(50);
-      fetchRawApi(session, "property/boards/column/task/create", {
-        ...formData,
-        ...(formData.image && { image: JSON.parse(formData.image).url }),
-        pinned: formData.pinned ? "true" : "false",
-        due: formData.date ? formData.date.toISOString() : "false",
-        columnId: -1,
-        notifications: JSON.stringify(formData.notifications.sort().reverse()),
-        ...(boardData && { ...boardData }),
-        ...(parentId && { parent: parentId }),
+      try {
+        if (closeOnCreate) setOpen(false);
+        if (formData.title.trim() === "") return;
+        setLoading(true);
+        vibrate(50);
+        fetchRawApi(session, "property/boards/column/task/create", {
+          ...formData,
+          ...(formData.image && { image: JSON.parse(formData.image).url }),
+          pinned: formData.pinned ? "true" : "false",
+          due: formData.date ? formData.date.toISOString() : "false",
+          columnId: -1,
+          notifications: JSON.stringify(
+            formData.notifications.sort().reverse()
+          ),
+          ...(boardData && { ...boardData }),
+          ...(parentId && { parent: parentId }),
 
-        createdBy: session.user.email,
-      });
-      onSuccess && onSuccess();
-      toast.dismiss();
-      toast.success("Created task!", toastStyles);
+          createdBy: session.user.email,
+        });
+        onSuccess && onSuccess();
+        toast.dismiss();
+        toast.success("Created task!", toastStyles);
 
-      setFormData({
-        ...formData,
-        title: "",
-        description: "",
-        pinned: false,
-        location: "",
-        image: "",
-      });
-      setShowedFields({
-        description: false,
-        location: false,
-      });
-      document.getElementById("title")?.focus();
-      setLoading(false);
+        setFormData({
+          ...formData,
+          title: "",
+          description: "",
+          pinned: false,
+          location: "",
+          image: "",
+        });
+        setShowedFields({
+          description: false,
+          location: false,
+        });
+        document.getElementById("title")?.focus();
+        setLoading(false);
+      } catch (e) {
+        toast.error("Couldn't create task", toastStyles);
+      }
     },
     [
       closeOnCreate,
