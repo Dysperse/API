@@ -437,7 +437,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 px: 1,
                 borderRadius: 5,
               },
-              fontSize: { xs: "50px", sm: "55px" },
+              fontSize: { xs: "50px", sm: "var(--bottom-nav-height)" },
               textDecoration: "underline",
               color: colors[task.color][isDark ? "A200" : 800],
             },

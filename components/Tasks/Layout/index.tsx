@@ -221,6 +221,7 @@ function BulkCompletion() {
         return;
       }
       document.getElementById("taskMutationTrigger")?.click();
+      taskSelection.set([])
       toast.success(`Marked as ${completed ? "" : "not"} done!`, toastStyles);
     } catch {
       toast.error(
@@ -251,7 +252,7 @@ function BulkCompletion() {
             <Icon>check_circle</Icon>
             <ListItemText primary="Mark as done" />
           </ListItemButton>
-          <ListItemButton onClick={() => handleSubmit(true)}>
+          <ListItemButton onClick={() => handleSubmit(false)}>
             <Icon className="outlined">circle</Icon>
             <ListItemText primary="Mark as not done" />
           </ListItemButton>
@@ -325,7 +326,7 @@ export function TasksLayout({
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
-  const url = "";
+  
   const { data, mutate, error } = useSWR(["property/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 

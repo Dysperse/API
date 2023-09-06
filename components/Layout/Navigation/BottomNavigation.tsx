@@ -14,8 +14,8 @@ export function BottomNav() {
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 9,
-    height: "40px",
-    fontSize: "27px",
+    height: "45px",
+    fontSize: "30px",
     flex: "0 0 40px",
     width: "60px",
   };
@@ -51,7 +51,7 @@ export function BottomNav() {
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           opacity: 1,
           ...iconStyles,
-          background: palette[3],
+          background: addHslAlpha(palette[4], 0.6),
         },
       }),
     };
@@ -98,8 +98,8 @@ export function BottomNav() {
           md: "none",
         },
         zIndex: 998,
-        minHeight: "55px",
-        height: "calc(55px + calc(var(--sab) - 20px))",
+        minHeight: "var(--bottom-nav-height)",
+        height: "calc(var(--bottom-nav-height) + calc(var(--sab) - 20px))",
         paddingBottom: "calc(var(--sab) - 20px)",
 
         userSelect: "none",

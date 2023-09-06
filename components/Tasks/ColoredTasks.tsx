@@ -42,7 +42,7 @@ export function ColoredTasks() {
         flexDirection: "column",
         userSelect: "none",
         height: {
-          xs: "calc(100dvh - var(--navbar-height) - 55px)",
+          xs: "calc(100dvh - var(--navbar-height) - var(--bottom-nav-height))",
           sm: "100dvh",
         },
       }}
@@ -93,7 +93,7 @@ export function ColoredTasks() {
         sx={{
           width: "100%",
           height: {
-            xs: "calc(100dvh - var(--navbar-height) - 55px)",
+            xs: "calc(100dvh - var(--navbar-height) - var(--bottom-nav-height))",
             sm: "100dvh",
           },
           display: "flex",

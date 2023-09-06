@@ -142,7 +142,7 @@ export default function Inventory({ children = null }: any) {
           <title>Items</title>
         </Head>
         <motion.div
-          initial={{ x: -100, opacity: 0 }}
+          initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           className="slide"
         >

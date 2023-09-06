@@ -76,7 +76,7 @@ export function Header({
                 textDecoration: "underline",
                 fontSize: {
                   xs: "50px",
-                  md: "55px",
+                  md: "var(--bottom-nav-height)",
                 },
                 mt: 2,
               }}
