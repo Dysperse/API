@@ -3,7 +3,6 @@ import { OptionsGroup } from "@/components/OptionsGroup";
 import { CreateRoom } from "@/components/Rooms/items/CreateRoom";
 import { Rooms } from "@/components/Rooms/items/Rooms";
 import { rooms } from "@/components/Rooms/rooms";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -130,6 +129,7 @@ export default function Inventory({ children = null }: any) {
 
       <Box
         sx={{
+          background: { sm: palette[2] },
           display: "flex",
           "& .slide": {
             width: { xs: "100%", md: 300 },
@@ -154,9 +154,8 @@ export default function Inventory({ children = null }: any) {
               height: { md: "100dvh" },
               overflowY: { md: "scroll" },
               background: {
-                md: addHslAlpha(palette[3], 0.5),
+                md: palette[2],
               },
-              ml: { md: -1 },
             }}
           >
             <SidebarContext.Provider value={mutate as any}>
@@ -220,6 +219,8 @@ export default function Inventory({ children = null }: any) {
               minHeight: { md: "100dvh" },
               height: { md: "100dvh" },
               overflowY: { md: "auto" },
+              background: { sm: palette[1] },
+              borderRadius: { sm: "20px 0 0 20px" },
               flexGrow: 1,
             }}
           >
@@ -235,6 +236,8 @@ export default function Inventory({ children = null }: any) {
               alignItems: "center",
               height: "100dvh",
               width: "100%",
+              background: { sm: palette[1] },
+              borderRadius: { sm: "20px 0 0 20px" },
               color: `hsl(240,11%,${isDark ? 90 : 10}%)`,
             }}
           >
