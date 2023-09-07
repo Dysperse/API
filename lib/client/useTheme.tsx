@@ -142,14 +142,12 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               transition: "none",
               cursor: "default",
               "&:hover": {
-                color: { sm: palette[8] },
                 background: {
-                  sm: addHslAlpha(palette[4], 0.3),
+                  sm: palette[3],
                 },
               },
               "&:active": {
                 background: addHslAlpha(palette[4], 0.6),
-                color: { sm: palette[9] },
               },
               "&:disabled": {
                 cursor: "not-allowed!important",
@@ -167,16 +165,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           contained: ({ theme }) =>
             theme.unstable_sx({
               boxShadow: "none!important",
-              background: `${palette[4]}!important`,
-              color: palette[11],
+              background: `${palette[3]}!important`,
+              color: `${palette[11]}!important`,
               "&:hover": {
-                background: { sm: `${palette[5]}!important` },
+                background: { sm: `${palette[4]}!important` },
               },
               "&:active": {
-                background: {
-                  xs: `${palette[5]}!important`,
-                  sm: `${palette[6]}!important`,
-                },
+                background: `${palette[5]}!important`,
               },
               "&:disabled": {
                 cursor: "not-allowed!important",
@@ -325,16 +320,15 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 borderRadius: "10px",
                 minWidth: 180,
                 color: palette[11],
-                border: "1px solid",
-                background: palette[2],
-                borderColor: palette[3],
+                background: addHslAlpha(palette[3], 0.5),
+                backdropFilter: "blur(7px)",
                 "& .MuiMenu-list": {
                   p: 0.5,
                 },
                 "& .MuiMenuItem-root": {
                   gap: 2,
                   "&:focus-visible, &:hover": {
-                    background: palette[3],
+                    background: addHslAlpha(palette[4], 0.5),
                     "& .MuiSvgIcon-root": {
                       color: palette[12],
                     },
@@ -350,7 +344,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                     marginRight: 1.9,
                   },
                   "&:active": {
-                    background: palette[3],
+                    background: addHslAlpha(palette[5], 0.5),
                   },
                 },
               },
@@ -403,15 +397,18 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         },
       },
       MuiChip: {
+        defaultProps: { clickable: false },
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
               cursor: "default",
               boxShadow: "none!important",
               background: palette[3],
+              borderWidth: "2px",
               borderColor: palette[4],
+              transition: "none",
               "&:hover": {
-                background: { sm: palette[4] + "!important" },
+                background: { sm: palette[4] },
                 borderColor: { sm: palette[5] },
               },
               "&:active": {
@@ -530,7 +527,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       mode: darkMode ? "dark" : "light",
       background: {
-        default: palette[1],
+        default: palette ? addHslAlpha(palette[3], 0.6) : "#fff",
         paper: palette[1],
       },
       text: {

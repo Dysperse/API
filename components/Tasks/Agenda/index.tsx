@@ -144,7 +144,8 @@ export function Agenda({ type, date }) {
           <Box
             sx={{
               px: 4,
-              py: 1.5,
+              pt: "env(titlebar-area-height, 10px)",
+              pb: "10px",
               textAlign: "left",
               display: { xs: "none", sm: "flex" },
               alignItems: "center",
@@ -211,7 +212,9 @@ export function Agenda({ type, date }) {
             >
               <Box
                 sx={{
-                  "&, &:hover": { background: palette[1] },
+                  "&, &:hover": {
+                    background: `linear-gradient(${palette[1]},${palette[2]})`,
+                  },
                   width: "140px",
                   height: "40px",
                   display: "flex",

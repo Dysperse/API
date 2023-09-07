@@ -33,6 +33,7 @@ import EmojiPicker from "../../../EmojiPicker";
 import { Task } from "../../Task";
 import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
+import { containerRef } from "@/components/Layout";
 
 export function Column({
   setMobileOpen,
@@ -481,7 +482,9 @@ export function Column({
           <Virtuoso
             isScrolling={setIsScrolling}
             useWindowScroll
-            {...(!isMobile && { customScrollParent: columnRef.current })}
+            customScrollParent={
+              isMobile ? containerRef.current : columnRef.current
+            }
             data={sortedTasks}
             itemContent={(_, task) => (
               <Task

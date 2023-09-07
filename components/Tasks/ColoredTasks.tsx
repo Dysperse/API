@@ -16,6 +16,7 @@ import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 import { Task } from "./Task";
+import { containerRef } from "../Layout";
 
 export function ColoredTasks() {
   const url = "";
@@ -187,6 +188,7 @@ export function ColoredTasks() {
               .sort((a, b) => (a.pinned === b.pinned ? 0 : a.pinned ? -1 : 1)),
           ]}
           useWindowScroll
+          customScrollParent={containerRef.current}
           itemContent={(_, task) => (
             <Task
               key={task.id}

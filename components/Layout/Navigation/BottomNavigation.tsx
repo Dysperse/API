@@ -85,10 +85,8 @@ export function BottomNav() {
     <Box
       sx={{
         width: "100%",
-        position: "fixed",
-        bottom: shouldHide ? "-90px" : 0,
         ".hideBottomNav &": {
-          bottom: "-90px",
+          // bottom: "-90px",
         },
         left: 0,
         transition: "bottom .3s",
@@ -101,15 +99,10 @@ export function BottomNav() {
         minHeight: "var(--bottom-nav-height)",
         height: "calc(var(--bottom-nav-height) + calc(var(--sab) - 20px))",
         paddingBottom: "calc(var(--sab) - 20px)",
-
         userSelect: "none",
         "&, & *": {
           overflow: "hidden!important",
         },
-        background: `linear-gradient(${addHslAlpha(
-          palette[3],
-          0.8
-        )}, ${addHslAlpha(palette[2], 0.8)})`,
         borderRadius: "20px 20px 0 0",
         backdropFilter: "blur(10px)",
         alignItems: "center",

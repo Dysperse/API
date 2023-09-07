@@ -1,4 +1,5 @@
 import { ErrorHandler } from "@/components/Error";
+import { containerRef } from "@/components/Layout";
 import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useSession } from "@/lib/client/session";
@@ -161,8 +162,10 @@ export default function Dashboard() {
             </Box>
           ) : (
             <Virtuoso
-              {...(!isMobile && { customScrollParent: ref?.current })}
               useWindowScroll
+              customScrollParent={
+                isMobile ? ref?.current : containerRef.current
+              }
               totalCount={filteredData.length}
               itemContent={(index) => {
                 const task = filteredData[index];

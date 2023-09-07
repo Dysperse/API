@@ -1,3 +1,4 @@
+import { containerRef } from "@/components/Layout";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SpotifyCard } from "@/components/Profile/UserProfile";
 import { Puller } from "@/components/Puller";
@@ -539,6 +540,7 @@ export function Logo({ intensity = 4, size = 45 }: any) {
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      className="logo"
       version="1"
       viewBox="0 0 375 375"
       fill={palette[intensity]}
@@ -878,6 +880,7 @@ export default function Home() {
             )}
             {data && sortedFriends?.length > 0 ? (
               <Virtuoso
+                customScrollParent={containerRef.current}
                 useWindowScroll
                 totalCount={sortedFriends.length}
                 itemContent={(i) => (

@@ -221,7 +221,7 @@ function BulkCompletion() {
         return;
       }
       document.getElementById("taskMutationTrigger")?.click();
-      taskSelection.set([])
+      taskSelection.set([]);
       toast.success(`Marked as ${completed ? "" : "not"} done!`, toastStyles);
     } catch {
       toast.error(
@@ -326,7 +326,7 @@ export function TasksLayout({
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
-  
+
   const { data, mutate, error } = useSWR(["property/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -862,8 +862,6 @@ export function TasksLayout({
               >
                 <IconButton
                   sx={{
-                    color: palette[9],
-                    background: addHslAlpha(palette[3], 0.5),
                     "&:active": {
                       transform: "scale(0.9)",
                     },

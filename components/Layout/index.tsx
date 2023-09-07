@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import useSWR from "swr";
 import { getTotal, max } from "../Group/Storage";
 import { BottomNav } from "./Navigation/BottomNavigation";
@@ -24,6 +24,8 @@ const KeyboardShortcutsModal = dynamic(
 );
 
 const ReleaseModal = dynamic(() => import("./ReleaseModal"));
+
+export const containerRef: any = createRef();
 
 /**
  * Drawer component
@@ -141,7 +143,10 @@ export default function AppLayout({
         component="main"
         sx={{
           flexGrow: 90,
+          height: "100dvh",
           p: 0,
+          display: "flex",
+          flexDirection: "column",
           ml: { md: "-85px" },
           position: "relative",
           width: {
@@ -152,9 +157,13 @@ export default function AppLayout({
         }}
       >
         <Box
+          ref={containerRef}
           sx={{
-            height: "70px",
-            pl: { md: "85px" },
+            height: "100dvh",
+            overflowY: "scroll",
+            borderRadius: { xs: "0 0 20px 20px", sm: "20px 0 0 20px" },
+            ml: { md: "85px" },
+            background: palette[1],
           }}
         >
           {children}

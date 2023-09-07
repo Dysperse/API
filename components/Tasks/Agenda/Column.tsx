@@ -30,6 +30,7 @@ import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
 import SelectDateModal from "../Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
+import { containerRef } from "@/components/Layout";
 
 function RandomTask({ date }) {
   const session = useSession();
@@ -617,7 +618,9 @@ const Column = React.memo(function Column({
         <Virtuoso
           useWindowScroll
           isScrolling={setIsScrolling}
-          {...(!isMobile && { customScrollParent: scrollParentRef.current })}
+          customScrollParent={
+            isMobile ? containerRef.current : scrollParentRef.current
+          }
           data={sortedTasks}
           itemContent={(_, task) => (
             <Task

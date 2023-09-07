@@ -195,17 +195,8 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
     },
 
     button: {
-      transition: "none",
+      color: palette[11],
       background: palette[3],
-      color: palette[12],
-      "&:hover": {
-        background: { sm: palette[4] },
-        color: { sm: palette[11] },
-      },
-      "&:active": {
-        background: palette[5],
-        color: palette[10],
-      },
     },
   };
 
@@ -234,6 +225,7 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
           </IconButton>
           <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
             <Button
+              variant="contained"
               disableRipple
               onClick={handleComplete}
               disabled={shouldDisable}
@@ -262,15 +254,19 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
             {task.due ? (
               <RescheduleModal handlePostpone={handlePostpone}>
                 <Button
+                  variant="contained"
                   disableRipple
                   disabled={shouldDisable}
                   sx={{
                     px: 1.5,
                     ...styles.button,
+                    "& .text": {
+                      display: { xs: "none", sm: "inline" },
+                    },
                   }}
                 >
                   <Icon className="outlined">bedtime</Icon>
-                  Snooze
+                  <span className="text">Snooze</span>
                 </Button>
               </RescheduleModal>
             ) : (
@@ -299,67 +295,55 @@ function DrawerContent({ isDisabled, handleDelete, isDateDependent }: any) {
                 </Button>
               </SelectDateModal>
             )}
-            <DrawerMenu
-              handlePriorityChange={handlePriorityChange}
-              shouldDisable={shouldDisable}
-              task={task}
-              handleDelete={handleDelete}
-              styles={styles}
-            />
-            {!isMobile && (
+            <IconButton
+              id="pinTask"
+              onClick={handlePriorityChange}
+              sx={{
+                flexShrink: 0,
+                ...styles.button,
+                ...(task.pinned && {
+                  background: orangePalette[3],
+                  "&:hover": {
+                    background: orangePalette[4],
+                  },
+                  "&:active": {
+                    background: orangePalette[5],
+                  },
+                }),
+              }}
+              disabled={shouldDisable}
+            >
+              <Icon
+                {...(!task.pinned && { className: "outlined" })}
+                sx={{
+                  ...(task.pinned && {
+                    transform: "rotate(-20deg)",
+                  }),
+
+                  transition: "transform .2s",
+                }}
+              >
+                push_pin
+              </Icon>
+            </IconButton>
+            <ConfirmationModal
+              title="Delete task?"
+              question={`This task has ${task.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
+              disabled={task.subTasks.length === 0}
+              callback={async () => {
+                await handleDelete(task.id);
+              }}
+            >
               <IconButton
-                id="pinTask"
-                onClick={handlePriorityChange}
+                disabled={shouldDisable}
                 sx={{
                   flexShrink: 0,
                   ...styles.button,
-                  ...(task.pinned && {
-                    background: orangePalette[3],
-                    "&:hover": {
-                      background: orangePalette[4],
-                    },
-                    "&:active": {
-                      background: orangePalette[5],
-                    },
-                  }),
                 }}
-                disabled={shouldDisable}
               >
-                <Icon
-                  {...(!task.pinned && { className: "outlined" })}
-                  sx={{
-                    ...(task.pinned && {
-                      transform: "rotate(-20deg)",
-                    }),
-
-                    transition: "transform .2s",
-                  }}
-                >
-                  push_pin
-                </Icon>
+                <Icon className="outlined">delete</Icon>
               </IconButton>
-            )}
-
-            {!isMobile && (
-              <ConfirmationModal
-                title="Delete task?"
-                question={`This task has ${task.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
-                disabled={task.subTasks.length === 0}
-                callback={async () => {
-                  await handleDelete(task.id);
-                }}
-              >
-                <IconButton
-                  disabled={shouldDisable}
-                  sx={{
-                    flexShrink: 0,
-                    ...styles.button,
-                  }}
-                >
-                  <Icon className="outlined">delete</Icon>
-                </IconButton>
-              </ConfirmationModal>
-            )}
+            </ConfirmationModal>
           </Box>
         </Toolbar>
       </AppBar>
