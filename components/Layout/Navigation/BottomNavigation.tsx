@@ -86,10 +86,11 @@ export function BottomNav() {
       sx={{
         width: "100%",
         ".hideBottomNav &": {
-          // bottom: "-90px",
+          mb: "calc(var(--bottom-nav-height) * -1)",
         },
+        mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
         left: 0,
-        transition: "bottom .3s",
+        transition: "margin-bottom .3s",
         overflowX: "hidden",
         display: {
           xs: "flex",
@@ -97,7 +98,6 @@ export function BottomNav() {
         },
         zIndex: 998,
         minHeight: "var(--bottom-nav-height)",
-        height: "calc(var(--bottom-nav-height) + calc(var(--sab) - 20px))",
         paddingBottom: "calc(var(--sab) - 20px)",
         userSelect: "none",
         "&, & *": {
