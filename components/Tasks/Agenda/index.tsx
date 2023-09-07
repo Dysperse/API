@@ -209,7 +209,7 @@ export function Agenda({ type, date }) {
               <Box
                 sx={{
                   "&, &:hover": {
-                    background: `linear-gradient(${palette[1]},${palette[2]})`,
+                    background: palette[1],
                   },
                   width: "140px",
                   height: "40px",
