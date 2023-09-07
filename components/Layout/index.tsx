@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { createRef, useEffect, useState } from "react";
 import useSWR from "swr";
 import { getTotal, max } from "../Group/Storage";
-import { BottomNav } from "./Navigation/BottomNavigation";
+import { BottomNav, shouldHideNavigation } from "./Navigation/BottomNavigation";
 import { Sidebar } from "./Navigation/Sidebar";
 import { UpdateButton } from "./Navigation/UpdateButton";
 
@@ -71,6 +71,7 @@ export default function AppLayout({
   });
 
   const router = useRouter();
+  const shouldHide = shouldHideNavigation(router.asPath);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   if (session.properties.length === 0) {
@@ -161,7 +162,11 @@ export default function AppLayout({
           sx={{
             height: "100dvh",
             overflowY: "scroll",
-            borderRadius: { xs: "0 0 20px 20px", sm: "20px 0 0 20px" },
+            borderRadius: {
+              xs: shouldHide ? "0px" : "0 0 20px 20px",
+              sm: "20px 0 0 20px",
+            },
+            transition: "border-radius .3s",
             ml: { md: "85px" },
             background: palette[1],
           }}

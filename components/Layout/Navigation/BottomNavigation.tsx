@@ -4,6 +4,23 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 
+export const shouldHideNavigation = (path) => {
+  return [
+    "/claim-esb",
+    "/users",
+    "/boards/edit/",
+    "/tasks/search",
+    "/coach/explore",
+    "/coach/create",
+    "/integrations",
+    "/rooms/",
+    "/groups",
+    "/onboarding",
+    "/coach/routine",
+    "/settings",
+    "/tasks/insights",
+  ].find((_path) => path.includes(_path));
+};
 /**
  * Bottom navigation bar
  * @returns {any}
@@ -59,22 +76,7 @@ export function BottomNav() {
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const router = useRouter();
-
-  const shouldHide = [
-    "/claim-esb",
-    "/users",
-    "/boards/edit/",
-    "/tasks/search",
-    "/coach/explore",
-    "/coach/create",
-    "/integrations",
-    "/rooms/",
-    "/groups",
-    "/onboarding",
-    "/coach/routine",
-    "/settings",
-    "/tasks/insights",
-  ].find((path) => router.asPath.includes(path));
+  const shouldHide = shouldHideNavigation(router.asPath);
 
   /**
    * Handles button click
@@ -90,7 +92,7 @@ export function BottomNav() {
         },
         mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
         left: 0,
-        transition: "margin-bottom .3s",
+        transition: "margin-bottom .3s cubic-bezier(.17,.67,.22,1.14)",
         overflowX: "hidden",
         display: {
           xs: "flex",
