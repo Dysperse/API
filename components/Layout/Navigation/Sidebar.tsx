@@ -161,17 +161,7 @@ export function Sidebar() {
     };
   };
 
-  const shouldHide = [
-    "/claim-esb",
-    "/users",
-    "/coach/explore",
-    "/coach/create",
-    "/settings",
-    "/coach/routine",
-    "/groups",
-    "/integrations",
-    "/onboarding",
-  ].find((path) => router.asPath.includes(path));
+  const shouldHide = false;
 
   return (
     <Box
@@ -181,7 +171,7 @@ export function Sidebar() {
         maxWidth: "85px",
         width: "80px",
         ml: shouldHide ? "-90px" : 0,
-        ...(shouldHide && { opacity: 0, pointerEvents: "none" }),
+        // ...(shouldHide && { opacity: 0, pointerEvents: "none" }),
         transition: "all .2s",
         zIndex: "99!important",
         filter: "none!important",
