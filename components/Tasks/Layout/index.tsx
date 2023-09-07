@@ -881,7 +881,7 @@ export function TasksLayout({
         <Box sx={{ height: "65px" }} />
       )}
 
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", background: { sm: palette[2] } }}>
         {isMobile && (
           <Drawer
             keepMounted
@@ -932,8 +932,7 @@ export function TasksLayout({
           sx={{
             width: { xs: "100%", sm: 300 },
             flex: { xs: "100%", sm: "0 0 250px" },
-            ml: -1,
-            background: addHslAlpha(palette[3], 0.5),
+            background: palette[2],
             display: { xs: "none", sm: "flex" },
             minHeight: "100dvh",
             maxWidth: "250px",
@@ -957,7 +956,9 @@ export function TasksLayout({
             minHeight: { sm: "100dvh" },
             height: { sm: "100dvh" },
             overflowY: { sm: "auto" },
+            borderRadius: { sm: "20px 0 0 20px" },
             flexGrow: 1,
+            background: palette[1],
           }}
           {...(contentRef && { ref: contentRef })}
           id="boardContainer"

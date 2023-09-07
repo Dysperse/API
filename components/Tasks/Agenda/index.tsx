@@ -149,12 +149,8 @@ export function Agenda({ type, date }) {
               textAlign: "left",
               display: { xs: "none", sm: "flex" },
               alignItems: "center",
-              background:
-                view === "priority"
-                  ? ""
-                  : `linear-gradient(${palette[1]}, ${palette[2]})`,
               borderBottom: `1.5px solid ${
-                palette[view === "priority" ? 3 : 2]
+                palette[view === "priority" ? 3 : 3]
               }`,
               width: "100%",
               transition: "all .2s",
