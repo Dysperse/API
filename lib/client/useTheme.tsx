@@ -527,7 +527,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       mode: darkMode ? "dark" : "light",
       background: {
-        default: palette ? addHslAlpha(palette[3], 0.6) : "#fff",
+        default: palette
+          ? addHslAlpha(palette[3], darkMode ? 0.85 : 0.6)
+          : "#fff",
         paper: palette[1],
       },
       text: {

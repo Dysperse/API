@@ -132,7 +132,7 @@ export default function App({
   }
 
   useEffect(() => {
-    document.body.classList[isDark ? "add" : "remove"]("dark");
+    document.documentElement.classList[isDark ? "add" : "remove"]("dark");
   }, [isDark]);
 
   const children = <Component {...pageProps} />;

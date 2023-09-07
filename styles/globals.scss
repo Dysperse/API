@@ -12,6 +12,10 @@
   --sal: env(safe-area-inset-left);
 }
 
+.dark {
+  background: var(--bg);
+}
+
 html,
 body {
   overscroll-behavior-x: none;

@@ -178,7 +178,6 @@ export function Sidebar() {
         overflowX: "hidden",
         borderLeft: "1px solid transparent",
         height: "100dvh",
-        backdropFilter: "blur(10px)",
         position: "fixed",
         left: "0px",
         alignItems: "center",
