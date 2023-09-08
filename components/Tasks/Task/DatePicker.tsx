@@ -107,7 +107,6 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
   children,
   dateOnly = false,
 }: any) {
-  const session = useSession();
   const timeRef: any = useRef();
 
   const [open, setOpen] = useState<boolean>(false);
