@@ -109,8 +109,6 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
 }: any) {
   const session = useSession();
   const timeRef: any = useRef();
-  const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
 
   const [open, setOpen] = useState<boolean>(false);
   const [timeOpen, setTimeOpen] = useState(false);
