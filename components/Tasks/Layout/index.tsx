@@ -334,7 +334,7 @@ export function TasksLayout({
 
   useHotkeys(["c", "/"], (e) => {
     e.preventDefault();
-    document.getElementById("createTask")?.click();
+    document.getElementById("createTaskTrigger")?.click();
   });
 
   useHotkeys("d", () => router.push("/tasks/agenda/days"));
@@ -861,6 +861,7 @@ export function TasksLayout({
                 }}
               >
                 <IconButton
+                  id="createTaskTrigger"
                   sx={{
                     "&:active": {
                       transform: "scale(0.9)",
