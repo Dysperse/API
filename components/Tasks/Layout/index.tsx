@@ -405,7 +405,7 @@ export function TasksLayout({
             px: 2,
           }}
         >
-          {!isMobile && <SearchTasks setOpen={setOpen} />}
+          {!isMobile && <SearchTasks  />}
           <Typography sx={taskStyles(palette).subheading}>
             Perspectives
           </Typography>
@@ -794,7 +794,7 @@ export function TasksLayout({
         >
           <Toolbar sx={{ mt: { sm: -0.5 } }}>
             {!isSearch && trigger}
-            {isSearch ? <></> : <SearchTasks setOpen={setOpen} />}
+            {isSearch ? <></> : <SearchTasks />}
             {isSearch && (
               <TextField
                 variant="outlined"

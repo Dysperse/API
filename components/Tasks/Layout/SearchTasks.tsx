@@ -21,7 +21,7 @@ import { useEffect, useRef, useState } from "react";
 import { Puller } from "../../Puller";
 import { CreateTask } from "../Task/Create";
 
-export function SearchTasks({ setOpen }) {
+export function SearchTasks() {
   const ref: any = useRef();
   const router = useRouter();
   const session = useSession();
@@ -173,6 +173,7 @@ export function SearchTasks({ setOpen }) {
         >
           <CreateTaskWrapper>
             <IconButton
+              id="createTaskTrigger"
               sx={{
                 ...(Boolean(query.trim()) && {
                   transform: "scale(0)",
