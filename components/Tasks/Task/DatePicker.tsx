@@ -13,7 +13,13 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import React, { cloneElement, useEffect, useRef, useState } from "react";
+import React, {
+  cloneElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import DatePicker from "react-calendar";
 import { toast } from "react-hot-toast";
 import useSWR from "swr";
@@ -129,7 +135,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
     },
   });
 
-  const { data, error } = useSWR([
+  const { data } = useSWR([
     open ? "property/tasks/agenda" : null,
     {
       count: true,
@@ -141,6 +147,15 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
         .toISOString(),
     },
   ]);
+
+  const handleSubmit = useCallback(() => {
+    const [hours, minutes] = timeRef.current.value.split(":");
+    const roundedMinutes = Math.round(parseInt(minutes) / 5) * 5; // Round minutes to nearest 5
+    setDate(
+      dayjs(date).set("hour", parseInt(hours)).set("minute", roundedMinutes)
+    );
+    setTimeOpen(false);
+  }, [date, setDate]);
 
   return (
     <>
@@ -166,6 +181,11 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
           >
             <Box sx={{ p: 2, display: "flex", gap: 2 }}>
               <TextField
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSubmit();
+                  }
+                }}
                 type="time"
                 defaultValue={dayjs(date).format("HH:mm")}
                 inputRef={timeRef}
@@ -174,20 +194,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
                   step: "600",
                 }}
               />
-              <Button
-                disableRipple
-                onClick={() => {
-                  const [hours, minutes] = timeRef.current.value.split(":");
-                  const roundedMinutes = Math.round(parseInt(minutes) / 5) * 5; // Round minutes to nearest 5
-                  setDate(
-                    dayjs(date)
-                      .set("hour", parseInt(hours))
-                      .set("minute", roundedMinutes)
-                  );
-                  setTimeOpen(false);
-                }}
-                variant="contained"
-              >
+              <Button disableRipple onClick={handleSubmit} variant="contained">
                 <Icon>check</Icon>
               </Button>
             </Box>
