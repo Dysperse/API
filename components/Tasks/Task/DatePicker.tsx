@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import React, { cloneElement, useRef, useState } from "react";
+import React, { cloneElement, useEffect, useRef, useState } from "react";
 import DatePicker from "react-calendar";
 import { toast } from "react-hot-toast";
 import useSWR from "swr";
@@ -114,6 +114,10 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
 
   const [open, setOpen] = useState<boolean>(false);
   const [timeOpen, setTimeOpen] = useState(false);
+
+  useEffect(() => {
+    if (timeOpen) timeRef.current.focus();
+  }, [timeOpen]);
 
   const today = new Date(dayjs().startOf("day").toISOString());
 

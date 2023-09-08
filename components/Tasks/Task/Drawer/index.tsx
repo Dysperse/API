@@ -189,7 +189,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             <DrawerContent
               isDisabled={isDisabled}
               handleDelete={handleDelete}
-              isDateDependent={isDateDependent}
+              // isDateDependent={isDateDependent}
               handleParentClose={handleClose}
             />
           )}

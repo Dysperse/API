@@ -1,3 +1,4 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -74,6 +75,66 @@ export const LinkedContent = React.memo(function LinkedContent({
 
   return (
     <Box sx={styles.section}>
+      {task.createdBy && (
+        <ListItemButton
+          className="item"
+          onClick={() => {
+            router.push(`/users/${task.createdBy.email}`);
+          }}
+        >
+          <Avatar
+            src={task.createdBy?.Profile?.picture}
+            sx={{ width: 25, height: 25 }}
+          />
+          <ListItemText primary={`Created by ${task.createdBy?.name}`} />
+        </ListItemButton>
+      )}
+
+      <ListItemButton className="item" onClick={handleGroupClick}>
+        <Icon className="outlined">{isBoardPublic ? "group" : "lock"}</Icon>
+        <ListItemText
+          primary={isGroupVisible ? groupName : "Only visible to you"}
+          secondary={
+            isGroupVisible
+              ? "Visible to group"
+              : `Not visible to others in "${groupName}"`
+          }
+        />
+      </ListItemButton>
+      {task.column && (
+        <ListItemButton className="item" onClick={handleBoardClick}>
+          <Icon className="outlined">view_kanban</Icon>
+          <ListItemText
+            secondary={task.column.name}
+            primary={`Found in "${task.column.board.name}"`}
+          />
+          <ConfirmationModal
+            callback={handleRemoveBoard}
+            title="Remove task from board?"
+            question="It won't show up in your board anymore but will appear in perspectives"
+          >
+            <IconButton
+              sx={{
+                ml: "auto",
+                mr: -0.5,
+                background: palette[3] + "!important",
+              }}
+              className="outlined"
+            >
+              <Icon>close</Icon>
+            </IconButton>
+          </ConfirmationModal>
+        </ListItemButton>
+      )}
+      <ListItem className="item">
+        <Icon className="outlined">access_time</Icon>
+        <ListItemText
+          primary={`Edited ${dayjs(task.lastUpdated).fromNow()}`}
+          secondary={
+            task.completedAt && `Completed ${dayjs(task.completedAt).fromNow()}`
+          }
+        />
+      </ListItem>
       {isTaskImported && (
         <ListItem className="item">
           <Box
@@ -87,57 +148,6 @@ export const LinkedContent = React.memo(function LinkedContent({
           />
           <ListItemText primary={`Imported from Canvas LMS`} />
         </ListItem>
-      )}
-
-      <ListItem className="item">
-        <ListItemText
-          primary={`Edited ${dayjs(task.lastUpdated).fromNow()}`}
-          sx={{ fontStyle: "italic" }}
-        />
-      </ListItem>
-      {task.createdBy && (
-        <ListItemButton
-          className="item"
-          onClick={() => {
-            router.push(`/users/${task.createdBy.email}`);
-          }}
-        >
-          <ListItemText primary={`Created by ${task.createdBy?.name}`} />
-          <Avatar
-            src={task.createdBy?.Profile?.picture}
-            sx={{ width: 30, height: 30 }}
-          />
-        </ListItemButton>
-      )}
-
-      <ListItemButton className="item" onClick={handleGroupClick}>
-        <ListItemText
-          primary={isGroupVisible ? groupName : "Only visible to you"}
-          secondary={
-            isGroupVisible
-              ? "Visible to group"
-              : `Not visible to others in "${groupName}"`
-          }
-        />
-        <Icon sx={{ ml: "auto" }} className="outlined">
-          {isBoardPublic ? "group" : "lock"}
-        </Icon>
-      </ListItemButton>
-      {task.column && (
-        <ListItemButton className="item" onClick={handleBoardClick}>
-          <Icon className="outlined">view_kanban</Icon>
-          <ListItemText
-            secondary={task.column.name}
-            primary={`Found in "${task.column.board.name}"`}
-          />
-          <IconButton
-            sx={{ ml: "auto", mr: -0.5, background: palette[3] + "!important" }}
-            className="outlined"
-            onClick={handleRemoveBoard}
-          >
-            <Icon>close</Icon>
-          </IconButton>
-        </ListItemButton>
       )}
     </Box>
   );
