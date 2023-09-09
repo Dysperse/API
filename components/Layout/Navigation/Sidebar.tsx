@@ -105,7 +105,7 @@ export function Sidebar() {
     "ctrl+shift+4",
     (e) => {
       e.preventDefault();
-      router.push("/items");
+      router.push("/rooms");
     },
     [open]
   );
@@ -207,6 +207,21 @@ export function Sidebar() {
       {!isMobile && <Logo size={50} intensity={7} />}
       <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
+        sx={styles(router.asPath.includes("/tasks"))}
+        onClick={() => router.push("/tasks/agenda/days")}
+        onMouseDown={() => router.push("/tasks/agenda/days")}
+      >
+        <Tooltip title="Tasks" placement="right">
+          <span
+            className={`material-symbols-${
+              router.asPath.includes("/tasks") ? "rounded" : "outlined"
+            }`}
+          >
+            check_circle
+          </span>
+        </Tooltip>
+      </Box>
+      <Box
         sx={styles(router.asPath === "/" || router.asPath === "/mood-history")}
         onClick={() => router.push("/")}
         onMouseDown={() => router.push("/")}
@@ -224,34 +239,19 @@ export function Sidebar() {
         </Tooltip>
       </Box>
       <Box
-        sx={styles(router.asPath.includes("/tasks"))}
-        onClick={() => router.push("/tasks/agenda/days")}
-        onMouseDown={() => router.push("/tasks/agenda/days")}
-      >
-        <Tooltip title="Tasks" placement="right">
-          <span
-            className={`material-symbols-${
-              router.asPath.includes("/tasks") ? "rounded" : "outlined"
-            }`}
-          >
-            check_circle
-          </span>
-        </Tooltip>
-      </Box>
-      <Box
         sx={styles(
-          router.asPath === "/items" ||
+          router.asPath === "/rooms" ||
             router.asPath === "/trash" ||
             router.asPath === "/starred" ||
             router.asPath.includes("rooms")
         )}
-        onClick={() => router.push("/items")}
-        onMouseDown={() => router.push("/items")}
+        onClick={() => router.push("/rooms")}
+        onMouseDown={() => router.push("/rooms")}
       >
         <Tooltip title="Items" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath === "/items" ||
+              router.asPath === "/rooms" ||
               router.asPath === "/trash" ||
               router.asPath === "/starred" ||
               router.asPath.includes("rooms")

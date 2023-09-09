@@ -32,7 +32,6 @@ model User {
 
   lastReleaseVersionViewed Int @default(77711209)
 
-  CustomRoom           CustomRoom[]
   NotificationSettings NotificationSettings?
   Status               Status?
   Profile              Profile?
@@ -50,6 +49,9 @@ model User {
   following  Follows[]    @relation("follower")
   ShareToken ShareToken[]
   Task       Task[]
+
+  rooms Room[]
+  items Item[]
 }
 
 model Follows {
@@ -160,7 +162,7 @@ model Property {
   color          String  @default("cyan")
 
   Board               Board[]
-  customRooms         CustomRoom[]
+  rooms               Room[]
   inbox               InboxItem[]
   inventory           Item[]
   members             PropertyInvite[]
@@ -181,30 +183,6 @@ model PropertyInvite {
   accepted    Boolean  @default(false)
   profile     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model CustomRoom {
-  id             String   @id @unique @default(uuid())
-  name           String
-  private        Boolean  @default(false)
-  propertyId     String
-  userIdentifier String
-  property       Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  user           User     @relation(fields: [userIdentifier], references: [identifier], onDelete: Cascade)
-}
-
-model Item {
-  id           String   @id @unique @default(uuid())
-  name         String
-  quantity     String
-  note         String
-  lastModified DateTime
-  starred      Boolean  @default(false)
-  category     String   @default("[]")
-  room         String   @default("kitchen")
-  propertyId   String
-  trash        Boolean  @default(false)
-  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model PropertyLinkInvite {
@@ -307,6 +285,8 @@ model Task {
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   userId     String?
+
+  Item Item[]
 }
 
 model RoutineItem {
@@ -358,4 +338,45 @@ model QrToken {
 
   userId String?
   user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+// Inventory redesign
+model Room {
+  id    String @id @unique @default(uuid())
+  name  String @default("My room")
+  emoji String @default("📦")
+
+  items Item[]
+
+  createdBy User   @relation(fields: [userId], references: [id])
+  userId    String
+
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
+}
+
+model Item {
+  id             String   @id @unique @default(uuid())
+  name           String?
+  image          String?
+  quantity       String?
+  note           String?
+  categories     String[]
+  estimatedValue Int?
+  serialNumber   String?
+  condition      String?
+
+  createdBy User?     @relation(fields: [userId], references: [id])
+  userId    String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @default(now())
+
+  room   Room?   @relation(fields: [roomId], references: [id])
+  roomId String?
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  // TODO: Users can attach tasks to items
+  tasks Task[]
 }

@@ -51,7 +51,7 @@ import { Tab } from "./Tab";
 
 export const SelectionContext = createContext<null | any>(null);
 
-function GroupSelector() {
+export function GroupSelector() {
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const groupPalette = useColor(
@@ -405,7 +405,7 @@ export function TasksLayout({
             px: 2,
           }}
         >
-          {!isMobile && <SearchTasks  />}
+          {!isMobile && <SearchTasks />}
           <Typography sx={taskStyles(palette).subheading}>
             Perspectives
           </Typography>

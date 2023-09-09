@@ -26,12 +26,13 @@ export function OptionsGroup({
         width: "100%",
         borderRadius: "15px!important",
         gap: 0.2,
-        background: `${palette[5]}!important`,
+        background: `${palette[3]}!important`,
         ...sx,
       }}
     >
       {options.map((option) => (
         <Button
+          disableRipple
           key={option}
           fullWidth
           variant="text"
@@ -44,12 +45,15 @@ export function OptionsGroup({
             borderRadius: "15px!important",
             transition: "none!important",
             background: `${palette[9]}!important`,
+            "&:hover": {
+              background: `${palette[10]}!important`,
+            },
             color: isDark ? "#000" : "#fff",
             cursor: "default",
             ...(currentOption !== option && {
-              background: `${palette[5]}!important`,
+              background: `${palette[3]}!important`,
               "&:hover": {
-                background: `${palette[6]}!important`,
+                background: `${palette[4]}!important`,
               },
               color: `${palette[11]}!important`,
             }),
