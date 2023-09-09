@@ -2,6 +2,7 @@ import { containerRef } from "@/components/Layout";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { SpotifyCard } from "@/components/Profile/UserProfile";
 import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -63,6 +64,8 @@ export function StatusSelector({
     mutate: mutateStatus,
     isLoading: isStatusLoading,
   } = useSWR(["user/status"]);
+
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(
@@ -175,6 +178,13 @@ export function StatusSelector({
         onClose={() => {
           setOpen(false);
           resetStatus();
+        }}
+        PaperProps={{
+          sx: {
+            border: `2px solid ${addHslAlpha(palette[3], 0.7)}`,
+            borderRadius: 5,
+            m: 2,
+          },
         }}
       >
         <Box sx={{ width: "100%" }}>
@@ -730,6 +740,13 @@ function SearchFriend({ mutate }) {
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
+        PaperProps={{
+          sx: {
+            border: `2px solid ${addHslAlpha(palette[3], 0.7)}`,
+            borderRadius: 5,
+            m: 2,
+          },
+        }}
       >
         <Puller showOnDesktop />
         <Box sx={{ px: 2, pb: 2 }}>
