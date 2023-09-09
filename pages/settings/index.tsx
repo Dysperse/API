@@ -5,7 +5,6 @@ import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import {
   AppBar,
@@ -207,47 +206,10 @@ function Page() {
 }
 
 export default function Layout({ children }: any) {
-  const session = useSession();
   const router = useRouter();
-
-  const isDark = useDarkMode(session.darkMode);
-
-  const palette = useColor(session.themeColor, isDark);
-  useStatusBar(palette[2]);
-
   const closeRef: any = useRef();
-  useHotkeys("esc", () => closeRef.current?.click());
 
-  const styles = (condition: boolean) => ({
-    cursor: { sm: "unset!important" },
-    transition: "none!important",
-    px: 1.5,
-    gap: 1.5,
-    py: 1,
-    mr: 1,
-    mb: 0.3,
-    width: "100%",
-    fontSize: "15px",
-    justifyContent: "flex-start",
-    borderRadius: 4,
-    color: palette[12],
-    "&:hover, &:focus": {
-      background: palette[3],
-    },
-    "& span": {
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      whiteSpace: "nowrap",
-      minWidth: 0,
-    },
-    ...(condition && {
-      color: palette[12],
-      background: palette[4],
-      "&:hover, &:focus": {
-        background: palette[5],
-      },
-    }),
-  });
+  useHotkeys("esc", () => closeRef.current?.click());
 
   return (
     <Box>

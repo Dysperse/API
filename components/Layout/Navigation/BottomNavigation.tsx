@@ -92,7 +92,7 @@ export function BottomNav() {
         },
         mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
         left: 0,
-        transition: "margin-bottom .3s cubic-bezier(.17,.67,.22,1.14)",
+        transition: "margin-bottom .4s cubic-bezier(.17,.67,.08,1.4)",
         overflowX: "hidden",
         display: {
           xs: "flex",
