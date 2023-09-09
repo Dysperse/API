@@ -185,7 +185,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               borderColor: palette[4],
               "&:hover": {
                 borderColor: {
-                  xs: "transparent",
+                  xs: palette[4],
                   sm: addHslAlpha(palette[3], 0.5),
                 },
                 background: {
