@@ -14,7 +14,7 @@ export const shouldHideNavigation = (path) => {
     "/coach/create",
     "/integrations",
     "/rooms/",
-    "/groups",
+    "/spaces",
     "/onboarding",
     "/coach/routine",
     "/settings",

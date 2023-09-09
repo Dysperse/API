@@ -250,27 +250,12 @@ export default function Layout({ children }: any) {
   });
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        position: "fixed",
-        top: 0,
-        width: "100vw",
-        left: 0,
-        zIndex: 999,
-        height: "100dvh",
-        background: palette[1],
-      }}
-    >
+    <Box>
       <Box
         sx={{
           "& .settings": {
-            maxHeight: "100dvh",
-            minHeight: "100dvh",
-            height: "100dvh",
             display: "flex",
             flexDirection: "column",
-            width: "100dvw",
             overflowY: "auto",
             flexGrow: 1,
             p: { xs: 0, sm: 5 },

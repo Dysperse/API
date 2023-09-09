@@ -53,7 +53,7 @@ export function Navbar({
             }
             sx={{
               color: palette[8],
-              ml: showRightContent && right ? "" : "auto",
+              ml: { sm: showRightContent && right ? "" : "auto" },
             }}
           >
             <Icon className="outlined" sx={{ fontSize: "28px!important" }}>

@@ -94,13 +94,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
       <Box
         ref={ref}
         sx={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100dvw",
-          height: "100dvh",
           ...(data && { background: palette[children ? 3 : 9] }),
-          zIndex: 999,
           overflowX: "hidden",
           "& .container": {
             p: 3,

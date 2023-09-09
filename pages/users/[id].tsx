@@ -277,19 +277,7 @@ function Page() {
     : grayPalette;
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100dvh",
-        background: palette[1],
-        zIndex: 999,
-        overflow: "auto",
-        overscrollBehavior: "none",
-      }}
-    >
+    <Box>
       <Head>
         <title>{data ? data.name : `Profile`}</title>
       </Head>
