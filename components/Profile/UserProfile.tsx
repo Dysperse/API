@@ -128,7 +128,6 @@ function Contacts({ profile }) {
 }
 
 export function SpotifyCard({
-  mutate,
   styles,
   email,
   profile,
@@ -154,6 +153,7 @@ export function SpotifyCard({
       sx={{
         ...styles,
         background: "#1db954",
+        position: "relative",
         color: "#fff",
         cursor: "pointer",
         transition: "transform .2s",
@@ -172,20 +172,33 @@ export function SpotifyCard({
     >
       {data?.item ? (
         <>
-          <Box sx={{ display: "flex", gap: 3 }}>
-            <img
-              src={data?.item?.album.images[0].url}
-              alt="Spotify album cover"
-              style={{ width: "100%" }}
-            />
+          <Box
+            sx={{
+              display: "flex",
+              gap: 3,
+              maxWidth: "100%",
+            }}
+          >
+            <picture>
+              <img
+                src={data?.item?.album.images[0].url}
+                alt="Spotify album cover"
+                style={{ width: "100%", display: "block" }}
+              />
+            </picture>
 
-            <img
-              src={
-                "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-              }
-              alt="Spotify"
-              style={{ width: "45px", height: "45px" }}
-            />
+            <picture>
+              <img
+                src={
+                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
+                }
+                alt="Spotify"
+                style={{
+                  width: "45px",
+                  height: "45px",
+                }}
+              />
+            </picture>
           </Box>
           <Box
             sx={{
@@ -501,7 +514,6 @@ export function UserProfile({
               email={data.email}
               styles={profileCardStyles}
               profile={profile}
-              mutate={mutate}
             />
           )}
           {data.Status && dayjs(data?.Status?.until).isAfter(dayjs()) && (

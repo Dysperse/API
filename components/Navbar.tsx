@@ -1,11 +1,9 @@
 import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Button, Collapse, Icon, IconButton } from "@mui/material";
+import { Box, Icon, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { Logo } from "../pages";
-import { GroupModal } from "./Group/GroupModal";
 
 export function Navbar({
   showLogo = false,
@@ -18,19 +16,7 @@ export function Navbar({
 }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const groupPalette = useColor(
-    session.property.profile.color,
-    useDarkMode(session.darkMode)
-  );
   const router = useRouter();
-
-  const [showGroup, setShowGroup] = useState(router.asPath === "/");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowGroup(false);
-    }, 1000);
-  }, []);
 
   return (
     <Box
@@ -50,50 +36,38 @@ export function Navbar({
           <IconButton
             sx={{
               display: { sm: "none" },
+              color: palette[8],
               ml: showRightContent && right ? "" : "auto",
-              color: palette[9],
-              "&:active": { transform: "scale(.9)" },
-              transition: "all .4s",
             }}
             onClick={openSpotlight}
           >
-            <Icon className="outlined">search</Icon>
+            <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
+              search
+            </Icon>
           </IconButton>
-          <GroupModal list>
-            <Button
-              sx={{
-                ml: { sm: "auto" },
-                minWidth: "unset",
-                px: showGroup ? 2 : 1,
-                color: showGroup ? groupPalette[9] : palette[9],
-                background: showGroup ? groupPalette[3] : palette[1],
-                gap: showGroup ? 1.5 : 0,
-                "&:hover": { background: "transparent" },
-                "&:active": { background: palette[2] },
-                transition: "all .4s!important",
-              }}
-              onClick={() =>
-                router.push("/spaces/" + session?.property?.propertyId)
-              }
-            >
-              <Icon className="outlined">group</Icon>
-              <Collapse
-                orientation="horizontal"
-                in={showGroup}
-                sx={{
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {session.property.profile.name}
-              </Collapse>
-            </Button>
-          </GroupModal>
+          <IconButton
+            onClick={() =>
+              router.push(
+                `/users/${session.user.username || session.user.email}`
+              )
+            }
+            sx={{
+              color: palette[8],
+              ml: showRightContent && right ? "" : "auto",
+            }}
+          >
+            <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
+              account_circle
+            </Icon>
+          </IconButton>
           {router.asPath === "/" && (
             <IconButton
-              sx={{ color: palette[9] }}
+              sx={{ color: palette[8] }}
               onClick={() => router.push("/settings")}
             >
-              <Icon className="outlined">settings</Icon>
+              <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
+                settings
+              </Icon>
             </IconButton>
           )}
         </>

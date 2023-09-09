@@ -500,7 +500,6 @@ const Friend = memo(function Friend({ mutate, friend }: any) {
                   }}
                   profile={friend?.Profile}
                   hideIfNotPlaying
-                  mutate={mutate}
                 />
               </Grid>
             )}
@@ -842,16 +841,6 @@ export default function Home() {
         >
           <SearchFriend mutate={mutate} />
           <StatusSelector mutate={mutate} profile={profileData} />
-          <Button
-            variant="contained"
-            onClick={() =>
-              router.push(
-                `/users/${session.user.username || session.user.email}`
-              )
-            }
-          >
-            <Icon className="outlined">person</Icon>
-          </Button>
         </Box>
         <Box
           sx={{
