@@ -234,27 +234,6 @@ export function Agenda({ type, date }) {
             </Box>
             <Box sx={{ ml: "auto" }}>
               <IconButton
-                onClick={async () => {
-                  setLoading(true);
-                  await mutateList();
-                  setLoading(false);
-                }}
-                disabled={loading}
-                className="priority-hidden"
-              >
-                <Icon
-                  className="outlined"
-                  sx={{
-                    transform: loading
-                      ? "scale(1.2) rotate(360deg)"
-                      : "scale(1.2)",
-                    transition: loading ? "transform 0.5s ease" : "",
-                  }}
-                >
-                  refresh
-                </Icon>
-              </IconButton>
-              <IconButton
                 onClick={handlePrev}
                 id="agendaPrev"
                 className="priority-hidden"
@@ -264,18 +243,16 @@ export function Agenda({ type, date }) {
               <Button
                 className="priority-hidden"
                 id="agendaToday"
-                onClick={() =>
+                onClick={() => {
                   router.push(
                     `/tasks/agenda/${type}/${dayjs().format("YYYY-MM-DD")}`
-                  )
-                }
-                disabled={dayjs(start) <= dayjs() && dayjs() <= dayjs(end)}
+                  );
+                  scrollIntoView();
+                }}
                 size="large"
                 sx={{
                   px: 0,
                   color: "inherit",
-                  ...(dayjs(start) <= dayjs() &&
-                    dayjs() <= dayjs(end) && { display: "none" }),
                 }}
               >
                 Today
@@ -299,7 +276,7 @@ export function Agenda({ type, date }) {
             display: "flex",
             flexDirection: "row",
             flexGrow: 1,
-            maxWidth: "100%",
+            maxWidth: "100dvw",
             overflowX: { xs: "hidden", sm: "auto" },
             width: "100%",
             height: "100%",

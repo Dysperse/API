@@ -1,3 +1,4 @@
+import { containerRef } from "@/components/Layout";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -5,7 +6,6 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
-  Divider,
   Icon,
   IconButton,
   Tooltip,
@@ -30,7 +30,6 @@ import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
 import SelectDateModal from "../Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
-import { containerRef } from "@/components/Layout";
 
 function RandomTask({ date }) {
   const session = useSession();
@@ -210,13 +209,10 @@ function RandomTask({ date }) {
         size="large"
         sx={{
           ml: "auto",
+          mr: -1,
           "&:active": {
             opacity: 0.6,
           },
-          "&:hover": {
-            background: { sm: palette[3] + "!important" },
-          },
-          color: palette[11] + "!important",
         }}
       >
         <Icon className="outlined">casino</Icon>
@@ -590,27 +586,24 @@ const Column = React.memo(function Column({
             >
               <Box
                 sx={{
-                  maxWidth: "calc(100% - 20px)",
+                  maxWidth: "calc(100% - 10px)",
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   background: palette[2],
                   borderRadius: 5,
-                  py: 1,
-                  px: 2,
+                  py: 2,
+                  px: 3,
                   mt: -1,
                 }}
               >
                 <Typography variant="h6">
                   {sortedTasks.length === 0
-                    ? "No tasks..."
+                    ? "No tasks"
                     : "You finished everything!"}
                 </Typography>
                 <RandomTask date={column} />
-              </Box>
-              <Box sx={{ width: "100%", mt: 1 }}>
-                {sortedTasks.length !== 0 && <Divider sx={{ my: 2 }} />}
               </Box>
             </motion.div>
           </Box>

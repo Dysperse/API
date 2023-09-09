@@ -195,6 +195,12 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
 
           text: {
             color: palette[11],
+            "&:hover": {
+              background: palette[3],
+            },
+            "&:active": {
+              background: palette[4],
+            },
           },
 
           root: ({ theme }) =>
@@ -529,6 +535,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       background: {
         default: palette
           ? addHslAlpha(palette[3], darkMode ? 0.6 : 0.6)
+          : darkMode
+          ? "#000"
           : "#fff",
         paper: palette[1],
       },
