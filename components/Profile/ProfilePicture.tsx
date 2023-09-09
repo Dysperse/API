@@ -123,7 +123,7 @@ export function ProfilePicture({
         sx={{
           height: size,
           width: size,
-          fontSize: size == 150 ? 65 : 30,
+          fontSize: size == 150 ? 65 : 25,
           textTransform: "uppercase",
           background: `linear-gradient(${palette[6]} 30%, ${palette[9]})`,
           mb: 2,
