@@ -35,7 +35,6 @@ export const AgendaContext = createContext<any>(null);
 export function Agenda({ type, date }) {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const [loading, setLoading] = useState(false);
   const [view, setView] = useState("all");
 
   const columnMap = {
@@ -75,11 +74,7 @@ export function Agenda({ type, date }) {
     (_, index) => start.clone().add(index, type)
   );
 
-  const {
-    data,
-    mutate: mutateList,
-    error,
-  } = useSWR([
+  const { data, mutate: mutateList } = useSWR([
     "property/tasks/agenda",
     {
       startTime: start.toISOString(),
@@ -268,7 +263,15 @@ export function Agenda({ type, date }) {
           </Box>
         </motion.div>
         <Box
+          onScroll={(e: any) => {
+            // idk what this does
+            e.target.getBoundingClientRect();
+          }}
           sx={{
+            // what does this do?
+            backfaceVisibility: "hidden",
+
+            transform: "translate3d(0)",
             ...(!data && {
               alignItems: "center",
               justifyContent: "center",

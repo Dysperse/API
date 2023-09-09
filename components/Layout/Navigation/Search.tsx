@@ -149,17 +149,6 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
       icon: "change_history",
     },
     {
-      title: "Coach",
-      onTrigger: () => router.push("/coach"),
-      icon: "rocket_launch",
-    },
-    {
-      title: "Daily routine",
-      badge: "Coach",
-      onTrigger: () => router.push("/coach/routine"),
-      icon: "routine",
-    },
-    {
       title: "Items",
       onTrigger: () => router.push("/items"),
       icon: "category",
@@ -266,7 +255,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                 {room.type === "board" ? "view_kanban" : "task_alt"}
               </Icon>
             ),
-            badge: room.type === "board" ? "Board" : "Checklist",
+            badge: "Board",
           };
         })
       : []),
@@ -453,15 +442,18 @@ const Spotlight = React.memo(function Spotlight() {
     }
   );
 
+  const parent = useRef();
   return (
     <SwipeableDrawer
       open={open}
       onClose={handleClose}
       anchor="bottom"
       PaperProps={{
+        ref: parent,
         sx: {
           minHeight: "calc(100dvh - 50px)",
-          height: "calc(100dvh - 50px)",
+          maxHeight: "calc(100dvh - 50px)",
+          border: { sm: "2px solid " + palette[2] },
           display: "flex",
           flexDirection: "column",
         },
@@ -497,40 +489,40 @@ const Spotlight = React.memo(function Spotlight() {
           }}
           value={inputValue}
         />
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          gap: 1,
-          mt: -1,
-          mb: 1,
-          overflow: "auto",
-        }}
-      >
-        <Box sx={{ mr: 1 }} />
-        {[...new Set(results.map((result) => result?.badge?.toLowerCase()))]
-          .filter((badge) => badge)
-          .map((_badge) => (
-            <Chip
-              label={capitalizeFirstLetter(_badge)}
-              key={_badge}
-              onClick={() => {
-                setBadge(_badge.toLowerCase());
-                ref?.current?.focus();
-              }}
-              {...(badge === _badge.toLowerCase() && {
-                onDelete: () => {
-                  setBadge(null);
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            mt: -1,
+            mb: 1,
+            overflow: "auto",
+          }}
+        >
+          {[...new Set(results.map((result) => result?.badge?.toLowerCase()))]
+            .filter((badge) => badge)
+            .map((_badge) => (
+              <Chip
+                label={capitalizeFirstLetter(_badge)}
+                key={_badge}
+                onClick={() => {
+                  setBadge(_badge.toLowerCase());
                   ref?.current?.focus();
-                },
-              })}
-            />
-          ))}
-        <Box sx={{ mr: 1 }} />
+                }}
+                {...(badge === _badge.toLowerCase() && {
+                  onDelete: () => {
+                    setBadge(null);
+                    ref?.current?.focus();
+                  },
+                })}
+              />
+            ))}
+          <Box sx={{ mr: 1 }} />
+        </Box>
       </Box>
       <Box sx={{ mt: 1, px: 2, flexGrow: 1 }}>
         <Virtuoso
-          style={{ height: "100%", maxHeight: "calc(100dvh - 100px)" }}
+          useWindowScroll
+          customScrollParent={parent.current}
           totalCount={results.length + 1}
           itemContent={(index) => (
             <SearchResult

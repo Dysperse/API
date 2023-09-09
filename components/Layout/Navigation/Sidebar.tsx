@@ -280,9 +280,9 @@ export function Sidebar() {
           onMouseDown={() => openSpotlight()}
           sx={{
             ...styles(false),
-            background: addHslAlpha(palette[3], 0.8),
+            background: addHslAlpha(palette[4], 0.4),
             "&:active": {
-              background: addHslAlpha(palette[3], 0.9),
+              background: addHslAlpha(palette[4], 0.5),
             },
             borderRadius: 99,
           }}

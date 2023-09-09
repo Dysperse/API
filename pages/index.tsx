@@ -802,7 +802,7 @@ export default function Home() {
   }, [data]);
 
   return (
-    <Box sx={{ ml: { sm: -1 } }}>
+    <Box sx={{ ml: { sm: -1 }, mt: "env(titlebar-area-height)" }}>
       <Navbar showLogo={isMobile} showRightContent={true} />
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
