@@ -237,6 +237,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           },
         },
       },
+      MuiAvatar: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              color: palette[1],
+            }),
+        },
+      },
       MuiAlert: {
         styleOverrides: {
           root: ({ theme }) =>
