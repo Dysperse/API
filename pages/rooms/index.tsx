@@ -124,7 +124,7 @@ function Panel() {
         <Button variant="contained" fullWidth>
           <Icon>add</Icon>New
         </Button>
-        <Button variant="contained">
+        <Button variant="contained" onClick={() => router.push("/rooms/audit")}>
           <Icon>process_chart</Icon>
         </Button>
       </Box>

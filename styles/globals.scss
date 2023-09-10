@@ -335,3 +335,16 @@ body {
 .drag-widget {
   z-index: 9999 !important;
 }
+@keyframes submit {
+  0% {
+    transform: scale(1) rotate(0deg);
+    border-radius: 0px;
+  }
+  50% {
+    transform: scale(0.7) rotate(3deg) translateX(10vw) translateY(-100px);
+    border-radius: 100px;
+  }
+  100% {
+    transform: scale(0.6) translateX(200vw) translateY(-250px);
+  }
+}
