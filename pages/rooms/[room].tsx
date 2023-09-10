@@ -1,16 +1,96 @@
 import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { Masonry } from "@mui/lab";
 import {
+  AppBar,
   Box,
   CircularProgress,
   Icon,
   IconButton,
+  SwipeableDrawer,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import { cloneElement, useState } from "react";
 import useSWR from "swr";
 import RoomLayout from ".";
+
+function ItemDrawerContent({ item, mutate, setOpen }) {
+  const session = useSession();
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  const styles = {
+    button: {
+      color: palette[11],
+      background: palette[3],
+    },
+  };
+  return (
+    <>
+      <AppBar position="sticky" sx={{ top: 0, border: 0 }}>
+        <Toolbar>
+          <IconButton onClick={() => setOpen(false)} sx={styles.button}>
+            <Icon className="outlined">close</Icon>
+          </IconButton>
+        </Toolbar>
+        {JSON.stringify(item)}
+      </AppBar>
+    </>
+  );
+}
+
+function ItemPopup({ children, item }: { children: JSX.Element; item: any }) {
+  const session = useSession();
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  const [open, setOpen] = useState(false);
+  const trigger = cloneElement(children, { onClick: () => setOpen(true) });
+
+  const { data, isLoading, mutate, error } = useSWR(
+    open ? ["property/inventory/items", { id: item.id }] : null
+  );
+
+  return (
+    <>
+      {trigger}
+      <SwipeableDrawer
+        anchor="right"
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            width: { xs: "100%", sm: "500px" },
+            borderLeft: { sm: "2px solid " + palette[3] },
+          },
+        }}
+      >
+        {data && (
+          <ItemDrawerContent item={data} mutate={mutate} setOpen={setOpen} />
+        )}
+        {isLoading && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+        {error && (
+          <ErrorHandler
+            error="Something went wrong. Please try again later"
+            callback={mutate}
+          />
+        )}
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 function Room({ room }) {
   const session = useSession();
@@ -67,6 +147,29 @@ function Room({ room }) {
           No items
         </Box>
       )}
+      <Box sx={{ mr: -2, mt: 2 }}>
+        <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={2}>
+          {room.items.map((item) => (
+            <ItemPopup key={item.id} item={item}>
+              <Box
+                sx={{
+                  p: 2,
+                  background: palette[2],
+                  borderRadius: 5,
+                  "&:hover": {
+                    background: { sm: palette[3] },
+                  },
+                  "&:active": {
+                    background: palette[4],
+                  },
+                }}
+              >
+                {item.name}
+              </Box>
+            </ItemPopup>
+          ))}
+        </Masonry>
+      </Box>
     </Box>
   );
 }

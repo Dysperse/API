@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
-import CryptoJS from "crypto-js";
 
 const handler = async (req, res) => {
   try {
@@ -9,37 +8,14 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    const item = await prisma.item.findUnique({
+    const item = await prisma.item.findFirstOrThrow({
       where: {
         id: req.query.id,
       },
     });
 
-    if (!item) {
-      res.json(null);
-      return;
-    }
-    res.json({
-      ...item,
-      name: CryptoJS.AES.decrypt(
-        item.name,
-        process.env.INVENTORY_ENCRYPTION_KEY
-      ).toString(CryptoJS.enc.Utf8),
-      quantity: CryptoJS.AES.decrypt(
-        item.quantity,
-        process.env.INVENTORY_ENCRYPTION_KEY
-      ).toString(CryptoJS.enc.Utf8),
-      note: CryptoJS.AES.decrypt(
-        item.note,
-        process.env.INVENTORY_ENCRYPTION_KEY
-      ).toString(CryptoJS.enc.Utf8),
-      category: CryptoJS.AES.decrypt(
-        item.category,
-        process.env.INVENTORY_ENCRYPTION_KEY
-      ).toString(CryptoJS.enc.Utf8),
-    });
+    res.json({ item });
   } catch (e: any) {
-    console.log(e);
     res.status(500).json({ error: e.message });
   }
 };

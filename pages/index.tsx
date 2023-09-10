@@ -184,6 +184,7 @@ export function StatusSelector({
             border: `2px solid ${addHslAlpha(palette[3], 0.7)}`,
             borderRadius: 5,
             m: 2,
+            mx: { xs: 2, sm: "auto" },
           },
         }}
       >
@@ -745,6 +746,7 @@ function SearchFriend({ mutate }) {
             border: `2px solid ${addHslAlpha(palette[3], 0.7)}`,
             borderRadius: 5,
             m: 2,
+            mx: { xs: 2, sm: "auto" },
           },
         }}
       >

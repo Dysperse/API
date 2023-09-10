@@ -164,6 +164,7 @@ export default function Page() {
     try {
       fetchRawApi(session, "property/inventory/items/create", {
         name: titleRef.current.value,
+        room: room.id,
       });
     } catch (e: any) {
       toast.error(e.message, toastStyles);
