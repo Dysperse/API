@@ -150,7 +150,7 @@ export default function Integrations({
               <ListItemButton
                 key={integration.id}
                 disableRipple
-                sx={{ background: palette[2] }}
+                sx={{ mb: 2, background: palette[2] }}
               >
                 <ListItemText
                   primary={integration.name}
