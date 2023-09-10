@@ -1,26 +1,103 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
   AppBar,
   Box,
+  Button,
   Chip,
   CircularProgress,
   Icon,
   IconButton,
+  ListItemButton,
+  ListItemText,
   Skeleton,
+  SwipeableDrawer,
   TextField,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import Webcam from "react-webcam";
+import useSWR from "swr";
 import RoomLayout from ".";
+
+function RoomPicker({ room, setRoom }) {
+  const [open, setOpen] = useState(false);
+  const { data, error } = useSWR(["property/inventory/rooms"]);
+
+  const session = useSession();
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  useEffect(() => {
+    if (!room && !open) {
+      setOpen(true);
+    }
+  }, [room, open]);
+
+  return (
+    <>
+      <Button
+        sx={{
+          mx: "auto",
+          color: "inherit",
+          gap: 0,
+          background: "transparent!important",
+          transition: "transform .1s!important",
+          "&:active": { transform: "scale(.9)" },
+        }}
+        onClick={() => setOpen(true)}
+      >
+        {room?.name}
+        <Icon>expand_more</Icon>
+      </Button>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            background: addHslAlpha(palette[3], 0.8),
+            m: 2,
+            borderRadius: 5,
+          },
+        }}
+      >
+        <Typography variant="h3" className="font-heading" sx={{ p: 3, pb: 1 }}>
+          Select a room
+        </Typography>
+        {data ? (
+          data.map((room) => (
+            <ListItemButton
+              key={room.id}
+              onClick={() => {
+                setRoom(room);
+                setOpen(false);
+              }}
+            >
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
+                alt="Emoji"
+                width={30}
+                height={30}
+              />
+              <ListItemText primary={room.name} />
+            </ListItemButton>
+          ))
+        ) : (
+          <CircularProgress />
+        )}
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 export default function Page() {
   const webcamRef: any = useRef(null);
@@ -34,6 +111,8 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<any[]>([]);
   const [submitted, setSubmitted] = useState(false);
+
+  const [room, setRoom] = useState<any>(null);
 
   const titleRef: any = useRef<HTMLInputElement>();
 
@@ -81,7 +160,14 @@ export default function Page() {
     setResults(res);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    try {
+      fetchRawApi(session, "property/inventory/items/create", {
+        name: titleRef.current.value,
+      });
+    } catch (e: any) {
+      toast.error(e.message, toastStyles);
+    }
     setSubmitted(true);
     setTimeout(() => {
       setTaken(false);
@@ -124,7 +210,7 @@ export default function Page() {
             width={width}
             ref={webcamRef}
             screenshotFormat="image/png"
-            // screenshotQuality={0.5}
+            screenshotQuality={0.5}
             videoConstraints={{
               facingMode: frontCamera ? "user" : { exact: "environment" },
             }}
@@ -134,7 +220,7 @@ export default function Page() {
           sx={{
             position: "absolute",
             height: "100dvh",
-            zIndex: 9999,
+            zIndex: 999,
             width: "100%",
             left: 0,
             bottom: 0,
@@ -270,10 +356,8 @@ export default function Page() {
             <IconButton onClick={() => router.push("/rooms")}>
               <Icon>arrow_back_ios_new</Icon>
             </IconButton>
-            <IconButton
-              sx={{ ml: "auto" }}
-              onClick={() => setFrontCamera((c) => !c)}
-            >
+            <RoomPicker room={room} setRoom={setRoom} />
+            <IconButton onClick={() => setFrontCamera((c) => !c)}>
               <Icon {...(!frontCamera && { className: "outlined" })}>
                 flip_camera_ios
               </Icon>
@@ -291,7 +375,7 @@ export default function Page() {
           border: "5px solid #fff",
           transition: "all .2s ease",
           width: 70,
-          zIndex: 999999,
+          zIndex: 999,
           height: 70,
           borderRadius: "100%",
           "&:active": {
