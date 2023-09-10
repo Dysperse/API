@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Divider,
   Icon,
   IconButton,
   ListItemButton,
@@ -102,6 +103,7 @@ function Panel() {
               key={room.id}
               selected={router?.query?.room === room.id}
               onClick={() => router.push(`/rooms/${room.id}`)}
+              onMouseDown={() => router.push(`/rooms/${room.id}`)}
             >
               <img
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
@@ -112,10 +114,12 @@ function Panel() {
               <ListItemText primary={room.name} />
             </ListItemButton>
           ))}
+        <Divider sx={{ my: 2, maxWidth: "90%", mx: "auto" }} />
         {view === "room" && (
           <ListItemButton
             selected={router?.pathname === "/rooms/create"}
             onClick={() => router.push(`/rooms/create`)}
+            onMouseDown={() => router.push(`/rooms/create`)}
             sx={{ py: 1.5 }}
           >
             <Icon>add_circle</Icon>New room
@@ -173,6 +177,7 @@ export default function RoomLayout({ children }) {
           width: "100%",
           background: palette[1],
           borderRadius: { sm: "20px 0 0 20px" },
+          overflowY: "auto",
         }}
       >
         {children}

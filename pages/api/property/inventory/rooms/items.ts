@@ -12,7 +12,11 @@ const handler = async (req, res) => {
       where: {
         AND: [{ propertyId: req.query.property }, { id: req.query.id }],
       },
-      include: { items: true },
+      include: {
+        items: {
+          orderBy: { createdAt: "desc" },
+        },
+      },
     });
 
     res.json(data);

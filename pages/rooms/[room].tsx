@@ -1,11 +1,14 @@
 import { ErrorHandler } from "@/components/Error";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
 import {
   AppBar,
   Box,
+  Chip,
   CircularProgress,
   Icon,
   IconButton,
@@ -26,6 +29,27 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
   const router = useRouter();
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+  const orangePalette = useColor("orange", useDarkMode(session.darkMode));
+
+  const handleEdit = async (key, value) => {
+    const newData = {
+      ...item,
+      [key]: value,
+      updatedAt: new Date().toISOString(),
+    };
+
+    mutate(newData, {
+      populateCache: newData,
+      revalidate: false,
+    });
+
+    return await fetchRawApi(session, "property/inventory/items/edit", {
+      id: item.id,
+      updatedAt: dayjs().toISOString(),
+      [key]: String(value),
+      createdBy: session.user.email,
+    });
+  };
 
   const styles = {
     section: {
@@ -52,6 +76,7 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
       background: palette[3],
     },
   };
+
   return (
     <>
       <AppBar position="sticky" sx={{ top: 0, border: 0 }}>
@@ -60,10 +85,22 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
             <Icon className="outlined">close</Icon>
           </IconButton>
           <IconButton
-            onClick={() => setOpen(false)}
-            sx={{ ...styles.button, ml: "auto" }}
+            onClick={() => handleEdit("starred", !item.starred)}
+            sx={{
+              ...styles.button,
+              ml: "auto",
+              ...(item.starred && {
+                background: orangePalette[3] + "!important",
+                "&:hover": {
+                  background: orangePalette[4] + "!important",
+                },
+                "&:active": {
+                  background: orangePalette[5] + "!important",
+                },
+              }),
+            }}
           >
-            <Icon className="outlined">favorite</Icon>
+            <Icon className={item.starred ? "" : "outlined"}>favorite</Icon>
           </IconButton>
           <IconButton onClick={() => setOpen(false)} sx={styles.button}>
             <Icon className="outlined">add_task</Icon>
@@ -79,7 +116,9 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
           <TextField
             fullWidth
             placeholder="Item name"
-            value={item.name}
+            defaultValue={item.name}
+            onBlur={(e) => handleEdit("name", e.target.value)}
+            onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
             variant="standard"
             InputProps={{
               disableUnderline: true,
@@ -105,11 +144,12 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
               "serialNumber",
             ].map((field) => (
               <TextField
-                className="item"
-                key={field}
+                onBlur={(e) => handleEdit(field, e.target.value)}
                 onKeyDown={(e: any) =>
                   e.key === "Enter" && !e.shiftKey && e.target.blur()
                 }
+                className="item"
+                key={field}
                 multiline
                 fullWidth
                 defaultValue={item[field]}
@@ -165,7 +205,15 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
   );
 }
 
-function ItemPopup({ children, item }: { children: JSX.Element; item: any }) {
+function ItemPopup({
+  children,
+  item,
+  mutateList,
+}: {
+  children: JSX.Element;
+  item: any;
+  mutateList: any;
+}) {
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -182,7 +230,10 @@ function ItemPopup({ children, item }: { children: JSX.Element; item: any }) {
       <SwipeableDrawer
         anchor="right"
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          mutateList();
+        }}
         PaperProps={{
           sx: {
             width: { xs: "100%", sm: "500px" },
@@ -216,7 +267,7 @@ function ItemPopup({ children, item }: { children: JSX.Element; item: any }) {
   );
 }
 
-function Room({ room }) {
+function Room({ room, mutateList }) {
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -271,24 +322,78 @@ function Room({ room }) {
           No items
         </Box>
       )}
-      <Box sx={{ mr: -2, mt: 2 }}>
-        <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={2}>
-          {room.items.map((item) => (
-            <ItemPopup key={item.id} item={item}>
+      <Box sx={{ mr: -3, mt: 4 }}>
+        <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={3}>
+          {room.items.map((item, index) => (
+            <ItemPopup key={item.id} item={item} mutateList={mutateList}>
               <Box
                 sx={{
                   p: 2,
                   background: palette[2],
                   borderRadius: 5,
+                  transition: "transform .2s cubic-bezier(.17,.67,.1,1.49)",
                   "&:hover": {
-                    background: { sm: palette[3] },
+                    background: { sm: addHslAlpha(palette[3], 0.7) },
+                    transform: {
+                      sm:
+                        index % 2
+                          ? "rotate(1deg) scale(1.08)"
+                          : "rotate(-1deg) scale(1.08)",
+                    },
                   },
                   "&:active": {
-                    background: palette[4],
+                    background: addHslAlpha(palette[3], 0.9),
+                    transform:
+                      index % 2
+                        ? "rotate(-1deg) scale(.97)"
+                        : "rotate(1deg) scale(.97)",
                   },
                 }}
               >
-                {item.name}
+                <Typography variant="h6">{item.name}</Typography>
+                {item.note && (
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      mt: 1,
+                    }}
+                  >
+                    <Icon className="outlined">sticky_note_2</Icon>
+                    {item.note}
+                  </Typography>
+                )}
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    flexWrap: "wrap",
+                    "&:not(:empty)": { mt: 1 },
+                  }}
+                >
+                  {item.quantity && (
+                    <Chip
+                      size="small"
+                      label={item.quantity + " pcs."}
+                      icon={<Icon>interests</Icon>}
+                    />
+                  )}
+                  {item.condition && (
+                    <Chip
+                      size="small"
+                      label={item.condition}
+                      icon={<Icon>question_mark</Icon>}
+                    />
+                  )}
+                  {item.estimatedValue && (
+                    <Chip
+                      size="small"
+                      label={item.estimatedValue}
+                      icon={<Icon>attach_money</Icon>}
+                    />
+                  )}
+                </Box>
               </Box>
             </ItemPopup>
           ))}
@@ -310,7 +415,7 @@ export default function Page() {
 
   return (
     <RoomLayout>
-      {data && <Room room={data} />}
+      {data && <Room room={data} mutateList={mutate} />}
       {isLoading && <CircularProgress />}
       {error && (
         <ErrorHandler
