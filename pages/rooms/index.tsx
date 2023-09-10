@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Icon,
   ListItemButton,
+  ListItemText,
   Menu,
   MenuItem,
 } from "@mui/material";
@@ -71,7 +72,7 @@ function Panel() {
             sx={{
               color: palette[11] + "!important",
               borderWidth: "2px !important",
-              mt: 2,
+              my: 2,
               px: 1,
               borderRadius: 3,
               fontWeight: 800,
@@ -94,14 +95,25 @@ function Panel() {
         {!data && <CircularProgress />}
         {data &&
           data.map((room) => (
-            <ListItemButton key={room.id}>
-              {JSON.stringify(room)}
+            <ListItemButton
+              key={room.id}
+              selected={router?.query?.room === room.id}
+              onClick={() => router.push(`/rooms/${room.id}`)}
+            >
+              <img
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
+                alt="Emoji"
+                width={30}
+                height={30}
+              />
+              <ListItemText primary={room.name} />
             </ListItemButton>
           ))}
         {view === "room" && (
           <ListItemButton
+            selected={router?.pathname === "/rooms/create"}
             onClick={() => router.push(`/rooms/create`)}
-            sx={{ mt: 2 }}
+            sx={{ py: 1.5 }}
           >
             <Icon>add_circle</Icon>New room
           </ListItemButton>
