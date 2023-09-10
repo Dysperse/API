@@ -267,7 +267,7 @@ export default function Page() {
           }}
         >
           <Toolbar>
-            <IconButton onClick={() => router.push("/")}>
+            <IconButton onClick={() => router.push("/rooms")}>
               <Icon>arrow_back_ios_new</Icon>
             </IconButton>
             <IconButton
