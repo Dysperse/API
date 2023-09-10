@@ -12,9 +12,24 @@ const handler = async (req, res) => {
       where: {
         id: req.query.id,
       },
+      include: {
+        property: {
+          select: { name: true, id: true },
+        },
+        room: {
+          select: { name: true, id: true, emoji: true, private: true },
+        },
+        createdBy: {
+          select: {
+            email: true,
+            username: true,
+            Profile: { select: {  picture: true } },
+          },
+        },
+      },
     });
 
-    res.json({ item });
+    res.json(item);
   } catch (e: any) {
     res.status(500).json({ error: e.message });
   }

@@ -1,4 +1,5 @@
 import { ErrorHandler } from "@/components/Error";
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
@@ -8,10 +9,14 @@ import {
   CircularProgress,
   Icon,
   IconButton,
+  ListItem,
+  ListItemText,
   SwipeableDrawer,
+  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { cloneElement, useState } from "react";
 import useSWR from "swr";
@@ -22,6 +27,25 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const styles = {
+    section: {
+      background: palette[2],
+      borderRadius: 5,
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden",
+      mb: 3,
+      "& .item": {
+        color: palette[12],
+        borderRadius: 0,
+        "&.MuiListItem-root, &.MuiListItemButton-root": {
+          px: 3,
+        },
+      },
+      "& .item:not(:last-child)": {
+        borderBottom: "1px solid",
+        borderColor: palette[3],
+      },
+    },
     button: {
       color: palette[11],
       background: palette[3],
@@ -35,7 +59,80 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
             <Icon className="outlined">close</Icon>
           </IconButton>
         </Toolbar>
-        {JSON.stringify(item)}
+        <Box sx={{ px: 3 }}>
+          <TextField
+            fullWidth
+            placeholder="Item name"
+            value={item.name}
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+              className: "font-heading",
+              sx: {
+                "&:focus-within": {
+                  "&, & *": { textTransform: "none!important" },
+                  background: palette[2],
+                  px: 1,
+                  borderRadius: 5,
+                },
+                fontSize: { xs: "50px", sm: "var(--bottom-nav-height)" },
+                textDecoration: "underline",
+              },
+            }}
+          />
+          <Box sx={styles.section}>
+            {[
+              "note",
+              "condition",
+              "quantity",
+              "estimatedValue",
+              "serialNumber",
+            ].map((field) => (
+              <TextField
+                className="item"
+                key={field}
+                onKeyDown={(e: any) =>
+                  e.key === "Enter" && !e.shiftKey && e.target.blur()
+                }
+                multiline
+                fullWidth
+                defaultValue={item[field]}
+                placeholder={`Add ${field}...`}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: { py: 1.5, px: 3 },
+                }}
+              />
+            ))}
+          </Box>
+          <Box sx={styles.section}>
+            <ListItem>
+              <ListItemText
+                primary={`Edited ${dayjs(item.updatedAt).fromNow()}`}
+                secondary={`Created ${dayjs(item.createdAt).fromNow()}`}
+              />
+              {item.createdBy && (
+                <ProfilePicture
+                  mutate={mutate}
+                  data={item.createdBy}
+                  size={30}
+                />
+              )}
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary={`Found in "${item.room?.name}"`}
+                secondary={
+                  item.room.private
+                    ? "Only visible to you"
+                    : `Visible to others in "${item.property.name}"`
+                }
+              />
+            </ListItem>
+          </Box>
+          {JSON.stringify(item, null, 2)}
+        </Box>
       </AppBar>
     </>
   );
