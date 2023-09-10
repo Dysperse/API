@@ -1,11 +1,14 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
 import {
+  Alert,
   AppBar,
   Box,
   Chip,
@@ -13,6 +16,7 @@ import {
   Icon,
   IconButton,
   ListItem,
+  ListItemButton,
   ListItemText,
   SwipeableDrawer,
   TextField,
@@ -21,15 +25,117 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { cloneElement, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import useSWR from "swr";
 import RoomLayout from ".";
+
+function MoveItem({ children, item, mutate, setParentOpen }) {
+  const session = useSession();
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  const [open, setOpen] = useState(false);
+  const trigger = cloneElement(children, { onClick: () => setOpen(true) });
+
+  const {
+    data,
+    mutate: mutateRooms,
+    error,
+  } = useSWR(open ? ["property/inventory/rooms"] : null);
+
+  const handleMove = async (roomId) => {
+    await fetchRawApi(session, "property/inventory/items/edit", {
+      id: item.id,
+      updatedAt: dayjs().toISOString(),
+      room: roomId,
+    });
+    const newData = {
+      ...item,
+      room: { id: roomId },
+      updatedAt: dayjs().toISOString(),
+    };
+    mutate(newData, {
+      populateCache: newData,
+      revalidate: false,
+    });
+
+    setOpen(false);
+    setTimeout(() => setParentOpen(false), 400);
+  };
+
+  return (
+    <>
+      {trigger}
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            width: { xs: "100%", sm: "500px" },
+            border: { sm: "2px solid " + palette[3] },
+            m: 2,
+            borderRadius: 5,
+            mx: { sm: "auto" },
+          },
+        }}
+      >
+        <Puller showOnDesktop />
+        <Box sx={{ p: 3, pt: 0 }}>
+          <Typography variant="h3" className="font-heading">
+            Move item
+          </Typography>
+          <Typography variant="h6">Select a room</Typography>
+          <Box sx={{ mt: 1 }}>
+            {!data && !error && <CircularProgress />}
+            {error && (
+              <ErrorHandler
+                error={"Something went wrong. Please try again later"}
+                callback={mutateRooms}
+              />
+            )}
+            {data && data.length === 0 && (
+              <Alert severity="info">No rooms</Alert>
+            )}
+            {data &&
+              data.map((room) => (
+                <ListItemButton
+                  key={room.id}
+                  onClick={() => handleMove(room.id)}
+                  selected={item.room?.id === room.id}
+                >
+                  <img
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
+                    alt="Emoji"
+                    width={30}
+                    height={30}
+                  />
+                  <ListItemText primary={room.name} />
+                  <Icon>{item.room?.id == room.id ? "check" : "east"}</Icon>
+                </ListItemButton>
+              ))}
+          </Box>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 function ItemDrawerContent({ item, mutate, setOpen }) {
   const router = useRouter();
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
+
+  const handleDelete = async () => {
+    await fetchRawApi(session, "property/inventory/items/delete", {
+      id: item.id,
+    });
+    mutate("deleted", {
+      populateCache: "deleted",
+      revalidate: false,
+    });
+    setOpen(false);
+  };
 
   const handleEdit = async (key, value) => {
     const newData = {
@@ -105,12 +211,20 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
           <IconButton onClick={() => setOpen(false)} sx={styles.button}>
             <Icon className="outlined">add_task</Icon>
           </IconButton>
-          <IconButton onClick={() => setOpen(false)} sx={styles.button}>
-            <Icon className="outlined">move_down</Icon>
-          </IconButton>
-          <IconButton onClick={() => setOpen(false)} sx={styles.button}>
-            <Icon className="outlined">delete</Icon>
-          </IconButton>
+          <MoveItem item={item} mutate={mutate} setParentOpen={setOpen}>
+            <IconButton sx={styles.button}>
+              <Icon className="outlined">move_down</Icon>
+            </IconButton>
+          </MoveItem>
+          <ConfirmationModal
+            callback={handleDelete}
+            title="Delete item?"
+            question="Heads up! You can't undo this action."
+          >
+            <IconButton sx={styles.button}>
+              <Icon className="outlined">delete</Icon>
+            </IconButton>
+          </ConfirmationModal>
         </Toolbar>
         <Box sx={{ px: 3 }}>
           <TextField
@@ -224,6 +338,13 @@ function ItemPopup({
     open ? ["property/inventory/items", { id: item.id }] : null
   );
 
+  useEffect(() => {
+    if (data === "deleted") {
+      setOpen(false);
+      mutateList();
+    }
+  }, [data, mutateList]);
+
   return (
     <>
       {trigger}
@@ -241,7 +362,7 @@ function ItemPopup({
           },
         }}
       >
-        {data && (
+        {data && data !== "deleted" && (
           <ItemDrawerContent item={data} mutate={mutate} setOpen={setOpen} />
         )}
         {isLoading && (

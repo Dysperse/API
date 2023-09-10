@@ -4,21 +4,17 @@ import { validatePermissions } from "@/lib/server/validatePermissions";
 const handler = async (req, res) => {
   try {
     await validatePermissions({
-      minimum: "member",
+      minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    //   Update the note on an item
-    const data = await prisma.item.update({
+    const item = await prisma.item.delete({
       where: { id: req.query.id },
-      data: {
-        room: { connect: { id: req.query.room } },
-      },
     });
 
-    res.json(data);
+    res.json(item);
   } catch (e: any) {
-    res.json({ error: e.message });
+    res.status(500).json({ error: e.message });
   }
 };
 
