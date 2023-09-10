@@ -8,6 +8,7 @@ import {
   Button,
   CircularProgress,
   Icon,
+  IconButton,
   ListItemButton,
   ListItemText,
   Menu,
@@ -149,7 +150,16 @@ export default function RoomLayout({ children }) {
       }}
     >
       {/* Sidebar */}
-      {isMobile && !router.asPath.includes("audit") && <Navbar showLogo />}
+      {isMobile && !router.asPath.includes("audit") && (
+        <Navbar
+          showLogo={router.asPath === "/rooms"}
+          {...(router.asPath !== "/rooms" && (
+            <IconButton onClick={() => router.push("/rooms")}>
+              <Icon>arrow_back_ios_new</Icon>
+            </IconButton>
+          ))}
+        />
+      )}
       {!isMobile || (isMobile && router.asPath === "/rooms" && <Panel />)}
 
       {/* Content */}
