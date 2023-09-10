@@ -18,6 +18,7 @@ import {
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import Webcam from "react-webcam";
 import RoomLayout from ".";
 
@@ -37,6 +38,10 @@ export default function Page() {
   const titleRef: any = useRef<HTMLInputElement>();
 
   const [frontCamera, setFrontCamera] = useState(true);
+
+  useHotkeys("esc", () => {
+    setTaken(false);
+  });
 
   const handleCapture = async () => {
     titleRef.current.value = "";
@@ -61,14 +66,10 @@ export default function Page() {
       return;
     }
 
-    titleRef.current.value = capitalizeFirstLetter(
-      res?.[0]?.label?.split(", ")?.[0]
-    );
+    // alert(JSON.stringify(res));
+    titleRef.current.value = capitalizeFirstLetter(res?.[0]?.label);
     setLoading(false);
-
-    // each res.label can have commas. map it and flatten it
-    const res2 = res.map((r) => r.label.split(", ")).flat();
-    setResults(res2);
+    setResults(res);
   };
 
   const handleSubmit = () => {
@@ -212,11 +213,11 @@ export default function Page() {
                   sx={{
                     background: addHslAlpha(palette[5], 0.4) + "!important",
                   }}
-                  label={capitalizeFirstLetter(result.trim())}
-                  key={result}
+                  label={capitalizeFirstLetter(result.label?.trim())}
+                  key={result.label}
                   onClick={() =>
                     (titleRef.current.value = capitalizeFirstLetter(
-                      result.trim()
+                      result.label?.trim()
                     ))
                   }
                 />
