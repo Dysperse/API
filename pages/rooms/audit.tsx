@@ -66,7 +66,16 @@ export default function Page() {
       return;
     }
 
-    // alert(JSON.stringify(res));
+    if (!res[0]) {
+      toast.error(
+        "We couldn't find any objects in the photo you took",
+        toastStyles
+      );
+      setLoading(false);
+      setTaken(false);
+      return;
+    }
+
     titleRef.current.value = capitalizeFirstLetter(res?.[0]?.label);
     setLoading(false);
     setResults(res);
