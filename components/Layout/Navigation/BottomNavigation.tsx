@@ -144,16 +144,16 @@ export function BottomNav() {
       </Box>
       <Box
         sx={styles(
-          router.asPath === "/items" ||
+          router.asPath === "/rooms" ||
             router.asPath.includes("rooms") ||
             router.asPath === "/starred" ||
             router.asPath === "/trash"
         )}
-        onClick={() => router.push("/items")}
+        onClick={() => router.push("/rooms")}
       >
         <span
           className={`material-symbols-${
-            router.asPath === "/items" ||
+            router.asPath === "/rooms" ||
             router.asPath.includes("rooms") ||
             router.asPath === "/starred" ||
             router.asPath === "/trash"
