@@ -22,9 +22,12 @@ function Room({ room }) {
         sx={{
           display: "flex",
           alignItems: "center",
+          flexDirection: { xs: "column", sm: "row" },
+          textAlign: { xs: "center", sm: "left" },
           background: palette[2],
           p: 3,
-          gap: 3,
+          pt: { xs: 5, sm: 3 },
+          gap: { xs: 0, sm: 3 },
           borderRadius: 5,
         }}
       >
@@ -32,7 +35,7 @@ function Room({ room }) {
           src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
           alt="emoji"
         />
-        <Box>
+        <Box sx={{ mt: { xs: 1, sm: 0 } }}>
           <Typography variant="h2" className="font-heading">
             {room.name}
           </Typography>
@@ -46,13 +49,13 @@ function Room({ room }) {
             </Typography>
           )}
         </Box>
-        <Box sx={{ ml: "auto" }}>
-          <IconButton sx={{ ml: "auto" }}>
+        <Box sx={{ ml: { sm: "auto" } }}>
+          <IconButton>
             <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
               add_circle
             </Icon>
           </IconButton>
-          <IconButton sx={{ ml: "auto" }}>
+          <IconButton>
             <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
               pending
             </Icon>

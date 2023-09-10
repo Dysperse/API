@@ -153,14 +153,19 @@ export default function RoomLayout({ children }) {
       {isMobile && !router.asPath.includes("audit") && (
         <Navbar
           showLogo={router.asPath === "/rooms"}
-          {...(router.asPath !== "/rooms" && (
-            <IconButton onClick={() => router.push("/rooms")}>
-              <Icon>arrow_back_ios_new</Icon>
-            </IconButton>
-          ))}
+          {...(router.asPath !== "/rooms" && {
+            right: (
+              <IconButton
+                onClick={() => router.push("/rooms")}
+                sx={{ color: palette[8] }}
+              >
+                <Icon>arrow_back_ios_new</Icon>
+              </IconButton>
+            ),
+          })}
         />
       )}
-      {!isMobile || (isMobile && router.asPath === "/rooms" && <Panel />)}
+      {(!isMobile || (isMobile && router.asPath === "/rooms")) && <Panel />}
 
       {/* Content */}
       <Box
