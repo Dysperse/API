@@ -21,9 +21,10 @@ const handler = async (req, res) => {
         },
         createdBy: {
           select: {
+            name: true,
             email: true,
             username: true,
-            Profile: { select: {  picture: true } },
+            Profile: { select: { picture: true } },
           },
         },
       },

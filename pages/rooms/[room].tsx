@@ -112,13 +112,15 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
                 primary={`Edited ${dayjs(item.updatedAt).fromNow()}`}
                 secondary={`Created ${dayjs(item.createdAt).fromNow()}`}
               />
-              {item.createdBy && (
-                <ProfilePicture
-                  mutate={mutate}
-                  data={item.createdBy}
-                  size={30}
-                />
-              )}
+              <Box>
+                {item.createdBy && (
+                  <ProfilePicture
+                    mutate={mutate}
+                    data={item.createdBy}
+                    size={30}
+                  />
+                )}
+              </Box>
             </ListItem>
             <ListItem>
               <ListItemText
