@@ -23,6 +23,7 @@ import useSWR from "swr";
 import RoomLayout from ".";
 
 function ItemDrawerContent({ item, mutate, setOpen }) {
+  const router = useRouter();
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -107,7 +108,13 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
             ))}
           </Box>
           <Box sx={styles.section}>
-            <ListItem>
+            <ListItem
+              onClick={() =>
+                router.push(
+                  `/users/${item.createdBy.username || item.createdBy.email}`
+                )
+              }
+            >
               <ListItemText
                 primary={`Edited ${dayjs(item.updatedAt).fromNow()}`}
                 secondary={
