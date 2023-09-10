@@ -143,7 +143,7 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
               />
             </ListItem>
           </Box>
-          {JSON.stringify(item, null, 2)}
+          {/* {JSON.stringify(item, null, 2)} */}
         </Box>
       </AppBar>
     </>
