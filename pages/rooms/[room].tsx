@@ -55,9 +55,24 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
   return (
     <>
       <AppBar position="sticky" sx={{ top: 0, border: 0 }}>
-        <Toolbar>
+        <Toolbar sx={{ gap: 1 }}>
           <IconButton onClick={() => setOpen(false)} sx={styles.button}>
             <Icon className="outlined">close</Icon>
+          </IconButton>
+          <IconButton
+            onClick={() => setOpen(false)}
+            sx={{ ...styles.button, ml: "auto" }}
+          >
+            <Icon className="outlined">favorite</Icon>
+          </IconButton>
+          <IconButton onClick={() => setOpen(false)} sx={styles.button}>
+            <Icon className="outlined">add_task</Icon>
+          </IconButton>
+          <IconButton onClick={() => setOpen(false)} sx={styles.button}>
+            <Icon className="outlined">move_down</Icon>
+          </IconButton>
+          <IconButton onClick={() => setOpen(false)} sx={styles.button}>
+            <Icon className="outlined">delete</Icon>
           </IconButton>
         </Toolbar>
         <Box sx={{ px: 3 }}>
