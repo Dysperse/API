@@ -11,6 +11,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -134,7 +135,9 @@ function Panel() {
 
 export default function RoomLayout({ children }) {
   const session = useSession();
+  const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
     <Box
@@ -145,7 +148,7 @@ export default function RoomLayout({ children }) {
       }}
     >
       {/* Sidebar */}
-      <Panel />
+      {!isMobile || (isMobile && router.asPath === "/rooms" && <Panel />)}
 
       {/* Content */}
       <Box

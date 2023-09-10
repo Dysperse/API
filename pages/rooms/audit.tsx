@@ -5,6 +5,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
+  AppBar,
   Box,
   Chip,
   CircularProgress,
@@ -12,7 +13,9 @@ import {
   IconButton,
   Skeleton,
   TextField,
+  Toolbar,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
@@ -21,6 +24,7 @@ import RoomLayout from ".";
 export default function Page() {
   const webcamRef: any = useRef(null);
   const session = useSession();
+  const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const { width, height } = useWindowDimensions();
@@ -31,6 +35,8 @@ export default function Page() {
   const [submitted, setSubmitted] = useState(false);
 
   const titleRef: any = useRef<HTMLInputElement>();
+
+  const [frontCamera, setFrontCamera] = useState(true);
 
   const handleCapture = async () => {
     titleRef.current.value = "";
@@ -109,7 +115,9 @@ export default function Page() {
             ref={webcamRef}
             screenshotFormat="image/png"
             // screenshotQuality={0.5}
-            videoConstraints={{}}
+            videoConstraints={{
+              facingMode: frontCamera ? "user" : "environment",
+            }}
           />
         </Box>
         <Box
@@ -237,6 +245,32 @@ export default function Page() {
           />
         </Box>
       </Box>
+      {!taken && (
+        <AppBar
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            background: "transparent",
+            border: 0,
+            backdropFilter: "none",
+          }}
+        >
+          <Toolbar>
+            <IconButton onClick={() => router.push("/")}>
+              <Icon>arrow_back_ios_new</Icon>
+            </IconButton>
+            <IconButton
+              sx={{ ml: "auto" }}
+              onClick={() => setFrontCamera((c) => !c)}
+            >
+              <Icon {...(!frontCamera && { className: "outlined" })}>
+                flip_camera_ios
+              </Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      )}
       <Box
         sx={{
           opacity: taken ? 0 : 1,
