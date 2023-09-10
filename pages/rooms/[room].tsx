@@ -110,7 +110,10 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
             <ListItem>
               <ListItemText
                 primary={`Edited ${dayjs(item.updatedAt).fromNow()}`}
-                secondary={`Created ${dayjs(item.createdAt).fromNow()}`}
+                secondary={
+                  item.updatedAt !== item.createdAt &&
+                  `Created ${dayjs(item.createdAt).fromNow()}`
+                }
               />
               <Box>
                 {item.createdBy && (
