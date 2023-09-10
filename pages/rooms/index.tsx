@@ -1,4 +1,5 @@
 import { ErrorHandler } from "@/components/Error";
+import { Navbar } from "@/components/Navbar";
 import { GroupSelector } from "@/components/Tasks/Layout";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -42,8 +43,8 @@ function Panel() {
   return (
     <Box
       sx={{
-        width: "250px",
-        flex: "0 0 250px",
+        width: { xs: "100%", sm: "250px" },
+        flex: { xs: "0 0 100%", sm: "0 0 250px" },
         height: "100%",
         position: "relative",
         display: "flex",
@@ -142,12 +143,13 @@ export default function RoomLayout({ children }) {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: { sm: "flex" },
         height: { sm: "100dvh" },
         background: { sm: palette[2] },
       }}
     >
       {/* Sidebar */}
+      {isMobile && !router.asPath.includes("audit") && <Navbar showLogo />}
       {!isMobile || (isMobile && router.asPath === "/rooms" && <Panel />)}
 
       {/* Content */}
