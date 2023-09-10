@@ -342,9 +342,10 @@ model QrToken {
 
 // Inventory redesign
 model Room {
-  id    String @id @unique @default(uuid())
-  name  String @default("My room")
-  emoji String @default("📦")
+  id      String  @id @unique @default(uuid())
+  name    String  @default("My room")
+  emoji   String  @default("📦")
+  private Boolean @default(false)
 
   items Item[]
 

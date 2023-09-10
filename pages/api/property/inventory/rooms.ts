@@ -7,28 +7,16 @@ const handler = async (req, res) => {
       minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
     });
-    const data = await prisma.customRoom.findMany({
+    
+    const data = await prisma.room.findMany({
       where: {
-        OR: [
-          // If the room isn't private, but the property identifer matches
-          {
-            AND: [
-              { private: { equals: false } },
-              { property: { id: { equals: req.query.property } } },
-            ],
-          },
-          // If the room is private, but the user identifier matches the room owner
-          {
-            AND: [
-              { private: { equals: true } },
-              { userIdentifier: { equals: req.query.userIdentifier } },
-            ],
-          },
-        ],
+        propertyId: req.query.property,
       },
     });
+
     res.json(data);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };
