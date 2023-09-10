@@ -16,10 +16,41 @@ import {
   Toolbar,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import RoomLayout from ".";
+
+function useFacingModeSupport() {
+  const [isFacingModeSupported, setIsFacingModeSupported] = useState<
+    boolean | null
+  >(null);
+
+  useEffect(() => {
+    // Check if the `navigator.mediaDevices` and `navigator.mediaDevices.getSupportedConstraints()` APIs are available
+    if (
+      "mediaDevices" in navigator &&
+      "getSupportedConstraints" in navigator.mediaDevices
+    ) {
+      const supportedConstraints: any =
+        navigator.mediaDevices.getSupportedConstraints();
+
+      if (
+        "facingMode" in supportedConstraints &&
+        supportedConstraints.facingMode.includes("environment")
+      ) {
+        // The 'facingMode' property with 'exact: "environment"' is supported
+        setIsFacingModeSupported(true);
+      } else {
+        setIsFacingModeSupported(false);
+      }
+    } else {
+      setIsFacingModeSupported(false);
+    }
+  }, []);
+
+  return isFacingModeSupported;
+}
 
 export default function Page() {
   const webcamRef: any = useRef(null);
@@ -33,6 +64,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<any[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const isFacingModeSupported = useFacingModeSupport();
 
   const titleRef: any = useRef<HTMLInputElement>();
 
@@ -263,6 +295,7 @@ export default function Page() {
             <IconButton
               sx={{ ml: "auto" }}
               onClick={() => setFrontCamera((c) => !c)}
+              disabled={!isFacingModeSupported}
             >
               <Icon {...(!frontCamera && { className: "outlined" })}>
                 flip_camera_ios
