@@ -1,9 +1,12 @@
 import EmojiPicker from "@/components/EmojiPicker";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { toastStyles } from "@/lib/client/useTheme";
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
-  Button,
   Icon,
   IconButton,
   ListItem,
@@ -11,10 +14,13 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { memo, useCallback, useState } from "react";
+import toast from "react-hot-toast";
 import RoomLayout from ".";
 
-export default function Page() {
+const Page = memo(function Page() {
+  const router = useRouter();
   const session = useSession();
   const palette = useColor(
     session.themeColor,
@@ -22,6 +28,46 @@ export default function Page() {
   );
 
   const [emoji, setEmoji] = useState("1f4e6");
+  const [name, setName] = useState("");
+  const [note, setNote] = useState("");
+  const [isPrivate, setIsPrivate] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  // Memoized event handlers
+  const handleNameChange = useCallback((e) => {
+    setName(capitalizeFirstLetter(e.target.value));
+  }, []);
+
+  const handleNoteChange = useCallback((e) => {
+    setNote(e.target.value);
+  }, []);
+
+  const handlePrivateToggle = useCallback(() => {
+    setIsPrivate((prevIsPrivate) => !prevIsPrivate);
+  }, []);
+
+  const handleSubmit = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await fetchRawApi(
+        session,
+        "property/inventory/rooms/create",
+        {
+          name,
+          note,
+          emoji,
+          private: isPrivate ? "true" : "false",
+        }
+      );
+      setLoading(false);
+      toast.success("Created room!", toastStyles);
+      router.push(`/rooms/${res.id}`);
+    } catch (e) {
+      toast.error("Couldn't create room. Please try again later", toastStyles);
+      setLoading(false);
+    }
+  }, [session, name, note, emoji, isPrivate, router]);
 
   return (
     <RoomLayout>
@@ -40,40 +86,76 @@ export default function Page() {
             textAlign: "center",
             background: palette[2],
             borderRadius: 5,
+            width: "600px",
+            maxWidth: "calc(100% - 20px)",
           }}
         >
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+          <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
             <EmojiPicker emoji={emoji} setEmoji={(e) => setEmoji(e)}>
               <IconButton
                 size="large"
                 sx={{
-                  border: "2px dashed #ccc",
-                  width: 100,
-                  height: 100,
+                  border: "2px dashed " + palette[5],
+                  width: 120,
+                  height: 120,
                 }}
               >
                 <img
                   src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
                   alt="Emoji"
-                  width={50}
-                  height={50}
+                  width={80}
+                  height={80}
                 />
               </IconButton>
             </EmojiPicker>
-            <TextField label="Room name" size="small" />
+            <Box sx={{ width: "100%" }}>
+              <TextField
+                autoFocus
+                value={name}
+                onChange={handleNameChange}
+                fullWidth
+                label="Room name"
+                placeholder="Garage"
+                size="small"
+              />
+              <TextField
+                value={note}
+                onChange={handleNoteChange}
+                fullWidth
+                label="Note"
+                placeholder="Optional"
+                multiline
+                maxRows={3}
+                minRows={2}
+                size="small"
+                sx={{ mt: 2 }}
+              />
+            </Box>
           </Box>
-          <ListItem>
+          <ListItem sx={{ my: 1 }}>
             <ListItemText
-              primary="Public"
-              secondary="Others can see this room and its contents"
+              primary={isPrivate ? "Private" : "Public"}
+              secondary={
+                isPrivate
+                  ? "Only you can see this room and its contents"
+                  : "Others can see this room and its contents"
+              }
             />
-            <Switch checked />
+            <Switch checked={!isPrivate} onClick={handlePrivateToggle} />
           </ListItem>
-          <Button variant="contained" fullWidth>
+          <LoadingButton
+            loading={loading}
+            variant="contained"
+            fullWidth
+            onClick={handleSubmit}
+            disabled={name.trim() === ""}
+          >
             <Icon>add</Icon>Create
-          </Button>
+          </LoadingButton>
         </Box>
       </Box>
     </RoomLayout>
   );
-}
+});
+
+export default Page;

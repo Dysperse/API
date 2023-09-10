@@ -8,26 +8,20 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    const data = await prisma.customRoom.create({
+    const data = await prisma.room.create({
       data: {
         name: req.query.name,
+        emoji: req.query.emoji,
+        note: req.query.note,
         private: req.query.private === "true",
-        property: {
-          connect: { id: req.query.property },
-        },
-        user: {
-          connect: {
-            identifier: req.query.userIdentifier,
-          },
-        },
-      },
-      include: {
-        property: true,
+        property: { connect: { id: req.query.property } },
+        createdBy: { connect: { identifier: req.query.userIdentifier } },
       },
     });
 
     res.json(data);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };

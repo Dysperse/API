@@ -344,6 +344,7 @@ model QrToken {
 model Room {
   id      String  @id @unique @default(uuid())
   name    String  @default("My room")
+  note    String?
   emoji   String  @default("📦")
   private Boolean @default(false)
 
