@@ -11,10 +11,12 @@ import {
   Alert,
   AppBar,
   Box,
+  Button,
   Chip,
   CircularProgress,
   Icon,
   IconButton,
+  InputAdornment,
   ListItem,
   ListItemButton,
   ListItemText,
@@ -251,27 +253,68 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
           />
           <Box sx={styles.section}>
             {[
-              "note",
-              "condition",
-              "quantity",
-              "estimatedValue",
-              "serialNumber",
+              {
+                key: "note",
+                multiline: true,
+                icon: "sticky_note_2",
+                name: "Note",
+                type: "text",
+              },
+              {
+                key: "condition",
+                multiline: true,
+                icon: "question_mark",
+                name: "Condition",
+                type: "text",
+              },
+              {
+                key: "quantity",
+                multiline: true,
+                icon: "interests",
+                name: "Quantity",
+                type: "text",
+              },
+              {
+                key: "estimatedValue",
+                multiline: true,
+                icon: "attach_money",
+                name: "Estimated Value",
+                type: "number",
+              },
+              {
+                key: "serialNumber",
+                multiline: true,
+                icon: "tag",
+                name: "Serial Number",
+                type: "text",
+              },
             ].map((field) => (
               <TextField
-                onBlur={(e) => handleEdit(field, e.target.value)}
-                onKeyDown={(e: any) =>
-                  e.key === "Enter" && !e.shiftKey && e.target.blur()
-                }
+                onBlur={(e) => handleEdit(field.key, e.target.value)}
+                onKeyDown={(e: any) => {
+                  if (e.key === "Enter" && !e.shiftKey) e.target.blur();
+                }}
+                onKeyUp={(e: any) => {
+                  if (field.type === "number") {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }
+                }}
                 className="item"
-                key={field}
+                key={field.key}
+                type={field.type}
                 multiline
                 fullWidth
-                defaultValue={item[field]}
-                placeholder={`Add ${field}...`}
+                defaultValue={item[field.key]}
+                placeholder={`Add ${field.name.toLowerCase()}...`}
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,
                   sx: { py: 1.5, px: 3 },
+                  startAdornment: field.icon && (
+                    <InputAdornment position="start">
+                      <Icon className="outlined">{field.icon}</Icon>
+                    </InputAdornment>
+                  ),
                 }}
               />
             ))}
@@ -388,6 +431,56 @@ function ItemPopup({
   );
 }
 
+function CreateItem({ room, mutate, children }) {
+  const session = useSession();
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  const [open, setOpen] = useState(false);
+  const trigger = cloneElement(children, { onClick: () => setOpen(true) });
+
+  return (
+    <>
+      {trigger}
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            width: { xs: "100%", sm: "500px" },
+            border: { sm: "2px solid " + palette[3] },
+            m: 2,
+            borderRadius: 5,
+            mx: { sm: "auto" },
+          },
+        }}
+      >
+        <Puller showOnDesktop />
+        <Box sx={{ p: 2, py: 0 }}>
+          <TextField
+            fullWidth
+            placeholder="Item name"
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+              sx: { fontSize: 20 },
+            }}
+            multiline
+          />
+        </Box>
+        <Box sx={{ display: "flex", gap: 0.1, p: 2, pt: 0 }}>
+          <IconButton>
+            <Icon>favorite</Icon>
+          </IconButton>
+          <Button variant="contained" size="small" sx={{ ml: "auto" }}>
+            <Icon>north</Icon>
+          </Button>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
+
 function Room({ room, mutateList }) {
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
@@ -426,11 +519,13 @@ function Room({ room, mutateList }) {
           )}
         </Box>
         <Box sx={{ ml: { sm: "auto" } }}>
-          <IconButton>
-            <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
-              add_circle
-            </Icon>
-          </IconButton>
+          <CreateItem room={room} mutate={mutateList}>
+            <IconButton>
+              <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
+                add_circle
+              </Icon>
+            </IconButton>
+          </CreateItem>
           <IconButton>
             <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
               pending
