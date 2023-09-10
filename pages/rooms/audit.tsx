@@ -116,7 +116,7 @@ export default function Page() {
             screenshotFormat="image/png"
             // screenshotQuality={0.5}
             videoConstraints={{
-              facingMode: frontCamera ? "user" : "environment",
+              facingMode: frontCamera ? "user" : { exact: "environment" },
             }}
           />
         </Box>
