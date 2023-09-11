@@ -127,7 +127,14 @@ function Panel() {
         )}
       </Box>
       {/* Scan */}
-      <Box sx={{ width: "100%", p: 2, display: "flex", gap: 2 }}>
+      <Box
+        sx={{
+          width: "100%",
+          p: 2,
+          display: { xs: "none", sm: "flex" },
+          gap: 2,
+        }}
+      >
         <Button variant="contained" fullWidth>
           <Icon>add</Icon>New
         </Button>
@@ -161,11 +168,9 @@ export default function RoomLayout({ children }) {
           right={
             router.asPath == "/rooms" ? (
               <>
-                <Button
-                  onClick={() => router.push("/rooms/create")}
-                  sx={{ ml: "auto", mr: 1 }}
-                  size="small"
-                  variant="contained"
+                <IconButton
+                  onClick={() => router.push("/rooms/audit")}
+                  sx={{ color: palette[8], ml: "auto" }}
                 >
                   <Icon
                     className="outlined"
@@ -173,8 +178,7 @@ export default function RoomLayout({ children }) {
                   >
                     add_circle
                   </Icon>
-                  Create
-                </Button>
+                </IconButton>
                 <IconButton
                   onClick={() => router.push("/rooms/audit")}
                   sx={{ color: palette[8] }}
