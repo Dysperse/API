@@ -1,6 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Navbar";
 import { GroupSelector } from "@/components/Tasks/Layout";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -33,7 +34,16 @@ function JumpBackIn() {
 
   return (
     <>
-      <Typography variant="h5" sx={{ px: 3, mt: 4 }}>
+      <Typography
+        variant="h6"
+        sx={{
+          px: 3,
+          mt: 4,
+          textTransform: "uppercase",
+          color: palette[11],
+          opacity: 0.7,
+        }}
+      >
         Jump back in
       </Typography>
       {error && (
@@ -42,7 +52,16 @@ function JumpBackIn() {
           error="Something went wrong. Please try again later"
         />
       )}
-      <Box sx={{ display: "flex", gap: 2, mt: 2, px: 3, overflowX: "scroll" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          mt: 1,
+          px: 3,
+          mb: 3,
+          overflowX: "scroll",
+        }}
+      >
         {data
           ? data.map((item) => (
               <ItemPopup key={item.id} item={item} mutateList={mutate}>
@@ -54,9 +73,9 @@ function JumpBackIn() {
                     px: 2,
                     borderRadius: 3,
                     display: "flex",
-                    background: palette[2],
+                    background: addHslAlpha(palette[3], 0.5),
                     "&:hover": {
-                      background: { sm: palette[3] },
+                      background: { sm: addHslAlpha(palette[3], 0.7) },
                     },
                     "&:active": {
                       background: palette[4],
@@ -120,7 +139,13 @@ function JumpBackIn() {
               </ItemPopup>
             ))
           : [...new Array(10)].map((_, i) => (
-              <Skeleton key={i} variant="rectangular" height={70} width={200} />
+              <Skeleton
+                key={i}
+                variant="rectangular"
+                height={70}
+                width={200}
+                sx={{ flexShrink: 0, borderRadius: 5 }}
+              />
             ))}
       </Box>
     </>
@@ -134,6 +159,8 @@ function Panel() {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [view, setView] = useState("room");
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const open = Boolean(anchorEl);
 
@@ -174,9 +201,9 @@ function Panel() {
         </MenuItem>
       </Menu>
       {/* Rest of the content */}
-      <Box sx={{ height: "100%", p: 2, pb: 0 }}>
-        <GroupSelector />
-        <Box>
+      <Box sx={{ height: "100%", p: { xs: 3, sm: 2 }, py: { xs: 0, sm: 2 } }}>
+        {!isMobile && <GroupSelector />}
+        <Box sx={{ display: "flex", gap: 2 }}>
           <Button
             onClick={handleClick}
             variant="outlined"
@@ -194,6 +221,23 @@ function Panel() {
             {buttonText.toUpperCase()}
             <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
           </Button>
+          {isMobile && (
+            <GroupSelector>
+              <Button
+                variant="outlined"
+                sx={{
+                  color: palette[11] + "!important",
+                  borderWidth: "2px !important",
+                  my: 2,
+                  px: 1,
+                  borderRadius: 3,
+                  fontWeight: 800,
+                  gap: 0.5,
+                  opacity: 0.7,
+                }}
+              ></Button>
+            </GroupSelector>
+          )}
         </Box>
 
         {/* Data */}
