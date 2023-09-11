@@ -3,6 +3,7 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
@@ -105,6 +106,8 @@ export default function Page() {
   const session = useSession();
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  useStatusBar("#000");
 
   const { width, height } = useWindowDimensions();
   const [taken, setTaken] = useState(false);
@@ -367,7 +370,7 @@ export default function Page() {
             position: "fixed",
             top: 0,
             left: 0,
-            background: "transparent",
+            background: "linear-gradient(rgba(0,0,0,0.7), transparent)",
             border: 0,
             backdropFilter: "none",
           }}
