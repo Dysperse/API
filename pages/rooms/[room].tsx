@@ -720,7 +720,19 @@ export default function Page() {
   return (
     <RoomLayout>
       {data && <Room room={data} mutateList={mutate} />}
-      {isLoading && <CircularProgress />}
+      {isLoading && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
       {error && (
         <ErrorHandler
           error={"Something went wrong. Please try again later"}

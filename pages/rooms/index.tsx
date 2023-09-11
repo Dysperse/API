@@ -9,7 +9,6 @@ import {
   Button,
   Chip,
   CircularProgress,
-  Divider,
   Icon,
   IconButton,
   ListItemButton,
@@ -36,12 +35,18 @@ function JumpBackIn() {
     <>
       <Typography
         sx={{
-          px: 3,
+          px: { xs: 3, sm: 5 },
           mt: 4,
+          fontSize: { xs: "1rem", sm: "2rem" },
+          mb: { xs: 0, sm: 2 },
           fontWeight: 700,
           textTransform: "uppercase",
           color: palette[11],
           opacity: 0.7,
+          textAlign: { sm: "center" },
+          ...(data?.length === 0 && {
+            display: "none",
+          }),
         }}
       >
         Jump back in
@@ -57,9 +62,11 @@ function JumpBackIn() {
           display: "flex",
           gap: 2,
           mt: 1,
-          px: 3,
+          px: { xs: 3, sm: 5 },
           mb: 3,
-          overflowX: "scroll",
+          overflowX: { xs: "scroll", sm: "unset" },
+          flexWrap: { sm: "wrap" },
+          justifyContent: "center",
         }}
       >
         {data
@@ -202,42 +209,48 @@ function Panel() {
       </Menu>
       {/* Rest of the content */}
       <Box sx={{ height: "100%", p: { xs: 3, sm: 2 }, py: { xs: 0, sm: 2 } }}>
-        {!isMobile && <GroupSelector />}
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Button
-            onClick={handleClick}
-            variant="outlined"
-            sx={{
-              color: palette[11] + "!important",
-              borderWidth: "2px !important",
-              my: 2,
-              px: 1,
-              borderRadius: 3,
-              fontWeight: 800,
-              gap: 0.5,
-              opacity: 0.7,
-            }}
-          >
-            {buttonText.toUpperCase()}
-            <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
-          </Button>
-          {isMobile && (
+        <Box
+          sx={{
+            display: "flex",
+            gap: { xs: 2, sm: 1 },
+            my: 2,
+            flexDirection: { sm: "column" },
+          }}
+        >
+          <Box sx={{ order: { sm: 2 } }}>
+            <Button
+              onClick={handleClick}
+              variant="outlined"
+              sx={{
+                color: palette[11] + "!important",
+                borderWidth: "2px !important",
+                px: 1,
+                borderRadius: 3,
+                fontWeight: 900,
+                gap: 0.5,
+                opacity: 0.7,
+              }}
+            >
+              {buttonText.toUpperCase()}
+              <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
+            </Button>
+          </Box>
+          <Box sx={{ order: { sm: -1 } }}>
             <GroupSelector>
               <Button
                 variant="outlined"
                 sx={{
                   color: palette[11] + "!important",
                   borderWidth: "2px !important",
-                  my: 2,
                   px: 1,
                   borderRadius: 3,
                   fontWeight: 800,
-                  gap: 0.5,
+                  gap: 1,
                   opacity: 0.7,
                 }}
-              ></Button>
+              />
             </GroupSelector>
-          )}
+          </Box>
         </Box>
 
         {/* Data */}
@@ -247,7 +260,19 @@ function Panel() {
             error="Something went wrong. Please try again later"
           />
         )}
-        {!data && <CircularProgress />}
+        {!data && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
         {data &&
           data.map((room) => (
             <ListItemButton
@@ -257,6 +282,7 @@ function Panel() {
               onMouseDown={() => router.push(`/rooms/${room.id}`)}
               sx={{
                 px: 1,
+                mb: 0.3,
               }}
             >
               <img
@@ -269,13 +295,13 @@ function Panel() {
               {isMobile && <Icon>arrow_forward_ios</Icon>}
             </ListItemButton>
           ))}
-        {data?.length !== 0 && (
+        {data?.length == 0 && (
           <Box
             sx={{
               display: "flex",
               background: { xs: palette[2], sm: palette[3] },
               borderRadius: 5,
-              px: 2,
+              px: 3,
               py: 1,
             }}
           >
@@ -284,14 +310,12 @@ function Panel() {
                 color: palette[11],
                 opacity: 0.7,
                 fontWeight: 800,
-                my: 2,
               }}
             >
               No rooms yet
             </Typography>
           </Box>
         )}
-        {!isMobile && <Divider sx={{ my: 2, maxWidth: "90%", mx: "auto" }} />}
         {view === "room" && (
           <ListItemButton
             selected={router?.pathname === "/rooms/create"}

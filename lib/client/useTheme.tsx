@@ -389,7 +389,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               userSelect: "none",
               "&:hover": {
                 cursor: "default",
-                background: { sm: palette[2] + "!important" },
+                background: { sm: palette[2] },
               },
               "&:active": {
                 background: {

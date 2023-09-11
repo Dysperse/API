@@ -153,7 +153,7 @@ export function Sidebar() {
     };
   };
 
-  const shouldHide = false;
+  const shouldHide = router.asPath.includes("/onboarding");
 
   return (
     <Box
