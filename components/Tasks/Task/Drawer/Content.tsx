@@ -269,7 +269,6 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
               }}
             >
               <IconButton
-                disabled={shouldDisable}
                 sx={{
                   flexShrink: 0,
                   ...styles.button,

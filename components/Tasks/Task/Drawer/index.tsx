@@ -147,7 +147,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         {...(isMobile && {
           slotProps: {
             backdrop: {
-              sx: { opacity: "0!important" },
+              sx: { opacity: "0!important", backdropFilter: "none!important" },
             },
           },
         })}

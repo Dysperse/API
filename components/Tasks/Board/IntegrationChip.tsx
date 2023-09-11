@@ -58,8 +58,6 @@ const IntegrationChip = ({ integration, boardId, session }) => {
         disabled={session.permission === "read-only" || isLoading}
         label={isLoading ? "Syncing..." : "Sync now"}
         sx={{
-          mr: 1,
-          mb: 1,
           ...(!(session.permission === "read-only" || isLoading) && {
             "&, &:hover": {
               background:

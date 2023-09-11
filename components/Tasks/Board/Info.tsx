@@ -8,6 +8,7 @@ import {
   AvatarGroup,
   Box,
   Chip,
+  Grid,
   Icon,
   IconButton,
   TextField,
@@ -15,6 +16,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
@@ -22,7 +24,7 @@ import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
-export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
+export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
   const { board, permissions, isShared, mutateData } = useContext(BoardContext);
 
   const titleRef: any = useRef();
@@ -110,33 +112,28 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
   return (
     <Box
       onClick={(e) => {
-        if (e.detail === 2) {
+        if (e.detail === 2 && !isMobile) {
           setShowInfo((s) => !s);
           localStorage.setItem("showInfo", showInfo ? "true" : "false");
         }
       }}
       sx={{
-        scrollSnapType: { xs: "x mandatory", sm: "unset" },
+        transform: "translateZ(0)",
         borderRadius: 5,
-        mt: { xs: 0, md: "10px" },
-        ml: { xs: 0, md: "10px" },
-        height: { xs: "500px", md: "calc(100dvh - 20px)" },
+        height: { xs: "100%", md: "calc(100dvh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },
         background: {
-          xs: `linear-gradient(${addHslAlpha(palette[4], 0.3)}, ${addHslAlpha(
-            palette[6],
-            0.3
-          )})`,
+          xs: `transparent`,
           md: addHslAlpha(palette[2], 0.8),
         },
+        m: { md: "10px" },
         position: { md: "sticky" },
-        left: "10px",
-        zIndex: 999,
-        mr: { xs: 0, md: 2 },
+        left: { md: "10px" },
+        zIndex: { md: 999 },
         flexGrow: 1,
         flexBasis: 0,
-        flex: { xs: "0 0 calc(100% - 70px)", md: "unset" },
-        p: 4,
+        flex: { xs: "100%", md: "unset" },
+        p: { xs: 3, sm: 4 },
         py: showInfo ? 3 : 2,
         pt: { xs: 5, md: 0 },
         overflowY: "scroll",
@@ -147,38 +144,28 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
         minWidth: { md: !showInfo ? "auto" : "320px" },
         maxWidth: { md: "300px" },
         width: { xs: "100%", sm: "20px" },
-        backdropFilter: "blur(20px)!important",
-        ...(typeof showInfo !== "boolean" &&
-          typeof showInfo !== "object" && {
-            opacity: "0!important",
-            transform: "translateX(-100px)",
-          }),
+        backdropFilter: { md: "blur(20px)!important" },
+        ...(!showInfo && {
+          opacity: "0!important",
+          transform: "translateX(-100px)",
+        }),
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          transform: "translateY(-50%)",
-          background: palette[5],
-          height: "75px",
-          width: "3px",
-          right: "14px",
-          display: { md: "none" },
-          borderRadius: 9999,
-        }}
-      />
       {showInfo ? (
         <>
-          <Box sx={{ mt: "auto" }}>
-            {/* {board.shareTokens.length} */}
+          <Box sx={{ mt: "auto", p: { xs: 1, sm: 0 } }}>
             {collaborators.length > 1 && (
               <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
                 {collaborators.slice(0, 5).map((member) => (
                   <Tooltip key={member.id} title={member.user.name}>
                     <Avatar
                       src={member?.user?.Profile?.picture}
-                      sx={{ width: "30px", height: "30px", fontSize: "15px" }}
+                      sx={{
+                        width: "30px",
+                        height: "30px",
+                        fontSize: "15px",
+                        borderColor: { xs: palette[1] + "!important" },
+                      }}
                       onClick={() => router.push(`/users/${member.user.email}`)}
                     >
                       {member?.user?.name?.substring(0, 2)?.toUpperCase()}
@@ -217,8 +204,8 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
                   borderRadius: 2,
                   p: 1,
                   ml: -1,
-                  fontSize: "60px",
-                  lineHeight: "65px",
+                  fontSize: { xs: "50px", sm: "60px" },
+                  lineHeight: { xs: "55px", sm: "65px" },
                   py: 0.5,
                   "&:focus-within": {
                     background: addHslAlpha(palette[4], 0.8),
@@ -250,6 +237,7 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
                   p: 1,
                   mb: 0.5,
                   ml: -1,
+                  mt: -1,
                   py: 1,
                   "&:focus-within": {
                     background: addHslAlpha(palette[4], 0.8),
@@ -261,41 +249,19 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               }}
               maxRows={3}
             />
-            <Box sx={{ my: 1 }}>
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
               {!board.public && (
-                <Chip
-                  sx={{ mr: 1, mb: 1 }}
-                  label={"Private"}
-                  icon={<Icon>lock</Icon>}
-                />
+                <Chip label={"Private"} icon={<Icon>lock</Icon>} />
               )}
               {permissions === "read" && (
-                <Chip
-                  sx={{ mr: 1, mb: 1 }}
-                  label={"View only"}
-                  icon={<Icon>visibility</Icon>}
-                />
+                <Chip label={"View only"} icon={<Icon>visibility</Icon>} />
               )}
               {board.pinned && !isShared && (
-                <Chip
-                  label="Pinned"
-                  sx={{ mr: 1, mb: 1 }}
-                  icon={<Icon>push_pin</Icon>}
-                />
+                <Chip label="Pinned" icon={<Icon>push_pin</Icon>} />
               )}
-              {isShared && (
-                <Chip
-                  label="Shared"
-                  sx={{ mr: 1, mb: 1 }}
-                  icon={<Icon>link</Icon>}
-                />
-              )}
+              {isShared && <Chip label="Shared" icon={<Icon>link</Icon>} />}
               {board.archived && (
-                <Chip
-                  label="Archived"
-                  sx={{ mr: 1, mb: 1 }}
-                  icon={<Icon>inventory_2</Icon>}
-                />
+                <Chip label="Archived" icon={<Icon>inventory_2</Icon>} />
               )}
               {permissions !== "read" &&
                 board.integrations?.map((integration) => (
@@ -309,6 +275,57 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
             </Box>
           </Box>
 
+          {isMobile && (
+            <Grid container>
+              {board.columns.map((column, index) => (
+                <Grid
+                  item
+                  xs={6}
+                  sx={{ p: 1 }}
+                  key={column.id}
+                  onClick={() => setCurrentColumn(index)}
+                >
+                  <motion.div
+                    initial={{ y: -10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: index * 0.1, bounce: 0 }}
+                  >
+                    <Box
+                      sx={{
+                        p: 2,
+                        background: palette[2],
+                        border: `2px solid ${palette[3]}`,
+                        "&:active": {
+                          borderColor: palette[9],
+                        },
+                        borderRadius: 4,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                      }}
+                    >
+                      <img
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                        alt="Column icon"
+                        width={30}
+                        height={30}
+                      />
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {column.name}
+                      </Typography>
+                    </Box>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          )}
           <Box
             sx={{
               mt: "auto",
@@ -316,11 +333,19 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               width: "100%",
             }}
           >
-            {permissions !== "read" && <BoardSettings id={board.id} />}
+            {permissions !== "read" && !isMobile && (
+              <BoardSettings id={board.id} />
+            )}
             {permissions !== "read" && (
               <IconButton
                 size="large"
-                sx={{ ml: { xs: "auto", sm: "0" } }}
+                sx={{
+                  ml: { xs: "auto", sm: "0" },
+                  ...(isMobile && {
+                    background: palette[3],
+                    color: palette[11],
+                  }),
+                }}
                 disabled={board.archived}
                 onClick={() =>
                   router.push(`/tasks/boards/edit/${board.id}#permissions`)
@@ -334,25 +359,15 @@ export function BoardInfo({ setMobileOpen, showInfo, setShowInfo }) {
               sx={{
                 ml: "auto",
                 ...(isMobile && {
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  m: 1,
-                  color: palette[8],
+                  display: "none",
                 }),
               }}
               onClick={() => {
-                if (isMobile) {
-                  setMobileOpen(false);
-                  return;
-                }
                 setShowInfo(false);
                 localStorage.setItem("showInfo", "false");
               }}
             >
-              <Icon className="outlined">
-                {isMobile ? "close" : "menu_open"}
-              </Icon>
+              <Icon className="outlined">menu_open</Icon>
             </IconButton>
           </Box>
         </>

@@ -9,7 +9,6 @@ import {
   CircularProgress,
   Icon,
   IconButton,
-  SwipeableDrawer,
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
@@ -40,7 +39,7 @@ function RenderBoard({ tasks }) {
     }
   }, []);
 
-  const [currentColumn, setCurrentColumn] = useState<number>(0);
+  const [currentColumn, setCurrentColumn] = useState<number>(-1);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const session = useSession();
@@ -74,38 +73,18 @@ function RenderBoard({ tasks }) {
     >
       {!isMobile && (
         <BoardInfo
-          setMobileOpen={setMobileOpen}
+          setCurrentColumn={setCurrentColumn}
           setShowInfo={setShowInfo}
           showInfo={showInfo}
         />
       )}
-      <SwipeableDrawer
-        open={mobileOpen}
-        disableSwipeToOpen={false}
-        onClose={() => setMobileOpen(false)}
-        onOpen={() => setMobileOpen(true)}
-        ModalProps={{ keepMounted: true }}
-        keepMounted
-        sx={{ zIndex: 999, display: { sm: "none" } }}
-        PaperProps={{
-          sx: {
-            borderRadius: "20px",
-            m: "20px",
-            width: "calc(100vw - 40px)!important",
-            maxWidth: "400px",
-            maxHeight: "calc(100dvh - 40px)!important",
-            ...(!isDark && { background: "#fff" }),
-          },
-        }}
-      >
-        {isMobile && mount && (
-          <BoardInfo
-            setMobileOpen={setMobileOpen}
-            setShowInfo={setShowInfo}
-            showInfo={showInfo}
-          />
-        )}
-      </SwipeableDrawer>
+      {currentColumn === -1 && isMobile && (
+        <BoardInfo
+          setCurrentColumn={setCurrentColumn}
+          setShowInfo={setShowInfo}
+          showInfo={showInfo}
+        />
+      )}
       <div
         onClick={() => setMobileOpen(true)}
         style={{ display: "none" }}
