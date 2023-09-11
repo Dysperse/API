@@ -458,6 +458,12 @@ export function CreateItem({
     }
   }, [open]);
 
+  useEffect(() => {
+    if (room) {
+      setTimeout(() => titleRef?.current?.focus(), 100);
+    }
+  }, [room]);
+
   const styles = {
     icon: {
       color: palette[11],
