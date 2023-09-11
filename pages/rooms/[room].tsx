@@ -431,7 +431,15 @@ function ItemPopup({
   );
 }
 
-function CreateItem({ room, mutate, children }) {
+export function CreateItem({
+  room,
+  mutate,
+  children,
+}: {
+  room?: any;
+  mutate: any;
+  children: JSX.Element;
+}) {
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -447,11 +455,11 @@ function CreateItem({ room, mutate, children }) {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            width: { xs: "100%", sm: "500px" },
-            border: { sm: "2px solid " + palette[3] },
+            width: { xs: "auto", sm: "500px" },
+            border: { xs: "2px solid " + palette[3] },
             m: 2,
             borderRadius: 5,
-            mx: { sm: "auto" },
+            mx: { xs: 2, sm: "auto" },
           },
         }}
       >
@@ -470,7 +478,7 @@ function CreateItem({ room, mutate, children }) {
         </Box>
         <Box sx={{ display: "flex", gap: 0.1, p: 2, pt: 0 }}>
           <IconButton>
-            <Icon>favorite</Icon>
+            <Icon className="outlined">favorite</Icon>
           </IconButton>
           <Button variant="contained" size="small" sx={{ ml: "auto" }}>
             <Icon>north</Icon>

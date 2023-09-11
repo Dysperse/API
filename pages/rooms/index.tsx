@@ -19,6 +19,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
+import { CreateItem } from "./[room]";
 
 function Panel() {
   const router = useRouter();
@@ -168,17 +169,19 @@ export default function RoomLayout({ children }) {
           right={
             router.asPath == "/rooms" ? (
               <>
-                <IconButton
-                  onClick={() => router.push("/rooms/audit")}
-                  sx={{ color: palette[8], ml: "auto" }}
-                >
-                  <Icon
-                    className="outlined"
-                    sx={{ fontSize: "30px!important" }}
+                <CreateItem mutate={() => {}}>
+                  <IconButton
+                    onClick={() => router.push("/rooms/audit")}
+                    sx={{ color: palette[8], ml: "auto" }}
                   >
-                    add_circle
-                  </Icon>
-                </IconButton>
+                    <Icon
+                      className="outlined"
+                      sx={{ fontSize: "30px!important" }}
+                    >
+                      add_circle
+                    </Icon>
+                  </IconButton>
+                </CreateItem>
                 <IconButton
                   onClick={() => router.push("/rooms/audit")}
                   sx={{ color: palette[8] }}
