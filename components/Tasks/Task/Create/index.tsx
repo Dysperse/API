@@ -263,8 +263,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("pinTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+e",
@@ -272,8 +271,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("emojiTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+w",
@@ -281,8 +279,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("fileTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
 
   useHotkeys(
@@ -291,8 +288,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("locationTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+d",
@@ -300,8 +296,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("descriptionTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+w",
@@ -309,8 +304,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("fileTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+s",
@@ -318,8 +312,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("dateTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
 
   return (

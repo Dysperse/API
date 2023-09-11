@@ -458,6 +458,14 @@ export function CreateItem({
     }
   }, [open]);
 
+  const styles = {
+    icon: {
+      color: palette[11],
+      p: 0.7,
+      borderRadius: 3,
+    },
+  };
+
   return (
     <>
       {trigger}
@@ -468,10 +476,11 @@ export function CreateItem({
         PaperProps={{
           sx: {
             background: "transparent",
+            borderRadius: 0,
           },
         }}
       >
-        <Box sx={{ px: 2 }}>
+        <Box sx={{ px: { xs: 2, sm: 0 } }}>
           <RoomPicker room={room} setRoom={setRoom}>
             <Chip
               variant="outlined"
@@ -527,8 +536,20 @@ export function CreateItem({
               alignItems: "center",
             }}
           >
-            <IconButton>
+            <IconButton sx={styles.icon}>
               <Icon className="outlined">favorite</Icon>
+            </IconButton>
+            <IconButton sx={styles.icon}>
+              <Icon className="outlined">question_mark</Icon>
+            </IconButton>
+            <IconButton sx={styles.icon}>
+              <Icon className="outlined">interests</Icon>
+            </IconButton>
+            <IconButton sx={styles.icon}>
+              <Icon className="outlined">attach_money</Icon>
+            </IconButton>
+            <IconButton sx={styles.icon}>
+              <Icon className="outlined">tag</Icon>
             </IconButton>
             <Button variant="contained" size="small" sx={{ ml: "auto" }}>
               <Icon>north</Icon>
