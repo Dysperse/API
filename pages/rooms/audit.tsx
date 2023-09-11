@@ -77,7 +77,7 @@ function RoomPicker({ room, setRoom }) {
           data.map((_room) => (
             <ListItemButton
               key={_room.id}
-              selected={room.id === _room?.id}
+              selected={room?.id === _room?.id}
               onClick={() => {
                 setRoom(_room);
                 setOpen(false);
