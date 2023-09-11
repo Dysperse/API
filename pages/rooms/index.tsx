@@ -6,6 +6,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
+  Chip,
   CircularProgress,
   Divider,
   Icon,
@@ -14,12 +15,117 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Skeleton,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
-import { CreateItem } from "./[room]";
+import { CreateItem, ItemPopup } from "./[room]";
+
+function JumpBackIn() {
+  const session = useSession();
+  const router = useRouter();
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  const { data, mutate, error } = useSWR(["property/inventory/recent"]);
+
+  return (
+    <>
+      <Typography variant="h5" sx={{ px: 3, mt: 4 }}>
+        Jump back in
+      </Typography>
+      {error && (
+        <ErrorHandler
+          callback={mutate}
+          error="Something went wrong. Please try again later"
+        />
+      )}
+      <Box sx={{ display: "flex", gap: 2, mt: 2, px: 3, overflowX: "scroll" }}>
+        {data
+          ? data.map((item) => (
+              <ItemPopup key={item.id} item={item} mutateList={mutate}>
+                <Box
+                  sx={{
+                    color: palette[11] + "!important",
+                    borderWidth: "2px !important",
+                    p: 1,
+                    px: 2,
+                    borderRadius: 3,
+                    display: "flex",
+                    background: palette[2],
+                    "&:hover": {
+                      background: { sm: palette[3] },
+                    },
+                    "&:active": {
+                      background: palette[4],
+                    },
+                    alignItems: "center",
+                    flexShrink: 0,
+                    gap: 0.5,
+                    opacity: 0.7,
+                    width: 200,
+                    height: 70,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      maxWidth: "100%",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: 800,
+                      }}
+                    >
+                      {item.name}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        overflowX: "scroll",
+                        maxWidth: "100%",
+                      }}
+                    >
+                      {item.quantity && (
+                        <Chip
+                          size="small"
+                          label={item.quantity + " pcs."}
+                          icon={<Icon>interests</Icon>}
+                        />
+                      )}
+                      {item.condition && (
+                        <Chip
+                          size="small"
+                          label={item.condition}
+                          icon={<Icon>question_mark</Icon>}
+                        />
+                      )}
+                      {item.estimatedValue && (
+                        <Chip
+                          size="small"
+                          label={item.estimatedValue}
+                          icon={<Icon>attach_money</Icon>}
+                        />
+                      )}
+                    </Box>
+                  </Box>
+                  <Icon sx={{ ml: "auto", flexShrink: 0 }}>
+                    arrow_forward_ios
+                  </Icon>
+                </Box>
+              </ItemPopup>
+            ))
+          : [...new Array(10)].map((_, i) => (
+              <Skeleton key={i} variant="rectangular" height={70} width={200} />
+            ))}
+      </Box>
+    </>
+  );
+}
 
 function Panel() {
   const router = useRouter();
@@ -207,7 +313,7 @@ export default function RoomLayout({ children }) {
           }
         />
       )}
-      {(!isMobile || (isMobile && router.asPath === "/rooms")) && <Panel />}
+      {!isMobile && <Panel />}
 
       {/* Content */}
       <Box
@@ -218,8 +324,20 @@ export default function RoomLayout({ children }) {
           overflowY: "auto",
         }}
       >
-        {children}
+        {children || (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
+            <JumpBackIn />
+          </Box>
+        )}
       </Box>
+      {isMobile && router.asPath === "/rooms" && <Panel />}
     </Box>
   );
 }

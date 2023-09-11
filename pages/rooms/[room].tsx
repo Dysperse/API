@@ -364,7 +364,7 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
   );
 }
 
-function ItemPopup({
+export function ItemPopup({
   children,
   item,
   mutateList,
