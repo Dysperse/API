@@ -341,10 +341,10 @@ body {
     border-radius: 0px;
   }
   50% {
-    transform: scale(0.7) rotate(3deg) translateX(10vw) translateY(-100px);
+    transform: scale(0.5) rotate(3deg) translateX(10vw) translateY(-150px);
     border-radius: 100px;
   }
   100% {
-    transform: scale(0.6) translateX(200vw) translateY(-250px);
+    transform: scale(0.4) translateX(400vw) translateY(-300px);
   }
 }
