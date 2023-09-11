@@ -74,21 +74,22 @@ function RoomPicker({ room, setRoom }) {
           Select a room
         </Typography>
         {data ? (
-          data.map((room) => (
+          data.map((_room) => (
             <ListItemButton
-              key={room.id}
+              key={_room.id}
+              selected={room.id === _room?.id}
               onClick={() => {
-                setRoom(room);
+                setRoom(_room);
                 setOpen(false);
               }}
             >
               <img
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
+                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${_room.emoji}.png`}
                 alt="Emoji"
                 width={30}
                 height={30}
               />
-              <ListItemText primary={room.name} />
+              <ListItemText primary={_room.name} />
             </ListItemButton>
           ))
         ) : (
