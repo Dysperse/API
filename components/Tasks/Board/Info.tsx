@@ -328,23 +328,17 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
           )}
           <Box
             sx={{
-              mt: "auto",
+              mt: { xs: 3, sm: "auto" },
               display: "flex",
               width: "100%",
             }}
           >
-            {permissions !== "read" && !isMobile && (
-              <BoardSettings id={board.id} />
-            )}
+            {permissions !== "read" && <BoardSettings id={board.id} />}
             {permissions !== "read" && (
               <IconButton
                 size="large"
                 sx={{
                   ml: { xs: "auto", sm: "0" },
-                  ...(isMobile && {
-                    background: palette[3],
-                    color: palette[11],
-                  }),
                 }}
                 disabled={board.archived}
                 onClick={() =>

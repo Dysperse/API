@@ -35,7 +35,6 @@ import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
 
 export function Column({
-  setMobileOpen,
   useReverseAnimation,
   setUseReverseAnimation,
 }) {

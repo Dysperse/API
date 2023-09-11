@@ -1,7 +1,6 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import {
   Alert,
   Box,
@@ -40,11 +39,9 @@ function RenderBoard({ tasks }) {
   }, []);
 
   const [currentColumn, setCurrentColumn] = useState<number>(-1);
-  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
-  const mount = useDelayedMount(mobileOpen, 1000);
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -54,7 +51,7 @@ function RenderBoard({ tasks }) {
 
   useEffect(() => {
     if (board.integrations.length > 0 && board.columns.length === 0) {
-      setMobileOpen(true);
+      setCurrentColumn(-1);
       setTimeout(() => {
         document.getElementById("syncChip")?.click();
       }, 200);
@@ -86,7 +83,7 @@ function RenderBoard({ tasks }) {
         />
       )}
       <div
-        onClick={() => setMobileOpen(true)}
+        onClick={() => setCurrentColumn(-1)}
         style={{ display: "none" }}
         id="boardInfoTrigger"
       />
@@ -107,7 +104,6 @@ function RenderBoard({ tasks }) {
             key={column.id}
           >
             <Column
-              setMobileOpen={setMobileOpen}
               useReverseAnimation={useReverseAnimation}
               setUseReverseAnimation={setUseReverseAnimation}
             />
@@ -149,7 +145,7 @@ function RenderBoard({ tasks }) {
           {board.integrations.length > 0 ? (
             <Button
               onClick={() => {
-                setMobileOpen(true);
+                setCurrentColumn(-1);
                 setTimeout(() => {
                   document.getElementById("syncChip")?.click();
                 }, 200);
