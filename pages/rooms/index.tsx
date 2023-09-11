@@ -136,11 +136,13 @@ function Panel() {
           gap: 2,
         }}
       >
-        <Button variant="contained" fullWidth>
-          <Icon>add</Icon>New
-        </Button>
+        <CreateItem mutate={() => {}}>
+          <Button variant="contained" fullWidth>
+            <Icon>add</Icon>New
+          </Button>
+        </CreateItem>
         <Button variant="contained" onClick={() => router.push("/rooms/audit")}>
-          <Icon>process_chart</Icon>
+          <Icon>view_in_ar</Icon>
         </Button>
       </Box>
     </Box>
