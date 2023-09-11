@@ -56,7 +56,7 @@ function RoomPicker({ room, setRoom }) {
         }}
         onClick={() => setOpen(true)}
       >
-        {room?.name}
+        {room?.name || "Select a room"}
         <Icon>expand_more</Icon>
       </Button>
       <SwipeableDrawer
