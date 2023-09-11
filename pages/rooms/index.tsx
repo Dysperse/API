@@ -255,6 +255,9 @@ function Panel() {
               selected={router?.query?.room === room.id}
               onClick={() => router.push(`/rooms/${room.id}`)}
               onMouseDown={() => router.push(`/rooms/${room.id}`)}
+              sx={{
+                px: 1,
+              }}
             >
               <img
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
@@ -263,17 +266,22 @@ function Panel() {
                 height={30}
               />
               <ListItemText primary={room.name} />
+              {isMobile && <Icon>arrow_forward_ios</Icon>}
             </ListItemButton>
           ))}
-        <Divider sx={{ my: 2, maxWidth: "90%", mx: "auto" }} />
+        {!isMobile && <Divider sx={{ my: 2, maxWidth: "90%", mx: "auto" }} />}
         {view === "room" && (
           <ListItemButton
             selected={router?.pathname === "/rooms/create"}
             onClick={() => router.push(`/rooms/create`)}
             onMouseDown={() => router.push(`/rooms/create`)}
-            sx={{ py: 1.5 }}
+            sx={{ py: 1, px: 1 }}
           >
-            <Icon>add_circle</Icon>New room
+            <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
+              add_circle
+            </Icon>
+            <ListItemText primary="New room" />
+            {isMobile && <Icon>arrow_forward_ios</Icon>}
           </ListItemButton>
         )}
       </Box>
