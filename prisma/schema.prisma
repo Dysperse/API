@@ -25,7 +25,6 @@ model User {
   unlockedColors String[]
 
   onboardingComplete       Boolean @default(false)
-  trophies                 Int     @default(0)
   twoFactorSecret          String  @default("")
   notificationSubscription String? @db.VarChar(900)
   timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
@@ -35,14 +34,11 @@ model User {
   NotificationSettings NotificationSettings?
   Status               Status?
   Profile              Profile?
-  CoachData            CoachData?
   PasswordResetToken   PasswordResetToken[]
   properties           PropertyInvite[]
-  RoutineItem          RoutineItem[]
   sessions             Session[]
   Board                Board[]
   Integration          Integration[]
-  DailyCheckIn         DailyCheckIn[]
   QrToken              QrToken[]
 
   followers  Follows[]    @relation("following")
@@ -87,11 +83,9 @@ model Integration {
 model NotificationSettings {
   id String @id @unique @default(uuid())
 
-  todoListUpdates   Boolean @default(true)
-  followerUpdates   Boolean @default(true)
-  dailyRoutineNudge Boolean @default(true)
-  dailyCheckInNudge Boolean @default(true)
-  statusUpdates     Boolean @default(true)
+  todoListUpdates Boolean @default(true)
+  followerUpdates Boolean @default(true)
+  statusUpdates   Boolean @default(true)
 
   boards Boolean @default(true)
 
@@ -129,15 +123,6 @@ model Profile {
   bio String @default("")
 
   private Boolean @default(false)
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-}
-
-model CoachData {
-  id             String   @id @unique @default(uuid())
-  lastStreakDate DateTime @default(now())
-  streakCount    Int      @default(0)
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
@@ -287,48 +272,6 @@ model Task {
   userId     String?
 
   Item Item[]
-}
-
-model RoutineItem {
-  id           String @id @unique @default(uuid())
-  name         String
-  stepName     String
-  category     String
-  durationDays Int
-  progress     Int    @default(0)
-  emoji        String
-
-  timeOfDay  Int       @default(12)
-  daysOfWeek Boolean[] @default([true, true, true, true, true, true, true])
-
-  lastCompleted       String?
-  completed           Boolean               @default(false)
-  feedback            String?               @default("")
-  RoutineActivityData RoutineActivityData[]
-
-  userId String
-  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
-}
-
-model RoutineActivityData {
-  id            String   @id @unique @default(uuid())
-  routineItemId String
-  date          DateTime
-
-  routineItem RoutineItem @relation(fields: [routineItemId], references: [id], onDelete: Cascade)
-}
-
-model DailyCheckIn {
-  id     String   @id @unique @default(uuid())
-  mood   String
-  reason String   @default("Something else")
-  stress Int      @default(0)
-  rest   Int      @default(0)
-  pain   Int      @default(1)
-  food   Int      @default(1)
-  date   DateTime
-  userId String
-  user   User     @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
 
 model QrToken {

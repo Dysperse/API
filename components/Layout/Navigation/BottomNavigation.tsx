@@ -10,13 +10,10 @@ export const shouldHideNavigation = (path) => {
     "/users",
     "/boards/edit/",
     "/tasks/search",
-    "/coach/explore",
-    "/coach/create",
     "/integrations",
     "/rooms/",
     "/spaces",
     "/onboarding",
-    "/coach/routine",
     "/settings",
     "/tasks/insights",
   ].find((_path) => path.includes(_path));

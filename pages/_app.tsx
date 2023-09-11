@@ -8,7 +8,6 @@ import { Toaster } from "react-hot-toast";
 
 // CSS files
 import "../styles/calendar.scss";
-import "../styles/coach.scss";
 import "../styles/globals.scss";
 import "../styles/normalize.scss";
 

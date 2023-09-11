@@ -53,10 +53,6 @@ self.addEventListener("notificationclick", function (event) {
       if (match) {
         path = `/coach/routine#${match[1]}`;
       }
-
-      if (event.action.match(/^dailyCheckIn-(\d+)$/)) {
-        path = `/coach/routine#checkIn`;
-      }
   }
 
   event.waitUntil(

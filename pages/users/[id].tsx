@@ -1,4 +1,3 @@
-import { exportAsImage } from "@/components/Coach/Goal/Options";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { AddPersonModal } from "@/components/Group/Members/Add";
@@ -9,6 +8,7 @@ import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { handleBack } from "@/lib/client/handleBack";
+import { exportAsImage } from "@/lib/client/screenshot";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";

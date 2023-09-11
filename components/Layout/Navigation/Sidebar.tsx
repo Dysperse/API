@@ -110,14 +110,6 @@ export function Sidebar() {
     [open]
   );
   useHotkeys(
-    "ctrl+shift+3",
-    (e) => {
-      e.preventDefault();
-      router.push("/coach");
-    },
-    [open]
-  );
-  useHotkeys(
     "ctrl+shift+2",
     (e) => {
       e.preventDefault();

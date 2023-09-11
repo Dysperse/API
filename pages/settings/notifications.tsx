@@ -153,14 +153,6 @@ export default function Notifications() {
       secondary: "Get reminders to work on your goals",
     },
     {
-      key: "dailyCheckInNudge",
-      comingSoon: false,
-      disabled: false,
-      enabled: null,
-      primary: "Check-in",
-      secondary: "Recieve daily reminders to check-in on how you're feeling",
-    },
-    {
       key: "todoListUpdates",
       comingSoon: false,
       disabled: false,

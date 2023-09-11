@@ -85,10 +85,6 @@ export default function KeyboardShortcutsModal() {
                 keys: ["ctrl", "shift", "2"],
               },
               {
-                name: "Coach",
-                keys: ["ctrl", "shift", "3"],
-              },
-              {
                 name: "Inventory",
                 keys: ["ctrl", "shift", "4"],
               },

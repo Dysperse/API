@@ -9,9 +9,7 @@ export default async function handler(req, res) {
         OR: [{ username: req.query.email }, { email: req.query.email }],
       },
       select: {
-        CoachData: true,
         timeZone: true,
-        trophies: true,
         username: true,
         color: true,
         name: true,
