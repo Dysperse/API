@@ -475,6 +475,14 @@ export function CreateItem({
             }}
             multiline
           />
+          <TextField
+            fullWidth
+            placeholder="Add quantity"
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+            }}
+          />
         </Box>
         <Box sx={{ display: "flex", gap: 0.1, p: 2, pt: 0 }}>
           <IconButton>
