@@ -138,11 +138,11 @@ function Panel() {
       >
         <CreateItem mutate={() => {}}>
           <Button variant="contained" fullWidth>
-            <Icon>add</Icon>New
+            <Icon className="outlined">add_circle</Icon>New
           </Button>
         </CreateItem>
         <Button variant="contained" onClick={() => router.push("/rooms/audit")}>
-          <Icon>view_in_ar</Icon>
+          <Icon className="outlined">view_in_ar</Icon>
         </Button>
       </Box>
     </Box>
