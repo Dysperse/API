@@ -45,7 +45,7 @@ function MoveItem({ children, item, mutate, setParentOpen }) {
   } = useSWR(open ? ["property/inventory/rooms"] : null);
 
   const handleMove = async (roomId) => {
-    await fetchRawApi(session, "property/inventory/items/edit", {
+    await fetchRawApi(session, "property/inventory/items/move", {
       id: item.id,
       updatedAt: dayjs().toISOString(),
       room: roomId,
@@ -55,8 +55,8 @@ function MoveItem({ children, item, mutate, setParentOpen }) {
       room: { id: roomId },
       updatedAt: dayjs().toISOString(),
     };
-    mutate(newData, {
-      populateCache: newData,
+    mutate("deleted", {
+      populateCache: "deleted",
       revalidate: false,
     });
 

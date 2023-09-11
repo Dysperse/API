@@ -155,9 +155,27 @@ export default function Page() {
       return;
     }
 
+    const conventions = {
+      ashbin: "trash can",
+    };
+
+    // if res[0].label.includes(any object key in conventions), replace it with the value
+    // else, use res[0].label
     titleRef.current.value = capitalizeFirstLetter(res?.[0]?.label);
+
+    for (const key in conventions) {
+      if (res[0].label.toLowerCase().includes(key.toLowerCase())) {
+        titleRef.current.value = capitalizeFirstLetter(conventions[key]);
+      }
+    }
+
+    const res2 = res
+      .map((r) => r.label?.split(",")[0])
+      .flat()
+      .filter((e) => e);
+
     setLoading(false);
-    setResults(res);
+    setResults(res2);
   };
 
   const handleSubmit = async () => {
@@ -200,7 +218,7 @@ export default function Page() {
               ...(taken && {
                 transition: "all .2s ease",
                 filter: "blur(30px)",
-                transform: "scale(1.2)",
+                transform: "scale(1.1)",
               }),
             },
           }}
@@ -309,11 +327,11 @@ export default function Page() {
                   sx={{
                     background: addHslAlpha(palette[5], 0.4) + "!important",
                   }}
-                  label={capitalizeFirstLetter(result.label?.trim())}
-                  key={result.label}
+                  label={capitalizeFirstLetter(result?.trim())}
+                  key={result}
                   onClick={() =>
                     (titleRef.current.value = capitalizeFirstLetter(
-                      result.label?.trim()
+                      result?.trim()
                     ))
                   }
                 />
