@@ -471,6 +471,7 @@ export function CreateItem({
       {trigger}
       <SwipeableDrawer
         anchor="bottom"
+        onClick={() => titleRef?.current?.focus()}
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
@@ -520,6 +521,7 @@ export function CreateItem({
             />
             <TextField
               fullWidth
+              onClick={(e) => e.stopPropagation()}
               placeholder="Add quantity"
               variant="standard"
               InputProps={{
