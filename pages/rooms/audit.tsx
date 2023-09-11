@@ -161,6 +161,7 @@ export default function Page() {
 
     const conventions = {
       ashbin: "trash can",
+      "cellular telephone": "Cell phone",
     };
 
     // if res[0].label.includes(any object key in conventions), replace it with the value
