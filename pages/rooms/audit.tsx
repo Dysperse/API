@@ -56,6 +56,7 @@ export function RoomPicker({ room, setRoom, children }) {
           sx: {
             background: addHslAlpha(palette[3], 0.8),
             m: 3,
+            mx: { xs: 3, sm: "auto" },
             borderRadius: 5,
           },
         }}
