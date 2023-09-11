@@ -16,6 +16,7 @@ const handler = async (req, res) => {
         items: {
           orderBy: { createdAt: "desc" },
         },
+        ...(req.query.items === "false" && { items: false }),
       },
     });
 

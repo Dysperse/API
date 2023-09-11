@@ -30,8 +30,8 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { cloneElement, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
-import RoomLayout from ".";
-import { RoomPicker } from "./audit";
+import RoomLayout from "..";
+import { RoomPicker } from "../audit";
 
 function MoveItem({ children, item, mutate, setParentOpen }) {
   const session = useSession();
@@ -570,6 +570,8 @@ export function CreateItem({
 }
 
 function Room({ room, mutateList }) {
+  const router = useRouter();
+
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -614,7 +616,7 @@ function Room({ room, mutateList }) {
               </Icon>
             </IconButton>
           </CreateItem>
-          <IconButton>
+          <IconButton onClick={() => router.push(`/rooms/${room.id}/edit`)}>
             <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
               pending
             </Icon>
