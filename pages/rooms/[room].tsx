@@ -10,6 +10,7 @@ import { Masonry } from "@mui/lab";
 import {
   Alert,
   AppBar,
+  Avatar,
   Box,
   Button,
   Chip,
@@ -27,9 +28,10 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { cloneElement, useEffect, useState } from "react";
+import { cloneElement, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import RoomLayout from ".";
+import { RoomPicker } from "./audit";
 
 function MoveItem({ children, item, mutate, setParentOpen }) {
   const session = useSession();
@@ -432,19 +434,29 @@ function ItemPopup({
 }
 
 export function CreateItem({
-  room,
+  defaultRoom,
   mutate,
   children,
 }: {
-  room?: any;
+  defaultRoom?: any;
   mutate: any;
   children: JSX.Element;
 }) {
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
+  const titleRef: any = useRef();
+
   const [open, setOpen] = useState(false);
   const trigger = cloneElement(children, { onClick: () => setOpen(true) });
+
+  const [room, setRoom] = useState(defaultRoom);
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => titleRef?.current?.focus(), 100);
+    }
+  }, [open]);
 
   return (
     <>
@@ -455,42 +467,73 @@ export function CreateItem({
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
+            background: "transparent",
+          },
+        }}
+      >
+        <Box sx={{ px: 2 }}>
+          <RoomPicker room={room} setRoom={setRoom}>
+            <Chip
+              variant="outlined"
+              label={room?.name || "Select a room"}
+              icon={
+                room && (
+                  <Avatar
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
+                    sx={{ width: 20, height: 20, borderRadius: 0 }}
+                  />
+                )
+              }
+            />
+          </RoomPicker>
+        </Box>
+        <Box
+          sx={{
+            background: palette[2],
             width: { xs: "auto", sm: "500px" },
             border: { xs: "2px solid " + palette[3] },
             m: 2,
             borderRadius: 5,
             mx: { xs: 2, sm: "auto" },
-          },
-        }}
-      >
-        <Puller showOnDesktop />
-        <Box sx={{ p: 2, py: 0 }}>
-          <TextField
-            fullWidth
-            placeholder="Item name"
-            variant="standard"
-            InputProps={{
-              disableUnderline: true,
-              sx: { fontSize: 20 },
+          }}
+        >
+          <Box sx={{ p: 2, pb: 0 }}>
+            <TextField
+              inputRef={titleRef}
+              fullWidth
+              placeholder="Item name"
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                sx: { fontSize: 20 },
+              }}
+              multiline
+            />
+            <TextField
+              fullWidth
+              placeholder="Add quantity"
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 0.1,
+              p: 2,
+              pt: 1,
+              alignItems: "center",
             }}
-            multiline
-          />
-          <TextField
-            fullWidth
-            placeholder="Add quantity"
-            variant="standard"
-            InputProps={{
-              disableUnderline: true,
-            }}
-          />
-        </Box>
-        <Box sx={{ display: "flex", gap: 0.1, p: 2, pt: 0 }}>
-          <IconButton>
-            <Icon className="outlined">favorite</Icon>
-          </IconButton>
-          <Button variant="contained" size="small" sx={{ ml: "auto" }}>
-            <Icon>north</Icon>
-          </Button>
+          >
+            <IconButton>
+              <Icon className="outlined">favorite</Icon>
+            </IconButton>
+            <Button variant="contained" size="small" sx={{ ml: "auto" }}>
+              <Icon>north</Icon>
+            </Button>
+          </Box>
         </Box>
       </SwipeableDrawer>
     </>
@@ -535,7 +578,7 @@ function Room({ room, mutateList }) {
           )}
         </Box>
         <Box sx={{ ml: { sm: "auto" } }}>
-          <CreateItem room={room} mutate={mutateList}>
+          <CreateItem defaultRoom={room} mutate={mutateList}>
             <IconButton>
               <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
                 add_circle

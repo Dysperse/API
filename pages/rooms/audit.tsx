@@ -23,19 +23,21 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { cloneElement, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import Webcam from "react-webcam";
 import useSWR from "swr";
 import RoomLayout from ".";
 
-function RoomPicker({ room, setRoom }) {
+export function RoomPicker({ room, setRoom, children }) {
   const [open, setOpen] = useState(false);
   const { data, error } = useSWR(["property/inventory/rooms"]);
 
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
+  const trigger = cloneElement(children, { onClick: () => setOpen(true) });
 
   useEffect(() => {
     if (!room && !open) {
@@ -45,20 +47,7 @@ function RoomPicker({ room, setRoom }) {
 
   return (
     <>
-      <Button
-        sx={{
-          mx: "auto",
-          color: "inherit",
-          gap: 0,
-          background: "transparent!important",
-          transition: "transform .1s!important",
-          "&:active": { transform: "scale(.9)" },
-        }}
-        onClick={() => setOpen(true)}
-      >
-        {room?.name || "Select a room"}
-        <Icon>expand_more</Icon>
-      </Button>
+      {trigger}
       <SwipeableDrawer
         anchor="bottom"
         open={open}
@@ -66,7 +55,7 @@ function RoomPicker({ room, setRoom }) {
         PaperProps={{
           sx: {
             background: addHslAlpha(palette[3], 0.8),
-            m: 2,
+            m: 3,
             borderRadius: 5,
           },
         }}
@@ -380,7 +369,21 @@ export default function Page() {
             <IconButton onClick={() => router.push("/rooms")}>
               <Icon>arrow_back_ios_new</Icon>
             </IconButton>
-            <RoomPicker room={room} setRoom={setRoom} />
+            <RoomPicker room={room} setRoom={setRoom}>
+              <Button
+                sx={{
+                  mx: "auto",
+                  color: "inherit",
+                  gap: 0,
+                  background: "transparent!important",
+                  transition: "transform .1s!important",
+                  "&:active": { transform: "scale(.9)" },
+                }}
+              >
+                {room?.name || "Select a room"}
+                <Icon>expand_more</Icon>
+              </Button>
+            </RoomPicker>
             <IconButton onClick={() => setFrontCamera((c) => !c)}>
               <Icon {...(!frontCamera && { className: "outlined" })}>
                 flip_camera_ios
