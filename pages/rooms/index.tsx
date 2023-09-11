@@ -35,10 +35,10 @@ function JumpBackIn() {
   return (
     <>
       <Typography
-        variant="h6"
         sx={{
           px: 3,
           mt: 4,
+          fontWeight: 700,
           textTransform: "uppercase",
           color: palette[11],
           opacity: 0.7,
@@ -269,6 +269,28 @@ function Panel() {
               {isMobile && <Icon>arrow_forward_ios</Icon>}
             </ListItemButton>
           ))}
+        {data?.length !== 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              background: { xs: palette[2], sm: palette[3] },
+              borderRadius: 5,
+              px: 2,
+              py: 1,
+            }}
+          >
+            <Typography
+              sx={{
+                color: palette[11],
+                opacity: 0.7,
+                fontWeight: 800,
+                my: 2,
+              }}
+            >
+              No rooms yet
+            </Typography>
+          </Box>
+        )}
         {!isMobile && <Divider sx={{ my: 2, maxWidth: "90%", mx: "auto" }} />}
         {view === "room" && (
           <ListItemButton

@@ -149,20 +149,6 @@ img {
   background: transparent;
 }
 
-.MuiTouchRipple-rippleVisible {
-  animation-duration: 0.25s !important;
-}
-
-.MuiTouchRipple-child {
-  filter: opacity(0.3) !important;
-  background: hsl(240, 11%, 10%);
-}
-
-.rippleDark .MuiTouchRipple-child,
-.dark .MuiTouchRipple-child {
-  background: #fff !important;
-}
-
 .dark * {
   color-scheme: dark;
 }
@@ -181,10 +167,6 @@ img {
       background-color: var(--overlay-dark);
     }
   }
-}
-
-.MuiIconButton-root .MuiTouchRipple-rippleVisible {
-  animation-duration: 0.5s !important;
 }
 
 .MuiListSubheader-root {
@@ -347,4 +329,8 @@ body {
   100% {
     transform: scale(0.4) translateX(400vw) translateY(-300px);
   }
+}
+.MuiCardActionArea-focusHighlight,
+.MuiTouchRipple-root {
+  display: none !important;
 }

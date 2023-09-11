@@ -857,11 +857,10 @@ export function TasksLayout({
                   color: palette[9],
                   background: addHslAlpha(palette[3], 0.5),
                   "&:active": {
-                    transform: "scale(0.9)",
+                    opacity: 0.6,
                   },
                   fontSize: "15px",
                   borderRadius: 999,
-                  transition: "transform .1s",
                 }}
                 onClick={() => document.getElementById("agendaToday")?.click()}
               >
