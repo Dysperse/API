@@ -67,7 +67,7 @@ function JumpBackIn() {
           mb: 3,
           overflowX: { xs: "scroll", sm: "unset" },
           flexWrap: { sm: "wrap" },
-          justifyContent: "center",
+          justifyContent: { sm: "center" },
         }}
       >
         {data
