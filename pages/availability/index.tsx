@@ -153,7 +153,14 @@ export default function Page() {
         </Toolbar>
       </AppBar>
       <CreateAvailability setShowMargin={setShowMargin} />
-      <Box sx={{ p: 4, display: "flex", gap: "20px", flexDirection: "column" }}>
+      <Box
+        sx={{
+          p: 4,
+          display: "flex",
+          gap: "20px",
+          flexDirection: "column",
+        }}
+      >
         <Box
           sx={{
             paddingTop: showMargin ? "220px" : "0px",
