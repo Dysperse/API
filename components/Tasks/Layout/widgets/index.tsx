@@ -95,7 +95,7 @@ export function WidgetBar({ view, setView }) {
         });
       } catch (e) {}
     }
-  }, [wakeLock]);
+  }, [wakeLock, view]);
 
   useEffect(() => {
     document.body.classList[view === "priority" ? "add" : "remove"](
