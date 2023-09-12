@@ -221,7 +221,7 @@ export default function Page() {
           For best results...
         </Typography>
         {[
-          "Make sure your item has a clear background",
+          "Make sure your item is well-lit and has a clear background",
           "Only take a picture of one item at a time",
           "Take a picture of the item from a recognizable view",
         ].map((text, i) => (
