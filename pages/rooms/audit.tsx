@@ -7,10 +7,12 @@ import { useStatusBar } from "@/lib/client/useStatusBar";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Chip,
   CircularProgress,
+  Dialog,
   Icon,
   IconButton,
   ListItemButton,
@@ -21,13 +23,13 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { cloneElement, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import Webcam from "react-webcam";
 import useSWR from "swr";
-import RoomLayout from ".";
 
 export function RoomPicker({ room, setRoom, children }) {
   const [open, setOpen] = useState(false);
@@ -186,8 +188,74 @@ export default function Page() {
     }, 1000);
   };
 
+  const [introOpen, setIntroOpen] = useState(true);
+
   return (
-    <RoomLayout>
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100dvw",
+        height: "100dvh",
+      }}
+    >
+      <Dialog
+        open={introOpen}
+        onClose={() => setIntroOpen(false)}
+        PaperProps={{
+          sx: {
+            width: "320px",
+            maxWidth: "calc(100vw - 40px)",
+          },
+        }}
+      >
+        <Image
+          src="/audit-preview.png"
+          width={320}
+          height={320}
+          style={{ width: "100%" }}
+          alt="preview"
+        />
+        <Typography variant="h3" className="font-heading" sx={{ p: 3, pb: 0 }}>
+          For best results...
+        </Typography>
+        {[
+          "Make sure your item has a clear background",
+          "Only take a picture of one item at a time",
+          "Take a picture of the item from a recognizable view",
+        ].map((text, i) => (
+          <Typography
+            variant="body2"
+            sx={{ p: 3, py: 1, display: "flex", gap: 2 }}
+            key={i}
+          >
+            <Avatar
+              sx={{
+                fontSize: "15px",
+                width: "25px",
+                height: 25,
+                mt: 0.5,
+                background: palette[3],
+                color: palette[11],
+              }}
+            >
+              {i + 1}
+            </Avatar>
+            <span>{text}</span>
+          </Typography>
+        ))}
+        <Box sx={{ p: 3, pt: 2 }}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => setIntroOpen(false)}
+          >
+            Got it!
+            <Icon>arrow_forward</Icon>
+          </Button>
+        </Box>
+      </Dialog>
       <Box
         sx={{
           display: "flex",
@@ -410,6 +478,6 @@ export default function Page() {
         }}
         onClick={handleCapture}
       />
-    </RoomLayout>
+    </Box>
   );
 }
