@@ -192,6 +192,8 @@ export default function Page() {
           data.length === 0 ? (
             <Box
               sx={{
+                p: 3,
+                borderRadius: 5,
                 background: palette[3],
                 color: palette[11],
               }}
