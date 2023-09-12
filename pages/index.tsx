@@ -11,35 +11,35 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { LoadingButton } from "@mui/lab";
 import {
-    Alert,
-    Box,
-    Button,
-    Chip,
-    Grid,
-    Icon,
-    IconButton,
-    InputAdornment,
-    LinearProgress,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    Skeleton,
-    SwipeableDrawer,
-    TextField,
-    Toolbar,
-    Typography,
-    useMediaQuery,
+  Alert,
+  Box,
+  Button,
+  Chip,
+  Grid,
+  Icon,
+  IconButton,
+  InputAdornment,
+  LinearProgress,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Skeleton,
+  SwipeableDrawer,
+  TextField,
+  Toolbar,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import {
-    cloneElement,
-    memo,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
+  cloneElement,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
@@ -58,7 +58,6 @@ export function StatusSelector({
   const session = useSession();
   const now = useMemo(() => dayjs(), []);
 
-  const url = "";
   const {
     data,
     mutate: mutateStatus,
@@ -103,7 +102,7 @@ export function StatusSelector({
     mutateStatus();
     mutate();
     setLoading(false);
-  }, [session, status, time, url, mutate, profile, setLoading, mutateStatus]);
+  }, [session, status, time, mutate, profile, setLoading, mutateStatus]);
 
   const resetStatus = useCallback(
     () =>

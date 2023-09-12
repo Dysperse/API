@@ -181,8 +181,6 @@ function Page() {
 
   const { data, mutate, error } = useSWR(["user/profile", { email }]);
 
-  const url = "";
-
   const [loading, setLoading] = useState(false);
 
   const isCurrentUser =
