@@ -2,7 +2,6 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Avatar,
   AvatarGroup,
@@ -55,8 +54,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
           loading: "Updating...",
           success: "Updated board!",
           error: "An error occurred while updating the board",
-        },
-        toastStyles
+        }
       );
     }
   }, [

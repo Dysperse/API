@@ -1,6 +1,5 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -219,7 +218,6 @@ export function Agenda({ type, date }) {
                   scrollIntoView();
                   toast.dismiss();
                   toast("Focus mode", {
-                    ...toastStyles,
                     icon: <Icon>target</Icon>,
                   });
                 }}

@@ -2,21 +2,20 @@ import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
-    Box,
-    Button,
-    CircularProgress,
-    Icon,
-    IconButton,
-    InputAdornment,
-    NoSsr,
-    TextField,
-    Tooltip,
-    Typography,
-    useMediaQuery,
+  Box,
+  Button,
+  CircularProgress,
+  Icon,
+  IconButton,
+  InputAdornment,
+  NoSsr,
+  TextField,
+  Tooltip,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
@@ -61,15 +60,11 @@ function QrLogin({ handleRedirect }) {
         .then((res) => {
           if (res.success) {
             setVerified(true);
-            toast.promise(
-              new Promise(() => {}),
-              {
-                loading: "Logging you in...",
-                success: "Success!",
-                error: "An error occured. Please try again later",
-              },
-              toastStyles
-            );
+            toast.promise(new Promise(() => {}), {
+              loading: "Logging you in...",
+              success: "Success!",
+              error: "An error occured. Please try again later",
+            });
             handleRedirect(res);
           }
         });
@@ -91,10 +86,7 @@ function QrLogin({ handleRedirect }) {
   const handleCopy = () => {
     handleVerify();
     navigator.clipboard.writeText(url);
-    toast.success(
-      "Copied to clipboard and rechecking if you scanned it...",
-      toastStyles
-    );
+    toast.success("Copied to clipboard and rechecking if you scanned it...");
   };
 
   const containerStyles = {
@@ -297,10 +289,7 @@ export default function Prompt() {
           res.message &&
           res.message.includes("Can't reach database server")
         ) {
-          toast.error(
-            "Oh no! Our servers are down. Please try again later!",
-            toastStyles
-          );
+          toast.error("Oh no! Our servers are down. Please try again later!");
           setButtonLoading(false);
           setStep(1);
           ref.current?.reset();
@@ -320,15 +309,11 @@ export default function Prompt() {
           setButtonLoading(false);
           return;
         }
-        toast.promise(
-          new Promise(() => {}),
-          {
-            loading: "Logging you in...",
-            success: "Success!",
-            error: "An error occured. Please try again later",
-          },
-          toastStyles
-        );
+        toast.promise(new Promise(() => {}), {
+          loading: "Logging you in...",
+          success: "Success!",
+          error: "An error occured. Please try again later",
+        });
 
         handleRedirect(res);
       } catch (e) {
@@ -492,17 +477,11 @@ export default function Prompt() {
                       siteKey="0x4AAAAAAABo1BKboDBdlv8r"
                       onError={() => {
                         ref.current?.reset();
-                        toast.error(
-                          "An error occured. Retrying...",
-                          toastStyles
-                        );
+                        toast.error("An error occured. Retrying...");
                       }}
                       onExpire={() => {
                         ref.current?.reset();
-                        toast.error(
-                          "Captcha expired. Retrying...",
-                          toastStyles
-                        );
+                        toast.error("Captcha expired. Retrying...");
                       }}
                       scriptOptions={{ defer: true }}
                       options={{ retry: "auto" }}

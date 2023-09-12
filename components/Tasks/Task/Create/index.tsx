@@ -4,7 +4,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Avatar,
@@ -226,7 +225,7 @@ export function CreateTask({
         });
         onSuccess && onSuccess();
         toast.dismiss();
-        toast.success("Created task!", toastStyles);
+        toast.success("Created task!", );
 
         setFormData({
           ...formData,
@@ -243,7 +242,7 @@ export function CreateTask({
         document.getElementById("title")?.focus();
         setLoading(false);
       } catch (e) {
-        toast.error("Couldn't create task", toastStyles);
+        toast.error("Couldn't create task", );
       }
     },
     [

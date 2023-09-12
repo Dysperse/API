@@ -1,6 +1,5 @@
 import { useSession } from "@/lib/client/session";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
@@ -58,8 +57,7 @@ export function Prompt({
       setButtonLoading(false);
     } catch (error) {
       toast.error(
-        "An error occured while verifying your code. Please try again later.",
-        toastStyles
+        "An error occured while verifying your code. Please try again later."
       );
       setButtonLoading(false);
     }

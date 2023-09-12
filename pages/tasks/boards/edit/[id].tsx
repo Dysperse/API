@@ -8,7 +8,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -84,8 +83,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
       .catch(() => {
         setLoading(false);
         toast.error(
-          "An error occurred while creating the column. Try again later.",
-          toastStyles
+          "An error occurred while creating the column. Try again later."
         );
       });
   };
@@ -319,10 +317,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
           variant="contained"
           onClick={() =>
             handleEdit("pinned", !data.pinned ? "true" : "false", () => {
-              toast.success(
-                !data.pinned ? "Pinned board!" : "Unpinned board!",
-                toastStyles
-              );
+              toast.success(!data.pinned ? "Pinned board!" : "Unpinned board!");
             })
           }
         >
@@ -339,8 +334,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
           callback={() => {
             handleEdit("archived", !data.archived ? "true" : "false", () => {
               toast.success(
-                !data.archived ? "Archived board!" : "Unarchived board!",
-                toastStyles
+                !data.archived ? "Archived board!" : "Unarchived board!"
               );
             });
           }}

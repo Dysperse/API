@@ -1,7 +1,6 @@
 import { Loading } from "@/components/Layout/Loading";
 import { useUser } from "@/lib/client/session";
 import { useColor } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
@@ -60,8 +59,7 @@ export default function Onboarding() {
         .catch((e) => {
           console.error(e);
           toast.error(
-            "Something went wrong while accepting the invite. Please try again later.",
-            toastStyles
+            "Something went wrong while accepting the invite. Please try again later."
           );
           setLoading(false);
         });

@@ -3,7 +3,6 @@ import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -87,10 +86,7 @@ export function GroupStep({ styles, navigation }) {
                             <IconButton
                               onClick={() => {
                                 navigator.clipboard.writeText(url);
-                                toast.success(
-                                  "Copied to clipboard",
-                                  toastStyles
-                                );
+                                toast.success("Copied to clipboard");
                               }}
                             >
                               <Icon>content_copy</Icon>
@@ -225,10 +221,10 @@ export function GroupStep({ styles, navigation }) {
                           session.user.name + "'s Space"
                     }
                     onBlur={(e) =>
-                      updateSettings(
-                        ["name", e.target.value],
-                        { session, type: "property" }
-                      )
+                      updateSettings(["name", e.target.value], {
+                        session,
+                        type: "property",
+                      })
                     }
                     InputProps={{
                       className: "font-heading",

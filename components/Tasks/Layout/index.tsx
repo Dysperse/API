@@ -7,38 +7,37 @@ import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
-    AppBar,
-    Box,
-    Button,
-    Divider,
-    Drawer,
-    Fade,
-    Grow,
-    Icon,
-    IconButton,
-    ListItemButton,
-    ListItemText,
-    SwipeableDrawer,
-    TextField,
-    Toolbar,
-    Typography,
-    useMediaQuery,
+  AppBar,
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  Fade,
+  Grow,
+  Icon,
+  IconButton,
+  ListItemButton,
+  ListItemText,
+  SwipeableDrawer,
+  TextField,
+  Toolbar,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
-    cloneElement,
-    createContext,
-    memo,
-    useContext,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
+  cloneElement,
+  createContext,
+  memo,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -230,8 +229,7 @@ function BulkCompletion() {
       );
       if (res.errors !== 0) {
         toast.error(
-          `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`,
-          toastStyles
+          `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`
         );
         return;
       }
@@ -242,8 +240,7 @@ function BulkCompletion() {
       toast.error(
         `Couldn't mark as ${
           completed ? "" : "not"
-        } done! Please try again later`,
-        toastStyles
+        } done! Please try again later`
       );
     }
   };
@@ -300,8 +297,7 @@ function BulkColorCode({ children }) {
           );
           if (res.errors !== 0) {
             toast.error(
-              `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`,
-              toastStyles
+              `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`
             );
             return;
           }
@@ -309,10 +305,7 @@ function BulkColorCode({ children }) {
           toast.success("Applied label!");
           taskSelection.set([]);
         } catch {
-          toast.error(
-            "Couldn't apply label! Please try again later",
-            toastStyles
-          );
+          toast.error("Couldn't apply label! Please try again later");
         }
       }}
       titleRef={null}
@@ -719,7 +712,6 @@ export function TasksLayout({
                           `Couldn't edit ${res.errors} item${
                             res.errors == 1 ? "" : "s"
                           }`,
-                          toastStyles
                         );
                         return;
                       }
@@ -728,8 +720,7 @@ export function TasksLayout({
                       setTaskSelection([]);
                     } catch {
                       toast.error(
-                        `Couldn't update due dates! Please try again later`,
-                        toastStyles
+                        `Couldn't update due dates! Please try again later`
                       );
                     }
                   }}
@@ -764,8 +755,7 @@ export function TasksLayout({
                         toast.error(
                           `Couldn't delete ${res.errors} item${
                             res.errors == 1 ? "" : "s"
-                          }`,
-                          toastStyles
+                          }`
                         );
                         return;
                       }
@@ -773,10 +763,7 @@ export function TasksLayout({
                       toast.success("Deleted!");
                       setTaskSelection([]);
                     } catch {
-                      toast.error(
-                        "Couldn't delete tasks. Try again later.",
-                        toastStyles
-                      );
+                      toast.error("Couldn't delete tasks. Try again later.");
                     }
                   }}
                   buttonText="Delete"

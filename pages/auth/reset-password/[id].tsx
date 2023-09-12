@@ -1,14 +1,13 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { useColor } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
-    Box,
-    Button,
-    TextField,
-    Typography,
-    useMediaQuery,
+  Box,
+  Button,
+  TextField,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -42,17 +41,13 @@ export default function Prompt() {
             router.push("/agenda/weeks");
           } else {
             toast.error(
-              "An error occurred while trying to change your password.",
-              toastStyles
+              "An error occurred while trying to change your password."
             );
             setButtonLoading(false);
           }
         })
         .catch(() => {
-          toast.error(
-            "An error occurred while trying to change your password",
-            toastStyles
-          );
+          toast.error("An error occurred while trying to change your password");
           setButtonLoading(false);
         });
     },

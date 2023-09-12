@@ -4,39 +4,38 @@ import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { colors } from "@/lib/colors";
 import {
-    Avatar,
-    Box,
-    Checkbox,
-    Chip,
-    Icon,
-    ListItemButton,
-    ListItemText,
-    Tooltip,
-    Typography,
-    styled,
+  Avatar,
+  Box,
+  Checkbox,
+  Chip,
+  Icon,
+  ListItemButton,
+  ListItemText,
+  Tooltip,
+  Typography,
+  styled,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
 import toast from "react-hot-toast";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { SelectionContext } from "../Layout";
 import { TaskDrawer } from "./Drawer";
 import {
-    isAddress,
-    isValidHttpUrl,
-    videoChatPlatforms,
+  isAddress,
+  isValidHttpUrl,
+  videoChatPlatforms,
 } from "./Drawer/locationHelpers";
 import { ImageViewer } from "./ImageViewer";
 
@@ -350,8 +349,7 @@ export const Task: any = React.memo(function Task({
           : "Marking important...",
         success: taskData.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
-      },
-      toastStyles
+      }
     );
   }, [taskData.pinned, taskData.id, mutateList, setTaskData, session]);
 

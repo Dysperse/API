@@ -4,23 +4,22 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
-    AppBar,
-    Box,
-    Button,
-    Chip,
-    CircularProgress,
-    Icon,
-    IconButton,
-    ListItemButton,
-    ListItemText,
-    Skeleton,
-    SwipeableDrawer,
-    TextField,
-    Toolbar,
-    Typography,
+  AppBar,
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Icon,
+  IconButton,
+  ListItemButton,
+  ListItemText,
+  Skeleton,
+  SwipeableDrawer,
+  TextField,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { cloneElement, useEffect, useRef, useState } from "react";
@@ -131,8 +130,7 @@ export default function Page() {
       toast.error(
         "We're loading our model for you. Please wait about " +
           res.estimated_time +
-          " seconds and try again.",
-        toastStyles
+          " seconds and try again."
       );
       setLoading(false);
       setTaken(false);
@@ -140,10 +138,7 @@ export default function Page() {
     }
 
     if (!res[0]) {
-      toast.error(
-        "We couldn't find any objects in the photo you took",
-        toastStyles
-      );
+      toast.error("We couldn't find any objects in the photo you took");
       setLoading(false);
       setTaken(false);
       return;

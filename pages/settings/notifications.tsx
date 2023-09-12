@@ -4,7 +4,6 @@ import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -118,15 +117,11 @@ export default function Notifications() {
       }
     });
 
-    toast.promise(
-      promise,
-      {
-        loading: "Saving...",
-        success: "Saved!",
-        error: "Failed to save",
-      },
-      toastStyles
-    );
+    toast.promise(promise, {
+      loading: "Saving...",
+      success: "Saved!",
+      error: "Failed to save",
+    });
   };
 
   const enabledOnAnotherDevice =

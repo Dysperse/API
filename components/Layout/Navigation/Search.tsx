@@ -2,7 +2,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Chip,
@@ -262,8 +261,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                 toast.success(
                   <span>
                     Switched to &nbsp;<u>{res.profile.name}</u>
-                  </span>,
-                  toastStyles
+                  </span>
                 );
                 mutate("/api/session");
               });
@@ -309,8 +307,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",
             success: "Redirecting you...",
-          },
-          toastStyles
+          }
         );
       },
       icon: "logout",

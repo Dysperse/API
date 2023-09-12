@@ -2,7 +2,6 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -189,8 +188,7 @@ function Template({ onboarding, children, template, mutate }: any) {
                 // await mutate();
                 if (onboarding) {
                   toast.success(
-                    "Board created! You can explore other templates.",
-                    toastStyles
+                    "Board created! You can explore other templates."
                   );
                   setLoading(false);
                   setOpen(false);

@@ -1,5 +1,4 @@
 import { fetchRawApi } from "@/lib/client/useApi";
-import { toastStyles } from "@/lib/client/useTheme";
 import { Chip, CircularProgress, Icon, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { useContext, useState } from "react";
@@ -44,8 +43,7 @@ const IntegrationChip = ({ integration, boardId, session }) => {
         loading: "Syncing to " + integration.name + "...",
         success: "Up to date!",
         error: (e) => e.message,
-      },
-      toastStyles
+      }
     );
     setLoading(true);
   };

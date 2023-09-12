@@ -3,7 +3,6 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -34,10 +33,7 @@ import { Task } from "../../Task";
 import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
 
-export function Column({
-  useReverseAnimation,
-  setUseReverseAnimation,
-}) {
+export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const ref: any = useRef();
   const buttonRef: any = useRef();
   const columnRef: any = useRef();
@@ -90,10 +86,7 @@ export function Column({
       await mutateData();
       await new Promise((r) => setTimeout(() => r(""), 500));
     } catch (e) {
-      toast.error(
-        "Yikes! We couldn't get your tasks. Please try again later",
-        toastStyles
-      );
+      toast.error("Yikes! We couldn't get your tasks. Please try again later");
     }
     setLoading(false);
   };
@@ -118,7 +111,6 @@ export function Column({
 
   const expandTitle = useCallback(() => {
     toast(column.name, {
-      ...toastStyles,
       icon: (
         <img
           alt="Emoji"
@@ -216,8 +208,7 @@ export function Column({
                   loading: "Saving...",
                   success: "Edited column!",
                   error: "Yikes! An error occured - Please try again later!",
-                },
-                toastStyles
+                }
               );
               setOpen(false);
             }}

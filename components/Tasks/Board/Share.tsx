@@ -2,7 +2,6 @@ import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
@@ -67,10 +66,7 @@ export function ShareBoard({ mutate, board }) {
             (member) => member.user.email === deferredEmail
           ))
       ) {
-        toast.error(
-          "This person already has access to this board",
-          toastStyles
-        );
+        toast.error("This person already has access to this board");
         setLoading(false);
         return;
       }
@@ -86,25 +82,18 @@ export function ShareBoard({ mutate, board }) {
         if (res.error) {
           throw new Error(res.error);
         }
-        toast.success(
-          "The share link has been generated successfully!",
-          toastStyles
-        );
+        toast.success("The share link has been generated successfully!");
         await mutate();
         // mutateUrl(url);
       } catch (e) {
-        toast.error(
-          "Could not generate the share link! Is the email correct?",
-          toastStyles
-        );
+        toast.error("Could not generate the share link! Is the email correct?");
         setLoading(false);
       }
       setEmail("");
       setLoading(false);
     } catch (e) {
       toast.error(
-        "Yikes! Something happened while trying to generate the share link! Please try again later.",
-        toastStyles
+        "Yikes! Something happened while trying to generate the share link! Please try again later."
       );
       setLoading(false);
     }
@@ -138,8 +127,7 @@ export function ShareBoard({ mutate, board }) {
       setLoadingGroupVisibility(false);
     } catch (e) {
       toast.error(
-        "Yikes! Something happened while trying to change the group visibility! Please try again later.",
-        toastStyles
+        "Yikes! Something happened while trying to change the group visibility! Please try again later."
       );
       setLoadingGroupVisibility(false);
     }

@@ -1,7 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import { Box, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
@@ -30,8 +29,7 @@ export default function Page() {
     } catch (e) {
       setLoading(false);
       toast.error(
-        "Yikes! Something went wrong while trying to claim your badge. Please try again later.",
-        toastStyles
+        "Yikes! Something went wrong while trying to claim your badge. Please try again later."
       );
     }
   };

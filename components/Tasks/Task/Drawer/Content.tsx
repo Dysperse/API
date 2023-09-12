@@ -2,7 +2,6 @@ import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { colors } from "@/lib/colors";
 import {
   AppBar,
@@ -60,8 +59,7 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
         loading: task.pinned ? "Changing priority..." : "Marking important...",
         success: task.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
-      },
-      toastStyles
+      }
     );
   }, [task, session]);
 
@@ -99,8 +97,7 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
               at <b>{dayjs(task.due).add(count, type).format("h:mm A")}</b>
             </>
           )}
-        </span>,
-        toastStyles
+        </span>
       );
       task.close();
     },

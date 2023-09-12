@@ -7,7 +7,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -96,8 +95,7 @@ export function StatusSelector({
     });
     setOpen(false);
     toast.success(
-      "Status set until " + dayjs().add(time, "minute").format("h:mm A"),
-      toastStyles
+      "Status set until " + dayjs().add(time, "minute").format("h:mm A")
     );
     mutateStatus();
     mutate();
@@ -716,8 +714,7 @@ function SearchFriend({ mutate }) {
       mutate();
     } catch (e) {
       toast.error(
-        "Hmm... That didn't work. Make sure you typed the email or username correctly.",
-        toastStyles
+        "Hmm... That didn't work. Make sure you typed the email or username correctly."
       );
     }
   };
