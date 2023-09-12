@@ -15,6 +15,7 @@ export const shouldHideNavigation = (path) => {
     "/spaces",
     "/onboarding",
     "/settings",
+    "/availability",
     "/tasks/insights",
   ].find((_path) => path.includes(_path));
 };

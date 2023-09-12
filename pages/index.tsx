@@ -854,6 +854,12 @@ export default function Home() {
             },
           }}
         >
+          <Button
+            variant="contained"
+            onClick={() => router.push("/availability")}
+          >
+            <Icon className="outlined">person_check</Icon>
+          </Button>
           <SearchFriend mutate={mutate} />
           <StatusSelector mutate={mutate} profile={profileData} />
         </Box>

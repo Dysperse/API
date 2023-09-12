@@ -46,8 +46,10 @@ model User {
   ShareToken ShareToken[]
   Task       Task[]
 
-  rooms Room[]
-  items Item[]
+  rooms            Room[]
+  items            Item[]
+  Event            Event[]
+  EventParticipant EventParticipant[]
 }
 
 model Follows {
@@ -325,4 +327,39 @@ model Item {
 
   // TODO: Users can attach tasks to items
   tasks Task[]
+}
+
+// When2Meet style scheduling
+model Event {
+  id   String @id @unique @default(uuid())
+  name String
+
+  startDate      DateTime
+  endDate        DateTime
+  excludingDates DateTime[]
+  excludingDays  String[]
+  excludingHours Int[]
+
+  duration Int
+  timeZone String @default("America/Los_Angeles") @db.VarChar(255)
+
+  createdBy String
+  user      User   @relation(fields: [createdBy], references: [identifier], onDelete: Cascade)
+
+  participants EventParticipant[]
+}
+
+model EventParticipant {
+  id           String @id @unique @default(uuid())
+  availability Json
+
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String
+
+  // For users who aren't signed up
+  userData Json?
+
+  // For users who are signed up
+  userId String?
+  user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }
