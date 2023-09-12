@@ -5,12 +5,12 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
-  Box,
-  Button,
-  Icon,
-  MenuItem,
-  SwipeableDrawer,
-  TextField,
+    Box,
+    Button,
+    Icon,
+    MenuItem,
+    SwipeableDrawer,
+    TextField,
 } from "@mui/material";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -52,7 +52,7 @@ export default function CreateColumn({
       id: id,
     })
       .then(async () => {
-        toast.success("Created column!", toastStyles);
+        toast.success("Created column!");
         setOpen(false);
         await mutateData();
         setCurrentColumn((e) => e + 1);

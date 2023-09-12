@@ -11,35 +11,35 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { LoadingButton } from "@mui/lab";
 import {
-  Alert,
-  Box,
-  Button,
-  Chip,
-  Grid,
-  Icon,
-  IconButton,
-  InputAdornment,
-  LinearProgress,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Skeleton,
-  SwipeableDrawer,
-  TextField,
-  Toolbar,
-  Typography,
-  useMediaQuery,
+    Alert,
+    Box,
+    Button,
+    Chip,
+    Grid,
+    Icon,
+    IconButton,
+    InputAdornment,
+    LinearProgress,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    Skeleton,
+    SwipeableDrawer,
+    TextField,
+    Toolbar,
+    Typography,
+    useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import {
-  cloneElement,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
+    cloneElement,
+    memo,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
 } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
@@ -712,7 +712,7 @@ function SearchFriend({ mutate }) {
       });
       console.log(data);
       if (!data?.success) throw new Error();
-      toast.success("Added friend!", toastStyles);
+      toast.success("Added friend!");
       setOpen(false);
       mutate();
     } catch (e) {

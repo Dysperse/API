@@ -5,20 +5,19 @@ import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
-  AppBar,
-  Avatar,
-  Box,
-  Icon,
-  IconButton,
-  InputAdornment,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  TextField,
-  Toolbar,
-  Typography,
+    AppBar,
+    Avatar,
+    Box,
+    Icon,
+    IconButton,
+    InputAdornment,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    TextField,
+    Toolbar,
+    Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -60,7 +59,7 @@ function Page() {
     <>
       <TextField
         variant="standard"
-        onClick={() => toast("Coming soon!", toastStyles)}
+        onClick={() => toast("Coming soon!")}
         placeholder="Search..."
         InputProps={{
           readOnly: true,

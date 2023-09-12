@@ -12,7 +12,6 @@ import { exportAsImage } from "@/lib/client/screenshot";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -247,7 +246,7 @@ function Page() {
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(data.email);
-    toast.success("Copied to clipboard", toastStyles);
+    toast.success("Copied to clipboard");
   };
 
   const { data: members } = useSWR([

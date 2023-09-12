@@ -24,7 +24,7 @@ export default function Page() {
       }
       setLoading(true);
       await fetchRawApi(session, "claim-esb");
-      toast.success("Claimed!", toastStyles);
+      toast.success("Claimed!");
       setSuccess(true);
       setLoading(false);
     } catch (e) {

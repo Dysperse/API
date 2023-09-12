@@ -4,11 +4,11 @@ import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  useMediaQuery,
+    Box,
+    Button,
+    TextField,
+    Typography,
+    useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -38,7 +38,7 @@ export default function Prompt() {
       })
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Successfully changed your password!", toastStyles);
+            toast.success("Successfully changed your password!");
             router.push("/agenda/weeks");
           } else {
             toast.error(

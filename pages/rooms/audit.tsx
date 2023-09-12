@@ -7,20 +7,20 @@ import { useStatusBar } from "@/lib/client/useStatusBar";
 import { toastStyles } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
-  AppBar,
-  Box,
-  Button,
-  Chip,
-  CircularProgress,
-  Icon,
-  IconButton,
-  ListItemButton,
-  ListItemText,
-  Skeleton,
-  SwipeableDrawer,
-  TextField,
-  Toolbar,
-  Typography,
+    AppBar,
+    Box,
+    Button,
+    Chip,
+    CircularProgress,
+    Icon,
+    IconButton,
+    ListItemButton,
+    ListItemText,
+    Skeleton,
+    SwipeableDrawer,
+    TextField,
+    Toolbar,
+    Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { cloneElement, useEffect, useRef, useState } from "react";
@@ -180,7 +180,7 @@ export default function Page() {
         room: room.id,
       });
     } catch (e: any) {
-      toast.error(e.message, toastStyles);
+      toast.error(e.message);
     }
     setSubmitted(true);
     setTimeout(() => {

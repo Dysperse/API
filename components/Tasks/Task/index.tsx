@@ -8,35 +8,35 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { colors } from "@/lib/colors";
 import {
-  Avatar,
-  Box,
-  Checkbox,
-  Chip,
-  Icon,
-  ListItemButton,
-  ListItemText,
-  Tooltip,
-  Typography,
-  styled,
+    Avatar,
+    Box,
+    Checkbox,
+    Chip,
+    Icon,
+    ListItemButton,
+    ListItemText,
+    Tooltip,
+    Typography,
+    styled,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
 } from "react";
 import toast from "react-hot-toast";
 import { ConfirmationModal } from "../../ConfirmationModal";
 import { SelectionContext } from "../Layout";
 import { TaskDrawer } from "./Drawer";
 import {
-  isAddress,
-  isValidHttpUrl,
-  videoChatPlatforms,
+    isAddress,
+    isValidHttpUrl,
+    videoChatPlatforms,
 } from "./Drawer/locationHelpers";
 import { ImageViewer } from "./ImageViewer";
 
@@ -324,7 +324,7 @@ export const Task: any = React.memo(function Task({
           createdBy: session.user.email,
         });
       } catch (e) {
-        toast.error("An error occured while updating the task", toastStyles);
+        toast.error("An error occured while updating the task");
       }
     },
     [taskData.id, session]

@@ -3,7 +3,6 @@ import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
@@ -83,7 +82,7 @@ function Layout() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (integration.type === "board" && boardId === "-1") {
-      toast.error("Please select a board", toastStyles);
+      toast.error("Please select a board");
       return;
     }
     setLoading(true);
@@ -94,7 +93,7 @@ function Layout() {
       ...(integration.type === "board" && { boardId }),
     });
 
-    toast.success("Added integration!", toastStyles);
+    toast.success("Added integration!");
 
     if (integration.type === "board") {
       setTimeout(() => {
@@ -378,7 +377,7 @@ function Layout() {
                       <IconButton
                         onClick={() => {
                           navigator.clipboard.writeText(icalUrl);
-                          toast.success("Copied to clipboard!", toastStyles);
+                          toast.success("Copied to clipboard!");
                         }}
                       >
                         <Icon className="outlined">content_copy</Icon>

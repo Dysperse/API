@@ -10,9 +10,7 @@ import { Masonry } from "@mui/lab";
 import {
   Alert,
   AppBar,
-  Avatar,
   Box,
-  Button,
   Chip,
   CircularProgress,
   Icon,
@@ -28,10 +26,10 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { cloneElement, useEffect, useRef, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import useSWR from "swr";
 import RoomLayout from "..";
-import { RoomPicker } from "../audit";
+import { CreateItem } from "../../../components/Inventory/CreateItem";
 
 function MoveItem({ children, item, mutate, setParentOpen }) {
   const session = useSession();
@@ -428,142 +426,6 @@ export function ItemPopup({
             callback={mutate}
           />
         )}
-      </SwipeableDrawer>
-    </>
-  );
-}
-
-export function CreateItem({
-  defaultRoom,
-  mutate,
-  children,
-}: {
-  defaultRoom?: any;
-  mutate: any;
-  children: JSX.Element;
-}) {
-  const session = useSession();
-  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
-
-  const titleRef: any = useRef();
-
-  const [open, setOpen] = useState(false);
-  const trigger = cloneElement(children, { onClick: () => setOpen(true) });
-
-  const [room, setRoom] = useState(defaultRoom);
-
-  useEffect(() => {
-    if (open) {
-      setTimeout(() => titleRef?.current?.focus(), 100);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    if (room) {
-      setTimeout(() => titleRef?.current?.focus(), 100);
-    }
-  }, [room]);
-
-  const styles = {
-    icon: {
-      color: palette[11],
-      p: 0.7,
-      borderRadius: 3,
-    },
-  };
-
-  return (
-    <>
-      {trigger}
-      <SwipeableDrawer
-        anchor="bottom"
-        onClick={() => titleRef?.current?.focus()}
-        open={open}
-        onClose={() => setOpen(false)}
-        PaperProps={{
-          sx: {
-            background: "transparent",
-            borderRadius: 0,
-          },
-        }}
-      >
-        <Box sx={{ px: { xs: 2, sm: 0 } }}>
-          <RoomPicker room={room} setRoom={setRoom}>
-            <Chip
-              variant="outlined"
-              label={room?.name || "Select a room"}
-              icon={
-                room && (
-                  <Avatar
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${room.emoji}.png`}
-                    sx={{ width: 20, height: 20, borderRadius: 0 }}
-                  />
-                )
-              }
-            />
-          </RoomPicker>
-        </Box>
-        <Box
-          sx={{
-            background: palette[2],
-            width: { xs: "auto", sm: "500px" },
-            border: { xs: "2px solid " + palette[3] },
-            m: 2,
-            borderRadius: 5,
-            mx: { xs: 2, sm: "auto" },
-          }}
-        >
-          <Box sx={{ p: 2, pb: 0 }}>
-            <TextField
-              inputRef={titleRef}
-              fullWidth
-              placeholder="Item name"
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-                sx: { fontSize: 20 },
-              }}
-              multiline
-            />
-            <TextField
-              fullWidth
-              onClick={(e) => e.stopPropagation()}
-              placeholder="Add quantity"
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-              }}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: 0.1,
-              p: 2,
-              pt: 1,
-              alignItems: "center",
-            }}
-          >
-            <IconButton sx={styles.icon}>
-              <Icon className="outlined">favorite</Icon>
-            </IconButton>
-            <IconButton sx={styles.icon}>
-              <Icon className="outlined">question_mark</Icon>
-            </IconButton>
-            <IconButton sx={styles.icon}>
-              <Icon className="outlined">interests</Icon>
-            </IconButton>
-            <IconButton sx={styles.icon}>
-              <Icon className="outlined">attach_money</Icon>
-            </IconButton>
-            <IconButton sx={styles.icon}>
-              <Icon className="outlined">tag</Icon>
-            </IconButton>
-            <Button variant="contained" size="small" sx={{ ml: "auto" }}>
-              <Icon>north</Icon>
-            </Button>
-          </Box>
-        </Box>
       </SwipeableDrawer>
     </>
   );

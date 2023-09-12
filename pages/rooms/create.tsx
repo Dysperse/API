@@ -3,16 +3,15 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
-  Box,
-  Icon,
-  IconButton,
-  ListItem,
-  ListItemText,
-  Switch,
-  TextField,
+    Box,
+    Icon,
+    IconButton,
+    ListItem,
+    ListItemText,
+    Switch,
+    TextField,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { memo, useCallback, useState } from "react";
@@ -61,10 +60,10 @@ const Page = memo(function Page() {
         }
       );
       setLoading(false);
-      toast.success("Created room!", toastStyles);
+      toast.success("Created room!");
       router.push(`/rooms/${res.id}`);
     } catch (e) {
-      toast.error("Couldn't create room. Please try again later", toastStyles);
+      toast.error("Couldn't create room. Please try again later");
       setLoading(false);
     }
   }, [session, name, note, emoji, isPrivate, router]);

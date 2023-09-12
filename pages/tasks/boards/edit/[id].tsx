@@ -11,22 +11,22 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
-  Alert,
-  AppBar,
-  Avatar,
-  Box,
-  Button,
-  CircularProgress,
-  Icon,
-  IconButton,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  SwipeableDrawer,
-  SxProps,
-  TextField,
-  Toolbar,
-  Typography,
+    Alert,
+    AppBar,
+    Avatar,
+    Box,
+    Button,
+    CircularProgress,
+    Icon,
+    IconButton,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    SwipeableDrawer,
+    SxProps,
+    TextField,
+    Toolbar,
+    Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -61,7 +61,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
   const handleSubmit = async () => {
     setLoading(true);
     if (name.trim() === "") {
-      toast.error("Enter a name for this column", toastStyles);
+      toast.error("Enter a name for this column");
       setLoading(false);
       return;
     }
@@ -75,7 +75,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
       .then(async () => {
         setName("");
         await mutate();
-        toast.success("Created column!", toastStyles);
+        toast.success("Created column!";
         setOpen(false);
         setLoading(false);
         setEmoji("1f3af");
@@ -280,7 +280,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
         }}
         onBlur={(e) => {
           handleEdit("name", e.target.value, () => {
-            toast.success("Saved!", toastStyles);
+            toast.success("Saved!");
           });
         }}
       />
@@ -297,7 +297,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
         }}
         onBlur={(e) => {
           handleEdit("description", e.target.value, () => {
-            toast.success("Saved!", toastStyles);
+            toast.success("Saved!");
           });
         }}
       />

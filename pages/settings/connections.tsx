@@ -2,7 +2,6 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { toastStyles } from "@/lib/client/useTheme";
 import { Box, Grid, Icon, IconButton, Typography } from "@mui/material";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -29,7 +28,7 @@ export default function ConnectionsSettings() {
       email: session.user.email,
     });
     await mutate();
-    toast.success(`Disconnected ${name}!`, toastStyles);
+    toast.success(`Disconnected ${name}!`);
   };
 
   const styles = (integration) => ({

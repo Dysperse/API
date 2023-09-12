@@ -3,10 +3,10 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
+  CircularProgress,
   Icon,
   IconButton,
   ListItem,
@@ -67,10 +67,10 @@ export default function Page() {
         private: isPrivate ? "true" : "false",
       });
       setLoading(false);
-      toast.success("Saved!", toastStyles);
+      toast.success("Saved!");
       router.push(`/rooms/${res.id}`);
     } catch (e) {
-      toast.error("Something went wrong. Please try again later", toastStyles);
+      toast.error("Something went wrong. Please try again later");
       setLoading(false);
     }
   }, [session, name, note, emoji, isPrivate, router]);
@@ -86,79 +86,85 @@ export default function Page() {
           width: "100%",
         }}
       >
-        <Box
-          sx={{
-            p: 4,
-            textAlign: "center",
-            background: palette[2],
-            borderRadius: 5,
-            width: "600px",
-            maxWidth: "calc(100% - 20px)",
-          }}
-        >
-          <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
-            <EmojiPicker emoji={emoji} setEmoji={(e) => setEmoji(e)}>
-              <IconButton
-                size="large"
-                sx={{
-                  border: "2px dashed " + palette[5],
-                  width: 120,
-                  height: 120,
-                }}
-              >
-                <img
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                  alt="Emoji"
-                  width={80}
-                  height={80}
+        {data ? (
+          <>
+            <Box
+              sx={{
+                p: 4,
+                textAlign: "center",
+                background: palette[2],
+                borderRadius: 5,
+                width: "600px",
+                maxWidth: "calc(100% - 20px)",
+              }}
+            >
+              <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
+                <EmojiPicker emoji={emoji} setEmoji={(e) => setEmoji(e)}>
+                  <IconButton
+                    size="large"
+                    sx={{
+                      border: "2px dashed " + palette[5],
+                      width: 120,
+                      height: 120,
+                    }}
+                  >
+                    <img
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                      alt="Emoji"
+                      width={80}
+                      height={80}
+                    />
+                  </IconButton>
+                </EmojiPicker>
+                <Box sx={{ width: "100%" }}>
+                  <TextField
+                    autoFocus
+                    value={name}
+                    onChange={handleNameChange}
+                    fullWidth
+                    label="Room name"
+                    placeholder="Garage"
+                    size="small"
+                  />
+                  <TextField
+                    value={note}
+                    onChange={handleNoteChange}
+                    fullWidth
+                    label="Note"
+                    placeholder="Optional"
+                    multiline
+                    maxRows={3}
+                    minRows={2}
+                    size="small"
+                    sx={{ mt: 2 }}
+                  />
+                </Box>
+              </Box>
+              <ListItem sx={{ my: 1 }}>
+                <ListItemText
+                  primary={isPrivate ? "Private" : "Public"}
+                  secondary={
+                    isPrivate
+                      ? "Only you can see this room and its contents"
+                      : "Others can see this room and its contents"
+                  }
                 />
-              </IconButton>
-            </EmojiPicker>
-            <Box sx={{ width: "100%" }}>
-              <TextField
-                autoFocus
-                value={name}
-                onChange={handleNameChange}
+                <Switch checked={!isPrivate} onClick={handlePrivateToggle} />
+              </ListItem>
+              <LoadingButton
+                loading={loading}
+                variant="contained"
                 fullWidth
-                label="Room name"
-                placeholder="Garage"
-                size="small"
-              />
-              <TextField
-                value={note}
-                onChange={handleNoteChange}
-                fullWidth
-                label="Note"
-                placeholder="Optional"
-                multiline
-                maxRows={3}
-                minRows={2}
-                size="small"
-                sx={{ mt: 2 }}
-              />
+                onClick={handleSubmit}
+                disabled={name.trim() === ""}
+              >
+                <Icon>check</Icon>Save
+              </LoadingButton>
             </Box>
-          </Box>
-          <ListItem sx={{ my: 1 }}>
-            <ListItemText
-              primary={isPrivate ? "Private" : "Public"}
-              secondary={
-                isPrivate
-                  ? "Only you can see this room and its contents"
-                  : "Others can see this room and its contents"
-              }
-            />
-            <Switch checked={!isPrivate} onClick={handlePrivateToggle} />
-          </ListItem>
-          <LoadingButton
-            loading={loading}
-            variant="contained"
-            fullWidth
-            onClick={handleSubmit}
-            disabled={name.trim() === ""}
-          >
-            <Icon>check</Icon>Save
-          </LoadingButton>
-        </Box>
+          </>
+        ) : (
+          <CircularProgress />
+        )}
       </Box>
     </RoomLayout>
   );

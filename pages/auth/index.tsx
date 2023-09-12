@@ -6,17 +6,17 @@ import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
-  Box,
-  Button,
-  CircularProgress,
-  Icon,
-  IconButton,
-  InputAdornment,
-  NoSsr,
-  TextField,
-  Tooltip,
-  Typography,
-  useMediaQuery,
+    Box,
+    Button,
+    CircularProgress,
+    Icon,
+    IconButton,
+    InputAdornment,
+    NoSsr,
+    TextField,
+    Tooltip,
+    Typography,
+    useMediaQuery,
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
@@ -316,7 +316,7 @@ export default function Prompt() {
         }
         if (res.message) {
           setStep(1);
-          toast.error(res.message, toastStyles);
+          toast.error(res.message);
           setButtonLoading(false);
           return;
         }

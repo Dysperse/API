@@ -6,26 +6,26 @@ import { useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
-  Box,
-  Button,
-  Divider,
-  Icon,
-  IconButton,
-  Menu,
-  MenuItem,
-  SwipeableDrawer,
-  TextField,
-  Typography,
-  useMediaQuery,
+    Box,
+    Button,
+    Divider,
+    Icon,
+    IconButton,
+    Menu,
+    MenuItem,
+    SwipeableDrawer,
+    TextField,
+    Typography,
+    useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import {
-  cloneElement,
-  useCallback,
-  useContext,
-  useDeferredValue,
-  useRef,
-  useState,
+    cloneElement,
+    useCallback,
+    useContext,
+    useDeferredValue,
+    useRef,
+    useState,
 } from "react";
 import { toast } from "react-hot-toast";
 import { BoardContext, ColumnContext } from "..";
@@ -119,7 +119,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         onClick={async () => {
           handleClose();
           await mutateData();
-          toast.success("Refreshed!", toastStyles);
+          toast.success("Refreshed!");
         }}
       >
         <Icon className="outlined">refresh</Icon>

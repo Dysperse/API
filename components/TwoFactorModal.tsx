@@ -52,7 +52,7 @@ export function Prompt({
         callback();
         setOpen(false);
       } else {
-        toast.error("Invalid code!", toastStyles);
+        toast.error("Invalid code!");
         setCode("");
       }
       setButtonLoading(false);

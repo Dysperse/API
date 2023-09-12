@@ -1,7 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
-import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Alert,
@@ -33,7 +32,7 @@ function LinkToken() {
 
   const copyText = () => {
     navigator.clipboard.writeText(url);
-    toast.success("Copied to clipboard", toastStyles);
+    toast.success("Copied to clipboard");
   };
 
   const createLink = () => {
@@ -159,7 +158,7 @@ export function AddPersonModal({
           permission: permission,
           email: deferredEmail,
         });
-        toast.success("Invited!", toastStyles);
+        toast.success("Invited!");
         setOpen(false);
         setLoading(false);
         mutate();
@@ -167,7 +166,7 @@ export function AddPersonModal({
         throw new Error("Please enter a valid email address");
       }
     } catch (e: any) {
-      toast.error(e.message, toastStyles);
+      toast.error(e.message);
     }
   };
 

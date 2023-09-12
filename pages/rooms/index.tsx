@@ -22,7 +22,8 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
-import { CreateItem, ItemPopup } from "./[room]";
+import { CreateItem } from "../../components/Inventory/CreateItem";
+import { ItemPopup } from "./[room]";
 
 function JumpBackIn() {
   const session = useSession();

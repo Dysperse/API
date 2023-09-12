@@ -10,35 +10,35 @@ import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
-  AppBar,
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  Fade,
-  Grow,
-  Icon,
-  IconButton,
-  ListItemButton,
-  ListItemText,
-  SwipeableDrawer,
-  TextField,
-  Toolbar,
-  Typography,
-  useMediaQuery,
+    AppBar,
+    Box,
+    Button,
+    Divider,
+    Drawer,
+    Fade,
+    Grow,
+    Icon,
+    IconButton,
+    ListItemButton,
+    ListItemText,
+    SwipeableDrawer,
+    TextField,
+    Toolbar,
+    Typography,
+    useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
-  cloneElement,
-  createContext,
-  memo,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
+    cloneElement,
+    createContext,
+    memo,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
 } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -237,7 +237,7 @@ function BulkCompletion() {
       }
       document.getElementById("taskMutationTrigger")?.click();
       taskSelection.set([]);
-      toast.success(`Marked as ${completed ? "" : "not"} done!`, toastStyles);
+      toast.success(`Marked as ${completed ? "" : "not"} done!`);
     } catch {
       toast.error(
         `Couldn't mark as ${
@@ -306,7 +306,7 @@ function BulkColorCode({ children }) {
             return;
           }
           document.getElementById("taskMutationTrigger")?.click();
-          toast.success("Applied label!", toastStyles);
+          toast.success("Applied label!");
           taskSelection.set([]);
         } catch {
           toast.error(
@@ -724,7 +724,7 @@ export function TasksLayout({
                         return;
                       }
                       document.getElementById("taskMutationTrigger")?.click();
-                      toast.success(`Updated due date!`, toastStyles);
+                      toast.success(`Updated due date!`);
                       setTaskSelection([]);
                     } catch {
                       toast.error(
@@ -770,7 +770,7 @@ export function TasksLayout({
                         return;
                       }
                       document.getElementById("taskMutationTrigger")?.click();
-                      toast.success("Deleted!", toastStyles);
+                      toast.success("Deleted!");
                       setTaskSelection([]);
                     } catch {
                       toast.error(
