@@ -1,3 +1,4 @@
+import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -13,9 +14,9 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function CreateAvailability() {
+function CreateAvailability({ setShowMargin }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -27,6 +28,10 @@ function CreateAvailability() {
 
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    setShowMargin(submitted);
+  }, [submitted, setShowMargin]);
+
   return (
     <SwipeableDrawer
       open
@@ -37,9 +42,9 @@ function CreateAvailability() {
         sx: {
           background: palette[2],
           mx: { xs: 0, sm: "auto" },
-          height: "220px",
+          maxHeight: submitted ? "220px" : "270px",
           ...(submitted && {
-            transition: "all .3s cubic-bezier(.17,.67,.08,1.2)!important",
+            transition: "all .4s cubic-bezier(.17,.67,.08,1.2)!important",
             borderRadius: 5,
             bottom: "calc(100dvh - 320px) !important",
             mx: { xs: 4, sm: "auto" },
@@ -64,6 +69,13 @@ function CreateAvailability() {
           animation="wave"
         />
       )}
+      <Puller
+        sx={{
+          mt: submitted ? "-50px" : "0px",
+          transition: "all .4s cubic-bezier(.17,.67,.08,1.2)!important",
+          overflow: "hidden",
+        }}
+      />
       <AppBar sx={{ px: 1, border: 0, background: "transparent" }}>
         <Toolbar>
           <Typography variant="h4" className="font-heading">
@@ -73,7 +85,7 @@ function CreateAvailability() {
             sx={{
               ml: "auto",
               background: palette[3],
-              transition: "all .3s",
+              transition: "all .4s",
               ...(submitted && {
                 transform: "rotate(90deg)",
               }),
@@ -88,7 +100,7 @@ function CreateAvailability() {
         sx={{
           px: 3,
           pb: 3,
-          transition: "all .3s",
+          transition: "all .4s",
           ...(submitted && {
             filter: "blur(10px)",
           }),
@@ -125,6 +137,11 @@ function CreateAvailability() {
 }
 
 export default function Page() {
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const [showMargin, setShowMargin] = useState(false);
+
   return (
     <Box>
       <AppBar>
@@ -135,7 +152,29 @@ export default function Page() {
           <Typography>Availability</Typography>
         </Toolbar>
       </AppBar>
-      <CreateAvailability />
+      <CreateAvailability setShowMargin={setShowMargin} />
+      <Box sx={{ p: 4 }}>
+        <Box
+          sx={{
+            paddingTop: showMargin ? "230px" : "0px",
+            transition: "all .4s cubic-bezier(.17,.67,.08,1.2)!important",
+            overflow: "hidden",
+          }}
+        />
+        <Box
+          sx={{
+            p: 3,
+            borderRadius: 5,
+            background: palette[3],
+            color: palette[11],
+            height: "220px",
+          }}
+        >
+          <Typography variant="h4" className="font-heading">
+            Your availability
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 }
