@@ -4,7 +4,6 @@ import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { colors } from "@/lib/colors";
 import {
@@ -324,7 +323,7 @@ export const Task: any = React.memo(function Task({
           createdBy: session.user.email,
         });
       } catch (e) {
-        toast.error("An error occured while updating the task", toastStyles);
+        toast.error("An error occured while updating the task");
       }
     },
     [taskData.id, session]
@@ -350,8 +349,7 @@ export const Task: any = React.memo(function Task({
           : "Marking important...",
         success: taskData.pinned ? "Task unpinned!" : "Task pinned!",
         error: "Failed to change priority",
-      },
-      toastStyles
+      }
     );
   }, [taskData.pinned, taskData.id, mutateList, setTaskData, session]);
 

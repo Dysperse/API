@@ -15,11 +15,10 @@ import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { ErrorHandler } from "../Error";
-import { Task } from "./Task";
 import { containerRef } from "../Layout";
+import { Task } from "./Task";
 
 export function ColoredTasks() {
-  const url = "";
   const { data, mutate, error } = useSWR([
     "property/tasks/color-coded",
     {

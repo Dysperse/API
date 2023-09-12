@@ -1,7 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { ThemeColorSettings } from "@/pages/settings/appearance";
 import themes from "@/pages/settings/themes.json";
 import { Box, Container, Typography } from "@mui/material";
@@ -83,8 +82,7 @@ export function AppearanceStep({ styles, navigation }) {
                       loading: "Saving...",
                       error: "Couldn't save",
                       success: "Saved!",
-                    },
-                    toastStyles
+                    }
                   )
                 }
               />
@@ -104,8 +102,7 @@ export function AppearanceStep({ styles, navigation }) {
                       loading: "Saving...",
                       error: "Couldn't save",
                       success: "Saved!",
-                    },
-                    toastStyles
+                    }
                   )
                 }
               />
@@ -126,8 +123,7 @@ export function AppearanceStep({ styles, navigation }) {
                       loading: "Saving...",
                       error: "Couldn't save",
                       success: "Saved!",
-                    },
-                    toastStyles
+                    }
                   )
                 }
               >

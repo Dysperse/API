@@ -1,12 +1,11 @@
+import { containerRef } from "@/components/Layout";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
-  CardActionArea,
   Icon,
   IconButton,
   SwipeableDrawer,
@@ -33,13 +32,8 @@ import EmojiPicker from "../../../EmojiPicker";
 import { Task } from "../../Task";
 import { CreateTask } from "../../Task/Create";
 import { ColumnSettings } from "./Settings";
-import { containerRef } from "@/components/Layout";
 
-export function Column({
-  setMobileOpen,
-  useReverseAnimation,
-  setUseReverseAnimation,
-}) {
+export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const ref: any = useRef();
   const buttonRef: any = useRef();
   const columnRef: any = useRef();
@@ -92,10 +86,7 @@ export function Column({
       await mutateData();
       await new Promise((r) => setTimeout(() => r(""), 500));
     } catch (e) {
-      toast.error(
-        "Yikes! We couldn't get your tasks. Please try again later",
-        toastStyles
-      );
+      toast.error("Yikes! We couldn't get your tasks. Please try again later");
     }
     setLoading(false);
   };
@@ -120,7 +111,6 @@ export function Column({
 
   const expandTitle = useCallback(() => {
     toast(column.name, {
-      ...toastStyles,
       icon: (
         <img
           alt="Emoji"
@@ -148,6 +138,7 @@ export function Column({
         sx={{
           zIndex: 9999999,
         }}
+        onClick={(e) => e.stopPropagation()}
         onClose={() => {
           mutateData();
           setOpen(false);
@@ -217,8 +208,7 @@ export function Column({
                   loading: "Saving...",
                   success: "Edited column!",
                   error: "Yikes! An error occured - Please try again later!",
-                },
-                toastStyles
+                }
               );
               setOpen(false);
             }}
@@ -261,13 +251,13 @@ export function Column({
           sx={{
             color: isDark ? "#fff" : "#000",
             p: { xs: 2, sm: column.name === "" ? 1 : 3 },
-            px: 4,
+            px: { xs: 0, sm: 4 },
             background: { sm: addHslAlpha(palette[2], 0.7) },
             borderBottom: { sm: "1px solid" },
             borderColor: { sm: addHslAlpha(palette[4], 0.7) },
             userSelect: "none",
             zIndex: 9,
-            backdropFilter: "blur(10px)",
+            backdropFilter: { md: "blur(10px)" },
             position: "sticky",
             top: 0,
           }}
@@ -290,18 +280,17 @@ export function Column({
                   size="large"
                   onClick={(e) => {
                     setUseReverseAnimation(true);
-                    if (navigation.current == 0) {
-                      document.getElementById("boardInfoTrigger")?.click();
+                    if (navigation.current == -1) {
                       return;
                     }
                     navigation.setCurrent((i) => i - 1);
                   }}
-                  sx={{
-                    color: palette[8] + "!important",
-                  }}
+                  sx={{ p: 3, color: palette[8] + "!important" }}
                 >
                   <Icon className="outlined">
-                    {navigation.current == 0 ? "info" : "arrow_back_ios_new"}
+                    {navigation.current == 0
+                      ? "view_column_2"
+                      : "arrow_back_ios_new"}
                   </Icon>
                 </IconButton>
               </Box>
@@ -310,8 +299,7 @@ export function Column({
               isMobile && <ColumnSettings setColumnTasks={setColumnTasks} />
             ) : (
               <ColumnSettings setColumnTasks={setColumnTasks}>
-                <CardActionArea
-                  disabled={!isMobile}
+                <Box
                   sx={{
                     flexGrow: 1,
                     maxWidth: "100%",
@@ -319,30 +307,28 @@ export function Column({
                     borderRadius: 5,
                     transition: "transform .4s",
                     "&:active": {
-                      transform: "scale(0.95)",
+                      opacity: 0.8,
+                      background: { xs: palette[2], sm: "transparent" },
                     },
-                    background: { xs: palette[2], sm: "transparent" },
                     py: { xs: 1, sm: 0 },
                   }}
                   onContextMenu={expandTitle}
                 >
                   <Typography
-                    variant="h4"
+                    variant="h6"
                     sx={{
                       minWidth: 0,
-                      fontSize: "35px",
-                      borderRadius: 1,
+                      borderRadius: 4,
                       width: "auto",
                       mb: { xs: -0.5, sm: 0.7 },
                       display: "flex",
                       alignItems: "center",
                       justifyContent: { xs: "center", sm: "flex-start" },
-                      gap: { xs: 0, sm: 2 },
-                      flexDirection: { xs: "column", sm: "row" },
+                      gap: 2,
                       ...(column.name === "" && { display: "none" }),
                       "& img": {
-                        width: { xs: "45px", sm: "30px" },
-                        height: { xs: "45px", sm: "30px" },
+                        width: "30px",
+                        height: "30px",
                         mb: -0.2,
                       },
                     }}
@@ -350,8 +336,8 @@ export function Column({
                     <img
                       alt="Emoji"
                       src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                      width={50}
-                      height={50}
+                      width={20}
+                      height={20}
                     />
 
                     <Box
@@ -367,11 +353,9 @@ export function Column({
                           overflow: "hidden",
                           whiteSpace: "nowrap",
                           textOverflow: "ellipsis",
-                          fontWeight: "200",
                           minWidth: 0,
                           maxWidth: "100%",
                         }}
-                        className="font-heading"
                       >
                         {column.name}
                       </span>
@@ -386,7 +370,7 @@ export function Column({
                   >
                     {incompleteLength} item{incompleteLength !== 1 && "s"}
                   </Typography>
-                </CardActionArea>
+                </Box>
               </ColumnSettings>
             )}
 
@@ -404,7 +388,7 @@ export function Column({
                     setUseReverseAnimation(false);
                     navigation.setCurrent((i) => i + 1);
                   }}
-                  sx={{ color: palette[8] }}
+                  sx={{ p: 3, color: palette[8] }}
                   size="large"
                 >
                   <Icon className="outlined">
@@ -442,13 +426,14 @@ export function Column({
             </Box>
           </CreateTask>
           {columnTasks.filter((task) => !task.completed).length === 0 && (
-            <Box sx={{ py: 1 }}>
+            <Box sx={{ py: 1, px: { xs: 2, sm: 0 } }}>
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: "center",
                   mx: "auto",
-                  py: { sm: 2 },
+                  py: 2,
+                  pt: { xs: 0, sm: 2 },
                   textAlign: { xs: "center", sm: "left" },
                   alignItems: { xs: "center", sm: "start" },
                   flexDirection: "column",

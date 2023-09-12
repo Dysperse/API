@@ -1,7 +1,6 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { isEmail } from "@/components/Group/Members/isEmail";
 import { useColor } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -42,7 +41,7 @@ export default function Prompt() {
         const f = await res.json();
         throw new Error(f.message);
       }
-      toast.success("Check your email for further instructions.", toastStyles);
+      toast.success("Check your email for further instructions.");
       router.push("/auth");
     } catch (e: any) {
       setStep(0);
@@ -50,7 +49,7 @@ export default function Prompt() {
       setAlreadySubmitted(false);
       ref.current?.reset();
       setCaptchaToken("");
-      toast.error(e.message, toastStyles);
+      toast.error(e.message);
     }
   }, [router, email, captchaToken]);
 
@@ -91,11 +90,11 @@ export default function Prompt() {
                   siteKey="0x4AAAAAAABo1BKboDBdlv8r"
                   onError={() => {
                     ref.current?.reset();
-                    toast.error("An error occured. Retrying...", toastStyles);
+                    toast.error("An error occured. Retrying...");
                   }}
                   onExpire={() => {
                     ref.current?.reset();
-                    toast.error("Expired. Retrying...", toastStyles);
+                    toast.error("Expired. Retrying...");
                   }}
                   scriptOptions={{ defer: true }}
                   options={{ retry: "auto" }}

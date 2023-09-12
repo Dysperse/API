@@ -1,5 +1,5 @@
-import { exportAsImage } from "@/components/Coach/Goal/Options";
 import { Puller } from "@/components/Puller";
+import { exportAsImage } from "@/lib/client/screenshot";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon, SwipeableDrawer, Typography } from "@mui/material";

@@ -1,4 +1,3 @@
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -40,7 +39,7 @@ export function ConfirmationModal({
       setOpen(false);
     } catch (e: any) {
       setLoading(false);
-      toast.error(`An error occured: ${e.message}`, toastStyles);
+      toast.error(`An error occured: ${e.message}`);
     }
   }, [callback]);
 

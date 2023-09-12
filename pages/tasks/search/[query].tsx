@@ -1,5 +1,4 @@
 import { ErrorHandler } from "@/components/Error";
-import { containerRef } from "@/components/Layout";
 import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useSession } from "@/lib/client/session";
@@ -114,7 +113,7 @@ export default function Dashboard() {
                 icon={<Icon>priority</Icon>}
                 label="Incomplete"
                 onClick={() => setFilters({ ...filters, completed: false })}
-                {...(filters.completed && {
+                {...(filters.completed !== null && {
                   onDelete: () => setFilters({ ...filters, completed: null }),
                 })}
               />
@@ -163,9 +162,7 @@ export default function Dashboard() {
           ) : (
             <Virtuoso
               useWindowScroll
-              customScrollParent={
-                isMobile ? ref?.current : containerRef.current
-              }
+              customScrollParent={ref?.current}
               totalCount={filteredData.length}
               itemContent={(index) => {
                 const task = filteredData[index];

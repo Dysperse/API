@@ -4,23 +4,22 @@ import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
-  Alert,
-  Box,
-  Button,
-  Chip,
-  Divider,
-  Icon,
-  IconButton,
-  InputAdornment,
-  ListItemButton,
-  ListItemSecondaryAction,
-  ListItemText,
-  Skeleton,
-  SwipeableDrawer,
-  TextField,
-  Typography,
+    Alert,
+    Box,
+    Button,
+    Chip,
+    Divider,
+    Icon,
+    IconButton,
+    InputAdornment,
+    ListItemButton,
+    ListItemSecondaryAction,
+    ListItemText,
+    Skeleton,
+    SwipeableDrawer,
+    TextField,
+    Typography,
 } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -150,7 +149,7 @@ export default function Integrations({
               <ListItemButton
                 key={integration.id}
                 disableRipple
-                sx={{ background: palette[2] }}
+                sx={{ mb: 2, background: palette[2] }}
               >
                 <ListItemText
                   primary={integration.name}
@@ -255,7 +254,7 @@ export default function Integrations({
                   <IconButton
                     onClick={() => {
                       navigator.clipboard.writeText(icalUrl);
-                      toast.success("Copied to clipboard!", toastStyles);
+                      toast.success("Copied to clipboard!");
                     }}
                   >
                     <Icon className="outlined">content_copy</Icon>

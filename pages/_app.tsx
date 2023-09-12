@@ -8,7 +8,6 @@ import { Toaster } from "react-hot-toast";
 
 // CSS files
 import "../styles/calendar.scss";
-import "../styles/coach.scss";
 import "../styles/globals.scss";
 import "../styles/normalize.scss";
 
@@ -28,7 +27,7 @@ import Head from "next/head";
 
 import { AccountStorageState } from "@/lib/client/useAccountStorage";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useCustomTheme } from "@/lib/client/useTheme";
+import { toastStyles, useCustomTheme } from "@/lib/client/useTheme";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { createContext } from "react";
 import { SWRConfig } from "swr";
@@ -150,7 +149,7 @@ export default function App({
       <SessionProvider session={s}>
         <StorageContext.Provider value={{ isReached, setIsReached }}>
           <ThemeProvider theme={userTheme}>
-            <Toaster containerClassName="noDrag" />
+            <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
             <Head>
               <title>Dysperse</title>
               <meta name="theme-color" content={palette[1]} />

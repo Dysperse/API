@@ -7,7 +7,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -58,7 +57,6 @@ export function StatusSelector({
   const session = useSession();
   const now = useMemo(() => dayjs(), []);
 
-  const url = "";
   const {
     data,
     mutate: mutateStatus,
@@ -97,13 +95,12 @@ export function StatusSelector({
     });
     setOpen(false);
     toast.success(
-      "Status set until " + dayjs().add(time, "minute").format("h:mm A"),
-      toastStyles
+      "Status set until " + dayjs().add(time, "minute").format("h:mm A")
     );
     mutateStatus();
     mutate();
     setLoading(false);
-  }, [session, status, time, url, mutate, profile, setLoading, mutateStatus]);
+  }, [session, status, time, mutate, profile, setLoading, mutateStatus]);
 
   const resetStatus = useCallback(
     () =>
@@ -184,6 +181,7 @@ export function StatusSelector({
             border: `2px solid ${addHslAlpha(palette[3], 0.7)}`,
             borderRadius: 5,
             m: 2,
+            mx: { xs: 2, sm: "auto" },
           },
         }}
       >
@@ -711,13 +709,12 @@ function SearchFriend({ mutate }) {
       });
       console.log(data);
       if (!data?.success) throw new Error();
-      toast.success("Added friend!", toastStyles);
+      toast.success("Added friend!");
       setOpen(false);
       mutate();
     } catch (e) {
       toast.error(
-        "Hmm... That didn't work. Make sure you typed the email or username correctly.",
-        toastStyles
+        "Hmm... That didn't work. Make sure you typed the email or username correctly."
       );
     }
   };
@@ -745,6 +742,7 @@ function SearchFriend({ mutate }) {
             border: `2px solid ${addHslAlpha(palette[3], 0.7)}`,
             borderRadius: 5,
             m: 2,
+            mx: { xs: 2, sm: "auto" },
           },
         }}
       >

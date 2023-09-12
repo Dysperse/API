@@ -4,7 +4,6 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { useCustomTheme } from "@/lib/client/useTheme";
-import { colors } from "@/lib/colors";
 import { fetcher } from "@/pages/_app";
 import Insights from "@/pages/tasks/insights";
 import { Masonry } from "@mui/lab";
@@ -386,15 +385,6 @@ export function UserProfile({
           flexWrap: "wrap",
         }}
       >
-        <Tooltip title="Goals completed">
-          <Chip
-            sx={chipStyles}
-            label={data.trophies}
-            icon={
-              <Icon sx={{ color: "inherit!important" }}>military_tech</Icon>
-            }
-          />
-        </Tooltip>
         <Tooltip title="Local time">
           <Chip
             sx={chipStyles}
@@ -402,28 +392,6 @@ export function UserProfile({
             icon={<Icon sx={{ color: "inherit!important" }}>access_time</Icon>}
           />
         </Tooltip>
-        {data.CoachData && (
-          <Tooltip title="Coach streak">
-            <Chip
-              sx={{
-                ...(data.CoachData.streakCount > 0
-                  ? {
-                      background: colors.orange[isDark ? 900 : 100],
-                      "&, & *": {
-                        color: colors.orange[isDark ? 50 : 900],
-                      },
-                    }
-                  : chipStyles),
-              }}
-              label={data.CoachData.streakCount}
-              icon={
-                <Icon sx={{ color: "inherit!important" }}>
-                  local_fire_department
-                </Icon>
-              }
-            />
-          </Tooltip>
-        )}
         {profile &&
           profile.badges.map((badge) => (
             <Chip

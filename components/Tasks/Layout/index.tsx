@@ -7,7 +7,6 @@ import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
   AppBar,
@@ -31,6 +30,7 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
+  cloneElement,
   createContext,
   memo,
   useContext,
@@ -51,7 +51,7 @@ import { Tab } from "./Tab";
 
 export const SelectionContext = createContext<null | any>(null);
 
-function GroupSelector() {
+export function GroupSelector({ children }: { children?: JSX.Element }) {
   const session = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const groupPalette = useColor(
@@ -59,36 +59,50 @@ function GroupSelector() {
     useDarkMode(session.darkMode)
   );
 
+  const content = (
+    <>
+      <Box
+        sx={{
+          width: 15,
+          borderRadius: 99,
+          height: 15,
+          flexShrink: 0,
+          background: groupPalette[9],
+        }}
+      />
+      <Typography
+        sx={{
+          fontWeight: 900,
+          minWidth: 0,
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {session.property.profile.name}
+      </Typography>
+      <Icon sx={{ ml: "auto" }}>expand_more</Icon>
+    </>
+  );
+
+  const trigger = cloneElement(children || <div />, {
+    children: content,
+  });
+
   return (
     <GroupModal useRightClick={false}>
-      <Button
-        variant="contained"
-        fullWidth
-        size="small"
-        sx={{ py: 1, color: palette[12] }}
-      >
-        <Box
-          sx={{
-            width: 15,
-            borderRadius: 99,
-            height: 15,
-            flexShrink: 0,
-            background: groupPalette[9],
-          }}
-        />
-        <Typography
-          sx={{
-            fontWeight: 900,
-            minWidth: 0,
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
+      {children ? (
+        trigger
+      ) : (
+        <Button
+          variant="contained"
+          fullWidth
+          size="small"
+          sx={{ py: 1, color: palette[12] }}
         >
-          {session.property.profile.name}
-        </Typography>
-        <Icon sx={{ ml: "auto" }}>expand_more</Icon>
-      </Button>
+          {content}
+        </Button>
+      )}
     </GroupModal>
   );
 }
@@ -215,20 +229,18 @@ function BulkCompletion() {
       );
       if (res.errors !== 0) {
         toast.error(
-          `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`,
-          toastStyles
+          `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`
         );
         return;
       }
       document.getElementById("taskMutationTrigger")?.click();
       taskSelection.set([]);
-      toast.success(`Marked as ${completed ? "" : "not"} done!`, toastStyles);
+      toast.success(`Marked as ${completed ? "" : "not"} done!`);
     } catch {
       toast.error(
         `Couldn't mark as ${
           completed ? "" : "not"
-        } done! Please try again later`,
-        toastStyles
+        } done! Please try again later`
       );
     }
   };
@@ -285,19 +297,15 @@ function BulkColorCode({ children }) {
           );
           if (res.errors !== 0) {
             toast.error(
-              `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`,
-              toastStyles
+              `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`
             );
             return;
           }
           document.getElementById("taskMutationTrigger")?.click();
-          toast.success("Applied label!", toastStyles);
+          toast.success("Applied label!");
           taskSelection.set([]);
         } catch {
-          toast.error(
-            "Couldn't apply label! Please try again later",
-            toastStyles
-          );
+          toast.error("Couldn't apply label! Please try again later");
         }
       }}
       titleRef={null}
@@ -405,7 +413,7 @@ export function TasksLayout({
             px: 2,
           }}
         >
-          {!isMobile && <SearchTasks  />}
+          {!isMobile && <SearchTasks />}
           <Typography sx={taskStyles(palette).subheading}>
             Perspectives
           </Typography>
@@ -704,17 +712,15 @@ export function TasksLayout({
                           `Couldn't edit ${res.errors} item${
                             res.errors == 1 ? "" : "s"
                           }`,
-                          toastStyles
                         );
                         return;
                       }
                       document.getElementById("taskMutationTrigger")?.click();
-                      toast.success(`Updated due date!`, toastStyles);
+                      toast.success(`Updated due date!`);
                       setTaskSelection([]);
                     } catch {
                       toast.error(
-                        `Couldn't update due dates! Please try again later`,
-                        toastStyles
+                        `Couldn't update due dates! Please try again later`
                       );
                     }
                   }}
@@ -749,19 +755,15 @@ export function TasksLayout({
                         toast.error(
                           `Couldn't delete ${res.errors} item${
                             res.errors == 1 ? "" : "s"
-                          }`,
-                          toastStyles
+                          }`
                         );
                         return;
                       }
                       document.getElementById("taskMutationTrigger")?.click();
-                      toast.success("Deleted!", toastStyles);
+                      toast.success("Deleted!");
                       setTaskSelection([]);
                     } catch {
-                      toast.error(
-                        "Couldn't delete tasks. Try again later.",
-                        toastStyles
-                      );
+                      toast.error("Couldn't delete tasks. Try again later.");
                     }
                   }}
                   buttonText="Delete"
@@ -842,11 +844,10 @@ export function TasksLayout({
                   color: palette[9],
                   background: addHslAlpha(palette[3], 0.5),
                   "&:active": {
-                    transform: "scale(0.9)",
+                    opacity: 0.6,
                   },
                   fontSize: "15px",
                   borderRadius: 999,
-                  transition: "transform .1s",
                 }}
                 onClick={() => document.getElementById("agendaToday")?.click()}
               >

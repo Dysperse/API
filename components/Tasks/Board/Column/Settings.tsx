@@ -3,7 +3,6 @@ import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
@@ -119,7 +118,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         onClick={async () => {
           handleClose();
           await mutateData();
-          toast.success("Refreshed!", toastStyles);
+          toast.success("Refreshed!");
         }}
       >
         <Icon className="outlined">refresh</Icon>
@@ -265,8 +264,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
                 loading: "Saving...",
                 success: "Edited column!",
                 error: "Yikes! An error occured - Please try again later!",
-              },
-              toastStyles
+              }
             );
             setOpen(false);
           }}

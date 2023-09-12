@@ -2,7 +2,6 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Prompt } from "@/components/TwoFactorModal";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Alert, Box, Link, Typography } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
@@ -43,12 +42,12 @@ export default function App() {
         if (res.error) {
           throw new Error(res.error);
         }
-        toast.success("2FA setup successful!", toastStyles);
+        toast.success("2FA setup successful!");
         setLoading(false);
         mutate("/api/session");
       })
       .catch(() => {
-        toast.error("Invalid code!", toastStyles);
+        toast.error("Invalid code!");
         setLoading(false);
       });
   };

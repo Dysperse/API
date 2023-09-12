@@ -3,18 +3,17 @@ import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
-  Box,
-  Button,
-  Chip,
-  Icon,
-  IconButton,
-  InputAdornment,
-  ListItem,
-  ListItemText,
-  TextField,
-  Typography,
+    Box,
+    Button,
+    Chip,
+    Icon,
+    IconButton,
+    InputAdornment,
+    ListItem,
+    ListItemText,
+    TextField,
+    Typography,
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -22,9 +21,9 @@ import { parseEmojis } from ".";
 import { ImageViewer } from "../ImageViewer";
 import { useTaskContext } from "./Context";
 import {
-  isAddress,
-  isValidHttpUrl,
-  videoChatPlatforms,
+    isAddress,
+    isValidHttpUrl,
+    videoChatPlatforms,
 } from "./locationHelpers";
 export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   data,
@@ -58,7 +57,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
       await task.mutate();
     } else {
       // Add attachment functionality here (currently using a placeholder toast)
-      toast("Coming soon!", toastStyles);
+      toast("Coming soon!");
     }
   };
 

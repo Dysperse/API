@@ -10,13 +10,10 @@ export const shouldHideNavigation = (path) => {
     "/users",
     "/boards/edit/",
     "/tasks/search",
-    "/coach/explore",
-    "/coach/create",
     "/integrations",
     "/rooms/",
     "/spaces",
     "/onboarding",
-    "/coach/routine",
     "/settings",
     "/tasks/insights",
   ].find((_path) => path.includes(_path));
@@ -144,16 +141,16 @@ export function BottomNav() {
       </Box>
       <Box
         sx={styles(
-          router.asPath === "/items" ||
+          router.asPath === "/rooms" ||
             router.asPath.includes("rooms") ||
             router.asPath === "/starred" ||
             router.asPath === "/trash"
         )}
-        onClick={() => router.push("/items")}
+        onClick={() => router.push("/rooms")}
       >
         <span
           className={`material-symbols-${
-            router.asPath === "/items" ||
+            router.asPath === "/rooms" ||
             router.asPath.includes("rooms") ||
             router.asPath === "/starred" ||
             router.asPath === "/trash"

@@ -3,16 +3,15 @@ import { AddPersonModal } from "@/components/Group/Members/Add";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
-  Avatar,
-  Chip,
-  CircularProgress,
-  Divider,
-  Icon,
-  IconButton,
-  ListItem,
-  ListItemText,
+    Avatar,
+    Chip,
+    CircularProgress,
+    Divider,
+    Icon,
+    IconButton,
+    ListItem,
+    ListItemText,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -92,7 +91,7 @@ export default function Page() {
                     timestamp: new Date().toISOString(),
                   }).then(async () => {
                     await mutate();
-                    toast.success("Removed person from your home", toastStyles);
+                    toast.success("Removed person from your home");
                   });
                 }}
               >

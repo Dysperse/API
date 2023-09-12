@@ -1,16 +1,15 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { useColor } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
-  Box,
-  Button,
-  CircularProgress,
-  NoSsr,
-  TextField,
-  Typography,
-  useMediaQuery,
+    Box,
+    Button,
+    CircularProgress,
+    NoSsr,
+    TextField,
+    Typography,
+    useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -72,7 +71,7 @@ export default function Prompt() {
         setStep(0);
         setCaptchaToken("");
         setAlreadySubmitted(false);
-        toast.error(err.message, toastStyles);
+        toast.error(err.message);
       });
   }, [captchaToken, name, email, password, confirmPassword, router]);
 
@@ -113,11 +112,11 @@ export default function Prompt() {
                   siteKey="0x4AAAAAAABo1BKboDBdlv8r"
                   onError={() => {
                     ref.current?.reset();
-                    toast.error("An error occured. Retrying...", toastStyles);
+                    toast.error("An error occured. Retrying...");
                   }}
                   onExpire={() => {
                     ref.current?.reset();
-                    toast.error("Expired. Retrying...", toastStyles);
+                    toast.error("Expired. Retrying...");
                   }}
                   scriptOptions={{ defer: true }}
                   options={{ retry: "auto" }}

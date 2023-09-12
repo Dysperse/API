@@ -51,11 +51,6 @@ export default async function handler(req, res) {
             color: true,
             timeZone: true,
             username: true,
-            CoachData: {
-              select: {
-                streakCount: true,
-              },
-            },
             Profile: {
               select: {
                 birthday: true,
@@ -64,7 +59,6 @@ export default async function handler(req, res) {
                 workingHours: true,
               },
             },
-            trophies: true,
           },
         },
       },

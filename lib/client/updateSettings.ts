@@ -1,4 +1,3 @@
-import { toastStyles } from "@/lib/client/useTheme";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "./useApi";
@@ -33,7 +32,7 @@ export async function updateSettings(
     await mutate("/api/session");
     return res;
   } catch (e) {
-    toast.error("Couldn't save changes. Please try again later", toastStyles);
+    toast.error("Couldn't save changes. Please try again later");
   }
 }
 

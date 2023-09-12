@@ -4,7 +4,6 @@ import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -118,15 +117,11 @@ export default function Notifications() {
       }
     });
 
-    toast.promise(
-      promise,
-      {
-        loading: "Saving...",
-        success: "Saved!",
-        error: "Failed to save",
-      },
-      toastStyles
-    );
+    toast.promise(promise, {
+      loading: "Saving...",
+      success: "Saved!",
+      error: "Failed to save",
+    });
   };
 
   const enabledOnAnotherDevice =
@@ -151,14 +146,6 @@ export default function Notifications() {
       enabled: null,
       primary: "Coach",
       secondary: "Get reminders to work on your goals",
-    },
-    {
-      key: "dailyCheckInNudge",
-      comingSoon: false,
-      disabled: false,
-      enabled: null,
-      primary: "Check-in",
-      secondary: "Recieve daily reminders to check-in on how you're feeling",
     },
     {
       key: "todoListUpdates",

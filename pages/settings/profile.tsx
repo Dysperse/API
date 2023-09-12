@@ -31,7 +31,6 @@ export default function AppearanceSettings() {
   const [name, setName] = useState(session.user.name);
   const handleChange = useCallback((e) => setName(e.target.value), [setName]);
 
-  const url = "";
   const { data, mutate, error } = useSWR([
     "user/profile",
     {

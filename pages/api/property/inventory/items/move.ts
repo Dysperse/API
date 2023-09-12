@@ -10,11 +10,9 @@ const handler = async (req, res) => {
 
     //   Update the note on an item
     const data = await prisma.item.update({
-      where: {
-        id: req.query.id,
-      },
+      where: { id: req.query.id },
       data: {
-        room: req.query.room,
+        room: { connect: { id: req.query.room } },
       },
     });
 

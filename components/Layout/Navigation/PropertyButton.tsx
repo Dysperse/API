@@ -2,7 +2,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   CircularProgress,
@@ -50,14 +49,12 @@ export function PropertyButton({
             toast.success(
               <span>
                 Switched to &nbsp;<u>{res.profile.name}</u>
-              </span>,
-              toastStyles
+              </span>
             );
             onSuccess();
           } catch {
             toast.error(
-              "Yikes! Something went wrong when trying to switch groups",
-              toastStyles
+              "Yikes! Something went wrong when trying to switch groups"
             );
           }
           setLoading(false);

@@ -1,7 +1,6 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Button,
@@ -225,8 +224,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
                         at <b>{dayjs(e).format("h:mm A")}</b>
                       </>
                     )}
-                  </span>,
-                  toastStyles
+                  </span>
                 );
                 setTimeout(() => setOpen(false), 50);
               }}

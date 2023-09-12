@@ -2,7 +2,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import {
   Box,
   Chip,
@@ -234,17 +233,6 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
         badge: "agenda",
       };
     }),
-    ...(roomData
-      ? roomData.map((room: any) => {
-          return {
-            title: room.name,
-            onTrigger: () => router.push(`/rooms/${room.id}`),
-            icon: "category",
-            badge: "Room",
-          };
-        })
-      : []),
-
     ...(boardData
       ? boardData.map((room: any) => {
           return {
@@ -273,8 +261,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
                 toast.success(
                   <span>
                     Switched to &nbsp;<u>{res.profile.name}</u>
-                  </span>,
-                  toastStyles
+                  </span>
                 );
                 mutate("/api/session");
               });
@@ -320,8 +307,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
             loading: "Signing you out",
             error: "Oh no! An error occured while trying to sign you out.",
             success: "Redirecting you...",
-          },
-          toastStyles
+          }
         );
       },
       icon: "logout",
@@ -364,7 +350,6 @@ const Spotlight = React.memo(function Spotlight() {
 
   openSpotlight = handleOpen;
 
-  const { data: roomData } = useSWR(["property/inventory/rooms"]);
   const { data: boardData } = useSWR(["property/boards"]);
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -374,7 +359,7 @@ const Spotlight = React.memo(function Spotlight() {
   // Input event handling
   const handleSearch = useCallback(
     async (value) => {
-      let results = await getSpotlightActions(roomData, boardData, session);
+      let results = await getSpotlightActions({}, boardData, session);
 
       results = results.filter((result) =>
         result.title.toLowerCase().includes(value.toLowerCase())
@@ -388,7 +373,7 @@ const Spotlight = React.memo(function Spotlight() {
 
       setResults(results);
     },
-    [badge, boardData, roomData, session]
+    [badge, boardData, session]
   );
 
   const debouncedHandleSearch = debounce(handleSearch, 500);

@@ -1,4 +1,3 @@
-import { exportAsImage } from "@/components/Coach/Goal/Options";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { AddPersonModal } from "@/components/Group/Members/Add";
@@ -9,10 +8,10 @@ import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { handleBack } from "@/lib/client/handleBack";
+import { exportAsImage } from "@/lib/client/screenshot";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -182,8 +181,6 @@ function Page() {
 
   const { data, mutate, error } = useSWR(["user/profile", { email }]);
 
-  const url = "";
-
   const [loading, setLoading] = useState(false);
 
   const isCurrentUser =
@@ -247,7 +244,7 @@ function Page() {
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(data.email);
-    toast.success("Copied to clipboard", toastStyles);
+    toast.success("Copied to clipboard");
   };
 
   const { data: members } = useSWR([

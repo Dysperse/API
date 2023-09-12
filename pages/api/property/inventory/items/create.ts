@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
-import CryptoJS from "crypto-js";
 
 const handler = async (req, res) => {
   try {
@@ -11,37 +10,13 @@ const handler = async (req, res) => {
 
     const data = await prisma.item.create({
       data: {
-        name:
-          CryptoJS.AES.encrypt(
-            req.query.name,
-            process.env.INVENTORY_ENCRYPTION_KEY
-          ).toString() || "",
-        quantity:
-          CryptoJS.AES.encrypt(
-            req.query.quantity,
-            process.env.INVENTORY_ENCRYPTION_KEY
-          ).toString() ?? "",
-        lastModified: new Date(req.query.lastModified) || new Date(),
-        starred: false,
-        trash: false,
-        room: req.query.room ?? "kitchen",
-        note:
-          CryptoJS.AES.encrypt(
-            "",
-            process.env.INVENTORY_ENCRYPTION_KEY
-          ).toString() ?? "",
-        category:
-          CryptoJS.AES.encrypt(
-            req.query.category,
-            process.env.INVENTORY_ENCRYPTION_KEY
-          ).toString() ?? "[]",
-        property: {
-          connect: { id: req.query.property },
-        },
+        name: req.query.name,
+        note: req.query.note,
+        room: { connect: { id: req.query.room } },
+        property: { connect: { id: req.query.property } },
+        createdBy: { connect: { identifier: req.query.userIdentifier } },
       },
-      include: {
-        property: true,
-      },
+      include: {},
     });
 
     res.json(data);

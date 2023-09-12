@@ -7,8 +7,10 @@ import { useState } from "react";
 import useSWR from "swr";
 
 const BoardContainer = ({ id, shareToken }) => {
-  const url = "";
-  const { data, mutate,error } = useSWR(["property/boards", { id, shareToken }]);
+  const { data, mutate, error } = useSWR([
+    "property/boards",
+    { id, shareToken },
+  ]);
 
   return (
     <>

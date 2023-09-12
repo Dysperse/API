@@ -4,7 +4,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Avatar,
@@ -226,7 +225,7 @@ export function CreateTask({
         });
         onSuccess && onSuccess();
         toast.dismiss();
-        toast.success("Created task!", toastStyles);
+        toast.success("Created task!", );
 
         setFormData({
           ...formData,
@@ -243,7 +242,7 @@ export function CreateTask({
         document.getElementById("title")?.focus();
         setLoading(false);
       } catch (e) {
-        toast.error("Couldn't create task", toastStyles);
+        toast.error("Couldn't create task", );
       }
     },
     [
@@ -263,8 +262,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("pinTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+e",
@@ -272,8 +270,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("emojiTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+w",
@@ -281,8 +278,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("fileTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
 
   useHotkeys(
@@ -291,8 +287,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("locationTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+d",
@@ -300,8 +295,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("descriptionTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+w",
@@ -309,8 +303,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("fileTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
   useHotkeys(
     "alt+s",
@@ -318,8 +311,7 @@ export function CreateTask({
       e.preventDefault();
       document.getElementById("dateTrigger")?.click();
     },
-    { enableOnFormTags: true },
-    []
+    { enableOnFormTags: true }
   );
 
   return (

@@ -2,7 +2,6 @@ import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
@@ -39,7 +38,6 @@ export default function CreateColumn({
     if (ref?.current?.value.trim() === "") {
       toast.error("Enter a name for this column", {
         icon: "👀",
-        ...toastStyles,
       });
       setLoading(false);
       return;
@@ -52,7 +50,7 @@ export default function CreateColumn({
       id: id,
     })
       .then(async () => {
-        toast.success("Created column!", toastStyles);
+        toast.success("Created column!");
         setOpen(false);
         await mutateData();
         setCurrentColumn((e) => e + 1);
@@ -63,8 +61,7 @@ export default function CreateColumn({
       .catch(() => {
         setLoading(false);
         toast.error(
-          "An error occurred while creating the column. Try again later.",
-          toastStyles
+          "An error occurred while creating the column. Try again later."
         );
       });
   }, [emoji, id, mutateData, setCurrentColumn, session, name]);

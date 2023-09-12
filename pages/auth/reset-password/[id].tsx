@@ -1,7 +1,6 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { useColor } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { toastStyles } from "@/lib/client/useTheme";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
@@ -38,21 +37,17 @@ export default function Prompt() {
       })
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Successfully changed your password!", toastStyles);
+            toast.success("Successfully changed your password!");
             router.push("/agenda/weeks");
           } else {
             toast.error(
-              "An error occurred while trying to change your password.",
-              toastStyles
+              "An error occurred while trying to change your password."
             );
             setButtonLoading(false);
           }
         })
         .catch(() => {
-          toast.error(
-            "An error occurred while trying to change your password",
-            toastStyles
-          );
+          toast.error("An error occurred while trying to change your password");
           setButtonLoading(false);
         });
     },

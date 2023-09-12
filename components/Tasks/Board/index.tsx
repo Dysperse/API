@@ -1,7 +1,6 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useDelayedMount } from "@/lib/client/useDelayedMount";
 import {
   Alert,
   Box,
@@ -9,7 +8,6 @@ import {
   CircularProgress,
   Icon,
   IconButton,
-  SwipeableDrawer,
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
@@ -40,12 +38,10 @@ function RenderBoard({ tasks }) {
     }
   }, []);
 
-  const [currentColumn, setCurrentColumn] = useState<number>(0);
-  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [currentColumn, setCurrentColumn] = useState<number>(-1);
 
   const session = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
-  const mount = useDelayedMount(mobileOpen, 1000);
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -55,7 +51,7 @@ function RenderBoard({ tasks }) {
 
   useEffect(() => {
     if (board.integrations.length > 0 && board.columns.length === 0) {
-      setMobileOpen(true);
+      setCurrentColumn(-1);
       setTimeout(() => {
         document.getElementById("syncChip")?.click();
       }, 200);
@@ -74,40 +70,20 @@ function RenderBoard({ tasks }) {
     >
       {!isMobile && (
         <BoardInfo
-          setMobileOpen={setMobileOpen}
+          setCurrentColumn={setCurrentColumn}
           setShowInfo={setShowInfo}
           showInfo={showInfo}
         />
       )}
-      <SwipeableDrawer
-        open={mobileOpen}
-        disableSwipeToOpen={false}
-        onClose={() => setMobileOpen(false)}
-        onOpen={() => setMobileOpen(true)}
-        ModalProps={{ keepMounted: true }}
-        keepMounted
-        sx={{ zIndex: 999, display: { sm: "none" } }}
-        PaperProps={{
-          sx: {
-            borderRadius: "20px",
-            m: "20px",
-            width: "calc(100vw - 40px)!important",
-            maxWidth: "400px",
-            maxHeight: "calc(100dvh - 40px)!important",
-            ...(!isDark && { background: "#fff" }),
-          },
-        }}
-      >
-        {isMobile && mount && (
-          <BoardInfo
-            setMobileOpen={setMobileOpen}
-            setShowInfo={setShowInfo}
-            showInfo={showInfo}
-          />
-        )}
-      </SwipeableDrawer>
+      {currentColumn === -1 && isMobile && (
+        <BoardInfo
+          setCurrentColumn={setCurrentColumn}
+          setShowInfo={setShowInfo}
+          showInfo={showInfo}
+        />
+      )}
       <div
-        onClick={() => setMobileOpen(true)}
+        onClick={() => setCurrentColumn(-1)}
         style={{ display: "none" }}
         id="boardInfoTrigger"
       />
@@ -128,7 +104,6 @@ function RenderBoard({ tasks }) {
             key={column.id}
           >
             <Column
-              setMobileOpen={setMobileOpen}
               useReverseAnimation={useReverseAnimation}
               setUseReverseAnimation={setUseReverseAnimation}
             />
@@ -170,7 +145,7 @@ function RenderBoard({ tasks }) {
           {board.integrations.length > 0 ? (
             <Button
               onClick={() => {
-                setMobileOpen(true);
+                setCurrentColumn(-1);
                 setTimeout(() => {
                   document.getElementById("syncChip")?.click();
                 }, 200);
