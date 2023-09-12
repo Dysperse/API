@@ -44,7 +44,7 @@ function CreateAvailability({ setShowMargin }) {
           mx: { xs: 0, sm: "auto" },
           maxHeight: submitted ? "220px" : "270px",
           ...(submitted && {
-            transition: "all .4s cubic-bezier(.17,.67,.08,1.2)!important",
+            transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
             borderRadius: 5,
             bottom: "calc(100dvh - 320px) !important",
             mx: { xs: 4, sm: "auto" },
@@ -72,7 +72,7 @@ function CreateAvailability({ setShowMargin }) {
       <Puller
         sx={{
           mt: submitted ? "-50px" : "0px",
-          transition: "all .4s cubic-bezier(.17,.67,.08,1.2)!important",
+          transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
           overflow: "hidden",
         }}
       />
@@ -153,14 +153,27 @@ export default function Page() {
         </Toolbar>
       </AppBar>
       <CreateAvailability setShowMargin={setShowMargin} />
-      <Box sx={{ p: 4 }}>
+      <Box sx={{ p: 4, display: "flex", gap: "20px", flexDirection: "column" }}>
         <Box
           sx={{
-            paddingTop: showMargin ? "230px" : "0px",
-            transition: "all .4s cubic-bezier(.17,.67,.08,1.2)!important",
+            paddingTop: showMargin ? "220px" : "0px",
+            transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
             overflow: "hidden",
           }}
         />
+        <Box
+          sx={{
+            p: 3,
+            borderRadius: 5,
+            background: palette[3],
+            color: palette[11],
+            height: "220px",
+          }}
+        >
+          <Typography variant="h4" className="font-heading">
+            Your availability
+          </Typography>
+        </Box>
         <Box
           sx={{
             p: 3,
