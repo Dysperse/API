@@ -11,22 +11,22 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { toastStyles } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
-    Alert,
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    CircularProgress,
-    Icon,
-    IconButton,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    SwipeableDrawer,
-    SxProps,
-    TextField,
-    Toolbar,
-    Typography,
+  Alert,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Icon,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  SwipeableDrawer,
+  SxProps,
+  TextField,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -75,7 +75,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
       .then(async () => {
         setName("");
         await mutate();
-        toast.success("Created column!";
+        toast.success("Created column!");
         setOpen(false);
         setLoading(false);
         setEmoji("1f3af");
