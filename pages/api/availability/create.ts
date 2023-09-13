@@ -5,12 +5,13 @@ export default async function handler(req, res) {
   try {
     await validateParams(req.query, ["userIdentifier"]);
 
-    const data = await prisma.event.findMany({
-      where: {
-        user: { identifier: req.query.userIdentifier },
-      },
-      orderBy: {
-        createdAt: "desc",
+    const data = await prisma.event.create({
+      data: {
+        name: req.query.name,
+        startDate: new Date(req.query.startDate),
+        endDate: new Date(req.query.endDate),
+        timeZone: req.query.timeZone,
+        user: { connect: { identifier: req.query.userIdentifier } },
       },
     });
     res.json(data);

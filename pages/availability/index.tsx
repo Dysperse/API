@@ -1,7 +1,9 @@
 import { ErrorHandler } from "@/components/Error";
+import { containerRef } from "@/components/Layout";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import {
@@ -17,10 +19,12 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 
-function CreateAvailability({ setShowMargin }) {
+function CreateAvailability({ mutate, setShowMargin }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -33,6 +37,20 @@ function CreateAvailability({ setShowMargin }) {
   );
 
   const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async () => {
+    setSubmitted(true);
+    await fetchRawApi(session, "availability/create", {
+      name,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      timeZone: session.user.timeZone,
+    });
+    await mutate();
+    setShowMargin(false);
+    setOpen(false);
+    setSubmitted(false);
+  };
 
   useEffect(() => {
     setShowMargin(submitted);
@@ -54,7 +72,7 @@ function CreateAvailability({ setShowMargin }) {
           overflow: "hidden",
           maxHeight: submitted ? "100px" : "100px",
           borderRadius: "20px 20px 0 0",
-          transition: "bottom .4s cubic-bezier(.17,.67,.08,1)!important",
+          transition: "bottom .5s cubic-bezier(.17,.67,.08,1)!important",
           "&:active": {
             background: addHslAlpha(palette[3], 0.8),
           },
@@ -64,13 +82,7 @@ function CreateAvailability({ setShowMargin }) {
           vibrate(50);
         }}
       >
-        <Puller
-          sx={{
-            mt: submitted ? "-50px" : "0px",
-            transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
-            overflow: "hidden",
-          }}
-        />
+        <Puller />
         <Typography
           variant="h4"
           className="font-heading"
@@ -102,7 +114,7 @@ function CreateAvailability({ setShowMargin }) {
             maxHeight: submitted ? "220px" : "270px",
             borderRadius: submitted ? 5 : "20px 20px 0 0",
             ...(submitted && {
-              transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+              transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
               bottom: "calc(100dvh - 320px) !important",
             }),
           },
@@ -127,8 +139,9 @@ function CreateAvailability({ setShowMargin }) {
         )}
         <Puller
           sx={{
+            opacity: submitted ? 0 : 1,
             mt: submitted ? "-50px" : "0px",
-            transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+            transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
             overflow: "hidden",
           }}
         />
@@ -144,14 +157,10 @@ function CreateAvailability({ setShowMargin }) {
           <Toolbar>
             <IconButton
               sx={{
-                mr: "auto",
-                ml: submitted ? -12 : 0,
-                pointerEvents: submitted ? "none" : "auto",
+                mr: submitted ? 0 : "auto",
+                display: submitted ? "none" : "flex",
                 background: palette[3],
-                transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
-                ...(submitted && {
-                  transform: "rotate(90deg)",
-                }),
+                transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
               }}
               onClick={() => {
                 setOpen(false);
@@ -174,12 +183,12 @@ function CreateAvailability({ setShowMargin }) {
                 ml: "auto",
                 mr: submitted ? -1 : 0,
                 background: palette[3],
-                transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+                transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
                 ...(submitted && {
                   transform: "rotate(90deg)",
                 }),
               }}
-              onClick={() => setSubmitted((e) => !e)}
+              onClick={handleSubmit}
             >
               <Icon>north</Icon>
             </IconButton>
@@ -250,7 +259,7 @@ export default function Page() {
           <Typography>Availability</Typography>
         </Toolbar>
       </AppBar>
-      <CreateAvailability setShowMargin={setShowMargin} />
+      <CreateAvailability mutate={mutate} setShowMargin={setShowMargin} />
       <Box
         sx={{
           p: 4,
@@ -263,8 +272,10 @@ export default function Page() {
           sx={{
             mt: "var(--navbar-height)",
             paddingTop: showMargin ? "218px" : "0px",
-            transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
             overflow: "hidden",
+            ...(showMargin && {
+              transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
+            }),
           }}
         />
         {data ? (
@@ -280,12 +291,45 @@ export default function Page() {
               <Typography variant="h4" className="font-heading">
                 Availability
               </Typography>
-              <Typography variant="body1" sx={{ color: palette[10] }}>
+              <Typography variant="body1" sx={{ opacity: 0.6 }}>
                 Plan your next meetup time in under 3 clicks
               </Typography>
             </Box>
           ) : (
-            data.map((event) => <Box key={event.id}></Box>)
+            <Virtuoso
+              useWindowScroll
+              customScrollParent={containerRef.current}
+              totalCount={data.length}
+              itemContent={(index) => {
+                const event = data[index];
+                return (
+                  <Box key={event.id} sx={{ pb: 2 }}>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                    >
+                      <Box
+                        sx={{
+                          p: 3,
+                          borderRadius: 5,
+                          background: palette[3],
+                          color: palette[11],
+                          height: "220px",
+                        }}
+                      >
+                        <Typography variant="h4" className="font-heading">
+                          {event.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ opacity: 0.6 }}>
+                          {dayjs(event.startDate).format("MMM D, YYYY")} -{" "}
+                          {dayjs(event.endDate).format("MMM D, YYYY")}
+                        </Typography>
+                      </Box>
+                    </motion.div>
+                  </Box>
+                );
+              }}
+            />
           )
         ) : error ? (
           <ErrorHandler

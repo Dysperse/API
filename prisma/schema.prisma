@@ -340,11 +340,11 @@ model Event {
   excludingDays  String[]
   excludingHours Int[]
 
-  duration Int
   timeZone String @default("America/Los_Angeles") @db.VarChar(255)
 
+  createdAt DateTime @default(now())
   createdBy String
-  user      User   @relation(fields: [createdBy], references: [identifier], onDelete: Cascade)
+  user      User     @relation(fields: [createdBy], references: [identifier], onDelete: Cascade)
 
   participants EventParticipant[]
 }
