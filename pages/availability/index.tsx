@@ -97,6 +97,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
         </Typography>
       </Box>
       <SwipeableDrawer
+        disableScrollLock
         anchor="bottom"
         open={open}
         onClose={() => {
