@@ -38,6 +38,10 @@ function CreateAvailability({ mutate, setShowMargin }) {
 
   const [submitted, setSubmitted] = useState(false);
 
+  const chipStyles = {
+    background: palette[4],
+  };
+
   const handleSubmit = async () => {
     setSubmitted(true);
     await fetchRawApi(session, "availability/create", {
@@ -110,7 +114,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
           sx: {
             maxWidth: !submitted ? "100%" : "calc(100dvw - 64px)",
             width: "100%",
-            background: submitted ? palette[3] : addHslAlpha(palette[3], 0.5),
+            background: submitted ? palette[3] : addHslAlpha(palette[4], 0.5),
             backdropFilter: submitted ? "" : "blur(10px)",
             maxHeight: submitted ? "220px" : "270px",
             borderRadius: submitted ? 5 : "20px 20px 0 0",
@@ -144,6 +148,9 @@ function CreateAvailability({ mutate, setShowMargin }) {
             mt: submitted ? "-50px" : "0px",
             transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
             overflow: "hidden",
+            "& .puller": {
+              background: palette[6],
+            },
           }}
         />
         <AppBar
@@ -160,7 +167,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
               sx={{
                 mr: submitted ? 0 : "auto",
                 display: submitted ? "none" : "flex",
-                background: palette[3],
+                background: palette[4],
                 transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
               }}
               onClick={() => {
@@ -183,7 +190,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
               sx={{
                 ml: "auto",
                 mr: submitted ? -1 : 0,
-                background: palette[3],
+                background: palette[4],
                 transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
                 ...(submitted && {
                   transform: "rotate(90deg)",
@@ -217,11 +224,14 @@ function CreateAvailability({ mutate, setShowMargin }) {
               ml: -3,
             }}
           >
-            <Chip icon={<Icon sx={{ ml: "18px!important" }}>tune</Icon>} />
-            <Chip icon={<Icon>check</Icon>} label="Today" />
-            <Chip label="This weekend" />
-            <Chip label="Weekends this month" />
-            <Chip label="Weekdays this month" />
+            <Chip
+              sx={chipStyles}
+              icon={<Icon sx={{ ml: "18px!important" }}>tune</Icon>}
+            />
+            <Chip sx={chipStyles} icon={<Icon>check</Icon>} label="Today" />
+            <Chip sx={chipStyles} label="This weekend" />
+            <Chip sx={chipStyles} label="Weekends this month" />
+            <Chip sx={chipStyles} label="Weekdays this month" />
           </Box>
           <TextField
             sx={{ mt: 1 }}
