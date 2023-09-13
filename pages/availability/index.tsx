@@ -3,6 +3,7 @@ import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { vibrate } from "@/lib/client/vibration";
 import {
   AppBar,
   Box,
@@ -10,6 +11,7 @@ import {
   Icon,
   IconButton,
   Skeleton,
+  SwipeableDrawer,
   TextField,
   Toolbar,
   Typography,
@@ -22,6 +24,7 @@ function CreateAvailability({ setShowMargin }) {
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
+  const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState(dayjs().startOf("day"));
   const [endDate, setEndDate] = useState(dayjs().endOf("day"));
 
@@ -36,121 +39,190 @@ function CreateAvailability({ setShowMargin }) {
   }, [submitted, setShowMargin]);
 
   return (
-    <Box
-      sx={{
-        zIndex: 9999,
-        position: "fixed",
-        bottom: 0,
-        maxWidth: !submitted ? "100%" : "calc(100dvw - 64px)",
-        width: "100%",
-        left: "50%",
-        transform: "translateX(-50%)",
-        background: submitted ? palette[3] : addHslAlpha(palette[3], 0.5),
-        backdropFilter: submitted ? "" : "blur(10px)",
-        overflow: "hidden",
-        maxHeight: submitted ? "220px" : "270px",
-        borderRadius: submitted ? 5 : "20px 20px 0 0",
-        transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
-        ...(submitted && {
-          bottom: "calc(100dvh - 320px) !important",
-        }),
-      }}
-    >
-      {submitted && (
-        <Skeleton
-          variant="rectangular"
-          sx={{
-            height: "100%",
-            position: "absolute",
-            width: "100%",
-            top: 0,
-            left: 0,
-            borderRadius: 5,
-            zIndex: 9999,
-            background: "transparent",
-            pointerEvents: "none",
-          }}
-          animation="wave"
-        />
-      )}
-      <Puller
-        sx={{
-          mt: submitted ? "-50px" : "0px",
-          transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
-          overflow: "hidden",
-        }}
-      />
-      <AppBar
-        sx={{
-          px: 1,
-          border: 0,
-          background: "transparent!important",
-          backdropFilter: "none",
-        }}
-      >
-        <Toolbar>
-          <Typography
-            variant="h4"
-            className="font-heading"
-            sx={{
-              color: palette[11],
-            }}
-          >
-            Gather availability
-          </Typography>
-          <IconButton
-            sx={{
-              ml: "auto",
-              mr: submitted ? -1 : 0,
-              background: palette[3],
-              transition: "all .4s",
-              ...(submitted && {
-                transform: "rotate(90deg)",
-              }),
-            }}
-            onClick={() => setSubmitted((e) => !e)}
-          >
-            <Icon>north</Icon>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+    <>
       <Box
         sx={{
-          px: 3,
-          pb: 3,
-          ...(submitted && {
-            filter: "blur(10px)",
-            pointerEvents: "none",
-          }),
+          zIndex: 9999,
+          position: "fixed",
+          bottom: !open ? 0 : "-100px",
+          width: "100%",
+          textAlign: "center",
+          left: "50%",
+          transform: "translateX(-50%)",
+          background: addHslAlpha(palette[3], 0.5),
+          backdropFilter: "blur(10px)",
+          overflow: "hidden",
+          maxHeight: submitted ? "100px" : "100px",
+          borderRadius: "20px 20px 0 0",
+          transition: "bottom .4s cubic-bezier(.17,.67,.08,1)!important",
+          "&:active": {
+            background: addHslAlpha(palette[3], 0.8),
+          },
+        }}
+        onClick={() => {
+          setOpen(true);
+          vibrate(50);
         }}
       >
-        <Box
+        <Puller
           sx={{
-            mt: 1,
-            mb: 2,
-            display: "flex",
-            gap: 1.5,
-            overflowX: "scroll",
+            mt: submitted ? "-50px" : "0px",
+            transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+            overflow: "hidden",
+          }}
+        />
+        <Typography
+          variant="h4"
+          className="font-heading"
+          sx={{
+            pb: 3,
             px: 3,
-            mr: -3,
-            ml: -3,
+            mt: -1,
+            color: palette[11],
           }}
         >
-          <Chip icon={<Icon sx={{ ml: "18px!important" }}>tune</Icon>} />
-          <Chip icon={<Icon>check</Icon>} label="Today" />
-          <Chip label="This weekend" />
-          <Chip label="Weekends this month" />
-          <Chip label="Weekdays this month" />
-        </Box>
-        <TextField
-          sx={{ mt: 1 }}
-          placeholder="Event name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+          Gather availability
+        </Typography>
       </Box>
-    </Box>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => {
+          setSubmitted(false);
+          setOpen(false);
+          vibrate(50);
+        }}
+        hideBackdrop
+        PaperProps={{
+          sx: {
+            maxWidth: !submitted ? "100%" : "calc(100dvw - 64px)",
+            width: "100%",
+            background: submitted ? palette[3] : addHslAlpha(palette[3], 0.5),
+            backdropFilter: submitted ? "" : "blur(10px)",
+            maxHeight: submitted ? "220px" : "270px",
+            borderRadius: submitted ? 5 : "20px 20px 0 0",
+            ...(submitted && {
+              transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+              bottom: "calc(100dvh - 320px) !important",
+            }),
+          },
+        }}
+      >
+        {submitted && (
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              height: "100%",
+              position: "absolute",
+              width: "100%",
+              top: 0,
+              left: 0,
+              borderRadius: 5,
+              zIndex: 9999,
+              background: "transparent",
+              pointerEvents: "none",
+            }}
+            animation="wave"
+          />
+        )}
+        <Puller
+          sx={{
+            mt: submitted ? "-50px" : "0px",
+            transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+            overflow: "hidden",
+          }}
+        />
+        <AppBar
+          sx={{
+            px: 1,
+            mt: -2.5,
+            border: 0,
+            background: "transparent!important",
+            backdropFilter: "none",
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              sx={{
+                mr: "auto",
+                ml: submitted ? -12 : 0,
+                pointerEvents: submitted ? "none" : "auto",
+                background: palette[3],
+                transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+                ...(submitted && {
+                  transform: "rotate(90deg)",
+                }),
+              }}
+              onClick={() => {
+                setOpen(false);
+                vibrate(50);
+              }}
+            >
+              <Icon>close</Icon>
+            </IconButton>
+            <Typography
+              variant="h4"
+              className="font-heading"
+              sx={{
+                color: palette[11],
+              }}
+            >
+              Gather availability
+            </Typography>
+            <IconButton
+              sx={{
+                ml: "auto",
+                mr: submitted ? -1 : 0,
+                background: palette[3],
+                transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+                ...(submitted && {
+                  transform: "rotate(90deg)",
+                }),
+              }}
+              onClick={() => setSubmitted((e) => !e)}
+            >
+              <Icon>north</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Box
+          sx={{
+            px: 3,
+            pb: 3,
+            ...(submitted && {
+              filter: "blur(10px)",
+              pointerEvents: "none",
+            }),
+          }}
+        >
+          <Box
+            sx={{
+              mt: 1,
+              mb: 2,
+              display: "flex",
+              gap: 1.5,
+              overflowX: "scroll",
+              px: 3,
+              mr: -3,
+              ml: -3,
+            }}
+          >
+            <Chip icon={<Icon sx={{ ml: "18px!important" }}>tune</Icon>} />
+            <Chip icon={<Icon>check</Icon>} label="Today" />
+            <Chip label="This weekend" />
+            <Chip label="Weekends this month" />
+            <Chip label="Weekdays this month" />
+          </Box>
+          <TextField
+            sx={{ mt: 1 }}
+            placeholder="Event name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Box>
+      </SwipeableDrawer>
+    </>
   );
 }
 
@@ -164,7 +236,13 @@ export default function Page() {
 
   return (
     <Box sx={{ pb: "270px" }}>
-      <AppBar>
+      <AppBar
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+        }}
+      >
         <Toolbar>
           <IconButton>
             <Icon>arrow_back_ios_new</Icon>
@@ -183,6 +261,7 @@ export default function Page() {
       >
         <Box
           sx={{
+            mt: "var(--navbar-height)",
             paddingTop: showMargin ? "218px" : "0px",
             transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
             overflow: "hidden",
