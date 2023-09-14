@@ -10,11 +10,12 @@ import {
   Icon,
   IconButton,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 function AvailabilityCalendar({ data }) {
@@ -57,7 +58,7 @@ function AvailabilityCalendar({ data }) {
     mb: 2,
     px: 3,
     top: 0,
-    zIndex: 999,
+    zIndex: 99,
     position: "sticky",
     height: "95px",
     display: "flex",
@@ -66,101 +67,154 @@ function AvailabilityCalendar({ data }) {
     flexDirection: "column",
     justifyContent: "center",
     color: palette[11],
-    backdropFilter: "blur(2px)",
+    backdropFilter: "blur(3px)",
     background: addHslAlpha(palette[2], 0.5),
     borderBottom: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
   };
+
+  const columnStyles = {
+    flexShrink: 0,
+    display: "flex",
+    flexDirection: "column",
+    background: palette[2],
+    borderRadius: 4,
+    maxHeight: "calc(calc(100dvh - var(--navbar-height)) - 20px)",
+    mt: { sm: "var(--navbar-height)" },
+    overflowY: "auto",
+  };
+
+  const [showEarlyHours, setShowEarlyHours] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowTooltip(false);
+    }, 1000);
+  }, []);
 
   const handleMultiSelect = (i) => {};
   const handleParentScrollTop = (e: any) =>
     (e.currentTarget.parentElement.scrollTop = 0);
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        overflowX: "auto",
+        mt: { xs: 2, sm: 0 },
+        gap: 2,
+        order: { xs: 2, sm: -1 },
+        width: "100%",
+        position: "relative",
+      }}
+    >
       <Box
         sx={{
-          display: "flex",
-          overflowX: "auto",
-          mt: { xs: 2, sm: 0 },
-          gap: 2,
-          order: { xs: 2, sm: -1 },
-          width: "100%",
+          ...columnStyles,
+          position: "sticky",
+          left: 0,
+          zIndex: 999,
+          background: addHslAlpha(palette[3], 0.9),
+          backdropFilter: "blur(2px)",
         }}
+        className="scroller"
+        onScroll={handleScroll}
       >
+        <Box sx={headerStyles} onClick={handleParentScrollTop}>
+          <Tooltip
+            open={showTooltip}
+            title={showEarlyHours ? "Hide early hours" : "Show early hours"}
+            placement="right"
+          >
+            <IconButton
+              onClick={() => setShowEarlyHours((e) => !e)}
+              onMouseOut={() => setShowTooltip(false)}
+              onMouseOver={() => setShowTooltip(true)}
+            >
+              <Icon sx={{ fontSize: "30px!important" }} className="outlined">
+                {!showEarlyHours ? "wb_twilight" : "expand_less"}
+              </Icon>
+            </IconButton>
+          </Tooltip>
+        </Box>
+        {[...new Array(times)].map((_, i) => (
+          <Button
+            size="small"
+            onClick={() => handleMultiSelect(i)}
+            sx={{
+              height: "35px",
+              flexShrink: 0,
+              borderRadius: 0,
+              ...(i === 12 && { borderBottom: `2px solid ${palette[5]}` }),
+              ...(i < 8 && !showEarlyHours && { display: "none" }),
+            }}
+            key={i}
+          >
+            <Icon>check_box_outline_blank</Icon>
+          </Button>
+        ))}
+      </Box>
+      {grid.map((row, i) => (
         <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            background: palette[2],
-            borderRadius: 3,
-            maxHeight: "calc(calc(100dvh - var(--navbar-height)) - 20px)",
-            mt: { sm: "calc(var(--navbar-height))" },
-            overflowY: "auto",
-          }}
+          key={i}
+          sx={columnStyles}
           className="scroller"
           onScroll={handleScroll}
         >
-          <Box sx={headerStyles} onClick={handleParentScrollTop} />
-          {[...new Array(times)].map((_, i) => (
+          <Box sx={headerStyles} onClick={handleParentScrollTop}>
+            <Box
+              sx={{
+                display: "flex",
+                background: addHslAlpha(palette[7], 0.5),
+                color: palette[12],
+                width: 40,
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 999,
+                fontWeight: 900,
+                fontSize: 20,
+              }}
+            >
+              {startDate.add(i, "day").format("DD")}
+            </Box>
+            <Typography variant="body2" sx={{ mt: 0.5, mb: -0.5 }}>
+              {startDate.add(i, "day").format("ddd").toUpperCase()}
+            </Typography>
+          </Box>
+          {row.map((col, j) => (
             <Button
               size="small"
-              onClick={() => handleMultiSelect(i)}
-              sx={{ height: "35px", flexShrink: 0, borderRadius: 0 }}
-              key={i}
+              key={j}
+              sx={{
+                height: "35px",
+                borderRadius: 0,
+                flexShrink: 0,
+                ...(j === 12 && { borderBottom: `2px solid ${palette[5]}` }),
+                ...(j < 8 && !showEarlyHours && { display: "none" }),
+              }}
             >
-              <Icon>check_box_outline_blank</Icon>
+              <span>
+                {col.date.format("h")}
+                <span style={{ opacity: 0.7 }}>{col.date.format("A")}</span>
+              </span>
             </Button>
           ))}
         </Box>
-        {grid.map((row, i) => (
-          <Box
-            key={i}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              background: palette[2],
-              borderRadius: 3,
-              maxHeight: "calc(calc(100dvh - var(--navbar-height)) - 20px)",
-              mt: { sm: "var(--navbar-height)" },
-              overflowY: "auto",
-            }}
-            className="scroller"
-            onScroll={handleScroll}
-          >
-            <Box sx={headerStyles} onClick={handleParentScrollTop}>
-              <Box
-                sx={{
-                  display: "flex",
-                  background: addHslAlpha(palette[7], 0.5),
-                  color: palette[12],
-                  width: 40,
-                  height: 40,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 999,
-                  fontWeight: 900,
-                  fontSize: 20,
-                }}
-              >
-                {startDate.add(i, "day").format("DD")}
-              </Box>
-              <Typography variant="body2" sx={{ mt: 0.5, mb: -0.5 }}>
-                {startDate.add(i, "day").format("ddd").toUpperCase()}
-              </Typography>
-            </Box>
-            {row.map((col, j) => (
-              <Button
-                size="small"
-                key={j}
-                sx={{ height: "35px", borderRadius: 0, flexShrink: 0 }}
-              >
-                {col.date.format("hA")}
-              </Button>
-            ))}
-          </Box>
-        ))}
-      </Box>
-    </>
+      ))}
+      <Box
+        sx={{
+          display: "flex",
+          flex: "0 0 40px",
+          position: "sticky",
+          right: "0",
+          background: `linear-gradient(to left, ${palette[1]}, transparent)`,
+          width: 40,
+          height: "100vh",
+          zIndex: 999,
+        }}
+      />
+    </Box>
   );
 }
 
@@ -245,6 +299,7 @@ export default function Page() {
             flexDirection: { xs: "column", md: "row" },
             maxHeight: { sm: "100dvh" },
             overflow: "hidden",
+            gap: 2,
           }}
         >
           <Box sx={{ width: "100%" }}>
