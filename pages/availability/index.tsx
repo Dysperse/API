@@ -27,6 +27,7 @@ import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 
 function EventCard({ event }) {
+  const router = useRouter();
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -60,6 +61,7 @@ function EventCard({ event }) {
               </Typography>
             </Box>
             <IconButton
+              onClick={() => router.push(`/availability/${event.id}`)}
               sx={{ ml: "auto", color: palette[11], background: palette[4] }}
             >
               <Icon>east</Icon>
@@ -130,7 +132,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
     await mutate();
     setShowMargin(false);
     setOpen(false);
-    setSubmitted(false);
+    setTimeout(() => setSubmitted(false), 200);
   };
 
   useEffect(() => {
@@ -252,6 +254,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
                 display: submitted ? "none" : "flex",
                 background: palette[4],
                 transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
+                color: palette[11],
               }}
               onClick={() => {
                 setOpen(false);
@@ -267,13 +270,14 @@ function CreateAvailability({ mutate, setShowMargin }) {
                 color: palette[11],
               }}
             >
-              Gather availability
+              {submitted ? name : "Gather availability"}
             </Typography>
             <IconButton
               sx={{
                 ml: "auto",
                 mr: submitted ? -1 : 0,
                 background: palette[4],
+                color: palette[11],
                 transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
                 ...(submitted && {
                   transform: "rotate(90deg)",

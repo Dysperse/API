@@ -91,6 +91,7 @@ export default function App({
     "/auth/reset-password/[id]",
     "/canny-auth",
     "/invite/[id]",
+    "/availability/[id]",
     "/share/[index]",
     "/_offline",
     "/404",
