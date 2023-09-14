@@ -9,6 +9,7 @@ import { vibrate } from "@/lib/client/vibration";
 import {
   AppBar,
   Box,
+  Button,
   Chip,
   Icon,
   IconButton,
@@ -20,9 +21,85 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
+
+function EventCard({ event }) {
+  const session = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  return (
+    <Box key={event.id} sx={{ pb: 2 }}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <Box
+          sx={{
+            borderRadius: 5,
+            background: palette[3],
+            color: palette[11],
+            height: "220px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box
+            sx={{
+              p: 3,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <Typography variant="h4" className="font-heading">
+                {event.name}
+              </Typography>
+              <Typography variant="body1" sx={{ opacity: 0.6 }}>
+                {dayjs(event.startDate).format("MMM D, YYYY")} -{" "}
+                {dayjs(event.endDate).format("MMM D, YYYY")}
+              </Typography>
+            </Box>
+            <IconButton
+              sx={{ ml: "auto", color: palette[11], background: palette[4] }}
+            >
+              <Icon>east</Icon>
+            </IconButton>
+          </Box>
+
+          <Box
+            sx={{
+              borderTop: `2px solid ${palette[4]}`,
+              p: 3,
+              py: 2,
+              mt: "auto",
+              display: "flex",
+              gap: 2,
+            }}
+          >
+            <Button
+              sx={{
+                ml: "auto",
+                borderWidth: "2px!important",
+                color: palette[8] + "!important",
+              }}
+              variant="outlined"
+            >
+              Invite
+            </Button>
+            <Button
+              sx={{
+                background: palette[4] + "!important",
+              }}
+              variant="contained"
+            >
+              Share
+            </Button>
+          </Box>
+        </Box>
+      </motion.div>
+    </Box>
+  );
+}
 
 function CreateAvailability({ mutate, setShowMargin }) {
   const session = useSession();
@@ -86,7 +163,13 @@ function CreateAvailability({ mutate, setShowMargin }) {
           vibrate(50);
         }}
       >
-        <Puller />
+        <Puller
+          sx={{
+            "& .puller": {
+              background: palette[6],
+            },
+          }}
+        />
         <Typography
           variant="h4"
           className="font-heading"
@@ -248,6 +331,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
 
 export default function Page() {
   const session = useSession();
+  const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [showMargin, setShowMargin] = useState(false);
@@ -264,7 +348,7 @@ export default function Page() {
         }}
       >
         <Toolbar>
-          <IconButton>
+          <IconButton onClick={() => router.push("/")}>
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
           <Typography>Availability</Typography>
@@ -311,35 +395,7 @@ export default function Page() {
               useWindowScroll
               customScrollParent={containerRef.current}
               totalCount={data.length}
-              itemContent={(index) => {
-                const event = data[index];
-                return (
-                  <Box key={event.id} sx={{ pb: 2 }}>
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                    >
-                      <Box
-                        sx={{
-                          p: 3,
-                          borderRadius: 5,
-                          background: palette[3],
-                          color: palette[11],
-                          height: "220px",
-                        }}
-                      >
-                        <Typography variant="h4" className="font-heading">
-                          {event.name}
-                        </Typography>
-                        <Typography variant="body1" sx={{ opacity: 0.6 }}>
-                          {dayjs(event.startDate).format("MMM D, YYYY")} -{" "}
-                          {dayjs(event.endDate).format("MMM D, YYYY")}
-                        </Typography>
-                      </Box>
-                    </motion.div>
-                  </Box>
-                );
-              }}
+              itemContent={(index) => <EventCard event={data[index]} />}
             />
           )
         ) : error ? (
