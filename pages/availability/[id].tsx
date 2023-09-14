@@ -72,6 +72,8 @@ function AvailabilityCalendar({ data }) {
   };
 
   const handleMultiSelect = (i) => {};
+  const handleParentScrollTop = (e: any) =>
+    (e.currentTarget.parentElement.scrollTop = 0);
 
   return (
     <>
@@ -98,7 +100,7 @@ function AvailabilityCalendar({ data }) {
           className="scroller"
           onScroll={handleScroll}
         >
-          <Box sx={headerStyles} />
+          <Box sx={headerStyles} onClick={handleParentScrollTop} />
           {[...new Array(times)].map((_, i) => (
             <Button
               size="small"
@@ -125,12 +127,7 @@ function AvailabilityCalendar({ data }) {
             className="scroller"
             onScroll={handleScroll}
           >
-            <Box
-              sx={headerStyles}
-              onClick={(e: any) =>
-                (e.currentTarget.parentElement.scrollTop = 0)
-              }
-            >
+            <Box sx={headerStyles} onClick={handleParentScrollTop}>
               <Box
                 sx={{
                   display: "flex",
