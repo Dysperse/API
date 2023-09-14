@@ -58,7 +58,7 @@ function AvailabilityCalendar({ data }) {
     mb: 2,
     px: 3,
     top: 0,
-    zIndex: 99,
+    zIndex: 9,
     position: "sticky",
     height: "95px",
     display: "flex",
@@ -113,7 +113,7 @@ function AvailabilityCalendar({ data }) {
           ...columnStyles,
           position: "sticky",
           left: 0,
-          zIndex: 999,
+          zIndex: 99,
           background: addHslAlpha(palette[3], 0.9),
           backdropFilter: "blur(2px)",
         }}
@@ -211,7 +211,7 @@ function AvailabilityCalendar({ data }) {
           background: `linear-gradient(to left, ${palette[1]}, transparent)`,
           width: 40,
           height: "100vh",
-          zIndex: 999,
+          zIndex: 99,
         }}
       />
     </Box>
