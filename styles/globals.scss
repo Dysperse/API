@@ -16,8 +16,8 @@
   background: var(--bg);
 }
 
-html,
-body {
+html:not(.allow-scroll),
+body:not(.allow-scroll body) {
   overflow: hidden;
   position: fixed;
   overscroll-behavior-x: none;

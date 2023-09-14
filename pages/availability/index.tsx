@@ -22,7 +22,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 
@@ -30,6 +30,23 @@ function EventCard({ event }) {
   const router = useRouter();
   const session = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const createdRecently = useMemo(
+    () =>
+      dayjs().diff(dayjs(event.createdAt), "minute") < 15 &&
+      event.createdBy == session.user.identifier,
+    [event, session]
+  );
+
+  const handleShare = () => {
+    navigator.share({
+      title: event.name,
+      text: `What's your availability from ${dayjs(event.startDate).format(
+        "MMMM Do"
+      )} to ${dayjs(event.endDate).format("MMMM Do")}? Tap to respond.`,
+      url: `${process.env.NEXT_PUBLIC_URL}/availability/${event.id}`,
+    });
+  };
 
   return (
     <Box key={event.id} sx={{ pb: 2 }}>
@@ -83,6 +100,10 @@ function EventCard({ event }) {
                 ml: "auto",
                 borderWidth: "2px!important",
                 color: palette[8] + "!important",
+                ...(createdRecently && {
+                  borderColor: palette[9] + "!important",
+                  color: palette[9] + "!important",
+                }),
               }}
               variant="outlined"
             >
@@ -91,8 +112,16 @@ function EventCard({ event }) {
             <Button
               sx={{
                 background: palette[4] + "!important",
+                ...(createdRecently && {
+                  background: palette[9] + "!important",
+                  "&:active": {
+                    background: `${palette[10]}!important`,
+                  },
+                  color: palette[1] + "!important",
+                }),
               }}
               variant="contained"
+              onClick={handleShare}
             >
               Share
             </Button>
@@ -150,14 +179,14 @@ function CreateAvailability({ mutate, setShowMargin }) {
           textAlign: "center",
           left: "50%",
           transform: "translateX(-50%)",
-          background: addHslAlpha(palette[3], 0.5),
+          background: addHslAlpha(palette[4], 0.8),
           backdropFilter: "blur(10px)",
           overflow: "hidden",
           maxHeight: submitted ? "100px" : "100px",
           borderRadius: "20px 20px 0 0",
           transition: "bottom .5s cubic-bezier(.17,.67,.08,1)!important",
           "&:active": {
-            background: addHslAlpha(palette[3], 0.8),
+            background: addHslAlpha(palette[5], 0.8),
           },
         }}
         onClick={() => {
@@ -351,7 +380,7 @@ export default function Page() {
           left: 0,
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ gap: 1.5 }}>
           <IconButton onClick={() => router.push("/")}>
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>

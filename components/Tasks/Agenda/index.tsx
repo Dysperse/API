@@ -268,7 +268,6 @@ export function Agenda({ type, date }) {
           sx={{
             // what does this do?
             backfaceVisibility: "hidden",
-
             transform: "translate3d(0)",
             ...(!data && {
               alignItems: "center",
