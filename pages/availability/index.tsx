@@ -168,9 +168,33 @@ function CreateAvailability({ mutate, setShowMargin }) {
     setShowMargin(submitted);
   }, [submitted, setShowMargin]);
 
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.nativeEvent.touches[0].pageY);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.nativeEvent.touches[0].pageY);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    if (touchStart - touchEnd > minSwipeDistance) {
+      setOpen(true);
+    }
+  };
+
   return (
     <>
       <Box
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
         sx={{
           zIndex: 9999,
           position: "fixed",
@@ -179,7 +203,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
           textAlign: "center",
           left: "50%",
           transform: "translateX(-50%)",
-          maxWidth: "500px",
+          maxWidth: "550px",
           background: addHslAlpha(palette[4], 0.8),
           backdropFilter: "blur(10px)",
           overflow: "hidden",
@@ -229,7 +253,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
         PaperProps={{
           sx: {
             maxWidth: !submitted ? "100%" : "calc(100dvw - 64px)",
-            width: "500px",
+            width: "550px",
             background: submitted ? palette[3] : addHslAlpha(palette[4], 0.5),
             backdropFilter: submitted ? "" : "blur(10px)",
             borderRadius: submitted ? 5 : "20px 20px 0 0",
