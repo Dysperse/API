@@ -110,7 +110,6 @@ function AvailabilityCalendar({ data }) {
         height: { sm: "100%" },
         gap: 2,
         order: { xs: 2, sm: -1 },
-        pt: "var(--navbar-height)",
       }}
     >
       <Box
@@ -342,8 +341,8 @@ export default function Page() {
             flexDirection: { xs: "column", md: "row" },
             height: { xs: "auto", sm: "100dvh" },
             overflow: "hidden",
-            gap: { sm: 5 },
-            pt: { xs: "var(--navbar-height)", sm: 0 },
+            gap: { xs: 4, sm: 5 },
+            pt: "var(--navbar-height)",
           }}
         >
           <Box sx={{ width: "100%" }}>
