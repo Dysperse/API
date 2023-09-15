@@ -121,6 +121,8 @@ function AvailabilityCalendar({ data }) {
           ml: -3,
           px: 3,
           gap: 2,
+          maxWidth: "100dvw",
+          flexShrink: 0,
         }}
       >
         <Button variant="contained" sx={{ flexShrink: 0 }}>
@@ -131,7 +133,7 @@ function AvailabilityCalendar({ data }) {
           sx={{
             flexShrink: 0,
             borderWidth: "2px!important",
-            color: palette[8] + "!important",
+            color: `${palette[8]}!important`,
           }}
         >
           Everyone else
@@ -281,8 +283,12 @@ export default function Page() {
   );
 
   useEffect(() => {
-    document.documentElement.classList.add("allow-scroll");
-    document.body.style.background = palette[1];
+    document.documentElement.classList[
+      router.asPath.includes("/availability/") ? "add" : "remove"
+    ]("allow-scroll");
+    document.body.style.background = router.asPath.includes("/availability/")
+      ? palette[1]
+      : "--bg";
   }, [palette]);
 
   return (
@@ -348,7 +354,7 @@ export default function Page() {
             flexDirection: { xs: "column", md: "row" },
             height: { xs: "auto", sm: "100dvh" },
             overflow: "hidden",
-            gap: { xs: 4, sm: 5 },
+            gap: { xs: 2, sm: 5 },
             pt: "var(--navbar-height)",
           }}
         >
