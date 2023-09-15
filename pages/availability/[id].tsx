@@ -115,14 +115,21 @@ function AvailabilityCalendar({ data }) {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
+          overflowX: "auto",
+          justifyContent: { sm: "center" },
+          mr: -3,
+          ml: -3,
+          px: 3,
           gap: 2,
         }}
       >
-        <Button variant="contained">My availability</Button>
+        <Button variant="contained" sx={{ flexShrink: 0 }}>
+          My availability
+        </Button>
         <Button
           variant="outlined"
           sx={{
+            flexShrink: 0,
             borderWidth: "2px!important",
             color: palette[8] + "!important",
           }}
