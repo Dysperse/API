@@ -254,7 +254,7 @@ function AvailabilityCalendar({ data }) {
         <Box
           sx={{
             display: "flex",
-            flex: "0 0 40px",
+            flex: "0 0 20px",
             position: "sticky",
             right: "0",
             background: `linear-gradient(to left, ${palette[2]}, transparent)`,
