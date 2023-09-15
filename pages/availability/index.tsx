@@ -68,8 +68,16 @@ function EventCard({ event }) {
               alignItems: "center",
             }}
           >
-            <Box>
-              <Typography variant="h4" className="font-heading">
+            <Box sx={{ minWidth: 0 }}>
+              <Typography
+                variant="h4"
+                className="font-heading"
+                sx={{
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+              >
                 {event.name}
               </Typography>
               <Typography variant="body1" sx={{ opacity: 0.6 }}>
@@ -79,7 +87,12 @@ function EventCard({ event }) {
             </Box>
             <IconButton
               onClick={() => router.push(`/availability/${event.id}`)}
-              sx={{ ml: "auto", color: palette[11], background: palette[4] }}
+              sx={{
+                ml: "auto",
+                flexShrink: 0,
+                color: palette[11],
+                background: palette[4],
+              }}
             >
               <Icon>east</Icon>
             </IconButton>
@@ -249,7 +262,13 @@ function CreateAvailability({ mutate, setShowMargin }) {
           setOpen(false);
           vibrate(50);
         }}
-        hideBackdrop
+        slotProps={{
+          backdrop: {
+            sx: {
+              backdropFilter: "none!important",
+            },
+          },
+        }}
         PaperProps={{
           sx: {
             maxWidth: !submitted ? "100%" : "calc(100dvw - 64px)",
@@ -406,6 +425,7 @@ export default function Page() {
     <Box sx={{ pb: "270px" }}>
       <AppBar
         sx={{
+          zIndex: 99999,
           position: "fixed",
           top: 0,
           left: 0,
