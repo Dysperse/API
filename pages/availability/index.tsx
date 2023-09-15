@@ -66,6 +66,7 @@ function EventCard({ event }) {
               p: 3,
               display: "flex",
               alignItems: "center",
+              gap: 2,
             }}
           >
             <Box sx={{ minWidth: 0 }}>
