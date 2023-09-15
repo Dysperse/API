@@ -352,7 +352,7 @@ export default function Page() {
             pt: "var(--navbar-height)",
           }}
         >
-          <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%", pt: { xs: 5, sm: 0 } }}>
             <Typography
               variant="h2"
               sx={{ color: palette[11] }}
