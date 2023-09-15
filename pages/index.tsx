@@ -535,8 +535,8 @@ const Friend = memo(function Friend({ mutate, friend }: any) {
 });
 
 interface LogoProps {
-  intensity?: number;
-  size?: number;
+  intensity?: number | string;
+  size?: number | string;
   onClick?: () => void;
 }
 
