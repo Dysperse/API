@@ -430,19 +430,21 @@ export default function Page() {
           position: "fixed",
           top: 0,
           left: 0,
+          border: 0,
         }}
       >
         <Toolbar sx={{ gap: 1.5 }}>
           <IconButton onClick={() => router.push("/")}>
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
-          <Typography>Availability</Typography>
+          <Typography>Home</Typography>
         </Toolbar>
       </AppBar>
       <CreateAvailability mutate={mutate} setShowMargin={setShowMargin} />
       <Box
         sx={{
           p: 4,
+          pt: 0,
           display: "flex",
           gap: "20px",
           flexDirection: "column",

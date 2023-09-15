@@ -166,11 +166,10 @@ function AvailabilityCalendar({ data }) {
           overflowY: "hidden",
           background: { sm: palette[2] },
           border: { sm: `2px solid ${palette[4]}` },
-          justifyContent: { sm: "center" },
           alignItems: { xs: "start", sm: "center" },
           borderRadius: 4,
           gap: 3,
-          p: 3,
+          p: { xs: 3, sm: 5 },
           ml: { xs: -3, sm: 0 },
           pt: { xs: 1, sm: 3 },
           width: { xs: "100dvw", sm: "auto" },
@@ -185,6 +184,7 @@ function AvailabilityCalendar({ data }) {
             zIndex: 99,
             background: addHslAlpha(palette[5], 0.6),
             backdropFilter: "blur(2px)",
+            mr: "auto",
           }}
           className="scroller"
           onScroll={handleScroll}
@@ -282,8 +282,9 @@ function AvailabilityCalendar({ data }) {
           sx={{
             display: "flex",
             flex: "0 0 20px",
+            ml: "auto",
             position: "sticky",
-            right: "calc(0dvw - 30px)",
+            right: { xs: "calc(0dvw - 30px)", sm: "-40px" },
             background: {
               xs: `linear-gradient(to left, ${palette[1]}, transparent)`,
               sm: `linear-gradient(to left, ${palette[2]}, transparent)`,
