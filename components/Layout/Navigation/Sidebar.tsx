@@ -154,7 +154,9 @@ export function Sidebar() {
   };
 
   const shouldHide =
-    router.asPath.includes("/onboarding") || router.asPath.includes("/audit");
+    router.asPath.includes("/onboarding") ||
+    router.asPath.includes("/audit") ||
+    router.asPath.includes("/availability");
 
   return (
     <Box
