@@ -166,7 +166,7 @@ export function Sidebar() {
         maxWidth: "85px",
         width: "80px",
         ml: shouldHide ? "-90px" : 0,
-        // ...(shouldHide && { opacity: 0, pointerEvents: "none" }),
+        ...(shouldHide && { pointerEvents: "none" }),
         transition: "all .2s",
         zIndex: "99!important",
         filter: "none!important",

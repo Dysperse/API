@@ -167,8 +167,8 @@ export default function AppLayout({
               xs: shouldHide ? "0px" : "0 0 20px 20px",
               sm: "20px 0 0 20px",
             },
-            transition: "border-radius .3s",
-            ml: { md: "85px" },
+            transition: "border-radius .3s, margin .3s",
+            ml: { md: shouldHide ? "0px" : "85px" },
             background: palette[1],
           }}
         >

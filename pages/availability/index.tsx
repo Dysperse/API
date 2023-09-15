@@ -49,7 +49,7 @@ function EventCard({ event }) {
   };
 
   return (
-    <Box key={event.id} sx={{ pb: 2 }}>
+    <Box key={event.id} sx={{ pb: 2, maxWidth: "500px", mx: "auto" }}>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <Box
           sx={{
@@ -179,6 +179,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
           textAlign: "center",
           left: "50%",
           transform: "translateX(-50%)",
+          maxWidth: "500px",
           background: addHslAlpha(palette[4], 0.8),
           backdropFilter: "blur(10px)",
           overflow: "hidden",
@@ -195,6 +196,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
         }}
       >
         <Puller
+          showOnDesktop
           sx={{
             "& .puller": {
               background: palette[6],
@@ -227,10 +229,9 @@ function CreateAvailability({ mutate, setShowMargin }) {
         PaperProps={{
           sx: {
             maxWidth: !submitted ? "100%" : "calc(100dvw - 64px)",
-            width: "100%",
+            width: "500px",
             background: submitted ? palette[3] : addHslAlpha(palette[4], 0.5),
             backdropFilter: submitted ? "" : "blur(10px)",
-            maxHeight: submitted ? "220px" : "270px",
             borderRadius: submitted ? 5 : "20px 20px 0 0",
             ...(submitted && {
               transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
@@ -257,6 +258,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
           />
         )}
         <Puller
+          showOnDesktop
           sx={{
             opacity: submitted ? 0 : 1,
             mt: submitted ? "-50px" : "0px",
@@ -448,7 +450,7 @@ export default function Page() {
               variant="rectangular"
               height="220px"
               animation="wave"
-              sx={{ borderRadius: 5 }}
+              sx={{ borderRadius: 5, maxWidth: "500px", mx: "auto" }}
             />
           ))
         )}
