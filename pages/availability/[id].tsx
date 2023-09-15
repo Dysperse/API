@@ -12,11 +12,13 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import { Logo } from "..";
 
 function AvailabilityCalendar({ data }) {
   const session = useSession();
@@ -69,7 +71,7 @@ function AvailabilityCalendar({ data }) {
     flexDirection: "column",
     justifyContent: "center",
     color: palette[11],
-    backdropFilter: "blur(3px)",
+    backdropFilter: { sm: "blur(3px)" },
     background: addHslAlpha(palette[3], 0.5),
     borderBottom: `2px solid ${addHslAlpha(palette[5], 0.5)}`,
   };
@@ -126,7 +128,24 @@ function AvailabilityCalendar({ data }) {
           flexShrink: 0,
         }}
       >
-        <Button variant="contained" sx={{ flexShrink: 0 }}>
+        <Button
+          variant="outlined"
+          sx={{
+            flexShrink: 0,
+            borderWidth: "2px!important",
+            color: `${palette[11]}!important`,
+            background: `${palette[4]}!important`,
+            borderColor: `${palette[6]}!important`,
+            "&:hover": {
+              background: { sm: `${palette[5]}!important` },
+              borderColor: `${palette[7]}!important`,
+            },
+            "&:active": {
+              background: `${palette[6]}!important`,
+              borderColor: `${palette[8]}!important`,
+            },
+          }}
+        >
           My availability
         </Button>
         <Button
@@ -146,13 +165,15 @@ function AvailabilityCalendar({ data }) {
           overflowX: "auto",
           overflowY: "hidden",
           background: { sm: palette[2] },
+          border: { sm: `2px solid ${palette[4]}` },
+          justifyContent: { sm: "center" },
+          alignItems: { xs: "start", sm: "center" },
           borderRadius: 4,
           gap: 3,
           p: 3,
           ml: { xs: -3, sm: 0 },
-          mr: { xs: -3, sm: 0 },
           pt: { xs: 1, sm: 3 },
-          width: "100%",
+          width: { xs: "100dvw", sm: "auto" },
         }}
       >
         <Box
@@ -262,7 +283,7 @@ function AvailabilityCalendar({ data }) {
             display: "flex",
             flex: "0 0 20px",
             position: "sticky",
-            right: "0",
+            right: "calc(0dvw - 30px)",
             background: {
               xs: `linear-gradient(to left, ${palette[1]}, transparent)`,
               sm: `linear-gradient(to left, ${palette[2]}, transparent)`,
@@ -284,18 +305,15 @@ export default function Page() {
     session?.themeColor || "violet",
     useDarkMode(session?.darkMode || "system")
   );
+  const isMobile = useMediaQuery(`(max-width: 600px)`);
 
   const { data, mutate, isLoading, error } = useSWR(
     router?.query?.id ? ["availability/event", { id: router.query.id }] : null
   );
 
   useEffect(() => {
-    document.documentElement.classList[
-      router.asPath.includes("/availability/") ? "add" : "remove"
-    ]("allow-scroll");
-    document.body.style.background = router.asPath.includes("/availability/")
-      ? palette[1]
-      : "--bg";
+    document.documentElement.classList.add("allow-scroll");
+    document.body.style.background = palette[1];
   }, [palette]);
 
   return (
@@ -314,6 +332,13 @@ export default function Page() {
         }}
       >
         <Toolbar>
+          {!session && (
+            <Logo
+              onClick={() =>
+                window.open(`https:////dysperse.com?utm_source=availability`)
+              }
+            />
+          )}
           {session && (
             <IconButton onClick={() => router.push("/availability")}>
               <Icon>arrow_back_ios_new</Icon>
@@ -362,12 +387,15 @@ export default function Page() {
             height: { xs: "unset", sm: "100dvh" },
             overflow: "hidden",
             gap: { xs: 2, sm: 5 },
+            width: "100dvw",
             pt: "var(--navbar-height)",
           }}
         >
-          <Box sx={{ width: "100%", pt: { xs: 5, sm: 0 } }}>
+          <Box
+            sx={{ width: "100%", pt: { xs: 5, sm: 0 }, textAlign: "center" }}
+          >
             <Typography
-              variant="h2"
+              variant={isMobile ? "h2" : "h1"}
               sx={{ color: palette[11] }}
               className="font-heading"
             >

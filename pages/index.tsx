@@ -534,7 +534,17 @@ const Friend = memo(function Friend({ mutate, friend }: any) {
   );
 });
 
-export function Logo({ intensity = 4, size = 45 }: any) {
+interface LogoProps {
+  intensity?: number;
+  size?: number;
+  onClick?: () => void;
+}
+
+export function Logo({
+  intensity = 4,
+  size = 45,
+  onClick = () => {},
+}: LogoProps) {
   const session = useSession();
 
   const palette = useColor(
@@ -544,6 +554,7 @@ export function Logo({ intensity = 4, size = 45 }: any) {
 
   return (
     <svg
+      onClick={onClick}
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}

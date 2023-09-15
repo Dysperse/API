@@ -371,6 +371,11 @@ export default function Page() {
 
   const { data, error, mutate } = useSWR(["availability"]);
 
+  useEffect(() => {
+    document.documentElement.classList.remove("allow-scroll");
+    document.body.style.background = palette[2];
+  }, [palette]);
+
   return (
     <Box sx={{ pb: "270px" }}>
       <AppBar
