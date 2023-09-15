@@ -108,7 +108,7 @@ function AvailabilityCalendar({ data }) {
         flexDirection: "column",
         justifyContent: "center",
         width: "100%",
-        height: { sm: "100%" },
+        height: { xs: "auto", sm: "100%" },
         gap: 2,
         order: { xs: 2, sm: -1 },
       }}
@@ -151,7 +151,7 @@ function AvailabilityCalendar({ data }) {
           p: 3,
           ml: { xs: -3, sm: 0 },
           mr: { xs: -3, sm: 0 },
-          pt: {xs:1,sm:3},
+          pt: { xs: 1, sm: 3 },
           width: "100%",
         }}
       >
