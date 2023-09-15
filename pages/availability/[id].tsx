@@ -47,7 +47,7 @@ function AvailabilityCalendar({ data }) {
     // sync scroll all `.scroller` elements
     const scrollers = document.querySelectorAll(".scroller");
     scrollers.forEach((scroller) => {
-      if (scroller !== e.target) {
+      if (scroller !== e.currentTarget) {
         scroller.scrollTop = e.currentTarget.scrollTop;
       }
     });
