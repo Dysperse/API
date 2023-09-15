@@ -111,7 +111,8 @@ function AvailabilityCalendar({ data }) {
         justifyContent: "center",
         width: "100%",
         height: { xs: "auto", sm: "100%" },
-        gap: 2,
+        gap: { xs: 2, sm: 4 },
+        p: { sm: 3 },
         order: { xs: 2, sm: -1 },
       }}
     >
@@ -119,7 +120,6 @@ function AvailabilityCalendar({ data }) {
         sx={{
           display: "flex",
           overflowX: "auto",
-          justifyContent: { sm: "center" },
           mr: -3,
           ml: -3,
           px: 3,
@@ -131,6 +131,7 @@ function AvailabilityCalendar({ data }) {
         <Button
           variant="outlined"
           sx={{
+            ml: "auto",
             flexShrink: 0,
             borderWidth: "2px!important",
             color: `${palette[11]}!important`,
@@ -151,6 +152,7 @@ function AvailabilityCalendar({ data }) {
         <Button
           variant="outlined"
           sx={{
+            mr: "auto",
             flexShrink: 0,
             borderWidth: "2px!important",
             color: `${palette[8]}!important`,
@@ -189,13 +191,7 @@ function AvailabilityCalendar({ data }) {
           className="scroller"
           onScroll={handleScroll}
         >
-          <Box
-            sx={{
-              ...headerStyles,
-              borderColor: palette[6],
-            }}
-            onClick={handleParentScrollTop}
-          >
+          <Box sx={headerStyles} onClick={handleParentScrollTop}>
             <Tooltip
               open={showTooltip}
               title={showEarlyHours ? "Hide early hours" : "Show early hours"}
@@ -221,7 +217,7 @@ function AvailabilityCalendar({ data }) {
                 px: 0,
                 flexShrink: 0,
                 borderRadius: 0,
-                ...(i === 12 && { borderBottom: `2px solid ${palette[5]}` }),
+                ...(i === 12 && { borderBottom: `2px solid ${palette[6]}` }),
                 ...(i < 8 && !showEarlyHours && { display: "none" }),
               }}
               key={i}
