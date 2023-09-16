@@ -7,7 +7,21 @@ export default async function handler(req, res) {
 
     const data = await prisma.event.findFirstOrThrow({
       where: { id: req.query.id },
-      include: { participants: true },
+      include: {
+        participants: {
+          select: {
+            id: true,
+            availability: true,
+            user: {
+              select: {
+                name: true,
+                email: true,
+                Profile: { select: { picture: true } },
+              },
+            },
+          },
+        },
+      },
     });
     res.json(data);
   } catch (e: any) {

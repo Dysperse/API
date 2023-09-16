@@ -1,6 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   AppBar,
@@ -17,9 +18,61 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import { Logo } from "..";
+
+const AvailabilityButton = React.memo(function AvailabilityButton({
+  showEarlyHours,
+  hour,
+  col,
+  handleSelect,
+}: any) {
+  const session = useSession();
+  const palette = useColor(
+    session?.themeColor || "violet",
+    useDarkMode(session?.darkMode || "system")
+  );
+  const greenPalette = useColor(
+    "green",
+    useDarkMode(session?.darkMode || "system")
+  );
+  return (
+    <Button
+      size="small"
+      onClick={() => handleSelect(hour, col.date)}
+      sx={{
+        // If the user has marked their availability for this time slot, make it green
+        "&:hover": {
+          background: palette[4] + "!important",
+        },
+        ...(col.availability && {
+          background: greenPalette[6] + "!important",
+          "&:hover": {
+            background: greenPalette[7] + "!important",
+          },
+          color: greenPalette[12] + "!important",
+        }),
+        height: "35px",
+        borderRadius: 0,
+        flexShrink: 0,
+        ...(hour === 12 && {
+          borderBottom: `2px solid ${palette[5]}`,
+          ...(col.availability && {
+            borderBottom: `2px solid ${greenPalette[5]}`,
+          }),
+        }),
+        ...(hour < 8 && !showEarlyHours && { display: "none" }),
+      }}
+    >
+      <span>
+        {col.date.format("h")}
+        <span style={{ opacity: 0.7 }}>{col.date.format("A")}</span>
+      </span>
+    </Button>
+  );
+});
 
 function EarlyHoursToggle({ showEarlyHours, setShowEarlyHours }) {
   const isMobile = useMediaQuery(`(max-width: 600px)`);
@@ -57,7 +110,7 @@ function EarlyHoursToggle({ showEarlyHours, setShowEarlyHours }) {
   );
 }
 
-function AvailabilityCalendar({ data }) {
+function AvailabilityCalendar({ setIsSaving, mutate, data }) {
   const session = useSession();
   const isMobile = useMediaQuery(`(max-width: 600px)`);
 
@@ -74,9 +127,13 @@ function AvailabilityCalendar({ data }) {
   const grid = [...Array(days)].map((_, i) => {
     return [...Array(times)].map((_, j) => {
       const date = startDate.add(i, "day").set("hour", j);
-      const availability = data.participants?.find((a) =>
-        dayjs(a.date).isSame(date)
-      );
+
+      const availability = data.participants
+        .find((p) => p.user.email === session?.user?.email)
+        ?.availability?.find((a) =>
+          dayjs(a.date).set("hour", a.hour).isSame(date)
+        );
+
       return {
         date,
         availability,
@@ -113,25 +170,101 @@ function AvailabilityCalendar({ data }) {
     backdropFilter: { sm: "blur(3px)" },
     background: addHslAlpha(palette[3], 0.5),
     borderBottom: `2px solid ${addHslAlpha(palette[5], 0.5)}`,
+    "&:hover": {
+      background: addHslAlpha(palette[4], 0.5),
+      borderBottom: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+    },
   };
 
   const columnStyles = {
     flexShrink: 0,
     display: "flex",
     flexDirection: "column",
-    flexGrow: "0 0 100px",
+    flex: "0 0 90px",
     background: palette[3],
     borderRadius: 4,
-    maxHeight: {
-      xs: "auto",
-      sm: "100%",
-    },
+    maxHeight: "100%",
     overflowY: "auto",
+    overflowX: "hidden",
   };
 
   const [showEarlyHours, setShowEarlyHours] = useState(false);
 
-  const handleMultiSelect = (i) => {};
+  const handleRowSelect = (hour) => {
+    // repeat `handleSelect` for cells in the hour row of the grid
+    grid.forEach((row) => {
+      handleSelect(hour, row[hour].date);
+    });
+  };
+
+  const handleColumnSelect = (dayIndex: number) => {
+    // repeat `handleSelect` for cells in the day column of the grid
+    grid[dayIndex].forEach((col, j) => {
+      handleSelect(j + 1, col.date);
+    });
+  };
+
+  const handleSelect = async (hour, date) => {
+    let participant = data.participants.find(
+      (p) => p.user.email === session?.user?.email
+    );
+
+    if (!participant) {
+      return toast.error("You are not a participant of this event.");
+    }
+
+    let availability = participant.availability || [];
+
+    // Availability is an array of {date: ISO string, hour: number}. If the user has already marked their availability for this day and hour, remove it. If the user has not marked their availability for this day and hour, add it. Then, create a `newData`
+
+    // Find index of availability with the same date and hour
+
+    const availabilityIndex = availability.findIndex((a) =>
+      dayjs(a.date)
+        .startOf("day")
+        .set("hour", a.hour)
+        .isSame(dayjs(date).startOf("day").set("hour", hour))
+    );
+
+    if (availabilityIndex !== -1) {
+      availability.splice(availabilityIndex, 1);
+    } else {
+      availability.push({
+        date: dayjs(date).set("hour", 0).toISOString(),
+        hour,
+      });
+    }
+
+    const newData = {
+      ...data,
+      participants: data.participants.map((p) => {
+        if (p.user.email === session?.user?.email) {
+          return {
+            ...p,
+            availability: [...availability],
+          };
+        } else {
+          return p;
+        }
+      }),
+    };
+
+    mutate(newData, {
+      populateCache: newData,
+      revalidate: false,
+    });
+
+    setIsSaving("saving");
+    await fetchRawApi(session, "availability/event/set-availability", {
+      eventId: data.id,
+      email: session?.user?.email,
+      availability: JSON.stringify(
+        newData.participants.find((p) => p.user.email === session?.user?.email)
+          ?.availability
+      ),
+    });
+    setIsSaving("saved");
+  };
   const handleParentScrollTop = (e: any) =>
     (e.currentTarget.parentElement.scrollTop = 0);
 
@@ -150,6 +283,7 @@ function AvailabilityCalendar({ data }) {
         p: { sm: 3 },
       }}
     >
+      {/* <TextField multiline value={JSON.stringify(data, null, 2)} /> */}
       <Box
         sx={{
           display: "flex",
@@ -157,6 +291,7 @@ function AvailabilityCalendar({ data }) {
           mr: -3,
           ml: -3,
           px: 3,
+          mt: { xs: 2, sm: 0 },
           gap: 2,
           maxWidth: "100dvw",
           flexShrink: 0,
@@ -206,6 +341,7 @@ function AvailabilityCalendar({ data }) {
           border: `2px solid ${palette[4]}`,
           alignItems: { xs: "start", sm: "center" },
           borderRadius: 4,
+          height: { xs: "auto", sm: "100%" },
           gap: 3,
           p: { xs: 3, sm: 5 },
           pt: 3,
@@ -236,7 +372,7 @@ function AvailabilityCalendar({ data }) {
           {[...new Array(times)].map((_, i) => (
             <Button
               size="small"
-              onClick={() => handleMultiSelect(i)}
+              onClick={() => handleRowSelect(i)}
               sx={{
                 height: "35px",
                 px: 0,
@@ -258,7 +394,13 @@ function AvailabilityCalendar({ data }) {
             className="scroller"
             onScroll={handleScroll}
           >
-            <Box sx={headerStyles} onClick={handleParentScrollTop}>
+            <Box
+              sx={headerStyles}
+              onClick={(e) => {
+                handleParentScrollTop(e);
+                handleColumnSelect(i);
+              }}
+            >
               <Box
                 sx={{
                   display: "flex",
@@ -280,22 +422,13 @@ function AvailabilityCalendar({ data }) {
               </Typography>
             </Box>
             {row.map((col, j) => (
-              <Button
-                size="small"
+              <AvailabilityButton
                 key={j}
-                sx={{
-                  height: "35px",
-                  borderRadius: 0,
-                  flexShrink: 0,
-                  ...(j === 12 && { borderBottom: `2px solid ${palette[5]}` }),
-                  ...(j < 8 && !showEarlyHours && { display: "none" }),
-                }}
-              >
-                <span>
-                  {col.date.format("h")}
-                  <span style={{ opacity: 0.7 }}>{col.date.format("A")}</span>
-                </span>
-              </Button>
+                hour={j}
+                col={col}
+                handleSelect={handleSelect}
+                showEarlyHours={showEarlyHours}
+              />
             ))}
           </Box>
         ))}
@@ -324,7 +457,8 @@ export default function Page() {
     session?.themeColor || "violet",
     useDarkMode(session?.darkMode || "system")
   );
-  const isMobile = useMediaQuery(`(max-width: 600px)`);
+
+  const [isSaving, setIsSaving] = useState("upToDate");
 
   const { data, mutate, isLoading, error } = useSWR(
     router?.query?.id ? ["availability/event", { id: router.query.id }] : null
@@ -344,7 +478,8 @@ export default function Page() {
     >
       <AppBar
         sx={{
-          position: "fixed",
+          position: "absolute",
+          backdropFilter: "none",
           top: 0,
           left: 0,
           border: 0,
@@ -431,6 +566,7 @@ export default function Page() {
                 background: { sm: palette[2] },
                 border: { sm: `2px solid ${palette[4]}` },
                 borderRadius: 5,
+                position: "relative",
               }}
             >
               <Typography
@@ -443,9 +579,26 @@ export default function Page() {
               <Typography sx={{ color: palette[11], opacity: 0.7 }}>
                 Tap on a time slot to mark your availability.
               </Typography>
+              {isSaving !== "upToDate" && (
+                <Button size="small" variant="contained" sx={{ mt: 1, mb: -1 }}>
+                  <Icon
+                    sx={{
+                      fontSize: "30px!important",
+                    }}
+                    className="outlined"
+                  >
+                    {isSaving === "saving" ? "cloud_sync" : "cloud_done"}
+                  </Icon>
+                  {isSaving === "saving" ? "Saving..." : "Saved"}
+                </Button>
+              )}
             </Box>
           </Grid>
-          <AvailabilityCalendar data={data} />
+          <AvailabilityCalendar
+            setIsSaving={setIsSaving}
+            data={data}
+            mutate={mutate}
+          />
         </Grid>
       )}
     </Box>
