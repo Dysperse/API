@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Grid,
   Icon,
   IconButton,
   Toolbar,
@@ -20,8 +21,46 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Logo } from "..";
 
+function EarlyHoursToggle({ showEarlyHours, setShowEarlyHours }) {
+  const isMobile = useMediaQuery(`(max-width: 600px)`);
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowTooltip(false);
+    }, 1000);
+  }, []);
+
+  return (
+    <Tooltip
+      open={showTooltip}
+      title={showEarlyHours ? "Hide early hours" : "Show early hours"}
+      placement="right"
+    >
+      <IconButton
+        onClick={() => setShowEarlyHours((e) => !e)}
+        {...(isMobile
+          ? {
+              onTouchStart: () => setShowTooltip(true),
+              onTouchEnd: () => setShowTooltip(false),
+            }
+          : {
+              onMouseEnter: () => setShowTooltip(true),
+              onMouseLeave: () => setShowTooltip(false),
+            })}
+      >
+        <Icon sx={{ fontSize: "30px!important" }} className="outlined">
+          {!showEarlyHours ? "wb_twilight" : "expand_less"}
+        </Icon>
+      </IconButton>
+    </Tooltip>
+  );
+}
+
 function AvailabilityCalendar({ data }) {
   const session = useSession();
+  const isMobile = useMediaQuery(`(max-width: 600px)`);
+
   const palette = useColor(
     session?.themeColor || "violet",
     useDarkMode(session?.darkMode || "system")
@@ -91,20 +130,16 @@ function AvailabilityCalendar({ data }) {
   };
 
   const [showEarlyHours, setShowEarlyHours] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowTooltip(false);
-    }, 1000);
-  }, []);
 
   const handleMultiSelect = (i) => {};
   const handleParentScrollTop = (e: any) =>
     (e.currentTarget.parentElement.scrollTop = 0);
 
   return (
-    <Box
+    <Grid
+      item
+      xs={12}
+      md={6}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -113,7 +148,6 @@ function AvailabilityCalendar({ data }) {
         height: { xs: "auto", sm: "100%" },
         gap: { xs: 2, sm: 4 },
         p: { sm: 3 },
-        order: { xs: 2, sm: -1 },
       }}
     >
       <Box
@@ -130,8 +164,9 @@ function AvailabilityCalendar({ data }) {
       >
         <Button
           variant="outlined"
+          {...(isMobile && { size: "small" })}
           sx={{
-            ml: "auto",
+            ml: { sm: "auto" },
             flexShrink: 0,
             borderWidth: "2px!important",
             color: `${palette[11]}!important`,
@@ -150,9 +185,10 @@ function AvailabilityCalendar({ data }) {
           My availability
         </Button>
         <Button
+          {...(isMobile && { size: "small" })}
           variant="outlined"
           sx={{
-            mr: "auto",
+            mr: { sm: "auto" },
             flexShrink: 0,
             borderWidth: "2px!important",
             color: `${palette[8]}!important`,
@@ -166,15 +202,15 @@ function AvailabilityCalendar({ data }) {
           display: "flex",
           overflowX: "auto",
           overflowY: "hidden",
-          background: { sm: palette[2] },
-          border: { sm: `2px solid ${palette[4]}` },
+          background: palette[2],
+          border: `2px solid ${palette[4]}`,
           alignItems: { xs: "start", sm: "center" },
           borderRadius: 4,
           gap: 3,
           p: { xs: 3, sm: 5 },
-          ml: { xs: -3, sm: 0 },
-          pt: { xs: 1, sm: 3 },
-          width: { xs: "100dvw", sm: "auto" },
+          pt: 3,
+          width: "auto",
+          maxWidth: "100%",
         }}
       >
         <Box
@@ -186,27 +222,16 @@ function AvailabilityCalendar({ data }) {
             zIndex: 99,
             background: addHslAlpha(palette[5], 0.6),
             backdropFilter: "blur(2px)",
-            mr: "auto",
+            ml: "auto",
           }}
           className="scroller"
           onScroll={handleScroll}
         >
           <Box sx={headerStyles} onClick={handleParentScrollTop}>
-            <Tooltip
-              open={showTooltip}
-              title={showEarlyHours ? "Hide early hours" : "Show early hours"}
-              placement="right"
-            >
-              <IconButton
-                onClick={() => setShowEarlyHours((e) => !e)}
-                onMouseOut={() => setShowTooltip(false)}
-                onMouseOver={() => setShowTooltip(true)}
-              >
-                <Icon sx={{ fontSize: "30px!important" }} className="outlined">
-                  {!showEarlyHours ? "wb_twilight" : "expand_less"}
-                </Icon>
-              </IconButton>
-            </Tooltip>
+            <EarlyHoursToggle
+              showEarlyHours={showEarlyHours}
+              setShowEarlyHours={setShowEarlyHours}
+            />
           </Box>
           {[...new Array(times)].map((_, i) => (
             <Button
@@ -229,7 +254,7 @@ function AvailabilityCalendar({ data }) {
         {grid.map((row, i) => (
           <Box
             key={i}
-            sx={columnStyles}
+            sx={{ ...columnStyles, mr: "-0px" }}
             className="scroller"
             onScroll={handleScroll}
           >
@@ -281,17 +306,14 @@ function AvailabilityCalendar({ data }) {
             ml: "auto",
             position: "sticky",
             right: { xs: "calc(0dvw - 30px)", sm: "-40px" },
-            background: {
-              xs: `linear-gradient(to left, ${palette[1]}, transparent)`,
-              sm: `linear-gradient(to left, ${palette[2]}, transparent)`,
-            },
+            background: `linear-gradient(to left, ${palette[2]}, transparent)`,
             width: 40,
             height: "100vh",
             zIndex: 99,
           }}
         />
       </Box>
-    </Box>
+    </Grid>
   );
 }
 
@@ -375,7 +397,8 @@ export default function Page() {
         />
       )}
       {data && (
-        <Box
+        <Grid
+          container
           sx={{
             p: 3,
             display: "flex",
@@ -383,27 +406,47 @@ export default function Page() {
             flexDirection: { xs: "column", md: "row" },
             height: { xs: "unset", sm: "100dvh" },
             overflow: "hidden",
-            gap: { xs: 2, sm: 5 },
             width: "100dvw",
             pt: "var(--navbar-height)",
           }}
         >
-          <Box
-            sx={{ width: "100%", pt: { xs: 5, sm: 0 }, textAlign: "center" }}
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              width: "100%",
+              textAlign: { sm: "center" },
+              display: "flex",
+              mt: { xs: 5, sm: 0 },
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <Typography
-              variant={isMobile ? "h2" : "h1"}
-              sx={{ color: palette[11] }}
-              className="font-heading"
+            <Box
+              sx={{
+                width: { xs: "100%", sm: "auto" },
+                p: { sm: 5 },
+                background: { sm: palette[2] },
+                border: { sm: `2px solid ${palette[4]}` },
+                borderRadius: 5,
+              }}
             >
-              {data.name}
-            </Typography>
-            <Typography sx={{ color: palette[11], opacity: 0.7 }}>
-              Tap on a time slot to mark your availability.
-            </Typography>
-          </Box>
+              <Typography
+                variant="h2"
+                sx={{ color: palette[11] }}
+                className="font-heading"
+              >
+                {data.name}
+              </Typography>
+              <Typography sx={{ color: palette[11], opacity: 0.7 }}>
+                Tap on a time slot to mark your availability.
+              </Typography>
+            </Box>
+          </Grid>
           <AvailabilityCalendar data={data} />
-        </Box>
+        </Grid>
       )}
     </Box>
   );

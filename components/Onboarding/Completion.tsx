@@ -35,7 +35,7 @@ export function Completion({ styles, navigation }) {
           color="primary"
           onClick={async () => {
             setLoading(true);
-            updateSettings(["onboardingComplete", "true"], { session });
+            await updateSettings(["onboardingComplete", "true"], { session });
             await mutate("/api/session");
             router.push((router.query.next as string) || "/");
           }}

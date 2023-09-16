@@ -35,14 +35,3 @@ export async function updateSettings(
     toast.error("Couldn't save changes. Please try again later");
   }
 }
-
-/**
- *   session,
-  key: string,
-  value: string,
-  debug = false,
-  callback: null | (() => void) = null,
-  property = false,
-  hideToast = false,
-  errorText = "Couldn't save settings."
- */
