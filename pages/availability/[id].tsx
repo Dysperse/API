@@ -1,4 +1,5 @@
 import { ErrorHandler } from "@/components/Error";
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -11,6 +12,7 @@ import {
   Grid,
   Icon,
   IconButton,
+  Skeleton,
   Toolbar,
   Tooltip,
   Typography,
@@ -464,6 +466,12 @@ export default function Page() {
     router?.query?.id ? ["availability/event", { id: router.query.id }] : null
   );
 
+  const { data: profileData } = useSWR(
+    session?.user?.email
+      ? ["user/profile", { email: session?.user?.email }]
+      : null
+  );
+
   useEffect(() => {
     document.documentElement.classList.add("allow-scroll");
     document.body.style.background = palette[1];
@@ -498,6 +506,18 @@ export default function Page() {
               <Icon>arrow_back_ios_new</Icon>
             </IconButton>
           )}
+          {session &&
+            (profileData ? (
+              <Box sx={{ ml: "auto" }}>
+                <ProfilePicture
+                  size={40}
+                  data={profileData}
+                  mutate={() => {}}
+                />
+              </Box>
+            ) : (
+              <Skeleton variant="circular" width={40} height={40} />
+            ))}
           {!session && (
             <Button
               variant="contained"
