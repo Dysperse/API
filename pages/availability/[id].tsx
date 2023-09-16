@@ -516,7 +516,12 @@ export default function Page() {
                 />
               </Box>
             ) : (
-              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton
+                sx={{ ml: "auto" }}
+                variant="circular"
+                width={40}
+                height={40}
+              />
             ))}
           {!session && (
             <Button
