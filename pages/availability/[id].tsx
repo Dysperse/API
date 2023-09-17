@@ -43,7 +43,7 @@ function IdentityModal({ userData, setUserData }) {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    if (!isLoading && !session && !userData) {
+    if (!isLoading && !session && !userData?.email) {
       setShowPersonPrompt(true);
     }
   }, [isLoading, session, userData]);
@@ -218,7 +218,7 @@ function EarlyHoursToggle({ showEarlyHours, setShowEarlyHours }) {
   );
 }
 
-function AvailabilityCalendar({ setIsSaving, mutate, data }) {
+function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
   const { session } = useSession();
   const isMobile = useMediaQuery(`(max-width: 600px)`);
 
@@ -346,7 +346,7 @@ function AvailabilityCalendar({ setIsSaving, mutate, data }) {
     const newData = {
       ...data,
       participants: data.participants.map((p) => {
-        if (p.user.email === session?.user?.email) {
+        if (p.user.email === (userData?.email || session?.user?.email)) {
           return {
             ...p,
             availability: [...availability],
@@ -741,6 +741,7 @@ export default function Page({ data: eventData }) {
             </Box>
           </Grid>
           <AvailabilityCalendar
+            userData={userData}
             setIsSaving={setIsSaving}
             data={data}
             mutate={mutate}
