@@ -222,8 +222,7 @@ export function CreateTask({
           ...(parentId && { parent: parentId }),
 
           createdBy: session.user.email,
-        });
-        onSuccess && onSuccess();
+        }).then(() => onSuccess && onSuccess());
         toast.dismiss();
         toast.success("Created task!");
 
