@@ -26,6 +26,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { Logo } from "..";
 
@@ -48,10 +49,23 @@ function IdentityModal({ userData, setUserData }) {
     }
   }, [isLoading, session, userData]);
 
+  useEffect(() => {
+    if (localStorage.getItem("name")) {
+      setName(String(localStorage.getItem("name")));
+    }
+    if (localStorage.getItem("email")) {
+      setEmail(String(localStorage.getItem("email")));
+    }
+  }, []);
+
   const handleSubmit = () => {
     setUserData({ name, email });
     setShowPersonPrompt(false);
   };
+
+  useHotkeys("enter", () => document.getElementById("continue")?.click(), {
+    enableOnFormTags: true,
+  });
 
   return (
     <>
@@ -83,7 +97,10 @@ function IdentityModal({ userData, setUserData }) {
         </Typography>
         <TextField
           autoFocus
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            localStorage.setItem("name", e.target.value);
+          }}
           value={name}
           required
           name="name"
@@ -92,7 +109,10 @@ function IdentityModal({ userData, setUserData }) {
           sx={{ mb: 2 }}
         />
         <TextField
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            localStorage.setItem("email", e.target.value);
+          }}
           value={email}
           required
           label="Email"
@@ -108,7 +128,6 @@ function IdentityModal({ userData, setUserData }) {
         >
           <Button
             size="small"
-            disabled={isLoading}
             onClick={() =>
               router.push(
                 "/auth?next=" + encodeURIComponent(window.location.href)
@@ -118,6 +137,7 @@ function IdentityModal({ userData, setUserData }) {
             I have an account
           </Button>
           <Button
+            id="continue"
             onClick={handleSubmit}
             variant="contained"
             sx={{ ml: "auto" }}
