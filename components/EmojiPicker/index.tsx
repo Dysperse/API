@@ -48,7 +48,7 @@ const EmojiPicker = function EmojiPicker({
   setEmoji: (emoji: string) => void;
   useNativeEmoji?: boolean;
 }) {
-  const session = useSession();
+  const { session } = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");

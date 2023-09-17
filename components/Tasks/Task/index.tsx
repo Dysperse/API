@@ -48,7 +48,7 @@ const TaskChips = React.memo(function TaskChips({
   handlePriorityChange,
 }: any) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const isPinned = taskData.pinned;
   const isDue = taskData.due && !isAgenda;
   const isTimeDue =
@@ -253,7 +253,7 @@ export const Task: any = React.memo(function Task({
   const [taskData, setTaskData] = useState(task);
 
   const ref: any = useRef();
-  const session = useSession();
+  const { session } = useSession();
   const storage = useAccountStorage();
   const isDark = useDarkMode(session.darkMode);
 

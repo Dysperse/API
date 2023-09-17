@@ -28,7 +28,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
 
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
-  const session = useSession();
+  const { session } = useSession();
 
   useEffect(() => {
     if (!descriptionRef.current || !descriptionRef.current || !board) return;

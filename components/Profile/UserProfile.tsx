@@ -31,7 +31,7 @@ import { ProfilePicture } from "./ProfilePicture";
 import { WorkingHours } from "./WorkingHours";
 
 function Contacts({ profile }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [open, setOpen] = useState(true);
 
@@ -133,7 +133,7 @@ export function SpotifyCard({
   hideIfNotPlaying = false,
   open = false,
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
 
   const { data, isLoading, error } = useSWR(
     [
@@ -310,7 +310,7 @@ export function UserProfile({
   data,
   profileCardStyles,
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const birthdayRef: any = useRef();
 
   const profile = data.Profile;

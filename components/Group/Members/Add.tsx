@@ -22,7 +22,7 @@ import { Prompt } from "../../TwoFactorModal";
 import { isEmail } from "./isEmail";
 
 function LinkToken() {
-  const session = useSession();
+  const { session } = useSession();
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -128,7 +128,7 @@ export function AddPersonModal({
   members: string[];
   defaultValue?: any;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [permission, setPermission] = useState("member");

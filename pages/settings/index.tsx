@@ -6,18 +6,18 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-    AppBar,
-    Avatar,
-    Box,
-    Icon,
-    IconButton,
-    InputAdornment,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    TextField,
-    Toolbar,
-    Typography,
+  AppBar,
+  Avatar,
+  Box,
+  Icon,
+  IconButton,
+  InputAdornment,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  TextField,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -28,7 +28,7 @@ import useSWR from "swr";
 
 function Page() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

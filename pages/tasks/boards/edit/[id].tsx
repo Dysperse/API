@@ -51,7 +51,7 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
 };
 
 function BoardColumnSettings({ data, styles, mutate }) {
-  const session = useSession();
+  const { session } = useSession();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
@@ -239,7 +239,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
   );
 }
 function BoardAppearanceSettings({ data, styles, mutate }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const handleEdit = (key, value, callback = () => {}) => {
@@ -365,7 +365,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
 }
 
 function EditLayout({ id, data, mutate }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const [view, setView] = useState<any>(null);
 
@@ -519,7 +519,7 @@ function EditLayout({ id, data, mutate }) {
 
 const Dashboard = () => {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const id = router?.query?.id;
   const [open, setOpen] = useState(false);
 

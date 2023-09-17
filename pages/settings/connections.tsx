@@ -13,7 +13,7 @@ import { useColor, useDarkMode } from "../../lib/client/useColor";
  * Top-level component for the appearance settings page.
  */
 export default function ConnectionsSettings() {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const { data, error, mutate } = useSWR([
     "user/profile",

@@ -8,7 +8,7 @@ import * as colors from "@radix-ui/colors";
 import toast from "react-hot-toast";
 
 export function AppearanceStep({ styles, navigation }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

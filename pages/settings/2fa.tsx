@@ -15,7 +15,7 @@ import Layout from ".";
  * Top-level component for the two-factor authentication settings page.
  */
 export default function App() {
-  const session = useSession();
+  const { session } = useSession();
   const secret = twofactor.generateSecret({
     name: "Dysperse",
     account: session.user.email,

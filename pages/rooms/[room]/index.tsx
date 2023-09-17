@@ -32,7 +32,7 @@ import RoomLayout from "..";
 import { CreateItem } from "../../../components/Inventory/CreateItem";
 
 function MoveItem({ children, item, mutate, setParentOpen }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -124,7 +124,7 @@ function MoveItem({ children, item, mutate, setParentOpen }) {
 
 function ItemDrawerContent({ item, mutate, setOpen }) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
 
@@ -371,7 +371,7 @@ export function ItemPopup({
   item: any;
   mutateList: any;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -434,7 +434,7 @@ export function ItemPopup({
 function Room({ room, mutateList }) {
   const router = useRouter();
 
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   return (
@@ -572,7 +572,7 @@ function Room({ room, mutateList }) {
 }
 
 export default function Page() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const { data, isLoading, mutate, error } = useSWR(

@@ -19,7 +19,7 @@ export function Color({
   s: string;
   color: string;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const invertColors = ["lime", "cyan", "green", "teal", "blue"].includes(
     color
   );

@@ -19,7 +19,7 @@ export const ColumnMenu = React.memo(function ColumnMenu({
   data,
   children,
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const selection = useContext(SelectionContext);
 

@@ -3,7 +3,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Typography } from "@mui/material";
 
 export function Intro() {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (

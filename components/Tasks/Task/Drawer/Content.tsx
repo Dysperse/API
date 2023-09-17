@@ -29,7 +29,7 @@ import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
 function DrawerContent({ isDisabled, handleDelete }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const task = useTaskContext();
   const storage = useAccountStorage();
 

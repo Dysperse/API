@@ -22,7 +22,7 @@ import useSWR from "swr";
 export default function Dashboard() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
 
   const { data, mutate, error } = useSWR([
     router?.query?.query ? "property/tasks/search" : null,

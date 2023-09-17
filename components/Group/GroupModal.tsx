@@ -26,7 +26,7 @@ export function GroupModal({
   useRightClick = true,
   onSuccess = () => {},
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const [showMore, setShowMore] = useState(false);
   const [showInvitations, setShowInvitations] = useState(false);
 

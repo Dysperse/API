@@ -6,7 +6,7 @@ import { Color } from "./Color";
 import { useTaskContext } from "./Context";
 
 export function ColorPopover({ disabled }) {
-  const session = useSession();
+  const { session } = useSession();
   const task = useTaskContext();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 

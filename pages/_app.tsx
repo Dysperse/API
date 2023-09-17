@@ -147,7 +147,7 @@ export default function App({
 
   return (
     <SWRConfig value={{ fetcher: (d) => fetcher(d, s) }}>
-      <SessionProvider session={s}>
+      <SessionProvider session={s} isLoading={isLoading}>
         <StorageContext.Provider value={{ isReached, setIsReached }}>
           <ThemeProvider theme={userTheme}>
             <Toaster containerClassName="noDrag" toastOptions={toastStyles} />

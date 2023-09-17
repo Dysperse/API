@@ -22,7 +22,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 export function GroupStep({ styles, navigation }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [type, setType] = useState("");

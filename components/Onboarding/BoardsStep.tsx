@@ -4,7 +4,7 @@ import { Box, Container, Typography } from "@mui/material";
 import { CreateBoard } from "../Tasks/Board/Create";
 
 export function BoardsStep({ parentRef, styles, navigation }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

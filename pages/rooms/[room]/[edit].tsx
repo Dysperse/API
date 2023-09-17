@@ -22,7 +22,7 @@ import RoomLayout from "../";
 
 export default function Page() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(
     session.themeColor,
     useDarkMode(session.user.darkMode)

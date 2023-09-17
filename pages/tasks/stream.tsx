@@ -24,7 +24,7 @@ import useSWR from "swr";
  * Top-level component for the dashboard page.
  */
 export function Upcoming({ setMobileView }) {
-  const session = useSession();
+  const { session } = useSession();
 
   const { data, mutate, error } = useSWR([
     "property/tasks/backlog",
@@ -175,7 +175,7 @@ export function Upcoming({ setMobileView }) {
  * Top-level component for the dashboard page.
  */
 export default function Dashboard() {
-  const session = useSession();
+  const { session } = useSession();
   const scrollerRef = useRef();
   const [open, setOpen] = useState(false);
 

@@ -19,7 +19,7 @@ import { Box } from "victory";
 import SpacesLayout from ".";
 
 export default function Page() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const { id } = router.query;
 

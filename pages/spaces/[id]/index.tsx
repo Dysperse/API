@@ -27,7 +27,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 
 export default function SpacesLayout({ parentRef, children, title }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const { id } = router.query;
   const isDark = useDarkMode(session.darkMode);

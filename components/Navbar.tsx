@@ -14,7 +14,7 @@ export function Navbar({
   right?: JSX.Element;
   showRightContent?: boolean;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const router = useRouter();
 

@@ -9,10 +9,12 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
   Grid,
   Icon,
   IconButton,
   Skeleton,
+  TextField,
   Toolbar,
   Tooltip,
   Typography,
@@ -26,13 +28,107 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 import { Logo } from "..";
 
+function IdentityModal({ setUserData }) {
+  const router = useRouter();
+  const { session, isLoading } = useSession();
+  const palette = useColor(
+    session?.themeColor || "violet",
+    useDarkMode(session?.darkMode || "system")
+  );
+
+  const [showPersonPrompt, setShowPersonPrompt] = useState(false);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (!isLoading && !session) {
+      setShowPersonPrompt(true);
+    }
+  }, [isLoading, session]);
+
+  const handleSubmit = () => {
+    setUserData({ name, email });
+  };
+
+  return (
+    <Dialog
+      open={showPersonPrompt}
+      onClose={() => setShowPersonPrompt(true)}
+      PaperProps={{
+        sx: {
+          p: 5,
+          border: `2px solid ${palette[3]}`,
+        },
+      }}
+    >
+      <Typography
+        variant="h3"
+        sx={{ textAlign: "center" }}
+        className="font-heading"
+      >
+        Who are you?
+      </Typography>
+      <Typography sx={{ mb: 2, textAlign: "center" }}>
+        Enter your name and email so that others can see your availability. This
+        won&apos;t create an account.
+      </Typography>
+      <TextField
+        autoFocus
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+        required
+        name="name"
+        label="Name"
+        size="small"
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        onChange={(e) => setEmail(e.target.value)}
+        value={email}
+        required
+        label="Email"
+        name="email"
+        size="small"
+      />
+      <Box
+        sx={{
+          display: "flex",
+          mt: 2,
+          alignItems: "center",
+        }}
+      >
+        <Button
+          size="small"
+          disabled={isLoading}
+          onClick={() =>
+            router.push(
+              "/auth?next=" + encodeURIComponent(window.location.href)
+            )
+          }
+        >
+          I have an account
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{ ml: "auto" }}
+          disabled={!name.trim() || !email.trim()}
+        >
+          Continue <Icon>east</Icon>
+        </Button>
+      </Box>
+    </Dialog>
+  );
+}
+
 const AvailabilityButton = React.memo(function AvailabilityButton({
   showEarlyHours,
   hour,
   col,
   handleSelect,
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(
     session?.themeColor || "violet",
     useDarkMode(session?.darkMode || "system")
@@ -114,7 +210,7 @@ function EarlyHoursToggle({ showEarlyHours, setShowEarlyHours }) {
 }
 
 function AvailabilityCalendar({ setIsSaving, mutate, data }) {
-  const session = useSession();
+  const { session } = useSession();
   const isMobile = useMediaQuery(`(max-width: 600px)`);
 
   const palette = useColor(
@@ -454,7 +550,7 @@ function AvailabilityCalendar({ setIsSaving, mutate, data }) {
 }
 
 export default function Page({ data: eventData }) {
-  const session = useSession();
+  const { session, isLoading: isSessionLoading } = useSession();
   const router = useRouter();
   const palette = useColor(
     session?.themeColor || "violet",
@@ -477,6 +573,8 @@ export default function Page({ data: eventData }) {
     document.documentElement.classList.add("allow-scroll");
     document.body.style.background = palette[1];
   }, [palette]);
+
+  const [userData, setUserData] = useState(session || { name: "", email: "" });
 
   return (
     <Box
@@ -504,6 +602,7 @@ export default function Page({ data: eventData }) {
           )}? Tap to respond.`}
         />
       </Head>
+      <IdentityModal setUserData={setUserData} />
       <AppBar
         sx={{
           position: "absolute",
@@ -542,6 +641,7 @@ export default function Page({ data: eventData }) {
           {!session && (
             <Button
               variant="contained"
+              disabled={isLoading}
               onClick={() =>
                 router.push(
                   "/auth?next=" + encodeURIComponent(window.location.href)

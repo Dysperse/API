@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export function ImageViewer({ url }: { url: string }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [zoom, setZoom] = useState(false);
 

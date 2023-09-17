@@ -24,7 +24,7 @@ import { CreateTask } from "../Task/Create";
 export function SearchTasks() {
   const ref: any = useRef();
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const [query, setQuery] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");

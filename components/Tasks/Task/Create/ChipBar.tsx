@@ -25,7 +25,7 @@ import React, {
 const MemoizedChip = memo(Chip);
 
 function NotificationChip({ titleRef, data, setData, chipStyles }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);

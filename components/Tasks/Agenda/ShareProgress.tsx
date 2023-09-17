@@ -8,7 +8,7 @@ import { cloneElement, useRef, useState } from "react";
 
 export function ShareProgress({ day, children, data, tasksLeft }) {
   const ref = useRef();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);

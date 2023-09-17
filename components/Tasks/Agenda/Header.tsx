@@ -30,7 +30,7 @@ export const Header = memo(function Header({
   columnEnd,
   columnMap,
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");

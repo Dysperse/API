@@ -38,7 +38,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
   const ref: any = useRef();
   const buttonRef: any = useRef();
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
 
   const { board, mutateData } = useContext(BoardContext);
   const { column, length } = useContext(ColumnContext);

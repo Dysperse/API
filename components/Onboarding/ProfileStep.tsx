@@ -18,7 +18,7 @@ import useSWR from "swr";
 import { ProfilePicture } from "../Profile/ProfilePicture";
 
 export function ProfileStep({ styles, navigation }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const { data, mutate, error } = useSWR([

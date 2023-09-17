@@ -14,7 +14,7 @@ import { Notes } from "./Notes";
 import { WeatherWidget } from "./Weather";
 
 export function WidgetBar({ view, setView }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

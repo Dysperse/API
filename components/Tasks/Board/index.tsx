@@ -40,7 +40,7 @@ function RenderBoard({ tasks }) {
 
   const [currentColumn, setCurrentColumn] = useState<number>(-1);
 
-  const session = useSession();
+  const { session } = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -187,7 +187,7 @@ export function Board({ mutate, board }) {
     },
   ]);
 
-  const session = useSession();
+  const { session } = useSession();
   const isShared =
     data &&
     data?.[0]?.propertyId &&

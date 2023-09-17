@@ -5,7 +5,7 @@ import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export default function KeyboardShortcutsModal() {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(
     session.themeColor,
     useDarkMode(session.user.darkMode)

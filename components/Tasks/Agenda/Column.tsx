@@ -21,7 +21,7 @@ import { CreateTask } from "../Task/Create";
 import { Header } from "./Header";
 
 function RandomTask({ date }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const taskIdeas = [
     {
@@ -214,7 +214,7 @@ const Column = React.memo(function Column({
   view,
 }: any): JSX.Element {
   const scrollParentRef = useRef();
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);

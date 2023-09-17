@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 
 export function SearchUser() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const ref: any = useRef();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 

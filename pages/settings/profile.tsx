@@ -26,7 +26,7 @@ import Layout from ".";
  * Top-level component for the account settings page.
  */
 export default function AppearanceSettings() {
-  const session = useSession();
+  const { session } = useSession();
   const birthdayRef: any = useRef();
   const [name, setName] = useState(session.user.name);
   const handleChange = useCallback((e) => setName(e.target.value), [setName]);

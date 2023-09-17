@@ -41,7 +41,7 @@ function SearchResult({
   results,
   badge,
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const result = results[index];
 
@@ -324,7 +324,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
 
 const Spotlight = React.memo(function Spotlight() {
   const ref: any = useRef();
-  const session: any = useSession();
+  const { session } = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
   const [results, setResults] = useState<Array<any>>([]);

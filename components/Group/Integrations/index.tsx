@@ -5,21 +5,21 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-    Alert,
-    Box,
-    Button,
-    Chip,
-    Divider,
-    Icon,
-    IconButton,
-    InputAdornment,
-    ListItemButton,
-    ListItemSecondaryAction,
-    ListItemText,
-    Skeleton,
-    SwipeableDrawer,
-    TextField,
-    Typography,
+  Alert,
+  Box,
+  Button,
+  Chip,
+  Divider,
+  Icon,
+  IconButton,
+  InputAdornment,
+  ListItemButton,
+  ListItemSecondaryAction,
+  ListItemText,
+  Skeleton,
+  SwipeableDrawer,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -83,7 +83,7 @@ export default function Integrations({
   defaultPalette?: string;
 }) {
   const { data, mutate, error } = useSWR(["property/integrations"]);
-  const session = useSession();
+  const { session } = useSession();
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
 
   const [open, setOpen] = useState(false);

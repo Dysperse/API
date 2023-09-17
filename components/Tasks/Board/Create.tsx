@@ -51,7 +51,7 @@ const checklistCardStyles = (palette) => ({
 
 function Template({ onboarding, children, template, mutate }: any) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -562,7 +562,7 @@ export const templates = [
 
 export function CreateBoard({ parentRef, onboarding = false, mutate }: any) {
   const [currentOption, setOption] = useState("Board");
-  const session = useSession();
+  const { session } = useSession();
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState<null | string>(null);
   const deferredSearchQuery = useDeferredValue(searchQuery);

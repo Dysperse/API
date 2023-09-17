@@ -22,7 +22,7 @@ export default function ReleaseModal() {
   const [open, setOpen] = useState(false);
   const [alreadyOpened, setAlreadyOpened] = useState(false);
 
-  const session = useSession();
+  const { session } = useSession();
   const url =
     "https://api.github.com/repos/dysperse/dysperse/releases?per_page=1";
 
@@ -34,7 +34,12 @@ export default function ReleaseModal() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!alreadyOpened && session?.user?.onboardingComplete && !error && router.asPath === "/") {
+    if (
+      !alreadyOpened &&
+      session?.user?.onboardingComplete &&
+      !error &&
+      router.asPath === "/"
+    ) {
       if (
         data &&
         data[0] &&
@@ -50,10 +55,10 @@ export default function ReleaseModal() {
 
   const handleClose = () => {
     setOpen(false);
-    updateSettings(
-      ["lastReleaseVersionViewed", data[0]?.id],
-      { session, type: "property" }
-    );
+    updateSettings(["lastReleaseVersionViewed", data[0]?.id], {
+      session,
+      type: "property",
+    });
   };
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));

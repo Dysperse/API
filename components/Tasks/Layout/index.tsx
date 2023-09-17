@@ -52,7 +52,7 @@ import { Tab } from "./Tab";
 export const SelectionContext = createContext<null | any>(null);
 
 export function GroupSelector({ children }: { children?: JSX.Element }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const groupPalette = useColor(
     session.property.profile.color,
@@ -208,7 +208,7 @@ const buttonStyles = (palette, condition: boolean) => ({
 });
 
 function BulkCompletion() {
-  const session = useSession();
+  const { session } = useSession();
   const taskSelection = useContext(SelectionContext);
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -275,7 +275,7 @@ function BulkCompletion() {
 }
 
 function BulkColorCode({ children }) {
-  const session = useSession();
+  const { session } = useSession();
   const taskSelection = useContext(SelectionContext);
 
   return session.permission === "read-only" ? (
@@ -328,7 +328,7 @@ export function TasksLayout({
 }) {
   const storage = useAccountStorage();
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const ref: any = useRef();
   const title = useDocumentTitle();
 
@@ -711,7 +711,7 @@ export function TasksLayout({
                         toast.error(
                           `Couldn't edit ${res.errors} item${
                             res.errors == 1 ? "" : "s"
-                          }`,
+                          }`
                         );
                         return;
                       }

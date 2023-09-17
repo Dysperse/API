@@ -27,7 +27,7 @@ import themes from "./themes.json";
  * Function to change theme color (Not dark mode!)
  */
 export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
-  const session = useSession();
+  const { session } = useSession();
   const [open, setOpen] = useState(false);
 
   const [currentTheme, setCurrentTheme] = useState(session?.themeColor);
@@ -265,7 +265,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
  * Top-level component for the appearance settings page.
  */
 export default function AppearanceSettings() {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
 
   return (

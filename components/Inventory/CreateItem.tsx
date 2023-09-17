@@ -26,7 +26,7 @@ export function CreateItem({
   mutate: any;
   children: JSX.Element;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const titleRef: any = useRef();

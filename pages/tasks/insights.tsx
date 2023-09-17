@@ -50,7 +50,7 @@ function getTasksCompletedInRange(tasks, days) {
 }
 
 function Insights({ profile, tasks, defaultPalette }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const isDark = useDarkMode(session.darkMode);
@@ -288,7 +288,7 @@ function Insights({ profile, tasks, defaultPalette }) {
 }
 
 export default function Page({ email, profile = false, palette }) {
-  const session = useSession();
+  const { session } = useSession();
   const { data } = useSWR([
     "property/tasks/insights",
     { email: email || session.user.email },

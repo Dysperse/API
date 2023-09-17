@@ -39,7 +39,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 
 function ShareProfileModal({ mutate, user, children }) {
-  const session = useSession();
+  const { session } = useSession();
   const ref = useRef();
   const palette = useColor(user?.color || session.themeColor, user?.darkMode);
 
@@ -176,7 +176,7 @@ function ShareProfileModal({ mutate, user, children }) {
 
 function Page() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const email = router.query.id;
 
   const { data, mutate, error } = useSWR(["user/profile", { email }]);

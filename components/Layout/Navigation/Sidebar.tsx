@@ -12,7 +12,7 @@ const SearchPopup = dynamic(() => import("./Search"), { ssr: false });
 
 function SidebarCalendar() {
   const date = dayjs();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const redPalette = useColor("tomato", useDarkMode(session.darkMode));
 
@@ -52,7 +52,7 @@ function SidebarCalendar() {
 
 export function Sidebar() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
 

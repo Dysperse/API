@@ -27,7 +27,7 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 
 export function ShareBoard({ mutate, board }) {
-  const session = useSession();
+  const { session } = useSession();
 
   const { data, error } = useSWR([
     "property/shareTokens",

@@ -24,7 +24,7 @@ export default function CreateColumn({
   name,
 }: any) {
   const storage = useAccountStorage();
-  const session = useSession();
+  const { session } = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const ref: any = useRef();

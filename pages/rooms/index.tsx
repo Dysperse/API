@@ -26,7 +26,7 @@ import { CreateItem } from "../../components/Inventory/CreateItem";
 import { ItemPopup } from "./[room]";
 
 function JumpBackIn() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -162,7 +162,7 @@ function JumpBackIn() {
 
 function Panel() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -355,7 +355,7 @@ function Panel() {
 }
 
 export default function RoomLayout({ children }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");

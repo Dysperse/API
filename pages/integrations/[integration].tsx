@@ -29,7 +29,7 @@ import useSWR from "swr";
 
 function Layout() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const name = (router.query.integration as string).replace("-", " ");

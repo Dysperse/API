@@ -58,7 +58,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState<boolean>(false);
-  const session = useSession();
+  const { session } = useSession();
 
   const incompleteLength = useMemo(
     () => columnTasks.filter((t) => !t.completed).length,

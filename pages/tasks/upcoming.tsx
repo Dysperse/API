@@ -20,7 +20,7 @@ import useSWR from "swr";
  * Top-level component for the dashboard page.
  */
 export default function Upcoming() {
-  const session = useSession();
+  const { session } = useSession();
   const [open, setOpen] = useState(false);
 
   const { data, mutate, error } = useSWR([

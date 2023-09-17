@@ -110,7 +110,7 @@ export function UpdateButton() {
     window.location.reload();
   };
 
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [showSnackbar, setShowSnackbar] = useState(false);

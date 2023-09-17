@@ -54,7 +54,7 @@ export function StatusSelector({
   profile: any;
   mutate: any;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const now = useMemo(() => dayjs(), []);
 
   const {
@@ -241,7 +241,7 @@ export function StatusSelector({
 }
 
 const Friend = memo(function Friend({ mutate, friend }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const userPalette = useColor(
@@ -545,7 +545,7 @@ export function Logo({
   size = 45,
   onClick = () => {},
 }: LogoProps) {
-  const session = useSession();
+  const { session } = useSession();
 
   const palette = useColor(
     session?.themeColor || "violet",
@@ -584,7 +584,7 @@ export function Logo({
 }
 
 function ContactSync() {
-  const session = useSession();
+  const { session } = useSession();
   const { data, error } = useSWR([
     "user/profile",
     {
@@ -706,7 +706,7 @@ const HeadingComponent = ({ palette, isMobile }) => {
 };
 
 function SearchFriend({ mutate }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -792,7 +792,7 @@ function SearchFriend({ mutate }) {
 
 export default function Home() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");

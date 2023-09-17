@@ -25,7 +25,7 @@ export const RescheduleModal = React.memo(function RescheduleModal({
   children,
   handlePostpone,
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const dateRef = useRef();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const task = useTaskContext();

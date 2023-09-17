@@ -28,7 +28,7 @@ const CalendarTileIndicator = React.memo(function CalendarTileIndicator({
   date,
   view,
 }: any): any {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

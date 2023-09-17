@@ -81,7 +81,7 @@ export function Agenda({ type, date }) {
     },
   ]);
 
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

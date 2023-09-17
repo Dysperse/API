@@ -10,7 +10,7 @@ export const Tab = React.memo(function Tab({
   board,
 }: any) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isActive = router.asPath.includes(board.id);
 

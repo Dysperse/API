@@ -81,7 +81,7 @@ export default function Notifications() {
       session,
     });
   };
-  const session = useSession();
+  const { session } = useSession();
 
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();

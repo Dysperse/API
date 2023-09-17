@@ -48,7 +48,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   mutateList: any;
   onClick?: any;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = useState<boolean>(false);
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));

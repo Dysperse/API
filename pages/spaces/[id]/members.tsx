@@ -4,14 +4,14 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import {
-    Avatar,
-    Chip,
-    CircularProgress,
-    Divider,
-    Icon,
-    IconButton,
-    ListItem,
-    ListItemText,
+  Avatar,
+  Chip,
+  CircularProgress,
+  Divider,
+  Icon,
+  IconButton,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -20,7 +20,7 @@ import useSWR from "swr";
 import SpacesLayout from ".";
 
 export default function Page() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const { id } = router.query;
 

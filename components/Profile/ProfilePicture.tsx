@@ -16,7 +16,7 @@ export function ProfilePicture({
   editMode?: boolean;
   size?: number;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const [photo, setPhoto] = useState(data?.Profile?.photo);
   const [imageUploading, setImageUploading] = useState(false);
 

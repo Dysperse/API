@@ -51,7 +51,7 @@ export default function AppLayout({
   }, [error, hasReachedLimit, storage]);
 
   const [dismissed, setDismissed] = useState<boolean>(false);
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

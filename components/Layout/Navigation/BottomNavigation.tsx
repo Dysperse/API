@@ -35,7 +35,7 @@ export function BottomNav() {
     width: "60px",
   };
 
-  const session = useSession();
+  const { session } = useSession();
 
   const styles = (active) => {
     return {

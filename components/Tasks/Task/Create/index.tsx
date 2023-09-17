@@ -58,7 +58,7 @@ interface TaskCreationProps {
 }
 
 const ColumnData = memo(function ColumnData({ boardData }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
@@ -96,7 +96,7 @@ export function CreateTask({
   defaultDate = dayjs().startOf("day").toDate(),
   defaultFields = {},
 }: TaskCreationProps) {
-  const session = useSession();
+  const { session } = useSession();
   const titleRef: any = useRef();
   const locationRef: any = useRef();
   const descriptionRef: any = useRef();
@@ -225,7 +225,7 @@ export function CreateTask({
         });
         onSuccess && onSuccess();
         toast.dismiss();
-        toast.success("Created task!", );
+        toast.success("Created task!");
 
         setFormData({
           ...formData,
@@ -242,7 +242,7 @@ export function CreateTask({
         document.getElementById("title")?.focus();
         setLoading(false);
       } catch (e) {
-        toast.error("Couldn't create task", );
+        toast.error("Couldn't create task");
       }
     },
     [

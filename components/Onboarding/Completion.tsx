@@ -7,7 +7,7 @@ import { useState } from "react";
 import { mutate } from "swr";
 
 export function Completion({ styles, navigation }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 

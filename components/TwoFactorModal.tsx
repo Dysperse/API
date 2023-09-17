@@ -23,7 +23,7 @@ export function Prompt({
   const trigger = React.cloneElement(children, {
     onClick: () => setOpen(true),
   });
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const userHasEnabled2fa =

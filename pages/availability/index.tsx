@@ -28,7 +28,7 @@ import useSWR from "swr";
 
 function EventCard({ event }) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const createdRecently = useMemo(
@@ -147,7 +147,7 @@ function EventCard({ event }) {
 }
 
 function CreateAvailability({ mutate, setShowMargin }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -409,7 +409,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
 }
 
 export default function Page() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 

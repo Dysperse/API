@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 export default function BoardSettings({ id }) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
 
   return (
     <Tooltip title="Board settings">

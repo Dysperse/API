@@ -35,7 +35,7 @@ export function RoomPicker({ room, setRoom, children }) {
   const [open, setOpen] = useState(false);
   const { data, error } = useSWR(["property/inventory/rooms"]);
 
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const trigger = cloneElement(children, { onClick: () => setOpen(true) });
@@ -94,7 +94,7 @@ export function RoomPicker({ room, setRoom, children }) {
 
 export default function Page() {
   const webcamRef: any = useRef(null);
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 

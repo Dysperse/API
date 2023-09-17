@@ -22,7 +22,7 @@ export const LinkedContent = React.memo(function LinkedContent({
 }: any) {
   const router = useRouter();
   const task = useTaskContext();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const isTaskImported = task.id.includes("-event-assignment");
