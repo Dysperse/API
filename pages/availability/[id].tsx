@@ -261,7 +261,9 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
 
       const availability = data.participants
         .find(
-          (p) => (p?.user?.email || p?.userData?.email) === session?.user?.email
+          (p) =>
+            (p?.user?.email || p?.userData?.email) ===
+            (session?.user?.email || userData?.email)
         )
         ?.availability?.find((a) =>
           dayjs(a.date).set("hour", a.hour).isSame(date)
