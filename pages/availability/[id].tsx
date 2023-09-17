@@ -15,6 +15,12 @@ import {
   Icon,
   IconButton,
   Skeleton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Toolbar,
   Tooltip,
@@ -22,6 +28,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -29,6 +36,74 @@ import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { Logo } from "..";
+
+function AvailabilityViewSelector({ view, setView }) {
+  const { session } = useSession();
+  const palette = useColor(
+    session?.themeColor || "violet",
+    useDarkMode(session?.darkMode || "system")
+  );
+
+  const isMobile = useMediaQuery(`(max-width: 600px)`);
+
+  const styles = (active) => ({
+    flexShrink: 0,
+    borderWidth: "2px!important",
+    color: `${palette[10]}!important`,
+    ...(active && {
+      color: `${palette[11]}!important`,
+      background: `${palette[4]}!important`,
+      borderColor: `${palette[6]}!important`,
+      "&:hover": {
+        background: { sm: `${palette[5]}!important` },
+        borderColor: `${palette[7]}!important`,
+      },
+      "&:active": {
+        background: `${palette[6]}!important`,
+        borderColor: `${palette[8]}!important`,
+      },
+    }),
+  });
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        overflowX: "auto",
+        mr: -3,
+        ml: -3,
+        px: 3,
+        mt: { xs: 2, sm: 0 },
+        gap: 2,
+        maxWidth: "100dvw",
+        flexShrink: 0,
+      }}
+    >
+      <Button
+        variant="outlined"
+        onClick={() => setView(0)}
+        {...(isMobile && { size: "small" })}
+        sx={{
+          ml: { sm: "auto" },
+          ...styles(view === 0),
+        }}
+      >
+        My availability
+      </Button>
+      <Button
+        {...(isMobile && { size: "small" })}
+        variant="outlined"
+        onClick={() => setView(1)}
+        sx={{
+          mr: { sm: "auto" },
+          ...styles(view === 1),
+        }}
+      >
+        Everyone else
+      </Button>
+    </Box>
+  );
+}
 
 function ParticipantMissingError({ userData, id, mutate }) {
   const { session } = useSession();
@@ -207,6 +282,125 @@ function IdentityModal({ mutate, userData, setUserData }) {
         </Box>
       </Dialog>
     </>
+  );
+}
+
+function AvailabilityViewer({ data: eventData }) {
+  const { session } = useSession();
+  const palette = useColor(
+    session?.themeColor || "violet",
+    useDarkMode(session?.darkMode || "system")
+  );
+
+  const { data, mutate, error } = useSWR([
+    "availability/event/others",
+    { id: eventData.id },
+  ]);
+
+  return (
+    <motion.div
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      className="motion"
+      style={{
+        overflowY: "scroll",
+        flexDirection: "column",
+        padding: "30px",
+        gap: "7px",
+      }}
+    >
+      {data ? (
+        <>
+          {data.overlappingAvailability?.length === 0 ? (
+            <Box sx={{ background: palette[3], p: 3, borderRadius: 4 }}>
+              Yikes! Nobody you&apos;ve invited is available at the same time
+            </Box>
+          ) : (
+            <Box>
+              <Typography variant="h3" className="font-heading">
+                <u>
+                  {dayjs(data.overlappingAvailability?.[0]?.date).format(
+                    "dddd, MMMM Do"
+                  )}
+                </u>{" "}
+                at{" "}
+                <u>
+                  {data.overlappingAvailability[0]?.hour % 12 || 12}{" "}
+                  {data.overlappingAvailability[0]?.hour > 11 ? "PM" : "AM"}
+                </u>
+              </Typography>
+              <Typography variant="h6">
+                Best overlapping availability
+              </Typography>
+
+              <TableContainer
+                component={Box}
+                sx={{
+                  mt: 3,
+                  background: palette[3],
+                  borderRadius: 4,
+                }}
+              >
+                <Table
+                  aria-label="All overlapping availability"
+                  sx={{
+                    "& *": {
+                      borderBottomColor: palette[5] + "!important",
+                      borderBottomWidth: "2px!important",
+                    },
+                  }}
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell colSpan={3}>
+                        <Typography variant="h6">
+                          All overlapping availability
+                        </Typography>
+                        <Typography variant="body2">
+                          {eventData.participants.length} people responded
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Date</TableCell>
+                      <TableCell align="center">Time</TableCell>
+                      <TableCell align="center">People</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data.overlappingAvailability.map((row) => (
+                      <TableRow
+                        key={row.name}
+                        sx={{
+                          borderColor: palette[3],
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {dayjs(row.date).format("dddd, MMMM Do")}
+                        </TableCell>
+                        <TableCell align="center">{row.hour}</TableCell>
+                        <TableCell align="center">
+                          {row.overlappingParticipants}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          )}
+        </>
+      ) : (
+        <CircularProgress />
+      )}
+      {error && (
+        <ErrorHandler
+          callback={mutate}
+          error="Something went wrong. Please try again later"
+        />
+      )}
+    </motion.div>
   );
 }
 
@@ -474,208 +668,138 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
     (e.currentTarget.parentElement.scrollTop = 0);
 
   return (
-    <Grid
-      item
-      xs={12}
-      md={6}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        width: "100%",
-        height: { xs: "auto", sm: "100%" },
-        gap: { xs: 2, sm: 4 },
-        p: { sm: 3 },
-      }}
+    <motion.div
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      className="motion"
     >
+      {!participant && (
+        <ParticipantMissingError
+          userData={userData}
+          id={data.id}
+          mutate={mutate}
+        />
+      )}
       <Box
         sx={{
+          ...(!participant && {
+            filter: "blur(5px)",
+            opacity: 0.5,
+            pointerEvents: "none",
+          }),
           display: "flex",
           overflowX: "auto",
-          mr: -3,
-          ml: -3,
-          px: 3,
-          mt: { xs: 2, sm: 0 },
-          gap: 2,
-          maxWidth: "100dvw",
-          flexShrink: 0,
-        }}
-      >
-        <Button
-          variant="outlined"
-          {...(isMobile && { size: "small" })}
-          sx={{
-            ml: { sm: "auto" },
-            flexShrink: 0,
-            borderWidth: "2px!important",
-            color: `${palette[11]}!important`,
-            background: `${palette[4]}!important`,
-            borderColor: `${palette[6]}!important`,
-            "&:hover": {
-              background: { sm: `${palette[5]}!important` },
-              borderColor: `${palette[7]}!important`,
-            },
-            "&:active": {
-              background: `${palette[6]}!important`,
-              borderColor: `${palette[8]}!important`,
-            },
-          }}
-        >
-          My availability
-        </Button>
-        <Button
-          {...(isMobile && { size: "small" })}
-          variant="outlined"
-          sx={{
-            mr: { sm: "auto" },
-            flexShrink: 0,
-            borderWidth: "2px!important",
-            color: `${palette[8]}!important`,
-          }}
-        >
-          Everyone else
-        </Button>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          overflow: "hidden",
+          overflowY: "hidden",
+          alignItems: { xs: "start", sm: "center" },
           height: { xs: "auto", sm: "100%" },
+          gap: 1.5,
+          p: { xs: 3, sm: 5 },
+          pt: 3,
           width: "100%",
-          background: palette[2],
-          border: `2px solid ${palette[4]}`,
-          position: "relative",
-          borderRadius: 4,
+          maxWidth: "100%",
         }}
       >
-        {!participant && (
-          <ParticipantMissingError
-            userData={userData}
-            id={data.id}
-            mutate={mutate}
-          />
-        )}
         <Box
           sx={{
-            ...(!participant && {
-              filter: "blur(5px)",
-              opacity: 0.5,
-              pointerEvents: "none",
-            }),
-            display: "flex",
-            overflowX: "auto",
-            overflowY: "hidden",
-            alignItems: { xs: "start", sm: "center" },
-            height: { xs: "auto", sm: "100%" },
-            gap: 1.5,
-            p: { xs: 3, sm: 5 },
-            pt: 3,
-            width: "100%",
-            maxWidth: "100%",
+            ...columnStyles,
+            flex: `0 0 60px`,
+            position: "sticky",
+            left: 0,
+            zIndex: 99,
+            background: addHslAlpha(palette[5], 0.6),
+            backdropFilter: "blur(2px)",
+            ml: "auto",
+            mr: 1.5,
           }}
+          className="scroller"
+          onScroll={handleScroll}
         >
+          <Box sx={headerStyles} onClick={handleParentScrollTop}>
+            <EarlyHoursToggle
+              showEarlyHours={showEarlyHours}
+              setShowEarlyHours={setShowEarlyHours}
+            />
+          </Box>
+          {[...new Array(times)].map((_, i) => (
+            <Button
+              size="small"
+              disabled={!participant}
+              onClick={() => handleRowSelect(i)}
+              sx={{
+                height: "35px",
+                px: 0,
+                flexShrink: 0,
+                borderRadius: 0,
+                ...(i === 12 && { borderBottom: `2px solid ${palette[6]}` }),
+                ...(i < 8 && !showEarlyHours && { display: "none" }),
+              }}
+              key={i}
+            >
+              <Icon sx={{ ml: -0.5 }}>check_box_outline_blank</Icon>
+            </Button>
+          ))}
+        </Box>
+        {grid.map((row, i) => (
           <Box
-            sx={{
-              ...columnStyles,
-              flex: `0 0 60px`,
-              position: "sticky",
-              left: 0,
-              zIndex: 99,
-              background: addHslAlpha(palette[5], 0.6),
-              backdropFilter: "blur(2px)",
-              ml: "auto",
-              mr: 1.5,
-            }}
+            key={i}
+            sx={{ ...columnStyles }}
             className="scroller"
             onScroll={handleScroll}
           >
-            <Box sx={headerStyles} onClick={handleParentScrollTop}>
-              <EarlyHoursToggle
-                showEarlyHours={showEarlyHours}
-                setShowEarlyHours={setShowEarlyHours}
-              />
-            </Box>
-            {[...new Array(times)].map((_, i) => (
-              <Button
-                size="small"
-                disabled={!participant}
-                onClick={() => handleRowSelect(i)}
-                sx={{
-                  height: "35px",
-                  px: 0,
-                  flexShrink: 0,
-                  borderRadius: 0,
-                  ...(i === 12 && { borderBottom: `2px solid ${palette[6]}` }),
-                  ...(i < 8 && !showEarlyHours && { display: "none" }),
-                }}
-                key={i}
-              >
-                <Icon sx={{ ml: -0.5 }}>check_box_outline_blank</Icon>
-              </Button>
-            ))}
-          </Box>
-          {grid.map((row, i) => (
             <Box
-              key={i}
-              sx={{ ...columnStyles }}
-              className="scroller"
-              onScroll={handleScroll}
+              sx={headerStyles}
+              onClick={(e) => {
+                handleParentScrollTop(e);
+                handleColumnSelect(i);
+              }}
             >
               <Box
-                sx={headerStyles}
-                onClick={(e) => {
-                  handleParentScrollTop(e);
-                  handleColumnSelect(i);
+                sx={{
+                  display: "flex",
+                  background: addHslAlpha(palette[7], 0.5),
+                  color: palette[12],
+                  width: 40,
+                  height: 40,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 999,
+                  fontWeight: 900,
+                  fontSize: 20,
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    background: addHslAlpha(palette[7], 0.5),
-                    color: palette[12],
-                    width: 40,
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 999,
-                    fontWeight: 900,
-                    fontSize: 20,
-                  }}
-                >
-                  {startDate.add(i, "day").format("DD")}
-                </Box>
-                <Typography variant="body2" sx={{ mt: 0.5, mb: -0.5 }}>
-                  {startDate.add(i, "day").format("ddd").toUpperCase()}
-                </Typography>
+                {startDate.add(i, "day").format("DD")}
               </Box>
-              {row.map((col, j) => (
-                <AvailabilityButton
-                  disabled={!participant}
-                  key={j}
-                  hour={j}
-                  col={col}
-                  handleSelect={handleSelect}
-                  showEarlyHours={showEarlyHours}
-                />
-              ))}
+              <Typography variant="body2" sx={{ mt: 0.5, mb: -0.5 }}>
+                {startDate.add(i, "day").format("ddd").toUpperCase()}
+              </Typography>
             </Box>
-          ))}
-          <Box
-            sx={{
-              display: "flex",
-              flex: "0 0 20px",
-              ml: "auto",
-              position: "sticky",
-              right: { xs: "calc(0dvw - 30px)", sm: "-40px" },
-              background: `linear-gradient(to left, ${palette[2]}, transparent)`,
-              width: 40,
-              height: "100vh",
-              zIndex: 99,
-            }}
-          />
-        </Box>
+            {row.map((col, j) => (
+              <AvailabilityButton
+                disabled={!participant}
+                key={j}
+                hour={j}
+                col={col}
+                handleSelect={handleSelect}
+                showEarlyHours={showEarlyHours}
+              />
+            ))}
+          </Box>
+        ))}
+        <Box
+          sx={{
+            display: "flex",
+            flex: "0 0 20px",
+            ml: "auto",
+            position: "sticky",
+            right: { xs: "calc(0dvw - 30px)", sm: "-40px" },
+            background: `linear-gradient(to left, ${palette[2]}, transparent)`,
+            width: 40,
+            height: "100vh",
+            zIndex: 99,
+          }}
+        />
       </Box>
-    </Grid>
+    </motion.div>
   );
 }
 
@@ -688,6 +812,7 @@ export default function Page({ data: eventData }) {
   );
 
   const [isSaving, setIsSaving] = useState("upToDate");
+  const [view, setView] = useState(0);
 
   const { data, mutate, isLoading, error } = useSWR(
     router?.query?.id ? ["availability/event", { id: router.query.id }] : null
@@ -865,12 +990,42 @@ export default function Page({ data: eventData }) {
               )}
             </Box>
           </Grid>
-          <AvailabilityCalendar
-            userData={userData}
-            setIsSaving={setIsSaving}
-            data={data}
-            mutate={mutate}
-          />
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              width: "100%",
+              height: { xs: "auto", sm: "100%" },
+              gap: { xs: 2, sm: 4 },
+              p: { sm: 3 },
+              "& .motion": {
+                display: "flex",
+                overflow: "hidden",
+                height: { xs: "auto", sm: "100%" },
+                width: "100%",
+                background: palette[2],
+                border: `2px solid ${palette[4]}`,
+                position: "relative",
+                borderRadius: 4,
+              },
+            }}
+          >
+            <AvailabilityViewSelector view={view} setView={setView} />
+            {view === 0 ? (
+              <AvailabilityCalendar
+                userData={userData}
+                setIsSaving={setIsSaving}
+                data={data}
+                mutate={mutate}
+              />
+            ) : (
+              <AvailabilityViewer data={data} />
+            )}
+          </Grid>
         </Grid>
       )}
     </Box>
