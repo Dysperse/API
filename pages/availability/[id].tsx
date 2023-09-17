@@ -1,4 +1,5 @@
 import { ErrorHandler } from "@/components/Error";
+import { isEmail } from "@/components/Group/Members/isEmail";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -28,7 +29,7 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 import { Logo } from "..";
 
-function IdentityModal({ setUserData }) {
+function IdentityModal({ userData, setUserData }) {
   const router = useRouter();
   const { session, isLoading } = useSession();
   const palette = useColor(
@@ -42,83 +43,91 @@ function IdentityModal({ setUserData }) {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    if (!isLoading && !session) {
+    if (!isLoading && !session && !userData) {
       setShowPersonPrompt(true);
     }
-  }, [isLoading, session]);
+  }, [isLoading, session, userData]);
 
   const handleSubmit = () => {
     setUserData({ name, email });
+    setShowPersonPrompt(false);
   };
 
   return (
-    <Dialog
-      open={showPersonPrompt}
-      onClose={() => setShowPersonPrompt(true)}
-      PaperProps={{
-        sx: {
-          p: 5,
-          border: `2px solid ${palette[3]}`,
-        },
-      }}
-    >
-      <Typography
-        variant="h3"
-        sx={{ textAlign: "center" }}
-        className="font-heading"
-      >
-        Who are you?
-      </Typography>
-      <Typography sx={{ mb: 2, textAlign: "center" }}>
-        Enter your name and email so that others can see your availability. This
-        won&apos;t create an account.
-      </Typography>
-      <TextField
-        autoFocus
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        required
-        name="name"
-        label="Name"
-        size="small"
-        sx={{ mb: 2 }}
+    <>
+      <div
+        id="identity"
+        style={{ display: "none" }}
+        onClick={() => setShowPersonPrompt(true)}
       />
-      <TextField
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        required
-        label="Email"
-        name="email"
-        size="small"
-      />
-      <Box
-        sx={{
-          display: "flex",
-          mt: 2,
-          alignItems: "center",
+      <Dialog
+        open={showPersonPrompt}
+        onClose={() => setShowPersonPrompt(true)}
+        PaperProps={{
+          sx: {
+            p: 5,
+            border: `2px solid ${palette[3]}`,
+          },
         }}
       >
-        <Button
+        <Typography
+          variant="h3"
+          sx={{ textAlign: "center" }}
+          className="font-heading"
+        >
+          Who are you?
+        </Typography>
+        <Typography sx={{ mb: 2, textAlign: "center" }}>
+          Enter your name and email so that others can see your availability.
+          This won&apos;t create an account.
+        </Typography>
+        <TextField
+          autoFocus
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          required
+          name="name"
+          label="Name"
           size="small"
-          disabled={isLoading}
-          onClick={() =>
-            router.push(
-              "/auth?next=" + encodeURIComponent(window.location.href)
-            )
-          }
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          required
+          label="Email"
+          name="email"
+          size="small"
+        />
+        <Box
+          sx={{
+            display: "flex",
+            mt: 2,
+            alignItems: "center",
+          }}
         >
-          I have an account
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          sx={{ ml: "auto" }}
-          disabled={!name.trim() || !email.trim()}
-        >
-          Continue <Icon>east</Icon>
-        </Button>
-      </Box>
-    </Dialog>
+          <Button
+            size="small"
+            disabled={isLoading}
+            onClick={() =>
+              router.push(
+                "/auth?next=" + encodeURIComponent(window.location.href)
+              )
+            }
+          >
+            I have an account
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            sx={{ ml: "auto" }}
+            disabled={!name.trim() || !email.trim() || !isEmail(email)}
+          >
+            Continue <Icon>east</Icon>
+          </Button>
+        </Box>
+      </Dialog>
+    </>
   );
 }
 
@@ -602,7 +611,7 @@ export default function Page({ data: eventData }) {
           )}? Tap to respond.`}
         />
       </Head>
-      <IdentityModal setUserData={setUserData} />
+      <IdentityModal setUserData={setUserData} userData={userData} />
       <AppBar
         sx={{
           position: "absolute",
@@ -642,14 +651,10 @@ export default function Page({ data: eventData }) {
             <Button
               variant="contained"
               disabled={isLoading}
-              onClick={() =>
-                router.push(
-                  "/auth?next=" + encodeURIComponent(window.location.href)
-                )
-              }
+              onClick={() => document.getElementById("identity")?.click()}
               sx={{ ml: "auto" }}
             >
-              Sign in <Icon>login</Icon>
+              {userData?.name || "Sign in"} <Icon>edit</Icon>
             </Button>
           )}
         </Toolbar>
