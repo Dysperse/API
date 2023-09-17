@@ -19,6 +19,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -452,7 +453,7 @@ function AvailabilityCalendar({ setIsSaving, mutate, data }) {
   );
 }
 
-export default function Page() {
+export default function Page({ data: eventData }) {
   const session = useSession();
   const router = useRouter();
   const palette = useColor(
@@ -484,6 +485,25 @@ export default function Page() {
         height: "auto",
       }}
     >
+      <Head>
+        <title>{`Availability for ${eventData.name} • Dysperse`}</title>
+        <meta
+          name="og:image"
+          content={`/api/availability/event/og?id=` + eventData.id}
+        />
+        <meta
+          name="twitter:image"
+          content={`/api/availability/event/og?id=` + eventData.id}
+        />
+        <meta
+          name="description"
+          content={`What's your availability from ${dayjs(
+            eventData.startDate
+          ).format("MMMM Do")} to ${dayjs(eventData.endDate).format(
+            "MMMM Do"
+          )}? Tap to respond.`}
+        />
+      </Head>
       <AppBar
         sx={{
           position: "absolute",
@@ -493,35 +513,31 @@ export default function Page() {
           border: 0,
         }}
       >
-        <Toolbar>
-          {!session && (
-            <Logo
-              onClick={() =>
-                window.open(`https:////dysperse.com?utm_source=availability`)
-              }
-            />
-          )}
+        <Toolbar sx={{ gap: 2 }}>
+          <Logo
+            onClick={() =>
+              window.open(`https:////dysperse.com?utm_source=availability`)
+            }
+          />
           {session && (
-            <IconButton onClick={() => router.push("/availability")}>
-              <Icon>arrow_back_ios_new</Icon>
+            <IconButton
+              onClick={() => (window.location.href = "/availability")}
+              sx={{ ml: "auto" }}
+            >
+              <Icon className="outlined">home</Icon>
             </IconButton>
           )}
           {session &&
             (profileData ? (
-              <Box sx={{ ml: "auto" }}>
+              <Box>
                 <ProfilePicture
-                  size={40}
+                  size={30}
                   data={profileData}
                   mutate={() => {}}
                 />
               </Box>
             ) : (
-              <Skeleton
-                sx={{ ml: "auto" }}
-                variant="circular"
-                width={40}
-                height={40}
-              />
+              <Skeleton variant="circular" width={30} height={30} />
             ))}
           {!session && (
             <Button
@@ -628,4 +644,16 @@ export default function Page() {
       )}
     </Box>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const url = `https://${req.headers["x-forwarded-host"]}/api/availability/event?id=${context.query.id}&basic=true`;
+  console.log(url);
+  const res = await fetch(url);
+  const data = await res.json();
+
+  return {
+    props: { data },
+  };
 }
