@@ -188,11 +188,13 @@ function CreateAvailability({ mutate, setShowMargin }) {
   const minSwipeDistance = 50;
 
   const onTouchStart = (e) => {
+    e.preventDefault();
     setTouchEnd(null);
     setTouchStart(e.nativeEvent.touches[0].pageY);
   };
 
   const onTouchMove = (e) => {
+    e.preventDefault();
     setTouchEnd(e.nativeEvent.touches[0].pageY);
   };
 
