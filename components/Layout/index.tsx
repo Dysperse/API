@@ -96,7 +96,7 @@ export default function AppLayout({
         onClose={() => null}
         sx={{
           mb: { xs: 7, sm: 2 },
-          transition: "all .3s",
+          transition: "all .2s",
           zIndex: 999,
           userSelect: "none",
         }}

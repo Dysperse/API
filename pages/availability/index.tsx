@@ -44,7 +44,7 @@ function EventCard({ event }) {
       text: `What's your availability from ${dayjs(event.startDate).format(
         "MMMM Do"
       )} to ${dayjs(event.endDate).format("MMMM Do")}? Tap to respond.`,
-      url: `${process.env.NEXT_PUBLIC_URL}/availability/${event.id}`,
+      url: `https://${window.location.hostname}/availability/${event.id}`,
     });
   };
 
@@ -92,7 +92,7 @@ function EventCard({ event }) {
                 ml: "auto",
                 flexShrink: 0,
                 color: palette[11],
-                background: palette[4],
+                background: palette[4] + "!important",
               }}
             >
               <Icon>east</Icon>
@@ -324,7 +324,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
             backdropFilter: "none",
           }}
         >
-          <Toolbar>
+          <Toolbar sx={{ gap: 2 }}>
             <IconButton
               sx={{
                 mr: submitted ? 0 : "auto",
@@ -345,6 +345,9 @@ function CreateAvailability({ mutate, setShowMargin }) {
               className="font-heading"
               sx={{
                 color: palette[11],
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
               }}
             >
               {submitted ? name : "Gather availability"}
@@ -428,7 +431,7 @@ export default function Page() {
     <Box sx={{ pb: "270px" }}>
       <AppBar
         sx={{
-          zIndex: 99999,
+          zIndex: 999999999,
           position: "fixed",
           top: 0,
           left: 0,

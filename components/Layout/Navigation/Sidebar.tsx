@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useHotkeys } from "react-hotkeys-hook";
+import { shouldHideNavigation } from "./BottomNavigation";
 import { openSpotlight } from "./Search";
 const SearchPopup = dynamic(() => import("./Search"), { ssr: false });
 
@@ -153,10 +154,7 @@ export function Sidebar() {
     };
   };
 
-  const shouldHide =
-    router.asPath.includes("/onboarding") ||
-    router.asPath.includes("/audit") ||
-    router.asPath.includes("/availability");
+  const shouldHide = shouldHideNavigation(router.asPath);
 
   return (
     <Box
@@ -167,7 +165,7 @@ export function Sidebar() {
         width: "80px",
         ml: shouldHide ? "-90px" : 0,
         ...(shouldHide && { pointerEvents: "none" }),
-        transition: "all .3s",
+        transition: "all .2s",
         zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",
