@@ -58,12 +58,15 @@ function IdentityModal({ userData, setUserData }) {
     }
   }, []);
 
+  const disabled = !name.trim() || !email.trim() || !isEmail(email);
+
   const handleSubmit = () => {
+    if (disabled) return;
     setUserData({ name, email });
     setShowPersonPrompt(false);
   };
 
-  useHotkeys("enter", () => document.getElementById("continue")?.click(), {
+  useHotkeys("enter", () => !disabled && handleSubmit(), {
     enableOnFormTags: true,
   });
 
@@ -76,7 +79,10 @@ function IdentityModal({ userData, setUserData }) {
       />
       <Dialog
         open={showPersonPrompt}
-        onClose={() => setShowPersonPrompt(true)}
+        onClose={() => {
+          handleSubmit();
+          setShowPersonPrompt(disabled);
+        }}
         PaperProps={{
           sx: {
             p: 5,
@@ -137,11 +143,10 @@ function IdentityModal({ userData, setUserData }) {
             I have an account
           </Button>
           <Button
-            id="continue"
             onClick={handleSubmit}
             variant="contained"
             sx={{ ml: "auto" }}
-            disabled={!name.trim() || !email.trim() || !isEmail(email)}
+            disabled={disabled}
           >
             Continue <Icon>east</Icon>
           </Button>
