@@ -3,7 +3,6 @@ import { isEmail } from "@/components/Group/Members/isEmail";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   AppBar,
@@ -25,7 +24,6 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { Logo } from "..";
@@ -80,8 +78,8 @@ function IdentityModal({ userData, setUserData }) {
       <Dialog
         open={showPersonPrompt}
         onClose={() => {
-          handleSubmit();
           setShowPersonPrompt(disabled);
+          setTimeout(handleSubmit, 200);
         }}
         PaperProps={{
           sx: {
@@ -262,7 +260,9 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
       const date = startDate.add(i, "day").set("hour", j);
 
       const availability = data.participants
-        .find((p) => p.user.email === session?.user?.email)
+        .find(
+          (p) => (p?.user?.email || p?.userData?.email) === session?.user?.email
+        )
         ?.availability?.find((a) =>
           dayjs(a.date).set("hour", a.hour).isSame(date)
         );
@@ -339,18 +339,20 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
 
   const handleSelect = async (hour, date) => {
     let participant = data.participants.find(
-      (p) => p.user.email === session?.user?.email
+      (p) => (p?.user?.email || p?.userData?.email) === session?.user?.email
     );
 
     if (!participant) {
-      return toast.error("You are not a participant of this event.");
+      participant = {
+        id: null,
+        user: null,
+        userData,
+        eventId: data.id,
+        availability: [],
+      };
     }
 
     let availability = participant.availability || [];
-
-    // Availability is an array of {date: ISO string, hour: number}. If the user has already marked their availability for this day and hour, remove it. If the user has not marked their availability for this day and hour, add it. Then, create a `newData`
-
-    // Find index of availability with the same date and hour
 
     const availabilityIndex = availability.findIndex((a) =>
       dayjs(a.date)
@@ -371,7 +373,10 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
     const newData = {
       ...data,
       participants: data.participants.map((p) => {
-        if (p.user.email === (userData?.email || session?.user?.email)) {
+        if (
+          (p?.user?.email || p?.userData?.email) ===
+          (userData?.email || session?.user?.email)
+        ) {
           return {
             ...p,
             availability: [...availability],
@@ -382,20 +387,35 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
       }),
     };
 
+    const participantExists = newData.participants.find(
+      (p) =>
+        (p?.user?.email || p?.userData?.email) ===
+        (session?.user?.email || userData?.email)
+    );
+
     mutate(newData, {
       populateCache: newData,
       revalidate: false,
     });
 
     setIsSaving("saving");
-    await fetchRawApi(session, "availability/event/set-availability", {
-      eventId: data.id,
-      email: session?.user?.email,
-      availability: JSON.stringify(
-        newData.participants.find((p) => p.user.email === session?.user?.email)
-          ?.availability
-      ),
-    });
+    await fetch(
+      "/api/availability/event/set-availability?" +
+        new URLSearchParams({
+          eventId: data.id,
+          ...(session && { email: session.user?.email }),
+          ...(userData && { userData: JSON.stringify(userData) }),
+          availability: JSON.stringify(
+            participantExists
+              ? newData.participants.find(
+                  (p) =>
+                    p.user.email === (session?.user?.email || userData?.email)
+                )?.availability
+              : participant.availability
+          ),
+        })
+    );
+
     setIsSaving("saved");
   };
   const handleParentScrollTop = (e: any) =>

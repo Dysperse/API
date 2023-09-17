@@ -1,18 +1,28 @@
 import { prisma } from "@/lib/server/prisma";
-import { validateParams } from "@/lib/server/validateParams";
 
 export default async function handler(req, res) {
   try {
-    await validateParams(req.query, ["userIdentifier"]);
+    let user: any = {};
+    if (req.query.email) {
+      user = await prisma.eventParticipant.findFirst({
+        where: {
+          AND: [
+            { user: { email: req.query.email } },
+            { event: { id: req.query.eventId } },
+          ],
+        },
+      });
+    } else {
+      const users = await prisma.eventParticipant.findMany({
+        where: { event: { id: req.query.eventId } },
+      });
 
-    const user = await prisma.eventParticipant.findFirst({
-      where: {
-        AND: [
-          { user: { email: req.query.email } },
-          { event: { id: req.query.eventId } },
-        ],
-      },
-    });
+      user = users.find(
+        (u: any) => u.userData?.email === JSON.parse(req.query.userData).email
+      );
+
+      console.log(user);
+    }
 
     if (user?.id) {
       const d = await prisma.eventParticipant.update({
@@ -20,6 +30,9 @@ export default async function handler(req, res) {
           id: user?.id,
         },
         data: {
+          userData: req.query.userData
+            ? JSON.parse(req.query.userData)
+            : undefined,
           availability: JSON.parse(req.query.availability),
         },
       });
@@ -28,11 +41,11 @@ export default async function handler(req, res) {
       const d = await prisma.eventParticipant.create({
         data: {
           availability: JSON.parse(req.query.availability),
-          user: {
-            connect: {
-              email: req.query.email,
-            },
-          },
+          ...(req.query.email
+            ? {
+                user: { connect: { email: req.query.email } },
+              }
+            : { userData: JSON.parse(req.query.userData) }),
           event: {
             connect: {
               id: req.query.eventId,
