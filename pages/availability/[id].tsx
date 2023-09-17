@@ -28,7 +28,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { Logo } from "..";
 
-function IdentityModal({ userData, setUserData }) {
+function IdentityModal({ mutate, userData, setUserData }) {
   const router = useRouter();
   const { session, isLoading } = useSession();
   const palette = useColor(
@@ -244,6 +244,11 @@ function EarlyHoursToggle({ showEarlyHours, setShowEarlyHours }) {
 function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
   const { session } = useSession();
   const isMobile = useMediaQuery(`(max-width: 600px)`);
+
+  const identity = session?.user?.email || userData?.email;
+  const participant = data.participants.find(
+    (p) => (p?.user?.email || p?.userData?.email) === identity
+  );
 
   const palette = useColor(
     session?.themeColor || "violet",
@@ -658,7 +663,11 @@ export default function Page({ data: eventData }) {
           )}? Tap to respond.`}
         />
       </Head>
-      <IdentityModal setUserData={setUserData} userData={userData} />
+      <IdentityModal
+        mutate={mutate}
+        setUserData={setUserData}
+        userData={userData}
+      />
       <AppBar
         sx={{
           position: "absolute",

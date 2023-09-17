@@ -35,7 +35,7 @@ const handler = async (req, res) => {
               },
             ],
           },
-        ],
+        ].filter((e) => e),
       },
       include: {
         user: { select: { email: true } },
@@ -85,9 +85,11 @@ const handler = async (req, res) => {
       },
       orderBy: { pinned: "desc" },
     });
+    console.log(data);
     res.json(data);
   } catch (e: any) {
-    res.json({ error: e.message });
+    console.error(e.message);
+    res.status(500).json({ error: e.message });
   }
 };
 
