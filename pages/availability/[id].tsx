@@ -329,9 +329,7 @@ function AvailabilityViewer({ data: eventData }) {
                   {data.overlappingAvailability[0]?.hour > 11 ? "PM" : "AM"}
                 </u>
               </Typography>
-              <Typography variant="h6">
-                Best overlapping availability
-              </Typography>
+              <Typography variant="h6">Best time to meet</Typography>
 
               <TableContainer
                 component={Box}
