@@ -486,20 +486,20 @@ function CreateAvailability({ mutate, setShowMargin }) {
       excludingDates: [],
     },
     "Weekends this month": {
-      startDate: monthStart.add(5, "day"),
-      endDate: monthStart.add(7, "day"),
+      startDate: monthStart,
+      endDate: dayjs().endOf("month"),
       excludingDates: [...new Array(daysInMonth)]
         .map((_, index) => monthStart.add(index, "day"))
         .filter((day) => ![0, 6].includes(day.day()))
-        .map((day) => day.format("YYYY-MM-DD")),
+        .map((day) => day.toISOString()),
     },
     "Weekdays this month": {
-      startDate: monthStart.add(1, "day"),
-      endDate: monthStart.add(5, "day"),
+      startDate: monthStart,
+      endDate: dayjs().endOf("month"),
       excludingDates: [...new Array(daysInMonth)]
         .map((_, index) => monthStart.add(index, "day"))
         .filter((day) => [0, 6].includes(day.day()))
-        .map((day) => day.format("YYYY-MM-DD")),
+        .map((day) => day.toISOString()),
     },
   };
 
