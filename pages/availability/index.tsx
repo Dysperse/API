@@ -869,36 +869,59 @@ export default function Page() {
                 maxWidth: "calc(100dvw - 60px)",
               }}
             >
-              <Typography variant="h4" className="font-heading">
-                Availability
-              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.4,
+                }}
+              >
+                <Typography variant="h4" className="font-heading">
+                  Availability
+                </Typography>
+                <Chip
+                  label="BETA"
+                  sx={{
+                    fontWeight: 900,
+                    background: `linear-gradient(90deg, hsla(113, 96%, 81%, 1) 0%, hsla(188, 90%, 51%, 1) 100%)`,
+                    color: "#000!important",
+                  }}
+                  size="small"
+                />
+              </Box>
               <Typography variant="body1" sx={{ opacity: 0.6 }}>
-                Plan your next meetup time in under 3 clicks
+                Blazingly fast event coordination
               </Typography>
-              <Typography sx={bulletStyles}>
-                <Icon>counter_1</Icon>{" "}
-                <Box>
-                  <b>Create an event</b>
-                  <div>Set up an event in under 3 clicks.</div>
-                </Box>
-              </Typography>
-              <Typography sx={bulletStyles}>
-                <Icon>counter_2</Icon>{" "}
-                <Box>
-                  <b>Share the link with others</b>
-                  <div>No sign up required.</div>
-                </Box>
-              </Typography>
-              <Typography sx={bulletStyles}>
-                <Icon>counter_3</Icon>
-                <Box>
-                  <b>See everyone&apos;s availability</b>
-                  <div>
-                    Once others respond, we&apos;ll will calculate the best time
-                    for everyone to meet.
-                  </div>
-                </Box>
-              </Typography>
+              {[
+                {
+                  name: "Create an event",
+                  description: "Set up an event in under 3 clicks.",
+                },
+                {
+                  name: "Share the link with others",
+                  description: "No sign up required.",
+                },
+                {
+                  name: "See everyone's availability",
+                  description:
+                    "Once others respond, we'll will calculate the best time for everyone to meet.",
+                },
+              ].map((bullet, index) => (
+                <motion.div
+                  key={bullet.name}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.2 }}
+                >
+                  <Typography sx={bulletStyles}>
+                    <Icon>counter_{index + 1}</Icon>{" "}
+                    <Box>
+                      <b>{bullet.name}</b>
+                      <div>{bullet.description}</div>
+                    </Box>
+                  </Typography>
+                </motion.div>
+              ))}
             </Box>
           ) : (
             <Virtuoso
