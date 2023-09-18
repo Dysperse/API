@@ -317,19 +317,27 @@ function AvailabilityViewer({ data: eventData }) {
             </Box>
           ) : (
             <Box>
-              <Typography variant="h3" className="font-heading">
-                <u>
-                  {dayjs(data.overlappingAvailability?.[0]?.date).format(
-                    "dddd, MMMM Do"
-                  )}
-                </u>{" "}
-                at{" "}
-                <u>
-                  {data.overlappingAvailability[0]?.hour % 12 || 12}{" "}
-                  {data.overlappingAvailability[0]?.hour > 11 ? "PM" : "AM"}
-                </u>
-              </Typography>
-              <Typography variant="h6">Best time to meet</Typography>
+              <Box
+                sx={{
+                  p: 3,
+                  background: palette[3],
+                  borderRadius: 4,
+                }}
+              >
+                <Typography variant="h4" className="font-heading">
+                  <u>
+                    {dayjs(data.overlappingAvailability?.[0]?.date).format(
+                      "dddd, MMMM Do"
+                    )}
+                  </u>{" "}
+                  at{" "}
+                  <u>
+                    {data.overlappingAvailability[0]?.hour % 12 || 12}{" "}
+                    {data.overlappingAvailability[0]?.hour > 11 ? "PM" : "AM"}
+                  </u>
+                </Typography>
+                <Typography variant="h6">Best time to meet</Typography>
+              </Box>
 
               <TableContainer
                 component={Box}
