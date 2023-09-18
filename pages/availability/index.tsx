@@ -8,10 +8,12 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import {
   AppBar,
+  Badge,
   Box,
   Button,
   Chip,
   CircularProgress,
+  Divider,
   Icon,
   IconButton,
   Skeleton,
@@ -20,7 +22,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DateCalendar, DatePicker, PickersDay } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -57,6 +59,64 @@ function CustomDateSelector({
         open={open}
         onClose={() => setOpen(false)}
       >
+        <SwipeableDrawer
+          anchor="bottom"
+          open={excludeCalendarDatesOpen}
+          onClose={() => setExcludeCalendarOpen(false)}
+        >
+          <Puller />
+          <DateCalendar
+            minDate={startDate}
+            maxDate={endDate}
+            value={null}
+            slots={{
+              day:
+                // show indicator <Badge /> if date is excluded
+                ({ day, ...rest }) => {
+                  const isExcluded = excludingDates.includes(day.toISOString());
+
+                  return (
+                    <Badge
+                      badgeContent={
+                        isExcluded ? <Icon sx={{ mx: -1 }}>close</Icon> : 0
+                      }
+                      color="error"
+                      sx={{
+                        ...(isExcluded && {
+                          opacity: 0.5,
+                        }),
+                      }}
+                    >
+                      <PickersDay
+                        {...rest}
+                        day={day}
+                        onClick={() => {
+                          if (excludingDates.includes(day.toISOString())) {
+                            setExcludingDates(
+                              excludingDates.filter(
+                                (d) => d !== day.toISOString()
+                              )
+                            );
+                          } else {
+                            setExcludingDates([
+                              ...excludingDates,
+                              day.toISOString(),
+                            ]);
+                          }
+                        }}
+                        sx={{
+                          ...(isExcluded && {
+                            background: palette[9] + "!important",
+                            color: palette[1] + "!important",
+                          }),
+                        }}
+                      />
+                    </Badge>
+                  );
+                },
+            }}
+          />
+        </SwipeableDrawer>
         <Puller showOnDesktop />
         <Box sx={{ p: 3, pt: 0 }}>
           <Typography variant="h4" className="font-heading">
@@ -69,7 +129,14 @@ function CustomDateSelector({
               <DatePicker
                 minDate={dayjs()}
                 value={startDate}
-                onChange={(e) => setStartDate(dayjs(e.target.value))}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                  setExcludingDates(
+                    excludingDates.filter((date) =>
+                      dayjs(date).isAfter(newValue)
+                    )
+                  );
+                }}
               />
               <Box
                 sx={{
@@ -88,17 +155,35 @@ function CustomDateSelector({
               </Box>
               <DatePicker
                 minDate={startDate}
+                maxDate={dayjs().add(1, "month")}
                 value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+                onChange={(newValue) => {
+                  setEndDate(newValue);
+                  // Remove excluding dates that are after the new end date
+                  setExcludingDates(
+                    excludingDates.filter((date) =>
+                      dayjs(date).isBefore(newValue)
+                    )
+                  );
+                }}
               />
             </Box>
           </Box>
-          <Box>
-            <Typography sx={{ mt: 2 }}>Exclude dates...</Typography>
-            <DatePicker />
+          <Divider sx={{ my: 2 }} />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography>Exclude dates...</Typography>
+            <Button
+              onClick={() => setExcludeCalendarOpen(true)}
+              sx={{ ml: "auto" }}
+              variant="contained"
+              size="small"
+            >
+              {excludingDates.length} date{excludingDates.length !== 1 && "s"}
+            </Button>
           </Box>
+          <Divider sx={{ my: 2 }} />
           <Box>
-            <Typography sx={{ mt: 2 }}>Exclude hours...</Typography>
+            <Typography>Exclude hours...</Typography>
             <Box
               sx={{
                 display: "flex",
@@ -141,6 +226,14 @@ function CustomDateSelector({
               ))}
             </Box>
           </Box>
+          <Button
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2 }}
+            onClick={() => setOpen(false)}
+          >
+            <Icon>check</Icon>Done
+          </Button>
         </Box>
       </SwipeableDrawer>
     </>
@@ -673,7 +766,6 @@ export default function Page() {
     <Box sx={{ pb: "270px" }}>
       <AppBar
         sx={{
-          zIndex: 999999999,
           position: "fixed",
           top: 0,
           left: 0,
