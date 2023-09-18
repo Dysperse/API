@@ -481,7 +481,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
       excludingDates: [],
     },
     "This weekend": {
-      startDate: weekStart.add(5, "day"),
+      startDate: weekStart.add(6, "day"),
       endDate: weekStart.add(7, "day"),
       excludingDates: [],
     },
