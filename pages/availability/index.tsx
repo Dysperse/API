@@ -11,6 +11,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Icon,
   IconButton,
   Skeleton,
@@ -26,31 +27,32 @@ import { useEffect, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 
-function EventCard({ event }) {
+function EventCard({ index, event }) {
   const router = useRouter();
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const [loading, setLoading] = useState(false);
 
   const createdRecently = useMemo(
     () =>
       dayjs().diff(dayjs(event.createdAt), "minute") < 15 &&
-      event.createdBy == session.user.identifier,
-    [event, session]
+      event.createdBy == session.user.identifier &&
+      index === 0,
+    [event, session, index]
   );
 
   const handleShare = () => {
     navigator.share({
-      title: event.name,
-      text: `What's your availability from ${dayjs(event.startDate).format(
-        "MMMM Do"
-      )} to ${dayjs(event.endDate).format("MMMM Do")}? Tap to respond.`,
       url: `https://${window.location.hostname}/availability/${event.id}`,
     });
   };
 
   return (
     <Box key={event.id} sx={{ pb: 2, maxWidth: "500px", mx: "auto" }}>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div
+        initial={{ opacity: 0, ...(createdRecently && { scale: 0 }) }}
+        animate={{ opacity: 1, ...(createdRecently && { scale: 1 }) }}
+      >
         <Box
           sx={{
             borderRadius: 5,
@@ -87,7 +89,11 @@ function EventCard({ event }) {
               </Typography>
             </Box>
             <IconButton
-              onClick={() => router.push(`/availability/${event.id}`)}
+              onClick={() => {
+                setLoading(true);
+                vibrate(50);
+                router.push(`/availability/${event.id}`);
+              }}
               sx={{
                 ml: "auto",
                 flexShrink: 0,
@@ -95,7 +101,11 @@ function EventCard({ event }) {
                 background: palette[4] + "!important",
               }}
             >
-              <Icon>east</Icon>
+              {loading ? (
+                <CircularProgress sx={{ opacity: 0.5 }} />
+              ) : (
+                <Icon sx={{ transform: "rotate(45deg)" }}>north</Icon>
+              )}
             </IconButton>
           </Box>
 
@@ -127,7 +137,9 @@ function EventCard({ event }) {
               sx={{
                 background: palette[4] + "!important",
                 ...(createdRecently && {
-                  background: palette[9] + "!important",
+                  "&, &:hover": {
+                    background: palette[9] + "!important",
+                  },
                   "&:active": {
                     background: `${palette[10]}!important`,
                   },
@@ -153,11 +165,13 @@ function CreateAvailability({ mutate, setShowMargin }) {
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState(dayjs().startOf("day"));
   const [endDate, setEndDate] = useState(dayjs().endOf("day"));
+  const [excludingDates, setExcludingDates] = useState<any[]>([]);
 
   const [name, setName] = useState(
     `${session.user?.name?.split(" ")[0]}'s meeting`
   );
 
+  const [showCloseAnimation, setShowCloseAnimation] = useState(true);
   const [submitted, setSubmitted] = useState(false);
 
   const chipStyles = {
@@ -166,6 +180,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
 
   const handleSubmit = async () => {
     setSubmitted(true);
+
     await fetchRawApi(session, "availability/create", {
       name,
       startDate: startDate.toISOString(),
@@ -173,9 +188,15 @@ function CreateAvailability({ mutate, setShowMargin }) {
       timeZone: session.user.timeZone,
     });
     await mutate();
+    setShowCloseAnimation(false);
     setShowMargin(false);
-    setOpen(false);
-    setTimeout(() => setSubmitted(false), 200);
+    setSubmitted(false);
+    setTimeout(() => {
+      setOpen(false);
+      setTimeout(() => {
+        setShowCloseAnimation(true);
+      }, 200);
+    }, 600);
   };
 
   useEffect(() => {
@@ -205,6 +226,40 @@ function CreateAvailability({ mutate, setShowMargin }) {
     }
   };
 
+  const todayStart = dayjs().startOf("day");
+  const todayEnd = dayjs().endOf("day");
+  const monthStart = dayjs().startOf("month");
+  const daysInMonth = dayjs().daysInMonth();
+
+  const templates = {
+    Today: {
+      startDate: todayStart,
+      endDate: todayEnd,
+      excludingDates: [],
+    },
+    "This weekend": {
+      startDate: todayStart.add(5, "day"),
+      endDate: todayStart.add(7, "day"),
+      excludingDates: [],
+    },
+    "Weekends this month": {
+      startDate: monthStart.add(5, "day"),
+      endDate: monthStart.add(7, "day"),
+      excludingDates: [...new Array(daysInMonth)]
+        .map((_, index) => monthStart.add(index, "day"))
+        .filter((day) => ![0, 6].includes(day.day()))
+        .map((day) => day.format("YYYY-MM-DD")),
+    },
+    "Weekdays this month": {
+      startDate: monthStart.add(1, "day"),
+      endDate: monthStart.add(5, "day"),
+      excludingDates: [...new Array(daysInMonth)]
+        .map((_, index) => monthStart.add(index, "day"))
+        .filter((day) => [0, 6].includes(day.day()))
+        .map((day) => day.format("YYYY-MM-DD")),
+    },
+  };
+
   return (
     <>
       <Box
@@ -212,7 +267,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
         sx={{
-          zIndex: 9999,
+          zIndex: !open ? 9999999 : 999,
           position: "fixed",
           bottom: !open ? 0 : "-100px",
           width: "100%",
@@ -225,7 +280,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
           overflow: "hidden",
           maxHeight: submitted ? "100px" : "100px",
           borderRadius: "20px 20px 0 0",
-          transition: "bottom .5s cubic-bezier(.17,.67,.08,1)!important",
+          transition: "bottom .4s cubic-bezier(.17,.67,.08,1)!important",
           "&:active": {
             background: addHslAlpha(palette[5], 0.8),
           },
@@ -245,7 +300,6 @@ function CreateAvailability({ mutate, setShowMargin }) {
         />
         <Typography
           variant="h4"
-          className="font-heading"
           sx={{
             pb: 3,
             px: 3,
@@ -253,10 +307,29 @@ function CreateAvailability({ mutate, setShowMargin }) {
             color: palette[11],
           }}
         >
-          Gather availability
+          <span className="font-heading" style={{ fontWeight: 300 }}>
+            Gather availability
+          </span>
+          <Icon
+            sx={{
+              ...(open && {
+                ml: -3.5,
+                opacity: 0,
+              }),
+              transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+            }}
+          >
+            arrow_forward_ios
+          </Icon>
         </Typography>
       </Box>
       <SwipeableDrawer
+        disableEscapeKeyDown={submitted}
+        sx={{
+          ...(!showCloseAnimation && {
+            display: "none!important",
+          }),
+        }}
         disableScrollLock
         anchor="bottom"
         open={open}
@@ -269,20 +342,25 @@ function CreateAvailability({ mutate, setShowMargin }) {
           backdrop: {
             sx: {
               backdropFilter: "none!important",
+              ...(submitted && { opacity: "0!important" }),
             },
           },
         }}
         PaperProps={{
           sx: {
-            maxWidth: !submitted ? "100%" : "calc(100dvw - 64px)",
             width: "550px",
             background: submitted ? palette[3] : addHslAlpha(palette[4], 0.5),
             backdropFilter: submitted ? "" : "blur(10px)",
             borderRadius: submitted ? 5 : "20px 20px 0 0",
             ...(submitted && {
-              transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
-              bottom: "calc(100dvh - 320px) !important",
+              transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+              bottom: "calc(100dvh - 310px) !important",
+              height: "220px",
             }),
+            maxWidth: {
+              xs: submitted ? "calc(100dvw - 65px)" : "100dvw",
+              sm: submitted ? "500px" : "550px",
+            },
           },
         }}
       >
@@ -308,7 +386,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
           sx={{
             opacity: submitted ? 0 : 1,
             mt: submitted ? "-50px" : "0px",
-            transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
+            transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
             overflow: "hidden",
             "& .puller": {
               background: palette[6],
@@ -324,13 +402,22 @@ function CreateAvailability({ mutate, setShowMargin }) {
             backdropFilter: "none",
           }}
         >
-          <Toolbar sx={{ gap: 2 }}>
+          <Toolbar
+            sx={{
+              gap: 2,
+              ...(submitted && {
+                mt: 1.2,
+                ml: -1,
+                transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
+              }),
+            }}
+          >
             <IconButton
               sx={{
                 mr: submitted ? 0 : "auto",
                 display: submitted ? "none" : "flex",
                 background: palette[4],
-                transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
+                transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
                 color: palette[11],
               }}
               onClick={() => {
@@ -355,12 +442,13 @@ function CreateAvailability({ mutate, setShowMargin }) {
             <IconButton
               sx={{
                 ml: "auto",
+                mb: submitted ? -3.1 : 0,
                 mr: submitted ? -1 : 0,
-                background: palette[4],
+                background: palette[4] + "!important",
                 color: palette[11],
-                transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
+                transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
                 ...(submitted && {
-                  transform: "rotate(90deg)",
+                  transform: "rotate(45deg)",
                 }),
               }}
               onClick={handleSubmit}
@@ -395,10 +483,36 @@ function CreateAvailability({ mutate, setShowMargin }) {
               sx={chipStyles}
               icon={<Icon sx={{ ml: "18px!important" }}>tune</Icon>}
             />
-            <Chip sx={chipStyles} icon={<Icon>check</Icon>} label="Today" />
-            <Chip sx={chipStyles} label="This weekend" />
-            <Chip sx={chipStyles} label="Weekends this month" />
-            <Chip sx={chipStyles} label="Weekdays this month" />
+            {
+              Object.entries(templates).map(([key, value]) => (
+                <Chip
+                  key={key}
+                  sx={chipStyles}
+                  label={key}
+                  // if selected
+                  {...(startDate.isSame(value.startDate) &&
+                    endDate.isSame(value.endDate) && {
+                      icon: (
+                        <Icon sx={{ color: palette[1] + "!important" }}>
+                          check
+                        </Icon>
+                      ),
+                      sx: {
+                        fontWeight: 900,
+                        "&, &:hover": {
+                          background: palette[9],
+                          color: palette[1],
+                        },
+                      },
+                    })}
+                  onClick={() => {
+                    setStartDate(value.startDate);
+                    setEndDate(value.endDate);
+                    setExcludingDates(value.excludingDates || []);
+                  }}
+                />
+              )) as any
+            }
           </Box>
           <TextField
             sx={{ mt: 1 }}
@@ -458,10 +572,10 @@ export default function Page() {
         <Box
           sx={{
             mt: "var(--navbar-height)",
-            paddingTop: showMargin ? "218px" : "0px",
+            paddingTop: showMargin ? "235px" : "0px",
             overflow: "hidden",
             ...(showMargin && {
-              transition: "all .5s cubic-bezier(.17,.67,.08,1)!important",
+              transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
             }),
           }}
         />
@@ -487,7 +601,9 @@ export default function Page() {
               useWindowScroll
               customScrollParent={containerRef.current}
               totalCount={data.length}
-              itemContent={(index) => <EventCard event={data[index]} />}
+              itemContent={(index) => (
+                <EventCard index={index} event={data[index]} />
+              )}
             />
           )
         ) : error ? (
