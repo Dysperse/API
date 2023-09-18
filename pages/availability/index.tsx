@@ -471,6 +471,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
   const todayStart = dayjs().startOf("day");
   const todayEnd = dayjs().endOf("day");
   const monthStart = dayjs().startOf("month");
+  const weekStart = dayjs().startOf("week");
   const daysInMonth = dayjs().daysInMonth();
 
   const templates = {
@@ -480,8 +481,8 @@ function CreateAvailability({ mutate, setShowMargin }) {
       excludingDates: [],
     },
     "This weekend": {
-      startDate: todayStart.add(5, "day"),
-      endDate: todayStart.add(7, "day"),
+      startDate: weekStart.add(5, "day"),
+      endDate: weekStart.add(7, "day"),
       excludingDates: [],
     },
     "Weekends this month": {
