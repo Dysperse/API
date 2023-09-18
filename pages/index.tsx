@@ -11,6 +11,7 @@ import { vibrate } from "@/lib/client/vibration";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
+  Badge,
   Box,
   Button,
   Chip,
@@ -44,6 +45,39 @@ import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { Navbar } from "../components/Navbar";
+
+function AvailabilityTrigger() {
+  const router = useRouter();
+  const [showDot, setShowDot] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("availability") !== "true") setShowDot(true);
+  }, [setShowDot]);
+
+  return (
+    <Badge
+      badgeContent={showDot ? 1 : 0}
+      color="info"
+      variant="dot"
+      sx={{
+        "& .MuiBadge-badge": {
+          mt: 0.5,
+          ml: -0.5,
+        },
+      }}
+    >
+      <Button
+        variant="contained"
+        onClick={() => {
+          router.push("/availability");
+          localStorage.setItem("availability", "true");
+        }}
+      >
+        <Icon className="outlined">person_check</Icon>
+      </Button>
+    </Badge>
+  );
+}
 
 export function StatusSelector({
   children,
@@ -858,6 +892,7 @@ export default function Home() {
             overflowX: "scroll",
             maxWidth: "100%",
             px: 4,
+            overflowY: "visible",
             mb: 2,
             gap: 2,
             "& *": {
@@ -865,12 +900,7 @@ export default function Home() {
             },
           }}
         >
-          <Button
-            variant="contained"
-            onClick={() => router.push("/availability")}
-          >
-            <Icon className="outlined">person_check</Icon>
-          </Button>
+          <AvailabilityTrigger />
           <SearchFriend mutate={mutate} />
           <StatusSelector mutate={mutate} profile={profileData} />
         </Box>
