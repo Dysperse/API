@@ -1,3 +1,4 @@
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { containerRef } from "@/components/Layout";
 import { Puller } from "@/components/Puller";
@@ -246,7 +247,7 @@ function CustomDateSelector({
   );
 }
 
-function EventCard({ index, event }) {
+function EventCard({ mutate, index, event }) {
   const router = useRouter();
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -338,6 +339,20 @@ function EventCard({ index, event }) {
               gap: 2,
             }}
           >
+            <ConfirmationModal
+              callback={async () => {
+                await fetchRawApi(session, "availability/delete", {
+                  id: event.id,
+                });
+                await mutate();
+              }}
+              title="Delete event?"
+              question="You won't be able to see responses. Others won't be able to respond as well"
+            >
+              <IconButton sx={{ opacity: 0.6, color: palette[8] }}>
+                <Icon className="outlined">remove_circle</Icon>
+              </IconButton>
+            </ConfirmationModal>
             <Button
               sx={{
                 ml: "auto",
@@ -792,8 +807,20 @@ export default function Page() {
     document.body.style.background = palette[2];
   }, [palette]);
 
+  const bulletStyles = {
+    display: "flex",
+    gap: 2,
+    mt: 2,
+    "& .MuiIcon-root": {
+      mt: 0.5,
+      fontSize: "30px",
+      fontVariationSettings:
+        '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+    },
+  };
+
   return (
-    <Box sx={{ pb: "100px" }} id="container">
+    <Box sx={{ pb: "100px" }}>
       <AppBar
         sx={{
           position: "fixed",
@@ -837,6 +864,9 @@ export default function Page() {
                 borderRadius: 5,
                 background: palette[3],
                 color: palette[11],
+                width: "500px",
+                mx: "auto",
+                maxWidth: "calc(100dvw - 60px)",
               }}
             >
               <Typography variant="h4" className="font-heading">
@@ -845,6 +875,30 @@ export default function Page() {
               <Typography variant="body1" sx={{ opacity: 0.6 }}>
                 Plan your next meetup time in under 3 clicks
               </Typography>
+              <Typography sx={bulletStyles}>
+                <Icon>counter_1</Icon>{" "}
+                <Box>
+                  <b>Create an event</b>
+                  <div>Set up an event in under 3 clicks.</div>
+                </Box>
+              </Typography>
+              <Typography sx={bulletStyles}>
+                <Icon>counter_2</Icon>{" "}
+                <Box>
+                  <b>Share the link with others</b>
+                  <div>No sign up required.</div>
+                </Box>
+              </Typography>
+              <Typography sx={bulletStyles}>
+                <Icon>counter_3</Icon>
+                <Box>
+                  <b>See everyone&apos;s availability</b>
+                  <div>
+                    Once others respond, we&apos;ll will calculate the best time
+                    for everyone to meet.
+                  </div>
+                </Box>
+              </Typography>
             </Box>
           ) : (
             <Virtuoso
@@ -852,7 +906,7 @@ export default function Page() {
               customScrollParent={containerRef.current}
               totalCount={data.length}
               itemContent={(index) => (
-                <EventCard index={index} event={data[index]} />
+                <EventCard mutate={mutate} index={index} event={data[index]} />
               )}
             />
           )
