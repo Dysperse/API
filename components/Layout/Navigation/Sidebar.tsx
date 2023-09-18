@@ -119,8 +119,6 @@ export function Sidebar() {
     [open]
   );
 
-  const isDark = useDarkMode(session.darkMode);
-
   const styles = (active: any = false) => {
     return {
       WebkitAppRegion: "no-drag",
@@ -159,7 +157,6 @@ export function Sidebar() {
   return (
     <Box
       sx={{
-        // WebkitAppRegion: "drag",
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",

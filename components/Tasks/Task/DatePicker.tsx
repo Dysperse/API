@@ -42,7 +42,7 @@ function ServerDay(
     <Badge
       key={props.day.toString()}
       overlap="circular"
-      badgeContent={isSelected ? "🌚" : undefined}
+      badgeContent={isSelected ? "1" : undefined}
     >
       <PickersDay
         {...other}
@@ -143,6 +143,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
   dateOnly = false,
 }: any) {
   const timeRef: any = useRef();
+  const { session } = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
   const [timeOpen, setTimeOpen] = useState(false);
@@ -178,7 +179,6 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
   ]);
 
   const initialValue = dayjs(date);
-  const session = useSession();
 
   const handleSubmit = useCallback(() => {
     const [hours, minutes] = timeRef.current.value.split(":");
@@ -195,13 +195,15 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
 
   const fetchHighlightedDays = (date: Dayjs) => {
     const controller = new AbortController();
+    if (!session) return;
 
-    fetchRawApi(session, {
+    fetchRawApi(session, "property/tasks", {
       count: true,
       startTime: date.startOf("month").toISOString(),
       endTime: date.endOf("month").toISOString(),
     })
-      .then(({ daysToHighlight }) => {
+      .then((daysToHighlight) => {
+        alert(JSON.stringify(daysToHighlight));
         setHighlightedDays(daysToHighlight);
         setIsLoading(false);
       })
