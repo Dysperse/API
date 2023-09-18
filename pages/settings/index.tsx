@@ -160,9 +160,7 @@ function Page() {
           question="Are you sure you want to sign out?"
           buttonText="Sign out"
           callback={() =>
-            fetchRawApi(session, "auth/logout").then(() =>
-              mutate("/api/session")
-            )
+            fetchRawApi(session, "auth/logout").then(() => router.push("/auth"))
           }
         >
           <ListItemButton>
