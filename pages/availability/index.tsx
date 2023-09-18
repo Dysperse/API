@@ -400,6 +400,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
 
   const handleSubmit = async () => {
     try {
+      containerRef?.current?.scrollTo(0, 0);
       setSubmitted(true);
 
       if (endDate.isBefore(startDate)) {
@@ -792,7 +793,7 @@ export default function Page() {
   }, [palette]);
 
   return (
-    <Box sx={{ pb: "270px" }}>
+    <Box sx={{ pb: "100px" }} id="container">
       <AppBar
         sx={{
           position: "fixed",
