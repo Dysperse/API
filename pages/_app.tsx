@@ -20,6 +20,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 // Hooks
 import Layout from "@/components/Layout";
 import { SessionProvider, useUser } from "@/lib/client/session";
@@ -146,40 +149,42 @@ export default function App({
   };
 
   return (
-    <SWRConfig value={{ fetcher: (d) => fetcher(d, s) }}>
-      <SessionProvider session={s} isLoading={isLoading}>
-        <StorageContext.Provider value={{ isReached, setIsReached }}>
-          <ThemeProvider theme={userTheme}>
-            <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
-            <Head>
-              <title>Dysperse</title>
-              <meta name="theme-color" content={palette[1]} />
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content, viewport-fit=cover"
-              />
-              <link
-                rel="shortcut icon"
-                href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"
-              />
-            </Head>
-            <Analytics />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <SWRConfig value={{ fetcher: (d) => fetcher(d, s) }}>
+        <SessionProvider session={s} isLoading={isLoading}>
+          <StorageContext.Provider value={{ isReached, setIsReached }}>
+            <ThemeProvider theme={userTheme}>
+              <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
+              <Head>
+                <title>Dysperse</title>
+                <meta name="theme-color" content={palette[1]} />
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content, viewport-fit=cover"
+                />
+                <link
+                  rel="shortcut icon"
+                  href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"
+                />
+              </Head>
+              <Analytics />
 
-            {disableLayout ? (
-              children
-            ) : (
-              <>
-                {isLoading && <Loading />}
-                {!isLoading && !isError && data.error && <AuthLoading />}
-                {!isLoading && !isError && !data.error && (
-                  <Layout>{children}</Layout>
-                )}
-                {isError && <Error />}
-              </>
-            )}
-          </ThemeProvider>
-        </StorageContext.Provider>
-      </SessionProvider>
-    </SWRConfig>
+              {disableLayout ? (
+                children
+              ) : (
+                <>
+                  {isLoading && <Loading />}
+                  {!isLoading && !isError && data.error && <AuthLoading />}
+                  {!isLoading && !isError && !data.error && (
+                    <Layout>{children}</Layout>
+                  )}
+                  {isError && <Error />}
+                </>
+              )}
+            </ThemeProvider>
+          </StorageContext.Provider>
+        </SessionProvider>
+      </SWRConfig>
+    </LocalizationProvider>
   );
 }

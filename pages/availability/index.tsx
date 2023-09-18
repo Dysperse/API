@@ -20,12 +20,132 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
+
+function CustomDateSelector({
+  setStartDate,
+  setEndDate,
+  setExcludingDates,
+  setExcludingHours,
+  startDate,
+  endDate,
+  excludingDates,
+  excludingHours,
+  chipStyles,
+}) {
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const [open, setOpen] = useState(false);
+  const [excludeCalendarDatesOpen, setExcludeCalendarOpen] = useState(false);
+
+  return (
+    <>
+      <Chip
+        sx={chipStyles}
+        icon={<Icon sx={{ ml: "18px!important" }}>tune</Icon>}
+        onClick={() => setOpen(true)}
+      />
+      <SwipeableDrawer
+        anchor="bottom"
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <Puller showOnDesktop />
+        <Box sx={{ p: 3, pt: 0 }}>
+          <Typography variant="h4" className="font-heading">
+            Custom
+          </Typography>
+
+          <Box sx={{ mt: 1 }}>
+            <Typography>Measure availability from...</Typography>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 2 }}>
+              <DatePicker
+                minDate={dayjs()}
+                value={startDate}
+                onChange={(e) => setStartDate(dayjs(e.target.value))}
+              />
+              <Box
+                sx={{
+                  background: palette[5],
+                  width: 40,
+                  height: 40,
+                  fontSize: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  borderRadius: 999,
+                }}
+              >
+                to
+              </Box>
+              <DatePicker
+                minDate={startDate}
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </Box>
+          </Box>
+          <Box>
+            <Typography sx={{ mt: 2 }}>Exclude dates...</Typography>
+            <DatePicker />
+          </Box>
+          <Box>
+            <Typography sx={{ mt: 2 }}>Exclude hours...</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                mt: 1,
+                gap: 2,
+                overflowX: "scroll",
+                mx: -3,
+                px: 3,
+              }}
+            >
+              {[...new Array(24)].map((_, index) => (
+                <Box
+                  key={index}
+                  onClick={() => {
+                    if (excludingHours.includes(index + 1)) {
+                      setExcludingHours(
+                        excludingHours.filter((h) => h !== index + 1)
+                      );
+                    } else {
+                      setExcludingHours([...excludingHours, index + 1]);
+                    }
+                  }}
+                  sx={{
+                    width: 45,
+                    height: 45,
+                    flexShrink: 0,
+                    borderRadius: 99,
+                    display: "flex",
+                    fontSize: "13px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background:
+                      palette[excludingHours.includes(index + 1) ? 9 : 3],
+                  }}
+                >
+                  {(index + 1) % 12 === 0 ? 12 : (index + 1) % 12}
+                  {index < 11 || index > 21 ? "AM" : "PM"}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 function EventCard({ index, event }) {
   const router = useRouter();
@@ -166,6 +286,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
   const [startDate, setStartDate] = useState(dayjs().startOf("day"));
   const [endDate, setEndDate] = useState(dayjs().endOf("day"));
   const [excludingDates, setExcludingDates] = useState<any[]>([]);
+  const [excludingHours, setExcludingHours] = useState<number[]>([]);
 
   const [name, setName] = useState(
     `${session.user?.name?.split(" ")[0]}'s meeting`
@@ -267,7 +388,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
         sx={{
-          zIndex: !open ? 9999999 : 999,
+          zIndex: 999,
           position: "fixed",
           bottom: !open ? 0 : "-100px",
           width: "100%",
@@ -407,7 +528,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
               gap: 2,
               ...(submitted && {
                 mt: 1.2,
-                ml: -1,
+                ml: { sm: -1 },
                 transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
               }),
             }}
@@ -479,9 +600,16 @@ function CreateAvailability({ mutate, setShowMargin }) {
               ml: -3,
             }}
           >
-            <Chip
-              sx={chipStyles}
-              icon={<Icon sx={{ ml: "18px!important" }}>tune</Icon>}
+            <CustomDateSelector
+              chipStyles={chipStyles}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              setExcludingDates={setExcludingDates}
+              setExcludingHours={setExcludingHours}
+              startDate={startDate}
+              endDate={endDate}
+              excludingDates={excludingDates}
+              excludingHours={excludingHours}
             />
             {
               Object.entries(templates).map(([key, value]) => (
