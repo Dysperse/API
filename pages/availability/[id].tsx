@@ -416,6 +416,7 @@ const AvailabilityButton = React.memo(function AvailabilityButton({
   col,
   handleSelect,
   disabled,
+  shouldHide,
 }: any) {
   const { session } = useSession();
   const palette = useColor(
@@ -432,6 +433,9 @@ const AvailabilityButton = React.memo(function AvailabilityButton({
       size="small"
       onClick={() => handleSelect(hour, col.date)}
       sx={{
+        ...(shouldHide && {
+          display: "none!important",
+        }),
         // If the user has marked their availability for this time slot, make it green
         "&:hover": {
           background: { sm: palette[4] + "!important" },
@@ -738,6 +742,9 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
                 borderRadius: 0,
                 ...(i === 12 && { borderBottom: `2px solid ${palette[6]}` }),
                 ...(i < 8 && !showEarlyHours && { display: "none" }),
+                ...(data.excludingHours.includes(i) && {
+                  display: "none!important",
+                }),
               }}
               key={i}
             >
@@ -748,7 +755,14 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
         {grid.map((row, i) => (
           <Box
             key={i}
-            sx={{ ...columnStyles }}
+            sx={{
+              ...columnStyles,
+              ...(data.excludingDates.includes(
+                startDate.add(i, "day").toISOString()
+              ) && {
+                display: "none!important",
+              }),
+            }}
             className="scroller"
             onScroll={handleScroll}
           >
@@ -781,6 +795,7 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
             </Box>
             {row.map((col, j) => (
               <AvailabilityButton
+                shouldHide={data.excludingHours.includes(j)}
                 disabled={!participant}
                 key={j}
                 hour={j}
