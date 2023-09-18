@@ -1,7 +1,9 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  Badge,
   Box,
   Button,
   Icon,
@@ -10,7 +12,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import dayjs from "dayjs";
+import {
+  DayCalendarSkeleton,
+  PickersDay,
+  PickersDayProps,
+} from "@mui/x-date-pickers";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import dayjs, { Dayjs } from "dayjs";
 import { motion } from "framer-motion";
 import React, {
   cloneElement,
@@ -19,9 +27,31 @@ import React, {
   useRef,
   useState,
 } from "react";
-import DatePicker from "react-calendar";
-import { toast } from "react-hot-toast";
 import useSWR from "swr";
+
+function ServerDay(
+  props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }
+) {
+  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+
+  const isSelected =
+    !props.outsideCurrentMonth &&
+    highlightedDays.indexOf(props.day.date()) >= 0;
+
+  return (
+    <Badge
+      key={props.day.toString()}
+      overlap="circular"
+      badgeContent={isSelected ? "🌚" : undefined}
+    >
+      <PickersDay
+        {...other}
+        outsideCurrentMonth={outsideCurrentMonth}
+        day={day}
+      />
+    </Badge>
+  );
+}
 
 const CalendarTileIndicator = React.memo(function CalendarTileIndicator({
   data,
@@ -147,6 +177,9 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
     },
   ]);
 
+  const initialValue = dayjs(date);
+  const session = useSession();
+
   const handleSubmit = useCallback(() => {
     const [hours, minutes] = timeRef.current.value.split(":");
     const roundedMinutes = Math.round(parseInt(minutes) / 5) * 5; // Round minutes to nearest 5
@@ -155,6 +188,50 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
     );
     setTimeOpen(false);
   }, [date, setDate]);
+
+  const requestAbortController = React.useRef<AbortController | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [highlightedDays, setHighlightedDays] = React.useState([1, 2, 15]);
+
+  const fetchHighlightedDays = (date: Dayjs) => {
+    const controller = new AbortController();
+
+    fetchRawApi(session, {
+      count: true,
+      startTime: date.startOf("month").toISOString(),
+      endTime: date.endOf("month").toISOString(),
+    })
+      .then(({ daysToHighlight }) => {
+        setHighlightedDays(daysToHighlight);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        // ignore the error if it's caused by `controller.abort`
+        if (error.name !== "AbortError") {
+          throw error;
+        }
+      });
+
+    requestAbortController.current = controller;
+  };
+
+  React.useEffect(() => {
+    fetchHighlightedDays(initialValue);
+    // abort request on unmount
+    return () => requestAbortController.current?.abort();
+  }, []);
+
+  const handleMonthChange = (date: Dayjs) => {
+    if (requestAbortController.current) {
+      // make sure that you are aborting useless requests
+      // because it is possible to switch between months pretty quickly
+      requestAbortController.current.abort();
+    }
+
+    setIsLoading(true);
+    setHighlightedDays([]);
+    fetchHighlightedDays(date);
+  };
 
   return (
     <>
@@ -204,29 +281,18 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <DatePicker
-              nextLabel={<Icon>arrow_forward_ios</Icon>}
-              prevLabel={<Icon>arrow_back_ios_new</Icon>}
-              tileContent={({ date, view }) => (
-                <CalendarTileIndicator date={date} view={view} data={data} />
-              )}
-              minDetail="year"
-              calendarType="US"
-              value={dayjs(date).isValid() ? new Date(date) : new Date()}
-              onChange={(e: any) => {
-                setDate(e);
-                toast(
-                  <span>
-                    <b>{dayjs(e).format("dddd, MMMM D")}</b>{" "}
-                    {dayjs(e).format("HHmm") !== "0000" && (
-                      <>
-                        {" "}
-                        at <b>{dayjs(e).format("h:mm A")}</b>
-                      </>
-                    )}
-                  </span>
-                );
-                setTimeout(() => setOpen(false), 50);
+            <DateCalendar
+              defaultValue={initialValue}
+              loading={isLoading}
+              onMonthChange={handleMonthChange}
+              renderLoading={() => <DayCalendarSkeleton />}
+              slots={{
+                day: ServerDay,
+              }}
+              slotProps={{
+                day: {
+                  highlightedDays,
+                } as any,
               }}
             />
           </motion.div>
