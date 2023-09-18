@@ -625,6 +625,16 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
       });
     }
 
+    // Remove all excluding dates from availability
+    availability = availability.filter(
+      (a) => !data.excludingDates.includes(a.date)
+    );
+
+    // Remove all excluding hours from availability
+    availability = availability.filter(
+      (a) => !data.excludingHours.includes(a.hour)
+    );
+
     const newData = {
       ...data,
       participants: data.participants.map((p) => {
