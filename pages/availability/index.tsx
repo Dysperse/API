@@ -169,18 +169,23 @@ function CustomDateSelector({
               />
             </Box>
           </Box>
-          <Divider sx={{ my: 2 }} />
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography>Exclude dates...</Typography>
-            <Button
-              onClick={() => setExcludeCalendarOpen(true)}
-              sx={{ ml: "auto" }}
-              variant="contained"
-              size="small"
-            >
-              {excludingDates.length} date{excludingDates.length !== 1 && "s"}
-            </Button>
-          </Box>
+          {dayjs(endDate).diff(dayjs(startDate), "day") >= 1 && (
+            <motion.div initial={{ y: 10 }} animate={{ y: 0 }}>
+              <Divider sx={{ my: 2 }} />
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Typography>Exclude dates...</Typography>
+                <Button
+                  onClick={() => setExcludeCalendarOpen(true)}
+                  sx={{ ml: "auto" }}
+                  variant="contained"
+                  size="small"
+                >
+                  {excludingDates.length} date
+                  {excludingDates.length !== 1 && "s"}
+                </Button>
+              </Box>
+            </motion.div>
+          )}
           <Divider sx={{ my: 2 }} />
           <Box>
             <Typography>Exclude hours...</Typography>
