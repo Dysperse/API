@@ -5,12 +5,17 @@ export default async function handler(req, res) {
   try {
     await validateParams(req.query, ["userIdentifier"]);
 
+    console.log(req.query.excludingDates);
+    console.log(req.query.excludingHours);
+
     const data = await prisma.event.create({
       data: {
         name: req.query.name,
         startDate: new Date(req.query.startDate),
         endDate: new Date(req.query.endDate),
         timeZone: req.query.timeZone,
+        excludingDates: JSON.parse(req.query.excludingDates),
+        excludingHours: JSON.parse(req.query.excludingHours),
         user: { connect: { identifier: req.query.userIdentifier } },
       },
     });

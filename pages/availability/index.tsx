@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 
@@ -398,24 +399,46 @@ function CreateAvailability({ mutate, setShowMargin }) {
   };
 
   const handleSubmit = async () => {
-    setSubmitted(true);
+    try {
+      setSubmitted(true);
 
-    await fetchRawApi(session, "availability/create", {
-      name,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      timeZone: session.user.timeZone,
-    });
-    await mutate();
-    setShowCloseAnimation(false);
-    setShowMargin(false);
-    setSubmitted(false);
-    setTimeout(() => {
-      setOpen(false);
+      if (endDate.isBefore(startDate)) {
+        toast.error("Start date must be before end date");
+        throw new Error("");
+      }
+
+      if (!name.trim()) {
+        toast.error("Set a name for this event");
+        throw new Error("");
+      }
+
+      if (excludingHours.length == 24) {
+        toast.error("You can't exclude all hours in a day");
+        throw new Error("");
+      }
+
+      await fetchRawApi(session, "availability/create", {
+        name,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        excludingDates: JSON.stringify(excludingDates),
+        excludingHours: JSON.stringify(excludingHours),
+        timeZone: session.user.timeZone,
+      });
+      await mutate();
+      setShowCloseAnimation(false);
+      setShowMargin(false);
+      setSubmitted(false);
       setTimeout(() => {
-        setShowCloseAnimation(true);
-      }, 200);
-    }, 600);
+        setOpen(false);
+        setTimeout(() => {
+          setShowCloseAnimation(true);
+        }, 200);
+      }, 600);
+    } catch (e) {
+      toast.error("Something went wrong. Please try again later");
+      setSubmitted(false);
+    }
   };
 
   useEffect(() => {
