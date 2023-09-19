@@ -143,10 +143,6 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
         maxWidth: { md: "300px" },
         width: { xs: "100%", sm: "20px" },
         backdropFilter: { md: "blur(20px)!important" },
-        ...(!showInfo && {
-          opacity: "0!important",
-          transform: "translateX(-100px)",
-        }),
       }}
     >
       {showInfo ? (
