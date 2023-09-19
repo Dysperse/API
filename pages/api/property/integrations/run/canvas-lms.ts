@@ -71,7 +71,9 @@ const handler = async (req, res) => {
             const dueDateInTimeZone = dayjs(due).tz(req.query.timeZone);
             const diff = currentTimeInTimeZone.diff(dueDateInTimeZone, "day");
 
-            if (diff >= 14) continue;
+            if (diff >= 14) {
+              continue;
+            }
           } catch (e) {
             console.error(e);
           }
@@ -93,11 +95,11 @@ const handler = async (req, res) => {
           description = item.description;
         }
         if (item.url) {
-          location = item.url;
+          location = item.url?.val;
         }
 
         if (name) {
-          await prisma.task.upsert({
+          const d = await prisma.task.upsert({
             where: {
               id: taskId,
             },
@@ -153,6 +155,7 @@ const handler = async (req, res) => {
 
     res.json(data);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };

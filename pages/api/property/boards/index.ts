@@ -85,7 +85,6 @@ const handler = async (req, res) => {
       },
       orderBy: { pinned: "desc" },
     });
-    console.log(data);
     res.json(data);
   } catch (e: any) {
     console.error(e.message);
