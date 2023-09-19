@@ -19,6 +19,7 @@ import React, {
   memo,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -266,6 +267,38 @@ const ChipBar = React.memo(function ChipBar({
     [setData]
   );
 
+  const taskColorPicker = useMemo(
+    () => (
+      <TaskColorPicker
+        color={data.color}
+        setColor={setTaskColor}
+        titleRef={titleRef}
+      >
+        <MemoizedChip
+          icon={<Icon sx={{ pl: 2 }}>label</Icon>}
+          onClick={() => {
+            setShowedFields((s) => ({ ...s, location: !s.location }));
+            titleRef?.current?.blur();
+          }}
+          sx={{
+            pr: "0!important",
+            ...chipStyles(false),
+            ...(data.color !== "grey" && {
+              "&, &:hover, &:active, &:focus": {
+                background: colors[data.color]["A400"] + "!important",
+                borderColor: colors[data.color]["A400"] + "!important",
+                "& *": {
+                  color: "#000 !important",
+                },
+              },
+            }),
+          }}
+        />
+      </TaskColorPicker>
+    ),
+    [data.color]
+  );
+
   return (
     <div>
       <motion.div
@@ -317,32 +350,7 @@ const ChipBar = React.memo(function ChipBar({
                 />
               </motion.div>
             )}
-          <TaskColorPicker
-            color={data.color}
-            setColor={setTaskColor}
-            titleRef={titleRef}
-          >
-            <MemoizedChip
-              icon={<Icon sx={{ pl: 2 }}>label</Icon>}
-              onClick={() => {
-                setShowedFields((s) => ({ ...s, location: !s.location }));
-                titleRef?.current?.blur();
-              }}
-              sx={{
-                pr: "0!important",
-                ...chipStyles(false),
-                ...(data.color !== "grey" && {
-                  "&, &:hover, &:active, &:focus": {
-                    background: colors[data.color]["A400"] + "!important",
-                    borderColor: colors[data.color]["A400"] + "!important",
-                    "& *": {
-                      color: "#000 !important",
-                    },
-                  },
-                }),
-              }}
-            />
-          </TaskColorPicker>
+          {taskColorPicker}
           {dayjs(data.date).isValid() &&
             dayjs(data.date).format("HHmm") !== "0000" && (
               <NotificationChip
