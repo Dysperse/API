@@ -71,8 +71,12 @@ function fakeFetch(session, date: Dayjs, { signal }: { signal: AbortSignal }) {
     async (resolve, reject) => {
       const data = await fetchRawApi(session, "property/tasks/agenda", {
         count: true,
-        startTime: dayjs(date).startOf("month").toISOString(),
-        endTime: dayjs(date).endOf("month").toISOString(),
+        startTime: dayjs(date).isValid()
+          ? dayjs(date).startOf("month").toISOString()
+          : dayjs().startOf("month").toISOString(),
+        endTime: dayjs(date).isValid()
+          ? dayjs(date).endOf("month").toISOString()
+          : dayjs().startOf("month").toISOString(),
       });
 
       const daysToHighlight = data.map(({ due }) => {
