@@ -63,10 +63,14 @@ function ServerDay(
 }
 
 /**
- * Mimic fetch with abort controller https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
+ * Date fetching with abort controller https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
  * ⚠️ No IE11 support
  */
-function fakeFetch(session, date: Dayjs, { signal }: { signal: AbortSignal }) {
+function fetchDateData(
+  session,
+  date: Dayjs,
+  { signal }: { signal: AbortSignal }
+) {
   return new Promise<{ daysToHighlight: { date: number; count: number }[] }>(
     async (resolve, reject) => {
       const data = await fetchRawApi(session, "property/tasks/agenda", {
@@ -131,7 +135,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
 
   const fetchHighlightedDays = (date: Dayjs) => {
     const controller = new AbortController();
-    fakeFetch(session, date, {
+    fetchDateData(session, date, {
       signal: controller.signal,
     })
       .then(({ daysToHighlight }) => {
