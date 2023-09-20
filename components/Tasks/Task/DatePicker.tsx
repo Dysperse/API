@@ -117,10 +117,10 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
 
   const today = new Date(dayjs().startOf("day").toISOString());
 
-  const handleClick = (event) => setTimeOpen((s) => !s);
+  const handleClick = () => setTimeOpen((s) => !s);
 
   const trigger = cloneElement(children, {
-    onClick: (e) => {
+    onClick: () => {
       setOpen(true);
     },
   });

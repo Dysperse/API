@@ -153,7 +153,6 @@ export function Upcoming({ setMobileView }) {
                 style={{ height: "100%" }}
                 itemContent={(_, task) => (
                   <Task
-                    isDateDependent={true}
                     key={task.id}
                     isScrolling={isScrolling}
                     board={task.board || false}
@@ -349,7 +348,6 @@ export default function Dashboard() {
                       style={{ height: "100%" }}
                       itemContent={(_, task) => (
                         <Task
-                          isDateDependent={true}
                           key={task.id}
                           board={task.board || false}
                           columnId={task.column ? task.column.id : -1}

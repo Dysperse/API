@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@/components/Error";
 import { Loading } from "@/components/Layout/Loading";
 import { useUser } from "@/lib/client/session";
 import { useColor } from "@/lib/client/useColor";
@@ -99,6 +100,9 @@ export default function Onboarding() {
           backdropFilter: "blur(10px)",
         }}
       />
+      {error && (
+        <ErrorHandler error="Something went wrong. Please try again later" />
+      )}
       {data?.error ? (
         <Box
           sx={{

@@ -242,7 +242,6 @@ const TaskChips = React.memo(function TaskChips({
 export const Task: any = React.memo(function Task({
   sx = {},
   permissions = "edit",
-  isDateDependent = false,
   isSubTask = false,
   isAgenda = false,
   checkList = false,
@@ -411,7 +410,6 @@ export const Task: any = React.memo(function Task({
         id={taskData.id}
         mutateList={mutateList}
         isDisabled={isDisabled}
-        isDateDependent={isDateDependent}
         {...(selection.values.length > 0 && { onClick: handleSelect })}
       >
         <ListItemButton

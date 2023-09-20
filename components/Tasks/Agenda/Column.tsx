@@ -22,7 +22,7 @@ import { Header } from "./Header";
 
 function RandomTask({ date }) {
   const { session } = useSession();
-  const isDark = useDarkMode(session.darkMode);
+
   const taskIdeas = [
     {
       name: "Write a Poem",
@@ -280,7 +280,6 @@ const Column = React.memo(function Column({
   );
 
   const tasksLeft = sortedTasks.length - completedTasks.length;
-  const [loading, setLoading] = useState(false);
 
   return (
     <Box

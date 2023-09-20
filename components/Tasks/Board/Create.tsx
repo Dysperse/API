@@ -128,7 +128,7 @@ function Template({ onboarding, children, template, mutate }: any) {
             overflowX: "scroll",
           }}
         >
-          {template.columns.map((column, index) => (
+          {template.columns.map((column) => (
             <Box
               key={column.id}
               sx={{

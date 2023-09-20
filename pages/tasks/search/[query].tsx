@@ -171,7 +171,6 @@ export default function Dashboard() {
                   <>
                     <Task
                       key={index}
-                      isDateDependent={true}
                       board={task.board || false}
                       columnId={task.column ? task.column.id : -1}
                       mutate={mutate}

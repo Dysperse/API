@@ -165,7 +165,7 @@ export function ImageViewer({ url }: { url: string }) {
           </Tooltip>
         </Box>
         <img
-          onClick={(e) => {
+          onClick={() => {
             setZoom(!zoom);
           }}
           src={url}

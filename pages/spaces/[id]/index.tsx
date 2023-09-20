@@ -36,7 +36,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
     (property) => property.propertyId == id
   )?.accessToken;
 
-  const { data, mutate, error, isLoading } = useSWR([
+  const { data, error, isLoading } = useSWR([
     id ? "property" : null,
     {
       id,
