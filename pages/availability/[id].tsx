@@ -4,6 +4,7 @@ import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { Logo } from "@components/Logo";
 import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
@@ -35,7 +36,6 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
-import { Logo } from "../Logo";
 
 function AvailabilityViewSelector({ view, setView }) {
   const { session } = useSession();
