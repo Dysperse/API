@@ -51,7 +51,7 @@ export function SearchFriend({ mutate }) {
           );
         }}
       >
-        <Icon className="outlined">search</Icon>
+        <Icon className="outlined">person_add</Icon>
       </Button>
       <SwipeableDrawer
         open={open}
