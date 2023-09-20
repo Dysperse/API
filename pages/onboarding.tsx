@@ -5,13 +5,13 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton, LinearProgress } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
-import { Logo } from ".";
 import { AboutStep } from "../components/Onboarding/AboutStep";
 import { AppearanceStep } from "../components/Onboarding/AppearanceStep";
 import { Completion } from "../components/Onboarding/Completion";
 import { GroupStep } from "../components/Onboarding/GroupStep";
 import { Intro } from "../components/Onboarding/Intro";
 import { ProfileStep } from "../components/Onboarding/ProfileStep";
+import { Logo } from "./Logo";
 
 export default function Onboarding() {
   const { session } = useSession();

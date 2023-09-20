@@ -1,9 +1,9 @@
 import { openSpotlight } from "@/components/Layout/Navigation/Search";
+import { Logo } from "@/components/Logo";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
-import { Logo } from "../pages";
 
 export function Navbar({
   showLogo = false,

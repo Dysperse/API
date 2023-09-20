@@ -35,7 +35,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
-import { Logo } from "..";
+import { Logo } from "../Logo";
 
 function AvailabilityViewSelector({ view, setView }) {
   const { session } = useSession();

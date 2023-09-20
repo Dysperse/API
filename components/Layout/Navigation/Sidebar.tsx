@@ -1,7 +1,7 @@
+import { Logo } from "@/components/Logo";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Logo } from "@/pages";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";

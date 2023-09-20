@@ -1,8 +1,8 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { StatusSelector } from "@/pages";
 import { Box, Icon, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
 import interact from "interactjs";

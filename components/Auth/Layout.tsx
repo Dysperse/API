@@ -1,6 +1,6 @@
+import { Logo } from "@/components/Logo";
 import { useUser } from "@/lib/client/session";
 import { useColor } from "@/lib/client/useColor";
-import { Logo } from "@/pages";
 import { Box, useMediaQuery } from "@mui/material";
 import Head from "next/head";
 import { useEffect } from "react";

@@ -44,11 +44,10 @@ export function Notes({ children }) {
             className="drag-widget"
             sx={{
               position: "fixed",
-              
-              top: 20,
+              top: 100,
               width: 200,
               borderRadius: 5,
-              left: 0,
+              left: 150,
               background: note.color,
               "& .toolbar": {
                 display: "none",
