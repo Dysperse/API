@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
 
-const handler = async (req, res) => {
+const handler = async () => {
   await prisma.qrToken.deleteMany({
     where: {
       expires: {
