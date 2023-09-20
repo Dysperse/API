@@ -2,8 +2,8 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { containerRef } from "@/components/Layout";
 import { Puller } from "@/components/Puller";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
@@ -31,6 +31,41 @@ import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
+
+function InviteAvailability({ event }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button
+        sx={{
+          ml: "auto",
+          borderWidth: "2px!important",
+          color: palette[8] + "!important",
+          ...(createdRecently && {
+            borderColor: palette[9] + "!important",
+            color: palette[9] + "!important",
+          }),
+        }}
+        variant="outlined"
+      >
+        Invite
+      </Button>
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor="bottom"
+      >
+        <Puller />
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h3" className="font-heading">
+            Invite
+          </Typography>
+        </Box>
+      </SwipeableDrawer>
+    </>
+  );
+}
 
 function CustomDateSelector({
   setStartDate,
@@ -353,20 +388,7 @@ function EventCard({ mutate, index, event }) {
                 <Icon className="outlined">remove_circle</Icon>
               </IconButton>
             </ConfirmationModal>
-            <Button
-              sx={{
-                ml: "auto",
-                borderWidth: "2px!important",
-                color: palette[8] + "!important",
-                ...(createdRecently && {
-                  borderColor: palette[9] + "!important",
-                  color: palette[9] + "!important",
-                }),
-              }}
-              variant="outlined"
-            >
-              Invite
-            </Button>
+            <InviteAvailability event={event} />
             <Button
               sx={{
                 background: palette[4] + "!important",
@@ -534,14 +556,14 @@ function CreateAvailability({ mutate, setShowMargin }) {
           left: "50%",
           transform: "translateX(-50%)",
           maxWidth: "550px",
-          background: addHslAlpha(palette[4], 0.8),
+          background: toHSL(palette[4], 0.8),
           backdropFilter: "blur(10px)",
           overflow: "hidden",
           maxHeight: submitted ? "100px" : "100px",
           borderRadius: "20px 20px 0 0",
           transition: "bottom .4s cubic-bezier(.17,.67,.08,1)!important",
           "&:active": {
-            background: addHslAlpha(palette[5], 0.8),
+            background: toHSL(palette[5], 0.8),
           },
         }}
         onClick={() => {
@@ -608,7 +630,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
         PaperProps={{
           sx: {
             width: "550px",
-            background: submitted ? palette[3] : addHslAlpha(palette[4], 0.5),
+            background: submitted ? palette[3] : toHSL(palette[4], 0.5),
             backdropFilter: submitted ? "" : "blur(10px)",
             borderRadius: submitted ? 5 : "20px 20px 0 0",
             ...(submitted && {

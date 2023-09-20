@@ -1,5 +1,5 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
@@ -770,7 +770,7 @@ export function CreateBoard({ parentRef, onboarding = false, mutate }: any) {
                               top: 0,
                               right: 0,
                               m: 1,
-                              background: addHslAlpha(palette[2], 0.4),
+                              background: toHSL(palette[2], 0.4),
                               backdropFilter: "blur(10px)",
                             }}
                             label={template.category}

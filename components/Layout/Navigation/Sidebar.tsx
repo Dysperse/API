@@ -1,6 +1,6 @@
 import { Logo } from "@/components/Logo";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import dayjs from "dayjs";
@@ -270,9 +270,9 @@ export function Sidebar() {
           onMouseDown={() => openSpotlight()}
           sx={{
             ...styles(false),
-            background: addHslAlpha(palette[4], 0.4),
+            background: toHSL(palette[4], 0.4),
             "&:active": {
-              background: addHslAlpha(palette[4], 0.5),
+              background: toHSL(palette[4], 0.5),
             },
             borderRadius: 99,
           }}

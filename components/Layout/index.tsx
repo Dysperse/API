@@ -1,5 +1,5 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
@@ -58,9 +58,11 @@ export default function AppLayout({
   useStatusBar(palette[1]);
 
   useEffect(() => {
+    console.log(palette[1]);
+    console.log(toHSL(palette[1], 0.5));
     const variables = {
-      "--overlay-dark": addHslAlpha(palette[1], 0.5),
-      "--toast-bg": addHslAlpha(palette[3], 0.8),
+      "--overlay-dark": toHSL(palette[1], 0.5),
+      "--toast-bg": toHSL(palette[3], 0.8),
       "--toast-text": palette[11],
       "--toast-solid": palette[7],
       "--bg": palette[1],
@@ -69,7 +71,7 @@ export default function AppLayout({
     Object.entries(variables).forEach(([key, value]) => {
       document.documentElement.style.setProperty(key, value);
     });
-  });
+  }, [palette]);
 
   const router = useRouter();
   const shouldHide = shouldHideNavigation(router.asPath);

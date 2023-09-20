@@ -2,8 +2,8 @@ import { ErrorHandler } from "@/components/Error";
 import { isEmail } from "@/components/Group/Members/isEmail";
 import { Logo } from "@/components/Logo";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -570,11 +570,11 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
     justifyContent: "center",
     color: palette[11],
     backdropFilter: { sm: "blur(3px)" },
-    background: addHslAlpha(palette[3], 0.5),
-    borderBottom: `2px solid ${addHslAlpha(palette[5], 0.5)}`,
+    background: toHSL(palette[3], 0.5),
+    borderBottom: `2px solid ${toHSL(palette[5], 0.5)}`,
     "&:hover": {
-      background: addHslAlpha(palette[4], 0.5),
-      borderBottom: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+      background: toHSL(palette[4], 0.5),
+      borderBottom: `2px solid ${toHSL(palette[6], 0.5)}`,
     },
   };
 
@@ -726,7 +726,7 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
             position: "sticky",
             left: 0,
             zIndex: 99,
-            background: addHslAlpha(palette[5], 0.6),
+            background: toHSL(palette[5], 0.6),
             backdropFilter: "blur(2px)",
             ml: "auto",
             mr: 1.5,
@@ -786,7 +786,7 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
               <Box
                 sx={{
                   display: "flex",
-                  background: addHslAlpha(palette[7], 0.5),
+                  background: toHSL(palette[7], 0.5),
                   color: palette[12],
                   width: 40,
                   height: 40,

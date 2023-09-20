@@ -1,6 +1,6 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import PWAInstallerPrompt from "@/lib/client/installer";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -140,7 +140,7 @@ export function UpdateButton() {
         <Box
           sx={{
             borderRadius: 5,
-            background: addHslAlpha(palette[2], 0.9),
+            background: toHSL(palette[2], 0.9),
             p: 3,
             maxWidth: "calc(100% - 30px)",
           }}
@@ -150,7 +150,7 @@ export function UpdateButton() {
               Update required
             </Typography>
             <IconButton
-              sx={{ ml: "auto", background: addHslAlpha(palette[3], 0.5) }}
+              sx={{ ml: "auto", background: toHSL(palette[3], 0.5) }}
               onClick={() => {
                 setShowScreen(false);
                 setShowSnackbar(true);

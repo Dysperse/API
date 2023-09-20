@@ -1,8 +1,8 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { GroupModal } from "@/components/Group/GroupModal";
 import { Puller } from "@/components/Puller";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -142,7 +142,7 @@ export const taskStyles = (palette) => {
       },
       transition: "all .4s",
       border: 0,
-      background: addHslAlpha(palette[2], 0.9),
+      background: toHSL(palette[2], 0.9),
     },
     menu: {
       transition: "transform .2s",
@@ -154,10 +154,10 @@ export const taskStyles = (palette) => {
       },
       left: "10px",
       zIndex: 9,
-      background: addHslAlpha(palette[3], 0.9),
+      background: toHSL(palette[3], 0.9),
       backdropFilter: "blur(10px)",
       border: "1px solid",
-      borderColor: addHslAlpha(palette[3], 0.5),
+      borderColor: toHSL(palette[3], 0.5),
       fontWeight: "700",
       display: { sm: "none" },
       fontSize: "15px",
@@ -181,28 +181,28 @@ const buttonStyles = (palette, condition: boolean) => ({
   "&:hover, &:focus": {
     background: {
       xs: "transparent!important",
-      sm: addHslAlpha(palette[4], 0.5) + "!important",
+      sm: toHSL(palette[4], 0.5) + "!important",
     },
   },
   "&:active": {
     transform: { xs: "scale(.95)", sm: "none" },
-    background: addHslAlpha(palette[4], 0.5) + "!important",
+    background: toHSL(palette[4], 0.5) + "!important",
   },
   overflow: "hidden",
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
   ...(!condition
     ? {
-        color: addHslAlpha(palette[12], 0.7),
+        color: toHSL(palette[12], 0.7),
         "&:hover": {
-          background: addHslAlpha(palette[4], 0.5),
+          background: toHSL(palette[4], 0.5),
         },
       }
     : {
         color: palette[12],
-        background: addHslAlpha(palette[6], 0.5),
+        background: toHSL(palette[6], 0.5),
         "&:hover, &:focus": {
-          background: addHslAlpha(palette[7], 0.5),
+          background: toHSL(palette[7], 0.5),
         },
       }),
 });
@@ -585,7 +585,7 @@ export function TasksLayout({
   const trigger = (
     <Button
       sx={{
-        color: addHslAlpha(palette[9], 0.7),
+        color: toHSL(palette[9], 0.7),
         px: 1,
         height: 48,
         ml: -0.5,
@@ -598,7 +598,7 @@ export function TasksLayout({
           background: "transparent",
         },
         "&:active": {
-          background: addHslAlpha(palette[3], 0.5),
+          background: toHSL(palette[3], 0.5),
           transform: "scale(.95)",
         },
       }}
@@ -813,8 +813,8 @@ export function TasksLayout({
             {isBoard || isSearch ? (
               <IconButton
                 sx={{
-                  color: addHslAlpha(palette[9], 0.7),
-                  background: addHslAlpha(palette[3], 0.5),
+                  color: toHSL(palette[9], 0.7),
+                  background: toHSL(palette[3], 0.5),
                   "&:active": {
                     transform: "scale(0.9)",
                   },
@@ -842,7 +842,7 @@ export function TasksLayout({
               <IconButton
                 sx={{
                   color: palette[9],
-                  background: addHslAlpha(palette[3], 0.5),
+                  background: toHSL(palette[3], 0.5),
                   "&:active": {
                     opacity: 0.6,
                   },
@@ -922,7 +922,7 @@ export function TasksLayout({
                   maxHeight: "calc(100dvh - 190px)",
                   maxWidth: "calc(100vw - 100px)",
                   overflowY: "scroll",
-                  background: addHslAlpha(palette[3], 0.7),
+                  background: toHSL(palette[3], 0.7),
                 }}
               >
                 <MenuChildren />

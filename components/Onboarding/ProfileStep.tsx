@@ -1,5 +1,5 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -118,7 +118,7 @@ export function ProfileStep({ styles, navigation }) {
             >
               <Box
                 sx={{
-                  background: addHslAlpha(palette[3], 0.9),
+                  background: toHSL(palette[3], 0.9),
                   p: 3,
                   borderRadius: 5,
                   width: "100%",

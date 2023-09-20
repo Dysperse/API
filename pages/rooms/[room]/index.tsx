@@ -2,8 +2,8 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
@@ -501,7 +501,7 @@ function Room({ room, mutateList }) {
                   borderRadius: 5,
                   transition: "transform .2s cubic-bezier(.17,.67,.1,1.49)",
                   "&:hover": {
-                    background: { sm: addHslAlpha(palette[3], 0.7) },
+                    background: { sm: toHSL(palette[3], 0.7) },
                     transform: {
                       sm:
                         index % 2
@@ -510,7 +510,7 @@ function Room({ room, mutateList }) {
                     },
                   },
                   "&:active": {
-                    background: addHslAlpha(palette[3], 0.9),
+                    background: toHSL(palette[3], 0.9),
                     transform:
                       index % 2
                         ? "rotate(-1deg) scale(.97)"

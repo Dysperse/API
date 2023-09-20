@@ -1,5 +1,5 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -145,9 +145,9 @@ export function GroupStep({ styles, navigation }) {
                       p: 3,
                       width: "100%",
                       borderRadius: 5,
-                      background: addHslAlpha(palette[5], 0.3),
+                      background: toHSL(palette[5], 0.3),
                       ...(session.property.profile.type === option.type && {
-                        background: addHslAlpha(palette[7], 0.6),
+                        background: toHSL(palette[7], 0.6),
                       }),
                       backdropFilter: "blur(10px)",
                       py: 2,
@@ -192,7 +192,7 @@ export function GroupStep({ styles, navigation }) {
             >
               <Box
                 sx={{
-                  background: addHslAlpha(palette[6], 0.5),
+                  background: toHSL(palette[6], 0.5),
                   width: "100%",
                   borderRadius: 4,
                   overflow: "hidden",
@@ -200,7 +200,7 @@ export function GroupStep({ styles, navigation }) {
               >
                 <Box
                   sx={{
-                    background: addHslAlpha(palette[6], 0.5),
+                    background: toHSL(palette[6], 0.5),
                     p: 10,
                     width: "100%",
                   }}

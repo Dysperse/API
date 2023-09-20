@@ -1,7 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { StatusSelector } from "@/components/Start/StatusSelector";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
@@ -39,7 +39,7 @@ export function WidgetBar({ view, setView }) {
         color: palette[11],
         fontSize: "13px",
         "& .MuiIcon-root": {
-          color: addHslAlpha(palette[11], 0.8),
+          color: toHSL(palette[11], 0.8),
         },
       },
     }),

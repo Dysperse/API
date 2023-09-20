@@ -1,6 +1,6 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -440,7 +440,7 @@ export const Task: any = React.memo(function Task({
             "&:active": {
               background: {
                 xs: palette[2] + "!important",
-                sm: addHslAlpha(palette[3], 0.5) + "!important",
+                sm: toHSL(palette[3], 0.5) + "!important",
               },
             },
             "&:focus-within": {

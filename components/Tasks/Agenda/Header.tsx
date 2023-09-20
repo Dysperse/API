@@ -1,6 +1,6 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
+import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -49,7 +49,7 @@ export const Header = memo(function Header({
         top: 0,
         left: 0,
         maxWidth: "100dvw",
-        background: { sm: addHslAlpha(palette[1], 0.7) },
+        background: { sm: toHSL(palette[1], 0.7) },
         zIndex: 99,
       }}
     >
@@ -66,7 +66,7 @@ export const Header = memo(function Header({
             maxWidth: "100dvw",
             mb: { xs: 0, sm: 2 },
             borderBottom: { sm: "1.5px solid" },
-            borderColor: { sm: addHslAlpha(palette[4], 0.5) },
+            borderColor: { sm: toHSL(palette[4], 0.5) },
             height: "auto",
           }}
           id="taskMutationTrigger"
