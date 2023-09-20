@@ -1,10 +1,10 @@
 import { ErrorHandler } from "@/components/Error";
 import { isEmail } from "@/components/Group/Members/isEmail";
+import { Logo } from "@/components/Logo";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Logo } from "@components/Logo";
 import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
