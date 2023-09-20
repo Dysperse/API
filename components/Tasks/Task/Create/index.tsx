@@ -330,7 +330,7 @@ export function CreateTask({
         </Icon>
       </IconButton>
     ),
-    [setFormData, formData.pinned]
+    [setFormData, formData.pinned, styles]
   );
 
   const emojiTrigger = useMemo(
@@ -353,7 +353,7 @@ export function CreateTask({
         </IconButton>
       </EmojiPicker>
     ),
-    [setFormData]
+    [setFormData, styles]
   );
   const locationTrigger = useMemo(
     () => (
@@ -369,7 +369,7 @@ export function CreateTask({
         <Icon>location_on</Icon>
       </IconButton>
     ),
-    [setFormData]
+    [setFormData, styles, showedFields.location]
   );
   const descriptionTrigger = useMemo(
     () => (
@@ -385,7 +385,7 @@ export function CreateTask({
         <Icon>sticky_note_2</Icon>
       </IconButton>
     ),
-    [setShowedFields]
+    [setShowedFields, styles, showedFields.description]
   );
 
   const fileTrigger = useMemo(
@@ -409,7 +409,7 @@ export function CreateTask({
         </IconButton>
       </FileDropInput>
     ),
-    [formData, setFormData]
+    [formData, setFormData, styles]
   );
   const dateTrigger = useMemo(
     () => (
