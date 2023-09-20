@@ -108,8 +108,13 @@ function Layout() {
   };
 
   return integration ? (
-    <Box>
-      <AppBar>
+    <Box sx={{ pt: "var(--navbar-height)", height: "100dvh" }}>
+      <AppBar
+        sx={{
+          position: "fixed",
+          top: 0,
+        }}
+      >
         <Toolbar>
           <IconButton
             onClick={() => {

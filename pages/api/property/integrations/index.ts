@@ -10,7 +10,7 @@ const handler = async (req, res) => {
 
     const data = await prisma.integration.findMany({
       where: { property: { id: req.query.property } },
-      include: { board: { select: { name: true } } },
+      include: { board: { select: { name: true, id: true } } },
     });
 
     res.json(data);
