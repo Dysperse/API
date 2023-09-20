@@ -8,14 +8,13 @@ import {
   TimelineSeparator,
   timelineItemClasses,
 } from "@mui/lab";
-import { CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
-import { Box } from "victory";
 import SpacesLayout from ".";
 
 export default function Page() {
