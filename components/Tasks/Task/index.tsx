@@ -172,6 +172,7 @@ const TaskChips = React.memo(function TaskChips({
             }}
             avatar={
               <Avatar
+                sx={{ borderRadius: 0 }}
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${taskData.column?.emoji}.png`}
               />
             }
