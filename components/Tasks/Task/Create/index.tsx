@@ -369,7 +369,7 @@ export function CreateTask({
         <Icon>location_on</Icon>
       </IconButton>
     ),
-    [setFormData, styles, showedFields.location]
+    [styles, showedFields.location]
   );
   const descriptionTrigger = useMemo(
     () => (

@@ -296,7 +296,7 @@ const ChipBar = React.memo(function ChipBar({
         />
       </TaskColorPicker>
     ),
-    [data.color]
+    [data.color, chipStyles, setTaskColor, titleRef, setShowedFields]
   );
 
   return (

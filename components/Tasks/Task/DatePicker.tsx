@@ -12,7 +12,7 @@ import {
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
 import { motion } from "framer-motion";
-import React, { cloneElement, useState } from "react";
+import React, { cloneElement, useCallback, useMemo, useState } from "react";
 
 function ServerDay(
   props: PickersDayProps<Dayjs> & {
@@ -125,7 +125,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
     },
   });
 
-  const initialValue = dayjs(date);
+  const initialValue = useMemo(() => dayjs(date), [date]);
 
   const requestAbortController = React.useRef<AbortController | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -133,30 +133,33 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
     { date: number; count: number }[]
   >([]);
 
-  const fetchHighlightedDays = (date: Dayjs) => {
-    const controller = new AbortController();
-    fetchDateData(session, date, {
-      signal: controller.signal,
-    })
-      .then(({ daysToHighlight }) => {
-        setHighlightedDays(daysToHighlight);
-        setIsLoading(false);
+  const fetchHighlightedDays = useCallback(
+    (date: Dayjs) => {
+      const controller = new AbortController();
+      fetchDateData(session, date, {
+        signal: controller.signal,
       })
-      .catch((error) => {
-        // ignore the error if it's caused by `controller.abort`
-        if (error.name !== "AbortError") {
-          throw error;
-        }
-      });
+        .then(({ daysToHighlight }) => {
+          setHighlightedDays(daysToHighlight);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          // ignore the error if it's caused by `controller.abort`
+          if (error.name !== "AbortError") {
+            throw error;
+          }
+        });
 
-    requestAbortController.current = controller;
-  };
+      requestAbortController.current = controller;
+    },
+    [session]
+  );
 
   React.useEffect(() => {
     fetchHighlightedDays(initialValue);
     // abort request on unmount
     return () => requestAbortController.current?.abort();
-  }, []);
+  }, [fetchHighlightedDays, initialValue]);
 
   const handleMonthChange = (date: Dayjs) => {
     if (requestAbortController.current) {
