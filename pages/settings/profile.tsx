@@ -17,8 +17,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import useSWR from "swr";
 import Layout from ".";
 
@@ -59,14 +60,9 @@ export default function AppearanceSettings() {
       await updateSettings(["username", username], { session });
   };
 
-  useEffect(() => {
-    if (birthdayRef?.current && data?.Profile?.birthday)
-      setTimeout(() => {
-        birthdayRef.current.value = dayjs(data.Profile.birthday).format(
-          "YYYY-MM-DD"
-        );
-      }, 100);
-  }, [data]);
+  const [birthday, setBirthday] = useState(
+    dayjs(data?.Profile?.birthday || new Date())
+  );
 
   const [hobbies, setHobbies] = useState(data?.Profile?.hobbies || []);
 
@@ -104,6 +100,14 @@ export default function AppearanceSettings() {
             fullWidth
             sx={{ mb: 2 }}
           />
+          {data?.Profile?.birthday && (
+            <DatePicker
+              value={birthday}
+              onChange={(newValue: any) =>
+                dayjs(newValue).isValid() && setBirthday(newValue)
+              }
+            />
+          )}
           <TextField
             value={bio}
             label="Bio"

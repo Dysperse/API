@@ -11,9 +11,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
 import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 import { ProfilePicture } from "../Profile/ProfilePicture";
@@ -28,17 +28,6 @@ export function ProfileStep({ styles, navigation }) {
       email: session.user.email,
     },
   ]);
-
-  const birthdayRef: any = useRef();
-
-  useEffect(() => {
-    if (birthdayRef?.current && data?.Profile?.birthday)
-      setTimeout(() => {
-        birthdayRef.current.value = dayjs(data.Profile.birthday).format(
-          "YYYY-MM-DD"
-        );
-      }, 100);
-  }, [data]);
 
   const handleChange = async (key, value) => {
     await fetchRawApi(session, "user/profile/update", {
@@ -87,15 +76,13 @@ export function ProfileStep({ styles, navigation }) {
               Birthday
             </Typography>
 
-            <TextField
-              type="date"
-              inputRef={birthdayRef}
-              onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-              onBlur={(e) =>
-                handleChange(
-                  "birthday",
-                  dayjs(e.target.value).set("hour", 1).toISOString()
-                )
+            <DatePicker
+              defaultValue={
+                data?.Profile?.birthday && dayjs(data.Profile.birthday)
+              }
+              onChange={(newValue) =>
+                newValue.isValid() &&
+                handleChange("birthday", newValue.set("hour", 1).toISOString())
               }
             />
 
