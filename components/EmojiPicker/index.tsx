@@ -39,12 +39,10 @@ const ListContainer = styled.div`
 
 const EmojiPicker = function EmojiPicker({
   children,
-  emoji,
   setEmoji,
   useNativeEmoji = false,
 }: {
   children: JSX.Element;
-  emoji: string;
   setEmoji: (emoji: string) => void;
   useNativeEmoji?: boolean;
 }) {
@@ -196,7 +194,7 @@ const EmojiPicker = function EmojiPicker({
                     components={{
                       Item: ItemContainer,
                       List: ListContainer as any,
-                      ScrollSeekPlaceholder: ({ height, width, index }) => (
+                      ScrollSeekPlaceholder: () => (
                         <ItemContainer>
                           <ItemWrapper></ItemWrapper>
                         </ItemContainer>

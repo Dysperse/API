@@ -55,7 +55,7 @@ export function FilterMenu({
       >
         <MenuItem
           onClick={() =>
-            handleMenuClick((a, b) => (a.pinned ? -1 : 1), "priority")
+            handleMenuClick((a) => (a.pinned ? -1 : 1), "priority")
           }
           selected={currentFilter === "priority"}
         >

@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import {
   Timeline,
@@ -26,7 +27,7 @@ export default function Page() {
     (property) => property.propertyId == id
   )?.accessToken;
 
-  const { error, mutate, data } = useSWR([
+  const { error, data } = useSWR([
     "property/inbox",
     {
       propertyId: id,
@@ -38,6 +39,9 @@ export default function Page() {
 
   return (
     <SpacesLayout title="Changelog" parentRef={parentRef}>
+      {error && (
+        <ErrorHandler error="Something went wrong. Please try again later" />
+      )}
       {data ? (
         <Timeline
           sx={{

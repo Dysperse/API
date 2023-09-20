@@ -1,4 +1,5 @@
 import { Loading } from "@/components/Layout/Loading";
+import { Logo } from "@/components/Logo";
 import { BoardsStep } from "@/components/Onboarding/BoardsStep";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -11,7 +12,6 @@ import { Completion } from "../components/Onboarding/Completion";
 import { GroupStep } from "../components/Onboarding/GroupStep";
 import { Intro } from "../components/Onboarding/Intro";
 import { ProfileStep } from "../components/Onboarding/ProfileStep";
-import { Logo } from "./Logo";
 
 export default function Onboarding() {
   const { session } = useSession();
@@ -99,13 +99,8 @@ export default function Onboarding() {
     <AppearanceStep navigation={navigation} key={2} styles={styles} />,
     <ProfileStep navigation={navigation} key={3} styles={styles} />,
     <GroupStep navigation={navigation} key={4} styles={styles} />,
-    <BoardsStep
-      parentRef={parentRef}
-      navigation={navigation}
-      key={5}
-      styles={styles}
-    />,
-    <Completion navigation={navigation} key={6} styles={styles} />,
+    <BoardsStep parentRef={parentRef} key={5} styles={styles} />,
+    <Completion key={6} styles={styles} />,
   ];
 
   return (

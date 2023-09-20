@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { mutate } from "swr";
 
-export function Completion({ styles, navigation }) {
+export function Completion({ styles }) {
   const { session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);

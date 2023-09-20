@@ -109,7 +109,7 @@ export default async function handler(req, res) {
     items = items.filter((event) => !event?.iCalUID?.includes("dysperse-task"));
 
     try {
-      const data = await prisma.column.upsert({
+      await prisma.column.upsert({
         where: {
           id: "dys-gcal-integration-" + calendar.id,
         },

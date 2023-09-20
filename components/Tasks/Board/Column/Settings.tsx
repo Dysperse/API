@@ -210,7 +210,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         }}
       >
         <Puller showOnDesktop />
-        <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+        <EmojiPicker  setEmoji={setEmoji}>
           <IconButton
             size="large"
             sx={{

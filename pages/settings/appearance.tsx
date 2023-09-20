@@ -266,7 +266,6 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
  */
 export default function AppearanceSettings() {
   const { session } = useSession();
-  const isDark = useDarkMode(session.darkMode);
 
   return (
     <Layout>

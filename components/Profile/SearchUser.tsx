@@ -12,7 +12,7 @@ export function SearchUser() {
 
   const [email, setEmail] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const isDark = useDarkMode(session.darkMode);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     if (ref) setTimeout(() => ref.current?.focus(), 200);

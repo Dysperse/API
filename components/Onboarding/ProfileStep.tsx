@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import useSWR from "swr";
+import { ErrorHandler } from "../Error";
 import { ProfilePicture } from "../Profile/ProfilePicture";
 
 export function ProfileStep({ styles, navigation }) {
@@ -67,6 +68,9 @@ export function ProfileStep({ styles, navigation }) {
             >
               Profile
             </Typography>
+            {error && (
+              <ErrorHandler error="Something went wrong. Please try again later" />
+            )}
             <Typography variant="h1" sx={styles.subheading}>
               Profile picture
             </Typography>

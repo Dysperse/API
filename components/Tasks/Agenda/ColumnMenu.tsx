@@ -1,17 +1,7 @@
-import { useSession } from "@/lib/client/session";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Icon, Menu, MenuItem } from "@mui/material";
 import React, { cloneElement, useContext, useState } from "react";
 import { SelectionContext } from "../Layout";
 import { ShareProgress } from "./ShareProgress";
-
-interface AgendaColumnProps {
-  mutate: string;
-  view: string;
-  day: any;
-  data: any;
-  navigation: number;
-}
 
 export const ColumnMenu = React.memo(function ColumnMenu({
   day,
@@ -19,8 +9,6 @@ export const ColumnMenu = React.memo(function ColumnMenu({
   data,
   children,
 }: any) {
-  const { session } = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const selection = useContext(SelectionContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

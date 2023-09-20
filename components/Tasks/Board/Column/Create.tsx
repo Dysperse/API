@@ -101,7 +101,7 @@ export default function CreateColumn({
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-          <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+          <EmojiPicker  setEmoji={setEmoji}>
             <Button
               size="small"
               sx={{

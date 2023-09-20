@@ -1,4 +1,3 @@
-import { useSession } from "@/lib/client/session";
 import { Box, Icon } from "@mui/material";
 import {
   MutableRefObject,
@@ -12,7 +11,6 @@ import { FileDrop } from "react-file-drop";
 import { toast } from "react-hot-toast";
 
 export function FileDropInput({ children, onUploadStart, onSuccess, onError }) {
-  const { session } = useSession();
   const inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
 
   const handleUpload = useCallback(

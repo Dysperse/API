@@ -192,8 +192,6 @@ export default function Dashboard() {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  const [isScrolling, setIsScrolling] = useState(false);
-
   return (
     <TasksLayout open={open} setOpen={setOpen}>
       <Head>
@@ -342,7 +340,6 @@ export default function Dashboard() {
                       </Box>
                     )}
                     <Virtuoso
-                      isScrolling={setIsScrolling}
                       data={[
                         ...data.filter((task) => task.pinned),
                         ...data.filter((task) => !task.pinned),

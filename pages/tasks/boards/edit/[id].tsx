@@ -200,7 +200,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
             alignItems: "center",
           }}
         >
-          <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+          <EmojiPicker setEmoji={setEmoji}>
             <IconButton
               size="large"
               sx={{

@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@/components/Error";
 import { Color } from "@/components/Group/Color";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -71,6 +72,9 @@ export default function Page() {
 
   return (
     <SpacesLayout title="Edit">
+      {error && (
+        <ErrorHandler error="Something went wrong. Please try again later" />
+      )}
       {data ? (
         <>
           <Box

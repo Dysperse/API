@@ -336,7 +336,6 @@ export function CreateTask({
   const emojiTrigger = useMemo(
     () => (
       <EmojiPicker
-        emoji=""
         setEmoji={(s) => {
           setFormData((e) => ({ ...e, title: e.title + s }));
         }}

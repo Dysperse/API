@@ -99,7 +99,7 @@ export default function Page() {
               }}
             >
               <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
-                <EmojiPicker emoji={emoji} setEmoji={(e) => setEmoji(e)}>
+                <EmojiPicker setEmoji={(e) => setEmoji(e)}>
                   <IconButton
                     size="large"
                     sx={{
