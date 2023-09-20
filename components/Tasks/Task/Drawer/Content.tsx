@@ -148,6 +148,8 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
         sx={{
           border: 0,
           background: "transparent!important",
+          backdropFilter: { xs: "noneimportant", sm: "blur(10px)" },
+          position: { xs: "static", sm: "sticky" },
         }}
       >
         <Toolbar>

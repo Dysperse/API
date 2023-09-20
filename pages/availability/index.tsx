@@ -27,36 +27,31 @@ import { DateCalendar, DatePicker, PickersDay } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { cloneElement, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 
-function InviteAvailability({ event }) {
+function InviteAvailability({ children, event }) {
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
   const [open, setOpen] = useState(false);
+
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen(true),
+  });
 
   return (
     <>
-      <Button
-        sx={{
-          ml: "auto",
-          borderWidth: "2px!important",
-          color: palette[8] + "!important",
-          ...(createdRecently && {
-            borderColor: palette[9] + "!important",
-            color: palette[9] + "!important",
-          }),
-        }}
-        variant="outlined"
-      >
-        Invite
-      </Button>
+      {toHSL(palette[1])}
+      {trigger}
       <SwipeableDrawer
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
       >
-        <Puller />
+        <Puller showOnDesktop />
         <Box sx={{ p: 3 }}>
           <Typography variant="h3" className="font-heading">
             Invite
@@ -388,7 +383,22 @@ function EventCard({ mutate, index, event }) {
                 <Icon className="outlined">remove_circle</Icon>
               </IconButton>
             </ConfirmationModal>
-            <InviteAvailability event={event} />
+            <InviteAvailability event={event}>
+              <Button
+                sx={{
+                  ml: "auto",
+                  borderWidth: "2px!important",
+                  color: palette[8] + "!important",
+                  ...(createdRecently && {
+                    borderColor: palette[9] + "!important",
+                    color: palette[9] + "!important",
+                  }),
+                }}
+                variant="outlined"
+              >
+                Invite
+              </Button>
+            </InviteAvailability>
             <Button
               sx={{
                 background: palette[4] + "!important",

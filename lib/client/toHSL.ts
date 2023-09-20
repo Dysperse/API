@@ -2,6 +2,7 @@ export function toHSL(hex, alpha = 1) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
   if (!result) {
+    alert(hex);
     throw new Error("Could not parse Hex Color");
   }
 
