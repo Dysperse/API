@@ -192,6 +192,13 @@ export function Agenda({ type, date }) {
             }}
           >
             <SelectDateModal
+              type={
+                type === "days"
+                  ? undefined
+                  : type === "weeks"
+                  ? "month"
+                  : "year"
+              }
               date={start}
               setDate={(date) => {
                 setTimeout(() => {

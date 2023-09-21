@@ -5,9 +5,11 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon, SwipeableDrawer } from "@mui/material";
 import {
   DayCalendarSkeleton,
+  MonthCalendar,
   PickersDay,
   PickersDayProps,
   StaticTimePicker,
+  YearCalendar,
 } from "@mui/x-date-pickers";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
@@ -108,6 +110,7 @@ export interface DateTimeModalProps {
   dateOnly?: boolean;
   disabled?: boolean;
   closeOnSelect?: boolean;
+  type?: "day" | "month" | "year";
 }
 
 const SelectDateModal = React.memo(function SelectDateModal({
@@ -117,9 +120,12 @@ const SelectDateModal = React.memo(function SelectDateModal({
   dateOnly = false,
   disabled = false,
   closeOnSelect = false,
+  type = "day",
 }: DateTimeModalProps) {
   const { session } = useSession();
 
+  // const [hoveredDay, setHoveredDay] = React.useState<Dayjs | null>(null);
+  // const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-04-17"));
   const [open, setOpen] = useState<boolean>(false);
   const [timeOpen, setTimeOpen] = useState(false);
 
@@ -275,30 +281,62 @@ const SelectDateModal = React.memo(function SelectDateModal({
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <DateCalendar
-              defaultValue={initialValue}
-              loading={isLoading}
-              onMonthChange={handleMonthChange}
-              renderLoading={() => <DayCalendarSkeleton />}
-              onChange={(newValue) => {
-                if (!newValue) return;
-                setDate(
-                  dayjs(date)
-                    .set("date", newValue.date())
-                    .set("month", newValue.month())
-                    .set("year", newValue.year())
-                );
-                setOpen(false);
-              }}
-              slots={{
-                day: ServerDay,
-              }}
-              slotProps={{
-                day: {
-                  highlightedDays,
-                } as any,
-              }}
-            />
+            {type === "day" ? (
+              <DateCalendar
+                defaultValue={initialValue}
+                loading={isLoading}
+                onMonthChange={handleMonthChange}
+                renderLoading={() => <DayCalendarSkeleton />}
+                onChange={(newValue) => {
+                  if (!newValue) return;
+                  setDate(
+                    dayjs(date)
+                      .set("date", newValue.date())
+                      .set("month", newValue.month())
+                      .set("year", newValue.year())
+                  );
+                  closeOnSelect && setOpen(false);
+                }}
+                slots={{
+                  day: ServerDay,
+                }}
+                slotProps={{
+                  // convert object to (ownerstate) function if you wanna add this functionality in the future
+                  day: {
+                    highlightedDays,
+                    // hoveredDay,
+                    // onPointerEnter: () => setHoveredDay(ownerState.day),
+                    // onPointerLeave: () => setHoveredDay(null),
+                  } as any,
+                }}
+              />
+            ) : type === "month" ? (
+              <MonthCalendar
+                sx={{
+                  mx: "auto",
+                  my: 2,
+                }}
+                defaultValue={initialValue}
+                onChange={(newValue) => {
+                  if (!newValue) return;
+                  setDate(dayjs(date).set("month", newValue.month()));
+                  closeOnSelect && setOpen(false);
+                }}
+              />
+            ) : (
+              <YearCalendar
+                sx={{
+                  mx: "auto",
+                  my: 2,
+                }}
+                defaultValue={initialValue}
+                onChange={(newValue) => {
+                  if (!newValue) return;
+                  setDate(dayjs(date).set("year", newValue.year()));
+                  closeOnSelect && setOpen(false);
+                }}
+              />
+            )}
           </motion.div>
         )}
         {!dateOnly && !timeOpen && (
