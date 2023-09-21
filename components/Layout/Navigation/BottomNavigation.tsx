@@ -6,18 +6,24 @@ import { useRouter } from "next/router";
 
 export const shouldHideNavigation = (path) => {
   return [
-    "/claim-esb",
-    "/users",
-    "/boards/edit/",
-    "/tasks/search",
-    "/integrations",
-    "/rooms/",
-    "/spaces",
-    "/onboarding",
-    "/settings",
-    "/availability",
-    "/tasks/insights",
-  ].find((_path) => path.includes(_path));
+    { path: "/claim-esb", desktop: true },
+    { path: "/users", desktop: true },
+    { path: "/boards/edit/", desktop: false },
+    { path: "/tasks/search", desktop: false },
+    { path: "/integrations", desktop: false },
+    { path: "/rooms/", desktop: false },
+    { path: "/spaces", desktop: false },
+    { path: "/onboarding", desktop: false },
+    { path: "/settings", desktop: false },
+    { path: "/availability", desktop: true },
+    { path: "/tasks/insights", desktop: true },
+  ].find((_path) => {
+    if (_path.desktop) {
+      return path.includes(_path.path);
+    } else {
+      return path.includes(_path.path) && window.innerWidth < 600;
+    }
+  });
 };
 /**
  * Bottom navigation bar
