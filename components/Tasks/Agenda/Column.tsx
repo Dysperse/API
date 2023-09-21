@@ -286,7 +286,7 @@ const Column = React.memo(function Column({
       ref={scrollParentRef}
       {...(isToday && { id: "active" })}
       sx={{
-        height: { xs: "auto", sm: "100%" },
+        height: "auto",
         flex: { xs: "0 0 100%", sm: "0 0 300px" },
         width: { xs: "100%", sm: "300px" },
         borderRight: "1.5px solid",
@@ -319,7 +319,7 @@ const Column = React.memo(function Column({
         heading={heading}
         columnEnd={columnEnd}
       />
-      <Box sx={{ px: { sm: 1 }, height: { sm: "100%" } }}>
+      <Box sx={{ px: { sm: 1 } }}>
         {sortedTasks.filter((task) => !task.completed).length === 0 && (
           <Box
             sx={{
