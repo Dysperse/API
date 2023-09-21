@@ -221,7 +221,6 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
       <Box
         ref={columnRef}
         sx={{
-          scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
           borderRight: "1px solid",
           borderColor: { xs: "transparent", sm: addHslAlpha(palette[4], 0.7) },
@@ -236,7 +235,6 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
           minWidth: { xs: "100vw", md: "340px" },
           width: "100%",
           flex: { xs: "0 0 100%", sm: "0 0 340px" },
-          transition: "filter .2s",
           maxWidth: "100vw",
         }}
       >
@@ -257,7 +255,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
             borderColor: { sm: addHslAlpha(palette[4], 0.7) },
             userSelect: "none",
             zIndex: 9,
-            backdropFilter: { md: "blur(10px)" },
+            backdropFilter: { md: "blur(2px)" },
             position: "sticky",
             top: 0,
           }}
