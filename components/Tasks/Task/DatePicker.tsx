@@ -270,7 +270,13 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
               onMonthChange={handleMonthChange}
               renderLoading={() => <DayCalendarSkeleton />}
               onChange={(newValue) => {
-                console.log(newValue?.format("dd/mm/yyyy"));
+                if (!newValue) return;
+                setDate(
+                  dayjs(date)
+                    .set("date", newValue.date())
+                    .set("month", newValue.month())
+                    .set("year", newValue.year())
+                );
               }}
               slots={{
                 day: ServerDay,
