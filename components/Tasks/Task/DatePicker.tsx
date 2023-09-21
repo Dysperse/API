@@ -104,7 +104,7 @@ function fetchDateData(
 }
 
 export interface DateTimeModalProps {
-  ref: any;
+  ref?: any;
   date: Dayjs | Date | null;
   setDate: (v: any) => void;
   children: JSX.Element;
