@@ -68,9 +68,6 @@ export function Agenda({ type, date }) {
         left: width + scrollLeft - 50,
         behavior: "smooth",
       });
-      setTimeout(() => {
-        agendaContainerRef.current.getBoundingClientRect();
-      }, 1000);
     } else {
       const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
       router.push(`/tasks/agenda/${type}/${next}`);
@@ -89,9 +86,6 @@ export function Agenda({ type, date }) {
         left: (width + scrollLeft - 50) * -1,
         behavior: "smooth",
       });
-      setTimeout(() => {
-        agendaContainerRef.current.getBoundingClientRect();
-      }, 1000);
     } else {
       const prev = dayjs(date)
         .subtract(1, columnMap[type])
