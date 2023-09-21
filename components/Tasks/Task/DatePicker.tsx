@@ -104,7 +104,7 @@ function fetchDateData(
 }
 
 export interface DateTimeModalProps {
-  date: Dayjs | Date;
+  date: Dayjs | Date | null;
   setDate: (v: any) => void;
   children: JSX.Element;
   dateOnly?: boolean;
