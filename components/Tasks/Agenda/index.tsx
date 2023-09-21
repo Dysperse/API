@@ -210,7 +210,17 @@ export function Agenda({ type, date }) {
               dateOnly
               closeOnSelect
             >
-              <Box>
+              <Button
+                variant="contained"
+                sx={{
+                  textAlign: "left",
+                  borderRadius: 3,
+                  ml: -1,
+                  color: "inherit!important",
+                }}
+                size="small"
+              >
+                <Icon>today</Icon>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={dayjs(start).format(viewHeadingFormats[type])}
@@ -228,7 +238,7 @@ export function Agenda({ type, date }) {
                     )}
                   </motion.div>
                 </AnimatePresence>
-              </Box>
+              </Button>
             </SelectDateModal>
             <Box
               sx={{
@@ -276,11 +286,12 @@ export function Agenda({ type, date }) {
                 <Icon className="outlined">target</Icon>Focus
               </Box>
             </Box>
-            <Box sx={{ ml: "auto" }}>
+            <Box sx={{ ml: "auto", background: palette[3], borderRadius: 3 }}>
               <IconButton
                 onClick={handlePrev}
                 id="agendaPrev"
                 className="priority-hidden"
+                sx={{ color: "inherit!important" }}
               >
                 <Icon className="outlined">arrow_back_ios_new</Icon>
               </IconButton>
@@ -296,7 +307,7 @@ export function Agenda({ type, date }) {
                 size="large"
                 sx={{
                   px: 0,
-                  color: "inherit",
+                  color: "inherit!important",
                 }}
               >
                 Today
@@ -305,6 +316,7 @@ export function Agenda({ type, date }) {
                 onClick={handleNext}
                 id="agendaNext"
                 className="priority-hidden"
+                sx={{ color: "inherit!important" }}
               >
                 <Icon className="outlined">arrow_forward_ios</Icon>
               </IconButton>
