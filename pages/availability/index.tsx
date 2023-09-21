@@ -44,7 +44,6 @@ function InviteAvailability({ children, event }) {
 
   return (
     <>
-      {addHslAlpha(palette[1])}
       {trigger}
       <SwipeableDrawer
         open={open}
