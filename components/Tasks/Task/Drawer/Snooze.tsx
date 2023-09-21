@@ -148,7 +148,6 @@ export const RescheduleModal = React.memo(function RescheduleModal({
         <Puller showOnDesktop />
         <SelectDateModal
           ref={dateRef}
-          styles={() => {}}
           date={task.due}
           setDate={setDate}
         >
