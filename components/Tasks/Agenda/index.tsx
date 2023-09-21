@@ -203,9 +203,9 @@ export function Agenda({ type, date }) {
               setDate={(date) => {
                 setTimeout(() => {
                   router.push(
-                    "/tasks/agenda/days/" + dayjs(date).format("YYYY-MM-DD")
+                    `/tasks/agenda/${type}/${dayjs(date).format("YYYY-MM-DD")}`
                   );
-                }, 500);
+                }, 900);
               }}
               dateOnly
               closeOnSelect
