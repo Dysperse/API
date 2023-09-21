@@ -269,6 +269,9 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
               loading={isLoading}
               onMonthChange={handleMonthChange}
               renderLoading={() => <DayCalendarSkeleton />}
+              onChange={(newValue) => {
+                console.log(newValue?.format("dd/mm/yyyy"));
+              }}
               slots={{
                 day: ServerDay,
               }}

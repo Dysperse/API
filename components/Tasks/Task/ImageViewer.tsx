@@ -182,6 +182,7 @@ export function ImageViewer({ url }: { url: string }) {
         />
       </SwipeableDrawer>
       <Chip
+        size="small"
         label={"Attachment"}
         avatar={<Avatar src={url} alt="🖼" />}
         onClick={(e) => {

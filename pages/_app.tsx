@@ -49,6 +49,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const fetcher = ([url, params], session) => {
+  if (url === null) return;
   const _params = {
     sessionId: session?.current?.token,
     property: session?.property?.propertyId,
@@ -60,7 +61,6 @@ export const fetcher = ([url, params], session) => {
   const _url = `/api/${url}?${new URLSearchParams(_params)}`;
 
   return fetch(_url).then((res) => {
-    console.log(session);
     return res.json();
   });
 };
