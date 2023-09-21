@@ -72,7 +72,7 @@ img {
 .noDrag {
   &,
   & * {
-    -webkit-app-region: d;
+    -webkit-app-region: no-drag;
   }
 }
 
@@ -121,7 +121,6 @@ body {
 
 img {
   user-select: none;
-  user-drag: none;
 }
 
 :not(.font-heading, .font-heading *):not(.MuiIcon-root):not(
@@ -158,7 +157,7 @@ img {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-@supports (backdrop-filter: blur(2px)) {
+@supports (backdrop-filter: blur(3px)) {
   .MuiBackdrop-root:not(.override-bg) {
     backdrop-filter: blur(3px);
     background-color: rgba(255, 255, 255, 0.5);
@@ -210,17 +209,6 @@ a {
   }
 }
 
-.taskContent::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
-  backdrop-filter: blur(10px);
-  z-index: 999999999;
-}
-
 .file-drop {
   position: fixed;
   top: 0;
@@ -252,32 +240,6 @@ a {
   }
 }
 
-@keyframes goalBar {
-  0% {
-    max-width: 0px;
-  }
-
-  100% {
-    max-width: 100vw;
-  }
-}
-
-.goalBar-outer {
-  height: 3px;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 999px;
-  margin-top: 17px;
-
-  & .goalBar-inner {
-    height: 100%;
-    overflow: hidden;
-    border-radius: 999px;
-    animation: goalBar 2s forwards;
-    max-width: 0px;
-  }
-}
-
 html,
 body {
   /* Vendor-specific prefixes */
@@ -305,6 +267,7 @@ body {
 .drag-widget {
   z-index: 9999 !important;
 }
+
 @keyframes submit {
   0% {
     transform: scale(1) rotate(0deg);
