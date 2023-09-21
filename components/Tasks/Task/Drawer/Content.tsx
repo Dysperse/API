@@ -204,7 +204,6 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
               </RescheduleModal>
             ) : (
               <SelectDateModal
-                styles={() => {}}
                 date={task.due}
                 setDate={(d) => {
                   task.close();
@@ -289,7 +288,6 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
           <ColorPopover disabled={shouldDisable} />
           {!isSubTask && (
             <SelectDateModal
-              styles={() => {}}
               date={task.due}
               setDate={(d) => {
                 task.close();

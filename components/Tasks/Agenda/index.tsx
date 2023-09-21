@@ -18,6 +18,7 @@ import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { WidgetBar } from "../Layout/widgets";
+import SelectDateModal from "../Task/DatePicker";
 import Column from "./Column";
 
 export const AgendaContext = createContext<any>(null);
@@ -190,25 +191,38 @@ export function Agenda({ type, date }) {
               }),
             }}
           >
-            <Box>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={dayjs(start).format(viewHeadingFormats[type])}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <Typography sx={{ fontWeight: 900 }}>
-                    {dayjs(start).format(viewHeadingFormats[type])}
-                  </Typography>
-                  {viewSubHeadingFormats[type] !== "-" && (
-                    <Typography variant="body2" sx={{ mt: -0.5 }}>
-                      {dayjs(start).format(viewSubHeadingFormats[type])}
+            <SelectDateModal
+              date={start}
+              setDate={(date) => {
+                setTimeout(() => {
+                  router.push(
+                    "/tasks/agenda/days/" + dayjs(date).format("YYYY-MM-DD")
+                  );
+                }, 500);
+              }}
+              dateOnly
+              closeOnSelect
+            >
+              <Box>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={dayjs(start).format(viewHeadingFormats[type])}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <Typography sx={{ fontWeight: 900 }}>
+                      {dayjs(start).format(viewHeadingFormats[type])}
                     </Typography>
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </Box>
+                    {viewSubHeadingFormats[type] !== "-" && (
+                      <Typography variant="body2" sx={{ mt: -0.5 }}>
+                        {dayjs(start).format(viewSubHeadingFormats[type])}
+                      </Typography>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </Box>
+            </SelectDateModal>
             <Box
               sx={{
                 ml: "auto",

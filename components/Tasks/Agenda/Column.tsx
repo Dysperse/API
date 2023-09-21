@@ -21,8 +21,6 @@ import { CreateTask } from "../Task/Create";
 import { Header } from "./Header";
 
 function RandomTask({ date }) {
-  const { session } = useSession();
-
   const taskIdeas = [
     {
       name: "Write a Poem",

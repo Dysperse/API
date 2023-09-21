@@ -92,6 +92,7 @@ export const Header = memo(function Header({
               </IconButton>
             )}
             <SelectDateModal
+              disabled={!isMobile}
               date={dayjs(column).toDate()}
               setDate={(date) => {
                 setTimeout(() => {
@@ -100,6 +101,7 @@ export const Header = memo(function Header({
                   );
                 }, 500);
               }}
+              closeOnSelect
               dateOnly
             >
               <Tooltip
@@ -128,7 +130,7 @@ export const Header = memo(function Header({
                     overflow: "hidden",
                     minWidth: 0,
                     "&:active": {
-                      opacity: 0.6,
+                      opacity: { xs: 0.6, sm: 1 },
                     },
                   }}
                 >

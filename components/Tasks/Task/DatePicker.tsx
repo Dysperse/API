@@ -101,12 +101,23 @@ function fetchDateData(
   );
 }
 
-const SelectDateModal: any = React.memo(function SelectDateModal({
+export interface DateTimeModalProps {
+  date: Dayjs | Date;
+  setDate: (v: any) => void;
+  children: JSX.Element;
+  dateOnly?: boolean;
+  disabled?: boolean;
+  closeOnSelect?: boolean;
+}
+
+const SelectDateModal = React.memo(function SelectDateModal({
   date,
   setDate,
   children,
   dateOnly = false,
-}: any) {
+  disabled = false,
+  closeOnSelect = false,
+}: DateTimeModalProps) {
   const { session } = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -115,14 +126,14 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
+  if (disabled) return children;
+
   const today = new Date(dayjs().startOf("day").toISOString());
 
   const handleClick = () => setTimeOpen((s) => !s);
 
   const trigger = cloneElement(children, {
-    onClick: () => {
-      setOpen(true);
-    },
+    onClick: () => setOpen(true),
   });
 
   const initialValue = useMemo(() => dayjs(date), [date]);
@@ -277,6 +288,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
                     .set("month", newValue.month())
                     .set("year", newValue.year())
                 );
+                setOpen(false);
               }}
               slots={{
                 day: ServerDay,
