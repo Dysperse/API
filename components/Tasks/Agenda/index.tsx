@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
@@ -33,6 +33,7 @@ export const AgendaContext = createContext<any>(null);
  */
 export function Agenda({ type, date }) {
   const router = useRouter();
+  const agendaContainerRef = useRef<HTMLDivElement>();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [view, setView] = useState("all");
 
@@ -55,13 +56,42 @@ export function Agenda({ type, date }) {
   };
 
   const handleNext = () => {
-    const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
-    router.push(`/tasks/agenda/${type}/${next}`);
+    if (!agendaContainerRef.current) return;
+    // alert(agendaContainerRef.current?.scrollLeft);
+    const { scrollLeft, clientWidth, scrollWidth } = agendaContainerRef.current;
+    const { width } = agendaContainerRef.current.getBoundingClientRect();
+
+    const canScrollRight = scrollLeft + clientWidth < scrollWidth;
+
+    if (canScrollRight && !isMobile) {
+      agendaContainerRef.current.scrollTo({
+        left: width + scrollLeft - 50,
+        behavior: "smooth",
+      });
+    } else {
+      const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
+      router.push(`/tasks/agenda/${type}/${next}`);
+    }
   };
 
   const handlePrev = () => {
-    const prev = dayjs(date).subtract(1, columnMap[type]).format("YYYY-MM-DD");
-    router.push(`/tasks/agenda/${type}/${prev}`);
+    if (!agendaContainerRef.current) return;
+    const { scrollLeft } = agendaContainerRef.current;
+    const { width } = agendaContainerRef.current.getBoundingClientRect();
+
+    const canScrollLeft = scrollLeft > 0;
+
+    if (canScrollLeft && !isMobile) {
+      agendaContainerRef.current.scrollTo({
+        left: (width + scrollLeft - 50) * -1,
+        behavior: "smooth",
+      });
+    } else {
+      const prev = dayjs(date)
+        .subtract(1, columnMap[type])
+        .format("YYYY-MM-DD");
+      router.push(`/tasks/agenda/${type}/${prev}`);
+    }
   };
 
   const start = dayjs(date).startOf(columnMap[type]);
@@ -281,6 +311,7 @@ export function Agenda({ type, date }) {
             width: "100%",
             height: "100%",
           }}
+          ref={agendaContainerRef}
         >
           {data && columns?.length > 0 ? (
             columns.map((column: any) => (
