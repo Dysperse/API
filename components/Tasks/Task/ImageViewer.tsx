@@ -1,5 +1,5 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -127,7 +127,7 @@ export function ImageViewer({ url }: { url: string }) {
             bottom: 14,
             borderRadius: 99,
             p: 0.5,
-            background: toHSL(palette[2], 0.9),
+            background: addHslAlpha(palette[2], 0.9),
             backdropFilter: "blur(10px)",
             left: "50%",
             transform: "translateX(-50%)",

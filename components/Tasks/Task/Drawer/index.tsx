@@ -1,5 +1,5 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -154,7 +154,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             maxWidth: "500px",
             width: "100%",
             height: "100dvh",
-            borderLeft: { sm: `2px solid ${toHSL(palette[3], 0.7)}` },
+            borderLeft: { sm: `2px solid ${addHslAlpha(palette[3], 0.7)}` },
           },
           ref,
         }}

@@ -1,7 +1,7 @@
 import { containerRef } from "@/components/Layout";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -306,7 +306,7 @@ const Column = React.memo(function Column({
         ...(view === "priority" && {
           borderLeft: "1.5px solid",
         }),
-        borderColor: toHSL(palette[4], 0.5),
+        borderColor: addHslAlpha(palette[4], 0.5),
       }}
     >
       <Header

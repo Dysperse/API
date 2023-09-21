@@ -1,6 +1,6 @@
 import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -36,7 +36,7 @@ export function Following({ styles, data }): JSX.Element {
         anchor="bottom"
         BackdropProps={{
           sx: {
-            background: toHSL(palette[1], 0.5) + " !important",
+            background: addHslAlpha(palette[1], 0.5) + " !important",
           },
         }}
         PaperProps={{

@@ -1,7 +1,7 @@
 import { Grow, Slide } from "@mui/material";
 import React from "react";
 import { colors } from "../colors";
-import { toHSL } from "./toHSL";
+import { addHslAlpha } from "./addHslAlpha";
 import { useColor } from "./useColor";
 
 const Transition = React.forwardRef(function Transition(
@@ -57,7 +57,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "& .MuiSnackbarContent-root": {
                 boxShadow:
                   "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                background: toHSL(palette[3], 0.5),
+                background: addHslAlpha(palette[3], 0.5),
                 backdropFilter: "blur(10px)",
                 fontWeight: 700,
                 borderRadius: 95,
@@ -91,10 +91,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               top: 0,
               left: 0,
               zIndex: 999,
-              background: toHSL(palette[1], 0.9),
+              background: addHslAlpha(palette[1], 0.9),
               backdropFilter: "blur(10px)",
               borderBottom: "1px solid",
-              borderColor: toHSL(palette[3], 0.9),
+              borderColor: addHslAlpha(palette[3], 0.9),
               color: darkMode ? "#fff" : "#000",
             }),
         },
@@ -147,7 +147,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 },
               },
               "&:active": {
-                background: toHSL(palette[4], 0.6),
+                background: addHslAlpha(palette[4], 0.6),
               },
               "&:disabled": {
                 cursor: "not-allowed!important",
@@ -190,7 +190,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 },
                 background: {
                   xs: "transparent",
-                  sm: toHSL(palette[3], 0.5),
+                  sm: addHslAlpha(palette[3], 0.5),
                 },
               },
               "&:active": {
@@ -239,7 +239,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       MuiSkeleton: {
         styleOverrides: {
           root: {
-            backgorund: toHSL(palette[5], 0.4),
+            backgorund: addHslAlpha(palette[5], 0.4),
           },
         },
       },
@@ -340,7 +340,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 borderRadius: "10px",
                 minWidth: 180,
                 color: palette[11],
-                background: toHSL(palette[3], 0.5),
+                background: addHslAlpha(palette[3], 0.5),
                 backdropFilter: "blur(7px)",
                 "& .MuiMenu-list": {
                   p: 0.5,
@@ -348,7 +348,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                 "& .MuiMenuItem-root": {
                   gap: 2,
                   "&:focus-visible, &:hover": {
-                    background: toHSL(palette[4], 0.5),
+                    background: addHslAlpha(palette[4], 0.5),
                     "& .MuiSvgIcon-root": {
                       color: palette[12],
                     },
@@ -364,7 +364,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
                     marginRight: 1.9,
                   },
                   "&:active": {
-                    background: toHSL(palette[5], 0.5),
+                    background: addHslAlpha(palette[5], 0.5),
                   },
                 },
               },
@@ -394,7 +394,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
               "&:active": {
                 background: {
                   xs: palette[2],
-                  sm: toHSL(palette[3], 0.5),
+                  sm: addHslAlpha(palette[3], 0.5),
                 },
               },
             }),
@@ -548,7 +548,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       mode: darkMode ? "dark" : "light",
       background: {
         default: palette
-          ? toHSL(palette[3], darkMode ? 0.6 : 0.6)
+          ? addHslAlpha(palette[3], darkMode ? 0.6 : 0.6)
           : darkMode
           ? "#000"
           : "#fff",

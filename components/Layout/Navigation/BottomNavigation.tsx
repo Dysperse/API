@@ -1,5 +1,5 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
@@ -66,7 +66,7 @@ export function BottomNav() {
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           opacity: 1,
           ...iconStyles,
-          background: toHSL(palette[4], 0.6),
+          background: addHslAlpha(palette[4], 0.6),
         },
       }),
     };

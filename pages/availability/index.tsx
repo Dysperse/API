@@ -2,8 +2,8 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { containerRef } from "@/components/Layout";
 import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
@@ -44,7 +44,7 @@ function InviteAvailability({ children, event }) {
 
   return (
     <>
-      {toHSL(palette[1])}
+      {addHslAlpha(palette[1])}
       {trigger}
       <SwipeableDrawer
         open={open}
@@ -566,14 +566,14 @@ function CreateAvailability({ mutate, setShowMargin }) {
           left: "50%",
           transform: "translateX(-50%)",
           maxWidth: "550px",
-          background: toHSL(palette[4], 0.8),
+          background: addHslAlpha(palette[4], 0.8),
           backdropFilter: "blur(10px)",
           overflow: "hidden",
           maxHeight: submitted ? "100px" : "100px",
           borderRadius: "20px 20px 0 0",
           transition: "bottom .4s cubic-bezier(.17,.67,.08,1)!important",
           "&:active": {
-            background: toHSL(palette[5], 0.8),
+            background: addHslAlpha(palette[5], 0.8),
           },
         }}
         onClick={() => {
@@ -640,7 +640,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
         PaperProps={{
           sx: {
             width: "550px",
-            background: submitted ? palette[3] : toHSL(palette[4], 0.5),
+            background: submitted ? palette[3] : addHslAlpha(palette[4], 0.5),
             backdropFilter: submitted ? "" : "blur(10px)",
             borderRadius: submitted ? 5 : "20px 20px 0 0",
             ...(submitted && {

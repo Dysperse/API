@@ -1,8 +1,8 @@
 import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Navbar";
 import { GroupSelector } from "@/components/Tasks/Layout";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -81,9 +81,9 @@ function JumpBackIn() {
                     px: 2,
                     borderRadius: 3,
                     display: "flex",
-                    background: toHSL(palette[3], 0.5),
+                    background: addHslAlpha(palette[3], 0.5),
                     "&:hover": {
-                      background: { sm: toHSL(palette[3], 0.7) },
+                      background: { sm: addHslAlpha(palette[3], 0.7) },
                     },
                     "&:active": {
                       background: palette[4],

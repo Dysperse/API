@@ -1,6 +1,6 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
@@ -55,7 +55,7 @@ export function RoomPicker({ room, setRoom, children }) {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            background: toHSL(palette[3], 0.8),
+            background: addHslAlpha(palette[3], 0.8),
             m: 3,
             mx: { xs: 3, sm: "auto" },
             borderRadius: 5,
@@ -309,7 +309,7 @@ export default function Page() {
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
-            background: toHSL(palette[2], 0.3),
+            background: addHslAlpha(palette[2], 0.3),
             ...(submitted && {
               borderRadius: 5,
               animation: "submit .5s forwards",
@@ -328,7 +328,7 @@ export default function Page() {
             <IconButton
               onClick={() => setTaken(false)}
               sx={{
-                background: toHSL(palette[9], 0.1) + "!important",
+                background: addHslAlpha(palette[9], 0.1) + "!important",
                 color: palette[11] + "!important",
               }}
             >
@@ -360,7 +360,7 @@ export default function Page() {
             <IconButton
               onClick={handleSubmit}
               sx={{
-                background: toHSL(palette[9], 0.9) + "!important",
+                background: addHslAlpha(palette[9], 0.9) + "!important",
                 color: palette[1] + "!important",
               }}
               disabled={loading}
@@ -383,7 +383,7 @@ export default function Page() {
               results.map((result) => (
                 <Chip
                   sx={{
-                    background: toHSL(palette[5], 0.4) + "!important",
+                    background: addHslAlpha(palette[5], 0.4) + "!important",
                   }}
                   label={capitalizeFirstLetter(result?.trim())}
                   key={result}

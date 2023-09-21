@@ -1,5 +1,5 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -122,7 +122,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
         minHeight: { xs: "100%", md: "unset" },
         background: {
           xs: `transparent`,
-          md: toHSL(palette[2], 0.8),
+          md: addHslAlpha(palette[2], 0.8),
         },
         m: { md: "10px" },
         position: { md: "sticky" },
@@ -202,7 +202,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                   lineHeight: { xs: "55px", sm: "65px" },
                   py: 0.5,
                   "&:focus-within": {
-                    background: toHSL(palette[4], 0.8),
+                    background: addHslAlpha(palette[4], 0.8),
                     "&, & *": { textTransform: "none!important" },
                   },
                 },
@@ -234,7 +234,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                   mt: -1,
                   py: 1,
                   "&:focus-within": {
-                    background: toHSL(palette[4], 0.8),
+                    background: addHslAlpha(palette[4], 0.8),
                   },
                 },
               }}

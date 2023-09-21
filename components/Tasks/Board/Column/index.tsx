@@ -1,6 +1,6 @@
 import { containerRef } from "@/components/Layout";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -165,7 +165,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
             mb: 1,
             borderColor: {
               xs: "transparent",
-              sm: toHSL(palette[4], 0.7),
+              sm: addHslAlpha(palette[4], 0.7),
             },
           }}
         >
@@ -224,7 +224,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
           scrollSnapType: { xs: "x mandatory", sm: "unset" },
           borderLeft: "1px solid",
           borderRight: "1px solid",
-          borderColor: { xs: "transparent", sm: toHSL(palette[4], 0.7) },
+          borderColor: { xs: "transparent", sm: addHslAlpha(palette[4], 0.7) },
           zIndex: 1,
           height: "100%",
           flexGrow: 1,
@@ -252,9 +252,9 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
             color: isDark ? "#fff" : "#000",
             p: { xs: 2, sm: column.name === "" ? 1 : 3 },
             px: { xs: 0, sm: 4 },
-            background: { sm: toHSL(palette[2], 0.7) },
+            background: { sm: addHslAlpha(palette[2], 0.7) },
             borderBottom: { sm: "1px solid" },
-            borderColor: { sm: toHSL(palette[4], 0.7) },
+            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
             userSelect: "none",
             zIndex: 9,
             backdropFilter: { md: "blur(10px)" },

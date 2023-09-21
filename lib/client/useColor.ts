@@ -1,6 +1,6 @@
 import { useMediaQuery } from "@mui/material";
-import * as colors from "@radix-ui/colors";
 import { useMemo } from "react";
+import * as colors from "./themes";
 
 /**
  * Returns a color palette.

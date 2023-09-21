@@ -1,7 +1,7 @@
 import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { toHSL } from "@/lib/client/toHSL";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
@@ -144,7 +144,7 @@ export function StatusSelector({
         }}
         PaperProps={{
           sx: {
-            border: `2px solid ${toHSL(palette[3], 0.7)}`,
+            border: `2px solid ${addHslAlpha(palette[3], 0.7)}`,
             borderRadius: 5,
             m: 2,
             mx: { xs: 2, sm: "auto" },

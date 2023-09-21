@@ -1,6 +1,6 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
-import { toHSL } from "@/lib/client/toHSL";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor } from "@/lib/client/useColor";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -143,7 +143,7 @@ function QrLogin({ handleRedirect }) {
                 gap: 2,
                 alignItems: "center",
                 justifyContent: "center",
-                background: toHSL(palette[5], 0.8),
+                background: addHslAlpha(palette[5], 0.8),
                 top: 0,
                 borderRadius: 5,
                 left: 0,
