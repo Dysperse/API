@@ -207,6 +207,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     ...Object.keys(colors)
       .filter((color) => !color.includes("Dark"))
       .filter((color) => !color.endsWith("A"))
+      .filter((color) => !color.endsWith("P3"))
       .map((color) => ({
         title: `Change color to ${capitalizeFirstLetter(color)}`,
         badge: "Appearance",

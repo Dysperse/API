@@ -11,6 +11,18 @@
     "name": "Scarlet Tempest",
     "description": "A stormy hue that embodies passionate fervor."
   },
+  "ruby": {
+    "name": "Crimson Glow",
+    "description": "Captures the fiery intensity of a ruby gemstone, radiating passion and allure."
+  },
+  "jade": {
+    "name": "Iris Dreamscapes",
+    "description": "Embodies the ethereal beauty of iris flowers, offering a medley of purples and blues that evoke a sense of mystery and wonder."
+  },
+  "iris": {
+    "name": "Tranquil Jade Oasis",
+    "description": "Soothing blend of cool greens and blues, reminiscent of precious jade."
+  },
   "pink": {
     "name": "Enchanting Blush",
     "description": "A captivating color that evokes tender feelings."
