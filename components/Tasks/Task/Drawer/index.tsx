@@ -113,9 +113,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         date: dayjs().toISOString(),
         [key]: String(value),
         createdBy: session.user.email,
-      });
+      }).then(() => mutateList());
     },
-    [session, data, mutateTask]
+    [session, data, mutateTask, mutateList]
   );
 
   // Attach the `onClick` handler to the trigger
@@ -187,7 +187,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             <DrawerContent
               isDisabled={isDisabled}
               handleDelete={handleDelete}
-              handleParentClose={handleClose}
             />
           )}
         </Box>

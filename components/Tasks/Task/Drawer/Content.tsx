@@ -28,7 +28,7 @@ import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
-function DrawerContent({ isDisabled, handleDelete }: any) {
+export default function DrawerContent({ isDisabled, handleDelete }) {
   const { session } = useSession();
   const task = useTaskContext();
   const storage = useAccountStorage();
@@ -417,4 +417,3 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
     </Box>
   );
 }
-export default DrawerContent;
