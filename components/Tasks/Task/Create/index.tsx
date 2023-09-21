@@ -415,7 +415,6 @@ export function CreateTask({
     () => (
       <AnimatePresence>
         <SelectDateModal
-          styles={() => {}}
           date={formData.date}
           setDate={(date) => setFormData((s) => ({ ...s, date }))}
         >

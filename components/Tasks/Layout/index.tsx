@@ -693,7 +693,8 @@ export function TasksLayout({
               <BulkCompletion />
               {session.permission !== "read-only" && (
                 <SelectDateModal
-                  date={null}
+                  date={new Date()}
+                  dateOnly
                   setDate={async (newDate) => {
                     try {
                       setOpen(false);
