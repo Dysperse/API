@@ -131,9 +131,6 @@ const SelectDateModal = React.memo(function SelectDateModal({
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
-
-  if (disabled) return children;
-
   const today = new Date(dayjs().startOf("day").toISOString());
 
   const handleClick = () => setTimeOpen((s) => !s);
@@ -189,7 +186,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
     setHighlightedDays([]);
     fetchHighlightedDays(date);
   };
-
+  if (disabled) return children;
   return (
     <>
       {trigger}
