@@ -142,14 +142,17 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   display: "flex",
                   gap: "5px",
                   alignItems: "center",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis"
                 }}
               >
                 <img
                   src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${friend?.Status.emoji}.png`}
                   width={20}
                   height={20}
+                  style={{ flexShrink: 0 }}
                 />
-                {friend?.Status?.text}
+                <span style={{ minWidth: 0 }}>{friend?.Status?.text}</span>
               </span>
             ) : (
               "Until " + dayjs(friend?.Status?.until).format("h:mm A")
