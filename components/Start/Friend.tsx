@@ -3,12 +3,12 @@ import { SpotifyCard } from "@/components/Profile/UserProfile";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { Masonry } from "@mui/lab";
 import {
   Alert,
   Box,
   Button,
   Chip,
-  Grid,
   Icon,
   IconButton,
   LinearProgress,
@@ -214,90 +214,86 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
           <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
             {friend.name}
           </Typography>
-          <Typography variant="body2" sx={{}}>
+          <Typography variant="body2" sx={{ mb: 2 }}>
             {friend.username && "@"}
             {friend.username || friend.email}
           </Typography>
-          <Grid container sx={{ mx: -1 }}>
-            <Grid item xs={12} sm={6} sx={{ p: 1 }}>
+          <Box sx={{ mr: -2 }}>
+            <Masonry spacing={2} columns={{ xs: 1, sm: 2 }}>
               <Box
                 sx={{
-                  background: palette[2],
-                  borderRadius: 5,
-                  height: "100%",
+                  border: `2px solid ${palette[3]}`,
                   p: 2,
+                  borderRadius: 5,
                   display: "flex",
                   flexDirection: "column",
                 }}
               >
-                <Typography variant="h4" sx={{ mt: "auto" }}>
+                <Typography sx={{ opacity: 0.7 }}>Local time</Typography>
+                <Typography variant="h4" sx={{ mb: 0.5 }}>
                   {dayjs().tz(friend.timeZone).format("h:mm A")}
                 </Typography>
-                <Typography variant="h6" sx={{ opacity: 0.7, mt: -1 }}>
-                  Local time
-                </Typography>
-                <Chip
-                  sx={{
-                    "&, &:hover": { background: palette[4] + "!important" },
-                  }}
-                  label={
-                    isWithinWorkingHours
-                      ? "Within working hours"
-                      : "Outside working hours"
-                  }
-                />
-              </Box>
-            </Grid>
-            {friend.Status && !isExpired && (
-              <Grid item xs={12} sm={6} sx={{ p: 1 }}>
-                <Box
-                  sx={{
-                    background: palette[2],
-                    borderRadius: 5,
-                    height: "100%",
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <Box sx={{ mb: "auto" }}>
-                    <Typography
-                      variant="h4"
-                      sx={{ mt: "auto", textTransform: "capitalize" }}
-                    >
-                      {(!isExpired && friend?.Status?.status) ||
-                        (isWithinWorkingHours ? "" : "Away")}
-                    </Typography>
-                  </Box>
-                  <LinearProgress
-                    variant="determinate"
+                <Box>
+                  <Chip
                     sx={{
-                      my: 1,
-                      background: palette[3],
-                      "& .MuiLinearProgress-bar": {
-                        background: palette[11],
-                      },
-                      height: 10,
-                      borderRadius: 99,
+                      display: "inline-flex",
                     }}
-                    value={
-                      (dayjs().diff(friend.Status.started, "minute") /
-                        dayjs(friend.Status.until).diff(
-                          friend.Status.started,
-                          "minute"
-                        )) *
-                      100
+                    label={
+                      isWithinWorkingHours
+                        ? "Within working hours"
+                        : "Outside working hours"
                     }
                   />
-                  <Typography variant="h6" sx={{ opacity: 0.7 }}>
-                    Until {dayjs(friend.Status.until).format("h:mm A")}
-                  </Typography>
                 </Box>
-              </Grid>
-            )}
-
-            {friend?.Profile?.spotify && (
-              <Grid item xs={12} sm={6} sx={{ p: 1 }}>
+              </Box>
+              <Box>
+                {friend.Status && !isExpired && (
+                  <Box
+                    sx={{
+                      border: `2px solid ${palette[3]}`,
+                      borderRadius: 5,
+                      width: "100%",
+                      p: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Box sx={{ mb: "auto" }}>
+                      <Typography
+                        variant="h4"
+                        sx={{ mt: "auto", textTransform: "capitalize" }}
+                      >
+                        {(!isExpired && friend?.Status?.status) ||
+                          (isWithinWorkingHours ? "" : "Away")}
+                      </Typography>
+                    </Box>
+                    <LinearProgress
+                      variant="determinate"
+                      sx={{
+                        my: 1,
+                        background: palette[3],
+                        "& .MuiLinearProgress-bar": {
+                          background: palette[11],
+                        },
+                        height: 10,
+                        borderRadius: 99,
+                      }}
+                      value={
+                        (dayjs().diff(friend.Status.started, "minute") /
+                          dayjs(friend.Status.until).diff(
+                            friend.Status.started,
+                            "minute"
+                          )) *
+                        100
+                      }
+                    />
+                    <Typography variant="h6" sx={{ opacity: 0.7 }}>
+                      Until {dayjs(friend.Status.until).format("h:mm A")}
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+              {friend?.Profile?.spotify && (
                 <SpotifyCard
                   open={open}
                   email={friend.email}
@@ -308,9 +304,9 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   profile={friend?.Profile}
                   hideIfNotPlaying
                 />
-              </Grid>
-            )}
-          </Grid>
+              )}
+            </Masonry>
+          </Box>
 
           <Button
             variant="contained"
