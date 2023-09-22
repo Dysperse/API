@@ -945,7 +945,20 @@ export default function Page() {
                   transition={{ delay: index * 0.2 }}
                 >
                   <Typography sx={bulletStyles}>
-                    <span className="material-symbols-outlined">counter_{index + 1}</span>{" "}
+                    <Box sx={{ flexShrink: 0 }}>
+                      <IconButton
+                        disabled
+                        size="small"
+                        sx={{
+                          width: 30,
+                          height: 30,
+                          mt: 0.5,
+                          border: `2px solid ${palette[7]}`,
+                        }}
+                      >
+                        {index + 1}
+                      </IconButton>
+                    </Box>
                     <Box>
                       <b>{bullet.name}</b>
                       <div>{bullet.description}</div>
