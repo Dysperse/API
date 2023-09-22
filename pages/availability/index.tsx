@@ -945,7 +945,7 @@ export default function Page() {
                   transition={{ delay: index * 0.2 }}
                 >
                   <Typography sx={bulletStyles}>
-                    <Icon>counter_{index + 1}</Icon>{" "}
+                    <span className="material-symbols-outlined">counter_{index + 1}</span>{" "}
                     <Box>
                       <b>{bullet.name}</b>
                       <div>{bullet.description}</div>
