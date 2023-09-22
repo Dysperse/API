@@ -7,6 +7,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Avatar,
   Box,
+  Divider,
   Icon,
   Menu,
   MenuItem,
@@ -99,13 +100,13 @@ function SidebarMenu({ styles }) {
         >
           <Avatar
             sx={{
-              background: addHslAlpha(groupPalette[8], 0.3),
-              color: groupPalette[9],
+              background: groupPalette[9],
+              color: groupPalette[1],
               width: 35,
               height: 35,
             }}
           >
-            <Icon className="outlined">
+            <Icon>
               {session.property.profile.type === "home"
                 ? "home"
                 : session.property.profile.type === "apartment"
@@ -132,6 +133,7 @@ function SidebarMenu({ styles }) {
             </Avatar>
           </GroupModal>
         </MenuItem>
+        <Divider />
         <MenuItem
           onClick={() => {
             handleClose();
@@ -140,10 +142,10 @@ function SidebarMenu({ styles }) {
         >
           <Avatar
             sx={{
-              background: addHslAlpha(palette[5], 0.6),
-              color: palette[9],
               width: 35,
               height: 35,
+              background: "transparent",
+              color: "inherit",
             }}
           >
             <Icon className="outlined">settings</Icon>
