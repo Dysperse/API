@@ -11,6 +11,7 @@ export const getUserData = async (token: string) => {
     include: {
       user: {
         include: {
+          Profile: { select: { picture: true } },
           properties: {
             select: {
               propertyId: true,

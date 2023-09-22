@@ -11,6 +11,41 @@ import { shouldHideNavigation } from "./BottomNavigation";
 import { openSpotlight } from "./Search";
 const SearchPopup = dynamic(() => import("./Search"), { ssr: false });
 
+function SidebarMenu({ styles }) {
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  return (
+    <>
+      <Box
+        sx={{
+          ...styles(false),
+          "& .material-symbols-outlined": {
+            borderRadius: 99,
+            background: addHslAlpha(palette[4], 0.6),
+            transition: "all .2s",
+            "&:active": {
+              opacity: 0.6,
+              transition: "none",
+            },
+            width: 40,
+            height: 40,
+            fontVariationSettings:
+              '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20!important',
+          },
+        }}
+      >
+        <span className="material-symbols-outlined">more_horiz</span>
+      </Box>
+      {/* <StatusSelector mutate={() => {}} profile={session.user}>
+        <Box sx={{ my: 1 }}>
+          <ProfilePicture data={session.user} mutate={() => {}} size={40} />
+        </Box>
+      </StatusSelector> */}
+    </>
+  );
+}
+
 function SidebarCalendar() {
   const date = dayjs();
   const { session } = useSession();
@@ -270,17 +305,18 @@ export function Sidebar() {
           onMouseDown={() => openSpotlight()}
           sx={{
             ...styles(false),
-            background: addHslAlpha(palette[4], 0.4),
-            "&:active": {
-              background: addHslAlpha(palette[4], 0.5),
-            },
             borderRadius: 99,
+            "& .material-symbols-outlined": {
+              width: 40,
+              height: 40,
+            },
           }}
         >
           <Tooltip title="Spotlight" placement="right">
             <span className="material-symbols-outlined">bolt</span>
           </Tooltip>
         </Box>
+        <SidebarMenu styles={styles} />
       </Box>
     </Box>
   );

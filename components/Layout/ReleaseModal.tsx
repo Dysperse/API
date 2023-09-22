@@ -55,10 +55,7 @@ export default function ReleaseModal() {
 
   const handleClose = () => {
     setOpen(false);
-    updateSettings(["lastReleaseVersionViewed", data[0]?.id], {
-      session,
-      type: "property",
-    });
+    updateSettings(["lastReleaseVersionViewed", data[0]?.id], { session });
   };
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
