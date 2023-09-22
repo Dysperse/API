@@ -73,13 +73,13 @@ export function StatusSelector({
     (time: number) => () => setTime(time),
     []
   );
+  
   useEffect(() => {
     if (
       textRef?.current &&
-      data?.status &&
       data?.until &&
+      dayjs(data?.until).isAfter(now) && 
       data?.status?.text &&
-      dayjs(data?.until).isAfter(now)
     ) {
       textRef.current.value = data.status.text;
     }
