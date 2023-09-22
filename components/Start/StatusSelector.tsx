@@ -78,6 +78,7 @@ export function StatusSelector({
       textRef?.current &&
       data?.status &&
       data?.until &&
+      data?.status?.text &&
       dayjs(data?.until).isAfter(now)
     ) {
       textRef.current.value = data.status.text;
