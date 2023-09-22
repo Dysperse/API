@@ -49,12 +49,18 @@ export function StatusSelector({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
-  const [emoji, setEmoji] = useState("1f4ad");
+  const [emoji, setEmoji] = useState(
+    data?.status && data?.until && dayjs(data?.until).isAfter(now)
+      ? data.status.emoji || "1f4ad"
+      : "1f4ad"
+  );
+
   const [status, setStatus] = useState(
     data?.status && data?.until && dayjs(data?.until).isAfter(now)
       ? data?.status
       : ""
   );
+
   const textRef: any = useRef();
   const [time, setTime] = useState(60);
   const [loading, setLoading] = useState(false);
@@ -67,6 +73,16 @@ export function StatusSelector({
     (time: number) => () => setTime(time),
     []
   );
+  useEffect(() => {
+    if (
+      textRef?.current &&
+      data?.status &&
+      data?.until &&
+      dayjs(data?.until).isAfter(now)
+    ) {
+      textRef.current.value = data.status.text;
+    }
+  }, [data, now]);
 
   const handleSubmit = useCallback(async () => {
     setLoading(true);
@@ -87,7 +103,7 @@ export function StatusSelector({
     mutateStatus();
     mutate();
     setLoading(false);
-  }, [session, status, time, mutate, profile, setLoading, mutateStatus]);
+  }, [session, status, time, mutate, profile, setLoading, mutateStatus, emoji]);
 
   const resetStatus = useCallback(
     () =>
@@ -184,8 +200,10 @@ export function StatusSelector({
                   <InputAdornment position="start">
                     <EmojiPicker
                       setEmoji={(s) => {
-                        setEmoji(s);
-                        setTimeout(() => textRef?.current?.focus());
+                        setTimeout(() => {
+                          setEmoji(s);
+                          textRef?.current?.focus();
+                        });
                       }}
                     >
                       <IconButton size="small">

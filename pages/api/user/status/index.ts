@@ -20,6 +20,7 @@ export default async function handler(req, res) {
         started: true,
         text: true,
         until: true,
+        emoji: true,
       },
     });
     res.json(data);
