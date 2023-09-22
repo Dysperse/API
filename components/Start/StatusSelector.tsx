@@ -195,6 +195,9 @@ export function StatusSelector({
               placeholder="What's on your mind?"
               autoComplete="off"
               inputRef={textRef}
+              onKeyDown={(e) => {
+                if (e.code === "Enter") handleSubmit();
+              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
