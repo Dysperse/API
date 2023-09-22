@@ -22,6 +22,7 @@ import {
   createTheme,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import useSWR from "swr";
@@ -187,15 +188,11 @@ export function SpotifyCard({
             </picture>
 
             <picture>
-              <img
-                src={
-                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-                }
+              <Image
+                src="/images/integrations/spotify.png"
+                width={45}
+                height={45}
                 alt="Spotify"
-                style={{
-                  width: "45px",
-                  height: "45px",
-                }}
               />
             </picture>
           </Box>
@@ -254,12 +251,11 @@ export function SpotifyCard({
               />
             </Box>
 
-            <img
-              src={
-                "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-              }
+            <Image
+              src="/images/integrations/spotify.png"
+              width={45}
+              height={45}
               alt="Spotify"
-              style={{ width: "45px", height: "45px" }}
             />
           </Box>
           <Box
@@ -290,12 +286,11 @@ export function SpotifyCard({
               Not playing
             </Typography>
 
-            <img
-              src={
-                "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-              }
+            <Image
+              src="/images/integrations/spotify.png"
+              width={45}
+              height={45}
               alt="Spotify"
-              style={{ width: "45px", height: "45px" }}
             />
           </Box>
         </>
