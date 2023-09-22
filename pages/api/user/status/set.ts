@@ -27,6 +27,8 @@ export default async function handler(req, res) {
       status: req.query.status,
       started: new Date(req.query.start),
       until,
+      text: req.query.text,
+      emoji: req.query.emoji,
       user: { connect: { identifier: req.query.userIdentifier } },
     };
 

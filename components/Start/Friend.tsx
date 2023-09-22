@@ -136,7 +136,24 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
           secondary={
             friend?.Status &&
             !isExpired &&
-            "Until " + dayjs(friend?.Status?.until).format("h:mm A")
+            (friend?.Status?.text ? (
+              <span
+                style={{
+                  display: "flex",
+                  gap: "5px",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${friend?.Status.emoji}.png`}
+                  width={20}
+                  height={20}
+                />
+                {friend?.Status?.text}
+              </span>
+            ) : (
+              "Until " + dayjs(friend?.Status?.until).format("h:mm A")
+            ))
           }
           sx={{
             ml: 1,

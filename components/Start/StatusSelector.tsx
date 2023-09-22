@@ -5,11 +5,28 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, Icon, SwipeableDrawer, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  InputAdornment,
+  SwipeableDrawer,
+  TextField,
+  Typography,
+} from "@mui/material";
 import dayjs from "dayjs";
-import { cloneElement, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  cloneElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "react-hot-toast";
 import useSWR from "swr";
+import EmojiPicker from "../EmojiPicker";
 
 export function StatusSelector({
   children,
@@ -32,11 +49,13 @@ export function StatusSelector({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
+  const [emoji, setEmoji] = useState("1f4ad");
   const [status, setStatus] = useState(
     data?.status && data?.until && dayjs(data?.until).isAfter(now)
       ? data?.status
       : ""
   );
+  const textRef: any = useRef();
   const [time, setTime] = useState(60);
   const [loading, setLoading] = useState(false);
 
@@ -58,6 +77,8 @@ export function StatusSelector({
       timeZone: session.user.timeZone,
       profile: JSON.stringify(profile),
       email: session.user.email,
+      emoji,
+      text: textRef?.current?.value,
     });
     setOpen(false);
     toast.success(
@@ -153,9 +174,33 @@ export function StatusSelector({
       >
         <Box sx={{ width: "100%" }}>
           <Puller showOnDesktop />
-          <Typography variant="h6" sx={{ mb: 1, px: 2 }}>
-            Set status
-          </Typography>
+          <Box sx={{ px: 2, mb: 2 }}>
+            <TextField
+              placeholder="What's on your mind?"
+              autoComplete="off"
+              inputRef={textRef}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmojiPicker
+                      setEmoji={(s) => {
+                        setEmoji(s);
+                        setTimeout(() => textRef?.current?.focus());
+                      }}
+                    >
+                      <IconButton size="small">
+                        <img
+                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                          alt="Crying emoji"
+                          width={25}
+                        />
+                      </IconButton>
+                    </EmojiPicker>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, px: 2 }}>
             {["available", "busy", "away", "offline"].map((_status) => (
               <Button
