@@ -1,11 +1,23 @@
+import { GroupModal } from "@/components/Group/GroupModal";
 import { Logo } from "@/components/Logo";
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Icon,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { shouldHideNavigation } from "./BottomNavigation";
 import { openSpotlight } from "./Search";
@@ -13,11 +25,27 @@ const SearchPopup = dynamic(() => import("./Search"), { ssr: false });
 
 function SidebarMenu({ styles }) {
   const { session } = useSession();
+  const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const groupPalette = useColor(
+    session.property.profile.color,
+    useDarkMode(session.darkMode)
+  );
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
       <Box
+        onClick={handleClick}
         sx={{
           ...styles(false),
           "& .material-symbols-outlined": {
@@ -37,6 +65,92 @@ function SidebarMenu({ styles }) {
       >
         <span className="material-symbols-outlined">more_horiz</span>
       </Box>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        sx={{
+          zIndex: 99,
+        }}
+        slotProps={{
+          root: {
+            sx: {
+              transform: "translate(13px, -5px)!important",
+            },
+          },
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            router.push(
+              `/users/${session.user.username || session.user.email}`
+            );
+          }}
+        >
+          <ProfilePicture data={session.user} mutate={() => {}} size={35} />
+          {session.user.name}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            router.push(`/spaces/${session.property.propertyId}`);
+          }}
+        >
+          <Avatar
+            sx={{
+              background: addHslAlpha(groupPalette[8], 0.3),
+              color: groupPalette[9],
+              width: 35,
+              height: 35,
+            }}
+          >
+            <Icon className="outlined">
+              {session.property.profile.type === "home"
+                ? "home"
+                : session.property.profile.type === "apartment"
+                ? "apartment"
+                : session.property.profile.type === "dorm"
+                ? "cottage"
+                : "school"}
+            </Icon>
+          </Avatar>
+          <span style={{ marginRight: "15px" }}>
+            {session.property.profile.name}
+          </span>
+          <GroupModal useRightClick={false}>
+            <Avatar
+              sx={{
+                background: addHslAlpha(palette[5], 0.6),
+                color: palette[9],
+                width: 30,
+                height: 30,
+                ml: "auto",
+              }}
+            >
+              <Icon className="outlined">sync_alt</Icon>
+            </Avatar>
+          </GroupModal>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            router.push(`/settings`);
+          }}
+        >
+          <Avatar
+            sx={{
+              background: addHslAlpha(palette[5], 0.6),
+              color: palette[9],
+              width: 35,
+              height: 35,
+            }}
+          >
+            <Icon className="outlined">settings</Icon>
+          </Avatar>
+          Settings
+        </MenuItem>
+      </Menu>
       {/* <StatusSelector mutate={() => {}} profile={session.user}>
         <Box sx={{ my: 1 }}>
           <ProfilePicture data={session.user} mutate={() => {}} size={40} />

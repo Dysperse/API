@@ -53,6 +53,7 @@ export function GroupModal({
 
   const drawer = (
     <SwipeableDrawer
+      onKeyDown={(e) => e.stopPropagation()}
       onClick={(e) => e.stopPropagation()}
       anchor="bottom"
       open={showMore}
@@ -165,7 +166,8 @@ export function GroupModal({
 
   if (children) {
     const trigger = cloneElement(children, {
-      [useRightClick ? "onContextMenu" : "onClick"]: () => {
+      [useRightClick ? "onContextMenu" : "onClick"]: (e) => {
+        e.stopPropagation();
         vibrate(50);
         setShowMore(true);
       },
