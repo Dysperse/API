@@ -198,6 +198,10 @@ export function CreateTask({
         formData.title.trim().length >= 3)
     ) {
       setFormData((d) => ({ ...d, pinned: true }));
+    } else {
+      if (formData.title.trim() === "") {
+        setFormData((d) => ({ ...d, pinned: false }));
+      }
     }
   }, [formData.title]);
 
@@ -435,13 +439,9 @@ export function CreateTask({
             }
           >
             <motion.div
-              initial={{ scale: 0.5 }}
-              animate={{ scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 1000,
-                damping: 20,
-              }}
+              initial={{ filter: "brightness(180%)" }}
+              animate={{ filter: "brightness(100%)" }}
+              exit={{ filter: "brightness(180%)" }}
               key={formData.date && formData.date.toISOString()}
             >
               <Button

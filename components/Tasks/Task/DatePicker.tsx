@@ -125,8 +125,6 @@ const SelectDateModal = React.memo(function SelectDateModal({
 }: DateTimeModalProps) {
   const { session } = useSession();
 
-  // const [hoveredDay, setHoveredDay] = React.useState<Dayjs | null>(null);
-  // const [value, setValue] = React.useState<Dayjs | null>(dayjs("2022-04-17"));
   const [open, setOpen] = useState<boolean>(false);
   const [timeOpen, setTimeOpen] = useState(false);
 
@@ -214,7 +212,6 @@ const SelectDateModal = React.memo(function SelectDateModal({
           >
             <StaticTimePicker
               defaultValue={dayjs(date)}
-              onError={() => alert(1)}
               minutesStep={5}
               sx={{
                 "& .MuiPickersToolbar-root, & .MuiPickersToolbar-content": {
@@ -352,12 +349,13 @@ const SelectDateModal = React.memo(function SelectDateModal({
               disableRipple
               fullWidth
               variant="contained"
+              id="timeTrigger"
               onClick={handleClick}
             >
               <Icon>{timeOpen ? "today" : "access_time"}</Icon>
-              {dayjs(date).isValid()
+              {dayjs(date).isValid() && dayjs(date).format("HHmm") !== "0000"
                 ? dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")
-                : `Set time"}`}
+                : `Set time`}
             </Button>
             <Button
               disableRipple

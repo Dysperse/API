@@ -22,6 +22,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import toast from "react-hot-toast";
 
 const MemoizedChip = memo(Chip);
 
@@ -275,7 +276,19 @@ const ChipBar = React.memo(function ChipBar({
         titleRef={titleRef}
       >
         <MemoizedChip
-          icon={<Icon sx={{ pl: 2 }}>label</Icon>}
+          icon={
+            <Icon
+              sx={{
+                pl: 2,
+                ...(data.color === "grey" && {
+                  fontVariationSettings:
+                    '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+                }),
+              }}
+            >
+              label
+            </Icon>
+          }
           onClick={() => {
             setShowedFields((s) => ({ ...s, location: !s.location }));
             titleRef?.current?.blur();
@@ -352,14 +365,37 @@ const ChipBar = React.memo(function ChipBar({
             )}
           {taskColorPicker}
           {dayjs(data.date).isValid() &&
-            dayjs(data.date).format("HHmm") !== "0000" && (
-              <NotificationChip
-                titleRef={titleRef}
-                data={data}
-                setData={setData}
-                chipStyles={chipStyles}
-              />
-            )}
+          dayjs(data.date).format("HHmm") == "0000" ? (
+            <Chip
+              onClick={() => {
+                toast("Set a time");
+                document.getElementById("dateTrigger")?.click();
+                setTimeout(() => {
+                  document.getElementById("timeTrigger")?.click();
+                }, 1000);
+              }}
+              sx={chipStyles(false)}
+              icon={
+                <Icon
+                  sx={{
+                    pl: 1.5,
+                    fontVariationSettings:
+                      '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+                  }}
+                  className="outlined"
+                >
+                  notifications
+                </Icon>
+              }
+            />
+          ) : (
+            <NotificationChip
+              titleRef={titleRef}
+              data={data}
+              setData={setData}
+              chipStyles={chipStyles}
+            />
+          )}
           {!isSubTask &&
             [
               { label: "Today", days: 0 },
