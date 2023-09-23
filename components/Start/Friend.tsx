@@ -16,6 +16,7 @@ import {
   ListItemText,
   SwipeableDrawer,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
@@ -95,6 +96,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
     currentHour >= workingHours.startTime &&
     currentHour <= workingHours.endTime;
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
     <Box
       sx={{
@@ -108,7 +111,11 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
     >
       <ListItemButton onClick={() => setOpen(true)}>
         <Box sx={{ position: "relative" }}>
-          <ProfilePicture data={friend} mutate={mutate} size={60} />
+          <ProfilePicture
+            data={friend}
+            mutate={mutate}
+            size={isMobile ? 50 : 60}
+          />
           <Box
             sx={{
               position: "absolute",
@@ -116,7 +123,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               textTransform: "capitalize",
               right: "-10px",
               borderRadius: 999,
-              fontSize: "13px",
+              fontSize: { xs: "12px", sm: "13px" },
               px: 1,
               boxShadow: `0 0 0 3px ${userPalette[1]}!important`,
               py: 0.1,
