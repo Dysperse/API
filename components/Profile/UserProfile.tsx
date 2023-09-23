@@ -343,7 +343,6 @@ export function UserProfile({
     <ThemeProvider theme={userTheme}>
       <Box
         sx={{
-          background: userTheme[1],
           display: "flex",
           gap: 1,
           mt: 2,
@@ -398,7 +397,7 @@ export function UserProfile({
       </Typography>
       <Contacts profile={profile} />
       <Box sx={{ mr: -2 }}>
-        <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
+        <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2 }} spacing={2}>
           {profile && profile.hobbies.length > 0 && (
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>Hobbies</Typography>

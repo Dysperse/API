@@ -273,7 +273,13 @@ function Page() {
     : grayPalette;
 
   return (
-    <Box>
+    <Box
+      sx={{
+        background: palette[1],
+        pb: 5,
+        mb: -3,
+      }}
+    >
       <Head>
         <title>{data ? data.name : `Profile`}</title>
       </Head>
@@ -501,7 +507,6 @@ function Page() {
                   {!isCurrentUser && (
                     <Box sx={{ ml: { sm: "auto" }, mb: { xs: 1, sm: 0 } }}>
                       <AddPersonModal
-                        //  palette={palette}
                         defaultValue={data.email}
                         disabled={
                           session.permission !== "owner" ||
@@ -577,6 +582,7 @@ function Page() {
     </Box>
   );
 }
+
 export default function App() {
   const router = useRouter();
   const email = router?.query?.id;
