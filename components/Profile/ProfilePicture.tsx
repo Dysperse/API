@@ -125,14 +125,12 @@ export function ProfilePicture({
           width: size,
           fontSize: size == 150 ? 65 : 25,
           textTransform: "uppercase",
-          background: `linear-gradient(${palette[6]} 30%, ${palette[9]})`,
+          background: `linear-gradient(${palette[8]} 30%, ${palette[7]})`,
           mb: 2,
         }}
       >
         {data.name.trim().charAt(0)}
-        {data.name.includes(" ")
-          ? data.name.split(" ")[1].charAt(0)
-          : data.name.charAt(1)}
+        {data.name.split(" ")?.[1]?.charAt(0) || data.name.charAt(1)}
         <input type="file" id="upload" hidden onChange={handleUpload} />
       </Avatar>
     </Box>

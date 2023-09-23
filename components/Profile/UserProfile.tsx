@@ -134,8 +134,6 @@ export function SpotifyCard({
   hideIfNotPlaying = false,
   open = false,
 }: any) {
-  const { session } = useSession();
-
   const { data, isLoading, error } = useSWR(
     [
       "user/spotify/currently-playing",
@@ -145,7 +143,7 @@ export function SpotifyCard({
     { refreshInterval: 1000 }
   );
 
-  if (error) return <div>error</div>;
+  if (error) return <div></div>;
   if (hideIfNotPlaying && !data?.item) return null;
 
   return (
