@@ -123,7 +123,10 @@ export function ImageViewer({
         }}
         onContextMenu={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          setZoom(false);
+        }}
       >
         <Box
           sx={{
