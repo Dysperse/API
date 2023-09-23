@@ -190,7 +190,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
         PaperProps={{
           sx: {
             background: palette[1],
-            maxHeight: "calc(100vh - 200px)",
+            maxHeight: { xs: "calc(100vh - 50px)", sm: "calc(100vh - 200px)" },
             border: `2px solid ${palette[3]}`,
             m: 2,
             mx: { sm: "auto" },

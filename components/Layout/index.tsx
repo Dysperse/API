@@ -65,7 +65,7 @@ export default function AppLayout({
       "--toast-bg": addHslAlpha(palette[3], 0.8),
       "--toast-text": palette[11],
       "--toast-solid": palette[7],
-      "--bg": palette[1],
+      "--bg": palette[2],
     };
 
     Object.entries(variables).forEach(([key, value]) => {
