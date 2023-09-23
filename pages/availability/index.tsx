@@ -18,6 +18,7 @@ import {
   Divider,
   Icon,
   IconButton,
+  ListItemButton,
   Skeleton,
   SwipeableDrawer,
   TextField,
@@ -119,6 +120,17 @@ function InviteAvailability({ children, event }) {
                 </Box>
               ))}
           </Box>
+          <ListItemButton
+            sx={{ mt: 2, background: palette[3] }}
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `https://${window.location.hostname}/availability/${event.id}`
+              );
+              toast.success("Copied!");
+            }}
+          >
+            <Icon className="outlined">content_copy</Icon>Copy link
+          </ListItemButton>
         </Box>
       </SwipeableDrawer>
     </>
