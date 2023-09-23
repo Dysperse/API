@@ -472,12 +472,12 @@ export function TasksLayout({
                     id={`__agenda.${button.hash}`}
                     sx={buttonStyles(
                       palette,
-                      router.asPath === `/tasks/${button.hash}`
+                      router.asPath.includes(`/tasks/${button.hash}`)
                     )}
                   >
                     <Icon
                       className={
-                        router.asPath === `/tasks/${button.hash}`
+                        router.asPath.includes(`/tasks/${button.hash}`)
                           ? ""
                           : "outlined"
                       }
@@ -856,7 +856,7 @@ export function TasksLayout({
               <IconButton
                 sx={{
                   color: palette[9],
-                  background: addHslAlpha(palette[3], 0.5),
+                  background: "transparent",
                   "&:active": {
                     opacity: 0.6,
                   },
