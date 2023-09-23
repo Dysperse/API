@@ -36,7 +36,6 @@ const handler = async (req, res) => {
     );
 
     const parsed = ical.parseICS(calendar);
-    console.log(parsed);
 
     // Let's create some columns!
     let columns: string[] = [];
