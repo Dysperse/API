@@ -18,7 +18,7 @@ export function ProfilePicture({
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(data?.color || "gray", isDark);
-  const hexColors = colors[data?.color + "Dark"];
+  const hexColors = colors[(data?.color || "gray") + "Dark"];
 
   return (
     <Box
