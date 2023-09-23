@@ -237,7 +237,17 @@ function Insights({ profile, tasks, defaultPalette }) {
   );
   const InsightsContainer: any = profile ? React.Fragment : Box;
 
-  return (
+  return tasks.length === 0 ? (
+    <Box
+      sx={{
+        background: palette[2],
+        p: 2,
+        borderRadius: 5,
+      }}
+    >
+      Not enough task data to provide insights - check back later!
+    </Box>
+  ) : (
     <InsightsContainer
       sx={{
         p: profile ? 0 : { xs: 1, sm: 4 },
