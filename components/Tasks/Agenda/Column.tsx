@@ -287,7 +287,7 @@ const Column = React.memo(function Column({
         height: "auto",
         flex: { xs: "0 0 100%", sm: "0 0 300px" },
         width: { xs: "100%", sm: "300px" },
-        borderRight: "1.5px solid",
+        borderRight: { sm: "1.5px solid" },
         ...(!isMobile && {
           overflowY: "scroll",
         }),
