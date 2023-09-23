@@ -128,7 +128,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
             }}
           >
             {(!isExpired && friend?.Status?.status) ||
-              (isWithinWorkingHours ? "" : "Away")}
+              (isWithinWorkingHours ? "" : workingHours ? "Away" : "")}
           </Box>
         </Box>
         <ListItemText
