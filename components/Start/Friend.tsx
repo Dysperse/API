@@ -270,6 +270,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   <Chip
                     sx={{
                       display: "inline-flex",
+                      background: `${palette[3]}!important`,
+                      color: `${palette[12]}!important`,
                     }}
                     label={
                       isWithinWorkingHours
@@ -358,7 +360,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               mt: 2,
               "&, &:hover": {
                 background: palette[2] + "!important",
-                color: palette[11],
+                color: `${palette[11]}!important`,
               },
             }}
           >
