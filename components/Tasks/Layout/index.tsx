@@ -316,24 +316,34 @@ export function TasksLayout({
 
   const perspectives = [
     {
+      href: "/tasks/stream",
+      icon: "view_column_2",
+      label: "Stream",
+    },
+    {
       hash: "agenda/days",
-      icon: "calendar_view_day",
-      label: "Days",
+      icon: isMobile ? "calendar_view_day" : "view_week",
+      label: isMobile ? "Days" : "Weeks",
     },
     {
       hash: "agenda/weeks",
-      icon: "view_week",
-      label: "Weeks",
+      icon: isMobile ? "view_week" : "calendar_view_month",
+      label: isMobile ? "Weeks" : "Months",
     },
     {
       hash: "agenda/months",
-      icon: "calendar_view_month",
-      label: "Months",
+      icon: isMobile ? "calendar_view_month" : "view_compact",
+      label: isMobile ? "Months" : "Years",
     },
     {
       hash: "insights",
       icon: "insights",
       label: "Insights",
+    },
+    {
+      href: "/tasks/color-coded",
+      icon: "palette",
+      label: "Color coded",
     },
   ];
 
@@ -386,35 +396,6 @@ export function TasksLayout({
                   </Button>
                 </Link>
               ))}
-
-            <Divider sx={taskStyles(palette).divider} />
-
-            {[
-              {
-                href: "/tasks/color-coded",
-                icon: "palette",
-                label: "Color coded",
-              },
-              {
-                href: "/tasks/stream",
-                icon: "pending",
-                label: "Stream",
-              },
-            ].map((link, index) => (
-              <Link key={index} href={link.href} style={{ cursor: "default" }}>
-                <Button
-                  size="large"
-                  sx={buttonStyles(palette, router.asPath === link.href)}
-                >
-                  <Icon
-                    className={router.asPath === link.href ? "" : "outlined"}
-                  >
-                    {link.icon}
-                  </Icon>
-                  {link.label}
-                </Button>
-              </Link>
-            ))}
           </Box>
           <Box
             sx={{
