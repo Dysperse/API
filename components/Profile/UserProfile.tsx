@@ -21,10 +21,11 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
+import { amberDark } from "@radix-ui/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import { Followers } from "./Followers";
 import { Following } from "./Following";
@@ -304,8 +305,6 @@ export function UserProfile({
   profileCardStyles,
 }) {
   const { session } = useSession();
-  const birthdayRef: any = useRef();
-
   const profile = data.Profile;
 
   const [hobbies, setHobbies] = useState(data.Profile.hobbies);
@@ -318,24 +317,9 @@ export function UserProfile({
     await mutate();
   };
 
-  const handleDelete = async () => {
-    await fetchRawApi(session, "user/profile/delete", {
-      email: session.user.email,
-    });
-    await mutate();
-  };
-
-  const today = dayjs();
-  const nextBirthday = dayjs(profile.birthday).year(today.year());
   const isDark = useDarkMode(session.darkMode);
 
   const palette = useColor(data?.color || "gray", isDark);
-
-  const daysUntilNextBirthday =
-    nextBirthday.diff(today, "day") >= 0
-      ? nextBirthday.diff(today, "day")
-      : nextBirthday.add(1, "year").diff(today, "day");
-
   useStatusBar(palette[1]);
 
   const styles = {
@@ -378,6 +362,21 @@ export function UserProfile({
           flexWrap: "wrap",
         }}
       >
+        {profile &&
+          profile.badges.map((badge) => (
+            <Chip
+              sx={{
+                ...chipStyles,
+                background: `linear-gradient(${amberDark.amber9}, ${amberDark.amber11})!important`,
+                color: `${amberDark.amber2}!important`,
+              }}
+              label={badge}
+              key={badge}
+              {...(badge === "Early supporter" && {
+                icon: <Icon sx={{ color: "inherit!important" }}>favorite</Icon>,
+              })}
+            />
+          ))}
         <Tooltip title="Local time">
           <Chip
             sx={chipStyles}
@@ -385,17 +384,13 @@ export function UserProfile({
             icon={<Icon sx={{ color: "inherit!important" }}>access_time</Icon>}
           />
         </Tooltip>
-        {profile &&
-          profile.badges.map((badge) => (
-            <Chip
-              sx={chipStyles}
-              label={badge}
-              key={badge}
-              {...(badge === "Early supporter" && {
-                icon: <Icon>favorite</Icon>,
-              })}
-            />
-          ))}
+        <Tooltip title="Birthday">
+          <Chip
+            sx={chipStyles}
+            label={`${dayjs(data?.Profile?.birthday).format("MMMM D")}`}
+            icon={<Icon sx={{ color: "inherit!important" }}>cake</Icon>}
+          />
+        </Tooltip>
       </Box>
       <Typography
         variant="body2"
@@ -440,24 +435,6 @@ export function UserProfile({
               profileCardStyles={profileCardStyles}
             />
           )}
-          <Box sx={profileCardStyles}>
-            <Typography sx={profileCardStyles.heading}>Birthday</Typography>
-            <>
-              <Typography
-                variant="h5"
-                sx={{
-                  mt: 0.5,
-                  color: palette[12],
-                }}
-              >
-                {dayjs(profile.birthday).format("MMMM D")}
-              </Typography>
-              <Typography sx={{ color: palette[11] }}>
-                In {daysUntilNextBirthday} days
-              </Typography>
-            </>
-          </Box>
-
           {profile.bio && (
             <Box sx={profileCardStyles}>
               <Typography sx={profileCardStyles.heading}>About</Typography>

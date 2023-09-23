@@ -282,7 +282,8 @@ function Page() {
           loading={loading}
           variant="contained"
           sx={{
-            px: 2,
+            px: 4,
+            py: 2,
             position: "fixed",
             bottom: 0,
             right: 0,
@@ -407,6 +408,7 @@ function Page() {
                           bottom: "-8px",
                           right: "-6px",
                           boxShadow: `0 0 0 3px ${palette[1]}!important`,
+                          color: chipPalette[12],
                         }}
                         icon={
                           <Icon sx={{ color: "inherit!important" }}>
@@ -469,7 +471,6 @@ function Page() {
                         <Icon
                           sx={{
                             verticalAlign: "middle",
-                            ml: 1,
                           }}
                         >
                           verified
