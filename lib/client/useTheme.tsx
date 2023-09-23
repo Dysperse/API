@@ -455,8 +455,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           },
           paper: {
             boxShadow: "none !important",
-            filter:
-              "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
             background: darkMode ? palette[1] : "#fff",
           },
         },

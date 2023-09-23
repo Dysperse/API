@@ -147,9 +147,6 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
       <AppBar
         sx={{
           border: 0,
-          background: "transparent!important",
-          backdropFilter: { xs: "none!important", sm: "blur(10px)" },
-          position: { xs: "static", sm: "sticky" },
         }}
       >
         <Toolbar>
