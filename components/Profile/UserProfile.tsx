@@ -13,7 +13,7 @@ import {
   IconButton,
   LinearProgress,
   Skeleton,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -310,7 +310,7 @@ export function UserProfile({
   return (
     <>
       <Contacts profile={profile} />
-      <Box sx={{ mr: -3 }}>
+      <Box sx={{ mr: -2 }}>
         <Masonry columns={{ xs: 1, sm: 2 }} spacing={3}>
           {profile.spotify && (
             <SpotifyCard

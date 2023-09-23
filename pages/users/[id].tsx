@@ -429,7 +429,7 @@ function Page() {
                   maxWidth: "100vw",
                   alignItems: "flex-start",
                   flexDirection: { xs: "column", sm: "row" },
-                  gap: { xs: 0, sm: 3 },
+                  gap: { xs: 0, sm: 4 },
                 }}
               >
                 <Box
@@ -438,7 +438,7 @@ function Page() {
                     flexDirection: "column",
                     flex: { xs: "0 0 100%", sm: "0 0 300px" },
                     width: { xs: "100%", sm: "300px" },
-                    gap: 3,
+                    gap: 2,
                     borderRadius: 5,
                   }}
                 >
