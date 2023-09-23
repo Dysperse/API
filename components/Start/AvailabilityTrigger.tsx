@@ -30,6 +30,7 @@ export function AvailabilityTrigger() {
         }}
       >
         <Icon className="outlined">person_check</Icon>
+        Availability
       </Button>
     </Badge>
   );

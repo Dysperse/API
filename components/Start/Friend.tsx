@@ -143,7 +143,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   gap: "5px",
                   alignItems: "center",
                   overflow: "hidden",
-                  textOverflow: "ellipsis"
+                  textOverflow: "ellipsis",
                 }}
               >
                 <img
@@ -180,7 +180,16 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
-        PaperProps={{ sx: { background: palette[1] } }}
+        PaperProps={{
+          sx: {
+            background: palette[1],
+            maxHeight: "calc(100vh - 200px)",
+            border: `2px solid ${palette[3]}`,
+            m: 2,
+            mx: { sm: "auto" },
+            borderRadius: 5,
+          },
+        }}
       >
         <Box
           sx={{
@@ -223,6 +232,20 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
           </Typography>
           <Box sx={{ mr: -2 }}>
             <Masonry spacing={2} columns={{ xs: 1, sm: 2 }}>
+              {friend?.Profile?.spotify ? (
+                <Box>
+                  <SpotifyCard
+                    open={open}
+                    email={friend.email}
+                    styles={{
+                      borderRadius: 5,
+                      p: 2,
+                    }}
+                    profile={friend?.Profile}
+                    hideIfNotPlaying
+                  />
+                </Box>
+              ) : null}
               <Box
                 sx={{
                   border: `2px solid ${palette[3]}`,
@@ -233,10 +256,10 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                 }}
               >
                 <Typography sx={{ opacity: 0.7 }}>Local time</Typography>
-                <Typography variant="h4" sx={{ mb: 0.5 }}>
+                <Typography variant="h4">
                   {dayjs().tz(friend.timeZone).format("h:mm A")}
                 </Typography>
-                <Box>
+                <Box sx={{ my: 0.5 }}>
                   <Chip
                     sx={{
                       display: "inline-flex",
@@ -296,18 +319,6 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   </Box>
                 )}
               </Box>
-              {friend?.Profile?.spotify && (
-                <SpotifyCard
-                  open={open}
-                  email={friend.email}
-                  styles={{
-                    borderRadius: 5,
-                    p: 2,
-                  }}
-                  profile={friend?.Profile}
-                  hideIfNotPlaying
-                />
-              )}
             </Masonry>
           </Box>
 
@@ -318,6 +329,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
             }
             fullWidth
             sx={{
+              mt: 2,
               "&, &:hover": {
                 background: palette[2] + "!important",
                 color: palette[11],

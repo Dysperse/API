@@ -9,10 +9,12 @@ export function Navbar({
   showLogo = false,
   right,
   showRightContent = false,
+  hideSettings = false,
 }: {
   showLogo?: boolean;
   right?: JSX.Element;
   showRightContent?: boolean;
+  hideSettings?: boolean;
 }) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -60,7 +62,7 @@ export function Navbar({
               account_circle
             </Icon>
           </IconButton>
-          {router.asPath === "/" && (
+          {router.asPath === "/" && !hideSettings && (
             <IconButton
               sx={{ color: palette[8] }}
               onClick={() => router.push("/settings")}

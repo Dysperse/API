@@ -61,7 +61,11 @@ export default function Home() {
 
   return (
     <Box sx={{ ml: { sm: -1 }, mt: "env(titlebar-area-height)" }}>
-      <Navbar showLogo={isMobile} showRightContent={true} />
+      <Navbar
+        showLogo={isMobile}
+        showRightContent={true}
+        hideSettings={!isMobile}
+      />
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
           sx={{
@@ -70,7 +74,7 @@ export default function Home() {
         >
           <Box
             sx={{
-              mb: { xs: 2, sm: 5 },
+              mb: { xs: 2, sm: 2 },
               px: { xs: 4, sm: 6 },
               textAlign: { sm: "center" },
             }}
@@ -100,8 +104,8 @@ export default function Home() {
           }}
         >
           <AvailabilityTrigger />
-          <SearchFriend mutate={mutate} />
           <StatusSelector mutate={mutate} profile={profileData} />
+          <SearchFriend mutate={mutate} />
         </Box>
         <Box
           sx={{
