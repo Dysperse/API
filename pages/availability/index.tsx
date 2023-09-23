@@ -1,6 +1,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { containerRef } from "@/components/Layout";
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -42,6 +43,10 @@ function InviteAvailability({ children, event }) {
     onClick: () => setOpen(true),
   });
 
+  const { isLoading, data, error } = useSWR(
+    open ? ["user/profile/friends", { email: session.user.email }] : null
+  );
+
   return (
     <>
       {trigger}
@@ -49,12 +54,71 @@ function InviteAvailability({ children, event }) {
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
+        PaperProps={{
+          sx: {
+            border: `2px solid ${palette[3]}`,
+            m: 3,
+            mx: { sm: "auto" },
+            borderRadius: 5,
+          },
+        }}
       >
         <Puller showOnDesktop />
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3, pt: 0 }}>
           <Typography variant="h3" className="font-heading">
             Invite
           </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              overflowX: "scroll",
+              gap: 2,
+              mx: -3,
+              mt: 2,
+              px: 3,
+              // "& *": { flexShrink: 0 },
+            }}
+          >
+            {isLoading &&
+              [...new Array(10)].map((_, i) => (
+                <Skeleton
+                  variant="rectangular"
+                  width={70}
+                  height={70}
+                  key={i}
+                />
+              ))}
+            {data &&
+              data.friends.map((friend) => (
+                <Box
+                  key={friend.id}
+                  sx={{
+                    width: "75px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ProfilePicture
+                    data={friend.following}
+                    mutate={() => {}}
+                    size={70}
+                  />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                      maxWidth: "calc(100% - 10px)",
+                    }}
+                  >
+                    {friend.following.name.split(" ")?.[0]}
+                  </Typography>
+                </Box>
+              ))}
+          </Box>
         </Box>
       </SwipeableDrawer>
     </>
