@@ -179,15 +179,15 @@ function SidebarCalendar() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        border: `2px solid ${palette[3]}`,
-        color: palette[7],
+        border: `2px solid ${palette[5]}`,
+        color: palette[8],
       }}
     >
       <Box
         sx={{
           width: 25,
           height: 2,
-          background: redPalette[5],
+          background: redPalette[8],
           borderRadius: 999,
           mt: 0.9,
           mb: -0.2,

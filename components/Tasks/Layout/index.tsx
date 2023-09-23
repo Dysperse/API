@@ -1,5 +1,4 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
-import { GroupModal } from "@/components/Group/GroupModal";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -30,7 +29,6 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
-  cloneElement,
   createContext,
   memo,
   useContext,
@@ -50,62 +48,6 @@ import { SearchTasks } from "./SearchTasks";
 import { Tab } from "./Tab";
 
 export const SelectionContext = createContext<null | any>(null);
-
-export function GroupSelector({ children }: { children?: JSX.Element }) {
-  const { session } = useSession();
-  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
-  const groupPalette = useColor(
-    session.property.profile.color,
-    useDarkMode(session.darkMode)
-  );
-
-  const content = (
-    <>
-      <Box
-        sx={{
-          width: 15,
-          borderRadius: 99,
-          height: 15,
-          flexShrink: 0,
-          background: groupPalette[9],
-        }}
-      />
-      <Typography
-        sx={{
-          fontWeight: 900,
-          minWidth: 0,
-          textOverflow: "ellipsis",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {session.property.profile.name}
-      </Typography>
-      <Icon sx={{ ml: "auto" }}>expand_more</Icon>
-    </>
-  );
-
-  const trigger = cloneElement(children || <div />, {
-    children: content,
-  });
-
-  return (
-    <GroupModal useRightClick={false}>
-      {children ? (
-        trigger
-      ) : (
-        <Button
-          variant="contained"
-          fullWidth
-          size="small"
-          sx={{ py: 1, color: palette[12] }}
-        >
-          {content}
-        </Button>
-      )}
-    </GroupModal>
-  );
-}
 
 export const taskStyles = (palette) => {
   return {
@@ -404,9 +346,6 @@ export function TasksLayout({
             error="An error occurred while loading your tasks"
           />
         )}
-        <Box sx={{ p: 2, mb: { xs: -4, sm: -3 } }}>
-          <GroupSelector />
-        </Box>
         <Box
           sx={{
             p: 3,

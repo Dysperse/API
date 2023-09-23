@@ -1,6 +1,5 @@
 import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Navbar";
-import { GroupSelector } from "@/components/Tasks/Layout";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -235,22 +234,6 @@ function Panel() {
               {buttonText.toUpperCase()}
               <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
             </Button>
-          </Box>
-          <Box sx={{ order: { sm: -1 } }}>
-            <GroupSelector>
-              <Button
-                variant="outlined"
-                sx={{
-                  color: palette[11] + "!important",
-                  borderWidth: "2px !important",
-                  px: 1,
-                  borderRadius: 3,
-                  fontWeight: 800,
-                  gap: 1,
-                  opacity: 0.7,
-                }}
-              />
-            </GroupSelector>
           </Box>
         </Box>
 
