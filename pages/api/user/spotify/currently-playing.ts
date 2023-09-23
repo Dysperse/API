@@ -51,8 +51,6 @@ export default async function handler(req, res) {
       response = await getSong(refreshResponse.access_token);
     }
 
-    console.log(response);
-
     res.json(response);
   } catch (e: any) {
     res.status(401).json({ error: e.message });
