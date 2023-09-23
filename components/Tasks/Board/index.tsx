@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -109,6 +110,22 @@ function RenderBoard({ tasks }) {
             />
           </ColumnContext.Provider>
         ))}
+      {!isMobile && board.wallpaper && (
+        <Box
+          sx={{
+            width: "340px",
+            flex: "0 0 340px",
+            height: "100dvh",
+            "& img": {
+              height: "100%",
+              width: "100%",
+              objectFit: "cover",
+            },
+          }}
+        >
+          <img src={board.wallpaper} alt="Wallpaper" />
+        </Box>
+      )}
       <Box
         sx={{
           height: { sm: "100dvh" },
@@ -116,6 +133,11 @@ function RenderBoard({ tasks }) {
           alignItems: "center",
           justifyContent: "center",
           px: 4,
+          ...(board.wallpaper && {
+            width: "340px",
+            flex: "0 0 340px",
+            ml: "-340px",
+          }),
         }}
       >
         {permissions !== "read" && (
@@ -123,12 +145,22 @@ function RenderBoard({ tasks }) {
             sx={{
               cursor: "default",
               background: palette[3],
+              ...(board.wallpaper && {
+                background: `${addHslAlpha(palette[8], 0.1)} !important`,
+                backdropFilter: "blur(3px)",
+              }),
             }}
             onClick={() => {
               router.push("/tasks/boards/edit/" + board.id + "#columns");
             }}
           >
-            <Icon>add</Icon>
+            <Icon
+              sx={{
+                fontSize: "30px",
+              }}
+            >
+              add
+            </Icon>
           </IconButton>
         )}
       </Box>

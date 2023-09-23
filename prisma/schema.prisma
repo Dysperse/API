@@ -224,6 +224,7 @@ model Board {
   public      Boolean @default(true)
   pinned      Boolean @default(false)
   archived    Boolean @default(false)
+  wallpaper   String?
 
   userId String?
   user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
