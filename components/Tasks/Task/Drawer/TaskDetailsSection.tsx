@@ -155,11 +155,16 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
         }}
       />
       <ListItem className="item">
-        <ListItemText primary="Attachments" />
+        <ListItemText
+          primary={
+            data.image
+              ? isImage && <ImageViewer size="medium" url={data.image} />
+              : "Attachments"
+          }
+        />
         <Box
           sx={{ ml: "auto", display: "flex", gap: 1.5, alignItems: "center" }}
         >
-          {isImage && <ImageViewer url={data.image} />}
           {isImage ? (
             <IconButton
               sx={{ background: palette[3] }}

@@ -142,13 +142,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         open={open}
         onClose={handleClose}
         anchor="right"
-        {...(isMobile && {
-          slotProps: {
-            backdrop: {
-              sx: { opacity: "0!important", backdropFilter: "none!important" },
-            },
-          },
-        })}
         PaperProps={{
           sx: {
             maxWidth: "500px",

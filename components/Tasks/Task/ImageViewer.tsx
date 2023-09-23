@@ -14,7 +14,13 @@ import {
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-export function ImageViewer({ url }: { url: string }) {
+export function ImageViewer({
+  size = "small",
+  url,
+}: {
+  size: "small" | "medium";
+  url: string;
+}) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [zoom, setZoom] = useState(false);
@@ -182,7 +188,7 @@ export function ImageViewer({ url }: { url: string }) {
         />
       </SwipeableDrawer>
       <Chip
-        size="small"
+        size={size}
         label={"Attachment"}
         avatar={<Avatar src={url} alt="🖼" />}
         onClick={(e) => {
