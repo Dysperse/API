@@ -2,7 +2,6 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { useCustomTheme } from "@/lib/client/useTheme";
 import { fetcher } from "@/pages/_app";
 import Insights from "@/pages/tasks/insights";
 import { Masonry } from "@mui/lab";
@@ -14,9 +13,7 @@ import {
   IconButton,
   LinearProgress,
   Skeleton,
-  ThemeProvider,
-  Typography,
-  createTheme,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -310,18 +307,11 @@ export function UserProfile({
 
   useStatusBar(palette[1]);
 
-  const userTheme = createTheme(
-    useCustomTheme({
-      darkMode: isDark,
-      themeColor: data?.color || "grey",
-    })
-  );
-
   return (
-    <ThemeProvider theme={userTheme}>
+    <>
       <Contacts profile={profile} />
-      <Box sx={{ mr: -2 }}>
-        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
+      <Box sx={{ mr: -3 }}>
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={3}>
           {profile.spotify && (
             <SpotifyCard
               open
@@ -397,6 +387,6 @@ export function UserProfile({
           <Insights email={data.email} profile palette={data.color} />
         </Masonry>
       </Box>
-    </ThemeProvider>
+    </>
   );
 }
