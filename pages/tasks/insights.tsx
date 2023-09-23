@@ -58,8 +58,7 @@ function Insights({ profile, tasks, defaultPalette }) {
 
   const cardStyles = {
     borderRadius: 5,
-    background: palette[2],
-    border: `1px solid ${palette[3]}`,
+    border: `2px solid ${palette[3]}`,
     p: 2,
   };
 

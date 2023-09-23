@@ -473,7 +473,10 @@ export function UserProfile({
             <SpotifyCard
               open
               email={data.email}
-              styles={profileCardStyles}
+              styles={{
+                ...profileCardStyles,
+                border: 0,
+              }}
               profile={profile}
             />
           )}

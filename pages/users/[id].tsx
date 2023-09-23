@@ -228,10 +228,9 @@ function Page() {
   };
 
   const profileCardStyles = {
-    border: "1px solid",
+    border: "2px solid",
     borderColor: palette[3],
     color: palette[11],
-    boxShadow: `10px 10px 20px ${palette[2]}`,
     p: 3,
     borderRadius: 5,
     heading: {
