@@ -77,13 +77,13 @@ function InviteAvailability({ children, event }) {
               mx: -3,
               mt: 2,
               px: 3,
-              // "& *": { flexShrink: 0 },
             }}
           >
             {isLoading &&
               [...new Array(10)].map((_, i) => (
                 <Skeleton
-                  variant="rectangular"
+                  variant="circular"
+                  sx={{ flexShrink: 0 }}
                   width={70}
                   height={70}
                   key={i}
