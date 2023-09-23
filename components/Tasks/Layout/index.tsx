@@ -289,9 +289,12 @@ export function TasksLayout({
     document.getElementById("createTaskTrigger")?.click();
   });
 
-  useHotkeys("d", () => router.push("/tasks/agenda/days"));
-  useHotkeys("w", () => router.push("/tasks/agenda/weeks"));
-  useHotkeys("m", () => router.push("/tasks/agenda/months"));
+  useHotkeys("s", () => router.push("/tasks/stream"));
+  useHotkeys("w", () => router.push("/tasks/agenda/days"));
+  useHotkeys("m", () => router.push("/tasks/agenda/weeks"));
+  useHotkeys("y", () => router.push("/tasks/agenda/years"));
+  useHotkeys("c", () => router.push("/tasks/color-coded"));
+  useHotkeys("i", () => router.push("/tasks/insights"));
 
   const handleClose = () => {
     setOpen(false);
@@ -319,6 +322,7 @@ export function TasksLayout({
   const perspectives = useMemo(
     () => [
       {
+        key: "s",
         hash: "stream",
         icon: "view_column_2",
         label: "Stream",
@@ -326,6 +330,7 @@ export function TasksLayout({
         description: "View your upcoming tasks - and the ones you've missed",
       },
       {
+        key: "w",
         hash: "agenda/days",
         icon: isMobile ? "calendar_view_day" : "view_week",
         label: isMobile ? "Days" : "Weeks",
@@ -333,6 +338,7 @@ export function TasksLayout({
         description: "View all your tasks by week",
       },
       {
+        key: "m",
         hash: "agenda/weeks",
         icon: isMobile ? "view_week" : "calendar_view_month",
         label: isMobile ? "Weeks" : "Months",
@@ -340,6 +346,7 @@ export function TasksLayout({
         description: "View all your tasks by month",
       },
       {
+        key: "y",
         hash: "agenda/months",
         icon: isMobile ? "calendar_view_month" : "view_compact",
         label: isMobile ? "Months" : "Years",
@@ -347,6 +354,7 @@ export function TasksLayout({
         description: "View all your tasks by year",
       },
       {
+        key: "i",
         hash: "insights",
         icon: "insights",
         label: "Insights",
@@ -355,6 +363,7 @@ export function TasksLayout({
           "Dive into your productivity and learn more about yourself",
       },
       {
+        key: "c",
         hash: "color-coded",
         icon: "palette",
         label: "Color coded",
@@ -422,13 +431,29 @@ export function TasksLayout({
                           }}
                         />
                         <Box sx={{ p: 1, pt: 0.5 }}>
-                          <Typography
-                            variant="h4"
-                            className="font-heading"
-                            sx={{ mt: 1 }}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              className: "font-heading",
+                              mt: 1,
+                              gap: 2,
+                            }}
                           >
-                            {button.label}
-                          </Typography>
+                            <Typography variant="h4">{button.label}</Typography>
+                            <IconButton
+                              sx={{
+                                width: 30,
+                                height: 30,
+                                fontSize: "15px",
+                                color: palette[11],
+                                ml: "auto",
+                                border: `2px solid ${palette[8]}`,
+                              }}
+                            >
+                              {button.key.toUpperCase()}
+                            </IconButton>
+                          </Box>
                           <Typography>{button.description}</Typography>
                         </Box>
                       </Box>
