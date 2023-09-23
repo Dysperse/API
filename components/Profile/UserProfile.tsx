@@ -10,24 +10,19 @@ import {
   Alert,
   Box,
   Button,
-  Chip,
   Icon,
   IconButton,
   LinearProgress,
   Skeleton,
   ThemeProvider,
-  Tooltip,
   Typography,
   createTheme,
 } from "@mui/material";
-import { amberDark } from "@radix-ui/colors";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";
-import { Followers } from "./Followers";
-import { Following } from "./Following";
 import { ProfilePicture } from "./ProfilePicture";
 import { WorkingHours } from "./WorkingHours";
 
@@ -47,10 +42,11 @@ function Contacts({ profile }) {
   return data && data.length > 0 && open ? (
     <Box
       sx={{
-        border: "1px solid",
+        border: "2px solid",
         borderColor: palette[3],
         mb: 2,
         pb: 2,
+        mt: { xs: 2, sm: 0 },
         borderRadius: 5,
       }}
     >
@@ -61,13 +57,16 @@ function Contacts({ profile }) {
           p: 3,
           py: 1,
           mb: 2,
-          borderBottom: `1px solid ${palette[3]}`,
+          borderBottom: `2px solid ${palette[3]}`,
         }}
       >
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Suggestions for you
         </Typography>
-        <IconButton onClick={() => setOpen(false)}>
+        <IconButton
+          onClick={() => setOpen(false)}
+          sx={{ background: palette[2], mr: -1 }}
+        >
           <Icon>close</Icon>
         </IconButton>
       </Box>
@@ -311,20 +310,6 @@ export function UserProfile({
 
   useStatusBar(palette[1]);
 
-  const styles = {
-    color: palette[11],
-    textAlign: "center",
-    width: { sm: "auto" },
-    px: 2,
-    py: 2,
-    borderRadius: "20px",
-    "& h6": {
-      mt: -1,
-      fontSize: 27,
-      fontWeight: 900,
-    },
-  };
-
   const userTheme = createTheme(
     useCustomTheme({
       darkMode: isDark,
@@ -332,109 +317,11 @@ export function UserProfile({
     })
   );
 
-  const chipStyles = () => ({
-    "& .MuiIcon-root": {
-      fontVariationSettings:
-        '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
-    },
-  });
-
   return (
     <ThemeProvider theme={userTheme}>
-      <Box
-        sx={{
-          display: "flex",
-          gap: 1,
-          mt: 2,
-          alignItems: "center",
-          justifyContent: { xs: "center", sm: "flex-start" },
-          flexWrap: "wrap",
-        }}
-      >
-        {profile &&
-          profile.badges.map((badge) => (
-            <Chip
-              sx={{
-                ...chipStyles,
-                background: `linear-gradient(${amberDark.amber9}, ${amberDark.amber11})!important`,
-                color: `${amberDark.amber2}!important`,
-              }}
-              label={badge}
-              key={badge}
-              {...(badge === "Early supporter" && {
-                icon: <Icon sx={{ color: "inherit!important" }}>favorite</Icon>,
-              })}
-            />
-          ))}
-        <Tooltip title="Local time">
-          <Chip
-            sx={chipStyles}
-            label={`${dayjs().tz(data.timeZone).format("h:mm A")}`}
-            icon={<Icon sx={{ color: "inherit!important" }}>access_time</Icon>}
-          />
-        </Tooltip>
-        <Tooltip title="Birthday">
-          <Chip
-            sx={chipStyles}
-            label={`${dayjs(data?.Profile?.birthday).format("MMMM D")}`}
-            icon={<Icon sx={{ color: "inherit!important" }}>cake</Icon>}
-          />
-        </Tooltip>
-      </Box>
-      <Typography
-        variant="body2"
-        sx={{
-          gap: 1,
-          display: "flex",
-          mb: 2,
-          mt: 1,
-          opacity: 0.7,
-          color: palette[9],
-        }}
-      >
-        <Followers styles={styles} data={data} />
-        <Following styles={styles} data={data} />
-      </Typography>
       <Contacts profile={profile} />
       <Box sx={{ mr: -2 }}>
-        <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2 }} spacing={2}>
-          {profile && profile.hobbies.length > 0 && (
-            <Box sx={profileCardStyles}>
-              <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
-              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                {profile &&
-                  profile.hobbies.map((badge) => (
-                    <Chip
-                      sx={{ ...chipStyles, textTransform: "capitalize" }}
-                      label={badge}
-                      size="small"
-                      key={badge}
-                    />
-                  ))}
-              </Box>
-            </Box>
-          )}
-          {profile && (
-            <WorkingHours
-              editMode={false}
-              color={data.color}
-              isCurrentUser={isCurrentUser}
-              mutate={mutate}
-              profile={profile}
-              profileCardStyles={profileCardStyles}
-            />
-          )}
-          {profile.bio && (
-            <Box sx={profileCardStyles}>
-              <Typography sx={profileCardStyles.heading}>About</Typography>
-              {profile && profile.bio && (
-                <Typography sx={{ fontSize: "17px" }}>
-                  {profile?.bio}
-                </Typography>
-              )}
-            </Box>
-          )}
-
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
           {profile.spotify && (
             <SpotifyCard
               open
@@ -496,6 +383,16 @@ export function UserProfile({
                 Until {dayjs(data.Status.until).format("h:mm A")}
               </Typography>
             </Box>
+          )}
+          {profile && (
+            <WorkingHours
+              editMode={false}
+              color={data.color}
+              isCurrentUser={isCurrentUser}
+              mutate={mutate}
+              profile={profile}
+              profileCardStyles={profileCardStyles}
+            />
           )}
           <Insights email={data.email} profile palette={data.color} />
         </Masonry>

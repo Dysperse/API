@@ -2,8 +2,9 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { AddPersonModal } from "@/components/Group/Members/Add";
 import { UserProfile } from "@/components/Profile//UserProfile";
+import { Followers } from "@/components/Profile/Followers";
+import { Following } from "@/components/Profile/Following";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
-import { SearchUser } from "@/components/Profile/SearchUser";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
@@ -28,7 +29,9 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { amberDark } from "@radix-ui/colors";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
@@ -37,6 +40,23 @@ import { cloneElement, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
+
+function Hobbies({ hobbies, profileCardStyles }) {
+  return (
+    <Box sx={profileCardStyles}>
+      <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
+      <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+        {hobbies.map((badge) => (
+          <Chip
+            sx={{ textTransform: "capitalize" }}
+            label={badge}
+            key={badge}
+          />
+        ))}
+      </Box>
+    </Box>
+  );
+}
 
 function ShareProfileModal({ mutate, user, children }) {
   const { session } = useSession();
@@ -260,6 +280,7 @@ function Page() {
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
   const greenPalette = useColor("green", useDarkMode(session.darkMode));
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const isExpired = data?.Status?.until && dayjs().isAfter(data?.Status?.until);
 
   const chipPalette = isExpired
@@ -271,6 +292,20 @@ function Page() {
     : data?.Status?.status === "away"
     ? orangePalette
     : grayPalette;
+
+  const styles = {
+    color: palette[11],
+    textAlign: "center",
+    width: { sm: "auto" },
+    px: 2,
+    py: 2,
+    borderRadius: "20px",
+    "& h6": {
+      mt: -1,
+      fontSize: 27,
+      fontWeight: 900,
+    },
+  };
 
   return (
     <Box
@@ -318,12 +353,18 @@ function Page() {
         }}
       >
         <Toolbar>
-          <IconButton onClick={() => handleBack(router)}>
-            <Icon>arrow_back_ios_new</Icon>
+          <IconButton
+            onClick={() => handleBack(router)}
+            sx={{
+              ...(!isMobile && {
+                background: palette[3] + "!important",
+              }),
+            }}
+          >
+            <Icon>{isMobile ? "arrow_back_ios_new" : "close"}</Icon>
           </IconButton>
-          <SearchUser />
           <ShareProfileModal user={data} mutate={mutate}>
-            <IconButton>
+            <IconButton sx={{ ml: "auto" }}>
               <Icon>ios_share</Icon>
             </IconButton>
           </ShareProfileModal>
@@ -367,7 +408,7 @@ function Page() {
           )}
         </Toolbar>
       </AppBar>
-      <Container sx={{ my: 5 }}>
+      <Container sx={{ my: 5, px: { sm: 10 } }}>
         {(error || data?.error) && (
           <ErrorHandler
             callback={() => mutate()}
@@ -380,6 +421,7 @@ function Page() {
               sx={{
                 display: "flex",
                 maxWidth: "100vw",
+                alignItems: "flex-start",
                 flexDirection: { xs: "column", sm: "row" },
                 gap: { xs: 0, sm: 5 },
               }}
@@ -387,62 +429,175 @@ function Page() {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "center",
+                  flexDirection: "column",
+                  flex: { xs: "0 0 100%", sm: "0 0 300px" },
+                  width: { xs: "100%", sm: "300px" },
+                  gap: 3,
+                  borderRadius: 5,
                 }}
               >
                 <Box
                   sx={{
-                    position: "relative",
-                    display: "inline-flex",
-                    mx: "auto",
-                    width: 150,
-                    height: 150,
+                    ...profileCardStyles,
+                    color: palette[12],
+                    textAlign: "center",
                   }}
                 >
-                  <ProfilePicture
-                    mutate={mutate}
-                    data={data}
-                    editMode={false}
-                  />
-                  {data.Status && !isExpired && (
-                    <Tooltip title="Status">
+                  <Box
+                    sx={{
+                      position: "relative",
+                      display: "inline-flex",
+                      mx: "auto",
+                      width: 250,
+                      height: 250,
+                    }}
+                  >
+                    <ProfilePicture
+                      mutate={mutate}
+                      data={data}
+                      editMode={false}
+                      size={250}
+                    />
+                    {data.Status && !isExpired && (
+                      <Tooltip title="Status">
+                        <Chip
+                          label={capitalizeFirstLetter(data.Status.status)}
+                          sx={{
+                            background: `linear-gradient( ${chipPalette[9]}, ${chipPalette[8]})!important`,
+                            position: "absolute",
+                            bottom: "0px",
+                            right: "0px",
+                            boxShadow: `0 0 0 3px ${palette[1]}!important`,
+                            color: chipPalette[12],
+                          }}
+                          icon={
+                            <Icon sx={{ color: "inherit!important" }}>
+                              {data.Status.status === "available"
+                                ? "check_circle"
+                                : data.Status.status === "busy"
+                                ? "remove_circle"
+                                : data.Status.status === "away"
+                                ? "dark_mode"
+                                : "circle"}
+                            </Icon>
+                          }
+                        />
+                      </Tooltip>
+                    )}
+                  </Box>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      mt: 2,
+                      fontWeight: 900,
+                    }}
+                  >
+                    {data.name}
+                  </Typography>
+                  <Typography
+                    onClick={handleCopyEmail}
+                    variant="h6"
+                    sx={{
+                      "&:hover": {
+                        textDecoration: "underline",
+                      },
+                      opacity: 0.6,
+                      maxWidth: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {data?.username && "@"}
+                    {data?.username || data?.email}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      gap: 1,
+                      display: "flex",
+                      mt: 1,
+                      justifyContent: "center",
+                      opacity: 0.7,
+                      color: palette[9],
+                    }}
+                  >
+                    <Followers styles={styles} data={data} />
+                    <Following styles={styles} data={data} />
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    ...profileCardStyles,
+                    textAlign: "left",
+                    display: "flex",
+                    gap: 1,
+                    flexDirection: "column",
+                  }}
+                >
+                  <Typography sx={profileCardStyles.heading}>About</Typography>
+                  <Typography sx={{ fontSize: "17px" }}>
+                    {data?.Profile?.bio}
+                  </Typography>
+                  <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                    <Tooltip title="Local time">
                       <Chip
-                        label={capitalizeFirstLetter(data.Status.status)}
-                        sx={{
-                          background: `linear-gradient( ${chipPalette[9]}, ${chipPalette[8]})!important`,
-                          position: "absolute",
-                          bottom: "-8px",
-                          right: "-6px",
-                          boxShadow: `0 0 0 3px ${palette[1]}!important`,
-                          color: chipPalette[12],
-                        }}
+                        label={`${dayjs().tz(data.timeZone).format("h:mm A")}`}
                         icon={
                           <Icon sx={{ color: "inherit!important" }}>
-                            {data.Status.status === "available"
-                              ? "check_circle"
-                              : data.Status.status === "busy"
-                              ? "remove_circle"
-                              : data.Status.status === "away"
-                              ? "dark_mode"
-                              : "circle"}
+                            access_time
                           </Icon>
                         }
                       />
                     </Tooltip>
-                  )}
+                    <Tooltip title="Birthday">
+                      <Chip
+                        label={`${dayjs(data?.Profile?.birthday).format(
+                          "MMMM D"
+                        )}`}
+                        icon={
+                          <Icon sx={{ color: "inherit!important" }}>cake</Icon>
+                        }
+                      />
+                    </Tooltip>
+                    {data &&
+                      data?.Profile?.badges?.map((badge) => (
+                        <Chip
+                          sx={{
+                            background: `linear-gradient(${amberDark.amber9}, ${amberDark.amber11})!important`,
+                            color: `${amberDark.amber2}!important`,
+                          }}
+                          label={badge}
+                          key={badge}
+                          {...(badge === "Early supporter" && {
+                            icon: (
+                              <Icon sx={{ color: "inherit!important" }}>
+                                favorite
+                              </Icon>
+                            ),
+                          })}
+                        />
+                      ))}
+                  </Box>
                 </Box>
+                {data?.Profile?.hobbies && (
+                  <Hobbies
+                    hobbies={data?.Profile?.hobbies}
+                    profileCardStyles={profileCardStyles}
+                  />
+                )}
               </Box>
               <Box
                 sx={{
                   flexGrow: 1,
-                  pt: 3,
                   maxWidth: "100vw",
+                  width: "100%",
                 }}
               >
                 <Box
                   sx={{
                     display: "flex",
-                    maxWidth: "100%",
+                    width: "100%",
                     alignItems: "center",
                     minWidth: 0,
                     overflow: "hidden",
@@ -451,59 +606,6 @@ function Page() {
                     justifyContent: { xs: "center", sm: "flex-start" },
                   }}
                 >
-                  <Box
-                    sx={{
-                      maxWidth: "100%",
-                      minWidth: 0,
-                    }}
-                  >
-                    <Typography
-                      variant="h4"
-                      sx={{
-                        textAlign: { xs: "center", sm: "left" },
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        maxWidth: "100%",
-                        minWidth: 0,
-                      }}
-                    >
-                      <span style={{ fontWeight: 900 }}>{data.name}</span>
-                      {[
-                        "manusvathgurudath@gmail.com",
-                        "aryanitinh@gmail.com",
-                        "gouravkittur@gmail.com",
-                        "achinthyakashyap@gmail.com",
-                      ].includes(data?.email) && (
-                        <Icon
-                          sx={{
-                            verticalAlign: "middle",
-                          }}
-                        >
-                          verified
-                        </Icon>
-                      )}
-                    </Typography>
-                    <Typography
-                      onClick={handleCopyEmail}
-                      sx={{
-                        "&:hover": {
-                          textDecoration: "underline",
-                        },
-                        mt: 1,
-                        opacity: 0.6,
-                        color: palette[11],
-                        maxWidth: "100%",
-                        overflow: "hidden",
-                        textAlign: { xs: "center", sm: "left" },
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        fontSize: { xs: 20, sm: 25 },
-                      }}
-                    >
-                      {data?.username && "@"}
-                      {data?.username || data?.email}
-                    </Typography>
-                  </Box>
                   {!isCurrentUser && (
                     <Box sx={{ ml: { sm: "auto" }, mb: { xs: 1, sm: 0 } }}>
                       <AddPersonModal

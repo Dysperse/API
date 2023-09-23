@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 export const shouldHideNavigation = (path) => {
   return [
     { path: "/claim-esb", desktop: true },
-    { path: "/users", desktop: true },
+    { path: "/users", desktop: false },
     { path: "/boards/edit/", desktop: false },
     { path: "/tasks/search", desktop: false },
     { path: "/integrations", desktop: false },
