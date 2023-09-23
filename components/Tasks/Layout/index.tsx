@@ -437,17 +437,19 @@ export function TasksLayout({
                               alignItems: "center",
                               className: "font-heading",
                               mt: 1,
+                              mb: 0.5,
                               gap: 2,
                             }}
                           >
                             <Typography variant="h4">{button.label}</Typography>
                             <IconButton
                               sx={{
-                                width: 30,
-                                height: 30,
-                                fontSize: "15px",
+                                width: 26,
+                                height: 26,
+                                fontSize: "12px",
                                 color: palette[11],
                                 ml: "auto",
+                                lineHeight: "26px",
                                 border: `2px solid ${palette[8]}`,
                               }}
                             >
