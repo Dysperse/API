@@ -155,6 +155,12 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             width: "100%",
             height: "100dvh",
             borderLeft: { sm: `2px solid ${addHslAlpha(palette[3], 0.7)}` },
+            filter: "none!important",
+          },
+          onScroll: () => {
+            // ref.current.style.display = "none";
+            // ref.current.offsetHeight; // no need to store this anywhere, the reference is enough
+            // ref.current.style.display = "";
           },
           ref,
         }}

@@ -148,7 +148,7 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
         sx={{
           border: 0,
           background: "transparent!important",
-          backdropFilter: { xs: "noneimportant", sm: "blur(10px)" },
+          backdropFilter: { xs: "none!important", sm: "blur(10px)" },
           position: { xs: "static", sm: "sticky" },
         }}
       >
