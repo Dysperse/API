@@ -60,7 +60,7 @@ export default function Home() {
   }, [data]);
 
   return (
-    <Box sx={{ ml: { sm: -1 }, mt: "env(titlebar-area-height)" }}>
+    <Box sx={{ mt: "env(titlebar-area-height)" }}>
       <Navbar
         showLogo={isMobile}
         showRightContent={true}
@@ -93,7 +93,7 @@ export default function Home() {
             display: "flex",
             justifyContent: { sm: "center" },
             overflowX: "scroll",
-            maxWidth: "100%",
+            maxWidth: "100dvw",
             px: 4,
             overflowY: "visible",
             mb: 2,

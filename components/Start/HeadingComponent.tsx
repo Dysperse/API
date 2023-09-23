@@ -61,7 +61,7 @@ export const HeadingComponent = ({ palette, isMobile }) => {
           xs: "15vw",
           sm: "80px",
         },
-        width: "400px",
+        width: { sm: "400px" },
         justifyContent: { sm: "center" },
         background: `linear-gradient(${palette[11]}, ${palette[5]})`,
         WebkitBackgroundClip: "text",
