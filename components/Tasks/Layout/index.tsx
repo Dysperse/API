@@ -22,6 +22,7 @@ import {
   SwipeableDrawer,
   TextField,
   Toolbar,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -314,38 +315,44 @@ export function TasksLayout({
     return { active, archived, shared };
   }, [data, session]);
 
-  const perspectives = [
-    {
-      href: "/tasks/stream",
-      icon: "view_column_2",
-      label: "Stream",
-    },
-    {
-      hash: "agenda/days",
-      icon: isMobile ? "calendar_view_day" : "view_week",
-      label: isMobile ? "Days" : "Weeks",
-    },
-    {
-      hash: "agenda/weeks",
-      icon: isMobile ? "view_week" : "calendar_view_month",
-      label: isMobile ? "Weeks" : "Months",
-    },
-    {
-      hash: "agenda/months",
-      icon: isMobile ? "calendar_view_month" : "view_compact",
-      label: isMobile ? "Months" : "Years",
-    },
-    {
-      hash: "insights",
-      icon: "insights",
-      label: "Insights",
-    },
-    {
-      href: "/tasks/color-coded",
-      icon: "palette",
-      label: "Color coded",
-    },
-  ];
+  const perspectives = useMemo(
+    () => [
+      {
+        hash: "stream",
+        icon: "view_column_2",
+        label: "Stream",
+        tooltip: (
+          <>View your upcoming tasks - and the ones you&apos;ve missed</>
+        ),
+      },
+      {
+        hash: "agenda/days",
+        icon: isMobile ? "calendar_view_day" : "view_week",
+        label: isMobile ? "Days" : "Weeks",
+      },
+      {
+        hash: "agenda/weeks",
+        icon: isMobile ? "view_week" : "calendar_view_month",
+        label: isMobile ? "Weeks" : "Months",
+      },
+      {
+        hash: "agenda/months",
+        icon: isMobile ? "calendar_view_month" : "view_compact",
+        label: isMobile ? "Months" : "Years",
+      },
+      {
+        hash: "insights",
+        icon: "insights",
+        label: "Insights",
+      },
+      {
+        hash: "color-coded",
+        icon: "palette",
+        label: "Color coded",
+      },
+    ],
+    [isMobile]
+  );
 
   const MenuChildren = memo(function MenuChildren() {
     return (
@@ -370,31 +377,38 @@ export function TasksLayout({
             {perspectives
               .filter((b) => b)
               .map((button: any) => (
-                <Link
-                  href={`/tasks/${button.hash}`}
+                <Tooltip
                   key={button.hash}
-                  style={{ cursor: "default" }}
+                  title={button.tooltip}
+                  placement="right"
+                  enterNextDelay={1000}
+                  enterDelay={1000}
                 >
-                  <Button
-                    size="large"
-                    id={`__agenda.${button.hash}`}
-                    sx={buttonStyles(
-                      palette,
-                      router.asPath === `/tasks/${button.hash}`
-                    )}
+                  <Link
+                    href={`/tasks/${button.hash}`}
+                    style={{ cursor: "default" }}
                   >
-                    <Icon
-                      className={
+                    <Button
+                      size="large"
+                      id={`__agenda.${button.hash}`}
+                      sx={buttonStyles(
+                        palette,
                         router.asPath === `/tasks/${button.hash}`
-                          ? ""
-                          : "outlined"
-                      }
+                      )}
                     >
-                      {button.icon}
-                    </Icon>
-                    {button.label}
-                  </Button>
-                </Link>
+                      <Icon
+                        className={
+                          router.asPath === `/tasks/${button.hash}`
+                            ? ""
+                            : "outlined"
+                        }
+                      >
+                        {button.icon}
+                      </Icon>
+                      {button.label}
+                    </Button>
+                  </Link>
+                </Tooltip>
               ))}
           </Box>
           <Box

@@ -465,7 +465,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiTooltip: {
         defaultProps: {
-          enterDelay: 0,
+          // enterDelay: 0,
           arrow: true,
           disableInteractive: true,
         },
