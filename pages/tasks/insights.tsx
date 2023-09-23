@@ -243,8 +243,17 @@ function Insights({ profile, tasks, defaultPalette }) {
         background: palette[2],
         p: 2,
         borderRadius: 5,
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
       }}
     >
+      <img
+        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f914.png`}
+        alt="Crying emoji"
+        width={40}
+        style={{ flexShrink: 0 }}
+      />
       Not enough task data to provide insights - check back later!
     </Box>
   ) : (
