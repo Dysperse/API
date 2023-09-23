@@ -1,6 +1,5 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { useCustomTheme } from "@/lib/client/useTheme";
@@ -307,19 +306,9 @@ export function UserProfile({
   const { session } = useSession();
   const profile = data.Profile;
 
-  const [hobbies, setHobbies] = useState(data.Profile.hobbies);
-
-  const handleChange = async (key, value) => {
-    await fetchRawApi(session, "user/profile/update", {
-      email: session.user.email,
-      [key]: value,
-    });
-    await mutate();
-  };
-
   const isDark = useDarkMode(session.darkMode);
-
   const palette = useColor(data?.color || "gray", isDark);
+
   useStatusBar(palette[1]);
 
   const styles = {
@@ -354,6 +343,7 @@ export function UserProfile({
     <ThemeProvider theme={userTheme}>
       <Box
         sx={{
+          background: userTheme[1],
           display: "flex",
           gap: 1,
           mt: 2,
