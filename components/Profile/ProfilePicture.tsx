@@ -1,6 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Avatar } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import * as colors from "@radix-ui/colors";
 
 export function ProfilePicture({
@@ -21,28 +21,38 @@ export function ProfilePicture({
   const hexColors = colors[data?.color + "Dark"];
 
   return (
-    <Avatar
-      src={
-        data?.Profile?.picture ||
-        "https://source.boringavatars.com/beam/120/" +
-          encodeURIComponent(data.email) +
-          "?colors=" +
-          [
-            hexColors[Object.keys(hexColors)[6]].replace("#", ""),
-            hexColors[Object.keys(hexColors)[7]].replace("#", ""),
-            hexColors[Object.keys(hexColors)[8]].replace("#", ""),
-            hexColors[Object.keys(hexColors)[9]].replace("#", ""),
-            hexColors[Object.keys(hexColors)[11]].replace("#", ""),
-          ].join(",")
-      }
+    <Box
       sx={{
+        position: "relative",
         height: size,
         width: size,
-        fontSize: size == 150 ? 65 : 25,
-        textTransform: "uppercase",
-        background: `linear-gradient(${palette[8]} 30%, ${palette[7]})`,
-        mb: 2,
+        borderRadius: 9999,
+        alignSelf: { xs: "center", md: "flex-start" },
       }}
-    />
+    >
+      <Avatar
+        src={
+          data?.Profile?.picture ||
+          "https://source.boringavatars.com/beam/120/" +
+            encodeURIComponent(data.email) +
+            "?colors=" +
+            [
+              hexColors[Object.keys(hexColors)[6]].replace("#", ""),
+              hexColors[Object.keys(hexColors)[7]].replace("#", ""),
+              hexColors[Object.keys(hexColors)[8]].replace("#", ""),
+              hexColors[Object.keys(hexColors)[9]].replace("#", ""),
+              hexColors[Object.keys(hexColors)[11]].replace("#", ""),
+            ].join(",")
+        }
+        sx={{
+          height: size,
+          width: size,
+          fontSize: size == 150 ? 65 : 25,
+          textTransform: "uppercase",
+          background: `linear-gradient(${palette[8]} 30%, ${palette[7]})`,
+          mb: 2,
+        }}
+      />
+    </Box>
   );
 }
