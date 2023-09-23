@@ -304,7 +304,7 @@ const Column = React.memo(function Column({
         ...(view === "priority" && {
           borderLeft: "1.5px solid",
         }),
-        borderColor: addHslAlpha(palette[4], 0.5),
+        borderColor: { sm: addHslAlpha(palette[4], 0.5) },
       }}
     >
       <Header

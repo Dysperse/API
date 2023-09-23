@@ -58,8 +58,6 @@ export default function AppLayout({
   useStatusBar(palette[1]);
 
   useEffect(() => {
-    console.log(palette[1]);
-    console.log(addHslAlpha(palette[1], 0.5));
     const variables = {
       "--overlay-dark": addHslAlpha(palette[1], 0.5),
       "--toast-bg": addHslAlpha(palette[3], 0.8),
@@ -86,6 +84,12 @@ export default function AppLayout({
       </Box>
     );
   }
+
+  useEffect(() => {
+    if (containerRef && router.asPath) {
+      containerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [router.asPath]);
   return (
     <Box
       onContextMenu={(e) => !isMobile && e.preventDefault()}
