@@ -36,6 +36,7 @@ const handler = async (req, res) => {
     );
 
     const parsed = ical.parseICS(calendar);
+    console.log(parsed);
 
     // Let's create some columns!
     let columns: string[] = [];
@@ -62,8 +63,8 @@ const handler = async (req, res) => {
 
         let due = new Date();
 
-        if (item.start || item.end || item.dtstamp)
-          due = (item.start || item.end || item.dtstamp).toISOString();
+        if (item.start || item.dtstamp || item.end)
+          due = (item.start || item.dtstamp || item.end).toISOString();
 
         if (req.query.vanishingTasks === "true") {
           try {
