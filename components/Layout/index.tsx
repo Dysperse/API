@@ -75,6 +75,12 @@ export default function AppLayout({
   const shouldHide = shouldHideNavigation(router.asPath);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  useEffect(() => {
+    if (containerRef && router.asPath) {
+      containerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [router.asPath]);
+  
   if (session.properties.length === 0) {
     return (
       <Box>
@@ -85,11 +91,6 @@ export default function AppLayout({
     );
   }
 
-  useEffect(() => {
-    if (containerRef && router.asPath) {
-      containerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [router.asPath]);
   return (
     <Box
       onContextMenu={(e) => !isMobile && e.preventDefault()}
