@@ -113,6 +113,9 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
       overflow: "hidden",
       mb: 3,
       "& .item": {
+        "&:active": {
+          background: palette[3],
+        },
         color: palette[12],
         borderRadius: 0,
         "&.MuiListItem-root, &.MuiListItemButton-root": {
