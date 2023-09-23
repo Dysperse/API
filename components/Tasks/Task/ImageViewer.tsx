@@ -18,7 +18,7 @@ export function ImageViewer({
   size = "small",
   url,
 }: {
-  size: "small" | "medium";
+  size?: "small" | "medium";
   url: string;
 }) {
   const { session } = useSession();
