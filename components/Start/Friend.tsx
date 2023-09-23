@@ -298,6 +298,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                             opacity: 0.7,
                             display: "flex",
                             gap: 2,
+                            mb: 1,
+                            mt: 0.5,
                           }}
                         >
                           <img
