@@ -292,6 +292,23 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                         {(!isExpired && friend?.Status?.status) ||
                           (isWithinWorkingHours ? "" : "Away")}
                       </Typography>
+                      {friend.Status.text && (
+                        <Typography
+                          sx={{
+                            opacity: 0.7,
+                            display: "flex",
+                            gap: 2,
+                          }}
+                        >
+                          <img
+                            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${friend?.Status.emoji}.png`}
+                            width={20}
+                            height={20}
+                            style={{ flexShrink: 0, marginTop: "5px" }}
+                          />
+                          {friend?.Status?.text}
+                        </Typography>
+                      )}
                     </Box>
                     <LinearProgress
                       variant="determinate"
