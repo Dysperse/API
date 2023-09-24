@@ -468,7 +468,28 @@ function Page() {
                         size={250}
                       />
                       {data.Status && !isExpired && (
-                        <Tooltip title="Status">
+                        <Tooltip
+                          title={
+                            data.Status.text ? (
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 2,
+                                }}
+                              >
+                                <img
+                                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${data.Status.emoji}.png`}
+                                  alt="emoji"
+                                  width={24}
+                                />
+                                {data.Status.text}
+                              </Box>
+                            ) : (
+                              "Status"
+                            )
+                          }
+                        >
                           <Chip
                             label={capitalizeFirstLetter(data.Status.status)}
                             sx={{
@@ -476,7 +497,7 @@ function Page() {
                               position: "absolute",
                               bottom: "0px",
                               right: "0px",
-                              boxShadow: `0 0 0 3px ${palette[1]}!important`,
+                              boxShadow: `0 0 0 3px ${palette[2]}!important`,
                               color: chipPalette[12],
                             }}
                             icon={
