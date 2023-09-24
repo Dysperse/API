@@ -308,6 +308,9 @@ export function Sidebar() {
   return (
     <Box
       sx={{
+        ".priorityMode &": {
+          opacity: "0!important",
+        },
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",

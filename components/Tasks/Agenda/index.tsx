@@ -240,63 +240,43 @@ export function Agenda({ type, date }) {
                 </AnimatePresence>
               </Button>
             </SelectDateModal>
-            <Box
+            <Button
+              variant="contained"
               sx={{
                 ml: "auto",
-                ...(view === "priority" && { visibility: "hidden" }),
-                background: `linear-gradient(45deg, ${palette[6]}, ${palette[9]})`,
+                color: "inherit!important",
+                transition: "box-shadow .3s!important",
                 "&:hover": {
-                  boxShadow: `0 0 25px 1px ${palette[8]}`,
-                  background: `linear-gradient(45deg, ${palette[11]}, ${palette[9]})`,
+                  boxShadow: `0 0 25px 1px ${palette[8]}!important`,
                 },
-                "&:active": {
-                  transform: "scale(.95)",
-                },
-                transition: "transform .2s",
-                display: "flex",
-                width: "146px",
-                height: "46px",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 999,
+                ...(view === "priority" && {
+                  opacity: "0!important",
+                  pointerEvents: "none!important",
+                }),
+              }}
+              onClick={() => {
+                setView("priority");
+                scrollIntoView();
+                toast.dismiss();
+                toast("Focus mode", {
+                  icon: <Icon>target</Icon>,
+                });
               }}
             >
-              <Box
-                sx={{
-                  "&, &:hover": {
-                    background: palette[1],
-                  },
-                  width: "140px",
-                  height: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: 999,
-                  justifyContent: "center",
-                  gap: 2,
-                }}
-                onClick={() => {
-                  setView("priority");
-                  scrollIntoView();
-                  toast.dismiss();
-                  toast("Focus mode", {
-                    icon: <Icon>target</Icon>,
-                  });
-                }}
-              >
-                <Icon className="outlined">target</Icon>Focus
-              </Box>
-            </Box>
-            <Box sx={{ ml: "auto", background: palette[3], borderRadius: 3 }}>
+              <Icon className="outlined">target</Icon>Focus
+            </Button>
+            <Box
+              sx={{ ml: "auto", background: palette[3], borderRadius: 3 }}
+              className="priority-hidden"
+            >
               <IconButton
                 onClick={handlePrev}
                 id="agendaPrev"
-                className="priority-hidden"
                 sx={{ color: "inherit!important" }}
               >
                 <Icon className="outlined">arrow_back_ios_new</Icon>
               </IconButton>
               <Button
-                className="priority-hidden"
                 id="agendaToday"
                 onClick={() => {
                   router.push(
@@ -315,7 +295,6 @@ export function Agenda({ type, date }) {
               <IconButton
                 onClick={handleNext}
                 id="agendaNext"
-                className="priority-hidden"
                 sx={{ color: "inherit!important" }}
               >
                 <Icon className="outlined">arrow_forward_ios</Icon>

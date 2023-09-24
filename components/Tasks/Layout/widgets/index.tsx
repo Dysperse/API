@@ -29,7 +29,6 @@ export function WidgetBar({ view, setView }) {
         width: "80px",
         py: 2,
         borderRadius: 0,
-        background: palette[2],
         "&:hover": {
           background: palette[3],
         },
@@ -121,8 +120,6 @@ export function WidgetBar({ view, setView }) {
           left: 0,
           WebkitAppRegion: "no-drag",
           height: "100dvh",
-          background: palette[2],
-          backdropFilter: "blur(10px)",
           width: "80px",
           display: "flex",
           alignItems: "center",
@@ -146,7 +143,7 @@ export function WidgetBar({ view, setView }) {
         >
           <IconButton
             id="exitFocus"
-            sx={{ background: palette[3], mb: "auto" }}
+            sx={{ background: palette[4], mb: "auto" }}
             size="large"
           >
             <Icon className="outlined">close</Icon>
@@ -180,7 +177,7 @@ export function WidgetBar({ view, setView }) {
         </WeatherWidget>
 
         <CreateTask>
-          <IconButton sx={{ mt: "auto", background: palette[3] }} size="large">
+          <IconButton sx={{ mt: "auto", background: palette[4] }} size="large">
             <Icon className="outlined">add</Icon>
           </IconButton>
         </CreateTask>
