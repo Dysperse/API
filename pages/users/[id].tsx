@@ -315,6 +315,8 @@ function Page() {
         sx={{
           background: palette[1],
           pb: 5,
+          maxWidth: "100dvw",
+          overflowX: "hidden",
           mb: -3,
         }}
       >

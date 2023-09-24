@@ -311,7 +311,7 @@ export function UserProfile({
     <>
       <Contacts profile={profile} />
       <Box sx={{ mr: -2 }}>
-        <Masonry columns={{ xs: 1, sm: 2 }} spacing={3}>
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
           {profile.spotify && (
             <SpotifyCard
               open
