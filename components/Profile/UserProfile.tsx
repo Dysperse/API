@@ -201,7 +201,7 @@ export function SpotifyCard({
             <Icon className="outlined" sx={{ fontSize: "40px!important" }}>
               {data.is_playing ? "pause_circle_filled" : "play_circle"}
             </Icon>
-            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 1 }}>
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 2 }}>
               <Typography
                 variant="h5"
                 sx={{
@@ -238,7 +238,6 @@ export function SpotifyCard({
             <Box sx={{ width: "100%" }}>
               <Box
                 sx={{
-                  borderRadius: 5,
                   aspectRatio: "1 / 1",
                   width: "100%",
                   background: "rgba(255,255,255,.2)",
@@ -257,7 +256,8 @@ export function SpotifyCard({
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 2,
+              gap: 3,
+              mt: 1,
               overflow: "hidden",
             }}
           >
@@ -267,8 +267,8 @@ export function SpotifyCard({
               width={35}
               height={35}
             />
-            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 1 }}>
-              <Skeleton animation={false} width="50%" height={70} />
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
+              <Skeleton animation={false} width="50%" height={50} />
               <Skeleton animation={false} width="80%" />
               <Skeleton animation={false} width="100%" />
             </Box>
