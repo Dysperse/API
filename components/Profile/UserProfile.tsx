@@ -255,8 +255,8 @@ export function SpotifyCard({
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",
               gap: 3,
+              pl: 0.5,
               mt: 1,
               mb: -1,
               overflow: "hidden",
@@ -265,10 +265,11 @@ export function SpotifyCard({
             <Skeleton
               animation={false}
               variant="circular"
-              width={35}
-              height={35}
+              width={32}
+              height={32}
+              sx={{ mt: 2.5 }}
             />
-            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, ml: -0.5 }}>
               <Skeleton animation={false} width="50%" height={50} />
               <Skeleton animation={false} width="80%" sx={{ mt: -0.5 }} />
               <Skeleton animation={false} width="100%" sx={{ mt: -0.5 }} />
