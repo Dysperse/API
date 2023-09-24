@@ -864,6 +864,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
                   label={key}
                   // if selected
                   {...(startDate.isSame(value.startDate) &&
+                       excludingDates === value.excludingDates &&
                     endDate.isSame(value.endDate) && {
                       icon: (
                         <Icon sx={{ color: palette[1] + "!important" }}>
