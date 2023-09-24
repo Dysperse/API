@@ -231,7 +231,7 @@ export function SpotifyCard({
             </Box>
           </Box>
         </>
-      ) : isLoading ||
+      ) : !data ||
         (data && (isLoading || data?.currently_playing_type === "ad")) ? (
         <>
           <Box sx={{ display: "flex", gap: 3 }}>
@@ -258,6 +258,7 @@ export function SpotifyCard({
               alignItems: "center",
               gap: 3,
               mt: 1,
+              mb: -1,
               overflow: "hidden",
             }}
           >
@@ -269,8 +270,8 @@ export function SpotifyCard({
             />
             <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0 }}>
               <Skeleton animation={false} width="50%" height={50} />
-              <Skeleton animation={false} width="80%" />
-              <Skeleton animation={false} width="100%" />
+              <Skeleton animation={false} width="80%" sx={{ mt: -0.5 }} />
+              <Skeleton animation={false} width="100%" sx={{ mt: -0.5 }} />
             </Box>
           </Box>
         </>
