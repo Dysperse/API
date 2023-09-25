@@ -7,6 +7,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Avatar,
+  Badge,
   Box,
   Button,
   Icon,
@@ -140,6 +141,19 @@ export function CreateTask({
       setTimeout(() => titleRef?.current?.focus(), 50);
     },
   });
+
+  const triggerBadge = useMemo(
+    () => (
+      <Badge
+        badgeContent={!open && formData.title !== "" ? 1 : 0}
+        color="primary"
+        variant="dot"
+      >
+        {trigger}
+      </Badge>
+    ),
+    [open, formData.title]
+  );
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
@@ -462,7 +476,7 @@ export function CreateTask({
 
   return (
     <>
-      {trigger}
+      {triggerBadge}
       <SwipeableDrawer
         anchor="bottom"
         onClose={() => setOpen(false)}

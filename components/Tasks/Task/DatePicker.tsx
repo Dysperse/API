@@ -132,6 +132,8 @@ const SelectDateModal = React.memo(function SelectDateModal({
   const palette = useColor(session.themeColor, isDark);
   const today = new Date(dayjs().startOf("day").toISOString());
 
+  const [_date, _setDate] = useState(date);
+
   const handleClick = () => setTimeOpen((s) => !s);
 
   const trigger = cloneElement(children, {
@@ -237,6 +239,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
                   },
                 },
               }}
+              onChange={(newValue) => _setDate(newValue)}
               slotProps={{
                 actionBar: {
                   actions: ["clear", "cancel", "accept"],
@@ -259,13 +262,13 @@ const SelectDateModal = React.memo(function SelectDateModal({
                     setTimeOpen(false);
                   },
                   onAccept: () => {
-                    // bro...
                     setDate(
                       dayjs(date)
-                        .set("hour", dayjs(date).hour())
-                        .set("minute", dayjs(date).minute())
+                        .set("hour", dayjs(_date).hour())
+                        .set("minute", dayjs(_date).minute())
                     );
                     setTimeOpen(false);
+                    setOpen(false);
                   },
                 },
               }}
