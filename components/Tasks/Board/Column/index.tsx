@@ -286,9 +286,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   sx={{ p: 3, color: palette[8] + "!important" }}
                 >
                   <Icon className="outlined">
-                    {navigation.current == 0
-                      ? "view_column_2"
-                      : "arrow_back_ios_new"}
+                    {navigation.current == 0 ? "view_column_2" : "west"}
                   </Icon>
                 </IconButton>
               </Box>
@@ -392,7 +390,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   <Icon className="outlined">
                     {navigation.current === columnLength - 1
                       ? "new_window"
-                      : "arrow_forward_ios"}
+                      : "east"}
                   </Icon>
                 </IconButton>
               ) : (
