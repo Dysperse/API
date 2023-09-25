@@ -121,7 +121,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
         height: { xs: "100%", md: "calc(100dvh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },
         background: {
-          xs: `transparent`,
+          xs: `transparredent`,
           md: addHslAlpha(palette[2], 0.8),
         },
         m: { md: "10px" },
@@ -140,7 +140,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
         flexDirection: "column",
         justifyContent: "center",
         minWidth: { md: !showInfo ? "auto" : "320px" },
-        maxWidth: { md: "300px" },
+        maxWidth: { xs: "100dvw", md: "300px" },
         width: { xs: "100%", sm: "20px" },
         backdropFilter: { md: "blur(20px)!important" },
       }}

@@ -115,7 +115,7 @@ export function BottomNav() {
       }}
     >
       <Box
-        onClick={() => router.push("/tasks/agenda/days")}
+        onClick={() => router.push("/tasks/home")}
         sx={styles(router.asPath.includes("/tasks"))}
       >
         <span

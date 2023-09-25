@@ -17,11 +17,11 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { cloneElement, useEffect, useRef, useState } from "react";
 import { Puller } from "../../Puller";
 import { CreateTask } from "../Task/Create";
 
-export function SearchTasks() {
+export function SearchTasks({ children }: { children?: JSX.Element }) {
   const ref: any = useRef();
   const router = useRouter();
   const { session } = useSession();
@@ -39,6 +39,21 @@ export function SearchTasks() {
       setQuery(decodeURIComponent(router.asPath.split("/search/")[1]));
     }
   }, [router.asPath]);
+
+  const trigger = cloneElement(
+    children || (
+      <IconButton sx={{ ml: "auto", color: addHslAlpha(palette[9], 0.7) }}>
+        <Icon>search</Icon>
+      </IconButton>
+    ),
+    {
+      onClick: (e) => {
+        e.stopPropagation();
+        setMobileOpen(true);
+        setTimeout(() => ref?.current?.focus(), 100);
+      },
+    }
+  );
 
   const input = (
     <TextField
@@ -93,11 +108,13 @@ export function SearchTasks() {
       {children}
     </CreateTask>
   );
+
   return isMobile ? (
     <>
       <SwipeableDrawer
         anchor="top"
         open={mobileOpen}
+        onClick={(e) => e.stopPropagation()}
         onClose={() => setMobileOpen(false)}
         PaperProps={{ sx: { borderRadius: "0 0 20px 20px" } }}
       >
@@ -132,15 +149,7 @@ export function SearchTasks() {
         </Box>
         <Puller sx={{ mb: 0 }} />
       </SwipeableDrawer>
-      <IconButton
-        sx={{ ml: "auto", color: addHslAlpha(palette[9], 0.7) }}
-        onClick={() => {
-          setMobileOpen(true);
-          setTimeout(() => ref?.current?.focus(), 100);
-        }}
-      >
-        <Icon>search</Icon>
-      </IconButton>
+      {trigger}
     </>
   ) : (
     <Box
@@ -174,6 +183,7 @@ export function SearchTasks() {
           <CreateTaskWrapper>
             <IconButton
               id="createTaskTrigger"
+              onClick={(e) => e.stopPropagation()}
               sx={{
                 ...(Boolean(query.trim()) && {
                   transform: "scale(0)",

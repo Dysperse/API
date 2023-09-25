@@ -89,6 +89,8 @@ model NotificationSettings {
   followerUpdates Boolean @default(true)
   statusUpdates   Boolean @default(true)
 
+  notifyFriendsForStatusUpdates Boolean @default(true)
+
   boards Boolean @default(true)
 
   userId String @unique
