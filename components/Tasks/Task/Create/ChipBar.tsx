@@ -364,7 +364,8 @@ const ChipBar = React.memo(function ChipBar({
               </motion.div>
             )}
           {taskColorPicker}
-          {dayjs(data.date).isValid() &&
+          {!isSubTask &&
+          dayjs(data.date).isValid() &&
           dayjs(data.date).format("HHmm") == "0000" ? (
             <Chip
               onClick={() => {
@@ -389,12 +390,14 @@ const ChipBar = React.memo(function ChipBar({
               }
             />
           ) : (
-            <NotificationChip
-              titleRef={titleRef}
-              data={data}
-              setData={setData}
-              chipStyles={chipStyles}
-            />
+            !isSubTask && (
+              <NotificationChip
+                titleRef={titleRef}
+                data={data}
+                setData={setData}
+                chipStyles={chipStyles}
+              />
+            )
           )}
           {!isSubTask &&
             [

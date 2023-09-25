@@ -235,6 +235,7 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
                 ...styles.button,
                 ...(task.pinned && {
                   background: orangePalette[3],
+                  color: orangePalette[11],
                   "&:hover": {
                     background: orangePalette[4],
                   },
