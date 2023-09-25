@@ -29,7 +29,6 @@ import React, {
   useState,
 } from "react";
 import toast from "react-hot-toast";
-import { ConfirmationModal } from "../../ConfirmationModal";
 import { SelectionContext } from "../Layout";
 import { TaskDrawer } from "./Drawer";
 import {
@@ -55,52 +54,41 @@ const TaskChips = React.memo(function TaskChips({
     taskData.due &&
     (dayjs(taskData.due).hour() !== 0 || dayjs(taskData.due).minute() !== 0) &&
     !isSubTask;
+
   const isWhereValid =
     taskData.where &&
     (isValidHttpUrl(taskData.where) || isAddress(taskData.where));
+
   const isVideoChatPlatform = videoChatPlatforms.some((platform) =>
     taskData?.where?.includes(platform)
   );
 
-  const urgentChip = (
-    <ConfirmationModal
-      title="Change priority?"
-      question="Unpin this task?"
-      callback={handlePriorityChange}
-    >
-      <Tooltip
-        placement="top"
-        title={
-          <Box>
-            <Typography variant="body2">
-              <b>Task marked as important</b>
-            </Typography>
-            <Typography variant="body2">Tap to change</Typography>
-          </Box>
+  const orangePalette = useColor("orange", isDark);
+
+  const urgentChip = useMemo(
+    () => (
+      <Chip
+        size="small"
+        sx={{
+          color: `${orangePalette[11]}!important`,
+          background: `${orangePalette[5]}!important`,
+        }}
+        label="Urgent"
+        icon={
+          <Icon
+            className="outlined"
+            sx={{
+              fontSize: "20px!important",
+              color: "inherit!important",
+              ml: 1,
+            }}
+          >
+            priority_high
+          </Icon>
         }
-      >
-        <Chip
-          size="small"
-          sx={{
-            background: isDark ? "#642302" : colors.orange[100],
-            color: colors.orange[isDark ? "50" : "900"],
-          }}
-          label="Urgent"
-          icon={
-            <Icon
-              className="outlined"
-              sx={{
-                fontSize: "20px!important",
-                color: "inherit!important",
-                ml: 1,
-              }}
-            >
-              priority_high
-            </Icon>
-          }
-        />
-      </Tooltip>
-    </ConfirmationModal>
+      />
+    ),
+    []
   );
 
   return (

@@ -679,7 +679,7 @@ export function TasksLayout({
             pointerEvents: "none",
           }),
           zIndex: 99999999,
-          background: palette[3],
+          background: palette[2],
           maxWidth: { md: "400px" },
         }}
       >
