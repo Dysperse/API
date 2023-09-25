@@ -38,6 +38,15 @@ import {
 } from "./Drawer/locationHelpers";
 import { ImageViewer } from "./ImageViewer";
 
+const taskAlgorithm = (e, d) =>
+  e.completed && !d.completed
+    ? 1
+    : (!e.completed && d.completed) || (e.pinned && !d.pinned)
+    ? -1
+    : !e.pinned && d.pinned
+    ? 1
+    : 0;
+
 const TaskChips = React.memo(function TaskChips({
   taskData,
   isDark,
@@ -366,18 +375,20 @@ export const Task: any = React.memo(function Task({
   const subTasks = useMemo(
     () =>
       taskData && taskData.subTasks
-        ? taskData.subTasks.map((subtask) => (
-            <Task
-              key={subtask.id}
-              isSubTask
-              board={board}
-              isAgenda={isAgenda}
-              columnId={columnId}
-              mutateList={mutateList}
-              task={subtask}
-              checkList={checkList}
-            />
-          ))
+        ? taskData.subTasks
+            .sort(taskAlgorithm)
+            .map((subtask) => (
+              <Task
+                key={subtask.id}
+                isSubTask
+                board={board}
+                isAgenda={isAgenda}
+                columnId={columnId}
+                mutateList={mutateList}
+                task={subtask}
+                checkList={checkList}
+              />
+            ))
         : [],
     [board, columnId, isAgenda, mutateList, checkList, taskData]
   );
