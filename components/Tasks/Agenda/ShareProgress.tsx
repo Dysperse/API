@@ -6,6 +6,15 @@ import { Box, Button, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { cloneElement, useRef, useState } from "react";
 
+function flattenChildren(arr) {
+  return arr.reduce((acc, current) => {
+    if (current.subTasks) {
+      return [...acc, current, ...flattenChildren(current.subTasks)];
+    }
+    return [...acc, current];
+  }, []);
+}
+
 export function ShareProgress({ day, children, data, tasksLeft }) {
   const ref = useRef();
   const { session } = useSession();
@@ -28,6 +37,9 @@ export function ShareProgress({ day, children, data, tasksLeft }) {
     }, 50);
     setExporting(false);
   };
+
+  const length = flattenChildren(data).length;
+  const finishedTasks = flattenChildren(data).filter((e) => e.completed).length;
 
   return (
     <>
@@ -70,13 +82,13 @@ export function ShareProgress({ day, children, data, tasksLeft }) {
             {dayjs(day.unchanged).format("MMMM D, YYYY")}
           </Typography>
           <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
-            I finished {data.length - tasksLeft} task
-            {data.length - tasksLeft !== 1 && "s"} today!
+            I finished {finishedTasks} task
+            {finishedTasks !== 1 && "s"} today!
           </Typography>
           <Typography variant="h6" gutterBottom sx={{ opacity: 0.8 }}>
-            {tasksLeft === 0
+            {finishedTasks === length
               ? "Conquered my entire to-do list like a boss."
-              : `Only ${tasksLeft} more to conquer.`}
+              : `Only ${length - finishedTasks} more to conquer.`}
           </Typography>
         </Box>
         <Box sx={{ p: 2 }}>
