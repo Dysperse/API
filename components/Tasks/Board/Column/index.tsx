@@ -292,82 +292,81 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
               </Box>
             )}
             {column.name == "" ? (
-              isMobile && <ColumnSettings setColumnTasks={setColumnTasks} />
+              isMobile && (
+                <ColumnSettings
+                  columnTasks={columnTasks}
+                  setColumnTasks={setColumnTasks}
+                />
+              )
             ) : (
-              <ColumnSettings setColumnTasks={setColumnTasks}>
-                <Box
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  maxWidth: "100%",
+                  minWidth: 0,
+                  borderRadius: 5,
+                  transition: "transform .4s",
+                  py: { xs: 1, sm: 0 },
+                }}
+                onContextMenu={expandTitle}
+              >
+                <Typography
+                  variant="h6"
                   sx={{
-                    flexGrow: 1,
-                    maxWidth: "100%",
                     minWidth: 0,
-                    borderRadius: 5,
-                    transition: "transform .4s",
-                    "&:active": {
-                      opacity: 0.8,
-                      background: { xs: palette[2], sm: "transparent" },
+                    borderRadius: 4,
+                    width: "auto",
+                    mb: { xs: -0.5, sm: 0.7 },
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: { xs: "center", sm: "flex-start" },
+                    gap: 2,
+                    ...(column.name === "" && { display: "none" }),
+                    "& img": {
+                      width: "30px",
+                      height: "30px",
+                      mb: -0.2,
                     },
-                    py: { xs: 1, sm: 0 },
                   }}
-                  onContextMenu={expandTitle}
                 >
-                  <Typography
-                    variant="h6"
+                  <img
+                    alt="Emoji"
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                    width={20}
+                    height={20}
+                  />
+
+                  <Box
                     sx={{
-                      minWidth: 0,
-                      borderRadius: 4,
-                      width: "auto",
-                      mb: { xs: -0.5, sm: 0.7 },
                       display: "flex",
-                      alignItems: "center",
-                      justifyContent: { xs: "center", sm: "flex-start" },
-                      gap: 2,
-                      ...(column.name === "" && { display: "none" }),
-                      "& img": {
-                        width: "30px",
-                        height: "30px",
-                        mb: -0.2,
-                      },
+                      gap: 1,
+                      minWidth: 0,
+                      maxWidth: "100%",
                     }}
                   >
-                    <img
-                      alt="Emoji"
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                      width={20}
-                      height={20}
-                    />
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: 1,
+                    <span
+                      style={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
                         minWidth: 0,
                         maxWidth: "100%",
                       }}
                     >
-                      <span
-                        style={{
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                          minWidth: 0,
-                          maxWidth: "100%",
-                        }}
-                      >
-                        {column.name}
-                      </span>
-                    </Box>
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: { xs: "none", sm: "flex" },
-                      alignItems: "center",
-                      fontSize: { xs: "15px", sm: "18px" },
-                    }}
-                  >
-                    {incompleteLength} item{incompleteLength !== 1 && "s"}
-                  </Typography>
-                </Box>
-              </ColumnSettings>
+                      {column.name}
+                    </span>
+                  </Box>
+                </Typography>
+                <Typography
+                  sx={{
+                    display: { xs: "none", sm: "flex" },
+                    alignItems: "center",
+                    fontSize: { xs: "15px", sm: "18px" },
+                  }}
+                >
+                  {incompleteLength} item{incompleteLength !== 1 && "s"}
+                </Typography>
+              </Box>
             )}
 
             <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
@@ -400,27 +399,39 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
           </Box>
         </Box>
         <Box sx={{ p: { xs: 0, sm: 2 }, mb: { xs: 15, sm: 0 } }}>
-          <CreateTask
-            onSuccess={mutateData}
-            defaultDate={null}
-            boardData={{
-              boardId: board.id,
-              columnId: column.id,
-              columnName: column.name,
-              columnEmoji: column.emoji,
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              px: 3,
+              pb: 2,
+              justifyContent: "center",
             }}
           >
-            <Box sx={{ px: { xs: 2, sm: 0 } }}>
-              <Button
-                variant="contained"
-                fullWidth
-                sx={{ mb: 1 }}
-                disabled={permissions === "read"}
-              >
+            <CreateTask
+              onSuccess={mutateData}
+              defaultDate={null}
+              boardData={{
+                boardId: board.id,
+                columnId: column.id,
+                columnName: column.name,
+                columnEmoji: column.emoji,
+              }}
+              sx={{ flexGrow: 1, mb: 0 }}
+            >
+              <Button variant="contained" fullWidth sx={{ width: "100%" }}>
                 <Icon>add_circle</Icon>List item
               </Button>
-            </Box>
-          </CreateTask>
+            </CreateTask>
+            <ColumnSettings
+              columnTasks={columnTasks}
+              setColumnTasks={setColumnTasks}
+            >
+              <Button variant="outlined" size="small">
+                <Icon>more_horiz</Icon>
+              </Button>
+            </ColumnSettings>
+          </Box>
           {columnTasks.filter((task) => !task.completed).length === 0 && (
             <Box sx={{ py: 1, px: { xs: 2, sm: 0 } }}>
               <Box

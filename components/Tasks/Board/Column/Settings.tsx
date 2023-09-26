@@ -33,7 +33,7 @@ import EmojiPicker from "../../../EmojiPicker";
 import { SelectionContext } from "../../Layout";
 import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({ children, setColumnTasks }: any) {
+export function ColumnSettings({ children, columnTasks, setColumnTasks }: any) {
   const storage = useAccountStorage();
   const ref: any = useRef();
   const buttonRef: any = useRef();
@@ -104,6 +104,14 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         }}
       >
         <Icon className="outlined">select</Icon>Select
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          selection.set(columnTasks.map((t) => t.id));
+          handleClose();
+        }}
+      >
+        <Icon className="outlined">select_all</Icon>Select all
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -210,7 +218,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         }}
       >
         <Puller showOnDesktop />
-        <EmojiPicker  setEmoji={setEmoji}>
+        <EmojiPicker setEmoji={setEmoji}>
           <IconButton
             size="large"
             sx={{
