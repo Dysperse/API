@@ -89,7 +89,7 @@ function SidebarMenu({ styles }) {
             );
           }}
         >
-          <ProfilePicture data={session.user} mutate={() => {}} size={35} />
+          <ProfilePicture data={session.user} size={35} />
           {session.user.name}
         </MenuItem>
         <MenuItem
@@ -153,11 +153,6 @@ function SidebarMenu({ styles }) {
           Settings
         </MenuItem>
       </Menu>
-      {/* <StatusSelector mutate={() => {}} profile={session.user}>
-        <Box sx={{ my: 1 }}>
-          <ProfilePicture data={session.user} mutate={() => {}} size={40} />
-        </Box>
-      </StatusSelector> */}
     </>
   );
 }

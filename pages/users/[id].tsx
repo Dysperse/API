@@ -121,7 +121,6 @@ function ShareProfileModal({ mutate, user, children }) {
                       picture: `https://${window.location.hostname}/api/proxy?url=${user.Profile?.picture}`,
                     },
                   }}
-                  mutate={mutate}
                   size={100}
                 />
               )}
@@ -461,12 +460,7 @@ function Page() {
                         height: 250,
                       }}
                     >
-                      <ProfilePicture
-                        mutate={mutate}
-                        data={data}
-                        editMode={false}
-                        size={250}
-                      />
+                      <ProfilePicture data={data}  size={250} />
                       {data.Status && !isExpired && (
                         <Tooltip
                           title={

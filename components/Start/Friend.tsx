@@ -111,11 +111,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
     >
       <ListItemButton onClick={() => setOpen(true)}>
         <Box sx={{ position: "relative" }}>
-          <ProfilePicture
-            data={friend}
-            mutate={mutate}
-            size={isMobile ? 50 : 60}
-          />
+          <ProfilePicture data={friend} size={isMobile ? 50 : 60} />
           <Box
             sx={{
               position: "absolute",
@@ -206,7 +202,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
           }}
         >
           <Box sx={{ mt: 5, ml: 3 }}>
-            <ProfilePicture data={friend} mutate={mutate} size={100} />
+            <ProfilePicture data={friend} size={100} />
           </Box>
         </Box>
         <Box sx={{ p: 4, mt: 2 }}>

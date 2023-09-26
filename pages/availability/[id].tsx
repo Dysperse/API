@@ -919,11 +919,7 @@ export default function Page({ data: eventData }) {
           {session &&
             (profileData ? (
               <Box>
-                <ProfilePicture
-                  size={30}
-                  data={profileData}
-                  mutate={() => {}}
-                />
+                <ProfilePicture size={30} data={profileData} />
               </Box>
             ) : (
               <Skeleton variant="circular" width={30} height={30} />

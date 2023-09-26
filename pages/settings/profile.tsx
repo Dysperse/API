@@ -79,7 +79,7 @@ export default function AppearanceSettings() {
           gap: 3,
         }}
       >
-        {data && <ProfilePicture data={data} mutate={mutate} editMode />}
+        {data && <ProfilePicture data={data} />}
         <Box sx={{ flexGrow: 1 }}>
           <TextField
             onKeyDown={(e) => e.stopPropagation()}

@@ -90,7 +90,7 @@ function Page() {
           ...styles,
         }}
       >
-        {data && <ProfilePicture data={data} mutate={mutate} size={40} />}
+        {data && <ProfilePicture data={data} size={40} />}
         <ListItemText
           primary={<b>{session.user.name}</b>}
           secondary="Account settings"

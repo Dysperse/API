@@ -336,11 +336,7 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
               />
               <Box>
                 {item.createdBy && (
-                  <ProfilePicture
-                    mutate={mutate}
-                    data={item.createdBy}
-                    size={30}
-                  />
+                  <ProfilePicture data={item.createdBy} size={30} />
                 )}
               </Box>
             </ListItem>

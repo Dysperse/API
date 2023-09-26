@@ -4,15 +4,13 @@ import { Avatar, Box } from "@mui/material";
 import * as colors from "@radix-ui/colors";
 
 export function ProfilePicture({
-  mutate,
   data,
-  editMode,
   size = 150,
+  sx = {},
 }: {
-  mutate: any;
   data: any;
-  editMode?: boolean;
   size?: number;
+  sx?: any;
 }) {
   const { session } = useSession();
 
@@ -51,6 +49,7 @@ export function ProfilePicture({
           textTransform: "uppercase",
           background: `linear-gradient(${palette[8]} 30%, ${palette[7]})`,
           mb: 2,
+          ...sx,
         }}
       />
     </Box>

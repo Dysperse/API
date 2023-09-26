@@ -63,15 +63,6 @@ export function ProfileStep({ styles, navigation }) {
             <Typography variant="h1" sx={styles.subheading}>
               Profile picture
             </Typography>
-            <ProfilePicture
-              size={100}
-              data={{
-                ...session.user,
-                ...data,
-              }}
-              editMode
-              mutate={mutate}
-            />
             <Typography variant="h1" sx={styles.subheading}>
               Birthday
             </Typography>
@@ -130,8 +121,6 @@ export function ProfileStep({ styles, navigation }) {
                     ...data,
                   }}
                   size={70}
-                  editMode={false}
-                  mutate={mutate}
                 />
                 <Chip
                   label={"Busy"}

@@ -103,7 +103,6 @@ function InviteAvailability({ children, event }) {
                 >
                   <ProfilePicture
                     data={friend.following}
-                    mutate={() => {}}
                     size={70}
                   />
                   <Typography

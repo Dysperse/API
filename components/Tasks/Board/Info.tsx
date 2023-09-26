@@ -1,3 +1,4 @@
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -151,19 +152,21 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
             {collaborators.length > 1 && (
               <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
                 {collaborators.slice(0, 5).map((member) => (
-                  <Tooltip key={member.id} title={member.user.name}>
-                    <Avatar
-                      src={member?.user?.Profile?.picture}
+                  <Tooltip
+                    key={member.id}
+                    title={member.user.name}
+                    onClick={() => router.push(`/users/${member.user.email}`)}
+                  >
+                    <ProfilePicture
                       sx={{
-                        width: "30px",
-                        height: "30px",
+                        width: { xs: "40px", sm: "30px" },
+                        height: { xs: "40px", sm: "30px" },
                         fontSize: "15px",
                         borderColor: { xs: palette[1] + "!important" },
                       }}
-                      onClick={() => router.push(`/users/${member.user.email}`)}
-                    >
-                      {member?.user?.name?.substring(0, 2)?.toUpperCase()}
-                    </Avatar>
+                      size={40}
+                      data={member?.user}
+                    />
                   </Tooltip>
                 ))}
                 {collaborators.length > 5 && (
@@ -198,8 +201,8 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                   borderRadius: 2,
                   p: 1,
                   ml: -1,
-                  fontSize: { xs: "50px", sm: "60px" },
-                  lineHeight: { xs: "55px", sm: "65px" },
+                  fontSize: "60px",
+                  lineHeight: "65px",
                   py: 0.5,
                   "&:focus-within": {
                     background: addHslAlpha(palette[4], 0.8),

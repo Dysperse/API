@@ -90,7 +90,7 @@ function Contacts({ profile }) {
             }}
           >
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <ProfilePicture data={contact} mutate={mutate} size={70} />
+              <ProfilePicture data={contact} size={70} />
             </Box>
             <Typography
               variant="h6"
