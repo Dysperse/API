@@ -5,7 +5,6 @@ import { ShareProgress } from "./ShareProgress";
 
 export const ColumnMenu = React.memo(function ColumnMenu({
   day,
-  tasksLeft,
   data,
   children,
 }: any) {
@@ -57,8 +56,8 @@ export const ColumnMenu = React.memo(function ColumnMenu({
           Select all
         </MenuItem>
 
-        <ShareProgress data={data} tasksLeft={tasksLeft} day={day}>
-          <MenuItem disabled={data.length == 0 || data.length === tasksLeft}>
+        <ShareProgress data={data} day={day}>
+          <MenuItem>
             <Icon>ios_share</Icon>
             Share progress
           </MenuItem>

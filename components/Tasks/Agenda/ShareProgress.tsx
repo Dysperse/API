@@ -5,6 +5,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { cloneElement, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 function flattenChildren(arr) {
   return arr.reduce((acc, current) => {
@@ -15,7 +16,7 @@ function flattenChildren(arr) {
   }, []);
 }
 
-export function ShareProgress({ day, children, data, tasksLeft }) {
+export function ShareProgress({ day, children, data }) {
   const ref = useRef();
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -23,9 +24,16 @@ export function ShareProgress({ day, children, data, tasksLeft }) {
   const [open, setOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
 
+  const length = flattenChildren(data).length;
+  const finishedTasks = flattenChildren(data).filter((e) => e.completed).length;
+
   const trigger = cloneElement(children, {
     onClick: (e) => {
       e.stopPropagation();
+      if (finishedTasks === 0) {
+        toast.error("Finish some tasks first!");
+        return;
+      }
       setOpen(true);
     },
   });
@@ -37,9 +45,6 @@ export function ShareProgress({ day, children, data, tasksLeft }) {
     }, 50);
     setExporting(false);
   };
-
-  const length = flattenChildren(data).length;
-  const finishedTasks = flattenChildren(data).filter((e) => e.completed).length;
 
   return (
     <>
