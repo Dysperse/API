@@ -277,8 +277,6 @@ const Column = React.memo(function Column({
     [sortedTasks]
   );
 
-  const tasksLeft = sortedTasks.length - completedTasks.length;
-
   return (
     <Box
       ref={scrollParentRef}
@@ -311,7 +309,6 @@ const Column = React.memo(function Column({
         subheading={subheading}
         column={column}
         isToday={isToday}
-        tasksLeft={tasksLeft}
         columnMap={columnMap}
         sortedTasks={sortedTasks}
         heading={heading}

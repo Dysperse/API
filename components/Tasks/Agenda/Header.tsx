@@ -24,7 +24,6 @@ export const Header = memo(function Header({
   subheading,
   column,
   isToday,
-  tasksLeft,
   sortedTasks,
   heading,
   columnEnd,
@@ -220,7 +219,7 @@ export const Header = memo(function Header({
               </Button>
             </CreateTask>
           )}
-          <ColumnMenu tasksLeft={tasksLeft} data={sortedTasks} day={column}>
+          <ColumnMenu data={sortedTasks} day={column}>
             <Button variant="outlined" size="small">
               <Icon>more_horiz</Icon>
             </Button>

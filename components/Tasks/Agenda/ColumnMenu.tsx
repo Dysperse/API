@@ -1,13 +1,20 @@
 import { Icon, Menu, MenuItem } from "@mui/material";
+import { Dayjs } from "dayjs";
 import React, { cloneElement, useContext, useState } from "react";
 import { SelectionContext } from "../Layout";
 import { ShareProgress } from "./ShareProgress";
+
+interface ColumnMenuProps {
+  day: Date | Dayjs;
+  data: any;
+  children: JSX.Element;
+}
 
 export const ColumnMenu = React.memo(function ColumnMenu({
   day,
   data,
   children,
-}: any) {
+}: ColumnMenuProps) {
   const selection = useContext(SelectionContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
