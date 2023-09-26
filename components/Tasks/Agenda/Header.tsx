@@ -44,7 +44,7 @@ export const Header = memo(function Header({
     <Box
       sx={{
         pt: isMobile ? "65px" : 0,
-        backdropFilter: { sm: "blur(5px)" },
+        backdropFilter: { sm: "blur(4px)" },
         position: { sm: "sticky" },
         top: 0,
         left: 0,
