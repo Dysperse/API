@@ -4,21 +4,14 @@ import { Box, Button, Icon } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
 
-export const Tab = React.memo(function Tab({
-  styles,
-  setDrawerOpen,
-  board,
-}: any) {
+export const Tab = React.memo(function Tab({ styles, board }: any) {
   const router = useRouter();
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isActive = router.asPath.includes(board.id);
 
   const handleClick = () => {
-    setDrawerOpen(false);
-    setTimeout(() => {
-      router.push(`/tasks/boards/${board.id}`);
-    }, 1000);
+    router.push(`/tasks/boards/${board.id}`);
   };
 
   return (

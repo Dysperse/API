@@ -248,9 +248,8 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
           }}
           sx={{
             color: isDark ? "#fff" : "#000",
-            p: { xs: 2, sm: column.name === "" ? 1 : 3 },
-            px: { xs: 0, sm: 4 },
-            background: { sm: addHslAlpha(palette[2], 0.7) },
+            p: 2,
+            background: { sm: addHslAlpha(palette[1], 0.7) },
             borderBottom: { sm: "1px solid" },
             borderColor: { sm: addHslAlpha(palette[4], 0.7) },
             userSelect: "none",
@@ -319,7 +318,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                     mb: { xs: -0.5, sm: 0.7 },
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: { xs: "center", sm: "flex-start" },
+                    justifyContent: "center",
                     gap: 2,
                     ...(column.name === "" && { display: "none" }),
                     "& img": {
@@ -361,41 +360,13 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   sx={{
                     display: { xs: "none", sm: "flex" },
                     alignItems: "center",
-                    fontSize: { xs: "15px", sm: "18px" },
+                    justifyContent: "center",
                   }}
                 >
                   {incompleteLength} item{incompleteLength !== 1 && "s"}
                 </Typography>
               </Box>
             )}
-
-            <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
-              {isMobile ? (
-                <IconButton
-                  onClick={() => {
-                    if (navigation.current === columnLength - 1) {
-                      router.push(
-                        router.asPath.replace("/boards/", "/boards/edit/") +
-                          "#columns"
-                      );
-                      return;
-                    }
-                    setUseReverseAnimation(false);
-                    navigation.setCurrent((i) => i + 1);
-                  }}
-                  sx={{ p: 3, color: palette[8] }}
-                  size="large"
-                >
-                  <Icon className="outlined">
-                    {navigation.current === columnLength - 1
-                      ? "new_window"
-                      : "east"}
-                  </Icon>
-                </IconButton>
-              ) : (
-                <ColumnSettings setColumnTasks={setColumnTasks} />
-              )}
-            </Box>
           </Box>
         </Box>
         <Box sx={{ p: { xs: 0, sm: 2 }, mb: { xs: 15, sm: 0 } }}>

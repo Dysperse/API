@@ -426,18 +426,12 @@ export const MenuChildren = memo(function MenuChildren() {
             <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
           )}
           {boards.shared.map((board) => (
-            <Tab
-              setDrawerOpen={() => router.push("/tasks/home")}
-              key={board.id}
-              styles={buttonStyles}
-              board={board}
-            />
+            <Tab key={board.id} styles={buttonStyles} board={board} />
           ))}
           <Divider sx={taskStyles(palette).divider} />
           <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
           {boards.active.map((board) => (
             <Tab
-              setDrawerOpen={() => router.push("/tasks/home")}
               key={board.id}
               styles={buttonStyles}
               board={board}
@@ -494,7 +488,6 @@ export const MenuChildren = memo(function MenuChildren() {
             )}
             {boards.archived.map((board) => (
               <Tab
-                setDrawerOpen={() => router.push("/tasks/home")}
                 key={board.id}
                 styles={buttonStyles}
                 board={board}
