@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Icon,
   IconButton,
   InputAdornment,
@@ -27,6 +28,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
   const { session } = useSession();
   const [query, setQuery] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
@@ -64,10 +66,12 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
       placeholder="Search tasks..."
       {...(query.trim() && { label: "Search tasks..." })}
       onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-      onBlur={() =>
-        query.trim() !== "" &&
-        router.push(`/tasks/search/${encodeURIComponent(query)}`)
-      }
+      onBlur={() => {
+        if (query.trim() !== "") {
+          router.push(`/tasks/search/${encodeURIComponent(query)}`);
+          setLoading(true);
+        }
+      }}
       value={query}
       sx={{
         transition: "all .2s",
@@ -88,7 +92,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
           <InputAdornment position="end">
             {query.trim() && (
               <IconButton size="small">
-                <Icon>east</Icon>
+                {loading ? <CircularProgress /> : <Icon>east</Icon>}
               </IconButton>
             )}
           </InputAdornment>
