@@ -79,8 +79,8 @@ function RenderBoard({ tasks }) {
       {currentColumn === -1 && isMobile && (
         <BoardInfo
           setCurrentColumn={setCurrentColumn}
-          setShowInfo={setShowInfo}
-          showInfo={showInfo}
+          setShowInfo={() => {}}
+          showInfo={true}
         />
       )}
       <div
