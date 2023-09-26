@@ -2,7 +2,7 @@ import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useDarkMode } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
@@ -39,6 +39,7 @@ export function ColumnSettings({ children, columnTasks, setColumnTasks }: any) {
   const buttonRef: any = useRef();
   const router = useRouter();
   const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const { board, mutateData } = useContext(BoardContext);
   const { column, length } = useContext(ColumnContext);
@@ -212,8 +213,10 @@ export function ColumnSettings({ children, columnTasks, setColumnTasks }: any) {
             maxHeight: "400px",
             width: "auto",
             p: 2,
-            borderRadius: { xs: "20px 20px 0 0", md: 5 },
-            mb: { md: 5 },
+            border: `2px solid ${palette[3]}`,
+            borderRadius: 5,
+            m: { xs: 2, md: 5 },
+            mx: { md: "auto" },
           },
         }}
       >

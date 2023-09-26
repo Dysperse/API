@@ -37,6 +37,8 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const ref: any = useRef();
   const buttonRef: any = useRef();
   const columnRef: any = useRef();
+
+  const router = useRouter();
   const { column, navigation, columnLength } = useContext(ColumnContext);
   const { board, permissions, mutateData } = useContext(BoardContext);
 
@@ -91,7 +93,6 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
     setLoading(false);
   };
 
-  const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -367,6 +368,30 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 </Typography>
               </Box>
             )}
+
+            <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
+              <IconButton
+                onClick={() => {
+                  if (navigation.current === columnLength - 1) {
+                    router.push(
+                      router.asPath.replace("/boards/", "/boards/edit/") +
+                        "#columns"
+                    );
+                    return;
+                  }
+                  setUseReverseAnimation(false);
+                  navigation.setCurrent((i) => i + 1);
+                }}
+                sx={{ p: 3, color: palette[8] }}
+                size="large"
+              >
+                <Icon className="outlined">
+                  {navigation.current === columnLength - 1
+                    ? "new_window"
+                    : "east"}
+                </Icon>
+              </IconButton>
+            </Box>
           </Box>
         </Box>
         <Box sx={{ p: { xs: 0, sm: 2 }, mb: { xs: 15, sm: 0 } }}>
