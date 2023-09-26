@@ -215,7 +215,28 @@ const ChipBar = React.memo(function ChipBar({
 
       if (match) {
         const time = match[1];
-        const amPm = inputString.toLowerCase().includes("am") ? "am" : "pm";
+        let amPm = inputString.toLowerCase().includes("p") ? "pm" : "am";
+
+        if (
+          !inputString.toLowerCase().includes("am") &&
+          !inputString.toLowerCase().includes("pm")
+        ) {
+          // make it more sensible
+          amPm = {
+            "1": "pm",
+            "2": "pm",
+            "3": "pm",
+            "4": "pm",
+            "5": "pm",
+            "6": "pm",
+            "7": "pm",
+            "8": "pm",
+            "9": "pm",
+            "10": "pm",
+            "11": "am",
+            "12": "pm",
+          }[time];
+        }
 
         if (Number(time) > 12) return null;
 

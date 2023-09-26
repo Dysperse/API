@@ -47,8 +47,9 @@ export const Tab = React.memo(function Tab({
             sx={{
               opacity: router.asPath ? 1 : 0.8,
             }}
+            className="outlined"
           >
-            tag
+            view_kanban
           </Icon>
           <span
             style={{
