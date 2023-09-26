@@ -20,6 +20,16 @@ import { CreateTask } from "../Task/Create";
 import SelectDateModal from "../Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
 
+interface ColumnHeaderProps {
+  subheading: any;
+  column: any;
+  isToday: any;
+  sortedTasks: any;
+  heading: any;
+  columnEnd: any;
+  columnMap: any;
+}
+
 export const Header = memo(function Header({
   subheading,
   column,
@@ -28,7 +38,7 @@ export const Header = memo(function Header({
   heading,
   columnEnd,
   columnMap,
-}: any) {
+}: ColumnHeaderProps) {
   const { session } = useSession();
   const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
