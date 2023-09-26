@@ -67,7 +67,7 @@ export default function Home() {
                       background: palette[3],
                     },
                     "& *::placeholder": {
-                      color: palette[10],
+                      color: palette[10] + "!important",
                     },
                     transition: "all .2s",
                     px: 2,
