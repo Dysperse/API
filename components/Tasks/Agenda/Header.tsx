@@ -210,8 +210,11 @@ export const Header = memo(function Header({
             <CreateTask
               onSuccess={mutateList}
               defaultDate={dayjs(column).startOf(type).toDate()}
+              sx={{
+                flexGrow: 1,
+              }}
             >
-              <Button variant="contained" fullWidth>
+              <Button variant="contained" fullWidth sx={{ width: "100%" }}>
                 <Icon>add_circle</Icon>
                 New task
               </Button>

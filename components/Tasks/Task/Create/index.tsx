@@ -16,6 +16,7 @@ import {
   ListItem,
   ListItemText,
   SwipeableDrawer,
+  SxProps,
   TextField,
   Tooltip,
   Typography,
@@ -52,10 +53,10 @@ interface TaskCreationProps {
     columnName: string;
     columnEmoji: string;
   };
-
   defaultFields?: {
     [key: string]: string | Date | null;
   };
+  sx?: SxProps;
 }
 
 const ColumnData = memo(function ColumnData({ boardData }: any) {
@@ -96,6 +97,7 @@ export function CreateTask({
   parentId,
   defaultDate = dayjs().startOf("day").toDate(),
   defaultFields = {},
+  sx = {},
 }: TaskCreationProps) {
   const { session } = useSession();
   const titleRef: any = useRef();
@@ -148,7 +150,7 @@ export function CreateTask({
         badgeContent={!open && formData.title !== "" ? 1 : 0}
         color="primary"
         variant="dot"
-        sx={{ flexGrow: 1 }}
+        sx={{ ...sx }}
       >
         {trigger}
       </Badge>

@@ -111,9 +111,9 @@ export const taskStyles = (palette) => {
 const buttonStyles = (palette, condition: boolean) => ({
   cursor: { sm: "unset!important" },
   transition: "transform .1s !important",
-  px: 1.5,
   gap: 1.5,
-  py: 0.8,
+  py: { xs: 1, sm: 0.8 },
+  px: { xs: 2, sm: 1.5 },
   mr: 1,
   mb: 0.3,
   width: "100%",
@@ -466,7 +466,6 @@ export const MenuChildren = memo(function MenuChildren() {
                   palette,
                   router.asPath == "/tasks/boards/create"
                 ),
-                px: 2,
                 cursor: "default",
                 ...((storage?.isReached === true ||
                   (data &&
@@ -478,7 +477,6 @@ export const MenuChildren = memo(function MenuChildren() {
             >
               <Icon
                 className={router.asPath == "/tasks/create" ? "" : "outlined"}
-                sx={{ ml: -0.5 }}
               >
                 add_circle
               </Icon>
@@ -561,16 +559,12 @@ export function TasksLayout({
   setOpen: any;
   children: any;
 }) {
-  const storage = useAccountStorage();
   const router = useRouter();
   const { session } = useSession();
-  const ref: any = useRef();
   const title = useDocumentTitle();
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
-
-  const { data, mutate, error } = useSWR(["property/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const [taskSelection, setTaskSelection] = useState([]);
@@ -587,14 +581,9 @@ export function TasksLayout({
   useHotkeys("c", () => router.push("/tasks/color-coded"));
   useHotkeys("i", () => router.push("/tasks/insights"));
 
-  const handleClose = () => {
-    setOpen(false);
-    vibrate(50);
-  };
-
   const isBoard =
     router.asPath.includes("/tasks/boards/") &&
-    !router.asPath.includes("creategi");
+    !router.asPath.includes("create");
   const isSearch = router.asPath.includes("/tasks/search");
   const isAgenda = router.asPath.includes("/tasks/agenda/");
 
@@ -884,6 +873,8 @@ export function TasksLayout({
                     "&:active": {
                       transform: "scale(0.9)",
                     },
+                    color: palette[9],
+                    background: palette[3],
                     transition: "transform .1s",
                   }}
                 >
