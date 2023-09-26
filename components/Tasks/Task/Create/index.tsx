@@ -150,7 +150,7 @@ export function CreateTask({
         badgeContent={!open && formData.title !== "" ? 1 : 0}
         color="primary"
         variant="dot"
-        sx={{ ...sx }}
+        sx={sx}
       >
         {trigger}
       </Badge>
