@@ -477,10 +477,16 @@ export function CreateTask({
     [formData]
   );
 
+  // const ref = useRef();
+
   return (
     <>
       {triggerBadge}
       <SwipeableDrawer
+        onTouchMove={(e) => {
+          e.preventDefault();
+          // ref.current.scrollTo({ bottom: 0});
+        }}
         anchor="bottom"
         onClose={() => setOpen(false)}
         open={open}
