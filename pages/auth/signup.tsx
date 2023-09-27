@@ -446,8 +446,17 @@ function StepFive({ styles, formData, setFormData, setStep }) {
             email: formData.username,
             username: formData.username,
           })
-      ).then((res) => res.json());
-      setLoadingAvailability(false);
+      )
+        .then((res) => {
+          setLoadingAvailability(false);
+          return res.json();
+        })
+        .catch((err) => {
+          toast.error(
+            "Couldn't check if this username is available. Please try again later..."
+          );
+          setLoadingAvailability(true);
+        });
       if (user?.name) {
         setExists(true);
       } else {
@@ -503,6 +512,17 @@ function StepFive({ styles, formData, setFormData, setStep }) {
         </Button>
       </Box>
       <Divider sx={{ my: 2 }} />
+      <Typography
+        sx={{
+          textAlign: "center",
+          opacity: 0.5,
+          fontWeight: 900,
+          fontSize: "14px",
+          mb: 2,
+        }}
+      >
+        OPTIONAL
+      </Typography>
       <Box sx={{ display: "flex", gap: 2 }}>
         <Box
           sx={{
