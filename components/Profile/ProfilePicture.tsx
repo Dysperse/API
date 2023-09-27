@@ -7,14 +7,16 @@ export function ProfilePicture({
   data,
   size = 150,
   sx = {},
+  darkMode,
 }: {
   data: any;
   size?: number;
   sx?: any;
+  darkMode?: "dark" | "light" | "system";
 }) {
   const { session } = useSession();
 
-  const isDark = useDarkMode(session.darkMode);
+  const isDark = useDarkMode(session?.darkMode || darkMode);
   const palette = useColor(data?.color || "gray", isDark);
   const hexColors = colors[(data?.color || "gray") + "Dark"];
 

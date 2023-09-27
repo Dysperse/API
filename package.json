@@ -42,6 +42,7 @@
     "dayjs": "^1.11.10",
     "embla-carousel-wheel-gestures": "^8.0.0-rc04",
     "emoji-mart": "^5.5.2",
+    "formidable": "^3.5.1",
     "framer-motion": "^10.16.4",
     "googleapis": "^126.0.1",
     "gpt-free": "^1.7.1",

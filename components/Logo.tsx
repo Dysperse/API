@@ -5,17 +5,19 @@ interface LogoProps {
   intensity?: number | string;
   size?: number | string;
   onClick?: () => void;
+  color?: string;
 }
 
 export function Logo({
   intensity = 4,
   size = 45,
   onClick = () => {},
+  color = "violet",
 }: LogoProps) {
   const { session } = useSession();
 
   const palette = useColor(
-    session?.themeColor || "violet",
+    session?.themeColor || color,
     useDarkMode(session?.darkMode || "system")
   );
 
