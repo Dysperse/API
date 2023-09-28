@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 function RecentlyAccessed() {
   const router = useRouter();
@@ -87,9 +88,29 @@ export default function Home() {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
 
+  const [showSync, setShowSync] = useState(true);
+
   return (
     <>
-      <Navbar showLogo />
+      <Navbar
+        showLogo
+        right={
+          <IconButton
+            sx={{ ml: "auto", visibility: showSync ? "" : "hidden" }}
+            onClick={() => {
+              fetch("/api/property/integrations/resync").then(() => {
+                toast.success("Up to date!");
+                setShowSync(false);
+              });
+            }}
+          >
+            <Icon sx={{ color: palette[9], fontSize: "30px!important" }}>
+              sync
+            </Icon>
+          </IconButton>
+        }
+        showRightContent
+      />
       <motion.div
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
