@@ -1058,6 +1058,9 @@ function StepSeven({ styles, formData, setFormData, setStep }) {
           }),
         }).then((res) => res.json());
         router.push("/");
+        setTimeout(() => {
+          router.push("/");
+        }, 500);
       } catch (e) {
         toast.dismiss();
         toast.error(
