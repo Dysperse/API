@@ -47,7 +47,7 @@ export function Intro({ color, darkMode }) {
             animationDelay: "3s",
           }}
         >
-          Welcome to Dysperse
+          Welcome&nbsp;to Dysperse
         </Typography>
       </Box>
       <Box
