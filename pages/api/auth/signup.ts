@@ -88,6 +88,7 @@ export default async function handler(req, res) {
       color: body.color,
       darkMode: body.darkMode,
       email: email.toLowerCase(),
+      ...(body.username && { username: body.username }),
       password: hashedPassword,
     },
   });
