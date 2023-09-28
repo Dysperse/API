@@ -1160,42 +1160,49 @@ function Signup({ formData, setFormData }) {
   const steps = useMemo(
     () => [
       <StepOne
+        key="1"
         styles={styles}
         formData={formData}
         setFormData={setFormData}
         setStep={setStep}
       />,
       <StepTwo
+        key="2"
         styles={styles}
         formData={formData}
         setFormData={setFormData}
         setStep={setStep}
       />,
       <StepThree
+        key="3"
         styles={styles}
         formData={formData}
         setFormData={setFormData}
         setStep={setStep}
       />,
       <StepFive
+        key="4"
         styles={styles}
         formData={formData}
         setFormData={setFormData}
         setStep={setStep}
       />,
       <StepFour
+        key="5"
         styles={styles}
         formData={formData}
         setFormData={setFormData}
         setStep={setStep}
       />,
       <StepSix
+        key="6"
         styles={styles}
         formData={formData}
         setFormData={setFormData}
         setStep={setStep}
       />,
       <StepSeven
+        key="7"
         styles={styles}
         formData={formData}
         setFormData={setFormData}
