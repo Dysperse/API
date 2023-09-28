@@ -347,6 +347,8 @@ function StepThree({ styles, formData, setFormData, setStep }) {
   const [subStep, setSubStep] = useState(0);
   const [open, setOpen] = useState(false);
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
     <Box sx={styles.container}>
       <Box
@@ -377,7 +379,12 @@ function StepThree({ styles, formData, setFormData, setStep }) {
       <Typography
         className="font-heading"
         variant="h3"
-        sx={{ ...styles.heading, mt: 2, justifyContent: "center" }}
+        sx={{
+          ...styles.heading,
+          mt: 2,
+          justifyContent: "center",
+          textAlign: "center",
+        }}
       >
         {subStep === 0 ? "Let's create some boards!" : "Perspectives"}
       </Typography>
@@ -416,7 +423,17 @@ function StepThree({ styles, formData, setFormData, setStep }) {
         >
           For you
         </Typography>
-        <Box sx={{ flexGrow: 1, px: 4 }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            px: 4,
+            ...(isMobile && {
+              "& *:not(.MuiChip-root)": {
+                width: "100%",
+              },
+            }),
+          }}
+        >
           <VirtuosoGrid
             components={{
               Item: ItemContainer,
@@ -470,7 +487,7 @@ function StepThree({ styles, formData, setFormData, setStep }) {
       <Box
         sx={{
           justifyContent: "center",
-          gap: 2,
+          gap: { xs: 1, sm: 2 },
           display: "flex",
         }}
       >
@@ -763,7 +780,13 @@ function StepFive({ styles, formData, setFormData, setStep }) {
           },
         }}
       />
-      <Box sx={{ display: "flex", mt: 2, justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          mt: 2,
+          justifyContent: "space-between",
+        }}
+      >
         <Button variant="outlined" onClick={() => setStep(2)}>
           <Icon>west</Icon>
         </Button>
@@ -793,7 +816,13 @@ function StepFive({ styles, formData, setFormData, setStep }) {
       >
         OPTIONAL
       </Typography>
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          flexDirection: { xs: "column", sm: "row" },
+        }}
+      >
         <Box
           sx={{
             flexShrink: 0,
@@ -1058,12 +1087,19 @@ function StepSeven({ styles, formData, setFormData, setStep }) {
           <Box
             sx={{
               display: "flex",
+              background: palette[2],
+              borderRadius: 5,
+              p: 2,
+              gap: 2,
+              alignItems: "center",
             }}
           >
             <CircularProgress />{" "}
             <Box>
-              <b>Creating your account...</b>
-              <p>This may take a while</p>
+              <Typography>
+                <b>Creating your account...</b>
+              </Typography>
+              <Typography>This may take a while</Typography>
             </Box>
           </Box>
         </>
@@ -1116,6 +1152,7 @@ function Signup({ formData, setFormData }) {
       container: {
         transition: "all .2s",
         mx: "auto",
+        mt: "auto",
         maxWidth: "100dvw",
         width: "570px",
         zIndex: 999,
@@ -1239,7 +1276,8 @@ function Signup({ formData, setFormData }) {
             display: "flex",
             alignItems: "center",
             gap: 2,
-            p: 3,
+            py: { xs: 1, sm: 3 },
+            px: { xs: 3, sm: 3 },
             position: "fixed",
             top: 0,
             left: 0,
@@ -1247,11 +1285,11 @@ function Signup({ formData, setFormData }) {
         >
           <Logo
             color={formData.color}
-            size={isMobile ? 40 : 75}
+            size={isMobile ? 50 : 75}
             intensity={isDark ? 7 : 11}
           />
           <Typography
-            variant={isMobile ? "h4" : "h2"}
+            variant={isMobile ? "h3" : "h2"}
             className="font-heading"
             sx={{ color: palette[7] }}
           >
@@ -1269,7 +1307,7 @@ function Signup({ formData, setFormData }) {
             width: "100dvw",
             height: "100dvh",
             flexDirection: "column",
-            pt: "90px",
+            pt: { xs: "65px", sm: "90px" },
             zIndex: 999,
           }}
         >
@@ -1342,8 +1380,8 @@ export default function Page() {
   });
 
   const palette = useColor(formData.color, useDarkMode(formData.darkMode));
-  useStatusBar(palette[1])
-  
+  useStatusBar(palette[1]);
+
   return (
     <NoSsr>
       <Box
