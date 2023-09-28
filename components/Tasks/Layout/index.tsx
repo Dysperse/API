@@ -49,6 +49,20 @@ import { Tab } from "./Tab";
 
 export const SelectionContext = createContext<null | any>(null);
 
+export const recentlyAccessed = {
+  set: (t) => localStorage.setItem("recentlyAccessedTasks", JSON.stringify(t)),
+  get: () => {
+    try {
+      const d = JSON.parse(
+        localStorage.getItem("recentlyAccessedTasks") || "{}"
+      );
+      return d;
+    } catch (e) {
+      return {};
+    }
+  },
+};
+
 export const taskStyles = (palette) => {
   return {
     divider: {
@@ -398,6 +412,13 @@ export const MenuChildren = memo(function MenuChildren() {
                     palette,
                     router.asPath.includes(`/tasks/${button.hash}`)
                   )}
+                  onClick={() =>
+                    recentlyAccessed.set({
+                      icon: button.icon,
+                      label: button.label,
+                      path: `/tasks/${button.hash}`,
+                    })
+                  }
                 >
                   <Icon
                     className={
@@ -431,11 +452,7 @@ export const MenuChildren = memo(function MenuChildren() {
           <Divider sx={taskStyles(palette).divider} />
           <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
           {boards.active.map((board) => (
-            <Tab
-              key={board.id}
-              styles={buttonStyles}
-              board={board}
-            />
+            <Tab key={board.id} styles={buttonStyles} board={board} />
           ))}
           <Link
             href={
@@ -487,11 +504,7 @@ export const MenuChildren = memo(function MenuChildren() {
               </>
             )}
             {boards.archived.map((board) => (
-              <Tab
-                key={board.id}
-                styles={buttonStyles}
-                board={board}
-              />
+              <Tab key={board.id} styles={buttonStyles} board={board} />
             ))}
           </Box>
         </Box>

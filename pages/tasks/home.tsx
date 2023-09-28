@@ -1,19 +1,86 @@
 import { Navbar } from "@/components/Navbar";
-import { MenuChildren } from "@/components/Tasks/Layout";
+import { MenuChildren, recentlyAccessed } from "@/components/Tasks/Layout";
 import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
 import { CreateTask } from "@/components/Tasks/Task/Create";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  Avatar,
   Box,
   Icon,
   IconButton,
   InputAdornment,
+  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+function RecentlyAccessed() {
+  const router = useRouter();
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.user.color, isDark);
+
+  const [item, setItem] = useState<any>({ loading: true });
+
+  useEffect(() => {
+    const data = recentlyAccessed.get();
+    setItem(data);
+  }, []);
+
+  return item?.path ? (
+    <>
+      <Box
+        onClick={() => router.push(item.path)}
+        sx={{
+          background: palette[2],
+          px: 2,
+          py: 1,
+          gap: 2,
+          mb: 2,
+          borderRadius: 5,
+          display: "flex",
+          alignItems: "center",
+          "&:active": {
+            opacity: 0.7,
+          },
+        }}
+      >
+        <Avatar
+          sx={{ background: palette[3], color: palette[11], flexShrink: 0 }}
+        >
+          <Icon className="outlined">{item.icon}</Icon>
+        </Avatar>
+        <Box>
+          <Typography
+            sx={{
+              fontWeight: 700,
+              opacity: 0.5,
+              fontSize: "13px",
+              textTransform: "uppercase",
+            }}
+          >
+            Jump back in
+          </Typography>
+          <Typography sx={{ fontWeight: 900 }}>{item.label}</Typography>
+        </Box>
+        <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+      </Box>
+    </>
+  ) : (
+    <Skeleton
+      animation="wave"
+      height={60}
+      sx={{ mb: 2, borderRadius: 5 }}
+      variant="rectangular"
+      width="100%"
+    />
+  );
+}
 
 export default function Home() {
   const { session } = useSession();
@@ -105,6 +172,7 @@ export default function Home() {
               </CreateTask>
             )}
           </Box>
+          <RecentlyAccessed />
         </Box>
         <MenuChildren />
       </motion.div>
