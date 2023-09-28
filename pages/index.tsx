@@ -102,9 +102,9 @@ export default function Home() {
         <Box
           sx={{
             display: "flex",
-            width: "500px",
-            maxWidth: "calc(100% - 40px)",
+            width: "100dvw",
             mx: "auto",
+            px: 4,
             flexDirection: "column",
           }}
         >

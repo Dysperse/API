@@ -12,7 +12,6 @@ import {
   Icon,
   IconButton,
   LinearProgress,
-  ListItemButton,
   ListItemText,
   SwipeableDrawer,
   Typography,
@@ -109,7 +108,19 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
         }),
       }}
     >
-      <ListItemButton onClick={() => setOpen(true)}>
+      <Box
+        onClick={() => setOpen(true)}
+        sx={{
+          px: 0.5,
+          py: 1,
+          borderRadius: 5,
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          "&:active": { background: userPalette[3] },
+          "&:hover": { background: { sm: userPalette[2] } },
+        }}
+      >
         <Box sx={{ position: "relative" }}>
           <ProfilePicture data={friend} size={isMobile ? 50 : 60} />
           <Box
@@ -173,11 +184,11 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
         />
         <Box sx={{ ml: "auto" }}>
           {isBirthday && <Chip label={<Icon sx={{ mb: -0.5 }}>cake</Icon>} />}
-          <IconButton>
+          <IconButton sx={{ mr: -1 }}>
             <Icon>arrow_forward_ios</Icon>
           </IconButton>
         </Box>
-      </ListItemButton>
+      </Box>
 
       <SwipeableDrawer
         open={open}
