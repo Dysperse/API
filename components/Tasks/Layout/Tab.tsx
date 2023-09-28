@@ -3,6 +3,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
+import { recentlyAccessed } from ".";
 
 export const Tab = React.memo(function Tab({ styles, board }: any) {
   const router = useRouter();
@@ -12,6 +13,11 @@ export const Tab = React.memo(function Tab({ styles, board }: any) {
 
   const handleClick = () => {
     router.push(`/tasks/boards/${board.id}`);
+    recentlyAccessed.set({
+      icon: "view_kanban",
+      label: board.name,
+      path: `/tasks/boards/${board.id}`,
+    });
   };
 
   return (
