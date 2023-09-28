@@ -44,7 +44,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 
 function Hobbies({ palette, hobbies, profileCardStyles }) {
-  return (
+  return hobbies.length === 0 ? (
+    <></>
+  ) : (
     <Box sx={{ ...profileCardStyles, background: palette[2] }}>
       <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
       <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
@@ -460,7 +462,7 @@ function Page() {
                         height: 250,
                       }}
                     >
-                      <ProfilePicture data={data}  size={250} />
+                      <ProfilePicture data={data} size={250} />
                       {data.Status && !isExpired && (
                         <Tooltip
                           title={

@@ -238,23 +238,25 @@ function Insights({ profile, tasks, defaultPalette }) {
   const InsightsContainer: any = profile ? React.Fragment : Box;
 
   return tasks.length === 0 ? (
-    <Box
-      sx={{
-        background: palette[2],
-        p: 2,
-        borderRadius: 5,
-        display: "flex",
-        alignItems: "center",
-        gap: 2,
-      }}
-    >
-      <img
-        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f914.png`}
-        alt="Crying emoji"
-        width={40}
-        style={{ flexShrink: 0 }}
-      />
-      Not enough task data to provide insights - check back later!
+    <Box sx={{ py: 2 }}>
+      <Box
+        sx={{
+          background: palette[2],
+          p: 2,
+          borderRadius: 5,
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        <img
+          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f914.png`}
+          alt="Crying emoji"
+          width={40}
+          style={{ flexShrink: 0 }}
+        />
+        Not enough task data to provide insights - check back later!
+      </Box>
     </Box>
   ) : (
     <InsightsContainer
