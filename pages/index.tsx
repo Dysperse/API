@@ -6,15 +6,7 @@ import { SearchFriend } from "@/components/Start/SearchFriend";
 import { StatusSelector } from "@/components/Start/StatusSelector";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import {
-  Box,
-  ListItem,
-  ListItemText,
-  Skeleton,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Toolbar, Typography, useMediaQuery } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -146,32 +138,7 @@ export default function Home() {
                 )}
               />
             ) : (
-              [...new Array(data ? 6 : 10)].map((_, i) => (
-                <ListItem key={i} sx={{ mb: 1.5 }}>
-                  <Skeleton
-                    variant="circular"
-                    width="60px"
-                    height="60px"
-                    animation={data ? false : "wave"}
-                  />
-                  <ListItemText
-                    sx={{ ml: 1 }}
-                    primary={
-                      <Skeleton
-                        width="100px"
-                        animation={data ? false : "wave"}
-                      />
-                    }
-                  />
-                  <Skeleton
-                    variant="circular"
-                    width="24px"
-                    height="24px"
-                    animation={data ? false : "wave"}
-                    sx={{ ml: "auto" }}
-                  />
-                </ListItem>
-              ))
+              <></>
             )}
           </Box>
           <ContactSync />
