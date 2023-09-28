@@ -124,16 +124,6 @@ export default function App({
     })
   );
 
-  if (
-    !isLoading &&
-    data &&
-    !data.error &&
-    data.user?.onboardingComplete !== true &&
-    router.pathname !== "/onboarding"
-  ) {
-    router.push("/onboarding");
-  }
-
   useEffect(() => {
     document.documentElement.classList[isDark ? "add" : "remove"]("dark");
   }, [isDark]);

@@ -34,12 +34,7 @@ export default function ReleaseModal() {
   const router = useRouter();
 
   useEffect(() => {
-    if (
-      !alreadyOpened &&
-      session?.user?.onboardingComplete &&
-      !error &&
-      router.asPath === "/"
-    ) {
+    if (!alreadyOpened && !error && router.asPath === "/") {
       if (
         data &&
         data[0] &&

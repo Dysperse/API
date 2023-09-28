@@ -1,5 +1,4 @@
 import { useSession } from "@/lib/client/session";
-import { updateSettings } from "@/lib/client/updateSettings";
 import { LoadingButton } from "@mui/lab";
 import { Box, Icon, Typography } from "@mui/material";
 import { useRouter } from "next/router";
@@ -35,7 +34,6 @@ export function Completion({ styles }) {
           color="primary"
           onClick={async () => {
             setLoading(true);
-            await updateSettings(["onboardingComplete", "true"], { session });
             await mutate("/api/session");
             router.push((router.query.next as string) || "/");
           }}

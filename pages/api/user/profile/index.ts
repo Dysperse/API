@@ -6,7 +6,11 @@ export default async function handler(req, res) {
     validateParams(req.query, ["email"]);
     let data: any = await prisma.user.findFirstOrThrow({
       where: {
-        OR: [{ username: req.query.email }, { email: req.query.email }],
+        OR: [
+          { username: req.query.email },
+          { username: req.query.username },
+          { email: req.query.email },
+        ],
       },
       select: {
         timeZone: true,

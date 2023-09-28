@@ -24,7 +24,6 @@ model User {
   color          String   @default("lime")
   unlockedColors String[]
 
-  onboardingComplete       Boolean @default(false)
   twoFactorSecret          String  @default("")
   notificationSubscription String? @db.VarChar(900)
   timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
