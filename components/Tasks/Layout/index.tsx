@@ -87,8 +87,9 @@ export const taskStyles = (palette) => {
       position: "fixed",
       top: "10px",
       borderRadius: 999,
-      left: "10px",
+      left: "50%",
       width: "calc(100vw - 20px)",
+      transform: "translateX(-50%)",
       mx: "auto",
       zIndex: 999,
       height: 55,
@@ -673,7 +674,7 @@ export function TasksLayout({
           ...taskStyles(palette).appBar,
           ...(!isSelecting && {
             opacity: 0,
-            transform: "scale(.5)",
+            transform: "translateX(-50%) scale(.5)",
             pointerEvents: "none",
           }),
           zIndex: 99999999,
@@ -798,7 +799,7 @@ export function TasksLayout({
             ...taskStyles(palette).appBar,
             ...(isSelecting && {
               opacity: 0,
-              transform: "scale(.5)",
+              transform: "translateX(-50%) scale(.5)",
               pointerEvents: "none",
             }),
             ...(router.asPath.includes("/edit/") && {
