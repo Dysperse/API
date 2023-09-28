@@ -104,6 +104,7 @@ export default function Home() {
             display: "flex",
             width: "100dvw",
             mx: "auto",
+            maxWidth: "500px",
             px: 4,
             flexDirection: "column",
           }}

@@ -35,7 +35,6 @@ export default function ContactSync({ showFriends }) {
         sx={{
           background: palette[2],
           borderRadius: 5,
-          maxWidth: "500px",
           mx: "auto",
         }}
       >
