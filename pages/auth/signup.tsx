@@ -1321,7 +1321,7 @@ function Signup({ formData, setFormData }) {
               width: { xs: "570px", sm: "400px" },
               height: "7px",
               mt: { xs: "auto", sm: 2 },
-              mb: { xs: 2, sm: 0 },
+              mb: { xs: 2, sm: "auto" },
               background: palette[4],
               borderRadius: 999,
               "& *": {
