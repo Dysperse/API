@@ -155,7 +155,7 @@ export function CreateTask({
         {trigger}
       </Badge>
     ),
-    [open, formData.title]
+    [open, formData.title, sx, trigger]
   );
 
   const handleInputChange = useCallback((event) => {
