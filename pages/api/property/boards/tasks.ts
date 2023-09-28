@@ -29,6 +29,16 @@ const handler = async (req, res) => {
               },
             },
           },
+          // Don't select subtasks
+          where: {
+            parentTasks: {
+              none: {
+                column: {
+                  board: { id: req.query.id },
+                },
+              },
+            },
+          },
           orderBy: { pinned: "desc" },
         },
       },

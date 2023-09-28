@@ -73,13 +73,6 @@ const handler = async (req, res) => {
         },
         columns: {
           orderBy: { order: "asc" },
-          include: {
-            tasks: {
-              select: {
-                color: true,
-              },
-            },
-          },
         },
         integrations: { select: { name: true, lastSynced: true } },
       },
