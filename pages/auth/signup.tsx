@@ -6,6 +6,7 @@ import { templates } from "@/components/Tasks/Board/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useStatusBar } from "@/lib/client/useStatusBar";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import themes from "@/pages/settings/themes.json";
@@ -34,6 +35,7 @@ import {
   Toolbar,
   Typography,
   createTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import BoringAvatar from "boring-avatars";
@@ -1107,21 +1109,25 @@ function Signup({ formData, setFormData }) {
   const palette = useColor(formData.color, useDarkMode(formData.darkMode));
 
   const [step, setStep] = useState(0);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const styles = useMemo(
     () => ({
       container: {
         transition: "all .2s",
         mx: "auto",
-        maxWidth: "570px",
+        maxWidth: "100dvw",
+        width: "570px",
         zIndex: 999,
-        maxHeight: "calc(100% - 70px)",
+        maxHeight: { sm: "calc(100% - 70px)" },
         overflowY: "scroll",
-        width: "100%",
-        border: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
-        boxShadow: `0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)`,
-        background: palette[1],
+        border: { sm: `2px solid ${addHslAlpha(palette[4], 0.5)}` },
+        boxShadow: {
+          sm: `0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)`,
+        },
+        background: { sm: palette[1] },
         p: 4,
+        py: { xs: 1, sm: 4 },
         borderRadius: 5,
       },
       heading: {
@@ -1239,9 +1245,13 @@ function Signup({ formData, setFormData }) {
             left: 0,
           }}
         >
-          <Logo color={formData.color} size={75} intensity={isDark ? 7 : 11} />
+          <Logo
+            color={formData.color}
+            size={isMobile ? 40 : 75}
+            intensity={isDark ? 7 : 11}
+          />
           <Typography
-            variant="h2"
+            variant={isMobile ? "h4" : "h2"}
             className="font-heading"
             sx={{ color: palette[7] }}
           >
@@ -1269,10 +1279,11 @@ function Signup({ formData, setFormData }) {
             variant="determinate"
             sx={{
               flexShrink: 0,
-              maxWidth: "400px",
-              width: "100%",
+              maxWidth: "calc(100vw - 20px)",
+              width: { xs: "570px", sm: "400px" },
               height: "7px",
-              mt: 2,
+              mt: { xs: "auto", sm: 2 },
+              mb: { xs: 2, sm: 0 },
               background: palette[4],
               borderRadius: 999,
               "& *": {
@@ -1331,7 +1342,8 @@ export default function Page() {
   });
 
   const palette = useColor(formData.color, useDarkMode(formData.darkMode));
-
+  useStatusBar(palette[1])
+  
   return (
     <NoSsr>
       <Box
