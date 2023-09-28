@@ -38,7 +38,7 @@ import {
 } from "./Drawer/locationHelpers";
 import { ImageViewer } from "./ImageViewer";
 
-const taskAlgorithm = (e, d) =>
+export const taskAlgorithm = (e, d) =>
   e.completed && !d.completed
     ? 1
     : (!e.completed && d.completed) || (e.pinned && !d.pinned)

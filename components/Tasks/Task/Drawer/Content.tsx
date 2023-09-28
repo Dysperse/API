@@ -18,7 +18,7 @@ import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { parseEmojis } from ".";
-import { Task } from "..";
+import { Task, taskAlgorithm } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import { CreateTask } from "../Create";
 import SelectDateModal from "../DatePicker";
@@ -386,13 +386,18 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
                     : undefined
                 }
                 defaultDate={task.due ? new Date(task.due) : null}
+                sx={{ width: "100%" }}
               >
-                <Button variant="contained">
-                  <Icon>add_circle</Icon>Subtask
-                </Button>
+                <Box
+                  sx={{ p: task.subTasks.length == 0 ? 0 : 2, width: "100%" }}
+                >
+                  <Button variant="contained" fullWidth>
+                    <Icon>add_circle</Icon>Subtask
+                  </Button>
+                </Box>
               </CreateTask>
               {!isSubTask &&
-                task.subTasks.map((subTask) => (
+                task.subTasks.sort(taskAlgorithm).map((subTask) => (
                   <Task
                     key={subTask.id}
                     isSubTask

@@ -58,7 +58,7 @@ export const HeadingComponent = ({ palette, isMobile }) => {
           })}
       sx={{
         fontSize: {
-          xs: "15vw",
+          xs: "13vw",
           sm: "80px",
         },
         width: { sm: "400px" },

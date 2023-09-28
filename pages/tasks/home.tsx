@@ -32,7 +32,7 @@ export default function Home() {
             p: 3,
             pb: 0,
             mb: -3,
-            mt: 2,
+            mt: 5,
           }}
         >
           <Typography
@@ -41,6 +41,10 @@ export default function Home() {
             sx={{
               background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
               WebkitBackgroundClip: "text",
+              fontSize: {
+                xs: "13vw",
+                sm: "80px",
+              },
             }}
           >
             Tasks
