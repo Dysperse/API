@@ -29,7 +29,7 @@ export default function ContactSync({ showFriends }) {
 
   return !show ? (
     <></>
-  ) : (
+  ) : showFriends || !data?.Profile?.google || !data?.Profile?.spotify ? (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Box
         sx={{
@@ -127,5 +127,7 @@ export default function ContactSync({ showFriends }) {
         </Box>
       </Box>
     </motion.div>
+  ) : (
+    <></>
   );
 }
