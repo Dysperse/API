@@ -72,7 +72,17 @@ function RecentlyAccessed() {
         <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
       </Box>
     </>
-  ) : (<></>);
+  ) : item?.loading ? (
+    <Skeleton
+      animation="wave"
+      height={60}
+      sx={{ mb: 2, borderRadius: 5 }}
+      variant="rectangular"
+      width="100%"
+    />
+  ) : (
+    <></>
+  );
 }
 
 export default function Home() {
