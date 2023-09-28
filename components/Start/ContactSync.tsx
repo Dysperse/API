@@ -1,13 +1,16 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Button, Icon, Typography } from "@mui/material";
+import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 export default function ContactSync({ showFriends }) {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+
+  const [show, setShow] = useState(false);
 
   const { data, error } = useSWR([
     "user/profile",
@@ -16,7 +19,17 @@ export default function ContactSync({ showFriends }) {
     },
   ]);
 
-  return (
+  useEffect(() => {
+    if (!localStorage.getItem("shouldShowSuggestions")) {
+      if (showFriends || !data?.Profile?.google || !data?.Profile?.spotify) {
+        setShow(true);
+      }
+    }
+  }, []);
+
+  return !show ? (
+    <></>
+  ) : (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Box sx={{ background: palette[2], borderRadius: 5 }}>
         <Box
@@ -31,6 +44,16 @@ export default function ContactSync({ showFriends }) {
         >
           <Icon sx={{ fontSize: "30px!important" }}>auto_awesome</Icon>
           <Typography variant="h6">Suggestions</Typography>
+
+          <IconButton
+            sx={{ ml: "auto", background: palette[3] }}
+            onClick={() => {
+              setShow(false);
+              localStorage.setItem("shouldShowSuggestions", "false");
+            }}
+          >
+            <Icon>close</Icon>
+          </IconButton>
         </Box>
         <Box sx={{ p: 2, display: "flex", gap: 2, flexDirection: "column" }}>
           {showFriends && (
@@ -75,7 +98,7 @@ export default function ContactSync({ showFriends }) {
               </Box>
             </Box>
           )}
-          {data && !data?.Profile?.google && (
+          {data && !data?.Profile?.spotify && (
             <Box sx={{ display: "flex", gap: 2 }}>
               <Icon sx={{ mt: 2 }}>trip_origin</Icon>
               <Box>

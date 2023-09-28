@@ -42,7 +42,7 @@ export function SearchFriend({ mutate }) {
   return (
     <>
       <Button
-        id="searchFriendTrigger"
+        id="addFriendTrigger"
         variant="contained"
         onClick={() => {
           setOpen(true);
@@ -74,6 +74,7 @@ export function SearchFriend({ mutate }) {
             fullWidth
             value={query}
             id="searchFriend"
+            onKeyDown={(e) => e.key === "Enter" && addFriend()}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Email or username..."
             InputProps={{
