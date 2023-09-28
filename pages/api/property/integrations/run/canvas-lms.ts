@@ -60,10 +60,18 @@ const handler = async (req, res) => {
           item.summary
         )}`;
 
-        let due = new Date();
+        let due: string | Date = new Date();
 
         if (item.start || item.dtstamp || item.end)
           due = (item.start || item.dtstamp || item.end).toISOString();
+
+        if (item.start.dateOnly) {
+          due = dayjs(due)
+            .tz(req.query.timeZone)
+            .set("hour", 23)
+            .set("minute", 59)
+            .toISOString();
+        }
 
         if (req.query.vanishingTasks === "true") {
           try {
