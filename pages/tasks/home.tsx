@@ -132,7 +132,7 @@ export default function Home() {
               background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
               WebkitBackgroundClip: "text",
               fontSize: {
-                xs: "13vw",
+                xs: "65px",
                 sm: "80px",
               },
             }}

@@ -42,6 +42,7 @@ export function SearchFriend({ mutate }) {
   return (
     <>
       <Button
+        id="searchFriendTrigger"
         variant="contained"
         onClick={() => {
           setOpen(true);

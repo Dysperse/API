@@ -109,21 +109,6 @@ export default function Home() {
           }}
         >
           <Box>
-            {data && sortedFriends?.length === 0 && (
-              <Box sx={{ p: 1 }}>
-                <Box
-                  sx={{
-                    mb: 1,
-                    borderRadius: 5,
-                    p: 2,
-                    background: palette[2],
-                    textAlign: "center",
-                  }}
-                >
-                  Friends you add will appear here.
-                </Box>
-              </Box>
-            )}
             {data && sortedFriends?.length > 0 ? (
               <Virtuoso
                 customScrollParent={containerRef.current}
@@ -141,7 +126,7 @@ export default function Home() {
               <></>
             )}
           </Box>
-          <ContactSync />
+          <ContactSync showFriends={sortedFriends?.length === 0} />
         </Box>
         <Toolbar />
       </motion.div>
