@@ -125,6 +125,7 @@ export default function App({
   );
 
   useEffect(() => {
+    localStorage.getItem("recentlyAccessedTasks")
     document.documentElement.classList[isDark ? "add" : "remove"]("dark");
   }, [isDark]);
 
