@@ -125,7 +125,7 @@ export default function App({
   );
 
   useEffect(() => {
-    localStorage.getItem("recentlyAccessedTasks")
+    localStorage.getItem("recentlyAccessedTasks");
     document.documentElement.classList[isDark ? "add" : "remove"]("dark");
   }, [isDark]);
 
@@ -145,7 +145,13 @@ export default function App({
         <SessionProvider session={s} isLoading={isLoading}>
           <StorageContext.Provider value={{ isReached, setIsReached }}>
             <ThemeProvider theme={userTheme}>
-              <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
+              <Toaster
+                containerClassName="noDrag"
+                containerStyle={{
+                  top: "calc(0dvh + 10px!important)",
+                }}
+                toastOptions={toastStyles}
+              />
               <Head>
                 <title>Dysperse</title>
                 <meta name="theme-color" content={palette[1]} />
