@@ -65,15 +65,18 @@ export default function NotificationsPrompt() {
     setOpen(false);
   };
 
-  const enabledOnAnotherDevice =
-    (!isSubscribed && session.user.notificationSubscription) ||
-    session.user.notificationSubscription !== JSON.stringify(subscription);
+  const enabled =
+    JSON.stringify(subscription) == session.user.notificationSubscription;
 
   useEffect(() => {
-    if (enabledOnAnotherDevice && !localStorage.getItem("notificationPrompt")) {
+    if (
+      subscription &&
+      !enabled &&
+      !localStorage.getItem("notificationPrompt")
+    ) {
       setOpen(true);
     }
-  }, [enabledOnAnotherDevice]);
+  }, [subscription, enabled]);
 
   const subscribeButtonOnClick = async (event) => {
     try {
@@ -88,7 +91,7 @@ export default function NotificationsPrompt() {
       await updateSettings(["notificationSubscription", JSON.stringify(sub)], {
         session,
       });
-      fetchRawApi(session, "/user/settings/notifications/test", {
+      await fetchRawApi(session, "/user/settings/notifications/test", {
         subscription: session.user.notificationSubscription,
       });
       setLoading(false);
