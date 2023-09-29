@@ -184,6 +184,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         >
           {data && data !== "deleted" && (
             <DrawerContent
+              parentRef={ref}
               isDisabled={isDisabled}
               handleDelete={handleDelete}
             />

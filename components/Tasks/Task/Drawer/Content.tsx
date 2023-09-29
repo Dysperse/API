@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+import { Virtuoso } from "react-virtuoso";
 import { parseEmojis } from ".";
 import { Task, taskAlgorithm } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
@@ -28,7 +29,7 @@ import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
-export default function DrawerContent({ isDisabled, handleDelete }) {
+export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
   const { session } = useSession();
   const task = useTaskContext();
   const storage = useAccountStorage();
@@ -138,7 +139,7 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
     storage?.isReached === true ||
     session.permission === "read-only" ||
     isDisabled;
-
+  const subTasks = task.subTasks.sort(taskAlgorithm);
   return (
     <Box
       sx={{
@@ -400,23 +401,30 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
                   </Button>
                 </Box>
               </CreateTask>
-              {!isSubTask &&
-                task.subTasks.sort(taskAlgorithm).map((subTask) => (
-                  <Task
-                    key={subTask.id}
-                    isSubTask
-                    sx={{
-                      pl: { xs: 2.6, sm: 1.7 },
-                      "& .date": {
-                        display: "none",
-                      },
-                    }}
-                    board={subTask.board || false}
-                    columnId={subTask.column ? subTask.column.id : -1}
-                    handleMutate={task.mutate}
-                    task={subTask}
-                  />
-                ))}
+              <Virtuoso
+                useWindowScroll
+                customScrollParent={parentRef.current}
+                totalCount={subTasks.length}
+                itemContent={(index) => {
+                  const subTask = subTasks[index];
+                  return (
+                    <Task
+                      key={subTask.id}
+                      isSubTask
+                      sx={{
+                        pl: { xs: 2.6, sm: 1.7 },
+                        "& .date": {
+                          display: "none",
+                        },
+                      }}
+                      board={subTask.board || false}
+                      columnId={subTask.column ? subTask.column.id : -1}
+                      handleMutate={task.mutate}
+                      task={subTask}
+                    />
+                  );
+                }}
+              />
             </>
           )}
         </Box>
