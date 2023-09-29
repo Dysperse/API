@@ -342,6 +342,22 @@ export function CreateTask({
         sx={{ ...styles.button(formData.pinned), ml: -0.5 }}
         onClick={() => {
           setFormData((s) => ({ ...s, pinned: !s.pinned }));
+          if (!localStorage.getItem("tips-taskPriority") && !formData.pinned) {
+            toast(
+              <Box>
+                <Typography>
+                  <i>
+                    <b>PRO TIP</b>
+                  </i>
+                </Typography>
+                <span>
+                  You can quickly mark a task as important by typing
+                  &quot;!!&quot; in its name.
+                </span>
+              </Box>
+            );
+            localStorage.setItem("tips-taskPriority", "true");
+          }
         }}
       >
         <Icon
