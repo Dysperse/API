@@ -87,7 +87,6 @@ function NotificationChip({ titleRef, data, setData, chipStyles }) {
                     };
                   }
                 });
-                // setOpen(false);
               }}
             >
               <ListItemText primary={`${minutes} minutes before`} />
@@ -274,7 +273,7 @@ const ChipBar = React.memo(function ChipBar({
   const [chipComponent, setChipComponent] = useState<any>(null);
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(async () => {
+    const delayDebounceFn = setTimeout(() => {
       const chip = generateChipLabel(data.title);
       setChipComponent(chip);
     }, 500);
@@ -387,7 +386,7 @@ const ChipBar = React.memo(function ChipBar({
           {taskColorPicker}
           {!isSubTask &&
           dayjs(data.date).isValid() &&
-          dayjs(data.date).format("HHmm") == "0000" ? (
+          dayjs(data.date).format("HHmm") === "0000" ? (
             <Chip
               onClick={() => {
                 toast("Set a time");
@@ -428,7 +427,7 @@ const ChipBar = React.memo(function ChipBar({
             ].map(({ label, days }) => {
               const isActive =
                 data.date &&
-                dayjs(data.date.toISOString()).startOf("day").toISOString() ==
+                dayjs(data.date.toISOString()).startOf("day").toISOString() ===
                   dayjs().startOf("day").add(days, "day").toISOString();
 
               return (
