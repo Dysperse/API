@@ -28,7 +28,7 @@ const moduleExports = {
         },
         {
           source: "/onboarding",
-          destination: "/?purge=true",
+          destination: "/",
           permanent: false,
         },
         {
