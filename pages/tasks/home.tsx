@@ -100,10 +100,17 @@ export default function Home() {
           <IconButton
             sx={{ ml: "auto", visibility: showSync ? "" : "hidden" }}
             onClick={() => {
-              fetch("/api/property/integrations/resync").then(() => {
-                toast.success("Up to date!");
-                setShowSync(false);
-              });
+              toast.promise(
+                fetch("/api/property/integrations/resync").then(() => {
+                  toast.success("Up to date!");
+                  setShowSync(false);
+                }),
+                {
+                  loading: "Resyncing your tasks...",
+                  error: "Something went wrong. Please try again later",
+                  success: "Up to date!",
+                }
+              );
             }}
           >
             <Icon sx={{ color: palette[8], fontSize: "30px!important" }}>

@@ -57,6 +57,7 @@ interface TaskCreationProps {
     [key: string]: string | Date | null;
   };
   sx?: SxProps;
+  customTrigger?: string;
 }
 
 const ColumnData = memo(function ColumnData({ boardData }: any) {
@@ -98,6 +99,7 @@ export function CreateTask({
   defaultDate = dayjs().startOf("day").toDate(),
   defaultFields = {},
   sx = {},
+  customTrigger = "onClick",
 }: TaskCreationProps) {
   const { session } = useSession();
   const titleRef: any = useRef();
@@ -138,7 +140,7 @@ export function CreateTask({
   });
 
   const trigger = cloneElement(children, {
-    onClick: () => {
+    [customTrigger]: () => {
       setOpen(true);
       setTimeout(() => titleRef?.current?.focus(), 50);
     },
