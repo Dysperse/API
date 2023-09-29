@@ -262,6 +262,8 @@ function Insights({ profile, tasks, defaultPalette }) {
     <InsightsContainer
       sx={{
         p: profile ? 0 : { xs: 1, sm: 4 },
+        maxWidth: "100dvw",
+        overflowX: "hidden",
       }}
     >
       {!profile && (
