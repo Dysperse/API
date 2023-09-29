@@ -275,7 +275,7 @@ export const Task: any = React.memo(function Task({
   const BpIcon: any = useMemo(
     () =>
       styled("span")(() => ({
-        borderRadius: 10,
+        borderRadius: 90,
         width: 25,
         height: 25,
         boxShadow: `${
@@ -286,6 +286,9 @@ export const Task: any = React.memo(function Task({
         backgroundColor: "transparent",
         "input:disabled ~ &": {
           cursor: "not-allowed",
+          opacity: 0.5,
+        },
+        "input:active ~ &": {
           opacity: 0.5,
         },
       })),
