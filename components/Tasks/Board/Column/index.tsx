@@ -258,6 +258,10 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
             backdropFilter: { md: "blur(2px)" },
             position: "sticky",
             top: 0,
+            ...(/\bCrOS\b/.test(navigator.userAgent) && {
+              background: palette[1],
+              backdropFilter: "none",
+            }),
           }}
         >
           <Box

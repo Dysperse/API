@@ -60,6 +60,10 @@ export const Header = memo(function Header({
         maxWidth: "100dvw",
         background: { sm: addHslAlpha(palette[1], 0.7) },
         zIndex: 99,
+        ...(/\bCrOS\b/.test(navigator.userAgent) && {
+          background: palette[1],
+          backdropFilter: "none",
+        }),
       }}
     >
       <motion.div
