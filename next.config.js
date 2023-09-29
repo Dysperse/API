@@ -27,6 +27,11 @@ const moduleExports = {
           permanent: false,
         },
         {
+          source: "/onboarding",
+          destination: "/?purge=true",
+          permanent: false,
+        },
+        {
           source: "/signup",
           destination: "/auth/signup",
           permanent: true,
