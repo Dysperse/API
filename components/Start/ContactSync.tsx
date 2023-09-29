@@ -21,7 +21,10 @@ export default function ContactSync({ showFriends }) {
 
   useEffect(() => {
     if (!localStorage.getItem("shouldShowSuggestions")) {
-      if (showFriends || !data?.Profile?.google || !data?.Profile?.spotify) {
+      if (
+        data &&
+        (showFriends || !data?.Profile?.google || !data?.Profile?.spotify)
+      ) {
         setShow(true);
       }
     }

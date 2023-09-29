@@ -238,7 +238,7 @@ function Insights({ profile, tasks, defaultPalette }) {
   const InsightsContainer: any = profile ? React.Fragment : Box;
 
   return tasks.length === 0 ? (
-    <Box sx={{ py: 2 }}>
+    <Box sx={{ py: 2, maxWidth: "100dvw", overflowX: "hidden" }}>
       <Box
         sx={{
           background: palette[2],
