@@ -1,3 +1,4 @@
+import { CreateTask } from "@/components/Tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -114,18 +115,20 @@ export function BottomNav() {
         alignItems: "center",
       }}
     >
-      <Box
-        onClick={() => router.push("/tasks/home")}
-        sx={styles(router.asPath.includes("/tasks"))}
-      >
-        <span
-          className={`material-symbols-${
-            router.asPath.includes("/tasks") ? "rounded" : "outlined"
-          }`}
+      <CreateTask customTrigger="onContextMenu" disableBadge>
+        <Box
+          onClick={() => router.push("/tasks/home")}
+          sx={styles(router.asPath.includes("/tasks"))}
         >
-          check_circle
-        </span>
-      </Box>
+          <span
+            className={`material-symbols-${
+              router.asPath.includes("/tasks") ? "rounded" : "outlined"
+            }`}
+          >
+            check_circle
+          </span>
+        </Box>
+      </CreateTask>
       <Box
         onClick={() => router.push("/")}
         sx={styles(

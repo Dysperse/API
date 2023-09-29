@@ -58,6 +58,7 @@ interface TaskCreationProps {
   };
   sx?: SxProps;
   customTrigger?: string;
+  disableBadge?: boolean;
 }
 
 const ColumnData = memo(function ColumnData({ boardData }: any) {
@@ -100,6 +101,7 @@ export function CreateTask({
   defaultFields = {},
   sx = {},
   customTrigger = "onClick",
+  disableBadge = false,
 }: TaskCreationProps) {
   const { session } = useSession();
   const titleRef: any = useRef();
@@ -140,23 +142,27 @@ export function CreateTask({
   });
 
   const trigger = cloneElement(children, {
-    [customTrigger]: () => {
+    [customTrigger]: (e) => {
+      e.preventDefault();
       setOpen(true);
       setTimeout(() => titleRef?.current?.focus(), 50);
     },
   });
 
   const triggerBadge = useMemo(
-    () => (
-      <Badge
-        badgeContent={!open && formData.title !== "" ? 1 : 0}
-        color="primary"
-        variant="dot"
-        sx={sx}
-      >
-        {trigger}
-      </Badge>
-    ),
+    () =>
+      disableBadge ? (
+        trigger
+      ) : (
+        <Badge
+          badgeContent={!open && formData.title !== "" ? 1 : 0}
+          color="primary"
+          variant="dot"
+          sx={sx}
+        >
+          {trigger}
+        </Badge>
+      ),
     [open, formData.title, sx, trigger]
   );
 
