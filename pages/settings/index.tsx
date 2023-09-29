@@ -26,6 +26,22 @@ import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 
+function sendMessage(message) {
+  return new Promise(function (resolve, reject) {
+    var messageChannel = new MessageChannel();
+    messageChannel.port1.onmessage = function (event) {
+      if (event.data.error) {
+        reject(event.data.error);
+      } else {
+        resolve(event.data);
+      }
+    };
+    navigator?.serviceWorker?.controller?.postMessage(message, [
+      messageChannel.port2,
+    ]);
+  });
+}
+
 function Page() {
   const router = useRouter();
   const { session } = useSession();
@@ -54,6 +70,17 @@ function Page() {
   };
 
   const groupPalette = useColor(session.property.profile.color, isDark);
+
+  const clearCache = async () => {
+    if ("serviceWorker" in navigator) {
+      await caches.keys().then(function (cacheNames) {
+        cacheNames.forEach(async function (cacheName) {
+          await caches.delete(cacheName);
+        });
+      });
+      window.location.reload();
+    }
+  };
 
   return (
     <>
@@ -197,6 +224,10 @@ function Page() {
             <ListItemText primary={name} />
           </ListItem>
         ))}
+        <ListItemButton onClick={clearCache}>
+          <Icon>sync</Icon>
+          <ListItemText primary="Clear cache and reload" />
+        </ListItemButton>
       </Box>
     </>
   );
