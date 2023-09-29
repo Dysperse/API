@@ -23,6 +23,8 @@ const KeyboardShortcutsModal = dynamic(
   () => import("./Navigation/KeyboardShortcutsModal")
 );
 
+const NotificationsPrompt = dynamic(() => import("./NotificationsPrompt"));
+
 const ReleaseModal = dynamic(() => import("./ReleaseModal"));
 
 export const containerRef: any = createRef();
@@ -80,7 +82,7 @@ export default function AppLayout({
       containerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [router.asPath]);
-  
+
   if (session.properties.length === 0) {
     return (
       <Box>
@@ -131,6 +133,7 @@ export default function AppLayout({
         }
         message="You've reached the storage limits for this group."
       />
+      <NotificationsPrompt />
       <Snackbar
         open={Boolean(error)}
         autoHideDuration={6000}
