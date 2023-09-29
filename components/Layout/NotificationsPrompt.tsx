@@ -61,27 +61,21 @@ export default function NotificationsPrompt() {
     useNotificationSubscription();
 
   const handleClose = () => {
-    localStorage.setItem("notificationPrompt", "false");
+    localStorage.setItem("notificationPrompt", "true");
     setOpen(false);
   };
 
-  const enabled =
-    JSON.stringify(subscription) == session.user.notificationSubscription;
-
   useEffect(() => {
-    if (
-      subscription &&
-      !enabled &&
-      !localStorage.getItem("notificationPrompt")
-    ) {
+    if (!isSubscribed && !localStorage.getItem("notificationPrompt")) {
       setOpen(true);
     }
-  }, [subscription, enabled]);
+  }, [isSubscribed]);
 
   const subscribeButtonOnClick = async (event) => {
     try {
       event.preventDefault();
       setLoading(true);
+      localStorage.setItem("notificationPrompt", "true");
       const sub = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: base64ToUint8Array(

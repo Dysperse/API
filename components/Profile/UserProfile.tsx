@@ -114,10 +114,12 @@ function Contacts({ profile }) {
       </Box>
     </Box>
   ) : data && data.length === 0 && window.location.href.includes("override") ? (
-    <Alert title="New contacts not found" variant="filled" severity="info">
-      We don&apos;t have any suggestions for you right now. Try adding more
-      contacts to your Google account and check back later!
-    </Alert>
+    <Box sx={{ pb: 2 }}>
+      <Alert title="New contacts not found" variant="filled" severity="info">
+        We don&apos;t have any suggestions for you right now. As you add
+        contacts to your Google account, users will appear here!
+      </Alert>
+    </Box>
   ) : (
     <></>
   );
