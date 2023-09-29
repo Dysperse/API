@@ -179,7 +179,6 @@ export function Agenda({ type, date }) {
               }`,
               width: "100%",
               transition: "all .2s",
-
               ...(view === "priority" && {
                 "& .priority-hidden": {
                   opacity: 0,

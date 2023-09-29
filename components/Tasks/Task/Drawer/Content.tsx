@@ -150,6 +150,10 @@ export default function DrawerContent({ isDisabled, handleDelete }) {
       <AppBar
         sx={{
           border: 0,
+          ...(/\bCrOS\b/.test(navigator.userAgent) && {
+            background: palette[1],
+            backdropFilter: "none!important",
+          }),
         }}
       >
         <Toolbar>

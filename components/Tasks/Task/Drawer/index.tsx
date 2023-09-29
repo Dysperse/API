@@ -145,6 +145,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         PaperProps={{
           sx: {
             maxWidth: "500px",
+            boxShadow: "0 0 1px rgba(0, 0, 0, 0.05)!important",
             width: "100%",
             height: "100dvh",
             borderLeft: { sm: `2px solid ${addHslAlpha(palette[3], 0.7)}` },
