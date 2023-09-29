@@ -272,12 +272,10 @@ export default function Integrations({
             sx={{ flexShrink: 0 }}
             onClick={() => {
               window.open(
-                /(android)/i.test(navigator.userAgent)
-                  ? `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
-                      "https://",
-                      ""
-                    )}`
-                  : `webcal://${icalUrl.replace("https://", "")}`
+                `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
+                  "https://",
+                  ""
+                )}`
               );
             }}
             variant="contained"
