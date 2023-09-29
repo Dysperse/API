@@ -106,7 +106,7 @@ export default function Home() {
               });
             }}
           >
-            <Icon sx={{ color: palette[9], fontSize: "30px!important" }}>
+            <Icon sx={{ color: palette[8], fontSize: "30px!important" }}>
               sync
             </Icon>
           </IconButton>
