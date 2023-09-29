@@ -280,7 +280,7 @@ export const Task: any = React.memo(function Task({
         height: 25,
         boxShadow: `${
           isDark
-            ? `inset 0 0 0 1.5px ${colors[taskData.color ?? "blueGrey"]["600"]}`
+            ? `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["500"]}`
             : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
         }`,
         backgroundColor: "transparent",
