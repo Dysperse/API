@@ -19,6 +19,7 @@ import {
   styled,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, {
   useCallback,
@@ -222,13 +223,22 @@ const TaskChips = React.memo(function TaskChips({
             }
           }}
           icon={
-            <Icon>
-              {isVideoChatPlatform
-                ? "call"
-                : isAddress(taskData.where)
-                ? "location_on"
-                : "link"}
-            </Icon>
+            taskData.id.includes("-event-assignment") ? (
+              <Image
+                src="/images/integrations/canvas.webp"
+                width={15}
+                height={15}
+                alt=""
+              />
+            ) : (
+              <Icon>
+                {isVideoChatPlatform
+                  ? "call"
+                  : isAddress(taskData.where)
+                  ? "location_on"
+                  : "link"}
+              </Icon>
+            )
           }
         />
       )}
