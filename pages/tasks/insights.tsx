@@ -261,18 +261,21 @@ function Insights({ profile, tasks, defaultPalette }) {
   ) : (
     <InsightsContainer
       sx={{
-        p: profile ? 0 : { xs: 1, sm: 4 },
+        p: profile ? 0 : { xs: 3, sm: 4 },
         maxWidth: "100dvw",
         overflowX: "hidden",
       }}
     >
       {!profile && (
-        <IconButton onClick={() => handleBack(router)} sx={{ mb: 2 }}>
-          <Icon>arrow_back_ios_new</Icon>
+        <IconButton
+          onClick={() => handleBack(router)}
+          sx={{ mb: 2, background: palette[3], color: palette[11] }}
+        >
+          <Icon>close</Icon>
         </IconButton>
       )}
       {!profile && (
-        <Typography variant="h2" className="font-heading" sx={{ mb: 4 }}>
+        <Typography variant="h2" className="font-heading" sx={{ mb: 4, mt: 3 }}>
           Insights
         </Typography>
       )}
@@ -324,7 +327,14 @@ export default function Page({ email, profile = false, palette }) {
     profile ? (
       c
     ) : (
-      <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
+      <motion.div
+        initial={{ x: 100 }}
+        animate={{ x: 0 }}
+        style={{
+          maxWidth: "100dvw",
+          overflowX: "hidden",
+        }}
+      >
         {c}
       </motion.div>
     )
