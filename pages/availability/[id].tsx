@@ -45,8 +45,6 @@ function AvailabilityViewSelector({ view, setView }) {
     useDarkMode(session?.darkMode || "system")
   );
 
-  const isMobile = useMediaQuery(`(max-width: 600px)`);
-
   const styles = (active) => ({
     flexShrink: 0,
     borderWidth: "2px!important",
@@ -878,6 +876,7 @@ export default function Page({ data: eventData }) {
   }, [palette]);
 
   const [userData, setUserData] = useState(session || { name: "", email: "" });
+  const isMobile = useMediaQuery(`(max-width: 600px)`);
 
   return (
     <Box
@@ -1033,6 +1032,7 @@ export default function Page({ data: eventData }) {
               >
                 {data.location && (
                   <Chip
+                    {...(isMobile && { variant: "outlined" })}
                     sx={{ textTransform: "capitalize" }}
                     icon={<Icon>location_on</Icon>}
                     label={data.location}
@@ -1040,6 +1040,7 @@ export default function Page({ data: eventData }) {
                 )}
                 {isSaving !== "upToDate" && (
                   <Chip
+                    {...(isMobile && { variant: "outlined" })}
                     icon={
                       <Icon>
                         {isSaving === "saving" ? "cloud_sync" : "cloud_done"}
