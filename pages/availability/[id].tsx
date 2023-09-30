@@ -725,6 +725,7 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
             flex: `0 0 60px`,
             position: "sticky",
             left: 0,
+            ...(grid.length === 1 && { display: "none" }),
             zIndex: 99,
             background: addHslAlpha(palette[5], 0.6),
             backdropFilter: "blur(2px)",
@@ -772,6 +773,7 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
               ) && {
                 display: "none!important",
               }),
+              ...(grid.length === 1 && { ml: "auto" }),
             }}
             className="scroller"
             onScroll={handleScroll}
@@ -1062,7 +1064,7 @@ export default function Page({ data: eventData }) {
 export async function getServerSideProps(context) {
   const { req } = context;
   const url = `https://${req.headers["x-forwarded-host"]}/api/availability/event?id=${context.query.id}&basic=true`;
-  console.log(url);
+
   const res = await fetch(url);
   const data = await res.json();
 
