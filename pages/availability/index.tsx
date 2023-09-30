@@ -8,6 +8,7 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
+import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
   Badge,
@@ -16,11 +17,14 @@ import {
   Chip,
   CircularProgress,
   Collapse,
+  Dialog,
   Divider,
   Icon,
   IconButton,
   InputAdornment,
   ListItemButton,
+  Menu,
+  MenuItem,
   Skeleton,
   SwipeableDrawer,
   TextField,
@@ -35,6 +39,168 @@ import { cloneElement, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
+
+function EditEvent({ children, mutate, event }) {
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const [open, setOpen] = useState(false);
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen(true),
+  });
+
+  const [name, setName] = useState(event.name);
+  const [description, setDescription] = useState(event.description);
+  const [location, setLocation] = useState(event.location);
+
+  const [loading, setLoading] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+    setName(event.name);
+    setDescription(event.description);
+    setLocation(event.location);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchRawApi(session, "availability/edit", {
+        id: event.id,
+        name,
+        description,
+        location,
+      });
+      await mutate();
+      setOpen(false);
+      setLoading(false);
+      toast.success("Edited!");
+    } catch (e) {
+      setLoading(false);
+      console.error(e);
+      toast.error("Something went wrong. Please try again later");
+    }
+  };
+
+  return (
+    <>
+      {trigger}
+      <Dialog
+        onClose={() => setOpen(false)}
+        open={open}
+        onKeyDown={(e) => e.stopPropagation()}
+        PaperProps={{
+          sx: {
+            border: `2px solid ${palette[3]}`,
+          },
+        }}
+      >
+        <Box sx={{ p: 3 }}>
+          <Typography className="font-heading" variant="h3" sx={{ mb: 2 }}>
+            Edit event
+          </Typography>
+          {[
+            {
+              placeholder: "Event name",
+              value: name,
+              onChange: (e) => setName(e.target.value),
+              icon: "edit",
+            },
+            {
+              placeholder: "Event description",
+              value: description,
+              multiline: true,
+              maxRows: 3,
+              onChange: (e) => setDescription(e.target.value),
+              icon: "sticky_note_2",
+            },
+            {
+              placeholder: "Event location",
+              value: location,
+              onChange: (e) => setLocation(e.target.value),
+              icon: "location_on",
+            },
+          ].map((field, index) => (
+            <TextField
+              sx={{ mb: 2 }}
+              key={index}
+              placeholder={field.placeholder}
+              value={field.value}
+              multiline={field.multiline}
+              maxRows={field.maxRows}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon className="outlined">{field.icon}</Icon>
+                  </InputAdornment>
+                ),
+              }}
+              onChange={field.onChange}
+            />
+          ))}
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+            <Button onClick={handleClose} variant="outlined">
+              <Icon>close</Icon>Cancel
+            </Button>
+            <LoadingButton
+              loading={loading}
+              onClick={handleSubmit}
+              variant="contained"
+            >
+              <Icon>check</Icon>Done
+            </LoadingButton>
+          </Box>
+        </Box>
+      </Dialog>
+    </>
+  );
+}
+
+function EventOptions({ mutate, event }) {
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  return (
+    <>
+      <IconButton
+        sx={{ color: palette[11], background: palette[4] + "!important" }}
+        onClick={handleClick}
+      >
+        <Icon className="outlined">more_vert</Icon>
+      </IconButton>
+
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        <EditEvent event={event} mutate={mutate}>
+          <MenuItem>
+            <Icon>edit</Icon>
+            Edit
+          </MenuItem>
+        </EditEvent>
+        <ConfirmationModal
+          callback={async () => {
+            await fetchRawApi(session, "availability/delete", {
+              id: event.id,
+            });
+            await mutate();
+          }}
+          title="Delete event?"
+          question="You won't be able to see responses. Others won't be able to respond as well"
+        >
+          <MenuItem onClick={handleClose}>
+            <Icon>stop</Icon>
+            Stop gathering
+          </MenuItem>
+        </ConfirmationModal>
+      </Menu>
+    </>
+  );
+}
 
 function InviteAvailability({ children, event }) {
   const { session } = useSession();
@@ -442,20 +608,7 @@ function EventCard({ mutate, index, event }) {
               gap: 2,
             }}
           >
-            <ConfirmationModal
-              callback={async () => {
-                await fetchRawApi(session, "availability/delete", {
-                  id: event.id,
-                });
-                await mutate();
-              }}
-              title="Delete event?"
-              question="You won't be able to see responses. Others won't be able to respond as well"
-            >
-              <IconButton sx={{ opacity: 0.6, color: palette[8] }}>
-                <Icon className="outlined">remove_circle</Icon>
-              </IconButton>
-            </ConfirmationModal>
+            <EventOptions mutate={mutate} event={event} />
             <InviteAvailability event={event}>
               <Button
                 sx={{
