@@ -313,10 +313,86 @@ function AvailabilityViewer({ data: eventData }) {
             <Box
               sx={{
                 borderRadius: 4,
-                lineHeight: 1.5,
               }}
             >
-              Yikes! Nobody you&apos;ve invited is available at the same time
+              <Typography variant="h4" className="font-heading">
+                Yikes!
+              </Typography>
+              <Typography>
+                Nobody you&apos;ve invited is available at the same time
+              </Typography>
+
+              <TableContainer
+                component={Box}
+                sx={{
+                  mt: 3,
+                  background: palette[3],
+                  borderRadius: 4,
+                }}
+              >
+                <Table
+                  aria-label="All overlapping availability"
+                  sx={{
+                    "& *": {
+                      borderBottomColor: palette[5] + "!important",
+                      borderBottomWidth: "2px!important",
+                    },
+                  }}
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell colSpan={3}>
+                        <Typography variant="h6">All availability</Typography>
+                        <Typography variant="body2">
+                          {eventData.participants.length} people responded
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Person</TableCell>
+                      <TableCell align="center">Availability</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data.data.participants.map((participant) => (
+                      <TableRow
+                        key={participant.name}
+                        sx={{
+                          borderColor: palette[3],
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          {participant.userData.Profile && (
+                            <ProfilePicture
+                              data={participant.userData}
+                              size={30}
+                            />
+                          )}
+                          {participant.userData?.name}
+                        </TableCell>
+                        <TableCell align="center">
+                          {participant.availability.map(
+                            (availability, index) => (
+                              <Chip
+                                label={dayjs(availability.date)
+                                  .set("hour", availability.hour)
+                                  .format("MM/DD [at] hA")}
+                                variant="outlined"
+                                key={index}
+                              />
+                            )
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Box>
           ) : (
             <Box>
@@ -875,7 +951,14 @@ export default function Page({ data: eventData }) {
     document.body.style.background = palette[1];
   }, [palette]);
 
-  const [userData, setUserData] = useState(session || { name: "", email: "" });
+  const [userData, setUserData] = useState(
+    {
+      name: session?.user?.name,
+      email: session?.user?.email,
+      color: session?.user?.color,
+      Profile: session?.user?.Profile,
+    } || { name: "", email: "" }
+  );
   const isMobile = useMediaQuery(`(max-width: 600px)`);
 
   return (

@@ -45,7 +45,22 @@ export default async function handler(req, res) {
         startDate: true,
         endDate: true,
         timeZone: true,
-        participants: true,
+        participants: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                email: true,
+                color: true,
+                Profile: {
+                  select: {
+                    picture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
