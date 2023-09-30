@@ -115,6 +115,9 @@ export default function NotificationsPrompt() {
             p: 3,
             display: "flex",
             alignItems: "center",
+            justifyContent: { xs: "center", sm: "flex-start" },
+            textAlign: { xs: "center", sm: "left" },
+            flexDirection: { xs: "column", sm: "row" },
             gap: 3,
           }}
         >
@@ -129,7 +132,14 @@ export default function NotificationsPrompt() {
               Enable to recieve reminders for your tasks &amp; more. This will
               turn off Dysperse notifications on your other devices.
             </Typography>
-            <Box sx={{ display: "flex", gap: 1.5, mt: 1 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "center", sm: "flex-start" },
+                gap: 1.5,
+                mt: 1,
+              }}
+            >
               <Button onClick={handleClose} variant="outlined">
                 Later
               </Button>
