@@ -334,8 +334,10 @@ model Item {
 
 // When2Meet style scheduling
 model Event {
-  id   String @id @unique @default(uuid())
-  name String
+  id          String  @id @unique @default(uuid())
+  name        String
+  location    String?
+  description String?
 
   startDate      DateTime
   endDate        DateTime

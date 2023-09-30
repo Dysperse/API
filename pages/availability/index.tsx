@@ -15,9 +15,11 @@ import {
   Button,
   Chip,
   CircularProgress,
+  Collapse,
   Divider,
   Icon,
   IconButton,
+  InputAdornment,
   ListItemButton,
   Skeleton,
   SwipeableDrawer,
@@ -101,10 +103,7 @@ function InviteAvailability({ children, event }) {
                     alignItems: "center",
                   }}
                 >
-                  <ProfilePicture
-                    data={friend.following}
-                    size={70}
-                  />
+                  <ProfilePicture data={friend.following} size={70} />
                   <Typography
                     variant="body2"
                     sx={{
@@ -512,6 +511,10 @@ function CreateAvailability({ mutate, setShowMargin }) {
     `${session.user?.name?.split(" ")[0]}'s meeting`
   );
 
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+
   const [showCloseAnimation, setShowCloseAnimation] = useState(true);
   const [submitted, setSubmitted] = useState(false);
 
@@ -523,6 +526,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
     try {
       containerRef?.current?.scrollTo(0, 0);
       setSubmitted(true);
+      setShowAdvanced(false);
 
       if (endDate.isBefore(startDate)) {
         toast.error("Start date must be before end date");
@@ -541,6 +545,8 @@ function CreateAvailability({ mutate, setShowMargin }) {
 
       await fetchRawApi(session, "availability/create", {
         name,
+        description,
+        location,
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
         excludingDates: JSON.stringify(excludingDates),
@@ -863,7 +869,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
                   label={key}
                   // if selected
                   {...(startDate.isSame(value.startDate) &&
-                       (excludingDates == (value.excludingDates || [])) &&
+                    excludingDates == (value.excludingDates || []) &&
                     endDate.isSame(value.endDate) && {
                       icon: (
                         <Icon sx={{ color: palette[1] + "!important" }}>
@@ -894,6 +900,50 @@ function CreateAvailability({ mutate, setShowMargin }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <Button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 2,
+              mb: -1,
+              background: addHslAlpha(palette[5], 0.9) + "!important",
+            }}
+          >
+            Advanced <Icon>expand_{!showAdvanced ? "more" : "less"}</Icon>
+          </Button>
+          <Collapse in={showAdvanced}>
+            <TextField
+              sx={{ mt: 3 }}
+              placeholder="Add location..."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon className="outlined">location_on</Icon>
+                  </InputAdornment>
+                ),
+              }}
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+            <TextField
+              sx={{ mt: 1 }}
+              placeholder="Add description..."
+              multiline
+              maxRows={3}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon className="outlined">sticky_note_2</Icon>
+                  </InputAdornment>
+                ),
+              }}
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Collapse>
         </Box>
       </SwipeableDrawer>
     </>

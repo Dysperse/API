@@ -11,6 +11,8 @@ export default async function handler(req, res) {
     const data = await prisma.event.create({
       data: {
         name: req.query.name,
+        description: req.query.description,
+        location: req.query.description,
         startDate: new Date(req.query.startDate),
         endDate: new Date(req.query.endDate),
         timeZone: req.query.timeZone,
