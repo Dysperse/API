@@ -148,7 +148,8 @@ export default function App({
               <Toaster
                 containerClassName="noDrag"
                 containerStyle={{
-                  top: "calc(0dvh + 10px!important)",
+                  top: "calc(0dvh + 10px) !important",
+                  // bottom: "unset!important",
                 }}
                 toastOptions={toastStyles}
               />
