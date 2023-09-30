@@ -4,6 +4,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import { containerRef } from "..";
 
 export const shouldHideNavigation = (path) => {
   return [
@@ -90,6 +91,9 @@ export function BottomNav() {
    */
   return (
     <Box
+      onClick={() => {
+        containerRef.scrollTo({ top: 0, behavior: "smooth" });
+      }}
       sx={{
         width: "100%",
         ".hideBottomNav &": {
