@@ -76,6 +76,7 @@ export default function AppLayout({
   const router = useRouter();
   const shouldHide = shouldHideNavigation(router.asPath);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const isTablet = useMediaQuery("(max-width: 900px)");
 
   useEffect(() => {
     if (containerRef && router.asPath) {
@@ -185,7 +186,7 @@ export default function AppLayout({
           {children}
         </Box>
         <CssBaseline />
-        <BottomNav />
+        {isTablet && <BottomNav />}
       </Box>
     </Box>
   );
