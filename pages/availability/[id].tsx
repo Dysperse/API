@@ -10,6 +10,7 @@ import {
   AppBar,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Dialog,
   Grid,
@@ -82,7 +83,6 @@ function AvailabilityViewSelector({ view, setView }) {
       <Button
         variant="outlined"
         onClick={() => setView(0)}
-        {...(isMobile && { size: "small" })}
         sx={{
           ml: { sm: "auto" },
           ...styles(view === 0),
@@ -91,7 +91,6 @@ function AvailabilityViewSelector({ view, setView }) {
         My availability
       </Button>
       <Button
-        {...(isMobile && { size: "small" })}
         variant="outlined"
         onClick={() => setView(1)}
         sx={{
@@ -117,6 +116,7 @@ function ParticipantMissingError({ userData, id, mutate }) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
+      toast("Tap on a time slot to mark your availability.");
       await fetch(
         "/api/availability/event/add-participant?" +
           new URLSearchParams({
@@ -312,7 +312,12 @@ function AvailabilityViewer({ data: eventData }) {
       {data ? (
         <>
           {data.overlappingAvailability?.length === 0 ? (
-            <Box sx={{ background: palette[3], p: 3, borderRadius: 4 }}>
+            <Box
+              sx={{
+                borderRadius: 4,
+                lineHeight: 1.5,
+              }}
+            >
               Yikes! Nobody you&apos;ve invited is available at the same time
             </Box>
           ) : (
@@ -398,7 +403,17 @@ function AvailabilityViewer({ data: eventData }) {
           )}
         </>
       ) : (
-        <CircularProgress />
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <CircularProgress />
+        </Box>
       )}
       {error && (
         <ErrorHandler
@@ -1001,22 +1016,39 @@ export default function Page({ data: eventData }) {
               >
                 {data.name}
               </Typography>
-              <Typography sx={{ color: palette[11], opacity: 0.7 }}>
-                Tap on a time slot to mark your availability.
-              </Typography>
-              {isSaving !== "upToDate" && (
-                <Button size="small" variant="contained" sx={{ mt: 1, mb: -1 }}>
-                  <Icon
-                    sx={{
-                      fontSize: "30px!important",
-                    }}
-                    className="outlined"
-                  >
-                    {isSaving === "saving" ? "cloud_sync" : "cloud_done"}
-                  </Icon>
-                  {isSaving === "saving" ? "Saving..." : "Saved"}
-                </Button>
+              {data.description && (
+                <Typography sx={{ color: palette[11], opacity: 0.7 }}>
+                  {data.description}
+                </Typography>
               )}
+              <Box
+                sx={{
+                  mt: 1,
+                  "&:empty": { display: "none" },
+                  display: "flex",
+                  gap: 2,
+                  justifyContent: { sm: "center" },
+                  flexWrap: "wrap",
+                }}
+              >
+                {data.location && (
+                  <Chip
+                    sx={{ textTransform: "capitalize" }}
+                    icon={<Icon>location_on</Icon>}
+                    label={data.location}
+                  />
+                )}
+                {isSaving !== "upToDate" && (
+                  <Chip
+                    icon={
+                      <Icon>
+                        {isSaving === "saving" ? "cloud_sync" : "cloud_done"}
+                      </Icon>
+                    }
+                    label={isSaving === "saving" ? "Saving..." : "Saved"}
+                  />
+                )}
+              </Box>
             </Box>
           </Grid>
           <Grid
