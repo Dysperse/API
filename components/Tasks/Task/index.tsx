@@ -9,7 +9,6 @@ import { colors } from "@/lib/colors";
 import {
   Avatar,
   Box,
-  Checkbox,
   Chip,
   Icon,
   ListItemButton,
@@ -328,7 +327,7 @@ export const Task: any = React.memo(function Task({
       try {
         await fetchRawApi(session, "property/boards/column/task/edit", {
           id: taskData.id,
-          completed: e.target.checked ? "true" : "false",
+          completed: e ? "true" : "false",
           date: new Date().toISOString(),
           createdBy: session.user.email,
         });
@@ -466,21 +465,24 @@ export const Task: any = React.memo(function Task({
             }),
           }}
         >
-          <Checkbox
-            sx={{
-              mr: -2,
-              ml: -2,
-              px: 2,
+          <Icon
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCompletion(!taskData.completed);
             }}
-            disabled={isDisabled}
-            disableRipple
-            checked={taskData.completed}
-            onChange={handleCompletion}
-            onClick={(e) => e.stopPropagation()}
-            color="default"
-            checkedIcon={<BpCheckedIcon />}
-            icon={<BpIcon />}
-          />
+            sx={{
+              my: 0.7,
+              fontSize: "33px!important",
+              transition: "all .1s, opacity 0s !important",
+              color: colors[taskData.color ?? "grey"][isDark ? "400" : "A700"],
+              "&:active": {
+                opacity: 0.6,
+              },
+            }}
+            className={taskData.completed ? "" : "outlined"}
+          >
+            {taskData.completed ? "check_circle" : "circle"}
+          </Icon>
           <ListItemText
             sx={{ ml: 0.7 }}
             primary={
