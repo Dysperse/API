@@ -239,6 +239,10 @@ a {
   }
 }
 
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
 html,
 body {
   /* Vendor-specific prefixes */

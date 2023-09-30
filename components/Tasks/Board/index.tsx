@@ -67,6 +67,8 @@ function RenderBoard({ tasks }) {
         maxWidth: "100%",
         overflowX: "scroll",
         minHeight: "100dvh",
+        height: { sm: "100dvh" },
+        overflowY: { sm: "hidden" },
       }}
     >
       {!isMobile && (
