@@ -247,7 +247,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              color: palette[1],
+              background: palette[3],
+              color: palette[11],
             }),
         },
       },

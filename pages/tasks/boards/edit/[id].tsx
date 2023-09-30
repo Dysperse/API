@@ -139,7 +139,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
 
                       <ListItemText
                         primary={<b>{column.name}</b>}
-                        secondary={`${column.tasks.length} tasks`}
+                        secondary={`${column?.tasks?.length} tasks`}
                       />
                       <Box sx={{ display: "flex" }}>
                         <ConfirmationModal
@@ -179,7 +179,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
       </DragDropContext>
 
       <ListItemButton onClick={() => setOpen(true)}>
-        <Avatar sx={{ width: 30, height: 30, color: "#000" }}>
+        <Avatar sx={{ width: 30, height: 30 }}>
           <Icon>add</Icon>
         </Avatar>
         New column
@@ -527,6 +527,7 @@ const Dashboard = () => {
     "property/boards",
     {
       id,
+      includeTasks: "true",
       shareToken: "",
     },
   ]);

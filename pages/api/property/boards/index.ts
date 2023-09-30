@@ -73,6 +73,9 @@ const handler = async (req, res) => {
         },
         columns: {
           orderBy: { order: "asc" },
+          ...(req.query.includeTasks && {
+            include: { tasks: { select: { id: true } } },
+          }),
         },
         integrations: { select: { name: true, lastSynced: true } },
       },
