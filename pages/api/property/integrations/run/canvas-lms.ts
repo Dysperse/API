@@ -70,6 +70,7 @@ const handler = async (req, res) => {
             .tz(req.query.timeZone)
             .set("hour", 23)
             .set("minute", 59)
+            .add(1, "day")
             .toISOString();
         }
 
