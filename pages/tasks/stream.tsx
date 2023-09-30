@@ -40,18 +40,11 @@ export function Upcoming({ setMobileView }) {
   const scrollerRef = useRef();
 
   return (
-    <motion.div
-      initial={{ x: 100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      style={{
-        height: "100%",
-      }}
-    >
+    <motion.div initial={{ x: 100, opacity: 0 }} animate={{ x: 0, opacity: 1 }}>
       <Box
         ref={scrollerRef}
         sx={{
-          height: "100%",
-          overflow: "scroll",
+          overflow: { sm: "scroll" },
           ...(!data &&
             !error && {
               filter: "blur(10px)",
@@ -66,7 +59,6 @@ export function Upcoming({ setMobileView }) {
             p: { sm: 3 },
             pt: 10,
             maxWidth: "100vw",
-            height: "100%",
           }}
         >
           <Box sx={{ textAlign: "center" }}>
@@ -150,14 +142,13 @@ export function Upcoming({ setMobileView }) {
                   ...data.filter((task) => !task.pinned),
                 ]}
                 useWindowScroll
-                style={{ height: "100%" }}
                 itemContent={(_, task) => (
                   <Task
                     key={task.id}
                     isScrolling={isScrolling}
                     board={task.board || false}
                     columnId={task.column ? task.column.id : -1}
-                    mutate={mutate}
+                    mutateList={mutate}
                     task={task}
                   />
                 )}
@@ -226,9 +217,6 @@ export default function Dashboard() {
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            style={{
-              height: "100%",
-            }}
           >
             <Box
               ref={scrollerRef}
@@ -241,7 +229,6 @@ export default function Dashboard() {
                     transition: "all .2s",
                     pointerEvents: "none",
                   }),
-                height: "100%",
               }}
             >
               <Box
@@ -252,7 +239,6 @@ export default function Dashboard() {
                   maxWidth: "100vw",
                   display: "flex",
                   flexDirection: "column",
-                  height: "100%",
                 }}
               >
                 <Box sx={{ textAlign: "center" }}>
@@ -298,11 +284,7 @@ export default function Dashboard() {
                   />
                 )}
                 {data && (
-                  <Box
-                    sx={{
-                      height: "100%",
-                    }}
-                  >
+                  <Box>
                     {data.length === 0 && (
                       <Box
                         sx={{
@@ -345,13 +327,12 @@ export default function Dashboard() {
                       ]}
                       useWindowScroll
                       customScrollParent={scrollerRef.current}
-                      style={{ height: "100%" }}
                       itemContent={(_, task) => (
                         <Task
                           key={task.id}
                           board={task.board || false}
                           columnId={task.column ? task.column.id : -1}
-                          mutate={mutate}
+                          mutateList={mutate}
                           task={task}
                         />
                       )}
