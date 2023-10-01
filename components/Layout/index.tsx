@@ -174,6 +174,8 @@ export default function AppLayout({
           sx={{
             height: "100dvh",
             overflowY: "scroll",
+            overflowX: "hidden",
+            maxWidth: "100dvw",
             borderRadius: {
               xs: shouldHide ? "0px" : "0 0 20px 20px",
               sm: "20px 0 0 20px",

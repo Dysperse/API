@@ -1063,7 +1063,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
               background: addHslAlpha(palette[5], 0.9) + "!important",
             }}
           >
-            Advanced <Icon>expand_{!showAdvanced ? "more" : "less"}</Icon>
+            Advanced <Icon>{showAdvanced ? "expand_more" : "expand_less"}</Icon>
           </Button>
           <Collapse in={showAdvanced}>
             <TextField
