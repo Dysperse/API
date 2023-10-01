@@ -10,7 +10,6 @@ import {
   Button,
   Chip,
   Icon,
-  IconButton,
   LinearProgress,
   ListItemText,
   SwipeableDrawer,
@@ -184,9 +183,6 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
         />
         <Box sx={{ ml: "auto" }}>
           {isBirthday && <Chip label={<Icon sx={{ mb: -0.5 }}>cake</Icon>} />}
-          <IconButton sx={{ mr: { xs: -1, sm: 0 } }}>
-            <Icon>arrow_forward_ios</Icon>
-          </IconButton>
         </Box>
       </Box>
 
