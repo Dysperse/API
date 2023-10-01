@@ -11,7 +11,7 @@ const handler = async (req, res) => {
     const data = await prisma.item.create({
       data: {
         name: req.query.name,
-        note: req.query.note,
+        note: req.query.note == "null" ? null : req.query.note,
         room: { connect: { id: req.query.room } },
         property: { connect: { id: req.query.property } },
         createdBy: { connect: { identifier: req.query.userIdentifier } },
@@ -21,6 +21,7 @@ const handler = async (req, res) => {
 
     res.json(data);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };

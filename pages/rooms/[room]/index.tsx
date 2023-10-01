@@ -434,7 +434,7 @@ function Room({ room, mutateList }) {
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   return (
-    <Box sx={{ p: 4 }}>
+    <Box sx={{ p: 4,}}>
       <Box
         sx={{
           display: "flex",

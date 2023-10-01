@@ -455,6 +455,7 @@ export default function RoomLayout({ children }) {
       <motion.div
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
+        style={{ width: "100%" }}
       >
         <Box
           sx={{
