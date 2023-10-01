@@ -12,10 +12,8 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-  Typography,
   useMediaQuery,
 } from "@mui/material";
-import dayjs from "dayjs";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -157,46 +155,6 @@ function SidebarMenu({ styles }) {
   );
 }
 
-function SidebarCalendar() {
-  const date = dayjs();
-  const { session } = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const redPalette = useColor("tomato", useDarkMode(session.darkMode));
-
-  return (
-    <Box
-      className="calendar"
-      sx={{
-        width: 50,
-        height: 50,
-        borderRadius: 3,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        border: `2px solid ${palette[5]}`,
-        color: palette[8],
-      }}
-    >
-      <Box
-        sx={{
-          width: 25,
-          height: 2,
-          background: redPalette[8],
-          borderRadius: 999,
-          mt: 0.9,
-          mb: -0.2,
-        }}
-      >
-        &nbsp;
-      </Box>
-      <Typography variant="h4" className="font-heading">
-        {dayjs().format("DD")}
-      </Typography>
-    </Box>
-  );
-}
-
 export function Sidebar() {
   const router = useRouter();
   const { session } = useSession();
@@ -322,27 +280,9 @@ export function Sidebar() {
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
-        "&:hover .calendar": {
-          position: "relative",
-          transform: "translateX(0px)",
-        },
-        "&:hover .logo": {
-          position: "relative",
-          transform: "translateX(70px)",
-        },
-        "& .logo": {
-          mt: "-45px",
-          transform: "translateX(0px)",
-          transition: "transform .4s cubic-bezier(.17,.67,.22,1.14)",
-        },
-        "& .calendar": {
-          transform: "translateX(-70px)",
-          transition: "transform .4s cubic-bezier(.17,.67,.22,1.14)",
-        },
       }}
     >
       <Box sx={{ mt: 2 }} />
-      <SidebarCalendar />
       {!isMobile && <Logo size={50} intensity={7} />}
       <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
