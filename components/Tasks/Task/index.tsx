@@ -245,6 +245,21 @@ const TaskChips = React.memo(function TaskChips({
   );
 });
 
+function isIos() {
+  return (
+    [
+      "iPad Simulator",
+      "iPhone Simulator",
+      "iPod Simulator",
+      "iPad",
+      "iPhone",
+      "iPod",
+    ].includes(navigator.platform) ||
+    // iPad on iOS 13 detection
+    (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  );
+}
+
 export const Task: any = React.memo(function Task({
   sx = {},
   permissions = "edit",
@@ -418,7 +433,11 @@ export const Task: any = React.memo(function Task({
             }}
             className={taskData.completed ? "" : "outlined"}
           >
-            {taskData.completed ? "check_circle" : "circle"}
+            {taskData.completed
+              ? "check_circle"
+              : isIos()
+              ? "trip_origin"
+              : "circle"}
           </Icon>
           <ListItemText
             sx={{ ml: 0.7 }}
