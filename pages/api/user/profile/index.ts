@@ -19,28 +19,32 @@ export default async function handler(req, res) {
         name: true,
         email: true,
         Status: true,
-        followers: {
-          select: {
-            follower: {
+        followers: req.query.basic
+          ? false
+          : {
               select: {
-                name: true,
-                username: true,
-                email: true,
+                follower: {
+                  select: {
+                    name: true,
+                    username: true,
+                    email: true,
+                  },
+                },
               },
             },
-          },
-        },
-        following: {
-          select: {
-            following: {
+        following: req.query.basic
+          ? false
+          : {
               select: {
-                name: true,
-                username: true,
-                email: true,
+                following: {
+                  select: {
+                    name: true,
+                    username: true,
+                    email: true,
+                  },
+                },
               },
             },
-          },
-        },
         Profile: true,
       },
     });
