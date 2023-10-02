@@ -148,20 +148,10 @@ export default function AppearanceSettings() {
             onChange={handleChange}
             sx={{ mb: 2 }}
           />
-          <TextField
-            onKeyDown={(e) => e.stopPropagation()}
-            inputRef={birthdayRef}
-            type="date"
-            label="Birthday"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-            sx={{ mb: 2 }}
-          />
           {data?.Profile?.birthday && (
             <DatePicker
-              value={birthday}
+              label="Birthday"
+              value={dayjs(birthday)}
               onChange={(newValue: any) =>
                 dayjs(newValue).isValid() && setBirthday(newValue)
               }
