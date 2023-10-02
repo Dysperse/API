@@ -137,6 +137,7 @@ function Page() {
             width: 40,
             height: 40,
             background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[6]})`,
+            color: groupPalette[11],
           }}
         >
           <Icon>
