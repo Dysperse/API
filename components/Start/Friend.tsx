@@ -133,7 +133,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               borderRadius: 0,
               background: userPalette[3],
               "& *": {
-                background: userPalette[5],
+                background: userPalette[5] + "!important",
               },
             }}
             variant="determinate"
