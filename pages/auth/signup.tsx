@@ -1040,9 +1040,9 @@ function StepSeven({ styles, formData, setFormData, setStep }) {
             birthday: dayjs(formData.birthday).toISOString(),
           }),
         }).then((res) => res.json());
-        router.push("/");
+        window.location.href = "/";
         setTimeout(() => {
-          router.push("/");
+          window.location.href = "/";
         }, 500);
       } catch (e) {
         toast.dismiss();
