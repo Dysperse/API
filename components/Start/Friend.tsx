@@ -189,46 +189,6 @@ export function FriendPopover({ children, email }) {
           ) : (
             <Skeleton />
           )}
-          {data ? (
-            <Box sx={boxStyles}>
-              <Typography sx={{ opacity: 0.6 }}>BIO</Typography>
-              <Typography sx={{ mt: 1 }}>{data.Profile.bio}</Typography>
-            </Box>
-          ) : (
-            <Skeleton />
-          )}
-          {status ? (
-            <Box sx={boxStyles}>
-              <Typography sx={{ opacity: 0.6 }}>
-                STATUS&nbsp;&bull;&nbsp;UNTIL&nbsp;
-                {dayjs(data.Status.until).format("h:mm A")}
-              </Typography>
-              <Typography sx={{ mt: 1 }}>
-                <Emoji
-                  emoji={data.Status.emoji}
-                  size={24}
-                  style={{ verticalAlign: "middle", marginRight: "5px" }}
-                />
-                {data.Status.text}
-              </Typography>
-            </Box>
-          ) : data ? null : (
-            <Skeleton />
-          )}
-          {data?.Profile?.hobbies && data?.Profile?.hobbies.length > 0 ? (
-            <Box sx={boxStyles}>
-              <Typography sx={{ opacity: 0.6 }}>HOBBIES</Typography>
-              <Box
-                sx={{ display: "flex", gap: 1.5, mt: 0.5, flexWrap: "wrap" }}
-              >
-                {data.Profile.hobbies.map((hobby) => (
-                  <Chip key={hobby} label={capitalizeFirstLetter(hobby)} />
-                ))}
-              </Box>
-            </Box>
-          ) : (
-            <Skeleton />
-          )}
           <Box
             sx={{
               ...boxStyles,
@@ -248,6 +208,46 @@ export function FriendPopover({ children, email }) {
                 .format("MMMM Do")}
             />
           </Box>
+          {status ? (
+            <Box sx={boxStyles}>
+              <Typography sx={{ opacity: 0.6 }}>
+                STATUS&nbsp;&bull;&nbsp;UNTIL&nbsp;
+                {dayjs(data.Status.until).format("h:mm A")}
+              </Typography>
+              <Typography sx={{ mt: 1 }}>
+                <Emoji
+                  emoji={data.Status.emoji}
+                  size={24}
+                  style={{ verticalAlign: "middle", marginRight: "5px" }}
+                />
+                {data.Status.text}
+              </Typography>
+            </Box>
+          ) : data ? null : (
+            <Skeleton />
+          )}
+          {data ? (
+            <Box sx={boxStyles}>
+              <Typography sx={{ opacity: 0.6 }}>BIO</Typography>
+              <Typography sx={{ mt: 1 }}>{data.Profile.bio}</Typography>
+            </Box>
+          ) : (
+            <Skeleton />
+          )}
+          {data?.Profile?.hobbies && data?.Profile?.hobbies.length > 0 ? (
+            <Box sx={boxStyles}>
+              <Typography sx={{ opacity: 0.6 }}>HOBBIES</Typography>
+              <Box
+                sx={{ display: "flex", gap: 1.5, mt: 0.5, flexWrap: "wrap" }}
+              >
+                {data.Profile.hobbies.map((hobby) => (
+                  <Chip key={hobby} label={capitalizeFirstLetter(hobby)} />
+                ))}
+              </Box>
+            </Box>
+          ) : (
+            <Skeleton />
+          )}
         </Box>
       </SwipeableDrawer>
     </>
