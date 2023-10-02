@@ -1,3 +1,4 @@
+import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -12,6 +13,7 @@ import {
   IconButton,
   TextField,
   Toolbar,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback } from "react";
@@ -33,6 +35,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
   const { session } = useSession();
   const task = useTaskContext();
   const storage = useAccountStorage();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const isDark = useDarkMode(session.darkMode);
   const isSubTask = task.parentTasks.length !== 0;
@@ -107,7 +110,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
 
   const styles = {
     section: {
-      background: palette[2],
+      background: { xs: palette[3], sm: palette[2] },
       borderRadius: 5,
       display: "flex",
       flexDirection: "column",
@@ -115,7 +118,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
       mb: 3,
       "& .item": {
         "&:active": {
-          background: palette[3],
+          background: { xs: palette[4], sm: palette[3] },
         },
         color: palette[12],
         borderRadius: 0,
@@ -125,7 +128,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
       },
       "& .item:not(:last-child)": {
         borderBottom: "1px solid",
-        borderColor: palette[3],
+        borderColor: { xs: palette[4], sm: palette[3] },
       },
     },
 
@@ -148,11 +151,12 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
         },
       }}
     >
+      {isMobile && <Puller sx={{ mb: 0 }} />}
       <AppBar
         sx={{
           border: 0,
+          background: { xs: palette[2], sm: palette[2] },
           ...(/\bCrOS\b/.test(navigator.userAgent) && {
-            background: palette[1],
             backdropFilter: "none!important",
           }),
         }}

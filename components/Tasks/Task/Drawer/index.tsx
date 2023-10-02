@@ -141,13 +141,21 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       <SwipeableDrawer
         open={open}
         onClose={handleClose}
-        anchor="right"
+        anchor={isMobile ? "bottom" : "right"}
         PaperProps={{
           sx: {
             maxWidth: "500px",
             boxShadow: "0 0 1px rgba(0, 0, 0, 0.05)!important",
             width: "100%",
-            height: "100dvh",
+            ...(isMobile
+              ? {
+                  height: "calc(100dvh - 150px)",
+                  borderRadius: "20px 20px 0 0",
+                  background: palette[2],
+                }
+              : {
+                  height: "100dvh",
+                }),
             borderLeft: { sm: `2px solid ${addHslAlpha(palette[3], 0.7)}` },
           },
           onScroll: () => {
