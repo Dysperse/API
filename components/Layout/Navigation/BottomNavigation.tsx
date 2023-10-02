@@ -129,7 +129,7 @@ export function BottomNav() {
               router.asPath.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
-            check_circle
+            &#xe86c;
           </span>
         </Box>
       </CreateTask>
@@ -150,7 +150,7 @@ export function BottomNav() {
               : "outlined"
           }`}
         >
-          change_history
+          &#xe86b;
         </span>
       </Box>
       <Box
@@ -172,7 +172,7 @@ export function BottomNav() {
               : "outlined"
           }`}
         >
-          inventory_2
+          &#xe9fe;
         </span>
       </Box>
     </Box>

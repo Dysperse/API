@@ -105,7 +105,7 @@ function JumpBackIn() {
               },
             }}
           >
-            <Icon className="outlined">view_in_ar</Icon>
+            <Icon className="outlined">photo_camera</Icon>
           </IconButton>
           <CreateItem mutate={() => {}}>
             <IconButton
@@ -420,7 +420,7 @@ function Panel() {
           </Button>
         </CreateItem>
         <Button variant="contained" onClick={() => router.push("/rooms/audit")}>
-          <Icon className="outlined">view_in_ar</Icon>
+          <Icon className="outlined">photo_camera</Icon>
         </Button>
       </Box>
     </Box>
