@@ -3,6 +3,7 @@ import { ErrorHandler } from "@/components/Error";
 import { containerRef } from "@/components/Layout";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
+import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -590,12 +591,16 @@ function EventCard({ mutate, index, event }) {
                 >
                   {event.participants.map((participant, index) =>
                     participant.userData ? (
-                      <ProfilePicture
-                        avatarComponentOnly
-                        size={30}
-                        key={index}
-                        data={participant.user}
-                      />
+                      <FriendPopover email={participant.user.email}>
+                        <Box sx={{ width: 30, height: 30 }}>
+                          <ProfilePicture
+                            avatarComponentOnly
+                            size={30}
+                            key={index}
+                            data={participant.user}
+                          />
+                        </Box>
+                      </FriendPopover>
                     ) : (
                       <Avatar
                         sx={{ width: 30, height: 30, background: palette[5] }}
