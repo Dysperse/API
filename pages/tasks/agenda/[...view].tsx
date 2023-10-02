@@ -4,6 +4,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { IconButton } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 
 /**
@@ -25,23 +26,25 @@ export default function Dashboard() {
     <TasksLayout
       navbarRightContent={
         !isToday ? (
-          <IconButton
-            onClick={() =>
-              router.push(
-                `/tasks/agenda/${view}/${dayjs().format("YYYY-MM-DD")}`
-              )
-            }
-            sx={{
-              color: palette[8],
-              fontSize: "15px",
-              background: "transparent!important",
-              "&:active": {
-                opacity: 0.6,
-              },
-            }}
-          >
-            Today
-          </IconButton>
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+            <IconButton
+              onClick={() =>
+                router.push(
+                  `/tasks/agenda/${view}/${dayjs().format("YYYY-MM-DD")}`
+                )
+              }
+              sx={{
+                color: palette[8],
+                fontSize: "15px",
+                background: "transparent!important",
+                "&:active": {
+                  opacity: 0.6,
+                },
+              }}
+            >
+              Today
+            </IconButton>
+          </motion.div>
         ) : (
           <></>
         )
