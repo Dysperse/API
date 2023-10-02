@@ -213,7 +213,10 @@ function InviteAvailability({ children, event }) {
   const [open, setOpen] = useState(false);
 
   const trigger = cloneElement(children, {
-    onClick: () => setOpen(true),
+    onClick: () => {
+      toast("Coming soon!");
+      //setOpen(true)
+    },
   });
 
   const { isLoading, data, error } = useSWR(
