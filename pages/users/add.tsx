@@ -140,7 +140,7 @@ export default function AddFriend() {
                 People who want to add you will appear here.
               </Alert>
             )}
-            {data.map((person) => (
+            {data?.map((person) => (
               <ListItem key={person.followerId} disableGutters>
                 <ProfilePicture data={person.follower} size={40} />
                 <ListItemText primary={person.follower.name} />
