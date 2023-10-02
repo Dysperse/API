@@ -1,0 +1,36 @@
+import { useSession } from "@/lib/client/session";
+import { Badge, Button, Icon } from "@mui/material";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+
+export function FriendsTrigger() {
+  const { session } = useSession();
+
+  const { data } = useSWR([
+    "user/followers/requests",
+    { email: session.user.email, basic: true },
+  ]);
+  const router = useRouter();
+
+  return (
+    <Badge
+      badgeContent={data?.length || 0}
+      color="error"
+      variant="dot"
+      sx={{
+        "& .MuiBadge-badge": {
+          mt: 0.5,
+          ml: -0.5,
+        },
+      }}
+    >
+      <Button
+        id="addFriendTrigger"
+        variant="contained"
+        onClick={() => router.push("/users/add")}
+      >
+        <Icon className="outlined">person_add</Icon>
+      </Button>
+    </Badge>
+  );
+}
