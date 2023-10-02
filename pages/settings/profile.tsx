@@ -27,8 +27,9 @@ import Layout from ".";
 /**
  * Top-level component for the account settings page.
  */
-export default async function AppearanceSettings() {
+export default function AppearanceSettings() {
   const { session } = useSession();
+  const birthdayRef: any = useRef();
   const fileRef: any = useRef();
   const [name, setName] = useState(session.user.name);
   const handleChange = useCallback((e) => setName(e.target.value), [setName]);
@@ -46,19 +47,13 @@ export default async function AppearanceSettings() {
   const handleSubmit = async () => {
     if (name.trim() !== "") updateSettings(["name", name], { session });
 
-    toast.promise(
-      fetchRawApi(session, "user/profile/update", {
-        email: session.user.email,
-        birthday: birthday.add(1, "day").toISOString(),
-        hobbies: JSON.stringify(hobbies),
-        bio,
-      }),
-      {
-        loading: "Saving...",
-        success: "Saved!",
-        error: "Couldn't save changes. Please try again later",
-      }
-    );
+    await fetchRawApi(session, "user/profile/update", {
+      email: session.user.email,
+      birthday: birthday.add(1, "day").toISOString(),
+      hobbies: JSON.stringify(hobbies),
+      bio,
+    });
+    toast.success("Saved!");
   };
 
   const handleUsernameSubmit = async () => {
