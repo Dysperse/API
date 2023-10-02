@@ -59,7 +59,7 @@ export function Navbar({
             }}
           >
             <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-              &#xe853;
+              account_circle
             </Icon>
           </IconButton>
           {!hideSettings && (
