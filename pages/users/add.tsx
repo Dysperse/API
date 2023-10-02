@@ -19,6 +19,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -100,7 +101,11 @@ export default function AddFriend() {
           {view}
         </Typography>
         {view === "Add friend" ? (
-          <>
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            key="1"
+          >
             <TextField
               autoFocus
               fullWidth
@@ -129,9 +134,13 @@ export default function AddFriend() {
             >
               Send request <Icon>send</Icon>
             </LoadingButton>
-          </>
+          </motion.div>
         ) : (
-          <>
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            key="2"
+          >
             {data?.length == 0 && (
               <Alert
                 icon={<Icon sx={{ color: palette[11] }}>person_add</Icon>}
@@ -163,7 +172,7 @@ export default function AddFriend() {
                 </Box>
               </ListItem>
             ))}
-          </>
+          </motion.div>
         )}
       </Box>
     </>
