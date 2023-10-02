@@ -17,11 +17,45 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../components/Start/HeadingComponent";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
+
+const useShadow = (scrollerRef) => {
+  const [canScrollX, setCanScrollX] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollable =
+        scrollerRef.current.scrollWidth > scrollerRef.current.clientWidth;
+      const scrolledToEnd =
+        scrollerRef.current.scrollLeft + scrollerRef.current.clientWidth >=
+        scrollerRef.current.scrollWidth;
+
+      if (!scrollable || scrolledToEnd) {
+        setCanScrollX(false);
+      } else {
+        setCanScrollX(true);
+      }
+    };
+
+    const scroller = scrollerRef.current;
+
+    if (scroller) {
+      scroller.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (scroller) {
+        scroller.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [scrollerRef]);
+
+  return canScrollX;
+};
 
 export default function Home() {
   const { session } = useSession();
@@ -59,6 +93,10 @@ export default function Home() {
     );
   }, [data]);
 
+  const scrollerRef = useRef();
+
+  const shadow = useShadow(scrollerRef);
+
   return (
     <Box sx={{ mt: "env(titlebar-area-height)" }}>
       <Navbar
@@ -89,6 +127,7 @@ export default function Home() {
           </Box>
         </Box>
         <Box
+          ref={scrollerRef}
           sx={{
             display: "flex",
             justifyContent: { sm: "center" },
@@ -101,11 +140,20 @@ export default function Home() {
             "& *": {
               flexShrink: 0,
             },
+            position: "relative",
           }}
         >
           <AvailabilityTrigger />
           <StatusSelector mutate={mutate} profile={profileData} />
           <FriendsTrigger />
+          <Box
+            className="scrollGradient"
+            sx={{
+              transform: "translateX(34px)",
+              opacity: shadow ? 1 : 0,
+              background: `linear-gradient(90deg, transparent, ${palette[1]})`,
+            }}
+          />
         </Box>
         <Box
           sx={{

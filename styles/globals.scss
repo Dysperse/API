@@ -270,6 +270,19 @@ body {
   }
 }
 
+.scrollGradient {
+  width: 60px;
+  pointer-events: none;
+  height: auto;
+  position: sticky;
+  top: 0;
+  margin-left: -60px;
+  right: 0;
+  z-index: 99;
+  display: flex;
+  transition: all 0.2s;
+}
+
 .drag-widget {
   z-index: 9999 !important;
 }
