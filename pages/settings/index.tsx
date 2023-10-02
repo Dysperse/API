@@ -242,77 +242,69 @@ export default function Layout({ children }: any) {
 
   return (
     <Box>
-      <Box
-        sx={{
-          "& .settings": {
+      <Box>
+        <AppBar
+          sx={{
+            pr: 5,
+            background: "transparent",
+            border: 0,
+            position: "fixed",
+            top: 0,
+            left: { xs: 0, sm: "85px" },
+          }}
+        >
+          <Toolbar>
+            <IconButton onClick={() => handleBack(router)}>
+              <Icon>arrow_back_ios_new</Icon>
+            </IconButton>
+            {router.asPath !== "/settings" && (
+              <Typography sx={{ ml: 1 }}>
+                <b>Settings</b>
+              </Typography>
+            )}
+          </Toolbar>
+        </AppBar>
+        <Box
+          sx={{
+            p: { xs: 3, sm: 0 },
+            width: "100%",
+            height: "100%",
+            flexGrow: 1,
             display: "flex",
             flexDirection: "column",
-            overflowY: "auto",
-            flexGrow: 1,
-            p: { xs: 0, sm: 5 },
-          },
-        }}
-      >
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          key="settings"
-          className="settings"
+            maxWidth: "500px",
+            mx: "auto",
+          }}
         >
-          <AppBar
-            sx={{
-              pr: 5,
-              background: "transparent",
-              border: 0,
-              position: "fixed",
-              top: 0,
-              left: 0,
-            }}
+          <Typography
+            variant="h2"
+            sx={{ mb: 1, mt: 15 }}
+            className="font-heading"
           >
-            <Toolbar>
-              <IconButton onClick={() => handleBack(router)}>
-                <Icon>arrow_back_ios_new</Icon>
-              </IconButton>
-              {router.asPath !== "/settings" && (
-                <Typography sx={{ ml: 1 }}>
-                  <b>Settings</b>
-                </Typography>
-              )}
-            </Toolbar>
-          </AppBar>
+            {capitalizeFirstLetter(
+              router.asPath
+                .replace("/settings", "")
+                .replaceAll("-", " ")
+                .replaceAll("/", "") || "Settings"
+            )}
+          </Typography>
           <Box
             sx={{
-              p: { xs: 3, sm: 0 },
-              width: "100%",
-              height: "100%",
               flexGrow: 1,
-              display: "flex",
-              flexDirection: "column",
+              height: "100%",
+              width: "100%",
             }}
           >
-            <Typography
-              variant="h2"
-              sx={{ mb: 1, mt: 8 }}
-              className="font-heading"
-            >
-              {capitalizeFirstLetter(
-                router.asPath
-                  .replace("/settings", "")
-                  .replaceAll("-", " ")
-                  .replaceAll("/", "") || "Settings"
-              )}
-            </Typography>
-            <Box
-              sx={{
-                flexGrow: 1,
-                height: "100%",
-                width: "100%",
-              }}
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              key="settings"
+              style={{ marginBottom: "40px" }}
             >
               {children || <Page />}
-            </Box>
+            </motion.div>
           </Box>
-        </motion.div>
+        </Box>
       </Box>
     </Box>
   );

@@ -74,7 +74,7 @@ export default function ConnectionsSettings() {
           />
         )}
         <Grid container>
-          <Grid item xs={12} sm={6} sx={styles("google")}>
+          <Grid item xs={12} sx={styles("google")}>
             <IconButton href="/api/user/google/redirect" className="icon">
               <Image
                 style={{ ...(!isDark && { filter: "invert(1)" }) }}
@@ -104,7 +104,7 @@ export default function ConnectionsSettings() {
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} sm={6} sx={styles("spotify")}>
+          <Grid item xs={12} sx={styles("spotify")}>
             <IconButton href="/api/user/spotify/redirect" className="icon">
               <Image
                 style={{ ...(!isDark && { filter: "invert(1)" }) }}
