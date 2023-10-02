@@ -302,7 +302,7 @@ export const Task: any = React.memo(function Task({
             }
           );
         }
-        await fetchRawApi(session, "property/boards/column/task/edit", {
+        fetchRawApi(session, "property/boards/column/task/edit", {
           id: taskData.id,
           completed: e ? "true" : "false",
           date: new Date().toISOString(),
