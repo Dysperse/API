@@ -43,13 +43,15 @@ function calculatePercentage(startDate, endDate) {
   return Math.min(100, Math.max(0, percentage));
 }
 
-function FriendPopover({ children, email }) {
+export function FriendPopover({ children, email }) {
   const { session } = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const trigger = cloneElement(children, {
-    onClick: () => setOpen(true),
+    onClick: () => {
+      setOpen(true);
+    },
   });
 
   const { data } = useSWR(

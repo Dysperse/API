@@ -1,4 +1,5 @@
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -12,7 +13,6 @@ import {
   Icon,
   IconButton,
   TextField,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -152,22 +152,20 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
             {collaborators.length > 1 && (
               <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
                 {collaborators.slice(0, 5).map((member) => (
-                  <Tooltip
-                    key={member.id}
-                    title={member.user.name}
-                    onClick={() => router.push(`/users/${member.user.email}`)}
-                  >
-                    <ProfilePicture
-                      sx={{
-                        width: { xs: "40px", sm: "30px" },
-                        height: { xs: "40px", sm: "30px" },
-                        fontSize: "15px",
-                        borderColor: { xs: palette[1] + "!important" },
-                      }}
-                      size={40}
-                      data={member?.user}
-                    />
-                  </Tooltip>
+                  <FriendPopover email={member.user.email} key={member.id}>
+                    <Box>
+                      <ProfilePicture
+                        sx={{
+                          width: { xs: "40px", sm: "30px" },
+                          height: { xs: "40px", sm: "30px" },
+                          fontSize: "15px",
+                          borderColor: { xs: palette[1] + "!important" },
+                        }}
+                        size={40}
+                        data={member?.user}
+                      />
+                    </Box>
+                  </FriendPopover>
                 ))}
                 {collaborators.length > 5 && (
                   <Avatar
