@@ -195,9 +195,12 @@ function FriendPopover({ children, email }) {
           ) : (
             <Skeleton />
           )}
-          {data?.Status?.text ? (
+          {status ? (
             <Box sx={boxStyles}>
-              <Typography sx={{ opacity: 0.6 }}>STATUS</Typography>
+              <Typography sx={{ opacity: 0.6 }}>
+                STATUS&nbsp;&bull;&nbsp;UNTIL&nbsp;
+                {dayjs(data.Status.until).format("hh:mm A")}
+              </Typography>
               <Typography sx={{ mt: 1 }}>
                 <Emoji
                   emoji={data.Status.emoji}
@@ -207,7 +210,7 @@ function FriendPopover({ children, email }) {
                 {data.Status.text}
               </Typography>
             </Box>
-          ) : (
+          ) : data ? null : (
             <Skeleton />
           )}
           {data?.Profile?.hobbies && data?.Profile?.hobbies.length > 0 ? (
