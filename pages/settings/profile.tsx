@@ -20,6 +20,7 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useCallback, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import Layout from ".";
 
@@ -29,6 +30,7 @@ import Layout from ".";
 export default function AppearanceSettings() {
   const { session } = useSession();
   const birthdayRef: any = useRef();
+  const fileRef: any = useRef();
   const [name, setName] = useState(session.user.name);
   const handleChange = useCallback((e) => setName(e.target.value), [setName]);
 
@@ -79,7 +81,59 @@ export default function AppearanceSettings() {
           gap: 3,
         }}
       >
-        {data && <ProfilePicture data={data} />}
+        <Box>
+          {data && <ProfilePicture data={data} />}
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            onClick={() => fileRef.current?.click()}
+          >
+            <Icon>upload</Icon>Upload
+          </Button>
+        </Box>
+        <input
+          type="file"
+          ref={fileRef}
+          hidden
+          onChange={(e) => {
+            toast.promise(
+              new Promise(async (resolve, reject) => {
+                if (!e.target.files) {
+                  reject("No files uploaded");
+                  return;
+                }
+                try {
+                  const form = new FormData();
+                  form.append("image", e.target.files[0]);
+                  const res = await fetch(`/api/upload`, {
+                    method: "POST",
+                    body: form,
+                  }).then((res) => res.json());
+                  if (!res.image.url) {
+                    reject("Duplicate");
+                    return;
+                  }
+                  await fetchRawApi(session, "user/profile/update", {
+                    email: session.user.email,
+                    picture: res.image.url,
+                  });
+                  await mutate();
+                  resolve(res);
+                } catch (e) {
+                  console.log(e);
+                  reject("");
+                }
+              }),
+              {
+                loading: "Uploading...",
+                success: "Changed!",
+                error:
+                  "Couldn't change profile picture. Please try again later",
+              }
+            );
+          }}
+          accept="image/png, image/jpeg"
+        />
         <Box sx={{ flexGrow: 1 }}>
           <TextField
             onKeyDown={(e) => e.stopPropagation()}
@@ -113,7 +167,7 @@ export default function AppearanceSettings() {
             label="Bio"
             multiline
             rows={4}
-            sx={{ mb: 2 }}
+            sx={{ my: 2 }}
           />
           <Autocomplete
             multiple
