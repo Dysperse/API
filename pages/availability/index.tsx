@@ -33,6 +33,7 @@ import {
   TextField,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { DateCalendar, DatePicker, PickersDay } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -834,7 +835,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
           bottom: !open ? 0 : "-100px",
           width: "100%",
           textAlign: "center",
-          left: { xs: "50%", md: "calc(50% + 40px)" },
+          left: { xs: "50%", md: "calc(50% + 43px)" },
           transform: "translateX(-50%)",
           maxWidth: "550px",
           background: addHslAlpha(palette[4], 0.8),
@@ -1152,11 +1153,7 @@ export default function Page() {
   const [showAbout, setShowAbout] = useState(false);
 
   const { data, error, mutate } = useSWR(["availability"]);
-
-  useEffect(() => {
-    document.documentElement.classList.remove("allow-scroll");
-    document.body.style.background = palette[2];
-  }, [palette]);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const bulletStyles = {
     display: "flex",
@@ -1185,10 +1182,11 @@ export default function Page() {
             onClick={() => router.push("/")}
             sx={{
               opacity: showAbout ? 0 + "!important" : 1,
+              background: { sm: palette[3] },
             }}
             disabled={showAbout}
           >
-            <Icon>arrow_back_ios_new</Icon>
+            <Icon>{isMobile ? "arrow_back_ios_new" : "close"}</Icon>
           </IconButton>
           <Typography
             sx={{

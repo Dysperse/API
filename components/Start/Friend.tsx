@@ -144,6 +144,7 @@ export function FriendPopover({ children, email }) {
               position: "absolute",
               bottom: -45,
               left: 25,
+              background: palette[9],
             }}
           >
             {data ? (
