@@ -4,6 +4,7 @@ import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 
 export default function ContactSync({ showFriends }) {
@@ -29,7 +30,7 @@ export default function ContactSync({ showFriends }) {
       if (localStorage.getItem("showAvailability")) {
         setShowAvailability(false);
       }
-      if (!localStorage.getItem("shouldShowSuggestions")) {
+      if (localStorage.getItem("shouldShowSuggestions") !== "true") {
         if (
           data &&
           (showFriends || !data?.Profile?.google || !data?.Profile?.spotify)
@@ -62,13 +63,34 @@ export default function ContactSync({ showFriends }) {
           }}
         >
           <Icon sx={{ fontSize: "30px!important" }}>auto_awesome</Icon>
-          <Typography variant="h6">Suggestions</Typography>
+          <Box>
+            <Typography variant="body2" sx={{ opacity: 0.6 }}>
+              WELCOME TO DYSPERSE
+            </Typography>
+            <Typography variant="h6">Let&apos;s get started!</Typography>
+          </Box>
 
           <IconButton
             sx={{ ml: "auto", background: palette[3] }}
             onClick={() => {
               setShow(false);
-              localStorage.setItem("shouldShowSuggestions", "false");
+              toast(
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  Dismissed
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => {
+                      localStorage.setItem("shouldShowSuggestions", "false");
+                      setShow(true);
+                      toast.dismiss();
+                    }}
+                  >
+                    Undo
+                  </Button>
+                </Box>
+              );
+              localStorage.setItem("shouldShowSuggestions", "true");
             }}
           >
             <Icon>close</Icon>
