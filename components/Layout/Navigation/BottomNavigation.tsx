@@ -17,7 +17,7 @@ export const shouldHideNavigation = (path) => {
     { path: "/spaces", desktop: false },
     { path: "/onboarding", desktop: false },
     { path: "/settings", desktop: false },
-    { path: "/availability", desktop: true },
+    { path: "/availability", desktop: false },
     { path: "/tasks/insights", desktop: true },
   ].find((_path) => {
     if (_path.desktop) {

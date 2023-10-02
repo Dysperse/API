@@ -11,6 +11,8 @@ import { vibrate } from "@/lib/client/vibration";
 import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
+  Avatar,
+  AvatarGroup,
   Badge,
   Box,
   Button,
@@ -524,7 +526,7 @@ function EventCard({ mutate, index, event }) {
 
   const createdRecently = useMemo(
     () =>
-      dayjs().diff(dayjs(event.createdAt), "minute") < 15 &&
+      dayjs().diff(dayjs(event.createdAt), "minute") < 1 &&
       event.createdBy == session.user.identifier &&
       index === 0,
     [event, session, index]
@@ -539,7 +541,7 @@ function EventCard({ mutate, index, event }) {
   return (
     <Box key={event.id} sx={{ pb: 2, maxWidth: "500px", mx: "auto" }}>
       <motion.div
-        initial={{ opacity: 0, ...(createdRecently && { scale: 0 }) }}
+        initial={{ opacity: 0, ...(createdRecently && { scale: 0.7 }) }}
         animate={{ opacity: 1, ...(createdRecently && { scale: 1 }) }}
       >
         <Box
@@ -576,6 +578,38 @@ function EventCard({ mutate, index, event }) {
                 {dayjs(event.startDate).format("MMM D, YYYY")} -{" "}
                 {dayjs(event.endDate).format("MMM D, YYYY")}
               </Typography>
+              <Box sx={{ mt: 0.5, height: 30 }}>
+                <AvatarGroup
+                  max={4}
+                  sx={{
+                    "& *": {
+                      borderColor: palette[3] + "!important",
+                    },
+                    justifyContent: "start",
+                  }}
+                >
+                  {event.participants.map((participant, index) =>
+                    participant.userData ? (
+                      <ProfilePicture
+                        avatarComponentOnly
+                        size={30}
+                        key={index}
+                        data={participant.user}
+                      />
+                    ) : (
+                      <Avatar
+                        sx={{ width: 30, height: 30, background: palette[5] }}
+                        key={index}
+                      >
+                        {participant?.userData?.name
+                          ?.substring(0, 2)
+                          ?.toUpperCase()}
+                      </Avatar>
+                    )
+                  )}
+                  {JSON.stringify(event.participants)}
+                </AvatarGroup>
+              </Box>
             </Box>
             <IconButton
               onClick={() => {
@@ -796,7 +830,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
           bottom: !open ? 0 : "-100px",
           width: "100%",
           textAlign: "center",
-          left: "50%",
+          left: { xs: "50%", md: "calc(50% + 40px)" },
           transform: "translateX(-50%)",
           maxWidth: "550px",
           background: addHslAlpha(palette[4], 0.8),
@@ -876,6 +910,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
             background: submitted ? palette[3] : addHslAlpha(palette[4], 0.5),
             backdropFilter: submitted ? "" : "blur(10px)",
             borderRadius: submitted ? 5 : "20px 20px 0 0",
+            left: { md: "85px" },
             ...(submitted && {
               transition: "all .4s cubic-bezier(.17,.67,.08,1)!important",
               bottom: "calc(100dvh - 310px) !important",
@@ -1063,7 +1098,8 @@ function CreateAvailability({ mutate, setShowMargin }) {
               background: addHslAlpha(palette[5], 0.9) + "!important",
             }}
           >
-            Advanced <Icon>{showAdvanced ? "expand_more" : "expand_less"}</Icon>
+            Advanced{" "}
+            <Icon>{!showAdvanced ? "expand_more" : "expand_less"}</Icon>
           </Button>
           <Collapse in={showAdvanced}>
             <TextField
@@ -1109,6 +1145,7 @@ export default function Page() {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [showMargin, setShowMargin] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   const { data, error, mutate } = useSWR(["availability"]);
 
@@ -1133,17 +1170,50 @@ export default function Page() {
     <Box sx={{ pb: "100px" }}>
       <AppBar
         sx={{
-          position: "fixed",
+          position: { xs: "fixed", md: "sticky" },
           top: 0,
           left: 0,
           border: 0,
         }}
       >
         <Toolbar sx={{ gap: 1.5 }}>
-          <IconButton onClick={() => router.push("/")}>
+          <IconButton
+            onClick={() => router.push("/")}
+            sx={{
+              opacity: showAbout ? 0 + "!important" : 1,
+            }}
+            disabled={showAbout}
+          >
             <Icon>arrow_back_ios_new</Icon>
           </IconButton>
-          <Typography>Home</Typography>
+          <Typography
+            sx={{
+              mx: "auto",
+              gap: 2,
+              fontWeight: 900,
+              display: { xs: "flex", md: "flex" },
+              opacity: showAbout ? 0 : 1,
+            }}
+          >
+            Availability
+            <Chip
+              label="BETA"
+              sx={{
+                fontWeight: 900,
+                background: `linear-gradient(90deg, hsla(113, 96%, 81%, 1) 0%, hsla(188, 90%, 51%, 1) 100%)!important`,
+                color: "#000!important",
+              }}
+              size="small"
+            />
+          </Typography>
+          <IconButton
+            onClick={() => setShowAbout((s) => !s)}
+            sx={{
+              ...(showAbout && { background: palette[3] }),
+            }}
+          >
+            <Icon className="outlined">{showAbout ? "close" : "help"}</Icon>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <CreateAvailability mutate={mutate} setShowMargin={setShowMargin} />
@@ -1151,6 +1221,7 @@ export default function Page() {
         sx={{
           p: 4,
           pt: 0,
+          mt: { md: "calc(var(--navbar-height) * -1)" },
           display: "flex",
           gap: "20px",
           flexDirection: "column",
@@ -1167,7 +1238,7 @@ export default function Page() {
           }}
         />
         {data ? (
-          data.length === 0 ? (
+          data.length === 0 || showAbout ? (
             <Box
               sx={{
                 p: 3,

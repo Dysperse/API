@@ -1,8 +1,6 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { UserProfile } from "@/components/Profile//UserProfile";
-import { Followers } from "@/components/Profile/Followers";
-import { Following } from "@/components/Profile/Following";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -536,20 +534,6 @@ function Page() {
                     >
                       {data?.username && "@"}
                       {data?.username || data?.email}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        gap: 1,
-                        display: "flex",
-                        mt: 1,
-                        justifyContent: "center",
-                        opacity: 0.7,
-                        color: palette[9],
-                      }}
-                    >
-                      <Followers styles={styles} data={data} />
-                      <Following styles={styles} data={data} />
                     </Typography>
                   </Box>
                   <Box

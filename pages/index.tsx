@@ -25,6 +25,7 @@ export default function Home() {
   const { data, mutate } = useSWR([
     "user/profile/friends",
     {
+      spotify: true,
       email: session.user.email,
       date: dayjs().startOf("day").toISOString(),
     },
@@ -109,7 +110,7 @@ export default function Home() {
             flexDirection: "column",
           }}
         >
-          <Box>
+          <Box sx={{ mb: 5 }}>
             {data && sortedFriends?.length > 0 ? (
               <Virtuoso
                 customScrollParent={containerRef.current}

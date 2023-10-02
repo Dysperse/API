@@ -46,6 +46,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { VirtuosoGrid } from "react-virtuoso";
+import { Emoji } from "../../components/Emoji";
 const utc = require("dayjs/plugin/utc");
 const timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
 
@@ -71,24 +72,6 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-function Emoji({
-  style = {},
-  emoji,
-  size,
-}: {
-  emoji: string;
-  size: string | number;
-  style?: any;
-}) {
-  return (
-    <img
-      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-      width={size}
-      height={size}
-      style={style}
-    />
-  );
-}
 function OnboardingTemplate({ template, formData, setFormData }) {
   const palette = useColor(formData.color, useDarkMode(formData.darkMode));
   const [open, setOpen] = useState(false);

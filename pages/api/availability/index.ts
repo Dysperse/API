@@ -9,6 +9,24 @@ export default async function handler(req, res) {
       where: {
         user: { identifier: req.query.userIdentifier },
       },
+      include: {
+        participants: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                email: true,
+                color: true,
+                Profile: {
+                  select: {
+                    picture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       orderBy: {
         createdAt: "desc",
       },

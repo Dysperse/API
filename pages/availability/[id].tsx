@@ -114,7 +114,6 @@ function ParticipantMissingError({ userData, id, mutate }) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      toast("Tap on a time slot to mark your availability.");
       await fetch(
         "/api/availability/event/add-participant?" +
           new URLSearchParams({
@@ -362,31 +361,45 @@ function AvailabilityViewer({ data: eventData }) {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                        >
-                          {participant.userData.Profile && (
-                            <ProfilePicture
-                              data={participant.userData}
-                              size={30}
-                            />
-                          )}
-                          {participant.userData?.name}
+                        <TableCell component="th" scope="row">
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 2,
+                            }}
+                          >
+                            {participant.user.Profile && (
+                              <ProfilePicture
+                                data={participant.user}
+                                size={30}
+                              />
+                            )}
+                            {participant.user?.name ||
+                              participant.userData?.name}
+                          </Box>
                         </TableCell>
                         <TableCell align="center">
-                          {participant.availability.map(
-                            (availability, index) => (
-                              <Chip
-                                label={dayjs(availability.date)
-                                  .set("hour", availability.hour)
-                                  .format("MM/DD [at] hA")}
-                                variant="outlined"
-                                key={index}
-                              />
-                            )
-                          )}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              flexWrap: "wrap",
+                              gap: 2,
+                            }}
+                          >
+                            {participant.availability.map(
+                              (availability, index) => (
+                                <Chip
+                                  label={dayjs(availability.date)
+                                    .set("hour", availability.hour)
+                                    .format("MM/D [at] hA")}
+                                  sx={{ background: palette[5] }}
+                                  key={index}
+                                />
+                              )
+                            )}
+                          </Box>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -959,6 +972,7 @@ export default function Page({ data: eventData }) {
       Profile: session?.user?.Profile,
     } || { name: "", email: "" }
   );
+
   const isMobile = useMediaQuery(`(max-width: 600px)`);
 
   return (
@@ -1007,6 +1021,21 @@ export default function Page({ data: eventData }) {
               window.open(`https:////dysperse.com?utm_source=availability`)
             }
           />
+          {isSaving !== "upToDate" && (
+            <Chip
+              {...(isMobile && { variant: "outlined" })}
+              sx={{
+                color: palette[9] + "!important",
+                background: palette[3],
+              }}
+              icon={
+                <Icon sx={{ color: palette[9] + "!important" }}>
+                  {isSaving === "saving" ? "cloud_sync" : "cloud_done"}
+                </Icon>
+              }
+              label={isSaving === "saving" ? "Saving..." : "Saved"}
+            />
+          )}
           {session && (
             <IconButton
               onClick={() => (window.location.href = "/availability")}
@@ -1073,18 +1102,19 @@ export default function Page({ data: eventData }) {
             md={6}
             sx={{
               width: "100%",
-              textAlign: { sm: "center" },
               display: "flex",
               mt: { xs: 5, sm: 0 },
               flexDirection: "column",
               alignItems: "center",
+              gap: 2,
+              pt: { sm: 6 },
               justifyContent: "center",
             }}
           >
             <Box
               sx={{
-                width: { xs: "100%", sm: "auto" },
-                p: { sm: 5 },
+                width: "100%",
+                p: { sm: 3 },
                 background: { sm: palette[2] },
                 border: { sm: `2px solid ${palette[4]}` },
                 borderRadius: 5,
@@ -1098,42 +1128,50 @@ export default function Page({ data: eventData }) {
               >
                 {data.name}
               </Typography>
-              {data.description && (
-                <Typography sx={{ color: palette[11], opacity: 0.7 }}>
-                  {data.description}
-                </Typography>
-              )}
-              <Box
-                sx={{
-                  mt: 1,
-                  "&:empty": { display: "none" },
-                  display: "flex",
-                  gap: 2,
-                  justifyContent: { sm: "center" },
-                  flexWrap: "wrap",
-                }}
-              >
-                {data.location && (
-                  <Chip
-                    {...(isMobile && { variant: "outlined" })}
-                    sx={{ textTransform: "capitalize" }}
-                    icon={<Icon>location_on</Icon>}
-                    label={data.location}
-                  />
-                )}
-                {isSaving !== "upToDate" && (
-                  <Chip
-                    {...(isMobile && { variant: "outlined" })}
-                    icon={
-                      <Icon>
-                        {isSaving === "saving" ? "cloud_sync" : "cloud_done"}
-                      </Icon>
-                    }
-                    label={isSaving === "saving" ? "Saving..." : "Saved"}
-                  />
-                )}
-              </Box>
+              <Typography sx={{ color: palette[11], opacity: 0.7 }}>
+                Tap on a time slot to mark your availability.
+              </Typography>
             </Box>
+            <Grid container columnSpacing={2}>
+              {data.location && (
+                <Grid item xs={12} sm={6}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      p: { sm: 3 },
+                      background: { sm: palette[2] },
+                      border: { sm: `2px solid ${palette[4]}` },
+                      borderRadius: 5,
+                      position: "relative",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ opacity: 0.6 }}>
+                      WHERE
+                    </Typography>
+                    <Typography variant="h5">{data.location}</Typography>
+                  </Box>
+                </Grid>
+              )}
+              {data.description && (
+                <Grid item xs={12} sm={6} sx={{ mt: { xs: 1, sm: 0 } }}>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      p: { sm: 3 },
+                      background: { sm: palette[2] },
+                      border: { sm: `2px solid ${palette[4]}` },
+                      borderRadius: 5,
+                      position: "relative",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ opacity: 0.6 }}>
+                      DESCRIPTION
+                    </Typography>
+                    <Typography variant="h5">{data.description}</Typography>
+                  </Box>
+                </Grid>
+              )}
+            </Grid>
           </Grid>
           <Grid
             item
