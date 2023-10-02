@@ -281,10 +281,27 @@ export const Task: any = React.memo(function Task({
   useEffect(() => setTaskData(task), [task]);
 
   const handleCompletion = useCallback(
-    async (e) => {
-      vibrate(50);
-      setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
+    async (e, mutate = false) => {
       try {
+        vibrate(50);
+        setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
+        if (mutate) {
+          mutateList(
+            (e) => {
+              const l = e.map((t) => {
+                if (t.id === taskData.id) {
+                  return { ...t, completed: !t.completed };
+                } else {
+                  return t;
+                }
+              });
+              return l;
+            },
+            {
+              revalidate: false,
+            }
+          );
+        }
         await fetchRawApi(session, "property/boards/column/task/edit", {
           id: taskData.id,
           completed: e ? "true" : "false",
@@ -418,9 +435,9 @@ export const Task: any = React.memo(function Task({
           }}
         >
           <Icon
-            onClick={(e) => {
+            onClick={async (e) => {
               e.stopPropagation();
-              handleCompletion(!taskData.completed);
+              handleCompletion(!taskData.completed, true);
             }}
             sx={{
               my: 0.7,

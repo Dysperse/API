@@ -550,7 +550,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                     key={task.id}
                     board={board}
                     columnId={column.id}
-                    mutate={mutateData}
+                    mutateList={mutateData}
                     task={task}
                   />
                 )}
