@@ -58,8 +58,13 @@ export default function AppearanceSettings() {
   };
 
   const handleUsernameSubmit = async () => {
-    if (username.trim() !== "")
-      await updateSettings(["username", username], { session });
+    if (username.trim() !== "") {
+      toast.promise(updateSettings(["username", username], { session }), {
+        loading: "Changing...",
+        success: "Changed!",
+        error: "Something went wrong. Please try again later",
+      });
+    }
   };
 
   const [birthday, setBirthday] = useState(
