@@ -303,88 +303,93 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <FriendPopover email={friend.email}>
-        <Card
-          onClick={() => {
-            router.push("/users/" + (friend.username || friend.email));
-          }}
-          sx={{
-            background: userPalette[2],
-            borderRadius: 5,
-            mb: 2,
-            position: "relative",
-          }}
-        >
-          <CardContent
+      <Box sx={{ pb: 2 }}>
+        <FriendPopover email={friend.email}>
+          <Card
+            onClick={() => {
+              router.push("/users/" + (friend.username || friend.email));
+            }}
             sx={{
-              display: "flex",
-              gap: 2,
-              zIndex: 99,
-              position: "sticky",
-              alignItems: "center",
+              background: userPalette[2],
+              borderRadius: 5,
+              position: "relative",
             }}
           >
-            <Badge
-              variant="dot"
-              badgeContent={1}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
+            <CardContent
               sx={{
-                "& .MuiBadge-badge": {
-                  background: chipPalette[9],
-                  border: `4px solid ${userPalette[status ? 3 : 2]}`,
-                  width: 20,
-                  height: 20,
-                  borderRadius: 99,
-                  transform: "translate(3px, 3px)",
-                },
+                display: "flex",
+                gap: 2,
+                zIndex: 99,
+                position: "sticky",
+                alignItems: "center",
               }}
             >
-              <ProfilePicture data={friend} size={50} sx={{ flexShrink: 0 }} />
-            </Badge>
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h6">
-                {friend.name.split(" ")?.[0]}
-              </Typography>
-              {status && (
-                <>
-                  <Typography sx={{ display: "flex", gap: 2 }}>
-                    <Emoji
-                      emoji={status.emoji}
-                      size={24}
-                      style={{ marginTop: "4px" }}
-                    />
-                    {status.text}
-                  </Typography>
-                </>
-              )}
-            </Box>
-          </CardContent>
-          {status && (
-            <LinearProgress
-              sx={{
-                width: "100%",
-                position: "absolute",
-                top: 0,
-                left: 0,
-                height: "100%",
-                borderRadius: 0,
-                background: userPalette[3],
-                "& *": {
-                  background: userPalette[5] + "!important",
-                },
-              }}
-              variant="determinate"
-              value={calculatePercentage(
-                new Date(status.started),
-                new Date(status.until)
-              )}
-            />
-          )}
-        </Card>
-      </FriendPopover>
+              <Badge
+                variant="dot"
+                badgeContent={1}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                sx={{
+                  "& .MuiBadge-badge": {
+                    background: chipPalette[9],
+                    border: `4px solid ${userPalette[status ? 3 : 2]}`,
+                    width: 20,
+                    height: 20,
+                    borderRadius: 99,
+                    transform: "translate(3px, 3px)",
+                  },
+                }}
+              >
+                <ProfilePicture
+                  data={friend}
+                  size={50}
+                  sx={{ flexShrink: 0 }}
+                />
+              </Badge>
+              <Box sx={{ flexGrow: 1 }}>
+                <Typography variant="h6">
+                  {friend.name.split(" ")?.[0]}
+                </Typography>
+                {status && (
+                  <>
+                    <Typography sx={{ display: "flex", gap: 2 }}>
+                      <Emoji
+                        emoji={status.emoji}
+                        size={24}
+                        style={{ marginTop: "4px" }}
+                      />
+                      {status.text}
+                    </Typography>
+                  </>
+                )}
+              </Box>
+            </CardContent>
+            {status && (
+              <LinearProgress
+                sx={{
+                  width: "100%",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  height: "100%",
+                  borderRadius: 0,
+                  background: userPalette[3],
+                  "& *": {
+                    background: userPalette[5] + "!important",
+                  },
+                }}
+                variant="determinate"
+                value={calculatePercentage(
+                  new Date(status.started),
+                  new Date(status.until)
+                )}
+              />
+            )}
+          </Card>
+        </FriendPopover>
+      </Box>
     </motion.div>
   );
 });
