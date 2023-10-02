@@ -68,7 +68,7 @@ export default function AppearanceSettings() {
   };
 
   const [birthday, setBirthday] = useState(
-    dayjs(data?.Profile?.birthday || new Date())
+    dayjs(data?.Profile?.birthday || dayjs())
   );
 
   const [hobbies, setHobbies] = useState(data?.Profile?.hobbies || []);
