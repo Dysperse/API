@@ -63,6 +63,7 @@ export default function ReleaseModal() {
       PaperProps={{
         sx: {
           maxHeight: "calc(100dvh - 40px)",
+          background: palette[2],
         },
       }}
     >

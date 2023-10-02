@@ -2,10 +2,18 @@ import { containerRef } from "@/components/Layout";
 import { Navbar } from "@/components/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
+import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
 import { StatusSelector } from "@/components/Start/StatusSelector";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Toolbar, Typography, useMediaQuery } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Icon,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -13,7 +21,6 @@ import { useMemo } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../components/Start/HeadingComponent";
-import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
 export default function Home() {
@@ -111,6 +118,24 @@ export default function Home() {
           }}
         >
           <Box sx={{ mb: 5 }}>
+            {sortedFriends?.length === 0 && (
+              <Alert
+                sx={{
+                  mb: -2,
+                  mt: 2,
+                  background: palette[3],
+                  color: palette[12],
+                }}
+                severity="info"
+                icon={
+                  <Icon sx={{ color: palette[12] }} className="outlined">
+                    info
+                  </Icon>
+                }
+              >
+                Friends will appear here!
+              </Alert>
+            )}
             {data && sortedFriends?.length > 0 ? (
               <Virtuoso
                 customScrollParent={containerRef.current}

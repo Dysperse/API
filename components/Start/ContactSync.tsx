@@ -2,10 +2,13 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 export default function ContactSync({ showFriends }) {
+  const router = useRouter();
+
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -14,20 +17,27 @@ export default function ContactSync({ showFriends }) {
 
   const { data, error } = useSWR([
     "user/profile",
-    {
-      email: session.user.email,
-    },
+    { email: session.user.email },
   ]);
 
+  const [showAvailability, setShowAvailability] = useState(true);
+
   useEffect(() => {
-    if (!localStorage.getItem("shouldShowSuggestions")) {
-      if (
-        data &&
-        (showFriends || !data?.Profile?.google || !data?.Profile?.spotify)
-      ) {
-        setShow(true);
+    localStorage.getItem("shouldShowSuggestions");
+    localStorage.getItem("showAvailability");
+    setTimeout(() => {
+      if (localStorage.getItem("showAvailability")) {
+        setShowAvailability(false);
       }
-    }
+      if (!localStorage.getItem("shouldShowSuggestions")) {
+        if (
+          data &&
+          (showFriends || !data?.Profile?.google || !data?.Profile?.spotify)
+        ) {
+          setShow(true);
+        }
+      }
+    });
   }, []);
 
   return !show ? (
@@ -123,6 +133,50 @@ export default function ContactSync({ showFriends }) {
                   href="/api/user/google/redirect"
                 >
                   Connect
+                </Button>
+              </Box>
+            </Box>
+          )}
+
+          {showAvailability && (
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Icon sx={{ mt: 2 }}>trip_origin</Icon>
+              <Box>
+                <Typography>
+                  <b>Check out Dysperse Availability</b>
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Find the best time to meet with your friends
+                </Typography>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => {
+                    localStorage.setItem("showAvailability", "true");
+                    router.push("/availability");
+                  }}
+                >
+                  Try now
+                </Button>
+              </Box>
+            </Box>
+          )}
+          {!data.picture && (
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Icon sx={{ mt: 2 }}>trip_origin</Icon>
+              <Box>
+                <Typography>
+                  <b>Complete your profile</b>
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Add your photo so others know who you are
+                </Typography>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => router.push("/settings/profile")}
+                >
+                  Try now
                 </Button>
               </Box>
             </Box>

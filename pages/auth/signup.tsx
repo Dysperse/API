@@ -217,18 +217,19 @@ function OnboardingTemplate({ template, formData, setFormData }) {
               height: "100%",
             }}
           >
-            <Typography variant="h4">
-              {template.name}{" "}
-              {formData.templates.includes(template) && (
-                <Icon className="outlined" sx={{ verticalAlign: "middle" }}>
-                  check_circle
-                </Icon>
-              )}
-            </Typography>
+            <Typography variant="h4">{template.name}</Typography>
             {template.columns.length > 0 && (
               <Typography variant="body2" sx={{ mt: 1 }} className="font-body">
                 {template.columns.length} columns
               </Typography>
+            )}
+            {formData.templates.includes(template) && (
+              <Icon
+                className="outlined"
+                sx={{ position: "absolute", bottom: 0, right: 0, m: 3 }}
+              >
+                check_circle
+              </Icon>
             )}
           </Box>
         </CardActionArea>
@@ -285,11 +286,29 @@ function StepTwo({ styles, formData, setFormData, setStep }) {
 
   return (
     <Box sx={styles.container}>
-      <Button variant="outlined" onClick={() => setStep(0)} sx={{ mb: 2 }}>
+      <Button
+        variant="outlined"
+        onClick={() => setStep(0)}
+        sx={{ mt: { xs: 4, sm: 0 } }}
+      >
         <Icon>west</Icon>
       </Button>
-      <Typography className="font-heading" variant="h3" sx={styles.heading}>
-        Hey, {formData.name.split(" ")?.[0]}!
+      <Typography
+        className="font-heading"
+        variant="h3"
+        sx={{
+          ...styles.heading,
+          mt: 2,
+          "&, & span": {
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            maxWidth: "100%",
+            overflow: "hidden",
+          },
+        }}
+      >
+        Hey,{" "}
+        <span style={{ minWidth: 0 }}>{formData.name.split(" ")?.[0]}</span>!
         <Emoji emoji="1f389" size="40" />
       </Typography>
       <Typography variant="h6" sx={styles.subheading}>
@@ -393,23 +412,27 @@ function StepThree({ styles, formData, setFormData, setStep }) {
       >
         <AppBar sx={{ border: 0 }}>
           <Toolbar>
-            <IconButton onClick={() => setOpen(false)}>
-              <Icon>close</Icon>
-            </IconButton>
             Templates
+            <Button
+              variant="contained"
+              sx={{ ml: "auto" }}
+              onClick={() => setOpen(false)}
+            >
+              Done<Icon>check</Icon>
+            </Button>
           </Toolbar>
         </AppBar>
         <Typography
           variant="h3"
           className="font-heading"
-          sx={{ p: 8, pb: 2, pt: 1 }}
+          sx={{ p: 8, px: { xs: 3, sm: 5 }, pb: 2, pt: 1 }}
         >
           For you
         </Typography>
         <Box
           sx={{
             flexGrow: 1,
-            px: 4,
+            px: { xs: 1, sm: 4 },
             ...(isMobile && {
               "& *:not(.MuiChip-root)": {
                 width: "100%",
@@ -483,7 +506,7 @@ function StepThree({ styles, formData, setFormData, setStep }) {
           <Icon>west</Icon>
         </Button>
         <Button
-          variant="contained"
+          variant={formData.templates.length > 0 ? "outlined" : "contained"}
           onClick={() => setOpen(true)}
           sx={{
             ...(subStep === 1 && { display: "none" }),
@@ -525,11 +548,19 @@ function StepFour({ styles, formData, setFormData, setStep }) {
 
   return (
     <Box sx={{ ...styles.container }}>
+      <Button
+        variant="outlined"
+        onClick={() => setStep(3)}
+        sx={{ mt: { xs: 4, sm: 0 } }}
+      >
+        <Icon>west</Icon>
+      </Button>
       <Typography
         className="font-heading"
         variant="h3"
         sx={{
           ...styles.heading,
+          mt: 2,
           display: "flex",
           transition: "all .2s!important",
         }}
@@ -543,7 +574,14 @@ function StepFour({ styles, formData, setFormData, setStep }) {
         You&apos;ll be able to earn 30+ more throughout your journey.
       </Typography>
 
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          maxWidth: "100%",
+          overflowX: "scroll",
+        }}
+      >
         {[
           { name: "grass", theme: grassTheme },
           { name: "ruby", theme: rubyTheme },
@@ -553,7 +591,6 @@ function StepFour({ styles, formData, setFormData, setStep }) {
             key={index}
             onClick={() => {
               setFormData((d) => ({ ...d, color: theme.name }));
-              setStep(3);
             }}
             sx={{
               width: "100%",
@@ -565,9 +602,10 @@ function StepFour({ styles, formData, setFormData, setStep }) {
                 justifyContent: "center",
                 textAlign: "center",
                 py: 2.5,
-                px: 2,
+                px: { xs: 1, sm: 2 },
                 fontSize: "14px",
-                fontWeight: 900,
+                fontWeight: { xs: 100, sm: 900 },
+                gap: 1,
                 my: 2,
                 borderRadius: 5,
                 color: theme.theme[9],
@@ -594,7 +632,7 @@ function StepFour({ styles, formData, setFormData, setStep }) {
                 className={theme.name !== formData.color ? "outlined" : ""}
                 sx={{
                   transition: "all .2s",
-                  fontSize: "100px",
+                  fontSize: { xs: "57px!important", sm: "100px!important" },
                   background: `linear-gradient(${
                     index !== 1 ? "45deg" : "-45deg"
                   }, ${theme.theme[7]}, ${theme.theme[index == 1 ? 9 : 10]})`,
@@ -609,10 +647,15 @@ function StepFour({ styles, formData, setFormData, setStep }) {
           </Box>
         ))}
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-        <Button variant="outlined" onClick={() => setStep(2)}>
-          <Icon>west</Icon>
-        </Button>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          gap: 2,
+          justifyContent: "space-between",
+          mt: 2,
+        }}
+      >
         <Button
           onClick={() => {
             let l = "";
@@ -639,7 +682,7 @@ function StepFour({ styles, formData, setFormData, setStep }) {
             opacity: 1,
             transition: "all .2s!important",
           }}
-          onClick={() => setStep(4)}
+          onClick={() => setStep(5)}
           disabled={formData.color === "lime"}
           variant="contained"
         >
@@ -782,7 +825,7 @@ function StepFive({ styles, formData, setFormData, setStep }) {
             !formData.birthday ||
             dayjs(formData.birthday || "-1").isValid() === false
           }
-          onClick={() => setStep(5)}
+          onClick={() => setStep(4)}
         >
           Continue <Icon>east</Icon>
         </Button>
@@ -1158,6 +1201,7 @@ function Signup({ formData, setFormData }) {
         alignItems: "center",
         zIndex: 999,
         gap: 2,
+        mt: { xs: 4, sm: 0 },
         color: palette[12],
       },
       subheading: {
@@ -1310,7 +1354,7 @@ function Signup({ formData, setFormData }) {
               mb: { xs: 2, sm: "auto" },
               background: palette[4],
               borderRadius: 999,
-              "& *": {
+              "&, & *": {
                 borderRadius: 999,
                 transition: "all .3s cubic-bezier(.3,.66,.11,1.29)!important",
               },
