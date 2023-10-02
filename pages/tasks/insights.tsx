@@ -1,4 +1,4 @@
-import { handleBack } from "@/lib/client/handleBack";
+import { TasksLayout } from "@/components/Tasks/Layout";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
@@ -6,8 +6,6 @@ import {
   Box,
   Chip,
   CircularProgress,
-  Icon,
-  IconButton,
   LinearProgress,
   Typography,
   useMediaQuery,
@@ -267,14 +265,6 @@ function Insights({ profile, tasks, defaultPalette }) {
       }}
     >
       {!profile && (
-        <IconButton
-          onClick={() => handleBack(router)}
-          sx={{ mb: 2, background: palette[3], color: palette[11] }}
-        >
-          <Icon>close</Icon>
-        </IconButton>
-      )}
-      {!profile && (
         <Typography variant="h2" className="font-heading" sx={{ mb: 4, mt: 3 }}>
           Insights
         </Typography>
@@ -327,16 +317,18 @@ export default function Page({ email, profile = false, palette }) {
     profile ? (
       c
     ) : (
-      <motion.div
-        initial={{ x: 100 }}
-        animate={{ x: 0 }}
-        style={{
-          maxWidth: "100dvw",
-          overflowX: "hidden",
-        }}
-      >
-        {c}
-      </motion.div>
+      <TasksLayout>
+        <motion.div
+          initial={{ x: 100 }}
+          animate={{ x: 0 }}
+          style={{
+            maxWidth: "100dvw",
+            overflowX: "hidden",
+          }}
+        >
+          {c}
+        </motion.div>
+      </TasksLayout>
     )
   ) : (
     <Box

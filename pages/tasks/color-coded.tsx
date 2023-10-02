@@ -199,10 +199,8 @@ export function ColoredTasks() {
 }
 
 export default function Dashboard() {
-  const [open, setOpen] = useState(false);
-
   return (
-    <TasksLayout open={open} setOpen={setOpen}>
+    <TasksLayout>
       <ColoredTasks />
     </TasksLayout>
   );

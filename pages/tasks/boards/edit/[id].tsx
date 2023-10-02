@@ -139,12 +139,12 @@ function BoardColumnSettings({ data, styles, mutate }) {
 
                       <ListItemText
                         primary={<b>{column.name}</b>}
-                        secondary={`${column?.tasks?.length} tasks`}
+                        secondary={`${column._count.tasks} tasks`}
                       />
                       <Box sx={{ display: "flex" }}>
                         <ConfirmationModal
                           title="Delete column?"
-                          question={`Deleting this column will also permanently delete ${column.tasks.length} tasks inside it. Continue?`}
+                          question={`Deleting this column will also permanently delete ${column._count.tasks} tasks inside it. Continue?`}
                           callback={async () => {
                             await fetchRawApi(
                               session,
@@ -521,14 +521,13 @@ const Dashboard = () => {
   const router = useRouter();
   const { session } = useSession();
   const id = router?.query?.id;
-  const [open, setOpen] = useState(false);
 
-  const { data, mutate, error } = useSWR([
+  const { data, mutate } = useSWR([
     "property/boards",
     {
       id,
-      includeTasks: "true",
       shareToken: "",
+      allTasks: true,
     },
   ]);
 
@@ -538,7 +537,7 @@ const Dashboard = () => {
     session.permission === "read-only"
   ) {
     return (
-      <TasksLayout open={open} setOpen={setOpen}>
+      <TasksLayout>
         <Box sx={{ p: 4 }}>
           <Alert severity="error">
             You don&apos;t have permission to edit this board. Contact the owner
@@ -549,7 +548,7 @@ const Dashboard = () => {
     );
   }
   return (
-    <TasksLayout open={open} setOpen={setOpen}>
+    <TasksLayout>
       {data && data[0] && id ? (
         <EditLayout mutate={mutate} id={id} data={data[0]} />
       ) : (

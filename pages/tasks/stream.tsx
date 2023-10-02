@@ -167,8 +167,6 @@ export function Upcoming({ setMobileView }) {
 export default function Dashboard() {
   const { session } = useSession();
   const scrollerRef = useRef();
-  const [open, setOpen] = useState(false);
-
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [mobileView, setMobileView] = useState("backlog");
 
@@ -183,7 +181,7 @@ export default function Dashboard() {
   const palette = useColor(session.themeColor, isDark);
 
   return (
-    <TasksLayout open={open} setOpen={setOpen}>
+    <TasksLayout>
       <Head>
         <title>
           {isMobile

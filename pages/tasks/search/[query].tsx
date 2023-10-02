@@ -54,7 +54,7 @@ export default function Dashboard() {
   const ref = useRef();
 
   return (
-    <TasksLayout open={open} setOpen={setOpen} contentRef={ref}>
+    <TasksLayout contentRef={ref}>
       <Head>
         <title>{filteredData.length} results &bull; Search</title>
       </Head>

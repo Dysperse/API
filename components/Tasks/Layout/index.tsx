@@ -557,14 +557,12 @@ function BulkColorCode({ children }) {
 
 export function TasksLayout({
   contentRef,
-  open,
-  setOpen,
   children,
+  navbarRightContent,
 }: {
   contentRef?: any;
-  open: boolean;
-  setOpen: any;
   children: any;
+  navbarRightContent?: JSX.Element;
 }) {
   const router = useRouter();
   const { session } = useSession();
@@ -709,7 +707,6 @@ export function TasksLayout({
                   dateOnly
                   setDate={async (newDate) => {
                     try {
-                      setOpen(false);
                       const res = await fetchRawApi(
                         session,
                         "property/boards/column/task/editMany",
@@ -823,50 +820,7 @@ export function TasksLayout({
                 inputRef={searchRef}
               />
             )}
-            {isBoard || isSearch ? (
-              <IconButton
-                sx={{
-                  color: addHslAlpha(palette[9], 0.7),
-                  background: addHslAlpha(palette[3], 0.5),
-                  "&:active": {
-                    transform: "scale(0.9)",
-                  },
-                  transition: "all .2s",
-                }}
-                onClick={() => {
-                  if (isSearch) {
-                    router.push(
-                      `/tasks/search/${encodeURIComponent(
-                        searchRef.current?.value
-                      )}`
-                    );
-                  } else {
-                    router.push(
-                      router.asPath.replace("/boards/", "/boards/edit/")
-                    );
-                  }
-                }}
-              >
-                <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                  {isSearch ? "search" : "settings"}
-                </Icon>
-              </IconButton>
-            ) : isAgenda ? (
-              <IconButton
-                sx={{
-                  color: palette[9],
-                  background: "transparent",
-                  "&:active": {
-                    opacity: 0.6,
-                  },
-                  fontSize: "15px",
-                  borderRadius: 999,
-                }}
-                onClick={() => document.getElementById("agendaToday")?.click()}
-              >
-                Today
-              </IconButton>
-            ) : (
+            {navbarRightContent || (
               <CreateTask
                 closeOnCreate
                 defaultDate={dayjs().startOf("day").toDate()}
@@ -881,7 +835,7 @@ export function TasksLayout({
                       transform: "scale(0.9)",
                     },
                     color: palette[9],
-                    background: palette[3],
+                    background: addHslAlpha(palette[3], 0.8),
                     transition: "transform .1s",
                   }}
                 >

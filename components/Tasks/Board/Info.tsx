@@ -320,6 +320,18 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                       >
                         {column.name}
                       </Typography>
+                      <Typography
+                        sx={{
+                          mt: -1,
+                          opacity: 0.7,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {column._count.tasks} item
+                        {column._count.tasks !== 1 && "s"}
+                      </Typography>
                     </Box>
                   </motion.div>
                 </Grid>
