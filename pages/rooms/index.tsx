@@ -59,33 +59,68 @@ function JumpBackIn() {
         >
           Inventory
         </Typography>
-        <TextField
-          variant="standard"
-          placeholder="Search..."
-          onClick={() => toast("Coming soon!")}
-          InputProps={{
-            readOnly: true,
-            disableUnderline: true,
-            sx: {
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            mb: 2,
+            mt: 0.5,
+            alignItems: "center",
+          }}
+        >
+          <TextField
+            variant="standard"
+            placeholder="Search..."
+            onClick={() => toast("Coming soon!")}
+            InputProps={{
+              readOnly: true,
+              disableUnderline: true,
+              sx: {
+                background: palette[2],
+                "&:focus-within": {
+                  background: palette[3],
+                },
+                "& *::placeholder": {
+                  color: palette[10] + "!important",
+                },
+                transition: "all .2s",
+                px: 2,
+                py: 0.3,
+                borderRadius: 3,
+              },
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon sx={{ color: palette[9] }}>search</Icon>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <IconButton
+            onClick={() => router.push("/rooms/audit")}
+            sx={{
+              color: palette[11],
               background: palette[2],
-              "&:focus-within": {
+              "&:active": {
                 background: palette[3],
               },
-              "& *::placeholder": {
-                color: palette[10] + "!important",
-              },
-              transition: "all .2s",
-              px: 2,
-              py: 0.3,
-              borderRadius: 3,
-            },
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon sx={{ color: palette[9] }}>search</Icon>
-              </InputAdornment>
-            ),
-          }}
-        />
+            }}
+          >
+            <Icon className="outlined">view_in_ar</Icon>
+          </IconButton>
+          <CreateItem mutate={() => {}}>
+            <IconButton
+              sx={{
+                color: palette[11],
+                background: palette[2],
+                "&:active": {
+                  background: palette[3],
+                },
+              }}
+            >
+              <Icon>add</Icon>
+            </IconButton>
+          </CreateItem>
+        </Box>
       </Box>
       <Typography
         sx={{
@@ -412,34 +447,7 @@ export default function RoomLayout({ children }) {
           showLogo={router.asPath === "/rooms"}
           showRightContent={router.asPath === "/rooms"}
           right={
-            router.asPath == "/rooms" ? (
-              <>
-                <CreateItem mutate={() => {}}>
-                  <IconButton
-                    onClick={() => router.push("/rooms/audit")}
-                    sx={{ color: palette[8], ml: "auto" }}
-                  >
-                    <Icon
-                      className="outlined"
-                      sx={{ fontSize: "30px!important" }}
-                    >
-                      add_circle
-                    </Icon>
-                  </IconButton>
-                </CreateItem>
-                <IconButton
-                  onClick={() => router.push("/rooms/audit")}
-                  sx={{ color: palette[8] }}
-                >
-                  <Icon
-                    className="outlined"
-                    sx={{ fontSize: "30px!important" }}
-                  >
-                    view_in_ar
-                  </Icon>
-                </IconButton>
-              </>
-            ) : (
+            router.asPath == "/rooms" ? undefined : (
               <IconButton
                 onClick={() => router.push("/rooms")}
                 sx={{ color: palette[8] }}

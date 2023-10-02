@@ -13,12 +13,12 @@ import {
   Skeleton,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 function RecentlyAccessed() {
   const router = useRouter();
@@ -91,34 +91,14 @@ export default function Home() {
   const palette = useColor(session.user.color, isDark);
 
   const [showSync, setShowSync] = useState(true);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   return (
     <>
       <Navbar
-        showLogo
-        right={
-          <IconButton
-            sx={{ ml: "auto", visibility: showSync ? "" : "hidden" }}
-            onClick={() => {
-              toast.promise(
-                fetch("/api/property/integrations/resync").then(() => {
-                  toast.success("Up to date!");
-                  setShowSync(false);
-                }),
-                {
-                  loading: "Resyncing your tasks...",
-                  error: "Something went wrong. Please try again later",
-                  success: "Up to date!",
-                }
-              );
-            }}
-          >
-            <Icon sx={{ color: palette[8], fontSize: "30px!important" }}>
-              sync
-            </Icon>
-          </IconButton>
-        }
-        showRightContent
+        showLogo={isMobile}
+        showRightContent={isMobile}
+        hideSettings={!isMobile}
       />
       <motion.div
         initial={{ x: -100, opacity: 0 }}

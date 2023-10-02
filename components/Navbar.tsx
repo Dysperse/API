@@ -62,7 +62,7 @@ export function Navbar({
               account_circle
             </Icon>
           </IconButton>
-          {router.asPath === "/" && !hideSettings && (
+          {!hideSettings && (
             <IconButton
               sx={{ color: palette[8] }}
               onClick={() => router.push("/settings")}
