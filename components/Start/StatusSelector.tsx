@@ -193,6 +193,19 @@ export function StatusSelector({
       >
         <Box sx={{ width: "100%" }}>
           <Puller showOnDesktop />
+          <Typography
+            variant="body2"
+            sx={{
+              mb: 1,
+              mt: 4,
+              px: 2,
+              textTransform: "uppercase",
+              opacity: 0.6,
+              fontWeight: 900,
+            }}
+          >
+            What&apos;s up?
+          </Typography>
           <Box sx={{ px: 2, mb: 2 }}>
             <TextField
               placeholder="What's on your mind?"
@@ -225,6 +238,19 @@ export function StatusSelector({
               }}
             />
           </Box>
+          <Typography
+            variant="body2"
+            sx={{
+              mb: 1,
+              mt: 4,
+              px: 2,
+              textTransform: "uppercase",
+              opacity: 0.6,
+              fontWeight: 900,
+            }}
+          >
+            My availability...
+          </Typography>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, px: 2 }}>
             {["available", "busy", "away", "offline"].map((_status) => (
               <Button
@@ -239,7 +265,17 @@ export function StatusSelector({
               </Button>
             ))}
           </Box>
-          <Typography variant="h6" sx={{ mb: 1, mt: 4, px: 2 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              mb: 1,
+              mt: 4,
+              px: 2,
+              textTransform: "uppercase",
+              opacity: 0.6,
+              fontWeight: 900,
+            }}
+          >
             Clear after...
           </Typography>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, px: 2 }}>
