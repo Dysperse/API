@@ -153,7 +153,12 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
               <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
                 {collaborators.slice(0, 5).map((member) => (
                   <FriendPopover email={member.user.email} key={member.id}>
-                    <Box>
+                    <Box
+                      sx={{
+                        width: { xs: "40px", sm: "30px" },
+                        height: { xs: "40px", sm: "30px" },
+                      }}
+                    >
                       <ProfilePicture
                         sx={{
                           width: { xs: "40px", sm: "30px" },
