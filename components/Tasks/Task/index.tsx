@@ -437,6 +437,8 @@ export const Task: any = React.memo(function Task({
             }}
             sx={{
               my: 0.7,
+              px: 2,
+              mx: -2,
               fontSize: "33px!important",
               transition: "all .1s, opacity 0s !important",
               color: colors[taskData.color ?? "grey"][isDark ? "400" : "A700"],
