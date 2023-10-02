@@ -94,6 +94,7 @@ export function FriendPopover({ children, email }) {
     <>
       {trigger}
       <SwipeableDrawer
+        onClick={(e) => e.stopPropagation()}
         onClose={() => setOpen(false)}
         open={open}
         anchor="bottom"
