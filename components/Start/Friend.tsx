@@ -177,7 +177,7 @@ export function FriendPopover({ children, email }) {
             )}
           </Box>
         </Box>
-        <Box sx={{ p: 3, pt: 2, mt: "45px" }}>
+        <Box sx={{ p: 3, pt: 2, mt: "45px", color: palette[12] }}>
           <Typography variant="h3" className="font-heading">
             {data?.name}
           </Typography>
@@ -198,10 +198,12 @@ export function FriendPopover({ children, email }) {
             }}
           >
             <Chip
+              sx={{ background: palette[3] + "!important", color: palette[12] }}
               icon={<Icon>access_time</Icon>}
               label={dayjs().tz(data?.timeZone).format("h:mm A")}
             />
             <Chip
+              sx={{ background: palette[3] + "!important", color: palette[12] }}
               icon={<Icon>cake</Icon>}
               label={dayjs(data?.Profile?.birthday)
                 .tz(data?.timeZone)
@@ -226,12 +228,12 @@ export function FriendPopover({ children, email }) {
           ) : data ? null : (
             <Skeleton />
           )}
-          {data ? (
+          {data?.bio ? (
             <Box sx={boxStyles}>
               <Typography sx={{ opacity: 0.6 }}>BIO</Typography>
               <Typography sx={{ mt: 1 }}>{data.Profile.bio}</Typography>
             </Box>
-          ) : (
+          ) : data ? null : (
             <Skeleton />
           )}
           {data?.Profile?.hobbies && data?.Profile?.hobbies.length > 0 ? (
@@ -241,11 +243,18 @@ export function FriendPopover({ children, email }) {
                 sx={{ display: "flex", gap: 1.5, mt: 0.5, flexWrap: "wrap" }}
               >
                 {data.Profile.hobbies.map((hobby) => (
-                  <Chip key={hobby} label={capitalizeFirstLetter(hobby)} />
+                  <Chip
+                    sx={{
+                      background: palette[3] + "!important",
+                      color: palette[12],
+                    }}
+                    key={hobby}
+                    label={capitalizeFirstLetter(hobby)}
+                  />
                 ))}
               </Box>
             </Box>
-          ) : (
+          ) : data ? null : (
             <Skeleton />
           )}
         </Box>
