@@ -74,9 +74,18 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
           background: userPalette[2],
           borderRadius: 5,
           mb: 2,
+          position: "relative",
         }}
       >
-        <CardContent sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+        <CardContent
+          sx={{
+            display: "flex",
+            gap: 2,
+            zIndex: 99,
+            position: "sticky",
+            alignItems: "center",
+          }}
+        >
           <Badge
             variant="dot"
             badgeContent={1}
@@ -87,7 +96,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
             sx={{
               "& .MuiBadge-badge": {
                 background: chipPalette[9],
-                border: `4px solid ${userPalette[2]}`,
+                border: `4px solid ${userPalette[3]}`,
                 width: 20,
                 height: 20,
                 borderRadius: 99,
@@ -109,18 +118,31 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   />
                   {status.text}
                 </Typography>
-                <LinearProgress
-                  sx={{ width: "100%", mt: 2, borderRadius: 99 }}
-                  variant="determinate"
-                  value={calculatePercentage(
-                    new Date(status.started),
-                    new Date(status.until)
-                  )}
-                />
               </>
             )}
           </Box>
         </CardContent>
+        {status && (
+          <LinearProgress
+            sx={{
+              width: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              height: "100%",
+              borderRadius: 0,
+              background: userPalette[3],
+              "& *": {
+                background: userPalette[5],
+              },
+            }}
+            variant="determinate"
+            value={calculatePercentage(
+              new Date(status.started),
+              new Date(status.until)
+            )}
+          />
+        )}
       </Card>
     </motion.div>
   );
