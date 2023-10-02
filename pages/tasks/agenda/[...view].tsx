@@ -32,7 +32,7 @@ export default function Dashboard() {
               )
             }
             sx={{
-              color: palette[9],
+              color: palette[8],
               fontSize: "15px",
               background: "transparent!important",
               "&:active": {
