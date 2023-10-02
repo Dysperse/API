@@ -253,6 +253,9 @@ body {
   /* Standard property */
   overscroll-behavior: contain;
   /* This makes the scrolling elastic and stretchy */
+
+  // disable glow effect
+  overscroll-behavior-y: none;
 }
 
 .MuiPaper-root,
