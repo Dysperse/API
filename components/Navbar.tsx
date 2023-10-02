@@ -44,7 +44,7 @@ export function Navbar({
             onClick={openSpotlight}
           >
             <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-              search
+              &#xe8b6;
             </Icon>
           </IconButton>
           <IconButton
@@ -59,7 +59,7 @@ export function Navbar({
             }}
           >
             <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-              account_circle
+              &#xe853;
             </Icon>
           </IconButton>
           {!hideSettings && (
@@ -68,7 +68,7 @@ export function Navbar({
               onClick={() => router.push("/settings")}
             >
               <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-                settings
+                &#xe8b8;
               </Icon>
             </IconButton>
           )}

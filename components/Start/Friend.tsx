@@ -353,7 +353,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                 <Typography variant="h6">
                   {friend.name.split(" ")?.[0]}
                 </Typography>
-                {status && (
+                {status ? (
                   <>
                     <Typography sx={{ display: "flex", gap: 2 }}>
                       <Emoji
@@ -364,6 +364,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                       {status.text}
                     </Typography>
                   </>
+                ) : (
+                  <Typography sx={{ display: "flex", gap: 2 }}>Away</Typography>
                 )}
               </Box>
             </CardContent>

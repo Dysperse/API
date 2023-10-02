@@ -154,13 +154,15 @@ export function StatusSelector({
         size="large"
       >
         <Icon className="outlined">
-          {status === "available"
-            ? "check_circle"
-            : status === "busy"
-            ? "remove_circle"
-            : status === "away"
-            ? "dark_mode"
-            : "data_usage"}
+          {status === "available" ? (
+            "check_circle"
+          ) : status === "busy" ? (
+            "remove_circle"
+          ) : status === "away" ? (
+            "dark_mode"
+          ) : (
+            <>&#xe1af;</>
+          )}
         </Icon>
         {status ? capitalizeFirstLetter(status) : "Set status"}
       </LoadingButton>

@@ -296,7 +296,7 @@ export function Sidebar() {
               router.asPath.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
-            check_circle
+            &#xe86c;
           </span>
         </Tooltip>
       </Box>
@@ -313,7 +313,7 @@ export function Sidebar() {
                 : "outlined"
             }`}
           >
-            change_history
+            &#xe86b;
           </span>
         </Tooltip>
       </Box>
@@ -338,7 +338,7 @@ export function Sidebar() {
                 : "outlined"
             }`}
           >
-            inventory_2
+            &#xe9fe;
           </span>
         </Tooltip>
       </Box>

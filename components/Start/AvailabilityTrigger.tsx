@@ -29,7 +29,7 @@ export function AvailabilityTrigger() {
           localStorage.setItem("availability", "true");
         }}
       >
-        <Icon className="outlined">person_check</Icon>
+        <Icon className="outlined">&#xf565;</Icon>
         Availability
       </Button>
     </Badge>

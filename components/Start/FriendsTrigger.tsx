@@ -29,7 +29,7 @@ export function FriendsTrigger() {
         variant="contained"
         onClick={() => router.push("/users/add")}
       >
-        <Icon className="outlined">person_add</Icon>
+        <Icon className="outlined">&#xe7fe;</Icon>
       </Button>
     </Badge>
   );
