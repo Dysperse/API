@@ -155,7 +155,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
       <AppBar
         sx={{
           border: 0,
-          background: { xs: palette[2], sm: palette[2] },
+          background: { xs: palette[2], sm: palette[1] },
           ...(/\bCrOS\b/.test(navigator.userAgent) && {
             backdropFilter: "none!important",
           }),
