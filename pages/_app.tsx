@@ -145,14 +145,7 @@ export default function App({
         <SessionProvider session={s} isLoading={isLoading}>
           <StorageContext.Provider value={{ isReached, setIsReached }}>
             <ThemeProvider theme={userTheme}>
-              <Toaster
-                containerClassName="noDrag"
-                containerStyle={{
-                  top: "calc(0dvh + 10px) !important",
-                  // bottom: "unset!important",
-                }}
-                toastOptions={toastStyles}
-              />
+              <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
               <Head>
                 <title>Dysperse</title>
                 <meta name="theme-color" content={palette[1]} />

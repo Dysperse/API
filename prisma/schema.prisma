@@ -52,12 +52,16 @@ model User {
 }
 
 model Follows {
-  follower    User   @relation("follower", fields: [followerId], references: [email])
-  followerId  String
+  follower   User   @relation("follower", fields: [followerId], references: [email])
+  followerId String
+
   following   User   @relation("following", fields: [followingId], references: [email])
   followingId String
 
+  accepted Boolean @default(false)
+
   @@id([followerId, followingId])
+  @@unique([followerId, followingId])
 }
 
 model Integration {

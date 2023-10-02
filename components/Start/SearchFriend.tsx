@@ -11,10 +11,12 @@ import {
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 export function SearchFriend({ mutate }) {
+  const router = useRouter();
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -44,13 +46,7 @@ export function SearchFriend({ mutate }) {
       <Button
         id="addFriendTrigger"
         variant="contained"
-        onClick={() => {
-          setOpen(true);
-          setTimeout(
-            () => document.getElementById("searchFriend")?.focus(),
-            50
-          );
-        }}
+        onClick={() => router.push("/users/add")}
       >
         <Icon className="outlined">person_add</Icon>
       </Button>
