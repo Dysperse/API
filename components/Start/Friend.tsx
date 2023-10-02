@@ -199,7 +199,7 @@ function FriendPopover({ children, email }) {
             <Box sx={boxStyles}>
               <Typography sx={{ opacity: 0.6 }}>
                 STATUS&nbsp;&bull;&nbsp;UNTIL&nbsp;
-                {dayjs(data.Status.until).format("hh:mm A")}
+                {dayjs(data.Status.until).format("h:mm A")}
               </Typography>
               <Typography sx={{ mt: 1 }}>
                 <Emoji
