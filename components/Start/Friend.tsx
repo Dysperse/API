@@ -178,7 +178,16 @@ export function FriendPopover({ children, email }) {
           </Box>
         </Box>
         <Box sx={{ p: 3, pt: 2, mt: "45px", color: palette[12] }}>
-          <Typography variant="h3" className="font-heading">
+          <Typography
+            variant="h3"
+            className="font-heading"
+            sx={{
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              maxWidth: "100%",
+            }}
+          >
             {data?.name}
           </Typography>
           {data ? (
