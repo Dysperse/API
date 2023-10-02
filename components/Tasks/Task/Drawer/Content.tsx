@@ -151,7 +151,16 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
         },
       }}
     >
-      {isMobile && <Puller sx={{ mb: 0 }} />}
+      {isMobile && (
+        <Puller
+          sx={{
+            mb: 0,
+            "& .puller": {
+              background: palette[6],
+            },
+          }}
+        />
+      )}
       <AppBar
         sx={{
           border: 0,
