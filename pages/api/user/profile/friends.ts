@@ -38,9 +38,7 @@ export default async function handler(req, res) {
 
     const friends: any = await prisma.follows.findMany({
       where: {
-        follower: {
-          email: req.query.email,
-        },
+        AND: [{ follower: { email: req.query.email } }, { accepted: true }],
       },
       include: {
         following: {
