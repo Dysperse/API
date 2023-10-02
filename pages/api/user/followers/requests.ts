@@ -9,16 +9,18 @@ export default async function handler(req, res) {
         AND: [{ accepted: false }, { followingId: req.query.email }],
       },
       include: {
-        follower: {
-          select: {
-            name: true,
-            email: true,
-            color: true,
-            Profile: {
-              select: { picture: true },
+        follower: req.query.basic
+          ? undefined
+          : {
+              select: {
+                name: true,
+                email: true,
+                color: true,
+                Profile: {
+                  select: { picture: true },
+                },
+              },
             },
-          },
-        },
       },
     });
     res.json(data);
