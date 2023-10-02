@@ -92,7 +92,7 @@ export function BottomNav() {
   return (
     <Box
       onClick={() => {
-        containerRef.scrollTo({ top: 0, behavior: "smooth" });
+        containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
       }}
       sx={{
         width: "100%",

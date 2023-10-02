@@ -187,6 +187,7 @@ function RandomTask({ date }) {
         title: capitalizeFirstLetter(taskIdeas[random].name.toLowerCase()),
         description: taskIdeas[random].description,
       }}
+      disableBadge
     >
       <IconButton
         onTouchStart={handleClick}

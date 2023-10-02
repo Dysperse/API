@@ -246,6 +246,7 @@ function Panel() {
         position: "relative",
         display: "flex",
         flexDirection: "column",
+        pb: 5,
       }}
     >
       {/* View menu */}
