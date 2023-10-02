@@ -151,7 +151,7 @@ export default function AppearanceSettings() {
           {data?.Profile?.birthday && (
             <DatePicker
               label="Birthday"
-              value={dayjs(birthday)}
+              value={birthday}
               onChange={(newValue: any) =>
                 dayjs(newValue).isValid() && setBirthday(newValue)
               }
