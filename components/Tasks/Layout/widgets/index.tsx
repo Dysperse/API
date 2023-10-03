@@ -1,17 +1,181 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { Logo } from "@/components/Logo";
 import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Icon, IconButton } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Icon,
+  IconButton,
+  ListItem,
+  TextField,
+  Toolbar,
+} from "@mui/material";
 import { motion } from "framer-motion";
 import interact from "interactjs";
-import { useEffect, useMemo, useState } from "react";
+import Markdown from "markdown-to-jsx";
+import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { CreateTask } from "../../Task/Create";
 import { FocusTimer } from "./FocusTimer";
 import { Notes } from "./Notes";
 import { WeatherWidget } from "./Weather";
+
+function Assistant({ children }) {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  const [draft, setDraft] = useState("");
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<any>([]);
+
+  const virtuosoRef: any = useRef();
+
+  const dotVariants = {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: 1,
+      transition: {
+        duration: 0.6, // Adjust the duration as needed
+        yoyo: Infinity, // This will loop the animation indefinitely
+      },
+    },
+  };
+
+  const handleSubmit = async () => {
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { role: "user", content: draft },
+    ]);
+    setMessages((prevMessages) => [...prevMessages, "loading"]);
+
+    const d = await fetch("/api/ai/assistant", {
+      method: "POST",
+      body: JSON.stringify([
+        messages[messages.length - 2],
+        { role: "user", content: draft },
+      ]),
+    }).then((res) => res.json());
+
+    const r = { role: "system", content: d[0].response.response };
+    alert(d[0].response.response);
+
+    setMessages((prevMessages) => [...prevMessages, r]);
+    setMessages((prevMessages) => prevMessages.filter((e) => e !== "loading"));
+
+    virtuosoRef.current.scrollToIndex({
+      index: messages.length - 1,
+      behavior: "smooth",
+    });
+  };
+
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen(true),
+  });
+
+  return (
+    <>
+      {trigger}
+      <Box
+        className="drag-widget"
+        sx={{
+          position: "fixed",
+          display: "none",
+          background: palette[2],
+          border: `2px solid ${palette[3]}`,
+          borderRadius: 5,
+          overflow: "hidden",
+          ".priorityMode &": {
+            display: "block",
+          },
+          zIndex: 999,
+          width: "400px",
+          "& #close": {
+            display: "none",
+          },
+          "&:hover #close": {
+            display: "flex",
+          },
+        }}
+      >
+        <AppBar>
+          <Toolbar>
+            Assistant
+            <IconButton sx={{ ml: "auto" }}>
+              <Icon>close</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Virtuoso
+          ref={virtuosoRef}
+          style={{ height: "300px" }}
+          totalCount={messages.length}
+          followOutput="auto"
+          itemContent={(i) => {
+            const message = messages[i];
+            if (message === "loading") {
+              return (
+                <ListItem key={i}>
+                  <Avatar>
+                    <Logo size={30} intensity={8} />
+                  </Avatar>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    {[...new Array(3)].map((_, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          width: 13,
+                          height: 13,
+                          borderRadius: 999,
+                          background: palette[9],
+                          animation: "fade 1s infinite",
+                          animationDelay: `.${index * 3}s`,
+                        }}
+                      />
+                    ))}
+                  </Box>
+                </ListItem>
+              );
+            } else {
+              return (
+                <ListItem key={i} sx={{ alignItems: "start" }}>
+                  <Avatar sx={{ mt: 1 }}>
+                    {message.role === "user" ? (
+                      <Icon>account_circle</Icon>
+                    ) : (
+                      <Logo size={30} intensity={8} />
+                    )}
+                  </Avatar>
+                  <Box sx={{ pt: 2 }}>
+                    <Markdown>
+                      {message.content || "*(empty message?)*"}
+                    </Markdown>
+                  </Box>
+                </ListItem>
+              );
+            }
+          }}
+        />
+        <Box sx={{ display: "flex", gap: 2, p: 2 }}>
+          <TextField
+            label="Send message..."
+            size="small"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+          />
+          <IconButton onClick={handleSubmit}>
+            <Icon>send</Icon>
+          </IconButton>
+        </Box>
+      </Box>
+    </>
+  );
+}
 
 export function WidgetBar({ view, setView }) {
   const { session } = useSession();
@@ -161,6 +325,12 @@ export function WidgetBar({ view, setView }) {
             Note
           </Box>
         </Notes>
+        <Assistant>
+          <Box sx={focusToolsStyles.button}>
+            <Icon className="outlined">auto_awesome</Icon>
+            Assistant
+          </Box>
+        </Assistant>
         {profileData && (
           <StatusSelector profile={profileData} mutate={mutate}>
             <Box sx={focusToolsStyles.button}>

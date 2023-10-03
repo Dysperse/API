@@ -70,6 +70,7 @@
     "react-file-drop": "^3.1.6",
     "react-hot-toast": "^2.4.1",
     "react-hotkeys-hook": "^4.4.1",
+    "react-markdown": "^9.0.0",
     "react-qr-code": "^2.0.12",
     "react-sparklines": "^1.7.0",
     "react-virtuoso": "^4.6.0",
