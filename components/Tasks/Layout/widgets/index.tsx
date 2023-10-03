@@ -8,6 +8,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
   Icon,
   IconButton,
   ListItem,
@@ -53,25 +54,21 @@ function Assistant({ children }) {
       ...prevMessages,
       { role: "user", content: draft },
     ]);
+
     setMessages((prevMessages) => [...prevMessages, "loading"]);
+
+    const updatedMessages = [...messages, { role: "user", content: draft }];
+    setDraft("");
 
     const d = await fetch("/api/ai/assistant", {
       method: "POST",
-      body: JSON.stringify(
-        [
-          messages[messages.length - 2]
-            ? messages[messages.length - 2]
-            : undefined,
-          { role: "user", content: draft },
-        ].filter((e) => e)
-      ),
+      body: JSON.stringify(updatedMessages),
     }).then((res) => res.json());
 
     const r = { role: "system", content: d[0].response.response };
 
     setMessages((prevMessages) => [...prevMessages, r]);
     setMessages((prevMessages) => prevMessages.filter((e) => e !== "loading"));
-
     virtuosoRef.current.scrollToIndex({
       index: messages.length - 1,
       behavior: "smooth",
@@ -111,7 +108,15 @@ function Assistant({ children }) {
         <AppBar>
           <Toolbar>
             <Typography variant="h6">Assistant</Typography>
-            <IconButton sx={{ ml: "auto" }} onClick={() => setOpen(false)}>
+            <Button
+              sx={{ ml: "auto" }}
+              onClick={() => setMessages([])}
+              variant="contained"
+              size="small"
+            >
+              Clear
+            </Button>
+            <IconButton onClick={() => setOpen(false)}>
               <Icon>close</Icon>
             </IconButton>
           </Toolbar>
@@ -157,7 +162,11 @@ function Assistant({ children }) {
                     )}
                   </Avatar>
                   <Box sx={{ pt: 2 }}>
-                    <Markdown>
+                    <Markdown
+                      options={{
+                        disableParsingRawHTML: true,
+                      }}
+                    >
                       {message.content || "*(empty message?)*"}
                     </Markdown>
                   </Box>
@@ -169,6 +178,9 @@ function Assistant({ children }) {
         <Box sx={{ display: "flex", gap: 2, p: 2 }}>
           <TextField
             label="Send message..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSubmit();
+            }}
             size="small"
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
