@@ -81,14 +81,17 @@ function Assistant({ children }) {
     onClick: () => setOpen(true),
   });
 
-  return (
+  return !open ? (
+    trigger
+  ) : (
     <>
       {trigger}
       <Box
         className="drag-widget"
         sx={{
           position: "fixed",
-          display: "none",
+          top: "60px",
+          right: "100px",
           background: palette[2],
           border: `2px solid ${palette[3]}`,
           borderRadius: 5,
@@ -104,7 +107,6 @@ function Assistant({ children }) {
           "&:hover #close": {
             display: "flex",
           },
-          ...(!open && { display: "none" }),
         }}
       >
         <AppBar>
