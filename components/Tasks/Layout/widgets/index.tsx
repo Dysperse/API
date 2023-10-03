@@ -13,6 +13,7 @@ import {
   ListItem,
   TextField,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import interact from "interactjs";
@@ -56,14 +57,17 @@ function Assistant({ children }) {
 
     const d = await fetch("/api/ai/assistant", {
       method: "POST",
-      body: JSON.stringify([
-        messages[messages.length - 2],
-        { role: "user", content: draft },
-      ]),
+      body: JSON.stringify(
+        [
+          messages[messages.length - 2]
+            ? messages[messages.length - 2]
+            : undefined,
+          { role: "user", content: draft },
+        ].filter((e) => e)
+      ),
     }).then((res) => res.json());
 
     const r = { role: "system", content: d[0].response.response };
-    alert(d[0].response.response);
 
     setMessages((prevMessages) => [...prevMessages, r]);
     setMessages((prevMessages) => prevMessages.filter((e) => e !== "loading"));
@@ -101,12 +105,13 @@ function Assistant({ children }) {
           "&:hover #close": {
             display: "flex",
           },
+          ...(!open && { display: "none" }),
         }}
       >
         <AppBar>
           <Toolbar>
-            Assistant
-            <IconButton sx={{ ml: "auto" }}>
+            <Typography variant="h6">Assistant</Typography>
+            <IconButton sx={{ ml: "auto" }} onClick={() => setOpen(false)}>
               <Icon>close</Icon>
             </IconButton>
           </Toolbar>
