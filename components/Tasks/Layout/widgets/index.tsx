@@ -50,6 +50,8 @@ function Assistant({ children }) {
   };
 
   const handleSubmit = async () => {
+    if (draft.trim() === "") return;
+
     setMessages((prevMessages) => [
       ...prevMessages,
       { role: "user", content: draft },
@@ -62,7 +64,7 @@ function Assistant({ children }) {
 
     const d = await fetch("/api/ai/assistant", {
       method: "POST",
-      body: JSON.stringify(updatedMessages),
+      body: JSON.stringify({ role: "user", content: draft }),
     }).then((res) => res.json());
 
     const r = { role: "system", content: d[0].response.response };
