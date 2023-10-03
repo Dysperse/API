@@ -5,12 +5,14 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  Alert,
   AppBar,
   Avatar,
   Box,
   Button,
   Icon,
   IconButton,
+  InputAdornment,
   ListItem,
   TextField,
   Toolbar,
@@ -60,13 +62,13 @@ function Assistant({ children }) {
     setMessages((prevMessages) => [...prevMessages, "loading"]);
 
     const updatedMessages = [...messages, { role: "user", content: draft }];
-    
+
     virtuosoRef.current.scrollToIndex({
       index: messages.length - 1,
       behavior: "smooth",
     });
 
-    setDraft("");
+    setTimeout(() => setDraft(""));
 
     const d = await fetch("/api/ai/assistant", {
       method: "POST",
@@ -131,6 +133,14 @@ function Assistant({ children }) {
             </IconButton>
           </Toolbar>
         </AppBar>
+        {messages.length == 0 && (
+          <>
+            <Alert severity="info">
+              Assistant is in beta, and Dysperse AI might not correctly
+              represent our views.
+            </Alert>
+          </>
+        )}
         <Virtuoso
           ref={virtuosoRef}
           style={{ height: "300px" }}
@@ -187,17 +197,28 @@ function Assistant({ children }) {
         />
         <Box sx={{ display: "flex", gap: 2, p: 2 }}>
           <TextField
-            label="Ask anything..."
+            placeholder="Message..."
             onKeyDown={(e) => {
-              if (e.key === "Enter") handleSubmit();
+              if (e.key === "Enter" && !e.shiftKey) handleSubmit();
             }}
             size="small"
             value={draft}
+            multiline
+            maxRows={3}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Typography variant="body2" sx={{ opacity: 0.6 }}>
+                    {draft.split(" ")?.length - 1 || 0} / 250
+                  </Typography>
+                </InputAdornment>
+              ),
+            }}
             onChange={(e) => setDraft(e.target.value)}
           />
-          <IconButton onClick={handleSubmit}>
-            <Icon>send</Icon>
-          </IconButton>
+          <Button onClick={handleSubmit} variant="contained">
+            Ask<Icon>north</Icon>
+          </Button>
         </Box>
       </Box>
     </>
