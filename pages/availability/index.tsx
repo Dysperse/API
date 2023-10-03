@@ -603,7 +603,7 @@ function EventCard({ mutate, index, event }) {
                 >
                   {event.participants.map((participant, index) =>
                     participant.userData ? (
-                      <FriendPopover email={participant.user.email} key={index}>
+                      <FriendPopover email={participant?.email} key={index}>
                         <Box sx={{ width: 30, height: 30 }}>
                           <ProfilePicture
                             avatarComponentOnly
@@ -623,7 +623,6 @@ function EventCard({ mutate, index, event }) {
                       </Avatar>
                     )
                   )}
-                  {JSON.stringify(event.participants)}
                 </AvatarGroup>
               </Box>
             </Box>
