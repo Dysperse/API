@@ -21,6 +21,9 @@ export default async function handler(req, res) {
       data: {
         name: req.query.name,
         description: req.query.description,
+        startDate: new Date(req.query.startDate),
+        endDate: new Date(req.query.endDate),
+        excludingDates: JSON.parse(req.query.excludingDates),
         location: req.query.location,
       },
     });

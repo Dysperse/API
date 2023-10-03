@@ -44,7 +44,7 @@ import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 
-function EditEvent({ children, mutate, event }) {
+function EditEvent({ children, mutate, event }: any) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -54,8 +54,16 @@ function EditEvent({ children, mutate, event }) {
   });
 
   const [name, setName] = useState(event.name);
+  const [excludeCalendarDatesOpen, setExcludeCalendarOpen] = useState(false);
   const [description, setDescription] = useState(event.description);
   const [location, setLocation] = useState(event.location);
+  const [startDate, setStartDate] = useState<any>(
+    dayjs(event.startDate).startOf("day")
+  );
+  const [endDate, setEndDate] = useState(dayjs(event.endDate).endOf("day"));
+  const [excludingDates, setExcludingDates] = useState<any[]>(
+    event.excludingDates
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -74,6 +82,9 @@ function EditEvent({ children, mutate, event }) {
         name,
         description,
         location,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        excludingDates: JSON.stringify(excludingDates),
       });
       await mutate();
       setOpen(false);
@@ -103,6 +114,132 @@ function EditEvent({ children, mutate, event }) {
           <Typography className="font-heading" variant="h3" sx={{ mb: 2 }}>
             Edit event
           </Typography>
+
+          <Box sx={{ mt: 1, mb: 2 }}>
+            <Typography>Measure availability from...</Typography>
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1, gap: 2 }}>
+              <DatePicker
+                minDate={dayjs()}
+                value={startDate}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                  setExcludingDates(
+                    excludingDates.filter((date) =>
+                      dayjs(date).isAfter(newValue)
+                    )
+                  );
+                }}
+              />
+              <Box
+                sx={{
+                  background: palette[5],
+                  width: 40,
+                  height: 40,
+                  fontSize: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  borderRadius: 999,
+                }}
+              >
+                to
+              </Box>
+              <DatePicker
+                minDate={startDate}
+                maxDate={dayjs().add(1, "month")}
+                value={endDate}
+                onChange={(newValue) => {
+                  setEndDate(newValue);
+                  // Remove excluding dates that are after the new end date
+                  setExcludingDates(
+                    excludingDates.filter((date) =>
+                      dayjs(date).isBefore(newValue)
+                    )
+                  );
+                }}
+              />
+            </Box>
+          </Box>
+          <Box>
+            {dayjs(endDate).diff(dayjs(startDate), "day") >= 1 && (
+              <motion.div initial={{ y: 10 }} animate={{ y: 0 }}>
+                <Box sx={{ display: "flex", alignItems: "center", my: 2 }}>
+                  <Typography>Exclude dates...</Typography>
+                  <Button
+                    onClick={() => setExcludeCalendarOpen(true)}
+                    sx={{ ml: "auto" }}
+                    variant="contained"
+                    size="small"
+                  >
+                    {excludingDates.length} date
+                    {excludingDates.length !== 1 && "s"}
+                  </Button>
+                </Box>
+              </motion.div>
+            )}
+          </Box>
+          <SwipeableDrawer
+            anchor="bottom"
+            open={excludeCalendarDatesOpen}
+            onClose={() => setExcludeCalendarOpen(false)}
+            sx={{ zIndex: 999999 }}
+          >
+            <Puller />
+            <DateCalendar
+              minDate={startDate}
+              maxDate={endDate}
+              value={null}
+              slots={{
+                day:
+                  // show indicator <Badge /> if date is excluded
+                  ({ day, ...rest }) => {
+                    const isExcluded = excludingDates.includes(
+                      day.toISOString()
+                    );
+
+                    return (
+                      <Badge
+                        badgeContent={
+                          isExcluded ? <Icon sx={{ mx: -1 }}>close</Icon> : 0
+                        }
+                        color="error"
+                        sx={{
+                          ...(isExcluded && {
+                            opacity: 0.5,
+                          }),
+                        }}
+                      >
+                        <PickersDay
+                          {...rest}
+                          day={day}
+                          onClick={() => {
+                            if (excludingDates.includes(day.toISOString())) {
+                              setExcludingDates(
+                                excludingDates.filter(
+                                  (d) => d !== day.toISOString()
+                                )
+                              );
+                            } else {
+                              setExcludingDates([
+                                ...excludingDates,
+                                day.toISOString(),
+                              ]);
+                            }
+                          }}
+                          sx={{
+                            ...(isExcluded && {
+                              background: palette[9] + "!important",
+                              color: palette[1] + "!important",
+                            }),
+                          }}
+                        />
+                      </Badge>
+                    );
+                  },
+              }}
+            />
+          </SwipeableDrawer>
           {[
             {
               placeholder: "Event name",
@@ -1081,7 +1218,8 @@ function CreateAvailability({ mutate, setShowMargin }) {
                   label={key}
                   // if selected
                   {...(startDate.isSame(value.startDate) &&
-                    excludingDates == (value.excludingDates || []) &&
+                    JSON.stringify(excludingDates) ==
+                      JSON.stringify(value.excludingDates || []) &&
                     endDate.isSame(value.endDate) && {
                       icon: (
                         <Icon sx={{ color: palette[1] + "!important" }}>
