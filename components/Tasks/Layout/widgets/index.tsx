@@ -64,7 +64,7 @@ function Assistant({ children }) {
 
     const d = await fetch("/api/ai/assistant", {
       method: "POST",
-      body: JSON.stringify({ role: "user", content: draft }),
+      body: JSON.stringify([{ role: "user", content: draft }]),
     }).then((res) => res.json());
 
     const r = { role: "system", content: d[0].response.response };
@@ -179,7 +179,7 @@ function Assistant({ children }) {
         />
         <Box sx={{ display: "flex", gap: 2, p: 2 }}>
           <TextField
-            label="Send message..."
+            label="Ask anything..."
             onKeyDown={(e) => {
               if (e.key === "Enter") handleSubmit();
             }}
@@ -365,7 +365,7 @@ export function WidgetBar({ view, setView }) {
           </Box>
         </WeatherWidget>
 
-        <CreateTask>
+        <CreateTask disableBadge>
           <IconButton sx={{ mt: "auto", background: palette[4] }} size="large">
             <Icon className="outlined">add</Icon>
           </IconButton>
