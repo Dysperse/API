@@ -60,6 +60,12 @@ function Assistant({ children }) {
     setMessages((prevMessages) => [...prevMessages, "loading"]);
 
     const updatedMessages = [...messages, { role: "user", content: draft }];
+    
+    virtuosoRef.current.scrollToIndex({
+      index: messages.length - 1,
+      behavior: "smooth",
+    });
+
     setDraft("");
 
     const d = await fetch("/api/ai/assistant", {
