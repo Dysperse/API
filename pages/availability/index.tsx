@@ -701,10 +701,17 @@ function EventCard({ mutate, index, event }) {
               p: 3,
               display: "flex",
               alignItems: "center",
-              gap: 2,
+              height: "170px",
             }}
           >
             <Box sx={{ minWidth: 0 }}>
+              {event.location && (
+                <Chip
+                  sx={{ mb: 0.5, background: palette[5] }}
+                  label={event.location}
+                  icon={<Icon>location_on</Icon>}
+                />
+              )}
               <Typography
                 variant="h4"
                 className="font-heading"
@@ -725,10 +732,10 @@ function EventCard({ mutate, index, event }) {
                   overflow: "hidden",
                 }}
               >
-                {dayjs(event.startDate).format("MMM D, YYYY")} -{" "}
-                {dayjs(event.endDate).format("MMM D, YYYY")}
+                Gathering from {dayjs(event.startDate).format("MMM Do")} -{" "}
+                {dayjs(event.endDate).format("Do")}
               </Typography>
-              <Box sx={{ mt: 0.5, height: 30 }}>
+              <Box sx={{ mt: 0.7, height: 30 }}>
                 <AvatarGroup
                   max={4}
                   sx={{
@@ -738,6 +745,11 @@ function EventCard({ mutate, index, event }) {
                     justifyContent: "start",
                   }}
                 >
+                  {event.participants.length == 0 && (
+                    <Box sx={{ opacity: 0.6 }}>
+                      <i>No responses</i>
+                    </Box>
+                  )}
                   {event.participants.map((participant, index) =>
                     participant?.user?.email ? (
                       <FriendPopover
@@ -795,11 +807,12 @@ function EventCard({ mutate, index, event }) {
 
           <Box
             sx={{
-              borderTop: `2px solid ${palette[4]}`,
-              p: 3,
-              py: 2,
+              px: 3,
+              pb: 1,
+              height: "50px",
               mt: "auto",
               display: "flex",
+              alignItems: "center",
               gap: 2,
             }}
           >
