@@ -707,7 +707,7 @@ function EventCard({ mutate, index, event }) {
             <Box sx={{ minWidth: 0 }}>
               {event.location && (
                 <Chip
-                  sx={{ mb: 0.5, background: palette[5] }}
+                  sx={{ mb: 0.7, background: palette[5] }}
                   label={event.location}
                   icon={<Icon>location_on</Icon>}
                 />
@@ -724,9 +724,10 @@ function EventCard({ mutate, index, event }) {
                 {event.name}
               </Typography>
               <Typography
-                variant="body1"
+                variant="h6"
                 sx={{
-                  opacity: 0.6,
+                  mt: -0.5,
+                  opacity: 0.8,
                   whiteSpace: "nowrap",
                   textOverflow: "ellipsis",
                   overflow: "hidden",
@@ -746,7 +747,15 @@ function EventCard({ mutate, index, event }) {
                   }}
                 >
                   {event.participants.length == 0 && (
-                    <Box sx={{ opacity: 0.6 }}>
+                    <Box
+                      sx={{
+                        opacity: 0.5,
+                        background: palette[5],
+                        px: 1,
+                        py: 0.5,
+                        borderRadius: 5,
+                      }}
+                    >
                       <i>No responses</i>
                     </Box>
                   )}
