@@ -617,8 +617,14 @@ function EventCard({ mutate, index, event }) {
                       </FriendPopover>
                     ) : (
                       <Avatar
-                        sx={{ width: 30, height: 30, background: palette[5] }}
+                        sx={{
+                          width: 30,
+                          height: 30,
+                          background: palette[5],
+                          fontSize: "15px",
+                        }}
                         key={index}
+                        src={participant?.userData?.picture}
                       >
                         {participant?.userData?.name
                           ?.substring(0, 2)
