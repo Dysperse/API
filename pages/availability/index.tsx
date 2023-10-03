@@ -579,7 +579,15 @@ function EventCard({ mutate, index, event }) {
               >
                 {event.name}
               </Typography>
-              <Typography variant="body1" sx={{ opacity: 0.6 }}>
+              <Typography
+                variant="body1"
+                sx={{
+                  opacity: 0.6,
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+              >
                 {dayjs(event.startDate).format("MMM D, YYYY")} -{" "}
                 {dayjs(event.endDate).format("MMM D, YYYY")}
               </Typography>
