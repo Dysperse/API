@@ -30,7 +30,9 @@ export default function AddFriend() {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const [view, setView] = useState<"Add friend" | "Requests">("Requests");
+  const [view, setView] = useState<"Add friend" | "Requests" | "Pending">(
+    "Requests"
+  );
 
   const [query, setQuery] = useState("");
 
@@ -43,7 +45,7 @@ export default function AddFriend() {
       });
       console.log(data);
       if (!data?.success) throw new Error();
-      toast.success("Added friend!");
+      toast.success("Friend request sent!");
       setLoading("");
     } catch (e) {
       setLoading("");
@@ -66,6 +68,12 @@ export default function AddFriend() {
     { email: session.user.email },
   ]);
 
+  const {
+    data: pendingData,
+    mutate: pendingMutate,
+    error: pendingError,
+  } = useSWR(["user/followers/pending", { email: session.user.email }]);
+
   const [loading, setLoading] = useState("");
 
   const handleRequest = async (email, action) => {
@@ -74,6 +82,16 @@ export default function AddFriend() {
       email,
       userEmail: session.user.email,
       action: String(action),
+    });
+    await mutate();
+    setLoading("");
+  };
+
+  const handleCancel = async (email) => {
+    setLoading(email);
+    await fetchRawApi(session, "user/followers/cancel-request", {
+      email,
+      userEmail: session.user.email,
     });
     await mutate();
     setLoading("");
@@ -95,7 +113,7 @@ export default function AddFriend() {
         <OptionsGroup
           setOption={setView}
           currentOption={view}
-          options={["Requests", "Add friend"]}
+          options={["Requests", "Pending", "Add friend"]}
         />
         <Typography variant="h2" className="font-heading" sx={{ mt: 4, mb: 1 }}>
           {view}
@@ -135,13 +153,44 @@ export default function AddFriend() {
               Send request <Icon>send</Icon>
             </LoadingButton>
           </motion.div>
+        ) : view === "Pending" ? (
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            key="3"
+          >
+            {pendingData?.length === 0 && (
+              <Alert
+                icon={<Icon sx={{ color: palette[11] }}>person_add</Icon>}
+                sx={{ background: palette[3] }}
+              >
+                Pending requests will appear here
+              </Alert>
+            )}
+            {pendingData?.map((person) => (
+              <ListItem key={person.followerId} disableGutters>
+                <ProfilePicture data={person.following} size={40} />
+                <ListItemText primary={person.following.name} />
+                <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
+                  <Button
+                    disabled={loading === person.email}
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleCancel(person.following.email)}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </ListItem>
+            ))}
+          </motion.div>
         ) : (
           <motion.div
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             key="2"
           >
-            {data?.length == 0 && (
+            {data?.length === 0 && (
               <Alert
                 icon={<Icon sx={{ color: palette[11] }}>person_add</Icon>}
                 sx={{ background: palette[3] }}

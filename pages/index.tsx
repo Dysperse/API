@@ -192,8 +192,12 @@ export default function Home() {
                 itemContent={(i) => (
                   <Friend
                     mutate={mutate}
-                    friend={sortedFriends[i].following}
-                    key={sortedFriends[i].following.email}
+                    friend={
+                      sortedFriends[i].follower.email === session.user.email
+                        ? sortedFriends[i].following
+                        : sortedFriends[i].follower
+                    }
+                    key={i}
                   />
                 )}
               />
