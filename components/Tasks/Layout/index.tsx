@@ -512,7 +512,7 @@ export const MenuChildren = memo(function MenuChildren() {
             {isMobile && !showSync && (
               <Button
                 fullWidth
-                onClick={() => {
+                onClick={async () => {
                   setShowSync(false);
                   await fetch("/api/property/integrations/resync");
                 }}
