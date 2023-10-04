@@ -81,6 +81,7 @@ export function ConfirmationModal({
             maxWidth: "calc(100vw - 20px)",
             borderRadius: 5,
             mx: { xs: "10px", sm: "auto" },
+            mb: "10px",
             border: `2px solid ${palette[3]}`,
           },
         }}
