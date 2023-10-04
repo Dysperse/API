@@ -201,8 +201,8 @@ const SelectDateModal = React.memo(function SelectDateModal({
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            width: { xs: "calc(100dvw - 5px)", sm: "350px" },
-            mb: 5,
+            width: { xs: "calc(100dvw - 40px)", sm: "350px" },
+            mb: "20px",
             border: `2px solid ${palette[4]}`,
             borderRadius: 5,
             mx: { xs: "auto", sm: "auto" },

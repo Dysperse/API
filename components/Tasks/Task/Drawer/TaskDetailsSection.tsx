@@ -15,7 +15,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import dayjs from "dayjs";
 import React from "react";
 import toast from "react-hot-toast";
 import { parseEmojis } from ".";
@@ -117,28 +116,27 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
       />
 
       {/* Notifications */}
-      {data.notifications.length > 0 &&
-        dayjs(task.due).format("HHmm") !== "0000" && (
-          <Box className="item">
-            <Typography sx={{ p: 3, pt: 2, opacity: 0.6, pb: 0 }}>
-              Notifications
-            </Typography>
-            <Box
-              sx={{
-                gap: 1.5,
-                p: 3,
-                pb: 2,
-                pt: 1,
-                display: "flex",
-                overflow: "scroll",
-              }}
-            >
-              {data.notifications.map((notif) => (
-                <Chip key={notif} label={`${notif} minutes before`} />
-              ))}
-            </Box>
+      {data.notifications.length > 0 && !task.dateOnly && (
+        <Box className="item">
+          <Typography sx={{ p: 3, pt: 2, opacity: 0.6, pb: 0 }}>
+            Notifications
+          </Typography>
+          <Box
+            sx={{
+              gap: 1.5,
+              p: 3,
+              pb: 2,
+              pt: 1,
+              display: "flex",
+              overflow: "scroll",
+            }}
+          >
+            {data.notifications.map((notif) => (
+              <Chip key={notif} label={`${notif} minutes before`} />
+            ))}
           </Box>
-        )}
+        </Box>
+      )}
 
       {/* Description */}
       <TextField
