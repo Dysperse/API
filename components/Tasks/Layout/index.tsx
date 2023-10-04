@@ -618,7 +618,7 @@ export function TasksLayout({
         router.push("/tasks/home");
       }}
     >
-      <Icon>arrow_back_ios_new</Icon>
+      <Icon>close</Icon>
       <Box
         sx={{
           overflow: "hidden",
