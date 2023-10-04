@@ -360,7 +360,8 @@ export function CreateTask({
                 </Typography>
                 <span>
                   You can quickly mark a task as important by typing
-                  &quot;!!&quot; in its name.
+                  &quot;!!&quot; in its name. You can also emphasize importance
+                  by making it all caps!
                 </span>
               </Box>
             );
