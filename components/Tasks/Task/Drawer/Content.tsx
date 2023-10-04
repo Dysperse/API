@@ -238,10 +238,13 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
                   sx={{
                     px: 1.5,
                     ...styles.button,
+                    "& .text": {
+                      display: { xs: "none", sm: "inline" },
+                    },
                   }}
                 >
                   <Icon className="outlined">today</Icon>
-                  Schedule
+                  <span className="text">Snooze</span>
                 </Button>
               </SelectDateModal>
             )}
