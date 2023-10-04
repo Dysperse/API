@@ -629,6 +629,9 @@ export function TasksLayout({
         sx={{
           background: addHslAlpha(palette[3], 0.7),
           color: palette[8],
+          "&:active": {
+            background: addHslAlpha(palette[5], 0.7),
+          },
         }}
       >
         <Icon>close</Icon>
@@ -642,14 +645,9 @@ export function TasksLayout({
           mt: -0.1,
           ...(!title.includes("•") && { minWidth: 0 }),
           whiteSpace: "nowrap",
-          transition: "transform .1s !important",
           overflow: "hidden",
           "&:hover": {
             background: "transparent",
-          },
-          "&:active": {
-            background: addHslAlpha(palette[3], 0.5),
-            transform: "scale(.95)",
           },
         }}
         size="large"
