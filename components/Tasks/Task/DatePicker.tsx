@@ -112,6 +112,8 @@ export interface DateTimeModalProps {
   disabled?: boolean;
   closeOnSelect?: boolean;
   type?: "day" | "month" | "year";
+  isDateOnly?: boolean;
+  setDateOnly?: (d) => void;
 }
 
 const SelectDateModal = React.memo(function SelectDateModal({
@@ -122,6 +124,8 @@ const SelectDateModal = React.memo(function SelectDateModal({
   disabled = false,
   closeOnSelect = false,
   type = "day",
+  isDateOnly = false,
+  setDateOnly = (d) => {},
 }: DateTimeModalProps) {
   const { session } = useSession();
 
@@ -132,7 +136,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
   const palette = useColor(session.themeColor, isDark);
   const today = new Date(dayjs().startOf("day").toISOString());
 
-  const [_date, _setDate] = useState(date || new Date());
+  const [_date, _setDate] = useState(date || dayjs());
 
   const handleClick = () => setTimeOpen((s) => !s);
 
@@ -140,7 +144,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
     onClick: () => setOpen(true),
   });
 
-  const initialValue = useMemo(() => dayjs(date || new Date()), [date]);
+  const initialValue = useMemo(() => dayjs(date || dayjs()), [date]);
 
   const requestAbortController = React.useRef<AbortController | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -239,7 +243,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
                   },
                 },
               }}
-              onChange={(newValue) => _setDate(newValue)}
+              onChange={(newValue: any) => _setDate(newValue)}
               slotProps={{
                 actionBar: {
                   actions: ["clear", "cancel", "accept"],
@@ -258,10 +262,12 @@ const SelectDateModal = React.memo(function SelectDateModal({
                     setTimeOpen(false);
                   },
                   onClear: () => {
+                    setDateOnly(true);
                     setDate(dayjs(date).set("hour", 0).set("minute", 0));
                     setTimeOpen(false);
                   },
                   onAccept: () => {
+                    setDateOnly(false);
                     setDate(
                       dayjs(date)
                         .set("hour", dayjs(_date).hour())
@@ -289,7 +295,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
                 onChange={(newValue) => {
                   if (!newValue) return;
                   setDate(
-                    dayjs(date)
+                    dayjs(date || new Date())
                       .set("date", newValue.date())
                       .set("month", newValue.month())
                       .set("year", newValue.year())
@@ -357,7 +363,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
               onClick={handleClick}
             >
               <Icon>{timeOpen ? "today" : "access_time"}</Icon>
-              {dayjs(date).isValid() && dayjs(date).format("HHmm") !== "0000"
+              {dayjs(date).isValid() && !isDateOnly
                 ? dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")
                 : `Set time`}
             </Button>

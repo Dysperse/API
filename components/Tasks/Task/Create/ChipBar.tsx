@@ -384,9 +384,7 @@ const ChipBar = React.memo(function ChipBar({
               </motion.div>
             )}
           {taskColorPicker}
-          {!isSubTask &&
-          dayjs(data.date).isValid() &&
-          dayjs(data.date).format("HHmm") === "0000" ? (
+          {!isSubTask && dayjs(data.date).isValid() && !data.dateOnly ? (
             <Chip
               onClick={() => {
                 toast("Set a time");

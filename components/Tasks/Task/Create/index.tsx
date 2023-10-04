@@ -464,6 +464,8 @@ export function CreateTask({
         <SelectDateModal
           date={formData.date}
           setDate={(date) => setFormData((s) => ({ ...s, date }))}
+          isDateOnly={formData.dateOnly}
+          setDateOnly={(dateOnly) => setFormData((d) => ({ ...d, dateOnly }))}
         >
           <Tooltip
             title={
@@ -472,7 +474,7 @@ export function CreateTask({
                   <Typography>
                     <b>{dayjs(formData.date).format("dddd, MMMM D")}</b>
                   </Typography>
-                  {dayjs(formData.date).format("HHmm") !== "0000" && (
+                  {!formData.dateOnly && (
                     <Typography variant="body2">
                       {dayjs(formData.date).format("h:mm A")}
                     </Typography>
@@ -485,7 +487,7 @@ export function CreateTask({
               initial={{ filter: "brightness(180%)" }}
               animate={{ filter: "brightness(100%)" }}
               exit={{ filter: "brightness(180%)" }}
-              key={formData.date && formData.date.toISOString()}
+              key={formData.date && dayjs(formData.date).toISOString()}
             >
               <Button
                 disableRipple
