@@ -193,7 +193,16 @@ export function FriendPopover({ children, email }) {
             {data?.name}
           </Typography>
           {data ? (
-            <Typography variant="h6" sx={{ opacity: 0.8 }}>
+            <Typography
+              variant="h6"
+              sx={{
+                opacity: 0.8,
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                maxWidth: "100%",
+              }}
+            >
               {data.username && "@"}
               {data.username || data.email}
             </Typography>
