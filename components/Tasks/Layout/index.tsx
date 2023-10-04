@@ -593,58 +593,67 @@ export function TasksLayout({
   const isAgenda = router.asPath.includes("/tasks/agenda/");
 
   const trigger = (
-    <Button
-      sx={{
-        color: addHslAlpha(palette[9], 0.7),
-        px: 1,
-        height: 48,
-        ml: -0.5,
-        mt: -0.1,
-        ...(!title.includes("•") && { minWidth: 0 }),
-        whiteSpace: "nowrap",
-        transition: "transform .1s !important",
-        overflow: "hidden",
-        "&:hover": {
-          background: "transparent",
-        },
-        "&:active": {
-          background: addHslAlpha(palette[3], 0.5),
-          transform: "scale(.95)",
-        },
-      }}
-      size="large"
-      onClick={() => {
-        vibrate(50);
-        router.push("/tasks/home");
-      }}
-    >
-      <Icon>close</Icon>
-      <Box
+    <>
+      <IconButton
+        onClick={() => {
+          vibrate(50);
+          router.push("/tasks/home");
+        }}
         sx={{
-          overflow: "hidden",
-          maxWidth: "100%",
-          textOverflow: "ellipsis",
-          "& .MuiTypography-root": {
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            maxWidth: "100%",
-            overflow: "hidden",
-          },
-          textAlign: "left",
-          minWidth: 0,
+          background: addHslAlpha(palette[3], 0.7),
+          color: palette[8],
         }}
       >
-        <Typography sx={{ fontWeight: 900 }}>
-          {title.includes("•") ? title.split("•")[0] : ""}
-        </Typography>
-        {title.includes("•") &&
-          title.split("•")[1].toString().trim() !== "-" && (
-            <Typography variant="body2" sx={{ mt: -0.5 }}>
-              {title.split("•")[1]}
-            </Typography>
-          )}
-      </Box>
-    </Button>
+        <Icon>close</Icon>
+      </IconButton>
+      <Button
+        sx={{
+          color: addHslAlpha(palette[9], 0.7),
+          px: 1,
+          height: 48,
+          ml: 0.5,
+          mt: -0.1,
+          ...(!title.includes("•") && { minWidth: 0 }),
+          whiteSpace: "nowrap",
+          transition: "transform .1s !important",
+          overflow: "hidden",
+          "&:hover": {
+            background: "transparent",
+          },
+          "&:active": {
+            background: addHslAlpha(palette[3], 0.5),
+            transform: "scale(.95)",
+          },
+        }}
+        size="large"
+      >
+        <Box
+          sx={{
+            overflow: "hidden",
+            maxWidth: "100%",
+            textOverflow: "ellipsis",
+            "& .MuiTypography-root": {
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              maxWidth: "100%",
+              overflow: "hidden",
+            },
+            textAlign: "left",
+            minWidth: 0,
+          }}
+        >
+          <Typography sx={{ fontWeight: 900 }}>
+            {title.includes("•") ? title.split("•")[0] : ""}
+          </Typography>
+          {title.includes("•") &&
+            title.split("•")[1].toString().trim() !== "-" && (
+              <Typography variant="body2" sx={{ mt: -0.5 }}>
+                {title.split("•")[1]}
+              </Typography>
+            )}
+        </Box>
+      </Button>
+    </>
   );
 
   const isSelecting = taskSelection.length > 0;

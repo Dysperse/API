@@ -101,7 +101,7 @@ export const Header = memo(function Header({
                   document.getElementById("agendaPrev")?.click();
                 }}
               >
-                <Icon className="outlined">west</Icon>
+                <Icon className="outlined">arrow_back_ios_new</Icon>
               </IconButton>
             )}
             <SelectDateModal
@@ -205,7 +205,7 @@ export const Header = memo(function Header({
                   document.getElementById("agendaNext")?.click();
                 }}
               >
-                <Icon className="outlined">east</Icon>
+                <Icon className="outlined">arrow_forward_ios</Icon>
               </IconButton>
             )}
           </Box>
