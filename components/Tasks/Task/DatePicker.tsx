@@ -236,7 +236,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
                   px: 0,
                   "&:first-child": {
                     mr: "auto",
-                    background: palette[3],
+                    background: palette[isDateOnly ? 3 : 1],
                   },
                   "&:last-child": {
                     background: palette[3],
