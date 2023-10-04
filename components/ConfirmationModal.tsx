@@ -22,9 +22,9 @@ export function ConfirmationModal({
   buttonText = "Continue",
 }: any) {
   const { session } = useSession();
-  const isDark = useDarkMode(session.darkMode);
+  const isDark = useDarkMode(session?.darkMode || "system");
 
-  const palette = useColor(session.themeColor, isDark);
+  const palette = useColor(session?.themeColor || "violet", isDark);
 
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
