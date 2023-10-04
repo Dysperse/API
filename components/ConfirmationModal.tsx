@@ -77,12 +77,12 @@ export function ConfirmationModal({
         PaperProps={{
           sx: {
             userSelect: "none",
-            width: "350px",
-            maxWidth: "calc(100vw - 20px)",
+            width: { xs: "100%", sm: "350px" },
+            maxWidth: "calc(100vw - 30px)",
             borderRadius: 5,
-            mx: { xs: "10px", sm: "auto" },
-            mb: "10px",
-            border: `2px solid ${palette[3]}`,
+            mx: { xs: "15px", sm: "auto" },
+            mb: "15px",
+            border: `2px solid ${palette[4]}`,
           },
         }}
       >
