@@ -53,7 +53,6 @@ const TaskChips = React.memo(function TaskChips({
   palette,
   isAgenda,
   isSubTask,
-  handlePriorityChange,
 }: any) {
   const router = useRouter();
   const { session } = useSession();
@@ -107,8 +106,12 @@ const TaskChips = React.memo(function TaskChips({
         gap: 1,
         "&:not(:empty)": { mt: 0.5 },
         flexWrap: "wrap",
+        width: "100%",
       }}
     >
+      {taskData.image && taskData.image !== "null" && (
+        <ImageViewer url={taskData.image} />
+      )}
       {isPinned && urgentChip}
 
       {isDue && !isSubTask && (
@@ -492,16 +495,12 @@ export const Task: any = React.memo(function Task({
                 >
                   {taskData.description}
                 </Typography>
-                {taskData.image && taskData.image !== "null" && (
-                  <ImageViewer url={taskData.image} />
-                )}
                 <TaskChips
                   taskData={taskData}
                   isDark={isDark}
                   palette={palette}
                   isAgenda={isAgenda}
                   isSubTask={isSubTask}
-                  handlePriorityChange={handlePriorityChange}
                 />
               </>
             }
