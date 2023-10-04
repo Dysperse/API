@@ -510,26 +510,29 @@ export const MenuChildren = memo(function MenuChildren() {
               <Tab key={board.id} styles={buttonStyles} board={board} />
             ))}
             {isMobile && !showSync && (
-              <Button
-                fullWidth
-                onClick={async () => {
-                  setShowSync(false);
-                  await fetch("/api/property/integrations/resync");
-                }}
-                disabled={
-                  Boolean(storage?.isReached) ||
-                  session.permission === "read-only"
-                }
-                size="large"
-                sx={{
-                  ...buttonStyles(palette, false),
-                  cursor: "default",
-                  justifyContent: "start",
-                }}
-              >
-                <Icon>sync</Icon>
-                Resync tasks
-              </Button>
+              <>
+                <Divider sx={taskStyles(palette).divider} />
+                <Button
+                  fullWidth
+                  onClick={async () => {
+                    setShowSync(false);
+                    await fetch("/api/property/integrations/resync");
+                  }}
+                  disabled={
+                    Boolean(storage?.isReached) ||
+                    session.permission === "read-only"
+                  }
+                  size="large"
+                  sx={{
+                    ...buttonStyles(palette, false),
+                    cursor: "default",
+                    justifyContent: "start",
+                  }}
+                >
+                  <Icon>sync</Icon>
+                  Resync tasks
+                </Button>
+              </>
             )}
           </Box>
         </Box>
