@@ -20,6 +20,7 @@ const handler = async (req, res) => {
           completedAt:
             req.query.completed === "true" ? new Date(req.query.date) : null,
         }),
+        ...(req.query.dateOnly && { dateOnly: req.query.pinned === "true" }),
         ...(req.query.pinned && { pinned: req.query.pinned === "true" }),
         ...(req.query.columnId && {
           columnId: req.query.columnId === "null" ? null : req.query.columnId,

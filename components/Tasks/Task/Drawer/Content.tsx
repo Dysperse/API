@@ -312,9 +312,13 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
             <SelectDateModal
               date={task.due}
               isDateOnly={task.dateOnly}
-              setDateOnly={(dateOnly) =>
-                task.set((prev) => ({ ...prev, dateOnly }))
-              }
+              setDateOnly={(dateOnly) => {
+                task.set((prev) => ({
+                  ...prev,
+                  dateOnly: dateOnly,
+                }));
+                task.edit(task.id, "dateOnly", dateOnly ? "true" : "false");
+              }}
               setDate={(d) => {
                 task.close();
                 task.set((prev) => ({
