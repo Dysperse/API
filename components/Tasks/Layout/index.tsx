@@ -236,6 +236,8 @@ export const MenuChildren = memo(function MenuChildren() {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
 
+  const [showSync, setShowSync] = useState(false);
+
   const { data, mutate, error } = useSWR(["property/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -507,6 +509,28 @@ export const MenuChildren = memo(function MenuChildren() {
             {boards.archived.map((board) => (
               <Tab key={board.id} styles={buttonStyles} board={board} />
             ))}
+            {isMobile && !showSync && (
+              <Button
+                fullWidth
+                onClick={() => {
+                  setShowSync(false);
+                  await fetch("/api/property/integrations/resync");
+                }}
+                disabled={
+                  Boolean(storage?.isReached) ||
+                  session.permission === "read-only"
+                }
+                size="large"
+                sx={{
+                  ...buttonStyles(palette, false),
+                  cursor: "default",
+                  justifyContent: "start",
+                }}
+              >
+                <Icon>sync</Icon>
+                Resync tasks
+              </Button>
+            )}
           </Box>
         </Box>
       </Box>
