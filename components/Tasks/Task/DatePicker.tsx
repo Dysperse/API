@@ -369,7 +369,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
               variant="contained"
               id="timeTrigger"
               onClick={handleClick}
-              disabled={!dayjs(date).isValid()}
+              disabled={!date || !dayjs(date).isValid()}
             >
               <Icon>{timeOpen ? "today" : "access_time"}</Icon>
               {dayjs(date).isValid() && !isDateOnly
