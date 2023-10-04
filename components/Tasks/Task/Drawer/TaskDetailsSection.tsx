@@ -86,6 +86,12 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
                   variant="contained"
                   size="small"
                   onClick={handleLocationButtonClick}
+                  sx={{
+                    background: {
+                      xs: palette[4] + "!important",
+                      sm: palette[3] + "!important",
+                    },
+                  }}
                 >
                   <Icon>
                     {videoChatPlatforms.find((platform) =>
