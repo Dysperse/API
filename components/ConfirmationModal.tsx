@@ -1,3 +1,5 @@
+import { useSession } from "@/lib/client/session";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -10,8 +12,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Puller } from "./Puller";
-import { useSession } from "@/lib/client/session";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
 
 export function ConfirmationModal({
   disabled = false,
@@ -21,7 +21,7 @@ export function ConfirmationModal({
   callback,
   buttonText = "Continue",
 }: any) {
-  const {session} = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
 
   const palette = useColor(session.themeColor, isDark);
@@ -76,7 +76,6 @@ export function ConfirmationModal({
         }}
         PaperProps={{
           sx: {
-            border: "none",
             userSelect: "none",
             width: "350px",
             maxWidth: "calc(100vw - 20px)",
