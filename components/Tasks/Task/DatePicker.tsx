@@ -299,6 +299,14 @@ const SelectDateModal = React.memo(function SelectDateModal({
                       .set("date", newValue.date())
                       .set("month", newValue.month())
                       .set("year", newValue.year())
+                      .set(
+                        "hour",
+                        dayjs(_date).hour() === 0 ? 0 : dayjs(_date).hour()
+                      )
+                      .set(
+                        "minute",
+                        dayjs(_date).minute() === 0 ? 0 : dayjs(_date).minute()
+                      )
                   );
                   closeOnSelect && setOpen(false);
                 }}
@@ -361,6 +369,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
               variant="contained"
               id="timeTrigger"
               onClick={handleClick}
+              disabled={!dayjs(date).isValid()}
             >
               <Icon>{timeOpen ? "today" : "access_time"}</Icon>
               {dayjs(date).isValid() && !isDateOnly

@@ -311,6 +311,10 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
           {!isSubTask && (
             <SelectDateModal
               date={task.due}
+              isDateOnly={task.dateOnly}
+              setDateOnly={(dateOnly) =>
+                task.set((prev) => ({ ...prev, dateOnly }))
+              }
               setDate={(d) => {
                 task.close();
                 task.set((prev) => ({
