@@ -261,6 +261,7 @@ model Task {
   pinned      Boolean @default(false)
 
   due           DateTime?
+  dateOnly      Boolean   @default(true)
   notifications Int[]     @default([])
 
   completed   Boolean   @default(false)

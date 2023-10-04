@@ -132,7 +132,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
   const palette = useColor(session.themeColor, isDark);
   const today = new Date(dayjs().startOf("day").toISOString());
 
-  const [_date, _setDate] = useState(date);
+  const [_date, _setDate] = useState(date || new Date());
 
   const handleClick = () => setTimeOpen((s) => !s);
 
@@ -140,7 +140,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
     onClick: () => setOpen(true),
   });
 
-  const initialValue = useMemo(() => dayjs(date), [date]);
+  const initialValue = useMemo(() => dayjs(date || new Date()), [date]);
 
   const requestAbortController = React.useRef<AbortController | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);

@@ -121,6 +121,7 @@ export function CreateTask({
     image: "",
     pinned: false,
     date: defaultDate,
+    dateOnly: true,
     notifications: [10],
   });
 
