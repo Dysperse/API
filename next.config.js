@@ -47,6 +47,11 @@ const moduleExports = {
           permanent: false,
         },
         {
+          source: "/tasks/agenda/:path*",
+          destination: "/tasks/perspectives/:path*",
+          permanent: false,
+        },
+        {
           source: "/discord",
           destination: "https://discord.gg/fvngmDzh77",
           permanent: true,
