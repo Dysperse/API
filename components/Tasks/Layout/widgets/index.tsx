@@ -5,14 +5,12 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-  Alert,
   AppBar,
   Avatar,
   Box,
   Button,
   Icon,
   IconButton,
-  InputAdornment,
   ListItem,
   TextField,
   Toolbar,
@@ -135,10 +133,27 @@ function Assistant({ children }) {
         </AppBar>
         {messages.length == 0 && (
           <>
-            <Alert severity="info">
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                flexDirection: "column",
+                gap: 2,
+                fontSize: "13px",
+              }}
+            >
+              <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
+                info
+              </Icon>
               Assistant is in beta, and Dysperse AI might not correctly
               represent our views.
-            </Alert>
+            </Box>
           </>
         )}
         <Virtuoso
@@ -205,18 +220,13 @@ function Assistant({ children }) {
             value={draft}
             multiline
             maxRows={3}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Typography variant="body2" sx={{ opacity: 0.6 }}>
-                    {draft.split(" ")?.length - 1 || 0} / 250
-                  </Typography>
-                </InputAdornment>
-              ),
-            }}
             onChange={(e) => setDraft(e.target.value)}
           />
-          <Button onClick={handleSubmit} variant="contained">
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            disabled={draft.trim() === ""}
+          >
             Ask<Icon>north</Icon>
           </Button>
         </Box>
