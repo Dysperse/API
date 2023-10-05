@@ -236,7 +236,7 @@ export const MenuChildren = memo(function MenuChildren() {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
 
-  const [showSync, setShowSync] = useState(false);
+  const [showSync, setShowSync] = useState(true);
 
   const { data, mutate, error } = useSWR(["property/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -509,12 +509,13 @@ export const MenuChildren = memo(function MenuChildren() {
             {boards.archived.map((board) => (
               <Tab key={board.id} styles={buttonStyles} board={board} />
             ))}
-            {isMobile && !showSync && (
+            {isMobile && showSync && (
               <>
                 <Divider sx={taskStyles(palette).divider} />
                 <Button
                   fullWidth
                   onClick={async () => {
+                    toast.success("Tasks synced up to date!");
                     setShowSync(false);
                     await fetch("/api/property/integrations/resync");
                   }}
