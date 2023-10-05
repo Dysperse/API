@@ -1,6 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -61,7 +62,7 @@ export default function Dashboard() {
       <Box>
         <IconButton
           size="large"
-          onClick={() => router.push("/tasks/agenda/days")}
+          onClick={() => handleBack(router)}
           sx={{
             ...taskStyles(palette).menu,
             right: "20px",
