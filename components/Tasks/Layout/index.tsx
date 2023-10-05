@@ -608,9 +608,9 @@ export function TasksLayout({
   });
 
   useHotkeys("s", () => router.push("/tasks/stream"));
-  useHotkeys("w", () => router.push("/tasks/agenda/days"));
-  useHotkeys("m", () => router.push("/tasks/agenda/weeks"));
-  useHotkeys("y", () => router.push("/tasks/agenda/years"));
+  useHotkeys("w", () => router.push("/tasks/perspectives/days"));
+  useHotkeys("m", () => router.push("/tasks/perspectives/weeks"));
+  useHotkeys("y", () => router.push("/tasks/perspectives/years"));
   useHotkeys("c", () => router.push("/tasks/color-coded"));
   useHotkeys("i", () => router.push("/tasks/insights"));
 
@@ -618,7 +618,7 @@ export function TasksLayout({
     router.asPath.includes("/tasks/boards/") &&
     !router.asPath.includes("create");
   const isSearch = router.asPath.includes("/tasks/search");
-  const isAgenda = router.asPath.includes("/tasks/agenda/");
+  const isAgenda = router.asPath.includes("/tasks/perspectives/");
 
   const trigger = (
     <>

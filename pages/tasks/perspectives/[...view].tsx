@@ -1,5 +1,5 @@
-import { Agenda } from "@/components/Tasks/Agenda";
 import { TasksLayout } from "@/components/Tasks/Layout";
+import { Agenda } from "@/components/tasks/perspectives";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { IconButton } from "@mui/material";
@@ -15,8 +15,9 @@ export default function Dashboard() {
   const [view, start] = router?.query?.view || [];
 
   const isToday =
-    router.asPath === `/tasks/agenda/${view}/${dayjs().format("YYYY-MM-DD")}` ||
-    router.asPath === `/tasks/agenda/${view}`;
+    router.asPath ===
+      `/tasks/perspectives/${view}/${dayjs().format("YYYY-MM-DD")}` ||
+    router.asPath === `/tasks/perspectives/${view}`;
 
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -30,7 +31,7 @@ export default function Dashboard() {
             <IconButton
               onClick={() =>
                 router.push(
-                  `/tasks/agenda/${view}/${dayjs().format("YYYY-MM-DD")}`
+                  `/tasks/perspectives/${view}/${dayjs().format("YYYY-MM-DD")}`
                 )
               }
               sx={{

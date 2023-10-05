@@ -352,7 +352,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
             await fetchRawApi(session, "property/boards/delete", {
               id: data.id,
             });
-            router.push("/tasks/agenda/weeks");
+            router.push("/tasks/perspectives/weeks");
           }}
         >
           <Button variant="contained">

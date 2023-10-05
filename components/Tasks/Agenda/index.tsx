@@ -21,7 +21,7 @@ import { WidgetBar } from "../Layout/widgets";
 import SelectDateModal from "../Task/DatePicker";
 import Column from "./Column";
 
-export const AgendaContext = createContext<any>(null);
+export const PerspectiveContext = createContext<any>(null);
 
 /**
  * Agenda container
@@ -71,7 +71,7 @@ export function Agenda({ type, date }) {
       });
     } else {
       const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
-      router.push(`/tasks/agenda/${type}/${next}`);
+      router.push(`/tasks/perspectives/${type}/${next}`);
     }
   };
 
@@ -91,7 +91,7 @@ export function Agenda({ type, date }) {
       const prev = dayjs(date)
         .subtract(1, columnMap[type])
         .format("YYYY-MM-DD");
-      router.push(`/tasks/agenda/${type}/${prev}`);
+      router.push(`/tasks/perspectives/${type}/${prev}`);
     }
   };
 
@@ -105,7 +105,7 @@ export function Agenda({ type, date }) {
   );
 
   const { data, mutate: mutateList } = useSWR([
-    "property/tasks/agenda",
+    "property/tasks/perspectives",
     {
       startTime: start.toISOString(),
       endTime: end.toISOString(),
@@ -143,7 +143,7 @@ export function Agenda({ type, date }) {
   });
 
   return (
-    <AgendaContext.Provider value={{ start, end, mutateList, type }}>
+    <PerspectiveContext.Provider value={{ start, end, mutateList, type }}>
       <Head>
         <title>
           {dayjs(start).format(viewHeadingFormats[type])} &bull;{" "}
@@ -205,7 +205,9 @@ export function Agenda({ type, date }) {
               setDate={(date) => {
                 setTimeout(() => {
                   router.push(
-                    `/tasks/agenda/${type}/${dayjs(date).format("YYYY-MM-DD")}`
+                    `/tasks/perspectives/${type}/${dayjs(date).format(
+                      "YYYY-MM-DD"
+                    )}`
                   );
                 }, 900);
               }}
@@ -282,7 +284,9 @@ export function Agenda({ type, date }) {
                 id="agendaToday"
                 onClick={() => {
                   router.push(
-                    `/tasks/agenda/${type}/${dayjs().format("YYYY-MM-DD")}`
+                    `/tasks/perspectives/${type}/${dayjs().format(
+                      "YYYY-MM-DD"
+                    )}`
                   );
                   scrollIntoView();
                 }}
@@ -336,6 +340,6 @@ export function Agenda({ type, date }) {
           )}
         </Box>
       </Box>
-    </AgendaContext.Provider>
+    </PerspectiveContext.Provider>
   );
 }

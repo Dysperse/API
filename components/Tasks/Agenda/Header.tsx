@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { memo, useContext } from "react";
-import { AgendaContext } from ".";
+import { PerspectiveContext } from ".";
 import { CreateTask } from "../Task/Create";
 import SelectDateModal from "../Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
@@ -45,7 +45,7 @@ export const Header = memo(function Header({
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
 
-  const { mutateList, type } = useContext(AgendaContext);
+  const { mutateList, type } = useContext(PerspectiveContext);
 
   const isPast = dayjs(column).isBefore(dayjs().startOf(columnMap), type);
 
@@ -110,7 +110,8 @@ export const Header = memo(function Header({
               setDate={(date) => {
                 setTimeout(() => {
                   router.push(
-                    "/tasks/agenda/days/" + dayjs(date).format("YYYY-MM-DD")
+                    "/tasks/perspectives/days/" +
+                      dayjs(date).format("YYYY-MM-DD")
                   );
                 }, 500);
               }}

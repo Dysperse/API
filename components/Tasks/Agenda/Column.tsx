@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { AgendaContext } from ".";
+import { PerspectiveContext } from ".";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
 import { Header } from "./Header";
@@ -218,7 +218,7 @@ const Column = React.memo(function Column({
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
 
-  const { mutateList, type } = useContext(AgendaContext);
+  const { mutateList, type } = useContext(PerspectiveContext);
 
   const columnStart = dayjs(column).startOf(type).toDate();
   const columnEnd = dayjs(columnStart).endOf(type).toDate();

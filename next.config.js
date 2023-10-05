@@ -43,7 +43,7 @@ const moduleExports = {
         },
         {
           source: "/tasks",
-          destination: "/tasks/agenda/days",
+          destination: "/tasks/perspectives/days",
           permanent: false,
         },
         {

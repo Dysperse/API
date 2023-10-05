@@ -154,25 +154,25 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     },
     {
       title: "Days",
-      onTrigger: () => router.push("/tasks/agenda/days"),
+      onTrigger: () => router.push("/tasks/perspectives/days"),
       icon: "calendar_today",
       badge: "Agenda",
     },
     {
       title: "Weeks",
-      onTrigger: () => router.push("/tasks/agenda/weeks"),
+      onTrigger: () => router.push("/tasks/perspectives/weeks"),
       icon: "view_week",
       badge: "Agenda",
     },
     {
       title: "Months",
-      onTrigger: () => router.push("/tasks#/agenda/months"),
+      onTrigger: () => router.push("/tasks/perspectives/months"),
       icon: "calendar_view_month",
       badge: "Agenda",
     },
     {
       title: "Backlog",
-      onTrigger: () => router.push("/tasks#/agenda/backlog"),
+      onTrigger: () => router.push("/tasks/backlog"),
       icon: "auto_mode",
       badge: "Agenda",
     },
@@ -229,7 +229,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
     ...["week", "month", "year"].map((e) => {
       return {
         title: capitalizeFirstLetter(e),
-        onTrigger: () => router.push(`/tasks/#/agenda/${e}`),
+        onTrigger: () => router.push(`/tasks/perspectives/${e}`),
         icon: "today",
         badge: "agenda",
       };
@@ -254,7 +254,7 @@ export let getSpotlightActions = async (roomData, boardData, session) => {
           return {
             title: property.profile.name,
             onTrigger: () => {
-              router.push("/tasks/agenda/weeks");
+              router.push("/tasks/perspectives/weeks");
               fetchRawApi(session, "property/switch", {
                 email: session.user.email,
                 accessToken1: property.accessToken,
