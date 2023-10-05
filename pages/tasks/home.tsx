@@ -21,7 +21,6 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 function RecentlyAccessed() {
   const router = useRouter();
@@ -96,11 +95,13 @@ export default function Home() {
   const [showSync, setShowSync] = useState(true);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const [editMode, setEditMode] = useState(false);
+
   return (
     <>
       <Navbar
         showLogo={isMobile}
-        showRightContent
+        showRightContent={!editMode}
         right={
           <Button
             sx={{
@@ -111,11 +112,18 @@ export default function Home() {
               minWidth: 0,
             }}
             size="small"
-            onClick={() =>
-              toast("Soon, you'll be able to customize the homepage for tasks")
-            }
+            onClick={() => setEditMode(!editMode)}
+            variant={isIos() ? "text" : editMode ? "contained" : "text"}
           >
-            {isIos() ? "Edit" : <Icon className="outlined">edit</Icon>}
+            {isIos() ? (
+              editMode ? (
+                "Cancel"
+              ) : (
+                "Edit"
+              )
+            ) : (
+              <Icon className="outlined">{editMode ? "check" : "edit"}</Icon>
+            )}
           </Button>
         }
         hideSettings
@@ -205,7 +213,7 @@ export default function Home() {
           </Box>
           <RecentlyAccessed />
         </Box>
-        <MenuChildren />
+        <MenuChildren editMode={editMode} setEditMode={setEditMode} />
       </motion.div>
     </>
   );

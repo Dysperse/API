@@ -12,6 +12,7 @@ import {
   AppBar,
   Box,
   Button,
+  Collapse,
   Divider,
   Icon,
   IconButton,
@@ -230,7 +231,13 @@ function BulkCompletion() {
   );
 }
 
-export const MenuChildren = memo(function MenuChildren() {
+export const MenuChildren = memo(function MenuChildren({
+  editMode,
+  setEditMode,
+}: {
+  editMode: boolean;
+  setEditMode: (f) => void;
+}) {
   const { session } = useSession();
   const storage = useAccountStorage();
   const isDark = useDarkMode(session.darkMode);
@@ -260,6 +267,7 @@ export const MenuChildren = memo(function MenuChildren() {
   }, [data, session]);
 
   const router = useRouter();
+  const redPalette = useColor("red", isDark);
 
   const perspectives = useMemo(
     () => [
@@ -406,8 +414,23 @@ export const MenuChildren = memo(function MenuChildren() {
             >
               <Link
                 href={`/tasks/${button.hash}`}
-                style={{ cursor: "default" }}
+                style={{
+                  cursor: "default",
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
+                <Collapse orientation="horizontal" in={editMode}>
+                  <IconButton
+                    sx={{
+                      opacity: editMode ? 1 : 0,
+                      transition: "opacity .4s",
+                      color: redPalette[10],
+                    }}
+                  >
+                    <Icon>remove_circle</Icon>
+                  </IconButton>
+                </Collapse>
                 <Button
                   size="large"
                   id={`__agenda.${button.hash}`}
@@ -600,6 +623,7 @@ export function TasksLayout({
   const palette = useColor(session.user.color, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const [editMode, setEditMode] = useState(false);
   const [taskSelection, setTaskSelection] = useState([]);
 
   useHotkeys(["c", "/"], (e) => {
@@ -614,11 +638,7 @@ export function TasksLayout({
   useHotkeys("c", () => router.push("/tasks/color-coded"));
   useHotkeys("i", () => router.push("/tasks/insights"));
 
-  const isBoard =
-    router.asPath.includes("/tasks/boards/") &&
-    !router.asPath.includes("create");
   const isSearch = router.asPath.includes("/tasks/search");
-  const isAgenda = router.asPath.includes("/tasks/perspectives/");
 
   const trigger = (
     <>
@@ -883,10 +903,6 @@ export function TasksLayout({
           </Toolbar>
         </AppBar>
       )}
-      {isMobile && !isAgenda && !router.asPath.includes("/edit/") && (
-        <Box sx={{ height: "65px" }} />
-      )}
-
       <Box sx={{ display: "flex", background: { sm: palette[2] } }}>
         <Box
           sx={{
@@ -908,7 +924,7 @@ export function TasksLayout({
             flexDirection: "column",
           }}
         >
-          <MenuChildren />
+          <MenuChildren editMode={editMode} setEditMode={setEditMode} />
         </Box>
         <Box
           sx={{
