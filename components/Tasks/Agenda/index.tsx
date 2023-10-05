@@ -127,11 +127,14 @@ export function Agenda({ type, date }) {
     }
   };
 
+  const [alreadyScrolled, setAlreadyScrolled] = useState(false);
+
   useEffect(() => {
-    if (data) {
+    if (data && !alreadyScrolled) {
       scrollIntoView();
+      setAlreadyScrolled(true);
     }
-  }, [data]);
+  }, [data, alreadyScrolled]);
 
   useHotkeys("esc", () => {
     if (view === "priority") {

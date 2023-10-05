@@ -1,3 +1,4 @@
+import { containerRef } from "@/components/Layout";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -283,7 +284,10 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                   xs={6}
                   sx={{ p: 1 }}
                   key={column.id}
-                  onClick={() => setCurrentColumn(index)}
+                  onClick={() => {
+                    setCurrentColumn(index);
+                    containerRef.current.scrollTo({ top: 0 });
+                  }}
                 >
                   <motion.div
                     initial={{ y: -10, opacity: 0 }}
