@@ -477,7 +477,9 @@ function AvailabilityViewer({ data: eventData }) {
                         <TableCell component="th" scope="row">
                           {dayjs(row.date).format("dddd, MMMM Do")}
                         </TableCell>
-                        <TableCell align="center">{row.hour}</TableCell>
+                        <TableCell align="center">
+                          {dayjs(row.date).set("hour", row.hour).format("hA")}
+                        </TableCell>
                         <TableCell align="center">
                           {row.overlappingParticipants}
                         </TableCell>
