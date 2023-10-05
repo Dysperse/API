@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 import interact from "interactjs";
 import Markdown from "markdown-to-jsx";
 import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { CreateTask } from "../../Task/Create";
@@ -43,8 +44,8 @@ function Assistant({ children }) {
     animate: {
       opacity: 1,
       transition: {
-        duration: 0.6, // Adjust the duration as needed
-        yoyo: Infinity, // This will loop the animation indefinitely
+        duration: 0.6,
+        yoyo: Infinity,
       },
     },
   };
@@ -59,8 +60,6 @@ function Assistant({ children }) {
 
     setMessages((prevMessages) => [...prevMessages, "loading"]);
 
-    const updatedMessages = [...messages, { role: "user", content: draft }];
-
     virtuosoRef.current.scrollToIndex({
       index: messages.length - 1,
       behavior: "smooth",
@@ -73,7 +72,11 @@ function Assistant({ children }) {
       body: JSON.stringify([{ role: "user", content: draft }]),
     }).then((res) => res.json());
 
-    const r = { role: "system", content: d[0].response.response };
+    if (!d?.success === true) {
+      toast.error("Something went wrong. Please try again later");
+    }
+
+    const r = { role: "system", content: d.result.response };
 
     setMessages((prevMessages) => [...prevMessages, r]);
     setMessages((prevMessages) => prevMessages.filter((e) => e !== "loading"));
