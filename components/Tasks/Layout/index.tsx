@@ -515,7 +515,7 @@ export const MenuChildren = memo(function MenuChildren() {
                 <Button
                   fullWidth
                   onClick={async () => {
-                    toast.success("Tasks synced up to date!");
+                    toast.success("Tasks resynced - Now up to date.");
                     setShowSync(false);
                     await fetch("/api/property/integrations/resync");
                   }}
