@@ -27,6 +27,11 @@ const moduleExports = {
           permanent: false,
         },
         {
+          source: "/api/property/tasks/agenda",
+          destination: "/api/property/tasks/perspectives",
+          permanent: false,
+        },
+        {
           source: "/onboarding",
           destination: "/",
           permanent: false,
