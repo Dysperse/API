@@ -142,6 +142,9 @@ export const Header = memo(function Header({
                     maxWidth: "100%",
                     overflow: "hidden",
                     minWidth: 0,
+                    background: { xs: palette[2], sm: "transparent" },
+                    p: 1,
+                    borderRadius: 3,
                     "&:active": {
                       opacity: { xs: 0.6, sm: 1 },
                     },
