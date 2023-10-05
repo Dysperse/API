@@ -365,7 +365,28 @@ function Panel() {
                 width={30}
                 height={30}
               />
-              <ListItemText primary={room.name} />
+              <ListItemText
+                sx={{
+                  "&, & *": {
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    minWidth: 0,
+                  },
+                }}
+                primary={room.name}
+              />
+              {room._count.items !== 0 && (
+                <Typography
+                  sx={{
+                    ml: "auto",
+                    opacity: 0.6,
+                    mr: 1,
+                  }}
+                >
+                  {room._count.items}
+                </Typography>
+              )}
               {isMobile && <Icon>arrow_forward_ios</Icon>}
             </ListItemButton>
           ))}

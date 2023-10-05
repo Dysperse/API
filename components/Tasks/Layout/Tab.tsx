@@ -20,6 +20,10 @@ export const Tab = React.memo(function Tab({ styles, board }: any) {
     });
   };
 
+  const tasks =
+    board?.columns &&
+    board.columns.reduce((acc, current) => acc + current._count.tasks, 0);
+
   return (
     <span>
       <Button
@@ -61,17 +65,20 @@ export const Tab = React.memo(function Tab({ styles, board }: any) {
           >
             {board.name}
           </span>
-          {board.pinned && (
-            <Icon
-              className="outlined"
-              sx={{
-                ml: "auto",
-                transform: "rotate(-45deg)",
-              }}
-            >
-              push_pin
-            </Icon>
-          )}
+          <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
+            {board.pinned && (
+              <Icon
+                className="outlined"
+                sx={{
+                  transform: "rotate(-45deg)",
+                }}
+              >
+                push_pin
+              </Icon>
+            )}
+            <span style={{ opacity: 0.6 }}>{tasks !== 0 && tasks}</span>
+            <Icon>arrow_forward_ios</Icon>
+          </Box>
         </Box>
       </Button>
     </span>
