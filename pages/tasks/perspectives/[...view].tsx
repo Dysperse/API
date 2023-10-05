@@ -1,5 +1,5 @@
 import { TasksLayout } from "@/components/Tasks/Layout";
-import { Agenda } from "@/components/tasks/perspectives";
+import { Agenda } from "@/components/Tasks/perspectives";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { IconButton } from "@mui/material";
