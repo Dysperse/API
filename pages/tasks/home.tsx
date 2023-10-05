@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { MenuChildren, recentlyAccessed } from "@/components/Tasks/Layout";
 import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
+import { isIos } from "@/components/Tasks/Task";
 import { CreateTask } from "@/components/Tasks/Task/Create";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -102,13 +103,19 @@ export default function Home() {
         showRightContent
         right={
           <Button
-            sx={{ ml: "auto", mr: 1, mb: -0.4, color: palette[8], minWidth: 0 }}
+            sx={{
+              ml: "auto",
+              mr: isIos() ? 1 : 0,
+              mb: isIos() ? -0.4 : 0,
+              color: palette[8],
+              minWidth: 0,
+            }}
             size="small"
             onClick={() =>
               toast("Soon, you'll be able to customize the homepage for tasks")
             }
           >
-            Edit
+            {isIos() ? "Edit" : <Icon className="outlined">edit</Icon>}
           </Button>
         }
         hideSettings

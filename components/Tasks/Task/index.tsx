@@ -248,15 +248,10 @@ const TaskChips = React.memo(function TaskChips({
   );
 });
 
-function isIos() {
-  return [
-    "iPad Simulator",
-    "iPhone Simulator",
-    "iPod Simulator",
-    "iPad",
-    "iPhone",
-    "iPod",
-  ].includes(navigator.platform);
+export function isIos() {
+  return (
+    !(window as any).MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent)
+  );
 }
 
 export const Task: any = React.memo(function Task({
