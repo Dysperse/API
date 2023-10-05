@@ -7,6 +7,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Avatar,
   Box,
+  Button,
   Icon,
   IconButton,
   InputAdornment,
@@ -19,6 +20,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 function RecentlyAccessed() {
   const router = useRouter();
@@ -97,8 +99,20 @@ export default function Home() {
     <>
       <Navbar
         showLogo={isMobile}
-        showRightContent={isMobile}
-        hideSettings={!isMobile}
+        showRightContent
+        right={
+          <Button
+            sx={{ ml: "auto", mr: 1, mb: -0.4, color: palette[8], minWidth: 0 }}
+            size="small"
+            onClick={() =>
+              toast("Soon, you'll be able to customize the homepage for tasks")
+            }
+          >
+            Edit
+          </Button>
+        }
+        hideSettings
+        hideSearch
       />
       <motion.div
         initial={{ x: -100, opacity: 0 }}

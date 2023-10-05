@@ -10,11 +10,13 @@ export function Navbar({
   right,
   showRightContent = false,
   hideSettings = false,
+  hideSearch = false,
 }: {
   showLogo?: boolean;
   right?: JSX.Element;
   showRightContent?: boolean;
   hideSettings?: boolean;
+  hideSearch?: boolean;
 }) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -35,18 +37,20 @@ export function Navbar({
       {right}
       {(!right || showRightContent) && (
         <>
-          <IconButton
-            sx={{
-              display: { sm: "none" },
-              color: palette[8],
-              ml: showRightContent && right ? "" : "auto",
-            }}
-            onClick={openSpotlight}
-          >
-            <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-              &#xe8b6;
-            </Icon>
-          </IconButton>
+          {!hideSearch && (
+            <IconButton
+              sx={{
+                display: { sm: "none" },
+                color: palette[8],
+                ml: showRightContent && right ? "" : "auto",
+              }}
+              onClick={openSpotlight}
+            >
+              <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
+                &#xe8b6;
+              </Icon>
+            </IconButton>
+          )}
           <IconButton
             onClick={() =>
               router.push(
