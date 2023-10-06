@@ -281,7 +281,7 @@ export const MenuChildren = memo(function MenuChildren({
       },
       {
         key: "w",
-        hash: "agenda/days",
+        hash: "perspectives/days",
         icon: isMobile ? "calendar_view_day" : "view_week",
         label: isMobile ? "Days" : "Weeks",
         preview: "days.png",
@@ -289,7 +289,7 @@ export const MenuChildren = memo(function MenuChildren({
       },
       {
         key: "m",
-        hash: "agenda/weeks",
+        hash: "perspectives/weeks",
         icon: isMobile ? "view_week" : "calendar_view_month",
         label: isMobile ? "Weeks" : "Months",
         preview: "weeks.png",
@@ -297,7 +297,7 @@ export const MenuChildren = memo(function MenuChildren({
       },
       {
         key: "y",
-        hash: "agenda/months",
+        hash: "perspectives/months",
         icon: isMobile ? "calendar_view_month" : "view_compact",
         label: isMobile ? "Months" : "Years",
         preview: "months.png",
