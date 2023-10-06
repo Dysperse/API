@@ -363,26 +363,36 @@ export const MenuChildren = memo(function MenuChildren({
         }}
       >
         {!isMobile && <SearchTasks />}
-        <Typography sx={{ ...taskStyles(palette).subheading, display: "flex" }}>
-          Perspectives
-          {!isMobile && (
-            <Box
-              onClick={() => setEditMode((s) => !s)}
-              sx={{
-                ml: "auto",
-                cursor: "pointer",
-                textTransform: "none",
-                fontWeight: 100,
-                opacity: 0.6,
-                "&:hover": {
-                  opacity: 1,
-                },
-              }}
-            >
-              {editMode ? "Done" : "Edit"}
-            </Box>
-          )}
-        </Typography>
+        {!(isMobile && hiddenPerspectives.length == 6) && (
+          <Typography
+            sx={{ ...taskStyles(palette).subheading, display: "flex" }}
+          >
+            {hiddenPerspectives.length !== 6 && "Perspectives"}
+            {!isMobile && (
+              <Box
+                onClick={() => setEditMode((s) => !s)}
+                sx={{
+                  ml: "auto",
+                  cursor: "pointer",
+                  textTransform: "none",
+                  fontWeight: 100,
+                  ...(hiddenPerspectives.length === 6 &&
+                    !editMode && {
+                      mb: -5,
+                      zIndex: 999,
+                      transform: "translateY(10px)",
+                    }),
+                  opacity: 0.6,
+                  "&:hover": {
+                    opacity: 1,
+                  },
+                }}
+              >
+                {editMode ? "Done" : "Edit"}
+              </Box>
+            )}
+          </Typography>
+        )}
         <Box>
           {perspectives.map((button: any) => (
             <Tooltip
@@ -532,8 +542,14 @@ export const MenuChildren = memo(function MenuChildren({
           {boards.shared.map((board) => (
             <Tab key={board.id} styles={buttonStyles} board={board} />
           ))}
-          <Divider sx={taskStyles(palette).divider} />
-          <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
+          {(editMode || hiddenPerspectives.length !== 6) && (
+            <Divider sx={taskStyles(palette).divider} />
+          )}
+          <Typography
+            sx={{ ...taskStyles(palette).subheading, pointerEvents: "none" }}
+          >
+            Boards
+          </Typography>
           {boards.active.map((board) => (
             <Tab key={board.id} styles={buttonStyles} board={board} />
           ))}
