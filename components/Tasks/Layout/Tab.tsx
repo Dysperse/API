@@ -76,7 +76,9 @@ export const Tab = React.memo(function Tab({ styles, board }: any) {
                 push_pin
               </Icon>
             )}
-            <span style={{ opacity: 0.6 }}>{tasks !== 0 && tasks}</span>
+            <Box sx={{ opacity: 0.6, display: { sm: "none" } }}>
+              {tasks !== 0 && tasks}
+            </Box>
             <Icon sx={{ display: { sm: "none!important" } }}>
               arrow_forward_ios
             </Icon>
