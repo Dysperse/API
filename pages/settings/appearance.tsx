@@ -44,13 +44,12 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
 
   const trigger = cloneElement(
     children || (
-      <Button
-        onClick={() => setOpen(true)}
-        variant="contained"
-        sx={{ ml: "auto" }}
-      >
-        Change
-      </Button>
+      <Box sx={{ px: 1 }}>
+        <Button variant="contained" sx={{ ml: "auto" }} fullWidth>
+          <Icon>palette</Icon>
+          Change theme color
+        </Button>
+      </Box>
     ),
     {
       onClick: () => setOpen(true),
@@ -63,8 +62,11 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
     if (emblaApi) {
       const d =
         Object.keys(themes).findIndex((d) => d === session.themeColor) + 1 || 1;
-      emblaApi.scrollTo(d);
-      setCurrentIndex(d);
+      setTimeout(() => {
+        emblaApi.scrollTo(d);
+        setCurrentIndex(d);
+      });
+
       emblaApi.on("select", () => {
         const i = emblaApi.selectedScrollSnap();
         setCurrentIndex(i);
