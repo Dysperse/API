@@ -119,6 +119,7 @@ export const Header = memo(function Header({
               dateOnly
             >
               <Tooltip
+                {...(isMobile && { hidden: true })}
                 placement="bottom-start"
                 title={
                   <Typography>
