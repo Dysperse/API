@@ -32,6 +32,7 @@ import { useRouter } from "next/router";
 import {
   createContext,
   memo,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -268,6 +269,7 @@ export const MenuChildren = memo(function MenuChildren({
 
   const router = useRouter();
   const redPalette = useColor("red", isDark);
+  const greenPalette = useColor("green", isDark);
 
   const perspectives = useMemo(
     () => [
@@ -322,6 +324,28 @@ export const MenuChildren = memo(function MenuChildren({
       },
     ],
     [isMobile]
+  );
+
+  const [hiddenPerspectives, setHiddenPerspectives] = useState(
+    session.user.settings?.hiddenPerspectives || []
+  );
+
+  const handlePerspectiveToggle = useCallback(
+    async (e: any, hash: string) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const show = hiddenPerspectives.includes(hash);
+      const updatedHiddenPerspectives = show
+        ? hiddenPerspectives.filter((d) => d !== hash)
+        : [...hiddenPerspectives, hash];
+
+      setHiddenPerspectives(updatedHiddenPerspectives);
+
+      await fetchRawApi(session, "user/settings/set", {
+        hiddenPerspectives: JSON.stringify(updatedHiddenPerspectives),
+      });
+    },
+    [hiddenPerspectives, session, setHiddenPerspectives]
   );
 
   return (
@@ -416,19 +440,29 @@ export const MenuChildren = memo(function MenuChildren({
                 href={`/tasks/${button.hash}`}
                 style={{
                   cursor: "default",
-                  display: "flex",
+                  display:
+                    !editMode && hiddenPerspectives.includes(button.hash)
+                      ? "none"
+                      : "flex",
                   alignItems: "center",
                 }}
               >
                 <Collapse orientation="horizontal" in={editMode}>
                   <IconButton
+                    onClick={(e) => handlePerspectiveToggle(e, button.hash)}
                     sx={{
                       opacity: editMode ? 1 : 0,
                       transition: "opacity .4s",
-                      color: redPalette[10],
+                      color: hiddenPerspectives.includes(button.hash)
+                        ? greenPalette[10]
+                        : redPalette[10],
                     }}
                   >
-                    <Icon>remove_circle</Icon>
+                    <Icon>
+                      {hiddenPerspectives.includes(button.hash)
+                        ? "add_circle"
+                        : "remove_circle"}
+                    </Icon>
                   </IconButton>
                 </Collapse>
                 <Button
@@ -444,6 +478,9 @@ export const MenuChildren = memo(function MenuChildren({
                       label: button.label,
                       path: `/tasks/${button.hash}`,
                     })
+                  }
+                  disabled={
+                    editMode && hiddenPerspectives.includes(button.hash)
                   }
                 >
                   <Icon

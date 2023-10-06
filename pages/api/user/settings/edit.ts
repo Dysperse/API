@@ -1,6 +1,5 @@
 // Update user settings
 import { prisma } from "@/lib/server/prisma";
-import cacheData from "memory-cache";
 
 const handler = async (req, res) => {
   const session = await prisma.session.findUnique({
@@ -45,11 +44,6 @@ const handler = async (req, res) => {
       color: req.query.color || undefined,
     },
   });
-  cacheData.clear();
-  cacheData.clear();
-  cacheData.clear();
-  cacheData.clear();
-  cacheData.clear();
   res.json(user);
 };
 export default handler;
