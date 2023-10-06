@@ -36,7 +36,6 @@ const handler = async (req, res) => {
     update: temp,
   });
 
-  console.log(JSON.parse(req.query.hiddenPerspectives));
   res.json(user);
 };
 export default handler;
