@@ -132,7 +132,7 @@ const buttonStyles = (palette, condition: boolean) => ({
   py: { xs: 1, sm: 0.8 },
   px: { xs: 2, sm: 1.5 },
   mr: 1,
-  mb: 0.3,
+  mb: { xs: 0.5, sm: 0.3 },
   width: "100%",
   fontSize: "15px",
   justifyContent: "flex-start",
@@ -510,6 +510,9 @@ export const MenuChildren = memo(function MenuChildren({
                     {button.icon}
                   </Icon>
                   {button.label}
+                  {isMobile && (
+                    <Icon sx={{ ml: "auto", mr: -1 }}>arrow_forward_ios</Icon>
+                  )}
                 </Button>
               </Link>
             </Tooltip>
