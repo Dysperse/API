@@ -17,7 +17,8 @@ import {
   Typography,
 } from "@mui/material";
 import * as colors from "@radix-ui/colors";
-import { AnimatePresence, motion } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { cloneElement, useState } from "react";
 import Layout from ".";
 import { useColor, useDarkMode } from "../../lib/client/useColor";
@@ -32,6 +33,10 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
 
   const [currentTheme, setCurrentTheme] = useState(session?.themeColor);
   const previewPalette = useColor(currentTheme, useDarkMode(session.darkMode));
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: false, slidesToScroll: 1, align: "center" },
+    [(WheelGesturesPlugin as any)({ wheelDraggingClass: "scrolling" })]
+  );
 
   useStatusBar(open ? previewPalette[9] : previewPalette[1]);
 
@@ -49,6 +54,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
       onClick: () => setOpen(true),
     }
   );
+
   return (
     <>
       {trigger}
@@ -63,199 +69,106 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
             display: "flex",
             flexDirection: "column",
             overflow: "visible",
+            justifyContent: "center",
             background: previewPalette[9],
           },
         }}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ delay: 0.8 }}
-            key={`top_${currentTheme}`}
-            style={{
-              background: `linear-gradient(${previewPalette[9]}, ${previewPalette[11]}, ${previewPalette[8]})`,
-              transition: "all .2s!important",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-            }}
-          />
-        </AnimatePresence>
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            background: previewPalette[9],
-            height: "10px",
-            mt: open ? "-10px" : 0,
-            borderRadius: "20px 20px 0 0",
-          }}
-        />
-        <IconButton
-          onClick={() => setOpen(false)}
-          sx={{
-            position: "absolute",
-            top: "15px",
-            left: "15px",
-            zIndex: 999,
-            color: previewPalette[2] + "!important",
-          }}
-        >
-          <Icon>expand_more</Icon>
-        </IconButton>
-
-        <AnimatePresence
-          mode="wait"
-          onExitComplete={() => {
-            setTimeout(() => {
-              document.getElementById("currentTheme")?.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-                inline: "center",
-              });
-            }, 1000);
-          }}
-        >
+        <Box sx={{ overflow: "hidden" }} ref={emblaRef}>
           <Box
-            key={currentTheme}
             sx={{
-              px: 3,
-              mt: "auto",
-              zIndex: 9999,
               display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <Typography sx={{ opacity: 0.6 }}>
-                {(Object.keys(themes).indexOf(currentTheme) + 1)
-                  .toString()
-                  .padStart(2, "0")}
-              </Typography>
-            </motion.div>
-            <motion.div
-              initial={{ scale: 2, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <Typography
-                variant="h3"
-                className="font-heading"
-                sx={{
-                  color: previewPalette[4],
-                  mb: 1,
-                }}
-              >
-                {themes[currentTheme]?.name}
-              </Typography>
-            </motion.div>
-            <motion.div
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Typography sx={{ mb: 2, color: previewPalette[7] }}>
-                {themes[currentTheme]?.description}
-              </Typography>
-            </motion.div>
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ delay: 0.8 }}
-            >
-              <Button
-                variant="outlined"
-                sx={{
-                  borderWidth: "2px!important",
-                  background: "transparent!important",
-                  borderColor: previewPalette[11] + "!important",
-                  color: previewPalette[12] + "!important",
-                  mb: 1,
-                }}
-                onClick={() => {
-                  updateSettings(["color", currentTheme.toLowerCase()], {
-                    session,
-                  });
-                  setOpen(false);
-                }}
-              >
-                APPLY
-              </Button>
-            </motion.div>
-          </Box>
-        </AnimatePresence>
-        <AnimatePresence mode="wait">
-          <Box
-            key={`bottom_${currentTheme}`}
-            sx={{
-              "& ._container": {
-                display: "flex",
-                overflowX: "auto",
-                overflowY: "hidden",
-                px: 3,
-                mb: 6,
+              "& .slide": {
+                flex: "0 0 50dvw",
+                minWidth: 0,
               },
             }}
           >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ delay: 1 }}
-              className="_container"
-            >
-              {Object.keys(themes).map((theme) => {
-                return (
+            {Object.keys(themes).map((theme, index) => {
+              return (
+                <Box
+                  key={theme}
+                  className="slide"
+                  sx={{
+                    width: "50dvw",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
                   <IconButton
+                    onClick={() => {
+                      emblaApi?.scrollTo(index);
+                      setCurrentTheme(theme);
+                    }}
                     size="small"
                     key={theme}
                     {...(currentTheme === theme && { id: "currentTheme" })}
-                    onClick={() => setCurrentTheme(theme)}
                     sx={{
                       background: "transparent!important",
                     }}
                   >
                     <Icon
                       sx={{
-                        fontSize: "40px!important",
-                        background: `linear-gradient(45deg, ${
-                          colors[`${theme}Dark`][`${theme}9`]
-                        }, ${colors[`${theme}Dark`][`${theme}11`]})`,
+                        fontSize: "min(50dvw, 250px) !important",
+                        background: `linear-gradient(${
+                          index % 3 ? "-45deg" : "45deg"
+                        }, ${colors[`${theme}Dark`][`${theme}9`]}, ${
+                          colors[`${theme}Dark`][`${theme}11`]
+                        })`,
+                        transform: "rotate(30deg)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
-                        fontVariationSettings:
-                          '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 90 !important',
                         transition: "all 0.2s ease",
-                        ...(currentTheme === theme && {
-                          transform: "scale(1.2)",
-                          fontVariationSettings:
-                            '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 90 !important',
-                        }),
+                        // ...(currentTheme !== theme && {
+                        //   fontVariationSettings:
+                        //     '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 90 !important',
+                        // }),
                       }}
                     >
                       hexagon
                     </Icon>
                   </IconButton>
-                );
-              })}
-            </motion.div>
+                </Box>
+              );
+            })}
           </Box>
-        </AnimatePresence>
+        </Box>
+        <Typography sx={{ opacity: 0.6 }}>
+          {(Object.keys(themes).indexOf(currentTheme) + 1)
+            .toString()
+            .padStart(2, "0")}
+        </Typography>
+        <Typography
+          variant="h3"
+          className="font-heading"
+          sx={{
+            color: previewPalette[4],
+            mb: 1,
+          }}
+        >
+          {themes[currentTheme]?.name}
+        </Typography>
+        <Typography sx={{ mb: 2, color: previewPalette[7] }}>
+          {themes[currentTheme]?.description}
+        </Typography>
+        <Button
+          variant="outlined"
+          sx={{
+            borderWidth: "2px!important",
+            background: "transparent!important",
+            borderColor: previewPalette[11] + "!important",
+            color: previewPalette[12] + "!important",
+            mb: 1,
+          }}
+          onClick={() => {
+            updateSettings(["color", currentTheme.toLowerCase()], {
+              session,
+            });
+            setOpen(false);
+          }}
+        >
+          APPLY
+        </Button>
       </SwipeableDrawer>
     </>
   );

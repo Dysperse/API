@@ -40,6 +40,7 @@
     "cookie": "^0.5.0",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.10",
+    "embla-carousel-react": "^8.0.0-rc14",
     "embla-carousel-wheel-gestures": "^8.0.0-rc04",
     "emoji-mart": "^5.5.2",
     "formidable": "^3.5.1",
