@@ -237,16 +237,36 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
               overflowY: "auto",
             }}
           >
-            <Typography
-              variant="h3"
-              className="font-heading"
+            <Box
               sx={{
-                color: previewPalette[4],
+                display: "flex",
+                alignItems: "center",
                 mb: 1,
+                gap: 1,
+                "& .MuiIcon-root": { color: previewPalette[6] + "!important" },
+                "& .MuiIconButton-root": {
+                  background: "transparent",
+                  display: { xs: "none", sm: "flex" },
+                  "&:active": { background: `rgba(0,0,0,0.1)!important` },
+                },
               }}
             >
-              {themes[currentTheme]?.name}
-            </Typography>
+              <IconButton onClick={() => emblaApi?.scrollPrev()}>
+                <Icon>arrow_back_ios_new</Icon>
+              </IconButton>
+              <Typography
+                variant="h3"
+                className="font-heading"
+                sx={{
+                  color: previewPalette[4],
+                }}
+              >
+                {themes[currentTheme]?.name}
+              </Typography>
+              <IconButton onClick={() => emblaApi?.scrollNext()}>
+                <Icon>arrow_forward_ios</Icon>
+              </IconButton>
+            </Box>
             <Typography sx={{ mb: 2, color: previewPalette[7] }}>
               {themes[currentTheme]?.description}
             </Typography>
@@ -258,7 +278,6 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
                 borderColor: previewPalette[6] + "!important",
                 "&:active": { background: `rgba(0,0,0,0.1)!important` },
                 color: previewPalette[6] + "!important",
-                mb: 1,
                 flexShrink: 0,
               }}
               onClick={() => {
