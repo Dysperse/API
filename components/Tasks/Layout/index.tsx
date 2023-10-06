@@ -363,8 +363,25 @@ export const MenuChildren = memo(function MenuChildren({
         }}
       >
         {!isMobile && <SearchTasks />}
-        <Typography sx={taskStyles(palette).subheading}>
+        <Typography sx={{ ...taskStyles(palette).subheading, display: "flex" }}>
           Perspectives
+          {!isMobile && (
+            <Box
+              onClick={() => setEditMode((s) => !s)}
+              sx={{
+                ml: "auto",
+                cursor: "pointer",
+                textTransform: "none",
+                fontWeight: 100,
+                opacity: 0.6,
+                "&:hover": {
+                  opacity: 1,
+                },
+              }}
+            >
+              {editMode ? "Done" : "Edit"}
+            </Box>
+          )}
         </Typography>
         <Box>
           {perspectives.map((button: any) => (
