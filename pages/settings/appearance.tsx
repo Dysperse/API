@@ -2,6 +2,7 @@ import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import {
+  AppBar,
   Box,
   Button,
   Icon,
@@ -14,12 +15,13 @@ import {
   Radio,
   RadioGroup,
   SwipeableDrawer,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import * as colors from "@radix-ui/colors";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { cloneElement, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import Layout from ".";
 import { useColor, useDarkMode } from "../../lib/client/useColor";
 import themes from "./themes.json";
@@ -55,6 +57,31 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
     }
   );
 
+  const [currentIndex, setCurrentIndex] = useState(1);
+
+  useEffect(() => {
+    if (emblaApi) {
+      const d =
+        Object.keys(themes).findIndex((d) => d === session.themeColor) + 1 || 1;
+      emblaApi.scrollTo(d);
+      setCurrentIndex(d);
+      emblaApi.on("select", () => {
+        const i = emblaApi.selectedScrollSnap();
+        setCurrentIndex(i);
+        setCurrentTheme(Object.keys(themes)[i - 1]);
+        if (i === 0) {
+          emblaApi.scrollTo(1);
+        }
+      });
+    }
+  }, [emblaApi]);
+
+  const scrollToIndex = (index) => {
+    if (emblaApi) {
+      emblaApi.scrollTo(index);
+    }
+  };
+
   return (
     <>
       {trigger}
@@ -68,107 +95,181 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
             height: "100dvh",
             display: "flex",
             flexDirection: "column",
-            overflow: "visible",
+            overflow: "hidden",
             justifyContent: "center",
-            background: previewPalette[9],
           },
         }}
       >
-        <Box sx={{ overflow: "hidden" }} ref={emblaRef}>
-          <Box
+        <Box
+          sx={{
+            height: "100dvh",
+            display: "flex",
+            flexDirection: "column",
+            overflow: "visible",
+            justifyContent: "center",
+            background: previewPalette[9],
+            transition: "all .3s",
+          }}
+        >
+          <AppBar
             sx={{
-              display: "flex",
-              "& .slide": {
-                flex: "0 0 50dvw",
-                minWidth: 0,
+              position: "absolute",
+              background: "transparent",
+              backdropFilter: "none",
+              border: 0,
+              "& *": {
+                color: previewPalette[1] + "!important",
               },
             }}
           >
-            {Object.keys(themes).map((theme, index) => {
-              return (
-                <Box
-                  key={theme}
-                  className="slide"
-                  sx={{
-                    width: "50dvw",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <IconButton
-                    onClick={() => {
-                      emblaApi?.scrollTo(index);
-                      setCurrentTheme(theme);
-                    }}
-                    size="small"
+            <Toolbar>
+              <IconButton>
+                <Icon className="outlined">expand_circle_down</Icon>
+              </IconButton>
+              <Typography sx={{ mx: "auto" }}>
+                {currentIndex.toString().padStart(2, "0")}
+              </Typography>
+              <IconButton sx={{ visibility: "hidden" }}>
+                <Icon className="outlined">check_circle</Icon>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Toolbar />
+          <Box
+            sx={{
+              overflow: "visible",
+              flexShrink: 0,
+              height: "min(50dvw, 250px)",
+              my: "auto",
+            }}
+            ref={emblaRef}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                height: "100%",
+                "& .slide": {
+                  flex: "0 0 50%",
+                  minWidth: 0,
+                  height: "100%",
+                },
+              }}
+            >
+              <Box
+                key="-1"
+                className="slide"
+                sx={{
+                  width: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              ></Box>
+              {Object.keys(themes).map((theme, index) => {
+                return (
+                  <Box
                     key={theme}
-                    {...(currentTheme === theme && { id: "currentTheme" })}
+                    className="slide"
                     sx={{
-                      background: "transparent!important",
+                      width: "50%",
+                      display: "flex",
+                      justifyContent: "center",
                     }}
                   >
-                    <Icon
+                    <Box
+                      onClick={() => {
+                        setCurrentTheme(theme);
+                        scrollToIndex(index + 1);
+                      }}
+                      key={theme}
+                      {...(currentTheme === theme && { id: "currentTheme" })}
                       sx={{
-                        fontSize: "min(50dvw, 250px) !important",
-                        background: `linear-gradient(${
-                          index % 3 ? "-45deg" : "45deg"
-                        }, ${colors[`${theme}Dark`][`${theme}9`]}, ${
-                          colors[`${theme}Dark`][`${theme}11`]
-                        })`,
-                        transform: "rotate(30deg)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        transition: "all 0.2s ease",
-                        // ...(currentTheme !== theme && {
-                        //   fontVariationSettings:
-                        //     '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 90 !important',
-                        // }),
+                        background: "transparent!important",
                       }}
                     >
-                      hexagon
-                    </Icon>
-                  </IconButton>
-                </Box>
-              );
-            })}
+                      <Icon
+                        sx={{
+                          fontSize: "min(50dvw, 250px) !important",
+                          transition: "all 0.2s ease",
+                          ...(currentIndex == index + 1
+                            ? {
+                                transform: "rotate(30deg) scale(1.2)",
+                                background: `linear-gradient(${
+                                  index % 3 ? "-45deg" : "45deg"
+                                }, ${colors[`${theme}Dark`][`${theme}8`]}, ${
+                                  colors[`${theme}Dark`][`${theme}9`]
+                                })`,
+                                filter: `drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))`,
+                              }
+                            : {
+                                fontVariationSettings:
+                                  '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 90 !important',
+                                background: `linear-gradient(${
+                                  index % 3 ? "-45deg" : "45deg"
+                                }, ${colors[`${theme}Dark`][`${theme}9`]}, ${
+                                  colors[`${theme}Dark`][`${theme}11`]
+                                })`,
+                                transform: "rotate(30deg)",
+                              }),
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                        }}
+                      >
+                        hexagon
+                      </Icon>
+                    </Box>
+                  </Box>
+                );
+              })}
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              p: 3,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              height: "250px",
+              flexShrink: 0,
+              overflowY: "auto",
+            }}
+          >
+            <Typography
+              variant="h3"
+              className="font-heading"
+              sx={{
+                color: previewPalette[4],
+                mb: 1,
+              }}
+            >
+              {themes[currentTheme]?.name}
+            </Typography>
+            <Typography sx={{ mb: 2, color: previewPalette[7] }}>
+              {themes[currentTheme]?.description}
+            </Typography>
+            <Button
+              variant="outlined"
+              sx={{
+                borderWidth: "2px!important",
+                background: "transparent!important",
+                borderColor: previewPalette[6] + "!important",
+                "&:active": { background: `rgba(0,0,0,0.1)!important` },
+                color: previewPalette[6] + "!important",
+                mb: 1,
+                flexShrink: 0,
+              }}
+              onClick={() => {
+                updateSettings(["color", currentTheme.toLowerCase()], {
+                  session,
+                });
+                setOpen(false);
+              }}
+            >
+              APPLY
+            </Button>
           </Box>
         </Box>
-        <Typography sx={{ opacity: 0.6 }}>
-          {(Object.keys(themes).indexOf(currentTheme) + 1)
-            .toString()
-            .padStart(2, "0")}
-        </Typography>
-        <Typography
-          variant="h3"
-          className="font-heading"
-          sx={{
-            color: previewPalette[4],
-            mb: 1,
-          }}
-        >
-          {themes[currentTheme]?.name}
-        </Typography>
-        <Typography sx={{ mb: 2, color: previewPalette[7] }}>
-          {themes[currentTheme]?.description}
-        </Typography>
-        <Button
-          variant="outlined"
-          sx={{
-            borderWidth: "2px!important",
-            background: "transparent!important",
-            borderColor: previewPalette[11] + "!important",
-            color: previewPalette[12] + "!important",
-            mb: 1,
-          }}
-          onClick={() => {
-            updateSettings(["color", currentTheme.toLowerCase()], {
-              session,
-            });
-            setOpen(false);
-          }}
-        >
-          APPLY
-        </Button>
       </SwipeableDrawer>
     </>
   );

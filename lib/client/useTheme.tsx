@@ -202,7 +202,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           text: {
             color: palette[11],
             "&:hover": {
-              background: palette[3],
+              background: { sm: palette[3] },
             },
             "&:active": {
               background: palette[4],
