@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
+import dayjs from "dayjs";
 
 function removeDuplicateFriends(data) {
   const uniqueFriends = new Set();
@@ -15,6 +16,46 @@ function removeDuplicateFriends(data) {
   }
 
   return filteredData;
+}
+
+function sortFriendsByStatusAndActivity(friendsData, userTimeZone) {
+  return friendsData.sort((friendA, friendB) => {
+    // Sort by status and expiration within user's timezone
+    if (friendA.following.Status && friendB.following.Status) {
+      const currentTimeInUserTZ = dayjs().tz(userTimeZone);
+      const statusExpirationA = dayjs(friendA.following.Status.until).tz(
+        userTimeZone
+      );
+      const statusExpirationB = dayjs(friendB.following.Status.until).tz(
+        userTimeZone
+      );
+
+      if (
+        statusExpirationA.isAfter(currentTimeInUserTZ) &&
+        statusExpirationB.isAfter(currentTimeInUserTZ)
+      ) {
+        // Both friends have active statuses within user's timezone, sort by activity
+        const lastActiveA = dayjs(friendA.following.lastActive).tz(
+          userTimeZone
+        );
+        const lastActiveB = dayjs(friendB.following.lastActive).tz(
+          userTimeZone
+        ) as dayjs.Dayjs;
+        return lastActiveB.isAfter(lastActiveA) ? 1 : -1; // Sort in descending order of activity
+      } else if (statusExpirationA.isAfter(currentTimeInUserTZ)) {
+        return -1; // Friend A has an active status, but B doesn't
+      } else if (statusExpirationB.isAfter(currentTimeInUserTZ)) {
+        return 1; // Friend B has an active status, but A doesn't
+      }
+    }
+
+    // If no active statuses, or both have expired statuses, sort by activity
+    const lastActiveA = dayjs(friendA.following.lastActive).tz(userTimeZone);
+    const lastActiveB = dayjs(friendB.following.lastActive).tz(
+      userTimeZone
+    ) as dayjs.Dayjs;
+    return lastActiveB.isAfter(lastActiveA) ? 1 : -1; // Sort in descending order of activity
+  });
 }
 
 export function shuffle(array) {
@@ -112,7 +153,10 @@ export default async function handler(req, res) {
 
     res.json({
       user,
-      friends: removeDuplicateFriends(friends),
+      friends: sortFriendsByStatusAndActivity(
+        removeDuplicateFriends(friends),
+        "America/Los_Angeles"
+      ),
     });
   } catch (e: any) {
     console.log(e);
