@@ -136,7 +136,9 @@ const SelectDateModal = React.memo(function SelectDateModal({
   const palette = useColor(session.themeColor, isDark);
   const today = new Date(dayjs().startOf("day").toISOString());
 
-  const [_date, _setDate] = useState(date || dayjs());
+  const [_date, _setDate] = useState(
+    date || dayjs().set("hour", 0).set("minute", 0)
+  );
 
   const handleClick = () => setTimeOpen((s) => !s);
 
@@ -301,11 +303,11 @@ const SelectDateModal = React.memo(function SelectDateModal({
                       .set("year", newValue.year())
                       .set(
                         "hour",
-                        dayjs(_date).hour() === 0 ? 0 : dayjs(_date).hour()
+                        dayjs(_date).hour() >= 0 ? dayjs(_date).hour() : 0
                       )
                       .set(
                         "minute",
-                        dayjs(_date).minute() === 0 ? 0 : dayjs(_date).minute()
+                        dayjs(_date).minute() >= 0 ? dayjs(_date).minute() : 0
                       )
                   );
                   closeOnSelect && setOpen(false);

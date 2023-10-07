@@ -333,7 +333,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
                 label={
                   task.due
                     ? dayjs(task.due).format(
-                        dayjs(task.due).hour() === 0
+                        task.dateOnly
                           ? "MMMM D, YYYY"
                           : "MMMM D, YYYY [at] h:mm A"
                       )
