@@ -10,6 +10,7 @@ import {
   Button,
   Chip,
   CircularProgress,
+  Divider,
   ListItem,
   ListItemText,
   Switch,
@@ -132,6 +133,14 @@ export default function Notifications() {
       secondary: "Get notified when your friends set their status",
     },
     {
+      key: "boardUpdates",
+      comingSoon: false,
+      disabled: false,
+      enabled: null,
+      primary: "Boards",
+      secondary: "Updating/deleting a column, etc.",
+    },
+    {
       key: "followerUpdates",
       comingSoon: false,
       disabled: false,
@@ -154,6 +163,22 @@ export default function Notifications() {
     <Layout>
       {data ? (
         <Box sx={{ mb: 3 }}>
+          <ListItem>
+            <ListItemText
+              primary="Status updates"
+              secondary="Notify others when I change my status"
+            />
+            <Switch
+              checked={data.notifyFriendsForStatusUpdates}
+              onClick={(e: any) =>
+                handleNotificationChange(
+                  "notifyFriendsForStatusUpdates",
+                  e.target.checked
+                )
+              }
+            />
+          </ListItem>
+          <Divider sx={{ my: 4 }} />
           <ListItem
             sx={{
               background: palette[3],
