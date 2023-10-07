@@ -20,7 +20,6 @@ import {
   Chip,
   CircularProgress,
   Container,
-  Grid,
   Icon,
   IconButton,
   SwipeableDrawer,
@@ -60,7 +59,7 @@ function Hobbies({ palette, hobbies, profileCardStyles }) {
   );
 }
 
-function ShareProfileModal({ mutate, user, children }) {
+function ShareProfileModal({ user, children }) {
   const { session } = useSession();
   const ref = useRef();
   const palette = useColor(user?.color || session.themeColor, user?.darkMode);
@@ -69,6 +68,7 @@ function ShareProfileModal({ mutate, user, children }) {
   const trigger = cloneElement(children, { onClick: () => setOpen(true) });
 
   const typographyStyles = {
+    fontWeight: 100,
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
@@ -118,7 +118,9 @@ function ShareProfileModal({ mutate, user, children }) {
                     ...user,
                     Profile: {
                       ...user.Profile,
-                      picture: `https://${window.location.hostname}/api/proxy?url=${user.Profile?.picture}`,
+                      picture: user.Profile?.picture
+                        ? `https://${window.location.hostname}/api/proxy?url=${user.Profile?.picture}`
+                        : "",
                     },
                   }}
                   size={100}
@@ -147,20 +149,6 @@ function ShareProfileModal({ mutate, user, children }) {
                   {user?.username || user?.email}
                 </b>
               </Typography>
-              <Grid container>
-                <Grid item xs={6}>
-                  <Typography variant="h4" className="font-heading">
-                    {user?.followers?.length}
-                  </Typography>
-                  <Typography variant="body2">followers</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="h4" className="font-heading">
-                    {user?.following?.length}
-                  </Typography>
-                  <Typography variant="body2">following</Typography>
-                </Grid>
-              </Grid>
             </Box>
           </Box>
         </div>
@@ -373,7 +361,7 @@ function Page() {
             >
               <Icon>{isMobile ? "arrow_back_ios_new" : "close"}</Icon>
             </IconButton>
-            <ShareProfileModal user={data} mutate={mutate}>
+            <ShareProfileModal user={data}>
               <IconButton sx={{ ml: "auto" }}>
                 <Icon>ios_share</Icon>
               </IconButton>
