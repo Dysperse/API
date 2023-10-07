@@ -284,8 +284,8 @@ const Column = React.memo(function Column({
       {...(isToday && { id: "active" })}
       sx={{
         height: "auto",
-        flex: { xs: "0 0 100%", sm: "0 0 300px" },
-        width: { xs: "100%", sm: "300px" },
+        flex: { xs: "0 0 100%", sm: "0 0 320px" },
+        width: { xs: "100%", sm: "320px" },
         borderRight: { sm: "1.5px solid" },
         ...(!isMobile && {
           overflowY: "scroll",
