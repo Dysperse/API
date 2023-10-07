@@ -9,7 +9,7 @@ interface LogoProps {
 }
 
 export function Logo({
-  intensity = 4,
+  intensity = 7,
   size = 45,
   onClick = () => {},
   color = "violet",
