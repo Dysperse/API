@@ -2,7 +2,6 @@ import { containerRef } from "@/components/Layout";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
-import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -22,42 +21,88 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import {
-  cloneElement,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
-function FilterSettings({ children }) {
+function FilterSettings() {
   const { board, filter, setFilter, permissions, isShared, mutateData } =
     useContext(BoardContext);
+
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const [showMore, setShowMore] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const trigger = cloneElement(children, {
-    onClick: handleClick,
-  });
+  const filters = [
+    { key: "", name: "Urgency + Completion", advanced: false },
+    { key: "a-z", name: "A-Z", advanced: false },
+    { key: "due", name: "Due date (new to old)", advanced: false },
+    { key: "modification", name: "Last modified", advanced: false },
+    { key: "completed-at", name: "Last completed", advanced: false },
+    { key: "color", name: "Has color?", advanced: true },
+    { key: "attachment", name: "Has attachment?", advanced: true },
+    { key: "attachment", name: "Has reminders?", advanced: true },
+    { key: "subtasks", name: "Has subtasks?", advanced: true },
+  ];
+
   return (
     <>
-      {trigger}
+      <Chip
+        onClick={handleClick}
+        label={
+          filter !== "" ? filters.find((s) => s.key === filter)?.name : "Filter"
+        }
+        icon={<Icon>filter_list</Icon>}
+        {...(filter !== "" && { onDelete: () => setFilter("") })}
+      />
+
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {["priority", "a-z", "z-a", "due-asc", "due-desc"].map((filter) => (
-          <MenuItem onClick={handleClose} key={filter}>
-            {capitalizeFirstLetter(
-              filter.includes("-") ? filter.toUpperCase() : filter
-            )}
-          </MenuItem>
-        ))}
+        {filters
+          .filter((s) => !s.advanced)
+          .map((_filter) => (
+            <MenuItem
+              onClick={() => {
+                setAnchorEl(null);
+                setFilter(_filter.key);
+              }}
+              key={_filter.key}
+            >
+              <Icon>{filter === _filter.key && "check"}</Icon>
+              {_filter.name}
+            </MenuItem>
+          ))}
+        <MenuItem
+          onClick={() => setShowMore((s) => !s)}
+          sx={{ background: palette[4] }}
+        >
+          {showMore ? "Hide" : "Show"} more
+          <Icon sx={{ ml: "auto" }}>
+            {!showMore ? "expand_more" : "expand_less"}
+          </Icon>
+        </MenuItem>
+        {showMore &&
+          filters
+            .filter((s) => !s.advanced)
+            .map((_filter) => (
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  setFilter(_filter.key);
+                }}
+                key={_filter.key}
+              >
+                <Icon>{filter === _filter.key && "check"}</Icon>
+                {_filter.name}
+              </MenuItem>
+            ))}
       </Menu>
     </>
   );
@@ -290,9 +335,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
               maxRows={3}
             />
             <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-              <FilterSettings>
-                <Chip label="Filter" icon={<Icon>filter_list</Icon>} />
-              </FilterSettings>
+              <FilterSettings />
               {!board.public && (
                 <Chip label={"Private"} icon={<Icon>lock</Icon>} />
               )}

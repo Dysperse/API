@@ -31,9 +31,14 @@ import { BoardContext, ColumnContext } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { SelectionContext } from "../../Layout";
-import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({ children, columnTasks, setColumnTasks }: any) {
+export function ColumnSettings({
+  children,
+  tasks,
+}: {
+  children: JSX.Element;
+  tasks: any[];
+}) {
   const storage = useAccountStorage();
   const ref: any = useRef();
   const buttonRef: any = useRef();
@@ -82,22 +87,6 @@ export function ColumnSettings({ children, columnTasks, setColumnTasks }: any) {
         },
       }}
     >
-      <FilterMenu
-        handleParentClose={handleClose}
-        originalTasks={column.tasks.filter(
-          (task) => task.parentTasks.length === 0
-        )}
-        setColumnTasks={setColumnTasks}
-      >
-        <MenuItem className="sortMenu">
-          <Icon className="outlined">filter_list</Icon>
-          Sort
-          <Icon className="outlined" sx={{ ml: "auto" }}>
-            chevron_right
-          </Icon>
-        </MenuItem>
-      </FilterMenu>
-      <Divider />
       <MenuItem
         onClick={() => {
           selection.set(["-1"]);
@@ -108,7 +97,7 @@ export function ColumnSettings({ children, columnTasks, setColumnTasks }: any) {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          selection.set(columnTasks.map((t) => t.id));
+          selection.set(tasks.map((t) => t.id));
           handleClose();
         }}
       >
@@ -166,39 +155,7 @@ export function ColumnSettings({ children, columnTasks, setColumnTasks }: any) {
     </Box>
   );
 
-  return column.name === "" ? (
-    <Box
-      onClick={(e) => e.stopPropagation()}
-      sx={{
-        ml: "auto",
-      }}
-    >
-      <FilterMenu
-        handleParentClose={handleClose}
-        originalTasks={column.tasks.filter(
-          (task) => task.parentTasks.length === 0
-        )}
-        setColumnTasks={setColumnTasks}
-      >
-        <IconButton
-          onClick={(e) => e.stopPropagation()}
-          size="large"
-          sx={{
-            mr: 1,
-          }}
-        >
-          <Icon
-            className="outlined"
-            sx={{
-              transition: "all .2s",
-            }}
-          >
-            filter_list
-          </Icon>
-        </IconButton>
-      </FilterMenu>
-    </Box>
-  ) : (
+  return column.name === "" ? null : (
     <>
       <SwipeableDrawer
         anchor="bottom"

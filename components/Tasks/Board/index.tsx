@@ -208,11 +208,10 @@ function RenderBoard({ tasks }) {
     </Box>
   );
 }
+export type BoardFilterInput = "" | "a-z" | "z-a" | "due-asc" | "due-desc";
 
 export function Board({ mutate, board }) {
-  const [filter, setFilter] = useState<
-    "priority" | "a-z" | "z-a" | "due-asc" | "due-desc"
-  >("priority");
+  const [filter, setFilter] = useState<BoardFilterInput>("");
 
   const {
     data,

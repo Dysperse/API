@@ -44,11 +44,8 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
 
   const [isScrolling, setIsScrolling] = useState(false);
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
-  const [columnTasks, setColumnTasks] = useState(column.tasks);
 
-  useEffect(() => setColumnTasks(column.tasks), [column.tasks]);
-
-  const sortedTasks = columnTasks.filter((task) => !task.completed);
+  const sortedTasks = column.tasks.filter((task) => !task.completed);
 
   const toggleShowCompleted = useCallback(
     () => setShowCompleted((e) => !e),
@@ -63,8 +60,8 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const { session } = useSession();
 
   const incompleteLength = useMemo(
-    () => columnTasks.filter((t) => !t.completed).length,
-    [columnTasks]
+    () => column.tasks.filter((t) => !t.completed).length,
+    [column.tasks]
   );
 
   const scrollIntoView = async () => {
@@ -290,89 +287,81 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   sx={{ p: 3, color: palette[8] + "!important" }}
                 >
                   <Icon className="outlined">
-                    {navigation.current == 0 ? "view_column_2" : "arrow_back_ios_new"}
+                    {navigation.current == 0
+                      ? "view_column_2"
+                      : "arrow_back_ios_new"}
                   </Icon>
                 </IconButton>
               </Box>
             )}
-            {column.name == "" ? (
-              isMobile && (
-                <ColumnSettings
-                  columnTasks={columnTasks}
-                  setColumnTasks={setColumnTasks}
-                />
-              )
-            ) : (
-              <Box
+            <Box
+              sx={{
+                flexGrow: 1,
+                maxWidth: "100%",
+                minWidth: 0,
+                borderRadius: 5,
+                transition: "transform .4s",
+                py: { xs: 1, sm: 0 },
+              }}
+              onContextMenu={expandTitle}
+            >
+              <Typography
+                variant="h6"
                 sx={{
-                  flexGrow: 1,
-                  maxWidth: "100%",
                   minWidth: 0,
-                  borderRadius: 5,
-                  transition: "transform .4s",
-                  py: { xs: 1, sm: 0 },
+                  borderRadius: 4,
+                  width: "auto",
+                  mb: { xs: -0.5, sm: 0.7 },
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 2,
+                  ...(column.name === "" && { display: "none" }),
+                  "& img": {
+                    width: "30px",
+                    height: "30px",
+                    mb: -0.2,
+                  },
                 }}
-                onContextMenu={expandTitle}
               >
-                <Typography
-                  variant="h6"
+                <img
+                  alt="Emoji"
+                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                  width={20}
+                  height={20}
+                />
+
+                <Box
                   sx={{
-                    minWidth: 0,
-                    borderRadius: 4,
-                    width: "auto",
-                    mb: { xs: -0.5, sm: 0.7 },
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 2,
-                    ...(column.name === "" && { display: "none" }),
-                    "& img": {
-                      width: "30px",
-                      height: "30px",
-                      mb: -0.2,
-                    },
+                    gap: 1,
+                    minWidth: 0,
+                    maxWidth: "100%",
                   }}
                 >
-                  <img
-                    alt="Emoji"
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                    width={20}
-                    height={20}
-                  />
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 1,
+                  <span
+                    style={{
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
                       minWidth: 0,
                       maxWidth: "100%",
                     }}
                   >
-                    <span
-                      style={{
-                        overflow: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                        minWidth: 0,
-                        maxWidth: "100%",
-                      }}
-                    >
-                      {column.name}
-                    </span>
-                  </Box>
-                </Typography>
-                <Typography
-                  sx={{
-                    display: { xs: "none", sm: "flex" },
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {incompleteLength} item{incompleteLength !== 1 && "s"}
-                </Typography>
-              </Box>
-            )}
-
+                    {column.name}
+                  </span>
+                </Box>
+              </Typography>
+              <Typography
+                sx={{
+                  display: { xs: "none", sm: "flex" },
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {incompleteLength} item{incompleteLength !== 1 && "s"}
+              </Typography>
+            </Box>
             {isMobile && (
               <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
                 <IconButton
@@ -425,16 +414,13 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 <Icon>add_circle</Icon>List item
               </Button>
             </CreateTask>
-            <ColumnSettings
-              columnTasks={columnTasks}
-              setColumnTasks={setColumnTasks}
-            >
+            <ColumnSettings tasks={column.tasks as any[]}>
               <Button variant="outlined" size="small">
                 <Icon>more_horiz</Icon>
               </Button>
             </ColumnSettings>
           </Box>
-          {columnTasks.filter((task) => !task.completed).length === 0 && (
+          {column.tasks.filter((task) => !task.completed).length === 0 && (
             <Box sx={{ py: 1, px: { xs: 2, sm: 0 } }}>
               <Box
                 sx={{
@@ -502,7 +488,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 px: { xs: "15px!important", sm: "10px!important" },
                 py: { xs: "10px!important", sm: "5px!important" },
                 mb: 1,
-                ...(columnTasks.filter((task) => task.completed).length ===
+                ...(column.tasks.filter((task) => task.completed).length ===
                   0 && {
                   display: "none",
                 }),
@@ -520,7 +506,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
               onClick={toggleShowCompleted}
             >
               <Typography sx={{ fontWeight: 700 }}>
-                {columnTasks.filter((task) => task.completed).length} completed
+                {column.tasks.filter((task) => task.completed).length} completed
               </Typography>
               <Icon
                 sx={{
@@ -542,7 +528,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 isScrolling={setIsScrolling}
                 useWindowScroll
                 customScrollParent={columnRef.current}
-                data={columnTasks.filter((task) => task.completed)}
+                data={column.tasks.filter((task) => task.completed)}
                 itemContent={(index, task) => (
                   <Task
                     permissions={permissions}
