@@ -73,6 +73,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
         }
       }}
       value={query}
+      id="searchTasks"
       sx={{
         transition: "all .2s",
         zIndex: 999,
