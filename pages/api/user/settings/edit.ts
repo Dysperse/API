@@ -41,6 +41,7 @@ const handler = async (req, res) => {
           ? ""
           : req.query.notificationSubscription || undefined,
       ...(req.query.darkMode && { darkMode: req.query.darkMode }),
+      ...(req.query.agreeTos && { agreeTos: req.query.agreeTos === "true" }),
       color: req.query.color || undefined,
     },
   });

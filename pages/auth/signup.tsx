@@ -18,6 +18,7 @@ import {
   Button,
   Card,
   CardActionArea,
+  Checkbox,
   Chip,
   CircularProgress,
   Dialog,
@@ -27,12 +28,15 @@ import {
   IconButton,
   InputAdornment,
   LinearProgress,
+  Link,
+  ListItem,
   NoSsr,
   Skeleton,
   SwipeableDrawer,
   TextField,
   ThemeProvider,
   Toolbar,
+  Tooltip,
   Typography,
   createTheme,
   useMediaQuery,
@@ -1047,22 +1051,71 @@ function StepSix({ styles, formData, setFormData, setStep }) {
         }}
         sx={{ mt: 2 }}
       />
+      <Box>
+        <ListItem sx={{ mt: 2 }}>
+          <Typography variant="body2">
+            By signing up, you agree to our{" "}
+            <Link
+              href="https://blog.dysperse.com/terms-of-service"
+              target="_blank"
+            >
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link
+              href="https://blog.dysperse.com/privacy-policy"
+              target="_blank"
+            >
+              Privacy Policy
+            </Link>
+          </Typography>
+          <Checkbox
+            checked={formData.agreeTos}
+            onClick={(e: any) =>
+              setFormData((s) => ({ ...s, agreeTos: e.target.checked }))
+            }
+          />
+        </ListItem>
+      </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-        <Button variant="outlined" onClick={() => setStep(4)}>
+        <Button
+          variant="outlined"
+          onClick={() => setStep(4)}
+          disabled={!formData.agreeTos}
+        >
           <Icon>west</Icon>
         </Button>
-        <Button
-          onClick={() => setStep(6)}
-          variant="contained"
-          disabled={
-            formData.password !== formData.confirmPassword ||
-            formData.password.length < 8 ||
-            !formData.password.match(/[a-zA-Z]/g) ||
-            !formData.password.match(/[0-9]/g)
+        <Tooltip
+          title={
+            formData.password !== formData.confirmPassword
+              ? "Passwords do not match"
+              : formData.password.length < 8
+              ? "Password must be 8+ characters"
+              : !formData.password.match(/[a-zA-Z]/g)
+              ? "Password must contain letters"
+              : !formData.password.match(/[0-9]/g)
+              ? "Password must contain numbers"
+              : !formData.agreeTos
+              ? "Please agree with our Terms of Service and Privacy Policy"
+              : null
           }
         >
-          Finish <Icon>check</Icon>
-        </Button>
+          <Box>
+            <Button
+              onClick={() => setStep(6)}
+              variant="contained"
+              disabled={
+                formData.password !== formData.confirmPassword ||
+                formData.password.length < 8 ||
+                !formData.password.match(/[a-zA-Z]/g) ||
+                !formData.password.match(/[0-9]/g) ||
+                !formData.agreeTos
+              }
+            >
+              Finish <Icon>check</Icon>
+            </Button>
+          </Box>
+        </Tooltip>
       </Box>
     </Box>
   );
@@ -1407,6 +1460,7 @@ export default function Page() {
     picture: null,
     timeZone,
     templates: [],
+    agreeTos: false,
   });
 
   const palette = useColor(formData.color, useDarkMode(formData.darkMode));

@@ -18,6 +18,7 @@ model User {
   email    String  @unique
   password String
   darkMode String  @default("system")
+  agreeTos Boolean @default(false)
 
   lastActive DateTime @default(now())
 
