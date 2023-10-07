@@ -90,7 +90,7 @@ function FilterSettings() {
         </MenuItem>
         {showMore &&
           filters
-            .filter((s) => !s.advanced)
+            .filter((s) => s.advanced)
             .map((_filter) => (
               <MenuItem
                 onClick={() => {
