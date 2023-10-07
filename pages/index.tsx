@@ -17,7 +17,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../components/Start/HeadingComponent";
@@ -76,20 +76,6 @@ export default function Home() {
     "user/profile",
     { email: session.user.email },
   ]);
-
-  const sortedFriends = useMemo(() => {
-    return (
-      data?.friends &&
-      data.friends.sort(({ following: friend }) => {
-        if (
-          friend?.Status?.status &&
-          dayjs(friend?.Status?.until).isAfter(dayjs())
-        )
-          return -1;
-        else return 1;
-      })
-    );
-  }, [data]);
 
   const scrollerRef = useRef();
 
@@ -164,7 +150,7 @@ export default function Home() {
           }}
         >
           <Box sx={{ mb: 5 }}>
-            {sortedFriends?.length === 0 && (
+            {data?.length === 0 && (
               <Alert
                 sx={{
                   mb: -2,
@@ -182,18 +168,18 @@ export default function Home() {
                 Friends will appear here!
               </Alert>
             )}
-            {data && sortedFriends?.length > 0 ? (
+            {data && data?.friends?.length > 0 ? (
               <Virtuoso
                 customScrollParent={containerRef.current}
                 useWindowScroll
-                totalCount={sortedFriends.length}
+                totalCount={data.friends.length}
                 itemContent={(i) => (
                   <Friend
                     mutate={mutate}
                     friend={
-                      sortedFriends[i].follower.email === session.user.email
-                        ? sortedFriends[i].following
-                        : sortedFriends[i].follower
+                      data.friends[i].follower.email === session.user.email
+                        ? data.friends[i].following
+                        : data.friends[i].follower
                     }
                     key={i}
                   />
@@ -203,7 +189,7 @@ export default function Home() {
               <></>
             )}
           </Box>
-          <ContactSync showFriends={sortedFriends?.length === 0} />
+          <ContactSync showFriends={data?.friends?.length === 0} />
         </Box>
         <Toolbar />
       </motion.div>

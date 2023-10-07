@@ -18,46 +18,6 @@ function removeDuplicateFriends(data) {
   return filteredData;
 }
 
-function sortFriendsByStatusAndActivity(friendsData, userTimeZone) {
-  return friendsData.sort((friendA, friendB) => {
-    // Sort by status and expiration within user's timezone
-    if (friendA.following.Status && friendB.following.Status) {
-      const currentTimeInUserTZ = dayjs().tz(userTimeZone);
-      const statusExpirationA = dayjs(friendA.following.Status.until).tz(
-        userTimeZone
-      );
-      const statusExpirationB = dayjs(friendB.following.Status.until).tz(
-        userTimeZone
-      );
-
-      if (
-        statusExpirationA.isAfter(currentTimeInUserTZ) &&
-        statusExpirationB.isAfter(currentTimeInUserTZ)
-      ) {
-        // Both friends have active statuses within user's timezone, sort by activity
-        const lastActiveA = dayjs(friendA.following.lastActive).tz(
-          userTimeZone
-        );
-        const lastActiveB = dayjs(friendB.following.lastActive).tz(
-          userTimeZone
-        ) as dayjs.Dayjs;
-        return lastActiveB.isAfter(lastActiveA) ? 1 : -1; // Sort in descending order of activity
-      } else if (statusExpirationA.isAfter(currentTimeInUserTZ)) {
-        return -1; // Friend A has an active status, but B doesn't
-      } else if (statusExpirationB.isAfter(currentTimeInUserTZ)) {
-        return 1; // Friend B has an active status, but A doesn't
-      }
-    }
-
-    // If no active statuses, or both have expired statuses, sort by activity
-    const lastActiveA = dayjs(friendA.following.lastActive).tz(userTimeZone);
-    const lastActiveB = dayjs(friendB.following.lastActive).tz(
-      userTimeZone
-    ) as dayjs.Dayjs;
-    return lastActiveB.isAfter(lastActiveA) ? 1 : -1; // Sort in descending order of activity
-  });
-}
-
 export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -76,6 +36,37 @@ export function shuffle(array) {
   }
 
   return array;
+}
+
+function sortFriendsByStatusAndActivity(friendsData, userTimeZone) {
+  return friendsData.sort((friendA, friendB) => {
+    // Sort by status duration within user's timezone
+    if (friendA.following.Status && friendB.following.Status) {
+      const currentTimeInUserTZ = dayjs().tz(userTimeZone);
+      const statusStartA = dayjs(friendA.following.Status.started).tz(
+        userTimeZone
+      );
+      const statusEndA = dayjs(friendA.following.Status.until).tz(userTimeZone);
+      const statusStartB = dayjs(friendB.following.Status.started).tz(
+        userTimeZone
+      );
+      const statusEndB = dayjs(friendB.following.Status.until).tz(userTimeZone);
+
+      // Sort by the remaining duration of the status
+      const durationA = statusEndA.diff(currentTimeInUserTZ);
+      const durationB = statusEndB.diff(currentTimeInUserTZ);
+
+      if (durationA > durationB) return -1;
+      if (durationA < durationB) return 1;
+    }
+
+    // Sort by last activity if statuses are not available or have expired
+    const lastActiveA = dayjs(friendA.following.lastActive).tz(userTimeZone);
+    const lastActiveB = dayjs(friendB.following.lastActive).tz(userTimeZone);
+
+    // Sort in descending order of last activity
+    return lastActiveB.toDate().getTime() - lastActiveA.toDate().getTime();
+  });
 }
 
 export default async function handler(req, res) {
@@ -151,6 +142,12 @@ export default async function handler(req, res) {
       },
     });
 
+    console.log(
+      sortFriendsByStatusAndActivity(
+        removeDuplicateFriends(friends),
+        "America/Los_Angeles"
+      )
+    );
     res.json({
       user,
       friends: sortFriendsByStatusAndActivity(
