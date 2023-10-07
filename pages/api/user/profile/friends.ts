@@ -1,6 +1,22 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 
+function removeDuplicateFriends(data) {
+  const uniqueFriends = new Set();
+  const filteredData: any = [];
+
+  for (const friend of data) {
+    const friendPair = `${friend.followerId}-${friend.followingId}`;
+
+    if (!uniqueFriends.has(friendPair)) {
+      uniqueFriends.add(friendPair);
+      filteredData.push(friend);
+    }
+  }
+
+  return filteredData;
+}
+
 export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -92,9 +108,10 @@ export default async function handler(req, res) {
 
     res.json({
       user,
-      friends: shuffle(friends),
+      friends: removeDuplicateFriends(friends),
     });
   } catch (e: any) {
+    console.log(e);
     res.status(401).json({ error: e.message });
   }
 }

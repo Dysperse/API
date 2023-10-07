@@ -20,7 +20,14 @@ export function ConfirmationModal({
   children,
   callback,
   buttonText = "Continue",
-}: any) {
+}: {
+  disabled?: boolean;
+  title: string;
+  question?: string;
+  children: JSX.Element;
+  callback: any;
+  buttonText?: string;
+}) {
   const { session } = useSession();
   const isDark = useDarkMode(session?.darkMode || "system");
 
