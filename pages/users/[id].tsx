@@ -143,7 +143,7 @@ function ShareProfileModal({ user, children }) {
               >
                 <b>{user?.name}</b>
               </Typography>
-              <Typography sx={{ ...typographyStyles, mb: 2 }}>
+              <Typography sx={{ ...typographyStyles, opacity: 0.7 }}>
                 <b>
                   {user?.username && "@"}
                   {user?.username || user?.email}
