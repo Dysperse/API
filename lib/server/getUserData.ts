@@ -34,7 +34,7 @@ export const getUserData = async (token: string) => {
   }
 
   try {
-    prisma.user.update({
+    await prisma.user.update({
       where: {
         identifier: session.user.identifier,
       },
