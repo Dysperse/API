@@ -447,8 +447,9 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                     "2023-10-07T17:23:03.871Z" && (
                     <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
                       Active{" "}
-                      {dayjs(friend.lastActive).fromNow() ===
-                      "a few seconds ago"
+                      {["a few seconds ago" || "in a few seconds"].includes(
+                        dayjs(friend.lastActive).fromNow()
+                      )
                         ? "now"
                         : dayjs(friend.lastActive).fromNow()}
                     </Typography>
