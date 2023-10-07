@@ -1,5 +1,6 @@
 import { OptionsGroup } from "@/components/OptionsGroup";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { FriendPopover } from "@/components/Start/Friend";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -168,20 +169,30 @@ export default function AddFriend() {
               </Alert>
             )}
             {pendingData?.map((person) => (
-              <ListItem key={person.followerId} disableGutters>
-                <ProfilePicture data={person.following} size={40} />
-                <ListItemText primary={person.following.name} />
-                <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
-                  <Button
-                    disabled={loading === person.email}
-                    size="small"
-                    variant="contained"
-                    onClick={() => handleCancel(person.following.email)}
-                  >
-                    Cancel
-                  </Button>
+              <FriendPopover
+                email={person.following.email}
+                key={person.followerId}
+              >
+                <Box>
+                  <ListItem disableGutters>
+                    <ProfilePicture data={person.following} size={40} />
+                    <ListItemText primary={person.following.name} />
+                    <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
+                      <Button
+                        disabled={loading === person.following.email}
+                        size="small"
+                        variant="contained"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCancel(person.following.email);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </Box>
+                  </ListItem>
                 </Box>
-              </ListItem>
+              </FriendPopover>
             ))}
           </motion.div>
         ) : (

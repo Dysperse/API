@@ -20,7 +20,12 @@ export default async function handler(req, res) {
         email: true,
         Status: true,
         followers: req.query.basic
-          ? false
+          ? {
+              where: { follower: { identifier: req.query.userIdentifier } },
+              select: {
+                accepted: true,
+              },
+            }
           : {
               select: {
                 follower: {
@@ -33,7 +38,12 @@ export default async function handler(req, res) {
               },
             },
         following: req.query.basic
-          ? false
+          ? {
+              where: { following: { identifier: req.query.userIdentifier } },
+              select: {
+                accepted: true,
+              },
+            }
           : {
               select: {
                 following: {

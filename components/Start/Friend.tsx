@@ -1,6 +1,7 @@
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Badge,
@@ -18,7 +19,8 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { cloneElement, memo, useState } from "react";
+import { cloneElement, memo, useCallback, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import { Emoji } from "../Emoji";
 
@@ -90,6 +92,42 @@ export function FriendPopover({ children, email }) {
     mt: 2,
   };
 
+  const isFriend =
+    data?.followers?.[0]?.accepted === true ||
+    data?.following?.[0]?.accepted === true;
+
+  const isPending =
+    data?.followers?.[0]?.accepted === false ||
+    data?.following?.[0]?.accepted === false;
+
+  const handleFriend = useCallback(() => {
+    toast.promise(
+      new Promise((resolve, reject) => {
+        try {
+          if (isFriend) {
+            fetchRawApi(session, "user/followers/unfollow", {
+              followerEmail: session.user.email,
+              followingEmail: data.email,
+            });
+          } else {
+            fetchRawApi(session, "user/followers/follow", {
+              followerEmail: session.user.email,
+              followingEmail: data.email,
+            });
+          }
+          resolve(true);
+        } catch (e) {
+          reject(true);
+        }
+      }),
+      {
+        loading: "Loading...",
+        success: isFriend ? "Friend removed!" : "Friend request sent!",
+        error: "Something went wrong. Please try again later",
+      }
+    );
+  }, [data, isFriend, session.user.email]);
+
   return (
     <>
       {trigger}
@@ -115,6 +153,30 @@ export function FriendPopover({ children, email }) {
             position: "relative",
           }}
         >
+          <Button
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              m: 3,
+              color: palette[1] + "!important",
+              background: "transparent!important",
+              "&:active": {
+                opacity: 0.6,
+              },
+            }}
+            size="small"
+            onClick={handleFriend}
+          >
+            <Icon className="outlined">
+              {isFriend
+                ? "person_check"
+                : isPending
+                ? "access_time"
+                : "person_add"}
+            </Icon>
+            {isFriend ? "Friend" : isPending ? "Pending" : "Add"}
+          </Button>
           <Button
             sx={{
               position: "absolute",
