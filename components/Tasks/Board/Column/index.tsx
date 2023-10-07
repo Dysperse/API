@@ -286,9 +286,16 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   }}
                   sx={{ p: 3, color: palette[8] + "!important" }}
                 >
-                  <Icon className="outlined">
+                  <Icon
+                    className="outlined"
+                    sx={{
+                      ...(navigation.current == 0 && {
+                        transform: "scale(1.25)",
+                      }),
+                    }}
+                  >
                     {navigation.current == 0
-                      ? "view_column_2"
+                      ? "grid_view"
                       : "arrow_back_ios_new"}
                   </Icon>
                 </IconButton>
