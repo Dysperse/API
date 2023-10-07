@@ -110,6 +110,9 @@ export default function Home() {
               mb: isIos() ? -0.4 : 0,
               color: palette[8],
               minWidth: 0,
+              "&:hover:not(:active)": {
+                background: "transparent",
+              },
             }}
             size="small"
             onClick={() => setEditMode(!editMode)}
