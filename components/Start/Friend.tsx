@@ -442,7 +442,9 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                     </Typography>
                   </>
                 ) : (
-                  <Typography sx={{ display: "flex", gap: 2 }}>Away</Typography>
+                  <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
+                    Active {dayjs(friend.lastActive).fromNow()}
+                  </Typography>
                 )}
               </Box>
             </CardContent>

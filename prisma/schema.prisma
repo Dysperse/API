@@ -9,8 +9,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-// Models for user accounts
-// TODO: Add separate table for user settings, such as theme colors, dark mode, etc. 
 model User {
   id         String @id @unique @default(uuid())
   identifier String @unique @default(uuid())
@@ -20,6 +18,8 @@ model User {
   email    String  @unique
   password String
   darkMode String  @default("system")
+
+  lastActive DateTime @default(now())
 
   color          String   @default("lime")
   unlockedColors String[]
