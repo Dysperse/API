@@ -346,8 +346,10 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
                       task.set((prev) => ({
                         ...prev,
                         due: "",
+                        dateOnly: true,
                       }));
                       task.edit(task.id, "due", "");
+                      task.edit("dateOnly", true, "");
                     },
                   })}
               />
