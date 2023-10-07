@@ -442,6 +442,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                     </Typography>
                   </>
                 ) : (
+                  // this is when i updated the database
                   dayjs(friend.lastActive).toISOString() !==
                     "2023-10-07T17:23:03.871Z" && (
                     <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
