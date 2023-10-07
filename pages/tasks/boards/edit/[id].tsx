@@ -186,7 +186,10 @@ function BoardColumnSettings({ data, styles, mutate }) {
       </ListItemButton>
       <SwipeableDrawer
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          mutate();
+        }}
         anchor="bottom"
       >
         <Puller showOnDesktop />

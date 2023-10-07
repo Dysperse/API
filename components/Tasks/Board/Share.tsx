@@ -84,7 +84,6 @@ export function ShareBoard({ mutate, board }) {
         }
         toast.success("The share link has been generated successfully!");
         await mutate();
-        // mutateUrl(url);
       } catch (e) {
         toast.error("Could not generate the share link! Is the email correct?");
         setLoading(false);
@@ -104,7 +103,6 @@ export function ShareBoard({ mutate, board }) {
       token,
     });
     await mutate();
-    // await mutateUrl(url);
   };
 
   const boxStyles = {
@@ -123,7 +121,6 @@ export function ShareBoard({ mutate, board }) {
         public: !board.public,
       });
       await mutate();
-      // await mutateUrl(url);
       setLoadingGroupVisibility(false);
     } catch (e) {
       toast.error(
