@@ -51,6 +51,7 @@ const Notification = async (req, res) => {
               AND: [
                 { notifications: { isEmpty: false } },
                 { completed: false },
+                { dateOnly: false },
               ],
             },
           },
