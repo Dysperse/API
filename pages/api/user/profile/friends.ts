@@ -37,7 +37,6 @@ export function shuffle(array) {
 
   return array;
 }
-
 function sortFriendsByStatusAndActivity(friendsData, userTimeZone) {
   return friendsData.sort((friendA, friendB) => {
     // Sort by status duration within user's timezone
@@ -52,12 +51,16 @@ function sortFriendsByStatusAndActivity(friendsData, userTimeZone) {
       );
       const statusEndB = dayjs(friendB.following.Status.until).tz(userTimeZone);
 
-      // Sort by the remaining duration of the status
-      const durationA = statusEndA.diff(currentTimeInUserTZ);
-      const durationB = statusEndB.diff(currentTimeInUserTZ);
+      // Check if the status is active
+      const isStatusActiveA =
+        statusStartA.isBefore(currentTimeInUserTZ) &&
+        statusEndA.isAfter(currentTimeInUserTZ);
+      const isStatusActiveB =
+        statusStartB.isBefore(currentTimeInUserTZ) &&
+        statusEndB.isAfter(currentTimeInUserTZ);
 
-      if (durationA > durationB) return -1;
-      if (durationA < durationB) return 1;
+      if (isStatusActiveA && !isStatusActiveB) return -1;
+      if (!isStatusActiveA && isStatusActiveB) return 1;
     }
 
     // Sort by last activity if statuses are not available or have expired
