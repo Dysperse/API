@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Icon,
   IconButton,
   InputAdornment,
@@ -17,16 +18,17 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { cloneElement, useEffect, useRef, useState } from "react";
 import { Puller } from "../../Puller";
 import { CreateTask } from "../Task/Create";
 
-export function SearchTasks() {
+export function SearchTasks({ children }: { children?: JSX.Element }) {
   const ref: any = useRef();
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const [query, setQuery] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
@@ -40,6 +42,21 @@ export function SearchTasks() {
     }
   }, [router.asPath]);
 
+  const trigger = cloneElement(
+    children || (
+      <IconButton sx={{ ml: "auto", color: addHslAlpha(palette[9], 0.7) }}>
+        <Icon>search</Icon>
+      </IconButton>
+    ),
+    {
+      onClick: (e) => {
+        e.stopPropagation();
+        setMobileOpen(true);
+        setTimeout(() => ref?.current?.focus(), 100);
+      },
+    }
+  );
+
   const input = (
     <TextField
       inputRef={ref}
@@ -49,11 +66,14 @@ export function SearchTasks() {
       placeholder="Search tasks..."
       {...(query.trim() && { label: "Search tasks..." })}
       onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-      onBlur={() =>
-        query.trim() !== "" &&
-        router.push(`/tasks/search/${encodeURIComponent(query)}`)
-      }
+      onBlur={() => {
+        if (query.trim() !== "") {
+          router.push(`/tasks/search/${encodeURIComponent(query)}`);
+          setLoading(true);
+        }
+      }}
       value={query}
+      id="searchTasks"
       sx={{
         transition: "all .2s",
         zIndex: 999,
@@ -73,7 +93,7 @@ export function SearchTasks() {
           <InputAdornment position="end">
             {query.trim() && (
               <IconButton size="small">
-                <Icon>east</Icon>
+                {loading ? <CircularProgress /> : <Icon>east</Icon>}
               </IconButton>
             )}
           </InputAdornment>
@@ -93,11 +113,13 @@ export function SearchTasks() {
       {children}
     </CreateTask>
   );
+
   return isMobile ? (
     <>
       <SwipeableDrawer
         anchor="top"
         open={mobileOpen}
+        onClick={(e) => e.stopPropagation()}
         onClose={() => setMobileOpen(false)}
         PaperProps={{ sx: { borderRadius: "0 0 20px 20px" } }}
       >
@@ -132,15 +154,7 @@ export function SearchTasks() {
         </Box>
         <Puller sx={{ mb: 0 }} />
       </SwipeableDrawer>
-      <IconButton
-        sx={{ ml: "auto", color: addHslAlpha(palette[9], 0.7) }}
-        onClick={() => {
-          setMobileOpen(true);
-          setTimeout(() => ref?.current?.focus(), 100);
-        }}
-      >
-        <Icon>search</Icon>
-      </IconButton>
+      {trigger}
     </>
   ) : (
     <Box
@@ -174,6 +188,7 @@ export function SearchTasks() {
           <CreateTaskWrapper>
             <IconButton
               id="createTaskTrigger"
+              onClick={(e) => e.stopPropagation()}
               sx={{
                 ...(Boolean(query.trim()) && {
                   transform: "scale(0)",

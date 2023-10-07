@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import { mutate } from "swr";
 
 export function WorkingHours({
   color,
@@ -22,7 +21,7 @@ export function WorkingHours({
   profileCardStyles,
   profile,
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const [workingHours, setWorkingHours] = useState(
     JSON.parse(profile.workingHours || "[]")
   );

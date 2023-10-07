@@ -7,10 +7,13 @@ const handler = async (req, res) => {
       minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
     });
-    
+
     const data = await prisma.room.findMany({
       where: {
         propertyId: req.query.property,
+      },
+      include: {
+        _count: true,
       },
     });
 

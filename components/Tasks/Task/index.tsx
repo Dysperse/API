@@ -9,16 +9,16 @@ import { colors } from "@/lib/colors";
 import {
   Avatar,
   Box,
-  Checkbox,
   Chip,
   Icon,
   ListItemButton,
   ListItemText,
   Tooltip,
   Typography,
-  styled,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, {
   useCallback,
@@ -29,7 +29,6 @@ import React, {
   useState,
 } from "react";
 import toast from "react-hot-toast";
-import { ConfirmationModal } from "../../ConfirmationModal";
 import { SelectionContext } from "../Layout";
 import { TaskDrawer } from "./Drawer";
 import {
@@ -39,68 +38,61 @@ import {
 } from "./Drawer/locationHelpers";
 import { ImageViewer } from "./ImageViewer";
 
+export const taskAlgorithm = (e, d) =>
+  e.completed && !d.completed
+    ? 1
+    : (!e.completed && d.completed) || (e.pinned && !d.pinned)
+    ? -1
+    : !e.pinned && d.pinned
+    ? 1
+    : 0;
+
 const TaskChips = React.memo(function TaskChips({
   taskData,
   isDark,
   palette,
   isAgenda,
   isSubTask,
-  handlePriorityChange,
 }: any) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const isPinned = taskData.pinned;
   const isDue = taskData.due && !isAgenda;
-  const isTimeDue =
-    taskData.due &&
-    (dayjs(taskData.due).hour() !== 0 || dayjs(taskData.due).minute() !== 0) &&
-    !isSubTask;
+
   const isWhereValid =
     taskData.where &&
     (isValidHttpUrl(taskData.where) || isAddress(taskData.where));
+
   const isVideoChatPlatform = videoChatPlatforms.some((platform) =>
     taskData?.where?.includes(platform)
   );
 
-  const urgentChip = (
-    <ConfirmationModal
-      title="Change priority?"
-      question="Unpin this task?"
-      callback={handlePriorityChange}
-    >
-      <Tooltip
-        placement="top"
-        title={
-          <Box>
-            <Typography variant="body2">
-              <b>Task marked as important</b>
-            </Typography>
-            <Typography variant="body2">Tap to change</Typography>
-          </Box>
+  const orangePalette = useColor("orange", isDark);
+
+  const urgentChip = useMemo(
+    () => (
+      <Chip
+        size="small"
+        sx={{
+          color: `${orangePalette[11]}!important`,
+          background: `${orangePalette[5]}!important`,
+        }}
+        label="Urgent"
+        icon={
+          <Icon
+            className="outlined"
+            sx={{
+              fontSize: "20px!important",
+              color: "inherit!important",
+              ml: 1,
+            }}
+          >
+            priority_high
+          </Icon>
         }
-      >
-        <Chip
-          size="small"
-          sx={{
-            background: isDark ? "#642302" : colors.orange[100],
-            color: colors.orange[isDark ? "50" : "900"],
-          }}
-          label="Urgent"
-          icon={
-            <Icon
-              className="outlined"
-              sx={{
-                fontSize: "20px!important",
-                color: "inherit!important",
-                ml: 1,
-              }}
-            >
-              priority_high
-            </Icon>
-          }
-        />
-      </Tooltip>
-    </ConfirmationModal>
+      />
+    ),
+    []
   );
 
   return (
@@ -110,8 +102,12 @@ const TaskChips = React.memo(function TaskChips({
         gap: 1,
         "&:not(:empty)": { mt: 0.5 },
         flexWrap: "wrap",
+        width: "100%",
       }}
     >
+      {taskData.image && taskData.image !== "null" && (
+        <ImageViewer url={taskData.image} />
+      )}
       {isPinned && urgentChip}
 
       {isDue && !isSubTask && (
@@ -142,7 +138,7 @@ const TaskChips = React.memo(function TaskChips({
         </Tooltip>
       )}
 
-      {isTimeDue && (
+      {!taskData.dateOnly && !isSubTask && (
         <Chip
           size="small"
           className="date"
@@ -172,6 +168,7 @@ const TaskChips = React.memo(function TaskChips({
             }}
             avatar={
               <Avatar
+                sx={{ borderRadius: 0 }}
                 src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${taskData.column?.emoji}.png`}
               />
             }
@@ -224,13 +221,22 @@ const TaskChips = React.memo(function TaskChips({
             }
           }}
           icon={
-            <Icon>
-              {isVideoChatPlatform
-                ? "call"
-                : isAddress(taskData.where)
-                ? "location_on"
-                : "link"}
-            </Icon>
+            taskData.id.includes("-event-assignment") ? (
+              <Image
+                src="/images/integrations/canvas.webp"
+                width={15}
+                height={15}
+                alt=""
+              />
+            ) : (
+              <Icon>
+                {isVideoChatPlatform
+                  ? "call"
+                  : isAddress(taskData.where)
+                  ? "location_on"
+                  : "link"}
+              </Icon>
+            )
           }
         />
       )}
@@ -238,10 +244,15 @@ const TaskChips = React.memo(function TaskChips({
   );
 });
 
+export function isIos() {
+  return (
+    !(window as any).MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent)
+  );
+}
+
 export const Task: any = React.memo(function Task({
   sx = {},
   permissions = "edit",
-  isDateDependent = false,
   isSubTask = false,
   isAgenda = false,
   checkList = false,
@@ -253,72 +264,37 @@ export const Task: any = React.memo(function Task({
   const [taskData, setTaskData] = useState(task);
 
   const ref: any = useRef();
-  const session = useSession();
+  const { session } = useSession();
   const storage = useAccountStorage();
   const isDark = useDarkMode(session.darkMode);
 
   useEffect(() => setTaskData(task), [task]);
 
-  const [opacity, setOpacity] = useState(false);
-
-  useEffect(() => {
-    setOpacity(true);
-  }, []);
-
-  const BpIcon: any = useMemo(
-    () =>
-      styled("span")(() => ({
-        borderRadius: 10,
-        width: 25,
-        height: 25,
-        boxShadow: `${
-          isDark
-            ? `inset 0 0 0 1.5px ${colors[taskData.color ?? "blueGrey"]["600"]}`
-            : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
-        }`,
-        backgroundColor: "transparent",
-        "input:disabled ~ &": {
-          cursor: "not-allowed",
-          opacity: 0.5,
-        },
-      })),
-    [taskData.color, isDark]
-  );
-
-  const BpCheckedIcon: any = useMemo(
-    () =>
-      styled(BpIcon)({
-        boxShadow: `${
-          isDark
-            ? "inset 0 0 0 2px rgba(255,255,255,.6)"
-            : `inset 0 0 0 1.5px ${colors[taskData.color ?? "grey"]["A700"]}`
-        }`,
-        backgroundColor: `${
-          colors[taskData.color || "grey"][isDark ? 50 : "A700"]
-        }!important`,
-        "&:before": {
-          display: "block",
-          width: 25,
-          height: 25,
-          backgroundImage: `url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 20' fill='none' stroke='%23${
-            isDark ? "000" : "fff"
-          }' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E")`,
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          content: '""',
-        },
-      }),
-    [taskData.color, isDark, BpIcon]
-  );
-
   const handleCompletion = useCallback(
-    async (e) => {
-      vibrate(50);
-      setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
+    async (e, mutate = false) => {
       try {
-        await fetchRawApi(session, "property/boards/column/task/edit", {
+        vibrate(50);
+        setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
+        if (mutate) {
+          mutateList(
+            (e) => {
+              const l = e.map((t) => {
+                if (t.id === taskData.id) {
+                  return { ...t, completed: !t.completed };
+                } else {
+                  return t;
+                }
+              });
+              return l;
+            },
+            {
+              revalidate: false,
+            }
+          );
+        }
+        fetchRawApi(session, "property/boards/column/task/edit", {
           id: taskData.id,
-          completed: e.target.checked ? "true" : "false",
+          completed: e ? "true" : "false",
           date: new Date().toISOString(),
           createdBy: session.user.email,
         });
@@ -378,18 +354,20 @@ export const Task: any = React.memo(function Task({
   const subTasks = useMemo(
     () =>
       taskData && taskData.subTasks
-        ? taskData.subTasks.map((subtask) => (
-            <Task
-              key={subtask.id}
-              isSubTask
-              board={board}
-              isAgenda={isAgenda}
-              columnId={columnId}
-              mutateList={mutateList}
-              task={subtask}
-              checkList={checkList}
-            />
-          ))
+        ? taskData.subTasks
+            .sort(taskAlgorithm)
+            .map((subtask) => (
+              <Task
+                key={subtask.id}
+                isSubTask
+                board={board}
+                isAgenda={isAgenda}
+                columnId={columnId}
+                mutateList={mutateList}
+                task={subtask}
+                checkList={checkList}
+              />
+            ))
         : [],
     [board, columnId, isAgenda, mutateList, checkList, taskData]
   );
@@ -397,20 +375,11 @@ export const Task: any = React.memo(function Task({
   return !taskData ? (
     <div />
   ) : (
-    <Box
-      sx={{
-        opacity: "0!important",
-        transition: "opacity .4s",
-        ...(opacity && {
-          opacity: "1!important",
-        }),
-      }}
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <TaskDrawer
         id={taskData.id}
         mutateList={mutateList}
         isDisabled={isDisabled}
-        isDateDependent={isDateDependent}
         {...(selection.values.length > 0 && { onClick: handleSelect })}
       >
         <ListItemButton
@@ -421,6 +390,9 @@ export const Task: any = React.memo(function Task({
           className="cursor-unset item"
           sx={{
             color: colors["grey"][isDark ? "A100" : "800"],
+            ...(taskData.name === taskData.name.toUpperCase() && {
+              background: palette[2] + "!important",
+            }),
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             "&, & .MuiChip-root": {
@@ -455,21 +427,30 @@ export const Task: any = React.memo(function Task({
             }),
           }}
         >
-          <Checkbox
-            sx={{
-              mr: -2,
-              ml: -2,
-              px: 2,
+          <Icon
+            onClick={async (e) => {
+              e.stopPropagation();
+              handleCompletion(!taskData.completed, true);
             }}
-            disabled={isDisabled}
-            disableRipple
-            checked={taskData.completed}
-            onChange={handleCompletion}
-            onClick={(e) => e.stopPropagation()}
-            color="default"
-            checkedIcon={<BpCheckedIcon />}
-            icon={<BpIcon />}
-          />
+            sx={{
+              my: 0.7,
+              px: 2,
+              mx: -2,
+              fontSize: "33px!important",
+              transition: "all .1s, opacity 0s !important",
+              color: colors[taskData.color ?? "grey"][isDark ? "400" : "A700"],
+              "&:active": {
+                opacity: 0.6,
+              },
+            }}
+            className={taskData.completed ? "" : "outlined"}
+          >
+            {taskData.completed
+              ? "check_circle"
+              : isIos()
+              ? "trip_origin"
+              : "circle"}
+          </Icon>
           <ListItemText
             sx={{ ml: 0.7 }}
             primary={
@@ -505,16 +486,12 @@ export const Task: any = React.memo(function Task({
                 >
                   {taskData.description}
                 </Typography>
-                {taskData.image && taskData.image !== "null" && (
-                  <ImageViewer url={taskData.image} />
-                )}
                 <TaskChips
                   taskData={taskData}
                   isDark={isDark}
                   palette={palette}
                   isAgenda={isAgenda}
                   isSubTask={isSubTask}
-                  handlePriorityChange={handlePriorityChange}
                 />
               </>
             }
@@ -523,6 +500,6 @@ export const Task: any = React.memo(function Task({
       </TaskDrawer>
 
       {subTasks}
-    </Box>
+    </motion.div>
   );
 });

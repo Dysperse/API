@@ -25,7 +25,7 @@ export function Storage({
   propertyId: string;
   color: any;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
 
   const palette = useColor(color, isDark);

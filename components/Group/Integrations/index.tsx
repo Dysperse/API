@@ -5,21 +5,21 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-    Alert,
-    Box,
-    Button,
-    Chip,
-    Divider,
-    Icon,
-    IconButton,
-    InputAdornment,
-    ListItemButton,
-    ListItemSecondaryAction,
-    ListItemText,
-    Skeleton,
-    SwipeableDrawer,
-    TextField,
-    Typography,
+  Alert,
+  Box,
+  Button,
+  Chip,
+  Divider,
+  Icon,
+  IconButton,
+  InputAdornment,
+  ListItemButton,
+  ListItemSecondaryAction,
+  ListItemText,
+  Skeleton,
+  SwipeableDrawer,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -83,7 +83,7 @@ export default function Integrations({
   defaultPalette?: string;
 }) {
   const { data, mutate, error } = useSWR(["property/integrations"]);
-  const session = useSession();
+  const { session } = useSession();
   const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
 
   const [open, setOpen] = useState(false);
@@ -145,49 +145,53 @@ export default function Integrations({
             />
           )}
           {session.permission !== "read-only" &&
-            data.map((integration) => (
-              <ListItemButton
-                key={integration.id}
-                disableRipple
-                sx={{ mb: 2, background: palette[2] }}
-              >
-                <ListItemText
-                  primary={integration.name}
-                  secondary={
-                    <Chip
-                      sx={{ mt: 0.5 }}
-                      icon={<Icon>sync</Icon>}
-                      label={
-                        <>
-                          Synced with <b>{integration.board.name}</b>
-                        </>
-                      }
-                      size="small"
-                    />
-                  }
-                />
-                <ListItemSecondaryAction>
-                  <ConfirmationModal
-                    title="Are you sure you want to remove this integration?"
-                    question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
-                    callback={async () => {
-                      await fetchRawApi(
-                        session,
-                        "property/integrations/delete",
-                        {
-                          id: integration.id,
+            data
+              .filter(
+                (integration) => integration.board.id === board || hideNew
+              )
+              .map((integration) => (
+                <ListItemButton
+                  key={integration.id}
+                  disableRipple
+                  sx={{ mb: 2, background: palette[2] }}
+                >
+                  <ListItemText
+                    primary={integration.name}
+                    secondary={
+                      <Chip
+                        sx={{ mt: 0.5 }}
+                        icon={<Icon>sync</Icon>}
+                        label={
+                          <>
+                            Synced with <b>{integration.board.name}</b>
+                          </>
                         }
-                      );
-                      mutate();
-                    }}
-                  >
-                    <IconButton>
-                      <Icon className="outlined">delete</Icon>
-                    </IconButton>
-                  </ConfirmationModal>
-                </ListItemSecondaryAction>
-              </ListItemButton>
-            ))}
+                        size="small"
+                      />
+                    }
+                  />
+                  <ListItemSecondaryAction>
+                    <ConfirmationModal
+                      title="Are you sure you want to remove this integration?"
+                      question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
+                      callback={async () => {
+                        await fetchRawApi(
+                          session,
+                          "property/integrations/delete",
+                          {
+                            id: integration.id,
+                          }
+                        );
+                        mutate();
+                      }}
+                    >
+                      <IconButton>
+                        <Icon className="outlined">delete</Icon>
+                      </IconButton>
+                    </ConfirmationModal>
+                  </ListItemSecondaryAction>
+                </ListItemButton>
+              ))}
         </>
       ) : (
         !board && (
@@ -268,12 +272,10 @@ export default function Integrations({
             sx={{ flexShrink: 0 }}
             onClick={() => {
               window.open(
-                /(android)/i.test(navigator.userAgent)
-                  ? `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
-                      "https://",
-                      ""
-                    )}`
-                  : `webcal://${icalUrl.replace("https://", "")}`
+                `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
+                  "https://",
+                  ""
+                )}`
               );
             }}
             variant="contained"

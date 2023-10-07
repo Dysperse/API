@@ -7,6 +7,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Avatar,
+  Badge,
   Box,
   Button,
   Icon,
@@ -15,6 +16,7 @@ import {
   ListItem,
   ListItemText,
   SwipeableDrawer,
+  SxProps,
   TextField,
   Tooltip,
   Typography,
@@ -51,14 +53,16 @@ interface TaskCreationProps {
     columnName: string;
     columnEmoji: string;
   };
-
   defaultFields?: {
     [key: string]: string | Date | null;
   };
+  sx?: SxProps;
+  customTrigger?: string;
+  disableBadge?: boolean;
 }
 
 const ColumnData = memo(function ColumnData({ boardData }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
@@ -95,8 +99,11 @@ export function CreateTask({
   parentId,
   defaultDate = dayjs().startOf("day").toDate(),
   defaultFields = {},
+  sx = {},
+  customTrigger = "onClick",
+  disableBadge = false,
 }: TaskCreationProps) {
-  const session = useSession();
+  const { session } = useSession();
   const titleRef: any = useRef();
   const locationRef: any = useRef();
   const descriptionRef: any = useRef();
@@ -114,6 +121,7 @@ export function CreateTask({
     image: "",
     pinned: false,
     date: defaultDate,
+    dateOnly: true,
     notifications: [10],
   });
 
@@ -135,11 +143,29 @@ export function CreateTask({
   });
 
   const trigger = cloneElement(children, {
-    onClick: () => {
+    [customTrigger]: (e) => {
+      e.preventDefault();
       setOpen(true);
       setTimeout(() => titleRef?.current?.focus(), 50);
     },
   });
+
+  const triggerBadge = useMemo(
+    () =>
+      disableBadge ? (
+        trigger
+      ) : (
+        <Badge
+          badgeContent={!open && formData.title !== "" ? 1 : 0}
+          color="primary"
+          variant="dot"
+          sx={sx}
+        >
+          {trigger}
+        </Badge>
+      ),
+    [open, formData.title, sx, trigger]
+  );
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
@@ -198,6 +224,10 @@ export function CreateTask({
         formData.title.trim().length >= 3)
     ) {
       setFormData((d) => ({ ...d, pinned: true }));
+    } else {
+      if (formData.title.trim() === "") {
+        setFormData((d) => ({ ...d, pinned: false }));
+      }
     }
   }, [formData.title]);
 
@@ -222,10 +252,9 @@ export function CreateTask({
           ...(parentId && { parent: parentId }),
 
           createdBy: session.user.email,
-        });
-        onSuccess && onSuccess();
+        }).then(() => onSuccess && onSuccess());
         toast.dismiss();
-        toast.success("Created task!", );
+        toast.success("Created task!");
 
         setFormData({
           ...formData,
@@ -242,7 +271,7 @@ export function CreateTask({
         document.getElementById("title")?.focus();
         setLoading(false);
       } catch (e) {
-        toast.error("Couldn't create task", );
+        toast.error("Couldn't create task");
       }
     },
     [
@@ -314,10 +343,178 @@ export function CreateTask({
     { enableOnFormTags: true }
   );
 
+  const pinTrigger = useMemo(
+    () => (
+      <IconButton
+        id="pinTrigger"
+        size="small"
+        sx={{ ...styles.button(formData.pinned), ml: -0.5 }}
+        onClick={() => {
+          setFormData((s) => ({ ...s, pinned: !s.pinned }));
+          if (!localStorage.getItem("tips-taskPriority") && !formData.pinned) {
+            toast(
+              <Box>
+                <Typography>
+                  <i>
+                    <b>PRO TIP</b>
+                  </i>
+                </Typography>
+                <span>
+                  You can quickly mark a task as important by typing
+                  &quot;!!&quot; in its name. You can also emphasize importance
+                  by making it all caps!
+                </span>
+              </Box>
+            );
+            localStorage.setItem("tips-taskPriority", "true");
+          }
+        }}
+      >
+        <Icon
+          sx={formData.pinned ? { transform: "rotate(-35deg)" } : undefined}
+        >
+          push_pin
+        </Icon>
+      </IconButton>
+    ),
+    [setFormData, formData.pinned, styles]
+  );
+
+  const emojiTrigger = useMemo(
+    () => (
+      <EmojiPicker
+        setEmoji={(s) => {
+          setFormData((e) => ({ ...e, title: e.title + s }));
+        }}
+        useNativeEmoji
+      >
+        <IconButton
+          id="emojiTrigger"
+          size="small"
+          sx={{
+            ...styles.button(false),
+            display: { xs: "none", sm: "flex" },
+          }}
+        >
+          <Icon>sentiment_satisfied</Icon>
+        </IconButton>
+      </EmojiPicker>
+    ),
+    [setFormData, styles]
+  );
+  const locationTrigger = useMemo(
+    () => (
+      <IconButton
+        id="locationTrigger"
+        size="small"
+        sx={styles.button(showedFields.location)}
+        onClick={(e) => {
+          setShowedFields((s) => ({ ...s, location: !s.location }));
+          setTimeout(() => locationRef?.current?.focus());
+        }}
+      >
+        <Icon>location_on</Icon>
+      </IconButton>
+    ),
+    [styles, showedFields.location]
+  );
+  const descriptionTrigger = useMemo(
+    () => (
+      <IconButton
+        id="descriptionTrigger"
+        size="small"
+        sx={styles.button(showedFields.description)}
+        onClick={() => {
+          setShowedFields((s) => ({ ...s, description: !s.description }));
+          setTimeout(() => descriptionRef?.current?.focus());
+        }}
+      >
+        <Icon>sticky_note_2</Icon>
+      </IconButton>
+    ),
+    [setShowedFields, styles, showedFields.description]
+  );
+
+  const fileTrigger = useMemo(
+    () => (
+      <FileDropInput
+        onError={() => toast.error("Couldn't upload")}
+        onSuccess={(res) => {
+          setFormData((s) => ({
+            ...s,
+            image: JSON.stringify(res.data),
+          }));
+        }}
+        onUploadStart={() => {}}
+      >
+        <IconButton
+          size="small"
+          sx={styles.button(formData.image)}
+          id="fileTrigger"
+        >
+          <Icon>attach_file</Icon>
+        </IconButton>
+      </FileDropInput>
+    ),
+    [formData, setFormData, styles]
+  );
+  const dateTrigger = useMemo(
+    () => (
+      <AnimatePresence>
+        <SelectDateModal
+          date={formData.date}
+          setDate={(date) => setFormData((s) => ({ ...s, date }))}
+          isDateOnly={formData.dateOnly}
+          setDateOnly={(dateOnly) => setFormData((d) => ({ ...d, dateOnly }))}
+        >
+          <Tooltip
+            title={
+              formData.date && (
+                <Box>
+                  <Typography>
+                    <b>{dayjs(formData.date).format("dddd, MMMM D")}</b>
+                  </Typography>
+                  {!formData.dateOnly && (
+                    <Typography variant="body2">
+                      {dayjs(formData.date).format("h:mm A")}
+                    </Typography>
+                  )}
+                </Box>
+              )
+            }
+          >
+            <motion.div
+              initial={{ filter: "brightness(180%)" }}
+              animate={{ filter: "brightness(100%)" }}
+              exit={{ filter: "brightness(180%)" }}
+              key={formData.date && dayjs(formData.date).toISOString()}
+            >
+              <Button
+                disableRipple
+                id="dateTrigger"
+                variant={!formData.date ? undefined : "contained"}
+                sx={{ px: 2, minWidth: "unset" }}
+              >
+                <Icon>today</Icon>
+              </Button>
+            </motion.div>
+          </Tooltip>
+        </SelectDateModal>
+      </AnimatePresence>
+    ),
+    [formData]
+  );
+
+  // const ref = useRef();
+
   return (
     <>
-      {trigger}
+      {triggerBadge}
       <SwipeableDrawer
+        onTouchMove={(e) => {
+          e.preventDefault();
+          // ref.current.scrollTo({ bottom: 0});
+        }}
         anchor="bottom"
         onClose={() => setOpen(false)}
         open={open}
@@ -465,125 +662,13 @@ export function CreateTask({
               titleRef?.current?.focus();
             }}
           >
-            <IconButton
-              id="pinTrigger"
-              size="small"
-              sx={{ ...styles.button(formData.pinned), ml: -0.5 }}
-              onClick={() => {
-                setFormData((s) => ({ ...s, pinned: !s.pinned }));
-              }}
-            >
-              <Icon
-                sx={{
-                  ...(formData.pinned && { transform: "rotate(-35deg)" }),
-                }}
-              >
-                push_pin
-              </Icon>
-            </IconButton>
-            <EmojiPicker
-              emoji=""
-              setEmoji={(s) => {
-                setFormData((e) => ({ ...e, title: e.title + s }));
-              }}
-              useNativeEmoji
-            >
-              <IconButton
-                id="emojiTrigger"
-                size="small"
-                sx={{
-                  ...styles.button(false),
-                  display: { xs: "none", sm: "flex" },
-                }}
-              >
-                <Icon>sentiment_satisfied</Icon>
-              </IconButton>
-            </EmojiPicker>
-            <IconButton
-              id="locationTrigger"
-              size="small"
-              sx={styles.button(showedFields.location)}
-              onClick={(e) => {
-                setShowedFields((s) => ({ ...s, location: !s.location }));
-                setTimeout(() => locationRef?.current?.focus());
-              }}
-            >
-              <Icon>location_on</Icon>
-            </IconButton>
-            <IconButton
-              id="descriptionTrigger"
-              size="small"
-              sx={styles.button(showedFields.description)}
-              onClick={() => {
-                setShowedFields((s) => ({ ...s, description: !s.description }));
-                setTimeout(() => descriptionRef?.current?.focus());
-              }}
-            >
-              <Icon>sticky_note_2</Icon>
-            </IconButton>
-            <FileDropInput
-              onError={() => toast.error("Couldn't upload")}
-              onSuccess={(res) => {
-                setFormData((s) => ({
-                  ...s,
-                  image: JSON.stringify(res.data),
-                }));
-              }}
-              onUploadStart={() => {}}
-            >
-              <IconButton
-                size="small"
-                sx={styles.button(formData.image)}
-                id="fileTrigger"
-              >
-                <Icon>attach_file</Icon>
-              </IconButton>
-            </FileDropInput>
+            {pinTrigger}
+            {emojiTrigger}
+            {locationTrigger}
+            {descriptionTrigger}
+            {fileTrigger}
             <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
-              <AnimatePresence>
-                <SelectDateModal
-                  styles={() => {}}
-                  date={formData.date}
-                  setDate={(date) => setFormData((s) => ({ ...s, date }))}
-                >
-                  <Tooltip
-                    title={
-                      formData.date && (
-                        <Box>
-                          <Typography>
-                            <b>{dayjs(formData.date).format("dddd, MMMM D")}</b>
-                          </Typography>
-                          {dayjs(formData.date).format("HHmm") !== "0000" && (
-                            <Typography variant="body2">
-                              {dayjs(formData.date).format("h:mm A")}
-                            </Typography>
-                          )}
-                        </Box>
-                      )
-                    }
-                  >
-                    <motion.div
-                      initial={{ scale: 0.5 }}
-                      animate={{ scale: 1 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 1000,
-                        damping: 20,
-                      }}
-                      key={formData.date && formData.date.toISOString()}
-                    >
-                      <Button
-                        disableRipple
-                        id="dateTrigger"
-                        variant={!formData.date ? undefined : "contained"}
-                        sx={{ px: 2, minWidth: "unset" }}
-                      >
-                        <Icon>today</Icon>
-                      </Button>
-                    </motion.div>
-                  </Tooltip>
-                </SelectDateModal>
-              </AnimatePresence>
+              {dateTrigger}
               <Button
                 disableRipple
                 variant="contained"

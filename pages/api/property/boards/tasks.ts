@@ -7,6 +7,7 @@ const handler = async (req, res) => {
       minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
     });
+    console.log(req.query.filter);
 
     //  List all tasks for a board from the column
     const data = await prisma.column.findMany({
@@ -29,7 +30,34 @@ const handler = async (req, res) => {
               },
             },
           },
-          orderBy: { pinned: "desc" },
+          // Don't select subtasks
+          where: {
+            parentTasks: {
+              none: {
+                column: {
+                  board: { id: req.query.id },
+                },
+              },
+            },
+          },
+          orderBy:
+            req.query.filter === "a-z"
+              ? { name: "asc" }
+              : req.query.filter === "date"
+              ? { due: "desc" }
+              : req.query.filter === "modification"
+              ? { lastUpdated: "desc" }
+              : req.query.filter === "color"
+              ? { color: "desc" }
+              : req.query.filter === "attachment"
+              ? { image: "desc" }
+              : req.query.filter === "completed-at"
+              ? { completedAt: "desc" }
+              : req.query.filter === "notifications"
+              ? { notifications: "desc" }
+              : req.query.filter === "subtasks"
+              ? { subTasks: { _count: "desc" } }
+              : { pinned: "desc" },
         },
       },
     });

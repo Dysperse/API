@@ -39,7 +39,6 @@ const handler = async (req, res) => {
       subject: "You've been invited to collaborate on a board!",
       react: BoardEmail({
         boardId: req.query.board,
-        toEmail: req.query.email,
         boardName: data.board?.name,
         toName: data.user.name,
         fromName: req.query.name,

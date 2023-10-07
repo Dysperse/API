@@ -19,13 +19,15 @@ import React, {
   memo,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
+import toast from "react-hot-toast";
 
 const MemoizedChip = memo(Chip);
 
 function NotificationChip({ titleRef, data, setData, chipStyles }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -85,7 +87,6 @@ function NotificationChip({ titleRef, data, setData, chipStyles }) {
                     };
                   }
                 });
-                // setOpen(false);
               }}
             >
               <ListItemText primary={`${minutes} minutes before`} />
@@ -213,7 +214,28 @@ const ChipBar = React.memo(function ChipBar({
 
       if (match) {
         const time = match[1];
-        const amPm = inputString.toLowerCase().includes("am") ? "am" : "pm";
+        let amPm = inputString.toLowerCase().includes("p") ? "pm" : "am";
+
+        if (
+          !inputString.toLowerCase().includes("am") &&
+          !inputString.toLowerCase().includes("pm")
+        ) {
+          // make it more sensible
+          amPm = {
+            "1": "pm",
+            "2": "pm",
+            "3": "pm",
+            "4": "pm",
+            "5": "pm",
+            "6": "pm",
+            "7": "pm",
+            "8": "pm",
+            "9": "pm",
+            "10": "pm",
+            "11": "am",
+            "12": "pm",
+          }[time];
+        }
 
         if (Number(time) > 12) return null;
 
@@ -251,7 +273,7 @@ const ChipBar = React.memo(function ChipBar({
   const [chipComponent, setChipComponent] = useState<any>(null);
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(async () => {
+    const delayDebounceFn = setTimeout(() => {
       const chip = generateChipLabel(data.title);
       setChipComponent(chip);
     }, 500);
@@ -264,6 +286,50 @@ const ChipBar = React.memo(function ChipBar({
       setData((d) => ({ ...d, color: e }));
     },
     [setData]
+  );
+
+  const taskColorPicker = useMemo(
+    () => (
+      <TaskColorPicker
+        color={data.color}
+        setColor={setTaskColor}
+        titleRef={titleRef}
+      >
+        <MemoizedChip
+          icon={
+            <Icon
+              sx={{
+                pl: 2,
+                ...(data.color === "grey" && {
+                  fontVariationSettings:
+                    '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+                }),
+              }}
+            >
+              label
+            </Icon>
+          }
+          onClick={() => {
+            setShowedFields((s) => ({ ...s, location: !s.location }));
+            titleRef?.current?.blur();
+          }}
+          sx={{
+            pr: "0!important",
+            ...chipStyles(false),
+            ...(data.color !== "grey" && {
+              "&, &:hover, &:active, &:focus": {
+                background: colors[data.color]["A400"] + "!important",
+                borderColor: colors[data.color]["A400"] + "!important",
+                "& *": {
+                  color: "#000 !important",
+                },
+              },
+            }),
+          }}
+        />
+      </TaskColorPicker>
+    ),
+    [data.color, chipStyles, setTaskColor, titleRef, setShowedFields]
   );
 
   return (
@@ -317,41 +383,37 @@ const ChipBar = React.memo(function ChipBar({
                 />
               </motion.div>
             )}
-          <TaskColorPicker
-            color={data.color}
-            setColor={setTaskColor}
-            titleRef={titleRef}
-          >
-            <MemoizedChip
-              icon={<Icon sx={{ pl: 2 }}>label</Icon>}
+          {taskColorPicker}
+          {!isSubTask && data.dateOnly ? (
+            <Chip
               onClick={() => {
-                setShowedFields((s) => ({ ...s, location: !s.location }));
-                titleRef?.current?.blur();
+                toast("Set a due date");
+                document.getElementById("dateTrigger")?.click();
               }}
-              sx={{
-                pr: "0!important",
-                ...chipStyles(false),
-                ...(data.color !== "grey" && {
-                  "&, &:hover, &:active, &:focus": {
-                    background: colors[data.color]["A400"] + "!important",
-                    borderColor: colors[data.color]["A400"] + "!important",
-                    "& *": {
-                      color: "#000 !important",
-                    },
-                  },
-                }),
-              }}
+              sx={chipStyles(false)}
+              icon={
+                <Icon
+                  sx={{
+                    pl: 1.5,
+                    fontVariationSettings:
+                      '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+                  }}
+                  className="outlined"
+                >
+                  notifications
+                </Icon>
+              }
             />
-          </TaskColorPicker>
-          {dayjs(data.date).isValid() &&
-            dayjs(data.date).format("HHmm") !== "0000" && (
+          ) : (
+            !isSubTask && (
               <NotificationChip
                 titleRef={titleRef}
                 data={data}
                 setData={setData}
                 chipStyles={chipStyles}
               />
-            )}
+            )
+          )}
           {!isSubTask &&
             [
               { label: "Today", days: 0 },
@@ -360,7 +422,7 @@ const ChipBar = React.memo(function ChipBar({
             ].map(({ label, days }) => {
               const isActive =
                 data.date &&
-                dayjs(data.date.toISOString()).startOf("day").toISOString() ==
+                dayjs(data.date.toISOString()).startOf("day").toISOString() ===
                   dayjs().startOf("day").add(days, "day").toISOString();
 
               return (

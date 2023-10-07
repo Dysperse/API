@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import {
   Timeline,
@@ -8,18 +9,17 @@ import {
   TimelineSeparator,
   timelineItemClasses,
 } from "@mui/lab";
-import { CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
-import { Box } from "victory";
 import SpacesLayout from ".";
 
 export default function Page() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const { id } = router.query;
 
@@ -27,7 +27,7 @@ export default function Page() {
     (property) => property.propertyId == id
   )?.accessToken;
 
-  const { error, mutate, data } = useSWR([
+  const { error, data } = useSWR([
     "property/inbox",
     {
       propertyId: id,
@@ -39,6 +39,9 @@ export default function Page() {
 
   return (
     <SpacesLayout title="Changelog" parentRef={parentRef}>
+      {error && (
+        <ErrorHandler error="Something went wrong. Please try again later" />
+      )}
       {data ? (
         <Timeline
           sx={{

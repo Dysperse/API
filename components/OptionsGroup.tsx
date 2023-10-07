@@ -13,7 +13,7 @@ export function OptionsGroup({
   options: string[];
   sx?: any;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 

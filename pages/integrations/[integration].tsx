@@ -29,7 +29,7 @@ import useSWR from "swr";
 
 function Layout() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const name = (router.query.integration as string).replace("-", " ");
@@ -108,8 +108,13 @@ function Layout() {
   };
 
   return integration ? (
-    <Box>
-      <AppBar>
+    <Box sx={{ pt: "var(--navbar-height)", height: "100dvh" }}>
+      <AppBar
+        sx={{
+          position: "fixed",
+          top: 0,
+        }}
+      >
         <Toolbar>
           <IconButton
             onClick={() => {

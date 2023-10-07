@@ -1,4 +1,4 @@
-import { handleBack } from "@/lib/client/handleBack";
+import { TasksLayout } from "@/components/Tasks/Layout";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
@@ -6,8 +6,6 @@ import {
   Box,
   Chip,
   CircularProgress,
-  Icon,
-  IconButton,
   LinearProgress,
   Typography,
   useMediaQuery,
@@ -50,7 +48,7 @@ function getTasksCompletedInRange(tasks, days) {
 }
 
 function Insights({ profile, tasks, defaultPalette }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const isDark = useDarkMode(session.darkMode);
@@ -58,8 +56,7 @@ function Insights({ profile, tasks, defaultPalette }) {
 
   const cardStyles = {
     borderRadius: 5,
-    background: palette[2],
-    border: `1px solid ${palette[3]}`,
+    border: `2px solid ${palette[3]}`,
     p: 2,
   };
 
@@ -238,19 +235,37 @@ function Insights({ profile, tasks, defaultPalette }) {
   );
   const InsightsContainer: any = profile ? React.Fragment : Box;
 
-  return (
+  return tasks.length === 0 ? (
+    <Box sx={{ py: 2, maxWidth: "100dvw", overflowX: "hidden" }}>
+      <Box
+        sx={{
+          background: palette[2],
+          p: 2,
+          borderRadius: 5,
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        <img
+          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f914.png`}
+          alt="Crying emoji"
+          width={40}
+          style={{ flexShrink: 0 }}
+        />
+        Not enough task data to provide insights - check back later!
+      </Box>
+    </Box>
+  ) : (
     <InsightsContainer
       sx={{
-        p: profile ? 0 : { xs: 1, sm: 4 },
+        p: profile ? 0 : { xs: 3, sm: 4 },
+        maxWidth: "100dvw",
+        overflowX: "hidden",
       }}
     >
       {!profile && (
-        <IconButton onClick={() => handleBack(router)} sx={{ mb: 2 }}>
-          <Icon>arrow_back_ios_new</Icon>
-        </IconButton>
-      )}
-      {!profile && (
-        <Typography variant="h2" className="font-heading" sx={{ mb: 4 }}>
+        <Typography variant="h2" className="font-heading" sx={{ mb: 4, mt: 3 }}>
           Insights
         </Typography>
       )}
@@ -288,7 +303,7 @@ function Insights({ profile, tasks, defaultPalette }) {
 }
 
 export default function Page({ email, profile = false, palette }) {
-  const session = useSession();
+  const { session } = useSession();
   const { data } = useSWR([
     "property/tasks/insights",
     { email: email || session.user.email },
@@ -302,9 +317,18 @@ export default function Page({ email, profile = false, palette }) {
     profile ? (
       c
     ) : (
-      <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
-        {c}
-      </motion.div>
+      <TasksLayout>
+        <motion.div
+          initial={{ x: 100 }}
+          animate={{ x: 0 }}
+          style={{
+            maxWidth: "100dvw",
+            overflowX: "hidden",
+          }}
+        >
+          {c}
+        </motion.div>
+      </TasksLayout>
     )
   ) : (
     <Box

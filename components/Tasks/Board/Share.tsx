@@ -27,7 +27,7 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 
 export function ShareBoard({ mutate, board }) {
-  const session = useSession();
+  const { session } = useSession();
 
   const { data, error } = useSWR([
     "property/shareTokens",
@@ -84,7 +84,6 @@ export function ShareBoard({ mutate, board }) {
         }
         toast.success("The share link has been generated successfully!");
         await mutate();
-        // mutateUrl(url);
       } catch (e) {
         toast.error("Could not generate the share link! Is the email correct?");
         setLoading(false);
@@ -104,7 +103,6 @@ export function ShareBoard({ mutate, board }) {
       token,
     });
     await mutate();
-    // await mutateUrl(url);
   };
 
   const boxStyles = {
@@ -123,7 +121,6 @@ export function ShareBoard({ mutate, board }) {
         public: !board.public,
       });
       await mutate();
-      // await mutateUrl(url);
       setLoadingGroupVisibility(false);
     } catch (e) {
       toast.error(
@@ -207,9 +204,6 @@ export function ShareBoard({ mutate, board }) {
         <ListItem
           sx={{
             px: 0,
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
           }}
         >
           <ListItemAvatar>
@@ -226,6 +220,14 @@ export function ShareBoard({ mutate, board }) {
             </Avatar>
           </ListItemAvatar>
           <ListItemText
+            sx={{
+              "&, & *": {
+                minWidth: 0,
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              },
+            }}
             primary={board.property?.name}
             secondary={
               board.public ? "Visible to members" : "Hidden from members"
@@ -237,7 +239,7 @@ export function ShareBoard({ mutate, board }) {
             onClick={toggleGroupVisibility}
           >
             <Icon className="outlined">
-              visibility{!board.public && "_off"}
+              {board.public ? "visibility" : "visibility_off"}
             </Icon>
           </IconButton>
         </ListItem>
@@ -253,15 +255,23 @@ export function ShareBoard({ mutate, board }) {
               key={member.user.email}
               sx={{
                 px: 0,
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
               }}
             >
               <Avatar sx={{ mr: 2 }} src={member.user?.Profile?.picture}>
                 {member.user.name.substring(0, 2).toUpperCase()}
               </Avatar>
-              <ListItemText primary={member.user.name} secondary="In group" />
+              <ListItemText
+                primary={member.user.name}
+                secondary="In group"
+                sx={{
+                  "&, & *": {
+                    minWidth: 0,
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  },
+                }}
+              />
               {board.user.email === member.user.email && <Chip label="Owner" />}
             </ListItem>
           ))}
@@ -275,23 +285,28 @@ export function ShareBoard({ mutate, board }) {
                   opacity: 0.6,
                 }),
                 px: 0,
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
               }}
             >
               <Avatar sx={{ mr: 2 }} src={share.user?.Profile?.picture}>
                 {share.user.name.substring(0, 2).toUpperCase()}
               </Avatar>
               <ListItemText
+                sx={{
+                  "&, & *": {
+                    minWidth: 0,
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  },
+                }}
                 primary={share.user.name}
-                secondary={
+                secondary={`${
                   (dayjs(share.expiresAt).isBefore(dayjs())
                     ? "Expired "
                     : "Expires ") + dayjs(share.expiresAt).fromNow()
-                }
+                } ∙ 
+                  ${share.readOnly ? "Read only" : "Edit access"}`}
               />
-              <Chip label={share.readOnly ? "Read only" : "Edit"} />
               <IconButton
                 sx={{ ml: "auto" }}
                 disabled={window.location.href.includes(share.token)}

@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { cloneElement, useCallback, useState } from "react";
+import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import useSWRImmutable from "swr/immutable";
 import { ErrorHandler } from "../Error";
@@ -39,17 +39,16 @@ const ListContainer = styled.div`
 
 const EmojiPicker = function EmojiPicker({
   children,
-  emoji,
   setEmoji,
   useNativeEmoji = false,
 }: {
   children: JSX.Element;
-  emoji: string;
   setEmoji: (emoji: string) => void;
   useNativeEmoji?: boolean;
 }) {
-  const session = useSession();
+  const { session } = useSession();
 
+  const queryRef: any = useRef();
   const [open, setOpen] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
   const isDark = useDarkMode(session.darkMode);
@@ -85,6 +84,15 @@ const EmojiPicker = function EmojiPicker({
         )
         .map((key) => data.emojis[key])
     : [];
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => {
+        setQuery("");
+        queryRef?.current?.focus();
+      });
+    }
+  }, [open]);
 
   return (
     <>
@@ -122,6 +130,7 @@ const EmojiPicker = function EmojiPicker({
               <TextField
                 placeholder="Search..."
                 value={query}
+                inputRef={queryRef}
                 onChange={(e) => setQuery(e.target.value)}
                 variant="standard"
                 InputProps={{
@@ -196,7 +205,7 @@ const EmojiPicker = function EmojiPicker({
                     components={{
                       Item: ItemContainer,
                       List: ListContainer as any,
-                      ScrollSeekPlaceholder: ({ height, width, index }) => (
+                      ScrollSeekPlaceholder: () => (
                         <ItemContainer>
                           <ItemWrapper></ItemWrapper>
                         </ItemContainer>

@@ -13,14 +13,13 @@ import {
   ListItemText,
   Switch,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import Layout from ".";
 
-const base64ToUint8Array = (base64) => {
+export const base64ToUint8Array = (base64) => {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
   const b64 = (base64 + padding).replace(/-/g, "+").replace(/_/g, "/");
 
@@ -81,7 +80,7 @@ export default function Notifications() {
       session,
     });
   };
-  const session = useSession();
+  const { session } = useSession();
 
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();
@@ -98,10 +97,6 @@ export default function Notifications() {
       subscription: session.user.notificationSubscription,
     });
   };
-
-  const isInPwa = useMediaQuery(
-    "(display-mode: standalone), (display-mode: window-controls-overlay)"
-  );
 
   const handleNotificationChange = async (name, value) => {
     const promise = new Promise(async (resolve, reject) => {
@@ -239,7 +234,6 @@ export default function Notifications() {
             ) : (
               <Switch
                 checked={isSubscribed}
-                disabled={enabledOnAnotherDevice}
                 onClick={(event) => {
                   if (isSubscribed) {
                     unsubscribeButtonOnClick(event);

@@ -202,7 +202,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           text: {
             color: palette[11],
             "&:hover": {
-              background: palette[3],
+              background: { sm: palette[3] },
             },
             "&:active": {
               background: palette[4],
@@ -247,7 +247,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              color: palette[1],
+              background: palette[3],
+              color: palette[11],
             }),
         },
       },
@@ -411,8 +412,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
             border: "1px solid " + palette[2],
             background: palette[1],
             boxShadow: "none!important",
-            filter:
-              "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
           },
         },
       },
@@ -457,15 +456,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           },
           paper: {
             boxShadow: "none !important",
-            filter:
-              "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
             background: darkMode ? palette[1] : "#fff",
           },
         },
       },
       MuiTooltip: {
         defaultProps: {
-          enterDelay: 0,
+          // enterDelay: 0,
           arrow: true,
           disableInteractive: true,
         },

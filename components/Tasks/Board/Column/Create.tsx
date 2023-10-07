@@ -24,7 +24,7 @@ export default function CreateColumn({
   name,
 }: any) {
   const storage = useAccountStorage();
-  const session = useSession();
+  const { session } = useSession();
   const [open, setOpen] = useState<boolean>(false);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const ref: any = useRef();
@@ -101,7 +101,7 @@ export default function CreateColumn({
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-          <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+          <EmojiPicker  setEmoji={setEmoji}>
             <Button
               size="small"
               sx={{

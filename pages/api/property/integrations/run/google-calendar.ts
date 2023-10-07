@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     data: { lastSynced: dayjs().tz(req.query.timeZone).toDate() },
   });
 
-  const taskTemplate = (event) => ({
+  const taskTemplate = (event, columnId, reminders) => ({
     id: "dysperse-gcal-integration-task-" + event.id,
     name: event.summary,
     where: event.hangoutLink || event.location || event.htmlLink,
@@ -54,10 +54,17 @@ export default async function handler(req, res) {
     createdBy: {
       connect: { identifier: req.query.userIdentifier },
     },
-    notifications:
-      event.reminders?.overrides?.length > 0
-        ? event.reminders.overrides.map(({ minutes }) => minutes)
-        : [10],
+    column: { connect: { id: columnId } },
+    notifications: [
+      ...new Set(
+        [
+          ...reminders,
+          ...(event?.reminders?.overrides || []).map(({ minutes }) => minutes),
+        ]
+          .filter((e) => e)
+          .sort()
+      ),
+    ],
   });
   if (!tokenObj) throw new Error("Token not found");
   if (tokenObj.expiry_date < Date.now()) {
@@ -93,6 +100,7 @@ export default async function handler(req, res) {
     }
   ).then((res) => res.json());
 
+  // Loop through calendars
   for (const calendar of calendars.items) {
     if (calendar.summary === "Dysperse") continue;
     let { items } = await fetch(
@@ -106,29 +114,36 @@ export default async function handler(req, res) {
 
     if (!items) continue;
 
+    const columnId = "dys-gcal-integration-" + calendar.id;
     items = items.filter((event) => !event?.iCalUID?.includes("dysperse-task"));
 
+    const reminders = calendar.defaultReminders?.map((e) => e.minutes) || [10];
+
     try {
-      const data = await prisma.column.upsert({
+      prisma.column.upsert({
         where: {
-          id: "dys-gcal-integration-" + calendar.id,
+          id: columnId,
         },
-        update: {},
+        update: {
+          board: { connect: { id: req.query.boardId } },
+        },
         create: {
-          id: "dys-gcal-integration-" + calendar.id,
+          id: columnId,
           emoji: "1f3af",
           name: calendar.summary,
           board: { connect: { id: req.query.boardId } },
         },
       });
+
+      // Loop through the calendar events
       for (const item of items) {
-        // console.log("dysperse-gcal-integration-task-" + item.id);
-        await prisma.task.upsert({
+        const taskId = "dysperse-gcal-integration-task-" + item.id;
+        prisma.task.upsert({
           where: {
-            id: "dysperse-gcal-integration-task-" + item.id,
+            id: taskId,
           },
-          update: taskTemplate(item),
-          create: taskTemplate(item),
+          update: taskTemplate(item, columnId, reminders),
+          create: taskTemplate(item, columnId, reminders),
         });
       }
     } catch (e) {

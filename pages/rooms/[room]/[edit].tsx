@@ -22,7 +22,7 @@ import RoomLayout from "../";
 
 export default function Page() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(
     session.themeColor,
     useDarkMode(session.user.darkMode)
@@ -99,7 +99,7 @@ export default function Page() {
               }}
             >
               <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
-                <EmojiPicker emoji={emoji} setEmoji={(e) => setEmoji(e)}>
+                <EmojiPicker setEmoji={(e) => setEmoji(e)}>
                   <IconButton
                     size="large"
                     sx={{

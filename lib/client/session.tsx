@@ -3,9 +3,9 @@ import useSWR from "swr";
 
 export const SessionContext = createContext(null);
 export const useSession = () => useContext(SessionContext) as any;
-export const SessionProvider = ({ session, children }) => {
+export const SessionProvider = ({ isLoading, session, children }) => {
   return (
-    <SessionContext.Provider value={session}>
+    <SessionContext.Provider value={{ session, isLoading } as any}>
       {children}
     </SessionContext.Provider>
   );

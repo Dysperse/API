@@ -22,7 +22,7 @@ export const LinkedContent = React.memo(function LinkedContent({
 }: any) {
   const router = useRouter();
   const task = useTaskContext();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const isTaskImported = task.id.includes("-event-assignment");
@@ -38,7 +38,7 @@ export const LinkedContent = React.memo(function LinkedContent({
     router.push(`/tasks/boards/${task.column.board.id}`);
   };
 
-  const handleRemoveBoard = async (e) => {
+  const handleRemoveBoard = async () => {
     if (!task.due) {
       toast.error("Set a due date to remove this task from a board");
       return;

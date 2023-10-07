@@ -60,10 +60,19 @@ const handler = async (req, res) => {
           item.summary
         )}`;
 
-        let due = new Date();
+        let due: string | Date = new Date();
 
-        if (item.start || item.end || item.dtstamp)
-          due = (item.start || item.end || item.dtstamp).toISOString();
+        if (item.start || item.dtstamp || item.end)
+          due = (item.start || item.dtstamp || item.end).toISOString();
+
+        if (item.start.dateOnly) {
+          due = dayjs(due)
+            .tz(req.query.timeZone)
+            .set("hour", 23)
+            .set("minute", 59)
+            .add(1, "day")
+            .toISOString();
+        }
 
         if (req.query.vanishingTasks === "true") {
           try {
@@ -71,7 +80,9 @@ const handler = async (req, res) => {
             const dueDateInTimeZone = dayjs(due).tz(req.query.timeZone);
             const diff = currentTimeInTimeZone.diff(dueDateInTimeZone, "day");
 
-            if (diff >= 14) continue;
+            if (diff >= 14) {
+              continue;
+            }
           } catch (e) {
             console.error(e);
           }
@@ -93,11 +104,11 @@ const handler = async (req, res) => {
           description = item.description;
         }
         if (item.url) {
-          location = item.url;
+          location = item.url?.val;
         }
 
         if (name) {
-          await prisma.task.upsert({
+          const d = await prisma.task.upsert({
             where: {
               id: taskId,
             },
@@ -153,6 +164,7 @@ const handler = async (req, res) => {
 
     res.json(data);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };

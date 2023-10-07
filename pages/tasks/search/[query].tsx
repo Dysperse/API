@@ -1,6 +1,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { TasksLayout, taskStyles } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -22,7 +23,7 @@ import useSWR from "swr";
 export default function Dashboard() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
 
   const { data, mutate, error } = useSWR([
     router?.query?.query ? "property/tasks/search" : null,
@@ -54,14 +55,14 @@ export default function Dashboard() {
   const ref = useRef();
 
   return (
-    <TasksLayout open={open} setOpen={setOpen} contentRef={ref}>
+    <TasksLayout contentRef={ref}>
       <Head>
         <title>{filteredData.length} results &bull; Search</title>
       </Head>
       <Box>
         <IconButton
           size="large"
-          onClick={() => router.push("/tasks/agenda/days")}
+          onClick={() => handleBack(router)}
           sx={{
             ...taskStyles(palette).menu,
             right: "20px",
@@ -171,7 +172,6 @@ export default function Dashboard() {
                   <>
                     <Task
                       key={index}
-                      isDateDependent={true}
                       board={task.board || false}
                       columnId={task.column ? task.column.id : -1}
                       mutate={mutate}

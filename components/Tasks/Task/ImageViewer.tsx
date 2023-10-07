@@ -14,8 +14,14 @@ import {
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-export function ImageViewer({ url }: { url: string }) {
-  const session = useSession();
+export function ImageViewer({
+  size = "small",
+  url,
+}: {
+  size?: "small" | "medium";
+  url: string;
+}) {
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [zoom, setZoom] = useState(false);
 
@@ -117,7 +123,10 @@ export function ImageViewer({ url }: { url: string }) {
         }}
         onContextMenu={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          setZoom(false);
+        }}
       >
         <Box
           sx={{
@@ -165,7 +174,7 @@ export function ImageViewer({ url }: { url: string }) {
           </Tooltip>
         </Box>
         <img
-          onClick={(e) => {
+          onClick={() => {
             setZoom(!zoom);
           }}
           src={url}
@@ -182,6 +191,7 @@ export function ImageViewer({ url }: { url: string }) {
         />
       </SwipeableDrawer>
       <Chip
+        size={size}
         label={"Attachment"}
         avatar={<Avatar src={url} alt="🖼" />}
         onClick={(e) => {

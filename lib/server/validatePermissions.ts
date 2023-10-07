@@ -63,6 +63,7 @@ export const validatePermissions = async (config: {
       // Hours to store it
       hours * 1000 * 60 * 60
     );
+    console.timeEnd("🔑 User permission validation took");
     // 🎉 User meets the minimum required permissions!
     return { authorized: true };
   }

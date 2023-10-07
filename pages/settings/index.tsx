@@ -6,18 +6,18 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-    AppBar,
-    Avatar,
-    Box,
-    Icon,
-    IconButton,
-    InputAdornment,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    TextField,
-    Toolbar,
-    Typography,
+  AppBar,
+  Avatar,
+  Box,
+  Icon,
+  IconButton,
+  InputAdornment,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  TextField,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -26,9 +26,25 @@ import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 
+function sendMessage(message) {
+  return new Promise(function (resolve, reject) {
+    var messageChannel = new MessageChannel();
+    messageChannel.port1.onmessage = function (event) {
+      if (event.data.error) {
+        reject(event.data.error);
+      } else {
+        resolve(event.data);
+      }
+    };
+    navigator?.serviceWorker?.controller?.postMessage(message, [
+      messageChannel.port2,
+    ]);
+  });
+}
+
 function Page() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -54,6 +70,17 @@ function Page() {
   };
 
   const groupPalette = useColor(session.property.profile.color, isDark);
+
+  const clearCache = async () => {
+    if ("serviceWorker" in navigator) {
+      await caches.keys().then(function (cacheNames) {
+        cacheNames.forEach(async function (cacheName) {
+          await caches.delete(cacheName);
+        });
+      });
+      window.location.reload();
+    }
+  };
 
   return (
     <>
@@ -90,7 +117,7 @@ function Page() {
           ...styles,
         }}
       >
-        {data && <ProfilePicture data={data} mutate={mutate} size={40} />}
+        {data && <ProfilePicture data={data} size={40} />}
         <ListItemText
           primary={<b>{session.user.name}</b>}
           secondary="Account settings"
@@ -110,6 +137,7 @@ function Page() {
             width: 40,
             height: 40,
             background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[6]})`,
+            color: groupPalette[11],
           }}
         >
           <Icon>
@@ -160,9 +188,7 @@ function Page() {
           question="Are you sure you want to sign out?"
           buttonText="Sign out"
           callback={() =>
-            fetchRawApi(session, "auth/logout").then(() =>
-              mutate("/api/session")
-            )
+            fetchRawApi(session, "auth/logout").then(() => router.push("/auth"))
           }
         >
           <ListItemButton>
@@ -199,6 +225,10 @@ function Page() {
             <ListItemText primary={name} />
           </ListItem>
         ))}
+        <ListItemButton onClick={clearCache}>
+          <Icon>sync</Icon>
+          <ListItemText primary="Clear cache and reload" />
+        </ListItemButton>
       </Box>
     </>
   );
@@ -212,77 +242,69 @@ export default function Layout({ children }: any) {
 
   return (
     <Box>
-      <Box
-        sx={{
-          "& .settings": {
+      <Box>
+        <AppBar
+          sx={{
+            pr: 5,
+            background: "transparent",
+            border: 0,
+            position: "fixed",
+            top: 0,
+            left: { xs: 0, sm: "85px" },
+          }}
+        >
+          <Toolbar>
+            <IconButton onClick={() => handleBack(router)}>
+              <Icon>arrow_back_ios_new</Icon>
+            </IconButton>
+            {router.asPath !== "/settings" && (
+              <Typography sx={{ ml: 1 }}>
+                <b>Settings</b>
+              </Typography>
+            )}
+          </Toolbar>
+        </AppBar>
+        <Box
+          sx={{
+            p: { xs: 3, sm: 0 },
+            width: "100%",
+            height: "100%",
+            flexGrow: 1,
             display: "flex",
             flexDirection: "column",
-            overflowY: "auto",
-            flexGrow: 1,
-            p: { xs: 0, sm: 5 },
-          },
-        }}
-      >
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          key="settings"
-          className="settings"
+            maxWidth: "500px",
+            mx: "auto",
+          }}
         >
-          <AppBar
-            sx={{
-              pr: 5,
-              background: "transparent",
-              border: 0,
-              position: "fixed",
-              top: 0,
-              left: 0,
-            }}
+          <Typography
+            variant="h2"
+            sx={{ mb: 1, mt: 15 }}
+            className="font-heading"
           >
-            <Toolbar>
-              <IconButton onClick={() => handleBack(router)}>
-                <Icon>arrow_back_ios_new</Icon>
-              </IconButton>
-              {router.asPath !== "/settings" && (
-                <Typography sx={{ ml: 1 }}>
-                  <b>Settings</b>
-                </Typography>
-              )}
-            </Toolbar>
-          </AppBar>
+            {capitalizeFirstLetter(
+              router.asPath
+                .replace("/settings", "")
+                .replaceAll("-", " ")
+                .replaceAll("/", "") || "Settings"
+            )}
+          </Typography>
           <Box
             sx={{
-              p: { xs: 3, sm: 0 },
-              width: "100%",
-              height: "100%",
               flexGrow: 1,
-              display: "flex",
-              flexDirection: "column",
+              height: "100%",
+              width: "100%",
             }}
           >
-            <Typography
-              variant="h2"
-              sx={{ mb: 1, mt: 8 }}
-              className="font-heading"
-            >
-              {capitalizeFirstLetter(
-                router.asPath
-                  .replace("/settings", "")
-                  .replaceAll("-", " ")
-                  .replaceAll("/", "") || "Settings"
-              )}
-            </Typography>
-            <Box
-              sx={{
-                flexGrow: 1,
-                height: "100%",
-                width: "100%",
-              }}
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              key="settings"
+              style={{ marginBottom: "40px" }}
             >
               {children || <Page />}
-            </Box>
+            </motion.div>
           </Box>
-        </motion.div>
+        </Box>
       </Box>
     </Box>
   );

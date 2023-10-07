@@ -14,7 +14,7 @@ import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import weatherCodes from "./weatherCodes.json";
 
 export function WeatherWidget({ children }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
 

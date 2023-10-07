@@ -1,3 +1,5 @@
+import { useSession } from "@/lib/client/session";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -19,6 +21,11 @@ export function ConfirmationModal({
   callback,
   buttonText = "Continue",
 }: any) {
+  const { session } = useSession();
+  const isDark = useDarkMode(session?.darkMode || "system");
+
+  const palette = useColor(session?.themeColor || "violet", isDark);
+
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -69,11 +76,13 @@ export function ConfirmationModal({
         }}
         PaperProps={{
           sx: {
-            mx: "auto",
-            border: "none",
             userSelect: "none",
-            width: "350px",
-            maxWidth: "calc(100vw - 20px)",
+            width: { xs: "100%", sm: "350px" },
+            maxWidth: "calc(100vw - 30px)",
+            borderRadius: 5,
+            mx: { xs: "15px", sm: "auto" },
+            mb: "15px",
+            border: `2px solid ${palette[4]}`,
           },
         }}
       >

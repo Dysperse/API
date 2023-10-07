@@ -1,20 +1,245 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { Logo } from "@/components/Logo";
+import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { StatusSelector } from "@/pages";
-import { Box, Icon, IconButton } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  ListItem,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { motion } from "framer-motion";
 import interact from "interactjs";
-import { useEffect, useMemo, useState } from "react";
+import Markdown from "markdown-to-jsx";
+import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { CreateTask } from "../../Task/Create";
 import { FocusTimer } from "./FocusTimer";
 import { Notes } from "./Notes";
 import { WeatherWidget } from "./Weather";
 
+function Assistant({ children }) {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  const [draft, setDraft] = useState("");
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<any>([]);
+
+  const virtuosoRef: any = useRef();
+
+  const dotVariants = {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        yoyo: Infinity,
+      },
+    },
+  };
+
+  const handleSubmit = async () => {
+    if (draft.trim() === "") return;
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { role: "user", content: draft },
+    ]);
+
+    setMessages((prevMessages) => [...prevMessages, "loading"]);
+
+    virtuosoRef.current.scrollToIndex({
+      index: messages.length - 1,
+      behavior: "smooth",
+    });
+
+    setTimeout(() => setDraft(""));
+
+    const d = await fetch("/api/ai/assistant", {
+      method: "POST",
+      body: JSON.stringify([{ role: "user", content: draft }]),
+    }).then((res) => res.json());
+
+    if (!d?.success === true) {
+      toast.error("Something went wrong. Please try again later");
+    }
+
+    const r = { role: "system", content: d.result.response };
+
+    setMessages((prevMessages) => [...prevMessages, r]);
+    setMessages((prevMessages) => prevMessages.filter((e) => e !== "loading"));
+    virtuosoRef.current.scrollToIndex({
+      index: messages.length - 1,
+      behavior: "smooth",
+    });
+  };
+
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen(true),
+  });
+
+  return !open ? (
+    trigger
+  ) : (
+    <>
+      {trigger}
+      <Box
+        className="drag-widget"
+        sx={{
+          position: "fixed",
+          top: "60px",
+          right: "100px",
+          background: palette[2],
+          border: `2px solid ${palette[3]}`,
+          borderRadius: 5,
+          overflow: "hidden",
+          ".priorityMode &": {
+            display: "block",
+          },
+          zIndex: 999,
+          width: "400px",
+          "& #close": {
+            display: "none",
+          },
+          "&:hover #close": {
+            display: "flex",
+          },
+        }}
+      >
+        <AppBar>
+          <Toolbar>
+            <Typography variant="h6">Assistant</Typography>
+            <Button
+              sx={{ ml: "auto" }}
+              onClick={() => setMessages([])}
+              variant="contained"
+              size="small"
+            >
+              Clear
+            </Button>
+            <IconButton onClick={() => setOpen(false)}>
+              <Icon>close</Icon>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        {messages.length == 0 && (
+          <>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                flexDirection: "column",
+                gap: 2,
+                fontSize: "13px",
+              }}
+            >
+              <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
+                info
+              </Icon>
+              Assistant is in beta, and Dysperse AI might not correctly
+              represent our views.
+            </Box>
+          </>
+        )}
+        <Virtuoso
+          ref={virtuosoRef}
+          style={{ height: "300px" }}
+          totalCount={messages.length}
+          followOutput="auto"
+          itemContent={(i) => {
+            const message = messages[i];
+            if (message === "loading") {
+              return (
+                <ListItem key={i}>
+                  <Avatar>
+                    <Logo size={30} intensity={8} />
+                  </Avatar>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    {[...new Array(3)].map((_, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          width: 13,
+                          height: 13,
+                          borderRadius: 999,
+                          background: palette[9],
+                          animation: "fade 1s infinite",
+                          animationDelay: `.${index * 3}s`,
+                        }}
+                      />
+                    ))}
+                  </Box>
+                </ListItem>
+              );
+            } else {
+              return (
+                <ListItem key={i} sx={{ alignItems: "start" }}>
+                  <Avatar sx={{ mt: 1 }}>
+                    {message.role === "user" ? (
+                      <Icon>account_circle</Icon>
+                    ) : (
+                      <Logo size={30} intensity={8} />
+                    )}
+                  </Avatar>
+                  <Box sx={{ pt: 2 }}>
+                    <Markdown
+                      options={{
+                        disableParsingRawHTML: true,
+                      }}
+                    >
+                      {message.content || "*(empty message?)*"}
+                    </Markdown>
+                  </Box>
+                </ListItem>
+              );
+            }
+          }}
+        />
+        <Box sx={{ display: "flex", gap: 2, p: 2 }}>
+          <TextField
+            placeholder="Message..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) handleSubmit();
+            }}
+            size="small"
+            value={draft}
+            multiline
+            maxRows={3}
+            onChange={(e) => setDraft(e.target.value)}
+          />
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            disabled={draft.trim() === ""}
+          >
+            Ask<Icon>north</Icon>
+          </Button>
+        </Box>
+      </Box>
+    </>
+  );
+}
+
 export function WidgetBar({ view, setView }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -29,7 +254,6 @@ export function WidgetBar({ view, setView }) {
         width: "80px",
         py: 2,
         borderRadius: 0,
-        background: palette[2],
         "&:hover": {
           background: palette[3],
         },
@@ -121,8 +345,6 @@ export function WidgetBar({ view, setView }) {
           left: 0,
           WebkitAppRegion: "no-drag",
           height: "100dvh",
-          background: palette[2],
-          backdropFilter: "blur(10px)",
           width: "80px",
           display: "flex",
           alignItems: "center",
@@ -146,7 +368,7 @@ export function WidgetBar({ view, setView }) {
         >
           <IconButton
             id="exitFocus"
-            sx={{ background: palette[3], mb: "auto" }}
+            sx={{ background: palette[4], mb: "auto" }}
             size="large"
           >
             <Icon className="outlined">close</Icon>
@@ -164,6 +386,12 @@ export function WidgetBar({ view, setView }) {
             Note
           </Box>
         </Notes>
+        <Assistant>
+          <Box sx={focusToolsStyles.button}>
+            <Icon className="outlined">auto_awesome</Icon>
+            Assistant
+          </Box>
+        </Assistant>
         {profileData && (
           <StatusSelector profile={profileData} mutate={mutate}>
             <Box sx={focusToolsStyles.button}>
@@ -179,8 +407,8 @@ export function WidgetBar({ view, setView }) {
           </Box>
         </WeatherWidget>
 
-        <CreateTask>
-          <IconButton sx={{ mt: "auto", background: palette[3] }} size="large">
+        <CreateTask disableBadge>
+          <IconButton sx={{ mt: "auto", background: palette[4] }} size="large">
             <Icon className="outlined">add</Icon>
           </IconButton>
         </CreateTask>

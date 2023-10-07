@@ -23,6 +23,7 @@ import {
   TextField,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
@@ -32,7 +33,7 @@ import RoomLayout from "..";
 import { CreateItem } from "../../../components/Inventory/CreateItem";
 
 function MoveItem({ children, item, mutate, setParentOpen }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -124,7 +125,7 @@ function MoveItem({ children, item, mutate, setParentOpen }) {
 
 function ItemDrawerContent({ item, mutate, setOpen }) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
 
@@ -161,7 +162,7 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
 
   const styles = {
     section: {
-      background: palette[2],
+      background: { xs: palette[3], sm: palette[2] },
       borderRadius: 5,
       display: "flex",
       flexDirection: "column",
@@ -176,7 +177,7 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
       },
       "& .item:not(:last-child)": {
         borderBottom: "1px solid",
-        borderColor: palette[3],
+        borderColor: { xs: palette[4], sm: palette[3] },
       },
     },
     button: {
@@ -185,9 +186,23 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
     },
   };
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
   return (
     <>
-      <AppBar position="sticky" sx={{ top: 0, border: 0 }}>
+      {isMobile && (
+        <Puller
+          sx={{
+            mb: 0,
+            "& .puller": {
+              background: palette[6],
+            },
+          }}
+        />
+      )}
+      <AppBar
+        position="sticky"
+        sx={{ top: 0, border: 0, background: "transparent" }}
+      >
         <Toolbar sx={{ gap: 1 }}>
           <IconButton onClick={() => setOpen(false)} sx={styles.button}>
             <Icon className="outlined">close</Icon>
@@ -228,136 +243,132 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
             </IconButton>
           </ConfirmationModal>
         </Toolbar>
-        <Box sx={{ px: 3 }}>
-          <TextField
-            fullWidth
-            placeholder="Item name"
-            defaultValue={item.name}
-            onBlur={(e) => handleEdit("name", e.target.value)}
-            onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
-            variant="standard"
-            InputProps={{
-              disableUnderline: true,
-              className: "font-heading",
-              sx: {
-                "&:focus-within": {
-                  "&, & *": { textTransform: "none!important" },
-                  background: palette[2],
-                  px: 1,
-                  borderRadius: 5,
-                },
-                fontSize: { xs: "50px", sm: "var(--bottom-nav-height)" },
-                textDecoration: "underline",
-              },
-            }}
-          />
-          <Box sx={styles.section}>
-            {[
-              {
-                key: "note",
-                multiline: true,
-                icon: "sticky_note_2",
-                name: "Note",
-                type: "text",
-              },
-              {
-                key: "condition",
-                multiline: true,
-                icon: "question_mark",
-                name: "Condition",
-                type: "text",
-              },
-              {
-                key: "quantity",
-                multiline: true,
-                icon: "interests",
-                name: "Quantity",
-                type: "text",
-              },
-              {
-                key: "estimatedValue",
-                multiline: true,
-                icon: "attach_money",
-                name: "Estimated Value",
-                type: "number",
-              },
-              {
-                key: "serialNumber",
-                multiline: true,
-                icon: "tag",
-                name: "Serial Number",
-                type: "text",
-              },
-            ].map((field) => (
-              <TextField
-                onBlur={(e) => handleEdit(field.key, e.target.value)}
-                onKeyDown={(e: any) => {
-                  if (e.key === "Enter" && !e.shiftKey) e.target.blur();
-                }}
-                onKeyUp={(e: any) => {
-                  if (field.type === "number") {
-                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                  }
-                }}
-                className="item"
-                key={field.key}
-                type={field.type}
-                multiline
-                fullWidth
-                defaultValue={item[field.key]}
-                placeholder={`Add ${field.name.toLowerCase()}...`}
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  sx: { py: 1.5, px: 3 },
-                  startAdornment: field.icon && (
-                    <InputAdornment position="start">
-                      <Icon className="outlined">{field.icon}</Icon>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            ))}
-          </Box>
-          <Box sx={styles.section}>
-            <ListItem
-              onClick={() =>
-                router.push(
-                  `/users/${item.createdBy.username || item.createdBy.email}`
-                )
-              }
-            >
-              <ListItemText
-                primary={`Edited ${dayjs(item.updatedAt).fromNow()}`}
-                secondary={
-                  item.updatedAt !== item.createdAt &&
-                  `Created ${dayjs(item.createdAt).fromNow()}`
-                }
-              />
-              <Box>
-                {item.createdBy && (
-                  <ProfilePicture
-                    mutate={mutate}
-                    data={item.createdBy}
-                    size={30}
-                  />
-                )}
-              </Box>
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary={`Found in "${item.room?.name}"`}
-                secondary={
-                  item.room.private
-                    ? "Only visible to you"
-                    : `Visible to others in "${item.property.name}"`
-                }
-              />
-            </ListItem>
-          </Box>
-          {/* {JSON.stringify(item, null, 2)} */}
-        </Box>
       </AppBar>
+      <Box sx={{ px: 3 }}>
+        <TextField
+          fullWidth
+          placeholder="Item name"
+          defaultValue={item.name}
+          onBlur={(e) => handleEdit("name", e.target.value)}
+          onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+            className: "font-heading",
+            sx: {
+              "&:focus-within": {
+                "&, & *": { textTransform: "none!important" },
+                background: palette[2],
+                px: 1,
+                borderRadius: 5,
+              },
+              fontSize: { xs: "50px", sm: "var(--bottom-nav-height)" },
+              textDecoration: "underline",
+            },
+          }}
+        />
+        <Box sx={styles.section}>
+          {[
+            {
+              key: "note",
+              multiline: true,
+              icon: "sticky_note_2",
+              name: "Note",
+              type: "text",
+            },
+            {
+              key: "condition",
+              multiline: true,
+              icon: "question_mark",
+              name: "Condition",
+              type: "text",
+            },
+            {
+              key: "quantity",
+              multiline: true,
+              icon: "interests",
+              name: "Quantity",
+              type: "text",
+            },
+            {
+              key: "estimatedValue",
+              multiline: true,
+              icon: "attach_money",
+              name: "Estimated Value",
+              type: "number",
+            },
+            {
+              key: "serialNumber",
+              multiline: true,
+              icon: "tag",
+              name: "Serial Number",
+              type: "text",
+            },
+          ].map((field) => (
+            <TextField
+              onBlur={(e) => handleEdit(field.key, e.target.value)}
+              onKeyDown={(e: any) => {
+                if (e.key === "Enter" && !e.shiftKey) e.target.blur();
+              }}
+              onKeyUp={(e: any) => {
+                if (field.type === "number") {
+                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                }
+              }}
+              className="item"
+              key={field.key}
+              type={field.type}
+              multiline
+              fullWidth
+              defaultValue={item[field.key]}
+              placeholder={`Add ${field.name.toLowerCase()}...`}
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                sx: { py: 1.5, px: 3 },
+                startAdornment: field.icon && (
+                  <InputAdornment position="start">
+                    <Icon className="outlined">{field.icon}</Icon>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          ))}
+        </Box>
+        <Box sx={styles.section}>
+          <ListItem
+            onClick={() =>
+              router.push(
+                `/users/${item.createdBy.username || item.createdBy.email}`
+              )
+            }
+          >
+            <ListItemText
+              primary={`Edited ${dayjs(item.updatedAt).fromNow()}`}
+              secondary={
+                item.updatedAt !== item.createdAt &&
+                `Created ${dayjs(item.createdAt).fromNow()}`
+              }
+            />
+            <Box>
+              {item.createdBy && (
+                <ProfilePicture data={item.createdBy} size={30} />
+              )}
+            </Box>
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primary={`Found in "${item.room?.name}"`}
+              secondary={
+                item.room.private
+                  ? "Only visible to you"
+                  : `Visible to others in "${item.property.name}"`
+              }
+            />
+          </ListItem>
+        </Box>
+        {/* {JSON.stringify(item, null, 2)} */}
+      </Box>
     </>
   );
 }
@@ -371,11 +382,13 @@ export function ItemPopup({
   item: any;
   mutateList: any;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
   const trigger = cloneElement(children, { onClick: () => setOpen(true) });
+
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const { data, isLoading, mutate, error } = useSWR(
     open ? ["property/inventory/items", { id: item.id }] : null
@@ -392,7 +405,7 @@ export function ItemPopup({
     <>
       {trigger}
       <SwipeableDrawer
-        anchor="right"
+        anchor={isMobile ? "bottom" : "right"}
         open={open}
         onClose={() => {
           setOpen(false);
@@ -402,6 +415,11 @@ export function ItemPopup({
           sx: {
             width: { xs: "100%", sm: "500px" },
             borderLeft: { sm: "2px solid " + palette[3] },
+            ...(isMobile && {
+              height: "calc(100dvh - 150px)",
+              borderRadius: "20px 20px 0 0",
+              background: palette[2],
+            }),
           },
         }}
       >
@@ -434,7 +452,7 @@ export function ItemPopup({
 function Room({ room, mutateList }) {
   const router = useRouter();
 
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   return (
@@ -572,7 +590,7 @@ function Room({ room, mutateList }) {
 }
 
 export default function Page() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const { data, isLoading, mutate, error } = useSWR(

@@ -51,7 +51,7 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
 };
 
 function BoardColumnSettings({ data, styles, mutate }) {
-  const session = useSession();
+  const { session } = useSession();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
@@ -89,6 +89,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
   };
 
   const [items, setItems] = useState(data.columns);
+  useEffect(() => setItems(data.columns), [data.columns]);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -139,12 +140,12 @@ function BoardColumnSettings({ data, styles, mutate }) {
 
                       <ListItemText
                         primary={<b>{column.name}</b>}
-                        secondary={`${column.tasks.length} tasks`}
+                        secondary={`${column._count.tasks} tasks`}
                       />
                       <Box sx={{ display: "flex" }}>
                         <ConfirmationModal
                           title="Delete column?"
-                          question={`Deleting this column will also permanently delete ${column.tasks.length} tasks inside it. Continue?`}
+                          question={`Deleting this column will also permanently delete ${column._count.tasks} tasks inside it. Continue?`}
                           callback={async () => {
                             await fetchRawApi(
                               session,
@@ -179,14 +180,17 @@ function BoardColumnSettings({ data, styles, mutate }) {
       </DragDropContext>
 
       <ListItemButton onClick={() => setOpen(true)}>
-        <Avatar sx={{ width: 30, height: 30, color: "#000" }}>
+        <Avatar sx={{ width: 30, height: 30 }}>
           <Icon>add</Icon>
         </Avatar>
         New column
       </ListItemButton>
       <SwipeableDrawer
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          mutate();
+        }}
         anchor="bottom"
       >
         <Puller showOnDesktop />
@@ -200,7 +204,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
             alignItems: "center",
           }}
         >
-          <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+          <EmojiPicker setEmoji={setEmoji}>
             <IconButton
               size="large"
               sx={{
@@ -239,7 +243,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
   );
 }
 function BoardAppearanceSettings({ data, styles, mutate }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
 
   const handleEdit = (key, value, callback = () => {}) => {
@@ -352,7 +356,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
             await fetchRawApi(session, "property/boards/delete", {
               id: data.id,
             });
-            router.push("/tasks/agenda/weeks");
+            router.push("/tasks/perspectives/weeks");
           }}
         >
           <Button variant="contained">
@@ -365,7 +369,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
 }
 
 function EditLayout({ id, data, mutate }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const [view, setView] = useState<any>(null);
 
@@ -519,15 +523,15 @@ function EditLayout({ id, data, mutate }) {
 
 const Dashboard = () => {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const id = router?.query?.id;
-  const [open, setOpen] = useState(false);
 
-  const { data, mutate, error } = useSWR([
+  const { data, mutate } = useSWR([
     "property/boards",
     {
       id,
       shareToken: "",
+      allTasks: true,
     },
   ]);
 
@@ -537,7 +541,7 @@ const Dashboard = () => {
     session.permission === "read-only"
   ) {
     return (
-      <TasksLayout open={open} setOpen={setOpen}>
+      <TasksLayout>
         <Box sx={{ p: 4 }}>
           <Alert severity="error">
             You don&apos;t have permission to edit this board. Contact the owner
@@ -548,7 +552,7 @@ const Dashboard = () => {
     );
   }
   return (
-    <TasksLayout open={open} setOpen={setOpen}>
+    <TasksLayout>
       {data && data[0] && id ? (
         <EditLayout mutate={mutate} id={id} data={data[0]} />
       ) : (

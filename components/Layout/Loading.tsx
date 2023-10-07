@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
  */
 
 export function Loading(): JSX.Element {
-  const session = useSession();
+  const { session } = useSession();
 
   const isDark = useDarkMode(session?.user?.darkMode || "system");
   const palette = useColor(session?.themeColor || "gray", isDark);

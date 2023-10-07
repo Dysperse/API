@@ -1,5 +1,3 @@
-type Data = string;
-
 export const config = {
   api: {
     bodyParser: {

@@ -21,7 +21,7 @@ import useSWR from "swr";
 import Layout from ".";
 
 const Session: any = React.memo(function Session({ mutate, index, data }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
@@ -98,7 +98,7 @@ const Session: any = React.memo(function Session({ mutate, index, data }: any) {
  */
 export default function LoginActivity() {
   const { data, mutate, error } = useSWR(["user/settings/sessions"]);
-  const session = useSession();
+  const { session } = useSession();
   const ref = useRef();
 
   return (

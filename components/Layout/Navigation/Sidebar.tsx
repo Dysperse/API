@@ -1,58 +1,163 @@
+import { GroupModal } from "@/components/Group/GroupModal";
+import { Logo } from "@/components/Logo";
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Logo } from "@/pages";
-import { Box, Tooltip, Typography, useMediaQuery } from "@mui/material";
-import dayjs from "dayjs";
+import {
+  Avatar,
+  Box,
+  Divider,
+  Icon,
+  Menu,
+  MenuItem,
+  Tooltip,
+  useMediaQuery,
+} from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { shouldHideNavigation } from "./BottomNavigation";
 import { openSpotlight } from "./Search";
 const SearchPopup = dynamic(() => import("./Search"), { ssr: false });
 
-function SidebarCalendar() {
-  const date = dayjs();
-  const session = useSession();
+function SidebarMenu({ styles }) {
+  const { session } = useSession();
+  const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const redPalette = useColor("tomato", useDarkMode(session.darkMode));
+  const groupPalette = useColor(
+    session.property.profile.color,
+    useDarkMode(session.darkMode)
+  );
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
-    <Box
-      className="calendar"
-      sx={{
-        width: 50,
-        height: 50,
-        borderRadius: 3,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        border: `2px solid ${palette[3]}`,
-        color: palette[7],
-      }}
-    >
+    <>
       <Box
+        onClick={handleClick}
         sx={{
-          width: 25,
-          height: 2,
-          background: redPalette[5],
-          borderRadius: 999,
-          mt: 0.9,
-          mb: -0.2,
+          ...styles(false),
+          "& .material-symbols-outlined": {
+            borderRadius: 99,
+            background: addHslAlpha(palette[4], 0.6),
+            transition: "all .2s",
+            "&:active": {
+              opacity: 0.6,
+              transition: "none",
+            },
+            width: 40,
+            height: 40,
+            fontVariationSettings:
+              '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20!important',
+          },
         }}
       >
-        &nbsp;
+        <span className="material-symbols-outlined">more_horiz</span>
       </Box>
-      <Typography variant="h4" className="font-heading">
-        {dayjs().format("DD")}
-      </Typography>
-    </Box>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        sx={{
+          zIndex: 99,
+        }}
+        slotProps={{
+          root: {
+            sx: {
+              transform: "translate(13px, -5px)!important",
+            },
+          },
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            router.push(
+              `/users/${session.user.username || session.user.email}`
+            );
+          }}
+        >
+          <ProfilePicture data={session.user} size={35} />
+          {session.user.name}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            router.push(`/spaces/${session.property.propertyId}`);
+          }}
+        >
+          <Avatar
+            sx={{
+              background: groupPalette[9],
+              color: groupPalette[1],
+              width: 35,
+              height: 35,
+            }}
+          >
+            <Icon>
+              {session.property.profile.type === "home"
+                ? "home"
+                : session.property.profile.type === "apartment"
+                ? "apartment"
+                : session.property.profile.type === "dorm"
+                ? "cottage"
+                : "school"}
+            </Icon>
+          </Avatar>
+          <span style={{ marginRight: "15px" }}>
+            {session.property.profile.name}
+          </span>
+          <GroupModal useRightClick={false}>
+            <Avatar
+              sx={{
+                background: addHslAlpha(palette[5], 0.6),
+                color: palette[9],
+                width: 30,
+                height: 30,
+                ml: "auto",
+              }}
+            >
+              <Icon className="outlined">sync_alt</Icon>
+            </Avatar>
+          </GroupModal>
+        </MenuItem>
+        <Divider />
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            router.push(`/settings`);
+          }}
+        >
+          <Avatar
+            sx={{
+              width: 35,
+              height: 35,
+              background: "transparent",
+              color: "inherit",
+            }}
+          >
+            <Icon className="outlined">settings</Icon>
+          </Avatar>
+          Settings
+        </MenuItem>
+      </Menu>
+    </>
   );
 }
 
 export function Sidebar() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -113,12 +218,10 @@ export function Sidebar() {
     "ctrl+shift+2",
     (e) => {
       e.preventDefault();
-      router.push("/tasks/agenda/days");
+      router.push("/tasks/perspectives/days");
     },
     [open]
   );
-
-  const isDark = useDarkMode(session.darkMode);
 
   const styles = (active: any = false) => {
     return {
@@ -153,18 +256,19 @@ export function Sidebar() {
     };
   };
 
-  const shouldHide =
-    router.asPath.includes("/onboarding") || router.asPath.includes("/audit");
+  const shouldHide = shouldHideNavigation(router.asPath);
 
   return (
     <Box
       sx={{
-        // WebkitAppRegion: "drag",
+        ".priorityMode &": {
+          opacity: "0!important",
+        },
         display: { xs: "none", md: "flex!important" },
         maxWidth: "85px",
         width: "80px",
         ml: shouldHide ? "-90px" : 0,
-        // ...(shouldHide && { opacity: 0, pointerEvents: "none" }),
+        ...(shouldHide && { pointerEvents: "none" }),
         transition: "all .2s",
         zIndex: "99!important",
         filter: "none!important",
@@ -176,33 +280,15 @@ export function Sidebar() {
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
-        "&:hover .calendar": {
-          position: "relative",
-          transform: "translateX(0px)",
-        },
-        "&:hover .logo": {
-          position: "relative",
-          transform: "translateX(70px)",
-        },
-        "& .logo": {
-          mt: "-45px",
-          transform: "translateX(0px)",
-          transition: "transform .4s cubic-bezier(.17,.67,.22,1.14)",
-        },
-        "& .calendar": {
-          transform: "translateX(-70px)",
-          transition: "transform .4s cubic-bezier(.17,.67,.22,1.14)",
-        },
       }}
     >
       <Box sx={{ mt: 2 }} />
-      <SidebarCalendar />
       {!isMobile && <Logo size={50} intensity={7} />}
       <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
         sx={styles(router.asPath.includes("/tasks"))}
-        onClick={() => router.push("/tasks/agenda/days")}
-        onMouseDown={() => router.push("/tasks/agenda/days")}
+        onClick={() => router.push("/tasks/perspectives/days")}
+        onMouseDown={() => router.push("/tasks/perspectives/days")}
       >
         <Tooltip title="Tasks" placement="right">
           <span
@@ -210,7 +296,7 @@ export function Sidebar() {
               router.asPath.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
-            check_circle
+            &#xe86c;
           </span>
         </Tooltip>
       </Box>
@@ -227,7 +313,7 @@ export function Sidebar() {
                 : "outlined"
             }`}
           >
-            change_history
+            &#xe86b;
           </span>
         </Tooltip>
       </Box>
@@ -252,7 +338,7 @@ export function Sidebar() {
                 : "outlined"
             }`}
           >
-            inventory_2
+            &#xe9fe;
           </span>
         </Tooltip>
       </Box>
@@ -273,17 +359,18 @@ export function Sidebar() {
           onMouseDown={() => openSpotlight()}
           sx={{
             ...styles(false),
-            background: addHslAlpha(palette[4], 0.4),
-            "&:active": {
-              background: addHslAlpha(palette[4], 0.5),
-            },
             borderRadius: 99,
+            "& .material-symbols-outlined": {
+              width: 40,
+              height: 40,
+            },
           }}
         >
           <Tooltip title="Spotlight" placement="right">
             <span className="material-symbols-outlined">bolt</span>
           </Tooltip>
         </Box>
+        <SidebarMenu styles={styles} />
       </Box>
     </Box>
   );

@@ -1,6 +1,6 @@
+import { Logo } from "@/components/Logo";
 import { useUser } from "@/lib/client/session";
 import { useColor } from "@/lib/client/useColor";
-import { Logo } from "@/pages";
 import { Box, useMediaQuery } from "@mui/material";
 import Head from "next/head";
 import { useEffect } from "react";
@@ -11,6 +11,9 @@ export const AuthBranding = ({ mobile = false }: any) => (
     sx={{
       display: { xs: "inline-flex", sm: mobile ? "none" : "inline-flex" },
       color: "#000",
+      position: "absolute",
+      top: 0,
+      left: 0,
       [`@media (prefers-color-scheme: dark)`]: {
         color: "#fff",
         "& img": {
@@ -20,10 +23,10 @@ export const AuthBranding = ({ mobile = false }: any) => (
       alignItems: "center",
       gap: 2.5,
       userSelect: "none",
-      mx: mobile ? 0 : 4,
+      mx: mobile ? 2 : 4,
       pr: 2,
       borderRadius: 4,
-      mt: mobile ? -2 : 4,
+      mt: mobile ? 2 : 4,
       cursor: "pointer",
       transition: "all 0.2s ease",
       "&:active": {
@@ -45,7 +48,7 @@ export const authStyles = (palette) => ({
     zIndex: 99999,
     left: 0,
     py: { xs: 1, sm: 0 },
-    background: palette[3],
+    background: palette[2],
     width: { xs: "100vw", sm: "auto" },
   },
   submit: {
@@ -101,7 +104,7 @@ export const authStyles = (palette) => ({
     },
   },
   container: {
-    background: palette[3],
+    background: palette[2],
     color: palette[12],
     borderRadius: { sm: 5 },
     top: 0,
@@ -156,13 +159,16 @@ export function Layout({ children }): JSX.Element {
       </Head>
       <Box
         sx={{
-          background: palette[2],
+          background: palette[1],
           position: "fixed",
           top: 0,
           left: 0,
           overflow: "scroll",
           width: "100%",
           height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
         <Toaster />

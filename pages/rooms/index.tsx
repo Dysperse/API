@@ -1,6 +1,5 @@
 import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Navbar";
-import { GroupSelector } from "@/components/Tasks/Layout";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -11,22 +10,26 @@ import {
   CircularProgress,
   Icon,
   IconButton,
+  InputAdornment,
   ListItemButton,
   ListItemText,
   Menu,
   MenuItem,
   Skeleton,
+  TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import { CreateItem } from "../../components/Inventory/CreateItem";
 import { ItemPopup } from "./[room]";
 
 function JumpBackIn() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -34,17 +37,103 @@ function JumpBackIn() {
 
   return (
     <>
+      <Box
+        sx={{
+          p: 3,
+          pb: 0,
+          mt: 5,
+          display: { sm: "none" },
+        }}
+      >
+        <Typography
+          variant="h2"
+          className="font-heading"
+          sx={{
+            background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
+            WebkitBackgroundClip: "text",
+            fontSize: {
+              xs: "65px",
+              sm: "80px",
+            },
+          }}
+        >
+          Inventory
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            mb: 2,
+            mt: 0.5,
+            alignItems: "center",
+          }}
+        >
+          <TextField
+            variant="standard"
+            placeholder="Search..."
+            onClick={() => toast("Coming soon!")}
+            InputProps={{
+              readOnly: true,
+              disableUnderline: true,
+              sx: {
+                background: palette[2],
+                "&:focus-within": {
+                  background: palette[3],
+                },
+                "& *::placeholder": {
+                  color: palette[10] + "!important",
+                },
+                transition: "all .2s",
+                px: 2,
+                py: 0.3,
+                borderRadius: 3,
+              },
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon sx={{ color: palette[9] }}>search</Icon>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <IconButton
+            onClick={() => router.push("/rooms/audit")}
+            sx={{
+              color: palette[11],
+              background: palette[2],
+              "&:active": {
+                background: palette[3],
+              },
+            }}
+          >
+            <Icon className="outlined">photo_camera</Icon>
+          </IconButton>
+          <CreateItem mutate={() => {}}>
+            <IconButton
+              sx={{
+                color: palette[11],
+                background: palette[2],
+                "&:active": {
+                  background: palette[3],
+                },
+              }}
+            >
+              <Icon>add</Icon>
+            </IconButton>
+          </CreateItem>
+        </Box>
+      </Box>
       <Typography
         sx={{
-          px: { xs: 3, sm: 5 },
-          mt: 4,
-          fontSize: { xs: "1rem", sm: "2rem" },
-          mb: { xs: 0, sm: 2 },
-          fontWeight: 700,
+          my: { xs: 1, sm: 1.5 },
+          mt: { xs: 1, sm: 1 },
           textTransform: "uppercase",
-          color: palette[11],
-          opacity: 0.7,
-          textAlign: { sm: "center" },
+          fontWeight: 700,
+          opacity: 0.5,
+          fontSize: "13px",
+          px: 4,
+          pt: 2,
+          color: palette[12],
+          userSelect: "none",
           ...(data?.length === 0 && {
             display: "none",
           }),
@@ -62,7 +151,6 @@ function JumpBackIn() {
         sx={{
           display: "flex",
           gap: 2,
-          mt: 1,
           px: { xs: 3, sm: 5 },
           mb: 3,
           overflowX: { xs: "scroll", sm: "unset" },
@@ -162,7 +250,7 @@ function JumpBackIn() {
 
 function Panel() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -193,6 +281,7 @@ function Panel() {
         position: "relative",
         display: "flex",
         flexDirection: "column",
+        pb: 5,
       }}
     >
       {/* View menu */}
@@ -236,22 +325,6 @@ function Panel() {
               <Icon>{!open ? "expand_more" : "expand_less"}</Icon>
             </Button>
           </Box>
-          <Box sx={{ order: { sm: -1 } }}>
-            <GroupSelector>
-              <Button
-                variant="outlined"
-                sx={{
-                  color: palette[11] + "!important",
-                  borderWidth: "2px !important",
-                  px: 1,
-                  borderRadius: 3,
-                  fontWeight: 800,
-                  gap: 1,
-                  opacity: 0.7,
-                }}
-              />
-            </GroupSelector>
-          </Box>
         </Box>
 
         {/* Data */}
@@ -292,7 +365,28 @@ function Panel() {
                 width={30}
                 height={30}
               />
-              <ListItemText primary={room.name} />
+              <ListItemText
+                sx={{
+                  "&, & *": {
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    minWidth: 0,
+                  },
+                }}
+                primary={room.name}
+              />
+              {room._count.items !== 0 && (
+                <Typography
+                  sx={{
+                    ml: "auto",
+                    opacity: 0.6,
+                    mr: 1,
+                  }}
+                >
+                  {room._count.items}
+                </Typography>
+              )}
               {isMobile && <Icon>arrow_forward_ios</Icon>}
             </ListItemButton>
           ))}
@@ -347,7 +441,7 @@ function Panel() {
           </Button>
         </CreateItem>
         <Button variant="contained" onClick={() => router.push("/rooms/audit")}>
-          <Icon className="outlined">view_in_ar</Icon>
+          <Icon className="outlined">photo_camera</Icon>
         </Button>
       </Box>
     </Box>
@@ -355,7 +449,7 @@ function Panel() {
 }
 
 export default function RoomLayout({ children }) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -374,34 +468,7 @@ export default function RoomLayout({ children }) {
           showLogo={router.asPath === "/rooms"}
           showRightContent={router.asPath === "/rooms"}
           right={
-            router.asPath == "/rooms" ? (
-              <>
-                <CreateItem mutate={() => {}}>
-                  <IconButton
-                    onClick={() => router.push("/rooms/audit")}
-                    sx={{ color: palette[8], ml: "auto" }}
-                  >
-                    <Icon
-                      className="outlined"
-                      sx={{ fontSize: "30px!important" }}
-                    >
-                      add_circle
-                    </Icon>
-                  </IconButton>
-                </CreateItem>
-                <IconButton
-                  onClick={() => router.push("/rooms/audit")}
-                  sx={{ color: palette[8] }}
-                >
-                  <Icon
-                    className="outlined"
-                    sx={{ fontSize: "30px!important" }}
-                  >
-                    view_in_ar
-                  </Icon>
-                </IconButton>
-              </>
-            ) : (
+            router.asPath == "/rooms" ? undefined : (
               <IconButton
                 onClick={() => router.push("/rooms")}
                 sx={{ color: palette[8] }}
@@ -415,28 +482,35 @@ export default function RoomLayout({ children }) {
       {!isMobile && <Panel />}
 
       {/* Content */}
-      <Box
-        sx={{
-          width: "100%",
-          background: palette[1],
-          borderRadius: { sm: "20px 0 0 20px" },
-          overflowY: "auto",
-        }}
+      <motion.div
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        style={{ width: "100%" }}
       >
-        {children || (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              height: "100%",
-            }}
-          >
-            <JumpBackIn />
-          </Box>
-        )}
-      </Box>
-      {isMobile && router.asPath === "/rooms" && <Panel />}
+        <Box
+          sx={{
+            width: "100%",
+            height: { sm: "100dvh" },
+            background: palette[1],
+            borderRadius: { sm: "20px 0 0 20px" },
+            overflowY: "auto",
+          }}
+        >
+          {children || (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >
+              <JumpBackIn />
+            </Box>
+          )}
+        </Box>
+        {isMobile && router.asPath === "/rooms" && <Panel />}
+      </motion.div>
     </Box>
   );
 }

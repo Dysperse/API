@@ -1,3 +1,6 @@
+import { containerRef } from "@/components/Layout";
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -10,25 +13,108 @@ import {
   Grid,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
   TextField,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
+function FilterSettings() {
+  const { board, filter, setFilter, permissions, isShared, mutateData } =
+    useContext(BoardContext);
+
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  const [showMore, setShowMore] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  const filters = [
+    { key: "", name: "Urgency + Completion", advanced: false },
+    { key: "a-z", name: "A-Z", advanced: false },
+    { key: "due", name: "Due date (new to old)", advanced: false },
+    { key: "modification", name: "Last modified", advanced: false },
+    { key: "completed-at", name: "Last completed", advanced: false },
+    { key: "color", name: "Has color?", advanced: true },
+    { key: "attachment", name: "Has attachment?", advanced: true },
+    { key: "attachment", name: "Has reminders?", advanced: true },
+    { key: "subtasks", name: "Has subtasks?", advanced: true },
+  ];
+
+  return (
+    <>
+      <Chip
+        onClick={handleClick}
+        label={
+          filter !== "" ? filters.find((s) => s.key === filter)?.name : "Filter"
+        }
+        icon={<Icon>filter_list</Icon>}
+        {...(filter !== "" && { onDelete: () => setFilter("") })}
+      />
+
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {filters
+          .filter((s) => !s.advanced)
+          .map((_filter) => (
+            <MenuItem
+              onClick={() => {
+                setAnchorEl(null);
+                setFilter(_filter.key);
+              }}
+              key={_filter.key}
+            >
+              <Icon>{filter === _filter.key && "check"}</Icon>
+              {_filter.name}
+            </MenuItem>
+          ))}
+        <MenuItem
+          onClick={() => setShowMore((s) => !s)}
+          sx={{ background: palette[4] }}
+        >
+          {showMore ? "Hide" : "Show"} more
+          <Icon sx={{ ml: "auto" }}>
+            {!showMore ? "expand_more" : "expand_less"}
+          </Icon>
+        </MenuItem>
+        {showMore &&
+          filters
+            .filter((s) => s.advanced)
+            .map((_filter) => (
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  setFilter(_filter.key);
+                }}
+                key={_filter.key}
+              >
+                <Icon>{filter === _filter.key && "check"}</Icon>
+                {_filter.name}
+              </MenuItem>
+            ))}
+      </Menu>
+    </>
+  );
+}
+
 export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
-  const { board, permissions, isShared, mutateData } = useContext(BoardContext);
+  const { board, filter, setFilter, permissions, isShared, mutateData } =
+    useContext(BoardContext);
 
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
-  const session = useSession();
+  const { session } = useSession();
 
   useEffect(() => {
     if (!descriptionRef.current || !descriptionRef.current || !board) return;
@@ -121,7 +207,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
         height: { xs: "100%", md: "calc(100dvh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },
         background: {
-          xs: `transparent`,
+          xs: `transparredent`,
           md: addHslAlpha(palette[2], 0.8),
         },
         m: { md: "10px" },
@@ -140,13 +226,9 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
         flexDirection: "column",
         justifyContent: "center",
         minWidth: { md: !showInfo ? "auto" : "320px" },
-        maxWidth: { md: "300px" },
+        maxWidth: { xs: "100dvw", md: "300px" },
         width: { xs: "100%", sm: "20px" },
         backdropFilter: { md: "blur(20px)!important" },
-        ...(!showInfo && {
-          opacity: "0!important",
-          transform: "translateX(-100px)",
-        }),
       }}
     >
       {showInfo ? (
@@ -155,20 +237,25 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
             {collaborators.length > 1 && (
               <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
                 {collaborators.slice(0, 5).map((member) => (
-                  <Tooltip key={member.id} title={member.user.name}>
-                    <Avatar
-                      src={member?.user?.Profile?.picture}
+                  <FriendPopover email={member.user.email} key={member.id}>
+                    <Box
                       sx={{
-                        width: "30px",
-                        height: "30px",
-                        fontSize: "15px",
-                        borderColor: { xs: palette[1] + "!important" },
+                        width: { xs: "40px", sm: "30px" },
+                        height: { xs: "40px", sm: "30px" },
                       }}
-                      onClick={() => router.push(`/users/${member.user.email}`)}
                     >
-                      {member?.user?.name?.substring(0, 2)?.toUpperCase()}
-                    </Avatar>
-                  </Tooltip>
+                      <ProfilePicture
+                        sx={{
+                          width: { xs: "40px", sm: "30px" },
+                          height: { xs: "40px", sm: "30px" },
+                          fontSize: "15px",
+                          borderColor: { xs: palette[1] + "!important" },
+                        }}
+                        size={40}
+                        data={member?.user}
+                      />
+                    </Box>
+                  </FriendPopover>
                 ))}
                 {collaborators.length > 5 && (
                   <Avatar
@@ -202,8 +289,8 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                   borderRadius: 2,
                   p: 1,
                   ml: -1,
-                  fontSize: { xs: "50px", sm: "60px" },
-                  lineHeight: { xs: "55px", sm: "65px" },
+                  fontSize: "60px",
+                  lineHeight: "65px",
                   py: 0.5,
                   "&:focus-within": {
                     background: addHslAlpha(palette[4], 0.8),
@@ -248,6 +335,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
               maxRows={3}
             />
             <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+              <FilterSettings />
               {!board.public && (
                 <Chip label={"Private"} icon={<Icon>lock</Icon>} />
               )}
@@ -281,7 +369,10 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                   xs={6}
                   sx={{ p: 1 }}
                   key={column.id}
-                  onClick={() => setCurrentColumn(index)}
+                  onClick={() => {
+                    setCurrentColumn(index);
+                    containerRef.current.scrollTo({ top: 0 });
+                  }}
                 >
                   <motion.div
                     initial={{ y: -10, opacity: 0 }}
@@ -317,6 +408,18 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                         }}
                       >
                         {column.name}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          mt: -1,
+                          opacity: 0.7,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {column._count.tasks} item
+                        {column._count.tasks !== 1 && "s"}
                       </Typography>
                     </Box>
                   </motion.div>

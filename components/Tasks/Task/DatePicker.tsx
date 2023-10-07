@@ -1,161 +1,199 @@
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { Box, Button, Icon, SwipeableDrawer } from "@mui/material";
 import {
-  Box,
-  Button,
-  Icon,
-  SwipeableDrawer,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import dayjs from "dayjs";
+  DayCalendarSkeleton,
+  MonthCalendar,
+  PickersDay,
+  PickersDayProps,
+  StaticTimePicker,
+  YearCalendar,
+} from "@mui/x-date-pickers";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import dayjs, { Dayjs } from "dayjs";
 import { motion } from "framer-motion";
-import React, {
-  cloneElement,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import DatePicker from "react-calendar";
-import { toast } from "react-hot-toast";
-import useSWR from "swr";
+import React, { cloneElement, useCallback, useMemo, useState } from "react";
 
-const CalendarTileIndicator = React.memo(function CalendarTileIndicator({
-  data,
-  date,
-  view,
-}: any): any {
-  const session = useSession();
+function ServerDay(
+  props: PickersDayProps<Dayjs> & {
+    highlightedDays?: { date: number; count: number }[];
+  }
+) {
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  // Calculate day and count outside the render
-  const dayOfMonth = dayjs(date).date();
+  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
 
-  // Filter data using useMemo
-  const filteredData = React.useMemo(() => {
-    if (!data) return [];
-    return data.filter(({ due }) => dayjs(due).date() === dayOfMonth);
-  }, [data, dayOfMonth]);
-  if (view !== "month") return null;
-  if (filteredData.length > 0) {
-    const count = filteredData.reduce((sum, obj) => sum + obj._count._all, 0);
-    const renderCount = Math.min(count, 3);
+  const index = (!props.outsideCurrentMonth &&
+    highlightedDays.find((x) => {
+      return x.date === props.day.date();
+    })) || { count: 0 };
 
-    return (
-      <>
-        <Box
-          sx={{
-            display: "flex",
-            gap: 0.5,
-            mt: 0.4,
-            height: 4.4,
-            justifyContent: "center",
-          }}
-        >
-          {[...Array(renderCount)].map((_, f) => (
-            <Box
-              key={f}
-              sx={{
-                width: 4,
-                height: 4,
-                background: palette[9],
-                borderRadius: 9,
-              }}
-            />
-          ))}
-        </Box>
-        <Tooltip
-          title={
-            <Box>
-              <Typography>
-                <b>{dayjs(date).format("dddd, MMMM DD")}</b>
-              </Typography>
-              <Typography>{count} tasks</Typography>
-            </Box>
-          }
-        >
+  return (
+    <Box key={props.day.toString()} sx={{ mb: 1 }}>
+      <PickersDay
+        {...other}
+        outsideCurrentMonth={outsideCurrentMonth}
+        day={day}
+      />
+      <Box
+        sx={{
+          display: "flex",
+          gap: 0.5,
+          mt: -1.2,
+          height: 4.4,
+          justifyContent: "center",
+        }}
+      >
+        {[...Array(Math.min(index.count, 3))].map((_, f) => (
           <Box
+            key={f}
             sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              width: 3,
+              height: 3,
+              background: palette[9],
+              borderRadius: 9,
             }}
           />
-        </Tooltip>
-      </>
-    );
-  } else if (!data) {
-    return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Box
-          sx={{
-            width: 17,
-            height: 4,
-            background: palette[4],
-            borderRadius: 9,
-          }}
-        />
+        ))}
       </Box>
-    );
-  }
-});
+    </Box>
+  );
+}
 
-const SelectDateModal: any = React.memo(function SelectDateModal({
+/**
+ * Date fetching with abort controller https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
+ * ⚠️ No IE11 support
+ */
+function fetchDateData(
+  session,
+  date: Dayjs,
+  { signal }: { signal: AbortSignal }
+) {
+  return new Promise<{ daysToHighlight: { date: number; count: number }[] }>(
+    async (resolve, reject) => {
+      const data = await fetchRawApi(session, "property/tasks/perspectives", {
+        count: true,
+        startTime: dayjs(date).isValid()
+          ? dayjs(date).startOf("month").toISOString()
+          : dayjs().startOf("month").toISOString(),
+        endTime: dayjs(date).isValid()
+          ? dayjs(date).endOf("month").toISOString()
+          : dayjs().startOf("month").toISOString(),
+      });
+
+      const daysToHighlight = data.map(({ due }) => {
+        const dayOfMonth = dayjs(due).date();
+        return {
+          date: dayjs(due).date(),
+          count: data
+            .filter(({ due }) => dayjs(due).date() === dayOfMonth)
+            .reduce((sum, obj) => sum + obj._count._all, 0),
+        };
+      });
+      resolve({ daysToHighlight });
+
+      signal.onabort = () => {
+        reject(new DOMException("aborted", "AbortError"));
+      };
+    }
+  );
+}
+
+export interface DateTimeModalProps {
+  ref?: any;
+  date: Dayjs | Date | null;
+  setDate: (v: any) => void;
+  children: JSX.Element;
+  dateOnly?: boolean;
+  disabled?: boolean;
+  closeOnSelect?: boolean;
+  type?: "day" | "month" | "year";
+  isDateOnly?: boolean;
+  setDateOnly?: (d) => void;
+}
+
+const SelectDateModal = React.memo(function SelectDateModal({
   date,
   setDate,
   children,
   dateOnly = false,
-}: any) {
-  const timeRef: any = useRef();
+  disabled = false,
+  closeOnSelect = false,
+  type = "day",
+  isDateOnly = false,
+  setDateOnly = (d) => {},
+}: DateTimeModalProps) {
+  const { session } = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
   const [timeOpen, setTimeOpen] = useState(false);
 
-  useEffect(() => {
-    if (timeOpen) timeRef.current.focus();
-  }, [timeOpen]);
-
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
   const today = new Date(dayjs().startOf("day").toISOString());
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [_date, _setDate] = useState(
+    date || dayjs().set("hour", 0).set("minute", 0)
+  );
 
-  const handleClick = (event) => setTimeOpen((s) => !s);
-  const handleClose = () => setAnchorEl(null);
+  const handleClick = () => setTimeOpen((s) => !s);
 
   const trigger = cloneElement(children, {
-    onClick: (e) => {
-      setOpen(true);
-    },
+    onClick: () => setOpen(true),
   });
 
-  const { data } = useSWR([
-    open ? "property/tasks/agenda" : null,
-    {
-      count: true,
-      startTime: dayjs(date || new Date())
-        .startOf("month")
-        .toISOString(),
-      endTime: dayjs(date || new Date())
-        .endOf("month")
-        .toISOString(),
+  const initialValue = useMemo(() => dayjs(date || dayjs()), [date]);
+
+  const requestAbortController = React.useRef<AbortController | null>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [highlightedDays, setHighlightedDays] = React.useState<
+    { date: number; count: number }[]
+  >([]);
+
+  const fetchHighlightedDays = useCallback(
+    (date: Dayjs) => {
+      const controller = new AbortController();
+      fetchDateData(session, date, {
+        signal: controller.signal,
+      })
+        .then(({ daysToHighlight }) => {
+          setHighlightedDays(daysToHighlight);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          // ignore the error if it's caused by `controller.abort`
+          if (error.name !== "AbortError") {
+            throw error;
+          }
+        });
+
+      requestAbortController.current = controller;
     },
-  ]);
+    [session]
+  );
 
-  const handleSubmit = useCallback(() => {
-    const [hours, minutes] = timeRef.current.value.split(":");
-    const roundedMinutes = Math.round(parseInt(minutes) / 5) * 5; // Round minutes to nearest 5
-    setDate(
-      dayjs(date).set("hour", parseInt(hours)).set("minute", roundedMinutes)
-    );
-    setTimeOpen(false);
-  }, [date, setDate]);
+  React.useEffect(() => {
+    fetchHighlightedDays(initialValue);
+    // abort request on unmount
+    return () => requestAbortController.current?.abort();
+  }, [fetchHighlightedDays, initialValue]);
 
+  const handleMonthChange = (date: Dayjs) => {
+    if (requestAbortController.current) {
+      // make sure that you are aborting useless requests
+      // because it is possible to switch between months pretty quickly
+      requestAbortController.current.abort();
+    }
+
+    setIsLoading(true);
+    setHighlightedDays([]);
+    fetchHighlightedDays(date);
+  };
+  if (disabled) return children;
   return (
     <>
       {trigger}
@@ -165,9 +203,11 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            maxWidth: { sm: "350px" },
-            mb: { sm: 10 },
-            borderRadius: { xs: "20px 20px 0 0", sm: 5 },
+            width: { xs: "calc(100dvw - 40px)", sm: "350px" },
+            mb: "20px",
+            border: `2px solid ${palette[4]}`,
+            borderRadius: 5,
+            mx: { xs: "auto", sm: "auto" },
           },
         }}
       >
@@ -178,25 +218,69 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <Box sx={{ p: 2, display: "flex", gap: 2 }}>
-              <TextField
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSubmit();
-                  }
-                }}
-                type="time"
-                defaultValue={dayjs(date).format("HH:mm")}
-                inputRef={timeRef}
-                size="small"
-                inputProps={{
-                  step: "600",
-                }}
-              />
-              <Button disableRipple onClick={handleSubmit} variant="contained">
-                <Icon>check</Icon>
-              </Button>
-            </Box>
+            <StaticTimePicker
+              defaultValue={dayjs(date)}
+              minutesStep={5}
+              sx={{
+                "& .MuiPickersToolbar-root, & .MuiPickersToolbar-content": {
+                  justifyContent: "center",
+                  width: "auto",
+                  alignItems: "center",
+                },
+                "& .MuiDialogActions-root": {
+                  borderTop: `2px solid ${palette[3]}`,
+                  mt: -1,
+                },
+                "& .MuiTimeClock-root": {
+                  mt: -3,
+                },
+                "& .MuiDialogActions-root .MuiButton-root": {
+                  px: 0,
+                  "&:first-child": {
+                    mr: "auto",
+                    background: palette[isDateOnly ? 3 : 1],
+                  },
+                  "&:last-child": {
+                    background: palette[3],
+                  },
+                },
+              }}
+              onChange={(newValue: any) => _setDate(newValue)}
+              slotProps={{
+                actionBar: {
+                  actions: ["clear", "cancel", "accept"],
+                },
+                previousIconButton: {
+                  sx: { display: "none" },
+                },
+                nextIconButton: {
+                  sx: { display: "none" },
+                },
+                toolbar: {
+                  className: "toolbar",
+                },
+                layout: {
+                  onCancel: () => {
+                    setTimeOpen(false);
+                  },
+                  onClear: () => {
+                    setDateOnly(true);
+                    setDate(dayjs(date).set("hour", 0).set("minute", 0));
+                    setTimeOpen(false);
+                  },
+                  onAccept: () => {
+                    setDateOnly(false);
+                    setDate(
+                      dayjs(date)
+                        .set("hour", dayjs(_date).hour())
+                        .set("minute", dayjs(_date).minute())
+                    );
+                    setTimeOpen(false);
+                    setOpen(false);
+                  },
+                },
+              }}
+            />
           </motion.div>
         ) : (
           <motion.div
@@ -204,40 +288,80 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            <DatePicker
-              nextLabel={<Icon>arrow_forward_ios</Icon>}
-              prevLabel={<Icon>arrow_back_ios_new</Icon>}
-              tileContent={({ date, view }) => (
-                <CalendarTileIndicator date={date} view={view} data={data} />
-              )}
-              minDetail="year"
-              calendarType="US"
-              value={dayjs(date).isValid() ? new Date(date) : new Date()}
-              onChange={(e: any) => {
-                setDate(e);
-                toast(
-                  <span>
-                    <b>{dayjs(e).format("dddd, MMMM D")}</b>{" "}
-                    {dayjs(e).format("HHmm") !== "0000" && (
-                      <>
-                        {" "}
-                        at <b>{dayjs(e).format("h:mm A")}</b>
-                      </>
-                    )}
-                  </span>
-                );
-                setTimeout(() => setOpen(false), 50);
-              }}
-            />
+            {type === "day" ? (
+              <DateCalendar
+                defaultValue={initialValue}
+                loading={isLoading}
+                onMonthChange={handleMonthChange}
+                renderLoading={() => <DayCalendarSkeleton />}
+                onChange={(newValue) => {
+                  if (!newValue) return;
+                  setDate(
+                    dayjs(date || new Date())
+                      .set("date", newValue.date())
+                      .set("month", newValue.month())
+                      .set("year", newValue.year())
+                      .set(
+                        "hour",
+                        dayjs(_date).hour() >= 0 ? dayjs(_date).hour() : 0
+                      )
+                      .set(
+                        "minute",
+                        dayjs(_date).minute() >= 0 ? dayjs(_date).minute() : 0
+                      )
+                  );
+                  closeOnSelect && setOpen(false);
+                }}
+                slots={{
+                  day: ServerDay,
+                }}
+                slotProps={{
+                  // convert object to (ownerstate) function if you wanna add this functionality in the future
+                  day: {
+                    highlightedDays,
+                    // hoveredDay,
+                    // onPointerEnter: () => setHoveredDay(ownerState.day),
+                    // onPointerLeave: () => setHoveredDay(null),
+                  } as any,
+                }}
+              />
+            ) : type === "month" ? (
+              <MonthCalendar
+                sx={{
+                  mx: "auto",
+                  my: 2,
+                }}
+                defaultValue={initialValue}
+                onChange={(newValue) => {
+                  if (!newValue) return;
+                  setDate(dayjs(date).set("month", newValue.month()));
+                  closeOnSelect && setOpen(false);
+                }}
+              />
+            ) : (
+              <YearCalendar
+                sx={{
+                  mx: "auto",
+                  my: 2,
+                }}
+                defaultValue={initialValue}
+                onChange={(newValue) => {
+                  if (!newValue) return;
+                  setDate(dayjs(date).set("year", newValue.year()));
+                  closeOnSelect && setOpen(false);
+                }}
+              />
+            )}
           </motion.div>
         )}
-        {!dateOnly && (
+        {!dateOnly && !timeOpen && (
           <Box
             sx={{
-              mt: -1,
+              mt: -3,
               gap: 1,
               display: "flex",
               p: 2,
+              pt: 0,
               width: "100%",
             }}
           >
@@ -245,12 +369,14 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
               disableRipple
               fullWidth
               variant="contained"
+              id="timeTrigger"
               onClick={handleClick}
+              disabled={!date || !dayjs(date).isValid()}
             >
               <Icon>{timeOpen ? "today" : "access_time"}</Icon>
-              {dayjs(date).isValid()
+              {dayjs(date).isValid() && !isDateOnly
                 ? dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")
-                : `Set ${timeOpen ? "date" : "time"}`}
+                : `Set time`}
             </Button>
             <Button
               disableRipple
@@ -261,7 +387,7 @@ const SelectDateModal: any = React.memo(function SelectDateModal({
                 setTimeOpen(false);
               }}
             >
-              <Icon>refresh</Icon>
+              Today
             </Button>
           </Box>
         )}

@@ -41,7 +41,9 @@ export default async function handler(req, res) {
           followingId: victim.email,
         },
       },
-      update: {},
+      update: {
+        accepted: false,
+      },
       create: {
         follower: { connect: { email: followerEmail } },
         following: { connect: { email: victim.email } },

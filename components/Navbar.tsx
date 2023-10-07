@@ -1,20 +1,24 @@
 import { openSpotlight } from "@/components/Layout/Navigation/Search";
+import { Logo } from "@/components/Logo";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton } from "@mui/material";
 import { useRouter } from "next/router";
-import { Logo } from "../pages";
 
 export function Navbar({
   showLogo = false,
   right,
   showRightContent = false,
+  hideSettings = false,
+  hideSearch = false,
 }: {
   showLogo?: boolean;
   right?: JSX.Element;
   showRightContent?: boolean;
+  hideSettings?: boolean;
+  hideSearch?: boolean;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const router = useRouter();
 
@@ -33,18 +37,20 @@ export function Navbar({
       {right}
       {(!right || showRightContent) && (
         <>
-          <IconButton
-            sx={{
-              display: { sm: "none" },
-              color: palette[8],
-              ml: showRightContent && right ? "" : "auto",
-            }}
-            onClick={openSpotlight}
-          >
-            <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-              search
-            </Icon>
-          </IconButton>
+          {!hideSearch && (
+            <IconButton
+              sx={{
+                display: { sm: "none" },
+                color: palette[8],
+                ml: showRightContent && right ? "" : "auto",
+              }}
+              onClick={openSpotlight}
+            >
+              <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
+                &#xe8b6;
+              </Icon>
+            </IconButton>
+          )}
           <IconButton
             onClick={() =>
               router.push(
@@ -60,13 +66,13 @@ export function Navbar({
               account_circle
             </Icon>
           </IconButton>
-          {router.asPath === "/" && (
+          {!hideSettings && (
             <IconButton
               sx={{ color: palette[8] }}
               onClick={() => router.push("/settings")}
             >
               <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-                settings
+                &#xe8b8;
               </Icon>
             </IconButton>
           )}

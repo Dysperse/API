@@ -5,13 +5,13 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import {
-    Box,
-    Icon,
-    IconButton,
-    ListItem,
-    ListItemText,
-    Switch,
-    TextField,
+  Box,
+  Icon,
+  IconButton,
+  ListItem,
+  ListItemText,
+  Switch,
+  TextField,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { memo, useCallback, useState } from "react";
@@ -20,7 +20,7 @@ import RoomLayout from ".";
 
 const Page = memo(function Page() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(
     session.themeColor,
     useDarkMode(session.user.darkMode)
@@ -90,7 +90,7 @@ const Page = memo(function Page() {
           }}
         >
           <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
-            <EmojiPicker emoji={emoji} setEmoji={(e) => setEmoji(e)}>
+            <EmojiPicker  setEmoji={(e) => setEmoji(e)}>
               <IconButton
                 size="large"
                 sx={{

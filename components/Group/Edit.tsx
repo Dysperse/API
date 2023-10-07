@@ -40,7 +40,7 @@ export function EditProperty({
   children,
   color,
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState(

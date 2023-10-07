@@ -1,5 +1,5 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
-import { GroupModal } from "@/components/Group/GroupModal";
+import { containerRef } from "@/components/Layout";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -12,10 +12,8 @@ import {
   AppBar,
   Box,
   Button,
+  Collapse,
   Divider,
-  Drawer,
-  Fade,
-  Grow,
   Icon,
   IconButton,
   ListItemButton,
@@ -23,16 +21,18 @@ import {
   SwipeableDrawer,
   TextField,
   Toolbar,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
-  cloneElement,
   createContext,
   memo,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -51,61 +51,19 @@ import { Tab } from "./Tab";
 
 export const SelectionContext = createContext<null | any>(null);
 
-export function GroupSelector({ children }: { children?: JSX.Element }) {
-  const session = useSession();
-  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
-  const groupPalette = useColor(
-    session.property.profile.color,
-    useDarkMode(session.darkMode)
-  );
-
-  const content = (
-    <>
-      <Box
-        sx={{
-          width: 15,
-          borderRadius: 99,
-          height: 15,
-          flexShrink: 0,
-          background: groupPalette[9],
-        }}
-      />
-      <Typography
-        sx={{
-          fontWeight: 900,
-          minWidth: 0,
-          textOverflow: "ellipsis",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {session.property.profile.name}
-      </Typography>
-      <Icon sx={{ ml: "auto" }}>expand_more</Icon>
-    </>
-  );
-
-  const trigger = cloneElement(children || <div />, {
-    children: content,
-  });
-
-  return (
-    <GroupModal useRightClick={false}>
-      {children ? (
-        trigger
-      ) : (
-        <Button
-          variant="contained"
-          fullWidth
-          size="small"
-          sx={{ py: 1, color: palette[12] }}
-        >
-          {content}
-        </Button>
-      )}
-    </GroupModal>
-  );
-}
+export const recentlyAccessed = {
+  set: (t) => localStorage.setItem("recentlyAccessedTasks", JSON.stringify(t)),
+  get: () => {
+    try {
+      const d = JSON.parse(
+        localStorage.getItem("recentlyAccessedTasks") || "{}"
+      );
+      return d;
+    } catch (e) {
+      return {};
+    }
+  },
+};
 
 export const taskStyles = (palette) => {
   return {
@@ -131,8 +89,9 @@ export const taskStyles = (palette) => {
       position: "fixed",
       top: "10px",
       borderRadius: 999,
-      left: "10px",
+      left: "50%",
       width: "calc(100vw - 20px)",
+      transform: "translateX(-50%)",
       mx: "auto",
       zIndex: 999,
       height: 55,
@@ -169,11 +128,11 @@ export const taskStyles = (palette) => {
 const buttonStyles = (palette, condition: boolean) => ({
   cursor: { sm: "unset!important" },
   transition: "transform .1s !important",
-  px: 1.5,
   gap: 1.5,
-  py: 0.8,
+  py: { xs: 1, sm: 0.8 },
+  px: { xs: 2, sm: 1.5 },
   mr: 1,
-  mb: 0.3,
+  mb: { xs: 0.5, sm: 0.3 },
   width: "100%",
   fontSize: "15px",
   justifyContent: "flex-start",
@@ -185,7 +144,6 @@ const buttonStyles = (palette, condition: boolean) => ({
     },
   },
   "&:active": {
-    transform: { xs: "scale(.95)", sm: "none" },
     background: addHslAlpha(palette[4], 0.5) + "!important",
   },
   overflow: "hidden",
@@ -208,7 +166,7 @@ const buttonStyles = (palette, condition: boolean) => ({
 });
 
 function BulkCompletion() {
-  const session = useSession();
+  const { session } = useSession();
   const taskSelection = useContext(SelectionContext);
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -274,8 +232,414 @@ function BulkCompletion() {
   );
 }
 
+export const MenuChildren = memo(function MenuChildren({
+  editMode,
+  setEditMode,
+}: {
+  editMode: boolean;
+  setEditMode: (f) => void;
+}) {
+  const { session } = useSession();
+  const storage = useAccountStorage();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.user.color, isDark);
+
+  const [showSync, setShowSync] = useState(true);
+
+  const { data, mutate, error } = useSWR(["property/boards"]);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const boards = useMemo(() => {
+    if (!data) return { active: [], archived: [], shared: [] };
+
+    const active = data.filter(
+      (x) => !x.archived && x.propertyId === session?.property?.propertyId
+    );
+
+    const archived = data.filter((x) => x.archived);
+
+    const shared = data.filter(
+      (x) =>
+        x.propertyId !== session?.property?.propertyId ||
+        x.shareTokens?.[0]?.user?.email === session.user.email
+    );
+
+    return { active, archived, shared };
+  }, [data, session]);
+
+  const router = useRouter();
+  const redPalette = useColor("red", isDark);
+  const greenPalette = useColor("green", isDark);
+
+  const perspectives = useMemo(
+    () => [
+      {
+        key: "s",
+        hash: "stream",
+        icon: "view_column_2",
+        label: "Stream",
+        preview: "stream.png",
+        description: "View your upcoming tasks - and the ones you've missed",
+      },
+      {
+        key: "w",
+        hash: "perspectives/days",
+        icon: isMobile ? "calendar_view_day" : "view_week",
+        label: isMobile ? "Days" : "Weeks",
+        preview: "days.png",
+        description: "View all your tasks by week",
+      },
+      {
+        key: "m",
+        hash: "perspectives/weeks",
+        icon: isMobile ? "view_week" : "calendar_view_month",
+        label: isMobile ? "Weeks" : "Months",
+        preview: "weeks.png",
+        description: "View all your tasks by month",
+      },
+      {
+        key: "y",
+        hash: "perspectives/months",
+        icon: isMobile ? "calendar_view_month" : "view_compact",
+        label: isMobile ? "Months" : "Years",
+        preview: "months.png",
+        description: "View all your tasks by year",
+      },
+      {
+        key: "i",
+        hash: "insights",
+        icon: "insights",
+        label: "Insights",
+        preview: "insights.png",
+        description:
+          "Dive into your productivity and learn more about yourself",
+      },
+      {
+        key: "c",
+        hash: "color-coded",
+        icon: "palette",
+        label: "Color coded",
+        preview: "color-coded.png",
+        description: "See all your tasks by color",
+      },
+    ],
+    [isMobile]
+  );
+
+  const [hiddenPerspectives, setHiddenPerspectives] = useState(
+    session.user.settings?.hiddenPerspectives || []
+  );
+
+  const handlePerspectiveToggle = useCallback(
+    async (e: any, hash: string) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const show = hiddenPerspectives.includes(hash);
+      const updatedHiddenPerspectives = show
+        ? hiddenPerspectives.filter((d) => d !== hash)
+        : [...hiddenPerspectives, hash];
+
+      setHiddenPerspectives(updatedHiddenPerspectives);
+
+      await fetchRawApi(session, "user/settings/set", {
+        hiddenPerspectives: JSON.stringify(updatedHiddenPerspectives),
+      });
+    },
+    [hiddenPerspectives, session, setHiddenPerspectives]
+  );
+
+  return (
+    <>
+      {error && (
+        <ErrorHandler
+          callback={() => mutate()}
+          error="An error occurred while loading your tasks"
+        />
+      )}
+      <Box
+        sx={{
+          p: 3,
+          px: 2,
+        }}
+      >
+        {!isMobile && <SearchTasks />}
+        {!(isMobile && hiddenPerspectives.length == 6) && (
+          <Typography
+            sx={{ ...taskStyles(palette).subheading, display: "flex" }}
+          >
+            {hiddenPerspectives.length !== 6 && "Perspectives"}
+            {!isMobile && (
+              <Box
+                onClick={() => setEditMode((s) => !s)}
+                sx={{
+                  ml: "auto",
+                  cursor: "pointer",
+                  textTransform: "none",
+                  fontWeight: 100,
+                  ...(hiddenPerspectives.length === 6 &&
+                    !editMode && {
+                      mb: -5,
+                      zIndex: 999,
+                      transform: "translateY(10px)",
+                    }),
+                  opacity: 0.6,
+                  "&:hover": {
+                    opacity: 1,
+                  },
+                }}
+              >
+                {editMode ? "Done" : "Edit"}
+              </Box>
+            )}
+          </Typography>
+        )}
+        <Box>
+          {perspectives.map((button: any) => (
+            <Tooltip
+              key={button.hash}
+              arrow={false}
+              PopperProps={{
+                sx: {
+                  "& .MuiTooltip-tooltip": {
+                    maxWidth: "unset",
+                    background: `${addHslAlpha(palette[5], 0.3)}!important`,
+                    backdropFilter: "blur(10px)",
+                    color: "#fff!important",
+                    borderRadius: 5,
+                    "& img": {
+                      borderRadius: 5,
+                    },
+                  },
+                },
+              }}
+              title={
+                !isMobile && (
+                  <Box sx={{ width: "300px", flex: "0 0 300px", py: 1 }}>
+                    <Image
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA4CAYAAAALrl3YAAAAAXNSR0IArs4c6QAADUJJREFUeF61XAl2G7cSHPAfIo6XJI6/JUuWF+2+/8HEvAF6qd4wQ9p2XkTOSqoLVdXdwKj98eqPY2ttae2wrK+H/r4t7TBeD7z/MI63w2Gcc6Bj67a8531tOfTzD8v/1lc83s9f77HuL66lzxzfYb3PIt9j3Vi3x3duy/qf7Ovvl2X9QS/rBvzre5dlOY6fx2N/S1t9e921/uj/wfbL8WWc2/fR8Rc+57isx+XYevwl2Uf7zXl8P3ptr/58dQxgTAEZQUpB6EFWMPo5EnwLVrUfBwEPCh0wBRAETodiRYv+ESwEEuAyEKCgE0AdGAsCbh97wAmsnwFkBspyXNrr16+JITTiAIycIcQcYsAadAYoB2qAh8c6ewQ4BhBe26GP+nFd8j+yomSJZQYypjODuULvlS0DlMEcBWgAQvv3AHI8Li+dQY45Gyxpb9682QaEJQeZQxI2pMcG00tUB5bPJ8nyIOo2yGcGCMkSA9XliSSM34toKVmEM1ayrHxZILx0OfasASeZWakTJGsGyASU9vbt2wkgPLrVS8RbPCAEDAYWfcLsF1BUxlJAeACsQV/BmYCBx5QblZcQLOwR4CmDMBB8ea9+wV7yWwB59+6dBQTZkHhJBUgEIpM26y8eJJUnSDAO6zAf8pWxYXgGsoT4YdgxNthecsnKgbDS5Y1eQcqkqZSsGUP++vuvwBDOrLJsizMf1neWLPEbzM4gu8LjKF9s2NYvRmbFyYbJqiiquWRZU0cJQ0dR//CSpaAgEH3v6geGLWvGxf6A7yHzqjxkBsjf//yTAKIS4QGIAVRZ6yPeJAUgeZw2Oz/JASnMPIChWZfJsLrRW1OXjHhYA1s6vdc0GCWrA0GytgZft5EZxfsq7S3AWOVv/TLt/fv3U1OXlFgMluQEDJdHvAQ3MX8e0ZEdUNtkGRXsk6BTwDO5wrS31ycZNSTDsgxBANhHLAgoaxug7ARk+JBmcO3fD/8eu11iMDDYpkij9NWlxtaQ+V7IHEyNZ+9zZqBHcMDx1e+LQIyC0ZaFnEUpZdhbRuHHNYcHYQMUKhYx0FIIQiG57ouZ2bK0D///EBlC0pPVAuIvJiX1wdfAWvag0XtgCjCADTbww8g5+AEUcvEZQ3j0U+wlu7L7R/XeIZKqOoIyDLww+XCsqOJXyfr48aMAMloQ1D6hNFOr5ShVJivqBl5r/9omkXtTC8ZsF9eagLMEuddNhrD3iHMYzVI2JKxAyfLyxQCscCkgsYXC53GaHDIyAKxdXF5MJUu0f6t6BmmbAoP9sAmAPDgGCahfhaN+C5RTGcJgnATK3EdKkJhJCXPa5afLRLL8SK8lKW1tGD86dO3mJqE0J7cMHI3bmLjKlHhFwRybaFEtIq1F8A4PRgAHPcW9d81BlK2Xl6Rt4sCwXrMs7erqqgMy2kNqyOP9CKRNZSeytBHkTfDo+kymSlnaAsPJFYLExm09hP2BXoUxHgjqFlNtInIko37ew8paLSuY7fr6es6QqsG3d4Sv3kGy8zOAmMypAqGPK7LxDAjuMGJzUdEYzUNuyzOTTMZF7fmknVK21Hv6O6nonWy1zzefByCY+jII3EPaOfJH0Nx8RTLqh8GTjDmw7NwG96Lcq/OHTVOn842EIRCFZIVsq2RL9JIOwjmSdfPlZoeHTCpnBisLbBpsdy84B4289Adv1glb+ikcfei7+xTYSBbNVEn9UflKYAylxcKCwjfMZFbSlqfj7evXr0frH/s9ArVeeku+bsi2kXEeEAi4VN0S9BFqDbZ2c1Gq9oAxHIJ+8qzhDsnS1NfXJpYlmwyBFgpKWvv27Vti6nNQMmny4FTGLCksJw0klalUmTQXwMBpWneOnSV0rZNQqntQYErXgwPbWsXv6GklKW5axfMU7vfv3wmQXPvRiEcLI5432hLjWFY5hzaHk7ncN6xB+1EfWJJImZEu2VivlDnclCVWymyLxbRXZH6d5+cHQIMdxWwhGnww/OPSbu9ue2EYFg+wQcs8RAbEGIEBiKxo83VFAmLwja0gI1P4MyHw+YThNiAiZ+gX3lNSL4mytSRBHxlZXtG3u/s7AgTrEBrtRcYUuqycbroCLquwK/C4FsIVI0ZwfBpbyVYFiKGYMiQLPu4b73WOXVaeYMY1KQ6302ELTLu/v48eIvJjQfLekTb2yhrBpq4RmJ0SZaQHsylr9rlc8d4JIC7bStmSsUPmTogleyQrmRtpDw8PmmV5gxWtj5I21CT2mGJm5DIhI1UEgjAsGndMYXXPzFd+KyCeHbLGy0lW0qtSxuTpcXt4fDyOzgmbMs7CJb7h5q+l7ULJ6KxIM8eczPlKvDbknqvaiSes0Ml3fgkgGVs8O86VrnTeZFna49OjdHulHklM3iwkyEzbGXBgiklPiwrc+0JOjwQQn95qI3HAR/+SyjDUIgjC7wSk6Pi2p6enY0g7udE4XQOlCwqmwS+A2i76YhTLySbMsCqGeMoYG0nqDxr56CFjFzQZz2XHJAloT89P0suyDIkLCKwc0YwdLt80qacbpXCs9BkJmoZ+a8Zv0MV/VuIzhiq6kdUcAQQEZxOQfAWKLpZgnyk85Pn52Zh6Bkq6OjALsFtbG+a2Z6A4MHYBYUiUVeVzYOdydeJ8iaxO8Z1dXaAti7hDX4uXrx6X9vzjWesQ5x1j8HFNwhLFzEgY4uRJxR5T0nl665WlGNhxt5ethG3xIln6LtO4U3awRIFUiYwhINyeh8DrakgALJsx7IDg6j/wDb8iEM8zi9B8lsP38BFwkobtj7OBEJbsMXLk3QQMfUbBAWW9JrZR2GO0FrGPNmz3vtrzjx+S9nJPimUrBwRWB7pRKd6AQKQTRRtF3G5auBMns4PKVromMfWUHUWmJcwAtohPAENSZsxMfQ5IIVPVSOffmiftssBOr4ULoOV0Ej5boLibTU0dzdzLlQAxYNSCDx5jeOkPlLjlQbPtZfWQwRBhg8iNzrMPayBJcK/y+2UaLnKiglRW13zK+jskbXKMoz7dMfbWTUQb/XhbJ1umBommjgzCFrywBdZt9XXAJSBZJjY+LzH1OvihCh9IFcs1YalgGrTkuh2ssGAoenWNYkYFIJR7SCpb1QM+vi4xUmQXQdgmIzwaR2t6+XgHRA3aZ1DVtjLKjEHzONlEaLKKfEOXIhC4niepRXbqXJAsb+hm25k6+EfKEg52kC07f4JgNalDZPEr9a9gMWxkhqa8IhqWEPNwnKPz/Y46qssP2DEo4IE2nKsy90egAmuS2cRqFjE+X1KAQaCNSt2BYR4NC57hwJh5RxW1E6/xwdk5+J3B5CmvD3YuWbJXlwoJO8Yx++SVNfnsqV4jYcAg6mWRBJFDCiOcwccHYDxTdobqBIZUYHhjT819x9epsiyFoDD3jCXjZi6r8s8q8qp6Os9laL3bK3DAvISyBp9KQgDOBEM8tijkkqWeGFf6nZ2BwBmJZDF4IcsyZm0gMAVhlCzPCgQiguKf6NVV9PF5+Pbw+GAli1kSZEwnkxDAHYNwckphPBp1ufanZGvyDWZekcoZfLf8eZJMvixLwh8goLZLT3vvH1ZARl7KrDDsQHP378/ViRNRxIc0+VIjWZT97m1IyrXAELIEwzz2BflMA4YyAa/FAhHlyzyzyH8RAuSKQepz6rIcNnjGjBU6NXtifHefjs8CGiASBuU39SKVV5yzwCsYkJvx58uDPPavQnALBc18Bggypt3d3REgce7bSxMyRwNgvcQNOoiTU/JNtXKVx24QtvHey5CcNXQ1g4GLs5O/ACHPKsJfhtCVK9x216Zku729HfMhShORrvGrOSNPZcqllNsxOekML1kZc3CAbN98DrZnjAcGj6uPgIT54JM0MUumgKwrFwcW2TpZgcSsXmbP2f7FzzsjzaTgr/acd1e9qsrUtoAogZlIV5Aq7pf1mUdKAOj9eqiv7fUekkqVYYadcDIBUka7uPnkswprrDBSU88Kkd1IbchhAb5lxmCEjHopV0CGkoDLojsAYczTj3uN1e8U7CBbAIJdxIy/uW0S0hKA3aGZnpgEJhvF53xYep8dQJzEEgx6uvoR/+oQdXu/fPkigKBsgYiJXNWg7AgJDsoqPzXsggvAQNNP8mzx93fHw6DJ7r8HHGPs7CHwOgMkY89ah9zc3OjXdeaegWKezzAyRqHalKzsIqJ/Fu0TgrVjWNhTsqBXXuW/B247DzHm7ZmRMkULx3b9+XpU6hN5soue+XfiyYtfLFkZSyrm7EUA7asAWIeEZ6YbLB6wXwhMh+Dq+koBEVAy086W2SQROcNsncWGmwZTtzHbAUvxpSZsIOGZM6oEw8rXKYxpnz59snXIFBQjYhtyfgYyeEfPigDC+fdP65jZ/QvWjt048whZF4JtJM0+ANTvAJ3jdnl5adNeVCT7RF+QtfULRf9MApWZrpORBIv8SSc/DM7AxZj6DiACWwQgRQrB0edJFDDeJ/dKfKcP94uLi5hl7QRlgyI7pERP0bjECM8ka+tDUrx8U3E027MvQ0eiRqbskPgXrMmOMzuIaf8BlFHDdgmInqgAAAAASUVORK5CYII="
+                      placeholder="blur"
+                      src={`/images/perspectives/${button.preview}`}
+                      width={1920 / 3}
+                      height={1080 / 3}
+                      alt={"Preview of " + button.label}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                      }}
+                    />
+                    <Box sx={{ p: 1, pt: 0.5 }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          className: "font-heading",
+                          mt: 1,
+                          mb: 0.5,
+                          gap: 2,
+                        }}
+                      >
+                        <Typography variant="h4">{button.label}</Typography>
+                        <IconButton
+                          sx={{
+                            width: 26,
+                            height: 26,
+                            fontSize: "12px",
+                            color: palette[11],
+                            ml: "auto",
+                            lineHeight: "26px",
+                            border: `2px solid ${palette[8]}`,
+                          }}
+                        >
+                          {button.key.toUpperCase()}
+                        </IconButton>
+                      </Box>
+                      <Typography>{button.description}</Typography>
+                    </Box>
+                  </Box>
+                )
+              }
+              placement="right"
+              enterNextDelay={0}
+              enterDelay={1000}
+              disableTouchListener
+            >
+              <Link
+                href={`/tasks/${button.hash}`}
+                style={{
+                  cursor: "default",
+                  display:
+                    !editMode && hiddenPerspectives.includes(button.hash)
+                      ? "none"
+                      : "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Collapse orientation="horizontal" in={editMode}>
+                  <IconButton
+                    onClick={(e) => handlePerspectiveToggle(e, button.hash)}
+                    sx={{
+                      opacity: editMode ? 1 : 0,
+                      transition: "opacity .4s",
+                      color: hiddenPerspectives.includes(button.hash)
+                        ? greenPalette[10]
+                        : redPalette[10],
+                    }}
+                  >
+                    <Icon>
+                      {hiddenPerspectives.includes(button.hash)
+                        ? "add_circle"
+                        : "remove_circle"}
+                    </Icon>
+                  </IconButton>
+                </Collapse>
+                <Button
+                  size="large"
+                  id={`__agenda.${button.hash}`}
+                  sx={buttonStyles(
+                    palette,
+                    router.asPath.includes(`/tasks/${button.hash}`)
+                  )}
+                  onClick={() =>
+                    recentlyAccessed.set({
+                      icon: button.icon,
+                      label: button.label,
+                      path: `/tasks/${button.hash}`,
+                    })
+                  }
+                  disabled={
+                    editMode && hiddenPerspectives.includes(button.hash)
+                  }
+                >
+                  <Icon
+                    className={
+                      router.asPath.includes(`/tasks/${button.hash}`)
+                        ? ""
+                        : "outlined"
+                    }
+                  >
+                    {button.icon}
+                  </Icon>
+                  {button.label}
+                  {isMobile && (
+                    <Icon sx={{ ml: "auto", mr: -1 }}>arrow_forward_ios</Icon>
+                  )}
+                </Button>
+              </Link>
+            </Tooltip>
+          ))}
+        </Box>
+        <Box
+          sx={{
+            transition: "all .2s",
+          }}
+        >
+          {boards.shared.length > 0 && (
+            <Divider sx={taskStyles(palette).divider} />
+          )}
+          {boards.shared.length > 0 && (
+            <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
+          )}
+          {boards.shared.map((board) => (
+            <Tab key={board.id} styles={buttonStyles} board={board} />
+          ))}
+          {(editMode || hiddenPerspectives.length !== 6) && (
+            <Divider sx={taskStyles(palette).divider} />
+          )}
+          <Typography
+            sx={{ ...taskStyles(palette).subheading, pointerEvents: "none" }}
+          >
+            Boards
+          </Typography>
+          {boards.active.map((board) => (
+            <Tab key={board.id} styles={buttonStyles} board={board} />
+          ))}
+          <Link
+            href={
+              Boolean(storage?.isReached) ||
+              data?.filter((board) => !board.archived).length >= 7 ||
+              session.permission === "read-only"
+                ? "/tasks"
+                : "/tasks/boards/create"
+            }
+            style={{ width: "100%" }}
+          >
+            <Button
+              fullWidth
+              disabled={
+                Boolean(storage?.isReached) ||
+                data?.filter((board) => !board.archived).length >= 7 ||
+                session.permission === "read-only"
+              }
+              size="large"
+              sx={{
+                ...buttonStyles(
+                  palette,
+                  router.asPath == "/tasks/boards/create"
+                ),
+                cursor: "default",
+                ...((storage?.isReached === true ||
+                  (data &&
+                    data.filter((board) => !board.archived).length >= 7)) && {
+                  opacity: 0.5,
+                }),
+                justifyContent: "start",
+              }}
+            >
+              <Icon
+                className={router.asPath == "/tasks/create" ? "" : "outlined"}
+              >
+                add_circle
+              </Icon>
+              New board
+            </Button>
+          </Link>
+          <Box>
+            {data && data.filter((x) => x.archived).length !== 0 && (
+              <>
+                <Divider sx={taskStyles(palette).divider} />
+                <Typography sx={taskStyles(palette).subheading}>
+                  Archived
+                </Typography>
+              </>
+            )}
+            {boards.archived.map((board) => (
+              <Tab key={board.id} styles={buttonStyles} board={board} />
+            ))}
+            {isMobile && showSync && (
+              <>
+                <Divider sx={taskStyles(palette).divider} />
+                <Button
+                  fullWidth
+                  onClick={async () => {
+                    toast.success("Tasks resynced - Now up to date.");
+                    setShowSync(false);
+                    await fetch("/api/property/integrations/resync");
+                  }}
+                  disabled={
+                    Boolean(storage?.isReached) ||
+                    session.permission === "read-only"
+                  }
+                  size="large"
+                  sx={{
+                    ...buttonStyles(palette, false),
+                    cursor: "default",
+                    justifyContent: "start",
+                  }}
+                >
+                  <Icon>sync</Icon>
+                  Resync tasks
+                </Button>
+              </>
+            )}
+          </Box>
+        </Box>
+      </Box>
+    </>
+  );
+});
+
 function BulkColorCode({ children }) {
-  const session = useSession();
+  const { session } = useSession();
   const taskSelection = useContext(SelectionContext);
 
   return session.permission === "read-only" ? (
@@ -317,324 +681,102 @@ function BulkColorCode({ children }) {
 
 export function TasksLayout({
   contentRef,
-  open,
-  setOpen,
   children,
+  navbarRightContent,
 }: {
   contentRef?: any;
-  open: boolean;
-  setOpen: any;
   children: any;
+  navbarRightContent?: JSX.Element;
 }) {
-  const storage = useAccountStorage();
   const router = useRouter();
-  const session = useSession();
-  const ref: any = useRef();
+  const { session } = useSession();
   const title = useDocumentTitle();
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
-
-  const { data, mutate, error } = useSWR(["property/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const [editMode, setEditMode] = useState(false);
   const [taskSelection, setTaskSelection] = useState([]);
 
-  useHotkeys(["c", "/"], (e) => {
+  useHotkeys("c", (e) => {
     e.preventDefault();
     document.getElementById("createTaskTrigger")?.click();
   });
-
-  useHotkeys("d", () => router.push("/tasks/agenda/days"));
-  useHotkeys("w", () => router.push("/tasks/agenda/weeks"));
-  useHotkeys("m", () => router.push("/tasks/agenda/months"));
-
-  const handleClose = () => {
-    setOpen(false);
-    vibrate(50);
-  };
-
-  const boards = useMemo(() => {
-    if (!data) return { active: [], archived: [], shared: [] };
-
-    const active = data.filter(
-      (x) => !x.archived && x.propertyId === session?.property?.propertyId
-    );
-
-    const archived = data.filter((x) => x.archived);
-
-    const shared = data.filter(
-      (x) =>
-        x.propertyId !== session?.property?.propertyId ||
-        x.shareTokens?.[0]?.user?.email === session.user.email
-    );
-
-    return { active, archived, shared };
-  }, [data, session]);
-
-  const perspectives = [
-    {
-      hash: "agenda/days",
-      icon: "calendar_view_day",
-      label: "Days",
-    },
-    {
-      hash: "agenda/weeks",
-      icon: "view_week",
-      label: "Weeks",
-    },
-    {
-      hash: "agenda/months",
-      icon: "calendar_view_month",
-      label: "Months",
-    },
-    {
-      hash: "insights",
-      icon: "insights",
-      label: "Insights",
-    },
-  ];
-
-  const MenuChildren = memo(function MenuChildren() {
-    return (
-      <>
-        {error && (
-          <ErrorHandler
-            callback={() => mutate()}
-            error="An error occurred while loading your tasks"
-          />
-        )}
-        <Box sx={{ p: 2, mb: { xs: -4, sm: -3 } }}>
-          <GroupSelector />
-        </Box>
-        <Box
-          sx={{
-            p: 3,
-            px: 2,
-          }}
-        >
-          {!isMobile && <SearchTasks />}
-          <Typography sx={taskStyles(palette).subheading}>
-            Perspectives
-          </Typography>
-          <Box onClick={() => setOpen(false)}>
-            {perspectives
-              .filter((b) => b)
-              .map((button: any) => (
-                <Link
-                  href={`/tasks/${button.hash}`}
-                  key={button.hash}
-                  style={{ cursor: "default" }}
-                >
-                  <Button
-                    size="large"
-                    id={`__agenda.${button.hash}`}
-                    sx={buttonStyles(
-                      palette,
-                      router.asPath === `/tasks/${button.hash}`
-                    )}
-                  >
-                    <Icon
-                      className={
-                        router.asPath === `/tasks/${button.hash}`
-                          ? ""
-                          : "outlined"
-                      }
-                    >
-                      {button.icon}
-                    </Icon>
-                    {button.label}
-                  </Button>
-                </Link>
-              ))}
-
-            <Divider sx={taskStyles(palette).divider} />
-
-            {[
-              {
-                href: "/tasks/color-coded",
-                icon: "palette",
-                label: "Color coded",
-              },
-              {
-                href: "/tasks/stream",
-                icon: "pending",
-                label: "Stream",
-              },
-            ].map((link, index) => (
-              <Link key={index} href={link.href} style={{ cursor: "default" }}>
-                <Button
-                  size="large"
-                  sx={buttonStyles(palette, router.asPath === link.href)}
-                >
-                  <Icon
-                    className={router.asPath === link.href ? "" : "outlined"}
-                  >
-                    {link.icon}
-                  </Icon>
-                  {link.label}
-                </Button>
-              </Link>
-            ))}
-          </Box>
-          <Box
-            sx={{
-              transition: "all .2s",
-            }}
-          >
-            {boards.shared.length > 0 && (
-              <Divider sx={taskStyles(palette).divider} />
-            )}
-            {boards.shared.length > 0 && (
-              <Typography sx={taskStyles(palette).subheading}>
-                Shared
-              </Typography>
-            )}
-            {boards.shared.map((board) => (
-              <Tab
-                setDrawerOpen={setOpen}
-                key={board.id}
-                styles={buttonStyles}
-                board={board}
-              />
-            ))}
-            <Divider sx={taskStyles(palette).divider} />
-            <Typography sx={taskStyles(palette).subheading}>Boards</Typography>
-            {boards.active.map((board) => (
-              <Tab
-                setDrawerOpen={setOpen}
-                key={board.id}
-                styles={buttonStyles}
-                board={board}
-              />
-            ))}
-            <Link
-              href={
-                Boolean(storage?.isReached) ||
-                data?.filter((board) => !board.archived).length >= 7 ||
-                session.permission === "read-only"
-                  ? "/tasks"
-                  : "/tasks/boards/create"
-              }
-              style={{ width: "100%" }}
-            >
-              <Button
-                fullWidth
-                disabled={
-                  Boolean(storage?.isReached) ||
-                  data?.filter((board) => !board.archived).length >= 7 ||
-                  session.permission === "read-only"
-                }
-                ref={ref}
-                size="large"
-                onClick={() => setOpen(false)}
-                sx={{
-                  ...buttonStyles(
-                    palette,
-                    router.asPath == "/tasks/boards/create"
-                  ),
-                  px: 2,
-                  cursor: "default",
-                  ...((storage?.isReached === true ||
-                    (data &&
-                      data.filter((board) => !board.archived).length >= 7)) && {
-                    opacity: 0.5,
-                  }),
-                  justifyContent: "start",
-                }}
-              >
-                <Icon
-                  className={router.asPath == "/tasks/create" ? "" : "outlined"}
-                  sx={{ ml: -0.5 }}
-                >
-                  add_circle
-                </Icon>
-                New board
-              </Button>
-            </Link>
-            <Box>
-              {data && data.filter((x) => x.archived).length !== 0 && (
-                <>
-                  <Divider sx={taskStyles(palette).divider} />
-                  <Typography sx={taskStyles(palette).subheading}>
-                    Archived
-                  </Typography>
-                </>
-              )}
-              {boards.archived.map((board) => (
-                <Tab
-                  setDrawerOpen={setOpen}
-                  key={board.id}
-                  styles={buttonStyles}
-                  board={board}
-                />
-              ))}
-            </Box>
-          </Box>
-        </Box>
-      </>
-    );
+  useHotkeys("/", (e) => {
+    e.preventDefault();
+    document.getElementById("searchTasks")?.focus();
   });
 
-  const isBoard =
-    router.asPath.includes("/tasks/boards/") &&
-    !router.asPath.includes("creategi");
+  useHotkeys("s", () => router.push("/tasks/stream"));
+  useHotkeys("w", () => router.push("/tasks/perspectives/days"));
+  useHotkeys("m", () => router.push("/tasks/perspectives/weeks"));
+  useHotkeys("y", () => router.push("/tasks/perspectives/years"));
+  useHotkeys("c", () => router.push("/tasks/color-coded"));
+  useHotkeys("i", () => router.push("/tasks/insights"));
+
   const isSearch = router.asPath.includes("/tasks/search");
-  const isAgenda = router.asPath.includes("/tasks/agenda/");
 
   const trigger = (
-    <Button
-      sx={{
-        color: addHslAlpha(palette[9], 0.7),
-        px: 1,
-        height: 48,
-        ml: -0.5,
-        mt: -0.1,
-        ...(!title.includes("•") && { minWidth: 0 }),
-        whiteSpace: "nowrap",
-        transition: "transform .1s !important",
-        overflow: "hidden",
-        "&:hover": {
-          background: "transparent",
-        },
-        "&:active": {
-          background: addHslAlpha(palette[3], 0.5),
-          transform: "scale(.95)",
-        },
-      }}
-      size="large"
-      onClick={() => {
-        vibrate(50);
-        setOpen(true);
-      }}
-    >
-      <Icon>expand_all</Icon>
-      <Box
+    <>
+      <IconButton
+        onClick={() => {
+          vibrate(50);
+          router.push("/tasks/home");
+        }}
         sx={{
-          overflow: "hidden",
-          maxWidth: "100%",
-          textOverflow: "ellipsis",
-          "& .MuiTypography-root": {
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            maxWidth: "100%",
-            overflow: "hidden",
+          background: addHslAlpha(palette[3], 0.7),
+          color: palette[8],
+          "&:active": {
+            background: addHslAlpha(palette[5], 0.7),
           },
-          textAlign: "left",
-          minWidth: 0,
         }}
       >
-        <Typography sx={{ fontWeight: 900 }}>
-          {title.includes("•") ? title.split("•")[0] : ""}
-        </Typography>
-        {title.includes("•") &&
-          title.split("•")[1].toString().trim() !== "-" && (
-            <Typography variant="body2" sx={{ mt: -0.5 }}>
-              {title.split("•")[1]}
-            </Typography>
-          )}
-      </Box>
-    </Button>
+        <Icon>close</Icon>
+      </IconButton>
+      <Button
+        sx={{
+          color: addHslAlpha(palette[9], 0.7),
+          px: 1,
+          height: 48,
+          ml: 0.5,
+          mt: -0.1,
+          ...(!title.includes("•") && { minWidth: 0 }),
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          "&:hover": {
+            background: "transparent",
+          },
+        }}
+        size="large"
+      >
+        <Box
+          sx={{
+            overflow: "hidden",
+            maxWidth: "100%",
+            textOverflow: "ellipsis",
+            "& .MuiTypography-root": {
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              maxWidth: "100%",
+              overflow: "hidden",
+            },
+            textAlign: "left",
+            minWidth: 0,
+          }}
+        >
+          <Typography sx={{ fontWeight: 900 }}>
+            {title.includes("•") ? title.split("•")[0] : ""}
+          </Typography>
+          {title.includes("•") &&
+            title.split("•")[1].toString().trim() !== "-" && (
+              <Typography variant="body2" sx={{ mt: -0.5 }}>
+                {title.split("•")[1]}
+              </Typography>
+            )}
+        </Box>
+      </Button>
+    </>
   );
 
   const isSelecting = taskSelection.length > 0;
@@ -662,11 +804,11 @@ export function TasksLayout({
           ...taskStyles(palette).appBar,
           ...(!isSelecting && {
             opacity: 0,
-            transform: "scale(.5)",
+            transform: "translateX(-50%) scale(.5)",
             pointerEvents: "none",
           }),
           zIndex: 99999999,
-          background: palette[3],
+          background: palette[2],
           maxWidth: { md: "400px" },
         }}
       >
@@ -693,10 +835,10 @@ export function TasksLayout({
               <BulkCompletion />
               {session.permission !== "read-only" && (
                 <SelectDateModal
-                  date={null}
+                  date={new Date()}
+                  dateOnly
                   setDate={async (newDate) => {
                     try {
-                      setOpen(false);
                       const res = await fetchRawApi(
                         session,
                         "property/boards/column/task/editMany",
@@ -711,7 +853,7 @@ export function TasksLayout({
                         toast.error(
                           `Couldn't edit ${res.errors} item${
                             res.errors == 1 ? "" : "s"
-                          }`,
+                          }`
                         );
                         return;
                       }
@@ -779,14 +921,14 @@ export function TasksLayout({
       </AppBar>
       {isMobile && (
         <AppBar
-          // onClick={() => {
-          // window.scrollTo({ top: 0, behavior: "smooth" });
-          // }}
+          onClick={() => {
+            containerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
+          }}
           sx={{
             ...taskStyles(palette).appBar,
             ...(isSelecting && {
               opacity: 0,
-              transform: "scale(.5)",
+              transform: "translateX(-50%) scale(.5)",
               pointerEvents: "none",
             }),
             ...(router.asPath.includes("/edit/") && {
@@ -810,50 +952,7 @@ export function TasksLayout({
                 inputRef={searchRef}
               />
             )}
-            {isBoard || isSearch ? (
-              <IconButton
-                sx={{
-                  color: addHslAlpha(palette[9], 0.7),
-                  background: addHslAlpha(palette[3], 0.5),
-                  "&:active": {
-                    transform: "scale(0.9)",
-                  },
-                  transition: "all .2s",
-                }}
-                onClick={() => {
-                  if (isSearch) {
-                    router.push(
-                      `/tasks/search/${encodeURIComponent(
-                        searchRef.current?.value
-                      )}`
-                    );
-                  } else {
-                    router.push(
-                      router.asPath.replace("/boards/", "/boards/edit/")
-                    );
-                  }
-                }}
-              >
-                <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                  {isSearch ? "search" : "settings"}
-                </Icon>
-              </IconButton>
-            ) : isAgenda ? (
-              <IconButton
-                sx={{
-                  color: palette[9],
-                  background: addHslAlpha(palette[3], 0.5),
-                  "&:active": {
-                    opacity: 0.6,
-                  },
-                  fontSize: "15px",
-                  borderRadius: 999,
-                }}
-                onClick={() => document.getElementById("agendaToday")?.click()}
-              >
-                Today
-              </IconButton>
-            ) : (
+            {navbarRightContent || (
               <CreateTask
                 closeOnCreate
                 defaultDate={dayjs().startOf("day").toDate()}
@@ -867,6 +966,8 @@ export function TasksLayout({
                     "&:active": {
                       transform: "scale(0.9)",
                     },
+                    color: palette[9],
+                    background: addHslAlpha(palette[3], 0.8),
                     transition: "transform .1s",
                   }}
                 >
@@ -879,57 +980,7 @@ export function TasksLayout({
           </Toolbar>
         </AppBar>
       )}
-      {isMobile && !isAgenda && !router.asPath.includes("/edit/") && (
-        <Box sx={{ height: "65px" }} />
-      )}
-
       <Box sx={{ display: "flex", background: { sm: palette[2] } }}>
-        {isMobile && (
-          <Drawer
-            keepMounted
-            ModalProps={{ keepMounted: true }}
-            anchor="top"
-            onClose={handleClose}
-            onClick={handleClose}
-            onContextMenu={(e) => e.preventDefault()}
-            open={open}
-            {...{ TransitionComponent: Fade }}
-            PaperProps={{
-              sx: {
-                background: "transparent",
-                p: 2,
-              },
-            }}
-            slotProps={{
-              backdrop: {
-                sx: {
-                  backdropFilter: "blur(15px)!important",
-                },
-              },
-            }}
-          >
-            <Box sx={{ display: "flex", mt: -0.2, ml: 0.89, mb: 1 }}>
-              {trigger}
-              <div style={{ marginLeft: "auto" }} />
-            </Box>
-            <Grow in={open} style={{ transformOrigin: "0 0 0" }}>
-              <Box
-                onClick={(e) => e.stopPropagation()}
-                sx={{
-                  ml: 1,
-                  pb: 0,
-                  borderRadius: 5,
-                  maxHeight: "calc(100dvh - 190px)",
-                  maxWidth: "calc(100vw - 100px)",
-                  overflowY: "scroll",
-                  background: addHslAlpha(palette[3], 0.7),
-                }}
-              >
-                <MenuChildren />
-              </Box>
-            </Grow>
-          </Drawer>
-        )}
         <Box
           sx={{
             width: { xs: "100%", sm: 300 },
@@ -950,7 +1001,7 @@ export function TasksLayout({
             flexDirection: "column",
           }}
         >
-          <MenuChildren />
+          <MenuChildren editMode={editMode} setEditMode={setEditMode} />
         </Box>
         <Box
           sx={{

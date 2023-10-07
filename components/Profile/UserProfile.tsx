@@ -1,9 +1,7 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { useCustomTheme } from "@/lib/client/useTheme";
 import { fetcher } from "@/pages/_app";
 import Insights from "@/pages/tasks/insights";
 import { Masonry } from "@mui/lab";
@@ -11,27 +9,22 @@ import {
   Alert,
   Box,
   Button,
-  Chip,
   Icon,
   IconButton,
   LinearProgress,
   Skeleton,
-  ThemeProvider,
-  Tooltip,
   Typography,
-  createTheme,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
-import { Followers } from "./Followers";
-import { Following } from "./Following";
 import { ProfilePicture } from "./ProfilePicture";
 import { WorkingHours } from "./WorkingHours";
 
 function Contacts({ profile }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const [open, setOpen] = useState(true);
 
@@ -46,10 +39,11 @@ function Contacts({ profile }) {
   return data && data.length > 0 && open ? (
     <Box
       sx={{
-        border: "1px solid",
+        border: "2px solid",
         borderColor: palette[3],
         mb: 2,
         pb: 2,
+        mt: { xs: 2, sm: 0 },
         borderRadius: 5,
       }}
     >
@@ -60,13 +54,16 @@ function Contacts({ profile }) {
           p: 3,
           py: 1,
           mb: 2,
-          borderBottom: `1px solid ${palette[3]}`,
+          borderBottom: `2px solid ${palette[3]}`,
         }}
       >
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Suggestions for you
         </Typography>
-        <IconButton onClick={() => setOpen(false)}>
+        <IconButton
+          onClick={() => setOpen(false)}
+          sx={{ background: palette[2], mr: -1 }}
+        >
           <Icon>close</Icon>
         </IconButton>
       </Box>
@@ -93,7 +90,7 @@ function Contacts({ profile }) {
             }}
           >
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <ProfilePicture data={contact} mutate={mutate} size={70} />
+              <ProfilePicture data={contact} size={70} />
             </Box>
             <Typography
               variant="h6"
@@ -117,10 +114,12 @@ function Contacts({ profile }) {
       </Box>
     </Box>
   ) : data && data.length === 0 && window.location.href.includes("override") ? (
-    <Alert title="New contacts not found" variant="filled" severity="info">
-      We don&apos;t have any suggestions for you right now. Try adding more
-      contacts to your Google account and check back later!
-    </Alert>
+    <Box sx={{ pb: 2 }}>
+      <Alert title="New contacts not found" variant="filled" severity="info">
+        We don&apos;t have any suggestions for you right now. As you add
+        contacts to your Google account, users will appear here!
+      </Alert>
+    </Box>
   ) : (
     <></>
   );
@@ -133,8 +132,6 @@ export function SpotifyCard({
   hideIfNotPlaying = false,
   open = false,
 }: any) {
-  const session = useSession();
-
   const { data, isLoading, error } = useSWR(
     [
       "user/spotify/currently-playing",
@@ -144,7 +141,7 @@ export function SpotifyCard({
     { refreshInterval: 1000 }
   );
 
-  if (error) return <div>error</div>;
+  if (error) return <div></div>;
   if (hideIfNotPlaying && !data?.item) return null;
 
   return (
@@ -187,15 +184,11 @@ export function SpotifyCard({
             </picture>
 
             <picture>
-              <img
-                src={
-                  "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-                }
+              <Image
+                src="/images/integrations/spotify.png"
+                width={45}
+                height={45}
                 alt="Spotify"
-                style={{
-                  width: "45px",
-                  height: "45px",
-                }}
               />
             </picture>
           </Box>
@@ -210,7 +203,7 @@ export function SpotifyCard({
             <Icon className="outlined" sx={{ fontSize: "40px!important" }}>
               {data.is_playing ? "pause_circle_filled" : "play_circle"}
             </Icon>
-            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 1 }}>
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 2 }}>
               <Typography
                 variant="h5"
                 sx={{
@@ -240,13 +233,13 @@ export function SpotifyCard({
             </Box>
           </Box>
         </>
-      ) : data && (isLoading || data?.currently_playing_type === "ad") ? (
+      ) : !data ||
+        (data && (isLoading || data?.currently_playing_type === "ad")) ? (
         <>
           <Box sx={{ display: "flex", gap: 3 }}>
             <Box sx={{ width: "100%" }}>
               <Box
                 sx={{
-                  borderRadius: 5,
                   aspectRatio: "1 / 1",
                   width: "100%",
                   background: "rgba(255,255,255,.2)",
@@ -254,32 +247,34 @@ export function SpotifyCard({
               />
             </Box>
 
-            <img
-              src={
-                "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-              }
+            <Image
+              src="/images/integrations/spotify.png"
+              width={45}
+              height={45}
               alt="Spotify"
-              style={{ width: "45px", height: "45px" }}
             />
           </Box>
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",
-              gap: 2,
+              gap: 3,
+              pl: 0.5,
+              mt: 1,
+              mb: -1,
               overflow: "hidden",
             }}
           >
             <Skeleton
               animation={false}
               variant="circular"
-              width={35}
-              height={35}
+              width={32}
+              height={32}
+              sx={{ mt: 2.5 }}
             />
-            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, mt: 1 }}>
-              <Skeleton animation={false} width="50%" height={70} />
-              <Skeleton animation={false} width="80%" />
-              <Skeleton animation={false} width="100%" />
+            <Box sx={{ flexGrow: 1, maxWidth: "100%", minWidth: 0, ml: -0.5 }}>
+              <Skeleton animation={false} width="50%" height={50} />
+              <Skeleton animation={false} width="80%" sx={{ mt: -0.5 }} />
+              <Skeleton animation={false} width="100%" sx={{ mt: -0.5 }} />
             </Box>
           </Box>
         </>
@@ -290,12 +285,11 @@ export function SpotifyCard({
               Not playing
             </Typography>
 
-            <img
-              src={
-                "https://cdn.freebiesupply.com/logos/large/2x/spotify-2-logo-black-and-white.png"
-              }
+            <Image
+              src="/images/integrations/spotify.png"
+              width={45}
+              height={45}
               alt="Spotify"
-              style={{ width: "45px", height: "45px" }}
             />
           </Box>
         </>
@@ -310,177 +304,27 @@ export function UserProfile({
   data,
   profileCardStyles,
 }) {
-  const session = useSession();
-  const birthdayRef: any = useRef();
-
+  const { session } = useSession();
   const profile = data.Profile;
 
-  const [hobbies, setHobbies] = useState(data.Profile.hobbies);
-
-  const handleChange = async (key, value) => {
-    await fetchRawApi(session, "user/profile/update", {
-      email: session.user.email,
-      [key]: value,
-    });
-    await mutate();
-  };
-
-  const handleDelete = async () => {
-    await fetchRawApi(session, "user/profile/delete", {
-      email: session.user.email,
-    });
-    await mutate();
-  };
-
-  const today = dayjs();
-  const nextBirthday = dayjs(profile.birthday).year(today.year());
   const isDark = useDarkMode(session.darkMode);
-
   const palette = useColor(data?.color || "gray", isDark);
-
-  const daysUntilNextBirthday =
-    nextBirthday.diff(today, "day") >= 0
-      ? nextBirthday.diff(today, "day")
-      : nextBirthday.add(1, "year").diff(today, "day");
 
   useStatusBar(palette[1]);
 
-  const styles = {
-    color: palette[11],
-    textAlign: "center",
-    width: { sm: "auto" },
-    px: 2,
-    py: 2,
-    borderRadius: "20px",
-    "& h6": {
-      mt: -1,
-      fontSize: 27,
-      fontWeight: 900,
-    },
-  };
-
-  const userTheme = createTheme(
-    useCustomTheme({
-      darkMode: isDark,
-      themeColor: data?.color || "grey",
-    })
-  );
-
-  const chipStyles = () => ({
-    "& .MuiIcon-root": {
-      fontVariationSettings:
-        '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
-    },
-  });
-
   return (
-    <ThemeProvider theme={userTheme}>
-      <Box
-        sx={{
-          display: "flex",
-          gap: 1,
-          mt: 2,
-          alignItems: "center",
-          justifyContent: { xs: "center", sm: "flex-start" },
-          flexWrap: "wrap",
-        }}
-      >
-        <Tooltip title="Local time">
-          <Chip
-            sx={chipStyles}
-            label={`${dayjs().tz(data.timeZone).format("h:mm A")}`}
-            icon={<Icon sx={{ color: "inherit!important" }}>access_time</Icon>}
-          />
-        </Tooltip>
-        {profile &&
-          profile.badges.map((badge) => (
-            <Chip
-              sx={chipStyles}
-              label={badge}
-              key={badge}
-              {...(badge === "Early supporter" && {
-                icon: <Icon>favorite</Icon>,
-              })}
-            />
-          ))}
-      </Box>
-      <Typography
-        variant="body2"
-        sx={{
-          gap: 1,
-          display: "flex",
-          mb: 2,
-          mt: 1,
-          opacity: 0.7,
-          color: palette[9],
-        }}
-      >
-        <Followers styles={styles} data={data} />
-        <Following styles={styles} data={data} />
-      </Typography>
+    <>
       <Contacts profile={profile} />
-      <Box sx={{ mr: -2 }}>
-        <Masonry sx={{ mt: 3 }} columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
-          {profile && profile.hobbies.length > 0 && (
-            <Box sx={profileCardStyles}>
-              <Typography sx={profileCardStyles.heading}>Hobbies</Typography>
-              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                {profile &&
-                  profile.hobbies.map((badge) => (
-                    <Chip
-                      sx={{ ...chipStyles, textTransform: "capitalize" }}
-                      label={badge}
-                      size="small"
-                      key={badge}
-                    />
-                  ))}
-              </Box>
-            </Box>
-          )}
-          {profile && (
-            <WorkingHours
-              editMode={false}
-              color={data.color}
-              isCurrentUser={isCurrentUser}
-              mutate={mutate}
-              profile={profile}
-              profileCardStyles={profileCardStyles}
-            />
-          )}
-          <Box sx={profileCardStyles}>
-            <Typography sx={profileCardStyles.heading}>Birthday</Typography>
-            <>
-              <Typography
-                variant="h5"
-                sx={{
-                  mt: 0.5,
-                  color: palette[12],
-                }}
-              >
-                {dayjs(profile.birthday).format("MMMM D")}
-              </Typography>
-              <Typography sx={{ color: palette[11] }}>
-                In {daysUntilNextBirthday} days
-              </Typography>
-            </>
-          </Box>
-
-          {profile.bio && (
-            <Box sx={profileCardStyles}>
-              <Typography sx={profileCardStyles.heading}>About</Typography>
-              {profile && profile.bio && (
-                <Typography sx={{ fontSize: "17px" }}>
-                  {profile?.bio}
-                </Typography>
-              )}
-            </Box>
-          )}
-
+      <Box sx={{ mr: -2, pt: { xs: 2, sm: 0 } }}>
+        <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
           {profile.spotify && (
             <SpotifyCard
               open
               email={data.email}
-              styles={profileCardStyles}
+              styles={{
+                ...profileCardStyles,
+                border: 0,
+              }}
               profile={profile}
             />
           )}
@@ -535,9 +379,19 @@ export function UserProfile({
               </Typography>
             </Box>
           )}
+          {profile && (
+            <WorkingHours
+              editMode={false}
+              color={data.color}
+              isCurrentUser={isCurrentUser}
+              mutate={mutate}
+              profile={profile}
+              profileCardStyles={profileCardStyles}
+            />
+          )}
           <Insights email={data.email} profile palette={data.color} />
         </Masonry>
       </Box>
-    </ThemeProvider>
+    </>
   );
 }

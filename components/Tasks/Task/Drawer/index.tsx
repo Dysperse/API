@@ -35,20 +35,18 @@ export const parseEmojis = (value) => {
 
 export const TaskDrawer = React.memo(function TaskDrawer({
   isDisabled = false,
-  isDateDependent = false,
   children,
   id,
   mutateList,
   onClick,
 }: {
   isDisabled?: boolean;
-  isDateDependent?: boolean;
   children: JSX.Element;
   id: number;
   mutateList: any;
   onClick?: any;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = useState<boolean>(false);
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -115,14 +113,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         date: dayjs().toISOString(),
         [key]: String(value),
         createdBy: session.user.email,
-      });
+      }).then(() => mutateList());
     },
-    [session, data, mutateTask]
+    [session, data, mutateTask, mutateList]
   );
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
-    onClick: () => {
+    onClick: (event) => {
       onClick && onClick();
       if (!onClick) setOpen(true);
       toast.dismiss();
@@ -143,20 +141,27 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       <SwipeableDrawer
         open={open}
         onClose={handleClose}
-        anchor="right"
-        {...(isMobile && {
-          slotProps: {
-            backdrop: {
-              sx: { opacity: "0!important", backdropFilter: "none!important" },
-            },
-          },
-        })}
+        anchor={isMobile ? "bottom" : "right"}
         PaperProps={{
           sx: {
             maxWidth: "500px",
+            boxShadow: "0 0 1px rgba(0, 0, 0, 0.05)!important",
             width: "100%",
-            height: "100dvh",
+            ...(isMobile
+              ? {
+                  height: "calc(100dvh - 150px)",
+                  borderRadius: "20px 20px 0 0",
+                  background: palette[2],
+                }
+              : {
+                  height: "100dvh",
+                }),
             borderLeft: { sm: `2px solid ${addHslAlpha(palette[3], 0.7)}` },
+          },
+          onScroll: () => {
+            // ref.current.style.display = "none";
+            // ref.current.offsetHeight; // no need to store this anywhere, the reference is enough
+            // ref.current.style.display = "";
           },
           ref,
         }}
@@ -187,10 +192,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         >
           {data && data !== "deleted" && (
             <DrawerContent
+              parentRef={ref}
               isDisabled={isDisabled}
               handleDelete={handleDelete}
-              // isDateDependent={isDateDependent}
-              handleParentClose={handleClose}
             />
           )}
         </Box>

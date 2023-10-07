@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -40,7 +41,7 @@ function RenderBoard({ tasks }) {
 
   const [currentColumn, setCurrentColumn] = useState<number>(-1);
 
-  const session = useSession();
+  const { session } = useSession();
   const isMobile = useMediaQuery("(max-width: 900px)");
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -66,6 +67,9 @@ function RenderBoard({ tasks }) {
         maxWidth: "100%",
         overflowX: "scroll",
         minHeight: "100dvh",
+        height: { sm: "100dvh" },
+        pt: { xs: "var(--navbar-height)", sm: 0 },
+        overflowY: { sm: "hidden" },
       }}
     >
       {!isMobile && (
@@ -78,8 +82,8 @@ function RenderBoard({ tasks }) {
       {currentColumn === -1 && isMobile && (
         <BoardInfo
           setCurrentColumn={setCurrentColumn}
-          setShowInfo={setShowInfo}
-          showInfo={showInfo}
+          setShowInfo={() => {}}
+          showInfo={true}
         />
       )}
       <div
@@ -109,6 +113,22 @@ function RenderBoard({ tasks }) {
             />
           </ColumnContext.Provider>
         ))}
+      {!isMobile && board.wallpaper && (
+        <Box
+          sx={{
+            width: "340px",
+            flex: "0 0 340px",
+            height: "100dvh",
+            "& img": {
+              height: "100%",
+              width: "100%",
+              objectFit: "cover",
+            },
+          }}
+        >
+          <img src={board.wallpaper} alt="Wallpaper" />
+        </Box>
+      )}
       <Box
         sx={{
           height: { sm: "100dvh" },
@@ -116,6 +136,11 @@ function RenderBoard({ tasks }) {
           alignItems: "center",
           justifyContent: "center",
           px: 4,
+          ...(board.wallpaper && {
+            width: "340px",
+            flex: "0 0 340px",
+            ml: "-340px",
+          }),
         }}
       >
         {permissions !== "read" && (
@@ -123,12 +148,22 @@ function RenderBoard({ tasks }) {
             sx={{
               cursor: "default",
               background: palette[3],
+              ...(board.wallpaper && {
+                background: `${addHslAlpha(palette[8], 0.1)} !important`,
+                backdropFilter: "blur(3px)",
+              }),
             }}
             onClick={() => {
               router.push("/tasks/boards/edit/" + board.id + "#columns");
             }}
           >
-            <Icon>add</Icon>
+            <Icon
+              sx={{
+                fontSize: "30px",
+              }}
+            >
+              add
+            </Icon>
           </IconButton>
         )}
       </Box>
@@ -173,8 +208,11 @@ function RenderBoard({ tasks }) {
     </Box>
   );
 }
+export type BoardFilterInput = "" | "a-z" | "z-a" | "due-asc" | "due-desc";
 
 export function Board({ mutate, board }) {
+  const [filter, setFilter] = useState<BoardFilterInput>("");
+
   const {
     data,
     error,
@@ -184,10 +222,11 @@ export function Board({ mutate, board }) {
     "property/boards/tasks",
     {
       id: board?.id,
+      filter,
     },
   ]);
 
-  const session = useSession();
+  const { session } = useSession();
   const isShared =
     data &&
     data?.[0]?.propertyId &&
@@ -258,6 +297,8 @@ export function Board({ mutate, board }) {
           permissions: readOnly ? "read" : "edit",
           isShared,
           mutateData,
+          filter,
+          setFilter,
         }}
       >
         <RenderBoard tasks={data} />

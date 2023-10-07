@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@/components/Error";
 import { Color } from "@/components/Group/Color";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -26,7 +27,7 @@ import useSWR from "swr";
 import SpacesLayout from ".";
 
 export default function Page() {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const { id } = router.query;
 
@@ -71,6 +72,9 @@ export default function Page() {
 
   return (
     <SpacesLayout title="Edit">
+      {error && (
+        <ErrorHandler error="Something went wrong. Please try again later" />
+      )}
       {data ? (
         <>
           <Box

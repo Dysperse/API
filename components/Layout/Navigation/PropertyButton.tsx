@@ -22,7 +22,7 @@ export function PropertyButton({
   list,
   onSuccess,
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const palette = useColor(
     defaultPalette || session.themeColor,

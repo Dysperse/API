@@ -4,16 +4,16 @@ import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-    Box,
-    Button,
-    Chip,
-    Icon,
-    IconButton,
-    InputAdornment,
-    ListItem,
-    ListItemText,
-    TextField,
-    Typography,
+  Box,
+  Button,
+  Chip,
+  Icon,
+  IconButton,
+  InputAdornment,
+  ListItem,
+  ListItemText,
+  TextField,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
@@ -21,9 +21,9 @@ import { parseEmojis } from ".";
 import { ImageViewer } from "../ImageViewer";
 import { useTaskContext } from "./Context";
 import {
-    isAddress,
-    isValidHttpUrl,
-    videoChatPlatforms,
+  isAddress,
+  isValidHttpUrl,
+  videoChatPlatforms,
 } from "./locationHelpers";
 export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   data,
@@ -32,7 +32,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
 }: any) {
   const storage = useAccountStorage();
   const task = useTaskContext();
-  const session = useSession();
+  const { session } = useSession();
 
   const isHttpOrAddress = isValidHttpUrl(data.where) || isAddress(data.where);
   const isImage = !!data.image;
@@ -85,6 +85,12 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
                   variant="contained"
                   size="small"
                   onClick={handleLocationButtonClick}
+                  sx={{
+                    background: {
+                      xs: palette[4] + "!important",
+                      sm: palette[3] + "!important",
+                    },
+                  }}
                 >
                   <Icon>
                     {videoChatPlatforms.find((platform) =>
@@ -110,7 +116,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
       />
 
       {/* Notifications */}
-      {data.notifications.length > 0 && (
+      {data.notifications.length > 0 && !task.dateOnly && (
         <Box className="item">
           <Typography sx={{ p: 3, pt: 2, opacity: 0.6, pb: 0 }}>
             Notifications
@@ -155,11 +161,16 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
         }}
       />
       <ListItem className="item">
-        <ListItemText primary="Attachments" />
+        <ListItemText
+          primary={
+            data.image
+              ? isImage && <ImageViewer size="medium" url={data.image} />
+              : "Attachments"
+          }
+        />
         <Box
           sx={{ ml: "auto", display: "flex", gap: 1.5, alignItems: "center" }}
         >
-          {isImage && <ImageViewer url={data.image} />}
           {isImage ? (
             <IconButton
               sx={{ background: palette[3] }}

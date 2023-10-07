@@ -18,7 +18,7 @@ export function Followers({ styles, data }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(data.color, isDark);
 

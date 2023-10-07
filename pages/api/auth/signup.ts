@@ -33,14 +33,18 @@ const validateEmail = (email) => {
 export default async function handler(req, res) {
   const body = JSON.parse(req.body);
 
-  try {
-    // Validate captcha
-    const data = await validateCaptcha(body.captchaToken);
-    if (!data.success) {
+  if (process.env.NODE_ENV === "production") {
+    try {
+      // Validate captcha
+      const data = await validateCaptcha(body.captchaToken);
+      if (!data.success) {
+        return res
+          .status(401)
+          .json({ error: true, message: "Invalid Captcha" });
+      }
+    } catch (e) {
       return res.status(401).json({ error: true, message: "Invalid Captcha" });
     }
-  } catch (e) {
-    return res.status(401).json({ error: true, message: "Invalid Captcha" });
   }
 
   if (!validateEmail(body.email.toLowerCase())) {
@@ -74,13 +78,21 @@ export default async function handler(req, res) {
   const user = await prisma.user.create({
     data: {
       Profile: {
-        create: {},
+        create: {
+          birthday: new Date(body.birthday),
+          picture: body.picture,
+          bio: body.bio,
+        },
       },
       name,
+      color: body.color,
+      darkMode: body.darkMode,
       email: email.toLowerCase(),
+      ...(body.username && { username: body.username }),
       password: hashedPassword,
     },
   });
+
   //   Get user id from user
   const id = user.id;
   const ip =
@@ -98,6 +110,33 @@ export default async function handler(req, res) {
   });
   //   Get property id from property
   const propertyId = property.id;
+
+  // Create boards
+  if (body.templates.length > 0) {
+    body.templates.forEach(async (template) => {
+      try {
+        await prisma.board.create({
+          data: {
+            propertyId,
+            name: template.name,
+            userId: user.identifier,
+            description: template.description,
+            columns: {
+              createMany: {
+                data: template.columns.map((column, index) => ({
+                  emoji: column.emoji,
+                  name: column.name,
+                  order: index,
+                })),
+              },
+            },
+          },
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  }
 
   //   Create a property invite
   await prisma.propertyInvite.create({

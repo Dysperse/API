@@ -38,7 +38,7 @@ export default function Prompt() {
         .then((res) => {
           if (res.status === 200) {
             toast.success("Successfully changed your password!");
-            router.push("/agenda/weeks");
+            router.push("/perspectives/weeks");
           } else {
             toast.error(
               "An error occurred while trying to change your password."

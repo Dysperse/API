@@ -35,7 +35,7 @@ const handler = async (req, res) => {
               },
             ],
           },
-        ],
+        ].filter((e) => e),
       },
       include: {
         user: { select: { email: true } },
@@ -47,6 +47,7 @@ const handler = async (req, res) => {
             user: {
               select: {
                 name: true,
+                color: true,
                 email: true,
                 Profile: { select: { picture: true } },
               },
@@ -74,11 +75,17 @@ const handler = async (req, res) => {
         columns: {
           orderBy: { order: "asc" },
           include: {
-            tasks: {
-              select: {
-                color: true,
-              },
-            },
+            _count: req.query.allTasks
+              ? true
+              : {
+                  select: {
+                    tasks: {
+                      where: {
+                        completed: false,
+                      },
+                    },
+                  },
+                },
           },
         },
         integrations: { select: { name: true, lastSynced: true } },
@@ -87,7 +94,8 @@ const handler = async (req, res) => {
     });
     res.json(data);
   } catch (e: any) {
-    res.json({ error: e.message });
+    console.error(e.message);
+    res.status(500).json({ error: e.message });
   }
 };
 

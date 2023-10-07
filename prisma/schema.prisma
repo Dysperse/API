@@ -24,7 +24,6 @@ model User {
   color          String   @default("lime")
   unlockedColors String[]
 
-  onboardingComplete       Boolean @default(false)
   twoFactorSecret          String  @default("")
   notificationSubscription String? @db.VarChar(900)
   timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
@@ -46,17 +45,24 @@ model User {
   ShareToken ShareToken[]
   Task       Task[]
 
-  rooms Room[]
-  items Item[]
+  rooms            Room[]
+  items            Item[]
+  Event            Event[]
+  EventParticipant EventParticipant[]
+  settings         Settings?
 }
 
 model Follows {
-  follower    User   @relation("follower", fields: [followerId], references: [email])
-  followerId  String
+  follower   User   @relation("follower", fields: [followerId], references: [email])
+  followerId String
+
   following   User   @relation("following", fields: [followingId], references: [email])
   followingId String
 
+  accepted Boolean @default(false)
+
   @@id([followerId, followingId])
+  @@unique([followerId, followingId])
 }
 
 model Integration {
@@ -87,6 +93,8 @@ model NotificationSettings {
   followerUpdates Boolean @default(true)
   statusUpdates   Boolean @default(true)
 
+  notifyFriendsForStatusUpdates Boolean @default(true)
+
   boards Boolean @default(true)
 
   userId String @unique
@@ -98,6 +106,7 @@ model Status {
   id String @id @unique @default(uuid())
 
   status String  @default("")
+  emoji  String?
   text   String?
 
   until   DateTime?
@@ -123,6 +132,15 @@ model Profile {
   bio String @default("")
 
   private Boolean @default(false)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+model Settings {
+  id String @id @unique @default(uuid())
+
+  hiddenPerspectives String[] @default([])
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
@@ -221,6 +239,7 @@ model Board {
   public      Boolean @default(true)
   pinned      Boolean @default(false)
   archived    Boolean @default(false)
+  wallpaper   String?
 
   userId String?
   user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
@@ -252,6 +271,7 @@ model Task {
   pinned      Boolean @default(false)
 
   due           DateTime?
+  dateOnly      Boolean   @default(true)
   notifications Int[]     @default([])
 
   completed   Boolean   @default(false)
@@ -325,4 +345,41 @@ model Item {
 
   // TODO: Users can attach tasks to items
   tasks Task[]
+}
+
+// When2Meet style scheduling
+model Event {
+  id          String  @id @unique @default(uuid())
+  name        String
+  location    String?
+  description String?
+
+  startDate      DateTime
+  endDate        DateTime
+  excludingDates DateTime[]
+  excludingDays  String[]
+  excludingHours Int[]
+
+  timeZone String @default("America/Los_Angeles") @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  createdBy String
+  user      User     @relation(fields: [createdBy], references: [identifier], onDelete: Cascade)
+
+  participants EventParticipant[]
+}
+
+model EventParticipant {
+  id           String @id @unique @default(uuid())
+  availability Json   @default("[]")
+
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String
+
+  // For users who aren't signed up
+  userData Json?
+
+  // For users who are signed up
+  userId String?
+  user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 }

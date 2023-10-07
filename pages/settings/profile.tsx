@@ -17,8 +17,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import Layout from ".";
 
@@ -26,8 +28,9 @@ import Layout from ".";
  * Top-level component for the account settings page.
  */
 export default function AppearanceSettings() {
-  const session = useSession();
+  const { session } = useSession();
   const birthdayRef: any = useRef();
+  const fileRef: any = useRef();
   const [name, setName] = useState(session.user.name);
   const handleChange = useCallback((e) => setName(e.target.value), [setName]);
 
@@ -46,27 +49,26 @@ export default function AppearanceSettings() {
 
     await fetchRawApi(session, "user/profile/update", {
       email: session.user.email,
-      birthday: dayjs(new Date(birthdayRef.current.value))
-        .add(1, "day")
-        .toISOString(),
+      birthday: birthday.add(1, "day").toISOString(),
       hobbies: JSON.stringify(hobbies),
       bio,
     });
+    toast.success("Saved!");
   };
 
   const handleUsernameSubmit = async () => {
-    if (username.trim() !== "")
-      await updateSettings(["username", username], { session });
+    if (username.trim() !== "") {
+      toast.promise(updateSettings(["username", username], { session }), {
+        loading: "Changing...",
+        success: "Changed!",
+        error: "Something went wrong. Please try again later",
+      });
+    }
   };
 
-  useEffect(() => {
-    if (birthdayRef?.current && data?.Profile?.birthday)
-      setTimeout(() => {
-        birthdayRef.current.value = dayjs(data.Profile.birthday).format(
-          "YYYY-MM-DD"
-        );
-      }, 100);
-  }, [data]);
+  const [birthday, setBirthday] = useState(
+    dayjs(data?.Profile?.birthday || dayjs())
+  );
 
   const [hobbies, setHobbies] = useState(data?.Profile?.hobbies || []);
 
@@ -83,7 +85,59 @@ export default function AppearanceSettings() {
           gap: 3,
         }}
       >
-        {data && <ProfilePicture data={data} mutate={mutate} editMode />}
+        <Box>
+          {data && <ProfilePicture data={data} />}
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            onClick={() => fileRef.current?.click()}
+          >
+            <Icon>upload</Icon>Upload
+          </Button>
+        </Box>
+        <input
+          type="file"
+          ref={fileRef}
+          hidden
+          onChange={(e) => {
+            toast.promise(
+              new Promise(async (resolve, reject) => {
+                if (!e.target.files) {
+                  reject("No files uploaded");
+                  return;
+                }
+                try {
+                  const form = new FormData();
+                  form.append("image", e.target.files[0]);
+                  const res = await fetch(`/api/upload`, {
+                    method: "POST",
+                    body: form,
+                  }).then((res) => res.json());
+                  if (!res.image.url) {
+                    reject("Duplicate");
+                    return;
+                  }
+                  await fetchRawApi(session, "user/profile/update", {
+                    email: session.user.email,
+                    picture: res.image.url,
+                  });
+                  await mutate();
+                  resolve(res);
+                } catch (e) {
+                  console.log(e);
+                  reject("");
+                }
+              }),
+              {
+                loading: "Uploading...",
+                success: "Changed!",
+                error:
+                  "Couldn't change profile picture. Please try again later",
+              }
+            );
+          }}
+          accept="image/png, image/jpeg"
+        />
         <Box sx={{ flexGrow: 1 }}>
           <TextField
             onKeyDown={(e) => e.stopPropagation()}
@@ -93,23 +147,21 @@ export default function AppearanceSettings() {
             onChange={handleChange}
             sx={{ mb: 2 }}
           />
-          <TextField
-            onKeyDown={(e) => e.stopPropagation()}
-            inputRef={birthdayRef}
-            type="date"
-            label="Birthday"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            fullWidth
-            sx={{ mb: 2 }}
-          />
+          {data?.Profile?.birthday && (
+            <DatePicker
+              label="Birthday"
+              value={birthday}
+              onChange={(newValue: any) =>
+                dayjs(newValue).isValid() && setBirthday(newValue)
+              }
+            />
+          )}
           <TextField
             value={bio}
             label="Bio"
             multiline
             rows={4}
-            sx={{ mb: 2 }}
+            sx={{ my: 2 }}
           />
           <Autocomplete
             multiple

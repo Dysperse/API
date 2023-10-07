@@ -6,13 +6,13 @@ import { useRef, useState } from "react";
 
 export function SearchUser() {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const ref: any = useRef();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [email, setEmail] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const isDark = useDarkMode(session.darkMode);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     if (ref) setTimeout(() => ref.current?.focus(), 200);

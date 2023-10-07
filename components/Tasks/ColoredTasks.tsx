@@ -29,7 +29,7 @@ export function ColoredTasks() {
   const [color, setColor] = useState("all");
   const [isScrolling, setIsScrolling] = useState(false);
 
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
 
   const emptyPlaceholder = (

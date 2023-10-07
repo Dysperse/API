@@ -1,3 +1,4 @@
+import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -12,13 +13,15 @@ import {
   IconButton,
   TextField,
   Toolbar,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+import { Virtuoso } from "react-virtuoso";
 import { parseEmojis } from ".";
-import { Task } from "..";
+import { Task, taskAlgorithm } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import { CreateTask } from "../Create";
 import SelectDateModal from "../DatePicker";
@@ -28,10 +31,11 @@ import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
-function DrawerContent({ isDisabled, handleDelete }: any) {
-  const session = useSession();
+export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
+  const { session } = useSession();
   const task = useTaskContext();
   const storage = useAccountStorage();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const isDark = useDarkMode(session.darkMode);
   const isSubTask = task.parentTasks.length !== 0;
@@ -106,13 +110,16 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
 
   const styles = {
     section: {
-      background: palette[2],
+      background: { xs: palette[3], sm: palette[2] },
       borderRadius: 5,
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
       mb: 3,
       "& .item": {
+        "&:active": {
+          background: { xs: palette[4], sm: palette[3] },
+        },
         color: palette[12],
         borderRadius: 0,
         "&.MuiListItem-root, &.MuiListItemButton-root": {
@@ -121,7 +128,7 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
       },
       "& .item:not(:last-child)": {
         borderBottom: "1px solid",
-        borderColor: palette[3],
+        borderColor: { xs: palette[4], sm: palette[3] },
       },
     },
 
@@ -135,7 +142,7 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
     storage?.isReached === true ||
     session.permission === "read-only" ||
     isDisabled;
-
+  const subTasks = task.subTasks.sort(taskAlgorithm);
   return (
     <Box
       sx={{
@@ -144,10 +151,23 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
         },
       }}
     >
+      {isMobile && (
+        <Puller
+          sx={{
+            mb: 0,
+            "& .puller": {
+              background: palette[6],
+            },
+          }}
+        />
+      )}
       <AppBar
         sx={{
           border: 0,
-          background: "transparent!important",
+          background: { xs: palette[2], sm: palette[1] },
+          ...(/\bCrOS\b/.test(navigator.userAgent) && {
+            backdropFilter: "none!important",
+          }),
         }}
       >
         <Toolbar>
@@ -202,7 +222,6 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
               </RescheduleModal>
             ) : (
               <SelectDateModal
-                styles={() => {}}
                 date={task.due}
                 setDate={(d) => {
                   task.close();
@@ -219,10 +238,13 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
                   sx={{
                     px: 1.5,
                     ...styles.button,
+                    "& .text": {
+                      display: { xs: "none", sm: "inline" },
+                    },
                   }}
                 >
                   <Icon className="outlined">today</Icon>
-                  Schedule
+                  <span className="text">Snooze</span>
                 </Button>
               </SelectDateModal>
             )}
@@ -234,6 +256,7 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
                 ...styles.button,
                 ...(task.pinned && {
                   background: orangePalette[3],
+                  color: orangePalette[11],
                   "&:hover": {
                     background: orangePalette[4],
                   },
@@ -287,8 +310,15 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
           <ColorPopover disabled={shouldDisable} />
           {!isSubTask && (
             <SelectDateModal
-              styles={() => {}}
               date={task.due}
+              isDateOnly={task.dateOnly}
+              setDateOnly={(dateOnly) => {
+                task.set((prev) => ({
+                  ...prev,
+                  dateOnly: dateOnly,
+                }));
+                task.edit(task.id, "dateOnly", dateOnly ? "true" : "false");
+              }}
               setDate={(d) => {
                 task.close();
                 task.set((prev) => ({
@@ -303,7 +333,7 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
                 label={
                   task.due
                     ? dayjs(task.due).format(
-                        dayjs(task.due).hour() === 0
+                        task.dateOnly
                           ? "MMMM D, YYYY"
                           : "MMMM D, YYYY [at] h:mm A"
                       )
@@ -316,8 +346,10 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
                       task.set((prev) => ({
                         ...prev,
                         due: "",
+                        dateOnly: true,
                       }));
                       task.edit(task.id, "due", "");
+                      task.edit("dateOnly", true, "");
                     },
                   })}
               />
@@ -385,28 +417,44 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
                     : undefined
                 }
                 defaultDate={task.due ? new Date(task.due) : null}
+                sx={{ width: "100%" }}
               >
-                <Button variant="contained">
-                  <Icon>add_circle</Icon>Subtask
-                </Button>
+                <Box
+                  sx={{ p: task.subTasks.length == 0 ? 0 : 2, width: "100%" }}
+                >
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    sx={{ background: palette[4] + "!important" }}
+                  >
+                    <Icon>add_circle</Icon>Subtask
+                  </Button>
+                </Box>
               </CreateTask>
-              {!isSubTask &&
-                task.subTasks.map((subTask) => (
-                  <Task
-                    key={subTask.id}
-                    isSubTask
-                    sx={{
-                      pl: { xs: 2.6, sm: 1.7 },
-                      "& .date": {
-                        display: "none",
-                      },
-                    }}
-                    board={subTask.board || false}
-                    columnId={subTask.column ? subTask.column.id : -1}
-                    handleMutate={task.mutate}
-                    task={subTask}
-                  />
-                ))}
+              <Virtuoso
+                useWindowScroll
+                customScrollParent={parentRef.current}
+                totalCount={subTasks.length}
+                itemContent={(index) => {
+                  const subTask = subTasks[index];
+                  return (
+                    <Task
+                      key={subTask.id}
+                      isSubTask
+                      sx={{
+                        pl: { xs: 2.6, sm: 1.7 },
+                        "& .date": {
+                          display: "none",
+                        },
+                      }}
+                      board={subTask.board || false}
+                      columnId={subTask.column ? subTask.column.id : -1}
+                      handleMutate={task.mutate}
+                      task={subTask}
+                    />
+                  );
+                }}
+              />
             </>
           )}
         </Box>
@@ -415,4 +463,3 @@ function DrawerContent({ isDisabled, handleDelete }: any) {
     </Box>
   );
 }
-export default DrawerContent;

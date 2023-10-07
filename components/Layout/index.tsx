@@ -23,6 +23,8 @@ const KeyboardShortcutsModal = dynamic(
   () => import("./Navigation/KeyboardShortcutsModal")
 );
 
+const NotificationsPrompt = dynamic(() => import("./NotificationsPrompt"));
+
 const ReleaseModal = dynamic(() => import("./ReleaseModal"));
 
 export const containerRef: any = createRef();
@@ -51,7 +53,7 @@ export default function AppLayout({
   }, [error, hasReachedLimit, storage]);
 
   const [dismissed, setDismissed] = useState<boolean>(false);
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -63,17 +65,24 @@ export default function AppLayout({
       "--toast-bg": addHslAlpha(palette[3], 0.8),
       "--toast-text": palette[11],
       "--toast-solid": palette[7],
-      "--bg": palette[1],
+      "--bg": palette[2],
     };
 
     Object.entries(variables).forEach(([key, value]) => {
       document.documentElement.style.setProperty(key, value);
     });
-  });
+  }, [palette]);
 
   const router = useRouter();
   const shouldHide = shouldHideNavigation(router.asPath);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const isTablet = useMediaQuery("(max-width: 900px)");
+
+  useEffect(() => {
+    if (containerRef && router.asPath) {
+      containerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [router.asPath]);
 
   if (session.properties.length === 0) {
     return (
@@ -84,6 +93,7 @@ export default function AppLayout({
       </Box>
     );
   }
+
   return (
     <Box
       onContextMenu={(e) => !isMobile && e.preventDefault()}
@@ -96,7 +106,7 @@ export default function AppLayout({
         onClose={() => null}
         sx={{
           mb: { xs: 7, sm: 2 },
-          transition: "all .3s",
+          transition: "all .2s",
           zIndex: 999,
           userSelect: "none",
         }}
@@ -124,6 +134,7 @@ export default function AppLayout({
         }
         message="You've reached the storage limits for this group."
       />
+      <NotificationsPrompt />
       <Snackbar
         open={Boolean(error)}
         autoHideDuration={6000}
@@ -163,19 +174,22 @@ export default function AppLayout({
           sx={{
             height: "100dvh",
             overflowY: "scroll",
+            overflowX: "hidden",
+            overscrollBehaviorY: "contain",
+            maxWidth: "100dvw",
             borderRadius: {
               xs: shouldHide ? "0px" : "0 0 20px 20px",
               sm: "20px 0 0 20px",
             },
-            transition: "border-radius .3s",
-            ml: { md: "85px" },
+            transition: "border-radius .3s, margin .3s",
+            ml: { md: shouldHide ? "0px" : "85px" },
             background: palette[1],
           }}
         >
           {children}
         </Box>
         <CssBaseline />
-        <BottomNav />
+        {isTablet && <BottomNav />}
       </Box>
     </Box>
   );

@@ -19,8 +19,6 @@ export function UpdateButton() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
   const [userWantsToUpdate, setUserWantsToUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [asked, setAsked] = useState(false);
-
   const [showScreen, setShowScreen] = useState(false);
 
   useEffect(() => {
@@ -50,12 +48,12 @@ export function UpdateButton() {
       // A common UX pattern for progressive web apps is to show a banner when a service worker has updated and waiting to install.
       // NOTE: MUST set skipWaiting to false in next.config.js pwa object
       // https://developers.google.com/web/tools/workbox/guides/advanced-recipes#offer_a_page_reload_for_users
-      const promptNewVersionAvailable = (event) => {
+      const promptNewVersionAvailable = () => {
         // `event.wasWaitingBeforeRegister` will be false if this is the first time the updated service worker is waiting.
         // When `event.wasWaitingBeforeRegister` is true, a previously updated service worker is still waiting.
         // You may want to customize the UI prompt accordingly.
         setShowScreen(true);
-        wb.addEventListener("controlling", (event) => {
+        wb.addEventListener("controlling", () => {
           window.location.reload();
         });
 
@@ -92,7 +90,7 @@ export function UpdateButton() {
       // never forget to call register as auto register is turned off in next.config.js
       wb.register();
     }
-  }, [userWantsToUpdate, asked]);
+  }, [userWantsToUpdate]);
 
   const [button, setButton] = useState(true);
 
@@ -110,7 +108,7 @@ export function UpdateButton() {
     window.location.reload();
   };
 
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [showSnackbar, setShowSnackbar] = useState(false);

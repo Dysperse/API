@@ -1,22 +1,31 @@
+import { CreateTask } from "@/components/Tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
+import { containerRef } from "..";
 
 export const shouldHideNavigation = (path) => {
   return [
-    "/claim-esb",
-    "/users",
-    "/boards/edit/",
-    "/tasks/search",
-    "/integrations",
-    "/rooms/",
-    "/spaces",
-    "/onboarding",
-    "/settings",
-    "/tasks/insights",
-  ].find((_path) => path.includes(_path));
+    { path: "/claim-esb", desktop: true },
+    { path: "/users", desktop: false },
+    { path: "/boards/edit/", desktop: false },
+    { path: "/tasks/search", desktop: false },
+    { path: "/integrations", desktop: false },
+    { path: "/rooms/", desktop: false },
+    { path: "/spaces", desktop: false },
+    { path: "/onboarding", desktop: false },
+    { path: "/settings", desktop: false },
+    { path: "/availability", desktop: false },
+    { path: "/tasks/insights", desktop: false },
+  ].find((_path) => {
+    if (_path.desktop) {
+      return path.includes(_path.path);
+    } else {
+      return path.includes(_path.path) && window.innerWidth < 600;
+    }
+  });
 };
 /**
  * Bottom navigation bar
@@ -34,7 +43,7 @@ export function BottomNav() {
     width: "60px",
   };
 
-  const session = useSession();
+  const { session } = useSession();
 
   const styles = (active) => {
     return {
@@ -82,12 +91,16 @@ export function BottomNav() {
    */
   return (
     <Box
+      onClick={() => {
+        containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+      }}
       sx={{
         width: "100%",
         ".hideBottomNav &": {
           mb: "calc(var(--bottom-nav-height) * -1)",
         },
         mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
+        visibility: shouldHide ? "hidden" : "visible",
         left: 0,
         transition: "margin-bottom .4s cubic-bezier(.17,.67,.08,1.4)",
         overflowX: "hidden",
@@ -103,22 +116,23 @@ export function BottomNav() {
           overflow: "hidden!important",
         },
         borderRadius: "20px 20px 0 0",
-        backdropFilter: "blur(10px)",
         alignItems: "center",
       }}
     >
-      <Box
-        onClick={() => router.push("/tasks/agenda/days")}
-        sx={styles(router.asPath.includes("/tasks"))}
-      >
-        <span
-          className={`material-symbols-${
-            router.asPath.includes("/tasks") ? "rounded" : "outlined"
-          }`}
+      <CreateTask customTrigger="onContextMenu" disableBadge>
+        <Box
+          onClick={() => router.push("/tasks/home")}
+          sx={styles(router.asPath.includes("/tasks"))}
         >
-          check_circle
-        </span>
-      </Box>
+          <span
+            className={`material-symbols-${
+              router.asPath.includes("/tasks") ? "rounded" : "outlined"
+            }`}
+          >
+            &#xe86c;
+          </span>
+        </Box>
+      </CreateTask>
       <Box
         onClick={() => router.push("/")}
         sx={styles(
@@ -136,7 +150,7 @@ export function BottomNav() {
               : "outlined"
           }`}
         >
-          change_history
+          &#xe86b;
         </span>
       </Box>
       <Box
@@ -158,7 +172,7 @@ export function BottomNav() {
               : "outlined"
           }`}
         >
-          inventory_2
+          &#xe9fe;
         </span>
       </Box>
     </Box>

@@ -20,7 +20,7 @@ export const ImageModal = React.memo(function ImageModal({
   setImage,
   styles,
 }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const fileInputRef: any = useRef(null);
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -53,7 +53,7 @@ export const ImageModal = React.memo(function ImageModal({
   );
 
   return (
-  <>
+    <>
       {createPortal(
         <FileDrop
           onFrameDragEnter={(event) => console.log("onFrameDragEnter", event)}

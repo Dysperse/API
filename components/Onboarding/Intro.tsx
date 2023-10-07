@@ -1,10 +1,8 @@
-import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Typography } from "@mui/material";
 
-export function Intro() {
-  const session = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+export function Intro({ color, darkMode }) {
+  const palette = useColor(color, useDarkMode(darkMode));
 
   return (
     <>
@@ -49,7 +47,7 @@ export function Intro() {
             animationDelay: "3s",
           }}
         >
-          Welcome to Dysperse
+          Welcome&nbsp;to Dysperse
         </Typography>
       </Box>
       <Box

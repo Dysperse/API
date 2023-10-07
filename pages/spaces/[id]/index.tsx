@@ -27,7 +27,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 
 export default function SpacesLayout({ parentRef, children, title }: any) {
-  const session = useSession();
+  const { session } = useSession();
   const router = useRouter();
   const { id } = router.query;
   const isDark = useDarkMode(session.darkMode);
@@ -36,7 +36,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
     (property) => property.propertyId == id
   )?.accessToken;
 
-  const { data, mutate, error, isLoading } = useSWR([
+  const { data, error, isLoading } = useSWR([
     id ? "property" : null,
     {
       id,
@@ -61,19 +61,20 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
 
   useEffect(() => {
     if (!children) {
+      const d = ref?.current;
       const handleScroll = () => {
-        if (ref?.current?.scrollTop >= 200) {
+        if (d?.scrollTop >= 200) {
           setScrolled(true);
         } else {
           setScrolled(false);
         }
       };
 
-      ref?.current?.addEventListener("scroll", handleScroll);
+      d?.addEventListener("scroll", handleScroll);
 
       // Clean up the event listener when the component unmounts
       return () => {
-        ref?.current?.removeEventListener("scroll", handleScroll);
+        d?.removeEventListener("scroll", handleScroll);
       };
     }
   }, [children]);

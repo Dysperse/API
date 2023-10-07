@@ -3,23 +3,26 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
+import { recentlyAccessed } from ".";
 
-export const Tab = React.memo(function Tab({
-  styles,
-  setDrawerOpen,
-  board,
-}: any) {
+export const Tab = React.memo(function Tab({ styles, board }: any) {
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isActive = router.asPath.includes(board.id);
 
   const handleClick = () => {
-    setDrawerOpen(false);
-    setTimeout(() => {
-      router.push(`/tasks/boards/${board.id}`);
-    }, 1000);
+    router.push(`/tasks/boards/${board.id}`);
+    recentlyAccessed.set({
+      icon: "view_kanban",
+      label: board.name,
+      path: `/tasks/boards/${board.id}`,
+    });
   };
+
+  const tasks =
+    board?.columns &&
+    board.columns.reduce((acc, current) => acc + current._count.tasks, 0);
 
   return (
     <span>
@@ -47,8 +50,9 @@ export const Tab = React.memo(function Tab({
             sx={{
               opacity: router.asPath ? 1 : 0.8,
             }}
+            className="outlined"
           >
-            tag
+            view_kanban
           </Icon>
           <span
             style={{
@@ -61,17 +65,24 @@ export const Tab = React.memo(function Tab({
           >
             {board.name}
           </span>
-          {board.pinned && (
-            <Icon
-              className="outlined"
-              sx={{
-                ml: "auto",
-                transform: "rotate(-45deg)",
-              }}
-            >
-              push_pin
+          <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
+            {board.pinned && (
+              <Icon
+                className="outlined"
+                sx={{
+                  transform: "rotate(-45deg)",
+                }}
+              >
+                push_pin
+              </Icon>
+            )}
+            <Box sx={{ opacity: 0.6, display: { sm: "none" } }}>
+              {tasks !== 0 && tasks}
+            </Box>
+            <Icon sx={{ display: { sm: "none!important" } }}>
+              arrow_forward_ios
             </Icon>
-          )}
+          </Box>
         </Box>
       </Button>
     </span>

@@ -6,7 +6,7 @@ import React from "react";
 import { useTaskContext } from "./Context";
 
 export const Color = React.memo(function Color({ color }: { color: string }) {
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const task = useTaskContext();
 

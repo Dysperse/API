@@ -2,7 +2,7 @@ import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useDarkMode } from "@/lib/client/useColor";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
@@ -31,14 +31,20 @@ import { BoardContext, ColumnContext } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
 import EmojiPicker from "../../../EmojiPicker";
 import { SelectionContext } from "../../Layout";
-import { FilterMenu } from "./FilterMenu";
 
-export function ColumnSettings({ children, setColumnTasks }: any) {
+export function ColumnSettings({
+  children,
+  tasks,
+}: {
+  children: JSX.Element;
+  tasks: any[];
+}) {
   const storage = useAccountStorage();
   const ref: any = useRef();
   const buttonRef: any = useRef();
   const router = useRouter();
-  const session = useSession();
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const { board, mutateData } = useContext(BoardContext);
   const { column, length } = useContext(ColumnContext);
@@ -81,22 +87,6 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         },
       }}
     >
-      <FilterMenu
-        handleParentClose={handleClose}
-        originalTasks={column.tasks.filter(
-          (task) => task.parentTasks.length === 0
-        )}
-        setColumnTasks={setColumnTasks}
-      >
-        <MenuItem className="sortMenu">
-          <Icon className="outlined">filter_list</Icon>
-          Sort
-          <Icon className="outlined" sx={{ ml: "auto" }}>
-            chevron_right
-          </Icon>
-        </MenuItem>
-      </FilterMenu>
-      <Divider />
       <MenuItem
         onClick={() => {
           selection.set(["-1"]);
@@ -104,6 +94,14 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
         }}
       >
         <Icon className="outlined">select</Icon>Select
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          selection.set(tasks.map((t) => t.id));
+          handleClose();
+        }}
+      >
+        <Icon className="outlined">select_all</Icon>Select all
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -157,39 +155,7 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
     </Box>
   );
 
-  return column.name === "" ? (
-    <Box
-      onClick={(e) => e.stopPropagation()}
-      sx={{
-        ml: "auto",
-      }}
-    >
-      <FilterMenu
-        handleParentClose={handleClose}
-        originalTasks={column.tasks.filter(
-          (task) => task.parentTasks.length === 0
-        )}
-        setColumnTasks={setColumnTasks}
-      >
-        <IconButton
-          onClick={(e) => e.stopPropagation()}
-          size="large"
-          sx={{
-            mr: 1,
-          }}
-        >
-          <Icon
-            className="outlined"
-            sx={{
-              transition: "all .2s",
-            }}
-          >
-            filter_list
-          </Icon>
-        </IconButton>
-      </FilterMenu>
-    </Box>
-  ) : (
+  return column.name === "" ? null : (
     <>
       <SwipeableDrawer
         anchor="bottom"
@@ -204,13 +170,15 @@ export function ColumnSettings({ children, setColumnTasks }: any) {
             maxHeight: "400px",
             width: "auto",
             p: 2,
-            borderRadius: { xs: "20px 20px 0 0", md: 5 },
-            mb: { md: 5 },
+            border: `2px solid ${palette[3]}`,
+            borderRadius: 5,
+            m: { xs: 2, md: 5 },
+            mx: { md: "auto" },
           },
         }}
       >
         <Puller showOnDesktop />
-        <EmojiPicker emoji={emoji} setEmoji={setEmoji}>
+        <EmojiPicker setEmoji={setEmoji}>
           <IconButton
             size="large"
             sx={{

@@ -20,6 +20,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 // Hooks
 import Layout from "@/components/Layout";
 import { SessionProvider, useUser } from "@/lib/client/session";
@@ -46,6 +49,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const fetcher = ([url, params], session) => {
+  if (url === null) return;
   const _params = {
     sessionId: session?.current?.token,
     property: session?.property?.propertyId,
@@ -57,7 +61,6 @@ export const fetcher = ([url, params], session) => {
   const _url = `/api/${url}?${new URLSearchParams(_params)}`;
 
   return fetch(_url).then((res) => {
-    console.log(session);
     return res.json();
   });
 };
@@ -91,6 +94,7 @@ export default function App({
     "/auth/reset-password/[id]",
     "/canny-auth",
     "/invite/[id]",
+    "/availability/[id]",
     "/share/[index]",
     "/_offline",
     "/404",
@@ -120,17 +124,8 @@ export default function App({
     })
   );
 
-  if (
-    !isLoading &&
-    data &&
-    !data.error &&
-    data.user?.onboardingComplete !== true &&
-    router.pathname !== "/onboarding"
-  ) {
-    router.push("/onboarding");
-  }
-
   useEffect(() => {
+    localStorage.getItem("recentlyAccessedTasks");
     document.documentElement.classList[isDark ? "add" : "remove"]("dark");
   }, [isDark]);
 
@@ -145,40 +140,42 @@ export default function App({
   };
 
   return (
-    <SWRConfig value={{ fetcher: (d) => fetcher(d, s) }}>
-      <SessionProvider session={s}>
-        <StorageContext.Provider value={{ isReached, setIsReached }}>
-          <ThemeProvider theme={userTheme}>
-            <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
-            <Head>
-              <title>Dysperse</title>
-              <meta name="theme-color" content={palette[1]} />
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content, viewport-fit=cover"
-              />
-              <link
-                rel="shortcut icon"
-                href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"
-              />
-            </Head>
-            <Analytics />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <SWRConfig value={{ fetcher: (d) => fetcher(d, s) }}>
+        <SessionProvider session={s} isLoading={isLoading}>
+          <StorageContext.Provider value={{ isReached, setIsReached }}>
+            <ThemeProvider theme={userTheme}>
+              <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
+              <Head>
+                <title>Dysperse</title>
+                <meta name="theme-color" content={palette[1]} />
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1, user-scalable=no, interactive-widget=resizes-content, viewport-fit=cover"
+                />
+                <link
+                  rel="shortcut icon"
+                  href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"
+                />
+              </Head>
+              <Analytics />
 
-            {disableLayout ? (
-              children
-            ) : (
-              <>
-                {isLoading && <Loading />}
-                {!isLoading && !isError && data.error && <AuthLoading />}
-                {!isLoading && !isError && !data.error && (
-                  <Layout>{children}</Layout>
-                )}
-                {isError && <Error />}
-              </>
-            )}
-          </ThemeProvider>
-        </StorageContext.Provider>
-      </SessionProvider>
-    </SWRConfig>
+              {disableLayout ? (
+                children
+              ) : (
+                <>
+                  {isLoading && <Loading />}
+                  {!isLoading && !isError && data.error && <AuthLoading />}
+                  {!isLoading && !isError && !data.error && (
+                    <Layout>{children}</Layout>
+                  )}
+                  {isError && <Error />}
+                </>
+              )}
+            </ThemeProvider>
+          </StorageContext.Provider>
+        </SessionProvider>
+      </SWRConfig>
+    </LocalizationProvider>
   );
 }

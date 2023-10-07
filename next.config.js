@@ -27,6 +27,16 @@ const moduleExports = {
           permanent: false,
         },
         {
+          source: "/api/property/tasks/agenda",
+          destination: "/api/property/tasks/perspectives",
+          permanent: false,
+        },
+        {
+          source: "/onboarding",
+          destination: "/",
+          permanent: false,
+        },
+        {
           source: "/signup",
           destination: "/auth/signup",
           permanent: true,
@@ -38,7 +48,12 @@ const moduleExports = {
         },
         {
           source: "/tasks",
-          destination: "/tasks/agenda/days",
+          destination: "/tasks/perspectives/days",
+          permanent: false,
+        },
+        {
+          source: "/tasks/agenda/:path*",
+          destination: "/tasks/perspectives/:path*",
           permanent: false,
         },
         {

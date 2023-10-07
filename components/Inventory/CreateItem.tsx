@@ -26,7 +26,7 @@ export function CreateItem({
   mutate: any;
   children: JSX.Element;
 }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const titleRef: any = useRef();
@@ -100,6 +100,7 @@ export function CreateItem({
 
   const handleSubmit = () => {
     fetchRawApi(session, "property/inventory/items/create", {
+      room: defaultRoom?.id,
       ...Object.fromEntries(
         Object.entries(fields).map(([key, value]) => [key, String(value)])
       ),
@@ -151,7 +152,12 @@ export function CreateItem({
           <Box sx={{ p: 2, pb: 0 }}>
             <TextField
               value={fields.name}
-              onChange={(e) => handleChange("name", e.target.value)}
+              onChange={(e) =>
+                handleChange("name", e.target.value.replaceAll("\n", ""))
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSubmit();
+              }}
               inputRef={titleRef}
               fullWidth
               placeholder="Item name"

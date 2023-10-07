@@ -2,7 +2,7 @@ import { ErrorHandler } from "@/components/Error";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { Task } from "@/components/Tasks/Task";
 import { useSession } from "@/lib/client/session";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
 import {
   Box,
@@ -26,9 +26,8 @@ export function ColoredTasks() {
   ]);
   const [color, setColor] = useState("all");
 
-  const session = useSession();
+  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
 
   const emptyPlaceholder = (
     <Box
@@ -200,10 +199,8 @@ export function ColoredTasks() {
 }
 
 export default function Dashboard() {
-  const [open, setOpen] = useState(false);
-
   return (
-    <TasksLayout open={open} setOpen={setOpen}>
+    <TasksLayout>
       <ColoredTasks />
     </TasksLayout>
   );

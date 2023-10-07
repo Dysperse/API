@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 import { cloneElement, useCallback, useEffect, useMemo, useState } from "react";
 
 export function FocusTimer({ children }) {
-  const session = useSession();
+  const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
   const styles = {

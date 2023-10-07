@@ -4,7 +4,6 @@ import { EmailWrapper } from "./wrapper";
 interface EmailProps {
   fromName?: string;
   toName?: string;
-  toEmail?: string;
   boardName?: string;
   boardId?: string;
 }
@@ -12,7 +11,6 @@ interface EmailProps {
 export const BoardEmail = ({
   fromName = "[from-name]",
   toName = "[to-name]",
-  toEmail = "[to-email]",
   boardName = "[board-name]",
   boardId = "[board-id]",
 }: EmailProps) => {
