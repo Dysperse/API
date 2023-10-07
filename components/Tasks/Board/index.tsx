@@ -210,6 +210,10 @@ function RenderBoard({ tasks }) {
 }
 
 export function Board({ mutate, board }) {
+  const [filter, setFilter] = useState<
+    "priority" | "a-z" | "z-a" | "due-asc" | "due-desc"
+  >("priority");
+
   const {
     data,
     error,
@@ -219,6 +223,7 @@ export function Board({ mutate, board }) {
     "property/boards/tasks",
     {
       id: board?.id,
+      filter,
     },
   ]);
 
@@ -293,6 +298,8 @@ export function Board({ mutate, board }) {
           permissions: readOnly ? "read" : "edit",
           isShared,
           mutateData,
+          filter,
+          setFilter,
         }}
       >
         <RenderBoard tasks={data} />

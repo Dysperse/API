@@ -2,6 +2,7 @@ import { containerRef } from "@/components/Layout";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -13,20 +14,58 @@ import {
   Grid,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
   TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useRef } from "react";
+import {
+  cloneElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "react-hot-toast";
 import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
+function FilterSettings({ children }) {
+  const { board, filter, setFilter, permissions, isShared, mutateData } =
+    useContext(BoardContext);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  const trigger = cloneElement(children, {
+    onClick: handleClick,
+  });
+  return (
+    <>
+      {trigger}
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {["priority", "a-z", "z-a", "due-asc", "due-desc"].map((filter) => (
+          <MenuItem onClick={handleClose} key={filter}>
+            {capitalizeFirstLetter(
+              filter.includes("-") ? filter.toUpperCase() : filter
+            )}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+}
+
 export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
-  const { board, permissions, isShared, mutateData } = useContext(BoardContext);
+  const { board, filter, setFilter, permissions, isShared, mutateData } =
+    useContext(BoardContext);
 
   const titleRef: any = useRef();
   const descriptionRef: any = useRef();
@@ -251,6 +290,9 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
               maxRows={3}
             />
             <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+              <FilterSettings>
+                <Chip label="Filter" icon={<Icon>filter_list</Icon>} />
+              </FilterSettings>
               {!board.public && (
                 <Chip label={"Private"} icon={<Icon>lock</Icon>} />
               )}
