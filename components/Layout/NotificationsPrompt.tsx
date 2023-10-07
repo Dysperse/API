@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Logo } from "../Logo";
 
-const useNotificationSubscription = () => {
-  const [subscription, setSubscription] = useState(null);
+export const useNotificationSubscription = () => {
+  const [subscription, setSubscription] = useState<any>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [registration, setRegistration] = useState<any>(null);
 
@@ -47,7 +47,14 @@ const useNotificationSubscription = () => {
     subscribeToNotifications();
   }, []);
 
-  return { subscription, isSubscribed, registration };
+  return {
+    subscription,
+    isSubscribed,
+    registration,
+    setSubscription,
+    setRegistration,
+    setIsSubscribed,
+  };
 };
 
 export default function NotificationsPrompt() {
