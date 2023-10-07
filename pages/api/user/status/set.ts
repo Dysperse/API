@@ -39,6 +39,7 @@ export default async function handler(req, res) {
       update: status,
       create: status,
     });
+
     if (req.query.notifyFriendsForStatusUpdates === "true") {
       const users = await prisma.notificationSettings.findMany({
         where: {
