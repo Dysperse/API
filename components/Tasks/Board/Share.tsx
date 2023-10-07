@@ -308,7 +308,7 @@ export function ShareBoard({ mutate, board }) {
                     ? "Expired "
                     : "Expires ") + dayjs(share.expiresAt).fromNow()
                 } ∙ 
-                  ${share.readOnly ? "Read only" : "Can edit"}`}
+                  ${share.readOnly ? "Read only" : "Edit access"}`}
               />
               <IconButton
                 sx={{ ml: "auto" }}
