@@ -56,9 +56,7 @@ export function FriendPopover({ children, email }) {
     },
   });
 
-  const { data } = useSWR(
-    open ? ["user/profile", { email, basic: true }] : null
-  );
+  const { data, mutate } = useSWR(open ? ["user/profile", { email }] : null);
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(data?.color || "gray", isDark);
@@ -102,7 +100,7 @@ export function FriendPopover({ children, email }) {
 
   const handleFriend = useCallback(() => {
     toast.promise(
-      new Promise((resolve, reject) => {
+      new Promise(async (resolve, reject) => {
         try {
           if (isFriend) {
             fetchRawApi(session, "user/followers/unfollow", {
@@ -115,6 +113,7 @@ export function FriendPopover({ children, email }) {
               followingEmail: data.email,
             });
           }
+          await mutate();
           resolve(true);
         } catch (e) {
           reject(true);

@@ -74,9 +74,7 @@ export default function Home() {
 
   const { data: profileData } = useSWR([
     "user/profile",
-    {
-      email: session.user.email,
-    },
+    { email: session.user.email },
   ]);
 
   const sortedFriends = useMemo(() => {

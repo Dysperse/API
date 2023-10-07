@@ -207,10 +207,13 @@ function Page() {
   const isCurrentUser =
     email === session.user.email || email === session.user.username;
 
-  const isFollowing =
-    data &&
-    data.followers &&
-    data.followers.find((e) => e.follower.email === session.user.email);
+  const isFriend =
+    data?.followers?.[0]?.accepted === true ||
+    data?.following?.[0]?.accepted === true;
+
+  const isPending =
+    data?.followers?.[0]?.accepted === false ||
+    data?.following?.[0]?.accepted === false;
 
   const isDark = useDarkMode(session.darkMode);
 
@@ -218,7 +221,7 @@ function Page() {
 
   const handleFollowButtonClick = async () => {
     setLoading(true);
-    if (isFollowing) {
+    if (isFriend) {
       await fetchRawApi(session, "user/followers/unfollow", {
         followerEmail: session.user.email,
         followingEmail: data?.email,
@@ -377,7 +380,7 @@ function Page() {
             </ShareProfileModal>
             {!isCurrentUser && data?.color && (
               <ConfirmationModal
-                disabled={!isFollowing}
+                disabled={!isFriend}
                 title={`Are you sure you want to unfollow ${data?.name}?`}
                 question="You can always follow them back later"
                 callback={handleFollowButtonClick}
@@ -388,7 +391,7 @@ function Page() {
                   sx={{
                     px: 2,
                     flexShrink: 0,
-                    ...(!loading && data && isFollowing
+                    ...(!loading && data && isFriend
                       ? {
                           color: palette[12] + "!important",
                           background: palette[5] + "!important",
@@ -406,10 +409,17 @@ function Page() {
                   }}
                 >
                   <Icon className="outlined">
-                    {isFollowing ? "how_to_reg" : "person_add"}
+                    {isFriend
+                      ? "how_to_reg"
+                      : isPending
+                      ? "access_time"
+                      : "person_add"}
                   </Icon>
-                  Follow
-                  {isFollowing && "ing"}
+                  {isFriend
+                    ? "Remove friend"
+                    : isPending
+                    ? "Pending"
+                    : "Add friend"}
                 </LoadingButton>
               </ConfirmationModal>
             )}
