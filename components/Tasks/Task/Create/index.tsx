@@ -354,16 +354,18 @@ export function CreateTask({
           if (!localStorage.getItem("tips-taskPriority") && !formData.pinned) {
             toast(
               <Box>
-                <Typography>
+                <Typography gutterBottom>
                   <i>
                     <b>PRO TIP</b>
                   </i>
                 </Typography>
-                <span>
+                <Typography gutterBottom>
                   You can quickly mark a task as important by typing
-                  &quot;!!&quot; in its name. You can also emphasize importance
-                  by making it all caps!
-                </span>
+                  &quot;!!&quot; in its name.
+                </Typography>
+                <Typography>
+                  You can also emphasize importance by making it all caps!
+                </Typography>
               </Box>
             );
             localStorage.setItem("tips-taskPriority", "true");
