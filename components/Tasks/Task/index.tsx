@@ -416,7 +416,7 @@ export const Task: any = React.memo(function Task({
             },
             "&:active": {
               background: {
-                xs: palette[2] + "!important",
+                xs: palette[isSubTask ? 4 : 2] + "!important",
                 sm: addHslAlpha(palette[3], 0.5) + "!important",
               },
             },
