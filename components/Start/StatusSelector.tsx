@@ -198,6 +198,7 @@ export function StatusSelector({
       >
         <Box sx={{ width: "100%" }}>
           <Puller showOnDesktop />
+          {/* {notificationData.notifyFriendsForStatusUpdates ? 1 : 0} */}
           <Typography
             variant="body2"
             sx={{
