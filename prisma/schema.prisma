@@ -141,7 +141,7 @@ model Profile {
 model Settings {
   id String @id @unique @default(uuid())
 
-  hiddenPerspectives String[] @default([])
+  hiddenPerspectives String[] @default(["backlog", "upcoming", "completed"])
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
