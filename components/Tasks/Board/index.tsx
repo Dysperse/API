@@ -68,6 +68,7 @@ function RenderBoard({ tasks }) {
         overflowX: "scroll",
         minHeight: "100dvh",
         height: { sm: "100dvh" },
+        pt: { xs: "var(--navbar-height)", sm: 0 },
         overflowY: { sm: "hidden" },
       }}
     >
