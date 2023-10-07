@@ -58,10 +58,6 @@ const TaskChips = React.memo(function TaskChips({
   const { session } = useSession();
   const isPinned = taskData.pinned;
   const isDue = taskData.due && !isAgenda;
-  const isTimeDue =
-    taskData.due &&
-    (dayjs(taskData.due).hour() !== 0 || dayjs(taskData.due).minute() !== 0) &&
-    !isSubTask;
 
   const isWhereValid =
     taskData.where &&
@@ -142,7 +138,7 @@ const TaskChips = React.memo(function TaskChips({
         </Tooltip>
       )}
 
-      {isTimeDue && (
+      {!taskData.dateOnly && !isSubTask && (
         <Chip
           size="small"
           className="date"
