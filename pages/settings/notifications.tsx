@@ -56,6 +56,10 @@ export default function Notifications() {
     setIsSubscribed(true);
     updateSettings(["notificationSubscription", JSON.stringify(sub)], {
       session,
+    }).then(() => {
+      fetchRawApi(session, "/user/settings/notifications/test", {
+        subscription: JSON.stringify(sub),
+      });
     });
   };
   const { session } = useSession();
@@ -83,9 +87,6 @@ export default function Notifications() {
           value: value,
         });
         await mutate();
-        await fetchRawApi(session, "/user/settings/notifications/test", {
-          subscription: session.user.notificationSubscription,
-        });
         resolve("");
       } catch (error: any) {
         reject(error.message);
