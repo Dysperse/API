@@ -5,6 +5,7 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
+import { LoadingButton } from "@mui/lab";
 import {
   Avatar,
   Badge,
@@ -112,6 +113,8 @@ export function CreateTask({
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [imageUploading, setImageUploading] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -446,8 +449,9 @@ export function CreateTask({
             ...s,
             image: JSON.stringify(res.data),
           }));
+          setImageUploading(false);
         }}
-        onUploadStart={() => {}}
+        onUploadStart={() => setImageUploading(true)}
       >
         <IconButton
           size="small"
@@ -671,15 +675,16 @@ export function CreateTask({
             {fileTrigger}
             <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
               {dateTrigger}
-              <Button
+              <LoadingButton
                 disableRipple
                 variant="contained"
+                loading={imageUploading}
                 disabled={loading || formData.title.trim() === ""}
                 onClick={handleSubmit}
                 sx={{ px: 2, minWidth: "unset" }}
               >
                 <Icon>arrow_upward</Icon>
-              </Button>
+              </LoadingButton>
             </Box>
           </Box>
         </Box>
