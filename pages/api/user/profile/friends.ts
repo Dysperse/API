@@ -8,8 +8,9 @@ function removeDuplicateFriends(data) {
 
   for (const friend of data) {
     const friendPair = `${friend.followerId}-${friend.followingId}`;
+    const friendPair2 = `${friend.followingId}-${friend.followerId}`;
 
-    if (!uniqueFriends.has(friendPair)) {
+    if (!uniqueFriends.has(friendPair) && !uniqueFriends.has(friendPair2)) {
       uniqueFriends.add(friendPair);
       filteredData.push(friend);
     }
@@ -145,12 +146,8 @@ export default async function handler(req, res) {
       },
     });
 
-    console.log(
-      sortFriendsByStatusAndActivity(
-        removeDuplicateFriends(friends),
-        "America/Los_Angeles"
-      )
-    );
+    console.log(removeDuplicateFriends(friends));
+
     res.json({
       user,
       friends: sortFriendsByStatusAndActivity(
