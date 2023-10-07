@@ -413,6 +413,17 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   "& .MuiBadge-badge": {
                     background: chipPalette[9],
                     border: `4px solid ${userPalette[status ? 3 : 2]}`,
+                    ...(!status &&
+                    ["a few seconds ago" || "in a few seconds"].includes(
+                      dayjs(friend.lastActive).fromNow()
+                    )
+                      ? {
+                          background: chipPalette[9],
+                        }
+                      : !status && {
+                          boxShadow: `0 0 0 2px inset ${chipPalette[9]}`,
+                          background: userPalette[2],
+                        }),
                     width: 20,
                     height: 20,
                     borderRadius: 99,
