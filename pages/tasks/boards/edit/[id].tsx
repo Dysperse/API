@@ -89,6 +89,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
   };
 
   const [items, setItems] = useState(data.columns);
+  useEffect(() => setItems(data.columns), [data.columns]);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
