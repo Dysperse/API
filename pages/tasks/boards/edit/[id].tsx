@@ -147,7 +147,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
                           title="Delete column?"
                           question={`Deleting this column will also permanently delete ${column._count.tasks} tasks inside it. Continue?`}
                           callback={async () => {
-                            recentlyAccessed.clear()
+                            recentlyAccessed.clear();
                             await fetchRawApi(
                               session,
                               "property/boards/column/delete",
@@ -284,6 +284,12 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
         onBlur={(e) => {
           handleEdit("name", e.target.value, () => {
             toast.success("Saved!");
+          });
+
+          const d = recentlyAccessed.get();
+          recentlyAccessed.set({
+            ...d,
+            label: e.target.value,
           });
         }}
       />
