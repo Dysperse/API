@@ -457,7 +457,6 @@ function StepThree({ styles, formData, setFormData, setStep }) {
                   >
                     <Skeleton
                       width="100%"
-                      sx={{ borderRadius: 5 }}
                       height={"100%"}
                       variant="rectangular"
                     />

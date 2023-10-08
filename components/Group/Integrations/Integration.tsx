@@ -7,7 +7,7 @@ export function Integration({ board, closeParent, integration }) {
   return (
     <>
       <ListItemButton
-        sx={{ mb: 1, gap: 2 }}
+        sx={{ mb: 1, px: 1, gap: 2, background: "transparent!important" }}
         onClick={() => {
           closeParent();
           setTimeout(() => {

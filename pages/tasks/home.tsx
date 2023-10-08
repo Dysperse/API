@@ -78,7 +78,7 @@ function RecentlyAccessed() {
     <Skeleton
       animation="wave"
       height={60}
-      sx={{ mb: 2, borderRadius: 5 }}
+      sx={{ mb: 2 }}
       variant="rectangular"
       width="100%"
     />

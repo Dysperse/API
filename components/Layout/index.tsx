@@ -41,9 +41,8 @@ export default function AppLayout({
   children: JSX.Element;
 }): JSX.Element {
   const { data, error } = useSWR(["property/storage"]);
-  const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
-
   const storage = useAccountStorage();
+  const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
 
   useEffect(() => {
     if (error) {

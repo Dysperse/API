@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
-import { getItemCount } from "./inventory/count";
 
 const handler = async (req, res) => {
   try {
@@ -14,22 +13,16 @@ const handler = async (req, res) => {
     });
 
     //  List all boards with columns, but not items
-    const tasks = await prisma.task.count({
+    const user = await prisma.property.findFirstOrThrow({
       where: {
-        propertyId: req.query.property,
+        id: req.query.property,
+      },
+      select: {
+        _count: true,
       },
     });
 
-    const itemCount = await getItemCount(
-      res,
-      req.query.property,
-      req.query.accessToken
-    );
-
-    res.json({
-      tasks,
-      items: itemCount,
-    });
+    res.json(user);
   } catch (e: any) {
     res.json({ error: e.message });
   }

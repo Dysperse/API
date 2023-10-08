@@ -1,12 +1,13 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Alert, AlertTitle, Box, Skeleton, Typography } from "@mui/material";
-import * as colors from "@radix-ui/colors";
+import { Box, Icon, Skeleton, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import useSWR from "swr";
 import { ErrorHandler } from "../Error";
 
 export const max = 500;
 export const multipliers = { items: 1.5, tasks: 0.5 };
+
 export const getTotal = (data, tasks, items) =>
   Math.round(
     ((data && tasks) || 0) * multipliers.tasks +
@@ -25,9 +26,9 @@ export function Storage({
   propertyId: string;
   color: any;
 }) {
+  const router = useRouter();
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
-
   const palette = useColor(color, isDark);
 
   const { data, mutate, error } = useSWR([
@@ -38,114 +39,77 @@ export function Storage({
     },
   ]);
 
-  const storage = {
-    items:
-      ((((data && data.items) || { count: 0 }).count * multipliers.items) /
+  const used = data
+    ? ((data._count.Task * multipliers.tasks +
+        data._count.inventory * multipliers.items) /
         max) *
-      100,
-    tasks: ((((data && data.tasks) || 0) * multipliers.tasks) / max) * 100,
-  };
+      100
+    : 0;
 
-  return error || !data ? (
-    <Box>
-      <Typography variant="h6" sx={{ px: 1 }}>
-        Storage
-      </Typography>
-      {error ? (
-        <ErrorHandler
-          callback={() => mutate()}
-          error="An error occured while trying to get your account's storage information. Please try again later"
-        />
+  return (
+    <>
+      {error || !data ? (
+        <Box>
+          {error ? (
+            <ErrorHandler
+              callback={() => mutate()}
+              error="An error occured while trying to get your account's storage information. Please try again later"
+            />
+          ) : (
+            <Skeleton animation="wave" variant="rectangular" height={120} />
+          )}
+        </Box>
       ) : (
         <Box
+          onClick={() => router.push(`/spaces/${propertyId}/storage`)}
           sx={{
-            p: 2,
-            mt: 2,
-            mb: 2,
-            userSelect: "none",
-            px: 2.5,
-            borderRadius: 5,
+            height: "120px",
             background: palette[2],
+            "&:active": {
+              background: palette[3],
+            },
+            borderRadius: 5,
+            p: 2,
+            px: 3,
           }}
         >
-          <Skeleton animation="wave" />
-        </Box>
-      )}
-    </Box>
-  ) : (
-    <Box>
-      {getTotal(data, data.tasks, data.items) >= max && (
-        <Alert severity="warning" sx={{ mt: 3, gap: 1.5, mb: -2 }}>
-          <AlertTitle sx={{ mb: 0.5 }}>
-            You&apos;ve used up all your credits
-          </AlertTitle>
-          To keep Dysperse free and up for everyone, we implement{" "}
-          <i>generous</i> limits. Since you&apos;ve reached your account storage
-          limits, you won&apos;t be able to create any more tasks or items. Try
-          deleting these to free up some space.
-        </Alert>
-      )}
-      <Typography variant="h6" sx={{ px: 1 }}>
-        Storage
-      </Typography>
-      <Box
-        sx={{
-          background: palette[2],
-          color: palette[12],
-          borderRadius: 5,
-          p: 3,
-          mt: 2,
-          mb: 5,
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            height: 20,
-            borderRadius: 999,
-            overflow: "hidden",
-            background: palette[3],
-            mb: 2,
-          }}
-        >
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+            <Box>
+              <Typography variant="h6">Storage</Typography>
+              <Typography variant="body2">{~~used}% used</Typography>
+            </Box>
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+          </Box>
           <Box
             sx={{
-              width: `${storage.items}%`,
-              background: colors[color][color + "8"],
-              height: "100%",
+              width: "100%",
+              background: palette[5],
+              height: 15,
+              borderRadius: 99,
+              display: "flex",
+              overflow: "hidden",
             }}
-          />
-          <Box
-            sx={{
-              width: `${storage.tasks}%`,
-              background: colors[color][color + "9"],
-              height: "100%",
-              borderRadius: "0 99px 99px 0",
-            }}
-          />
+          >
+            <Box
+              sx={{
+                width: `${
+                  ((data._count.Task * multipliers.tasks) / max) * 100
+                }%`,
+                background: palette[11],
+              }}
+            />
+            <Box
+              sx={{
+                width: `${
+                  ((data._count.inventory * multipliers.items) / max) * 100
+                }%`,
+                background: palette[9],
+                borderRadius: "0 20px 20px 0",
+              }}
+            />
+          </Box>
         </Box>
-        <Box sx={{ display: "flex" }}>
-          <Typography gutterBottom sx={{ width: "100%" }}>
-            <b>Items</b>
-            <Typography variant="body2">
-              {Math.round(storage.items)}% &bull;{" "}
-              {(data.items || { count: 0 }).count} items
-            </Typography>
-          </Typography>
-          <Typography gutterBottom sx={{ width: "100%" }}>
-            <b>Tasks</b>
-            <Typography variant="body2">
-              {Math.round(storage.tasks)}% &bull; {data.tasks || 0} items
-            </Typography>
-          </Typography>
-        </Box>
-        <Typography gutterBottom sx={{ mt: 1 }} variant="body2">
-          <b>
-            {max - getTotal(data, data.tasks, data.items)}/{max}
-          </b>
-          &nbsp;credits left
-        </Typography>
-      </Box>
-    </Box>
+      )}
+    </>
   );
 }

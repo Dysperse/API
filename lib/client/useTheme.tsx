@@ -1,4 +1,4 @@
-import { Grow, Slide } from "@mui/material";
+import { Grow, Slide, ThemeOptions } from "@mui/material";
 import React from "react";
 import { colors } from "../colors";
 import { addHslAlpha } from "./addHslAlpha";
@@ -40,7 +40,7 @@ export const toastStyles = {
   },
 };
 
-export const useCustomTheme = ({ darkMode, themeColor }): any => {
+export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
   const palette = useColor(themeColor, darkMode);
 
   return {
@@ -238,6 +238,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       },
       MuiSkeleton: {
         styleOverrides: {
+          rectangular: ({ theme }) =>
+            theme.unstable_sx({
+              borderRadius: 5,
+            }),
           root: {
             backgorund: addHslAlpha(palette[5], 0.4),
           },
@@ -442,7 +446,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
           elevation: 0,
           ModalProps: { keepMounted: false },
           TransitionComponent: DrawerTransition,
-        },
+        } as any,
         styleOverrides: {
           paperAnchorBottom: {
             borderRadius: "20px 20px 0 0",
@@ -487,52 +491,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): any => {
       duration: {
         enteringScreen: 300,
         leavingScreen: 300,
-      },
-    },
-    MuiSwitch: {
-      defaultProps: {
-        focusVisibleClassName: ".Mui-focusVisible",
-        disableRipple: true,
-      },
-      styleOverrides: {
-        root: ({ theme }) =>
-          theme.unstable_sx({
-            width: 42,
-            height: 26,
-            padding: 0,
-            "& .MuiSwitch-switchBase": {
-              padding: 0,
-              transitionDuration: "300ms",
-              margin: "2px",
-              "&.Mui-checked": {
-                transform: "translateX(16px)",
-                color: "#fff",
-              },
-              "&.Mui-focusVisible .MuiSwitch-thumb": {
-                color: "#33cf4d",
-                border: "6px solid #fff",
-              },
-              "&.Mui-disabled .MuiSwitch-thumb": {
-                color: darkMode ? "hsl(240,11%,75%)" : colors.grey[600],
-              },
-              "&.Mui-disabled + .MuiSwitch-track": {
-                opacity: darkMode ? 0.7 : 0.3,
-                ...(darkMode && {
-                  background: "hsl(240,11%,15%)",
-                }),
-              },
-            },
-            "& .MuiSwitch-thumb": {
-              boxSizing: "border-box",
-              width: 22,
-              height: 22,
-            },
-            "& .MuiSwitch-track": {
-              borderRadius: 26 / 2,
-              backgroundColor: !darkMode ? "#E9E9EA" : "#39393D",
-              opacity: 1,
-            },
-          }),
       },
     },
     palette: {

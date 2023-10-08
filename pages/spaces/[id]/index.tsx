@@ -102,6 +102,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
             py: 4,
             minHeight: "100%",
             background: palette[1],
+            color: palette[12],
             borderRadius: "20px 20px 0 0",
           },
         }}
@@ -245,6 +246,9 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
               className="container"
               initial={{ y: 50 }}
               animate={{ y: 0 }}
+              style={{
+                ...(data && { background: palette[1], minHeight: "100dvh" }),
+              }}
             >
               {children}
               {!children && data && (
@@ -258,6 +262,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                 data &&
                 data.profile.id === session.property.propertyId && (
                   <Integrations
+                    hideNew
                     board={""}
                     handleClose={() => {}}
                     defaultPalette={data?.profile?.color}

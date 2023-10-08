@@ -1115,7 +1115,6 @@ function CreateAvailability({ mutate, setShowMargin }) {
               width: "100%",
               top: 0,
               left: 0,
-              borderRadius: 5,
               zIndex: 9999,
               background: "transparent",
               pointerEvents: "none",
@@ -1519,7 +1518,7 @@ export default function Page() {
               variant="rectangular"
               height="220px"
               animation="wave"
-              sx={{ borderRadius: 5, maxWidth: "500px", mx: "auto" }}
+              sx={{ maxWidth: "500px", mx: "auto" }}
             />
           ))
         )}

@@ -240,7 +240,7 @@ function JumpBackIn() {
                 variant="rectangular"
                 height={70}
                 width={200}
-                sx={{ flexShrink: 0, borderRadius: 5 }}
+                sx={{ flexShrink: 0 }}
               />
             ))}
       </Box>

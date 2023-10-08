@@ -13,7 +13,8 @@ import {
   Icon,
   IconButton,
   InputAdornment,
-  ListItemButton,
+  List,
+  ListItem,
   ListItemSecondaryAction,
   ListItemText,
   Skeleton,
@@ -104,18 +105,7 @@ export default function Integrations({
             mb: 1,
           }}
         >
-          <Typography variant="h6">
-            Integrations
-            <Chip
-              size="small"
-              label="ALPHA"
-              sx={{
-                ml: 1,
-                background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
-                color: "#000",
-              }}
-            />
-          </Typography>
+          <Typography variant="h6">Integrations</Typography>
           <Button
             onClick={() => setOpen(true)}
             sx={{ ml: "auto", px: 2 }}
@@ -131,11 +121,9 @@ export default function Integrations({
           {data.length == 0 && (
             <Alert severity="info">
               <Typography>
-                <b>You don&apos;t have any integrations set up yet.</b>
+                <b>Connect your favorite apps</b>
               </Typography>
-              <Typography>
-                Seamlessly sync tools like Canvas with your Dysperse group.
-              </Typography>
+              <Typography>Sync other apps with Dysperse.</Typography>
             </Alert>
           )}
           {error && (
@@ -144,62 +132,58 @@ export default function Integrations({
               callback={() => mutate()}
             />
           )}
-          {session.permission !== "read-only" &&
-            data
-              .filter(
-                (integration) => integration.board.id === board || hideNew
-              )
-              .map((integration) => (
-                <ListItemButton
-                  key={integration.id}
-                  disableRipple
-                  sx={{ mb: 2, background: palette[2] }}
-                >
-                  <ListItemText
-                    primary={integration.name}
-                    secondary={
-                      <Chip
-                        sx={{ mt: 0.5 }}
-                        icon={<Icon>sync</Icon>}
-                        label={
-                          <>
-                            Synced with <b>{integration.board.name}</b>
-                          </>
-                        }
-                        size="small"
-                      />
-                    }
-                  />
-                  <ListItemSecondaryAction>
-                    <ConfirmationModal
-                      title="Are you sure you want to remove this integration?"
-                      question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
-                      callback={async () => {
-                        await fetchRawApi(
-                          session,
-                          "property/integrations/delete",
-                          {
-                            id: integration.id,
+          <List>
+            {session.permission !== "read-only" &&
+              data
+                .filter(
+                  (integration) => integration.board.id === board || hideNew
+                )
+                .map((integration) => (
+                  <ListItem
+                    key={integration.id}
+                    sx={{ borderRadius: 5, mb: 2, background: palette[2] }}
+                  >
+                    <ListItemText
+                      primary={integration.name}
+                      secondary={
+                        <Chip
+                          sx={{ mt: 0.5 }}
+                          icon={<Icon>sync</Icon>}
+                          label={
+                            <>
+                              Synced with <b>{integration.board.name}</b>
+                            </>
                           }
-                        );
-                        mutate();
-                      }}
-                    >
-                      <IconButton>
-                        <Icon className="outlined">delete</Icon>
-                      </IconButton>
-                    </ConfirmationModal>
-                  </ListItemSecondaryAction>
-                </ListItemButton>
-              ))}
+                          size="small"
+                        />
+                      }
+                    />
+                    <ListItemSecondaryAction>
+                      <ConfirmationModal
+                        title="Are you sure you want to remove this integration?"
+                        question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
+                        callback={async () => {
+                          await fetchRawApi(
+                            session,
+                            "property/integrations/delete",
+                            {
+                              id: integration.id,
+                            }
+                          );
+                          mutate();
+                        }}
+                      >
+                        <IconButton>
+                          <Icon className="outlined">remove_circle</Icon>
+                        </IconButton>
+                      </ConfirmationModal>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+          </List>
         </>
       ) : (
-        !board && (
-          <Skeleton
-            variant="rectangular"
-            sx={{ borderRadius: 5, width: "100%", height: 30 }}
-          />
-        )
+        !board && <Skeleton variant="rectangular" height={30} />
       )}
       {hideNew && board ? (
         integrations.map((integration) => (
@@ -222,10 +206,8 @@ export default function Integrations({
           <Puller showOnDesktop />
           <Box sx={{ p: 2, pt: 0 }}>
             <Box sx={{ px: 1 }}>
-              <Typography variant="h6">
-                Available integrations ({integrations.length})
-              </Typography>
-              <Typography gutterBottom>More coming soon!</Typography>
+              <Typography variant="h6">Available integrations</Typography>
+              <Typography gutterBottom>{integrations.length} apps</Typography>
             </Box>
             {integrations.map((integration) => (
               <Integration
@@ -243,47 +225,49 @@ export default function Integrations({
       )}
 
       <Divider sx={{ my: 2 }} />
-      <Box sx={{ textAlign: "left" }}>
-        <Typography variant="h6">Calendar subscription URL</Typography>
-        <Typography variant="body2" sx={{ mb: 2 }}>
-          Careful! Anyone with this link can see your tasks
-        </Typography>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <TextField
-            size="small"
-            InputProps={{
-              readOnly: true,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => {
-                      navigator.clipboard.writeText(icalUrl);
-                      toast.success("Copied to clipboard!");
-                    }}
-                  >
-                    <Icon className="outlined">content_copy</Icon>
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            value={icalUrl}
-          />
-          <Button
-            sx={{ flexShrink: 0 }}
-            onClick={() => {
-              window.open(
-                `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
-                  "https://",
-                  ""
-                )}`
-              );
-            }}
-            variant="contained"
-          >
-            Add to calendar
-          </Button>
-        </Box>
-      </Box>
+      <Typography variant="h6" gutterBottom>
+        Calendar feed link
+      </Typography>
+      <TextField
+        size="small"
+        InputProps={{
+          readOnly: true,
+          startAdornment: (
+            <InputAdornment position="start">
+              <IconButton
+                onClick={() => {
+                  window.open(
+                    `https://www.google.com/calendar/render?cid=webcal://${icalUrl.replace(
+                      "https://",
+                      ""
+                    )}`
+                  );
+                }}
+              >
+                <Icon>calendar_add_on</Icon>
+              </IconButton>
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <ConfirmationModal
+                title="Careful!"
+                question="Anyone with this link can see your tasks."
+                buttonText="Copy"
+                callback={() => {
+                  navigator.clipboard.writeText(icalUrl);
+                  toast.success("Copied to clipboard!");
+                }}
+              >
+                <IconButton>
+                  <Icon className="outlined">content_copy</Icon>
+                </IconButton>
+              </ConfirmationModal>
+            </InputAdornment>
+          ),
+        }}
+        value={icalUrl}
+      />
     </>
   );
 }
