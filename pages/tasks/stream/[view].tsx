@@ -58,12 +58,7 @@ export default function Page() {
             {data?.length || 0} items
           </Typography>
         </Box>
-        {error && (
-          <ErrorHandler
-            callback={mutate}
-            error="Something went wrong. Please try again later. "
-          />
-        )}
+        {error && <ErrorHandler callback={mutate} />}
         {data ? (
           <Virtuoso
             useWindowScroll

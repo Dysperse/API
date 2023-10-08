@@ -47,9 +47,7 @@ export default function Page() {
 
   return (
     <SpacesLayout title="Storage" parentRef={parentRef}>
-      {error && (
-        <ErrorHandler error="Something went wrong. Please try again later" />
-      )}
+      {error && <ErrorHandler />}
       {data ? (
         <>
           <Box sx={{ px: 1 }}>

@@ -144,7 +144,6 @@ function JumpBackIn() {
       {error && (
         <ErrorHandler
           callback={mutate}
-          error="Something went wrong. Please try again later"
         />
       )}
       <Box
@@ -331,7 +330,6 @@ function Panel() {
         {error && (
           <ErrorHandler
             callback={mutate}
-            error="Something went wrong. Please try again later"
           />
         )}
         {!data && (

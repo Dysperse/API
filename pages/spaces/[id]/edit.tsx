@@ -73,7 +73,7 @@ export default function Page() {
   return (
     <SpacesLayout title="Edit">
       {error && (
-        <ErrorHandler error="Something went wrong. Please try again later" />
+        <ErrorHandler  />
       )}
       {data ? (
         <>

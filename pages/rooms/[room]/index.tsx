@@ -440,7 +440,6 @@ export function ItemPopup({
         )}
         {error && (
           <ErrorHandler
-            error="Something went wrong. Please try again later"
             callback={mutate}
           />
         )}

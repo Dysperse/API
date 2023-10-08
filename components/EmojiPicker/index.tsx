@@ -109,7 +109,7 @@ const EmojiPicker = function EmojiPicker({
       >
         <Puller showOnDesktop />
         {error && (
-          <ErrorHandler error="Couldn't load emojis. Please try again later" />
+          <ErrorHandler  />
         )}
         {isLoading ? (
           <Box

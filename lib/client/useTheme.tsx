@@ -42,6 +42,8 @@ export const toastStyles = {
 
 export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
   const palette = useColor(themeColor, darkMode);
+  const orangePalette = useColor("orange", darkMode);
+  const redPalette = useColor("red", darkMode);
 
   return {
     components: {
@@ -260,18 +262,36 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         styleOverrides: {
           standardInfo: ({ theme }) =>
             theme.unstable_sx({
-              px: 3,
               color: palette[11],
               background: palette[2],
               "& svg": {
                 color: palette[10],
               },
             }),
+          standardWarning: ({ theme }) =>
+            theme.unstable_sx({
+              color: orangePalette[11],
+              background: orangePalette[2],
+              "& svg": {
+                color: orangePalette[10],
+              },
+            }),
+          standardError: ({ theme }) =>
+            theme.unstable_sx({
+              color: redPalette[11],
+              background: redPalette[2],
+              "& svg": {
+                color: redPalette[10],
+              },
+            }),
           root: ({ theme }) =>
             theme.unstable_sx({
               gap: 2,
-              alignItems: "center",
+              px: 3,
               borderRadius: 5,
+              "& svg": {
+                mt: 1,
+              },
             }),
         },
       },

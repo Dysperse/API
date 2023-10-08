@@ -40,7 +40,7 @@ export default function Page() {
   return (
     <SpacesLayout title="Changelog" parentRef={parentRef}>
       {error && (
-        <ErrorHandler error="Something went wrong. Please try again later" />
+        <ErrorHandler  />
       )}
       {data ? (
         <Timeline

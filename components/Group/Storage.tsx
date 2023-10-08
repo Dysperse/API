@@ -53,10 +53,7 @@ export function Storage({
       {error || !data ? (
         <Box>
           {error ? (
-            <ErrorHandler
-              callback={() => mutate()}
-              error="An error occured while trying to get your account's storage information. Please try again later"
-            />
+            <ErrorHandler callback={() => mutate()} />
           ) : (
             <Skeleton animation="wave" variant="rectangular" height={120} />
           )}

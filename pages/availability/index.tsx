@@ -1508,7 +1508,6 @@ export default function Page() {
           )
         ) : error ? (
           <ErrorHandler
-            error="Something went wrong. Please try again later"
             callback={mutate}
           />
         ) : (

@@ -507,7 +507,6 @@ function AvailabilityViewer({ data: eventData }) {
       {error && (
         <ErrorHandler
           callback={mutate}
-          error="Something went wrong. Please try again later"
         />
       )}
     </motion.div>
@@ -1080,7 +1079,6 @@ export default function Page({ data: eventData }) {
       )}
       {error && (
         <ErrorHandler
-          error="Something went wrong. Please try again later."
           callback={mutate}
         />
       )}

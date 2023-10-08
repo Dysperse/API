@@ -6,10 +6,10 @@ import { Alert, Icon, IconButton } from "@mui/material";
 import { useState } from "react";
 
 export function ErrorHandler({
-  error,
+  error = "Something went wrong. Please try again later.",
   callback = () => window.location.reload(),
 }: {
-  error: string;
+  error?: string;
   callback?: () => void;
 }): JSX.Element {
   const [loading, setLoading] = useState(false);

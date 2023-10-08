@@ -101,7 +101,7 @@ export default function Onboarding() {
         }}
       />
       {error && (
-        <ErrorHandler error="Something went wrong. Please try again later" />
+        <ErrorHandler  />
       )}
       {data?.error ? (
         <Box
