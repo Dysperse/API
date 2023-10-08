@@ -2,15 +2,18 @@
 
 // Update user settings
 import { prisma } from "@/lib/server/prisma";
+import { validateParams } from "@/lib/server/validateParams";
 
 const handler = async (req, res) => {
+  validateParams(req.query, ["sessionId"]);
+
   const session = await prisma.session.findFirstOrThrow({
     where: {
-      id: req.query.token,
+      id: req.query.sessionId,
     },
     select: {
       user: {
-        select: { identifier: true },
+        select: { name: true, identifier: true },
       },
     },
   });
@@ -28,6 +31,8 @@ const handler = async (req, res) => {
     },
   };
 
+  console.log(session.user);
+
   const user = await prisma.settings.upsert({
     where: {
       userId: session.user.identifier,
@@ -36,6 +41,7 @@ const handler = async (req, res) => {
     update: temp,
   });
 
+  console.log(user);
   res.json(user);
 };
 export default handler;
