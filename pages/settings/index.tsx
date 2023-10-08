@@ -285,6 +285,7 @@ function Page() {
           {section &&
             section.map((button) => (
               <ConfirmationModal
+                key={button.text} 
                 disabled={typeof button.onClickConfirmation == "undefined"}
                 callback={
                   button.onClickConfirmation
@@ -305,7 +306,7 @@ function Page() {
                 title={button.onClickConfirmation?.title || ""}
                 question={button.onClickConfirmation?.question}
               >
-                <ListItemButton key={button.text} sx={styles}>
+                <ListItemButton sx={styles}>
                   {typeof button.icon === "string" ? (
                     <Icon className="outlined" sx={{ color: palette[11] }}>
                       {button.icon}
