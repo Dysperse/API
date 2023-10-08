@@ -262,7 +262,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              mb: 0,
+              mb: 0.5,
             }),
         },
       },
