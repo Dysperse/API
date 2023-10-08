@@ -11,7 +11,7 @@ self.addEventListener("message", function (event) {
 self.addEventListener("periodicsync", (event) => {
   if (event.tag == "dysperse-integration-sync") {
     async function resyncIntegrations() {
-      const res = await fetch("/api/property/integrations/resync");
+      await fetch("/api/property/integrations/resync");
     }
     event.waitUntil(resyncIntegrations());
   }
