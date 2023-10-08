@@ -15,7 +15,6 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import {
   useCallback,
@@ -446,21 +445,10 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   borderRadius: 5,
                 }}
               >
-                <Image
-                  src="/images/noTasks.png"
-                  width={256}
-                  height={256}
-                  style={{
-                    ...(isDark && {
-                      filter: "invert(100%)",
-                    }),
-                  }}
-                  alt="No items found"
-                />
-                <Box sx={{ px: 3, maxWidth: "calc(100% - 50px)" }}>
+                <Box sx={{ p: 3, maxWidth: "calc(100% - 50px)" }}>
                   <Typography variant="h6">It&apos;s quiet here!</Typography>
-                  <Typography gutterBottom sx={{ fontWeight: 300 }}>
-                    There&apos;s nothing in this column (yet!)
+                  <Typography sx={{ fontWeight: 300 }}>
+                    There&apos;s nothing in this column.
                   </Typography>
                 </Box>
               </Box>
