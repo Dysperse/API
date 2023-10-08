@@ -163,7 +163,7 @@ export default function Notifications() {
     <Layout>
       {data ? (
         <Box sx={{ mb: 3 }}>
-          <ListItem>
+          <ListItem disableGutters>
             <ListItemText
               primary="Status updates"
               secondary="Notify others when I change my status"
@@ -244,7 +244,7 @@ export default function Notifications() {
           </ListItem>
           {/* Map through the notification settings */}
           {notificationSettings.map((setting) => (
-            <ListItem key={setting.key}>
+            <ListItem key={setting.key} disableGutters>
               <ListItemText
                 primary={
                   <>

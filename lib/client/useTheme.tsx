@@ -445,6 +445,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               borderColor: palette[3],
               borderWidth: "1px",
+              borderRadius: 99,
             }),
         },
       },
