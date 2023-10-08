@@ -78,7 +78,6 @@ export default function Home() {
   ]);
 
   const scrollerRef = useRef();
-
   const shadow = useShadow(scrollerRef);
 
   return (
