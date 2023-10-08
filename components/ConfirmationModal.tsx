@@ -36,8 +36,6 @@ export function ConfirmationModal({
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const isDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-
   const trigger = React.cloneElement(children, {
     onClick: (e) => {
       e.stopPropagation();

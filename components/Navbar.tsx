@@ -58,13 +58,20 @@ export function Navbar({
               )
             }
             sx={{
-              color: palette[8],
+              color: palette[9],
               ml: { sm: showRightContent && right ? "" : "auto" },
+              fontSize: "15px",
+              gap: 2,
+              borderRadius: 5,
+              "& .span": {
+                display: { xs: "none", sm: "block" },
+              },
             }}
           >
             <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
               account_circle
             </Icon>
+            <span>My profile</span>
           </IconButton>
           {!hideSettings && (
             <IconButton

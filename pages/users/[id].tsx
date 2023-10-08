@@ -369,7 +369,7 @@ function Page() {
             {!isCurrentUser && data?.color && (
               <ConfirmationModal
                 disabled={!isFriend}
-                title={`Are you sure you want to unfollow ${data?.name}?`}
+                title={`Are you sure you want to remove ${data?.name}?`}
                 question="You can always follow them back later"
                 callback={handleFollowButtonClick}
               >
