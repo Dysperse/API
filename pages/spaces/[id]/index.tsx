@@ -126,8 +126,23 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                 </IconButton>
                 {!children && (
                   <>
+                    <GroupModal
+                      useRightClick={false}
+                      defaultPalette={data?.profile?.color}
+                    >
+                      <IconButton
+                        sx={{
+                          ml: "auto",
+                          mr: 1,
+                          fontSize: "15px",
+                          color: "inherit",
+                          borderRadius: 99,
+                        }}
+                      >
+                        Switch
+                      </IconButton>
+                    </GroupModal>
                     <IconButton
-                      sx={{ ml: "auto" }}
                       onClick={() =>
                         router.push(`/spaces/${data?.profile?.id}/edit`)
                       }
@@ -141,14 +156,6 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                     >
                       <Icon className="outlined">schedule</Icon>
                     </IconButton>
-                    <GroupModal
-                      useRightClick={false}
-                      defaultPalette={data?.profile?.color}
-                    >
-                      <IconButton>
-                        <Icon className="outlined">pending</Icon>
-                      </IconButton>
-                    </GroupModal>
                   </>
                 )}
               </Toolbar>
