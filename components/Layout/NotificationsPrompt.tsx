@@ -82,6 +82,7 @@ export default function NotificationsPrompt() {
     try {
       event.preventDefault();
       setLoading(true);
+      await Notification.requestPermission();
       localStorage.setItem("notificationPrompt", "true");
       const sub = await registration.pushManager.subscribe({
         userVisibleOnly: true,
