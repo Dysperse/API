@@ -138,7 +138,8 @@ export default async function handler(req, res) {
       // Loop through the calendar events
       for (const item of items) {
         const taskId = "dysperse-gcal-integration-task-" + item.id;
-        prisma.task.upsert({
+
+        await prisma.task.upsert({
           where: {
             id: taskId,
           },

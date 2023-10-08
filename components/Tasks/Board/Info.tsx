@@ -427,44 +427,41 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
               ))}
             </Grid>
           )}
-          <Box
-            sx={{
-              mt: { xs: 3, sm: "auto" },
-              display: "flex",
-              width: "100%",
-            }}
-          >
-            {permissions !== "read" && <BoardSettings id={board.id} />}
-            {permissions !== "read" && (
-              <IconButton
-                size="large"
-                sx={{
-                  ml: { xs: "auto", sm: "0" },
-                }}
-                disabled={board.archived}
-                onClick={() =>
-                  router.push(`/tasks/boards/edit/${board.id}#permissions`)
-                }
-              >
-                <Icon className="outlined">ios_share</Icon>
-              </IconButton>
-            )}
-            <IconButton
-              size="large"
+          {!isMobile && (
+            <Box
               sx={{
-                ml: "auto",
-                ...(isMobile && {
-                  display: "none",
-                }),
-              }}
-              onClick={() => {
-                setShowInfo(false);
-                localStorage.setItem("showInfo", "false");
+                mt: { xs: 3, sm: "auto" },
+                display: "flex",
+                width: "100%",
               }}
             >
-              <Icon className="outlined">menu_open</Icon>
-            </IconButton>
-          </Box>
+              {permissions !== "read" && <BoardSettings id={board.id} />}
+              {permissions !== "read" && (
+                <IconButton
+                  size="large"
+                  sx={{
+                    ml: { xs: "auto", sm: "0" },
+                  }}
+                  disabled={board.archived}
+                  onClick={() =>
+                    router.push(`/tasks/boards/edit/${board.id}#permissions`)
+                  }
+                >
+                  <Icon className="outlined">ios_share</Icon>
+                </IconButton>
+              )}
+              <IconButton
+                size="large"
+                sx={{ ml: "auto" }}
+                onClick={() => {
+                  setShowInfo(false);
+                  localStorage.setItem("showInfo", "false");
+                }}
+              >
+                <Icon className="outlined">menu_open</Icon>
+              </IconButton>
+            </Box>
+          )}
         </>
       ) : (
         <Box
