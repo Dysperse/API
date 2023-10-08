@@ -53,6 +53,11 @@ export default function Page() {
       {data ? (
         <>
           <Box sx={{ px: 1 }}>
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              {data._count.Task * multipliers.tasks +
+                data._count.inventory * multipliers.items}
+              /{max} credits used
+            </Typography>
             <Box
               sx={{
                 width: "100%",
