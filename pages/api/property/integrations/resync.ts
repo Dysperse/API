@@ -14,11 +14,11 @@ export default async function handler(req, res) {
       },
     });
 
-    for (const i in data) {
-      const integration = data[i];
+    const fetchPromises = data.map(async (integration) => {
       const path = integration.name.replaceAll(" ", "-").toLowerCase();
 
-      fetch(
+      // Return the fetch promise so that we can await all of them later.
+      return fetch(
         `https://my.dysperse.com/api/property/integrations/run/${path}?${new URLSearchParams(
           {
             property: integration.propertyId.toString(),
@@ -31,11 +31,14 @@ export default async function handler(req, res) {
           }
         )}`
       );
-    }
+    });
+
+    // Use Promise.all to await all the fetch requests in parallel.
+    await Promise.all(fetchPromises);
 
     res.json({});
   } catch (e: any) {
-    console.log(e);
+    console.error(e);
     res.status(500).json({ error: e.message });
   }
 }
