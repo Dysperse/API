@@ -1,7 +1,13 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(relativeTime)
 function removeDuplicateFriends(data) {
   const uniqueFriends = new Set();
   const filteredData: any = [];
