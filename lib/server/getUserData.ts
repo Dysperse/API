@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
+import dayjs from "dayjs";
 
 /**
  * Get user data from sessions table using accessToken
@@ -27,11 +28,26 @@ export const getUserData = async (token: string) => {
       },
     },
   });
+
   if (!session) {
     return { user: false };
   }
 
+  try {
+    await prisma.user.update({
+      where: {
+        identifier: session.user.identifier,
+      },
+      data: {
+        lastActive: dayjs().tz(session.user.timeZone).toDate(),
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+
   const { ip, timestamp, user, ...restSession } = session;
+
   const updatedSession = {
     current: {
       token,

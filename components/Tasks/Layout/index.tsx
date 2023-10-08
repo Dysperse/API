@@ -274,14 +274,6 @@ export const MenuChildren = memo(function MenuChildren({
   const perspectives = useMemo(
     () => [
       {
-        key: "s",
-        hash: "stream",
-        icon: "view_column_2",
-        label: "Stream",
-        preview: "stream.png",
-        description: "View your upcoming tasks - and the ones you've missed",
-      },
-      {
         key: "w",
         hash: "perspectives/days",
         icon: isMobile ? "calendar_view_day" : "view_week",
@@ -321,6 +313,38 @@ export const MenuChildren = memo(function MenuChildren({
         label: "Color coded",
         preview: "color-coded.png",
         description: "See all your tasks by color",
+      },
+      {
+        key: "c",
+        hash: "stream/backlog",
+        icon: "west",
+        label: "Backlog",
+        preview: "stream.png",
+        description: "See your unfinished tasks",
+      },
+      {
+        key: "c",
+        hash: "stream/upcoming",
+        icon: "east",
+        label: "Upcoming",
+        preview: "stream.png",
+        description: "See upcoming tasks",
+      },
+      {
+        key: "c",
+        hash: "stream/unscheduled",
+        icon: "history_toggle_off",
+        label: "Unscheduled",
+        preview: "stream.png",
+        description: "See tasks which you haven't set a due date to",
+      },
+      {
+        key: "c",
+        hash: "stream/completed",
+        icon: "check_circle",
+        label: "Completed",
+        preview: "stream.png",
+        description: "See all the tasks you've completed",
       },
     ],
     [isMobile]
@@ -708,7 +732,6 @@ export function TasksLayout({
     document.getElementById("searchTasks")?.focus();
   });
 
-  useHotkeys("s", () => router.push("/tasks/stream"));
   useHotkeys("w", () => router.push("/tasks/perspectives/days"));
   useHotkeys("m", () => router.push("/tasks/perspectives/weeks"));
   useHotkeys("y", () => router.push("/tasks/perspectives/years"));

@@ -46,6 +46,9 @@ export function StatusSelector({
     isLoading: isStatusLoading,
   } = useSWR(["user/status"]);
 
+  const { data: notificationData, isLoading: isNotificationDataLoading } =
+    useSWR(["user/settings/notifications"]);
+
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -96,6 +99,8 @@ export function StatusSelector({
       email: session.user.email,
       emoji,
       text: textRef?.current?.value,
+      notifyFriendsForStatusUpdates:
+        notificationData.notifyFriendsForStatusUpdates ? "true" : "false",
     });
     setOpen(false);
     toast.success(
@@ -193,6 +198,7 @@ export function StatusSelector({
       >
         <Box sx={{ width: "100%" }}>
           <Puller showOnDesktop />
+          {/* {notificationData.notifyFriendsForStatusUpdates ? 1 : 0} */}
           <Typography
             variant="body2"
             sx={{
@@ -300,7 +306,9 @@ export function StatusSelector({
               variant="contained"
               fullWidth
               size="large"
-              disabled={!status || !time}
+              disabled={
+                !status || !time || isNotificationDataLoading || isStatusLoading
+              }
             >
               Done
             </LoadingButton>

@@ -390,9 +390,13 @@ export const Task: any = React.memo(function Task({
           className="cursor-unset item"
           sx={{
             color: colors["grey"][isDark ? "A100" : "800"],
-            ...(taskData.name === taskData.name.toUpperCase() && {
-              background: palette[2] + "!important",
-            }),
+            ...(taskData.name === taskData.name.toUpperCase() &&
+              !taskData.completed && {
+                background: {
+                  xs: palette[3] + "!important",
+                  sm: palette[2] + "!important",
+                },
+              }),
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
             "&, & .MuiChip-root": {
@@ -412,7 +416,7 @@ export const Task: any = React.memo(function Task({
             },
             "&:active": {
               background: {
-                xs: palette[2] + "!important",
+                xs: palette[isSubTask ? 4 : 2] + "!important",
                 sm: addHslAlpha(palette[3], 0.5) + "!important",
               },
             },

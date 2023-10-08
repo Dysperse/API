@@ -24,6 +24,7 @@ const KeyboardShortcutsModal = dynamic(
 );
 
 const NotificationsPrompt = dynamic(() => import("./NotificationsPrompt"));
+const TosModal = dynamic(() => import("./TosModal"));
 
 const ReleaseModal = dynamic(() => import("./ReleaseModal"));
 
@@ -135,6 +136,7 @@ export default function AppLayout({
         message="You've reached the storage limits for this group."
       />
       <NotificationsPrompt />
+      {!session.user.agreeTos && <TosModal />}
       <Snackbar
         open={Boolean(error)}
         autoHideDuration={6000}

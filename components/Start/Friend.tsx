@@ -22,6 +22,7 @@ import { useRouter } from "next/router";
 import { cloneElement, memo, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
+import { ConfirmationModal } from "../ConfirmationModal";
 import { Emoji } from "../Emoji";
 
 function calculatePercentage(startDate, endDate) {
@@ -152,30 +153,36 @@ export function FriendPopover({ children, email }) {
             position: "relative",
           }}
         >
-          <Button
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              m: 3,
-              color: palette[1] + "!important",
-              background: "transparent!important",
-              "&:active": {
-                opacity: 0.6,
-              },
-            }}
-            size="small"
-            onClick={handleFriend}
+          <ConfirmationModal
+            disabled={!isFriend}
+            title="Remove friend?"
+            question="You'll have to send a request again if you later change your mind."
+            callback={handleFriend}
           >
-            <Icon className="outlined">
-              {isFriend
-                ? "person_check"
-                : isPending
-                ? "access_time"
-                : "person_add"}
-            </Icon>
-            {isFriend ? "Friend" : isPending ? "Pending" : "Add"}
-          </Button>
+            <Button
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                m: 3,
+                color: palette[1] + "!important",
+                background: "transparent!important",
+                "&:active": {
+                  opacity: 0.6,
+                },
+              }}
+              size="small"
+            >
+              <Icon className="outlined">
+                {isFriend
+                  ? "person_check"
+                  : isPending
+                  ? "access_time"
+                  : "person_add"}
+              </Icon>
+              {isFriend ? "Friend" : isPending ? "Pending" : "Add"}
+            </Button>
+          </ConfirmationModal>
           <Button
             sx={{
               position: "absolute",
@@ -406,6 +413,17 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   "& .MuiBadge-badge": {
                     background: chipPalette[9],
                     border: `4px solid ${userPalette[status ? 3 : 2]}`,
+                    ...(!status &&
+                    ["a few seconds ago" || "in a few seconds"].includes(
+                      dayjs(friend.lastActive).fromNow()
+                    )
+                      ? {
+                          background: chipPalette[9],
+                        }
+                      : !status && {
+                          boxShadow: `0 0 0 2px inset ${chipPalette[9]}`,
+                          background: userPalette[2],
+                        }),
                     width: 20,
                     height: 20,
                     borderRadius: 99,
@@ -435,7 +453,18 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                     </Typography>
                   </>
                 ) : (
-                  <Typography sx={{ display: "flex", gap: 2 }}>Away</Typography>
+                  // this is when i updated the database
+                  dayjs(friend.lastActive).toISOString() !==
+                    "2023-10-07T17:23:03.871Z" && (
+                    <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
+                      Active{" "}
+                      {["a few seconds ago" || "in a few seconds"].includes(
+                        dayjs(friend.lastActive).fromNow()
+                      )
+                        ? "now"
+                        : dayjs(friend.lastActive).fromNow()}
+                    </Typography>
+                  )
                 )}
               </Box>
             </CardContent>

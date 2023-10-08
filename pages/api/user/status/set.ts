@@ -40,40 +40,44 @@ export default async function handler(req, res) {
       create: status,
     });
 
-    const users = await prisma.notificationSettings.findMany({
-      where: {
-        AND: [
-          {
-            user: {
-              followers: { some: { follower: { email: req.query.email } } },
+    if (req.query.notifyFriendsForStatusUpdates === "true") {
+      const users = await prisma.notificationSettings.findMany({
+        where: {
+          AND: [
+            {
+              user: {
+                followers: { some: { follower: { email: req.query.email } } },
+              },
             },
-          },
-          {
-            user: {
-              notificationSubscription: { not: null },
+            {
+              user: {
+                notificationSubscription: { not: null },
+              },
             },
-          },
-        ],
-      },
-      select: {
-        user: {
-          select: {
-            notificationSubscription: true,
+          ],
+        },
+        select: {
+          user: {
+            select: {
+              notificationSubscription: true,
+            },
           },
         },
-      },
-    });
-
-    users.forEach(async ({ user }) => {
-      await DispatchNotification({
-        subscription: user.notificationSubscription as any,
-        title: `${JSON.parse(req.query.profile)?.name.trim()} is ${
-          req.query.status
-        } until ${dayjs(dayjs(until).tz(req.query.timeZone)).format("h:mm A")}`,
-        body: "Tap to view status update",
-        icon: JSON.parse(req.query.profile)?.Profile?.picture,
       });
-    });
+
+      users.forEach(async ({ user }) => {
+        await DispatchNotification({
+          subscription: user.notificationSubscription as any,
+          title: `${JSON.parse(req.query.profile)?.name.trim()} is ${
+            req.query.status
+          } until ${dayjs(dayjs(until).tz(req.query.timeZone)).format(
+            "h:mm A"
+          )}`,
+          body: "Tap to view status update",
+          icon: JSON.parse(req.query.profile)?.Profile?.picture,
+        });
+      });
+    }
 
     res.json({ success: true });
   } catch (e: any) {

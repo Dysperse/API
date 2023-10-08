@@ -15,6 +15,8 @@ export default async function handler(req, res) {
           },
         },
       });
+    } catch (e) {}
+    try {
       await prisma.follows.delete({
         where: {
           followerId_followingId: {

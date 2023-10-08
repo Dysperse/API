@@ -9,8 +9,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-// Models for user accounts
-// TODO: Add separate table for user settings, such as theme colors, dark mode, etc. 
 model User {
   id         String @id @unique @default(uuid())
   identifier String @unique @default(uuid())
@@ -20,6 +18,9 @@ model User {
   email    String  @unique
   password String
   darkMode String  @default("system")
+  agreeTos Boolean @default(false)
+
+  lastActive DateTime @default(now())
 
   color          String   @default("lime")
   unlockedColors String[]
@@ -92,6 +93,7 @@ model NotificationSettings {
   todoListUpdates Boolean @default(true)
   followerUpdates Boolean @default(true)
   statusUpdates   Boolean @default(true)
+  boardUpdates    Boolean @default(true)
 
   notifyFriendsForStatusUpdates Boolean @default(true)
 
@@ -140,7 +142,7 @@ model Profile {
 model Settings {
   id String @id @unique @default(uuid())
 
-  hiddenPerspectives String[] @default([])
+  hiddenPerspectives String[] @default(["stream/backlog", "stream/upcoming", "stream/completed", "stream/unscheduled"])
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)

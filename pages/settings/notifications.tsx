@@ -1,5 +1,6 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
+import { useNotificationSubscription } from "@/components/Layout/NotificationsPrompt";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -9,12 +10,11 @@ import {
   Button,
   Chip,
   CircularProgress,
+  Divider,
   ListItem,
   ListItemText,
   Switch,
-  Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import Layout from ".";
@@ -37,34 +37,13 @@ export const base64ToUint8Array = (base64) => {
 export default function Notifications() {
   const { data, mutate, error } = useSWR(["user/settings/notifications"]);
 
-  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
-  const [subscription, setSubscription] = useState<any>(null);
-  const [registration, setRegistration] = useState<any>(null);
-
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      "serviceWorker" in navigator &&
-      (window as any).workbox !== undefined
-    ) {
-      // run only in browser
-      navigator.serviceWorker.ready.then((reg) => {
-        reg.pushManager.getSubscription().then((sub) => {
-          if (
-            sub &&
-            !(
-              (sub as any).expirationTime &&
-              Date.now() > (sub as any).expirationTime - 5 * 60 * 1000
-            )
-          ) {
-            setSubscription(sub);
-            setIsSubscribed(true);
-          }
-        });
-        setRegistration(reg);
-      });
-    }
-  }, []);
+  const {
+    subscription,
+    isSubscribed,
+    registration,
+    setSubscription,
+    setIsSubscribed,
+  } = useNotificationSubscription();
 
   const subscribeButtonOnClick = async (event) => {
     event.preventDefault();
@@ -78,13 +57,17 @@ export default function Notifications() {
     setIsSubscribed(true);
     updateSettings(["notificationSubscription", JSON.stringify(sub)], {
       session,
+    }).then(() => {
+      fetchRawApi(session, "/user/settings/notifications/test", {
+        subscription: JSON.stringify(sub),
+      });
     });
   };
   const { session } = useSession();
 
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();
-    await subscription.unsubscribe();
+    await subscription?.unsubscribe();
     updateSettings(["notificationSubscription", ""], { session });
     setSubscription(null);
     setIsSubscribed(false);
@@ -92,7 +75,6 @@ export default function Notifications() {
 
   const sendNotificationButtonOnClick = async (event) => {
     event.preventDefault();
-
     fetchRawApi(session, "/user/settings/notifications/test", {
       subscription: session.user.notificationSubscription,
     });
@@ -135,14 +117,6 @@ export default function Notifications() {
       secondary: "Recieve security notifications",
     },
     {
-      key: "dailyRoutineNudge",
-      comingSoon: false,
-      disabled: false,
-      enabled: null,
-      primary: "Coach",
-      secondary: "Get reminders to work on your goals",
-    },
-    {
       key: "todoListUpdates",
       comingSoon: false,
       disabled: false,
@@ -159,12 +133,20 @@ export default function Notifications() {
       secondary: "Get notified when your friends set their status",
     },
     {
-      key: "followerUpdates",
-      comingSoon: true,
+      key: "boardUpdates",
+      comingSoon: false,
       disabled: false,
       enabled: null,
-      primary: "Follows",
-      secondary: "Get notified when someone follows you",
+      primary: "Boards",
+      secondary: "Updating/deleting a column, etc.",
+    },
+    {
+      key: "followerUpdates",
+      comingSoon: false,
+      disabled: false,
+      enabled: null,
+      primary: "Friend requests",
+      secondary: "",
     },
     {
       key: "lowItemCount",
@@ -181,6 +163,22 @@ export default function Notifications() {
     <Layout>
       {data ? (
         <Box sx={{ mb: 3 }}>
+          <ListItem>
+            <ListItemText
+              primary="Status updates"
+              secondary="Notify others when I change my status"
+            />
+            <Switch
+              checked={data.notifyFriendsForStatusUpdates}
+              onClick={(e: any) =>
+                handleNotificationChange(
+                  "notifyFriendsForStatusUpdates",
+                  e.target.checked
+                )
+              }
+            />
+          </ListItem>
+          <Divider sx={{ my: 4 }} />
           <ListItem
             sx={{
               background: palette[3],
@@ -280,26 +278,14 @@ export default function Notifications() {
       ) : (
         <Box
           sx={{
-            my: 10,
+            height: "100%",
             display: "flex",
             alignItems: "center",
-            gap: 2,
             flexDirection: "column",
             justifyContent: "center",
           }}
         >
           <CircularProgress size={30} />
-          <Typography
-            sx={{
-              textAlign: "center",
-              px: 3,
-            }}
-          >
-            <b>Loading your preferences...</b>
-            <br />
-            Keep in mind that this feature is still in beta, and you might
-            encounter issues
-          </Typography>
         </Box>
       )}
     </Layout>
