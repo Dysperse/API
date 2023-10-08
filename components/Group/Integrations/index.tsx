@@ -105,7 +105,7 @@ export default function Integrations({
             mb: 1,
           }}
         >
-          <Typography variant="h6">Integrations</Typography>
+          <Typography variant="h6">Connections</Typography>
           <Button
             onClick={() => setOpen(true)}
             sx={{ ml: "auto", px: 2 }}
@@ -118,12 +118,14 @@ export default function Integrations({
       )}
       {(!board || !hideNew) && data ? (
         <>
-          {data.length == 0 && (
+          {data.length === 0 && (
             <Alert severity="info">
               <Typography>
                 <b>Connect your favorite apps</b>
               </Typography>
-              <Typography>Sync other apps with Dysperse.</Typography>
+              <Typography>
+                Connect and sync other apps into one platform, Dysperse.
+              </Typography>
             </Alert>
           )}
           {error && (
@@ -161,6 +163,7 @@ export default function Integrations({
                     <ListItemSecondaryAction>
                       <ConfirmationModal
                         title="Remove integration?"
+                        buttonText="Remove"
                         question="Existing tasks won't be affected, but new ones won't sync anymore. Continue?"
                         callback={async () => {
                           await fetchRawApi(

@@ -258,8 +258,18 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
       },
       MuiAlert: {
         styleOverrides: {
+          standardInfo: ({ theme }) =>
+            theme.unstable_sx({
+              px: 3,
+              color: palette[11],
+              background: palette[2],
+              "& svg": {
+                color: palette[10],
+              },
+            }),
           root: ({ theme }) =>
             theme.unstable_sx({
+              gap: 2,
               alignItems: "center",
               borderRadius: 5,
             }),
