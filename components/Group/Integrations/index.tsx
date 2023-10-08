@@ -160,8 +160,8 @@ export default function Integrations({
                     />
                     <ListItemSecondaryAction>
                       <ConfirmationModal
-                        title="Are you sure you want to remove this integration?"
-                        question="Your tasks won't be affected, but you won't be able to sync it with this integration anymore. You can always add it back later."
+                        title="Remove integration?"
+                        question="Existing tasks won't be affected, but new ones won't sync anymore. Continue?"
                         callback={async () => {
                           await fetchRawApi(
                             session,
