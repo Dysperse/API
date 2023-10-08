@@ -439,6 +439,15 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             }),
         },
       },
+      MuiDivider: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              borderColor: palette[3],
+              borderWidth: "1px",
+            }),
+        },
+      },
       MuiDialog: {
         defaultProps: {
           TransitionComponent: Transition,
