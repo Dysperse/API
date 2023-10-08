@@ -168,6 +168,7 @@ export default function Home() {
                 Friends will appear here!
               </Alert>
             )}
+
             {data && data?.friends?.length > 0 ? (
               <Virtuoso
                 customScrollParent={containerRef.current}
