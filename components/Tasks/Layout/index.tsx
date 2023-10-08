@@ -63,6 +63,7 @@ export const recentlyAccessed = {
       return {};
     }
   },
+  clear: () => localStorage.removeItem("recentlyAccessedTasks")
 };
 
 export const taskStyles = (palette) => {

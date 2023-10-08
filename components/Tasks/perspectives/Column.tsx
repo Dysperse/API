@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { PerspectiveContext } from ".";
@@ -331,24 +330,6 @@ const Column = React.memo(function Column({
               },
             }}
           >
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <Image
-                src="/images/noTasks.png"
-                width={256}
-                height={256}
-                style={{
-                  borderRadius: "20px",
-                  ...(isDark && {
-                    filter: "invert(100%)",
-                  }),
-                }}
-                alt="No items found"
-              />
-            </motion.div>
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

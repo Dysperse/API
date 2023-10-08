@@ -3,7 +3,7 @@ import EmojiPicker from "@/components/EmojiPicker";
 import Integrations from "@/components/Group/Integrations";
 import { Puller } from "@/components/Puller";
 import { ShareBoard } from "@/components/Tasks/Board/Share";
-import { TasksLayout } from "@/components/Tasks/Layout";
+import { TasksLayout, recentlyAccessed } from "@/components/Tasks/Layout";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -147,6 +147,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
                           title="Delete column?"
                           question={`Deleting this column will also permanently delete ${column._count.tasks} tasks inside it. Continue?`}
                           callback={async () => {
+                            recentlyAccessed.clear()
                             await fetchRawApi(
                               session,
                               "property/boards/column/delete",
