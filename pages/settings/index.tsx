@@ -223,7 +223,10 @@ function Page() {
     .map((section) => {
       const filteredButtons = section.filter((button) => {
         return button.queries.some((queryPart) => {
-          return queryPart.toLowerCase().includes(query);
+          return (
+            queryPart.toLowerCase().includes(query.toLowerCase()) ||
+            button.text.toLowerCase().includes(query.toLowerCase())
+          );
         });
       });
 
