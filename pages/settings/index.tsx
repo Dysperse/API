@@ -1,4 +1,5 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { Emoji } from "@/components/Emoji";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { handleBack } from "@/lib/client/handleBack";
@@ -6,6 +7,8 @@ import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  Alert,
+  AlertTitle,
   AppBar,
   Avatar,
   Box,
@@ -266,7 +269,14 @@ function Page() {
           ),
         }}
       />
-
+      {filteredSections.length === 0 && (
+        <Alert severity="info" icon={<Emoji size={40} emoji="1f62d" />}>
+          <AlertTitle>
+            We couldn&apos;t find what you&apos;re looking for.
+          </AlertTitle>
+          <i>Perhaps you could try broadening your search?</i>
+        </Alert>
+      )}
       {filteredSections.map((section, sectionIndex) => (
         <Box
           sx={{ background: palette[2], borderRadius: 3, mb: 2 }}
