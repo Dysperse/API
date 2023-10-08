@@ -42,7 +42,6 @@ export function WeatherWidget({ children }) {
       const res = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,apparent_temperature,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=1`
       ).then((res) => res.json());
-      console.log(res);
       setWeatherData(res);
     });
   };

@@ -33,7 +33,6 @@ export default async function handler(req, res) {
         ...(req.query.spotify && { spotify: null }),
       },
     });
-    console.log(data);
     res.json(data);
   } catch ({ message: error }: any) {
     res.status(401).json({ error });

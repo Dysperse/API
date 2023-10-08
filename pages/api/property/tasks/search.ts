@@ -47,7 +47,6 @@ const handler = async (req, res) => {
       },
     });
 
-    console.log(data);
     res.json(data);
   } catch (e: any) {
     res.json({ error: e.message });

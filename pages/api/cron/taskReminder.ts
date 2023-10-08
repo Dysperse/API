@@ -77,7 +77,6 @@ const Notification = async (req, res) => {
     for (const i in subscription.user.Task) {
       const task = subscription.user.Task[i];
       let notifications = task.notifications.sort().reverse();
-      console.log(notifications);
 
       const due = dayjs(task.due).tz(timeZone);
       const diff = dayjs(due).diff(time, "minute");

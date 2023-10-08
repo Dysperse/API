@@ -21,7 +21,6 @@ export default async function handler(req, res) {
 
     let buffer = fs.readFileSync(formData.files.image[0].filepath);
     let blob = new Blob([buffer]);
-    console.log(blob);
 
     const form = new FormData();
     const url = `https://imgcdn.dev/api/1/upload/?name=image&key=${process.env.IMAGE_API_KEY}`;
@@ -30,10 +29,8 @@ export default async function handler(req, res) {
     const data = await fetch(url, { method: "POST", body: form }).then((res) =>
       res.json()
     );
-    // console.log(data);
     res.json(data);
   } catch (e) {
-    console.log(e);
     res.status(500).json({ error: "Couldn't upload image" });
   }
 }

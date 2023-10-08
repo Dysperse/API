@@ -81,7 +81,6 @@ export default async function handler(req, res) {
 
     res.json({ success: true });
   } catch (e: any) {
-    console.log(e);
     res.status(401).json({ error: e.message });
   }
 }

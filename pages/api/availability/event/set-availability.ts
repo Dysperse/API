@@ -20,8 +20,6 @@ export default async function handler(req, res) {
       user = users.find(
         (u: any) => u.userData?.email === JSON.parse(req.query.userData).email
       );
-
-      console.log(user);
     }
 
     if (user?.id) {
@@ -56,7 +54,6 @@ export default async function handler(req, res) {
       res.json(d);
     }
   } catch (e: any) {
-    console.log(e);
     res.status(400).json({ error: true, message: e.message });
   }
 }

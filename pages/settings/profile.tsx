@@ -124,7 +124,6 @@ export default function AppearanceSettings() {
                   await mutate();
                   resolve(res);
                 } catch (e) {
-                  console.log(e);
                   reject("");
                 }
               }),

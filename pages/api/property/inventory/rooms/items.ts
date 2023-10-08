@@ -22,7 +22,6 @@ const handler = async (req, res) => {
 
     res.json(data);
   } catch (e: any) {
-    console.log(e);
     res.json({ error: e.message });
   }
 };

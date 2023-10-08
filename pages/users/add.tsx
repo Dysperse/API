@@ -44,7 +44,6 @@ export default function AddFriend() {
         followerEmail: session.user.email,
         followingEmail: query,
       });
-      console.log(data);
       if (!data?.success) throw new Error();
       toast.success("Friend request sent!");
       setLoading("");

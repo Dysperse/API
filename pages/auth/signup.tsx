@@ -489,7 +489,6 @@ function StepThree({ styles, formData, setFormData, setStep }) {
             scrollSeekConfiguration={{
               enter: (velocity) => Math.abs(velocity) > 200,
               exit: (velocity) => Math.abs(velocity) < 30,
-              change: (_, range) => console.log({ range }),
             }}
           />
         </Box>
@@ -903,7 +902,6 @@ function StepFive({ styles, formData, setFormData, setStep }) {
                     setFormData((d) => ({ ...d, picture: res.image.url }));
                     resolve(res);
                   } catch (e) {
-                    console.log(e);
                     reject("");
                   }
                 }),

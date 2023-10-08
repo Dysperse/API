@@ -30,20 +30,14 @@ export function UpdateButton() {
       const wb = (window as any).workbox;
       // add event listeners to handle any of PWA lifecycle event
       // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-window.Workbox#events
-      wb.addEventListener("installed", (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
-      });
+      // wb.addEventListener("installed", (event) => {
+      // });
 
-      wb.addEventListener("controlling", (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
-      });
+      // wb.addEventListener("controlling", (event) => {
+      // });
 
-      wb.addEventListener("activated", (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
-      });
+      // wb.addEventListener("activated", (event) => {
+      // });
 
       // A common UX pattern for progressive web apps is to show a banner when a service worker has updated and waiting to install.
       // NOTE: MUST set skipWaiting to false in next.config.js pwa object
@@ -65,25 +59,16 @@ export function UpdateButton() {
 
       // ISSUE - this is not working as expected, why?
       // I could only make message event listenser work when I manually add this listenser into sw.js file
-      wb.addEventListener("message", (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
-      });
+      wb.addEventListener("message", (event) => {});
 
       /*
       wb.addEventListener('redundant', event => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
       })
 
       wb.addEventListener('externalinstalled', event => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
       })
 
       wb.addEventListener('externalactivated', event => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
       })
       */
 
@@ -200,7 +185,6 @@ export function UpdateButton() {
             }
           />
         )}
-        callback={(data) => console.log(data)}
       />
 
       <Snackbar

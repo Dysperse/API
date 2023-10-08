@@ -7,7 +7,7 @@ import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.extend(relativeTime)
+dayjs.extend(relativeTime);
 function removeDuplicateFriends(data) {
   const uniqueFriends = new Set();
   const filteredData: any = [];
@@ -152,8 +152,6 @@ export default async function handler(req, res) {
       },
     });
 
-    console.log(removeDuplicateFriends(friends));
-
     res.json({
       user,
       friends: sortFriendsByStatusAndActivity(
@@ -162,7 +160,6 @@ export default async function handler(req, res) {
       ),
     });
   } catch (e: any) {
-    console.log(e);
     res.status(401).json({ error: e.message });
   }
 }

@@ -5,9 +5,6 @@ export default async function handler(req, res) {
   try {
     await validateParams(req.query, ["userIdentifier"]);
 
-    console.log(req.query.excludingDates);
-    console.log(req.query.excludingHours);
-
     const data = await prisma.event.create({
       data: {
         name: req.query.name,
@@ -23,7 +20,6 @@ export default async function handler(req, res) {
     });
     res.json(data);
   } catch (e: any) {
-    console.log(e);
     res.status(400).json({ error: true, message: e.message });
   }
 }

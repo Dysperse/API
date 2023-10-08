@@ -75,10 +75,7 @@ export const DispatchGroupNotification = async (
       },
     });
 
-    console.log(members);
-
     for (const member of members) {
-      console.log(member.user.notificationSubscription);
       await DispatchNotification({
         subscription: member.user.notificationSubscription,
         ...options,
@@ -87,7 +84,6 @@ export const DispatchGroupNotification = async (
 
     return { success: true };
   } catch (error: any) {
-    console.log(error);
     return { success: false, error: error.message };
   }
 };

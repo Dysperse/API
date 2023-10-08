@@ -15,8 +15,6 @@ export default async function handler(req, res) {
       },
     });
 
-    console.log(data);
-
     const calendar = ical({
       name: "Dysperse",
       description: "Tasks from your Dysperse account at my.dysperse.com",

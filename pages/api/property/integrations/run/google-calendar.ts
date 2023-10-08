@@ -68,13 +68,9 @@ export default async function handler(req, res) {
   });
   if (!tokenObj) throw new Error("Token not found");
   if (tokenObj.expiry_date < Date.now()) {
-    console.log(tokenObj);
     // Refresh the access token
     oauth2Client.refreshAccessToken(async function (err, newAccessToken) {
-      console.log(err, newAccessToken);
-
       if (err) {
-        console.log(err);
         res.json(err);
         return;
       } else {
@@ -147,9 +143,7 @@ export default async function handler(req, res) {
           create: taskTemplate(item, columnId, reminders),
         });
       }
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   }
 
   res.json({ success: true });

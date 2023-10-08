@@ -31,8 +31,6 @@ const handler = async (req, res) => {
     },
   };
 
-  console.log(session.user);
-
   const user = await prisma.settings.upsert({
     where: {
       userId: session.user.identifier,
@@ -41,7 +39,6 @@ const handler = async (req, res) => {
     update: temp,
   });
 
-  console.log(user);
   res.json(user);
 };
 export default handler;

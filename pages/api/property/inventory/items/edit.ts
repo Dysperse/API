@@ -7,8 +7,6 @@ const handler = async (req, res) => {
       minimum: "member",
       credentials: [req.query.property, req.query.accessToken],
     });
-    console.log(req.query);
-    //   Update the note on an item
     const data = await prisma.item.update({
       where: {
         id: req.query.id,
@@ -31,7 +29,6 @@ const handler = async (req, res) => {
 
     res.json(data);
   } catch (e: any) {
-    console.log(e);
     res.json({ error: e.message });
   }
 };

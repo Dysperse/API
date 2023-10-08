@@ -55,14 +55,7 @@ export const ImageModal = React.memo(function ImageModal({
   return (
     <>
       {createPortal(
-        <FileDrop
-          onFrameDragEnter={(event) => console.log("onFrameDragEnter", event)}
-          onFrameDragLeave={(event) => console.log("onFrameDragLeave", event)}
-          onFrameDrop={(event) => handleUpload(event, true)}
-          onDragOver={(event) => console.log("onDragOver", event)}
-          onDragLeave={(event) => console.log("onDragLeave", event)}
-          onDrop={(files, event) => console.log("onDrop!", files, event)}
-        >
+        <FileDrop onFrameDrop={(event) => handleUpload(event, true)}>
           <Box
             sx={{
               background: "rgba(255,255,255,0.1)",

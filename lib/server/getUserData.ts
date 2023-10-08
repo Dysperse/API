@@ -43,7 +43,6 @@ export const getUserData = async (token: string) => {
       },
     });
   } catch (e) {
-    console.log(e);
   }
 
   const { ip, timestamp, user, ...restSession } = session;

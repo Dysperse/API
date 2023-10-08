@@ -7,7 +7,6 @@ const handler = async (req, res) => {
       minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
     });
-    console.log(req.query.filter);
 
     //  List all tasks for a board from the column
     const data = await prisma.column.findMany({
@@ -64,7 +63,6 @@ const handler = async (req, res) => {
 
     res.json(data);
   } catch (e: any) {
-    console.log(e);
     res.json({ error: e.message });
   }
 };

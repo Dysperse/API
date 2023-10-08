@@ -235,7 +235,6 @@ const EmojiPicker = function EmojiPicker({
                     scrollSeekConfiguration={{
                       enter: (velocity) => Math.abs(velocity) > 200,
                       exit: (velocity) => Math.abs(velocity) < 30,
-                      change: (_, range) => console.log({ range }),
                     }}
                   />
                 ))}

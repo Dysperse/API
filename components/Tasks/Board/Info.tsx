@@ -183,7 +183,6 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
           minInterval: 1 * 60 * 60 * 1000,
         }
       );
-      console.log("Periodic Sync registered!");
     } catch {
       console.log("Periodic Sync could not be registered!");
     }
