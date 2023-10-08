@@ -236,11 +236,13 @@ export const Header = memo(function Header({
               </Button>
             </CreateTask>
           )}
-          <ColumnMenu data={sortedTasks} day={column}>
-            <Button variant="outlined" size="small">
-              <Icon>more_horiz</Icon>
-            </Button>
-          </ColumnMenu>
+          {sortedTasks.length > 0 && (
+            <ColumnMenu data={sortedTasks} day={column}>
+              <Button variant="outlined" size="small">
+                <Icon>more_horiz</Icon>
+              </Button>
+            </ColumnMenu>
+          )}
         </Box>
       </motion.div>
     </Box>

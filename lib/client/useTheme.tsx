@@ -264,6 +264,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               color: palette[11],
               background: palette[2],
+              borderColor: palette[3],
               "& svg": {
                 color: palette[10],
               },
@@ -272,6 +273,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               color: orangePalette[11],
               background: orangePalette[2],
+              borderColor: orangePalette[3],
               "& svg": {
                 color: orangePalette[10],
               },
@@ -280,6 +282,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               color: redPalette[11],
               background: redPalette[2],
+              borderColor: redPalette[3],
               "& svg": {
                 color: redPalette[10],
               },
@@ -287,6 +290,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           root: ({ theme }) =>
             theme.unstable_sx({
               gap: 2,
+              border: "2px solid",
               px: 3,
               borderRadius: 5,
               "& svg": {
@@ -424,7 +428,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               userSelect: "none",
               "&:hover": {
                 cursor: "default",
-                background: { sm: palette[2] },
+                background: { xs: "transparent", sm: palette[2] },
               },
               "&:active": {
                 background: {

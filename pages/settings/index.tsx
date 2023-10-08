@@ -24,7 +24,6 @@ import { useRouter } from "next/router";
 import { useRef } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import useSWR from "swr";
 
 function sendMessage(message) {
   return new Promise(function (resolve, reject) {
@@ -47,13 +46,6 @@ function Page() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
-
-  const { data, mutate } = useSWR([
-    "user/profile",
-    {
-      email: session.user.email,
-    },
-  ]);
 
   const styles = {
     "&:hover": {
@@ -117,12 +109,12 @@ function Page() {
           ...styles,
         }}
       >
-        {data && <ProfilePicture data={data} size={40} />}
+        <ProfilePicture data={session.user} size={40} />
         <ListItemText
           primary={<b>{session.user.name}</b>}
           secondary="Account settings"
         />
-        <Icon sx={{ color: palette[8] }}>chevron_right</Icon>
+        <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
       </ListItemButton>
       <ListItemButton
         sx={{
@@ -154,7 +146,7 @@ function Page() {
           primary={<b>{session.property.profile.name}</b>}
           secondary="My group"
         />
-        <Icon sx={{ color: palette[8] }}>chevron_right</Icon>
+        <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
       </ListItemButton>
       <Box sx={{ background: palette[2], borderRadius: 3, mb: 2 }}>
         {[
@@ -163,24 +155,21 @@ function Page() {
           { icon: "change_history", text: "Login activity" },
           { icon: "notifications", text: "Notifications" },
           { icon: "lock", text: "2FA" },
-          { icon: "restart_alt", text: "Onboarding" },
         ].map((button) => (
           <ListItemButton
             key={button.icon}
             onClick={() => {
               router.push(
-                button.text === "Onboarding"
-                  ? "/onboarding"
-                  : `/settings/${button.text
-                      .toLowerCase()
-                      .replaceAll(" ", "-")}`
+                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
               );
             }}
             sx={styles}
           >
-            <Icon className="outlined">{button.icon}</Icon>
+            <Icon className="outlined" sx={{ color: palette[11] }}>
+              {button.icon}
+            </Icon>
             <ListItemText primary={button.text} />
-            <Icon sx={{ color: palette[8] }}>chevron_right</Icon>
+            <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
           </ListItemButton>
         ))}
         <ConfirmationModal
@@ -192,12 +181,19 @@ function Page() {
           }
         >
           <ListItemButton>
-            <Icon>logout</Icon>
+            <Icon sx={{ color: palette[11] }}>logout</Icon>
             <ListItemText primary="Sign out" />
+            <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
           </ListItemButton>
         </ConfirmationModal>
       </Box>
-      <Box sx={{ background: palette[2], borderRadius: 3, overflow: "hidden" }}>
+      <Box
+        sx={{
+          background: palette[2],
+          borderRadius: 3,
+          overflow: "hidden",
+        }}
+      >
         {[
           {
             name: "Privacy policy",
@@ -221,12 +217,14 @@ function Page() {
           },
         ].map(({ name, icon, href }) => (
           <ListItem key={name} onClick={() => window.open(href)} sx={styles}>
-            <Icon className="outlined">{icon}</Icon>
+            <Icon className="outlined" sx={{ color: palette[11] }}>
+              {icon}
+            </Icon>
             <ListItemText primary={name} />
           </ListItem>
         ))}
         <ListItemButton onClick={clearCache}>
-          <Icon>sync</Icon>
+          <Icon sx={{ color: palette[11] }}>sync</Icon>
           <ListItemText primary="Clear cache and reload" />
         </ListItemButton>
       </Box>

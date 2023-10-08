@@ -10,6 +10,7 @@ import {
   CircularProgress,
   Icon,
   IconButton,
+  InputAdornment,
   List,
   ListItem,
   ListItemSecondaryAction,
@@ -23,7 +24,7 @@ import {
 import * as colors from "@radix-ui/colors";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import SpacesLayout from ".";
 
 export default function Page() {
@@ -35,7 +36,11 @@ export default function Page() {
     (property) => property.propertyId == id
   )?.accessToken;
 
-  const { error, mutate, data } = useSWR([
+  const {
+    error,
+    mutate: mutateData,
+    data,
+  } = useSWR([
     "property",
     {
       propertyId: id,
@@ -43,7 +48,9 @@ export default function Page() {
     },
   ]);
 
-  const [name, setName] = useState(data?.profile.name || "Untitled space");
+  const [name, setName] = useState(
+    session.property.profile.name || "Untitled space"
+  );
   const [vanishingTasks, setVanishingTasks] = useState(
     Boolean(data?.profile?.vanishingTasks)
   );
@@ -57,7 +64,7 @@ export default function Page() {
   const handleCloseMenu = useCallback(
     async (type) => {
       await updateSettings(["type", type], { session, type: "property" });
-      await mutate();
+      await mutate("/api/session");
       setAnchorEl(null);
     },
     [session, mutate]
@@ -66,15 +73,13 @@ export default function Page() {
   const handleUpdateName = useCallback(async () => {
     if (name !== data?.profile?.name) {
       await updateSettings(["name", name], { session, type: "property" });
-      mutate();
+      mutate("/api/session");
     }
-  }, [session, mutate, name, data]);
+  }, [session, name, data]);
 
   return (
     <SpacesLayout title="Edit">
-      {error && (
-        <ErrorHandler  />
-      )}
+      {error && <ErrorHandler />}
       {data ? (
         <>
           <Box
@@ -92,14 +97,18 @@ export default function Page() {
               onKeyDown={(e: any) => {
                 e.key === "Enter" && e.target.blur();
               }}
+              InputProps={{
+                endAdornment: session.property.profile.name !== name &&
+                  name.trim() !== "" && (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleUpdateName}>
+                        <Icon>check</Icon>
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+              }}
               placeholder="My space"
             />
-            <IconButton
-              onClick={handleUpdateName}
-              disabled={data?.profile?.name == name}
-            >
-              <Icon>check</Icon>
-            </IconButton>
           </Box>
 
           <Box sx={{ mt: 2 }}>
@@ -112,6 +121,7 @@ export default function Page() {
             {...Object.keys(colors)
               .filter((color) => !color.includes("Dark"))
               .filter((color) => !color.endsWith("A"))
+              .filter((color) => !color.endsWith("P3"))
               .filter(
                 (color) =>
                   ![
@@ -196,7 +206,7 @@ export default function Page() {
                       session,
                       type: "property",
                     });
-                    mutate();
+                    mutateData();
                   }}
                 />
               </ListItemSecondaryAction>

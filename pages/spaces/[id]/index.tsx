@@ -118,6 +118,14 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                 background: palette[children ? 3 : scrolled ? 2 : 9],
                 border: 0,
                 "& *": { color: palette[children ? 9 : scrolled ? 9 : 1] },
+                "& .MuiIconButton-root": {
+                  "&:hover": {
+                    background: { sm: "rgba(0,0,0,0.05)" },
+                  },
+                  "&:active": {
+                    background: "rgba(0,0,0,0.1)",
+                  },
+                },
               }}
             >
               <Toolbar sx={{ gap: { xs: 0 } }}>
@@ -188,7 +196,19 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                     overflow: "hidden",
+                    display: "inline-block",
+                    borderRadius: 2,
+                    mt: 1,
+                    px: 1,
+                    mx: -1,
+                    "&:hover": {
+                      background: { sm: `rgba(0,0,0,0.05)` },
+                    },
+                    "&:active": {
+                      background: `rgba(0,0,0,0.1)`,
+                    },
                   }}
+                  onClick={() => router.push(`/spaces/${data.propertyId}/edit`)}
                 >
                   {title || data?.profile?.name}
                 </Typography>
