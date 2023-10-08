@@ -2,7 +2,7 @@ import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { Logo } from "@/components/Logo";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Icon, IconButton } from "@mui/material";
+import { Box, Icon, IconButton, SxProps } from "@mui/material";
 import { useRouter } from "next/router";
 
 export function Navbar({
@@ -11,12 +11,14 @@ export function Navbar({
   showRightContent = false,
   hideSettings = false,
   hideSearch = false,
+  sx = {},
 }: {
   showLogo?: boolean;
   right?: JSX.Element;
   showRightContent?: boolean;
   hideSettings?: boolean;
   hideSearch?: boolean;
+  sx?: SxProps;
 }) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -31,6 +33,7 @@ export function Navbar({
         "& svg": {
           display: showLogo ? { sm: "none" } : "none",
         },
+        ...sx,
       }}
     >
       <Logo />
@@ -41,7 +44,7 @@ export function Navbar({
             <IconButton
               sx={{
                 display: { sm: "none" },
-                color: palette[8],
+                color: palette[9],
                 ml: showRightContent && right ? "" : "auto",
               }}
               onClick={openSpotlight}
@@ -62,8 +65,8 @@ export function Navbar({
               ml: { sm: showRightContent && right ? "" : "auto" },
               fontSize: "15px",
               gap: 2,
-              borderRadius: 5,
-              "& .span": {
+              borderRadius: 99,
+              "& .label": {
                 display: { xs: "none", sm: "block" },
               },
             }}
@@ -71,11 +74,11 @@ export function Navbar({
             <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
               account_circle
             </Icon>
-            <span>My profile</span>
+            <span className="label">My profile</span>
           </IconButton>
           {!hideSettings && (
             <IconButton
-              sx={{ color: palette[8] }}
+              sx={{ color: palette[9] }}
               onClick={() => router.push("/settings")}
             >
               <Icon className="outlined" sx={{ fontSize: "28px!important" }}>

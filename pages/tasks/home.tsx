@@ -1,8 +1,8 @@
 import { Navbar } from "@/components/Navbar";
 import { MenuChildren, recentlyAccessed } from "@/components/Tasks/Layout";
 import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
-import { isIos } from "@/components/Tasks/Task";
 import { CreateTask } from "@/components/Tasks/Task/Create";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -106,9 +106,9 @@ export default function Home() {
           <Button
             sx={{
               ml: "auto",
-              mr: isIos() ? 1 : 0,
-              mb: isIos() ? -0.4 : 0,
-              color: palette[8],
+              mr: 1,
+              mb: -0.4,
+              color: palette[9],
               minWidth: 0,
               "&:hover:not(:active)": {
                 background: "transparent",
@@ -116,19 +116,20 @@ export default function Home() {
             }}
             size="small"
             onClick={() => setEditMode(!editMode)}
-            variant={isIos() ? "text" : editMode ? "contained" : "text"}
           >
-            {isIos() ? (
-              editMode ? (
-                "Cancel"
-              ) : (
-                "Edit"
-              )
-            ) : (
-              <Icon className="outlined">{editMode ? "check" : "edit"}</Icon>
-            )}
+            {editMode ? "Done" : "Edit"}
           </Button>
         }
+        sx={{
+          ...(editMode && {
+            position: "sticky",
+            top: 0,
+            zIndex: 999,
+            backdropFilter: "blur(10px)",
+            background: addHslAlpha(palette[1], 0.7),
+            borderBottom: `2px solid ${palette[2]}`,
+          }),
+        }}
         hideSettings
         hideSearch
       />
