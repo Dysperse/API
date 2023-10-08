@@ -1,14 +1,8 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
-import {
-  Box,
-  Button,
-  SwipeableDrawer,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
+import React, { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Puller } from "./Puller";
@@ -39,7 +33,11 @@ export function ConfirmationModal({
   const trigger = React.cloneElement(children, {
     onClick: (e) => {
       e.stopPropagation();
-      setOpen(true);
+      if (disabled) {
+        callback();
+      } else {
+        setOpen(true);
+      }
     },
   });
 
@@ -59,65 +57,59 @@ export function ConfirmationModal({
     if (open) handleClick();
   });
 
-  useEffect(() => {
-    if (open && disabled) handleClick();
-  }, [open, disabled, handleClick]);
-
   return (
     <>
       {trigger}
-      <SwipeableDrawer
-        disableSwipeToOpen
-        open={open}
-        anchor="bottom"
-        onClose={() => setOpen(false)}
-        onClick={(e) => e.stopPropagation()}
-        sx={{
-          zIndex: 9999999,
-          ...(disabled && {
-            display: "none!important",
-            visibility: "hidden!important",
-          }),
-        }}
-        PaperProps={{
-          sx: {
-            userSelect: "none",
-            width: { xs: "100%", sm: "350px" },
-            maxWidth: "calc(100vw - 30px)",
-            borderRadius: 5,
-            mx: { xs: "15px", sm: "auto" },
-            mb: "15px",
-            border: `2px solid ${palette[4]}`,
-          },
-        }}
-      >
-        <Puller showOnDesktop />
-        <Box sx={{ px: 3, pt: 0, pb: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            {title}
-          </Typography>
-          <Typography color="text.secondary">{question}</Typography>
-          <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
-            <Button
-              variant="outlined"
-              fullWidth
-              size="large"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
-            <LoadingButton
-              variant="contained"
-              fullWidth
-              size="large"
-              loading={loading}
-              onClick={handleClick}
-            >
-              {buttonText}
-            </LoadingButton>
+      {!disabled && (
+        <SwipeableDrawer
+          disableSwipeToOpen
+          open={open}
+          anchor="bottom"
+          onClose={() => setOpen(false)}
+          onClick={(e) => e.stopPropagation()}
+          sx={{
+            zIndex: 9999999,
+          }}
+          PaperProps={{
+            sx: {
+              userSelect: "none",
+              width: { xs: "100%", sm: "350px" },
+              maxWidth: "calc(100vw - 30px)",
+              borderRadius: 5,
+              mx: { xs: "15px", sm: "auto" },
+              mb: "15px",
+              border: `2px solid ${palette[4]}`,
+            },
+          }}
+        >
+          <Puller showOnDesktop />
+          <Box sx={{ px: 3, pt: 0, pb: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              {title}
+            </Typography>
+            <Typography color="text.secondary">{question}</Typography>
+            <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+              <Button
+                variant="outlined"
+                fullWidth
+                size="large"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+              <LoadingButton
+                variant="contained"
+                fullWidth
+                size="large"
+                loading={loading}
+                onClick={handleClick}
+              >
+                {buttonText}
+              </LoadingButton>
+            </Box>
           </Box>
-        </Box>
-      </SwipeableDrawer>
+        </SwipeableDrawer>
+      )}
     </>
   );
 }

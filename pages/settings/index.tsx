@@ -12,18 +12,31 @@ import {
   Icon,
   IconButton,
   InputAdornment,
-  ListItem,
   ListItemButton,
   ListItemText,
+  SxProps,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useRef } from "react";
-import { toast } from "react-hot-toast";
+import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+
+type SettingsButtons = {
+  icon: String | JSX.Element;
+  text: any;
+  secondary?: string;
+  path?: string;
+  queries: string[];
+  sx?: SxProps;
+  onClickConfirmation?: {
+    title: string;
+    question: string;
+    success: () => void;
+  };
+}[][];
 
 function sendMessage(message) {
   return new Promise(function (resolve, reject) {
@@ -46,6 +59,8 @@ function Page() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+
+  const [query, setQuery] = useState("");
 
   const styles = {
     "&:hover": {
@@ -74,14 +89,161 @@ function Page() {
     }
   };
 
+  const sections: SettingsButtons = [
+    [
+      {
+        icon: <ProfilePicture data={session.user} size={40} />,
+        text: session.user.name,
+        secondary: "Account settings",
+        path: "/settings/profile",
+        queries: [
+          "profile picture",
+          "name",
+          "email",
+          "password",
+          "bio",
+          "about",
+        ],
+        sx: {
+          background: palette[2] + "!important",
+          mb: 2,
+          ...styles,
+        },
+      },
+    ],
+    [
+      {
+        text: session.property.profile.name,
+        secondary: "My group",
+        path: "/spaces/" + session.property.propertyId,
+        icon: (
+          <Avatar
+            sx={{
+              width: 40,
+              height: 40,
+              background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[6]})`,
+              color: groupPalette[11],
+            }}
+          >
+            <Icon>
+              {session.property.profile.type === "home"
+                ? "home"
+                : session.property.profile.type === "apartment"
+                ? "apartment"
+                : session.property.profile.type === "dorm"
+                ? "cottage"
+                : "school"}
+            </Icon>
+          </Avatar>
+        ),
+        sx: {
+          background: palette[2] + "!important",
+          ...styles,
+          mb: 2,
+        },
+        queries: ["group", "space", "name"],
+      },
+    ],
+    [
+      {
+        icon: "palette",
+        text: "Appearance",
+        queries: ["theme", "mode", "color"],
+      },
+      { icon: "hub", text: "Connections", queries: ["google", "spotify"] },
+      {
+        icon: "change_history",
+        text: "Login activity",
+        queries: ["session", "logout"],
+      },
+      {
+        icon: "notifications",
+        text: "Notifications",
+        queries: ["reminders", "alerts"],
+      },
+      {
+        icon: "lock",
+        text: "2FA",
+        queries: ["two factor authentication", "otp", "code"],
+      },
+      {
+        icon: "logout",
+        text: "Sign out",
+        queries: ["sign out", "log out"],
+        onClickConfirmation: {
+          title: "Log out?",
+          question: "You'll have to sign back in later",
+          success: () =>
+            fetchRawApi(session, "auth/logout").then(() =>
+              router.push("/auth")
+            ),
+        },
+      },
+    ],
+
+    [
+      {
+        text: "Privacy policy",
+        icon: "link",
+        path: "//blog.dysperse.com/privacy-policy",
+        queries: ["privacy policy"],
+      },
+      {
+        text: "Terms of service",
+        icon: "link",
+        path: "//blog.dysperse.com/terms-of-service",
+        queries: ["terms and conditions"],
+      },
+      {
+        text: "Support",
+        icon: "help",
+        path: "//blog.dysperse.com/series/support",
+        queries: ["help"],
+      },
+      {
+        text: `Version ${session.user.lastReleaseVersionViewed}`,
+        icon: "info",
+        path: `//github.com/dysperse/dysperse`,
+        queries: ["version"],
+      },
+      {
+        icon: "sync",
+        text: "Clear app cache",
+        queries: ["cache", "reload"],
+        onClickConfirmation: {
+          title: "Clear cache?",
+          question: "Dysperse will refresh. This might take some time",
+          success: clearCache,
+        },
+      },
+    ],
+  ];
+
+  const filteredSections = sections
+    .map((section) => {
+      const filteredButtons = section.filter((button) => {
+        return button.queries.some((queryPart) => {
+          return queryPart.toLowerCase().includes(query);
+        });
+      });
+
+      // Only keep the section if it has at least one matching button
+      if (filteredButtons.length > 0) {
+        return filteredButtons;
+      }
+
+      return null; // Filter out sections with no matching buttons
+    })
+    .filter((section) => section !== null); // Filter out null sections
+
   return (
     <>
       <TextField
         variant="standard"
-        onClick={() => toast("Coming soon!")}
+        value={query}
+        onChange={(e: any) => setQuery(e.target.value)}
         placeholder="Search..."
         InputProps={{
-          readOnly: true,
           disableUnderline: true,
           sx: {
             background: palette[2],
@@ -101,133 +263,53 @@ function Page() {
           ),
         }}
       />
-      <ListItemButton
-        onClick={() => router.push("/settings/profile")}
-        sx={{
-          background: palette[2] + "!important",
-          mb: 2,
-          ...styles,
-        }}
-      >
-        <ProfilePicture data={session.user} size={40} />
-        <ListItemText
-          primary={<b>{session.user.name}</b>}
-          secondary="Account settings"
-        />
-        <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
-      </ListItemButton>
-      <ListItemButton
-        sx={{
-          background: palette[2] + "!important",
-          ...styles,
-          mb: 2,
-        }}
-        onClick={() => router.push("/spaces/" + session.property.propertyId)}
-      >
-        <Avatar
-          sx={{
-            width: 40,
-            height: 40,
-            background: `linear-gradient(45deg, ${groupPalette[8]}, ${groupPalette[6]})`,
-            color: groupPalette[11],
-          }}
+
+      {filteredSections.map((section, sectionIndex) => (
+        <Box
+          sx={{ background: palette[2], borderRadius: 3, mb: 2 }}
+          key={sectionIndex}
         >
-          <Icon>
-            {session.property.profile.type === "home"
-              ? "home"
-              : session.property.profile.type === "apartment"
-              ? "apartment"
-              : session.property.profile.type === "dorm"
-              ? "cottage"
-              : "school"}
-          </Icon>
-        </Avatar>
-        <ListItemText
-          primary={<b>{session.property.profile.name}</b>}
-          secondary="My group"
-        />
-        <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
-      </ListItemButton>
-      <Box sx={{ background: palette[2], borderRadius: 3, mb: 2 }}>
-        {[
-          { icon: "palette", text: "Appearance" },
-          { icon: "hub", text: "Connections" },
-          { icon: "change_history", text: "Login activity" },
-          { icon: "notifications", text: "Notifications" },
-          { icon: "lock", text: "2FA" },
-        ].map((button) => (
-          <ListItemButton
-            key={button.icon}
-            onClick={() => {
-              router.push(
-                `/settings/${button.text.toLowerCase().replaceAll(" ", "-")}`
-              );
-            }}
-            sx={styles}
-          >
-            <Icon className="outlined" sx={{ color: palette[11] }}>
-              {button.icon}
-            </Icon>
-            <ListItemText primary={button.text} />
-            <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
-          </ListItemButton>
-        ))}
-        <ConfirmationModal
-          title="Sign out"
-          question="Are you sure you want to sign out?"
-          buttonText="Sign out"
-          callback={() =>
-            fetchRawApi(session, "auth/logout").then(() => router.push("/auth"))
-          }
-        >
-          <ListItemButton>
-            <Icon sx={{ color: palette[11] }}>logout</Icon>
-            <ListItemText primary="Sign out" />
-            <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
-          </ListItemButton>
-        </ConfirmationModal>
-      </Box>
-      <Box
-        sx={{
-          background: palette[2],
-          borderRadius: 3,
-          overflow: "hidden",
-        }}
-      >
-        {[
-          {
-            name: "Privacy policy",
-            icon: "link",
-            href: "//blog.dysperse.com/privacy-policy",
-          },
-          {
-            name: "Terms of service",
-            icon: "link",
-            href: "//blog.dysperse.com/terms-of-service",
-          },
-          {
-            name: "Support",
-            icon: "help",
-            href: "//blog.dysperse.com/series/support",
-          },
-          {
-            name: `Version ${session.user.lastReleaseVersionViewed}`,
-            icon: "info",
-            href: `//github.com/dysperse/dysperse`,
-          },
-        ].map(({ name, icon, href }) => (
-          <ListItem key={name} onClick={() => window.open(href)} sx={styles}>
-            <Icon className="outlined" sx={{ color: palette[11] }}>
-              {icon}
-            </Icon>
-            <ListItemText primary={name} />
-          </ListItem>
-        ))}
-        <ListItemButton onClick={clearCache}>
-          <Icon sx={{ color: palette[11] }}>sync</Icon>
-          <ListItemText primary="Clear cache and reload" />
-        </ListItemButton>
-      </Box>
+          {section &&
+            section.map((button) => (
+              <ConfirmationModal
+                disabled={typeof button.onClickConfirmation == "undefined"}
+                callback={
+                  button.onClickConfirmation
+                    ? button.onClickConfirmation.success
+                    : () => {
+                        if (button.path?.includes("//")) {
+                          window.open(button.path);
+                        } else {
+                          router.push(
+                            button.path ||
+                              `/settings/${button.text
+                                .toLowerCase()
+                                .replaceAll(" ", "-")}`
+                          );
+                        }
+                      }
+                }
+                title={button.onClickConfirmation?.title || ""}
+                question={button.onClickConfirmation?.question}
+              >
+                <ListItemButton key={button.text} sx={styles}>
+                  {typeof button.icon === "string" ? (
+                    <Icon className="outlined" sx={{ color: palette[11] }}>
+                      {button.icon}
+                    </Icon>
+                  ) : (
+                    button.icon
+                  )}
+                  <ListItemText
+                    primary={button.text}
+                    {...(button.secondary && { secondary: button.secondary })}
+                  />
+                  <Icon sx={{ color: palette[11] }}>arrow_forward_ios</Icon>
+                </ListItemButton>
+              </ConfirmationModal>
+            ))}
+        </Box>
+      ))}
     </>
   );
 }
