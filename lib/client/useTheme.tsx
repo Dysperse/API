@@ -243,7 +243,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               borderRadius: 5,
             }),
           root: {
-            backgorund: addHslAlpha(palette[5], 0.4),
+            background: addHslAlpha(palette[7], 0.4),
           },
         },
       },
