@@ -1,6 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Icon, Skeleton, Typography } from "@mui/material";
+import { Avatar, Box, Icon, Skeleton, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { ErrorHandler } from "../Error";
@@ -29,6 +29,8 @@ export function Storage({
   const router = useRouter();
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
+  const orangePalette = useColor("orange", isDark);
+  const redPalette = useColor("red", isDark);
   const palette = useColor(color, isDark);
 
   const { data, mutate, error } = useSWR([
@@ -73,7 +75,21 @@ export function Storage({
             px: 3,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1.5, gap: 2 }}>
+            {used >= 75 && used < 100 && (
+              <Avatar sx={{ background: orangePalette[4] }}>
+                <Icon className="outlined" sx={{ color: orangePalette[11] }}>
+                  warning
+                </Icon>
+              </Avatar>
+            )}
+            {used >= 100 && (
+              <Avatar sx={{ background: redPalette[4] }}>
+                <Icon className="outlined" sx={{ color: redPalette[11] }}>
+                  error
+                </Icon>
+              </Avatar>
+            )}
             <Box>
               <Typography variant="h6">Storage</Typography>
               <Typography variant="body2">{~~used}% used</Typography>
