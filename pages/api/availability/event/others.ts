@@ -20,18 +20,23 @@ function calculateOverlappingAvailability(participants) {
           date: date,
           hour: hour,
           overlappingParticipants: 1, // Initialize with 1 participant
+          participants: [participant],
         });
       } else {
         // Increment the count of overlapping participants for this date-hour combination
         const existingEntry = availabilityMap.get(key);
         existingEntry.overlappingParticipants += 1;
+        existingEntry.participants = [
+          ...existingEntry.participants,
+          participant,
+        ];
       }
     });
   });
 
   // Filter entries to only include those with overlapping participants
   const overlappingAvailability = Array.from(availabilityMap.values()).filter(
-    (entry) => entry.overlappingParticipants > 1
+    (entry) => true
   );
 
   return overlappingAvailability;

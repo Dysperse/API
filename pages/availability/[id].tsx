@@ -437,11 +437,13 @@ function AvailabilityViewer({ data: eventData }) {
                   mt: 3,
                   background: palette[3],
                   borderRadius: 4,
+                  overflowX: "scroll",
                 }}
               >
                 <Table
                   aria-label="All overlapping availability"
                   sx={{
+                    minWidth: "500px",
                     "& *": {
                       borderBottomColor: palette[5] + "!important",
                       borderBottomWidth: "2px!important",
@@ -481,7 +483,33 @@ function AvailabilityViewer({ data: eventData }) {
                           {dayjs(row.date).set("hour", row.hour).format("hA")}
                         </TableCell>
                         <TableCell align="center">
-                          {row.overlappingParticipants}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              gap: 2,
+                              flexDirection: "column",
+                            }}
+                          >
+                            {row.participants.map((participant) => (
+                              <Box
+                                key={participant.id}
+                                sx={{
+                                  display: "flex",
+                                  gap: 2,
+                                  alignItems: "center",
+                                }}
+                              >
+                                <ProfilePicture
+                                  size={30}
+                                  data={
+                                    participant.user || participant.userData
+                                  }
+                                />
+                                {participant.user?.name ||
+                                  participant.userData?.name}
+                              </Box>
+                            ))}
+                          </Box>
                         </TableCell>
                       </TableRow>
                     ))}
