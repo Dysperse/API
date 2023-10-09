@@ -46,13 +46,15 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
           daysOfWeek.length + " days"
         )}
       </u>
-      <SwipeableDrawer
+      <Dialog
         open={open}
-        anchor="bottom"
         onClose={() => setOpen(false)}
+        PaperProps={{ sx: { p: 3 } }}
       >
-        <Puller showOnDesktop />
-        <Box sx={{ display: "flex", flexWrap: "wrap", p: 1, gap: 1 }}>
+        <Typography className="font-heading" variant="h3" sx={{ mb: 2 }}>
+          Select days
+        </Typography>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
           {options.map((day, index) => (
             <Chip
               label={day}
@@ -68,7 +70,10 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
             />
           ))}
         </Box>
-      </SwipeableDrawer>
+        <Button onClick={() => setOpen(false)}>
+          Done<Icon>check</Icon>
+        </Button>
+      </Dialog>
     </>
   );
 }
