@@ -70,7 +70,11 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
             />
           ))}
         </Box>
-        <Button onClick={() => setOpen(false)}>
+        <Button
+          onClick={() => setOpen(false)}
+          variant="contained"
+          sx={{ mt: 2 }}
+        >
           Done<Icon>check</Icon>
         </Button>
       </Dialog>
