@@ -385,6 +385,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
               onClick={() => {
                 setDate(today);
                 setTimeOpen(false);
+                closeOnSelect && setOpen(false);
               }}
             >
               Today

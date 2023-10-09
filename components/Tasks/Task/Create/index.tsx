@@ -10,7 +10,6 @@ import {
   Avatar,
   Badge,
   Box,
-  Button,
   Icon,
   IconButton,
   InputAdornment,
@@ -19,12 +18,11 @@ import {
   SwipeableDrawer,
   SxProps,
   TextField,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   cloneElement,
   memo,
@@ -36,7 +34,6 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import SelectDateModal from "../DatePicker";
 import ChipBar from "./ChipBar";
 
 const MemoizedTextField = memo(TextField);
@@ -346,45 +343,6 @@ export function CreateTask({
     { enableOnFormTags: true }
   );
 
-  const pinTrigger = useMemo(
-    () => (
-      <IconButton
-        id="pinTrigger"
-        size="small"
-        sx={{ ...styles.button(formData.pinned), ml: -0.5 }}
-        onClick={() => {
-          setFormData((s) => ({ ...s, pinned: !s.pinned }));
-          if (!localStorage.getItem("tips-taskPriority") && !formData.pinned) {
-            toast(
-              <Box>
-                <Typography gutterBottom>
-                  <i>
-                    <b>PRO TIP</b>
-                  </i>
-                </Typography>
-                <Typography gutterBottom>
-                  You can quickly mark a task as important by typing
-                  &quot;!!&quot; in its name.
-                </Typography>
-                <Typography>
-                  You can also emphasize importance by making it all caps!
-                </Typography>
-              </Box>
-            );
-            localStorage.setItem("tips-taskPriority", "true");
-          }
-        }}
-      >
-        <Icon
-          sx={formData.pinned ? { transform: "rotate(-35deg)" } : undefined}
-        >
-          push_pin
-        </Icon>
-      </IconButton>
-    ),
-    [setFormData, formData.pinned, styles]
-  );
-
   const emojiTrigger = useMemo(
     () => (
       <EmojiPicker
@@ -398,6 +356,7 @@ export function CreateTask({
           size="small"
           sx={{
             ...styles.button(false),
+            ml: -0.7,
             display: { xs: "none", sm: "flex" },
           }}
         >
@@ -464,53 +423,6 @@ export function CreateTask({
     ),
     [formData, setFormData, styles]
   );
-  const dateTrigger = useMemo(
-    () => (
-      <AnimatePresence>
-        <SelectDateModal
-          date={formData.date}
-          setDate={(date) => setFormData((s) => ({ ...s, date }))}
-          isDateOnly={formData.dateOnly}
-          setDateOnly={(dateOnly) => setFormData((d) => ({ ...d, dateOnly }))}
-        >
-          <Tooltip
-            title={
-              formData.date && (
-                <Box>
-                  <Typography>
-                    <b>{dayjs(formData.date).format("dddd, MMMM D")}</b>
-                  </Typography>
-                  {!formData.dateOnly && (
-                    <Typography variant="body2">
-                      {dayjs(formData.date).format("h:mm A")}
-                    </Typography>
-                  )}
-                </Box>
-              )
-            }
-          >
-            <motion.div
-              initial={{ filter: "brightness(180%)" }}
-              animate={{ filter: "brightness(100%)" }}
-              exit={{ filter: "brightness(180%)" }}
-              key={formData.date && dayjs(formData.date).toISOString()}
-            >
-              <Button
-                disableRipple
-                id="dateTrigger"
-                variant={!formData.date ? undefined : "contained"}
-                sx={{ px: 2, minWidth: "unset" }}
-              >
-                <Icon>today</Icon>
-              </Button>
-            </motion.div>
-          </Tooltip>
-        </SelectDateModal>
-      </AnimatePresence>
-    ),
-    [formData]
-  );
-
   // const ref = useRef();
 
   return (
@@ -668,13 +580,11 @@ export function CreateTask({
               titleRef?.current?.focus();
             }}
           >
-            {pinTrigger}
             {emojiTrigger}
             {locationTrigger}
             {descriptionTrigger}
             {fileTrigger}
             <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
-              {dateTrigger}
               <LoadingButton
                 disableRipple
                 variant="contained"

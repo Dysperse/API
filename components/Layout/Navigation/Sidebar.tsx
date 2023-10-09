@@ -301,19 +301,17 @@ export function Sidebar() {
         </Tooltip>
       </Box>
       <Box
-        sx={styles(router.asPath === "/" || router.asPath === "/mood-history")}
+        sx={styles(router.asPath === "/")}
         onClick={() => router.push("/")}
         onMouseDown={() => router.push("/")}
       >
         <Tooltip title="Start" placement="right">
           <span
             className={`material-symbols-${
-              router.asPath === "/" || router.asPath === "/mood-history"
-                ? "rounded"
-                : "outlined"
+              router.asPath === "/" ? "rounded" : "outlined"
             }`}
           >
-            &#xe86b;
+            &#xf07e;
           </span>
         </Tooltip>
       </Box>

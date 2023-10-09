@@ -2,7 +2,6 @@ import { Puller } from "@/components/Puller";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Chip,
@@ -10,6 +9,7 @@ import {
   ListItemButton,
   ListItemText,
   SwipeableDrawer,
+  Tooltip,
   colors,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -23,6 +23,7 @@ import React, {
   useState,
 } from "react";
 import toast from "react-hot-toast";
+import SelectDateModal from "../DatePicker";
 
 const MemoizedChip = memo(Chip);
 
@@ -356,6 +357,60 @@ const ChipBar = React.memo(function ChipBar({
           }}
           onClick={() => titleRef?.current?.focus()}
         >
+          <Tooltip
+            title={
+              dayjs(data.date).isValid()
+                ? data.dateOnly
+                  ? dayjs(data.date).format("dddd, MMMM D, YYYY")
+                  : dayjs(data.date).format("dddd, MMMM D, YYYY h:mm A")
+                : "Due date"
+            }
+            placement="top"
+          >
+            <SelectDateModal
+              closeOnSelect
+              date={data.date}
+              setDate={(date) => setData((s) => ({ ...s, date }))}
+              isDateOnly={data.dateOnly}
+              setDateOnly={(dateOnly) => setData((d) => ({ ...d, dateOnly }))}
+            >
+              <Chip
+                id="dateTrigger"
+                sx={chipStyles(dayjs(data.date).isValid())}
+                icon={
+                  <Icon
+                    sx={{
+                      pl: dayjs(data.date).isValid() ? 0 : 1.5,
+                      fontVariationSettings:
+                        '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+                    }}
+                  >
+                    calendar_today
+                  </Icon>
+                }
+                label={
+                  dayjs(data.date).isValid()
+                    ? data.dateOnly
+                      ? dayjs(data.date).format("MMMM Do")
+                      : dayjs(data.date).fromNow()
+                    : ""
+                }
+              />
+            </SelectDateModal>
+          </Tooltip>
+          <Tooltip
+            title={data.pinned ? "Marked as urgent" : "Mark as urgent"}
+            placement="top"
+          >
+            <Chip
+              onClick={() => setData((s) => ({ ...s, pinned: !s.pinned }))}
+              sx={chipStyles(data.pinned)}
+              icon={
+                <Icon sx={{ pl: data.pinned ? 0 : 1.5 }}>priority_high</Icon>
+              }
+              label={data.pinned ? "Urgent" : ""}
+            />
+          </Tooltip>
           {chipComponent}
           {!showedFields.location &&
             [
@@ -414,35 +469,6 @@ const ChipBar = React.memo(function ChipBar({
               />
             )
           )}
-          {!isSubTask &&
-            [
-              { label: "Today", days: 0 },
-              { label: "Tomorrow", days: 1 },
-              { label: "Next week", days: 7 },
-            ].map(({ label, days }) => {
-              const isActive =
-                data.date &&
-                dayjs(data.date.toISOString()).startOf("day").toISOString() ===
-                  dayjs().startOf("day").add(days, "day").toISOString();
-
-              return (
-                <MemoizedChip
-                  key={label}
-                  label={label}
-                  sx={chipStyles(isActive)}
-                  icon={<Icon>today</Icon>}
-                  onClick={() => {
-                    vibrate(50);
-                    const tomorrow = new Date();
-                    tomorrow.setDate(tomorrow.getDate() + days);
-                    tomorrow.setHours(0);
-                    tomorrow.setMinutes(0);
-                    tomorrow.setSeconds(0);
-                    setData((d) => ({ ...d, date: tomorrow }));
-                  }}
-                />
-              );
-            })}
         </Box>
       </motion.div>
     </div>

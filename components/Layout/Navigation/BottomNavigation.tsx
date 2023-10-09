@@ -143,14 +143,12 @@ export function BottomNav() {
       >
         <span
           className={`material-symbols-${
-            router.asPath === "/" ||
-            router.asPath === "" ||
-            router.asPath.includes("/mood-history")
+            router.asPath === "/" || router.asPath === ""
               ? "rounded"
               : "outlined"
           }`}
         >
-          &#xe86b;
+          &#xf07e;
         </span>
       </Box>
       <Box
