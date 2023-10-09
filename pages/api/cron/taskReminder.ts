@@ -12,7 +12,7 @@ dayjs.extend(relativeTime);
 
 const Notification = async (req, res) => {
   if (
-    req.headers.authorization !== `Bearer ${process.env.COACH_CRON_API_KEY}` &&
+    req.headers.authorization !== `Bearer ${process.env.CRON_API_KEY}` &&
     process.env.NODE_ENV === "production"
   ) {
     res.status(401).json({

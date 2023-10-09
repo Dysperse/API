@@ -10,7 +10,7 @@ const handler = {
     const params = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${env.COACH_CRON_API_KEY}`,
+        Authorization: `Bearer ${env.CRON_API_KEY}`,
       },
     };
 
