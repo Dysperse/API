@@ -63,7 +63,7 @@ export const recentlyAccessed = {
       return {};
     }
   },
-  clear: () => localStorage.removeItem("recentlyAccessedTasks")
+  clear: () => localStorage.removeItem("recentlyAccessedTasks"),
 };
 
 export const taskStyles = (palette) => {
@@ -308,7 +308,7 @@ export const MenuChildren = memo(function MenuChildren({
           "Dive into your productivity and learn more about yourself",
       },
       {
-        key: "c",
+        key: "shift+c",
         hash: "color-coded",
         icon: "palette",
         label: "Color coded",

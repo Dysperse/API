@@ -336,7 +336,7 @@ export function Sidebar() {
                 : "outlined"
             }`}
           >
-            &#xe9fe;
+            &#xf569;
           </span>
         </Tooltip>
       </Box>

@@ -24,6 +24,7 @@ import React, {
 } from "react";
 import toast from "react-hot-toast";
 import SelectDateModal from "../DatePicker";
+import { RecurringChip } from "./RecurringChip";
 
 const MemoizedChip = memo(Chip);
 
@@ -469,6 +470,11 @@ const ChipBar = React.memo(function ChipBar({
               />
             )
           )}
+          <RecurringChip
+            data={data}
+            setData={setData}
+            chipStyles={chipStyles}
+          />
         </Box>
       </motion.div>
     </div>

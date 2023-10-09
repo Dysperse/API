@@ -466,7 +466,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         styleOverrides: {
           paper: {
             borderRadius: "28px",
-            border: "1px solid " + palette[2],
+            border: `2px solid ${palette[3]}`,
             background: palette[1],
             boxShadow: "none!important",
           },

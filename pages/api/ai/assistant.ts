@@ -5,7 +5,8 @@ export default async function handler(req, res) {
       method: "POST",
       body: req.body,
       headers: {
-        Authentication: `Bearer ${process.env.CLOUDFLARE_ACCESS_TOKEN}`,
+        "X-Auth-Key": `${process.env.CLOUDFLARE_ACCESS_TOKEN}`,
+        "X-Auth-Email": "manusvathgurudath@gmail.com",
       },
     }
   ).then((res) => res.json());

@@ -272,9 +272,10 @@ model Task {
   color       String  @default("grey")
   pinned      Boolean @default(false)
 
-  due           DateTime?
-  dateOnly      Boolean   @default(true)
-  notifications Int[]     @default([])
+  due            DateTime?
+  dateOnly       Boolean   @default(true)
+  notifications  Int[]     @default([])
+  recurrenceRule String?
 
   completed   Boolean   @default(false)
   completedAt DateTime?

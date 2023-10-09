@@ -121,13 +121,14 @@ export default function Home() {
           </Button>
         }
         sx={{
+          borderBottom: `2px solid transparent`,
           ...(editMode && {
             position: "sticky",
             top: 0,
             zIndex: 999,
             backdropFilter: "blur(10px)",
             background: addHslAlpha(palette[1], 0.7),
-            borderBottom: `2px solid ${palette[2]}`,
+            borderColor: `${palette[2]}`,
           }),
         }}
         hideSettings

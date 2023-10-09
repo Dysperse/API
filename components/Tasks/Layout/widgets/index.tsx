@@ -76,6 +76,7 @@ function Assistant({ children }) {
       toast.error("Something went wrong. Please try again later");
     }
 
+    alert(JSON.stringify(d));
     const r = { role: "system", content: d.result.response };
 
     setMessages((prevMessages) => [...prevMessages, r]);

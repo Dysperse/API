@@ -170,7 +170,7 @@ export function BottomNav() {
               : "outlined"
           }`}
         >
-          &#xe9fe;
+          &#xf569;
         </span>
       </Box>
     </Box>

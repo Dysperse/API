@@ -42,8 +42,7 @@ export const getUserData = async (token: string) => {
         lastActive: dayjs().tz(session.user.timeZone).toDate(),
       },
     });
-  } catch (e) {
-  }
+  } catch (e) {}
 
   const { ip, timestamp, user, ...restSession } = session;
 
@@ -62,6 +61,7 @@ export const getUserData = async (token: string) => {
     user: {
       ...user,
       properties: undefined,
+      lastActive: undefined,
       password: undefined,
       id: undefined,
     },

@@ -78,6 +78,7 @@
     "react-virtuoso": "^4.6.0",
     "react-webcam": "^7.1.1",
     "resend": "^1.1.0",
+    "rrule": "^2.7.2",
     "sass": "^1.67.0",
     "swr": "^2.2.2",
     "victory": "^36.6.11",
