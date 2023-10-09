@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import { Column } from "./Column";
 import { BoardInfo } from "./Info";
@@ -59,8 +59,42 @@ function RenderBoard({ tasks }) {
     }
   }, [board]);
 
+  const boardContainerRef: any = useRef();
+
+  const handleScrollRight = () => {
+    if (!boardContainerRef.current) return;
+    // alert(boardContainerRef.current?.scrollLeft);
+    const { scrollLeft, clientWidth, scrollWidth } = boardContainerRef.current;
+    const { width } = boardContainerRef.current.getBoundingClientRect();
+
+    const canScrollRight = scrollLeft + clientWidth < scrollWidth;
+
+    if (canScrollRight && !isMobile) {
+      boardContainerRef.current.scrollTo({
+        left: width + scrollLeft - 500,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollLeft = () => {
+    if (!boardContainerRef.current) return;
+    const { scrollLeft } = boardContainerRef.current;
+    const { width } = boardContainerRef.current.getBoundingClientRect();
+
+    const canScrollLeft = scrollLeft > 0;
+
+    if (canScrollLeft && !isMobile) {
+      boardContainerRef.current.scrollTo({
+        left: (width - scrollLeft - 300) * -1,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <Box
+      ref={boardContainerRef}
       sx={{
         scrollSnapType: { xs: "x mandatory", sm: "unset" },
         display: "flex",
@@ -72,6 +106,33 @@ function RenderBoard({ tasks }) {
         overflowY: { sm: "hidden" },
       }}
     >
+      {!isMobile && (
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: 0,
+            right: 0,
+            m: 5,
+            background: palette[2],
+            borderRadius: 99,
+            p: 0.5,
+            zIndex: 99,
+            opacity: 0.6,
+            backdropFilter: "blur(10px)",
+            "&:hover": { opacity: 1 },
+            "& .MuiIconButton-root": {
+              color: palette[11],
+            },
+          }}
+        >
+          <IconButton onClick={handleScrollLeft}>
+            <Icon>arrow_back_ios_new</Icon>
+          </IconButton>
+          <IconButton onClick={handleScrollRight}>
+            <Icon>arrow_forward_ios</Icon>
+          </IconButton>
+        </Box>
+      )}
       {!isMobile && (
         <BoardInfo
           setCurrentColumn={setCurrentColumn}
