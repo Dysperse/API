@@ -30,6 +30,7 @@
     "@sentry/nextjs": "^7.61.1",
     "@sentry/node": "^7.61.1",
     "@sentry/replay": "^7.61.1",
+    "@types/argon2": "^0.15.0",
     "@types/victory": "^35.0.0",
     "@typescript-eslint/parser": "^6.7.2",
     "@vercel/analytics": "^1.0.2",
