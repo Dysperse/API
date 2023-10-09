@@ -58,6 +58,7 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
           {options.map((day, index) => (
             <Chip
               label={day}
+              variant={daysOfWeek.includes(index) ? undefined : "outlined"}
               icon={<Icon>{daysOfWeek.includes(index) ? "check" : "add"}</Icon>}
               key={day}
               onClick={() => {
