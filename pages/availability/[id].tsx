@@ -369,7 +369,7 @@ function AvailabilityViewer({ data: eventData }) {
                               gap: 2,
                             }}
                           >
-                            {participant.user.Profile && (
+                            {participant?.user?.Profile && (
                               <ProfilePicture
                                 data={participant.user}
                                 size={30}
@@ -504,11 +504,7 @@ function AvailabilityViewer({ data: eventData }) {
           <CircularProgress />
         </Box>
       )}
-      {error && (
-        <ErrorHandler
-          callback={mutate}
-        />
-      )}
+      {error && <ErrorHandler callback={mutate} />}
     </motion.div>
   );
 }
@@ -1077,11 +1073,7 @@ export default function Page({ data: eventData }) {
           <CircularProgress />
         </Box>
       )}
-      {error && (
-        <ErrorHandler
-          callback={mutate}
-        />
-      )}
+      {error && <ErrorHandler callback={mutate} />}
       {data && (
         <Grid
           container
