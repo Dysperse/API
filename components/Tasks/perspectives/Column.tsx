@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import { RRule } from "rrule";
 import { PerspectiveContext } from ".";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
@@ -210,6 +211,7 @@ const Column = React.memo(function Column({
   column,
   data,
   view,
+  recurringTasks,
 }: any): JSX.Element {
   const scrollParentRef = useRef();
   const { session } = useSession();
@@ -272,10 +274,15 @@ const Column = React.memo(function Column({
     [data, columnEnd, columnStart]
   );
 
-  const completedTasks = useMemo(
-    () => sortedTasks.filter((task) => task.completed),
-    [sortedTasks]
-  );
+  const recurredTasks = recurringTasks
+    .map((task) => {
+      const rule = RRule.fromString(task.recurrenceRule).between(
+        dayjs(columnStart).add(-1, "day").toDate(),
+        dayjs(columnEnd).add(-1, "day").toDate()
+      );
+      return rule.length > 0 ? { ...task, recurrenceDay: rule } : undefined;
+    })
+    .filter((e) => e);
 
   return (
     <Box
@@ -365,6 +372,27 @@ const Column = React.memo(function Column({
             </motion.div>
           </Box>
         )}
+        <Virtuoso
+          useWindowScroll
+          isScrolling={setIsScrolling}
+          customScrollParent={
+            isMobile ? containerRef.current : scrollParentRef.current
+          }
+          data={recurredTasks}
+          itemContent={(_, task) => (
+            <Task
+              isAgenda
+              isDateDependent={true}
+              key={task.id}
+              isScrolling={isScrolling}
+              board={task.board || false}
+              columnId={task.column ? task.column.id : -1}
+              mutate={() => {}}
+              mutateList={mutateList}
+              task={task}
+            />
+          )}
+        />
         <Virtuoso
           useWindowScroll
           isScrolling={setIsScrolling}

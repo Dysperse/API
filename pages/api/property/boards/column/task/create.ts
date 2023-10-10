@@ -29,6 +29,9 @@ const handler = async (req, res) => {
         due: req.query.due !== "false" ? new Date(req.query.due) : null,
         description: req.query.description,
         ...(req.query.location && { where: req.query.location }),
+        ...(req.query.recurrenceRule && {
+          recurrenceRule: req.query.recurrenceRule,
+        }),
         ...(req.query.columnId !== "-1" && {
           column: {
             connect: {

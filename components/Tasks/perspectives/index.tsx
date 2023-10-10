@@ -143,7 +143,14 @@ export function Agenda({ type, date }) {
   });
 
   return (
-    <PerspectiveContext.Provider value={{ start, end, mutateList, type }}>
+    <PerspectiveContext.Provider
+      value={{
+        start,
+        end,
+        mutateList,
+        type,
+      }}
+    >
       <Head>
         <title>
           {dayjs(start).format(viewHeadingFormats[type])} &bull;{" "}
@@ -333,7 +340,13 @@ export function Agenda({ type, date }) {
         >
           {data && columns?.length > 0 ? (
             columns.map((column: any) => (
-              <Column key={column} column={column} data={data} view={view} />
+              <Column
+                key={column}
+                column={column}
+                data={data.data}
+                recurringTasks={data.recurringTasks}
+                view={view}
+              />
             ))
           ) : (
             <CircularProgress />

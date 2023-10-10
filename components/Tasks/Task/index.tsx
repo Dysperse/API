@@ -29,6 +29,7 @@ import React, {
   useState,
 } from "react";
 import toast from "react-hot-toast";
+import { RRule } from "rrule";
 import { SelectionContext } from "../Layout";
 import { TaskDrawer } from "./Drawer";
 import {
@@ -58,6 +59,7 @@ const TaskChips = React.memo(function TaskChips({
   const { session } = useSession();
   const isPinned = taskData.pinned;
   const isDue = taskData.due && !isAgenda;
+  const isRecurring = taskData.recurrenceRule !== null;
 
   const isWhereValid =
     taskData.where &&
@@ -107,6 +109,15 @@ const TaskChips = React.memo(function TaskChips({
     >
       {taskData.image && taskData.image !== "null" && (
         <ImageViewer url={taskData.image} />
+      )}
+      {isRecurring && (
+        <Tooltip
+          title={capitalizeFirstLetter(
+            RRule.fromString(taskData.recurrenceRule).toText()
+          )}
+        >
+          <Chip icon={<Icon>loop</Icon>} size="small" label="Repeats" />
+        </Tooltip>
       )}
       {isPinned && urgentChip}
 
@@ -261,12 +272,13 @@ export const Task: any = React.memo(function Task({
   mutateList,
   task,
 }: any): JSX.Element {
-  const [taskData, setTaskData] = useState(task);
-
   const ref: any = useRef();
   const { session } = useSession();
   const storage = useAccountStorage();
   const isDark = useDarkMode(session.darkMode);
+  const [taskData, setTaskData] = useState(task);
+
+  const isRecurring = taskData.recurrenceRule !== null;
 
   useEffect(() => setTaskData(task), [task]);
 
@@ -274,30 +286,34 @@ export const Task: any = React.memo(function Task({
     async (e, mutate = false) => {
       try {
         vibrate(50);
-        setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
-        if (mutate) {
-          mutateList(
-            (e) => {
-              const l = e.map((t) => {
-                if (t.id === taskData.id) {
-                  return { ...t, completed: !t.completed };
-                } else {
-                  return t;
-                }
-              });
-              return l;
-            },
-            {
-              revalidate: false,
-            }
-          );
+        if (isRecurring) {
+          alert(1);
+        } else {
+          setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
+          if (mutate) {
+            mutateList(
+              (e) => {
+                const l = (e.data ? e.data : e).map((t) => {
+                  if (t.id === taskData.id) {
+                    return { ...t, completed: !t.completed };
+                  } else {
+                    return t;
+                  }
+                });
+                return e.data ? { ...e, data: l } : l;
+              },
+              {
+                revalidate: false,
+              }
+            );
+          }
+          fetchRawApi(session, "property/boards/column/task/edit", {
+            id: taskData.id,
+            completed: e ? "true" : "false",
+            date: new Date().toISOString(),
+            createdBy: session.user.email,
+          });
         }
-        fetchRawApi(session, "property/boards/column/task/edit", {
-          id: taskData.id,
-          completed: e ? "true" : "false",
-          date: new Date().toISOString(),
-          createdBy: session.user.email,
-        });
       } catch (e) {
         toast.error("An error occured while updating the task");
       }

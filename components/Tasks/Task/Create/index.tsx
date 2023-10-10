@@ -123,6 +123,7 @@ export function CreateTask({
     date: defaultDate,
     dateOnly: true,
     notifications: [10],
+    recurrenceRule: null,
   });
 
   useEffect(() => {
@@ -248,9 +249,11 @@ export function CreateTask({
           notifications: JSON.stringify(
             formData.notifications.sort().reverse()
           ),
+          recurrenceRule: formData.recurrenceRule
+            ? (formData.recurrenceRule as any)?.toString()
+            : undefined,
           ...(boardData && { ...boardData }),
           ...(parentId && { parent: parentId }),
-
           createdBy: session.user.email,
         }).then(() => onSuccess && onSuccess());
         toast.dismiss();

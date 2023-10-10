@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
+import { Prisma } from "@prisma/client";
 
 const handler = async (req, res) => {
   try {
@@ -8,57 +9,46 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    const where = {
+    const wherePermissionsMatch: any = [
+      // Make sure that the task is in the property
+      { property: { id: req.query.property } },
+
+      // Or, if the column is null but within the property
+      {
+        OR: [
+          { column: null },
+          {
+            column: {
+              board: {
+                AND: [{ public: false }, { userId: req.query.userIdentifer }],
+              },
+            },
+          },
+          {
+            column: {
+              board: {
+                AND: [{ public: true }, { propertyId: req.query.property }],
+              },
+            },
+          },
+        ],
+      },
+    ];
+
+    const where: Prisma.TaskWhereInput = {
       AND: [
+        { recurrenceRule: null },
         // Prevent selecting subtasks
-        {
-          parentTasks: {
-            none: {
-              property: {
-                id: req.query.property,
-              },
-            },
-          },
-        },
-        // Make sure that the task is in the property
-        {
-          property: {
-            id: req.query.property,
-          },
-        },
+        { parentTasks: { none: { property: { id: req.query.property } } } },
         // Make sure that the tasks falls within these dates
-        {
-          due: {
-            gte: new Date(req.query.startTime),
-          },
-        },
-        {
-          due: {
-            lte: new Date(req.query.endTime),
-          },
-        },
-        {
-          OR: [
-            { column: null },
-            {
-              column: {
-                board: {
-                  AND: [{ public: false }, { userId: req.query.userIdentifer }],
-                },
-              },
-            },
-            {
-              column: {
-                board: {
-                  AND: [{ public: true }, { propertyId: req.query.property }],
-                },
-              },
-            },
-          ],
-        },
+        { due: { gte: new Date(req.query.startTime) } },
+        { due: { lte: new Date(req.query.endTime) } },
+
+        ...wherePermissionsMatch,
       ],
     };
 
+    // Used for dots on DatePicker component
     if (req.query.count) {
       const data = await prisma.task.groupBy({
         by: ["due"],
@@ -70,13 +60,13 @@ const handler = async (req, res) => {
           due: "asc",
         },
         where,
-        // take: 3,
       });
 
       res.json(data);
       return;
     }
 
+    // Used for `/perspectives/:id` page
     const data = await prisma.task.findMany({
       where,
       include: req.query.count
@@ -98,7 +88,14 @@ const handler = async (req, res) => {
             },
           },
     });
-    res.json(data);
+
+    const recurringTasks = await prisma.task.findMany({
+      where: {
+        AND: [...wherePermissionsMatch, { recurrenceRule: { not: null } }],
+      },
+    });
+
+    res.json({ data, recurringTasks });
   } catch (e: any) {
     res.json({ error: e.message });
   }

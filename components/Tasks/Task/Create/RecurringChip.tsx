@@ -8,10 +8,12 @@ import {
   Button,
   Chip,
   Dialog,
-  Grid,
+  FormControlLabel,
   Icon,
   InputAdornment,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   SwipeableDrawer,
   SxProps,
@@ -20,21 +22,21 @@ import {
   Typography,
 } from "@mui/material";
 import { DateCalendar, DatePicker, PickersDay } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import React, { useEffect, useMemo, useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
+import React, { useMemo, useState } from "react";
 import { RRule } from "rrule";
 
 function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
   const [open, setOpen] = useState(false);
 
   const options = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
   ];
 
   return (
@@ -57,23 +59,30 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
         <Typography className="font-heading" variant="h3" sx={{ mb: 2 }}>
           Select days
         </Typography>
+        {JSON.stringify(daysOfWeek)}
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
           {options.map((day, index) => (
             <Chip
               label={day}
-              variant={daysOfWeek.includes(index) ? undefined : "outlined"}
+              variant={
+                daysOfWeek.includes(index.toString()) ? undefined : "outlined"
+              }
               sx={{
-                ...(!daysOfWeek.includes(index) && {
+                ...(!daysOfWeek.includes(index.toString()) && {
                   background: "transparent",
                 }),
               }}
-              icon={<Icon>{daysOfWeek.includes(index) ? "check" : "add"}</Icon>}
+              icon={
+                <Icon>
+                  {daysOfWeek.includes(index.toString()) ? "check" : "add"}
+                </Icon>
+              }
               key={day}
               onClick={() => {
-                if (!daysOfWeek.includes(index)) {
-                  setDaysOfWeek((d) => [...d, index]);
+                if (daysOfWeek.includes(index.toString())) {
+                  setDaysOfWeek((d) => d.filter((f) => f !== index.toString()));
                 } else {
-                  setDaysOfWeek((d) => d.filter((_, f) => f !== index));
+                  setDaysOfWeek((d) => [...d, index.toString()]);
                 }
               }}
             />
@@ -194,7 +203,10 @@ export const RecurringChip = React.memo(function RecurringChip({
   const [freq, setFreq] = useState("weekly");
   const [count, setCount] = useState(null);
   const [interval, setInterval] = useState(1);
-  const [daysOfWeek, setDaysOfWeek] = useState([dayjs().isoWeekday() - 1]);
+  const [daysOfWeek, setDaysOfWeek] = useState([
+    (dayjs().isoWeekday() - 1).toString(),
+  ]);
+  const [bymonthday, setBymonthday] = useState(null);
   const [months, setMonths] = useState([]);
   const [untilDate, setUntilDate] = useState(null);
 
@@ -213,38 +225,39 @@ export const RecurringChip = React.memo(function RecurringChip({
     interval,
     wkst: RRule.SU,
     count,
-    byweekday: daysOfWeek.map(
-      (day) => RRule[["MO", "TU", "WE", "TH", "FR", "SA", "SU"][day]]
-    ),
-    ...(months.length > 0 && { bymonth: months.map((month) => month + 1) }),
+    byweekday:
+      freq !== "weekly"
+        ? undefined
+        : daysOfWeek.map(
+            (day) =>
+              RRule[["SU", "MO", "TU", "WE", "TH", "FR", "SA"][parseInt(day)]]
+          ),
+    bymonthday,
+    ...(months.length > 0 &&
+      freq == "weekly" && { bymonth: months.map((month) => month + 1) }),
     ...(untilDate !== null && { until: new Date(untilDate) }),
   });
 
   const handleSave = () => {
     setValue(rrule);
+    handleMonthChange(dayjs());
     setConfirmOpen(true);
   };
 
-  const styles = {
-    "&.MuiChip-outlined": {
-      background: "transparent",
-    },
-  };
+  const handleMonthChange = (date: Dayjs) => {
+    const startOfMonth = date.utc().startOf("month").toDate();
+    const endOfMonth = date.utc().endOf("month").toDate();
 
-  const handleMonthChange = (date) => {
-    const start = date.startOf("month");
-    const end = date.endOf("month");
-    const highlights = value?.between(start.toDate(), end.toDate());
-    setHighlightedDays(
-      highlights?.map((highlight) => dayjs(highlight).date()) || [0]
+    // Generate the dates based on your recurrence rule
+    const generatedDates = rrule.between(startOfMonth, endOfMonth);
+
+    // Filter the generated dates to include only those within the month
+    const highlights = generatedDates.map((highlight) =>
+      dayjs(highlight).utc().date()
     );
-  };
 
-  useEffect(() => {
-    if (confirmOpen && value) {
-      handleMonthChange(dayjs());
-    }
-  }, [confirmOpen, value]);
+    setHighlightedDays(highlights || [0]);
+  };
 
   const textStyles = useMemo(
     () => ({ opacity: 0.6, fontWeight: 900, mb: 1 }),
@@ -265,7 +278,7 @@ export const RecurringChip = React.memo(function RecurringChip({
           onClick={() => setOpen(true)}
           label="Repeat"
           sx={chipStyles(data.recurrenceRule)}
-          icon={<Icon>repeat</Icon>}
+          icon={<Icon>loop</Icon>}
         />
       </Tooltip>
       <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
@@ -276,7 +289,9 @@ export const RecurringChip = React.memo(function RecurringChip({
           <Typography variant="h4" className="font-heading">
             {value && value.toText()}
           </Typography>
+          <Typography variant="h6">{value && value.toString()}</Typography>
         </Box>
+        {JSON.stringify(highlightedDays)}
         <DateCalendar
           minDate={dayjs()}
           readOnly
@@ -350,71 +365,111 @@ export const RecurringChip = React.memo(function RecurringChip({
               onBlur={(e: any) => setInterval(e.target.value)}
             />
           </Box>
-          <Typography
-            variant="body2"
-            sx={{ mt: 2, mb: 1, opacity: 0.6, fontWeight: 900 }}
-          >
-            ON
+          {freq !== "daily" && (
+            <>
+              <Typography
+                variant="body2"
+                sx={{ mt: 2, mb: 1, opacity: 0.6, fontWeight: 900 }}
+              >
+                ON {freq === "monthly" && "THE"}
+              </Typography>
+              {freq === "monthly" ? (
+                <Box>
+                  <TextField
+                    placeholder="Enter date..."
+                    value={bymonthday}
+                    onChange={(e: any) =>
+                      setBymonthday(
+                        e.target.value <= 0
+                          ? 1
+                          : e.target.value > 31
+                          ? 31
+                          : e.target.value
+                      )
+                    }
+                  />
+                </Box>
+              ) : (
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  <DayOfWeekPicker
+                    daysOfWeek={daysOfWeek}
+                    setDaysOfWeek={setDaysOfWeek}
+                  />
+                  <MonthPicker months={months} setMonths={setMonths} />
+                </Box>
+              )}
+            </>
+          )}
+          <Typography variant="body2" sx={{ ...textStyles, mt: 2 }}>
+            ENDS
           </Typography>
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <DayOfWeekPicker
-              daysOfWeek={daysOfWeek}
-              setDaysOfWeek={setDaysOfWeek}
-            />
-            <MonthPicker months={months} setMonths={setMonths} />
-          </Box>
-          <Grid container columnSpacing={4} sx={{ mt: 2 }}>
-            <Grid item xs={6} sx={{ opacity: !count ? 1 : 0.4 }}>
-              <Typography variant="body2" sx={textStyles}>
-                UNTIL
-              </Typography>
-              <DatePicker
-                disabled={!!count}
-                value={untilDate}
-                onAccept={(value) => {
-                  if (value) {
-                    setUntilDate(value as any);
+          <RadioGroup>
+            <FormControlLabel
+              label="Never"
+              value="Never"
+              control={
+                <Radio
+                  onClick={() => {
+                    setUntilDate(null);
                     setCount(null);
-                  }
-                }}
-                minDate={dayjs()}
-                slotProps={{
-                  actionBar: {
-                    actions: ["clear"],
-                  },
-                  layout: {
-                    onClear: () => {
-                      setUntilDate(null);
+                  }}
+                  checked={!untilDate && !count}
+                />
+              }
+            />
+            <FormControlLabel
+              sx={{ mb: 1, mt: 0.5 }}
+              label={
+                <DatePicker
+                  value={untilDate}
+                  onAccept={(value) => {
+                    if (value) {
+                      setUntilDate(value as any);
+                      setCount(null);
+                    }
+                  }}
+                  minDate={dayjs()}
+                  slotProps={{
+                    textField: {
+                      size: "small",
                     },
-                  },
-                }}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              sx={{ ...(untilDate !== null && { opacity: 0.4 }) }}
-            >
-              <Typography variant="body2" sx={textStyles}>
-                FOR
-              </Typography>
-              <TextField
-                disabled={untilDate !== null}
-                type="number"
-                placeholder="#"
-                defaultValue={count}
-                onBlur={(e: any) =>
-                  setCount(e.target.value < 0 ? 0 : e.target.value)
-                }
-                InputProps={{
-                  disableUnderline: true,
-                  endAdornment: (
-                    <InputAdornment position="end">times</InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid>
+                    actionBar: {
+                      actions: ["clear"],
+                    },
+                    layout: {
+                      onClear: () => {
+                        setUntilDate(null);
+                      },
+                    },
+                  }}
+                />
+              }
+              value="Until"
+              control={<Radio checked={Boolean(untilDate)} />}
+            />
+            <FormControlLabel
+              label={
+                <TextField
+                  type="number"
+                  placeholder="#"
+                  size="small"
+                  value={count}
+                  onChange={(e: any) => {
+                    setCount(e.target.value < 0 ? 0 : e.target.value);
+                    setUntilDate(null);
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                    endAdornment: (
+                      <InputAdornment position="end">times</InputAdornment>
+                    ),
+                  }}
+                />
+              }
+              value="After"
+              control={<Radio checked={Boolean(count)} />}
+            />
+          </RadioGroup>
           <Tooltip title={capitalizeFirstLetter(rrule.toText())}>
             <Button
               sx={{ mt: 2 }}
