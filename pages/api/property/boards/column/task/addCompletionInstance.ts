@@ -15,8 +15,8 @@ const handler = async (req, res) => {
       },
       data: {
         // TODO
-        completedAt: dayjs(),
-        iteration: dayjs(),
+        completedAt: dayjs().toDate(),
+        iteration: dayjs().toDate(),
       },
     });
 
