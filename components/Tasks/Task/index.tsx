@@ -282,8 +282,13 @@ export const Task: any = React.memo(function Task({
   const isRecurring = taskData.recurrenceRule !== null;
 
   useEffect(() => setTaskData(task), [task]);
-
-  const isCompleted = taskData.completionInstances?.length > 0;
+  const isCompleted = isRecurring
+    ? taskData.completionInstances.find((instance) =>
+        dayjs(instance.iteration)
+          .startOf("day")
+          .isSame(dayjs(recurringInstance).startOf("day"))
+      )
+    : taskData.completionInstances?.length > 0;
 
   const handleCompletion = useCallback(
     async (completed, mutate = false) => {

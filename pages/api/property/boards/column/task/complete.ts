@@ -25,9 +25,16 @@ const handler = async (req, res) => {
       res.json(data);
     } else {
       const data = await prisma.completionInstance.deleteMany({
-        where: {
-          taskId: req.query.id,
-        },
+        where: req.query.iteration
+          ? {
+              AND: [
+                { taskId: req.query.id },
+                { iteration: new Date(req.query.iteration) },
+              ],
+            }
+          : {
+              taskId: req.query.id,
+            },
       });
       res.json(data);
     }
