@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
+import dayjs from "dayjs";
 
 const handler = async (req, res) => {
   try {
@@ -13,7 +14,9 @@ const handler = async (req, res) => {
         id: req.query.id,
       },
       data: {
-        
+        // TODO
+        completedAt: dayjs(),
+        iteration: dayjs(),
       },
     });
 
