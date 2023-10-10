@@ -1,4 +1,5 @@
 import { Puller } from "@/components/Puller";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -20,6 +21,7 @@ import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
+import { RRule } from "rrule";
 import { parseEmojis } from ".";
 import { Task, taskAlgorithm } from "..";
 import { ConfirmationModal } from "../../../ConfirmationModal";
@@ -39,6 +41,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
 
   const isDark = useDarkMode(session.darkMode);
   const isSubTask = task.parentTasks.length !== 0;
+  const isRecurring = task.recurrenceRule !== null;
 
   const greenPalette = useColor("green", isDark);
   const orangePalette = useColor("orange", isDark);
@@ -203,6 +206,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
               </span>
             </Button>
             {!isSubTask &&
+              !isRecurring &&
               (task.due ? (
                 <RescheduleModal handlePostpone={handlePostpone}>
                   <Button
@@ -283,8 +287,12 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
             </IconButton>
             <ConfirmationModal
               title="Delete task?"
-              question={`This task has ${task.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`}
-              disabled={task.subTasks.length === 0}
+              question={
+                isRecurring
+                  ? "This task is recurring. Deleting this task will also delete future ones. Continue?"
+                  : `This task has ${task.subTasks.length} subtasks, which will also be deleted, and cannot be recovered.`
+              }
+              disabled={!isRecurring && task.subTasks.length === 0}
               callback={async () => {
                 await handleDelete(task.id);
               }}
@@ -312,6 +320,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
           {!isSubTask && (
             <SelectDateModal
               date={task.due}
+              disabled={isRecurring}
               isDateOnly={task.dateOnly}
               setDateOnly={(dateOnly) => {
                 task.set((prev) => ({
@@ -332,7 +341,11 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
               <Chip
                 variant="outlined"
                 label={
-                  task.due
+                  isRecurring
+                    ? capitalizeFirstLetter(
+                        RRule.fromString(task.recurrenceRule).toText()
+                      )
+                    : task.due
                     ? dayjs(task.due).format(
                         task.dateOnly
                           ? "MMMM D, YYYY"

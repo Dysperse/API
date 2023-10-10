@@ -110,7 +110,7 @@ const TaskChips = React.memo(function TaskChips({
       {taskData.image && taskData.image !== "null" && (
         <ImageViewer url={taskData.image} />
       )}
-      {isRecurring && (
+      {isRecurring && !isSubTask && (
         <Tooltip
           title={capitalizeFirstLetter(
             RRule.fromString(taskData.recurrenceRule).toText()

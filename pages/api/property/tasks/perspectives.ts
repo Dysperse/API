@@ -9,32 +9,6 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    const wherePermissionsMatch: any = [
-      // Make sure that the task is in the property
-      { property: { id: req.query.property } },
-
-      // Or, if the column is null but within the property
-      {
-        OR: [
-          { column: null },
-          {
-            column: {
-              board: {
-                AND: [{ public: false }, { userId: req.query.userIdentifer }],
-              },
-            },
-          },
-          {
-            column: {
-              board: {
-                AND: [{ public: true }, { propertyId: req.query.property }],
-              },
-            },
-          },
-        ],
-      },
-    ];
-
     const where: Prisma.TaskWhereInput = {
       AND: [
         { recurrenceRule: null },
@@ -44,7 +18,7 @@ const handler = async (req, res) => {
         { due: { gte: new Date(req.query.startTime) } },
         { due: { lte: new Date(req.query.endTime) } },
 
-        ...wherePermissionsMatch,
+        { property: { id: req.query.property } },
       ],
     };
 
@@ -91,8 +65,13 @@ const handler = async (req, res) => {
 
     const recurringTasks = await prisma.task.findMany({
       where: {
-        AND: [...wherePermissionsMatch, { recurrenceRule: { not: null } }],
+        AND: [
+          { property: { id: req.query.property } },
+          { recurrenceRule: { not: null } },
+          { parentTasks: { none: { property: { id: req.query.property } } } },
+        ],
       },
+      include: { subTasks: true, parentTasks: true },
     });
 
     res.json({ data, recurringTasks });

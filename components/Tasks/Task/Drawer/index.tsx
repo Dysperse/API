@@ -120,7 +120,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
-    onClick: (event) => {
+    onClick: () => {
       onClick && onClick();
       if (!onClick) setOpen(true);
       toast.dismiss();

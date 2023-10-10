@@ -264,6 +264,16 @@ model Column {
   tasks   Task[]
 }
 
+// Used ONLY for recurring tasks
+model CompletionInstance {
+  id          String   @id @unique @default(cuid())
+  iteration   DateTime
+  completedAt DateTime
+
+  Task   Task?   @relation(fields: [taskId], references: [id])
+  taskId String?
+}
+
 model Task {
   id          String  @id @unique @default(uuid())
   name        String
@@ -277,8 +287,9 @@ model Task {
   notifications  Int[]     @default([])
   recurrenceRule String?
 
-  completed   Boolean   @default(false)
-  completedAt DateTime?
+  completed           Boolean              @default(false)
+  completedAt         DateTime?
+  completionInstances CompletionInstance[]
 
   createdBy User? @relation(fields: [userId], references: [id])
 
