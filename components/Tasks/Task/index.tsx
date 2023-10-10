@@ -271,6 +271,7 @@ export const Task: any = React.memo(function Task({
   columnId,
   mutateList,
   task,
+  recurringInstance,
 }: any): JSX.Element {
   const ref: any = useRef();
   const { session } = useSession();
@@ -288,62 +289,66 @@ export const Task: any = React.memo(function Task({
     async (completed, mutate = false) => {
       try {
         vibrate(50);
-        if (isRecurring) {
-          toast("Completion for recurring tasks coming soon!");
-        } else {
-          const newInstance = {
-            id: "",
-            completedAt: dayjs().toISOString(),
-            iteration: null,
-          };
+        const newInstance = {
+          id: "",
+          completedAt: dayjs().toISOString(),
+          iteration: null,
+        };
 
-          setTaskData((prev) => ({
-            ...prev,
-            completionInstances: isCompleted
-              ? [...prev.completionInstances, newInstance]
-              : [],
-          }));
+        setTaskData((prev) => ({
+          ...prev,
+          completionInstances: isCompleted
+            ? [...prev.completionInstances, newInstance]
+            : isRecurring
+            ? prev.completionInstances.filter(
+                (instance) => instance.completedAt !== recurringInstance
+              )
+            : [],
+        }));
 
-          if (mutate) {
-            mutateList(
-              (oldData) => {
-                const l = (oldData.data ? oldData.data : oldData).map(
-                  (oldTask) => {
-                    if (oldTask.id === taskData.id) {
-                      if (!completed) {
-                        // Remove completion instances
-                        return {
-                          ...oldTask,
-                          completionInstances: [],
-                        };
-                      } else {
-                        // Add completion instance
-                        return {
-                          ...oldTask,
-                          completionInstances: oldTask.completionInstances
-                            ? [...oldTask.completionInstances, newInstance]
-                            : [newInstance],
-                        };
-                      }
+        if (mutate) {
+          mutateList(
+            (oldData) => {
+              const l = (oldData.data ? oldData.data : oldData).map(
+                (oldTask) => {
+                  if (oldTask.id === taskData.id) {
+                    if (!completed) {
+                      // Remove completion instances
+                      return {
+                        ...oldTask,
+                        completionInstances: [],
+                      };
                     } else {
-                      return oldTask;
+                      // Add completion instance
+                      return {
+                        ...oldTask,
+                        completionInstances: [
+                          ...oldTask.completionInstances,
+                          newInstance,
+                        ],
+                      };
                     }
+                  } else {
+                    return oldTask;
                   }
-                );
-                return oldData.data ? { ...oldData, data: l } : l;
-              },
-              {
-                revalidate: false,
-              }
-            );
-          }
-          await fetchRawApi(session, "property/boards/column/task/complete", {
-            id: task.id,
-            isRecurring,
-            completedAt: dayjs().toISOString(),
-            isCompleted: completed ? "true" : "false",
-          });
+                }
+              );
+              return oldData.data ? { ...oldData, data: l } : l;
+            },
+            {
+              revalidate: false,
+            }
+          );
         }
+        await fetchRawApi(session, "property/boards/column/task/complete", {
+          id: task.id,
+          isRecurring,
+          ...(recurringInstance && {
+            iteration: dayjs(recurringInstance).startOf("day").toISOString(),
+          }),
+          completedAt: dayjs().toISOString(),
+          isCompleted: completed ? "true" : "false",
+        });
       } catch (e) {
         toast.error("An error occured while updating the task");
       }

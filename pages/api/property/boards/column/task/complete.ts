@@ -17,6 +17,9 @@ const handler = async (req, res) => {
         data: {
           completedAt: new Date(req.query.completedAt),
           task: { connect: { id: req.query.id } },
+          ...(req.query.iteration && {
+            iteration: new Date(req.query.iteration),
+          }),
         },
       });
       res.json(data);

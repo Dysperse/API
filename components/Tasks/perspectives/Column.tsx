@@ -384,6 +384,7 @@ const Column = React.memo(function Column({
           data={recurredTasks}
           itemContent={(_, task) => (
             <Task
+            recurringInstance={task.recurrenceDay}
               isAgenda
               isDateDependent={true}
               key={task.id}
