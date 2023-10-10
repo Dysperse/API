@@ -291,7 +291,19 @@ export const Task: any = React.memo(function Task({
         if (isRecurring) {
           toast("Completion for recurring tasks coming soon!");
         } else {
-          setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
+          const newInstance = {
+            id: "",
+            completedAt: dayjs().toISOString(),
+            iteration: null,
+          };
+
+          setTaskData((prev) => ({
+            ...prev,
+            completionInstances: isCompleted
+              ? [...prev.completionInstances, newInstance]
+              : [],
+          }));
+
           if (mutate) {
             mutateList(
               (oldData) => {
@@ -306,11 +318,6 @@ export const Task: any = React.memo(function Task({
                         };
                       } else {
                         // Add completion instance
-                        const newInstance = {
-                          id: "",
-                          completedAt: dayjs().toISOString(),
-                          iteration: null,
-                        };
                         return {
                           ...oldTask,
                           completionInstances: oldTask.completionInstances
