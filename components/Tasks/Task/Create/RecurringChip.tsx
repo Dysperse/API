@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import { DateCalendar, DatePicker, PickersDay } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { RRule } from "rrule";
 
 function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
@@ -39,9 +39,9 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
+      <Button onClick={() => setOpen(true)} variant="outlined">
         {daysOfWeek.length == 0 ? (
-          <i style={{ marginLeft: "-7px" }}>Select days</i>
+          <i>Select days</i>
         ) : daysOfWeek.length == 1 ? (
           options[daysOfWeek[0]]
         ) : (
@@ -110,10 +110,14 @@ function MonthPicker({ months, setMonths }) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
-        {months.length == 1
-          ? options[months[0]]
-          : months.length + " days" || <i>Select days</i>}
+      <Button onClick={() => setOpen(true)} variant="outlined">
+        {months.length == 0 ? (
+          <i>Select months</i>
+        ) : months.length == 1 ? (
+          options[months[0]]
+        ) : (
+          months.length + " days"
+        )}
       </Button>
       <SwipeableDrawer
         open={open}
@@ -249,6 +253,11 @@ export const RecurringChip = React.memo(function RecurringChip({
     }
   }, [confirmOpen, value]);
 
+  const textStyles = useMemo(
+    () => ({ opacity: 0.6, fontWeight: 900, mb: 1 }),
+    []
+  );
+
   return (
     <>
       <Tooltip
@@ -302,7 +311,7 @@ export const RecurringChip = React.memo(function RecurringChip({
       >
         <Puller showOnDesktop />
         <Box sx={{ px: 2, pb: 2 }}>
-          <Typography variant="body2" sx={{ opacity: 0.6, fontWeight: 900 }}>
+          <Typography variant="body2" sx={textStyles}>
             FREQUENCY
           </Typography>
           <Box sx={{ display: "flex" }}>
@@ -340,20 +349,22 @@ export const RecurringChip = React.memo(function RecurringChip({
               onBlur={(e: any) => setInterval(e.target.value)}
             />
           </Box>
-          <Typography variant="body2" sx={{ opacity: 0.6, fontWeight: 900 }}>
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, mb: 1, opacity: 0.6, fontWeight: 900 }}
+          >
             ON
           </Typography>
-          <DayOfWeekPicker
-            daysOfWeek={daysOfWeek}
-            setDaysOfWeek={setDaysOfWeek}
-          />
-          <MonthPicker months={months} setMonths={setMonths} />
-          <Grid container columnSpacing={4}>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <DayOfWeekPicker
+              daysOfWeek={daysOfWeek}
+              setDaysOfWeek={setDaysOfWeek}
+            />
+            <MonthPicker months={months} setMonths={setMonths} />
+          </Box>
+          <Grid container columnSpacing={4} sx={{ mt: 2 }}>
             <Grid item xs={6}>
-              <Typography
-                variant="body2"
-                sx={{ opacity: 0.6, fontWeight: 900 }}
-              >
+              <Typography variant="body2" sx={textStyles}>
                 UNTIL
               </Typography>
               <DatePicker
@@ -369,10 +380,7 @@ export const RecurringChip = React.memo(function RecurringChip({
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography
-                variant="body2"
-                sx={{ opacity: 0.6, fontWeight: 900 }}
-              >
+              <Typography variant="body2" sx={textStyles}>
                 FOR
               </Typography>
               <TextField
@@ -391,10 +399,15 @@ export const RecurringChip = React.memo(function RecurringChip({
               />
             </Grid>
           </Grid>
+          <Button
+            sx={{ mt: 2 }}
+            variant="contained"
+            fullWidth
+            onClick={handleSave}
+          >
+            Continue <Icon>east</Icon>
+          </Button>
         </Box>
-        <Button variant="contained" fullWidth onClick={handleSave}>
-          Continue <Icon>east</Icon>
-        </Button>
       </SwipeableDrawer>
     </>
   );
