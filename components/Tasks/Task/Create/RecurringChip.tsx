@@ -291,7 +291,6 @@ export const RecurringChip = React.memo(function RecurringChip({
           <Typography variant="h4" className="font-heading">
             {value && value.toText()}
           </Typography>
-          <Typography variant="h6">{value && value.toString()}</Typography>
         </Box>
         <DateCalendar
           minDate={dayjs()}
