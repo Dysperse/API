@@ -249,6 +249,7 @@ export function CreateTask({
           notifications: JSON.stringify(
             formData.notifications.sort().reverse()
           ),
+          recurrenceRule: "",
           ...((formData.recurrenceRule && {
             recurrenceRule: (formData.recurrenceRule as any)?.toString(),
           }) as any),
