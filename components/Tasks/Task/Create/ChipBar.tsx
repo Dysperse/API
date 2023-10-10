@@ -359,47 +359,49 @@ const ChipBar = React.memo(function ChipBar({
           onClick={() => titleRef?.current?.focus()}
         >
           {taskColorPicker}
-          <Tooltip
-            title={
-              dayjs(data.date).isValid()
-                ? data.dateOnly
-                  ? dayjs(data.date).format("dddd, MMMM D, YYYY")
-                  : dayjs(data.date).format("dddd, MMMM D, YYYY h:mm A")
-                : "Due date"
-            }
-            placement="top"
-          >
-            <SelectDateModal
-              closeOnSelect
-              date={data.date}
-              setDate={(date) => setData((s) => ({ ...s, date }))}
-              isDateOnly={data.dateOnly}
-              setDateOnly={(dateOnly) => setData((d) => ({ ...d, dateOnly }))}
+          {!data.recurrenceRule && (
+            <Tooltip
+              title={
+                dayjs(data.date).isValid()
+                  ? data.dateOnly
+                    ? dayjs(data.date).format("dddd, MMMM D, YYYY")
+                    : dayjs(data.date).format("dddd, MMMM D, YYYY h:mm A")
+                  : "Due date"
+              }
+              placement="top"
             >
-              <Chip
-                id="dateTrigger"
-                sx={chipStyles(dayjs(data.date).isValid())}
-                icon={
-                  <Icon
-                    sx={{
-                      pl: dayjs(data.date).isValid() ? 0 : 1.5,
-                      fontVariationSettings:
-                        '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
-                    }}
-                  >
-                    calendar_today
-                  </Icon>
-                }
-                label={
-                  dayjs(data.date).isValid()
-                    ? data.dateOnly
-                      ? dayjs(data.date).format("MMMM Do")
-                      : dayjs(data.date).fromNow()
-                    : ""
-                }
-              />
-            </SelectDateModal>
-          </Tooltip>
+              <SelectDateModal
+                closeOnSelect
+                date={data.date}
+                setDate={(date) => setData((s) => ({ ...s, date }))}
+                isDateOnly={data.dateOnly}
+                setDateOnly={(dateOnly) => setData((d) => ({ ...d, dateOnly }))}
+              >
+                <Chip
+                  id="dateTrigger"
+                  sx={chipStyles(dayjs(data.date).isValid())}
+                  icon={
+                    <Icon
+                      sx={{
+                        pl: dayjs(data.date).isValid() ? 0 : 1.5,
+                        fontVariationSettings:
+                          '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+                      }}
+                    >
+                      calendar_today
+                    </Icon>
+                  }
+                  label={
+                    dayjs(data.date).isValid()
+                      ? data.dateOnly
+                        ? dayjs(data.date).format("MMMM Do")
+                        : dayjs(data.date).fromNow()
+                      : ""
+                  }
+                />
+              </SelectDateModal>
+            </Tooltip>
+          )}
           <Tooltip
             title={data.pinned ? "Marked as urgent" : "Mark as urgent"}
             placement="top"
