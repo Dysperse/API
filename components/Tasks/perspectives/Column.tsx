@@ -277,8 +277,8 @@ const Column = React.memo(function Column({
   const recurredTasks = recurringTasks
     .map((task) => {
       const rule = RRule.fromString(task.recurrenceRule).between(
-        dayjs(columnStart).add(-1, "day").toDate(),
-        dayjs(columnEnd).add(-1, "day").toDate()
+        dayjs(columnStart).utc().toDate(),
+        dayjs(columnEnd).utc().toDate()
       );
       return rule.length > 0 ? { ...task, recurrenceDay: rule } : undefined;
     })
