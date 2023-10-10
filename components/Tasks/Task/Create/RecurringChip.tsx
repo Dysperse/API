@@ -10,6 +10,7 @@ import {
   Dialog,
   FormControlLabel,
   Icon,
+  IconButton,
   InputAdornment,
   MenuItem,
   Radio,
@@ -328,19 +329,34 @@ export const RecurringChip = React.memo(function RecurringChip({
         <Puller showOnDesktop />
         <Box sx={{ px: 2, pb: 2 }}>
           <Typography variant="body2" sx={textStyles}>
-            FREQUENCY
+            REPEAT EVERY
           </Typography>
           <Box sx={{ display: "flex" }}>
             <TextField
               type="number"
               placeholder="Interval"
-              defaultValue={interval}
+              value={interval}
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">Every</InputAdornment>
-                ),
                 endAdornment: (
                   <InputAdornment position="end">
+                    <Box sx={{ opacity: 0.6, mr: 1 }}>
+                      {interval > 1 && (
+                        <IconButton
+                          size="small"
+                          onClick={() => setInterval((i) => i - 1)}
+                        >
+                          <Icon className="outlined">remove_circle</Icon>
+                        </IconButton>
+                      )}
+                      {interval < 31 && (
+                        <IconButton
+                          size="small"
+                          onClick={() => setInterval((i) => i + 1)}
+                        >
+                          <Icon className="outlined">add_circle</Icon>
+                        </IconButton>
+                      )}
+                    </Box>
                     <Select
                       value={freq}
                       variant="standard"
@@ -362,7 +378,9 @@ export const RecurringChip = React.memo(function RecurringChip({
                   </InputAdornment>
                 ),
               }}
-              onBlur={(e: any) => setInterval(e.target.value)}
+              onChange={(e: any) =>
+                setInterval(parseInt(e.target.value <= 1 ? 1 : e.target.value))
+              }
             />
           </Box>
           {freq !== "daily" && (
