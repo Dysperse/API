@@ -80,8 +80,18 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
   );
 
   const handleComplete = useCallback(async () => {
+    if (isRecurring) {
+      await fetchRawApi(
+        session,
+        "property/boards/column/task/addCompletionInstance",
+        {
+          id: task.id,
+          date: dayjs().toISOString(),
+        }
+      );
+    }
     task.edit(task.id, "completed", !task.completed);
-  }, [task]);
+  }, [session, isRecurring, task]);
 
   const handlePostpone: any = useCallback(
     async (count, type) => {

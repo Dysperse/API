@@ -249,9 +249,9 @@ export function CreateTask({
           notifications: JSON.stringify(
             formData.notifications.sort().reverse()
           ),
-          recurrenceRule: formData.recurrenceRule
-            ? (formData.recurrenceRule as any)?.toString()
-            : undefined,
+          ...((formData.recurrenceRule && {
+            recurrenceRule: (formData.recurrenceRule as any)?.toString(),
+          }) as any),
           ...(boardData && { ...boardData }),
           ...(parentId && { parent: parentId }),
           createdBy: session.user.email,
