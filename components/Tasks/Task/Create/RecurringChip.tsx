@@ -8,7 +8,9 @@ import {
   Button,
   Chip,
   Dialog,
+  Grid,
   Icon,
+  InputAdornment,
   MenuItem,
   Select,
   SwipeableDrawer,
@@ -17,7 +19,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { DateCalendar, PickersDay } from "@mui/x-date-pickers";
+import { DateCalendar, DatePicker, PickersDay } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { RRule } from "rrule";
@@ -37,7 +39,7 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
 
   return (
     <>
-      <u onClick={() => setOpen(true)}>
+      <Button onClick={() => setOpen(true)}>
         {daysOfWeek.length == 0 ? (
           <i style={{ marginLeft: "-7px" }}>Select days</i>
         ) : daysOfWeek.length == 1 ? (
@@ -45,7 +47,7 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
         ) : (
           daysOfWeek.length + " days"
         )}
-      </u>
+      </Button>
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
@@ -88,7 +90,7 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
   );
 }
 
-function MonthPicker({ isMonth, months, setMonths }) {
+function MonthPicker({ months, setMonths }) {
   const [open, setOpen] = useState(false);
 
   const options = [
@@ -108,11 +110,11 @@ function MonthPicker({ isMonth, months, setMonths }) {
 
   return (
     <>
-      <u onClick={() => setOpen(true)}>
+      <Button onClick={() => setOpen(true)}>
         {months.length == 1
           ? options[months[0]]
           : months.length + " days" || <i>Select days</i>}
-      </u>
+      </Button>
       <SwipeableDrawer
         open={open}
         anchor="bottom"
@@ -187,6 +189,7 @@ export const RecurringChip = React.memo(function RecurringChip({
   const [count, setCount] = useState(null);
   const [interval, setInterval] = useState(1);
   const [daysOfWeek, setDaysOfWeek] = useState([dayjs().isoWeekday() - 1]);
+  const [months, setMonths] = useState([]);
   const [untilDate, setUntilDate] = useState(null);
 
   const [value, setValue] = useState<RRule | null>(null);
@@ -296,147 +299,102 @@ export const RecurringChip = React.memo(function RecurringChip({
         open={open}
         onClick={(e) => e.stopPropagation()}
         onClose={() => setOpen(false)}
-        PaperProps={{
-          sx: {
-            maxWidth: "100dvw",
-            width: "900px",
-          },
-        }}
       >
         <Puller showOnDesktop />
         <Box sx={{ px: 2, pb: 2 }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mb: 2,
-              gap: 1,
-              flexWrap: "wrap",
-            }}
-          >
-            <Typography>Every</Typography>
-            <Chip
-              sx={styles}
-              {...(interval === 1 && { variant: "outlined" })}
-              label={
-                <TextField
-                  type="number"
-                  placeholder="Interval"
-                  variant="standard"
-                  sx={{ width: "40px" }}
-                  defaultValue={interval}
-                  onBlur={(e: any) => setInterval(e.target.value)}
-                  InputProps={{ disableUnderline: true }}
-                />
-              }
-              {...(interval > 1 && { onDelete: () => setInterval(1) })}
-            />
-            <Chip
-              sx={styles}
-              label={
-                <Select
-                  value={freq}
-                  label="Age"
-                  disableUnderline
-                  variant="standard"
-                  onChange={(e) => setFreq(e.target.value)}
-                >
-                  <MenuItem value="daily">day{interval !== 1 && "s"}</MenuItem>
-                  <MenuItem value="weekly">
-                    week{interval.toString() !== "1" && "s"}
-                  </MenuItem>
-                  <MenuItem value="monthly">
-                    month{interval.toString() !== "1" && "s"}
-                  </MenuItem>
-                  <MenuItem value="yearly">
-                    year{interval.toString() !== "1" && "s"}
-                  </MenuItem>
-                </Select>
-              }
-            />
-            <Chip
-              sx={{ fontSize: "15px", ...styles }}
-              {...(daysOfWeek.length === 0 && {
-                variant: "outlined",
-                icon: <Icon>add_circle</Icon>,
-              })}
-              label={
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  on
-                  <DayOfWeekPicker
-                    daysOfWeek={daysOfWeek}
-                    setDaysOfWeek={setDaysOfWeek}
-                  />
-                </Box>
-              }
-              {...(daysOfWeek.length > 0 && {
-                onDelete: () => setDaysOfWeek([]),
-              })}
-            />
-            <Chip
-              disabled={untilDate !== null}
-              sx={{ fontSize: "15px", ...styles }}
-              {...(!count && {
-                variant: "outlined",
-                icon: <Icon>add_circle</Icon>,
-              })}
-              label={
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  for
-                  <TextField
-                    type="number"
-                    placeholder="#"
-                    variant="standard"
-                    sx={{ width: "40px" }}
-                    defaultValue={count}
-                    onBlur={(e: any) =>
-                      setCount(e.target.value < 0 ? 0 : e.target.value)
-                    }
-                    InputProps={{ disableUnderline: true }}
-                  />
-                  times
-                </Box>
-              }
-              onDelete={Boolean(count) ? () => setCount(null) : undefined}
-            />
-            <Chip
-              disabled={!!count}
-              sx={{ fontSize: "15px", ...styles }}
-              {...(untilDate === null && {
-                variant: "outlined",
-                icon: <Icon>add_circle</Icon>,
-              })}
-              label={
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  until
-                  <TextField
-                    type="date"
-                    placeholder="#"
-                    variant="standard"
-                    sx={{ width: "150px" }}
-                    defaultValue={untilDate}
-                    onBlur={(e: any) => {
-                      if (e.target.value) {
-                        setUntilDate(e.target.value);
-                        setCount(null);
-                      }
-                    }}
-                    inputProps={{
-                      min: dayjs().format("YYYY-MM-DD"),
-                    }}
-                    InputProps={{ disableUnderline: true }}
-                  />
-                </Box>
-              }
-              {...(untilDate !== null && {
-                onDelete: () => setUntilDate(null),
-              })}
+          <Typography variant="body2" sx={{ opacity: 0.6, fontWeight: 900 }}>
+            FREQUENCY
+          </Typography>
+          <Box sx={{ display: "flex" }}>
+            <TextField
+              type="number"
+              placeholder="Interval"
+              defaultValue={interval}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">Every</InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Select
+                      value={freq}
+                      variant="standard"
+                      onChange={(e) => setFreq(e.target.value)}
+                    >
+                      <MenuItem value="daily">
+                        day{interval !== 1 && "s"}
+                      </MenuItem>
+                      <MenuItem value="weekly">
+                        week{interval.toString() !== "1" && "s"}
+                      </MenuItem>
+                      <MenuItem value="monthly">
+                        month{interval.toString() !== "1" && "s"}
+                      </MenuItem>
+                      <MenuItem value="yearly">
+                        year{interval.toString() !== "1" && "s"}
+                      </MenuItem>
+                    </Select>
+                  </InputAdornment>
+                ),
+              }}
+              onBlur={(e: any) => setInterval(e.target.value)}
             />
           </Box>
-          <Button variant="contained" fullWidth onClick={handleSave}>
-            Continue <Icon>east</Icon>
-          </Button>
+          <Typography variant="body2" sx={{ opacity: 0.6, fontWeight: 900 }}>
+            ON
+          </Typography>
+          <DayOfWeekPicker
+            daysOfWeek={daysOfWeek}
+            setDaysOfWeek={setDaysOfWeek}
+          />
+          <MonthPicker months={months} setMonths={setMonths} />
+          <Grid container columnSpacing={4}>
+            <Grid item xs={6}>
+              <Typography
+                variant="body2"
+                sx={{ opacity: 0.6, fontWeight: 900 }}
+              >
+                UNTIL
+              </Typography>
+              <DatePicker
+                disabled={!!count}
+                defaultValue={untilDate}
+                onAccept={(value) => {
+                  if (value) {
+                    setUntilDate(value.toDate() as any);
+                    setCount(null);
+                  }
+                }}
+                minDate={dayjs()}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                variant="body2"
+                sx={{ opacity: 0.6, fontWeight: 900 }}
+              >
+                FOR
+              </Typography>
+              <TextField
+                type="number"
+                placeholder="#"
+                defaultValue={count}
+                onBlur={(e: any) =>
+                  setCount(e.target.value < 0 ? 0 : e.target.value)
+                }
+                InputProps={{
+                  disableUnderline: true,
+                  endAdornment: (
+                    <InputAdornment position="end">times</InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+          </Grid>
         </Box>
+        <Button variant="contained" fullWidth onClick={handleSave}>
+          Continue <Icon>east</Icon>
+        </Button>
       </SwipeableDrawer>
     </>
   );
