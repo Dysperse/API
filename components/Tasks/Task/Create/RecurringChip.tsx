@@ -39,7 +39,8 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="outlined">
+      <Button onClick={() => setOpen(true)} variant="outlined" sx={{ px: 2 }}>
+        <Icon className="outlined">wb_sunny</Icon>
         {daysOfWeek.length == 0 ? (
           <i>Select days</i>
         ) : daysOfWeek.length == 1 ? (
@@ -110,7 +111,8 @@ function MonthPicker({ months, setMonths }) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="outlined">
+      <Button onClick={() => setOpen(true)} variant="outlined" sx={{ px: 2 }}>
+        <Icon className="outlined">calendar_month</Icon>
         {months.length == 0 ? (
           <i>Select months</i>
         ) : months.length == 1 ? (
@@ -210,11 +212,11 @@ export const RecurringChip = React.memo(function RecurringChip({
     freq: RRule[freq.toUpperCase()],
     interval,
     wkst: RRule.SU,
+    count,
     byweekday: daysOfWeek.map(
       (day) => RRule[["MO", "TU", "WE", "TH", "FR", "SA", "SU"][day]]
     ),
-    bymonth: months,
-    count,
+    ...(months.length > 0 && { bymonth: months.map((month) => month + 1) }),
     ...(untilDate !== null && { until: new Date(untilDate) }),
   });
 
@@ -362,7 +364,7 @@ export const RecurringChip = React.memo(function RecurringChip({
             <MonthPicker months={months} setMonths={setMonths} />
           </Box>
           <Grid container columnSpacing={4} sx={{ mt: 2 }}>
-            <Grid item xs={6}>
+            <Grid item xs={6} sx={{ opacity: !count ? 1 : 0.4 }}>
               <Typography variant="body2" sx={textStyles}>
                 UNTIL
               </Typography>
@@ -397,6 +399,7 @@ export const RecurringChip = React.memo(function RecurringChip({
                 FOR
               </Typography>
               <TextField
+                disabled={untilDate !== null}
                 type="number"
                 placeholder="#"
                 defaultValue={count}
