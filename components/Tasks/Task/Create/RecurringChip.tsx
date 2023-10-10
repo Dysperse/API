@@ -232,7 +232,8 @@ export const RecurringChip = React.memo(function RecurringChip({
             (day) =>
               RRule[["SU", "MO", "TU", "WE", "TH", "FR", "SA"][parseInt(day)]]
           ),
-    bymonthday,
+    bymonthday:
+      bymonthday && freq === "monthly" ? parseInt(bymonthday) : undefined,
     ...(months.length > 0 &&
       freq == "weekly" && { bymonth: months.map((month) => month + 1) }),
     ...(untilDate !== null && { until: new Date(untilDate) }),
@@ -291,7 +292,6 @@ export const RecurringChip = React.memo(function RecurringChip({
           </Typography>
           <Typography variant="h6">{value && value.toString()}</Typography>
         </Box>
-        {JSON.stringify(highlightedDays)}
         <DateCalendar
           minDate={dayjs()}
           readOnly
