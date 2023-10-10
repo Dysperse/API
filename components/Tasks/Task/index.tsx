@@ -294,12 +294,17 @@ export const Task: any = React.memo(function Task({
     async (completed, mutate = false) => {
       try {
         vibrate(50);
+
+        const instanceDate = dayjs(recurringInstance).startOf("day");
+
         const newInstance = {
           id: "",
           completedAt: dayjs().toISOString(),
-          iteration: null,
+          iteration: instanceDate,
+          taskId: taskData.id,
         };
 
+        // First, set the task's state
         setTaskData((prev) => ({
           ...prev,
           completionInstances: isCompleted
@@ -311,34 +316,71 @@ export const Task: any = React.memo(function Task({
             : [],
         }));
 
+        // Mutate the entire list
         if (mutate) {
           mutateList(
             (oldData) => {
-              const l = (oldData.data ? oldData.data : oldData).map(
-                (oldTask) => {
-                  if (oldTask.id === taskData.id) {
-                    if (!completed) {
-                      // Remove completion instances
-                      return {
-                        ...oldTask,
-                        completionInstances: [],
-                      };
+              if (isRecurring) {
+                return {
+                  ...oldData,
+                  recurringTasks: !completed
+                    ? oldData.recurringTasks.map((task) => {
+                        if (task.id === taskData.id) {
+                          return {
+                            ...task,
+                            completionInstances:
+                              task.completionInstances.filter(
+                                (instance) =>
+                                  !dayjs(instance.iteration)
+                                    .startOf("day")
+                                    .isSame(instanceDate)
+                              ),
+                          };
+                        } else {
+                          return task;
+                        }
+                      })
+                    : oldData.recurringTasks.map((task) => {
+                        if (task.id === taskData.id) {
+                          return {
+                            ...task,
+                            completionInstances: [
+                              ...task.completionInstances,
+                              newInstance,
+                            ],
+                          };
+                        } else {
+                          return task;
+                        }
+                      }),
+                };
+              } else {
+                const l = (oldData.data ? oldData.data : oldData).map(
+                  (oldTask) => {
+                    if (oldTask.id === taskData.id) {
+                      if (!completed) {
+                        // Remove completion instances
+                        return {
+                          ...oldTask,
+                          completionInstances: [],
+                        };
+                      } else {
+                        // Add completion instance
+                        return {
+                          ...oldTask,
+                          completionInstances: [
+                            ...oldTask.completionInstances,
+                            newInstance,
+                          ],
+                        };
+                      }
                     } else {
-                      // Add completion instance
-                      return {
-                        ...oldTask,
-                        completionInstances: [
-                          ...oldTask.completionInstances,
-                          newInstance,
-                        ],
-                      };
+                      return oldTask;
                     }
-                  } else {
-                    return oldTask;
                   }
-                }
-              );
-              return oldData.data ? { ...oldData, data: l } : l;
+                );
+                return oldData.data ? { ...oldData, data: l } : l;
+              }
             },
             {
               revalidate: false,
