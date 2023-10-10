@@ -116,7 +116,7 @@ function MonthPicker({ months, setMonths }) {
         ) : months.length == 1 ? (
           options[months[0]]
         ) : (
-          months.length + " days"
+          months.length + " months"
         )}
       </Button>
       <SwipeableDrawer
@@ -201,33 +201,24 @@ export const RecurringChip = React.memo(function RecurringChip({
   const [highlightedDays, setHighlightedDays] = React.useState([1, 2, 15]);
 
   const save = () => {
-    const rrule = new RRule({
-      freq: RRule[freq.toUpperCase()],
-      interval,
-      wkst: RRule.SU,
-      byweekday: daysOfWeek.map(
-        (day) => RRule[["MO", "TU", "WE", "TH", "FR", "SA", "SU"][day]]
-      ),
-      count,
-      ...(untilDate !== null && { until: new Date(untilDate) }),
-    });
     setData((d) => ({ ...d, recurrenceRule: rrule }));
     setConfirmOpen(false);
     setOpen(false);
   };
 
-  const handleSave = () => {
-    const rrule = new RRule({
-      freq: RRule[freq.toUpperCase()],
-      interval,
-      wkst: RRule.SU,
-      byweekday: daysOfWeek.map(
-        (day) => RRule[["MO", "TU", "WE", "TH", "FR", "SA", "SU"][day]]
-      ),
-      count,
-      ...(untilDate !== null && { until: new Date(untilDate) }),
-    });
+  const rrule = new RRule({
+    freq: RRule[freq.toUpperCase()],
+    interval,
+    wkst: RRule.SU,
+    byweekday: daysOfWeek.map(
+      (day) => RRule[["MO", "TU", "WE", "TH", "FR", "SA", "SU"][day]]
+    ),
+    bymonth: months,
+    count,
+    ...(untilDate !== null && { until: new Date(untilDate) }),
+  });
 
+  const handleSave = () => {
     setValue(rrule);
     setConfirmOpen(true);
   };
@@ -308,6 +299,14 @@ export const RecurringChip = React.memo(function RecurringChip({
         open={open}
         onClick={(e) => e.stopPropagation()}
         onClose={() => setOpen(false)}
+        PaperProps={{
+          sx: {
+            border: `2px solid ${palette[3]}`,
+            borderRadius: 5,
+            mx: { xs: "10px", sm: "auto" },
+            mb: "10px",
+          },
+        }}
       >
         <Puller showOnDesktop />
         <Box sx={{ px: 2, pb: 2 }}>
@@ -369,17 +368,31 @@ export const RecurringChip = React.memo(function RecurringChip({
               </Typography>
               <DatePicker
                 disabled={!!count}
-                defaultValue={untilDate}
+                value={untilDate}
                 onAccept={(value) => {
                   if (value) {
-                    setUntilDate(value.toDate() as any);
+                    setUntilDate(value as any);
                     setCount(null);
                   }
                 }}
                 minDate={dayjs()}
+                slotProps={{
+                  actionBar: {
+                    actions: ["clear"],
+                  },
+                  layout: {
+                    onClear: () => {
+                      setUntilDate(null);
+                    },
+                  },
+                }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid
+              item
+              xs={6}
+              sx={{ ...(untilDate !== null && { opacity: 0.4 }) }}
+            >
               <Typography variant="body2" sx={textStyles}>
                 FOR
               </Typography>
@@ -399,14 +412,16 @@ export const RecurringChip = React.memo(function RecurringChip({
               />
             </Grid>
           </Grid>
-          <Button
-            sx={{ mt: 2 }}
-            variant="contained"
-            fullWidth
-            onClick={handleSave}
-          >
-            Continue <Icon>east</Icon>
-          </Button>
+          <Tooltip title={capitalizeFirstLetter(rrule.toText())}>
+            <Button
+              sx={{ mt: 2 }}
+              variant="contained"
+              fullWidth
+              onClick={handleSave}
+            >
+              Continue <Icon>east</Icon>
+            </Button>
+          </Tooltip>
         </Box>
       </SwipeableDrawer>
     </>
