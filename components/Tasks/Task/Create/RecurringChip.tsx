@@ -378,6 +378,7 @@ export const RecurringChip = React.memo(function RecurringChip({
                   <TextField
                     placeholder="Enter date..."
                     value={bymonthday}
+                    type="number"
                     onChange={(e: any) =>
                       setBymonthday(
                         e.target.value <= 0
