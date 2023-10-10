@@ -263,9 +263,12 @@ const Column = React.memo(function Column({
           return dueDate >= columnStart && dueDate <= columnEnd;
         })
         .sort((e, d) =>
-          e.completed && !d.completed
+          e.completionInstances.length !== 0 &&
+          d.completionInstances.length == 0
             ? 1
-            : (!e.completed && d.completed) || (e.pinned && !d.pinned)
+            : (e.completionInstances.length == 0 &&
+                d.completionInstances.length !== 0) ||
+              (e.pinned && !d.pinned)
             ? -1
             : !e.pinned && d.pinned
             ? 1

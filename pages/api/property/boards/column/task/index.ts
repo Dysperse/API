@@ -14,6 +14,7 @@ const handler = async (req, res) => {
         parentTasks: true,
         subTasks: true,
         property: { select: { name: true, id: true } },
+        completionInstances: true,
         column: {
           include: {
             board: { select: { id: true, name: true, public: true } },

@@ -267,6 +267,7 @@ export function CreateTask({
           pinned: false,
           location: "",
           image: "",
+          recurrenceRule: null,
         });
         setShowedFields({
           description: false,

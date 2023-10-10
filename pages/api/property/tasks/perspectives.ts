@@ -48,6 +48,7 @@ const handler = async (req, res) => {
         : {
             subTasks: true,
             parentTasks: true,
+            completionInstances: { take: 1 },
             column: {
               select: {
                 board: {
@@ -71,7 +72,13 @@ const handler = async (req, res) => {
           { parentTasks: { none: { property: { id: req.query.property } } } },
         ],
       },
-      include: { subTasks: true, parentTasks: true },
+      include: {
+        subTasks: true,
+        parentTasks: true,
+        completionInstances: {
+          where: { iteration: { gte: new Date(req.query.startTime) } },
+        },
+      },
     });
 
     res.json({ data, recurringTasks });

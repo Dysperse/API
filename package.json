@@ -21,7 +21,7 @@
     "@mui/lab": "^5.0.0-alpha.145",
     "@mui/material": "^5.14.10",
     "@mui/x-date-pickers": "^6.14.0",
-    "@prisma/client": "^5.4.1",
+    "@prisma/client": "^5.4.2",
     "@radix-ui/colors": "^3.0.0-rc.4",
     "@react-email/button": "0.0.10",
     "@react-email/components": "^0.0.7",
@@ -67,7 +67,7 @@
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
-    "react-email": "1.9.4",
+    "react-email": "^1.9.5",
     "react-emoji-render": "^2.0.1",
     "react-file-drop": "^3.1.6",
     "react-hot-toast": "^2.4.1",
@@ -96,7 +96,7 @@
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-config-next": "^13.5.2",
-    "prisma": "^5.4.1",
+    "prisma": "^5.4.2",
     "typescript": "^5.2.2"
   }
 }

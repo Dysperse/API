@@ -282,68 +282,67 @@ export const Task: any = React.memo(function Task({
 
   useEffect(() => setTaskData(task), [task]);
 
+  const isCompleted = taskData.completionInstances?.length > 0;
+
   const handleCompletion = useCallback(
-    async (e, mutate = false) => {
+    async (completed, mutate = false) => {
       try {
         vibrate(50);
         if (isRecurring) {
-          alert(1);
+          toast("Completion for recurring tasks coming soon!");
         } else {
           setTaskData((prev) => ({ ...prev, completed: !prev.completed }));
           if (mutate) {
             mutateList(
-              (e) => {
-                const l = (e.data ? e.data : e).map((t) => {
-                  if (t.id === taskData.id) {
-                    return { ...t, completed: !t.completed };
-                  } else {
-                    return t;
+              (oldData) => {
+                const l = (oldData.data ? oldData.data : oldData).map(
+                  (oldTask) => {
+                    if (oldTask.id === taskData.id) {
+                      if (!completed) {
+                        // Remove completion instances
+                        return {
+                          ...oldTask,
+                          completionInstances: [],
+                        };
+                      } else {
+                        // Add completion instance
+                        const newInstance = {
+                          id: "",
+                          completedAt: dayjs().toISOString(),
+                          iteration: null,
+                        };
+                        return {
+                          ...oldTask,
+                          completionInstances: oldTask.completionInstances
+                            ? [...oldTask.completionInstances, newInstance]
+                            : [newInstance],
+                        };
+                      }
+                    } else {
+                      return oldTask;
+                    }
                   }
-                });
-                return e.data ? { ...e, data: l } : l;
+                );
+                return oldData.data ? { ...oldData, data: l } : l;
               },
               {
                 revalidate: false,
               }
             );
           }
-          fetchRawApi(session, "property/boards/column/task/edit", {
-            id: taskData.id,
-            completed: e ? "true" : "false",
-            date: new Date().toISOString(),
-            createdBy: session.user.email,
+          await fetchRawApi(session, "property/boards/column/task/complete", {
+            id: task.id,
+            isRecurring,
+            completedAt: dayjs().toISOString(),
+            isCompleted: completed ? "true" : "false",
           });
         }
       } catch (e) {
         toast.error("An error occured while updating the task");
       }
     },
-    [taskData.id, session]
+    [taskData.id, session, isCompleted]
   );
-
-  const handlePriorityChange = useCallback(async () => {
-    setTaskData((prev) => ({ ...prev, pinned: !prev.pinned }));
-    toast.promise(
-      new Promise(async (resolve, reject) => {
-        try {
-          fetchRawApi(session, "property/boards/column/task/edit", {
-            id: taskData.id,
-            pinned: !taskData.pinned ? "true" : "false",
-          }).then(mutateList);
-          resolve("");
-        } catch (e) {
-          reject(e);
-        }
-      }),
-      {
-        loading: taskData.pinned
-          ? "Changing priority..."
-          : "Marking important...",
-        success: taskData.pinned ? "Task unpinned!" : "Task pinned!",
-        error: "Failed to change priority",
-      }
-    );
-  }, [taskData.pinned, taskData.id, mutateList, setTaskData, session]);
 
   const isDisabled = useMemo(
     () =>
@@ -407,7 +406,7 @@ export const Task: any = React.memo(function Task({
           sx={{
             color: colors["grey"][isDark ? "A100" : "800"],
             ...(taskData.name === taskData.name.toUpperCase() &&
-              !taskData.completed && {
+              !isCompleted && {
                 background: {
                   xs: palette[3] + "!important",
                   sm: palette[2] + "!important",
@@ -450,7 +449,7 @@ export const Task: any = React.memo(function Task({
           <Icon
             onClick={async (e) => {
               e.stopPropagation();
-              handleCompletion(!taskData.completed, true);
+              handleCompletion(!isCompleted, true);
             }}
             sx={{
               my: 0.7,
@@ -463,13 +462,9 @@ export const Task: any = React.memo(function Task({
                 opacity: 0.6,
               },
             }}
-            className={taskData.completed ? "" : "outlined"}
+            className={isCompleted ? "" : "outlined"}
           >
-            {taskData.completed
-              ? "check_circle"
-              : isIos()
-              ? "trip_origin"
-              : "circle"}
+            {isCompleted ? "check_circle" : isIos() ? "trip_origin" : "circle"}
           </Icon>
           <ListItemText
             sx={{ ml: 0.7 }}
@@ -480,7 +475,7 @@ export const Task: any = React.memo(function Task({
                   textOverflow: "ellipsis",
                   fontWeight: 200,
                   whiteSpace: "nowrap",
-                  ...(taskData.completed && {
+                  ...(isCompleted && {
                     textDecoration: "line-through",
                     opacity: 0.6,
                   }),
@@ -498,7 +493,7 @@ export const Task: any = React.memo(function Task({
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    ...(taskData.completed && {
+                    ...(isCompleted && {
                       textDecoration: "line-through",
                       opacity: 0.7,
                     }),

@@ -358,6 +358,7 @@ const ChipBar = React.memo(function ChipBar({
           }}
           onClick={() => titleRef?.current?.focus()}
         >
+          {taskColorPicker}
           <Tooltip
             title={
               dayjs(data.date).isValid()
@@ -439,7 +440,6 @@ const ChipBar = React.memo(function ChipBar({
                 />
               </motion.div>
             )}
-          {taskColorPicker}
           {!isSubTask && data.dateOnly ? (
             <Chip
               onClick={() => {

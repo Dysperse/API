@@ -60,7 +60,6 @@ function DayOfWeekPicker({ daysOfWeek, setDaysOfWeek }) {
         <Typography className="font-heading" variant="h3" sx={{ mb: 2 }}>
           Select days
         </Typography>
-        {JSON.stringify(daysOfWeek)}
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
           {options.map((day, index) => (
             <Chip

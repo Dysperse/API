@@ -42,6 +42,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
   const isDark = useDarkMode(session.darkMode);
   const isSubTask = task.parentTasks.length !== 0;
   const isRecurring = task.recurrenceRule !== null;
+  const isCompleted = task.completionInstances.length > 0;
 
   const greenPalette = useColor("green", isDark);
   const orangePalette = useColor("orange", isDark);
@@ -80,18 +81,14 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
   );
 
   const handleComplete = useCallback(async () => {
-    if (isRecurring) {
-      await fetchRawApi(
-        session,
-        "property/boards/column/task/addCompletionInstance",
-        {
-          id: task.id,
-          date: dayjs().toISOString(),
-        }
-      );
-    }
-    task.edit(task.id, "completed", !task.completed);
-  }, [session, isRecurring, task]);
+    await fetchRawApi(session, "property/boards/column/task/complete", {
+      id: task.id,
+      isRecurring,
+      completedAt: dayjs().toISOString(),
+      isCompleted: isCompleted ? "false" : "true",
+    });
+    // task.edit(task.id, "completed", !isCompleted);
+  }, [session, isRecurring, task, isCompleted]);
 
   const handlePostpone: any = useCallback(
     async (count, type) => {
@@ -199,7 +196,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
                 },
                 px: 1.5,
                 ...styles.button,
-                ...(task.completed && {
+                ...(isCompleted && {
                   background: greenPalette[6] + "!important",
                   color: greenPalette[11] + "!important",
                   "&:hover": {
@@ -208,11 +205,11 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
                 }),
               }}
             >
-              <Icon className={task.completed ? "" : "outlined"}>
+              <Icon className={isCompleted ? "" : "outlined"}>
                 check_circle
               </Icon>
               <span className="text">
-                {task.completed ? "Completed" : "Complete"}
+                {isCompleted ? "Completed" : "Complete"}
               </span>
             </Button>
             {!isSubTask &&
