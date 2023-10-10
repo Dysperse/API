@@ -1,6 +1,4 @@
-import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
-import dayjs from "dayjs";
 
 const handler = async (req, res) => {
   try {
@@ -9,18 +7,18 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    const data = await prisma.completionInstance.create({
-      where: {
-        id: req.query.id,
-      },
-      data: {
-        // TODO
-        completedAt: dayjs().toDate(),
-        iteration: dayjs().toDate(),
-      },
-    });
+    // const data = await prisma.completionInstance.create({
+    //   where: {
+    //     id: req.query.id,
+    //   },
+    //   data: {
+    //     // TODO
+    //     completedAt: dayjs().toDate(),
+    //     iteration: dayjs().toDate(),
+    //   },
+    // });
 
-    res.json(data);
+    res.json({});
   } catch (e: any) {
     res.json({ error: e.message });
   }
