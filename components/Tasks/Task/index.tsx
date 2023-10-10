@@ -296,7 +296,6 @@ export const Task: any = React.memo(function Task({
         vibrate(50);
 
         const instanceDate = dayjs(recurringInstance).startOf("day");
-
         const newInstance = {
           id: "",
           completedAt: dayjs().toISOString(),
@@ -304,7 +303,6 @@ export const Task: any = React.memo(function Task({
           taskId: taskData.id,
         };
 
-        // First, set the task's state
         setTaskData((prev) => ({
           ...prev,
           completionInstances: isCompleted
@@ -316,88 +314,64 @@ export const Task: any = React.memo(function Task({
             : [],
         }));
 
-        // Mutate the entire list
         if (mutate) {
           mutateList(
             (oldData) => {
               if (isRecurring) {
-                return {
-                  ...oldData,
-                  recurringTasks: !completed
-                    ? oldData.recurringTasks.map((task) => {
-                        if (task.id === taskData.id) {
-                          return {
-                            ...task,
-                            completionInstances:
-                              task.completionInstances.filter(
+                const updatedRecurringTasks = oldData.recurringTasks.map(
+                  (task) =>
+                    task.id === taskData.id
+                      ? {
+                          ...task,
+                          completionInstances: !completed
+                            ? task.completionInstances.filter(
                                 (instance) =>
                                   !dayjs(instance.iteration)
                                     .startOf("day")
                                     .isSame(instanceDate)
-                              ),
-                          };
-                        } else {
-                          return task;
+                              )
+                            : [...task.completionInstances, newInstance],
                         }
-                      })
-                    : oldData.recurringTasks.map((task) => {
-                        if (task.id === taskData.id) {
-                          return {
-                            ...task,
-                            completionInstances: [
-                              ...task.completionInstances,
-                              newInstance,
-                            ],
-                          };
-                        } else {
-                          return task;
-                        }
-                      }),
+                      : task
+                );
+
+                return {
+                  ...oldData,
+                  recurringTasks: updatedRecurringTasks,
                 };
               } else {
-                const l = (oldData.data ? oldData.data : oldData).map(
-                  (oldTask) => {
-                    if (oldTask.id === taskData.id) {
-                      if (!completed) {
-                        // Remove completion instances
-                        return {
-                          ...oldTask,
-                          completionInstances: [],
-                        };
-                      } else {
-                        // Add completion instance
-                        return {
+                const updatedData = (oldData.data || []).map((oldTask) =>
+                  oldTask.id === taskData.id
+                    ? !completed
+                      ? { ...oldTask, completionInstances: [] }
+                      : {
                           ...oldTask,
                           completionInstances: [
                             ...oldTask.completionInstances,
                             newInstance,
                           ],
-                        };
-                      }
-                    } else {
-                      return oldTask;
-                    }
-                  }
+                        }
+                    : oldTask
                 );
-                return oldData.data ? { ...oldData, data: l } : l;
+
+                return oldData.data
+                  ? { ...oldData, data: updatedData }
+                  : updatedData;
               }
             },
-            {
-              revalidate: false,
-            }
+            { revalidate: false }
           );
         }
+
         await fetchRawApi(session, "property/boards/column/task/complete", {
           id: task.id,
           isRecurring,
-          ...(recurringInstance && {
-            iteration: dayjs(recurringInstance).startOf("day").toISOString(),
-          }),
-          completedAt: dayjs().toISOString(),
+          ...(recurringInstance && { iteration: instanceDate.toISOString() }),
+          completedAt: newInstance.completedAt,
           isCompleted: completed ? "true" : "false",
         });
       } catch (e) {
-        toast.error("An error occured while updating the task");
+        toast.error("An error occurred while updating the task");
       }
     },
     [taskData.id, session, isCompleted]
