@@ -29,9 +29,6 @@ const handler = async (req, res) => {
     const results = await prisma.task.findMany({
       where: {
         AND: [
-          query.completed && {
-            completed: { completionInstances: { every: { id: { not: "" } } } },
-          },
           query.pinned && { pinned: true },
           query.description && { description: { not: null } },
           query.color && { color: { not: null } },
@@ -99,8 +96,21 @@ const handler = async (req, res) => {
       },
     });
 
+    if (query.completed) {
+      res.json({
+        query,
+        results: results.filter((e) => e.completionInstances.length > 0),
+      });
+      return;
+    } else if (query.completed === false) {
+      res.json({
+        query,
+        results: results.filter((e) => e.completionInstances.length === 0),
+      });
+    }
     res.json({ query, results });
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };
