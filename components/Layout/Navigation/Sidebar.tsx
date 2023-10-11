@@ -280,6 +280,9 @@ export function Sidebar() {
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
+        "& .logo": {
+          WebkitAppRegion: "drag",
+        },
       }}
     >
       <Box sx={{ mt: 2 }} />

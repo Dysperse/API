@@ -6,6 +6,7 @@ interface LogoProps {
   size?: number | string;
   onClick?: () => void;
   color?: string;
+  style?: any;
 }
 
 export function Logo({
@@ -13,6 +14,7 @@ export function Logo({
   size = 45,
   onClick = () => {},
   color = "violet",
+  style = {},
 }: LogoProps) {
   const { session } = useSession();
 
@@ -42,6 +44,7 @@ export function Logo({
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      style={style}
       className="logo"
       version="1"
       viewBox="0 0 375 375"
