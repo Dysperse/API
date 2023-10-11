@@ -169,13 +169,9 @@ export function ColumnSettings({
             maxWidth: "400px",
             maxHeight: "400px",
             width: "auto",
-            p: 2,
-            border: `2px solid ${palette[3]}`,
-            borderRadius: 5,
-            m: { xs: 2, md: 5 },
-            mx: { md: "auto" },
           },
         }}
+        variant="outlined"
       >
         <Puller showOnDesktop />
         <EmojiPicker setEmoji={setEmoji}>
@@ -183,7 +179,7 @@ export function ColumnSettings({
             size="large"
             sx={{
               mx: "auto",
-              mb: 2,
+              my: 2,
               border: "2px dashed #ccc",
               width: 120,
               height: 120,

@@ -212,7 +212,6 @@ function IdentityModal({ mutate, userData, setUserData }) {
         PaperProps={{
           sx: {
             p: 5,
-            border: `2px solid ${palette[3]}`,
           },
         }}
       >

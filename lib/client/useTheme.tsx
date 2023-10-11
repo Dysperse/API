@@ -495,6 +495,20 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         },
       },
       MuiDrawer: {
+        variants: [
+          {
+            props: { variant: "outlined" } as any,
+            style: ({ theme }) =>
+              theme.unstable_sx({
+                "& .MuiPaper-root": {
+                  border: `2px solid ${palette[3]}`,
+                  borderRadius: 5,
+                  mx: { xs: "15px", sm: "auto" },
+                  mb: "15px",
+                },
+              }),
+          },
+        ],
         defaultProps: {
           elevation: 0,
           ModalProps: { keepMounted: false },

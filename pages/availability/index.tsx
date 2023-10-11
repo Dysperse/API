@@ -104,11 +104,6 @@ function EditEvent({ children, mutate, event }: any) {
         onClose={() => setOpen(false)}
         open={open}
         onKeyDown={(e) => e.stopPropagation()}
-        PaperProps={{
-          sx: {
-            border: `2px solid ${palette[3]}`,
-          },
-        }}
       >
         <Box sx={{ p: 3 }}>
           <Typography className="font-heading" variant="h3" sx={{ mb: 2 }}>
@@ -367,14 +362,7 @@ function InviteAvailability({ children, event }) {
         open={open}
         onClose={() => setOpen(false)}
         anchor="bottom"
-        PaperProps={{
-          sx: {
-            border: `2px solid ${palette[3]}`,
-            m: 3,
-            mx: { sm: "auto" },
-            borderRadius: 5,
-          },
-        }}
+        variant="outlined"
       >
         <Puller showOnDesktop />
         <Box sx={{ p: 3, pt: 0 }}>
@@ -1507,9 +1495,7 @@ export default function Page() {
             />
           )
         ) : error ? (
-          <ErrorHandler
-            callback={mutate}
-          />
+          <ErrorHandler callback={mutate} />
         ) : (
           [...new Array(5)].map((_, index) => (
             <Skeleton

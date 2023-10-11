@@ -112,7 +112,6 @@ export default function NotificationsPrompt() {
         onClose={() => {}}
         PaperProps={{
           sx: {
-            border: `2px solid ${palette[3]}`,
             width: "500px",
             maxWidth: "calc(100dvw - 30px)",
           },

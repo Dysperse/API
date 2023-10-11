@@ -315,14 +315,7 @@ export const RecurringChip = React.memo(function RecurringChip({
         open={open}
         onClick={(e) => e.stopPropagation()}
         onClose={() => setOpen(false)}
-        PaperProps={{
-          sx: {
-            border: `2px solid ${palette[3]}`,
-            borderRadius: 5,
-            mx: { xs: "10px", sm: "auto" },
-            mb: "10px",
-          },
-        }}
+        variant="outlined"
       >
         <Puller showOnDesktop />
         <Box sx={{ px: 2, pb: 2 }}>

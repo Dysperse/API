@@ -72,13 +72,10 @@ function MoveItem({ children, item, mutate, setParentOpen }) {
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
+        variant="outlined"
         PaperProps={{
           sx: {
             width: { xs: "100%", sm: "500px" },
-            border: { sm: "2px solid " + palette[3] },
-            m: 2,
-            borderRadius: 5,
-            mx: { sm: "auto" },
           },
         }}
       >

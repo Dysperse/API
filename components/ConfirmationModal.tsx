@@ -70,15 +70,13 @@ export function ConfirmationModal({
           sx={{
             zIndex: 9999999,
           }}
+          variant="outlined"
           PaperProps={{
             sx: {
               userSelect: "none",
               width: { xs: "100%", sm: "350px" },
               maxWidth: "calc(100vw - 30px)",
               borderRadius: 5,
-              mx: { xs: "15px", sm: "auto" },
-              mb: "15px",
-              border: `2px solid ${palette[4]}`,
             },
           }}
         >

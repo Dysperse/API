@@ -13,15 +13,7 @@ export default function TosModal() {
 
   return (
     <>
-      <Dialog
-        open
-        onClose={() => {}}
-        PaperProps={{
-          sx: {
-            border: `2px solid ${palette[4]}`,
-          },
-        }}
-      >
+      <Dialog open onClose={() => {}}>
         <DialogContent>
           <Typography variant="h3" className="font-heading">
             Hey there!
