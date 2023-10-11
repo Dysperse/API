@@ -20,7 +20,6 @@ import { motion } from "framer-motion";
 import interact from "interactjs";
 import Markdown from "markdown-to-jsx";
 import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
-import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { CreateTask } from "../../Task/Create";
@@ -72,12 +71,7 @@ function Assistant({ children }) {
       body: JSON.stringify([{ role: "user", content: draft }]),
     }).then((res) => res.json());
 
-    if (!d?.success === true) {
-      toast.error("Something went wrong. Please try again later");
-    }
-
-    alert(JSON.stringify(d));
-    const r = { role: "system", content: d.result.response };
+    const r = { role: "system", content: d[0].response };
 
     setMessages((prevMessages) => [...prevMessages, r]);
     setMessages((prevMessages) => prevMessages.filter((e) => e !== "loading"));
