@@ -484,16 +484,21 @@ export const RecurringChip = React.memo(function RecurringChip({
               control={<Radio checked={Boolean(count)} />}
             />
           </RadioGroup>
-          <Tooltip title={capitalizeFirstLetter(rrule.toText())}>
-            <Button
-              sx={{ mt: 2 }}
-              variant="contained"
-              fullWidth
-              onClick={handleSave}
-            >
-              Continue <Icon>east</Icon>
-            </Button>
-          </Tooltip>
+          <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+            {data.recurrenceRule && (
+              <Button
+                variant="outlined"
+                onClick={() => setData((d) => ({ ...d, recurrenceRule: null }))}
+              >
+                Clear
+              </Button>
+            )}
+            <Tooltip title={capitalizeFirstLetter(rrule.toText())}>
+              <Button variant="contained" fullWidth onClick={handleSave}>
+                Continue <Icon>east</Icon>
+              </Button>
+            </Tooltip>
+          </Box>
         </Box>
       </SwipeableDrawer>
     </>

@@ -23,6 +23,7 @@ import React, {
   useState,
 } from "react";
 import toast from "react-hot-toast";
+import { RRule } from "rrule";
 import SelectDateModal from "../DatePicker";
 import { RecurringChip } from "./RecurringChip";
 
@@ -214,6 +215,8 @@ const ChipBar = React.memo(function ChipBar({
     (inputString) => {
       const regex = /(?:at|from|during)\s(\d+)/i;
       const match = inputString.match(regex);
+      let timeChip: JSX.Element | null = null;
+      let recurrenceChip: JSX.Element | null = null;
 
       if (match) {
         const time = match[1];
@@ -242,7 +245,7 @@ const ChipBar = React.memo(function ChipBar({
 
         if (Number(time) > 12) return null;
 
-        return (
+        timeChip = (
           <motion.div
             style={{ display: "inline-block" }}
             initial={{ opacity: 0, scale: 0.5 }}
@@ -268,9 +271,45 @@ const ChipBar = React.memo(function ChipBar({
         );
       }
 
-      return null;
+      if (inputString.toLowerCase().includes("every ")) {
+        try {
+          const split = inputString.toLowerCase().toString().split("every ");
+          const text = "Every " + split[split[1] ? 1 : 0];
+
+          const rule = RRule.fromText(text);
+          recurrenceChip =
+            data.recurrenceRule?.toString() === rule?.toString() ? null : (
+              <motion.div
+                style={{ display: "inline-block" }}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <MemoizedChip
+                  label={capitalizeFirstLetter(rule.toText())}
+                  icon={<Icon>loop</Icon>}
+                  onClick={() =>
+                    setData((d) => ({
+                      ...d,
+                      recurrenceRule: rule,
+                    }))
+                  }
+                  sx={chipStyles(false)}
+                />
+              </motion.div>
+            );
+        } catch (e) {
+          recurrenceChip = null;
+        }
+      }
+
+      return (
+        <>
+          {timeChip}
+          {recurrenceChip}
+        </>
+      );
     },
-    [chipStyles, data.date, setData]
+    [chipStyles, data.date, data.recurrenceRule, setData]
   );
 
   const [chipComponent, setChipComponent] = useState<any>(null);
