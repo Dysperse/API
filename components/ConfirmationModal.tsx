@@ -70,8 +70,8 @@ export function ConfirmationModal({
           sx={{
             zIndex: 9999999,
           }}
-          variant="outlined"
           PaperProps={{
+            className: "outlined-drawer",
             sx: {
               userSelect: "none",
               width: { xs: "100%", sm: "350px" },

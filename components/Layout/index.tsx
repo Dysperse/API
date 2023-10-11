@@ -97,7 +97,9 @@ export default function AppLayout({
   return (
     <Box
       onContextMenu={(e) => !isMobile && e.preventDefault()}
-      sx={{ display: "flex" }}
+      sx={{
+        display: "flex",
+      }}
     >
       <ReleaseModal />
       <Snackbar
@@ -185,6 +187,12 @@ export default function AppLayout({
             transition: "border-radius .3s, margin .3s",
             ml: { md: shouldHide ? "0px" : "85px" },
             background: palette[1],
+            "& .outlined-drawer": {
+              border: `2px solid ${palette[3]}`,
+              borderRadius: 5,
+              mx: { xs: "15px", sm: "auto" },
+              mb: "15px",
+            },
           }}
         >
           {children}

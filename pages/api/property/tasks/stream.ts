@@ -60,7 +60,8 @@ const handler = async (req, res) => {
         completed: "asc",
       },
       include: {
-        subTasks: true,
+        completionInstances: true,
+        subTasks: { include: { completionInstances: true } },
         parentTasks: true,
         column: {
           select: {

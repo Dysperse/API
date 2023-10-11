@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 
 const handler = async (req, res) => {
@@ -7,50 +6,10 @@ const handler = async (req, res) => {
       minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
     });
+    const query = JSON.parse(req.query.query);
+    console.log(query);
 
-    const data = await prisma.task.findMany({
-      include: {
-        completionInstances: true,
-      },
-      where: {
-        AND: [
-          // Make sure that the task is in the property
-          { property: { id: req.query.property } },
-          {
-            name: {
-              contains: req.query.query.toLowerCase(),
-              mode: "insensitive",
-            },
-          },
-          // If it's private, match up the task's user id with the provided identifier.
-          // If it's public, just *select it* bruh
-          {
-            OR: [
-              { column: null },
-              {
-                column: {
-                  board: {
-                    AND: [
-                      { public: false },
-                      { userId: req.query.userIdentifer },
-                    ],
-                  },
-                },
-              },
-              {
-                column: {
-                  board: {
-                    AND: [{ public: true }, { propertyId: req.query.property }],
-                  },
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
-
-    res.json(data);
+    res.json({});
   } catch (e: any) {
     res.json({ error: e.message });
   }

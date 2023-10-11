@@ -2,43 +2,40 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  Autocomplete,
   Box,
   Button,
   Chip,
-  CircularProgress,
   Icon,
   IconButton,
-  InputAdornment,
+  ListItemButton,
   SwipeableDrawer,
   TextField,
   Tooltip,
+  createFilterOptions,
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { cloneElement, useEffect, useRef, useState } from "react";
+import { cloneElement, useRef, useState } from "react";
 import { Puller } from "../../Puller";
 import { CreateTask } from "../Task/Create";
+
+const filter = createFilterOptions();
 
 export function SearchTasks({ children }: { children?: JSX.Element }) {
   const ref: any = useRef();
   const router = useRouter();
+  const routerQuery = router?.query?.query
+    ? JSON.parse(router.query.query.toString())
+    : [];
+
   const { session } = useSession();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<any[]>(routerQuery);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
-
-  useEffect(() => {
-    if (
-      router.asPath.includes("/search") &&
-      decodeURIComponent(router.asPath.split("/search/")[1]) !== "[query]"
-    ) {
-      setQuery(decodeURIComponent(router.asPath.split("/search/")[1]));
-    }
-  }, [router.asPath]);
 
   const trigger = cloneElement(
     children || (
@@ -55,49 +52,191 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
     }
   );
 
+  const options = [
+    {
+      icon: "push_pin",
+      condition: { pinned: true },
+      title: "Pinned?",
+    },
+    {
+      icon: "done_outline",
+      condition: { completed: true },
+      title: "Completed?",
+    },
+    {
+      icon: "close",
+      condition: { completed: false },
+      title: "Not complete?",
+    },
+    {
+      icon: "loop",
+      condition: { recurring: true },
+      title: "Recurring?",
+    },
+    {
+      icon: "attachment",
+      condition: { attachment: true },
+      title: "Has attachment?",
+    },
+    {
+      icon: "sticky_note_2",
+      condition: { description: true },
+      title: "Has description?",
+    },
+    {
+      icon: "location_on",
+      condition: { location: true },
+      title: "Has location?",
+    },
+    {
+      icon: "palette",
+      condition: { color: true },
+      title: "Has color?",
+    },
+  ];
+
   const input = (
-    <TextField
-      inputRef={ref}
-      size="small"
-      autoFocus={isMobile}
-      variant="outlined"
-      placeholder="Search tasks..."
-      {...(query.trim() && { label: "Search tasks..." })}
-      onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-      onBlur={() => {
-        if (query.trim() !== "") {
-          router.push(`/tasks/search/${encodeURIComponent(query)}`);
-          setLoading(true);
-        }
-      }}
-      value={query}
-      id="searchTasks"
-      sx={{
-        transition: "all .2s",
-        zIndex: 999,
-        cursor: "default",
-        ...(Boolean(query.trim()) && {
-          mr: -6,
-        }),
-      }}
-      onChange={(e) => setQuery(e.target.value)}
-      InputProps={{
-        autoFocus: isMobile,
-        sx: {
+    <>
+      <Autocomplete
+        multiple
+        id="tags-outlined"
+        fullWidth
+        freeSolo={!query.find((e) => typeof e === "string")}
+        options={options}
+        clearIcon={<Icon>arrow_forward_ios</Icon>}
+        getOptionLabel={(option) => option.title}
+        popupIcon={null}
+        slotProps={{
+          clearIndicator: {
+            onClick: () => {
+              router.push(
+                `/tasks/search/${encodeURIComponent(JSON.stringify(query))}`
+              );
+            },
+            title: "Search...",
+          },
+          paper: {
+            sx: {
+              width: "300px",
+              background: palette[3],
+              border: `2px solid ${palette[4]}`,
+              borderRadius: 5,
+              mt: 2,
+              p: 1,
+              py: 0,
+            },
+          },
+        }}
+        renderOption={(props, option) => (
+          <ListItemButton
+            sx={{
+              gap: 2,
+              display: "flex",
+              px: 2,
+              py: 1,
+              "&:hover": { background: palette[4] + "!important" },
+              "&:active": { background: palette[5] + "!important" },
+            }}
+            {...(props as any)}
+          >
+            <Icon className="outlined">{option.icon || "search"}</Icon>
+            {option.title || `Search for "${option}"`}
+          </ListItemButton>
+        )}
+        handleHomeEndKeys
+        renderTags={(value, getTagProps) => {
+          return value.map((chip, index) =>
+            typeof chip === "object" ? (
+              <Chip
+                {...getTagProps(chip)}
+                key={index.toString()}
+                icon={<Icon>{chip.icon}</Icon>}
+                label={chip.title}
+              />
+            ) : (
+              <Chip
+                {...getTagProps(chip)}
+                key={index.toString()}
+                icon={<Icon>search</Icon>}
+                label={chip}
+              />
+            )
+          );
+        }}
+        onChange={(_, newValue) => {
+          setQuery(newValue);
+        }}
+        defaultValue={query}
+        filterSelectedOptions
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            size="small"
+            placeholder={query.length === 0 ? "Search tasks..." : undefined}
+          />
+        )}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+
+          const { inputValue } = params;
+
+          const isExisting = options.find(
+            (option) => inputValue === option.title
+          );
+
+          if (
+            inputValue !== "" &&
+            !isExisting &&
+            !query.find((d) => typeof d === "string")
+          ) {
+            filtered.push(inputValue);
+          }
+
+          return filtered;
+        }}
+      />
+      {/* <TextField
+        inputRef={ref}
+        size="small"
+        autoFocus={isMobile}
+        variant="outlined"
+        placeholder="Search tasks..."
+        onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
+        onBlur={() => {
+          if (query.trim() !== "") {
+            router.push(`/tasks/search/${encodeURIComponent(query)}`);
+            setLoading(true);
+          }
+        }}
+        value={query}
+        id="searchTasks"
+        sx={{
+          transition: "all .2s",
+          zIndex: 999,
           cursor: "default",
-          borderRadius: 4,
-        },
-        endAdornment: (
-          <InputAdornment position="end">
-            {query.trim() && (
-              <IconButton size="small">
-                {loading ? <CircularProgress /> : <Icon>east</Icon>}
-              </IconButton>
-            )}
-          </InputAdornment>
-        ),
-      }}
-    />
+          ...(Boolean(query.trim()) && {
+            mr: -6,
+          }),
+        }}
+        onChange={(e) => setQuery(e.target.value)}
+        InputProps={{
+          autoFocus: isMobile,
+          sx: {
+            cursor: "default",
+            borderRadius: 4,
+          },
+          endAdornment: (
+            <InputAdornment position="end">
+              {query.trim() && (
+                <IconButton size="small">
+                  {loading ? <CircularProgress /> : <Icon>east</Icon>}
+                </IconButton>
+              )}
+            </InputAdornment>
+          ),
+        }}
+      /> */}
+    </>
   );
 
   const CreateTaskWrapper = ({ children }) => (
@@ -137,8 +276,6 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
             display: "flex",
             alignItems: "center",
             gap: 1,
-            overflowX: "auto",
-            opacity: 0.3,
           }}
         >
           <Chip sx={{ ml: 2 }} icon={<Icon>push_pin</Icon>} label="Important" />
@@ -184,8 +321,8 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
               id="createTaskTrigger"
               onClick={(e) => e.stopPropagation()}
               sx={{
-                ...(Boolean(query.trim()) && {
-                  transform: "scale(0)",
+                ...(query.length > 0 && {
+                  display: "none",
                 }),
                 cursor: "default",
                 transition: "transform .2s",

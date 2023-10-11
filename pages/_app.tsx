@@ -159,7 +159,6 @@ export default function App({
                 />
               </Head>
               <Analytics />
-
               {disableLayout ? (
                 children
               ) : (
