@@ -71,7 +71,7 @@ function Assistant({ children }) {
       body: JSON.stringify([{ role: "user", content: draft }]),
     }).then((res) => res.json());
 
-    const r = { role: "system", content: d[0].response };
+    const r = { role: "system", content: d[0].response.response };
 
     setMessages((prevMessages) => [...prevMessages, r]);
     setMessages((prevMessages) => prevMessages.filter((e) => e !== "loading"));
@@ -113,7 +113,7 @@ function Assistant({ children }) {
           },
         }}
       >
-        <AppBar>
+        <AppBar sx={{ py: 0 }}>
           <Toolbar>
             <Typography variant="h6">Assistant</Typography>
             <Button
