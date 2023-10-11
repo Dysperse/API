@@ -140,7 +140,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
       await fetchRawApi(session, "property/boards/column/task/complete", {
         id: task.id,
         completedAt: dayjs().toISOString(),
-        isCompleted: isCompleted ? "true" : "false",
+        isCompleted: !isCompleted ? "true" : "false",
       });
     }
   }, [session, isRecurring, task, isCompleted]);
