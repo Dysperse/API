@@ -430,7 +430,7 @@ export const RecurringChip = React.memo(function RecurringChip({
             <FormControlLabel
               sx={{ mb: 1, mt: 0.5 }}
               label={
-                <>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   On
                   <DatePicker
                     value={untilDate}
@@ -455,7 +455,7 @@ export const RecurringChip = React.memo(function RecurringChip({
                       },
                     }}
                   />
-                </>
+                </Box>
               }
               value="Until"
               control={<Radio checked={Boolean(untilDate)} />}
