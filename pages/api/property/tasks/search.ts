@@ -35,7 +35,7 @@ const handler = async (req, res) => {
           query.recurrenceRule && { recurrenceRule: { not: null } },
           query.image && { image: { not: null } },
           query.location && { location: { not: null } },
-          query.name && { name: { contains: query.name } },
+          query.name && { name: { contains: query.name, mode: "insensitive" } },
           // PERMISSIONS ----------------------
           // Prevent selecting subtasks
           { parentTasks: { none: { property: { id: req.query.property } } } },

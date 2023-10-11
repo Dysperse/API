@@ -37,12 +37,14 @@ export default function Page() {
         }}
       >
         <Box sx={{ px: { xs: 3, sm: 0 } }}>
-          <Typography variant="h2" className="font-heading">
-            Search results
-          </Typography>
-          <Typography variant="h6" sx={{ opacity: 0.6 }}>
-            {data?.results?.length || 0} items
-          </Typography>
+          <Box sx={{ px: { sm: 2 } }}>
+            <Typography variant="h2" className="font-heading">
+              Search results
+            </Typography>
+            <Typography variant="h6" sx={{ opacity: 0.6 }}>
+              {data?.results?.length || 0} items
+            </Typography>
+          </Box>
           {data ? (
             <Virtuoso
               useWindowScroll
