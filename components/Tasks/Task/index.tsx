@@ -406,6 +406,7 @@ export const Task: any = React.memo(function Task({
             .sort(taskAlgorithm)
             .map((subtask) => (
               <Task
+                recurringInstance={recurringInstance}
                 key={subtask.id}
                 isSubTask
                 board={board}

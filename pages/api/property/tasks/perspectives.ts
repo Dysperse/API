@@ -46,7 +46,7 @@ const handler = async (req, res) => {
       include: req.query.count
         ? undefined
         : {
-            subTasks: true,
+            subTasks: { include: { completionInstances: true } },
             parentTasks: true,
             completionInstances: { take: 1 },
             column: {
