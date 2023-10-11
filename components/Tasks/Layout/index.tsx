@@ -724,7 +724,7 @@ export function TasksLayout({
   const [editMode, setEditMode] = useState(false);
   const [taskSelection, setTaskSelection] = useState([]);
 
-  useHotkeys("c", (e) => {
+  useHotkeys("shift+c", (e) => {
     e.preventDefault();
     document.getElementById("createTaskTrigger")?.click();
   });
@@ -733,11 +733,11 @@ export function TasksLayout({
     document.getElementById("searchTasks")?.focus();
   });
 
-  useHotkeys("w", () => router.push("/tasks/perspectives/days"));
-  useHotkeys("m", () => router.push("/tasks/perspectives/weeks"));
-  useHotkeys("y", () => router.push("/tasks/perspectives/years"));
-  useHotkeys("c", () => router.push("/tasks/color-coded"));
-  useHotkeys("i", () => router.push("/tasks/insights"));
+  useHotkeys("shift+w", () => router.push("/tasks/perspectives/days"));
+  useHotkeys("shift+m", () => router.push("/tasks/perspectives/weeks"));
+  useHotkeys("shift+y", () => router.push("/tasks/perspectives/years"));
+  useHotkeys("shift+c", () => router.push("/tasks/color-coded"));
+  useHotkeys("shift+i", () => router.push("/tasks/insights"));
 
   const isSearch = router.asPath.includes("/tasks/search");
 
