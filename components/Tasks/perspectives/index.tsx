@@ -70,6 +70,7 @@ export function Agenda({ type, date }) {
         behavior: "smooth",
       });
     } else {
+      agendaContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
       const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
       router.push(`/tasks/perspectives/${type}/${next}`);
     }

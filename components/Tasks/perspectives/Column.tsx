@@ -280,8 +280,9 @@ const Column = React.memo(function Column({
   const recurredTasks = recurringTasks
     .map((task) => {
       const rule = RRule.fromString(task.recurrenceRule).between(
-        dayjs(columnStart).utc().toDate(),
-        dayjs(columnEnd).utc().toDate()
+        dayjs(columnStart).utc().subtract(1, type).toDate(),
+        dayjs(columnEnd).utc().startOf(type).toDate(),
+        true
       );
       return rule.length > 0 ? { ...task, recurrenceDay: rule } : undefined;
     })
@@ -325,7 +326,7 @@ const Column = React.memo(function Column({
         columnEnd={columnEnd}
       />
       <Box sx={{ px: { sm: 1 } }}>
-        {sortedTasks.filter((task) => !task.completed).length === 0 && (
+        {data?.length === 0 && recurringTasks?.length == 0 && (
           <Box
             sx={{
               display: "flex",
@@ -384,7 +385,7 @@ const Column = React.memo(function Column({
           data={recurredTasks}
           itemContent={(_, task) => (
             <Task
-            recurringInstance={task.recurrenceDay}
+              recurringInstance={task.recurrenceDay}
               isAgenda
               isDateDependent={true}
               key={task.id}
