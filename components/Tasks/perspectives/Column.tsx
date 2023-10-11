@@ -280,7 +280,7 @@ const Column = React.memo(function Column({
   const recurredTasks = recurringTasks
     .map((task) => {
       const rule = RRule.fromString(task.recurrenceRule).between(
-        dayjs(columnStart).utc().subtract(1, type).toDate(),
+        dayjs(columnStart).utc().startOf(type).toDate(),
         dayjs(columnEnd).utc().startOf(type).toDate(),
         true
       );
