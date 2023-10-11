@@ -57,10 +57,7 @@ export const HeadingComponent = ({ palette, isMobile }) => {
             onMouseLeave: close,
           })}
       sx={{
-        fontSize: {
-          xs: "60px",
-          sm: "80px",
-        },
+        fontSize: "min(70px, 20vw)",
         width: { sm: "400px" },
         justifyContent: { sm: "center" },
         background: `linear-gradient(${palette[11]}, ${palette[5]})`,

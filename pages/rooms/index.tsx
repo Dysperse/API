@@ -51,10 +51,7 @@ function JumpBackIn() {
           sx={{
             background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
             WebkitBackgroundClip: "text",
-            fontSize: {
-              xs: "65px",
-              sm: "80px",
-            },
+            fontSize: "min(70px, 20vw)",
           }}
         >
           Inventory
@@ -141,11 +138,7 @@ function JumpBackIn() {
       >
         Jump back in
       </Typography>
-      {error && (
-        <ErrorHandler
-          callback={mutate}
-        />
-      )}
+      {error && <ErrorHandler callback={mutate} />}
       <Box
         sx={{
           display: "flex",
@@ -327,11 +320,7 @@ function Panel() {
         </Box>
 
         {/* Data */}
-        {error && (
-          <ErrorHandler
-            callback={mutate}
-          />
-        )}
+        {error && <ErrorHandler callback={mutate} />}
         {!data && (
           <Box
             sx={{

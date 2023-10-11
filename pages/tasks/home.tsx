@@ -152,10 +152,7 @@ export default function Home() {
             sx={{
               background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
               WebkitBackgroundClip: "text",
-              fontSize: {
-                xs: "65px",
-                sm: "80px",
-              },
+              fontSize: "min(70px, 20vw)",
             }}
           >
             Tasks
