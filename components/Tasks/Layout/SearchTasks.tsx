@@ -271,18 +271,6 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
           </Button>
           {input}
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-          }}
-        >
-          <Chip sx={{ ml: 2 }} icon={<Icon>push_pin</Icon>} label="Important" />
-          <Chip icon={<Icon>priority_high</Icon>} label="Completed" />
-          <Chip icon={<Icon>palette</Icon>} label="Has color?" />
-          <Chip icon={<Icon>image</Icon>} label="Has attachment?" />
-        </Box>
         <Puller sx={{ mb: 0 }} />
       </SwipeableDrawer>
       {trigger}
