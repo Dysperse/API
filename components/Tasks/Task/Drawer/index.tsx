@@ -137,7 +137,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     <TaskContext.Provider
       value={{
         ...data,
-        set: (newObj) => mutateTask(newObj),
+        set: (newObj, options = {}) => mutateTask(newObj, options),
         edit: handleEdit,
         close: handleClose,
         mutate: mutateTask,

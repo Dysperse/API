@@ -89,22 +89,60 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
       const endDate = dayjs(task.recurringInstance).utc().endOf("day").toDate();
       const rule = RRule.fromString(task.recurrenceRule);
       const dates = rule.between(startDate, endDate);
+      const iteration = dayjs(dates[0]).startOf("day").utc();
+
+      const newInstance = {
+        id: "",
+        completedAt: dayjs().toISOString(),
+        iteration: iteration,
+        taskId: task.id,
+      };
+
+      task.set(
+        (oldData) => {
+          return {
+            ...oldData,
+            completionInstances: isCompleted
+              ? oldData.completionInstances.filter(
+                  (instance) =>
+                    !dayjs(instance.iteration).startOf("day").isSame(iteration)
+                )
+              : [...task.completionInstances, newInstance],
+          };
+        },
+        { revalidate: false }
+      );
 
       await fetchRawApi(session, "property/boards/column/task/complete", {
         id: task.id,
         isRecurring,
-        iteration: dayjs(dates[0]).startOf("day").toISOString(),
+        iteration: iteration.toISOString(),
         completedAt: dayjs().toISOString(),
-        isCompleted: isCompleted ? "true" : "false",
+        isCompleted: isCompleted ? "false" : "true",
       });
     } else {
+      const newInstance = {
+        id: "",
+        completedAt: dayjs().toISOString(),
+        taskId: task.id,
+      };
+
+      task.set(
+        (oldData) => {
+          return {
+            ...oldData,
+            completionInstances: isCompleted ? [] : [newInstance],
+          };
+        },
+        { revalidate: false }
+      );
+
       await fetchRawApi(session, "property/boards/column/task/complete", {
         id: task.id,
         completedAt: dayjs().toISOString(),
         isCompleted: isCompleted ? "true" : "false",
       });
     }
-    // task.edit(task.id, "completed", !isCompleted);
   }, [session, isRecurring, task, isCompleted]);
 
   const handlePostpone: any = useCallback(
