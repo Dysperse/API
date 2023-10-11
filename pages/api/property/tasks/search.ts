@@ -29,7 +29,9 @@ const handler = async (req, res) => {
     const results = await prisma.task.findMany({
       where: {
         AND: [
-          query.completed && { completed: true },
+          query.completed && {
+            completed: { completionInstances: { every: { id: { not: "" } } } },
+          },
           query.pinned && { pinned: true },
           query.description && { description: { not: null } },
           query.color && { color: { not: null } },
