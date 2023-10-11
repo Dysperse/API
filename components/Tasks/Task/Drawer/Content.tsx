@@ -81,12 +81,29 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
   );
 
   const handleComplete = useCallback(async () => {
-    await fetchRawApi(session, "property/boards/column/task/complete", {
-      id: task.id,
-      isRecurring,
-      completedAt: dayjs().toISOString(),
-      isCompleted: isCompleted ? "false" : "true",
-    });
+    if (isRecurring) {
+      const startDate = dayjs(task.recurringInstance)
+        .utc()
+        .startOf("day")
+        .toDate();
+      const endDate = dayjs(task.recurringInstance).utc().endOf("day").toDate();
+      const rule = RRule.fromString(task.recurrenceRule);
+      const dates = rule.between(startDate, endDate);
+
+      await fetchRawApi(session, "property/boards/column/task/complete", {
+        id: task.id,
+        isRecurring,
+        iteration: dayjs(dates[0]).startOf("day").toISOString(),
+        completedAt: dayjs().toISOString(),
+        isCompleted: isCompleted ? "true" : "false",
+      });
+    } else {
+      await fetchRawApi(session, "property/boards/column/task/complete", {
+        id: task.id,
+        completedAt: dayjs().toISOString(),
+        isCompleted: isCompleted ? "true" : "false",
+      });
+    }
     // task.edit(task.id, "completed", !isCompleted);
   }, [session, isRecurring, task, isCompleted]);
 

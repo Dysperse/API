@@ -39,12 +39,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   id,
   mutateList,
   onClick,
+  recurringInstance = new Date(),
 }: {
   isDisabled?: boolean;
   children: JSX.Element;
   id: number;
   mutateList: any;
   onClick?: any;
+  recurringInstance?: Date;
 }) {
   const { session } = useSession();
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -139,6 +141,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         edit: handleEdit,
         close: handleClose,
         mutate: mutateTask,
+        recurringInstance,
       }}
     >
       {trigger}

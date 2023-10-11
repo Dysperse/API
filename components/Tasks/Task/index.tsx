@@ -425,6 +425,7 @@ export const Task: any = React.memo(function Task({
   ) : (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <TaskDrawer
+        recurringInstance={recurringInstance}
         id={taskData.id}
         mutateList={mutateList}
         isDisabled={isDisabled}
