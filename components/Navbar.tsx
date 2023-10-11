@@ -47,7 +47,10 @@ export function Navbar({
             }
             sx={{
               color: palette[9],
-              ml: { sm: showRightContent && right ? "" : "auto" },
+              ml: {
+                xs: right ? "" : "auto",
+                sm: showRightContent && right ? "" : "auto",
+              },
               fontSize: "15px",
               gap: 2,
               borderRadius: 99,
