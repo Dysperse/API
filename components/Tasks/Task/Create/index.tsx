@@ -199,7 +199,8 @@ export function CreateTask({
         },
         color: palette[active ? 11 : 12] + "!important",
         borderRadius: 3,
-        p: 0.5,
+        px: 1,
+        py: 0.8,
         mr: 0.3,
         "& *": {
           transition: "all .2s!important",
