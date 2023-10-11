@@ -488,7 +488,10 @@ export const RecurringChip = React.memo(function RecurringChip({
             {data.recurrenceRule && (
               <Button
                 variant="outlined"
-                onClick={() => setData((d) => ({ ...d, recurrenceRule: null }))}
+                onClick={() => {
+                  setData((d) => ({ ...d, recurrenceRule: null }));
+                  setOpen(false);
+                }}
               >
                 Clear
               </Button>
