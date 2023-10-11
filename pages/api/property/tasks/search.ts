@@ -97,13 +97,12 @@ const handler = async (req, res) => {
     });
 
     if (query.completed) {
-      res.json({
+      return res.json({
         query,
         results: results.filter((e) => e.completionInstances.length > 0),
       });
-      return;
     } else if (query.completed === false) {
-      res.json({
+      return res.json({
         query,
         results: results.filter((e) => e.completionInstances.length === 0),
       });
