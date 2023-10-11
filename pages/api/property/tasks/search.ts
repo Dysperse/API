@@ -99,15 +99,15 @@ const handler = async (req, res) => {
     if (query.completed) {
       return res.json({
         query,
-        results: results.filter((e) => e.completionInstances.length > 0),
+        data: results.filter((e) => e.completionInstances.length > 0),
       });
     } else if (query.completed === false) {
       return res.json({
         query,
-        results: results.filter((e) => e.completionInstances.length === 0),
+        data: results.filter((e) => e.completionInstances.length === 0),
       });
     }
-    res.json({ query, results });
+    res.json({ query, data: results });
   } catch (e: any) {
     console.log(e);
     res.json({ error: e.message });

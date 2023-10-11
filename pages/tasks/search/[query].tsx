@@ -42,7 +42,7 @@ export default function Page() {
               Search results
             </Typography>
             <Typography variant="h6" sx={{ opacity: 0.6 }}>
-              {data?.results?.length || 0} items
+              {data?.data?.length || 0} items
             </Typography>
           </Box>
           {data ? (
@@ -51,20 +51,22 @@ export default function Page() {
               customScrollParent={
                 isMobile ? containerRef.current : scrollParentRef.current
               }
-              data={data.results}
-              itemContent={(_, task) => (
-                <Task
-                  isAgenda
-                  isDateDependent={true}
-                  key={task.id}
-                  isScrolling={false}
-                  board={task.board || false}
-                  columnId={task.column ? task.column.id : -1}
-                  mutate={() => {}}
-                  mutateList={mutate}
-                  task={task}
-                />
-              )}
+              data={data.data}
+              itemContent={(_, task) =>
+                task && (
+                  <Task
+                    isAgenda
+                    isDateDependent={true}
+                    key={task.id}
+                    isScrolling={false}
+                    board={task?.board || false}
+                    columnId={task.column ? task.column.id : -1}
+                    mutate={() => {}}
+                    mutateList={mutate}
+                    task={task}
+                  />
+                )
+              }
             />
           ) : (
             <Box
