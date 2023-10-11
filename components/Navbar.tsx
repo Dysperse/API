@@ -1,4 +1,3 @@
-import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { Logo } from "@/components/Logo";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -40,20 +39,6 @@ export function Navbar({
       {right}
       {(!right || showRightContent) && (
         <>
-          {!hideSearch && (
-            <IconButton
-              sx={{
-                display: { sm: "none" },
-                color: palette[9],
-                ml: showRightContent && right ? "" : "auto",
-              }}
-              onClick={openSpotlight}
-            >
-              <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-                &#xe8b6;
-              </Icon>
-            </IconButton>
-          )}
           <IconButton
             onClick={() =>
               router.push(

@@ -14,13 +14,10 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { shouldHideNavigation } from "./BottomNavigation";
-import { openSpotlight } from "./Search";
-const SearchPopup = dynamic(() => import("./Search"), { ssr: false });
 
 function SidebarMenu({ styles }) {
   const { session } = useSession();
@@ -354,23 +351,6 @@ export function Sidebar() {
           flexDirection: "column",
         }}
       >
-        <SearchPopup />
-        <Box
-          onClick={() => openSpotlight()}
-          onMouseDown={() => openSpotlight()}
-          sx={{
-            ...styles(false),
-            borderRadius: 99,
-            "& .material-symbols-outlined": {
-              width: 40,
-              height: 40,
-            },
-          }}
-        >
-          <Tooltip title="Spotlight" placement="right">
-            <span className="material-symbols-outlined">bolt</span>
-          </Tooltip>
-        </Box>
         <SidebarMenu styles={styles} />
       </Box>
     </Box>

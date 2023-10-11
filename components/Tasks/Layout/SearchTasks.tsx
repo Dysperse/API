@@ -1,8 +1,6 @@
-import { openSpotlight } from "@/components/Layout/Navigation/Search";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { vibrate } from "@/lib/client/vibration";
 import {
   Box,
   Button,
@@ -125,16 +123,12 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
       >
         <Box sx={{ p: 2, pt: 3 }}>
           <Button
-            onClick={() => {
-              openSpotlight();
-              vibrate(50);
-              setMobileOpen(false);
-            }}
+            onClick={() => setMobileOpen(false)}
             size="small"
             sx={{ mb: 2 }}
             variant="contained"
           >
-            <Icon>arrow_back_ios_new</Icon>Search
+            <Icon>close</Icon>Search
           </Button>
           {input}
         </Box>
