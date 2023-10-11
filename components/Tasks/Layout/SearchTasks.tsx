@@ -70,7 +70,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
     },
     {
       icon: "loop",
-      condition: { recurring: true },
+      condition: { recurrenceRule: true },
       title: "Recurring?",
     },
     {

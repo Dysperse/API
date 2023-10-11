@@ -30,6 +30,12 @@ const handler = async (req, res) => {
       where: {
         AND: [
           query.completed && { completed: true },
+          query.pinned && { pinned: true },
+          query.description && { description: { not: null } },
+          query.color && { color: { not: null } },
+          query.recurrenceRule && { recurrenceRule: { not: null } },
+          query.image && { image: { not: null } },
+          query.location && { location: { not: null } },
           query.name && { name: { contains: query.name } },
           // PERMISSIONS ----------------------
           // Prevent selecting subtasks
@@ -58,7 +64,7 @@ const handler = async (req, res) => {
               },
             ],
           },
-        ],
+        ].filter((e) => e),
       },
       include: {
         completionInstances: true,
