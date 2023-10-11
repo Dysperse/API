@@ -41,7 +41,7 @@ export default function Page() {
             Search results
           </Typography>
           <Typography variant="h6" sx={{ opacity: 0.6 }}>
-            {data?.length || 0} items
+            {data?.results?.length || 0} items
           </Typography>
           {data ? (
             <Virtuoso
@@ -49,7 +49,7 @@ export default function Page() {
               customScrollParent={
                 isMobile ? containerRef.current : scrollParentRef.current
               }
-              data={data}
+              data={data.results}
               itemContent={(_, task) => (
                 <Task
                   isAgenda
