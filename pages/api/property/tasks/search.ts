@@ -27,6 +27,39 @@ const handler = async (req, res) => {
     console.log(query);
 
     const results = await prisma.task.findMany({
+      where: {
+        AND: [
+          query.completed && { completed: true },
+          query.name && { name: { contains: query.name } },
+          // PERMISSIONS ----------------------
+          // Prevent selecting subtasks
+          { parentTasks: { none: { property: { id: req.query.property } } } },
+          // Make sure that the task is in the property
+          { property: { id: req.query.property } },
+          {
+            OR: [
+              { column: null },
+              {
+                column: {
+                  board: {
+                    AND: [
+                      { public: false },
+                      { userId: req.query.userIdentifer },
+                    ],
+                  },
+                },
+              },
+              {
+                column: {
+                  board: {
+                    AND: [{ public: true }, { propertyId: req.query.property }],
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
       include: {
         completionInstances: true,
         subTasks: { include: { completionInstances: true } },
@@ -55,40 +88,6 @@ const handler = async (req, res) => {
             emoji: true,
           },
         },
-      },
-      where: {
-        AND: [
-          query.completed && { completed: true },
-          query.name && { name: query.name },
-          // PERMISSIONS ----------------------
-
-          // Prevent selecting subtasks
-          { parentTasks: { none: { property: { id: req.query.property } } } },
-          // Make sure that the task is in the property
-          { property: { id: req.query.property } },
-          {
-            OR: [
-              { column: null },
-              {
-                column: {
-                  board: {
-                    AND: [
-                      { public: false },
-                      { userId: req.query.userIdentifer },
-                    ],
-                  },
-                },
-              },
-              {
-                column: {
-                  board: {
-                    AND: [{ public: true }, { propertyId: req.query.property }],
-                  },
-                },
-              },
-            ],
-          },
-        ].filter((d) => d),
       },
     });
 
