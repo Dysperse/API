@@ -202,6 +202,7 @@ export const TaskColorPicker = React.memo(function TaskColorPicker({
 });
 
 const ChipBar = React.memo(function ChipBar({
+  boardData,
   isSubTask,
   locationRef,
   showedFields,
@@ -393,6 +394,11 @@ const ChipBar = React.memo(function ChipBar({
           setDateOnly={(dateOnly) => setData((d) => ({ ...d, dateOnly }))}
         >
           <Chip
+            {...(boardData &&
+              data.date && {
+                onDelete: () =>
+                  setData({ ...data, dateOnly: true, date: null }),
+              })}
             id="dateTrigger"
             sx={chipStyles(dayjs(data.date).isValid())}
             icon={

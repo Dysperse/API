@@ -451,6 +451,7 @@ export function CreateTask({
           showedFields={showedFields}
           setShowedFields={setShowedFields}
           data={formData}
+          boardData={boardData}
           setData={setFormData}
           chipStyles={styles.chip}
           isSubTask={isSubTask}
