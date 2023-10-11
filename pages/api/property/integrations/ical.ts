@@ -30,6 +30,7 @@ export default async function handler(req, res) {
         description: item.description,
         location: item.where,
         priority: 9,
+        repeating: item.recurrenceRule,
         allDay: true,
         id: "dysperse-task-" + item.id,
         ...(item?.column?.name && {

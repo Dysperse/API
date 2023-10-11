@@ -326,7 +326,7 @@ const Column = React.memo(function Column({
         columnEnd={columnEnd}
       />
       <Box sx={{ px: { sm: 1 } }}>
-        {data?.length === 0 && recurringTasks?.length == 0 && (
+        {recurredTasks?.length === 0 && sortedTasks?.length == 0 && (
           <Box
             sx={{
               display: "flex",
@@ -367,7 +367,7 @@ const Column = React.memo(function Column({
                 }}
               >
                 <Typography variant="h6">
-                  {sortedTasks.length === 0
+                  {sortedTasks.length === 0 && recurredTasks.length == 0
                     ? "No tasks"
                     : "You finished everything!"}
                 </Typography>

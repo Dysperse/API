@@ -9,6 +9,9 @@ const handler = async (req, res) => {
     });
 
     const data = await prisma.task.findMany({
+      include: {
+        completionInstances: true,
+      },
       where: {
         AND: [
           // Make sure that the task is in the property
