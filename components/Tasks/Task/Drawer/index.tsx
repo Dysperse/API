@@ -63,12 +63,16 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
-      setOpen(false);
-      await fetchRawApi(session, "property/boards/column/task/delete", {
-        id: taskId,
-      });
-      mutateList();
-      mutateTask();
+      try {
+        setOpen(false);
+        await fetchRawApi(session, "property/boards/column/task/delete", {
+          id: taskId,
+        });
+        mutateList();
+        mutateTask();
+      } catch (e: any) {
+        toast.error(e.message);
+      }
     },
     [mutateList, session, setOpen, mutateTask]
   );

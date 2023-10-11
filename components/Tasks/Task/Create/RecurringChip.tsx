@@ -225,6 +225,7 @@ export const RecurringChip = React.memo(function RecurringChip({
     interval,
     wkst: RRule.SU,
     count,
+    dtstart: dayjs().utc().toDate(),
     byweekday:
       freq !== "weekly"
         ? undefined

@@ -271,7 +271,7 @@ model CompletionInstance {
   // For recurring tasks
   iteration DateTime?
 
-  task   Task   @relation(fields: [taskId], references: [id])
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId String
 }
 
