@@ -36,7 +36,7 @@ export default function Page() {
           mt: { xs: 15, sm: 10 },
         }}
       >
-        <Box sx={{ px: { xs: 3, sm: 0 } }}>
+        <Box sx={{ px: { xs: 3, sm: 0 }, pb: 10 }}>
           <Box sx={{ px: { sm: 2 } }}>
             <Typography variant="h2" className="font-heading">
               Search results
