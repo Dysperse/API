@@ -1,3 +1,5 @@
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -189,23 +191,27 @@ const TaskChips = React.memo(function TaskChips({
 
       {taskData.createdBy &&
         taskData.createdBy?.email !== session.user.email && (
-          <Tooltip
-            title={`Created by ${capitalizeFirstLetter(
-              taskData.createdBy.name
-            )}`}
-          >
-            <Chip
-              size="small"
-              className="date"
-              label={taskData.createdBy?.name}
-              sx={{ background: palette[3] }}
-              onClick={(e) => {
-                e.stopPropagation();
-                router.push("/users/" + taskData.createdBy?.email);
-              }}
-              avatar={<Avatar src={taskData.createdBy?.Profile?.picture} />}
-            />
-          </Tooltip>
+          <Box onClick={(e) => e.stopPropagation()}>
+            <Tooltip
+              title={`Created by ${capitalizeFirstLetter(
+                taskData.createdBy.name
+              )}`}
+            >
+              <FriendPopover email={taskData.createdBy.email}>
+                <Chip
+                  size="small"
+                  className="date"
+                  label={taskData.createdBy?.name}
+                  sx={{ background: palette[3] }}
+                  avatar={
+                    <Box>
+                      <ProfilePicture size={17} data={taskData.createdBy} />
+                    </Box>
+                  }
+                />
+              </FriendPopover>
+            </Tooltip>
+          </Box>
         )}
 
       {isWhereValid && (

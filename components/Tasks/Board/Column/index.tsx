@@ -44,7 +44,9 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const [isScrolling, setIsScrolling] = useState(false);
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
 
-  const sortedTasks = column.tasks.filter((task) => !task.completed);
+  const sortedTasks = column.tasks.filter(
+    (task) => task.completionInstances.length === 0
+  );
 
   const toggleShowCompleted = useCallback(
     () => setShowCompleted((e) => !e),
@@ -59,7 +61,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const { session } = useSession();
 
   const incompleteLength = useMemo(
-    () => column.tasks.filter((t) => !t.completed).length,
+    () => column.tasks.filter((t) => t.completionInstances.length === 0).length,
     [column.tasks]
   );
 
@@ -426,15 +428,14 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
               </Button>
             </ColumnSettings>
           </Box>
-          {column.tasks.filter((task) => !task.completed).length === 0 && (
+          {column.tasks.filter((task) => task.completionInstances.length === 0)
+            .length === 0 && (
             <Box sx={{ py: 1, px: { xs: 2, sm: 0 } }}>
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: "center",
                   mx: "auto",
-                  py: 2,
-                  pt: { xs: 0, sm: 2 },
                   textAlign: { xs: "center", sm: "left" },
                   alignItems: { xs: "center", sm: "start" },
                   flexDirection: "column",
@@ -483,8 +484,9 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 px: { xs: "15px!important", sm: "10px!important" },
                 py: { xs: "10px!important", sm: "5px!important" },
                 mb: 1,
-                ...(column.tasks.filter((task) => task.completed).length ===
-                  0 && {
+                ...(column.tasks.filter(
+                  (task) => task.completionInstances.length !== 0
+                ).length === 0 && {
                   display: "none",
                 }),
                 color: palette[12],
@@ -501,7 +503,12 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
               onClick={toggleShowCompleted}
             >
               <Typography sx={{ fontWeight: 700 }}>
-                {column.tasks.filter((task) => task.completed).length} completed
+                {
+                  column.tasks.filter(
+                    (task) => task.completionInstances.length !== 0
+                  ).length
+                }{" "}
+                completed
               </Typography>
               <Icon
                 sx={{
@@ -523,7 +530,9 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 isScrolling={setIsScrolling}
                 useWindowScroll
                 customScrollParent={columnRef.current}
-                data={column.tasks.filter((task) => task.completed)}
+                data={column.tasks.filter(
+                  (task) => task.completionInstances.length !== 0
+                )}
                 itemContent={(index, task) => (
                   <Task
                     permissions={permissions}

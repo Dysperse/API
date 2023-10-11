@@ -114,14 +114,18 @@ function RenderBoard({ tasks }) {
             right: 0,
             m: 5,
             background: palette[2],
+            boxShadow: `4px 4px 40px ${palette[4]}`,
             borderRadius: 99,
             p: 0.5,
             zIndex: 99,
-            opacity: 0.6,
             backdropFilter: "blur(10px)",
             "&:hover": { opacity: 1 },
             "& .MuiIconButton-root": {
               color: palette[11],
+              opacity: 0.6,
+              "&:hover": {
+                opacity: 1,
+              },
             },
           }}
         >

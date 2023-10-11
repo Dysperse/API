@@ -17,8 +17,13 @@ const handler = async (req, res) => {
       include: {
         tasks: {
           include: {
-            subTasks: true,
+            subTasks: {
+              include: {
+                completionInstances: true,
+              },
+            },
             parentTasks: true,
+            completionInstances: true,
             createdBy: {
               select: {
                 name: true,
