@@ -430,29 +430,32 @@ export const RecurringChip = React.memo(function RecurringChip({
             <FormControlLabel
               sx={{ mb: 1, mt: 0.5 }}
               label={
-                <DatePicker
-                  value={untilDate}
-                  onAccept={(value) => {
-                    if (value) {
-                      setUntilDate(value as any);
-                      setCount(null);
-                    }
-                  }}
-                  minDate={dayjs()}
-                  slotProps={{
-                    textField: {
-                      size: "small",
-                    },
-                    actionBar: {
-                      actions: ["clear"],
-                    },
-                    layout: {
-                      onClear: () => {
-                        setUntilDate(null);
+                <>
+                  On
+                  <DatePicker
+                    value={untilDate}
+                    onAccept={(value) => {
+                      if (value) {
+                        setUntilDate(value as any);
+                        setCount(null);
+                      }
+                    }}
+                    minDate={dayjs()}
+                    slotProps={{
+                      textField: {
+                        size: "small",
                       },
-                    },
-                  }}
-                />
+                      actionBar: {
+                        actions: ["clear"],
+                      },
+                      layout: {
+                        onClear: () => {
+                          setUntilDate(null);
+                        },
+                      },
+                    }}
+                  />
+                </>
               }
               value="Until"
               control={<Radio checked={Boolean(untilDate)} />}
