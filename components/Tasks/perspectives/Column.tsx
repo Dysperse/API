@@ -252,12 +252,23 @@ const Column = React.memo(function Column({
     setRerender(true);
   }, []);
 
+  const recurredTasks = recurringTasks
+    .map((task) => {
+      const rule = RRule.fromString(task.recurrenceRule).between(
+        dayjs(columnStart).utc().startOf(type).toDate(),
+        dayjs(columnEnd).utc().startOf(type).toDate(),
+        true
+      );
+      return rule.length > 0 ? { ...task, recurrenceDay: rule } : undefined;
+    })
+    .filter((e) => e);
+
   /**
    * Sort the tasks in a "[pinned, incompleted, completed]" order
    */
   const sortedTasks = useMemo(
     () =>
-      data
+      [...data, ...recurredTasks]
         .filter((task) => {
           const dueDate = new Date(task.due);
           return dueDate >= columnStart && dueDate <= columnEnd;
@@ -274,19 +285,8 @@ const Column = React.memo(function Column({
             ? 1
             : 0
         ),
-    [data, columnEnd, columnStart]
+    [recurredTasks, data, columnEnd, columnStart]
   );
-
-  const recurredTasks = recurringTasks
-    .map((task) => {
-      const rule = RRule.fromString(task.recurrenceRule).between(
-        dayjs(columnStart).utc().startOf(type).toDate(),
-        dayjs(columnEnd).utc().startOf(type).toDate(),
-        true
-      );
-      return rule.length > 0 ? { ...task, recurrenceDay: rule } : undefined;
-    })
-    .filter((e) => e);
 
   return (
     <Box
@@ -382,31 +382,10 @@ const Column = React.memo(function Column({
           customScrollParent={
             isMobile ? containerRef.current : scrollParentRef.current
           }
-          data={recurredTasks}
-          itemContent={(_, task) => (
-            <Task
-              recurringInstance={task.recurrenceDay}
-              isAgenda
-              isDateDependent={true}
-              key={task.id}
-              isScrolling={isScrolling}
-              board={task.board || false}
-              columnId={task.column ? task.column.id : -1}
-              mutate={() => {}}
-              mutateList={mutateList}
-              task={task}
-            />
-          )}
-        />
-        <Virtuoso
-          useWindowScroll
-          isScrolling={setIsScrolling}
-          customScrollParent={
-            isMobile ? containerRef.current : scrollParentRef.current
-          }
           data={sortedTasks}
           itemContent={(_, task) => (
             <Task
+              recurringInstance={task.recurrenceDay}
               isAgenda
               isDateDependent={true}
               key={task.id}
