@@ -474,6 +474,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
                   <Button
                     variant="contained"
                     fullWidth
+                    id="createSubTask"
                     sx={{ background: palette[4] + "!important" }}
                   >
                     <Icon>add_circle</Icon>Subtask

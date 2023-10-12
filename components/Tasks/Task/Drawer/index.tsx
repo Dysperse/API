@@ -124,12 +124,35 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     [session, data, mutateTask, mutateList]
   );
 
-  // Attach the `onClick` handler to the trigger
-  const trigger = cloneElement(children, {
-    onClick: () => {
+  let clickCount = 0;
+  let timer;
+
+  const handleSingleClick = () => {
+    // Handle the single click logic here
+    timer = setTimeout(() => {
       onClick && onClick();
       if (!onClick) setOpen(true);
       toast.dismiss();
+      clickCount = 0;
+    }, 200);
+  };
+
+  const handleDoubleClick = () => {
+    // Handle the double click logic here
+    clearTimeout(timer);
+    // document.getElementById("createSubTask")?.click();
+  };
+
+  // Attach the `onClick` handler to the trigger
+  const trigger = cloneElement(children, {
+    onClick: () => {
+      clickCount++;
+      if (clickCount === 1) {
+        handleSingleClick();
+      } else if (clickCount === 2) {
+        handleDoubleClick();
+        clickCount = 0; // Reset the click count
+      }
     },
   });
 
