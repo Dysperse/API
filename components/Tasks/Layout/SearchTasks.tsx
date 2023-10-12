@@ -136,17 +136,27 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
         renderOption={(props, option) => (
           <ListItemButton
             sx={{
-              gap: 2,
+              gap: 0,
               display: "flex",
               px: 2,
               py: 1,
+              "& .e": {
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                maxWidth: "100%",
+                minWidth: 0,
+                overflow: "hidden",
+              },
               "&:hover": { background: palette[4] + "!important" },
               "&:active": { background: palette[5] + "!important" },
             }}
             {...(props as any)}
           >
-            <Icon className="outlined">{option.icon || "search"}</Icon>
-            {option.title || `Search for "${option}"`}
+            <Icon className="outlined" sx={{ mr: 2 }}>
+              {option.icon || "search"}
+            </Icon>
+            <span className="e">{option.title || `Search for "${option}`}</span>
+            {!option.title && `"`}
           </ListItemButton>
         )}
         handleHomeEndKeys
