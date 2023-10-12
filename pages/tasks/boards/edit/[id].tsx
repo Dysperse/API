@@ -34,6 +34,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 
+import { FileDropInput } from "@/components/FileDrop";
 import { DroppableProps } from "react-beautiful-dnd";
 export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   const [enabled, setEnabled] = useState(false);
@@ -247,9 +248,9 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
   const { session } = useSession();
   const router = useRouter();
 
-  const handleEdit = (key, value, callback = () => {}) => {
+  const handleEdit = async (key, value, callback = () => {}) => {
     setLoading(true);
-    fetchRawApi(session, "property/boards/edit", {
+    return await fetchRawApi(session, "property/boards/edit", {
       id: data.id,
       [key]: value,
     })
@@ -293,6 +294,30 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
           });
         }}
       />
+      <Typography sx={styles.subheader}>Wallpaper</Typography>
+      <FileDropInput
+        onUploadStart={(e) => setLoading(true)}
+        onError={(e) => {
+          alert(e);
+        }}
+        onSuccess={async (e) => {
+          await handleEdit("wallpaper", e.data.url, () => {
+            toast.success("Saved!");
+          });
+          setLoading(false);
+        }}
+      >
+        <TextField
+          value={data.wallpaper}
+          variant="standard"
+          placeholder="Tap to upload image"
+          InputProps={{
+            disableUnderline: true,
+            sx: styles.input,
+            readOnly: true,
+          }}
+        />
+      </FileDropInput>
       <Typography sx={styles.subheader}>Description</Typography>
       <TextField
         defaultValue={data.description}
