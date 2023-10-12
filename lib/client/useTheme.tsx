@@ -231,10 +231,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
       },
       MuiTextField: {
         defaultProps: {
-          autoComplete: "no",
+          autoComplete: "off",
           fullWidth: true,
           InputProps: {
-            autoComplete: "no",
+            autoComplete: "off",
           },
         },
       },
@@ -419,6 +419,14 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             }),
         },
       },
+      MuiListItemText: {
+        styleOverrides: {
+          primary: ({ theme }) =>
+            theme.unstable_sx({
+              color: palette[12],
+            }),
+        },
+      },
       MuiListItem: {
         styleOverrides: {
           root: ({ theme }) =>
@@ -475,6 +483,18 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
       MuiChip: {
         defaultProps: { clickable: false },
         styleOverrides: {
+          deleteIcon: ({ theme }) =>
+            theme.unstable_sx({
+              color: palette[12],
+              opacity: 0.7,
+              "&:hover": {
+                color: { sm: palette[12] },
+              },
+              "&:active": {
+                color: { sm: palette[12] },
+                opacity: 0.4,
+              },
+            }),
           root: ({ theme }) =>
             theme.unstable_sx({
               cursor: "default",

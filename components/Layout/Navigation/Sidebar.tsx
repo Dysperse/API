@@ -78,6 +78,11 @@ function SidebarMenu({ styles }) {
               transform: "translate(13px, -5px)!important",
             },
           },
+          paper: {
+            sx: {
+              border: `2px solid ${palette[4]}`,
+            },
+          },
         }}
       >
         <MenuItem

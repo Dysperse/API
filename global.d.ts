@@ -1,3 +1,4 @@
+import "@mui/material/Icon";
 import "@mui/material/SwipeableDrawer";
 
 declare module "@mui/material/SwipeableDrawer" {

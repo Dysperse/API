@@ -287,34 +287,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
                     <span className="text">Snooze</span>
                   </Button>
                 </RescheduleModal>
-              ) : (
-                <SelectDateModal
-                  date={task.due}
-                  setDate={(d) => {
-                    task.close();
-                    task.set((prev) => ({
-                      ...prev,
-                      due: d ? null : d?.toISOString(),
-                    }));
-                    task.edit(task.id, "due", d.toISOString());
-                  }}
-                >
-                  <Button
-                    disableRipple
-                    disabled={shouldDisable}
-                    sx={{
-                      px: 1.5,
-                      ...styles.button,
-                      "& .text": {
-                        display: { xs: "none", sm: "inline" },
-                      },
-                    }}
-                  >
-                    <Icon className="outlined">today</Icon>
-                    <span className="text">Snooze</span>
-                  </Button>
-                </SelectDateModal>
-              ))}
+              ) : null)}
             <IconButton
               id="pinTask"
               onClick={handlePriorityChange}
@@ -413,7 +386,7 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
                           ? "MMMM D, YYYY"
                           : "MMMM D, YYYY [at] h:mm A"
                       )
-                    : "Tap to set date"
+                    : "Tap to schedule"
                 }
                 disabled={shouldDisable}
                 {...(task.column &&
