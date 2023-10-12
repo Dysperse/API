@@ -131,8 +131,6 @@ export default function Home() {
             borderColor: `${palette[2]}`,
           }),
         }}
-        hideSettings
-        hideSearch
       />
       <motion.div
         initial={{ x: -100, opacity: 0 }}

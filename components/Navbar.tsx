@@ -10,14 +10,12 @@ export function Navbar({
   right,
   showRightContent = false,
   hideSettings = false,
-  hideSearch = false,
   sx = {},
 }: {
   showLogo?: boolean;
   right?: JSX.Element;
   showRightContent?: boolean;
   hideSettings?: boolean;
-  hideSearch?: boolean;
   sx?: SxProps;
 }) {
   const { session } = useSession();

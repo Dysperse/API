@@ -18,6 +18,7 @@ import {
   IconButton,
   ListItemButton,
   ListItemText,
+  Skeleton,
   SwipeableDrawer,
   TextField,
   Toolbar,
@@ -247,7 +248,7 @@ export const MenuChildren = memo(function MenuChildren({
 
   const [showSync, setShowSync] = useState(true);
 
-  const { data, mutate, error } = useSWR(["property/boards"]);
+  const { data, isLoading, mutate, error } = useSWR(["property/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const boards = useMemo(() => {
@@ -557,6 +558,13 @@ export const MenuChildren = memo(function MenuChildren({
         <Box
           sx={{
             transition: "all .2s",
+            transformOrigin: "top",
+            ...(editMode && {
+              opacity: 0.6,
+              filter: "blur(3px)",
+              transform: "scale(.97)",
+              pointerEvents: "none",
+            }),
           }}
         >
           {boards.shared.length > 0 && (
@@ -579,6 +587,18 @@ export const MenuChildren = memo(function MenuChildren({
           {boards.active.map((board) => (
             <Tab key={board.id} styles={buttonStyles} board={board} />
           ))}
+          {isLoading && (
+            <Box sx={{ px: 1 }}>
+              {[...new Array(5)].map((_, i) => (
+                <Skeleton
+                  variant="rectangular"
+                  key={i}
+                  height={30}
+                  sx={{ mb: 1.5 }}
+                />
+              ))}
+            </Box>
+          )}
           <Link
             href={
               Boolean(storage?.isReached) ||

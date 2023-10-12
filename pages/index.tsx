@@ -82,11 +82,7 @@ export default function Home() {
 
   return (
     <Box sx={{ mt: "env(titlebar-area-height)" }}>
-      <Navbar
-        showLogo={isMobile}
-        showRightContent={isMobile}
-        hideSettings={!isMobile}
-      />
+      <Navbar showLogo={isMobile} showRightContent={isMobile} />
       <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
         <Box
           sx={{
