@@ -173,6 +173,11 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
           setQuery(newValue);
         }}
         defaultValue={query}
+        sx={{
+          "&, & *:not(:focus-within)": {
+            cursor: "default !important",
+          },
+        }}
         filterSelectedOptions
         renderInput={(params) => (
           <TextField
@@ -186,6 +191,10 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
                 pt: 0.7,
                 pb: "4px!important",
                 border: `2px solid ${palette[4]}`,
+                "&:hover": {
+                  background: palette[5],
+                  borderColor: palette[5],
+                },
                 "&:focus-within": {
                   background: palette[1],
                   borderColor: palette[5],
