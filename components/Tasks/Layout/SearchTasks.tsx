@@ -99,8 +99,14 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
     <>
       <Autocomplete
         multiple
-        id="tags-outlined"
+        id="searchTasks"
         fullWidth
+        clearOnEscape
+        onKeyDown={(e: any) => {
+          if (e.key === "Escape" && query.length === 0) {
+            e.target.blur();
+          }
+        }}
         freeSolo={!query.find((e) => typeof e === "string")}
         options={options}
         clearIcon={<Icon>arrow_forward_ios</Icon>}
@@ -171,6 +177,23 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
         renderInput={(params) => (
           <TextField
             {...params}
+            InputProps={{
+              ...params.InputProps,
+              disableUnderline: true,
+              sx: {
+                background: palette[4],
+                px: 2,
+                pt: 0.7,
+                pb: "4px!important",
+                border: `2px solid ${palette[4]}`,
+                "&:focus-within": {
+                  background: palette[1],
+                  borderColor: palette[5],
+                },
+                borderRadius: 5,
+              },
+            }}
+            variant="standard"
             size="small"
             placeholder={query.length === 0 ? "Search tasks..." : undefined}
           />

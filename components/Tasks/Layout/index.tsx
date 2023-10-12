@@ -725,7 +725,7 @@ export function TasksLayout({
   const [editMode, setEditMode] = useState(false);
   const [taskSelection, setTaskSelection] = useState([]);
 
-  useHotkeys("shift+c", (e) => {
+  useHotkeys("c", (e) => {
     e.preventDefault();
     document.getElementById("createTaskTrigger")?.click();
   });
