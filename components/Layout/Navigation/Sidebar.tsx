@@ -12,11 +12,13 @@ import {
   Menu,
   MenuItem,
   Tooltip,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { containerRef } from "..";
 import { shouldHideNavigation } from "./BottomNavigation";
 
 function SidebarMenu({ styles }) {
@@ -32,6 +34,7 @@ function SidebarMenu({ styles }) {
   const open = Boolean(anchorEl);
 
   const handleClick = (event: any) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -65,6 +68,7 @@ function SidebarMenu({ styles }) {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        onClick={(e) => e.stopPropagation()}
         sx={{
           zIndex: 99,
         }}
@@ -195,7 +199,7 @@ export function Sidebar() {
   );
 
   useHotkeys(
-    "ctrl+shift+1",
+    "ctrl+shift+2",
     (e) => {
       e.preventDefault();
       router.push("/");
@@ -204,15 +208,16 @@ export function Sidebar() {
   );
 
   useHotkeys(
-    "ctrl+shift+4",
+    "ctrl+shift+3",
     (e) => {
       e.preventDefault();
       router.push("/rooms");
     },
     [open]
   );
+
   useHotkeys(
-    "ctrl+shift+2",
+    "ctrl+shift+1",
     (e) => {
       e.preventDefault();
       router.push("/tasks/perspectives/days");
@@ -255,8 +260,34 @@ export function Sidebar() {
 
   const shouldHide = shouldHideNavigation(router.asPath);
 
+  const generateLabel = (label, keys) => (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+      {label}
+      <Typography
+        sx={{
+          display: "flex",
+          gap: 1,
+          "& .keyboard": {
+            px: 1,
+            fontSize: "13px",
+            borderRadius: 2,
+            background: "rgba(0,0,0,0.1)",
+          },
+        }}
+      >
+        {keys.map((key) => (
+          <span className="keyboard" key={key}>
+            {key}
+          </span>
+        ))}
+      </Typography>
+    </Box>
+  );
   return (
     <Box
+      onClick={() => {
+        containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+      }}
       sx={{
         ".priorityMode &": {
           opacity: "0!important",
@@ -290,7 +321,10 @@ export function Sidebar() {
         onClick={() => router.push("/tasks/perspectives/days")}
         onMouseDown={() => router.push("/tasks/perspectives/days")}
       >
-        <Tooltip title="Tasks" placement="right">
+        <Tooltip
+          title={generateLabel("Tasks", ["ctrl", "shift", "1"])}
+          placement="right"
+        >
           <span
             className={`material-symbols-${
               router.asPath.includes("/tasks") ? "rounded" : "outlined"
@@ -305,7 +339,10 @@ export function Sidebar() {
         onClick={() => router.push("/")}
         onMouseDown={() => router.push("/")}
       >
-        <Tooltip title="Start" placement="right">
+        <Tooltip
+          title={generateLabel("Start", ["ctrl", "shift", "2"])}
+          placement="right"
+        >
           <span
             className={`material-symbols-${
               router.asPath === "/" ? "rounded" : "outlined"
@@ -325,7 +362,10 @@ export function Sidebar() {
         onClick={() => router.push("/rooms")}
         onMouseDown={() => router.push("/rooms")}
       >
-        <Tooltip title="Items" placement="right">
+        <Tooltip
+          title={generateLabel("Tasks", ["ctrl", "shift", "3"])}
+          placement="right"
+        >
           <span
             className={`material-symbols-${
               router.asPath === "/rooms" ||

@@ -308,7 +308,7 @@ export const MenuChildren = memo(function MenuChildren({
           "Dive into your productivity and learn more about yourself",
       },
       {
-        key: "shift+c",
+        key: "c",
         hash: "color-coded",
         icon: "palette",
         label: "Color coded",
@@ -466,7 +466,8 @@ export const MenuChildren = memo(function MenuChildren({
                         <Typography variant="h4">{button.label}</Typography>
                         <IconButton
                           sx={{
-                            width: 26,
+                            width: 90,
+                            borderRadius: 5,
                             height: 26,
                             fontSize: "12px",
                             color: palette[11],
@@ -475,7 +476,7 @@ export const MenuChildren = memo(function MenuChildren({
                             border: `2px solid ${palette[8]}`,
                           }}
                         >
-                          {button.key.toUpperCase()}
+                          shift + {button.key.toUpperCase()}
                         </IconButton>
                       </Box>
                       <Typography>{button.description}</Typography>

@@ -3,6 +3,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton, SxProps } from "@mui/material";
 import { useRouter } from "next/router";
+import { containerRef } from "./Layout";
 
 export function Navbar({
   showLogo = false,
@@ -25,6 +26,9 @@ export function Navbar({
 
   return (
     <Box
+      onClick={() =>
+        containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
+      }
       sx={{
         display: "flex",
         alignItems: "center",

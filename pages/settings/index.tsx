@@ -1,5 +1,6 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Emoji } from "@/components/Emoji";
+import { containerRef } from "@/components/Layout";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { handleBack } from "@/lib/client/handleBack";
@@ -285,7 +286,7 @@ function Page() {
           {section &&
             section.map((button) => (
               <ConfirmationModal
-                key={button.text} 
+                key={button.text}
                 disabled={typeof button.onClickConfirmation == "undefined"}
                 callback={
                   button.onClickConfirmation
@@ -346,6 +347,9 @@ export default function Layout({ children }: any) {
             top: 0,
             left: { xs: 0, sm: "85px" },
           }}
+          onClick={() =>
+            containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
+          }
         >
           <Toolbar>
             <IconButton onClick={() => handleBack(router)}>
