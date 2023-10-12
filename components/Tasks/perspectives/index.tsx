@@ -62,7 +62,7 @@ export function Agenda({ type, date }) {
     const { scrollLeft, clientWidth, scrollWidth } = agendaContainerRef.current;
     const { width } = agendaContainerRef.current.getBoundingClientRect();
 
-    const canScrollRight = scrollLeft + clientWidth < scrollWidth;
+    const canScrollRight = scrollLeft + clientWidth <= scrollWidth - 10;
 
     if (canScrollRight && !isMobile) {
       agendaContainerRef.current.scrollTo({
@@ -143,6 +143,10 @@ export function Agenda({ type, date }) {
     }
   });
 
+  const isToday =
+    router.asPath ===
+      `/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}` ||
+    router.asPath === `/tasks/perspectives/${type}`;
   return (
     <PerspectiveContext.Provider
       value={{
@@ -288,24 +292,26 @@ export function Agenda({ type, date }) {
               >
                 <Icon className="outlined">arrow_back_ios_new</Icon>
               </IconButton>
-              <Button
-                id="agendaToday"
-                onClick={() => {
-                  router.push(
-                    `/tasks/perspectives/${type}/${dayjs().format(
-                      "YYYY-MM-DD"
-                    )}`
-                  );
-                  scrollIntoView();
-                }}
-                size="large"
-                sx={{
-                  px: 0,
-                  color: "inherit!important",
-                }}
-              >
-                Today
-              </Button>
+              {!isToday && (
+                <Button
+                  id="agendaToday"
+                  onClick={() => {
+                    router.push(
+                      `/tasks/perspectives/${type}/${dayjs().format(
+                        "YYYY-MM-DD"
+                      )}`
+                    );
+                    scrollIntoView();
+                  }}
+                  size="large"
+                  sx={{
+                    px: 0,
+                    color: "inherit!important",
+                  }}
+                >
+                  Today
+                </Button>
+              )}
               <IconButton
                 onClick={handleNext}
                 id="agendaNext"
