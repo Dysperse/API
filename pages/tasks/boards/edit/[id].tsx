@@ -16,8 +16,12 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
   Icon,
   IconButton,
+  InputAdornment,
   ListItem,
   ListItemButton,
   ListItemText,
@@ -29,7 +33,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { cloneElement, useCallback, useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import useSWR from "swr";
@@ -50,6 +54,81 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   }
   return <Droppable {...props}>{children}</Droppable>;
 };
+
+function SelectWallpaperModal({ children }) {
+  const { session } = useSession();
+
+  const palette = useColor(
+    session.themeColor,
+    useDarkMode(session.user.darkMode)
+  );
+
+  const [open, setOpen] = useState(false);
+  const [results, setResults] = useState<null | any>(null);
+  const [selected, setSelected] = useState<null | string>(null);
+
+  const trigger = cloneElement(children, {
+    onClick: () => setOpen(true),
+  });
+
+  const key = "GQdBU-djq11B7_l2LmXqELEoumiIoTJpU3ZeSbvyncg";
+
+  const search = useCallback(async () => {
+    const data = await fetch(
+      `https://api.unsplash.com/photos/random?` +
+        new URLSearchParams({
+          client_id: key,
+          w: "1080",
+          h: "1920",
+        })
+    ).then((res) => res.json());
+    setResults(data);
+  }, []);
+
+  const handleSubmit = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (open) {
+      search();
+    }
+  }, [search]);
+
+  return (
+    <>
+      {trigger}
+      <Dialog
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        PaperProps={{
+          sx: {
+            width: "100dvw",
+            maxWidth: "100dvw",
+            height: "100dvh",
+          },
+        }}
+      >
+        <DialogContent sx={{ p: { xs: 3, sm: 5 } }}>
+          <Typography variant="h3" className="font-heading">
+            Select a wallpaper
+          </Typography>
+          Coming soon!
+        </DialogContent>
+        <DialogActions sx={{ p: 2 }}>
+          <Button variant="outlined" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={handleSubmit}>
+            Done <Icon>arrow_forward_ios</Icon>
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
 
 function BoardColumnSettings({ data, styles, mutate }) {
   const { session } = useSession();
@@ -295,29 +374,71 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
         }}
       />
       <Typography sx={styles.subheader}>Wallpaper</Typography>
-      <FileDropInput
-        onUploadStart={(e) => setLoading(true)}
-        onError={(e) => {
-          alert(e);
-        }}
-        onSuccess={async (e) => {
-          await handleEdit("wallpaper", e.data.url, () => {
-            toast.success("Saved!");
-          });
-          setLoading(false);
-        }}
-      >
-        <TextField
-          value={data.wallpaper}
-          variant="standard"
-          placeholder="Tap to upload image"
-          InputProps={{
-            disableUnderline: true,
-            sx: styles.input,
-            readOnly: true,
-          }}
-        />
-      </FileDropInput>
+      <Box sx={{ gap: 2, display: "flex" }}>
+        <Box>
+          <FileDropInput
+            onUploadStart={(e) => setLoading(true)}
+            onError={(e) => {
+              alert(e);
+            }}
+            onSuccess={async (e) => {
+              await handleEdit("wallpaper", e.data.url, () => {
+                toast.success("Saved!");
+              });
+              setLoading(false);
+            }}
+          >
+            <TextField
+              fullWidth
+              value={data.wallpaper}
+              variant="standard"
+              placeholder="Upload image"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon>upload</Icon>
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+                sx: styles.input,
+                readOnly: true,
+              }}
+            />
+          </FileDropInput>
+          <Button
+            sx={{ mt: 1 }}
+            size="small"
+            onClick={() => {
+              handleEdit(
+                "wallpaper",
+                "https://source.unsplash.com/random/1080x1920",
+                () => {
+                  toast.success("Saved!");
+                }
+              );
+            }}
+          >
+            <Icon>shuffle</Icon>Shuffle images
+          </Button>
+        </Box>
+        <SelectWallpaperModal>
+          <TextField
+            value=""
+            variant="standard"
+            placeholder="Select"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon className="outlined">add_circle</Icon>
+                </InputAdornment>
+              ),
+              disableUnderline: true,
+              sx: styles.input,
+              readOnly: true,
+            }}
+          />
+        </SelectWallpaperModal>
+      </Box>
       <Typography sx={styles.subheader}>Description</Typography>
       <TextField
         defaultValue={data.description}

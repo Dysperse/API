@@ -191,7 +191,16 @@ function RenderBoard({ tasks }) {
             },
           }}
         >
-          <img src={board.wallpaper} alt="Wallpaper" />
+          <img
+            src={
+              board.wallpaper +
+              (board.wallpaper ===
+              "https://source.unsplash.com/random/1080x1920"
+                ? "&cache=" + new Date().toISOString()
+                : "")
+            }
+            alt="Wallpaper"
+          />
         </Box>
       )}
       <Box
