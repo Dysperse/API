@@ -107,14 +107,15 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
       MuiCircularProgress: {
         defaultProps: {
           disableShrink: true,
-          thickness: 8,
+          thickness: 6,
           size: 24,
         },
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
               animationDuration: ".5s",
-              color: darkMode ? "#fff" : "#000",
+              animationTimingFunction: "ease-in-out",
+              color: palette[11],
             }),
         },
       },
@@ -183,8 +184,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             }),
           outlined: ({ theme }) =>
             theme.unstable_sx({
-              color: `${palette[12]}!important`,
+              color: `${palette[11]}!important`,
               borderColor: palette[4],
+              borderWidth: "2px!important",
               "&:hover": {
                 borderColor: {
                   xs: palette[4],

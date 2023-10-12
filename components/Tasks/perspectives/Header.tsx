@@ -120,7 +120,7 @@ export const Header = memo(function Header({
             >
               <Tooltip
                 {...(isMobile && { hidden: true })}
-                placement="bottom-start"
+                placement="bottom"
                 title={
                   <Typography>
                     <Typography sx={{ fontWeight: 700 }}>

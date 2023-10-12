@@ -771,7 +771,7 @@ export function TasksLayout({
         }}
         sx={{
           background: addHslAlpha(palette[3], 0.7),
-          color: palette[8],
+          color: palette[9],
           "&:active": {
             background: addHslAlpha(palette[5], 0.7),
           },
@@ -781,7 +781,7 @@ export function TasksLayout({
       </IconButton>
       <Button
         sx={{
-          color: addHslAlpha(palette[9], 0.7),
+          color: palette[9],
           px: 1,
           height: 48,
           ml: 0.5,

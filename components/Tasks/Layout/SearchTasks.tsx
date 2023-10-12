@@ -1,4 +1,3 @@
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -39,7 +38,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
 
   const trigger = cloneElement(
     children || (
-      <IconButton sx={{ ml: "auto", color: addHslAlpha(palette[9], 0.7) }}>
+      <IconButton sx={{ ml: "auto", color: palette[9] }}>
         <Icon>search</Icon>
       </IconButton>
     ),

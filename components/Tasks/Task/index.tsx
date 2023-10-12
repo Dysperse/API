@@ -448,6 +448,7 @@ export const Task: any = React.memo(function Task({
             color: colors["grey"][isDark ? "A100" : "800"],
             ...(taskData.name === taskData.name.toUpperCase() &&
               !isCompleted && {
+                mb: 0.5,
                 background: {
                   xs: palette[3] + "!important",
                   sm: palette[2] + "!important",
