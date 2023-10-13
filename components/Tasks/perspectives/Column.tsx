@@ -270,6 +270,7 @@ const Column = React.memo(function Column({
     () =>
       [...data, ...recurredTasks]
         .filter((task) => {
+          if (task.recurrenceRule) return true;
           const dueDate = new Date(task.due);
           return dueDate >= columnStart && dueDate <= columnEnd;
         })
