@@ -219,7 +219,7 @@ const Column = React.memo(function Column({
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
 
-  const { mutateList, type } = useContext(PerspectiveContext);
+  const { mutateList, type, start } = useContext(PerspectiveContext);
 
   const columnStart = dayjs(column).startOf(type).toDate();
   const columnEnd = dayjs(columnStart).endOf(type).toDate();
@@ -255,7 +255,7 @@ const Column = React.memo(function Column({
   const recurredTasks = recurringTasks
     .map((task) => {
       const rule = RRule.fromString(
-        "DTSTART:20200515T163000Z\n" +
+        `DTSTART:${dayjs(columnEnd).format("YYYYMMDDTHHmmss[Z]")}\n` +
           (task.recurrenceRule.includes("\n")
             ? task.recurrenceRule?.split("\n")[1]
             : task.recurrenceRule)
