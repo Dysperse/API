@@ -268,9 +268,6 @@ const Column = React.memo(function Column({
     })
     .filter((e) => e);
 
-  /**
-   * Sort the tasks in a "[pinned, incompleted, completed]" order
-   */
   const sortedTasks = useMemo(
     () =>
       [...data, ...recurredTasks]
@@ -279,18 +276,30 @@ const Column = React.memo(function Column({
           const dueDate = new Date(task.due);
           return dueDate >= columnStart && dueDate <= columnEnd;
         })
-        .sort((e, d) =>
-          e.completionInstances.length !== 0 &&
-          d.completionInstances.length == 0
+        .sort((e, d) => {
+          // First, check for recurring tasks and sort based on completion instances count
+          if (e.recurrenceRule && d.recurrenceRule) {
+            const eCompletionCount = e.completionInstances.length;
+            const dCompletionCount = d.completionInstances.length;
+
+            if (eCompletionCount !== dCompletionCount) {
+              return eCompletionCount - dCompletionCount;
+            }
+          }
+
+          // Next, apply the previous sorting logic for non-recurring tasks
+          return e.completionInstances.length !== 0 &&
+            d.completionInstances.length === 0
             ? 1
-            : (e.completionInstances.length == 0 &&
-                d.completionInstances.length !== 0) ||
-              (e.pinned && !d.pinned)
+            : e.completionInstances.length === 0 &&
+              d.completionInstances.length !== 0
+            ? -1
+            : e.pinned && !d.pinned
             ? -1
             : !e.pinned && d.pinned
             ? 1
-            : 0
-        ),
+            : 0;
+        }),
     [recurredTasks, data, columnEnd, columnStart]
   );
 

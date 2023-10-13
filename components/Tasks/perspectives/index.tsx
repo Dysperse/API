@@ -110,6 +110,7 @@ export function Agenda({ type, date }) {
     {
       startTime: start.toISOString(),
       endTime: end.toISOString(),
+      view
     },
   ]);
 

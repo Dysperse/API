@@ -288,6 +288,7 @@ export const Task: any = React.memo(function Task({
   const isRecurring = taskData.recurrenceRule !== null;
 
   useEffect(() => setTaskData(task), [task]);
+  
   const isCompleted = isRecurring
     ? taskData.completionInstances.find((instance) =>
         dayjs(instance.iteration)
