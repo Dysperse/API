@@ -254,7 +254,12 @@ const Column = React.memo(function Column({
 
   const recurredTasks = recurringTasks
     .map((task) => {
-      const rule = RRule.fromString(task.recurrenceRule).between(
+      const rule = RRule.fromString(
+        "DTSTART:20200515T163000Z\n" +
+          (task.recurrenceRule.includes("\n")
+            ? task.recurrenceRule?.split("\n")[1]
+            : task.recurrenceRule)
+      ).between(
         dayjs(columnStart).utc().startOf(type).toDate(),
         dayjs(columnEnd).utc().startOf(type).toDate(),
         true
