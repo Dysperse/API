@@ -85,7 +85,7 @@ const handler = async (req, res) => {
       orderBy: { pinned: "desc" },
       include: {
         parentTasks: true,
-        subTasks: true,
+        subTasks: { include: { completionInstances: { take: 1 } } },
         completionInstances: true,
         column: {
           include: {
