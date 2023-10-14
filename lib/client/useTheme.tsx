@@ -108,7 +108,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         defaultProps: {
           disableShrink: true,
           thickness: 6,
-          size: 24,
+          size: 30,
         },
         styleOverrides: {
           root: ({ theme }) =>
