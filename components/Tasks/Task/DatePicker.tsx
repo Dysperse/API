@@ -2,7 +2,7 @@ import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Button, Icon, SwipeableDrawer } from "@mui/material";
+import { Box, Button, Chip, Icon, SwipeableDrawer } from "@mui/material";
 import {
   DayCalendarSkeleton,
   MonthCalendar,
@@ -356,19 +356,48 @@ const SelectDateModal = React.memo(function SelectDateModal({
         {!dateOnly && !timeOpen && (
           <Box
             sx={{
-              mt: -3,
-              gap: 1,
-              display: "flex",
               p: 2,
               pt: 0,
               width: "100%",
             }}
           >
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                overflow: "scroll",
+                maxWidth: "100%",
+              }}
+            >
+              {[
+                { label: "Today", date: dayjs(today) },
+                { label: "Tomorrow", date: dayjs(today).add(1, "day") },
+                {
+                  label: `Next ${dayjs().format("dddd")}`,
+                  date: dayjs(today).add(1, "week"),
+                },
+                {
+                  label: `Next ${dayjs().format("mmmm")}`,
+                  date: dayjs(today).add(1, "month"),
+                },
+              ].map((chip) => (
+                <Chip
+                  label={chip.label}
+                  key={chip.label}
+                  onClick={() => {
+                    setDate(chip.date.toDate());
+                    setTimeOpen(false);
+                    closeOnSelect && setOpen(false);
+                  }}
+                />
+              ))}
+            </Box>
             <Button
               disableRipple
               fullWidth
               variant="contained"
               id="timeTrigger"
+              sx={{ mt: 2 }}
               onClick={handleClick}
               disabled={!date || !dayjs(date).isValid()}
             >
@@ -376,18 +405,6 @@ const SelectDateModal = React.memo(function SelectDateModal({
               {dayjs(date).isValid() && !isDateOnly
                 ? dayjs(date).format(timeOpen ? "MMM D" : "h:mm a")
                 : `Set time`}
-            </Button>
-            <Button
-              disableRipple
-              sx={{ borderRadius: 9 }}
-              variant="contained"
-              onClick={() => {
-                setDate(today);
-                setTimeOpen(false);
-                closeOnSelect && setOpen(false);
-              }}
-            >
-              Today
             </Button>
           </Box>
         )}

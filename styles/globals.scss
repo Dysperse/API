@@ -129,10 +129,6 @@ img {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-family: "Space Grotesk", sans-serif !important;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 .font-heading,
@@ -141,11 +137,13 @@ img {
   text-transform: uppercase;
 }
 
-::-webkit-scrollbar {
-  -webkit-appearance: none;
-  display: none;
-  width: 0px;
-  background: transparent;
+@media screen and (max-width: 600px) {
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    display: none;
+    width: 0px;
+    background: transparent;
+  }
 }
 
 .dark * {

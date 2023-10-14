@@ -47,6 +47,37 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
 
   return {
     components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+              backgroundColor: "transparent",
+              minWidth: "12px",
+            },
+            "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+              borderRadius: 999,
+              backgroundColor: palette[3],
+              minHeight: 24,
+              border: "3px solid " + palette[1],
+            },
+            "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
+              {
+                backgroundColor: palette[6],
+              },
+            "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
+              {
+                backgroundColor: palette[6],
+              },
+            "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
+              {
+                backgroundColor: palette[6],
+              },
+            "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+              backgroundColor: "transparent",
+            },
+          },
+        },
+      },
       MuiButtonBase: {
         defaultProps: {
           disableRipple: true,

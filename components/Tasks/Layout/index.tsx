@@ -1044,6 +1044,30 @@ export function TasksLayout({
             overflowY: { sm: "scroll" },
             transition: "all .2s",
             flexDirection: "column",
+            "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+              backgroundColor: "transparent",
+            },
+            "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+              borderRadius: 8,
+              backgroundColor: palette[4],
+              minHeight: 24,
+              border: "3px solid " + palette[2],
+            },
+            "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
+              {
+                backgroundColor: palette[6],
+              },
+            "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
+              {
+                backgroundColor: palette[6],
+              },
+            "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
+              {
+                backgroundColor: palette[6],
+              },
+            "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+              backgroundColor: "transparent",
+            },
           }}
         >
           <MenuChildren editMode={editMode} setEditMode={setEditMode} />

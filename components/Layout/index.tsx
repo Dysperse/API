@@ -176,7 +176,7 @@ export default function AppLayout({
           ref={containerRef}
           sx={{
             height: "100dvh",
-            overflowY: "scroll",
+            overflowY: "auto",
             overflowX: "hidden",
             overscrollBehaviorY: "contain",
             maxWidth: "100dvw",

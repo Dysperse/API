@@ -787,7 +787,6 @@ function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
     mutate(newData, {
       populateCache: newData,
       revalidate: false,
-      
     });
 
     setIsSaving("saving");

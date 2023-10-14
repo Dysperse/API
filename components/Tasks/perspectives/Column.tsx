@@ -260,7 +260,7 @@ const Column = React.memo(function Column({
         width: { xs: "100%", sm: "320px" },
         borderRight: { sm: "1.5px solid" },
         ...(!isMobile && {
-          overflowY: "scroll",
+          overflowY: "auto",
         }),
         ...(view === "priority" &&
           !isToday && {
