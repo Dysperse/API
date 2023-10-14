@@ -1,9 +1,11 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 import dayjs, { Dayjs } from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 import utc from "dayjs/plugin/utc";
 import { RRule } from "rrule";
 dayjs.extend(utc);
+dayjs.extend(isBetween);
 
 interface PerspectiveUnit {
   start: string | Dayjs;
