@@ -31,27 +31,29 @@ function PerspectivesLoadingScreen(): any {
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const TaskSkeleton = memo(() => (
-    <Box
-      sx={{
-        display: "flex",
-        gap: 2,
-        px: 3,
-        pt: 3,
-        alignItems: "center",
-      }}
-    >
-      <Skeleton animation="wave" variant="circular" width={30} height={30} />
-      <Skeleton
-        animation="wave"
-        variant="rectangular"
+  const TaskSkeleton = memo(function A() {
+    return (
+      <Box
         sx={{
-          width: `${120 - Math.random() * 100}%`,
-          minWidth: "50%",
+          display: "flex",
+          gap: 2,
+          px: 3,
+          pt: 3,
+          alignItems: "center",
         }}
-      />
-    </Box>
-  ));
+      >
+        <Skeleton animation="wave" variant="circular" width={30} height={30} />
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          sx={{
+            width: `${120 - Math.random() * 100}%`,
+            minWidth: "50%",
+          }}
+        />
+      </Box>
+    );
+  });
 
   return [...new Array(isMobile ? 1 : Math.round(window.innerWidth / 320))].map(
     (_, i) => (
