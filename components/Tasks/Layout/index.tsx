@@ -1048,10 +1048,14 @@ export function TasksLayout({
               backgroundColor: "transparent",
             },
             "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-              borderRadius: 8,
-              backgroundColor: palette[4],
-              minHeight: 24,
+              backgroundColor: palette[2],
               border: "3px solid " + palette[2],
+            },
+            "&:hover": {
+              "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+                backgroundColor: palette[4],
+                border: "3px solid " + palette[2],
+              },
             },
             "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
               {

@@ -186,6 +186,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
               : {
                   height: "100dvh",
                 }),
+            scrollbarGutter: { sm: "stable both-edges" },
             borderLeft: { sm: `2px solid ${addHslAlpha(palette[3], 0.7)}` },
           },
           onScroll: () => {

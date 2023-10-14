@@ -1,4 +1,5 @@
 import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
@@ -229,13 +230,14 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
       <AppBar
         sx={{
           border: 0,
-          background: { xs: palette[2], sm: palette[1] },
-          ...(/\bCrOS\b/.test(navigator.userAgent) && {
-            backdropFilter: "none!important",
-          }),
+          background: { xs: palette[2], sm: addHslAlpha(palette[1], 0.9) },
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            px: { xs: 3, sm: "12px" },
+          }}
+        >
           <IconButton onClick={task.close} sx={styles.button}>
             <Icon>close</Icon>
           </IconButton>
@@ -346,7 +348,8 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
       </AppBar>
       <Box
         sx={{
-          p: { xs: 3, sm: 4 },
+          pt: 4,
+          px: { xs: 3, sm: 2 },
           pb: { sm: 1 },
         }}
       >

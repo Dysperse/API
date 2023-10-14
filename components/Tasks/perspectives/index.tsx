@@ -1,13 +1,14 @@
 import { ErrorHandler } from "@/components/Error";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
-  CircularProgress,
   Collapse,
   Icon,
   IconButton,
+  Skeleton,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -15,7 +16,7 @@ import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, memo, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { WidgetBar } from "../Layout/widgets";
@@ -23,6 +24,93 @@ import SelectDateModal from "../Task/DatePicker";
 import Column from "./Column";
 
 export const PerspectiveContext = createContext<any>(null);
+
+function PerspectivesLoadingScreen(): any {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  const TaskSkeleton = memo(() => (
+    <Box
+      sx={{
+        display: "flex",
+        gap: 2,
+        px: 3,
+        pt: 3,
+        alignItems: "center",
+      }}
+    >
+      <Skeleton animation="wave" variant="circular" width={30} height={30} />
+      <Skeleton
+        animation="wave"
+        variant="rectangular"
+        sx={{
+          width: `${100 - Math.random() * 100}%`,
+          minWidth: "50%",
+        }}
+      />
+    </Box>
+  ));
+
+  return [...new Array(Math.round(window.innerWidth / 320))].map((_, i) => (
+    <Box
+      key={i}
+      sx={{
+        borderRight: `1px solid ${addHslAlpha(palette[4], 0.5)}`,
+        width: "320px",
+        flex: "0 0 320px",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          px: 3,
+          py: 4.3,
+          borderBottom: `1px solid ${addHslAlpha(palette[4], 0.5)}`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 2,
+        }}
+      >
+        <Skeleton
+          animation="wave"
+          variant="circular"
+          width={35}
+          height={35}
+          sx={{
+            borderRadius: 3,
+            flexShrink: 0,
+          }}
+        />
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          height={35}
+          width={120}
+        />
+      </Box>
+      <Box sx={{ py: 2, px: 3, display: "flex", gap: 2.5, mb: -2 }}>
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          height={37}
+          sx={{ flexGrow: 1 }}
+        />
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          height={37}
+          width={60}
+          sx={{ flexShrink: 0 }}
+        />
+      </Box>
+      {[...new Array(~~(Math.random() * 4) + 4)].map((_, i) => (
+        <TaskSkeleton key={i} />
+      ))}
+    </Box>
+  ));
+}
 
 function FocusTrigger({ view, setView, scrollIntoView }) {
   const { session } = useSession();
@@ -87,7 +175,7 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
         border: `2px solid`,
         borderRadius: view === "priority" ? 3 : 5,
         transition: "border-radius .5s!important",
-        borderColor: view === "priority" ? redPalette[9] : palette[5],
+        borderColor: view === "priority" ? redPalette[9] : palette[3],
       }}
       onClick={startFocus}
     >
@@ -174,43 +262,41 @@ export function Agenda({ type, date }) {
   };
 
   const handleNext = () => {
-    if (!agendaContainerRef.current) return;
-    // alert(agendaContainerRef.current?.scrollLeft);
-    const { scrollLeft, clientWidth, scrollWidth } = agendaContainerRef.current;
-    const { width } = agendaContainerRef.current.getBoundingClientRect();
+    // if (!agendaContainerRef.current) return;
+    // // alert(agendaContainerRef.current?.scrollLeft);
+    // const { scrollLeft, clientWidth, scrollWidth } = agendaContainerRef.current;
+    // const { width } = agendaContainerRef.current.getBoundingClientRect();
 
-    const canScrollRight = scrollLeft + clientWidth <= scrollWidth - 10;
+    // const canScrollRight = scrollLeft + clientWidth <= scrollWidth - 10;
 
-    if (canScrollRight && !isMobile) {
-      agendaContainerRef.current.scrollTo({
-        left: width + scrollLeft - 50,
-        behavior: "smooth",
-      });
-    } else {
-      agendaContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
-      const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
-      router.push(`/tasks/perspectives/${type}/${next}`);
-    }
+    // if (canScrollRight && !isMobile) {
+    //   agendaContainerRef.current.scrollTo({
+    //     left: width + scrollLeft - 50,
+    //     behavior: "smooth",
+    //   });
+    // } else {
+    agendaContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+    const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
+    router.push(`/tasks/perspectives/${type}/${next}`);
+    // }
   };
 
   const handlePrev = () => {
-    if (!agendaContainerRef.current) return;
-    const { scrollLeft } = agendaContainerRef.current;
-    const { width } = agendaContainerRef.current.getBoundingClientRect();
+    // if (!agendaContainerRef.current) return;
+    // const { scrollLeft } = agendaContainerRef.current;
+    // const { width } = agendaContainerRef.current.getBoundingClientRect();
 
-    const canScrollLeft = scrollLeft > 0;
+    // const canScrollLeft = scrollLeft > 0;
 
-    if (canScrollLeft && !isMobile) {
-      agendaContainerRef.current.scrollTo({
-        left: (width + scrollLeft - 50) * -1,
-        behavior: "smooth",
-      });
-    } else {
-      const prev = dayjs(date)
-        .subtract(1, columnMap[type])
-        .format("YYYY-MM-DD");
-      router.push(`/tasks/perspectives/${type}/${prev}`);
-    }
+    // if (canScrollLeft && !isMobile) {
+    //   agendaContainerRef.current.scrollTo({
+    //     left: (width + scrollLeft - 50) * -1,
+    //     behavior: "smooth",
+    //   });
+    // } else {
+    const prev = dayjs(date).subtract(1, columnMap[type]).format("YYYY-MM-DD");
+    router.push(`/tasks/perspectives/${type}/${prev}`);
+    // }
   };
 
   const { session } = useSession();
@@ -433,18 +519,12 @@ export function Agenda({ type, date }) {
             e.target.getBoundingClientRect();
           }}
           sx={{
-            // what does this do?
-            backfaceVisibility: "hidden",
-            transform: "translateZd(0)",
-            ...(!data && {
-              alignItems: "center",
-              justifyContent: "center",
-            }),
             display: "flex",
             flexDirection: "row",
             flexGrow: 1,
             maxWidth: "100dvw",
             overflowX: { xs: "hidden", sm: "auto" },
+            ...(!data && { overflow: "scroll" }),
             width: "100%",
             height: "100%",
           }}
@@ -478,7 +558,7 @@ export function Agenda({ type, date }) {
           ) : error ? (
             <ErrorHandler callback={mutateList} />
           ) : (
-            <CircularProgress />
+            <PerspectivesLoadingScreen />
           )}
         </Box>
       </Box>
