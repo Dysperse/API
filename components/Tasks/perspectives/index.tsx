@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -223,7 +224,11 @@ export function Agenda({ type, date }) {
     (_, index) => start.clone().add(index, type)
   );
 
-  const { data, mutate: mutateList } = useSWR([
+  const {
+    data,
+    mutate: mutateList,
+    error,
+  } = useSWR([
     "property/tasks/perspectives",
     {
       timezone: session.user.timeZone,
@@ -445,7 +450,8 @@ export function Agenda({ type, date }) {
           }}
           ref={agendaContainerRef}
         >
-          {data && columns?.length > 0 ? (
+          {error && <ErrorHandler />}
+          {!error && data && columns?.length > 0 ? (
             data.map((column: any) => (
               <Column
                 key={column.start}
