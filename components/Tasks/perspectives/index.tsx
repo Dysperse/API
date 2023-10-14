@@ -42,13 +42,14 @@ function PerspectivesLoadingScreen(): any {
           alignItems: "center",
         }}
       >
-        <Skeleton animation="wave" variant="circular" width={30} height={30} />
+        <Skeleton animation="wave" variant="circular" width={30} height={30} sx={{ flexShrink: 0 }} />
         <Skeleton
           animation="wave"
           variant="rectangular"
           sx={{
             width: `${120 - Math.random() * 100}%`,
             minWidth: "50%",
+            maxWidth: "100%"
           }}
         />
       </Box>
