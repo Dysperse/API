@@ -42,14 +42,20 @@ function PerspectivesLoadingScreen(): any {
           alignItems: "center",
         }}
       >
-        <Skeleton animation="wave" variant="circular" width={30} height={30} sx={{ flexShrink: 0 }} />
+        <Skeleton
+          animation="wave"
+          variant="circular"
+          width={30}
+          height={30}
+          sx={{ flexShrink: 0 }}
+        />
         <Skeleton
           animation="wave"
           variant="rectangular"
           sx={{
             width: `${120 - Math.random() * 100}%`,
             minWidth: "50%",
-            maxWidth: "100%"
+            maxWidth: "100%",
           }}
         />
       </Box>
@@ -568,21 +574,23 @@ export function Agenda({ type, date }) {
               <Column
                 key={column.start}
                 column={column.end}
-                data={column.tasks.sort((e) => {
+                data={column.tasks.sort((a, b) => {
                   if (
-                    (!e.recurringInstance &&
-                      e.completionInstances.length > 0) ||
-                    (e.recurringInstance &&
-                      e.recurrenceDay.includes(column.start))
+                    (!a.recurringInstance &&
+                      a.completionInstances.length > 0) ||
+                    (a.recurringInstance &&
+                      a.recurrenceDay.includes(column.start))
                   ) {
                     return 1;
+                  } else if (
+                    (!b.recurringInstance &&
+                      b.completionInstances.length > 0) ||
+                    (b.recurringInstance &&
+                      b.recurrenceDay.includes(column.start))
+                  ) {
+                    return -1;
                   } else {
-                    return e.pinned
-                      ? -1
-                      : e.recurringInstance &&
-                        e.completionInstances.length === 0
-                      ? -2
-                      : -1;
+                    return a.pinned ? -1 : b.pinned ? 1 : 0;
                   }
                 })}
                 view={view}
