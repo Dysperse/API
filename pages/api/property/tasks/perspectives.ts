@@ -1,6 +1,13 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
-import { Prisma } from "@prisma/client";
+import dayjs, { Dayjs } from "dayjs";
+import { RRule } from "rrule";
+
+interface PerspectiveUnit {
+  start: string | Dayjs;
+  end: string | Dayjs;
+  tasks: any[];
+}
 
 const handler = async (req, res) => {
   try {
@@ -9,80 +16,152 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    const where: Prisma.TaskWhereInput = {
-      AND: [
-        { recurrenceRule: null },
-        // Prevent selecting subtasks
-        { parentTasks: { none: { property: { id: req.query.property } } } },
-        // Make sure that the tasks falls within these dates
-        { due: { gte: new Date(req.query.startTime) } },
-        { due: { lte: new Date(req.query.endTime) } },
-
-        { property: { id: req.query.property } },
-      ],
+    // Get the column start and end
+    const map = {
+      week: "day",
+      month: "week",
+      year: "month",
     };
 
-    // Used for dots on DatePicker component
-    if (req.query.count) {
-      const data = await prisma.task.groupBy({
-        by: ["due"],
-        _count: {
-          name: true,
-          _all: true,
-        },
-        orderBy: {
-          due: "asc",
-        },
-        where,
-      });
+    // Get type of perspective view
+    const { timezone, type } = req.query;
+    if (!map[type]) return res.json({ error: "Invalid `type`" });
 
-      res.json(data);
-      return;
-    }
+    // Used to get events only from the perspective start to end
+    const start = dayjs(req.query.start);
+    const end = dayjs(req.query.end);
 
-    // Used for `/perspectives/:id` page
-    const data = await prisma.task.findMany({
-      where,
-      include: req.query.count
-        ? undefined
-        : {
-            subTasks: { include: { completionInstances: true } },
-            parentTasks: true,
-            completionInstances: { take: 1 },
-            column: {
-              select: {
-                board: {
-                  select: {
-                    name: true,
-                    id: true,
-                  },
-                },
-                name: true,
-                emoji: true,
-              },
-            },
-          },
+    // Get # of ____ (i.e. days) in ____ (i.e. week)
+    const units: PerspectiveUnit[] = [
+      ...new Array(end.diff(start, map[type]) + 1),
+    ].map((_, i) => {
+      return {
+        start: dayjs(start)
+          .utc()
+          .add(i, map[type])
+          .startOf(map[type])
+          .toISOString(),
+        end: dayjs(start)
+          .utc()
+          .add(i, map[type])
+          .endOf(map[type])
+          .toISOString(),
+
+        tasks: [],
+      };
     });
 
-    const recurringTasks = await prisma.task.findMany({
+    let returned = units;
+
+    const tasks = await prisma.task.findMany({
       where: {
         AND: [
-          { property: { id: req.query.property } },
-          { recurrenceRule: { not: null } },
+          // Don't select subtasks
           { parentTasks: { none: { property: { id: req.query.property } } } },
+
+          // Make sure the user owns these tasks
+          { property: { id: req.query.property } },
+
+          // remember, recurring tasks have weird times...
+          {
+            OR: [
+              // If it doesn't have a recurrence
+              {
+                AND: [
+                  { recurrenceRule: null },
+                  // { due: { not: null } },
+                  { due: { gte: start.toDate() } },
+                  { due: { lte: end.toDate() } },
+                ],
+              },
+              // If it has a recurrence. We'll have to filter these out later...
+              {
+                AND: [{ recurrenceRule: { not: null } }],
+              },
+            ],
+          },
         ],
       },
+      orderBy: { pinned: "desc" },
       include: {
-        subTasks: true,
         parentTasks: true,
-        completionInstances: {
-          where: { iteration: { gte: new Date(req.query.startTime) } },
+        subTasks: true,
+        completionInstances: true,
+        column: {
+          include: {
+            board: { select: { id: true, name: true, public: true } },
+          },
+        },
+        createdBy: {
+          select: {
+            name: true,
+            color: true,
+            email: true,
+            Profile: {
+              select: { picture: true },
+            },
+          },
         },
       },
     });
 
-    res.json({ data, recurringTasks });
+    // Get the specific day this recurrs
+    let recurringTasks = tasks
+      .filter((task) => task.recurrenceRule)
+      .map((task) => {
+        const rule = RRule.fromString(
+          `DTSTART:${start.format("YYYYMMDDTHHmmss[Z]")}\n` +
+            ((task.recurrenceRule as any).includes("\n")
+              ? task.recurrenceRule?.split("\n")[1]
+              : task.recurrenceRule)
+        ).between(start.toDate(), end.toDate(), true);
+        return rule.length > 0 ? { ...task, recurrenceDay: rule } : undefined;
+      });
+
+    let regularTasks = tasks.filter((task) => task.recurrenceRule === null);
+
+    // Add all recurring tasks!
+    for (const i in recurringTasks) {
+      const task = recurringTasks[i];
+      for (const dueIndex in task?.recurrenceDay) {
+        const due = dayjs(task.recurrenceDay[dueIndex]);
+
+        const index = returned.findIndex(({ start, end }) =>
+          due.isBetween(start, end, map[type], "[]")
+        );
+
+        if (returned[index]) {
+          returned[index].tasks.push(task);
+        } else {
+          console.log("Missing recurring value: " + due.toISOString());
+        }
+      }
+    }
+
+    // Add other tasks
+    for (const i in regularTasks) {
+      const task = regularTasks[i];
+      const due = dayjs(task.due);
+
+      const index = returned.findIndex(({ start, end }) =>
+        due.isBetween(start, end, map[type], "[]")
+      );
+
+      if (returned[index]) {
+        returned[index].tasks.push(task);
+      } else {
+        console.log({
+          type: "absolute",
+          name: task.name,
+          start: start.toDate(),
+          end: end.toDate(),
+          due: due.toDate(),
+        });
+      }
+    }
+    res.json(returned);
   } catch (e: any) {
+    console.log(e);
     res.json({ error: e.message });
   }
 };

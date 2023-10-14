@@ -288,7 +288,7 @@ export const Task: any = React.memo(function Task({
   const isRecurring = taskData.recurrenceRule !== null;
 
   useEffect(() => setTaskData(task), [task]);
-  
+
   const isCompleted = isRecurring
     ? taskData.completionInstances.find((instance) =>
         dayjs(instance.iteration)
@@ -323,50 +323,27 @@ export const Task: any = React.memo(function Task({
 
         if (mutate) {
           mutateList(
-            (oldData) => {
-              if (isRecurring) {
-                const updatedRecurringTasks = oldData.recurringTasks.map(
-                  (task) =>
-                    task.id === taskData.id
-                      ? {
-                          ...task,
-                          completionInstances: !completed
-                            ? task.completionInstances.filter(
-                                (instance) =>
-                                  !dayjs(instance.iteration)
-                                    .startOf("day")
-                                    .isSame(instanceDate)
-                              )
-                            : [...task.completionInstances, newInstance],
-                        }
-                      : task
-                );
-
-                return {
-                  ...oldData,
-                  recurringTasks: updatedRecurringTasks,
-                };
-              } else {
-                const updatedData = (oldData.data || []).map((oldTask) =>
-                  oldTask.id === taskData.id
-                    ? !completed
-                      ? { ...oldTask, completionInstances: [] }
-                      : {
-                          ...oldTask,
-                          completionInstances: [
-                            ...oldTask.completionInstances,
-                            newInstance,
-                          ],
-                        }
-                    : oldTask
-                );
-
-                return oldData.data
-                  ? { ...oldData, data: updatedData }
-                  : updatedData;
-              }
-            },
-            { revalidate: false }
+            isRecurring
+              ? {
+                  ...task,
+                  completionInstances: !completed
+                    ? task.completionInstances.filter(
+                        (instance) =>
+                          !dayjs(instance.iteration)
+                            .startOf("day")
+                            .isSame(instanceDate)
+                      )
+                    : [...task.completionInstances, newInstance],
+                }
+              : !completed
+              ? { ...task, completionInstances: [] }
+              : {
+                  ...task,
+                  completionInstances: [
+                    ...task.completionInstances,
+                    newInstance,
+                  ],
+                }
           );
         }
 

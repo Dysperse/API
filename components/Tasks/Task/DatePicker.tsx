@@ -75,8 +75,7 @@ function fetchDateData(
 ) {
   return new Promise<{ daysToHighlight: { date: number; count: number }[] }>(
     async (resolve, reject) => {
-      const data = await fetchRawApi(session, "property/tasks/perspectives", {
-        count: true,
+      const data = await fetchRawApi(session, "property/tasks/count", {
         startTime: dayjs(date).isValid()
           ? dayjs(date).startOf("month").toISOString()
           : dayjs().startOf("month").toISOString(),

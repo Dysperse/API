@@ -12,9 +12,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { RRule } from "rrule";
 import { PerspectiveContext } from ".";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
@@ -211,7 +210,6 @@ const Column = React.memo(function Column({
   column,
   data,
   view,
-  recurringTasks,
 }: any): JSX.Element {
   const scrollParentRef = useRef();
   const { session } = useSession();
@@ -219,7 +217,7 @@ const Column = React.memo(function Column({
   const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
 
-  const { mutateList, type, start } = useContext(PerspectiveContext);
+  const { mutateList, type } = useContext(PerspectiveContext);
 
   const columnStart = dayjs(column).startOf(type).toDate();
   const columnEnd = dayjs(columnStart).endOf(type).toDate();
@@ -244,64 +242,13 @@ const Column = React.memo(function Column({
     months: "MMM",
   }[type];
 
-  const isToday = dayjs(column).isSame(dayjs().startOf(columnMap), type);
+  const isToday = dayjs(column).isSame(dayjs(), type);
 
   // stupid virtuoso bug
   const [_, setRerender] = useState(false);
   useEffect(() => {
     setRerender(true);
   }, []);
-
-  const recurredTasks = recurringTasks
-    .map((task) => {
-      const rule = RRule.fromString(
-        `DTSTART:${dayjs(columnEnd).format("YYYYMMDDTHHmmss[Z]")}\n` +
-          (task.recurrenceRule.includes("\n")
-            ? task.recurrenceRule?.split("\n")[1]
-            : task.recurrenceRule)
-      ).between(
-        dayjs(columnStart).utc().startOf(type).toDate(),
-        dayjs(columnEnd).utc().startOf(type).toDate(),
-        true
-      );
-      return rule.length > 0 ? { ...task, recurrenceDay: rule } : undefined;
-    })
-    .filter((e) => e);
-
-  const sortedTasks = useMemo(
-    () =>
-      [...data, ...recurredTasks]
-        .filter((task) => {
-          if (task.recurrenceRule) return true;
-          const dueDate = new Date(task.due);
-          return dueDate >= columnStart && dueDate <= columnEnd;
-        })
-        .sort((e, d) => {
-          // First, check for recurring tasks and sort based on completion instances count
-          if (e.recurrenceRule && d.recurrenceRule) {
-            const eCompletionCount = e.completionInstances.length;
-            const dCompletionCount = d.completionInstances.length;
-
-            if (eCompletionCount !== dCompletionCount) {
-              return eCompletionCount - dCompletionCount;
-            }
-          }
-
-          // Next, apply the previous sorting logic for non-recurring tasks
-          return e.completionInstances.length !== 0 &&
-            d.completionInstances.length === 0
-            ? 1
-            : e.completionInstances.length === 0 &&
-              d.completionInstances.length !== 0
-            ? -1
-            : e.pinned && !d.pinned
-            ? -1
-            : !e.pinned && d.pinned
-            ? 1
-            : 0;
-        }),
-    [recurredTasks, data, columnEnd, columnStart]
-  );
 
   return (
     <Box
@@ -336,12 +283,12 @@ const Column = React.memo(function Column({
         column={column}
         isToday={isToday}
         columnMap={columnMap}
-        sortedTasks={sortedTasks}
+        sortedTasks={data}
         heading={heading}
         columnEnd={columnEnd}
       />
       <Box sx={{ px: { sm: 1 } }}>
-        {recurredTasks?.length === 0 && sortedTasks?.length == 0 && (
+        {data?.length == 0 && (
           <Box
             sx={{
               display: "flex",
@@ -382,9 +329,7 @@ const Column = React.memo(function Column({
                 }}
               >
                 <Typography variant="h6">
-                  {sortedTasks.length === 0 && recurredTasks.length == 0
-                    ? "No tasks"
-                    : "You finished everything!"}
+                  {data.length === 0 ? "No tasks" : "You finished everything!"}
                 </Typography>
                 <RandomTask date={column} />
               </Box>
@@ -397,7 +342,7 @@ const Column = React.memo(function Column({
           customScrollParent={
             isMobile ? containerRef.current : scrollParentRef.current
           }
-          data={sortedTasks}
+          data={data}
           itemContent={(_, task) => (
             <Task
               recurringInstance={task.recurrenceDay}
@@ -407,8 +352,39 @@ const Column = React.memo(function Column({
               isScrolling={isScrolling}
               board={task.board || false}
               columnId={task.column ? task.column.id : -1}
-              mutate={() => {}}
-              mutateList={mutateList}
+              mutateList={(updatedTask) => {
+                if (!updatedTask) {
+                  return mutateList();
+                }
+                mutateList(
+                  (oldDates) => {
+                    const index = oldDates.findIndex(({ start, end }) =>
+                      dayjs(column).isBetween(
+                        start,
+                        end,
+                        {
+                          days: "day",
+                          weeks: "week",
+                          months: "month",
+                        }[type],
+                        "[]"
+                      )
+                    );
+                    return oldDates.map((col, colIndex) => {
+                      if (colIndex !== index) return col;
+                      return {
+                        ...col,
+                        tasks: col.tasks.map((d) => {
+                          return d.id === updatedTask.id ? updatedTask : d;
+                        }),
+                      };
+                    });
+                  },
+                  {
+                    revalidate: false,
+                  }
+                );
+              }}
               task={task}
             />
           )}

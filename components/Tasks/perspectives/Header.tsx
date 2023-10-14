@@ -47,7 +47,10 @@ export const Header = memo(function Header({
 
   const { mutateList, type } = useContext(PerspectiveContext);
 
-  const isPast = dayjs(column).isBefore(dayjs().startOf(columnMap), type);
+  const isPast = dayjs(column)
+    .utc()
+    .startOf(columnMap)
+    .isBefore(dayjs().startOf(columnMap), type);
 
   return (
     <Box
@@ -106,12 +109,12 @@ export const Header = memo(function Header({
             )}
             <SelectDateModal
               disabled={!isMobile}
-              date={dayjs(column).toDate()}
+              date={dayjs(column).utc().toDate()}
               setDate={(date) => {
                 setTimeout(() => {
                   router.push(
                     "/tasks/perspectives/days/" +
-                      dayjs(date).format("YYYY-MM-DD")
+                      dayjs(date).utc().format("YYYY-MM-DD")
                   );
                 }, 500);
               }}
@@ -126,10 +129,10 @@ export const Header = memo(function Header({
                     <Typography sx={{ fontWeight: 700 }}>
                       {isToday
                         ? "Today"
-                        : capitalizeFirstLetter(dayjs(column).fromNow())}
+                        : capitalizeFirstLetter(dayjs(column).utc().fromNow())}
                     </Typography>
                     <Typography variant="body2">
-                      {dayjs(column).format("dddd, MMMM D, YYYY")}
+                      {dayjs(column).utc().format("dddd, MMMM D, YYYY")}
                     </Typography>
                   </Typography>
                 }
@@ -174,7 +177,7 @@ export const Header = memo(function Header({
                       ...(isPast && { opacity: 0.5 }),
                     }}
                   >
-                    {dayjs(column).format(heading)}
+                    {dayjs(column).utc().format(heading)}
                   </Typography>
 
                   <Typography
@@ -193,9 +196,9 @@ export const Header = memo(function Header({
                         }),
                       }}
                     >
-                      {dayjs(column).format(subheading)}
+                      {dayjs(column).utc().format(subheading)}
                       {type === "weeks" &&
-                        " - " + dayjs(columnEnd).format("DD")}
+                        " - " + dayjs(columnEnd).utc().format("DD")}
                     </span>
                   </Typography>
                 </Box>
@@ -227,7 +230,7 @@ export const Header = memo(function Header({
           {session.permission !== "read-only" && (
             <CreateTask
               onSuccess={mutateList}
-              defaultDate={dayjs(column).startOf(type).toDate()}
+              defaultDate={dayjs(column).utc().toDate()}
               sx={{ flexGrow: 1 }}
             >
               <Button variant="contained" fullWidth sx={{ width: "100%" }}>

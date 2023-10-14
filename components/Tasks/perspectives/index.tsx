@@ -44,6 +44,12 @@ export function Agenda({ type, date }) {
     months: isMobile ? "month" : "year",
   };
 
+  const columnMap1 = {
+    days: "week",
+    weeks: "month",
+    months: "year",
+  };
+
   const viewHeadingFormats = {
     days: "MMMM",
     weeks: "MMMM",
@@ -96,8 +102,10 @@ export function Agenda({ type, date }) {
     }
   };
 
+  const { session } = useSession();
+
   const start = dayjs(date).startOf(columnMap[type]);
-  const end = dayjs(date).endOf(columnMap[type]);
+  const end = dayjs(start).endOf(columnMap[type]);
 
   // Create an array of columns for each [type] in [columnMap]
   const columns = Array.from(
@@ -108,13 +116,13 @@ export function Agenda({ type, date }) {
   const { data, mutate: mutateList } = useSWR([
     "property/tasks/perspectives",
     {
-      startTime: start.toISOString(),
-      endTime: end.toISOString(),
-      view
+      timezone: session.user.timeZone,
+      start: start.toISOString(),
+      end: end.toISOString(),
+      type: columnMap1[type],
     },
   ]);
 
-  const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -148,6 +156,7 @@ export function Agenda({ type, date }) {
     router.asPath ===
       `/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}` ||
     router.asPath === `/tasks/perspectives/${type}`;
+
   return (
     <PerspectiveContext.Provider
       value={{
@@ -347,12 +356,27 @@ export function Agenda({ type, date }) {
           ref={agendaContainerRef}
         >
           {data && columns?.length > 0 ? (
-            columns.map((column: any) => (
+            data.map((column: any) => (
               <Column
-                key={column}
-                column={column}
-                data={data.data}
-                recurringTasks={data.recurringTasks}
+                key={column.start}
+                column={column.end}
+                data={column.tasks.sort((e) => {
+                  if (
+                    (!e.recurringInstance &&
+                      e.completionInstances.length > 0) ||
+                    (e.recurringInstance &&
+                      e.recurrenceDay.includes(column.start))
+                  ) {
+                    return 1;
+                  } else {
+                    return e.pinned
+                      ? -1
+                      : e.recurringInstance &&
+                        e.completionInstances.length === 0
+                      ? -2
+                      : -1;
+                  }
+                })}
                 view={view}
               />
             ))
