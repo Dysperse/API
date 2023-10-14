@@ -450,7 +450,6 @@ export function Agenda({ type, date }) {
           }}
           ref={agendaContainerRef}
         >
-          {error && <ErrorHandler />}
           {!error && data && columns?.length > 0 ? (
             data.map((column: any) => (
               <Column
@@ -476,6 +475,8 @@ export function Agenda({ type, date }) {
                 view={view}
               />
             ))
+          ) : error ? (
+            <ErrorHandler callback={mutateList} />
           ) : (
             <CircularProgress />
           )}
