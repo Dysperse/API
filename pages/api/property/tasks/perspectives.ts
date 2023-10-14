@@ -89,7 +89,8 @@ const handler = async (req, res) => {
         const unit = units.find(({ start, end }) =>
           due.isBetween(start, end, map[type], "[]")
         );
-        if (unit) tasksByUnit.get(unit).push(task);
+        if (unit)
+          tasksByUnit.get(unit).push({ ...task, recurrenceDay: dueDate });
       }
     }
 
