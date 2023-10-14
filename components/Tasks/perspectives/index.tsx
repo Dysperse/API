@@ -22,6 +22,7 @@ import SelectDateModal from "../Task/DatePicker";
 import Column from "./Column";
 
 export const PerspectiveContext = createContext<any>(null);
+
 function FocusTrigger({ view, setView, scrollIntoView }) {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
