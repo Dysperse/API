@@ -29,6 +29,7 @@ function PerspectivesLoadingScreen(): any {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const TaskSkeleton = memo(() => (
     <Box
@@ -45,71 +46,100 @@ function PerspectivesLoadingScreen(): any {
         animation="wave"
         variant="rectangular"
         sx={{
-          width: `${100 - Math.random() * 100}%`,
+          width: `${120 - Math.random() * 100}%`,
           minWidth: "50%",
         }}
       />
     </Box>
   ));
 
-  return [...new Array(Math.round(window.innerWidth / 320))].map((_, i) => (
-    <Box
-      key={i}
-      sx={{
-        borderRight: `1px solid ${addHslAlpha(palette[4], 0.5)}`,
-        width: "320px",
-        flex: "0 0 320px",
-        overflow: "hidden",
-      }}
-    >
+  return [...new Array(isMobile ? 1 : Math.round(window.innerWidth / 320))].map(
+    (_, i) => (
       <Box
+        key={i}
         sx={{
-          px: 3,
-          py: 4.3,
-          borderBottom: `1px solid ${addHslAlpha(palette[4], 0.5)}`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 2,
+          borderRight: `1px solid ${addHslAlpha(palette[4], 0.5)}`,
+          width: { xs: "100%", sm: "320px" },
+          flex: { xs: "0 0 100%", sm: "0 0 320px" },
+          pt: "var(--navbar-height)",
+          overflow: "hidden",
         }}
       >
-        <Skeleton
-          animation="wave"
-          variant="circular"
-          width={35}
-          height={35}
+        <Box
           sx={{
-            borderRadius: 3,
-            flexShrink: 0,
+            px: 3,
+            py: { xs: 3, sm: 4.3 },
+            borderBottom: { sm: `1px solid ${addHslAlpha(palette[4], 0.5)}` },
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 2,
           }}
-        />
-        <Skeleton
-          animation="wave"
-          variant="rectangular"
-          height={35}
-          width={120}
-        />
+        >
+          {isMobile && (
+            <Skeleton
+              animation="wave"
+              variant="circular"
+              width={30}
+              height={30}
+              sx={{
+                flexShrink: 0,
+                mr: "auto",
+              }}
+            />
+          )}
+          <Skeleton
+            animation="wave"
+            variant="circular"
+            width={35}
+            height={35}
+            sx={{
+              borderRadius: 3,
+              flexShrink: 0,
+            }}
+          />
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            height={35}
+            width={120}
+          />
+          {isMobile && (
+            <Skeleton
+              animation="wave"
+              variant="circular"
+              width={30}
+              height={30}
+              sx={{
+                flexShrink: 0,
+                ml: "auto",
+              }}
+            />
+          )}
+        </Box>
+        <Box sx={{ py: 2, px: 3, display: "flex", gap: 2.5, mb: -2 }}>
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            height={37}
+            sx={{ flexGrow: 1 }}
+          />
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            height={37}
+            width={60}
+            sx={{ flexShrink: 0 }}
+          />
+        </Box>
+        {[...new Array(isMobile ? 15 : ~~(Math.random() * 4) + 4)].map(
+          (_, i) => (
+            <TaskSkeleton key={i} />
+          )
+        )}
       </Box>
-      <Box sx={{ py: 2, px: 3, display: "flex", gap: 2.5, mb: -2 }}>
-        <Skeleton
-          animation="wave"
-          variant="rectangular"
-          height={37}
-          sx={{ flexGrow: 1 }}
-        />
-        <Skeleton
-          animation="wave"
-          variant="rectangular"
-          height={37}
-          width={60}
-          sx={{ flexShrink: 0 }}
-        />
-      </Box>
-      {[...new Array(~~(Math.random() * 4) + 4)].map((_, i) => (
-        <TaskSkeleton key={i} />
-      ))}
-    </Box>
-  ));
+    )
+  );
 }
 
 function FocusTrigger({ view, setView, scrollIntoView }) {
