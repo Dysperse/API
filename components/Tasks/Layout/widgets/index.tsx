@@ -1,4 +1,3 @@
-import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Logo } from "@/components/Logo";
 import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -356,19 +355,7 @@ export function WidgetBar({ view, setView }) {
         animate={{ x: 0 }}
         className="container"
       >
-        <ConfirmationModal
-          callback={() => setView("all")}
-          title="Exit focus mode?"
-          question="Any timers set or notes created will be cleared."
-        >
-          <IconButton
-            id="exitFocus"
-            sx={{ background: palette[4], mb: "auto" }}
-            size="large"
-          >
-            <Icon className="outlined">close</Icon>
-          </IconButton>
-        </ConfirmationModal>
+        <Box sx={{ pt: "var(--navbar-height)", mt: "auto" }} />
         <FocusTimer>
           <Box sx={focusToolsStyles.button}>
             <Icon className="outlined">timer</Icon>
