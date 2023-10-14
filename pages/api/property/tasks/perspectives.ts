@@ -116,7 +116,7 @@ const handler = async (req, res) => {
     res.json(returned);
   } catch (e: any) {
     console.error(e);
-    res.json({ error: e.message });
+    res.status(500).json({ error: e.message });
   }
 };
 
