@@ -377,7 +377,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
                   date: dayjs(today).add(1, "week"),
                 },
                 {
-                  label: `Next ${dayjs().format("mmmm")}`,
+                  label: `Next ${dayjs().format("MMMM")}`,
                   date: dayjs(today).add(1, "month"),
                 },
               ].map((chip) => (
