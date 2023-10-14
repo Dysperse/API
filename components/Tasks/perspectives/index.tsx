@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Collapse,
   Icon,
   IconButton,
   Typography,
@@ -14,7 +15,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { WidgetBar } from "../Layout/widgets";
@@ -22,6 +22,115 @@ import SelectDateModal from "../Task/DatePicker";
 import Column from "./Column";
 
 export const PerspectiveContext = createContext<any>(null);
+function FocusTrigger({ view, setView, scrollIntoView }) {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+  const redPalette = useColor("red", isDark);
+
+  const [startTime, setStartTime] = useState<any>(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  useEffect(() => {
+    let interval;
+
+    if (startTime) {
+      interval = setInterval(() => {
+        const now = new Date().getTime();
+        const elapsed = now - startTime;
+        setElapsedTime(elapsed);
+      }, 1000); // Update every second
+    } else {
+      clearInterval(interval);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [startTime]);
+
+  const formatTime = (ms) => {
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+
+    const mm = minutes % 60;
+    const ss = seconds % 60;
+
+    if (hours > 0) {
+      return `${hours}:${mm < 10 ? "0" : ""}${mm}`;
+    } else {
+      return `${mm}:${ss < 10 ? "0" : ""}${ss}`;
+    }
+  };
+
+  const startFocus = () => {
+    if (view === "priority") {
+      // Stop the timer
+      setStartTime(null);
+    } else {
+      // Start the timer
+      setStartTime(new Date().getTime() - elapsedTime);
+    }
+    setView(view === "priority" ? "all" : "priority");
+    scrollIntoView();
+  };
+
+  return (
+    <Button
+      variant="contained"
+      sx={{
+        ml: "auto",
+        color: "inherit!important",
+        border: `2px solid`,
+        borderRadius: view === "priority" ? 3 : 5,
+        transition: "border-radius .5s!important",
+        borderColor: view === "priority" ? redPalette[9] : palette[5],
+      }}
+      onClick={startFocus}
+    >
+      <Icon
+        className="outlined"
+        sx={{
+          transition: "all .5s",
+          ...(view === "priority" && {
+            ml: -2,
+          }),
+        }}
+      >
+        {view === "priority" ? "stop" : "target"}
+      </Icon>
+      <Box
+        sx={{
+          textAlign: "left",
+          transition: "all .5s",
+          ...(view === "priority" && {
+            my: -0.5,
+            mr: -1.5,
+          }),
+        }}
+      >
+        <Typography
+          sx={{
+            whiteSpace: "nowrap",
+            display: "flex",
+            transition: "all .5s",
+            ...(view === "priority" && {
+              fontSize: "12px",
+              mb: -0.4,
+            }),
+          }}
+        >
+          Focus
+          <Collapse in={view === "priority"} orientation="horizontal">
+            ing
+          </Collapse>
+        </Typography>
+        <Collapse in={view === "priority"}>{formatTime(elapsedTime)}</Collapse>
+      </Box>
+    </Button>
+  );
+}
 
 /**
  * Agenda container
@@ -266,31 +375,11 @@ export function Agenda({ type, date }) {
                 </AnimatePresence>
               </Button>
             </SelectDateModal>
-            <Button
-              variant="contained"
-              sx={{
-                ml: "auto",
-                color: "inherit!important",
-                transition: "box-shadow .3s!important",
-                "&:hover": {
-                  boxShadow: `0 0 25px 1px ${palette[8]}!important`,
-                },
-                ...(view === "priority" && {
-                  opacity: "0!important",
-                  pointerEvents: "none!important",
-                }),
-              }}
-              onClick={() => {
-                setView("priority");
-                scrollIntoView();
-                toast.dismiss();
-                toast("Focus mode", {
-                  icon: <Icon>target</Icon>,
-                });
-              }}
-            >
-              <Icon className="outlined">target</Icon>Focus
-            </Button>
+            <FocusTrigger
+              view={view}
+              setView={setView}
+              scrollIntoView={scrollIntoView}
+            />
             <Box
               sx={{ ml: "auto", background: palette[3], borderRadius: 3 }}
               className="priority-hidden"
