@@ -59,9 +59,9 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
     const ss = seconds % 60;
 
     if (hours > 0) {
-      return `${hours}:${mm < 10 ? "0" : ""}${mm}`;
+      return `${hours.toString().padStart(2, "0")}:${mm < 10 ? "0" : ""}${mm}`;
     } else {
-      return `${mm}:${ss < 10 ? "0" : ""}${ss}`;
+      return `${mm.toString().padStart(2, "0")}:${ss < 10 ? "0" : ""}${ss}`;
     }
   };
 
