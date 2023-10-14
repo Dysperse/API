@@ -16,71 +16,35 @@ const handler = async (req, res) => {
       credentials: [req.query.property, req.query.accessToken],
     });
 
-    // Get the column start and end
     const map = {
       week: "day",
       month: "week",
       year: "month",
     };
 
-    // Get type of perspective view
-    const { timezone, type } = req.query;
+    const { type } = req.query; // Removed unnecessary 'timezone' variable
     if (!map[type]) return res.json({ error: "Invalid `type`" });
 
-    // Used to get events only from the perspective start to end
     const start = dayjs(req.query.start);
     const end = dayjs(req.query.end);
 
-    // Get # of ____ (i.e. days) in ____ (i.e. week)
-    const units: PerspectiveUnit[] = [
-      ...new Array(end.diff(start, map[type]) + 1),
-    ].map((_, i) => {
-      return {
-        start: dayjs(start)
-          .utc()
-          .add(i, map[type])
-          .startOf(map[type])
-          .toISOString(),
-        end: dayjs(start)
-          .utc()
-          .add(i, map[type])
-          .endOf(map[type])
-          .toISOString(),
-
+    // Create an array of dates as Dayjs objects for each perspective unit
+    const units: PerspectiveUnit[] = Array.from(
+      { length: end.diff(start, map[type]) + 1 },
+      (_, i) => ({
+        start: dayjs(start).add(i, map[type]).startOf(map[type]).toISOString(),
+        end: dayjs(start).add(i, map[type]).endOf(map[type]).toISOString(),
         tasks: [],
-      };
-    });
+      })
+    );
 
-    let returned = units;
-
+    // Retrieve tasks in a single query
     const tasks = await prisma.task.findMany({
       where: {
-        AND: [
-          // Don't select subtasks
-          { parentTasks: { none: { property: { id: req.query.property } } } },
-
-          // Make sure the user owns these tasks
-          { property: { id: req.query.property } },
-
-          // remember, recurring tasks have weird times...
-          {
-            OR: [
-              // If it doesn't have a recurrence
-              {
-                AND: [
-                  { recurrenceRule: null },
-                  // { due: { not: null } },
-                  { due: { gte: start.toDate() } },
-                  { due: { lte: end.toDate() } },
-                ],
-              },
-              // If it has a recurrence. We'll have to filter these out later...
-              {
-                AND: [{ recurrenceRule: { not: null } }],
-              },
-            ],
-          },
-        ],
+        parentTasks: { none: { property: { id: req.query.property } } },
+        property: { id: req.query.property },
+        due: { gte: start.toDate(), lte: end.toDate() },
+        OR: [{ recurrenceRule: null }, { recurrenceRule: { not: null } }],
       },
       orderBy: { pinned: "desc" },
       include: {
@@ -105,63 +69,48 @@ const handler = async (req, res) => {
       },
     });
 
-    // Get the specific day this recurrs
-    let recurringTasks = tasks
-      .filter((task) => task.recurrenceRule)
-      .map((task) => {
-        const rule = RRule.fromString(
-          `DTSTART:${start.format("YYYYMMDDTHHmmss[Z]")}\n` +
-            ((task.recurrenceRule as any).includes("\n")
-              ? task.recurrenceRule?.split("\n")[1]
-              : task.recurrenceRule)
-        ).between(start.toDate(), end.toDate(), true);
-        return rule.length > 0 ? { ...task, recurrenceDay: rule } : undefined;
-      });
+    const recurringTasks = tasks.filter((task) => task.recurrenceRule);
 
-    let regularTasks = tasks.filter((task) => task.recurrenceRule === null);
+    // Use a Map to store tasks for each perspective unit
+    const tasksByUnit: any = new Map(units.map((unit) => [unit, []]));
 
-    // Add all recurring tasks!
-    for (const i in recurringTasks) {
-      const task = recurringTasks[i];
-      for (const dueIndex in task?.recurrenceDay) {
-        const due = dayjs(task.recurrenceDay[dueIndex]);
+    // Populate the tasks for each perspective unit
+    for (const task of recurringTasks) {
+      if (!task.recurrenceRule) continue;
+      const rule = RRule.fromString(
+        `DTSTART:${start.format("YYYYMMDDTHHmmss[Z]")}\n` +
+          (task.recurrenceRule.includes("\n")
+            ? task.recurrenceRule.split("\n")[1]
+            : task.recurrenceRule)
+      ).between(start.toDate(), end.toDate(), true);
 
-        const index = returned.findIndex(({ start, end }) =>
+      for (const dueDate of rule) {
+        const due = dayjs(dueDate);
+        const unit = units.find(({ start, end }) =>
           due.isBetween(start, end, map[type], "[]")
         );
-
-        if (returned[index]) {
-          returned[index].tasks.push(task);
-        } else {
-          console.log("Missing recurring value: " + due.toISOString());
-        }
+        if (unit) tasksByUnit.get(unit).push(task);
       }
     }
 
-    // Add other tasks
-    for (const i in regularTasks) {
-      const task = regularTasks[i];
+    for (const task of tasks.filter((task) => task.recurrenceRule === null)) {
       const due = dayjs(task.due);
-
-      const index = returned.findIndex(({ start, end }) =>
+      const unit = units.find(({ start, end }) =>
         due.isBetween(start, end, map[type], "[]")
       );
-
-      if (returned[index]) {
-        returned[index].tasks.push(task);
-      } else {
-        console.log({
-          type: "absolute",
-          name: task.name,
-          start: start.toDate(),
-          end: end.toDate(),
-          due: due.toDate(),
-        });
-      }
+      if (unit) tasksByUnit.get(unit).push(task);
     }
+
+    // Convert the map of tasks by unit to an array of PerspectiveUnit objects
+    const returned = units.map((unit) => ({
+      start: unit.start,
+      end: unit.end,
+      tasks: tasksByUnit.get(unit),
+    }));
+
     res.json(returned);
   } catch (e: any) {
-    console.log(e);
+    console.error(e);
     res.json({ error: e.message });
   }
 };
