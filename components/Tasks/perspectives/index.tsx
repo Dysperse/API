@@ -25,6 +25,22 @@ import Column from "./Column";
 
 export const PerspectiveContext = createContext<any>(null);
 
+export const sortedTasks = (tasks, column) =>
+  tasks.sort((a, b) => {
+    if (
+      (!a.recurringInstance && a.completionInstances?.length > 0) ||
+      (a.recurringInstance && a.recurrenceDay.includes(column.start))
+    ) {
+      return 1;
+    } else if (
+      (!b.recurringInstance && b.completionInstances?.length > 0) ||
+      (b.recurringInstance && b.recurrenceDay.includes(column.start))
+    ) {
+      return -1;
+    } else {
+      return a.pinned ? -1 : b.pinned ? 1 : 0;
+    }
+  });
 function PerspectivesLoadingScreen(): any {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -574,25 +590,7 @@ export function Agenda({ type, date }) {
               <Column
                 key={column.start}
                 column={column.end}
-                data={column.tasks.sort((a, b) => {
-                  if (
-                    (!a.recurringInstance &&
-                      a.completionInstances.length > 0) ||
-                    (a.recurringInstance &&
-                      a.recurrenceDay.includes(column.start))
-                  ) {
-                    return 1;
-                  } else if (
-                    (!b.recurringInstance &&
-                      b.completionInstances.length > 0) ||
-                    (b.recurringInstance &&
-                      b.recurrenceDay.includes(column.start))
-                  ) {
-                    return -1;
-                  } else {
-                    return a.pinned ? -1 : b.pinned ? 1 : 0;
-                  }
-                })}
+                data={sortedTasks(column.tasks, column)}
                 view={view}
               />
             ))

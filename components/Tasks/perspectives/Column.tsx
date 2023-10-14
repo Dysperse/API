@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
-import { PerspectiveContext } from ".";
+import { PerspectiveContext, sortedTasks } from ".";
 import { Task } from "../Task";
 import { CreateTask } from "../Task/Create";
 import { Header } from "./Header";
@@ -374,9 +374,12 @@ const Column = React.memo(function Column({
                       if (colIndex !== index) return col;
                       return {
                         ...col,
-                        tasks: col.tasks.map((d) => {
-                          return d.id === updatedTask.id ? updatedTask : d;
-                        }),
+                        tasks: sortedTasks(
+                          col.tasks.map((d) => {
+                            return d.id === updatedTask.id ? updatedTask : d;
+                          }),
+                          col
+                        ),
                       };
                     });
                   },
