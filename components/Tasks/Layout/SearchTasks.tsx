@@ -22,7 +22,13 @@ import { CreateTask } from "../Task/Create";
 
 const filter = createFilterOptions();
 
-export function SearchTasks({ children }: { children?: JSX.Element }) {
+export function SearchTasks({
+  children,
+  inputOnly = false,
+}: {
+  children?: JSX.Element;
+  inputOnly?: boolean;
+}) {
   const ref: any = useRef();
   const router = useRouter();
   const routerQuery = router?.query?.query
@@ -97,6 +103,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
   const input = (
     <>
       <Autocomplete
+        disabled={inputOnly}
         multiple
         id="searchTasks"
         fullWidth
@@ -167,6 +174,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
                 key={index.toString()}
                 icon={<Icon>{chip.icon}</Icon>}
                 label={chip.title}
+                {...(inputOnly && { onDelete: undefined })}
               />
             ) : (
               <Chip
@@ -174,6 +182,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
                 key={index.toString()}
                 icon={<Icon>search</Icon>}
                 label={chip}
+                {...(inputOnly && { onDelete: undefined })}
               />
             )
           );
@@ -185,6 +194,9 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
         sx={{
           "&, & *:not(:focus-within)": {
             cursor: "default !important",
+            ...(inputOnly && {
+              opacity: `1!important`,
+            }),
           },
         }}
         filterSelectedOptions
@@ -195,14 +207,14 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
               ...params.InputProps,
               disableUnderline: true,
               sx: {
-                background: palette[4],
-                px: 2,
-                pt: 0.7,
-                pb: "4px!important",
+                background: inputOnly ? "" : palette[4],
+                px: inputOnly ? 0 : 2,
+                pt: inputOnly ? 0 : 0.7,
+                pb: inputOnly ? 0 : "4px!important",
                 border: `2px solid ${palette[4]}`,
                 "&:hover": {
-                  background: palette[5],
-                  borderColor: palette[5],
+                  background: { sm: palette[5] },
+                  borderColor: { sm: palette[5] },
                 },
                 "&:focus-within": {
                   background: palette[1],
@@ -216,6 +228,7 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
             placeholder={query.length === 0 ? "Search tasks..." : undefined}
           />
         )}
+        limitTags={inputOnly ? 1 : undefined}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
@@ -292,7 +305,13 @@ export function SearchTasks({ children }: { children?: JSX.Element }) {
     </CreateTask>
   );
 
-  return isMobile ? (
+  return inputOnly ? (
+    <SearchTasks>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ pointerEvents: "none" }}>{input}</Box>
+      </Box>
+    </SearchTasks>
+  ) : isMobile ? (
     <>
       <SwipeableDrawer
         anchor="top"

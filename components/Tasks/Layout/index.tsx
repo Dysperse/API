@@ -2,6 +2,7 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { containerRef } from "@/components/Layout";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -20,7 +21,6 @@ import {
   ListItemText,
   Skeleton,
   SwipeableDrawer,
-  TextField,
   Toolbar,
   Tooltip,
   Typography,
@@ -985,43 +985,42 @@ export function TasksLayout({
             {!isSearch && trigger}
             {isSearch ? <></> : <SearchTasks />}
             {isSearch && (
-              <TextField
-                variant="outlined"
-                placeholder="Search tasks..."
-                defaultValue={router.query.query}
-                size="small"
-                InputProps={{
-                  sx: { borderRadius: 99 },
-                }}
-                sx={{ mr: 1 }}
-                inputRef={searchRef}
-              />
-            )}
-            {navbarRightContent || (
-              <CreateTask
-                closeOnCreate
-                defaultDate={dayjs().startOf("day").toDate()}
-                onSuccess={() => {
-                  document.getElementById("taskMutationTrigger")?.click();
-                }}
-              >
+              <>
                 <IconButton
-                  id="createTaskTrigger"
-                  sx={{
-                    "&:active": {
-                      transform: "scale(0.9)",
-                    },
-                    color: palette[9],
-                    background: addHslAlpha(palette[3], 0.8),
-                    transition: "transform .1s",
+                  onClick={() => handleBack(router)}
+                  sx={{ color: palette[9] }}
+                >
+                  <Icon>arrow_back_ios_new</Icon>
+                </IconButton>
+                <SearchTasks inputOnly />
+              </>
+            )}
+            {navbarRightContent ||
+              (!isSearch && (
+                <CreateTask
+                  closeOnCreate
+                  defaultDate={dayjs().startOf("day").toDate()}
+                  onSuccess={() => {
+                    document.getElementById("taskMutationTrigger")?.click();
                   }}
                 >
-                  <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                    add
-                  </Icon>
-                </IconButton>
-              </CreateTask>
-            )}
+                  <IconButton
+                    id="createTaskTrigger"
+                    sx={{
+                      "&:active": {
+                        transform: "scale(0.9)",
+                      },
+                      color: palette[9],
+                      background: addHslAlpha(palette[3], 0.8),
+                      transition: "transform .1s",
+                    }}
+                  >
+                    <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
+                      add
+                    </Icon>
+                  </IconButton>
+                </CreateTask>
+              ))}
           </Toolbar>
         </AppBar>
       )}
