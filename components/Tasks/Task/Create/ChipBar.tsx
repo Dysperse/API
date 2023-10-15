@@ -449,6 +449,9 @@ const ChipBar = React.memo(function ChipBar({
             overflowY: "visible",
             whiteSpace: "nowrap",
             display: "flex",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
           }}
           onClick={() => titleRef?.current?.focus()}
         >
