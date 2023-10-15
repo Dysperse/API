@@ -26,7 +26,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { preventExcessScroll, swipeablePageStyles } from "..";
+import { swipeablePageStyles } from "..";
 import { CreateItem } from "../../components/Inventory/CreateItem";
 import { ItemPopup } from "./[room]";
 
@@ -447,15 +447,18 @@ export default function RoomLayout({ children }) {
     startIndex: 1,
     active: router.asPath === "/rooms",
   });
+  const [loadingIndex, setLoadingIndex] = useState(1);
 
   useEffect(() => {
     if (router.asPath === "/rooms" && emblaApi) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
+          setLoadingIndex(0);
           router.push("/");
+        } else {
+          setLoadingIndex(1);
         }
       });
-      preventExcessScroll(emblaApi);
     }
   }, [emblaApi, router]);
 
@@ -477,7 +480,14 @@ export default function RoomLayout({ children }) {
           }
         />
       )}
-      <Box ref={emblaRef}>
+      <Box
+        ref={emblaRef}
+        sx={{
+          ...(loadingIndex !== 1 && {
+            pointerEvents: "none",
+          }),
+        }}
+      >
         <Box sx={{ display: { xs: "flex", sm: "block" } }}>
           {router.asPath === "/rooms" && (
             <Box
@@ -485,11 +495,18 @@ export default function RoomLayout({ children }) {
                 flex: { xs: "0 0 100dvw", sm: "" },
               }}
             >
-              <Box sx={swipeablePageStyles(palette, "left")}>
-                <Icon>upcoming</Icon>
-                <Typography variant="h4" className="font-heading">
-                  Home
-                </Typography>
+              <Box
+                sx={{
+                  transform: `scale(${loadingIndex === 0 ? 1.5 : 1})`,
+                  transition: "all .4s cubic-bezier(.17,.67,.57,1.39)",
+                }}
+              >
+                <Box sx={swipeablePageStyles(palette, "left")}>
+                  <Icon>upcoming</Icon>
+                  <Typography variant="h4" className="font-heading">
+                    Home
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           )}

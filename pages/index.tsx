@@ -25,36 +25,6 @@ import useSWR from "swr";
 import { HeadingComponent } from "../components/Start/HeadingComponent";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
-export const preventExcessScroll = (emblaApi) =>
-  emblaApi.on("scroll", (emblaApi) => {
-    const {
-      limit,
-      target,
-      location,
-      offsetLocation,
-      scrollTo,
-      translate,
-      scrollBody,
-    } = emblaApi.internalEngine();
-
-    let edge: number | null = null;
-
-    if (limit.reachedMax(location.get())) edge = limit.max;
-    if (limit.reachedMin(location.get())) edge = limit.min;
-
-    if (edge !== null) {
-      offsetLocation.set(edge);
-      location.set(edge);
-      target.set(edge);
-      translate.to(edge);
-      translate.toggleActive(false);
-      scrollBody.useDuration(0).useFriction(0);
-      scrollTo.distance(0, false);
-    } else {
-      translate.toggleActive(true);
-    }
-  });
-
 export const swipeablePageStyles = (palette, direction) => ({
   position: "sticky",
   top: "0px",
@@ -136,15 +106,19 @@ export default function Home() {
     startIndex: 1,
     active: isMobile,
   });
+  const [loadingIndex, setLoadingIndex] = useState(1);
 
   useEffect(() => {
     if (emblaApi) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
+          setLoadingIndex(0);
           router.push("/tasks/home");
-        }
-        if (e.selectedScrollSnap() == 2) {
+        } else if (e.selectedScrollSnap() == 2) {
+          setLoadingIndex(2);
           router.push("/rooms");
+        } else {
+          setLoadingIndex(1);
         }
       });
     }
@@ -153,7 +127,15 @@ export default function Home() {
   return (
     <>
       <Navbar showLogo={isMobile} showRightContent={isMobile} />
-      <Box sx={{ mt: "env(titlebar-area-height)" }} ref={emblaRef}>
+      <Box
+        sx={{
+          mt: "env(titlebar-area-height)",
+          ...(loadingIndex !== 1 && {
+            pointerEvents: "none",
+          }),
+        }}
+        ref={emblaRef}
+      >
         <Box sx={{ display: "flex" }}>
           {isMobile && (
             <Box
@@ -161,11 +143,18 @@ export default function Home() {
                 flex: "0 0 100dvw",
               }}
             >
-              <Box sx={swipeablePageStyles(palette, "left")}>
-                <Icon>check_circle</Icon>
-                <Typography variant="h4" className="font-heading">
-                  Tasks
-                </Typography>
+              <Box
+                sx={{
+                  transform: `scale(${loadingIndex === 0 ? 1.5 : 1})`,
+                  transition: "all .4s cubic-bezier(.17,.67,.57,1.39)",
+                }}
+              >
+                <Box sx={swipeablePageStyles(palette, "left")}>
+                  <Icon>check_circle</Icon>
+                  <Typography variant="h4" className="font-heading">
+                    Tasks
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           )}
@@ -282,11 +271,18 @@ export default function Home() {
                 flex: "0 0 100dvw",
               }}
             >
-              <Box sx={swipeablePageStyles(palette, "right")}>
-                <Icon>package_2</Icon>
-                <Typography variant="h4" className="font-heading">
-                  Inventory
-                </Typography>
+              <Box
+                sx={{
+                  transform: `scale(${loadingIndex === 2 ? 1.5 : 1})`,
+                  transition: "all .4s cubic-bezier(.17,.67,.57,1.39)",
+                }}
+              >
+                <Box sx={swipeablePageStyles(palette, "right")}>
+                  <Icon>package_2</Icon>
+                  <Typography variant="h4" className="font-heading">
+                    Inventory
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           )}

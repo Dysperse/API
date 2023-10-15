@@ -22,7 +22,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { preventExcessScroll, swipeablePageStyles } from "..";
+import { swipeablePageStyles } from "..";
 
 function RecentlyAccessed() {
   const router = useRouter();
@@ -103,14 +103,18 @@ export default function Home() {
     skipSnaps: true,
   });
 
+  const [loadingIndex, setLoadingIndex] = useState(0);
+
   useEffect(() => {
     if (emblaApi) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 1) {
+          setLoadingIndex(1);
           router.push("/");
+        } else {
+          setLoadingIndex(0);
         }
       });
-      preventExcessScroll(emblaApi);
     }
   }, [emblaApi, router]);
 
@@ -153,6 +157,11 @@ export default function Home() {
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         ref={emblaRef}
+        style={{
+          ...(loadingIndex !== 0 && {
+            pointerEvents: "none",
+          }),
+        }}
       >
         <Box sx={{ display: "flex" }}>
           <Box sx={{ flex: "0 0 100dvw" }}>
@@ -236,11 +245,18 @@ export default function Home() {
             <MenuChildren editMode={editMode} setEditMode={setEditMode} />
           </Box>
           <Box sx={{ flex: "0 0 100dvw" }}>
-            <Box sx={swipeablePageStyles(palette, "right")}>
-              <Icon>upcoming</Icon>
-              <Typography variant="h4" className="font-heading">
-                Home
-              </Typography>
+            <Box
+              sx={{
+                transform: `scale(${loadingIndex === 1 ? 1.5 : 1})`,
+                transition: "all .4s cubic-bezier(.17,.67,.57,1.39)",
+              }}
+            >
+              <Box sx={swipeablePageStyles(palette, "right")}>
+                <Icon>upcoming</Icon>
+                <Typography variant="h4" className="font-heading">
+                  Home
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
