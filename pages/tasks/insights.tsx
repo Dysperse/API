@@ -10,12 +10,12 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { BarChart } from "@mui/x-charts/BarChart";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import useSWR from "swr";
-import { VictoryAxis, VictoryBar, VictoryChart } from "victory";
 
 function hourIntTo12(hour) {
   const period = hour >= 12 ? "PM" : "AM";
@@ -139,50 +139,38 @@ function Insights({ profile, tasks, defaultPalette }) {
 
   const children2 = (
     <>
-      <Box sx={{ ...cardStyles, pointerEvents: "none!important" }}>
-        <VictoryChart
-          padding={{
-            left: 5,
-            right: 5,
-            bottom: isMobile ? 20 : 17,
-          }}
-          theme={{
-            axis: {
-              style: {
-                tickLabels: {
-                  fill: palette[12],
-                },
-              },
+      <Box sx={{ ...cardStyles, p: 0 }}>
+        <BarChart
+          xAxis={[
+            {
+              id: "tasks",
+              data: Array.from({ length: 24 }, (_, index) => {
+                const hour = index % 12 || 12; // Convert 0 to 12 for 12:00 AM
+                const period = index < 12 ? "AM" : "PM";
+                return `${hour}:${period}`;
+              }),
+              scaleType: "band",
+              label: "Tasks",
             },
+          ]}
+          bottomAxis={{
+            axisId: "tasks",
+            // disableTicks: true,
+            tickFontSize: 0,
           }}
-        >
-          <VictoryAxis
-            style={{
-              axis: { stroke: palette[8] },
-              axisLabel: { fontSize: 20, padding: 30 },
-              grid: {
-                stroke: palette[6],
-              },
-              ticks: { stroke: palette[6], size: 5 },
-              tickLabels: {
-                fontSize: isMobile ? 15 : 11,
-                padding: 5,
-              },
-            }}
-            tickCount={isMobile ? 6 : 12}
-            tickFormat={(e) => hourIntTo12(e).replace(" ", "").toLowerCase()}
-          />
-          <VictoryBar
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 1000 },
-            }}
-            style={{ data: { fill: palette[11] } }}
-            data={hours}
-            x="hours"
-            y="tasks"
-          />
-        </VictoryChart>
+          colors={[palette[8]]}
+          series={[
+            {
+              data: Array.from(
+                { length: 24 },
+                (_, hour) =>
+                  tasks.filter((d) => dayjs(d.completedAt).hour() === hour)
+                    .length
+              ),
+            },
+          ]}
+          height={300}
+        />
       </Box>
       <Box sx={cardStyles}>
         <Typography variant="h4">

@@ -14,6 +14,7 @@ const moduleExports = {
       unoptimized: true,
     },
     reactStrictMode: true,
+    transpilePackages: ['@mui/x-charts'],
     async redirects() {
       return [
         {
