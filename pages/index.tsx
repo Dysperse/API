@@ -66,9 +66,9 @@ export default function Home() {
   const { data, mutate } = useSWR([
     "user/profile/friends",
     {
-      spotify: true,
       email: session.user.email,
       date: dayjs().startOf("day").toISOString(),
+      timezone: session.user.timeZone,
     },
   ]);
 
@@ -173,9 +173,7 @@ export default function Home() {
                   <Friend
                     mutate={mutate}
                     friend={
-                      data.friends[i].follower.email === session.user.email
-                        ? data.friends[i].following
-                        : data.friends[i].follower
+                      data.friends[i].follower || data.friends[i].following
                     }
                     key={i}
                   />

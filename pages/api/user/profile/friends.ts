@@ -8,6 +8,7 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
+
 function removeDuplicateFriends(data) {
   const uniqueFriends = new Set();
   const filteredData: any = [];
@@ -44,45 +45,11 @@ export function shuffle(array) {
 
   return array;
 }
-function sortFriendsByStatusAndActivity(friendsData, userTimeZone) {
-  return friendsData.sort((friendA, friendB) => {
-    // Sort by status duration within user's timezone
-    if (friendA.following.Status && friendB.following.Status) {
-      const currentTimeInUserTZ = dayjs().tz(userTimeZone);
-      const statusStartA = dayjs(friendA.following.Status.started).tz(
-        userTimeZone
-      );
-      const statusEndA = dayjs(friendA.following.Status.until).tz(userTimeZone);
-      const statusStartB = dayjs(friendB.following.Status.started).tz(
-        userTimeZone
-      );
-      const statusEndB = dayjs(friendB.following.Status.until).tz(userTimeZone);
-
-      // Check if the status is active
-      const isStatusActiveA =
-        statusStartA.isBefore(currentTimeInUserTZ) &&
-        statusEndA.isAfter(currentTimeInUserTZ);
-      const isStatusActiveB =
-        statusStartB.isBefore(currentTimeInUserTZ) &&
-        statusEndB.isAfter(currentTimeInUserTZ);
-
-      if (isStatusActiveA && !isStatusActiveB) return -1;
-      if (!isStatusActiveA && isStatusActiveB) return 1;
-    }
-
-    // Sort by last activity if statuses are not available or have expired
-    const lastActiveA = dayjs(friendA.following.lastActive).tz(userTimeZone);
-    const lastActiveB = dayjs(friendB.following.lastActive).tz(userTimeZone);
-
-    // Sort in descending order of last activity
-    return lastActiveB.toDate().getTime() - lastActiveA.toDate().getTime();
-  });
-}
 
 export default async function handler(req, res) {
   try {
     validateParams(req.query, ["email"]);
-    const user: any = await prisma.user.findFirstOrThrow({
+    const user = await prisma.user.findFirstOrThrow({
       where: {
         email: req.query.email,
       },
@@ -110,6 +77,17 @@ export default async function handler(req, res) {
           },
         ],
       },
+      orderBy: [
+        // 1. Sort by `started` time if the friend has a status
+        { follower: { Status: { started: "asc" } } },
+        { following: { Status: { started: "asc" } } },
+        // 2. Sort by `lastActive` in descending order
+        { follower: { lastActive: "desc" } },
+        { following: { lastActive: "desc" } },
+        // 3. Sort the normal list by any other criteria (e.g., name or email)
+        { follower: { name: "asc" } },
+        { following: { name: "asc" } },
+      ],
       include: {
         follower: {
           select: {
@@ -152,12 +130,63 @@ export default async function handler(req, res) {
       },
     });
 
+    let unique = removeDuplicateFriends(friends).map((friend) => {
+      if (friend.following.email === req.query.email)
+        return { ...friend, following: undefined };
+      if (friend.follower.email === req.query.email)
+        return { ...friend, follower: undefined };
+
+      return friend;
+    });
+    unique = unique
+      .sort((a, b) => {
+        const personA = b.follower || b.following;
+        const personB = a.follower || a.following;
+
+        // Check if both friends have a `Status`
+        if (personA.Status && personB.Status) {
+          const now = dayjs().utc(); // Get the current date in UTC
+          const statusA = dayjs(personA.Status.until).tz(personA.timeZone);
+          const statusB = dayjs(personB.Status.until).tz(personB.timeZone);
+
+          if (statusA.isAfter(now) && statusB.isAfter(now)) {
+            // Both have an active status, sort by the time left
+            return statusA.diff(now) - statusB.diff(now);
+          } else if (statusA.isBefore(now) && statusB.isAfter(now)) {
+            // Only `b` has an active status, `a` has an expired status
+            return 1;
+          } else if (statusA.isAfter(now) && statusB.isBefore(now)) {
+            // Only `a` has an active status, `b` has an expired status
+            return -1;
+          }
+        } else if (personA.Status) {
+          // Only `a` has a `Status`, so `b` goes first
+          return -1;
+        } else if (personB.Status) {
+          // Only `b` has a `Status`, so `a` goes first
+          return 1;
+        }
+
+        // If none of them have a `Status`, or both have expired `Status`, order by lastActive
+        const lastActiveA = dayjs(personA.lastActive).tz(personA.timeZone);
+        const lastActiveB = dayjs(personB.lastActive).tz(personB.timeZone);
+
+        // If the user's lastActive.toISOString() === '2023-10-07T17:23:03.871Z', pretend there's no lastActive
+        const defaultLastActive = dayjs("2023-10-07T17:23:03.871Z").tz(
+          personA.timeZone
+        );
+
+        return lastActiveA.isSame(defaultLastActive)
+          ? 1
+          : lastActiveB.isSame(defaultLastActive)
+          ? -1
+          : lastActiveB.diff(lastActiveA);
+      })
+      .reverse();
+
     res.json({
       user,
-      friends: sortFriendsByStatusAndActivity(
-        removeDuplicateFriends(friends),
-        "America/Los_Angeles"
-      ),
+      friends: unique,
     });
   } catch (e: any) {
     res.status(401).json({ error: e.message });
