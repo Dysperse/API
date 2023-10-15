@@ -80,6 +80,11 @@ export default function AppLayout({
   const isTablet = useMediaQuery("(max-width: 900px)");
 
   useEffect(() => {
+    router.prefetch(`/tasks/home`);
+    router.prefetch(`/rooms`);
+    router.prefetch(`/`);
+  }, [router]);
+  useEffect(() => {
     if (containerRef && router.asPath) {
       containerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
     }

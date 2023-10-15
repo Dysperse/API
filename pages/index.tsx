@@ -136,11 +136,6 @@ export default function Home() {
   });
 
   useEffect(() => {
-    router.prefetch(`/tasks/home`);
-    router.prefetch(`/rooms`);
-  }, [router]);
-
-  useEffect(() => {
     if (emblaApi) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {

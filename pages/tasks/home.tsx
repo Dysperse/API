@@ -104,10 +104,6 @@ export default function Home() {
   });
 
   useEffect(() => {
-    router.prefetch(`/`);
-  }, [router]);
-
-  useEffect(() => {
     if (emblaApi) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 1) {

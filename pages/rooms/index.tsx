@@ -449,10 +449,6 @@ export default function RoomLayout({ children }) {
   });
 
   useEffect(() => {
-    router.prefetch(`/`);
-  }, [router]);
-
-  useEffect(() => {
     if (router.asPath === "/rooms" && emblaApi) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {

@@ -30,12 +30,13 @@ export function Loading(): JSX.Element {
         flexDirection: "column",
         justifyContent: "center",
         gap: 2,
-        "& svg": {
+        "& .logo": {
           display: { xs: "none", sm: "block" },
         },
       }}
     >
       <Box
+        className="logo"
         sx={{
           width: 80,
           height: 80,
