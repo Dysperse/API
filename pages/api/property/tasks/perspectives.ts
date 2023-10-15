@@ -47,8 +47,13 @@ const handler = async (req, res) => {
       where: {
         parentTasks: { none: { property: { id: req.query.property } } },
         property: { id: req.query.property },
-        due: { gte: start.toDate(), lte: end.toDate() },
-        OR: [{ recurrenceRule: null }, { recurrenceRule: { not: null } }],
+        OR: [
+          {
+            recurrenceRule: null,
+            due: { gte: start.toDate(), lte: end.toDate() },
+          },
+          { recurrenceRule: { not: null } },
+        ],
       },
       orderBy: { pinned: "desc" },
       include: {
