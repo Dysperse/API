@@ -52,6 +52,10 @@ export default function Document() {
         {/* DNS prefetch */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com/" />
 
+        <link rel="prefetch" href="/" />
+        <link rel="prefetch" href="/tasks/home" />
+        <link rel="prefetch" href="/rooms" />
+
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
