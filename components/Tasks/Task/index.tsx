@@ -221,7 +221,7 @@ const TaskChips = React.memo(function TaskChips({
               ? "Call"
               : isAddress(taskData.where)
               ? "Maps"
-              : "Open"
+              : new URL(taskData.where).hostname
           }
           sx={{ background: palette[3] }}
           size="small"
