@@ -114,7 +114,9 @@ export function SearchTasks({
           }
         }}
         freeSolo={!query.find((e) => typeof e === "string")}
-        options={options}
+        options={options.filter(
+          (option) => !query.some((d) => d.title === option.title)
+        )}
         clearIcon={<Icon>arrow_forward_ios</Icon>}
         getOptionLabel={(option) => option.title}
         popupIcon={null}
@@ -190,9 +192,7 @@ export function SearchTasks({
             )
           );
         }}
-        onChange={(_, newValue) => {
-          setQuery(newValue);
-        }}
+        onChange={(_, newValue) => setQuery(newValue)}
         defaultValue={query}
         sx={{
           "&, & *:not(:focus-within)": {
