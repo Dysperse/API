@@ -29,9 +29,6 @@ const handler = async (req, res) => {
           // Unscheduled
           ...(req.query.view === "unscheduled" ? [{ due: null }] : []),
 
-          // Completed
-          ...(req.query.view === "completed" ? [{ completed: true }] : []),
-
           {
             OR: [
               { column: null },
@@ -77,6 +74,17 @@ const handler = async (req, res) => {
         },
       },
     });
+
+    if (req.query.view === "completed") {
+      return res.json(data.filter((e) => e.completionInstances.length > 0));
+    }
+    if (req.query.view === "backlog") {
+      return res.json(
+        data.filter(
+          (e) => e.recurrenceRule === null && e.completionInstances.length === 0
+        )
+      );
+    }
     res.json(data);
   } catch (e: any) {
     res.json({ error: e.message });
