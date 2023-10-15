@@ -131,6 +131,7 @@ export function SearchTasks({
             sx: {
               width: "300px",
               background: palette[3],
+              "&::-webkit-scrollbar": { display: "none" },
               border: `2px solid ${palette[4]}`,
               borderRadius: 5,
               mt: 2,

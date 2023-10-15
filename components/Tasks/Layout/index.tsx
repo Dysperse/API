@@ -749,7 +749,7 @@ export function TasksLayout({
     e.preventDefault();
     document.getElementById("createTaskTrigger")?.click();
   });
-  useHotkeys("/", (e) => {
+  useHotkeys(["/", "ctrl+f"], (e) => {
     e.preventDefault();
     document.getElementById("searchTasks")?.focus();
   });
