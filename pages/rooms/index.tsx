@@ -20,9 +20,10 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { CreateItem } from "../../components/Inventory/CreateItem";
@@ -441,15 +442,27 @@ export default function RoomLayout({ children }) {
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    startIndex: 1,
+    active: router.asPath === "/rooms",
+  });
+
+  useEffect(() => {
+    router.prefetch(`/`);
+  }, [router]);
+
+  useEffect(() => {
+    if (router.asPath === "/rooms" && emblaApi) {
+      emblaApi.on("scroll", (e) => {
+        if (e.selectedScrollSnap() == 0) {
+          router.push("/");
+        }
+      });
+    }
+  }, [emblaApi, router]);
+
   return (
-    <Box
-      sx={{
-        display: { sm: "flex" },
-        height: { sm: "100dvh" },
-        background: { sm: palette[2] },
-      }}
-    >
-      {/* Sidebar */}
+    <>
       {isMobile && !router.asPath.includes("audit") && (
         <Navbar
           showLogo={router.asPath === "/rooms"}
@@ -466,38 +479,60 @@ export default function RoomLayout({ children }) {
           }
         />
       )}
-      {!isMobile && <Panel />}
-
-      {/* Content */}
-      <motion.div
-        initial={{ x: 100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        style={{ width: "100%" }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            height: { sm: "100dvh" },
-            background: palette[1],
-            borderRadius: { sm: "20px 0 0 20px" },
-            overflowY: "auto",
-          }}
-        >
-          {children || (
+      <Box ref={emblaRef}>
+        <Box sx={{ display: { xs: "flex", sm: "block" } }}>
+          {router.asPath === "/rooms" && (
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                height: "100%",
+                flex: { xs: "0 0 100dvw", sm: "" },
               }}
-            >
-              <JumpBackIn />
-            </Box>
+            />
           )}
+          <Box
+            sx={{
+              flex: { xs: "0 0 100dvw", sm: "" },
+              display: { sm: "flex" },
+              maxWidth: "100dvw",
+              height: { sm: "100dvh" },
+              background: { sm: palette[2] },
+            }}
+          >
+            {/* Sidebar */}
+            {!isMobile && <Panel />}
+
+            {/* Content */}
+            <motion.div
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              style={{ width: "100%" }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  height: { sm: "100dvh" },
+                  background: palette[1],
+                  borderRadius: { sm: "20px 0 0 20px" },
+                  overflowY: "auto",
+                }}
+              >
+                {children || (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      height: "100%",
+                    }}
+                  >
+                    <JumpBackIn />
+                  </Box>
+                )}
+              </Box>
+              {isMobile && router.asPath === "/rooms" && <Panel />}
+            </motion.div>
+          </Box>
         </Box>
-        {isMobile && router.asPath === "/rooms" && <Panel />}
-      </motion.div>
-    </Box>
+      </Box>
+    </>
   );
 }

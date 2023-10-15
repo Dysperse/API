@@ -18,6 +18,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -89,13 +90,30 @@ function RecentlyAccessed() {
 
 export default function Home() {
   const { session } = useSession();
+  const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
 
-  const [showSync, setShowSync] = useState(true);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const [editMode, setEditMode] = useState(false);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    active: isMobile
+  });
+
+  useEffect(() => {
+    router.prefetch(`/`);
+  }, [router]);
+
+  useEffect(() => {
+    if (emblaApi) {
+      emblaApi.on("scroll", (e) => {
+        if (e.selectedScrollSnap() == 1) {
+          router.push("/");
+        }
+      });
+    }
+  }, [emblaApi, router]);
 
   return (
     <>
@@ -135,85 +153,91 @@ export default function Home() {
       <motion.div
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
+        ref={emblaRef}
       >
-        <Box
-          sx={{
-            p: 3,
-            pb: 0,
-            mb: -3,
-            mt: 5,
-          }}
-        >
-          <Typography
-            variant="h2"
-            className="font-heading"
-            sx={{
-              background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
-              WebkitBackgroundClip: "text",
-              fontSize: "min(70px, 20vw)",
-            }}
-          >
-            Tasks
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-              mb: 2,
-              mt: 0.5,
-              alignItems: "center",
-            }}
-          >
-            <SearchTasks>
-              <TextField
-                variant="standard"
-                placeholder="Search..."
-                InputProps={{
-                  readOnly: true,
-                  disableUnderline: true,
-                  sx: {
-                    background: palette[2],
-                    "&:focus-within": {
-                      background: palette[3],
-                    },
-                    "& *::placeholder": {
-                      color: palette[10] + "!important",
-                    },
-                    transition: "all .2s",
-                    px: 2,
-                    py: 0.3,
-                    borderRadius: 3,
-                  },
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Icon sx={{ color: palette[9] }}>search</Icon>
-                    </InputAdornment>
-                  ),
+        <Box sx={{ display: "flex" }}>
+          <Box sx={{ flex: "0 0 100dvw" }}>
+            <Box
+              sx={{
+                p: 3,
+                pb: 0,
+                mb: -3,
+                mt: 5,
+              }}
+            >
+              <Typography
+                variant="h2"
+                className="font-heading"
+                sx={{
+                  background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
+                  WebkitBackgroundClip: "text",
+                  fontSize: "min(70px, 20vw)",
                 }}
-              />
-            </SearchTasks>
-            {session.permission !== "read-only" && (
-              <CreateTask
-                onSuccess={() => {}}
-                defaultDate={dayjs().startOf("day").toDate()}
               >
-                <IconButton
-                  sx={{
-                    color: palette[11],
-                    background: palette[2],
-                    "&:active": {
-                      background: palette[3],
-                    },
-                  }}
-                >
-                  <Icon>add</Icon>
-                </IconButton>
-              </CreateTask>
-            )}
+                Tasks
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  mb: 2,
+                  mt: 0.5,
+                  alignItems: "center",
+                }}
+              >
+                <SearchTasks>
+                  <TextField
+                    variant="standard"
+                    placeholder="Search..."
+                    InputProps={{
+                      readOnly: true,
+                      disableUnderline: true,
+                      sx: {
+                        background: palette[2],
+                        "&:focus-within": {
+                          background: palette[3],
+                        },
+                        "& *::placeholder": {
+                          color: palette[10] + "!important",
+                        },
+                        transition: "all .2s",
+                        px: 2,
+                        py: 0.3,
+                        borderRadius: 3,
+                      },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Icon sx={{ color: palette[9] }}>search</Icon>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </SearchTasks>
+                {session.permission !== "read-only" && (
+                  <CreateTask
+                    onSuccess={() => {}}
+                    defaultDate={dayjs().startOf("day").toDate()}
+                  >
+                    <IconButton
+                      sx={{
+                        color: palette[11],
+                        background: palette[2],
+                        "&:active": {
+                          background: palette[3],
+                        },
+                      }}
+                    >
+                      <Icon>add</Icon>
+                    </IconButton>
+                  </CreateTask>
+                )}
+              </Box>
+              <RecentlyAccessed />
+            </Box>
+            <MenuChildren editMode={editMode} setEditMode={setEditMode} />
           </Box>
-          <RecentlyAccessed />
+          <Box sx={{ flex: "0 0 100dvw" }}></Box>
         </Box>
-        <MenuChildren editMode={editMode} setEditMode={setEditMode} />
       </motion.div>
     </>
   );
