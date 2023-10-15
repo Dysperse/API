@@ -10,6 +10,7 @@ import {
   Snackbar,
   useMediaQuery,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { createRef, useEffect, useState } from "react";
@@ -65,7 +66,7 @@ export default function AppLayout({
       "--toast-bg": addHslAlpha(palette[3], 0.8),
       "--toast-text": palette[11],
       "--toast-solid": palette[7],
-      "--bg": palette[2],
+      "--bg": palette[1],
     };
 
     Object.entries(variables).forEach(([key, value]) => {
@@ -95,9 +96,14 @@ export default function AppLayout({
   }
 
   return (
-    <Box
+    <motion.div
+      initial={{ opacity: 0, background: palette[1] }}
+      animate={{
+        opacity: 1,
+        background: isMobile ? addHslAlpha(palette[3], 0.7) : palette[1],
+      }}
       onContextMenu={(e) => !isMobile && e.preventDefault()}
-      sx={{
+      style={{
         display: "flex",
       }}
     >
@@ -200,6 +206,6 @@ export default function AppLayout({
         <CssBaseline />
         {isTablet && <BottomNav />}
       </Box>
-    </Box>
+    </motion.div>
   );
 }

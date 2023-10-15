@@ -118,7 +118,7 @@ function Page() {
     [
       {
         text: session.property.profile.name,
-        secondary: "My group",
+        secondary: "My space",
         path: "/spaces/" + session.property.propertyId,
         icon: (
           <Avatar

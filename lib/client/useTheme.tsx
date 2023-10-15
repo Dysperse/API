@@ -608,11 +608,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
       },
       mode: darkMode ? "dark" : "light",
       background: {
-        default: palette
-          ? addHslAlpha(palette[3], darkMode ? 0.6 : 0.6)
-          : darkMode
-          ? "#000"
-          : "#fff",
+        default: palette ? palette[1] : darkMode ? "#000" : "#fff",
         paper: palette[1],
       },
       text: {
