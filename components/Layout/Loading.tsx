@@ -46,7 +46,7 @@ export function Loading(): JSX.Element {
           justifyContent: "center",
         }}
       >
-        <Logo size={80} />
+        <Logo size={80} color={session?.themeColor || "gray"} />
       </Box>
       <CircularProgress
         thickness={3}
