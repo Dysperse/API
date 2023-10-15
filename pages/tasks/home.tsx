@@ -22,6 +22,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { preventExcessScroll } from "..";
 
 function RecentlyAccessed() {
   const router = useRouter();
@@ -98,7 +99,8 @@ export default function Home() {
 
   const [editMode, setEditMode] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    active: isMobile
+    active: isMobile,
+    skipSnaps: true,
   });
 
   useEffect(() => {
@@ -112,6 +114,7 @@ export default function Home() {
           router.push("/");
         }
       });
+      preventExcessScroll(emblaApi);
     }
   }, [emblaApi, router]);
 

@@ -25,6 +25,36 @@ import useSWR from "swr";
 import { HeadingComponent } from "../components/Start/HeadingComponent";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
+export const preventExcessScroll = (emblaApi) =>
+  emblaApi.on("scroll", (emblaApi) => {
+    const {
+      limit,
+      target,
+      location,
+      offsetLocation,
+      scrollTo,
+      translate,
+      scrollBody,
+    } = emblaApi.internalEngine();
+
+    let edge: number | null = null;
+
+    if (limit.reachedMax(location.get())) edge = limit.max;
+    if (limit.reachedMin(location.get())) edge = limit.min;
+
+    if (edge !== null) {
+      offsetLocation.set(edge);
+      location.set(edge);
+      target.set(edge);
+      translate.to(edge);
+      translate.toggleActive(false);
+      scrollBody.useDuration(0).useFriction(0);
+      scrollTo.distance(0, false);
+    } else {
+      translate.toggleActive(true);
+    }
+  });
+
 const useShadow = (scrollerRef) => {
   const [canScrollX, setCanScrollX] = useState(true);
 
