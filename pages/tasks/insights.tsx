@@ -88,7 +88,7 @@ function Insights({ profile, tasks, defaultPalette }) {
   );
 
   const priorityPercentage = useMemo(
-    () => (tasks.filter((t) => t.pinned).length / tasks.length) * 100,
+    () => (tasks.filter((t) => t.task.pinned).length / tasks.length) * 100,
     [tasks]
   );
 
