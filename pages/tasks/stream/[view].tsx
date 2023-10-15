@@ -75,7 +75,19 @@ export default function Page() {
                 board={task.board || false}
                 columnId={task.column ? task.column.id : -1}
                 mutate={() => {}}
-                mutateList={mutate}
+                mutateList={(updatedTask) => {
+                  if (!updatedTask) return mutate();
+                  mutate(
+                    (oldData: any) =>
+                      oldData.map((_task) => {
+                        if (_task.id === updatedTask.id) return updatedTask;
+                        return _task;
+                      }),
+                    {
+                      revalidate: false,
+                    }
+                  );
+                }}
                 task={task}
               />
             )}
