@@ -55,6 +55,24 @@ export const preventExcessScroll = (emblaApi) =>
     }
   });
 
+export const swipeablePageStyles = (palette, direction) => ({
+  position: "sticky",
+  top: "50dvh",
+  transform: "translateY(-50%)",
+  display: "flex",
+  alignItems: "center",
+  gap: 2,
+  color: palette[9],
+  [direction === "left" ? "borderRight" : "borderLeft"]: `2px solid`,
+  borderColor: palette[3],
+  justifyContent: "center",
+  "& .MuiIcon-root": {
+    fontSize: "40px!important",
+    fontVariationSettings:
+      '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+  },
+});
+
 const useShadow = (scrollerRef) => {
   const [canScrollX, setCanScrollX] = useState(true);
 
@@ -145,7 +163,14 @@ export default function Home() {
               sx={{
                 flex: "0 0 100dvw",
               }}
-            />
+            >
+              <Box sx={swipeablePageStyles(palette, "left")}>
+                <Icon>check_circle</Icon>
+                <Typography variant="h4" className="font-heading">
+                  Tasks
+                </Typography>
+              </Box>
+            </Box>
           )}
           <Box sx={{ flex: "0 0 100dvw" }}>
             <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
@@ -259,7 +284,14 @@ export default function Home() {
               sx={{
                 flex: "0 0 100dvw",
               }}
-            />
+            >
+              <Box sx={swipeablePageStyles(palette, "right")}>
+                <Icon>package_2</Icon>
+                <Typography variant="h4" className="font-heading">
+                  Inventory
+                </Typography>
+              </Box>
+            </Box>
           )}
         </Box>
       </Box>

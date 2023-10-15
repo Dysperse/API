@@ -22,7 +22,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { preventExcessScroll } from "..";
+import { preventExcessScroll, swipeablePageStyles } from "..";
 
 function RecentlyAccessed() {
   const router = useRouter();
@@ -239,7 +239,14 @@ export default function Home() {
             </Box>
             <MenuChildren editMode={editMode} setEditMode={setEditMode} />
           </Box>
-          <Box sx={{ flex: "0 0 100dvw" }}></Box>
+          <Box sx={{ flex: "0 0 100dvw" }}>
+            <Box sx={swipeablePageStyles(palette, "right")}>
+              <Icon>upcoming</Icon>
+              <Typography variant="h4" className="font-heading">
+                Home
+              </Typography>
+            </Box>
+          </Box>
         </Box>
       </motion.div>
     </>

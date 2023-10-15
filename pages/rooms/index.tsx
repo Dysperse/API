@@ -26,7 +26,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { preventExcessScroll } from "..";
+import { preventExcessScroll, swipeablePageStyles } from "..";
 import { CreateItem } from "../../components/Inventory/CreateItem";
 import { ItemPopup } from "./[room]";
 
@@ -488,7 +488,14 @@ export default function RoomLayout({ children }) {
               sx={{
                 flex: { xs: "0 0 100dvw", sm: "" },
               }}
-            />
+            >
+              <Box sx={swipeablePageStyles(palette, "left")}>
+                <Icon>upcoming</Icon>
+                <Typography variant="h4" className="font-heading">
+                  Home
+                </Typography>
+              </Box>
+            </Box>
           )}
           <Box
             sx={{
