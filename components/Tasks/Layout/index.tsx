@@ -317,7 +317,7 @@ export const MenuChildren = memo(function MenuChildren({
         description: "See all your tasks by color",
       },
       {
-        key: "c",
+        key: "b",
         hash: "stream/backlog",
         icon: "west",
         label: "Backlog",
@@ -325,7 +325,7 @@ export const MenuChildren = memo(function MenuChildren({
         description: "See your unfinished tasks",
       },
       {
-        key: "c",
+        key: "u",
         hash: "stream/upcoming",
         icon: "east",
         label: "Upcoming",
@@ -333,7 +333,7 @@ export const MenuChildren = memo(function MenuChildren({
         description: "See upcoming tasks",
       },
       {
-        key: "c",
+        key: "n",
         hash: "stream/unscheduled",
         icon: "history_toggle_off",
         label: "Unscheduled",
@@ -341,7 +341,7 @@ export const MenuChildren = memo(function MenuChildren({
         description: "See tasks which you haven't set a due date to",
       },
       {
-        key: "c",
+        key: "o",
         hash: "stream/completed",
         icon: "check_circle",
         label: "Completed",
@@ -759,6 +759,11 @@ export function TasksLayout({
   useHotkeys("shift+y", () => router.push("/tasks/perspectives/years"));
   useHotkeys("shift+c", () => router.push("/tasks/color-coded"));
   useHotkeys("shift+i", () => router.push("/tasks/insights"));
+  useHotkeys("shift+b", () => router.push("/tasks/stream/backlog"));
+  useHotkeys("shift+u", () => router.push("/tasks/stream/upcoming"));
+  useHotkeys("shift+u", () => router.push("/tasks/stream/upcoming"));
+  useHotkeys("shift+n", () => router.push("/tasks/stream/unscheduled"));
+  useHotkeys("shift+o", () => router.push("/tasks/stream/completed"));
 
   const isSearch = router.asPath.includes("/tasks/search");
 
