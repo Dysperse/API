@@ -100,7 +100,7 @@ export default function AppLayout({
       initial={{ opacity: 0, background: palette[1] }}
       animate={{
         opacity: 1,
-        background: isMobile ? addHslAlpha(palette[3], 0.7) : palette[1],
+        background: addHslAlpha(palette[3], 0.7),
       }}
       onContextMenu={(e) => !isMobile && e.preventDefault()}
       style={{
