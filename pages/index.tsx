@@ -57,11 +57,13 @@ export const preventExcessScroll = (emblaApi) =>
 
 export const swipeablePageStyles = (palette, direction) => ({
   position: "sticky",
-  top: "50dvh",
-  transform: "translateY(-50%)",
+  top: "0px",
+  mt: "calc(calc(var(--navbar-height) * -1) - 8px)",
+  height: "100dvh",
   display: "flex",
   alignItems: "center",
   gap: 2,
+  zIndex: -1,
   color: palette[9],
   [direction === "left" ? "borderRight" : "borderLeft"]: `2px solid`,
   borderColor: palette[3],
