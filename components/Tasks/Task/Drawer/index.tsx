@@ -53,7 +53,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const [open, setOpen] = useState<boolean>(false);
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  useBackButton(() => setOpen(false));
   const ref: any = useRef();
 
   const {
@@ -91,11 +90,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   // Callback function when drawer is closed
   const handleClose = useCallback(() => {
-    history.pushState(
-      "",
-      document.title,
-      window.location.pathname + window.location.search
-    );
+    window.location.hash = "";
     setOpen(false);
     mutateTask();
     mutateList();
@@ -154,6 +149,12 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         clickCount = 0; // Reset the click count
       }
     },
+  });
+
+  useBackButton({
+    open,
+    callback: () => setOpen(false),
+    hash: `task/${id}`,
   });
 
   return (

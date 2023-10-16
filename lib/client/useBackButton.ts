@@ -1,41 +1,23 @@
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-/**
- * Overrides the default browser back button
- * @param {Function} callback
- * @returns {void}
- */
-export const neutralizeBack = (callback: () => void): void => {
-  if (/(android)/i.test(navigator.userAgent)) {
-    window.history.pushState(null, "", window.location.href);
-    window.onpopstate = () => {
-      window.history.pushState(null, "", window.location.href);
-      callback();
-    };
-  }
-};
+export const useBackButton = ({ open, callback, hash }) => {
+  const router = useRouter();
 
-/**
- * Restores the default browser back button
- * @returns {void}
- */
-export const revivalBack = (): void => {
-  if (/(android)/i.test(navigator.userAgent)) {
-    window.onpopstate = null;
-  }
-};
-
-/**
- * Custom hook to handle browser back button functionality
- * @param {Function} callback - Function to call when back button is pressed
- * @returns {void}
- */
-export const useBackButton = (callback: () => void): void => {
   useEffect(() => {
-    neutralizeBack(callback);
+    if (open) {
+      window.location.hash = hash;
+    }
 
-    return () => {
-      revivalBack();
-    };
-  }, [callback]);
+    router.beforePopState(() => {
+      if (open) {
+        callback();
+        window.location.hash = "";
+        return false;
+      } else {
+        window.location.hash = "";
+        return true;
+      }
+    });
+  }, [open, callback, router]);
 };

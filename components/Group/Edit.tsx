@@ -1,6 +1,5 @@
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
-import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Alert,
@@ -95,8 +94,6 @@ export function EditProperty({
       mutatePropertyData();
     }
   }, [session, propertyData.profile.name, mutatePropertyData, deferredName]);
-
-  useBackButton(() => setOpen(false));
 
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),

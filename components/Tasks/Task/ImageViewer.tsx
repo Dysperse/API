@@ -1,6 +1,5 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
-import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Avatar,
@@ -101,8 +100,6 @@ export function ImageViewer({
     },
     [open, url]
   );
-
-  useBackButton(() => setOpen(false));
 
   return (
     <>

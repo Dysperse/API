@@ -3,6 +3,7 @@ import { FileDropInput } from "@/components/FileDrop";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
+import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { vibrate } from "@/lib/client/vibration";
 import { LoadingButton } from "@mui/lab";
@@ -110,8 +111,13 @@ export function CreateTask({
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [imageUploading, setImageUploading] = useState(false);
+
+  useBackButton({
+    open,
+    callback: () => setOpen(false),
+    hash: "task/create",
+  });
 
   const [formData, setFormData] = useState({
     title: "",
@@ -435,15 +441,20 @@ export function CreateTask({
     <>
       {triggerBadge}
       <SwipeableDrawer
-        onTouchMove={(e) => {
-          e.preventDefault();
-          // ref.current.scrollTo({ bottom: 0});
-        }}
         anchor="bottom"
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          window.location.hash = "";
+        }}
         open={open}
         onClick={() => titleRef?.current?.focus()}
-        PaperProps={{ sx: { background: "transparent", borderRadius: 0 } }}
+        PaperProps={{
+          sx: {
+            background: "transparent",
+            borderRadius: 0,
+            overflowX: "hidden",
+          },
+        }}
       >
         <ChipBar
           locationRef={locationRef}

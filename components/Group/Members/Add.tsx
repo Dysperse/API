@@ -1,6 +1,5 @@
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useBackButton } from "@/lib/client/useBackButton";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Alert,
@@ -28,7 +27,6 @@ function LinkToken() {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState("");
   const url = `https://${window.location.hostname}/invite/${token}`;
-  useBackButton(() => setOpen(false));
 
   const copyText = () => {
     navigator.clipboard.writeText(url);
@@ -140,8 +138,6 @@ export function AddPersonModal({
     (event: SelectChangeEvent) => setPermission(event.target.value as string),
     []
   );
-
-  useBackButton(() => setOpen(false));
 
   const handleSubmit = async () => {
     try {

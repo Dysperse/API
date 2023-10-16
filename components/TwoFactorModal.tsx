@@ -1,5 +1,4 @@
 import { useSession } from "@/lib/client/session";
-import { useBackButton } from "@/lib/client/useBackButton";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
@@ -62,8 +61,6 @@ export function Prompt({
       setButtonLoading(false);
     }
   };
-
-  useBackButton(() => setOpen(false));
 
   const openSettings = () => {
     setOpen(false);
