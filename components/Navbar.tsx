@@ -1,10 +1,10 @@
 "use client";
+import { containerRef } from "@/app/container";
 import { Logo } from "@/components/Logo";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton, SxProps } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { containerRef } from "./Layout";
 
 export function Navbar({
   showLogo = false,

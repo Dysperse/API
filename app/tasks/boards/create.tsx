@@ -1,5 +1,4 @@
 import { CreateBoard } from "@/app/tasks/boards/[id]/Board/Create";
-import { TasksLayout } from "@/components/Tasks/Layout";
 import { useRef } from "react";
 
 /**
@@ -9,9 +8,5 @@ export default function Dashboard() {
   const parentRef = useRef();
 
   // TODO: Update mutation url
-  return (
-    <TasksLayout contentRef={parentRef}>
-      <CreateBoard parentRef={parentRef.current} />
-    </TasksLayout>
-  );
+  return <CreateBoard parentRef={parentRef.current} />;
 }

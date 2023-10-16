@@ -6,7 +6,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
-import { containerRef } from "..";
+import { containerRef } from "@/app/container";
 
 export const shouldHideNavigation = (path) => {
   return [

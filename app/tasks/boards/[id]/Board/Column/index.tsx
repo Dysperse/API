@@ -1,4 +1,4 @@
-import { containerRef } from "@/components/Layout";
+import { containerRef } from "@/app/container";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -15,7 +15,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   useCallback,
   useContext,
@@ -58,6 +58,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState<boolean>(false);
+  const pathname = usePathname();
   const { session } = useSession();
 
   const incompleteLength = useMemo(
@@ -376,7 +377,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   onClick={() => {
                     if (navigation.current === columnLength - 1) {
                       router.push(
-                        router.asPath.replace("/boards/", "/boards/edit/") +
+                        (pathname || "").replace("/boards/", "/boards/edit/") +
                           "#columns"
                       );
                       return;

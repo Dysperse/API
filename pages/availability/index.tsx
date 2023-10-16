@@ -1,6 +1,6 @@
+import { containerRef } from "@/app/container";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
-import { containerRef } from "@/components/Layout";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { FriendPopover } from "@/components/Start/Friend";

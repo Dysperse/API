@@ -1,4 +1,5 @@
 "use client";
+import { containerRef } from "@/app/container";
 import { GroupModal } from "@/components/Group/GroupModal";
 import { Logo } from "@/components/Logo";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
@@ -19,7 +20,6 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { containerRef } from "..";
 import { shouldHideNavigation } from "./BottomNavigation";
 
 function SidebarMenu({ styles }) {
@@ -168,68 +168,40 @@ export function Sidebar() {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  useHotkeys(
-    "ctrl+g",
-    (e) => {
-      e.preventDefault();
-      router.push(`/spaces/${session.property.propertyId}`);
-    },
-    [open]
-  );
+  useHotkeys("ctrl+g", (e) => {
+    e.preventDefault();
+    router.push(`/spaces/${session.property.propertyId}`);
+  });
 
-  useHotkeys(
-    "ctrl+u",
-    (e) => {
-      e.preventDefault();
-      router.push(`/users`);
-    },
-    [open]
-  );
+  useHotkeys("ctrl+u", (e) => {
+    e.preventDefault();
+    router.push(`/users`);
+  });
 
-  useHotkeys(
-    "ctrl+comma",
-    (e) => {
-      e.preventDefault();
-      router.push(`/settings`);
-    },
-    [open]
-  );
+  useHotkeys("ctrl+comma", (e) => {
+    e.preventDefault();
+    router.push(`/settings`);
+  });
 
-  useHotkeys(
-    "ctrl+p",
-    (e) => {
-      e.preventDefault();
-      router.push(`/users/${session.user.email}`);
-    },
-    [open]
-  );
+  useHotkeys("ctrl+p", (e) => {
+    e.preventDefault();
+    router.push(`/users/${session.user.email}`);
+  });
 
-  useHotkeys(
-    "ctrl+shift+2",
-    (e) => {
-      e.preventDefault();
-      router.push("/");
-    },
-    [open]
-  );
+  useHotkeys("ctrl+shift+2", (e) => {
+    e.preventDefault();
+    router.push("/");
+  });
 
-  useHotkeys(
-    "ctrl+shift+3",
-    (e) => {
-      e.preventDefault();
-      router.push("/rooms");
-    },
-    [open]
-  );
+  useHotkeys("ctrl+shift+3", (e) => {
+    e.preventDefault();
+    router.push("/rooms");
+  });
 
-  useHotkeys(
-    "ctrl+shift+1",
-    (e) => {
-      e.preventDefault();
-      router.push("/tasks/perspectives/days");
-    },
-    [open]
-  );
+  useHotkeys("ctrl+shift+1", (e) => {
+    e.preventDefault();
+    router.push("/tasks/perspectives/days");
+  });
 
   const styles = (active: any = false) => {
     return {

@@ -8,10 +8,15 @@ import * as colors from "./themes";
  * @param dark True if dark mode
  * @returns Color palette
  */
-export function useColor(base: keyof typeof colors, dark: boolean) {
-  return useMemo(() => {
-    const colorPalette = colors[dark ? `${base}Dark` : base];
-    const _colorPalette = {};
+export function useColor(
+  base: keyof typeof colors,
+  dark: boolean,
+  server: boolean = false
+) {
+  const getColorPalette = (isDark: boolean): Record<string, string> => {
+    const paletteKey = isDark ? `${base}Dark` : base;
+    const colorPalette = colors[paletteKey];
+    const _colorPalette: Record<string, string> = {};
 
     for (const key in colorPalette) {
       if (key.includes(base)) {
@@ -21,7 +26,13 @@ export function useColor(base: keyof typeof colors, dark: boolean) {
     }
 
     return _colorPalette;
-  }, [base, dark]);
+  };
+
+  if (server) {
+    return getColorPalette(dark);
+  }
+
+  return useMemo(() => getColorPalette(dark), [base, dark]);
 }
 
 /**

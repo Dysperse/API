@@ -1,4 +1,4 @@
-import { containerRef } from "@/components/Layout";
+import { containerRef } from "@/app/container";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
