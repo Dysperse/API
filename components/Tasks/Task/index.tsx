@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import React, {
   useCallback,
@@ -264,9 +264,7 @@ const TaskChips = React.memo(function TaskChips({
 });
 
 export function isIos() {
-  return (
-    !(window as any).MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent)
-  );
+  return !(window as any).MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent);
 }
 
 export const Task: any = React.memo(function Task({

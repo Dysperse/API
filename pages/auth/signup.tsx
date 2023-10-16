@@ -45,7 +45,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import BoringAvatar from "boring-avatars";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";

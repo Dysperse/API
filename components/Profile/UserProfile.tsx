@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";

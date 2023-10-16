@@ -10,7 +10,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";

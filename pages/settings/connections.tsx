@@ -3,7 +3,7 @@ import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { Box, Grid, Icon, IconButton, Typography } from "@mui/material";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import Layout from ".";
