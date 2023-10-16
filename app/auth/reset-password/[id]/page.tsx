@@ -1,3 +1,4 @@
+"use client";
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { useColor } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
@@ -10,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -24,6 +25,7 @@ export default function Prompt() {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const params = useParams();
 
   const handleSubmit = useCallback(
     (e) => {
@@ -31,7 +33,7 @@ export default function Prompt() {
       fetch("/api/auth/change-password", {
         method: "POST",
         body: JSON.stringify({
-          token: router.query.id,
+          token: params?.id,
           password: password,
         }),
       })
@@ -51,7 +53,7 @@ export default function Prompt() {
           setButtonLoading(false);
         });
     },
-    [router, password]
+    [router, params, password]
   );
   useStatusBar(
     typeof window !== "undefined" && window.innerWidth < 600

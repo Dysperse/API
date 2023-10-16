@@ -1,3 +1,4 @@
+"use client";
 import { ErrorHandler } from "@/components/Error";
 import { useSession } from "@/lib/client/session";
 import {
@@ -12,16 +13,17 @@ import {
 import { Box, CircularProgress, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
-import SpacesLayout from ".";
+import SpacesLayout from "../page";
 
 export default function Page() {
   const { session } = useSession();
   const router = useRouter();
-  const { id } = router.query;
+  const params = useParams();
+  const { id } = params as any;
 
   const accessToken = session.properties.find(
     (property) => property.propertyId == id

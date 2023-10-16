@@ -1,3 +1,4 @@
+"use client";
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { isEmail } from "@/components/Group/Members/isEmail";
 import { useColor } from "@/lib/client/useColor";
@@ -12,7 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -21,6 +22,7 @@ import { toast } from "react-hot-toast";
  */
 export default function Prompt() {
   const router = useRouter();
+  const params = useParams();
   const ref: any = useRef();
 
   // Login form
@@ -117,8 +119,8 @@ export default function Prompt() {
                   variant="outlined"
                 />
                 <Link
-                  href={`/auth/${router.query.close ? "?close=true" : ""}${
-                    router.query.next ? "?next=" + router.query.next : ""
+                  href={`/auth/${params?.close ? "?close=true" : ""}${
+                    params?.next ? "?next=" + params?.next : ""
                   }`}
                   legacyBehavior
                 >

@@ -12,24 +12,25 @@ import {
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { JumpBackIn, Panel } from "./page";
+import { Panel } from "./page";
 
 export default function RoomLayout({ children }) {
   const { session } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
-    active: router.asPath === "/rooms",
+    active: pathname === "/rooms",
   });
   const [loadingIndex, setLoadingIndex] = useState(1);
 
   useEffect(() => {
-    if (router.asPath === "/rooms" && emblaApi) {
+    if (pathname === "/rooms" && emblaApi) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
           setLoadingIndex(0);
@@ -39,16 +40,16 @@ export default function RoomLayout({ children }) {
         }
       });
     }
-  }, [emblaApi, router]);
+  }, [emblaApi, router, pathname]);
 
   return (
     <>
-      {isMobile && !router.asPath.includes("audit") && (
+      {isMobile && !pathname?.includes("audit") && (
         <Navbar
-          showLogo={router.asPath === "/rooms"}
-          showRightContent={router.asPath === "/rooms"}
+          showLogo={pathname === "/rooms"}
+          showRightContent={pathname === "/rooms"}
           right={
-            router.asPath == "/rooms" ? undefined : (
+            pathname == "/rooms" ? undefined : (
               <IconButton
                 onClick={() => router.push("/rooms")}
                 sx={{ color: palette[8] }}
@@ -68,7 +69,7 @@ export default function RoomLayout({ children }) {
         }}
       >
         <Box sx={{ display: { xs: "flex", sm: "block" } }}>
-          {router.asPath === "/rooms" && (
+          {pathname === "/rooms" && (
             <Box
               sx={{
                 flex: { xs: "0 0 100dvw", sm: "" },
@@ -116,20 +117,9 @@ export default function RoomLayout({ children }) {
                   overflowY: "auto",
                 }}
               >
-                {children || (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      height: "100%",
-                    }}
-                  >
-                    <JumpBackIn />
-                  </Box>
-                )}
+                {children}
               </Box>
-              {isMobile && router.asPath === "/rooms" && <Panel />}
+              {isMobile && pathname === "/rooms" && <Panel />}
             </motion.div>
           </Box>
         </Box>

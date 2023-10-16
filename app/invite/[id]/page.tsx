@@ -1,3 +1,4 @@
+"use client";
 import { ErrorHandler } from "@/components/Error";
 import { Loading } from "@/components/Layout/Loading";
 import { useUser } from "@/lib/client/session";

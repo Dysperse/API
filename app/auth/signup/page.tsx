@@ -1,3 +1,4 @@
+"use client";
 import themes from "@/app/settings/themes.json";
 import { templates } from "@/app/tasks/boards/[id]/Board/Create";
 import { isEmail } from "@/components/Group/Members/isEmail";
@@ -50,7 +51,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { VirtuosoGrid } from "react-virtuoso";
-import { Emoji } from "../../components/Emoji";
+import { Emoji } from "../../../components/Emoji";
 const utc = require("dayjs/plugin/utc");
 const timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
 

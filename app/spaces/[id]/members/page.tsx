@@ -1,3 +1,5 @@
+"use client";
+
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { AddPersonModal } from "@/components/Group/Members/Add";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
@@ -13,16 +15,17 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import SpacesLayout from ".";
+import SpacesLayout from "../page";
 
 export default function Page() {
   const { session } = useSession();
   const router = useRouter();
-  const { id } = router.query;
+  const params = useParams();
+  const { id } = params as any;
 
   const accessToken = session.properties.find(
     (property) => property.propertyId == id

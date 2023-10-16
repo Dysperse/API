@@ -1,3 +1,5 @@
+"use client";
+
 import { ErrorHandler } from "@/components/Error";
 import { Color } from "@/components/Group/Color";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
@@ -22,15 +24,16 @@ import {
   Typography,
 } from "@mui/material";
 import * as colors from "@radix-ui/colors";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import useSWR, { mutate } from "swr";
-import SpacesLayout from ".";
+import SpacesLayout from "../page";
 
 export default function Page() {
   const { session } = useSession();
   const router = useRouter();
-  const { id } = router.query;
+  const params = useParams();
+  const { id } = params as any;
 
   const accessToken = session.properties.find(
     (property) => property.propertyId == id

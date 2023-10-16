@@ -1,3 +1,5 @@
+"use client";
+
 import { ErrorHandler } from "@/components/Error";
 import { max, multipliers } from "@/components/Group/Storage";
 import { useSession } from "@/lib/client/session";
@@ -11,15 +13,16 @@ import {
   Icon,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useRef } from "react";
 import useSWR from "swr";
-import SpacesLayout from ".";
+import SpacesLayout from "../page";
 
 export default function Page() {
   const { session } = useSession();
   const router = useRouter();
-  const { id } = router.query;
+  const params = useParams();
+  const { id } = params as any;
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.property.profile.color, isDark);
