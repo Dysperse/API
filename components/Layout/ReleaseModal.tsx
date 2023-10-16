@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import Markdown from "markdown-to-jsx";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { updateSettings } from "../../lib/client/updateSettings";

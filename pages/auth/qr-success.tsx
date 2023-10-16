@@ -1,7 +1,7 @@
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { useColor } from "@/lib/client/useColor";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 /**
  * Top-level component for the signup page.

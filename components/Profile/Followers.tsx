@@ -10,7 +10,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 

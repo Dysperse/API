@@ -1,6 +1,6 @@
 import { useColor } from "@/lib/client/useColor";
 import { Box, CircularProgress, useMediaQuery } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { AuthBranding } from "./Layout";
 
 export default function AuthLoading() {

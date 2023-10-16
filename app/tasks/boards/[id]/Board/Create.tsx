@@ -24,7 +24,7 @@ import {
 import Avatar from "boring-avatars";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { cloneElement, useDeferredValue, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";

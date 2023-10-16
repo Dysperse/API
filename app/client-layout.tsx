@@ -1,6 +1,12 @@
 "use client";
 
+import AppLayout from "@/components/Layout";
 import { SessionProvider } from "@/lib/client/session";
+import { toastStyles, useCustomTheme } from "@/lib/client/useTheme";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Toaster } from "react-hot-toast";
 import { SWRConfig } from "swr";
 
 const fetcher = ([url, params], session) => {
@@ -21,11 +27,23 @@ const fetcher = ([url, params], session) => {
 };
 
 export default function ClientLayout({ children, session }) {
+  const userTheme = createTheme(
+    useCustomTheme({
+      darkMode: session.darkMode,
+      themeColor: session.themeColor,
+    })
+  );
+
   return (
-    <SWRConfig value={{ fetcher: (d) => fetcher(d, session) }}>
-      <SessionProvider session={session} isLoading={false}>
-        {children}
-      </SessionProvider>
-    </SWRConfig>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <SWRConfig value={{ fetcher: (d) => fetcher(d, session) }}>
+        <SessionProvider session={session} isLoading={false}>
+          <ThemeProvider theme={userTheme}>
+            <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
+            <AppLayout>{children}</AppLayout>
+          </ThemeProvider>
+        </SessionProvider>
+      </SWRConfig>
+    </LocalizationProvider>
   );
 }

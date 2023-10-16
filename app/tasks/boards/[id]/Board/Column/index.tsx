@@ -15,7 +15,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   useCallback,
   useContext,
@@ -27,9 +27,9 @@ import {
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { BoardContext, ColumnContext } from "..";
-import EmojiPicker from "../../../EmojiPicker";
-import { Task } from "../../Task";
-import { CreateTask } from "../../Task/Create";
+import EmojiPicker from "../../../../../../components/EmojiPicker";
+import { Task } from "../../../../../../components/Tasks/Task";
+import { CreateTask } from "../../../../../../components/Tasks/Task/Create";
 import { ColumnSettings } from "./Settings";
 
 export function Column({ useReverseAnimation, setUseReverseAnimation }) {

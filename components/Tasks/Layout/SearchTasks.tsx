@@ -15,7 +15,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { cloneElement, useRef, useState } from "react";
 import { Puller } from "../../Puller";
 import { CreateTask } from "../Task/Create";

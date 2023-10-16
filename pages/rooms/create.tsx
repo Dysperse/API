@@ -13,7 +13,7 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { memo, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import RoomLayout from ".";
@@ -90,7 +90,7 @@ const Page = memo(function Page() {
           }}
         >
           <Box sx={{ display: "flex", gap: 4, alignItems: "center" }}>
-            <EmojiPicker  setEmoji={(e) => setEmoji(e)}>
+            <EmojiPicker setEmoji={(e) => setEmoji(e)}>
               <IconButton
                 size="large"
                 sx={{

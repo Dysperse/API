@@ -20,32 +20,13 @@ import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../components/Start/HeadingComponent";
+import { swipeablePageStyles } from "./swipeablePageStyles";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
-
-export const swipeablePageStyles = (palette, direction) => ({
-  position: "sticky",
-  top: "0px",
-  mt: "calc(calc(var(--navbar-height) * -1) - 8px)",
-  height: "100dvh",
-  display: "flex",
-  alignItems: "center",
-  gap: 2,
-  zIndex: -1,
-  color: palette[9],
-  [direction === "left" ? "borderRight" : "borderLeft"]: `2px solid`,
-  borderColor: palette[3],
-  justifyContent: "center",
-  "& .MuiIcon-root": {
-    fontSize: "40px!important",
-    fontVariationSettings:
-      '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
-  },
-});
 
 const useShadow = (scrollerRef) => {
   const [canScrollX, setCanScrollX] = useState(true);

@@ -1,6 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { Icon, IconButton, Tooltip } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function BoardSettings({ id }) {
   const router = useRouter();

@@ -1,15 +1,16 @@
+import { recentlyAccessed } from "@/app/tasks/recently-accessed";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon } from "@mui/material";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { recentlyAccessed } from ".";
 
 export const Tab = React.memo(function Tab({ styles, board }: any) {
   const router = useRouter();
+  const pathname = usePathname();
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const isActive = router.asPath.includes(board.id);
+  const isActive = pathname?.includes(board.id);
 
   const handleClick = () => {
     router.push(`/tasks/boards/${board.id}`);
@@ -48,7 +49,7 @@ export const Tab = React.memo(function Tab({ styles, board }: any) {
         >
           <Icon
             sx={{
-              opacity: router.asPath ? 1 : 0.8,
+              opacity: pathname ? 1 : 0.8,
             }}
             className="outlined"
           >
@@ -59,7 +60,7 @@ export const Tab = React.memo(function Tab({ styles, board }: any) {
               maxWidth: "calc(100% - 25px)",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              opacity: router.asPath ? 1 : 0.9,
+              opacity: pathname ? 1 : 0.9,
               whiteSpace: "nowrap",
             }}
           >

@@ -1,3 +1,4 @@
+"use client";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
@@ -12,7 +13,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { createRef, useEffect, useState } from "react";
 import useSWR from "swr";
 import { getTotal, max } from "../Group/Storage";
@@ -70,7 +71,7 @@ export default function AppLayout({
     };
 
     Object.entries(variables).forEach(([key, value]) => {
-      document.documentElement.style.setProperty(key, value);
+      document.body.style.setProperty(key, value);
     });
   }, [palette]);
 

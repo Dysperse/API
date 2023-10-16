@@ -7,7 +7,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";

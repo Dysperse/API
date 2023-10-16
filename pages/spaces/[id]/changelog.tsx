@@ -12,7 +12,7 @@ import {
 import { Box, CircularProgress, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
@@ -39,9 +39,7 @@ export default function Page() {
 
   return (
     <SpacesLayout title="Changelog" parentRef={parentRef}>
-      {error && (
-        <ErrorHandler  />
-      )}
+      {error && <ErrorHandler />}
       {data ? (
         <Timeline
           sx={{

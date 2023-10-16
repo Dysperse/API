@@ -1,3 +1,4 @@
+import { swipeablePageStyles } from "@/app/swipeablePageStyles";
 import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Navbar";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -22,11 +23,10 @@ import {
 } from "@mui/material";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { swipeablePageStyles } from "../../app/page";
 import { CreateItem } from "../../components/Inventory/CreateItem";
 import { ItemPopup } from "./[room]";
 

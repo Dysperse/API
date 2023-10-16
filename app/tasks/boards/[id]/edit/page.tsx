@@ -1,9 +1,11 @@
+"use client";
+
+import { ShareBoard } from "@/app/tasks/boards/[id]/Board/Share";
+import { recentlyAccessed } from "@/app/tasks/recently-accessed";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import EmojiPicker from "@/components/EmojiPicker";
 import Integrations from "@/components/Group/Integrations";
 import { Puller } from "@/components/Puller";
-import { ShareBoard } from "@/components/Tasks/Board/Share";
-import { TasksLayout, recentlyAccessed } from "@/components/Tasks/Layout";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -32,28 +34,14 @@ import {
   Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { cloneElement, useCallback, useEffect, useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 
 import { FileDropInput } from "@/components/FileDrop";
-import { DroppableProps } from "react-beautiful-dnd";
-export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
-  const [enabled, setEnabled] = useState(false);
-  useEffect(() => {
-    const animation = requestAnimationFrame(() => setEnabled(true));
-    return () => {
-      cancelAnimationFrame(animation);
-      setEnabled(false);
-    };
-  }, []);
-  if (!enabled) {
-    return null;
-  }
-  return <Droppable {...props}>{children}</Droppable>;
-};
+import { StrictModeDroppable } from "./StrictModeDroppable";
 
 function SelectWallpaperModal({ children }) {
   const { session } = useSession();
@@ -524,6 +512,7 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
 function EditLayout({ id, data, mutate }) {
   const { session } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
   const [view, setView] = useState<any>(null);
 
   const palette = useColor(
@@ -572,9 +561,7 @@ function EditLayout({ id, data, mutate }) {
         <Toolbar>
           <IconButton
             sx={{ background: palette[3] }}
-            onClick={() =>
-              router.push("/" + window.location.pathname.replace("/edit", ""))
-            }
+            onClick={() => router.push((pathname || "").replace("/edit", ""))}
           >
             <Icon>close</Icon>
           </IconButton>
@@ -676,8 +663,9 @@ function EditLayout({ id, data, mutate }) {
 
 const Dashboard = () => {
   const router = useRouter();
+  const params = useParams();
   const { session } = useSession();
-  const id = router?.query?.id;
+  const { id } = params as any;
 
   const { data, mutate } = useSWR([
     "property/boards",
@@ -694,18 +682,16 @@ const Dashboard = () => {
     session.permission === "read-only"
   ) {
     return (
-      <TasksLayout>
-        <Box sx={{ p: 4 }}>
-          <Alert severity="error">
-            You don&apos;t have permission to edit this board. Contact the owner
-            if you think this is a mistake
-          </Alert>
-        </Box>
-      </TasksLayout>
+      <Box sx={{ p: 4 }}>
+        <Alert severity="error">
+          You don&apos;t have permission to edit this board. Contact the owner
+          if you think this is a mistake
+        </Alert>
+      </Box>
     );
   }
   return (
-    <TasksLayout>
+    <>
       {data && data[0] && id ? (
         <EditLayout mutate={mutate} id={id} data={data[0]} />
       ) : (
@@ -718,7 +704,7 @@ const Dashboard = () => {
           <CircularProgress />
         </Box>
       )}
-    </TasksLayout>
+    </>
   );
 };
 

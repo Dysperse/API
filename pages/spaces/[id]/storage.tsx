@@ -11,7 +11,7 @@ import {
   Icon,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import useSWR from "swr";
 import SpacesLayout from ".";

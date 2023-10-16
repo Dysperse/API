@@ -24,7 +24,7 @@ import {
   Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 

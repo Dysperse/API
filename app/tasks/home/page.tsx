@@ -1,5 +1,7 @@
+"use client";
+
+import { swipeablePageStyles } from "@/app/swipeablePageStyles";
 import { Navbar } from "@/components/Navbar";
-import { MenuChildren, recentlyAccessed } from "@/components/Tasks/Layout";
 import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
 import { CreateTask } from "@/components/Tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -20,9 +22,10 @@ import {
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { swipeablePageStyles } from "../../app/page";
+import { MenuChildren } from "../menu";
+import { recentlyAccessed } from "../recently-accessed";
 
 function RecentlyAccessed() {
   const router = useRouter();

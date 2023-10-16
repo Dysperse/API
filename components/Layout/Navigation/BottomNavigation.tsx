@@ -1,9 +1,11 @@
+"use client";
+
 import { CreateTask } from "@/components/Tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { containerRef } from "..";
 
 export const shouldHideNavigation = (path) => {
@@ -21,9 +23,9 @@ export const shouldHideNavigation = (path) => {
     { path: "/tasks/insights", desktop: false },
   ].find((_path) => {
     if (_path.desktop) {
-      return path.includes(_path.path);
+      return path?.includes(_path.path);
     } else {
-      return path.includes(_path.path) && window.innerWidth < 600;
+      return path?.includes(_path.path) && window.innerWidth < 600;
     }
   });
 };
@@ -82,7 +84,8 @@ export function BottomNav() {
 
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const router = useRouter();
-  const shouldHide = shouldHideNavigation(router.asPath);
+  const pathname = usePathname();
+  const shouldHide = shouldHideNavigation(pathname);
 
   /**
    * Handles button click
@@ -122,11 +125,11 @@ export function BottomNav() {
       <CreateTask customTrigger="onContextMenu" disableBadge>
         <Box
           onClick={() => router.push("/tasks/home")}
-          sx={styles(router.asPath.includes("/tasks"))}
+          sx={styles(pathname?.includes("/tasks"))}
         >
           <span
             className={`material-symbols-${
-              router.asPath.includes("/tasks") ? "rounded" : "outlined"
+              pathname?.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
             &#xe86c;
@@ -136,16 +139,14 @@ export function BottomNav() {
       <Box
         onClick={() => router.push("/")}
         sx={styles(
-          router.asPath === "/" ||
-            router.asPath === "" ||
-            router.asPath.includes("/mood-history")
+          pathname === "/" ||
+            pathname === "" ||
+            pathname?.includes("/mood-history")
         )}
       >
         <span
           className={`material-symbols-${
-            router.asPath === "/" || router.asPath === ""
-              ? "rounded"
-              : "outlined"
+            pathname === "/" || pathname === "" ? "rounded" : "outlined"
           }`}
         >
           &#xf07e;
@@ -153,19 +154,19 @@ export function BottomNav() {
       </Box>
       <Box
         sx={styles(
-          router.asPath === "/rooms" ||
-            router.asPath.includes("rooms") ||
-            router.asPath === "/starred" ||
-            router.asPath === "/trash"
+          pathname === "/rooms" ||
+            pathname?.includes("rooms") ||
+            pathname === "/starred" ||
+            pathname === "/trash"
         )}
         onClick={() => router.push("/rooms")}
       >
         <span
           className={`material-symbols-${
-            router.asPath === "/rooms" ||
-            router.asPath.includes("rooms") ||
-            router.asPath === "/starred" ||
-            router.asPath === "/trash"
+            pathname === "/rooms" ||
+            pathname?.includes("rooms") ||
+            pathname === "/starred" ||
+            pathname === "/trash"
               ? "rounded"
               : "outlined"
           }`}

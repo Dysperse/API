@@ -15,8 +15,8 @@ import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { PerspectiveContext, sortedTasks } from ".";
-import { Task } from "../Task";
-import { CreateTask } from "../Task/Create";
+import { Task } from "../../../../components/Tasks/Task";
+import { CreateTask } from "../../../../components/Tasks/Task/Create";
 import { Header } from "./Header";
 
 function RandomTask({ date }) {

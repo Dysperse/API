@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useSWR, { mutate } from "swr";
@@ -100,9 +100,7 @@ export default function Onboarding() {
           backdropFilter: "blur(10px)",
         }}
       />
-      {error && (
-        <ErrorHandler  />
-      )}
+      {error && <ErrorHandler />}
       {data?.error ? (
         <Box
           sx={{

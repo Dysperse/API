@@ -22,7 +22,7 @@ import {
   Typography,
 } from "@mui/material";
 import * as colors from "@radix-ui/colors";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import useSWR, { mutate } from "swr";
 import SpacesLayout from ".";

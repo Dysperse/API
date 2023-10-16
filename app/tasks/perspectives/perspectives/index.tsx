@@ -15,12 +15,12 @@ import {
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, memo, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
-import { WidgetBar } from "../Layout/widgets";
-import SelectDateModal from "../Task/DatePicker";
+import { WidgetBar } from "../../../../components/Tasks/Layout/widgets";
+import SelectDateModal from "../../../../components/Tasks/Task/DatePicker";
 import Column from "./Column";
 
 export const PerspectiveContext = createContext<any>(null);
@@ -408,10 +408,12 @@ export function Agenda({ type, date }) {
     }
   });
 
+  const pathname = usePathname();
+
   const isToday =
-    router.asPath ===
+    pathname ===
       `/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}` ||
-    router.asPath === `/tasks/perspectives/${type}`;
+    pathname === `/tasks/perspectives/${type}`;
 
   return (
     <PerspectiveContext.Provider

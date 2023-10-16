@@ -1,3 +1,4 @@
+import { SelectionContext } from "@/app/tasks/selection-context";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -21,7 +22,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Image from "next/legacy/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, {
   useCallback,
   useContext,
@@ -32,7 +33,6 @@ import React, {
 } from "react";
 import toast from "react-hot-toast";
 import { RRule } from "rrule";
-import { SelectionContext } from "../Layout";
 import { TaskDrawer } from "./Drawer";
 import {
   isAddress,
@@ -264,7 +264,9 @@ const TaskChips = React.memo(function TaskChips({
 });
 
 export function isIos() {
-  return !(window as any).MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  return (
+    !(window as any).MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent)
+  );
 }
 
 export const Task: any = React.memo(function Task({
@@ -371,6 +373,7 @@ export const Task: any = React.memo(function Task({
   );
 
   const selection = useContext(SelectionContext);
+
   const isSelected = selection.values.includes(taskData.id);
   const palette = useColor(isSelected ? "blue" : session.themeColor, isDark);
 

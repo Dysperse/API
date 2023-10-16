@@ -14,7 +14,7 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";

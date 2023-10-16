@@ -14,8 +14,8 @@ import {
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { BoardContext } from "..";
-import EmojiPicker from "../../../EmojiPicker";
-import { Puller } from "../../../Puller";
+import EmojiPicker from "../../../../../../components/EmojiPicker";
+import { Puller } from "../../../../../../components/Puller";
 
 export default function CreateColumn({
   hide,
@@ -101,7 +101,7 @@ export default function CreateColumn({
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-          <EmojiPicker  setEmoji={setEmoji}>
+          <EmojiPicker setEmoji={setEmoji}>
             <Button
               size="small"
               sx={{

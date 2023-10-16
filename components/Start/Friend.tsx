@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { cloneElement, memo, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";

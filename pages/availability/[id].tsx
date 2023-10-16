@@ -32,7 +32,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";

@@ -20,7 +20,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BoardContext } from ".";
@@ -443,7 +443,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                   }}
                   disabled={board.archived}
                   onClick={() =>
-                    router.push(`/tasks/boards/edit/${board.id}#permissions`)
+                    router.push(`/tasks/boards/${board.id}/edit#permissions`)
                   }
                 >
                   <Icon className="outlined">ios_share</Icon>

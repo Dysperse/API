@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { Column } from "./Column";

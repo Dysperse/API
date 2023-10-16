@@ -1,3 +1,6 @@
+"use client";
+
+import { SelectionContext } from "@/app/tasks/selection-context";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
@@ -17,7 +20,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   cloneElement,
   useCallback,
@@ -28,9 +31,8 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import { BoardContext, ColumnContext } from "..";
-import { ConfirmationModal } from "../../../ConfirmationModal";
-import EmojiPicker from "../../../EmojiPicker";
-import { SelectionContext } from "../../Layout";
+import { ConfirmationModal } from "../../../../../../components/ConfirmationModal";
+import EmojiPicker from "../../../../../../components/EmojiPicker";
 
 export function ColumnSettings({
   children,

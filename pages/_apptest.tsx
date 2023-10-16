@@ -2,13 +2,11 @@ import { Error } from "@/components/Layout/Error";
 import { Loading } from "@/components/Layout/Loading";
 import { Analytics } from "@vercel/analytics/react";
 import dynamic from "next/dynamic";
-import { NextRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 // CSS files
 import "../styles/calendar.scss";
-import "../styles/globals.scss";
 import "../styles/normalize.scss";
 
 // Day.JS

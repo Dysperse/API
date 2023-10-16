@@ -13,7 +13,7 @@ import {
 import { BarChart } from "@mui/x-charts/BarChart";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useMemo } from "react";
 import useSWR from "swr";
 

@@ -1,4 +1,4 @@
-import { CreateBoard } from "@/components/Tasks/Board/Create";
+import { CreateBoard } from "@/app/tasks/boards/[id]/Board/Create";
 import { TasksLayout } from "@/components/Tasks/Layout";
 import { useRef } from "react";
 

@@ -1,6 +1,6 @@
 import { useSession } from "@/lib/client/session";
 import { Badge, Button, Icon } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
 export function FriendsTrigger() {

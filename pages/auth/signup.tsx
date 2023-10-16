@@ -1,8 +1,8 @@
+import { templates } from "@/app/tasks/boards/[id]/Board/Create";
 import { isEmail } from "@/components/Group/Members/isEmail";
 import { Logo } from "@/components/Logo";
 import { Intro } from "@/components/Onboarding/Intro";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
-import { templates } from "@/components/Tasks/Board/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -46,7 +46,7 @@ import BoringAvatar from "boring-avatars";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/legacy/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { VirtuosoGrid } from "react-virtuoso";
