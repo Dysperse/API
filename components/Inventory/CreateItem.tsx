@@ -15,7 +15,7 @@ import {
 import { motion } from "framer-motion";
 import { cloneElement, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { RoomPicker } from "../../pages/rooms/audit";
+import { RoomPicker } from "../../app/rooms/audit/page";
 
 export function CreateItem({
   defaultRoom,

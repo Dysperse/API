@@ -1,3 +1,4 @@
+import themes from "@/app/settings/themes.json";
 import { templates } from "@/app/tasks/boards/[id]/Board/Create";
 import { isEmail } from "@/components/Group/Members/isEmail";
 import { Logo } from "@/components/Logo";
@@ -9,7 +10,6 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
-import themes from "@/pages/settings/themes.json";
 import styled from "@emotion/styled";
 import { Turnstile } from "@marsidev/react-turnstile";
 import {
