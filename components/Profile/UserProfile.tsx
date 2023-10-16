@@ -103,7 +103,7 @@ function Contacts({ profile }) {
             >
               {contact.name}
             </Typography>
-            <Link href={`/users/${contact.email}`}>
+            <Link href={`/users/${contact.email}`} legacyBehavior>
               <Button variant="contained">
                 <Icon>person</Icon>
                 Open
