@@ -2,7 +2,7 @@ import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { fetcher } from "@/pages/_app";
+import { fetcher } from "@/pages/_apptest";
 import Insights from "@/pages/tasks/insights";
 import { Masonry } from "@mui/lab";
 import {

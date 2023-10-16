@@ -58,7 +58,7 @@
     "markdown-to-jsx": "^7.3.2",
     "memory-cache": "^0.2.0",
     "mui-one-time-password-input": "^1.1.1",
-    "next": "^13.5.2",
+    "next": "^13.5.5",
     "next-pwa": "^5.6.0",
     "node-2fa": "^2.0.3",
     "npm": "^10.1.0",

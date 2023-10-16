@@ -1,3 +1,5 @@
+"use client";
+
 import { containerRef } from "@/components/Layout";
 import { Navbar } from "@/components/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";

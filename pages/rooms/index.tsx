@@ -26,7 +26,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { swipeablePageStyles } from "..";
+import { swipeablePageStyles } from "../../app/page";
 import { CreateItem } from "../../components/Inventory/CreateItem";
 import { ItemPopup } from "./[room]";
 

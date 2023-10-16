@@ -22,7 +22,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { swipeablePageStyles } from "..";
+import { swipeablePageStyles } from "../../app/page";
 
 function RecentlyAccessed() {
   const router = useRouter();
