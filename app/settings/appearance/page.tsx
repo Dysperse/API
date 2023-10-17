@@ -78,7 +78,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
         }
       });
     }
-  }, [emblaApi]);
+  }, [emblaApi, session.themeColor]);
 
   const scrollToIndex = (index) => {
     if (emblaApi) {

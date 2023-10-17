@@ -19,7 +19,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import SpacesLayout from "../page";
+import { SpacesLayout } from "../page";
 
 export default function Page() {
   const { session } = useSession();

@@ -7,11 +7,11 @@ import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { handleBack } from "@/lib/client/handleBack";
 import { exportAsImage } from "@/lib/client/screenshot";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useRouterBack } from "@/lib/client/useRouterBack";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -355,7 +355,7 @@ function Page() {
         >
           <Toolbar>
             <IconButton
-              onClick={() => handleBack(router)}
+              onClick={() => useRouterBack(router)}
               sx={{
                 ...(!isMobile && {
                   background: palette[3] + "!important",

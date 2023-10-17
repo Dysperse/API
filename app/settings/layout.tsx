@@ -1,7 +1,7 @@
 "use client";
 import { containerRef } from "@/app/container";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { handleBack } from "@/lib/client/handleBack";
+import { useRouterBack } from "@/lib/client/useRouterBack";
 import {
   AppBar,
   Box,
@@ -39,7 +39,7 @@ export default function Layout({ children }: any) {
           }
         >
           <Toolbar>
-            <IconButton onClick={() => handleBack(router)}>
+            <IconButton onClick={() => useRouterBack(router)}>
               <Icon>arrow_back_ios_new</Icon>
             </IconButton>
             {pathname !== "/settings" && (

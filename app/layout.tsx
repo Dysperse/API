@@ -1,5 +1,5 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
-import { useColor } from "@/lib/client/useColor";
+import { useColor as getColor } from "@/lib/client/useColor";
 import { getUserData } from "@/lib/server/getUserData";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -26,7 +26,7 @@ export default async function RootLayout({
       data.properties[0]);
 
   const themeColor = data?.user?.color || "violet";
-  const palette = useColor(themeColor, data.user.darkMode, true);
+  const palette = getColor(themeColor, data.user.darkMode);
 
   const s = data?.properties && {
     ...data,
@@ -133,7 +133,7 @@ export default async function RootLayout({
           ["--bg" as any]: palette[1],
         }}
       >
-        <ClientLayout children={children} session={s} />
+        <ClientLayout session={s}>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -11,7 +11,6 @@ import * as colors from "./themes";
 export function useColor(
   base: keyof typeof colors,
   dark: boolean,
-  server: boolean = false
 ) {
   const getColorPalette = (isDark: boolean): Record<string, string> => {
     const paletteKey = isDark ? `${base}Dark` : base;
@@ -28,11 +27,7 @@ export function useColor(
     return _colorPalette;
   };
 
-  if (server) {
-    return getColorPalette(dark);
-  }
-
-  return useMemo(() => getColorPalette(dark), [base, dark]);
+  return getColorPalette(dark);
 }
 
 /**

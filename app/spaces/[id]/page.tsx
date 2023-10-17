@@ -3,9 +3,9 @@ import { ErrorHandler } from "@/components/Error";
 import { GroupModal } from "@/components/Group/GroupModal";
 import Integrations from "@/components/Group/Integrations";
 import { Storage } from "@/components/Group/Storage";
-import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useRouterBack } from "@/lib/client/useRouterBack";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import {
@@ -131,7 +131,7 @@ export function SpacesLayout({ parentRef, children, title }: any) {
               }}
             >
               <Toolbar sx={{ gap: { xs: 0 } }}>
-                <IconButton onClick={() => handleBack(router)}>
+                <IconButton onClick={() => useRouterBack(router)}>
                   <Icon>arrow_back_ios_new</Icon>
                 </IconButton>
                 {!children && (

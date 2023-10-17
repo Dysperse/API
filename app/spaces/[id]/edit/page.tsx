@@ -24,14 +24,13 @@ import {
   Typography,
 } from "@mui/material";
 import * as colors from "@radix-ui/colors";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import useSWR, { mutate } from "swr";
-import SpacesLayout from "../page";
+import { SpacesLayout } from "../page";
 
 export default function Page() {
   const { session } = useSession();
-  const router = useRouter();
   const params = useParams();
   const { id } = params as any;
 
@@ -70,7 +69,7 @@ export default function Page() {
       await mutate("/api/session");
       setAnchorEl(null);
     },
-    [session, mutate]
+    [session]
   );
 
   const handleUpdateName = useCallback(async () => {
