@@ -1,4 +1,4 @@
-import { SelectionContext } from "@/app/tasks/selection-context";
+import { SelectionContext } from "@/app/(app)/tasks/selection-context";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";

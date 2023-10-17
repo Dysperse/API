@@ -1,4 +1,4 @@
-import { fetcher } from "@/app/fetcher";
+import { fetcher } from "@/app//(app)/fetcher";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";

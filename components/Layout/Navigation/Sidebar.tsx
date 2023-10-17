@@ -1,5 +1,5 @@
 "use client";
-import { containerRef } from "@/app/container";
+import { containerRef } from "@/app/(app)/container";
 import { GroupModal } from "@/components/Group/GroupModal";
 import { Logo } from "@/components/Logo";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";

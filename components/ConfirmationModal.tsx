@@ -1,5 +1,3 @@
-import { useSession } from "@/lib/client/session";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import React, { useCallback, useState } from "react";
@@ -22,11 +20,6 @@ export function ConfirmationModal({
   callback: any;
   buttonText?: string;
 }) {
-  const { session } = useSession();
-  const isDark = useDarkMode(session?.darkMode || "system");
-
-  const palette = useColor(session?.themeColor || "violet", isDark);
-
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 

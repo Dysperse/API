@@ -1,6 +1,6 @@
 "use client";
 
-import { containerRef } from "@/app/container";
+import { containerRef } from "@/app/(app)/container";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";

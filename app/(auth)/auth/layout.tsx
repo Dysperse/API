@@ -1,9 +1,9 @@
-import { useUser } from "@/lib/client/session";
 import { useColor } from "@/lib/client/useColor";
-import { Box, useMediaQuery } from "@mui/material";
-import Head from "next/head";
+import { Box } from "@mui/material";
 import { Toaster } from "react-hot-toast";
+import "../../(app)/global.scss";
 import { AuthBranding } from "./branding";
+import { AuthClientLayout } from "./client-layout";
 
 /**
  * Layout for the app, including navbar, sidenav, etc
@@ -11,33 +11,46 @@ import { AuthBranding } from "./branding";
  * @returns JSX.Element
  */
 export default function Layout({ children }): JSX.Element {
-  const isDark = useMediaQuery("(prefers-color-scheme: dark)");
-  const palette = useColor("violet", isDark);
-  const { data, isLoading, isError } = useUser();
+  const palette = useColor("violet", true);
 
   return (
-    <>
-      <Head>
+    <html lang="en">
+      <head>
         <title>Login</title>
-      </Head>
-      <Box
-        sx={{
-          background: palette[1],
-          position: "fixed",
-          top: 0,
-          left: 0,
-          overflow: "scroll",
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <Toaster />
-        <AuthBranding />
-        {children}
-      </Box>
-    </>
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
+        <Box
+          sx={{
+            background: palette[1],
+            position: "fixed",
+            top: 0,
+            left: 0,
+            overflow: "scroll",
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <Toaster />
+          <AuthBranding />
+          <AuthClientLayout>{children}</AuthClientLayout>
+        </Box>
+      </body>
+    </html>
   );
 }

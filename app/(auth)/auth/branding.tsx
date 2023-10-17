@@ -1,3 +1,5 @@
+'use client';
+
 import { Logo } from "@/components/Logo";
 import { Box } from "@mui/material";
 

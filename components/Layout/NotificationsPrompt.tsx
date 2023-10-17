@@ -1,4 +1,4 @@
-import { base64ToUint8Array } from "@/app/settings/notifications/base64ToUint8Array";
+import { base64ToUint8Array } from "@/app/(app)/settings/notifications/base64ToUint8Array";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";

@@ -16,11 +16,11 @@ export function Logo({
   color = "violet",
   style = {},
 }: LogoProps) {
-  const { session } = useSession();
+  const session = useSession();
 
   const palette = useColor(
-    session?.themeColor || color,
-    useDarkMode(session?.darkMode || "system")
+    session?.session?.themeColor || color,
+    useDarkMode(session?.session?.darkMode || "system")
   );
 
   const makeid = (length) => {

@@ -1,5 +1,5 @@
 "use client";
-import { containerRef } from "@/app/container";
+import { containerRef } from "@/app/(app)/container";
 import { Logo } from "@/components/Logo";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";

@@ -1,6 +1,6 @@
 "use client";
-import themes from "@/app/settings/themes.json";
-import { templates } from "@/app/tasks/boards/[id]/Board/Create";
+import themes from "@/app/(app)/settings/themes.json";
+import { templates } from "@/app/(app)/tasks/boards/[id]/Board/Create";
 import { Emoji } from "@/components/Emoji";
 import { isEmail } from "@/components/Group/Members/isEmail";
 import { Logo } from "@/components/Logo";

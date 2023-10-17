@@ -1,4 +1,4 @@
-import { recentlyAccessed } from "@/app/tasks/recently-accessed";
+import { recentlyAccessed } from "@/app/(app)/tasks/recently-accessed";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon } from "@mui/material";

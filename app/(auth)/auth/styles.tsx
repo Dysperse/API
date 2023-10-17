@@ -1,3 +1,5 @@
+"use client";
+
 export const authStyles = (palette) => ({
   footer: {
     display: "flex",

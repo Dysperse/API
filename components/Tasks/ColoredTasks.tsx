@@ -1,3 +1,4 @@
+import { containerRef } from "@/app/(app)/container";
 import { useSession } from "@/lib/client/session";
 import { useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
@@ -15,7 +16,6 @@ import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { ErrorHandler } from "../Error";
-import { containerRef } from "@/app/container";
 import { Task } from "./Task";
 
 export function ColoredTasks() {
