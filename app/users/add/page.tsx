@@ -2,10 +2,10 @@
 import { OptionsGroup } from "@/components/OptionsGroup";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useRouterBack } from "@/lib/client/useRouterBack";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -104,7 +104,7 @@ export default function AddFriend() {
         <Toolbar>
           <IconButton
             sx={{ background: palette[3] }}
-            onClick={() => useRouterBack(router)}
+            onClick={() => handleBack(router)}
           >
             <Icon>close</Icon>
           </IconButton>

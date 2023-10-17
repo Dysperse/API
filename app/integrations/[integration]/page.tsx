@@ -1,9 +1,9 @@
 "use client";
 import { integrations } from "@/components/Group/Integrations";
+import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useRouterBack } from "@/lib/client/useRouterBack";
 import { LoadingButton } from "@mui/lab";
 import {
   AppBar,
@@ -119,7 +119,7 @@ function Layout() {
           <IconButton
             onClick={() => {
               if (step == 0) {
-                useRouterBack(router);
+                handleBack(router);
               } else {
                 setStep(step - 1);
               }
