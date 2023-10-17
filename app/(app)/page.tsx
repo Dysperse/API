@@ -12,6 +12,7 @@ import {
   Alert,
   Box,
   Icon,
+  NoSsr,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -85,10 +86,12 @@ export default function Home() {
   const scrollerRef = useRef();
   const router = useRouter();
   const shadow = useShadow(scrollerRef);
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
     active: isMobile,
   });
+
   const [loadingIndex, setLoadingIndex] = useState(1);
 
   useEffect(() => {
@@ -110,7 +113,7 @@ export default function Home() {
   }, [emblaApi, router]);
 
   return (
-    <>
+    <NoSsr>
       <Navbar showLogo={isMobile} showRightContent={isMobile} />
       <Box
         sx={{
@@ -273,6 +276,6 @@ export default function Home() {
           )}
         </Box>
       </Box>
-    </>
+    </NoSsr>
   );
 }
