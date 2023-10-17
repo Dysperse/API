@@ -35,6 +35,7 @@ export function Navbar({
         "& svg": {
           display: showLogo ? { sm: "none" } : "none",
         },
+        maxWidth: "100dvw",
         zIndex: 99,
         ...sx,
       }}

@@ -53,7 +53,7 @@ export function TaskNavbar({
             pointerEvents: "none",
           }),
           background: addHslAlpha(palette[3], 0.6),
-          maxWidth: { md: "400px" },
+          maxWidth: { xs: "100dvw", md: "400px" },
           "& .MuiIcon-root": {
             color: palette[9],
           },

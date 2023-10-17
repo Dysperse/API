@@ -141,7 +141,7 @@ export default function Home() {
                   gap: 2,
                   justifyContent: { sm: "center" },
                   mb: 2,
-                  px: 3,
+                  px: 4,
                 }}
               >
                 <AvailabilityTrigger />
