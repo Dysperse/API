@@ -109,7 +109,17 @@ export function StatusSelector({
     mutateStatus();
     mutate();
     setLoading(false);
-  }, [session, status, time, mutate, profile, setLoading, mutateStatus, emoji]);
+  }, [
+    session,
+    status,
+    time,
+    mutate,
+    profile,
+    setLoading,
+    mutateStatus,
+    emoji,
+    notificationData.notifyFriendsForStatusUpdates,
+  ]);
 
   const resetStatus = useCallback(
     () =>

@@ -81,7 +81,7 @@ function SelectWallpaperModal({ children }) {
     if (open) {
       search();
     }
-  }, [search]);
+  }, [search, open]);
 
   return (
     <>
@@ -517,7 +517,7 @@ function EditLayout({ id, data, mutate }) {
 
   const palette = useColor(
     session.themeColor,
-    useDarkMode(session.user.darkMode),
+    useDarkMode(session.user.darkMode)
   );
 
   useEffect(() => {

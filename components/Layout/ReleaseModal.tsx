@@ -47,7 +47,7 @@ export default function ReleaseModal() {
         setAlreadyOpened(true);
       }
     }
-  }, [data, session, alreadyOpened, error, router]);
+  }, [data, session, alreadyOpened, error, router, pathname]);
 
   const handleClose = () => {
     setOpen(false);

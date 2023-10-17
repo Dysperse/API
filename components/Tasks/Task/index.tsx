@@ -360,7 +360,15 @@ export const Task: any = React.memo(function Task({
         toast.error("An error occurred while updating the task");
       }
     },
-    [taskData.id, session, isCompleted]
+    [
+      taskData.id,
+      session,
+      isCompleted,
+      isRecurring,
+      mutateList,
+      recurringInstance,
+      task,
+    ]
   );
 
   const isDisabled = useMemo(
@@ -405,7 +413,15 @@ export const Task: any = React.memo(function Task({
               />
             ))
         : [],
-    [board, columnId, isAgenda, mutateList, checkList, taskData]
+    [
+      board,
+      columnId,
+      isAgenda,
+      mutateList,
+      checkList,
+      taskData,
+      recurringInstance,
+    ]
   );
 
   return !taskData ? (

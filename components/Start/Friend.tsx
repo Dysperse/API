@@ -126,7 +126,7 @@ export function FriendPopover({ children, email }) {
         error: "Something went wrong. Please try again later",
       }
     );
-  }, [data, isFriend, session.user.email]);
+  }, [data, isFriend, session, mutate]);
 
   return (
     <>

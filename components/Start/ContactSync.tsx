@@ -39,7 +39,7 @@ export default function ContactSync({ showFriends }) {
         }
       }
     });
-  }, []);
+  }, [data, showFriends]);
 
   return !show ? (
     <></>
