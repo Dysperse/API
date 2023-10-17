@@ -1,6 +1,5 @@
 "use client";
 
-import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor } from "@/lib/client/useColor";
@@ -26,6 +25,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import QRCode from "react-qr-code";
 import { mutate } from "swr";
+import { AuthBranding } from "./branding";
+import { authStyles } from "./styles";
 
 function QrLogin({ handleRedirect }) {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
@@ -222,7 +223,7 @@ export default function Prompt() {
       window.location.href = url;
       toast.dismiss();
     },
-    [router, params]
+    [params]
   );
 
   const proTips = [
@@ -320,7 +321,7 @@ export default function Prompt() {
         setButtonLoading(false);
       }
     },
-    [captchaToken, email, password, router, twoFactorCode, handleRedirect]
+    [captchaToken, email, password, twoFactorCode, handleRedirect, pathname]
   );
 
   useEffect(() => {
@@ -343,7 +344,7 @@ export default function Prompt() {
   const palette = useColor("violet", isDark);
 
   return (
-    <Layout>
+    <>
       <Box
         sx={{
           ...authStyles(palette).container,
@@ -605,6 +606,6 @@ export default function Prompt() {
           </Typography>
         </Box>
       </NoSsr>
-    </Layout>
+    </>
   );
 }

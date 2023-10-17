@@ -3,6 +3,7 @@ import { useColor as getColor } from "@/lib/client/useColor";
 import { getUserData } from "@/lib/server/getUserData";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import Script from "next/script";
 import ClientLayout from "./client-layout";
 import "./global.scss";
@@ -140,11 +141,18 @@ export default async function RootLayout({
 }
 
 async function getSession() {
-  const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
+  try {
+    const cookieStore = cookies();
+    const token = cookieStore.get("token")?.value;
 
-  const { accessToken } = jwt.verify(token, process.env.SECRET_COOKIE_PASSWORD);
+    const { accessToken } = jwt.verify(
+      token,
+      process.env.SECRET_COOKIE_PASSWORD
+    );
 
-  const info = await getUserData(accessToken);
-  return JSON.parse(JSON.stringify(info));
+    const info = await getUserData(accessToken);
+    return JSON.parse(JSON.stringify(info));
+  } catch {
+    redirect("/auth");
+  }
 }

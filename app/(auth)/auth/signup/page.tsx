@@ -1,6 +1,7 @@
 "use client";
 import themes from "@/app/settings/themes.json";
 import { templates } from "@/app/tasks/boards/[id]/Board/Create";
+import { Emoji } from "@/components/Emoji";
 import { isEmail } from "@/components/Group/Members/isEmail";
 import { Logo } from "@/components/Logo";
 import { Intro } from "@/components/Onboarding/Intro";
@@ -51,7 +52,6 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { VirtuosoGrid } from "react-virtuoso";
-import { Emoji } from "../../../components/Emoji";
 const utc = require("dayjs/plugin/utc");
 const timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
 
@@ -1127,7 +1127,7 @@ function StepSeven({ styles, formData, setFormData, setStep }) {
   const createAccount = useCallback(async () => {
     if (formData.captchaToken) {
       try {
-        const account = await fetch(`/api/auth/signup`, {
+        await fetch(`/api/auth/signup`, {
           method: "POST",
           body: JSON.stringify({
             ...formData,
