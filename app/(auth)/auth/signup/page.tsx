@@ -48,7 +48,6 @@ import BoringAvatar from "boring-avatars";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/legacy/image";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { VirtuosoGrid } from "react-virtuoso";
@@ -1122,7 +1121,6 @@ function StepSix({ styles, formData, setFormData, setStep }) {
 function StepSeven({ styles, formData, setFormData, setStep }) {
   const palette = useColor(formData.color, useDarkMode(formData.darkMode));
   const ref: any = useRef();
-  const router = useRouter();
 
   const createAccount = useCallback(async () => {
     if (formData.captchaToken) {
