@@ -24,7 +24,7 @@ import dayjs from "dayjs";
 import { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import Layout from "../page";
+import Layout from "../layout";
 
 /**
  * Top-level component for the account settings page.

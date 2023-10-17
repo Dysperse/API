@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import Layout from "../page";
+import Layout from "../layout";
 import { base64ToUint8Array } from "./base64ToUint8Array";
 
 /**

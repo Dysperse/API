@@ -1,12 +1,12 @@
 "use client";
 
+import { containerRef } from "@/app/container";
 import { CreateTask } from "@/components/Tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
-import { containerRef } from "@/app/container";
 
 export const shouldHideNavigation = (path) => {
   return [
@@ -25,7 +25,11 @@ export const shouldHideNavigation = (path) => {
     if (_path.desktop) {
       return path?.includes(_path.path);
     } else {
-      return path?.includes(_path.path) && window.innerWidth < 600;
+      return (
+        path?.includes(_path.path) &&
+        typeof window !== "undefined" &&
+        window.innerWidth < 600
+      );
     }
   });
 };

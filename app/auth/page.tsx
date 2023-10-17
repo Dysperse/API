@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import QRCode from "react-qr-code";
@@ -203,28 +203,24 @@ function QrLogin({ handleRedirect }) {
 export default function Prompt() {
   const ref: any = useRef();
   const emailRef: any = useRef();
+  const params = useParams();
+  const pathname = usePathname();
 
   const router = useRouter();
 
   const handleRedirect = useCallback(
     (res) => {
-      if (router.pathname.includes("?application=")) {
-        router.pathname =
-          "https://availability.dysperse.com/api/oauth/redirect?token=" +
-          res.accessToken;
-      } else {
-        mutate("/api/session");
-        if (window.location.href.includes("close=true")) {
-          window.close();
-          return;
-        }
-
-        const url = (router?.query?.next as any) || "/";
-        window.location.href = url;
-        toast.dismiss();
+      mutate("/api/session");
+      if (params?.close) {
+        window.close();
+        return;
       }
+
+      const url = (params?.next as any) || "/";
+      window.location.href = url;
+      toast.dismiss();
     },
-    [router]
+    [router, params]
   );
 
   const proTips = [
@@ -279,8 +275,8 @@ export default function Prompt() {
             password,
             twoFactorCode,
             token: captchaToken,
-            ...(router.pathname.includes("?application=") && {
-              application: router.pathname.split("?application=")[1],
+            ...(pathname?.includes("?application=") && {
+              application: pathname?.split("?application=")?.[1],
             }),
           }),
         }).then((res) => res.json());
@@ -530,9 +526,9 @@ export default function Prompt() {
             {step === 1 && (
               <Box sx={{ width: "100%" }}>
                 <Link
-                  href={`/auth/signup${
-                    router.query.close ? "?close=true" : ""
-                  }${router.query.next ? "?next=" + router.query.next : ""}`}
+                  href={`/auth/signup${params?.close ? "?close=true" : ""}${
+                    params?.next ? "?next=" + params?.next : ""
+                  }`}
                   legacyBehavior
                 >
                   <Button sx={authStyles(palette).link}>
@@ -540,9 +536,9 @@ export default function Prompt() {
                   </Button>
                 </Link>
                 <Link
-                  href={`/auth/reset-id${
-                    router.query.close ? "?close=true" : ""
-                  }${router.query.next ? "?next=" + router.query.next : ""}`}
+                  href={`/auth/reset-id${params.close ? "?close=true" : ""}${
+                    params.next ? "?next=" + params.next : ""
+                  }`}
                   legacyBehavior
                 >
                   <Button sx={authStyles(palette).link}>I forgot my ID</Button>

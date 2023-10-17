@@ -1,3 +1,4 @@
+"use client";
 import { ErrorHandler } from "@/components/Error";
 import { GroupModal } from "@/components/Group/GroupModal";
 import Integrations from "@/components/Group/Integrations";
@@ -22,14 +23,15 @@ import {
   createTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 
-export default function SpacesLayout({ parentRef, children, title }: any) {
+export function SpacesLayout({ parentRef, children, title }: any) {
   const { session } = useSession();
   const router = useRouter();
-  const { id } = router.query;
+  const params = useParams();
+  const { id } = params as any;
   const isDark = useDarkMode(session.darkMode);
 
   const accessToken = session.properties.find(
@@ -313,4 +315,7 @@ export default function SpacesLayout({ parentRef, children, title }: any) {
       </Box>
     </ThemeProvider>
   );
+}
+export default function Page() {
+  return <SpacesLayout />;
 }

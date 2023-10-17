@@ -9,7 +9,7 @@ import Image from "next/legacy/image";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { useColor, useDarkMode } from "../../../lib/client/useColor";
-import Layout from "../page";
+import Layout from "../layout";
 
 /**
  * Top-level component for the appearance settings page.

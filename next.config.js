@@ -10,6 +10,9 @@ const withPWA = require("next-pwa")({
 
 const moduleExports = {
   ...withPWA({
+    experimental: {
+      serverActions: true,
+    },  
     images: {
       unoptimized: true,
     },

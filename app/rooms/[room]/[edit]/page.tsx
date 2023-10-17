@@ -1,3 +1,4 @@
+"use client";
 import EmojiPicker from "@/components/EmojiPicker";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -14,7 +15,7 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
@@ -23,6 +24,7 @@ import RoomLayout from "../../layout";
 export default function Page() {
   const router = useRouter();
   const { session } = useSession();
+  const params = useParams();
   const palette = useColor(
     session.themeColor,
     useDarkMode(session.user.darkMode)
@@ -30,10 +32,7 @@ export default function Page() {
 
   const { data, isLoading, mutate, error } = useSWR(
     router?.query?.room
-      ? [
-          "property/inventory/rooms/items",
-          { id: router.query.room, items: false },
-        ]
+      ? ["property/inventory/rooms/items", { id: params?.room, items: false }]
       : null
   );
 

@@ -25,7 +25,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { cloneElement, useEffect, useState } from "react";
 import { useColor, useDarkMode } from "../../../lib/client/useColor";
-import Layout from "../page";
+import Layout from "../layout";
 import themes from "../themes.json";
 
 /**

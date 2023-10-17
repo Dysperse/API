@@ -1,3 +1,4 @@
+"use client";
 import { integrations } from "@/components/Group/Integrations";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
@@ -21,7 +22,7 @@ import {
   Typography,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
@@ -30,15 +31,14 @@ import useSWR from "swr";
 function Layout() {
   const router = useRouter();
   const { session } = useSession();
+  const _params = useParams();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const name = (router.query.integration as string).replace("-", " ");
-  const integrationName = name.includes("?board=")
-    ? name.split("?board=")[1]
-    : name;
+  const name = (_params?.integration as string).replace("-", " ");
+  const integrationName = _params?.board ? _params.board : name;
 
   const [boardId, setBoardId] = useState<string | null>(
-    String(router.query?.board) || "-1"
+    String(_params?.board) || "-1"
   );
 
   const integration: any = useMemo(
@@ -491,6 +491,6 @@ function Layout() {
 }
 
 export default function Page() {
-  const router = useRouter();
-  return router?.query?.integration ? <Layout /> : <></>;
+  const params = useParams();
+  return params?.integration ? <Layout /> : <></>;
 }

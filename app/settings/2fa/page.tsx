@@ -11,7 +11,7 @@ import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
-import Layout from "../page";
+import Layout from "../layout";
 
 /**
  * Top-level component for the two-factor authentication settings page.

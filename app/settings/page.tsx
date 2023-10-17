@@ -1,32 +1,25 @@
-import { containerRef } from "@/app/container";
+"use client";
+
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Emoji } from "@/components/Emoji";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
-import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Alert,
   AlertTitle,
-  AppBar,
   Avatar,
   Box,
   Icon,
-  IconButton,
   InputAdornment,
   ListItemButton,
   ListItemText,
   SxProps,
   TextField,
-  Toolbar,
-  Typography,
 } from "@mui/material";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import { useState } from "react";
 
 type SettingsButtons = {
   icon: String | JSX.Element;
@@ -42,23 +35,7 @@ type SettingsButtons = {
   };
 }[][];
 
-function sendMessage(message) {
-  return new Promise(function (resolve, reject) {
-    var messageChannel = new MessageChannel();
-    messageChannel.port1.onmessage = function (event) {
-      if (event.data.error) {
-        reject(event.data.error);
-      } else {
-        resolve(event.data);
-      }
-    };
-    navigator?.serviceWorker?.controller?.postMessage(message, [
-      messageChannel.port2,
-    ]);
-  });
-}
-
-function Page() {
+export default function Page() {
   const router = useRouter();
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -229,7 +206,8 @@ function Page() {
         return button.queries.some((queryPart) => {
           return (
             queryPart.toLowerCase().includes(query.toLowerCase()) ||
-            button.text.toLowerCase().includes(query.toLowerCase())
+            button.text.toLowerCase().includes(query.toLowerCase()) ||
+            button.secondary?.toLowerCase()?.includes(query.toLowerCase())
           );
         });
       });
@@ -326,84 +304,5 @@ function Page() {
         </Box>
       ))}
     </>
-  );
-}
-
-export default function Layout({ children }: any) {
-  const router = useRouter();
-  const closeRef: any = useRef();
-
-  useHotkeys("esc", () => closeRef.current?.click());
-
-  return (
-    <Box>
-      <Box>
-        <AppBar
-          sx={{
-            pr: 5,
-            background: "transparent",
-            border: 0,
-            position: "fixed",
-            top: 0,
-            left: { xs: 0, sm: "85px" },
-          }}
-          onClick={() =>
-            containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
-          }
-        >
-          <Toolbar>
-            <IconButton onClick={() => handleBack(router)}>
-              <Icon>arrow_back_ios_new</Icon>
-            </IconButton>
-            {router.asPath !== "/settings" && (
-              <Typography sx={{ ml: 1 }}>
-                <b>Settings</b>
-              </Typography>
-            )}
-          </Toolbar>
-        </AppBar>
-        <Box
-          sx={{
-            p: { xs: 3, sm: 0 },
-            width: "100%",
-            height: "100%",
-            flexGrow: 1,
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: "500px",
-            mx: "auto",
-          }}
-        >
-          <Typography
-            variant="h2"
-            sx={{ mb: 1, mt: 15 }}
-            className="font-heading"
-          >
-            {capitalizeFirstLetter(
-              router.asPath
-                .replace("/settings", "")
-                .replaceAll("-", " ")
-                .replaceAll("/", "") || "Settings"
-            )}
-          </Typography>
-          <Box
-            sx={{
-              flexGrow: 1,
-              height: "100%",
-              width: "100%",
-            }}
-          >
-            <motion.div
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              key="settings"
-              style={{ marginBottom: "40px" }}
-            >
-              {children || <Page />}
-            </motion.div>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
   );
 }

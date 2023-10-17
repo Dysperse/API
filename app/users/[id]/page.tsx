@@ -36,7 +36,7 @@ import { amberDark } from "@radix-ui/colors";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { cloneElement, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -188,7 +188,8 @@ function ShareProfileModal({ user, children }) {
 function Page() {
   const router = useRouter();
   const { session } = useSession();
-  const email = router.query.id;
+  const params = useParams();
+  const email = params?.id;
 
   const { data, mutate, error } = useSWR(["user/profile", { email }]);
 

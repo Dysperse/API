@@ -20,7 +20,7 @@ import dayjs from "dayjs";
 import React, { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
-import Layout from "../page";
+import Layout from "../layout";
 
 const Session: any = React.memo(function Session({ mutate, index, data }: any) {
   const { session } = useSession();
