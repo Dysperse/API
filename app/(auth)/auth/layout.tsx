@@ -1,5 +1,5 @@
 import { useColor } from "@/lib/client/useColor";
-import { Box } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 import "../../(app)/global.scss";
 import { AuthBranding } from "./branding";
@@ -40,6 +40,7 @@ export default function Layout({ children }): JSX.Element {
             left: 0,
             overflow: "scroll",
             width: "100%",
+            maxWidth: "100dvw",
             height: "100%",
             display: "flex",
             flexDirection: "column",
@@ -48,6 +49,7 @@ export default function Layout({ children }): JSX.Element {
         >
           <Toaster />
           <AuthBranding />
+          <CssBaseline />
           <AuthClientLayout>{children}</AuthClientLayout>
         </Box>
       </body>

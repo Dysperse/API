@@ -2,6 +2,8 @@
 import { containerRef } from "@/app/(app)/container";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { handleBack } from "@/lib/client/handleBack";
+import { useSession } from "@/lib/client/session";
+import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   AppBar,
   Box,
@@ -19,6 +21,10 @@ export default function Layout({ children }: any) {
   const router = useRouter();
   const closeRef: any = useRef();
   const pathname = usePathname();
+
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.user.color, isDark);
 
   useHotkeys("esc", () => closeRef.current?.click());
 
@@ -40,7 +46,7 @@ export default function Layout({ children }: any) {
         >
           <Toolbar>
             <IconButton onClick={() => handleBack(router)}>
-              <Icon>arrow_back_ios_new</Icon>
+              <Icon sx={{ color: palette[9] }}>arrow_back_ios_new</Icon>
             </IconButton>
             {pathname !== "/settings" && (
               <Typography sx={{ ml: 1 }}>
