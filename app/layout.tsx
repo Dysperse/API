@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor } from "@/lib/client/useColor";
 import { getUserData } from "@/lib/server/getUserData";
 import jwt from "jsonwebtoken";
@@ -123,7 +124,15 @@ export default async function RootLayout({
         `}
         </Script>
       </head>
-      <body style={{ height: "100dvh" }}>
+      <body
+        style={{
+          height: "100dvh",
+          ["--toast-bg" as any]: addHslAlpha(palette[3], 0.8),
+          ["--toast-text" as any]: palette[11],
+          ["--toast-solid" as any]: palette[7],
+          ["--bg" as any]: palette[1],
+        }}
+      >
         <ClientLayout children={children} session={s} />
       </body>
     </html>

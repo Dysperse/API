@@ -1,13 +1,9 @@
 "use client";
-import { containerRef } from "@/app/container";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Puller } from "@/components/Puller";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
-import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { useDocumentTitle } from "@/lib/client/useDocumentTitle";
 import { vibrate } from "@/lib/client/vibration";
 import {
   AppBar,
@@ -19,18 +15,15 @@ import {
   ListItemText,
   SwipeableDrawer,
   Toolbar,
-  Typography,
   useMediaQuery,
 } from "@mui/material";
-import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { SearchTasks } from "../../components/Tasks/Layout/SearchTasks";
-import { CreateTask } from "../../components/Tasks/Task/Create";
 import { TaskColorPicker } from "../../components/Tasks/Task/Create/ChipBar";
 import SelectDateModal from "../../components/Tasks/Task/DatePicker";
+import { TasksContext } from "./context";
 import { MenuChildren } from "./menu";
 import { SelectionContext } from "./selection-context";
 import { taskStyles } from "./styles";
@@ -150,7 +143,6 @@ export default function TasksLayout({
 }) {
   const router = useRouter();
   const { session } = useSession();
-  const title = useDocumentTitle();
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
@@ -158,6 +150,7 @@ export default function TasksLayout({
 
   const [editMode, setEditMode] = useState(false);
   const [taskSelection, setTaskSelection] = useState([]);
+  const [title, setTitle] = useState(["", ""]);
 
   useHotkeys("c", (e) => {
     e.preventDefault();
@@ -182,71 +175,8 @@ export default function TasksLayout({
   const pathname = usePathname();
   const isSearch = pathname?.includes("/tasks/search");
 
-  const trigger = (
-    <>
-      <IconButton
-        onClick={() => {
-          vibrate(50);
-          router.push("/tasks/home");
-        }}
-        sx={{
-          background: addHslAlpha(palette[3], 0.7),
-          color: palette[9],
-          "&:active": {
-            background: addHslAlpha(palette[5], 0.7),
-          },
-        }}
-      >
-        <Icon>close</Icon>
-      </IconButton>
-      <Button
-        sx={{
-          color: palette[9],
-          px: 1,
-          height: 48,
-          ml: 0.5,
-          mt: -0.1,
-          ...(!title.includes("•") && { minWidth: 0 }),
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          "&:hover": {
-            background: "transparent",
-          },
-        }}
-        size="large"
-      >
-        <Box
-          sx={{
-            overflow: "hidden",
-            maxWidth: "100%",
-            textOverflow: "ellipsis",
-            "& .MuiTypography-root": {
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              maxWidth: "100%",
-              overflow: "hidden",
-            },
-            textAlign: "left",
-            minWidth: 0,
-          }}
-        >
-          <Typography sx={{ fontWeight: 900 }}>
-            {title.includes("•") ? title.split("•")[0] : ""}
-          </Typography>
-          {title.includes("•") &&
-            title.split("•")[1].toString().trim() !== "-" && (
-              <Typography variant="body2" sx={{ mt: -0.5 }}>
-                {title.split("•")[1]}
-              </Typography>
-            )}
-        </Box>
-      </Button>
-    </>
-  );
-
   const isSelecting = taskSelection.length > 0;
 
-  const searchRef: any = useRef();
   useHotkeys("esc", () => setTaskSelection([]));
 
   useEffect(() => {
@@ -257,258 +187,204 @@ export default function TasksLayout({
     document.body.classList[isSelecting ? "add" : "remove"]("hideBottomNav");
   }, [isSelecting]);
 
+  const [rightContent, setRightContent] = useState(<></>);
+
   return (
-    <SelectionContext.Provider
-      value={{
-        values: taskSelection,
-        set: setTaskSelection,
-      }}
-    >
-      <AppBar
-        sx={{
-          ...taskStyles(palette).appBar,
-          ...(!isSelecting && {
-            opacity: 0,
-            transform: "translateX(-50%) scale(.5)",
-            pointerEvents: "none",
-          }),
-          zIndex: 99999999,
-          background: palette[2],
-          maxWidth: { md: "400px" },
+    <TasksContext.Provider value={{ setRightContent, setTitle }}>
+      <SelectionContext.Provider
+        value={{
+          values: taskSelection,
+          set: setTaskSelection,
         }}
       >
-        <Toolbar sx={{ mt: { sm: -0.5 }, pt: "0!important" }}>
-          <Button
-            variant="contained"
-            sx={{
-              px: 1,
-              mr: "auto",
-            }}
-            onClick={() => setTaskSelection([])}
-          >
-            <Icon>close</Icon>
-            {taskSelection.filter((e) => e !== "-1").length}
-            {taskSelection.filter((e) => e !== "-1").length == 0 && " selected"}
-          </Button>
-          {taskSelection.filter((e) => e !== "-1").length !== 0 && (
-            <>
-              <BulkColorCode>
-                <IconButton sx={{ color: palette[9] }}>
-                  <Icon className="outlined">label</Icon>
-                </IconButton>
-              </BulkColorCode>
-              <BulkCompletion />
-              {session.permission !== "read-only" && (
-                <SelectDateModal
-                  date={new Date()}
-                  dateOnly
-                  setDate={async (newDate) => {
-                    try {
-                      const res = await fetchRawApi(
-                        session,
-                        "property/boards/column/task/editMany",
-                        {
-                          selection: JSON.stringify(
-                            taskSelection.filter((e) => e !== "-1")
-                          ),
-                          due: newDate.toISOString(),
-                        }
-                      );
-                      if (res.errors !== 0) {
-                        toast.error(
-                          `Couldn't edit ${res.errors} item${
-                            res.errors == 1 ? "" : "s"
-                          }`
-                        );
-                        return;
-                      }
-                      document.getElementById("taskMutationTrigger")?.click();
-                      toast.success(`Updated due date!`);
-                      setTaskSelection([]);
-                    } catch {
-                      toast.error(
-                        `Couldn't update due dates! Please try again later`
-                      );
-                    }
-                  }}
-                >
-                  <IconButton sx={{ color: palette[9] }}>
-                    <Icon className="outlined">today</Icon>
-                  </IconButton>
-                </SelectDateModal>
-              )}
-              {session.permission !== "read-only" && (
-                <ConfirmationModal
-                  title={`Delete ${
-                    taskSelection.filter((e) => e !== "-1").length
-                  } item${
-                    taskSelection.filter((e) => e !== "-1").length !== 1
-                      ? "s"
-                      : ""
-                  }?`}
-                  question="This action cannot be undone"
-                  callback={async () => {
-                    try {
-                      const res = await fetchRawApi(
-                        session,
-                        "property/boards/column/task/deleteMany",
-                        {
-                          selection: JSON.stringify(
-                            taskSelection.filter((e) => e !== "-1")
-                          ),
-                        }
-                      );
-                      if (res.errors !== 0) {
-                        toast.error(
-                          `Couldn't delete ${res.errors} item${
-                            res.errors == 1 ? "" : "s"
-                          }`
-                        );
-                        return;
-                      }
-                      document.getElementById("taskMutationTrigger")?.click();
-                      toast.success("Deleted!");
-                      setTaskSelection([]);
-                    } catch {
-                      toast.error("Couldn't delete tasks. Try again later.");
-                    }
-                  }}
-                  buttonText="Delete"
-                >
-                  <IconButton sx={{ color: palette[9] }}>
-                    <Icon className="outlined">delete</Icon>
-                  </IconButton>
-                </ConfirmationModal>
-              )}
-            </>
-          )}
-        </Toolbar>
-      </AppBar>
-      {isMobile && (
         <AppBar
-          onClick={() => {
-            containerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
-          }}
           sx={{
             ...taskStyles(palette).appBar,
-            ...(isSelecting && {
+            ...(!isSelecting && {
               opacity: 0,
               transform: "translateX(-50%) scale(.5)",
               pointerEvents: "none",
             }),
-            ...(pathname?.includes("/edit/") && {
-              display: "none",
-            }),
+            zIndex: 99999999,
+            background: palette[2],
+            maxWidth: { md: "400px" },
           }}
         >
-          <Toolbar sx={{ mt: { sm: -0.5 } }}>
-            {!isSearch && trigger}
-            {isSearch ? <></> : <SearchTasks />}
-            {isSearch && (
+          <Toolbar sx={{ mt: { sm: -0.5 }, pt: "0!important" }}>
+            <Button
+              variant="contained"
+              sx={{
+                px: 1,
+                mr: "auto",
+              }}
+              onClick={() => setTaskSelection([])}
+            >
+              <Icon>close</Icon>
+              {taskSelection.filter((e) => e !== "-1").length}
+              {taskSelection.filter((e) => e !== "-1").length == 0 &&
+                " selected"}
+            </Button>
+            {taskSelection.filter((e) => e !== "-1").length !== 0 && (
               <>
-                <IconButton
-                  onClick={() => handleBack(router)}
-                  sx={{ color: palette[9] }}
-                >
-                  <Icon>arrow_back_ios_new</Icon>
-                </IconButton>
-                <SearchTasks inputOnly />
+                <BulkColorCode>
+                  <IconButton sx={{ color: palette[9] }}>
+                    <Icon className="outlined">label</Icon>
+                  </IconButton>
+                </BulkColorCode>
+                <BulkCompletion />
+                {session.permission !== "read-only" && (
+                  <SelectDateModal
+                    date={new Date()}
+                    dateOnly
+                    setDate={async (newDate) => {
+                      try {
+                        const res = await fetchRawApi(
+                          session,
+                          "property/boards/column/task/editMany",
+                          {
+                            selection: JSON.stringify(
+                              taskSelection.filter((e) => e !== "-1")
+                            ),
+                            due: newDate.toISOString(),
+                          }
+                        );
+                        if (res.errors !== 0) {
+                          toast.error(
+                            `Couldn't edit ${res.errors} item${
+                              res.errors == 1 ? "" : "s"
+                            }`
+                          );
+                          return;
+                        }
+                        document.getElementById("taskMutationTrigger")?.click();
+                        toast.success(`Updated due date!`);
+                        setTaskSelection([]);
+                      } catch {
+                        toast.error(
+                          `Couldn't update due dates! Please try again later`
+                        );
+                      }
+                    }}
+                  >
+                    <IconButton sx={{ color: palette[9] }}>
+                      <Icon className="outlined">today</Icon>
+                    </IconButton>
+                  </SelectDateModal>
+                )}
+                {session.permission !== "read-only" && (
+                  <ConfirmationModal
+                    title={`Delete ${
+                      taskSelection.filter((e) => e !== "-1").length
+                    } item${
+                      taskSelection.filter((e) => e !== "-1").length !== 1
+                        ? "s"
+                        : ""
+                    }?`}
+                    question="This action cannot be undone"
+                    callback={async () => {
+                      try {
+                        const res = await fetchRawApi(
+                          session,
+                          "property/boards/column/task/deleteMany",
+                          {
+                            selection: JSON.stringify(
+                              taskSelection.filter((e) => e !== "-1")
+                            ),
+                          }
+                        );
+                        if (res.errors !== 0) {
+                          toast.error(
+                            `Couldn't delete ${res.errors} item${
+                              res.errors == 1 ? "" : "s"
+                            }`
+                          );
+                          return;
+                        }
+                        document.getElementById("taskMutationTrigger")?.click();
+                        toast.success("Deleted!");
+                        setTaskSelection([]);
+                      } catch {
+                        toast.error("Couldn't delete tasks. Try again later.");
+                      }
+                    }}
+                    buttonText="Delete"
+                  >
+                    <IconButton sx={{ color: palette[9] }}>
+                      <Icon className="outlined">delete</Icon>
+                    </IconButton>
+                  </ConfirmationModal>
+                )}
               </>
-            )}
-            {!isSearch && (
-              <CreateTask
-                closeOnCreate
-                defaultDate={dayjs().startOf("day").toDate()}
-                onSuccess={() => {
-                  document.getElementById("taskMutationTrigger")?.click();
-                }}
-              >
-                <IconButton
-                  id="createTaskTrigger"
-                  sx={{
-                    "&:active": {
-                      transform: "scale(0.9)",
-                    },
-                    color: palette[9],
-                    background: addHslAlpha(palette[3], 0.8),
-                    transition: "transform .1s",
-                  }}
-                >
-                  <Icon sx={{ transform: "scale(1.1)" }} className="outlined">
-                    add
-                  </Icon>
-                </IconButton>
-              </CreateTask>
             )}
           </Toolbar>
         </AppBar>
-      )}
-      <Box sx={{ display: "flex", background: { sm: palette[2] } }}>
-        <Box
-          sx={{
-            width: { xs: "100%", sm: 300 },
-            flex: { xs: "100%", sm: "0 0 250px" },
-            background: palette[2],
-            display: { xs: "none", sm: "flex" },
-            minHeight: "100dvh",
-            maxWidth: "250px",
-            opacity: 1,
-            ".priorityMode &": {
-              visbility: "hidden",
-              opacity: 0,
-              maxWidth: 0,
-            },
-            height: { sm: "100dvh" },
-            overflowY: { sm: "scroll" },
-            transition: "all .2s",
-            flexDirection: "column",
-            "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-              backgroundColor: "transparent",
-            },
-            "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-              backgroundColor: palette[2],
-              border: "3px solid " + palette[2],
-            },
-            "&:hover": {
+        <Box sx={{ display: "flex", background: { sm: palette[2] } }}>
+          <Box
+            sx={{
+              width: { xs: "100%", sm: 300 },
+              flex: { xs: "100%", sm: "0 0 250px" },
+              background: palette[2],
+              display: { xs: "none", sm: "flex" },
+              minHeight: "100dvh",
+              maxWidth: "250px",
+              opacity: 1,
+              ".priorityMode &": {
+                visbility: "hidden",
+                opacity: 0,
+                maxWidth: 0,
+              },
+              height: { sm: "100dvh" },
+              overflowY: { sm: "scroll" },
+              transition: "all .2s",
+              flexDirection: "column",
+              "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+                backgroundColor: "transparent",
+              },
               "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-                backgroundColor: palette[4],
+                backgroundColor: palette[2],
                 border: "3px solid " + palette[2],
               },
-            },
-            "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
-              {
-                backgroundColor: palette[6],
+              "&:hover": {
+                "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+                  backgroundColor: palette[4],
+                  border: "3px solid " + palette[2],
+                },
               },
-            "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
-              {
-                backgroundColor: palette[6],
+              "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
+                {
+                  backgroundColor: palette[6],
+                },
+              "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
+                {
+                  backgroundColor: palette[6],
+                },
+              "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
+                {
+                  backgroundColor: palette[6],
+                },
+              "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+                backgroundColor: "transparent",
               },
-            "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
-              {
-                backgroundColor: palette[6],
-              },
-            "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
-              backgroundColor: "transparent",
-            },
-          }}
-        >
-          <MenuChildren editMode={editMode} setEditMode={setEditMode} />
+            }}
+          >
+            <MenuChildren editMode={editMode} setEditMode={setEditMode} />
+          </Box>
+          <Box
+            sx={{
+              maxHeight: { sm: "100dvh" },
+              minHeight: { sm: "100dvh" },
+              height: { sm: "100dvh" },
+              overflowY: { sm: "auto" },
+              borderRadius: { sm: "20px 0 0 20px" },
+              flexGrow: 1,
+              background: palette[1],
+            }}
+            id="boardContainer"
+          >
+            {children}
+          </Box>
         </Box>
-        <Box
-          sx={{
-            maxHeight: { sm: "100dvh" },
-            minHeight: { sm: "100dvh" },
-            height: { sm: "100dvh" },
-            overflowY: { sm: "auto" },
-            borderRadius: { sm: "20px 0 0 20px" },
-            flexGrow: 1,
-            background: palette[1],
-          }}
-          id="boardContainer"
-        >
-          {children}
-        </Box>
-      </Box>
-    </SelectionContext.Provider>
+      </SelectionContext.Provider>
+    </TasksContext.Provider>
   );
 }

@@ -133,8 +133,4 @@ PWAInstallerPrompt.propTypes = {
   callback: PropTypes.func,
 };
 
-PWAInstallerPrompt.defaultProps = {
-  callback: undefined,
-};
-
 export default PWAInstallerPrompt;

@@ -21,12 +21,12 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { CreateItem } from "../../components/Inventory/CreateItem";
-import { ItemPopup } from "./[room]/page";
+import { ItemPopup } from "./[room]/item-popup";
 
 export function JumpBackIn() {
   const { session } = useSession();
@@ -242,6 +242,8 @@ export function JumpBackIn() {
 
 export function Panel() {
   const router = useRouter();
+  const params = useParams();
+  const pathname = usePathname();
   const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
@@ -338,7 +340,7 @@ export function Panel() {
           data.map((room) => (
             <ListItemButton
               key={room.id}
-              selected={router?.query?.room === room.id}
+              selected={params?.room === room.id}
               onClick={() => router.push(`/rooms/${room.id}`)}
               onMouseDown={() => router.push(`/rooms/${room.id}`)}
               sx={{
@@ -400,7 +402,7 @@ export function Panel() {
         )}
         {view === "room" && (
           <ListItemButton
-            selected={router?.pathname === "/rooms/create"}
+            selected={pathname === "/rooms/create"}
             onClick={() => router.push(`/rooms/create`)}
             onMouseDown={() => router.push(`/rooms/create`)}
             sx={{ py: 1, px: 1 }}
@@ -431,6 +433,20 @@ export function Panel() {
           <Icon className="outlined">photo_camera</Icon>
         </Button>
       </Box>
+    </Box>
+  );
+}
+export default function Page() {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        height: "100%",
+      }}
+    >
+      <JumpBackIn />
     </Box>
   );
 }

@@ -78,6 +78,15 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           },
         },
       },
+      MuiBackdrop: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              backdropFilter: "blur(3px)",
+              background: `${addHslAlpha(palette[1], 0.5)}!important`,
+            }),
+        },
+      },
       MuiButtonBase: {
         defaultProps: {
           disableRipple: true,

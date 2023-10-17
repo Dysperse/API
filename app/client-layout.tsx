@@ -76,20 +76,6 @@ export default function ClientLayout({ children, session }) {
   );
 
   useEffect(() => {
-    const variables = {
-      "--overlay-dark": addHslAlpha(palette[1], 0.5),
-      "--toast-bg": addHslAlpha(palette[3], 0.8),
-      "--toast-text": palette[11],
-      "--toast-solid": palette[7],
-      "--bg": palette[1],
-    };
-
-    Object.entries(variables).forEach(([key, value]) => {
-      document.body.style.setProperty(key, value);
-    });
-  }, [palette]);
-
-  useEffect(() => {
     router.prefetch(`/tasks/home`);
     router.prefetch(`/rooms`);
     router.prefetch(`/`);

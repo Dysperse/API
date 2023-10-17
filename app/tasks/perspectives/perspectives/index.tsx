@@ -1,3 +1,4 @@
+"use client";
 import { ErrorHandler } from "@/components/Error";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -14,13 +15,20 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
-import Head from "next/head";
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, memo, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  memo,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { WidgetBar } from "../../../../components/Tasks/Layout/widgets";
 import SelectDateModal from "../../../../components/Tasks/Task/DatePicker";
+import { TasksContext } from "../../context";
 import Column from "./Column";
 
 export const PerspectiveContext = createContext<any>(null);
@@ -409,12 +417,13 @@ export function Agenda({ type, date }) {
   });
 
   const pathname = usePathname();
+  const tasksContext = useContext(TasksContext);
 
   const isToday =
     pathname ===
       `/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}` ||
     pathname === `/tasks/perspectives/${type}`;
-
+    
   return (
     <PerspectiveContext.Provider
       value={{
@@ -424,12 +433,6 @@ export function Agenda({ type, date }) {
         type,
       }}
     >
-      <Head>
-        <title>
-          {dayjs(start).format(viewHeadingFormats[type])} &bull;{" "}
-          {dayjs(start).format(viewSubHeadingFormats[type])}
-        </title>
-      </Head>
       {!isMobile && <WidgetBar view={view} setView={setView} />}
       <Box
         sx={{

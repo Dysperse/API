@@ -26,7 +26,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { ItemPopup } from "./[room]/page";
+import { ItemPopup } from "./item-popup";
 
 export function JumpBackIn() {
   const { session } = useSession();

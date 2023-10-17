@@ -69,7 +69,7 @@ export default function RoomLayout({ children }) {
         }}
       >
         <Box sx={{ display: { xs: "flex", sm: "block" } }}>
-          {pathname === "/rooms" && (
+          {pathname === "/rooms" && isMobile && (
             <Box
               sx={{
                 flex: { xs: "0 0 100dvw", sm: "" },
