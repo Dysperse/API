@@ -1,7 +1,12 @@
+import { CssBaseline } from "@mui/material";
+
 export default function Page({ children }) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <CssBaseline />
+        {children}
+      </body>
     </html>
   );
 }
