@@ -1,8 +1,8 @@
+import { fetcher } from "@/app/fetcher";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import Insights from "@/app/tasks/insights";
 import { Masonry } from "@mui/lab";
 import {
   Alert,
@@ -21,7 +21,6 @@ import { useState } from "react";
 import useSWR from "swr";
 import { ProfilePicture } from "./ProfilePicture";
 import { WorkingHours } from "./WorkingHours";
-import { fetcher } from "@/app/fetcher";
 
 function Contacts({ profile }) {
   const { session } = useSession();
@@ -137,7 +136,7 @@ export function SpotifyCard({
       "user/spotify/currently-playing",
       { spotify: JSON.stringify(profile.spotify), email },
     ],
-fetcher,
+    fetcher,
     { refreshInterval: 1000 }
   );
 
@@ -389,7 +388,6 @@ export function UserProfile({
               profileCardStyles={profileCardStyles}
             />
           )}
-          <Insights email={data.email} profile palette={data.color} />
         </Masonry>
       </Box>
     </>
