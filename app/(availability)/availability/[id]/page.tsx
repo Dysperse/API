@@ -6,7 +6,7 @@ export default async function Page({ params }) {
   return <AvailabilityPage eventData={eventData} />;
 }
 
-export async function getEventData(id) {
+async function getEventData(id) {
   console.log("event id:" + id);
 
   try {
