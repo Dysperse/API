@@ -1,6 +1,7 @@
 "use client";
 import { ErrorHandler } from "@/components/Error";
 import { Task } from "@/components/Tasks/Task";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useDarkMode } from "@/lib/client/useColor";
 import { colors } from "@/lib/colors";
@@ -12,10 +13,10 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import Head from "next/head";
 import Image from "next/legacy/image";
 import { useState } from "react";
 import useSWR from "swr";
+import { TaskNavbar } from "../navbar";
 
 export default function ColoredTasks() {
   const { data, mutate, error } = useSWR([
@@ -105,11 +106,12 @@ export default function ColoredTasks() {
 
   return (
     <Box>
-      <Head>
-        <title>Color coded</title>
-      </Head>
+      <TaskNavbar
+        title={"Color coded"}
+        subTitle={capitalizeFirstLetter(color)}
+      />
       {data && data.length > 0 && (
-        <Box sx={{ p: 3, pb: 1, pt: 5 }}>
+        <Box sx={{ p: 3, pb: 1, pt: 15 }}>
           <Typography className="font-heading" variant="h3">
             Color coded
           </Typography>

@@ -17,11 +17,19 @@ import { SelectionContext } from "./selection-context";
 import { taskStyles } from "./styles";
 
 interface TaskNavbarProps {
-  title: string;
-  subTitle?: String;
+  title?: React.ReactNode | string;
+  subTitle?: React.ReactNode | String;
   rightContent?: React.ReactNode;
+  children?: React.ReactNode;
+  closeIcon?: String;
 }
-export function TaskNavbar({ title, subTitle, rightContent }: TaskNavbarProps) {
+export function TaskNavbar({
+  closeIcon = "close",
+  title,
+  subTitle,
+  rightContent,
+  children,
+}: TaskNavbarProps) {
   const { session } = useSession();
   const router = useRouter();
   const palette = useColor(
@@ -56,13 +64,13 @@ export function TaskNavbar({ title, subTitle, rightContent }: TaskNavbarProps) {
               "&:active": { background: addHslAlpha(palette[4], 0.9) },
             }}
           >
-            <Icon>close</Icon>
+            <Icon>{closeIcon}</Icon>
           </IconButton>
           <Box
             sx={{
               ml: 1,
               color: palette[9],
-              mr: "auto",
+              flexGrow: 1,
               "&, & *": {
                 overflow: "hidden",
                 minWidth: 0,
@@ -71,18 +79,23 @@ export function TaskNavbar({ title, subTitle, rightContent }: TaskNavbarProps) {
               },
             }}
           >
-            <Typography sx={{ mb: 0, fontWeight: 900 }}>{title}</Typography>
+            {children && children}
+            {title && (
+              <Typography sx={{ mb: 0, fontWeight: 900 }}>{title}</Typography>
+            )}
             {subTitle && (
               <Typography variant="body2" sx={{ mt: -0.4 }}>
                 {subTitle}
               </Typography>
             )}
           </Box>
-          <SearchTasks>
-            <IconButton>
-              <Icon>search</Icon>
-            </IconButton>
-          </SearchTasks>
+          {!children && (
+            <SearchTasks>
+              <IconButton>
+                <Icon>search</Icon>
+              </IconButton>
+            </SearchTasks>
+          )}
           {rightContent}
         </Toolbar>
       </AppBar>

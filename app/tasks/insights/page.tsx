@@ -1,4 +1,3 @@
-import { TasksLayout } from "@/components/Tasks/Layout";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
@@ -16,6 +15,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import React, { useMemo } from "react";
 import useSWR from "swr";
+import { TaskNavbar } from "../navbar";
 
 function hourIntTo12(hour) {
   const period = hour >= 12 ? "PM" : "AM";
@@ -305,7 +305,8 @@ export default function Page({ email, profile = false, palette }) {
     profile ? (
       c
     ) : (
-      <TasksLayout>
+      <>
+        <TaskNavbar title={"Insights"} />
         <motion.div
           initial={{ x: 100 }}
           animate={{ x: 0 }}
@@ -316,7 +317,7 @@ export default function Page({ email, profile = false, palette }) {
         >
           {c}
         </motion.div>
-      </TasksLayout>
+      </>
     )
   ) : (
     <Box

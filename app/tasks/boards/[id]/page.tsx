@@ -1,10 +1,10 @@
 "use client";
 import { Board } from "@/app/tasks/boards/[id]/Board";
 import { ErrorHandler } from "@/components/Error";
-import { useSession } from "@/lib/client/session";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Skeleton } from "@mui/material";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
+import { TaskNavbar } from "../../navbar";
 
 const BoardContainer = ({ id, shareToken }) => {
   const { data, mutate, error } = useSWR([
@@ -14,6 +14,11 @@ const BoardContainer = ({ id, shareToken }) => {
 
   return (
     <>
+      <TaskNavbar
+        title={data ? data[0].name : <Skeleton width={100} animation="wave" />}
+        subTitle={data ? "Board" : <Skeleton width={50} animation="wave" />}
+      />
+
       {error && (
         <ErrorHandler error="An error occured while trying to get this board's information" />
       )}
@@ -37,8 +42,6 @@ const BoardContainer = ({ id, shareToken }) => {
 };
 
 const Dashboard = () => {
-  const { session } = useSession();
-
   const params = useParams();
   const { id, share } = params as any;
 

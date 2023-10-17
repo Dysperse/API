@@ -1,3 +1,4 @@
+"use client";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -15,7 +16,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { cloneElement, useRef, useState } from "react";
 import { Puller } from "../../Puller";
 import { CreateTask } from "../Task/Create";
@@ -31,8 +32,9 @@ export function SearchTasks({
 }) {
   const ref: any = useRef();
   const router = useRouter();
-  const routerQuery = router?.query?.query
-    ? JSON.parse(router.query.query.toString())
+  const params = useParams();
+  const routerQuery = params?.query
+    ? JSON.parse(decodeURIComponent(params.query as string))
     : [];
 
   const { session } = useSession();
@@ -210,10 +212,11 @@ export function SearchTasks({
               ...params.InputProps,
               disableUnderline: true,
               sx: {
+                minHeight: "100%",
                 background: inputOnly ? "" : palette[4],
-                px: inputOnly ? 0 : 2,
-                pt: inputOnly ? 0 : 0.7,
-                pb: inputOnly ? 0 : "4px!important",
+                px: inputOnly ? (query.length == 0 ? 2 : 0) : 2,
+                pt: inputOnly ? (query.length == 0 ? 0.6 : 0) : 0.7,
+                pb: inputOnly ? (query.length == 0 ? 1 : 0) : "4px!important",
                 border: `2px solid ${palette[4]}`,
                 "&:hover": {
                   background: { sm: palette[5] },
