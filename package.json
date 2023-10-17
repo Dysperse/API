@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "lint": "clear && echo '⏳ Linting and checking validity of types...' && tsc && echo '🎉 No errors!'",
+    "lint": "clear && echo '> npm run lint\n' && echo '⏳ Linting and checking validity of types...' && tsc && echo '🎉 No errors!'",
     "email-dev": "email dev",
     "build-desktop": "nativefier --darwin-dark-mode-support --name 'Dysperse' 'https://my.dysperse.com' --electron-version '26.0.0' --platform windows"
   },
