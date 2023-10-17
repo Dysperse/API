@@ -1,5 +1,6 @@
 "use client";
 
+import { containerRef } from "@/app/container";
 import { Navbar } from "@/components/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
@@ -24,7 +25,6 @@ import { useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../components/Start/HeadingComponent";
-import { containerRef } from "./container";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 

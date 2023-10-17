@@ -15,7 +15,7 @@ import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { ErrorHandler } from "../Error";
-import { containerRef } from "../Layout";
+import { containerRef } from "@/app/container";
 import { Task } from "./Task";
 
 export function ColoredTasks() {
