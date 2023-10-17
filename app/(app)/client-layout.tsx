@@ -88,7 +88,7 @@ export default function ClientLayout({ children, session }) {
   }, [pathname]);
 
   const { data, error } = useSWR(["property/storage"]);
-  const { data: activeData } = useSWR(
+  useSWR(
     [
       "user/setActive",
       {
