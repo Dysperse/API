@@ -96,7 +96,7 @@ const TaskChips = React.memo(function TaskChips({
         }
       />
     ),
-    []
+    [orangePalette]
   );
 
   return (
