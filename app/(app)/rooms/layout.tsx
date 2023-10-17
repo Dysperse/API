@@ -34,7 +34,8 @@ export default function RoomLayout({ children }) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
           setLoadingIndex(0);
-          router.push("/");
+          document.getElementById("link2")?.click();
+          // router.push("/");
         } else {
           setLoadingIndex(1);
         }

@@ -128,6 +128,7 @@ export function BottomNav() {
     >
       <CreateTask customTrigger="onContextMenu" disableBadge>
         <Box
+          id="link1"
           onClick={() => router.push("/tasks/home")}
           sx={styles(pathname?.includes("/tasks"))}
         >
@@ -141,12 +142,9 @@ export function BottomNav() {
         </Box>
       </CreateTask>
       <Box
+        id="link2"
         onClick={() => router.push("/")}
-        sx={styles(
-          pathname === "/" ||
-            pathname === "" ||
-            pathname?.includes("/mood-history")
-        )}
+        sx={styles(pathname === "/" || pathname === "")}
       >
         <span
           className={`material-symbols-${
@@ -157,6 +155,7 @@ export function BottomNav() {
         </span>
       </Box>
       <Box
+        id="link3"
         sx={styles(
           pathname === "/rooms" ||
             pathname?.includes("rooms") ||

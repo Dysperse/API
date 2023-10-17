@@ -113,7 +113,7 @@ export default function Home() {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 1) {
           setLoadingIndex(1);
-          router.push("/");
+          document.getElementById("link2")?.click();
         } else {
           setLoadingIndex(0);
         }

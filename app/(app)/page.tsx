@@ -96,10 +96,12 @@ export default function Home() {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
           setLoadingIndex(0);
-          router.push("/tasks/home");
+          document.getElementById("link1")?.click();
+          // router.push("/tasks/home");
         } else if (e.selectedScrollSnap() == 2) {
           setLoadingIndex(2);
-          router.push("/rooms");
+          document.getElementById("link3")?.click();
+          // router.push("/rooms");
         } else {
           setLoadingIndex(1);
         }
