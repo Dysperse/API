@@ -88,6 +88,16 @@ export default function ClientLayout({ children, session }) {
   }, [pathname]);
 
   const { data, error } = useSWR(["property/storage"]);
+  const { data: activeData } = useSWR(
+    [
+      "user/setActive",
+      {
+        timeZone: session?.user.timeZone,
+      },
+    ],
+    fetcher,
+    { refreshInterval: 300000 }
+  );
   const storage = useAccountStorage();
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
 
