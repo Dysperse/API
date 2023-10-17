@@ -113,6 +113,7 @@ export default function Home() {
   }, [emblaApi, router]);
 
   return (
+    // <NoSsr> cuz embla doesn't get initialized idk why
     <NoSsr>
       <Navbar showLogo={isMobile} showRightContent={isMobile} />
       <Box
