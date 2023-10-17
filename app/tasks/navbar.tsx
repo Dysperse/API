@@ -10,6 +10,7 @@ import {
   IconButton,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
@@ -39,7 +40,9 @@ export function TaskNavbar({
   const selection = useContext(SelectionContext);
   const isSelecting = selection.length > 0;
 
-  return (
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  return !isMobile ? null : (
     <>
       <AppBar
         sx={{

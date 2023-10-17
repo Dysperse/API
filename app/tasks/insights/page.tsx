@@ -1,3 +1,4 @@
+"use client";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Masonry } from "@mui/lab";
@@ -290,35 +291,37 @@ function Insights({ profile, tasks, defaultPalette }) {
   );
 }
 
-export default function Page({ email, profile = false, palette }) {
+export default function Page() {
   const { session } = useSession();
+  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
+
   const { data } = useSWR([
     "property/tasks/insights",
-    { email: email || session.user.email },
+    { email: session.user.email },
   ]);
 
   const c = (
-    <Insights tasks={data} profile={profile} defaultPalette={palette} />
+    <Insights
+      tasks={data}
+      profile={session.user.Profile}
+      defaultPalette={palette}
+    />
   );
 
   return data ? (
-    profile ? (
-      c
-    ) : (
-      <>
-        <TaskNavbar title={"Insights"} />
-        <motion.div
-          initial={{ x: 100 }}
-          animate={{ x: 0 }}
-          style={{
-            maxWidth: "100dvw",
-            overflowX: "hidden",
-          }}
-        >
-          {c}
-        </motion.div>
-      </>
-    )
+    <>
+      <TaskNavbar title={"Insights"} />
+      <motion.div
+        initial={{ x: 100 }}
+        animate={{ x: 0 }}
+        style={{
+          maxWidth: "100dvw",
+          overflowX: "hidden",
+        }}
+      >
+        {c}
+      </motion.div>
+    </>
   ) : (
     <Box
       sx={{
