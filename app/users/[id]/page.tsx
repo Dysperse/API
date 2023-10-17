@@ -673,8 +673,8 @@ function Page() {
 }
 
 export default function App() {
-  const router = useRouter();
-  const email = router?.query?.id;
+  const params = useParams();
+  const email = params?.id;
 
   return (
     <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>

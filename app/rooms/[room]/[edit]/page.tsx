@@ -31,7 +31,7 @@ export default function Page() {
   );
 
   const { data, isLoading, mutate, error } = useSWR(
-    router?.query?.room
+    params?.room
       ? ["property/inventory/rooms/items", { id: params?.room, items: false }]
       : null
   );
