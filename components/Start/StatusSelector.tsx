@@ -118,7 +118,7 @@ export function StatusSelector({
     setLoading,
     mutateStatus,
     emoji,
-    notificationData.notifyFriendsForStatusUpdates,
+    notificationData,
   ]);
 
   const resetStatus = useCallback(
