@@ -5,6 +5,7 @@ export const swipeablePageStyles = (palette, direction) => ({
   top: "0px",
   mt: "calc(calc(var(--navbar-height) * -1) - 8px)",
   height: "100dvh",
+  maxWidth: "100dvw",
   display: "flex",
   alignItems: "center",
   gap: 2,

@@ -161,12 +161,13 @@ export default function Home() {
         animate={{ x: 0, opacity: 1 }}
         ref={emblaRef}
         style={{
+          maxWidth: "100dvw",
           ...(loadingIndex !== 0 && {
             pointerEvents: "none",
           }),
         }}
       >
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", maxWidth: "100dvw" }}>
           <Box sx={{ flex: "0 0 100dvw" }}>
             <Box
               sx={{
