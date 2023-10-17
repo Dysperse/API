@@ -1,3 +1,5 @@
+"use client";
+
 import { AuthBranding, Layout, authStyles } from "@/components/Auth/Layout";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -536,8 +538,8 @@ export default function Prompt() {
                   </Button>
                 </Link>
                 <Link
-                  href={`/auth/reset-id${params.close ? "?close=true" : ""}${
-                    params.next ? "?next=" + params.next : ""
+                  href={`/auth/reset-id${params?.close ? "?close=true" : ""}${
+                    params?.next ? "?next=" + params?.next : ""
                   }`}
                   legacyBehavior
                 >
