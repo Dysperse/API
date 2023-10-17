@@ -14,6 +14,7 @@ import {
   SwipeableDrawer,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import {
@@ -137,6 +138,7 @@ export function StatusSelector({
     }
   }, [data, resetStatus]);
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const redPalette = useColor("red", useDarkMode(session.darkMode));
   const grayPalette = useColor("gray", useDarkMode(session.darkMode));
   const greenPalette = useColor("green", useDarkMode(session.darkMode));
@@ -153,10 +155,11 @@ export function StatusSelector({
 
   const trigger = cloneElement(
     children || (
-      <LoadingButton
-        loading={isStatusLoading}
+      <IconButton
         sx={{
-          px: 2,
+          ...(isMobile && {
+            px: 2,
+          }),
           "&, &:hover": {
             background: `linear-gradient(${chipPalette[8]}, ${chipPalette[9]}) !important`,
             color: `${chipPalette[12]} !important`,
@@ -165,8 +168,7 @@ export function StatusSelector({
             },
           },
         }}
-        variant="contained"
-        size="large"
+        size={isMobile ? "large" : undefined}
       >
         <Icon className="outlined">
           {status === "available" ? (
@@ -179,13 +181,22 @@ export function StatusSelector({
             <>&#xe1af;</>
           )}
         </Icon>
-        {status ? capitalizeFirstLetter(status) : "Set status"}
-      </LoadingButton>
+        {isMobile && (status ? capitalizeFirstLetter(status) : "Set status")}
+      </IconButton>
     ),
     {
       onClick: () => setOpen(true),
     }
   );
+
+  const typographyStyles = {
+    mb: 1,
+    mt: 4,
+    px: 2,
+    textTransform: "uppercase",
+    opacity: 0.6,
+    fontWeight: 900,
+  };
 
   return (
     <>
@@ -209,17 +220,25 @@ export function StatusSelector({
         <Box sx={{ width: "100%" }}>
           <Puller showOnDesktop />
           {/* {notificationData.notifyFriendsForStatusUpdates ? 1 : 0} */}
-          <Typography
-            variant="body2"
-            sx={{
-              mb: 1,
-              mt: 4,
-              px: 2,
-              textTransform: "uppercase",
-              opacity: 0.6,
-              fontWeight: 900,
-            }}
-          >
+          <Typography variant="body2" sx={typographyStyles}>
+            My availability...
+          </Typography>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, px: 2 }}>
+            {["available", "busy", "away", "offline"].map((_status) => (
+              <Button
+                key={_status}
+                onClick={handleStatusSelect(_status)}
+                sx={{ px: 2, flexShrink: 0 }}
+                variant={_status === status ? "contained" : "outlined"}
+                size="large"
+              >
+                {_status === status && <Icon>check</Icon>}
+                {capitalizeFirstLetter(_status)}
+              </Button>
+            ))}
+          </Box>
+
+          <Typography variant="body2" sx={typographyStyles}>
             What&apos;s up?
           </Typography>
           <Box sx={{ px: 2, mb: 2 }}>
@@ -254,44 +273,7 @@ export function StatusSelector({
               }}
             />
           </Box>
-          <Typography
-            variant="body2"
-            sx={{
-              mb: 1,
-              mt: 4,
-              px: 2,
-              textTransform: "uppercase",
-              opacity: 0.6,
-              fontWeight: 900,
-            }}
-          >
-            My availability...
-          </Typography>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, px: 2 }}>
-            {["available", "busy", "away", "offline"].map((_status) => (
-              <Button
-                key={_status}
-                onClick={handleStatusSelect(_status)}
-                sx={{ px: 2, flexShrink: 0 }}
-                variant={_status === status ? "contained" : "outlined"}
-                size="large"
-              >
-                {_status === status && <Icon>check</Icon>}
-                {capitalizeFirstLetter(_status)}
-              </Button>
-            ))}
-          </Box>
-          <Typography
-            variant="body2"
-            sx={{
-              mb: 1,
-              mt: 4,
-              px: 2,
-              textTransform: "uppercase",
-              opacity: 0.6,
-              fontWeight: 900,
-            }}
-          >
+          <Typography variant="body2" sx={typographyStyles}>
             Clear after...
           </Typography>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, px: 2 }}>

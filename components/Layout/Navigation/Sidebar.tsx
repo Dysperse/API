@@ -3,6 +3,7 @@ import { containerRef } from "@/app/(app)/container";
 import { GroupModal } from "@/components/Group/GroupModal";
 import { Logo } from "@/components/Logo";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -370,6 +371,7 @@ export function Sidebar() {
           flexDirection: "column",
         }}
       >
+        <StatusSelector mutate={() => {}} profile={session.user.Profile} />
         <SidebarMenu styles={styles} />
       </Box>
     </Box>

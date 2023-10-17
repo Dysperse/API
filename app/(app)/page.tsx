@@ -5,7 +5,6 @@ import { Navbar } from "@/components/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
-import { StatusSelector } from "@/components/Start/StatusSelector";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -30,40 +29,6 @@ import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
-const useShadow = (scrollerRef) => {
-  const [canScrollX, setCanScrollX] = useState(true);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollable =
-        scrollerRef.current.scrollWidth > scrollerRef.current.clientWidth;
-      const scrolledToEnd =
-        scrollerRef.current.scrollLeft + scrollerRef.current.clientWidth >=
-        scrollerRef.current.scrollWidth;
-
-      if (!scrollable || scrolledToEnd) {
-        setCanScrollX(false);
-      } else {
-        setCanScrollX(true);
-      }
-    };
-
-    const scroller = scrollerRef.current;
-
-    if (scroller) {
-      scroller.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (scroller) {
-        scroller.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [scrollerRef]);
-
-  return canScrollX;
-};
-
 export default function Home() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
@@ -86,7 +51,6 @@ export default function Home() {
 
   const scrollerRef = useRef();
   const router = useRouter();
-  const shadow = useShadow(scrollerRef);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
@@ -172,33 +136,16 @@ export default function Home() {
                 </Box>
               </Box>
               <Box
-                ref={scrollerRef}
                 sx={{
                   display: "flex",
-                  justifyContent: { sm: "center" },
-                  overflowX: "scroll",
-                  maxWidth: "100dvw",
-                  px: 4,
-                  overflowY: "visible",
-                  mb: 2,
                   gap: 2,
-                  "& *": {
-                    flexShrink: 0,
-                  },
-                  position: "relative",
+                  justifyContent: { sm: "center" },
+                  mb: 2,
+                  px: 3,
                 }}
               >
                 <AvailabilityTrigger />
-                <StatusSelector mutate={mutate} profile={profileData} />
                 <FriendsTrigger />
-                <Box
-                  className="scrollGradient"
-                  sx={{
-                    transform: "translateX(34px)",
-                    opacity: shadow ? 1 : 0,
-                    background: `linear-gradient(90deg, transparent, ${palette[1]})`,
-                  }}
-                />
               </Box>
               <Box
                 sx={{
