@@ -380,7 +380,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
   // end refactor later
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <motion.div initial={{ scaleX: 0.95 }} animate={{ scaleX: 1 }}>
       <Box sx={{ pb: 2 }}>
         <FriendPopover email={friend.email}>
           <Card

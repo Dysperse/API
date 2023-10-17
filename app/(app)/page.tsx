@@ -13,6 +13,7 @@ import {
   Box,
   Icon,
   NoSsr,
+  Skeleton,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -229,24 +230,57 @@ export default function Home() {
                     </Alert>
                   )}
 
-                  {data && data?.friends?.length > 0 ? (
-                    <Virtuoso
-                      customScrollParent={containerRef.current}
-                      useWindowScroll
-                      totalCount={data.friends.length}
-                      itemContent={(i) => (
-                        <Friend
-                          mutate={mutate}
-                          friend={
-                            data.friends[i].follower ||
-                            data.friends[i].following
-                          }
-                          key={i}
-                        />
-                      )}
-                    />
+                  {data ? (
+                    data?.friends?.length > 0 && (
+                      <Virtuoso
+                        customScrollParent={containerRef.current}
+                        useWindowScroll
+                        totalCount={data.friends.length}
+                        itemContent={(i) => (
+                          <Friend
+                            mutate={mutate}
+                            friend={
+                              data.friends[i].follower ||
+                              data.friends[i].following
+                            }
+                            key={i}
+                          />
+                        )}
+                      />
+                    )
                   ) : (
-                    <></>
+                    <>
+                      {[...new Array(5)].map((_, i) => (
+                        <Box
+                          key={i}
+                          sx={{
+                            mb: 2,
+                            px: 2,
+                            display: "flex",
+                            gap: 2,
+                            alignItems: "center",
+                            background: palette[2],
+                            borderRadius: 5,
+                            height: 95,
+                          }}
+                        >
+                          <Skeleton
+                            variant="circular"
+                            width={50}
+                            height={50}
+                            sx={{ mt: -1 }}
+                          />
+                          <Box sx={{ flexGrow: 1 }}>
+                            <Skeleton
+                              width={"90%"}
+                              height={35}
+                              sx={{ mt: -1 }}
+                            />
+                            <Skeleton width={"50%"} sx={{ mt: -0.1 }} />
+                          </Box>
+                        </Box>
+                      ))}
+                    </>
                   )}
                 </Box>
                 <ContactSync showFriends={data?.friends?.length === 0} />

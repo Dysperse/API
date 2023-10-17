@@ -281,6 +281,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         },
       },
       MuiSkeleton: {
+        defaultProps: {
+          animation: "wave",
+        },
         styleOverrides: {
           rectangular: ({ theme }) =>
             theme.unstable_sx({
