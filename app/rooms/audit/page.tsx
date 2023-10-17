@@ -16,82 +16,18 @@ import {
   Dialog,
   Icon,
   IconButton,
-  ListItemButton,
-  ListItemText,
   Skeleton,
-  SwipeableDrawer,
   TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
 import Image from "next/legacy/image";
 import { useRouter } from "next/navigation";
-import { cloneElement, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import Webcam from "react-webcam";
-import useSWR from "swr";
-
-export function RoomPicker({ room, setRoom, children }) {
-  const [open, setOpen] = useState(false);
-  const { data, error } = useSWR(["property/inventory/rooms"]);
-
-  const { session } = useSession();
-  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
-
-  const trigger = cloneElement(children, { onClick: () => setOpen(true) });
-
-  useEffect(() => {
-    if (!room && !open) {
-      setOpen(true);
-    }
-  }, [room, open]);
-
-  return (
-    <>
-      {trigger}
-      <SwipeableDrawer
-        anchor="bottom"
-        open={open}
-        onClose={() => setOpen(false)}
-        PaperProps={{
-          sx: {
-            background: addHslAlpha(palette[3], 0.8),
-            m: 3,
-            mx: { xs: 3, sm: "auto" },
-            borderRadius: 5,
-          },
-        }}
-      >
-        <Typography variant="h3" className="font-heading" sx={{ p: 3, pb: 1 }}>
-          Select a room
-        </Typography>
-        {data ? (
-          data.map((_room) => (
-            <ListItemButton
-              key={_room.id}
-              selected={room?.id === _room?.id}
-              onClick={() => {
-                setRoom(_room);
-                setOpen(false);
-              }}
-            >
-              <img
-                src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${_room.emoji}.png`}
-                alt="Emoji"
-                width={30}
-                height={30}
-              />
-              <ListItemText primary={_room.name} />
-            </ListItemButton>
-          ))
-        ) : (
-          <CircularProgress />
-        )}
-      </SwipeableDrawer>
-    </>
-  );
-}
+import { RoomPicker } from "./RoomPicker";
 
 export default function Page() {
   const webcamRef: any = useRef(null);

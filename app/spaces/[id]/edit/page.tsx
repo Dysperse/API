@@ -27,7 +27,7 @@ import * as colors from "@radix-ui/colors";
 import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { SpacesLayout } from "../page";
+import { SpacesLayout } from "../SpacesLayout";
 
 export default function Page() {
   const { session } = useSession();

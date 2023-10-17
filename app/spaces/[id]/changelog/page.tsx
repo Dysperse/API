@@ -17,7 +17,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
-import { SpacesLayout } from "../page";
+import { SpacesLayout } from "../SpacesLayout";
 
 export default function Page() {
   const { session } = useSession();

@@ -3,7 +3,7 @@
  */
 import { Box } from "@mui/material";
 
-export function OfflineBox() {
+export default function OfflineBox() {
   return (
     <Box
       sx={{
@@ -49,10 +49,4 @@ export function OfflineBox() {
       </Box>
     </Box>
   );
-}
-/**
- * Top-level component for the offline page.
- */
-export default function OfflinePage() {
-  return <OfflineBox />;
 }

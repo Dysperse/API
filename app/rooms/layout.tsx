@@ -14,7 +14,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Panel } from "./page";
+import { Panel } from "./Panel";
 
 export default function RoomLayout({ children }) {
   const { session } = useSession();

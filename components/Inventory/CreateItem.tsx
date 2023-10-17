@@ -1,3 +1,4 @@
+import { RoomPicker } from "@/app/rooms/audit/RoomPicker";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -15,7 +16,6 @@ import {
 import { motion } from "framer-motion";
 import { cloneElement, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { RoomPicker } from "../../app/rooms/audit/page";
 
 export function CreateItem({
   defaultRoom,
