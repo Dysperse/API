@@ -2,6 +2,7 @@
 import { containerRef } from "@/app/(app)/container";
 import { ErrorHandler } from "@/components/Error";
 import { Task } from "@/components/Tasks/Task";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import {
   Box,
   CircularProgress,
@@ -12,6 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMemo, useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
+import { TaskNavbar } from "../../navbar";
 
 export default function Page() {
   const router = useRouter();
@@ -43,6 +45,7 @@ export default function Page() {
         mt: { xs: 15, sm: 10 },
       }}
     >
+      <TaskNavbar title={capitalizeFirstLetter(view)} />
       <Box sx={{ px: { xs: 3, sm: 0 } }}>
         <Typography variant="h2" className="font-heading">
           {view}
