@@ -108,7 +108,7 @@ export default function NotificationsPrompt() {
   return (
     <>
       <Dialog
-        open={open}
+        open={subscription && open}
         onClose={() => {}}
         PaperProps={{
           sx: {

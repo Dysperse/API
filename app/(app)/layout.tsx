@@ -84,7 +84,7 @@ export default async function RootLayout({
         />
         <link
           rel="shortcut icon"
-          href="https://assets.dysperse.com/v8/android/android-launchericon-48-48.png"
+          href="https://assets.dysperse.com/v9/android/android-launchericon-48-48.png"
         />
         <meta name="theme-color" content={palette[1]} />
         <meta name="apple-mobile-web-app-capable" content="yes" />

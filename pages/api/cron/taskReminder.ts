@@ -85,7 +85,7 @@ const Notification = async (req, res) => {
       if (Math.max(...notifications) >= diff && diff >= 0) {
         await DispatchNotification({
           title: task.name,
-          icon: "https://assets.dysperse.com/v8/ios/192.png",
+          icon: "https://assets.dysperse.com/v9/ios/192.png",
           body: `In ${diff} minutes`,
           actions: [
             {
