@@ -13,6 +13,7 @@ import {
   InputAdornment,
   SwipeableDrawer,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -155,38 +156,44 @@ export function StatusSelector({
 
   const trigger = cloneElement(
     children || (
-      <IconButton
-        sx={{
-          ...(isMobile && {
-            px: 2,
-            borderRadius: 9,
-            fontSize: "15px",
-            gap: 2,
-            ml: "auto",
-            mr: 2,
-          }),
-          "&, &:hover": {
-            background: `linear-gradient(${chipPalette[6]}, ${chipPalette[3]}) !important`,
-            color: `${chipPalette[12]} !important`,
-            "&:active": {
-              background: `linear-gradient(-90deg, ${chipPalette[6]}, ${chipPalette[3]}) !important`,
-            },
-          },
-        }}
+      <Tooltip
+        title={
+          isMobile && (status ? capitalizeFirstLetter(status) : "Set status")
+        }
       >
-        <Icon className="outlined">
-          {status === "available" ? (
-            "check_circle"
-          ) : status === "busy" ? (
-            "remove_circle"
-          ) : status === "away" ? (
-            "dark_mode"
-          ) : (
-            <>&#xe1af;</>
-          )}
-        </Icon>
-        {isMobile && (status ? capitalizeFirstLetter(status) : "Set status")}
-      </IconButton>
+        <IconButton
+          sx={{
+            ...(isMobile && {
+              px: 2,
+              borderRadius: 9,
+              fontSize: "15px",
+              gap: 2,
+              ml: "auto",
+              mr: 2,
+            }),
+            "&, &:hover": {
+              background: `linear-gradient(${chipPalette[6]}, ${chipPalette[3]}) !important`,
+              color: `${chipPalette[12]} !important`,
+              "&:active": {
+                background: `linear-gradient(-90deg, ${chipPalette[6]}, ${chipPalette[3]}) !important`,
+              },
+            },
+          }}
+        >
+          <Icon className="outlined">
+            {status === "available" ? (
+              "check_circle"
+            ) : status === "busy" ? (
+              "remove_circle"
+            ) : status === "away" ? (
+              "dark_mode"
+            ) : (
+              <>&#xe1af;</>
+            )}
+          </Icon>
+          {isMobile && (status ? capitalizeFirstLetter(status) : "Set status")}
+        </IconButton>
+      </Tooltip>
     ),
     {
       onClick: () => setOpen(true),
