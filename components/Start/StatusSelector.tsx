@@ -157,6 +157,7 @@ export function StatusSelector({
   const trigger = cloneElement(
     children || (
       <Tooltip
+        placement="right"
         title={
           !isMobile && (status ? capitalizeFirstLetter(status) : "Set status")
         }
