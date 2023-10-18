@@ -391,6 +391,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               background: userPalette[2],
               borderRadius: 5,
               position: "relative",
+              overflow: "hidden",
             }}
           >
             <CardContent
