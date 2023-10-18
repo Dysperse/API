@@ -24,6 +24,7 @@ import {
   Box,
   Button,
   CssBaseline,
+  NoSsr,
   Snackbar,
   ThemeProvider,
   createTheme,
@@ -242,7 +243,9 @@ export default function ClientLayout({ children, session }) {
                       },
                     }}
                   >
-                    <ActivitySave />
+                    <NoSsr>
+                      <ActivitySave />
+                    </NoSsr>
                     {children}
                   </Box>
                   <CssBaseline />
