@@ -158,7 +158,7 @@ export function StatusSelector({
     children || (
       <Tooltip
         title={
-          isMobile && (status ? capitalizeFirstLetter(status) : "Set status")
+          !isMobile && (status ? capitalizeFirstLetter(status) : "Set status")
         }
       >
         <IconButton
