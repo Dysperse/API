@@ -2,7 +2,7 @@ import { useSession } from "@/lib/client/session";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Button, SwipeableDrawer, Typography } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Puller } from "./Puller";

@@ -1,9 +1,8 @@
+import { fetcher } from "@/app//(app)/fetcher";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
-import { fetcher } from "@/pages/_app";
-import Insights from "@/pages/tasks/insights";
 import { Masonry } from "@mui/lab";
 import {
   Alert,
@@ -16,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";
@@ -103,7 +102,7 @@ function Contacts({ profile }) {
             >
               {contact.name}
             </Typography>
-            <Link href={`/users/${contact.email}`}>
+            <Link href={`/users/${contact.email}`} legacyBehavior>
               <Button variant="contained">
                 <Icon>person</Icon>
                 Open
@@ -389,7 +388,6 @@ export function UserProfile({
               profileCardStyles={profileCardStyles}
             />
           )}
-          <Insights email={data.email} profile palette={data.color} />
         </Masonry>
       </Box>
     </>

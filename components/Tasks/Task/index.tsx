@@ -1,3 +1,4 @@
+import { SelectionContext } from "@/app/(app)/tasks/selection-context";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -20,8 +21,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import Image from "next/legacy/image";
+import { useRouter } from "next/navigation";
 import React, {
   useCallback,
   useContext,
@@ -32,7 +33,6 @@ import React, {
 } from "react";
 import toast from "react-hot-toast";
 import { RRule } from "rrule";
-import { SelectionContext } from "../Layout";
 import { TaskDrawer } from "./Drawer";
 import {
   isAddress,
@@ -96,7 +96,7 @@ const TaskChips = React.memo(function TaskChips({
         }
       />
     ),
-    []
+    [orangePalette]
   );
 
   return (
@@ -360,7 +360,15 @@ export const Task: any = React.memo(function Task({
         toast.error("An error occurred while updating the task");
       }
     },
-    [taskData.id, session, isCompleted]
+    [
+      taskData.id,
+      session,
+      isCompleted,
+      isRecurring,
+      mutateList,
+      recurringInstance,
+      task,
+    ]
   );
 
   const isDisabled = useMemo(
@@ -373,6 +381,7 @@ export const Task: any = React.memo(function Task({
   );
 
   const selection = useContext(SelectionContext);
+
   const isSelected = selection.values.includes(taskData.id);
   const palette = useColor(isSelected ? "blue" : session.themeColor, isDark);
 
@@ -404,7 +413,15 @@ export const Task: any = React.memo(function Task({
               />
             ))
         : [],
-    [board, columnId, isAgenda, mutateList, checkList, taskData]
+    [
+      board,
+      columnId,
+      isAgenda,
+      mutateList,
+      checkList,
+      taskData,
+      recurringInstance,
+    ]
   );
 
   return !taskData ? (

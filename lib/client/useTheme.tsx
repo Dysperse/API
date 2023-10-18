@@ -56,7 +56,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             },
             "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
               borderRadius: 999,
-              backgroundColor: palette[3],
+              backgroundColor: palette[5],
               minHeight: 24,
               border: "3px solid " + palette[1],
             },
@@ -76,6 +76,15 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               backgroundColor: "transparent",
             },
           },
+        },
+      },
+      MuiBackdrop: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              backdropFilter: "blur(3px)",
+              background: `${addHslAlpha(palette[1], 0.5)}!important`,
+            }),
         },
       },
       MuiButtonBase: {
@@ -272,6 +281,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         },
       },
       MuiSkeleton: {
+        defaultProps: {
+          animation: "wave",
+        },
         styleOverrides: {
           rectangular: ({ theme }) =>
             theme.unstable_sx({

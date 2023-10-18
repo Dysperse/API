@@ -1,9 +1,10 @@
+"use client";
+import { containerRef } from "@/app/(app)/container";
 import { Logo } from "@/components/Logo";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton, SxProps } from "@mui/material";
-import { useRouter } from "next/router";
-import { containerRef } from "./Layout";
+import { useRouter } from "next/navigation";
 
 export function Navbar({
   showLogo = false,
@@ -34,6 +35,7 @@ export function Navbar({
         "& svg": {
           display: showLogo ? { sm: "none" } : "none",
         },
+        maxWidth: "100dvw",
         zIndex: 99,
         ...sx,
       }}

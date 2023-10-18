@@ -132,18 +132,6 @@ export function CreateTask({
     recurrenceRule: null,
   });
 
-  useEffect(() => {
-    if (open) {
-      setFormData((prevFormData) => ({ ...prevFormData, ...defaultFields }));
-      if (defaultFields.description) {
-        setShowedFields((prevShowedFields) => ({
-          ...prevShowedFields,
-          description: true,
-        }));
-      }
-    }
-  }, [open, defaultFields]);
-
   const [showedFields, setShowedFields] = useState({
     location: false,
     description: false,
@@ -153,6 +141,16 @@ export function CreateTask({
     [customTrigger]: (e) => {
       e.preventDefault();
       setOpen(true);
+
+      // Reset fields
+      setFormData((prevFormData) => ({ ...prevFormData, ...defaultFields }));
+      if (defaultFields.description) {
+        setShowedFields((prevShowedFields) => ({
+          ...prevShowedFields,
+          description: true,
+        }));
+      }
+
       setTimeout(() => titleRef?.current?.focus(), 50);
     },
   });
@@ -171,7 +169,7 @@ export function CreateTask({
           {trigger}
         </Badge>
       ),
-    [open, formData.title, sx, trigger]
+    [open, formData.title, sx, trigger, disableBadge]
   );
 
   const handleInputChange = useCallback((event) => {

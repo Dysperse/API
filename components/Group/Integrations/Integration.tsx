@@ -1,5 +1,5 @@
 import { Avatar, ListItemButton, ListItemText } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export function Integration({ board, closeParent, integration }) {
   const router = useRouter();

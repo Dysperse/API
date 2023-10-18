@@ -12,13 +12,14 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import Markdown from "markdown-to-jsx";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { updateSettings } from "../../lib/client/updateSettings";
 import { Puller } from "../Puller";
 
 export default function ReleaseModal() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [alreadyOpened, setAlreadyOpened] = useState(false);
 
@@ -34,7 +35,7 @@ export default function ReleaseModal() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!alreadyOpened && !error && router.asPath === "/") {
+    if (!alreadyOpened && !error && pathname === "/") {
       if (
         data &&
         data[0] &&
@@ -46,7 +47,7 @@ export default function ReleaseModal() {
         setAlreadyOpened(true);
       }
     }
-  }, [data, session, alreadyOpened, error, router]);
+  }, [data, session, alreadyOpened, error, router, pathname]);
 
   const handleClose = () => {
     setOpen(false);

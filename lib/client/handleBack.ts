@@ -1,11 +1,10 @@
-import Router, { NextRouter } from "next/router";
+"use client";
 
-export function handleBack(router: NextRouter) {
+export function handleBack(router) {
   if (window.history.length <= 2 && document.referrer === "") {
     router.push("/");
     return;
   }
 
-  // router.
-  Router.back();
+  router.back();
 }

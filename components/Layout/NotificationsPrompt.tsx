@@ -1,8 +1,8 @@
+import { base64ToUint8Array } from "@/app/(app)/settings/notifications/base64ToUint8Array";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { base64ToUint8Array } from "@/pages/settings/notifications";
 import { LoadingButton } from "@mui/lab";
 import { Avatar, Box, Button, Dialog, Typography } from "@mui/material";
 import { useEffect, useState } from "react";

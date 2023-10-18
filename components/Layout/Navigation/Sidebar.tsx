@@ -1,6 +1,9 @@
+"use client";
+import { containerRef } from "@/app/(app)/container";
 import { GroupModal } from "@/components/Group/GroupModal";
 import { Logo } from "@/components/Logo";
 import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -15,10 +18,9 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { containerRef } from "..";
 import { shouldHideNavigation } from "./BottomNavigation";
 
 function SidebarMenu({ styles }) {
@@ -167,68 +169,40 @@ export function Sidebar() {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  useHotkeys(
-    "ctrl+g",
-    (e) => {
-      e.preventDefault();
-      router.push(`/spaces/${session.property.propertyId}`);
-    },
-    [open]
-  );
+  useHotkeys("ctrl+g", (e) => {
+    e.preventDefault();
+    router.push(`/spaces/${session.property.propertyId}`);
+  });
 
-  useHotkeys(
-    "ctrl+u",
-    (e) => {
-      e.preventDefault();
-      router.push(`/users`);
-    },
-    [open]
-  );
+  useHotkeys("ctrl+u", (e) => {
+    e.preventDefault();
+    router.push(`/users`);
+  });
 
-  useHotkeys(
-    "ctrl+comma",
-    (e) => {
-      e.preventDefault();
-      router.push(`/settings`);
-    },
-    [open]
-  );
+  useHotkeys("ctrl+comma", (e) => {
+    e.preventDefault();
+    router.push(`/settings`);
+  });
 
-  useHotkeys(
-    "ctrl+p",
-    (e) => {
-      e.preventDefault();
-      router.push(`/users/${session.user.email}`);
-    },
-    [open]
-  );
+  useHotkeys("ctrl+p", (e) => {
+    e.preventDefault();
+    router.push(`/users/${session.user.email}`);
+  });
 
-  useHotkeys(
-    "ctrl+shift+2",
-    (e) => {
-      e.preventDefault();
-      router.push("/");
-    },
-    [open]
-  );
+  useHotkeys("ctrl+shift+2", (e) => {
+    e.preventDefault();
+    router.push("/");
+  });
 
-  useHotkeys(
-    "ctrl+shift+3",
-    (e) => {
-      e.preventDefault();
-      router.push("/rooms");
-    },
-    [open]
-  );
+  useHotkeys("ctrl+shift+3", (e) => {
+    e.preventDefault();
+    router.push("/rooms");
+  });
 
-  useHotkeys(
-    "ctrl+shift+1",
-    (e) => {
-      e.preventDefault();
-      router.push("/tasks/perspectives/days");
-    },
-    [open]
-  );
+  useHotkeys("ctrl+shift+1", (e) => {
+    e.preventDefault();
+    router.push("/tasks/perspectives/days");
+  });
 
   const styles = (active: any = false) => {
     return {
@@ -263,7 +237,8 @@ export function Sidebar() {
     };
   };
 
-  const shouldHide = shouldHideNavigation(router.asPath);
+  const pathname = usePathname();
+  const shouldHide = shouldHideNavigation(pathname);
 
   const generateLabel = (label, keys) => (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -322,7 +297,7 @@ export function Sidebar() {
       {!isMobile && <Logo size={50} intensity={7} />}
       <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
-        sx={styles(router.asPath.includes("/tasks"))}
+        sx={styles(pathname?.includes("/tasks"))}
         onClick={() => router.push("/tasks/perspectives/days")}
         onMouseDown={() => router.push("/tasks/perspectives/days")}
       >
@@ -332,7 +307,7 @@ export function Sidebar() {
         >
           <span
             className={`material-symbols-${
-              router.asPath.includes("/tasks") ? "rounded" : "outlined"
+              pathname?.includes("/tasks") ? "rounded" : "outlined"
             }`}
           >
             &#xe86c;
@@ -340,7 +315,7 @@ export function Sidebar() {
         </Tooltip>
       </Box>
       <Box
-        sx={styles(router.asPath === "/")}
+        sx={styles(pathname === "/")}
         onClick={() => router.push("/")}
         onMouseDown={() => router.push("/")}
       >
@@ -350,7 +325,7 @@ export function Sidebar() {
         >
           <span
             className={`material-symbols-${
-              router.asPath === "/" ? "rounded" : "outlined"
+              pathname === "/" ? "rounded" : "outlined"
             }`}
           >
             &#xf07e;
@@ -359,10 +334,10 @@ export function Sidebar() {
       </Box>
       <Box
         sx={styles(
-          router.asPath === "/rooms" ||
-            router.asPath === "/trash" ||
-            router.asPath === "/starred" ||
-            router.asPath.includes("rooms")
+          pathname === "/rooms" ||
+            pathname === "/trash" ||
+            pathname === "/starred" ||
+            pathname?.includes("rooms")
         )}
         onClick={() => router.push("/rooms")}
         onMouseDown={() => router.push("/rooms")}
@@ -373,10 +348,10 @@ export function Sidebar() {
         >
           <span
             className={`material-symbols-${
-              router.asPath === "/rooms" ||
-              router.asPath === "/trash" ||
-              router.asPath === "/starred" ||
-              router.asPath.includes("rooms")
+              pathname === "/rooms" ||
+              pathname === "/trash" ||
+              pathname === "/starred" ||
+              pathname?.includes("rooms")
                 ? "rounded"
                 : "outlined"
             }`}
@@ -396,6 +371,7 @@ export function Sidebar() {
           flexDirection: "column",
         }}
       >
+        <StatusSelector mutate={() => {}} profile={session.user.Profile} />
         <SidebarMenu styles={styles} />
       </Box>
     </Box>

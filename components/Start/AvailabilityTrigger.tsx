@@ -1,5 +1,5 @@
 import { Badge, Button, Icon } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export function AvailabilityTrigger() {

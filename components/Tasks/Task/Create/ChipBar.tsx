@@ -371,7 +371,7 @@ const ChipBar = React.memo(function ChipBar({
         />
       </TaskColorPicker>
     ),
-    [data.color, chipStyles, setTaskColor, titleRef, setShowedFields]
+    [data.color, chipStyles, setTaskColor, titleRef]
   );
 
   const taskDatePicker = useMemo(
@@ -425,7 +425,7 @@ const ChipBar = React.memo(function ChipBar({
         </SelectDateModal>
       </Tooltip>
     ),
-    [data.date, data.dateOnly, chipStyles, setData]
+    [data, titleRef, chipStyles, setData, boardData]
   );
 
   return (

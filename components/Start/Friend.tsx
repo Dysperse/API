@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { cloneElement, memo, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
@@ -126,7 +126,7 @@ export function FriendPopover({ children, email }) {
         error: "Something went wrong. Please try again later",
       }
     );
-  }, [data, isFriend, session.user.email]);
+  }, [data, isFriend, session, mutate]);
 
   return (
     <>
@@ -380,7 +380,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
   // end refactor later
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <motion.div initial={{ scaleX: 0.95 }} animate={{ scaleX: 1 }}>
       <Box sx={{ pb: 2 }}>
         <FriendPopover email={friend.email}>
           <Card
