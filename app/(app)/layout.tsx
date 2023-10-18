@@ -105,7 +105,7 @@ export default async function RootLayout({
             key={size}
             rel="apple-touch-icon"
             sizes={`${size}x${size}`}
-            href={`https://assets.dysperse.com/v8-ios/${size}.png`}
+            href={`https://assets.dysperse.com/v9-ios/${size}.png`}
           />
         ))}
         <link href="/manifest.json" rel="manifest" />
