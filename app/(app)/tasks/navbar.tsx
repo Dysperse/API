@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
+import { containerRef } from "../container";
 import { SelectionContext } from "./selection-context";
 import { taskStyles } from "./styles";
 
@@ -45,6 +46,9 @@ export function TaskNavbar({
   return !isMobile ? null : (
     <>
       <AppBar
+        onClick={() =>
+          containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
+        }
         sx={{
           ...taskStyles(palette).appBar,
           ...(isSelecting && {

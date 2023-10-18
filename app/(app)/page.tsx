@@ -180,6 +180,9 @@ export default function Home() {
                   {data ? (
                     data?.friends?.length > 0 && (
                       <Virtuoso
+                        initialItemCount={
+                          data.friends.length < 5 ? data.friends.length : 5
+                        }
                         customScrollParent={containerRef.current}
                         useWindowScroll
                         totalCount={data.friends.length}

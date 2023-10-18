@@ -337,6 +337,7 @@ const Column = React.memo(function Column({
           </Box>
         )}
         <Virtuoso
+          initialItemCount={data.length < 10 ? data.length : 10}
           useWindowScroll
           isScrolling={setIsScrolling}
           customScrollParent={
