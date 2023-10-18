@@ -8,6 +8,7 @@ import {
   AvatarGroup,
   Box,
   Button,
+  Grid,
   Icon,
   IconButton,
   Skeleton,
@@ -283,26 +284,51 @@ export function Board({ mutate, board }) {
       <Box
         sx={{
           display: "flex",
-          px: 4.5,
           mt: 6,
           pt: "var(--navbar-height)",
         }}
       >
-        <Box sx={{ mt: "auto" }}>
-          <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
-            {[...new Array(4)].map((_, i) => (
-              <Avatar
-                key={i}
-                sx={{
-                  width: "40px",
-                  borderRadius: 999,
-                }}
-              >
-                <Skeleton variant="circular" width={40} height={40} />
-              </Avatar>
-            ))}
-          </AvatarGroup>
-          <Skeleton variant="rectangular" height={60} sx={{ width: "100%" }} />
+        <Box sx={{ mt: "auto", width: "100%" }}>
+          <Box sx={{ px: 4.3 }}>
+            <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
+              {[...new Array(4)].map((_, i) => (
+                <Avatar
+                  key={i}
+                  sx={{
+                    width: "40px",
+                    borderRadius: 999,
+                  }}
+                >
+                  <Skeleton variant="circular" width={40} height={40} />
+                </Avatar>
+              ))}
+            </AvatarGroup>
+            <Skeleton
+              variant="rectangular"
+              height={70}
+              sx={{ width: "60%", mb: 2 }}
+            />
+            <Skeleton
+              variant="rectangular"
+              height={15}
+              sx={{ mb: 1, width: "80%" }}
+            />
+            <Skeleton
+              variant="rectangular"
+              height={15}
+              sx={{ mb: 1, width: "100%" }}
+            />
+            <Skeleton variant="rectangular" height={15} sx={{ width: "90%" }} />
+          </Box>
+          <Box sx={{ px: 3.3 }}>
+            <Grid container sx={{ mt: 1 }}>
+              {[...new Array(4)].map((_, i) => (
+                <Grid item xs={6} key={i} sx={{ p: 1 }}>
+                  <Skeleton variant="rectangular" height={120} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </Box>
       </Box>
     );

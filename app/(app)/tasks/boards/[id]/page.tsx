@@ -11,11 +11,12 @@ import {
   IconButton,
   Skeleton,
 } from "@mui/material";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import useSWR from "swr";
 import { TaskNavbar } from "../../navbar";
 
 const BoardContainer = ({ id, shareToken }) => {
+  const router = useRouter();
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -30,14 +31,19 @@ const BoardContainer = ({ id, shareToken }) => {
         title={data ? data[0].name : <Skeleton width={100} animation="wave" />}
         subTitle={data ? "Board" : <Skeleton width={50} animation="wave" />}
         rightContent={
-          <IconButton
-            sx={{
-              background: addHslAlpha(palette[4], 0.6),
-              "&:active": { background: addHslAlpha(palette[4], 0.9) },
-            }}
-          >
-            <Icon className="outlined">settings</Icon>
-          </IconButton>
+          data ? (
+            <IconButton
+              onClick={() => router.push(`/tasks/boards/${data[0].id}/edit`)}
+              sx={{
+                background: addHslAlpha(palette[4], 0.6),
+                "&:active": { background: addHslAlpha(palette[4], 0.9) },
+              }}
+            >
+              <Icon className="outlined">settings</Icon>
+            </IconButton>
+          ) : (
+            <Skeleton variant="circular" width={40} height={40} />
+          )
         }
       />
 
