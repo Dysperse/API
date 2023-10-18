@@ -12,7 +12,7 @@ import NotificationsPrompt from "@/components/Layout/NotificationsPrompt";
 import ReleaseModal from "@/components/Layout/ReleaseModal";
 import TosModal from "@/components/Layout/TosModal";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
-import { SessionProvider } from "@/lib/client/session";
+import { SessionProvider, useSession } from "@/lib/client/session";
 import {
   AccountStorageState,
   StorageContext,
@@ -54,6 +54,19 @@ dayjs.extend(isBetween);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+function ActivitySave() {
+  const { session } = useSession();
+  const params: any = [
+    "https:/my.dysperse.com/api/user/setActive",
+    {
+      timeZone: session.user.timeZone,
+    },
+  ];
+  useSWR(params, fetcher(params, session) as any, { refreshInterval: 300000 });
+
+  return <></>;
+}
+
 export default function ClientLayout({ children, session }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -88,13 +101,6 @@ export default function ClientLayout({ children, session }) {
   }, [pathname]);
 
   const { data, error } = useSWR(["property/storage"]);
-  const params: any = [
-    "https:/my.dysperse.com/api/user/setActive",
-    {
-      timeZone: session.user.timeZone,
-    },
-  ];
-  useSWR(params, fetcher(params, session) as any, { refreshInterval: 300000 });
 
   const storage = useAccountStorage();
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
@@ -236,6 +242,7 @@ export default function ClientLayout({ children, session }) {
                       },
                     }}
                   >
+                    <ActivitySave />
                     {children}
                   </Box>
                   <CssBaseline />
