@@ -169,7 +169,7 @@ export function StatusSelector({
               fontSize: "15px",
               gap: 2,
               ml: "auto",
-              mr: 2,
+              mr: 1,
             }),
             "&, &:hover": {
               background: `linear-gradient(${chipPalette[6]}, ${chipPalette[3]}) !important`,
@@ -191,7 +191,7 @@ export function StatusSelector({
               <>&#xe1af;</>
             )}
           </Icon>
-          {isMobile && (status ? capitalizeFirstLetter(status) : "Set status")}
+          {isMobile && (status ? capitalizeFirstLetter(status) : "")}
         </IconButton>
       </Tooltip>
     ),
