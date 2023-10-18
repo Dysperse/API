@@ -132,10 +132,12 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     }, 200);
   };
 
+  const [createSubTaskOpen, setCreateSubTaskOpen] = useState(false);
+
   const handleDoubleClick = () => {
     // Handle the double click logic here
     clearTimeout(timer);
-    // document.getElementById("createSubTask")?.click();
+    setCreateSubTaskOpen(true);
   };
 
   // Attach the `onClick` handler to the trigger
@@ -224,6 +226,8 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         >
           {data && data !== "deleted" && (
             <DrawerContent
+              createSubTaskOpen={createSubTaskOpen}
+              setCreateSubTaskOpen={setCreateSubTaskOpen}
               parentRef={ref}
               isDisabled={isDisabled}
               handleDelete={handleDelete}

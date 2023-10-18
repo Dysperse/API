@@ -18,7 +18,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
@@ -34,7 +34,13 @@ import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
-export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
+export default function DrawerContent({
+  setCreateSubTaskOpen,
+  createSubTaskOpen,
+  parentRef,
+  isDisabled,
+  handleDelete,
+}) {
   const { session } = useSession();
   const task = useTaskContext();
   const storage = useAccountStorage();
@@ -49,6 +55,12 @@ export default function DrawerContent({ parentRef, isDisabled, handleDelete }) {
   const orangePalette = useColor("orange", isDark);
   const palette = useColor(session.themeColor, isDark);
 
+  useEffect(() => {
+    if (createSubTaskOpen) {
+      document.getElementById("createSubTask")?.click();
+      setCreateSubTaskOpen(false);
+    }
+  }, [createSubTaskOpen, setCreateSubTaskOpen]);
   const handlePriorityChange = useCallback(async () => {
     task.edit(task.id, "pinned", !task.pinned);
 
