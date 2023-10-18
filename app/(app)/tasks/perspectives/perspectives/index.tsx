@@ -467,6 +467,7 @@ export function Agenda({ type, date }) {
               width: "100%",
               transition: "all .2s",
               WebkitAppRegion: "drag",
+              gap: 2,
               ...(view === "priority" && {
                 "& .priority-hidden": {
                   opacity: 0,
@@ -541,6 +542,7 @@ export function Agenda({ type, date }) {
                 background: palette[3],
                 borderRadius: 3,
                 WebkitAppRegion: "no-drag",
+                display: "flex",
               }}
               className="priority-hidden"
             >
