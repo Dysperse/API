@@ -56,7 +56,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             },
             "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
               borderRadius: 999,
-              backgroundColor: palette[3],
+              backgroundColor: palette[5],
               minHeight: 24,
               border: "3px solid " + palette[1],
             },

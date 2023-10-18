@@ -142,6 +142,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
+    active: isMobile,
   });
 
   const handlePrev = useCallback(() => {
@@ -289,22 +290,24 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
           maxWidth: "100vw",
         }}
       >
-        <Box ref={emblaRef} style={{ width: "100dvw" }}>
+        <Box ref={emblaRef} sx={{ width: { xs: "100dvw", sm: "auto" } }}>
           <Box sx={{ display: "flex" }}>
-            <Box
-              sx={{
-                flex: "0 0 100%",
-              }}
-            >
-              {navigation.current === 0 ? (
-                <SpecialHeaderSkeleton
-                  icon="grid_view"
-                  label="Back to columns"
-                />
-              ) : (
-                <HeaderSkeleton />
-              )}
-            </Box>
+            {isMobile && (
+              <Box
+                sx={{
+                  flex: "0 0 100%",
+                }}
+              >
+                {navigation.current === 0 ? (
+                  <SpecialHeaderSkeleton
+                    icon="grid_view"
+                    label="Back to columns"
+                  />
+                ) : (
+                  <HeaderSkeleton />
+                )}
+              </Box>
+            )}
             <Box
               onClick={scrollIntoView}
               sx={{
@@ -444,20 +447,22 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 )}
               </Box>
             </Box>
-            <Box
-              sx={{
-                flex: "0 0 100%",
-              }}
-            >
-              {navigation.current === columnLength - 1 ? (
-                <SpecialHeaderSkeleton
-                  icon="new_window"
-                  label="Create column"
-                />
-              ) : (
-                <HeaderSkeleton />
-              )}
-            </Box>
+            {isMobile && (
+              <Box
+                sx={{
+                  flex: "0 0 100%",
+                }}
+              >
+                {navigation.current === columnLength - 1 ? (
+                  <SpecialHeaderSkeleton
+                    icon="new_window"
+                    label="Create column"
+                  />
+                ) : (
+                  <HeaderSkeleton />
+                )}
+              </Box>
+            )}
           </Box>
         </Box>
         <Box sx={{ p: { xs: 0, sm: 2 }, mb: { xs: 15, sm: 0 } }}>

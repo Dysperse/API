@@ -103,6 +103,7 @@ export const Header = memo(function Header({
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     startIndex: 1,
+    active: isMobile
   });
 
   const { mutateList, type } = useContext(PerspectiveContext);
@@ -148,15 +149,17 @@ export const Header = memo(function Header({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <Box ref={emblaRef} style={{ width: "100dvw" }}>
+        <Box ref={emblaRef} sx={{ width: { xs: "100dvw", sm: "auto" } }}>
           <Box sx={{ display: "flex" }}>
-            <Box
-              sx={{
-                flex: "0 0 100%",
-              }}
-            >
-              <HeaderSkeleton />
-            </Box>
+            {isMobile && (
+              <Box
+                sx={{
+                  flex: "0 0 100%",
+                }}
+              >
+                <HeaderSkeleton />
+              </Box>
+            )}
             <Box sx={{ flex: "0 0 100%" }}>
               <Box
                 sx={{
@@ -305,13 +308,15 @@ export const Header = memo(function Header({
                 </Box>
               </Box>
             </Box>
-            <Box
-              sx={{
-                flex: "0 0 100%",
-              }}
-            >
-              <HeaderSkeleton />
-            </Box>
+            {isMobile && (
+              <Box
+                sx={{
+                  flex: "0 0 100%",
+                }}
+              >
+                <HeaderSkeleton />
+              </Box>
+            )}
           </Box>
         </Box>
         <Box

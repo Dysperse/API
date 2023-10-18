@@ -27,6 +27,7 @@ import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { swipeablePageStyles } from "./swipeablePageStyles";
+import { StatusSelector } from "@/components/Start/StatusSelector";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
 export default function Home() {
@@ -80,7 +81,13 @@ export default function Home() {
   return (
     // <NoSsr> cuz embla doesn't get initialized idk why
     <NoSsr>
-      <Navbar showLogo={isMobile} showRightContent={isMobile} />
+      <Navbar
+        showLogo={isMobile}
+        showRightContent={isMobile}
+        right={
+          <StatusSelector mutate={() => {}} profile={session.user.Profile} />
+        }
+      />
       <Box
         sx={{
           mt: "env(titlebar-area-height)",
