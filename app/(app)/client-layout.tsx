@@ -89,7 +89,7 @@ export default function ClientLayout({ children, session }) {
 
   const { data, error } = useSWR(["property/storage"]);
   const params: any = [
-    "user/setActive",
+    "https:/my.dysperse.com/api/user/setActive",
     {
       timeZone: session.user.timeZone,
     },
