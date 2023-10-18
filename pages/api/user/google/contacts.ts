@@ -43,8 +43,8 @@ export default async function handler(req, res) {
 
   //   Get list of email addresses
   const emails = contacts.connections
-    .filter((c) => c.emailAddresses)
-    .map((c) => c.emailAddresses[0].value);
+    ?.filter((c) => c.emailAddresses)
+    ?.map((c) => c.emailAddresses[0].value);
 
   //   Get list of users with those email addresses
   const users = await prisma.user.findMany({

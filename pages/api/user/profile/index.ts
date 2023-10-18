@@ -7,9 +7,9 @@ export default async function handler(req, res) {
     let data: any = await prisma.user.findFirstOrThrow({
       where: {
         OR: [
-          { username: req.query.email },
-          { username: req.query.username },
-          { email: req.query.email },
+          { username: decodeURIComponent(req.query.email) },
+          { username: decodeURIComponent(req.query.username) },
+          { email: decodeURIComponent(req.query.email) },
         ],
       },
       select: {
