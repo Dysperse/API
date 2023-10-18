@@ -32,7 +32,7 @@ interface ColumnHeaderProps {
   columnMap: any;
 }
 
-function HeaderSkeleton() {
+export function HeaderSkeleton() {
   return (
     <Box
       sx={{

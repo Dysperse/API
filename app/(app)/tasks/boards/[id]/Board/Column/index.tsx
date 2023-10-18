@@ -1,4 +1,5 @@
 import { containerRef } from "@/app/(app)/container";
+import { HeaderSkeleton } from "@/app/(app)/tasks/perspectives/perspectives/Header";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -14,6 +15,7 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
+import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -31,6 +33,39 @@ import EmojiPicker from "../../../../../../../components/EmojiPicker";
 import { Task } from "../../../../../../../components/Tasks/Task";
 import { CreateTask } from "../../../../../../../components/Tasks/Task/Create";
 import { ColumnSettings } from "./Settings";
+
+function SpecialHeaderSkeleton({ icon, label }) {
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+      }}
+    >
+      <Box
+        sx={{
+          background: palette[3],
+          display: "flex",
+          gap: 2,
+          px: 3,
+          py: 2,
+          alignItems: "center",
+          justifyContent: "center",
+          color: palette[11],
+          borderRadius: 9999,
+        }}
+      >
+        <Icon>{icon}</Icon>
+        <Typography variant="h6">{label}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 export function Column({ useReverseAnimation, setUseReverseAnimation }) {
   const ref: any = useRef();
@@ -55,7 +90,6 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
 
   const [title, setTitle] = useState(column.name);
   const [emoji, setEmoji] = useState(column.emoji);
-  const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState<boolean>(false);
   const pathname = usePathname();
@@ -81,15 +115,12 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-
-    setLoading(true);
     try {
       await mutateData();
       await new Promise((r) => setTimeout(() => r(""), 500));
     } catch (e) {
       toast.error("Yikes! We couldn't get your tasks. Please try again later");
     }
-    setLoading(false);
   };
 
   const isDark = useDarkMode(session.darkMode);
@@ -109,18 +140,38 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
     }
   });
 
-  const expandTitle = useCallback(() => {
-    toast(column.name, {
-      icon: (
-        <img
-          alt="Emoji"
-          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-          width={20}
-          height={20}
-        />
-      ),
-    });
-  }, [column.name, column.emoji]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    startIndex: 1,
+  });
+
+  const handlePrev = useCallback(() => {
+    setUseReverseAnimation(true);
+    if (navigation.current == -1) {
+      return;
+    }
+    navigation.setCurrent((i) => i - 1);
+  }, [navigation, setUseReverseAnimation]);
+
+  const handleNext = useCallback(() => {
+    if (navigation.current === columnLength - 1) {
+      router.push((pathname || "") + "/edit#columns");
+      return;
+    }
+    setUseReverseAnimation(false);
+    navigation.setCurrent((i) => i + 1);
+  }, [columnLength, navigation, pathname, router, setUseReverseAnimation]);
+
+  useEffect(() => {
+    if (emblaApi) {
+      emblaApi.on("scroll", (e) => {
+        if (e.selectedScrollSnap() == 0) {
+          handlePrev();
+        } else if (e.selectedScrollSnap() === 2) {
+          handleNext();
+        }
+      });
+    }
+  }, [emblaApi, handlePrev, handleNext]);
 
   return (
     <motion.div
@@ -238,164 +289,175 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
           maxWidth: "100vw",
         }}
       >
-        <Box
-          onClick={() => {
-            expandTitle();
-            scrollIntoView();
-          }}
-          onContextMenu={() => {
-            if (!isMobile) expandTitle();
-          }}
-          sx={{
-            color: isDark ? "#fff" : "#000",
-            p: 2,
-            background: { sm: addHslAlpha(palette[1], 0.7) },
-            borderBottom: { sm: "1px solid" },
-            borderColor: { sm: addHslAlpha(palette[4], 0.7) },
-            userSelect: "none",
-            zIndex: 9,
-            backdropFilter: { md: "blur(2px)" },
-            position: "sticky",
-            top: 0,
-            ...(/\bCrOS\b/.test(navigator.userAgent) && {
-              background: palette[1],
-              backdropFilter: "none",
-            }),
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              my: 1,
-              gap: 3,
-              alignItems: "center",
-            }}
-          >
-            {isMobile && (
-              <Box
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <IconButton
-                  size="large"
-                  onClick={(e) => {
-                    setUseReverseAnimation(true);
-                    if (navigation.current == -1) {
-                      return;
-                    }
-                    navigation.setCurrent((i) => i - 1);
-                  }}
-                  sx={{ p: 3, color: palette[8] + "!important" }}
-                >
-                  <Icon
-                    className="outlined"
-                    sx={{
-                      ...(navigation.current == 0 && {
-                        transform: "scale(1.25)",
-                      }),
-                    }}
-                  >
-                    {navigation.current == 0
-                      ? "grid_view"
-                      : "arrow_back_ios_new"}
-                  </Icon>
-                </IconButton>
-              </Box>
-            )}
+        <Box ref={emblaRef} style={{ width: "100dvw" }}>
+          <Box sx={{ display: "flex" }}>
             <Box
               sx={{
-                flexGrow: 1,
-                maxWidth: "100%",
-                minWidth: 0,
-                borderRadius: 5,
-                transition: "transform .4s",
-                py: { xs: 1, sm: 0 },
+                flex: "0 0 100%",
               }}
-              onContextMenu={expandTitle}
             >
-              <Typography
-                variant="h6"
+              {navigation.current === 0 ? (
+                <SpecialHeaderSkeleton
+                  icon="grid_view"
+                  label="Back to columns"
+                />
+              ) : (
+                <HeaderSkeleton />
+              )}
+            </Box>
+            <Box
+              onClick={scrollIntoView}
+              sx={{
+                flex: "0 0 100%",
+                color: isDark ? "#fff" : "#000",
+                p: 2,
+                mt: -1,
+                background: { sm: addHslAlpha(palette[1], 0.7) },
+                borderBottom: { sm: "1px solid" },
+                borderColor: { sm: addHslAlpha(palette[4], 0.7) },
+                userSelect: "none",
+                zIndex: 9,
+                backdropFilter: { md: "blur(2px)" },
+                position: "sticky",
+                top: 0,
+                ...(/\bCrOS\b/.test(navigator.userAgent) && {
+                  background: palette[1],
+                  backdropFilter: "none",
+                }),
+              }}
+            >
+              <Box
                 sx={{
-                  minWidth: 0,
-                  borderRadius: 4,
-                  width: "auto",
-                  mb: { xs: -0.5, sm: 0.7 },
                   display: "flex",
+                  my: 1,
+                  gap: 3,
                   alignItems: "center",
-                  justifyContent: "center",
-                  gap: 2,
-                  ...(column.name === "" && { display: "none" }),
-                  "& img": {
-                    width: "30px",
-                    height: "30px",
-                    mb: -0.2,
-                  },
                 }}
               >
-                <img
-                  alt="Emoji"
-                  src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
-                  width={20}
-                  height={20}
-                />
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 1,
-                    minWidth: 0,
-                    maxWidth: "100%",
-                  }}
-                >
-                  <span
-                    style={{
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                      minWidth: 0,
-                      maxWidth: "100%",
+                {isMobile && (
+                  <Box
+                    onClick={(e) => {
+                      e.stopPropagation();
                     }}
                   >
-                    {column.name}
-                  </span>
-                </Box>
-              </Typography>
-              <Typography
-                sx={{
-                  display: { xs: "none", sm: "flex" },
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {incompleteLength} item{incompleteLength !== 1 && "s"}
-              </Typography>
-            </Box>
-            {isMobile && (
-              <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
-                <IconButton
-                  onClick={() => {
-                    if (navigation.current === columnLength - 1) {
-                      router.push(
-                        (pathname || "").replace("/boards/", "/boards/edit/") +
-                          "#columns"
-                      );
-                      return;
-                    }
-                    setUseReverseAnimation(false);
-                    navigation.setCurrent((i) => i + 1);
+                    <IconButton
+                      size="large"
+                      onClick={handlePrev}
+                      sx={{ p: 3, color: palette[8] + "!important" }}
+                    >
+                      <Icon
+                        className="outlined"
+                        sx={{
+                          ...(navigation.current == 0 && {
+                            transform: "scale(1.25)",
+                          }),
+                        }}
+                      >
+                        {navigation.current == 0
+                          ? "grid_view"
+                          : "arrow_back_ios_new"}
+                      </Icon>
+                    </IconButton>
+                  </Box>
+                )}
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    maxWidth: "100%",
+                    minWidth: 0,
+                    borderRadius: 5,
+                    transition: "transform .4s",
+                    py: { xs: 1, sm: 0 },
                   }}
-                  sx={{ p: 3, color: palette[8] }}
-                  size="large"
                 >
-                  <Icon className="outlined">
-                    {navigation.current === columnLength - 1
-                      ? "new_window"
-                      : "arrow_forward_ios"}
-                  </Icon>
-                </IconButton>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      minWidth: 0,
+                      borderRadius: 4,
+                      width: "auto",
+                      mb: { xs: -0.5, sm: 0.7 },
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 2,
+                      ...(column.name === "" && { display: "none" }),
+                      "& img": {
+                        width: "30px",
+                        height: "30px",
+                        mb: -0.2,
+                      },
+                    }}
+                  >
+                    <img
+                      alt="Emoji"
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${column.emoji}.png`}
+                      width={20}
+                      height={20}
+                    />
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        minWidth: 0,
+                        maxWidth: "100%",
+                      }}
+                    >
+                      <span
+                        style={{
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                          minWidth: 0,
+                          maxWidth: "100%",
+                        }}
+                      >
+                        {column.name}
+                      </span>
+                    </Box>
+                  </Typography>
+                  <Typography
+                    sx={{
+                      display: { xs: "none", sm: "flex" },
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {incompleteLength} item{incompleteLength !== 1 && "s"}
+                  </Typography>
+                </Box>
+                {isMobile && (
+                  <Box sx={{ ml: "auto" }} onClick={(e) => e.stopPropagation()}>
+                    <IconButton
+                      onClick={handleNext}
+                      sx={{ p: 3, color: palette[8] }}
+                      size="large"
+                    >
+                      <Icon className="outlined">
+                        {navigation.current === columnLength - 1
+                          ? "new_window"
+                          : "arrow_forward_ios"}
+                      </Icon>
+                    </IconButton>
+                  </Box>
+                )}
               </Box>
-            )}
+            </Box>
+            <Box
+              sx={{
+                flex: "0 0 100%",
+              }}
+            >
+              {navigation.current === columnLength - 1 ? (
+                <SpecialHeaderSkeleton
+                  icon="new_window"
+                  label="Create column"
+                />
+              ) : (
+                <HeaderSkeleton />
+              )}
+            </Box>
           </Box>
         </Box>
         <Box sx={{ p: { xs: 0, sm: 2 }, mb: { xs: 15, sm: 0 } }}>
