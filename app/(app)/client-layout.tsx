@@ -70,7 +70,7 @@ export default function ClientLayout({ children, session }) {
 
   const userTheme = createTheme(
     useCustomTheme({
-      darkMode: session.darkMode,
+      darkMode: useDarkMode(session.darkMode),
       themeColor: session.themeColor,
     })
   );
