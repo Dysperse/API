@@ -159,16 +159,24 @@ export function StatusSelector({
         sx={{
           ...(isMobile && {
             px: 2,
+            borderRadius: 9,
+            fontSize: "15px",
+            gap: 2,
+            ml: "auto",
+            mr: 2,
           }),
           "&, &:hover": {
-            background: `linear-gradient(${chipPalette[8]}, ${chipPalette[9]}) !important`,
+            background: `linear-gradient(${chipPalette[isMobile ? 6 : 9]}, ${
+              chipPalette[isMobile ? 3 : 8]
+            }) !important`,
             color: `${chipPalette[12]} !important`,
             "&:active": {
-              background: `linear-gradient(${chipPalette[9]}, ${chipPalette[8]}) !important`,
+              background: `linear-gradient(-90deg, ${
+                chipPalette[isMobile ? 6 : 9]
+              }, ${chipPalette[isMobile ? 3 : 8]}) !important`,
             },
           },
         }}
-        size={isMobile ? "large" : undefined}
       >
         <Icon className="outlined">
           {status === "available" ? (

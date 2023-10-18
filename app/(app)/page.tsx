@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
+import { StatusSelector } from "@/components/Start/StatusSelector";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -27,7 +28,6 @@ import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { swipeablePageStyles } from "./swipeablePageStyles";
-import { StatusSelector } from "@/components/Start/StatusSelector";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
 export default function Home() {
