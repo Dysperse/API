@@ -28,8 +28,7 @@ import IntegrationChip from "./IntegrationChip";
 import BoardSettings from "./Settings";
 
 function FilterSettings() {
-  const { board, filter, setFilter, permissions, isShared, mutateData } =
-    useContext(BoardContext);
+  const { filter, setFilter } = useContext(BoardContext);
 
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -201,7 +200,6 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
         }
       }}
       sx={{
-        transform: "translateZ(0)",
         borderRadius: 5,
         height: { xs: "100%", md: "calc(100dvh - 20px)" },
         minHeight: { xs: "100%", md: "unset" },

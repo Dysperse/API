@@ -4,11 +4,13 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Alert,
+  Avatar,
+  AvatarGroup,
   Box,
   Button,
-  CircularProgress,
   Icon,
   IconButton,
+  Skeleton,
   useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
@@ -222,6 +224,9 @@ export type BoardFilterInput = "" | "a-z" | "z-a" | "due-asc" | "due-desc";
 export function Board({ mutate, board }) {
   const [filter, setFilter] = useState<BoardFilterInput>("");
 
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+
   const {
     data,
     error,
@@ -235,7 +240,6 @@ export function Board({ mutate, board }) {
     },
   ]);
 
-  const { session } = useSession();
   const isShared =
     data &&
     data?.[0]?.propertyId &&
@@ -278,14 +282,28 @@ export function Board({ mutate, board }) {
     return (
       <Box
         sx={{
-          width: "100%",
-          height: "100dvh",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          px: 4.5,
+          mt: 6,
+          pt: "var(--navbar-height)",
         }}
       >
-        <CircularProgress />
+        <Box sx={{ mt: "auto" }}>
+          <AvatarGroup max={6} sx={{ my: 1, justifyContent: "start" }}>
+            {[...new Array(4)].map((_, i) => (
+              <Avatar
+                key={i}
+                sx={{
+                  width: "40px",
+                  borderRadius: 999,
+                }}
+              >
+                <Skeleton variant="circular" width={40} height={40} />
+              </Avatar>
+            ))}
+          </AvatarGroup>
+          <Skeleton variant="rectangular" height={60} sx={{ width: "100%" }} />
+        </Box>
       </Box>
     );
   }
