@@ -1,6 +1,7 @@
 "use client";
 import { Board } from "@/app/(app)/tasks/boards/[id]/Board";
 import { ErrorHandler } from "@/components/Error";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -29,7 +30,12 @@ const BoardContainer = ({ id, shareToken }) => {
         title={data ? data[0].name : <Skeleton width={100} animation="wave" />}
         subTitle={data ? "Board" : <Skeleton width={50} animation="wave" />}
         rightContent={
-          <IconButton sx={{ background: palette[4] }}>
+          <IconButton
+            sx={{
+              background: addHslAlpha(palette[4], 0.6),
+              "&:active": { background: addHslAlpha(palette[4], 0.9) },
+            }}
+          >
             <Icon className="outlined">settings</Icon>
           </IconButton>
         }
