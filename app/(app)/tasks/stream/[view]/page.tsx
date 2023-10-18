@@ -9,14 +9,13 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useMemo, useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { TaskNavbar } from "../../navbar";
 
 export default function Page() {
-  const router = useRouter();
   const params = useParams();
   const { view } = params as any;
 
