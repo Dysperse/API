@@ -85,7 +85,9 @@ export default function Home() {
         showLogo={isMobile}
         showRightContent={isMobile}
         right={
-          <StatusSelector mutate={() => {}} profile={session.user.Profile} />
+          isMobile && (
+            <StatusSelector mutate={() => {}} profile={session.user.Profile} />
+          )
         }
       />
       <Box

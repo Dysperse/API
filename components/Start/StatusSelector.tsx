@@ -166,14 +166,10 @@ export function StatusSelector({
             mr: 2,
           }),
           "&, &:hover": {
-            background: `linear-gradient(${chipPalette[isMobile ? 6 : 9]}, ${
-              chipPalette[isMobile ? 3 : 8]
-            }) !important`,
+            background: `linear-gradient(${chipPalette[6]}, ${chipPalette[3]}) !important`,
             color: `${chipPalette[12]} !important`,
             "&:active": {
-              background: `linear-gradient(-90deg, ${
-                chipPalette[isMobile ? 6 : 9]
-              }, ${chipPalette[isMobile ? 3 : 8]}) !important`,
+              background: `linear-gradient(-90deg, ${chipPalette[6]}, ${chipPalette[3]}) !important`,
             },
           },
         }}
