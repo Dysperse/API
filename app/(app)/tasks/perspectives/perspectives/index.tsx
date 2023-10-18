@@ -234,6 +234,7 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
       variant="contained"
       sx={{
         ml: "auto",
+        WebkitAppRegion: "no-drag",
         color: "inherit!important",
         border: `2px solid`,
         borderRadius: view === "priority" ? 3 : 5,
@@ -465,6 +466,7 @@ export function Agenda({ type, date }) {
               }`,
               width: "100%",
               transition: "all .2s",
+              WebkitAppRegion: "drag",
               ...(view === "priority" && {
                 "& .priority-hidden": {
                   opacity: 0,
@@ -502,6 +504,7 @@ export function Agenda({ type, date }) {
                 sx={{
                   textAlign: "left",
                   borderRadius: 3,
+                  WebkitAppRegion: "no-drag",
                   ml: -1,
                   color: "inherit!important",
                 }}
@@ -533,7 +536,12 @@ export function Agenda({ type, date }) {
               scrollIntoView={scrollIntoView}
             />
             <Box
-              sx={{ ml: "auto", background: palette[3], borderRadius: 3 }}
+              sx={{
+                ml: "auto",
+                background: palette[3],
+                borderRadius: 3,
+                WebkitAppRegion: "no-drag",
+              }}
               className="priority-hidden"
             >
               <IconButton
