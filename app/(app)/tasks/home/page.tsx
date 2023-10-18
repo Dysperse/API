@@ -4,7 +4,6 @@ import { swipeablePageStyles } from "@/app/(app)/swipeablePageStyles";
 import { Navbar } from "@/components/Navbar";
 import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
 import { CreateTask } from "@/components/Tasks/Task/Create";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -144,17 +143,6 @@ export default function Home() {
             {editMode ? "Done" : "Edit"}
           </Button>
         }
-        sx={{
-          borderBottom: `2px solid transparent`,
-          ...(editMode && {
-            position: "sticky",
-            top: 0,
-            zIndex: 999,
-            backdropFilter: "blur(10px)",
-            background: addHslAlpha(palette[1], 0.7),
-            borderColor: `${palette[2]}`,
-          }),
-        }}
       />
       <motion.div
         initial={{ x: -100, opacity: 0 }}
