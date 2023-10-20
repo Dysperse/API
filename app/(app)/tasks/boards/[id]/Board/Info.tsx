@@ -223,7 +223,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
             opacity: 1,
           },
           ...(!showInfo && {
-            transition: "transform .2s",
+            transition: "margin .2s, transform .2s",
             transform: isHovered ? "translateX(0)" : "translateX(-320px)",
             mr: "-420px",
           }),
