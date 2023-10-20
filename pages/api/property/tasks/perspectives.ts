@@ -110,7 +110,6 @@ const handler = async (req, res) => {
       );
       if (unit) tasksByUnit.get(unit).push(task);
     }
-
     // Convert the map of tasks by unit to an array of PerspectiveUnit objects
     const returned = units.map((unit) => ({
       start: unit.start,

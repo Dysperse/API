@@ -49,8 +49,8 @@ export default async function handler(req, res) {
     name: event.summary,
     dateOnly: false,
     where: event.hangoutLink || event.location || event.htmlLink,
-    lastUpdated: dayjs(event.updated).tz(req.query.timeZone).toDate(),
-    due: dayjs(event.start?.dateTime).tz(req.query.timeZone).toDate(),
+    lastUpdated: dayjs(event.updated).utc().toDate(),
+    due: dayjs(event.start?.dateTime).utc().toDate(),
     property: { connect: { id: req.query.property } },
     createdBy: {
       connect: { identifier: req.query.userIdentifier },
