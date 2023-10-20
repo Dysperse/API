@@ -224,8 +224,8 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
           },
           ...(!showInfo && {
             transition: "margin .2s, transform .2s",
-            transform: isHovered ? "translateX(0)" : "translateX(-320px)",
-            mr: "-420px",
+            transform: isHovered ? "translateX(0)" : "translateX(-300px)",
+            mr: "-320px",
           }),
         }}
         onMouseLeave={() => setHover(false)}
