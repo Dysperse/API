@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable */
 
-const getInfo = (
+export const getInfo = (
   path: null | string,
   initialParams: any,
   property: any,
@@ -70,6 +70,6 @@ export async function fetchRawApi(
     removeDefaultParams,
     session?.current
   );
-  const res = await fetch("/api/" + url);
+  const res = await fetch("/api/" + url, { keepalive: true });
   return await res.json();
 }

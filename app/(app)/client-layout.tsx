@@ -58,7 +58,7 @@ dayjs.extend(timezone);
 function ActivitySave() {
   const { session } = useSession();
   const params: any = [
-    "https:/my.dysperse.com/api/user/setActive",
+    "user/setActive",
     {
       timeZone: session.user.timeZone,
     },

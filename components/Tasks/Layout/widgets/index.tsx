@@ -2,6 +2,7 @@ import { Logo } from "@/components/Logo";
 import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   AppBar,
@@ -15,6 +16,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import interact from "interactjs";
 import Markdown from "markdown-to-jsx";
@@ -320,6 +322,17 @@ export function WidgetBar({ view, setView }) {
       "priorityMode"
     );
     window.onbeforeunload = () => {
+      fetchRawApi(session, "user/status/set", {
+        status: "focusing",
+        start: dayjs().utc().toISOString(),
+        until: 0,
+        timeZone: session.user.timeZone,
+        profile: JSON.stringify(session.user.profile),
+        email: session.user.email,
+        emoji: "",
+        text: "",
+        notifyFriendsForStatusUpdates: "false",
+      });
       if (view === "priority") return false;
       else return null;
     };
@@ -328,7 +341,7 @@ export function WidgetBar({ view, setView }) {
         setWakeLock(null);
       });
     }
-  }, [view, wakeLock]);
+  }, [view, wakeLock, session]);
 
   return view === "priority" ? (
     <Box

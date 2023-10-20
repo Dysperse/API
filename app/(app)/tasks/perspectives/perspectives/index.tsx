@@ -2,6 +2,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
@@ -19,6 +20,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
   memo,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -202,6 +204,37 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
     };
   }, [startTime]);
 
+  const handleSubmit = useCallback(async () => {
+    await fetchRawApi(session, "user/status/set", {
+      status: "focusing",
+      start: dayjs().utc().toISOString(),
+      until: "",
+      timeZone: session.user.timeZone,
+      profile: JSON.stringify(session.user.profile),
+      email: session.user.email,
+      emoji: "",
+      text: "",
+      notifyFriendsForStatusUpdates: session.NotificationSettings
+        ?.notifyFriendsForStatusUpdates
+        ? "true"
+        : "false",
+    });
+  }, [session]);
+
+  const clearStatus = useCallback(async () => {
+    await fetchRawApi(session, "user/status/set", {
+      status: "focusing",
+      start: dayjs().utc().toISOString(),
+      until: 0,
+      timeZone: session.user.timeZone,
+      profile: JSON.stringify(session.user.profile),
+      email: session.user.email,
+      emoji: "",
+      text: "",
+      notifyFriendsForStatusUpdates: "false",
+    });
+  }, [session]);
+
   const formatTime = (ms) => {
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -221,10 +254,12 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
     if (view === "priority") {
       // Stop the timer
       setStartTime(null);
+      clearStatus();
     } else {
       // Start the timer
       setStartTime(new Date().getTime() - elapsedTime);
     }
+    handleSubmit();
     setView(view === "priority" ? "all" : "priority");
     scrollIntoView();
   };

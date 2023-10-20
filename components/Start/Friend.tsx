@@ -19,7 +19,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { cloneElement, memo, useCallback, useState } from "react";
+import { cloneElement, memo, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { ConfirmationModal } from "../ConfirmationModal";
@@ -67,9 +67,11 @@ export function FriendPopover({ children, email }) {
   const grayPalette = useColor("gray", useDarkMode(session.darkMode));
   const greenPalette = useColor("green", useDarkMode(session.darkMode));
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
+  const bluePalette = useColor("blue", useDarkMode(session.darkMode));
 
   const status = data?.Status
-    ? dayjs(data?.Status?.until).isAfter(dayjs())
+    ? (data.Status && !data.Status.until) ||
+      dayjs(data?.Status?.until).isAfter(dayjs())
       ? data.Status
       : null
     : null;
@@ -81,6 +83,8 @@ export function FriendPopover({ children, email }) {
       ? redPalette
       : status?.status === "away"
       ? orangePalette
+      : status?.status === "focusing"
+      ? bluePalette
       : grayPalette;
   // end refactor later
 
@@ -240,6 +244,8 @@ export function FriendPopover({ children, email }) {
                       ? "remove_circle"
                       : data.Status.status === "away"
                       ? "dark_mode"
+                      : data.Status.status === "focusing"
+                      ? "target"
                       : "circle"}
                   </Icon>
                 }
@@ -351,23 +357,52 @@ export function FriendPopover({ children, email }) {
   );
 }
 
+function FocusText({ started }) {
+  const [currentTime, setCurrentTime] = useState(dayjs());
+
+  const formatTimeAgo = (currentTime) => {
+    const diff = currentTime.diff(started, "second");
+    const hours = String(Math.floor(diff / 3600)).padStart(2, "0");
+    const minutes = String(Math.floor((diff % 3600) / 60));
+    const seconds = String(diff % 60).padStart(2, "0");
+    return `${hours !== "00" ? `${hours}:` : ""}${minutes}:${seconds}`;
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(dayjs()); // Update the current time every second
+    }, 1000);
+
+    return () => {
+      clearInterval(interval); // Clear the interval when the component unmounts
+    };
+  }, []);
+
+  return (
+    <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
+      Focusing for {formatTimeAgo(currentTime)}
+    </Typography>
+  );
+}
+
 export const Friend = memo(function Friend({ mutate, friend }: any) {
   const { session } = useSession();
   const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const userPalette = useColor(session.themeColor, isDark);
 
-  const status = friend.Status
-    ? dayjs(friend?.Status?.until).isAfter(dayjs())
+  const status = friend?.Status
+    ? (friend.Status && !friend.Status.until) ||
+      dayjs(friend?.Status?.until).isAfter(dayjs())
       ? friend.Status
       : null
     : null;
-
   // refactor later...
   const redPalette = useColor("red", useDarkMode(session.darkMode));
   const grayPalette = useColor("gray", useDarkMode(session.darkMode));
   const greenPalette = useColor("green", useDarkMode(session.darkMode));
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
+  const bluePalette = useColor("blue", useDarkMode(session.darkMode));
 
   const chipPalette =
     status?.status === "available"
@@ -376,6 +411,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
       ? redPalette
       : status?.status === "away"
       ? orangePalette
+      : status?.status === "focusing"
+      ? bluePalette
       : grayPalette;
   // end refactor later
 
@@ -441,7 +478,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                 <Typography variant="h6">
                   {friend.name.split(" ")?.[0]}
                 </Typography>
-                {status ? (
+                {status?.emoji ? (
                   <>
                     <Typography sx={{ display: "flex", gap: 2 }}>
                       <Emoji
@@ -452,6 +489,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                       {status.text}
                     </Typography>
                   </>
+                ) : status?.status === "focusing" ? (
+                  <FocusText started={status.started} />
                 ) : (
                   // this is when i updated the database
                   dayjs(friend.lastActive).toISOString() !==

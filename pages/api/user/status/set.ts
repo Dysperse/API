@@ -18,10 +18,14 @@ export default async function handler(req, res) {
   try {
     validateParams(req.query, ["userIdentifier", "email"]);
 
-    const until = dayjs(req.query.start)
-      .tz(req.query.timeZone)
-      .add(req.query.until, "minutes")
-      .toDate();
+    console.log("recieved!");
+
+    const until = req.query.until
+      ? dayjs(req.query.start)
+          .tz(req.query.timeZone)
+          .add(req.query.until, "minutes")
+          .toDate()
+      : null;
 
     const status = {
       status: req.query.status,
