@@ -239,8 +239,6 @@ export function WidgetBar({ view, setView }) {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  const [wakeLock, setWakeLock] = useState<null | WakeLockSentinel>(null);
-
   const focusToolsStyles = useMemo(
     () => ({
       button: {
@@ -298,26 +296,6 @@ export function WidgetBar({ view, setView }) {
   ]);
 
   useEffect(() => {
-    if (
-      document.hasFocus() &&
-      process.env.NODE_ENV === "production" &&
-      view === "priority"
-    ) {
-      try {
-        navigator.wakeLock.request("screen").then((e: any) => {
-          setWakeLock(e);
-          document.addEventListener("visibilitychange", async () => {
-            if (wakeLock !== null && document.visibilityState === "visible") {
-              const f = await navigator.wakeLock.request("screen");
-              setWakeLock(f);
-            }
-          });
-        });
-      } catch (e) {}
-    }
-  }, [wakeLock, view]);
-
-  useEffect(() => {
     document.body.classList[view === "priority" ? "add" : "remove"](
       "priorityMode"
     );
@@ -336,12 +314,7 @@ export function WidgetBar({ view, setView }) {
       if (view === "priority") return "Exit focus mode?";
       else return null;
     };
-    if (view !== "priority" && wakeLock && document.hasFocus()) {
-      wakeLock.release().then(() => {
-        setWakeLock(null);
-      });
-    }
-  }, [view, wakeLock, session]);
+  }, [view, session]);
 
   return view === "priority" ? (
     <Box

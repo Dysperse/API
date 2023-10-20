@@ -314,7 +314,6 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 flex: "0 0 100%",
                 color: isDark ? "#fff" : "#000",
                 p: 2,
-                mt: -1,
                 background: { sm: addHslAlpha(palette[1], 0.7) },
                 borderBottom: { sm: "1px solid" },
                 borderColor: { sm: addHslAlpha(palette[4], 0.7) },
