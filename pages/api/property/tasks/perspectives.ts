@@ -15,6 +15,8 @@ interface PerspectiveUnit {
 
 const handler = async (req, res) => {
   try {
+    dayjs.tz.setDefault(req.query.timezone);
+
     await validatePermissions({
       minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
@@ -104,7 +106,7 @@ const handler = async (req, res) => {
     }
 
     for (const task of tasks.filter((task) => task.recurrenceRule === null)) {
-      const due = dayjs(task.due);
+      const due = dayjs(task.due).utc();
       const unit = units.find(({ start, end }) =>
         due.isBetween(start, end, map[type], "[]")
       );
