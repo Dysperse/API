@@ -56,7 +56,7 @@ Dysperse is a revolutionary all-in-one unified productivity platform designed to
   - Create profiles and synchronize contacts and Spotify accounts to enhance your social interactions.
   - Personalize profiles with images, bios, birthdays, names, usernames, locations, hobbies, and working hours.
 
-- **Group collaboration**
+- **Group collaboration** 
   - Dysperse facilitates collaborative efforts through group functionalities.
   - Invite members to groups and collaborate on shared planners and inventory lists.
   - Customize group details including name, color, and type (dorm, apartment, home, study group).
