@@ -333,7 +333,7 @@ export function WidgetBar({ view, setView }) {
         text: "",
         notifyFriendsForStatusUpdates: "false",
       });
-      if (view === "priority") return false;
+      if (view === "priority") return "Exit focus mode?";
       else return null;
     };
     if (view !== "priority" && wakeLock && document.hasFocus()) {
