@@ -137,6 +137,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const handleDoubleClick = () => {
     // Handle the double click logic here
     clearTimeout(timer);
+    setOpen(true);
     setCreateSubTaskOpen(true);
   };
 
