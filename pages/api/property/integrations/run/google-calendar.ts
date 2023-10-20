@@ -47,6 +47,7 @@ export default async function handler(req, res) {
   const taskTemplate = (event, columnId, reminders) => ({
     id: "dysperse-gcal-integration-task-" + event.id,
     name: event.summary,
+    dateOnly: false,
     where: event.hangoutLink || event.location || event.htmlLink,
     lastUpdated: dayjs(event.updated).tz(req.query.timeZone).toDate(),
     due: dayjs(event.start?.dateTime).tz(req.query.timeZone).toDate(),
