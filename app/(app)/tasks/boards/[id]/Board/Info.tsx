@@ -207,7 +207,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
           top: "10px",
           mx: "10px",
           left: "10px",
-          zIndex: 99,
+          zIndex: 999,
           backdropFilter: "blur(10px)",
           background: addHslAlpha(palette[3], 0.4),
           borderRadius: 5,
@@ -487,7 +487,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
             position: "sticky",
             top: 0,
             left: 0,
-            zIndex: 9,
+            zIndex: 99,
           }}
           onMouseOver={() => setHover(true)}
         />
