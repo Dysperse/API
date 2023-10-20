@@ -203,13 +203,13 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
           }
         }}
         sx={{
-          position: "sticky",
+          position: { xs: "static", sm: "sticky" },
           top: "10px",
           mx: "10px",
           left: "10px",
-          zIndex: 999,
+          zIndex: { sm: 999 },
           backdropFilter: "blur(10px)",
-          background: addHslAlpha(palette[3], 0.4),
+          background: { sm: addHslAlpha(palette[3], 0.4) },
           borderRadius: 5,
           p: 3,
           minWidth: "300px",
@@ -220,7 +220,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
             transition: "all .2s",
           },
           "&:hover .collapse": {
-            opacity: 1,
+            opacity: { sm: 1 },
           },
           ...(!showInfo && {
             transition: "margin .2s, transform .2s",
