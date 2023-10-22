@@ -356,18 +356,7 @@ export const MenuChildren = memo(function MenuChildren({
               )
           )}
         </Box>
-        <Box
-          sx={{
-            transition: "all .2s",
-            transformOrigin: "top",
-            ...(editMode && {
-              opacity: 0.6,
-              filter: "blur(3px)",
-              transform: "scale(.97)",
-              pointerEvents: "none",
-            }),
-          }}
-        >
+        <Box>
           {boards.shared.length > 0 && (
             <Divider sx={taskStyles(palette).divider} />
           )}
@@ -375,7 +364,12 @@ export const MenuChildren = memo(function MenuChildren({
             <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
           )}
           {boards.shared.map((board) => (
-            <Tab key={board.id} styles={buttonStyles} board={board} />
+            <Tab
+              editMode={editMode}
+              key={board.id}
+              styles={buttonStyles}
+              board={board}
+            />
           ))}
           {(editMode || hiddenPerspectives.length !== 6) && (
             <Divider sx={taskStyles(palette).divider} />
@@ -386,7 +380,12 @@ export const MenuChildren = memo(function MenuChildren({
             Boards
           </Typography>
           {boards.active.map((board) => (
-            <Tab key={board.id} styles={buttonStyles} board={board} />
+            <Tab
+              editMode={editMode}
+              key={board.id}
+              styles={buttonStyles}
+              board={board}
+            />
           ))}
           {isLoading && (
             <Box sx={{ px: 1 }}>

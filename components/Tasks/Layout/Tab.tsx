@@ -1,15 +1,19 @@
 import { recentlyAccessed } from "@/app/(app)/tasks/recently-accessed";
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Button, Icon } from "@mui/material";
+import { Box, Button, Icon, IconButton } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
 
-export const Tab = React.memo(function Tab({ styles, board }: any) {
+export const Tab = React.memo(function Tab({ editMode, styles, board }: any) {
   const router = useRouter();
   const pathname = usePathname();
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const greenPalette = useColor("green", useDarkMode(session.darkMode));
+  const redPalette = useColor("red", useDarkMode(session.darkMode));
   const isActive = pathname?.includes(board.id);
 
   const handleClick = () => {
@@ -26,7 +30,25 @@ export const Tab = React.memo(function Tab({ styles, board }: any) {
     board.columns.reduce((acc, current) => acc + current._count.tasks, 0);
 
   return (
-    <span>
+    <Box sx={{ display: "flex" }}>
+      <ConfirmationModal
+        title="Delete board?"
+        question="Items within will also be deleted. This action cannot be undone!"
+        buttonText="Delete"
+        callback={async () => {
+          toast("Coming soon!");
+        }}
+      >
+        <IconButton
+          sx={{
+            opacity: editMode ? 1 : 0,
+            transition: "opacity .4s",
+            color: redPalette[10],
+          }}
+        >
+          <Icon>delete</Icon>
+        </IconButton>
+      </ConfirmationModal>
       <Button
         size="large"
         onClick={handleClick}
@@ -86,6 +108,6 @@ export const Tab = React.memo(function Tab({ styles, board }: any) {
           </Box>
         </Box>
       </Button>
-    </span>
+    </Box>
   );
 });
