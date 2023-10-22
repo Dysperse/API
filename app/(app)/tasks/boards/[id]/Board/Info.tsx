@@ -225,7 +225,9 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
           },
           ...(!showInfo && {
             transition: "margin .3s, transform .3s ease",
-            transform: isHovered ? "translateX(0)" : "translateX(-300px)",
+            transform: isHovered
+              ? "translateX(0) scale(1)"
+              : "translateX(-290px) scale(.95)",
             mr: "-320px",
           }),
         }}
