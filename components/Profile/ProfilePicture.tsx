@@ -16,9 +16,9 @@ export function ProfilePicture({
   darkMode?: "dark" | "light" | "system";
   avatarComponentOnly?: boolean;
 }) {
-  const { session } = useSession();
+  const session = useSession();
 
-  const isDark = useDarkMode(session?.darkMode || darkMode);
+  const isDark = useDarkMode(session?.session?.darkMode || darkMode);
   const palette = useColor(data?.color || "gray", isDark);
   const hexColors = colors[(data?.color || "gray") + "Dark"];
 
