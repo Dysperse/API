@@ -86,11 +86,13 @@ const handler = async (req, res) => {
     // Populate the tasks for each perspective unit
     for (const task of recurringTasks) {
       if (!task.recurrenceRule) continue;
+      console.log(task.recurrenceRule);
       const rule = RRule.fromString(
         `DTSTART:${start.format("YYYYMMDDTHHmmss[Z]")}\n` +
           (task.recurrenceRule.includes("\n")
             ? task.recurrenceRule.split("\n")[1]
-            : task.recurrenceRule)
+            : task.recurrenceRule
+          ).replace(/EXDATE.*(\r\n|\n)/, "")
       ).between(start.toDate(), end.toDate(), true);
 
       for (const dueDate of rule) {
@@ -121,6 +123,7 @@ const handler = async (req, res) => {
       tasks: tasksByUnit.get(unit),
     }));
 
+    console.log(returned);
     res.json(returned);
   } catch (e: any) {
     console.error(e);
