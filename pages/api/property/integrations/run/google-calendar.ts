@@ -49,8 +49,14 @@ export default async function handler(req, res) {
     name: event.summary,
     dateOnly: false,
     where: event.hangoutLink || event.location || event.htmlLink,
-    lastUpdated: dayjs(event.updated).utc().toDate(),
-    due: dayjs(event.start?.dateTime).utc().toDate(),
+    lastUpdated: dayjs(event.updated)
+      .utc()
+      .utcOffset(parseInt(req.query.offset) / 60)
+      .toDate(),
+    due: dayjs(event.start?.dateTime)
+      .utc()
+      .utcOffset(parseInt(req.query.offset) / 60)
+      .toDate(),
     property: { connect: { id: req.query.property } },
     createdBy: {
       connect: { identifier: req.query.userIdentifier },
@@ -115,7 +121,6 @@ export default async function handler(req, res) {
     items = items.filter((event) => !event?.iCalUID?.includes("dysperse-task"));
 
     const reminders = calendar.defaultReminders?.map((e) => e.minutes) || [10];
-
     try {
       prisma.column.upsert({
         where: {
@@ -135,6 +140,16 @@ export default async function handler(req, res) {
       // Loop through the calendar events
       for (const item of items) {
         const taskId = "dysperse-gcal-integration-task-" + item.id;
+
+        if (item.iCalUID === "evt-deZr9YXilas9HOf@events.lu.ma") {
+          console.log(item);
+          console.log(
+            dayjs
+              .utc(item.start.dateTime)
+              .utcOffset(parseInt(req.query.offset) / 60)
+              .toDate()
+          );
+        }
 
         await prisma.task.upsert({
           where: {

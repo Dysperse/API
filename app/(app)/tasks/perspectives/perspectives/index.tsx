@@ -417,6 +417,7 @@ export function Agenda({ type, date }) {
     "property/tasks/perspectives",
     {
       timezone: session.user.timeZone,
+      utcOffset: dayjs().utcOffset(),
       start: start.toISOString(),
       end: end.toISOString(),
       type: columnMap1[type],

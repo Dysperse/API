@@ -94,7 +94,9 @@ const handler = async (req, res) => {
       ).between(start.toDate(), end.toDate(), true);
 
       for (const dueDate of rule) {
-        const due = dayjs(dueDate);
+        const due = dayjs(dueDate)
+          .utc()
+          .utcOffset(parseInt(req.query.utcOffset) / 60);
         const unit = units.find(({ start, end }) =>
           due.isBetween(start, end, map[type], "[]")
         );
@@ -104,7 +106,9 @@ const handler = async (req, res) => {
     }
 
     for (const task of tasks.filter((task) => task.recurrenceRule === null)) {
-      const due = dayjs(task.due).utc();
+      const due = dayjs(task.due)
+        .utc()
+        .utcOffset(parseInt(req.query.utcOffset) / 60);
       const unit = units.find(({ start, end }) =>
         due.isBetween(start, end, map[type], "[]")
       );
