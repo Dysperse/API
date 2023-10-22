@@ -323,6 +323,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                 borderColor: { sm: addHslAlpha(palette[4], 0.7) },
                 userSelect: "none",
                 zIndex: 9,
+                mt: { xs: -1, sm: 0 },
                 backdropFilter: { md: "blur(2px)" },
                 position: "sticky",
                 top: 0,
