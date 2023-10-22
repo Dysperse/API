@@ -288,9 +288,13 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
           width: "100%",
           flex: { xs: "0 0 100%", sm: "0 0 340px" },
           maxWidth: "100vw",
+          overflowX: "hidden",
         }}
       >
-        <Box ref={emblaRef} sx={{ width: { xs: "100dvw", sm: "auto" } }}>
+        <Box
+          ref={emblaRef}
+          sx={{ width: { xs: "100dvw", sm: "auto" }, overflowX: "hidden" }}
+        >
           <Box sx={{ display: "flex" }}>
             {isMobile && (
               <Box
