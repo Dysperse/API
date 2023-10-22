@@ -1,10 +1,10 @@
 "use client"; // Error components must be Client Components
 
+import { ErrorModal } from "@/app/(auth)/auth/errorModal";
 import { Emoji } from "@/components/Emoji";
 import { Box, Button, Icon, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { ErrorModal } from "../(auth)/auth/errorModal";
 
 export default function Error({
   error,
@@ -13,6 +13,8 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
@@ -26,6 +28,8 @@ export default function Error({
       toast.error("Something went wrong. Please try again later");
     }
   };
+
+  const openDebug = () => setShowAdvanced(true);
 
   return (
     <>

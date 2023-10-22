@@ -115,7 +115,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
   const descriptionRef: any = useRef();
   const { session } = useSession();
 
-  const [isHovered, setHover] = useState(false);
+  const [isHovered, setHover] = useState(true);
 
   useEffect(() => {
     if (!descriptionRef.current || !descriptionRef.current || !board) return;
@@ -198,6 +198,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
       <Box
         onClick={(e) => {
           if (e.detail === 2 && !isMobile) {
+            setHover(true);
             setShowInfo((s) => !s);
             localStorage.setItem("showInfo", showInfo ? "true" : "false");
           }
@@ -223,7 +224,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
             opacity: { sm: 1 },
           },
           ...(!showInfo && {
-            transition: "margin .2s, transform .2s",
+            transition: "margin .3s, transform .3s ease",
             transform: isHovered ? "translateX(0)" : "translateX(-300px)",
             mr: "-320px",
           }),
@@ -232,6 +233,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
       >
         <IconButton
           onClick={() => {
+            setHover(true);
             localStorage.setItem("showInfo", showInfo ? "false" : "true");
             setShowInfo((s) => !s);
           }}
