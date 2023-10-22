@@ -168,7 +168,7 @@ export const Header = memo(function Header({
                   pt: { xs: 2, sm: 4 },
                   maxWidth: "100dvw",
                   mb: { xs: 0, sm: 2 },
-                  borderBottom: { sm: "1.5px solid" },
+                  borderBottom: { sm: "2px solid" },
                   borderColor: { sm: addHslAlpha(palette[4], 0.5) },
                   height: "auto",
                 }}

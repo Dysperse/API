@@ -258,7 +258,7 @@ const Column = React.memo(function Column({
         height: "auto",
         flex: { xs: "0 0 100%", sm: "0 0 320px" },
         width: { xs: "100%", sm: "320px" },
-        borderRight: { sm: "1.5px solid" },
+        borderRight: { sm: "2px solid" },
         ...(!isMobile && {
           overflowY: "auto",
         }),
@@ -273,7 +273,7 @@ const Column = React.memo(function Column({
             },
           }),
         ...(view === "priority" && {
-          borderLeft: "1.5px solid",
+          borderLeft: "2px solid",
         }),
         borderColor: { sm: addHslAlpha(palette[4], 0.5) },
       }}

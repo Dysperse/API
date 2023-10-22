@@ -93,7 +93,7 @@ function PerspectivesLoadingScreen(): any {
       <Box
         key={i}
         sx={{
-          borderRight: `1px solid ${addHslAlpha(palette[4], 0.5)}`,
+          borderRight: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
           width: { xs: "100%", sm: "320px" },
           flex: { xs: "0 0 100%", sm: "0 0 320px" },
           pt: { xs: "var(--navbar-height)", sm: 0 },
@@ -104,7 +104,7 @@ function PerspectivesLoadingScreen(): any {
           sx={{
             px: 3,
             py: { xs: 3, sm: 4.3 },
-            borderBottom: { sm: `1px solid ${addHslAlpha(palette[4], 0.5)}` },
+            borderBottom: { sm: `2px solid ${addHslAlpha(palette[4], 0.5)}` },
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -497,9 +497,7 @@ export function Agenda({ type, date }) {
               textAlign: "left",
               display: { xs: "none", sm: "flex" },
               alignItems: "center",
-              borderBottom: `1.5px solid ${
-                palette[view === "priority" ? 3 : 3]
-              }`,
+              borderBottom: `2px solid ${palette[3]}`,
               width: "100%",
               transition: "all .2s",
               WebkitAppRegion: "drag",
@@ -579,14 +577,16 @@ export function Agenda({ type, date }) {
                 borderRadius: 3,
                 WebkitAppRegion: "no-drag",
                 display: "flex",
+                "& .MuiIconButton-root, & .MuiButton-root": {
+                  color: "inherit!important",
+                  borderRadius: 3,
+                  "&:hover": { background: palette[4] + "!important" },
+                  "&:active": { background: palette[5] + "!important" },
+                },
               }}
               className="priority-hidden"
             >
-              <IconButton
-                onClick={handlePrev}
-                id="agendaPrev"
-                sx={{ color: "inherit!important" }}
-              >
+              <IconButton onClick={handlePrev} id="agendaPrev">
                 <Icon className="outlined">arrow_back_ios_new</Icon>
               </IconButton>
               {!isToday && (
@@ -603,17 +603,12 @@ export function Agenda({ type, date }) {
                   size="large"
                   sx={{
                     px: 0,
-                    color: "inherit!important",
                   }}
                 >
                   Today
                 </Button>
               )}
-              <IconButton
-                onClick={handleNext}
-                id="agendaNext"
-                sx={{ color: "inherit!important" }}
-              >
+              <IconButton onClick={handleNext} id="agendaNext">
                 <Icon className="outlined">arrow_forward_ios</Icon>
               </IconButton>
             </Box>
