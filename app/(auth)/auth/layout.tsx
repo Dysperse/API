@@ -1,11 +1,11 @@
 import { useColor } from "@/lib/client/useColor";
-import { Box, CssBaseline } from "@mui/material";
+import { Box, CssBaseline, NoSsr } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Toaster } from "react-hot-toast";
 import "../../(app)/global.scss";
 import { AuthBranding } from "./branding";
 import { AuthClientLayout } from "./client-layout";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 /**
  * Layout for the app, including navbar, sidenav, etc
@@ -16,7 +16,6 @@ export default function Layout({ children }): JSX.Element {
   const palette = useColor("violet", true);
 
   return (
-  <LocalizationProvider dateAdapter={AdapterDayjs}>
     <html lang="en">
       <head>
         <title>Login</title>
@@ -53,10 +52,11 @@ export default function Layout({ children }): JSX.Element {
           <Toaster />
           <AuthBranding />
           <CssBaseline />
-          <AuthClientLayout>{children}</AuthClientLayout>
+          <AuthClientLayout>
+                {children}
+          </AuthClientLayout>
         </Box>
       </body>
     </html>
-    </LocalizationProvider>
   );
 }
