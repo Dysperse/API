@@ -27,6 +27,7 @@ import { base64ToUint8Array } from "./base64ToUint8Array";
  */
 export default function Notifications() {
   const { data, mutate, error } = useSWR(["user/settings/notifications"]);
+  const { setSession } = useSession();
 
   const {
     subscription,
@@ -48,6 +49,7 @@ export default function Notifications() {
     setIsSubscribed(true);
     updateSettings(["notificationSubscription", JSON.stringify(sub)], {
       session,
+      setSession,
     }).then(() => {
       fetchRawApi(session, "/user/settings/notifications/test", {
         subscription: JSON.stringify(sub),
@@ -59,7 +61,7 @@ export default function Notifications() {
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();
     await subscription?.unsubscribe();
-    updateSettings(["notificationSubscription", ""], { session });
+    updateSettings(["notificationSubscription", ""], { session, setSession });
     setSubscription(null);
     setIsSubscribed(false);
   };

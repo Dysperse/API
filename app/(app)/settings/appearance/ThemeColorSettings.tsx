@@ -24,7 +24,7 @@ import themes from "../themes.json";
  */
 
 export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
-  const { session } = useSession();
+  const { session, setSession } = useSession();
   const [open, setOpen] = useState(false);
 
   const [currentTheme, setCurrentTheme] = useState(session?.themeColor);
@@ -277,6 +277,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
               onClick={() => {
                 updateSettings(["color", currentTheme.toLowerCase()], {
                   session,
+                  setSession,
                 });
                 setOpen(false);
               }}

@@ -39,7 +39,7 @@ export function EditProperty({
   children,
   color,
 }: any) {
-  const { session } = useSession();
+  const { session, setSession } = useSession();
 
   const [open, setOpen] = useState<boolean>(false);
   const [name, setName] = useState(
@@ -73,11 +73,15 @@ export function EditProperty({
    */
   const handleCloseMenu = useCallback(
     async (type) => {
-      await updateSettings(["type", type], { session, type: "property" });
+      await updateSettings(["type", type], {
+        session,
+        setSession,
+        type: "property",
+      });
       mutatePropertyData();
       setAnchorEl(null);
     },
-    [session, mutatePropertyData]
+    [session, mutatePropertyData, setSession]
   );
   const isDark = useDarkMode(session.darkMode);
 
@@ -89,11 +93,18 @@ export function EditProperty({
     if (deferredName !== propertyData.profile.name) {
       await updateSettings(["name", deferredName], {
         session,
+        setSession,
         type: "property",
       });
       mutatePropertyData();
     }
-  }, [session, propertyData.profile.name, mutatePropertyData, deferredName]);
+  }, [
+    session,
+    propertyData.profile.name,
+    mutatePropertyData,
+    deferredName,
+    setSession,
+  ]);
 
   const trigger = cloneElement(children, {
     onClick: () => setOpen(!open),
@@ -241,6 +252,7 @@ export function EditProperty({
                   setVanishingTasks(newValue);
                   await updateSettings(["vanishingTasks", newValue], {
                     session,
+                    setSession,
                     type: "property",
                   });
                   mutatePropertyData();

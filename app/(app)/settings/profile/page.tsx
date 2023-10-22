@@ -30,8 +30,7 @@ import Layout from "../layout";
  * Top-level component for the account settings page.
  */
 export default function AppearanceSettings() {
-  const { session } = useSession();
-  const birthdayRef: any = useRef();
+  const { session, setSession } = useSession();
   const fileRef: any = useRef();
   const [name, setName] = useState(session.user.name);
   const handleChange = useCallback((e) => setName(e.target.value), [setName]);
@@ -47,7 +46,8 @@ export default function AppearanceSettings() {
   const [username, setUsername] = useState(session.user.username || "");
 
   const handleSubmit = async () => {
-    if (name.trim() !== "") updateSettings(["name", name], { session });
+    if (name.trim() !== "")
+      updateSettings(["name", name], { session, setSession });
 
     await fetchRawApi(session, "user/profile/update", {
       email: session.user.email,
@@ -60,11 +60,14 @@ export default function AppearanceSettings() {
 
   const handleUsernameSubmit = async () => {
     if (username.trim() !== "") {
-      toast.promise(updateSettings(["username", username], { session }), {
-        loading: "Changing...",
-        success: "Changed!",
-        error: "Something went wrong. Please try again later",
-      });
+      toast.promise(
+        updateSettings(["username", username], { session, setSession }),
+        {
+          loading: "Changing...",
+          success: "Changed!",
+          error: "Something went wrong. Please try again later",
+        }
+      );
     }
   };
 

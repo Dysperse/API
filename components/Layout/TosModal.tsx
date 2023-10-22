@@ -1,14 +1,12 @@
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import { Dialog, DialogContent, Icon, Link, Typography } from "@mui/material";
 import { useState } from "react";
 import { mutate } from "swr";
 
 export default function TosModal() {
-  const { session } = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const { session, setSession } = useSession();
   const [loading, setLoading] = useState(false);
 
   return (
@@ -43,6 +41,7 @@ export default function TosModal() {
               setLoading(true);
               await updateSettings(["agreeTos", "true"], {
                 session,
+                setSession,
                 type: "user",
               });
               await mutate("/api/session");

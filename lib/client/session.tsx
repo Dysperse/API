@@ -4,13 +4,23 @@ import useSWR from "swr";
 
 export const SessionContext = createContext(null);
 export const useSession = () => useContext(SessionContext) as any;
-export const SessionProvider = ({ isLoading, session, children }) => {
+export const SessionProvider = ({
+  isLoading,
+  session,
+  children,
+  setSession,
+}) => {
   return (
-    <SessionContext.Provider value={{ session, isLoading } as any}>
+    <SessionContext.Provider value={{ session, setSession, isLoading } as any}>
       {children}
     </SessionContext.Provider>
   );
 };
+
+export async function mutateSession(setSession) {
+  const data = await fetch("/api/session").then((res) => res.json());
+  setSession(data);
+}
 
 /**
  * Fetches user session data

@@ -2,7 +2,7 @@
 
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Prompt } from "@/components/TwoFactorModal";
-import { useSession } from "@/lib/client/session";
+import { mutateSession, useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Alert, Box, Link, Typography } from "@mui/material";
@@ -10,14 +10,13 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import Layout from "../layout";
 
 /**
  * Top-level component for the two-factor authentication settings page.
  */
 export default function App() {
-  const { session } = useSession();
+  const { session, setSession } = useSession();
   const secret = twofactor.generateSecret({
     name: "Dysperse",
     account: session.user.email,
@@ -46,7 +45,7 @@ export default function App() {
         }
         toast.success("2FA setup successful!");
         setLoading(false);
-        mutate("/api/session");
+        mutateSession(setSession);
       })
       .catch(() => {
         toast.error("Invalid code!");
@@ -56,8 +55,8 @@ export default function App() {
 
   const handleDisable = async () => {
     setLoadingDisable(true);
-    await updateSettings(["twoFactorSecret", false], { session });
-    mutate("/api/session");
+    await updateSettings(["twoFactorSecret", false], { session, setSession });
+    mutateSession(setSession);
     setLoadingDisable(false);
   };
 

@@ -3,7 +3,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { Color } from "@/components/Group/Color";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { useSession } from "@/lib/client/session";
+import { mutateSession, useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
 import {
   Alert,
@@ -30,7 +30,7 @@ import useSWR, { mutate } from "swr";
 import { SpacesLayout } from "../SpacesLayout";
 
 export default function Page() {
-  const { session } = useSession();
+  const { session, setSession } = useSession();
   const params = useParams();
   const { id } = params as any;
 
@@ -65,19 +65,27 @@ export default function Page() {
   );
   const handleCloseMenu = useCallback(
     async (type) => {
-      await updateSettings(["type", type], { session, type: "property" });
-      await mutate("/api/session");
+      await updateSettings(["type", type], {
+        session,
+        setSession,
+        type: "property",
+      });
+      await mutateSession(setSession);
       setAnchorEl(null);
     },
-    [session]
+    [session, setSession]
   );
 
   const handleUpdateName = useCallback(async () => {
     if (name !== data?.profile?.name) {
-      await updateSettings(["name", name], { session, type: "property" });
-      mutate("/api/session");
+      await updateSettings(["name", name], {
+        session,
+        setSession,
+        type: "property",
+      });
+      await mutateSession(setSession);
     }
-  }, [session, name, data]);
+  }, [session, name, data, setSession]);
 
   return (
     <SpacesLayout title="Edit">
@@ -206,6 +214,7 @@ export default function Page() {
                     setVanishingTasks(newValue);
                     await updateSettings(["vanishingTasks", newValue], {
                       session,
+                      setSession,
                       type: "property",
                     });
                     mutateData();

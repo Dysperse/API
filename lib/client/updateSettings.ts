@@ -1,10 +1,12 @@
 import toast from "react-hot-toast";
 import { mutate } from "swr";
 import { fetchRawApi } from "./useApi";
+import { mutateSession } from "./session";
 
 type SettingsUpdateParams = [key: string, value: string | boolean];
 interface SettingsUpdateConfig {
   session: any;
+  setSession:any,
   type?: "user" | "property";
 }
 
@@ -13,7 +15,7 @@ export async function updateSettings(
   config: SettingsUpdateConfig
 ) {
   try {
-    const { session } = config;
+    const { session,setSession } = config;
     let type = config.type || "user";
 
     const endpoint = type === "user" ? "user/settings/edit" : "property/edit";
@@ -29,7 +31,7 @@ export async function updateSettings(
     };
 
     const res = await fetchRawApi(session, endpoint, params);
-    await mutate("/api/session");
+    await mutateSession(setSession);
     return res;
   } catch (e) {
     toast.error("Couldn't save changes. Please try again later");

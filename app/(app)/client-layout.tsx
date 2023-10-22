@@ -78,6 +78,7 @@ export default function ClientLayout({ children, session }) {
   const palette = useColor(session.themeColor, isDark);
 
   const [dismissed, setDismissed] = useState<boolean>(false);
+  const [_session,_setSession] = useState(session)
 
   const [isReached, setIsReached]: any =
     useState<AccountStorageState>("loading");
@@ -127,7 +128,7 @@ export default function ClientLayout({ children, session }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <SWRConfig value={{ fetcher: (d) => fetcher(d, session) }}>
-        <SessionProvider session={session} isLoading={false}>
+        <SessionProvider session={_session} setSession={_setSession} isLoading={false}>
           <StorageContext.Provider value={{ isReached, setIsReached }}>
             <ThemeProvider theme={userTheme}>
               <Toaster containerClassName="noDrag" toastOptions={toastStyles} />

@@ -19,13 +19,13 @@ export function Color({
   s: string;
   color: string;
 }) {
-  const { session } = useSession();
+  const { session,setSession } = useSession();
   const invertColors = ["lime", "cyan", "green", "teal", "blue"].includes(
     color
   );
 
   const handleClick = async () => {
-    await updateSettings(["color", color], { session, type: "property" });
+    await updateSettings(["color", color], { session,setSession, type: "property" });
     mutatePropertyData();
   };
 

@@ -1,7 +1,7 @@
 "use client";
 import { ErrorHandler } from "@/components/Error";
 import { Loading } from "@/components/Layout/Loading";
-import { useUser } from "@/lib/client/session";
+import { mutateSession, useSession, useUser } from "@/lib/client/session";
 import { useColor } from "@/lib/client/useColor";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
@@ -15,11 +15,12 @@ import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 const popup = require("window-popup").windowPopup;
 
 export default function Onboarding() {
   const { data: session, error } = useUser();
+  const { setSession } = useSession();
   const router = useRouter();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -54,7 +55,7 @@ export default function Onboarding() {
           })
       )
         .then(() => {
-          mutate("/api/session");
+          mutateSession(setSession);
           router.push("/");
           setLoading(false);
         })

@@ -58,7 +58,7 @@ export const useNotificationSubscription = () => {
 };
 
 export default function NotificationsPrompt() {
-  const { session } = useSession();
+  const { session, setSession } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [open, setOpen] = useState(false);
@@ -92,6 +92,7 @@ export default function NotificationsPrompt() {
       });
       await updateSettings(["notificationSubscription", JSON.stringify(sub)], {
         session,
+        setSession,
       });
       await fetchRawApi(session, "/user/settings/notifications/test", {
         subscription: session.user.notificationSubscription,
