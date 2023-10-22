@@ -62,6 +62,9 @@ export default async function handler(req, res) {
       connect: { identifier: req.query.userIdentifier },
     },
     column: { connect: { id: columnId } },
+    ...(event?.recurrence?.[0] && {
+      recurrenceRule: event?.recurrence?.[0],
+    }),
     notifications: [
       ...new Set(
         [
@@ -140,16 +143,6 @@ export default async function handler(req, res) {
       // Loop through the calendar events
       for (const item of items) {
         const taskId = "dysperse-gcal-integration-task-" + item.id;
-
-        if (item.iCalUID === "evt-deZr9YXilas9HOf@events.lu.ma") {
-          console.log(item);
-          console.log(
-            dayjs
-              .utc(item.start.dateTime)
-              .utcOffset(parseInt(req.query.offset) / 60)
-              .toDate()
-          );
-        }
 
         await prisma.task.upsert({
           where: {
