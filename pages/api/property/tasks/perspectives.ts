@@ -86,14 +86,15 @@ const handler = async (req, res) => {
     // Populate the tasks for each perspective unit
     for (const task of recurringTasks) {
       if (!task.recurrenceRule) continue;
-      console.log(task.recurrenceRule);
       const rule = RRule.fromString(
         `DTSTART:${start.format("YYYYMMDDTHHmmss[Z]")}\n` +
           (task.recurrenceRule.includes("\n")
             ? task.recurrenceRule.split("\n")[1]
             : task.recurrenceRule
-          ).replace(/EXDATE.*(\r\n|\n)/, "")
+          ).replace(/^EXDATE.*$/, "")
       ).between(start.toDate(), end.toDate(), true);
+
+      console.log(rule);
 
       for (const dueDate of rule) {
         const due = dayjs(dueDate)

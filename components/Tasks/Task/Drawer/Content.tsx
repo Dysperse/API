@@ -100,7 +100,9 @@ export default function DrawerContent({
         .startOf("day")
         .toDate();
       const endDate = dayjs(task.recurringInstance).utc().endOf("day").toDate();
-      const rule = RRule.fromString(task.recurrenceRule);
+      const rule = RRule.fromString(
+        task.recurrenceRule.replace(/^EXDATE.*$/, "")
+      );
       const dates = rule.between(startDate, endDate);
       const iteration = dayjs(dates[0]).startOf("day").utc();
 
@@ -393,7 +395,9 @@ export default function DrawerContent({
                 label={
                   isRecurring
                     ? capitalizeFirstLetter(
-                        RRule.fromString(task.recurrenceRule).toText()
+                        RRule.fromString(
+                          task.recurrenceRule.replace(/^EXDATE.*$/, "")
+                        ).toText()
                       )
                     : task.due
                     ? dayjs(task.due).format(

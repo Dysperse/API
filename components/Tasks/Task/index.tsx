@@ -115,7 +115,9 @@ const TaskChips = React.memo(function TaskChips({
       {isRecurring && !isSubTask && (
         <Tooltip
           title={capitalizeFirstLetter(
-            RRule.fromString(taskData.recurrenceRule).toText()
+            RRule.fromString(
+              taskData.recurrenceRule.replace(/^EXDATE.*$/, "")
+            ).toText()
           )}
         >
           <Chip icon={<Icon>loop</Icon>} size="small" label="Repeats" />
