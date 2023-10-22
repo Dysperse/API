@@ -21,7 +21,6 @@ import {
   createContext,
   memo,
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -30,7 +29,6 @@ import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { WidgetBar } from "../../../../../components/Tasks/Layout/widgets";
 import SelectDateModal from "../../../../../components/Tasks/Task/DatePicker";
-import { TasksContext } from "../../context";
 import Column from "./Column";
 
 export const PerspectiveContext = createContext<any>(null);
@@ -454,7 +452,6 @@ export function Agenda({ type, date }) {
   });
 
   const pathname = usePathname();
-  const tasksContext = useContext(TasksContext);
 
   const isToday =
     pathname ===
