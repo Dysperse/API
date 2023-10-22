@@ -1,7 +1,5 @@
 import { useColor } from "@/lib/client/useColor";
-import { Box, CssBaseline, NoSsr } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Box, CssBaseline } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 import "../../(app)/global.scss";
 import { AuthBranding } from "./branding";
@@ -23,6 +21,10 @@ export default function Layout({ children }): JSX.Element {
           rel="preload"
           as="style"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+        />
+        <link
+          rel="shortcut icon"
+          href="https://assets.dysperse.com/v9/android/android-launchericon-48-48.png"
         />
         <link
           rel="stylesheet"
@@ -52,9 +54,7 @@ export default function Layout({ children }): JSX.Element {
           <Toaster />
           <AuthBranding />
           <CssBaseline />
-          <AuthClientLayout>
-                {children}
-          </AuthClientLayout>
+          <AuthClientLayout>{children}</AuthClientLayout>
         </Box>
       </body>
     </html>

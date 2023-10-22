@@ -312,7 +312,7 @@ function StepTwo({ styles, formData, setFormData, setStep }) {
         }}
       >
         Hey,{" "}
-        <span style={{ minWidth: 0 }}>{formData.name.split(" ")?.[0]}</span>!
+        <span style={{ minWidth: 0 }}>{formData.name.split(" ")?.[0]}!</span>
         <Emoji emoji="1f389" size="40" />
       </Typography>
       <Typography variant="h6" sx={styles.subheading}>
