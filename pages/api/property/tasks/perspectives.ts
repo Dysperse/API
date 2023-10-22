@@ -15,8 +15,6 @@ interface PerspectiveUnit {
 
 const handler = async (req, res) => {
   try {
-    dayjs.tz.setDefault(req.query.timezone);
-
     await validatePermissions({
       minimum: "read-only",
       credentials: [req.query.property, req.query.accessToken],
