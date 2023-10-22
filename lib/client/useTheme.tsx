@@ -49,7 +49,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
     components: {
       MuiCssBaseline: {
         styleOverrides: {
-          body: {
+          html: {
             "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
               backgroundColor: "transparent",
               minWidth: "12px",
