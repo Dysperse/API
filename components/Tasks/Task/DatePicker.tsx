@@ -38,6 +38,7 @@ function ServerDay(
         {...other}
         outsideCurrentMonth={outsideCurrentMonth}
         day={day}
+        sx={{ fontSize: 14 }}
       />
       <Box
         sx={{
@@ -287,6 +288,40 @@ const SelectDateModal = React.memo(function SelectDateModal({
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
           >
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                px: 4,
+                mt: 3,
+                "&::-webkit-scrollbar": { display: "none" },
+                overflow: "scroll",
+                maxWidth: "100%",
+              }}
+            >
+              {[
+                { label: "Today", date: dayjs(today) },
+                { label: "Tomorrow", date: dayjs(today).add(1, "day") },
+                {
+                  label: `Next ${dayjs().format("dddd")}`,
+                  date: dayjs(today).add(1, "week"),
+                },
+                {
+                  label: `Next ${dayjs().format("MMMM")}`,
+                  date: dayjs(today).add(1, "month"),
+                },
+              ].map((chip) => (
+                <Chip
+                  label={chip.label}
+                  key={chip.label}
+                  onClick={() => {
+                    setDate(chip.date.toDate());
+                    setTimeOpen(false);
+                    closeOnSelect && setOpen(false);
+                  }}
+                />
+              ))}
+            </Box>
             {type === "day" ? (
               <DateCalendar
                 defaultValue={initialValue}
@@ -361,37 +396,6 @@ const SelectDateModal = React.memo(function SelectDateModal({
               width: "100%",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                gap: 2,
-                overflow: "scroll",
-                maxWidth: "100%",
-              }}
-            >
-              {[
-                { label: "Today", date: dayjs(today) },
-                { label: "Tomorrow", date: dayjs(today).add(1, "day") },
-                {
-                  label: `Next ${dayjs().format("dddd")}`,
-                  date: dayjs(today).add(1, "week"),
-                },
-                {
-                  label: `Next ${dayjs().format("MMMM")}`,
-                  date: dayjs(today).add(1, "month"),
-                },
-              ].map((chip) => (
-                <Chip
-                  label={chip.label}
-                  key={chip.label}
-                  onClick={() => {
-                    setDate(chip.date.toDate());
-                    setTimeOpen(false);
-                    closeOnSelect && setOpen(false);
-                  }}
-                />
-              ))}
-            </Box>
             <Button
               disableRipple
               fullWidth
