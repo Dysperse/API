@@ -444,7 +444,6 @@ export const Task: any = React.memo(function Task({
           tabIndex={0}
           className="cursor-unset item"
           sx={{
-            color: colors["grey"][isDark ? "A100" : "800"],
             ...(taskData.name === taskData.name.toUpperCase() &&
               !isCompleted && {
                 mb: 0.5,
@@ -511,11 +510,15 @@ export const Task: any = React.memo(function Task({
                 sx={{
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  fontWeight: 200,
+                  fontWeight: 400,
                   whiteSpace: "nowrap",
                   ...(isCompleted && {
                     textDecoration: "line-through",
                     opacity: 0.6,
+                  }),
+                  color: palette[12],
+                  ...(taskData.color !== "grey" && {
+                    color: colors[taskData.color][isDark ? "A100" : "800"],
                   }),
                   textDecorationThickness: "2px",
                 }}
@@ -530,6 +533,7 @@ export const Task: any = React.memo(function Task({
                   sx={{
                     whiteSpace: "nowrap",
                     overflow: "hidden",
+                    fontWeight: 300,
                     textOverflow: "ellipsis",
                     ...(isCompleted && {
                       textDecoration: "line-through",
