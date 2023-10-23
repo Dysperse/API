@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Work+Sans:wght@300;400;500;600;700&display=swap');
 
 /* Ensure immediate display of content with system fonts */
 body {
@@ -136,7 +136,7 @@ img {
   ):not(.outlined):not(.material-symbols-rounded) {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  font-family: "Space Grotesk", sans-serif !important;
+  font-family: "Work Sans", sans-serif !important;
 }
 
 .font-heading,

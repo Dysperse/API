@@ -4,17 +4,30 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Button, Icon, Typography, useMediaQuery } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Icon,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  cloneElement,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Virtuoso } from "react-virtuoso";
 import { PerspectiveContext, sortedTasks } from ".";
 import { Task } from "../../../../../components/Tasks/Task";
 import { CreateTask } from "../../../../../components/Tasks/Task/Create";
 import { Header } from "./Header";
 
-function RandomTask({ date }) {
+function RandomTask({ children, date }) {
   const taskIdeas = [
     {
       name: "Write a Poem",
@@ -173,6 +186,11 @@ function RandomTask({ date }) {
     setRandom(Math.floor(Math.random() * taskIdeas.length));
   };
 
+  const trigger = cloneElement(children, {
+    onTouchStart: handleClick,
+    onMouseDown: handleClick,
+  });
+
   return (
     <CreateTask
       defaultDate={date}
@@ -183,13 +201,7 @@ function RandomTask({ date }) {
       }}
       disableBadge
     >
-      <Button
-        onTouchStart={handleClick}
-        onMouseDown={handleClick}
-        variant="contained"
-      >
-        <Icon className="outlined">casino</Icon>Random
-      </Button>
+      {trigger}
     </CreateTask>
   );
 }
@@ -276,75 +288,78 @@ const Column = React.memo(function Column({
         columnEnd={columnEnd}
       />
       <Box sx={{ px: { sm: 1 } }}>
-        {data?.length == 0 && (
-          <Box
-            sx={{
+        <Box
+          sx={{
+            display: data?.length == 0 ? "flex" : "none",
+            justifyContent: "center",
+            mx: "auto",
+            py: { sm: 2 },
+            px: { xs: 3, sm: 2 },
+            alignItems: { xs: "center", sm: "start" },
+            textAlign: { xs: "center", sm: "left" },
+            flexDirection: "column",
+          }}
+        >
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            style={{
+              alignItems: "center",
               display: "flex",
-              justifyContent: "center",
-              mx: "auto",
-              py: { sm: 2 },
-              px: 3,
-              alignItems: { xs: "center", sm: "start" },
-              textAlign: { xs: "center", sm: "left" },
               flexDirection: "column",
-              "& img": {
-                display: { sm: "none" },
-              },
+              width: "100%",
             }}
           >
-            <motion.div
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              style={{
-                alignItems: "center",
-                display: "flex",
-                flexDirection: "column",
+            <Box
+              sx={{
                 width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                background: palette[2],
+                border: `2px solid ${palette[3]}`,
+                borderRadius: 5,
+                py: 5,
+                px: 4,
+                gap: 2,
+                mt: { xs: 2, sm: -2 },
               }}
             >
+              <Avatar sx={{ width: 70, height: 70 }}>
+                <Emoji emoji="1f389" size={30} />
+              </Avatar>
+              <Typography
+                variant="h5"
+                sx={{ display: "flex", alignItems: "center", gap: 2 }}
+              >
+                {data.length === 0 ? "No tasks!" : "You finished everything!"}
+              </Typography>
               <Box
                 sx={{
-                  width: "100%",
                   display: "flex",
-                  justifyContent: "center",
+                  gap: 1.5,
                   alignItems: "center",
-                  flexDirection: "column",
-                  background: palette[2],
-                  border: `2px solid ${palette[3]}`,
-                  borderRadius: 5,
-                  py: 5,
-                  px: 4,
-                  gap: 2,
-                  mt: 2,
                 }}
               >
-                <Typography
-                  variant="h5"
-                  sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                <RandomTask date={column}>
+                  <Button variant="outlined" sx={{ px: 2 }}>
+                    <Icon className="outlined">casino</Icon>
+                  </Button>
+                </RandomTask>
+                <CreateTask
+                  onSuccess={mutateList}
+                  defaultDate={dayjs(column).utc().toDate()}
                 >
-                  {data.length === 0 ? "No tasks!" : "You finished everything!"}
-                  <Emoji emoji="1f389" size={25} />
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 1.5,
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <CreateTask>
-                    <Button variant="contained">
-                      <Icon>add</Icon>New
-                    </Button>
-                  </CreateTask>
-                  <RandomTask date={column} />
-                </Box>
+                  <Button variant="contained" sx={{ px: 2 }}>
+                    <Icon className="outlined">add_circle</Icon>New
+                  </Button>
+                </CreateTask>
               </Box>
-            </motion.div>
-          </Box>
-        )}
+            </Box>
+          </motion.div>
+        </Box>
         <Virtuoso
           initialItemCount={data.length < 10 ? data.length : 10}
           useWindowScroll

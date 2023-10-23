@@ -320,35 +320,35 @@ export const Header = memo(function Header({
             )}
           </Box>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            gap: 2,
-            px: 3,
-            pb: 2,
-            justifyContent: "center",
-          }}
-        >
-          {session.permission !== "read-only" && (
-            <CreateTask
-              onSuccess={mutateList}
-              defaultDate={dayjs(column).utc().toDate()}
-              sx={{ flexGrow: 1 }}
-            >
-              <Button variant="contained" fullWidth sx={{ width: "100%" }}>
-                <Icon>add_circle</Icon>
-                New task
-              </Button>
-            </CreateTask>
-          )}
-          {sortedTasks.length > 0 && (
+        {sortedTasks.length > 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              px: 3,
+              pb: 2,
+              justifyContent: "center",
+            }}
+          >
+            {session.permission !== "read-only" && (
+              <CreateTask
+                onSuccess={mutateList}
+                defaultDate={dayjs(column).utc().toDate()}
+                sx={{ flexGrow: 1 }}
+              >
+                <Button variant="contained" fullWidth sx={{ width: "100%" }}>
+                  <Icon>add_circle</Icon>
+                  New task
+                </Button>
+              </CreateTask>
+            )}
             <ColumnMenu data={sortedTasks} day={column}>
               <Button variant="outlined" size="small">
                 <Icon>more_horiz</Icon>
               </Button>
             </ColumnMenu>
-          )}
-        </Box>
+          </Box>
+        )}
       </motion.div>
     </Box>
   );

@@ -161,10 +161,7 @@ export default function AddFriend() {
             key="3"
           >
             {pendingData?.length === 0 && (
-              <Alert
-                icon={<Icon sx={{ color: palette[11] }}>person_add</Icon>}
-                sx={{ background: palette[3] }}
-              >
+              <Alert icon={<Icon sx={{ color: palette[11] }}>person_add</Icon>}>
                 Pending requests will appear here
               </Alert>
             )}
@@ -202,10 +199,7 @@ export default function AddFriend() {
             key="2"
           >
             {data?.length === 0 && (
-              <Alert
-                icon={<Icon sx={{ color: palette[11] }}>person_add</Icon>}
-                sx={{ background: palette[3] }}
-              >
+              <Alert icon={<Icon sx={{ color: palette[11] }}>person_add</Icon>}>
                 People who want to add you will appear here.
               </Alert>
             )}
