@@ -1,15 +1,10 @@
 import { containerRef } from "@/app/(app)/container";
+import { Emoji } from "@/components/Emoji";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import {
-  Box,
-  Icon,
-  IconButton,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Button, Icon, Typography, useMediaQuery } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -188,20 +183,13 @@ function RandomTask({ date }) {
       }}
       disableBadge
     >
-      <IconButton
+      <Button
         onTouchStart={handleClick}
         onMouseDown={handleClick}
-        size="large"
-        sx={{
-          ml: "auto",
-          mr: -1,
-          "&:active": {
-            opacity: 0.6,
-          },
-        }}
+        variant="contained"
       >
-        <Icon className="outlined">casino</Icon>
-      </IconButton>
+        <Icon className="outlined">casino</Icon>Random
+      </Button>
     </CreateTask>
   );
 }
@@ -295,6 +283,7 @@ const Column = React.memo(function Column({
               justifyContent: "center",
               mx: "auto",
               py: { sm: 2 },
+              px: 3,
               alignItems: { xs: "center", sm: "start" },
               textAlign: { xs: "center", sm: "left" },
               flexDirection: "column",
@@ -316,22 +305,42 @@ const Column = React.memo(function Column({
             >
               <Box
                 sx={{
-                  maxWidth: "calc(100% - 10px)",
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  flexDirection: "column",
                   background: palette[2],
+                  border: `2px solid ${palette[3]}`,
                   borderRadius: 5,
-                  py: 2,
-                  px: 3,
-                  mt: -1,
+                  py: 5,
+                  px: 4,
+                  gap: 2,
+                  mt: 2,
                 }}
               >
-                <Typography variant="h6">
-                  {data.length === 0 ? "No tasks" : "You finished everything!"}
+                <Typography
+                  variant="h5"
+                  sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                >
+                  {data.length === 0 ? "No tasks!" : "You finished everything!"}
+                  <Emoji emoji="1f389" size={25} />
                 </Typography>
-                <RandomTask date={column} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 1.5,
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <CreateTask>
+                    <Button variant="contained">
+                      <Icon>add</Icon>New
+                    </Button>
+                  </CreateTask>
+                  <RandomTask date={column} />
+                </Box>
               </Box>
             </motion.div>
           </Box>
