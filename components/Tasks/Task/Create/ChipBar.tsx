@@ -154,7 +154,6 @@ export const TaskColorPicker = React.memo(function TaskColorPicker({
           titleRef?.current?.focus();
         }}
         anchor="bottom"
-        variant="outlined"
       >
         <Puller showOnDesktop />
         <Box sx={{ p: 2, pt: 0 }}>
