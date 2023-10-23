@@ -141,7 +141,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               backdropFilter: "blur(10px)",
               borderBottom: "1px solid",
               borderColor: addHslAlpha(palette[3], 0.9),
-              color: darkMode ? "#fff" : "#000",
+              color: palette[12],
             }),
         },
       },
@@ -370,7 +370,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
                 transitionDuration: "300ms",
                 "&.Mui-checked": {
                   transform: "translateX(16px)",
-                  color: "#fff",
+                  color: palette[12],
                   "& + .MuiSwitch-track": {
                     backgroundColor: darkMode ? "#2ECA45" : "#65C466",
                     opacity: 1,
@@ -620,7 +620,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         main: palette[9],
       },
       secondary: {
-        main: "#fff",
+        main: palette[12],
       },
       mode: darkMode ? "dark" : "light",
       background: {
