@@ -294,6 +294,7 @@ const SelectDateModal = React.memo(function SelectDateModal({
                 gap: 2,
                 px: 4,
                 mt: 3,
+                mb: 1,
                 "&::-webkit-scrollbar": { display: "none" },
                 overflow: "scroll",
                 maxWidth: "100%",
