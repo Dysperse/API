@@ -348,12 +348,16 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               gap: 2,
               border: "2px solid",
+              color: palette[11],
+              background: palette[2],
+              borderColor: palette[3],
+              "& svg": {
+                mt: 1,
+                color: palette[10],
+              },
               px: 3,
               py: 2,
               borderRadius: 5,
-              "& svg": {
-                mt: 1,
-              },
             }),
         },
       },
