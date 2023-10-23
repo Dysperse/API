@@ -75,6 +75,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
               backgroundColor: "transparent",
             },
+            "&::selection, & *::selection": {
+              backgroundColor: palette[11],
+              color: palette[1],
+            },
           },
         },
       },
