@@ -142,8 +142,6 @@ export function ShareBoard({ mutate, board }) {
     },
   ]);
 
-  const [value, setValue] = useState("");
-
   return (
     <Box sx={{ p: 2 }}>
       <Box
@@ -154,14 +152,14 @@ export function ShareBoard({ mutate, board }) {
         }}
       >
         <Autocomplete
-          value={value}
+          value={email}
           onChange={(_, e: any) => {
             if (e && typeof e === "object") {
               const email = (e.following || e.follower).email;
               // alert(email);
-              setValue(email);
+              setEmail(email);
             } else {
-              setValue(e);
+              setEmail(e);
             }
           }}
           disablePortal
