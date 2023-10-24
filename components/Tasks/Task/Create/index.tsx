@@ -388,6 +388,9 @@ export function CreateTask({
         sx={styles.button(showedFields.location)}
         onClick={(e) => {
           setShowedFields((s) => ({ ...s, location: !s.location }));
+          if (showedFields.location) {
+            setFormData((s) => ({ ...s, location: "" }));
+          }
           setTimeout(() => locationRef?.current?.focus());
         }}
       >
