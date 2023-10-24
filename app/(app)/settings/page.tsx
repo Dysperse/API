@@ -73,7 +73,11 @@ export default function Page() {
   const sections: SettingsButtons = [
     [
       {
-        icon: <ProfilePicture data={session.user} size={40} />,
+        icon: (
+          <Box>
+            <ProfilePicture data={session.user} size={40} />
+          </Box>
+        ),
         text: session.user.name,
         secondary: "Account settings",
         path: "/settings/profile",

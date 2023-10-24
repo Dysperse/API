@@ -478,6 +478,11 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               color: palette[12],
             }),
+          secondary: ({ theme }) =>
+            theme.unstable_sx({
+              opacity: 0.7,
+              color: palette[12],
+            }),
         },
       },
       MuiListItem: {

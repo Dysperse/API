@@ -51,7 +51,9 @@ export default function Layout({ children }: any) {
                 background: palette[2],
               }}
             >
-              <Icon sx={{ color: palette[9] }}>arrow_back_ios_new</Icon>
+              <Icon sx={{ color: palette[9] }}>
+                {pathname === "/settings" ? "close" : "arrow_back_ios_new"}
+              </Icon>
             </IconButton>
             {pathname !== "/settings" && (
               <Typography sx={{ ml: 2 }}>
