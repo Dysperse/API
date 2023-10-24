@@ -166,13 +166,13 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
     if (emblaApi) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
-          handlePrev();
+          document.getElementById("columnPrev")?.click();
         } else if (e.selectedScrollSnap() === 2) {
-          handleNext();
+          document.getElementById("columnNext")?.click();
         }
       });
     }
-  }, [emblaApi, handlePrev, handleNext]);
+  }, [emblaApi]);
 
   return (
     <motion.div
@@ -350,6 +350,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   >
                     <IconButton
                       size="large"
+                      id="columnPrev"
                       onClick={handlePrev}
                       sx={{ p: 3, color: palette[8] + "!important" }}
                     >
@@ -441,6 +442,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                       onClick={handleNext}
                       sx={{ p: 3, color: palette[8] }}
                       size="large"
+                      id="columnNext"
                     >
                       <Icon className="outlined">
                         {navigation.current === columnLength - 1
