@@ -206,6 +206,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
         sx={{
           position: { xs: "static", sm: "sticky" },
           top: "10px",
+          height: { sm: "calc(100dvh - 25px)" },
           mx: "10px",
           left: "10px",
           zIndex: { sm: 999 },

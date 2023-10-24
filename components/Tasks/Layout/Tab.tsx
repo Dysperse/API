@@ -54,6 +54,7 @@ export const Tab = React.memo(function Tab({ editMode, styles, board }: any) {
       <Button
         size="large"
         onClick={handleClick}
+        onMouseDown={handleClick}
         sx={{
           ...styles(palette, isActive),
           ...(board.archived &&
