@@ -1,163 +1,73 @@
 "use client";
+
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Masonry } from "@mui/lab";
-import {
-  Box,
-  Chip,
-  CircularProgress,
-  LinearProgress,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { LineChart } from "@mui/x-charts/LineChart";
+import { PieChart } from "@mui/x-charts/PieChart";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import React, { useMemo } from "react";
 import useSWR from "swr";
-import { TaskNavbar } from "../navbar";
 
-function hourIntTo12(hour) {
-  const period = hour >= 12 ? "PM" : "AM";
-  const hour12 = hour === 0 || hour === 12 ? 12 : hour % 12;
-  return `${hour12} ${period}`;
-}
-
-function calculatePercentImprovement(prevCount, currentCount) {
-  if (prevCount === 0) {
-    return currentCount === 0 ? "0%" : "+100%";
-  }
-  const improvement = ((currentCount - prevCount) / prevCount) * 100;
-  return improvement >= 0
-    ? `+${improvement.toFixed(2)}%`
-    : `${improvement.toFixed(2)}%`;
-}
-
-function getTasksCompletedInRange(tasks, days) {
-  const endDate = new Date();
-  const startDate = new Date();
-  startDate.setDate(endDate.getDate() - days);
-
-  const tasksCompletedInRange = tasks.filter(
-    (task) =>
-      new Date(task.completedAt) >= startDate &&
-      new Date(task.completedAt) <= endDate
-  );
-
-  return tasksCompletedInRange;
-}
-
-function Insights({ profile, tasks, defaultPalette }) {
+export default function Insights() {
   const { session } = useSession();
-  const router = useRouter();
-
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(defaultPalette || session.themeColor, isDark);
+  const palette = useColor(session.themeColor, isDark);
 
-  const cardStyles = {
-    borderRadius: 5,
-    border: `2px solid ${palette[3]}`,
-    p: 2,
-  };
+  const { data } = useSWR([
+    "property/tasks/insights",
+    { email: session.user.email },
+  ]);
 
-  const hours = useMemo(
-    () =>
-      [...Array(24)].map((_, hour) => ({
-        hour,
-        tasks: tasks.filter(
-          (task) => new Date(task.completedAt).getHours() === hour
-        ).length,
-      })),
-    [tasks]
-  );
+  const tasksCompletedByDate = data
+    ? (() => {
+        const dateCounts = {};
 
-  const mostProductiveHour = hours.reduce((maxHour, currentHour) =>
-    currentHour.tasks > maxHour.tasks ? currentHour : maxHour
-  );
+        for (const task of data) {
+          if (dayjs(task.completedAt).isValid()) {
+            const date = dayjs(task.completedAt).format("YYYY-MM-DD");
+            dateCounts[date] = (dateCounts[date] || 0) + 1;
+          }
+        }
 
-  const mostProductiveDay = Object.entries(
-    tasks.reduce((acc, task) => {
-      const date = new Date(task.completedAt).toLocaleDateString();
-      acc[date] = (acc[date] || 0) + 1;
-      return acc;
-    }, {})
-  ).reduce(
-    (max, [date, tasks]: any) =>
-      (tasks > max.tasks ? { day: date, tasks } : max) as any,
-    { day: null, tasks: 0 }
-  );
+        // Convert dateCounts object into an array of objects
+        const dateCountArray = Object.keys(dateCounts).map((date) => ({
+          date,
+          count: dateCounts[date],
+        }));
 
-  const priorityPercentage = useMemo(
-    () => (tasks.filter((t) => t.task.pinned).length / tasks.length) * 100,
-    [tasks]
-  );
+        // Sort the dateCountArray by date in ascending order
+        dateCountArray.sort((a, b) => a.date.localeCompare(b.date));
 
-  const isMobile = useMediaQuery("(max-width:600px)");
+        return dateCountArray;
+      })()
+    : [];
 
-  const children1 = (
-    <>
-      <Box sx={cardStyles}>
-        <Typography
-          variant="body2"
-          sx={{ color: palette[11], fontWeight: 900 }}
-        >
-          TODAY
-        </Typography>
-        <Typography variant="h4">
-          {getTasksCompletedInRange(tasks, 1).length} tasks
-        </Typography>
-        <Typography>
-          {calculatePercentImprovement(
-            getTasksCompletedInRange(tasks, 2).length -
-              getTasksCompletedInRange(tasks, 1).length,
-            getTasksCompletedInRange(tasks, 1).length
-          )}{" "}
-          compared to yesterday
-        </Typography>
-      </Box>
-      <Box sx={cardStyles}>
-        <Typography
-          variant="body2"
-          sx={{ color: palette[11], fontWeight: 900 }}
-        >
-          THIS WEEK
-        </Typography>
-        <Typography variant="h4">
-          {getTasksCompletedInRange(tasks, 7).length} tasks
-        </Typography>
-        <Typography>
-          {calculatePercentImprovement(
-            getTasksCompletedInRange(tasks, 14).length -
-              getTasksCompletedInRange(tasks, 7).length,
-            getTasksCompletedInRange(tasks, 7).length
-          )}{" "}
-          compared to last week
-        </Typography>
-      </Box>
-    </>
-  );
-
-  const children2 = (
-    <>
-      <Box sx={{ ...cardStyles, p: 0 }}>
+  return data ? (
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h2" className="font-heading">
+        Insights
+      </Typography>
+      <Box>
         <BarChart
           xAxis={[
             {
               id: "tasks",
-              data: Array.from({ length: 24 }, (_, index) => {
-                const hour = index % 12 || 12; // Convert 0 to 12 for 12:00 AM
-                const period = index < 12 ? "AM" : "PM";
-                return `${hour}:${period}`;
-              }),
+              data: Array.from({ length: 24 }).map((_, i) => i),
+              valueFormatter: (i) =>
+                Array.from({ length: 24 }, (_, index) => {
+                  const hour = index % 12 || 12; // Convert 0 to 12 for 12:00 AM
+                  const period = index < 12 ? "AM" : "PM";
+                  return `${hour} ${period}`;
+                })[i],
               scaleType: "band",
-              label: "Tasks",
+              label: "Hour",
             },
           ]}
           bottomAxis={{
             axisId: "tasks",
             // disableTicks: true,
-            tickFontSize: 0,
+            // tickFontSize: ,
           }}
           colors={[palette[8]]}
           series={[
@@ -165,174 +75,121 @@ function Insights({ profile, tasks, defaultPalette }) {
               data: Array.from(
                 { length: 24 },
                 (_, hour) =>
-                  tasks.filter((d) => dayjs(d.completedAt).hour() === hour)
+                  data.filter((d) => dayjs(d.completedAt).hour() === hour)
                     .length
               ),
             },
           ]}
           height={300}
         />
-      </Box>
-      <Box sx={cardStyles}>
-        <Typography variant="h4">
-          {hourIntTo12(mostProductiveHour.hour)}
-        </Typography>
-        <Typography>
-          My most productive hour &bull; {mostProductiveHour.tasks} task
-          {mostProductiveHour.tasks !== 1 && "s"}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          ...cardStyles,
-          background: `linear-gradient(${palette[9]}, ${palette[11]})`,
-          color: palette[1],
-        }}
-      >
-        <Typography variant="h4">
-          <b>{mostProductiveDay.tasks}</b> task
-          {mostProductiveDay.tasks !== 1 && "s"}
-        </Typography>
-        <Typography>
-          Most productive day &bull;{" "}
-          <b>
-            <u>{dayjs(mostProductiveDay.day).format("MMMM Do, YYYY")}</u>
-          </b>
-        </Typography>
-      </Box>
-      <Box sx={cardStyles}>
-        <Typography variant="h4">{tasks.length}</Typography>
-        <Typography>Task{tasks.length !== 1 && "s"} completed</Typography>
-        <LinearProgress
-          sx={{ my: 1, borderRadius: 999 }}
-          variant="determinate"
-          value={priorityPercentage}
+        <BarChart
+          xAxis={[
+            {
+              id: "tasks",
+              data: Array.from({ length: 7 }).map((_, i) => i),
+              valueFormatter: (i) =>
+                ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i],
+              scaleType: "band",
+              label: "Day",
+            },
+          ]}
+          bottomAxis={{
+            axisId: "tasks",
+          }}
+          colors={[palette[8]]}
+          series={[
+            {
+              data: Array.from(
+                { length: 7 },
+                (_, hour) =>
+                  data.filter((d) => dayjs(d.completedAt).day() === hour).length
+              ),
+            },
+          ]}
+          height={300}
         />
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <Chip
-            size="small"
-            label={tasks.filter((t) => t.pinned).length + " priority"}
-          />
-          <Chip
-            size="small"
-            sx={{ ml: "auto" }}
-            label={tasks.filter((t) => !t.pinned).length + " other"}
-          />
-        </Box>
-      </Box>
-    </>
-  );
-  const InsightsContainer: any = profile ? React.Fragment : Box;
-
-  return tasks.length === 0 ? (
-    <Box sx={{ py: 2, maxWidth: "100dvw", overflowX: "hidden" }}>
-      <Box
-        sx={{
-          background: palette[2],
-          p: 2,
-          borderRadius: 5,
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-        <img
-          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f914.png`}
-          alt="Crying emoji"
-          width={40}
-          style={{ flexShrink: 0 }}
+        <BarChart
+          xAxis={[
+            {
+              id: "tasks",
+              data: Array.from({ length: 12 }).map((_, i) => i),
+              valueFormatter: (i) =>
+                [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "June",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ][i],
+              scaleType: "band",
+              label: "Month",
+            },
+          ]}
+          bottomAxis={{
+            axisId: "tasks",
+          }}
+          colors={[palette[8]]}
+          series={[
+            {
+              data: Array.from(
+                { length: 12 },
+                (_, hour) =>
+                  data.filter((d) => dayjs(d.completedAt).month() === hour)
+                    .length
+              ),
+            },
+          ]}
+          height={300}
         />
-        Not enough task data to provide insights - check back later!
+        <LineChart
+          xAxis={[
+            {
+              data: tasksCompletedByDate.map((d, i) => i),
+              // scaleType: "time",
+              valueFormatter: (i) =>
+                dayjs(tasksCompletedByDate[i].date).format("MMM D"),
+            },
+          ]}
+          series={[
+            {
+              label: "Tasks completed",
+              showMark: false,
+              curve: "catmullRom",
+              data: tasksCompletedByDate.map((d) => d.count),
+            },
+          ]}
+          height={300}
+        />
+        <PieChart
+          series={[
+            {
+              data: [
+                {
+                  id: 0,
+                  value: data?.filter((d) => d.task.pinned).length,
+                  label: "Important",
+                },
+                {
+                  id: 1,
+                  value: data?.filter((d) => !d.task.pinned).length,
+                  label: "Other",
+                },
+              ],
+            },
+          ]}
+          width={400}
+          height={200}
+        />
       </Box>
     </Box>
   ) : (
-    <InsightsContainer
-      sx={{
-        p: profile ? 0 : { xs: 3, sm: 4 },
-        maxWidth: "100dvw",
-        overflowX: "hidden",
-      }}
-    >
-      {!profile && (
-        <Typography variant="h2" className="font-heading" sx={{ mb: 4, mt: 3 }}>
-          Insights
-        </Typography>
-      )}
-
-      {!profile && (
-        <Typography variant="h3" className="font-heading" sx={{ mb: 2 }}>
-          Recent
-        </Typography>
-      )}
-      {profile ? (
-        children1
-      ) : (
-        <Box sx={{ mr: -2 }}>
-          <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-            {children1}
-          </Masonry>
-        </Box>
-      )}
-      {!profile && (
-        <Typography variant="h3" className="font-heading" sx={{ mt: 4, mb: 2 }}>
-          Overall
-        </Typography>
-      )}
-      {profile ? (
-        children2
-      ) : (
-        <Box sx={{ mr: -2 }}>
-          <Masonry columns={{ xs: 1, sm: 2 }} spacing={2}>
-            {children2}
-          </Masonry>
-        </Box>
-      )}
-    </InsightsContainer>
-  );
-}
-
-export default function Page() {
-  const { session } = useSession();
-  const palette = useColor(session.user.color, useDarkMode(session.darkMode));
-
-  const { data } = useSWR([
-    "property/tasks/insights",
-    { email: session.user.email },
-  ]);
-
-  const c = (
-    <Insights
-      tasks={data}
-      profile={session.user.Profile}
-      defaultPalette={palette}
-    />
-  );
-
-  return data ? (
-    <>
-      <TaskNavbar title={"Insights"} />
-      <motion.div
-        initial={{ x: 100 }}
-        animate={{ x: 0 }}
-        style={{
-          maxWidth: "100dvw",
-          overflowX: "hidden",
-        }}
-      >
-        {c}
-      </motion.div>
-    </>
-  ) : (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100vh",
-      }}
-    >
-      <CircularProgress />
-    </Box>
+    "Loading..."
   );
 }
