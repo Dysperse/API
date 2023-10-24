@@ -327,7 +327,7 @@ export function FriendPopover({ children, email }) {
                 .format("MMMM Do")}
             />
           </Box>
-          {status && data?.Status?.emoji ? (
+          {status && data?.Status?.emoji !== "null" ? (
             <Box sx={boxStyles}>
               <Typography sx={{ opacity: 0.6 }}>
                 STATUS&nbsp;&bull;&nbsp;UNTIL&nbsp;
