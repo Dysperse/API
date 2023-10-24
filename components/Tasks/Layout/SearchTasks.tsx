@@ -286,7 +286,10 @@ export function SearchTasks({
         anchor="top"
         open={mobileOpen}
         onClick={(e) => e.stopPropagation()}
-        onClose={() => setMobileOpen(false)}
+        onClose={() => {
+          setMobileOpen(false);
+          setShowOptions(false);
+        }}
         PaperProps={{ sx: { background: "transparent" } }}
       >
         <Box sx={{ p: 2, pt: 3 }}>
