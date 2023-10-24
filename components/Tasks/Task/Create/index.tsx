@@ -477,6 +477,7 @@ export function CreateTask({
           <MemoizedTextField
             autoFocus
             multiline
+            maxRows={4}
             placeholder="Task name..."
             variant="standard"
             name="title"
@@ -513,6 +514,7 @@ export function CreateTask({
               >
                 <MemoizedTextField
                   multiline
+                  maxRows={6}
                   placeholder="Note"
                   onClick={(e) => e.stopPropagation()}
                   variant="standard"

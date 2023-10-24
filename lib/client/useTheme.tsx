@@ -477,10 +477,12 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           primary: ({ theme }) =>
             theme.unstable_sx({
               color: palette[12],
+              fontWeight: 500,
             }),
           secondary: ({ theme }) =>
             theme.unstable_sx({
               opacity: 0.7,
+              fontWeight: 400,
               color: palette[12],
             }),
         },
@@ -519,7 +521,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           root: ({ theme }) =>
             theme.unstable_sx({
               borderColor: palette[3],
-              borderWidth: "1px",
+              borderWidth: "2px",
               borderRadius: 99,
             }),
         },
