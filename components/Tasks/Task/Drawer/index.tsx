@@ -4,9 +4,11 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  AppBar,
   Box,
-  CircularProgress,
+  Skeleton,
   SwipeableDrawer,
+  Toolbar,
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -181,6 +183,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             maxWidth: "500px",
             boxShadow: "0 0 1px rgba(0, 0, 0, 0.05)!important",
             width: "100%",
+            ...(loading && !data && open && { overflow: "hidden" }),
             ...(isMobile
               ? {
                   height: "calc(100dvh - 150px)",
@@ -206,33 +209,59 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             <ErrorHandler error="Oh no! An error occured while trying to get this task's information. Please try again later or contact support" />
           </Box>
         )}
-        {loading && !data && open && (
-          <Box
-            sx={{
-              height: "100dvh",
-              display: "flex",
-              width: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        )}
         <Box
           sx={{
             opacity: loading ? 0.5 : 1,
             transition: "all .2s",
           }}
         >
-          {data && data !== "deleted" && (
-            <DrawerContent
-              createSubTaskOpen={createSubTaskOpen}
-              setCreateSubTaskOpen={setCreateSubTaskOpen}
-              parentRef={ref}
-              isDisabled={isDisabled}
-              handleDelete={handleDelete}
-            />
+          {/* loading && !data && open */}
+          {loading && !data && open ? (
+            <Box>
+              <AppBar sx={{ border: 0, px: 0, py: 0.4 }}>
+                <Toolbar sx={{ px: "12px!important", gap: 2 }}>
+                  <Skeleton
+                    variant="circular"
+                    width={40}
+                    height={40}
+                    sx={{ mr: "auto" }}
+                  />
+                  <Skeleton variant="circular" width={127.58} height={40} />
+                  <Skeleton variant="circular" width={110.11} height={40} />
+                  <Skeleton variant="circular" width={40} height={40} />
+                  <Skeleton variant="circular" width={40} height={40} />
+                </Toolbar>
+                <Box sx={{ px: 2 }}>
+                  <Box sx={{ display: "flex", gap: 2, mt: 3.7, mb: 2 }}>
+                    <Skeleton variant="circular" width={54.39} height={32} />
+                    <Skeleton variant="circular" width={160.45} height={32} />
+                  </Box>
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+                  >
+                    <Skeleton variant="rectangular" width={436} height={86} />
+                    <Skeleton variant="rectangular" width={436} height={155} />
+                    <Skeleton variant="rectangular" width={436} height={36.5} />
+                    <Skeleton
+                      variant="rectangular"
+                      width={436}
+                      height={222.02}
+                    />
+                  </Box>
+                </Box>
+              </AppBar>
+            </Box>
+          ) : (
+            data &&
+            data !== "deleted" && (
+              <DrawerContent
+                createSubTaskOpen={createSubTaskOpen}
+                setCreateSubTaskOpen={setCreateSubTaskOpen}
+                parentRef={ref}
+                isDisabled={isDisabled}
+                handleDelete={handleDelete}
+              />
+            )
           )}
         </Box>
       </SwipeableDrawer>

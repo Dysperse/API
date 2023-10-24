@@ -200,6 +200,7 @@ export default function TasksLayout({
           zIndex: 99999999,
           background: palette[2],
           maxWidth: { md: "400px" },
+          pt: "0!important",
         }}
       >
         <Toolbar sx={{ mt: { sm: -0.5 }, pt: "0!important" }}>

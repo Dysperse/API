@@ -293,6 +293,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               borderRadius: 5,
             }),
+          circular: {
+            borderRadius: 999,
+          },
           root: {
             background: addHslAlpha(palette[5], 0.4),
           },
