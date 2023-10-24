@@ -1,13 +1,14 @@
 import { Puller } from "@/components/Puller";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { LoadingButton } from "@mui/lab";
 import {
+  AppBar,
   Box,
   Button,
+  CircularProgress,
+  Divider,
   FormControl,
   Icon,
   IconButton,
@@ -16,6 +17,7 @@ import {
   Select,
   SwipeableDrawer,
   TextField,
+  Toolbar,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -213,6 +215,9 @@ export function StatusSelector({
     fontWeight: 900,
   };
 
+  const disabled =
+    !status || !time || isNotificationDataLoading || isStatusLoading;
+
   return (
     <>
       {trigger}
@@ -225,16 +230,46 @@ export function StatusSelector({
         }}
         PaperProps={{
           sx: {
-            border: `2px solid ${addHslAlpha(palette[3], 0.7)}`,
-            borderRadius: 5,
-            m: 2,
-            mx: { xs: 2, sm: "auto" },
+            height: "100dvh",
           },
         }}
       >
         <Box sx={{ width: "100%" }}>
           <Puller showOnDesktop />
-          {/* {notificationData.notifyFriendsForStatusUpdates ? 1 : 0} */}
+          <AppBar>
+            <Toolbar>
+              <IconButton onClick={() => setOpen(false)}>
+                <Icon>close</Icon>
+              </IconButton>
+              <Typography sx={{ ...typographyStyles, my: 0, mx: "auto" }}>
+                Set status
+              </Typography>
+              <IconButton
+                onClick={handleSubmit}
+                disabled={disabled}
+                sx={{
+                  ...(!disabled && {
+                    background: palette[9],
+                    color: palette[1],
+                  }),
+                }}
+              >
+                {loading ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  <Icon
+                    sx={{
+                      fontVariationSettings:
+                        '"FILL" 0, "wght" 500, "GRAD" 0, "opsz" 40!important',
+                    }}
+                  >
+                    check
+                  </Icon>
+                )}
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+
           <Typography variant="body2" sx={typographyStyles}>
             My availability...
           </Typography>
@@ -252,7 +287,28 @@ export function StatusSelector({
               </Button>
             ))}
           </Box>
-
+          <Typography variant="body2" sx={typographyStyles}>
+            Clear after...
+          </Typography>
+          <Box sx={{ display: "flex", overflowX: "scroll", gap: 2, px: 2 }}>
+            <FormControl fullWidth>
+              <Select
+                value={time}
+                onChange={(e: any) => {
+                  setTime(parseInt(e.target.value));
+                }}
+              >
+                {[60, 120, 240, 360, 600, 1440].map((_time) => (
+                  <MenuItem key={_time} value={_time} selected={_time === time}>
+                    {_time / 60} hour{_time / 60 !== 1 && "s"}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+          <Box sx={{ px: 2, mt: 4 }}>
+            <Divider />
+          </Box>
           <Typography variant="body2" sx={typographyStyles}>
             What&apos;s up?
           </Typography>
@@ -291,40 +347,6 @@ export function StatusSelector({
                 ),
               }}
             />
-          </Box>
-          <Typography variant="body2" sx={typographyStyles}>
-            Clear after...
-          </Typography>
-          <Box sx={{ display: "flex", overflowX: "scroll", gap: 2, px: 2 }}>
-            <FormControl fullWidth>
-              <Select
-                value={time}
-                onChange={(e: any) => {
-                  setTime(parseInt(e.target.value));
-                }}
-              >
-                {[60, 120, 240, 360, 600, 1440].map((_time) => (
-                  <MenuItem key={_time} value={_time} selected={_time === time}>
-                    {_time / 60} hour{_time / 60 !== 1 && "s"}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-          <Box sx={{ px: 2 }}>
-            <LoadingButton
-              loading={loading}
-              onClick={handleSubmit}
-              sx={{ px: 2, mb: 2, mx: "auto", mt: 2 }}
-              variant="contained"
-              fullWidth
-              size="large"
-              disabled={
-                !status || !time || isNotificationDataLoading || isStatusLoading
-              }
-            >
-              Done
-            </LoadingButton>
           </Box>
         </Box>
       </SwipeableDrawer>

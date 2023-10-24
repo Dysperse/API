@@ -327,7 +327,7 @@ export function FriendPopover({ children, email }) {
                 .format("MMMM Do")}
             />
           </Box>
-          {status ? (
+          {status && data?.Status?.emoji ? (
             <Box sx={boxStyles}>
               <Typography sx={{ opacity: 0.6 }}>
                 STATUS&nbsp;&bull;&nbsp;UNTIL&nbsp;
@@ -501,7 +501,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                 <Typography variant="h6">
                   {friend.name.split(" ")?.[0]}
                 </Typography>
-                {status?.emoji ? (
+                {status?.emoji && status?.emoji !== "null" ? (
                   <>
                     <Typography sx={{ display: "flex", gap: 2 }}>
                       <Emoji
