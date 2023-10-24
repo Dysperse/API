@@ -8,9 +8,12 @@ import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
+  FormControl,
   Icon,
   IconButton,
   InputAdornment,
+  MenuItem,
+  Select,
   SwipeableDrawer,
   TextField,
   Tooltip,
@@ -56,8 +59,8 @@ export function StatusSelector({
   const [open, setOpen] = useState(false);
   const [emoji, setEmoji] = useState(
     data?.status && data?.until && dayjs(data?.until).isAfter(now)
-      ? data.status.emoji || "1f4ad"
-      : "1f4ad"
+      ? data.status.emoji || null
+      : null
   );
 
   const [status, setStatus] = useState(
@@ -235,7 +238,7 @@ export function StatusSelector({
           <Typography variant="body2" sx={typographyStyles}>
             My availability...
           </Typography>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, px: 2 }}>
+          <Box sx={{ display: "flex", overflowX: "scroll", gap: 2, px: 2 }}>
             {["available", "busy", "away", "offline"].map((_status) => (
               <Button
                 key={_status}
@@ -273,11 +276,15 @@ export function StatusSelector({
                       }}
                     >
                       <IconButton size="small">
-                        <img
-                          src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                          alt="Crying emoji"
-                          width={25}
-                        />
+                        {emoji ? (
+                          <img
+                            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+                            alt="Crying emoji"
+                            width={25}
+                          />
+                        ) : (
+                          <Icon>add_reaction</Icon>
+                        )}
                       </IconButton>
                     </EmojiPicker>
                   </InputAdornment>
@@ -288,19 +295,21 @@ export function StatusSelector({
           <Typography variant="body2" sx={typographyStyles}>
             Clear after...
           </Typography>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, px: 2 }}>
-            {[60, 120, 240, 600, 1440].map((_time) => (
-              <Button
-                key={_time}
-                onClick={handleTimeSelect(_time)}
-                sx={{ px: 2, flexShrink: 0 }}
-                variant={_time === time ? "contained" : "outlined"}
-                size="large"
+          <Box sx={{ display: "flex", overflowX: "scroll", gap: 2, px: 2 }}>
+            <FormControl fullWidth>
+              <Select
+                value={time}
+                onChange={(e: any) => {
+                  setTime(parseInt(e.target.value));
+                }}
               >
-                {_time === time && <Icon>check</Icon>}
-                {_time / 60} hour{_time / 60 !== 1 && "s"}
-              </Button>
-            ))}
+                {[60, 120, 240, 360, 600, 1440].map((_time) => (
+                  <MenuItem key={_time} value={_time} selected={_time === time}>
+                    {_time / 60} hour{_time / 60 !== 1 && "s"}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
           <Box sx={{ px: 2 }}>
             <LoadingButton
