@@ -339,6 +339,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
                   my: 1,
                   gap: 3,
                   alignItems: "center",
+                  maxWidth: "100dvw",
                 }}
               >
                 {isMobile && (
