@@ -2,7 +2,12 @@
 
 import { useColor } from "@/lib/client/useColor";
 import { useCustomTheme } from "@/lib/client/useTheme";
-import { ThemeProvider, createTheme, useMediaQuery } from "@mui/material";
+import {
+  CssBaseline,
+  ThemeProvider,
+  createTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -21,6 +26,7 @@ export function AuthClientLayout({ children }) {
     <ThemeProvider theme={userTheme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         {children}
+        <CssBaseline />
       </LocalizationProvider>
     </ThemeProvider>
   );
