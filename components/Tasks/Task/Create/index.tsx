@@ -162,7 +162,10 @@ export function CreateTask({
       ) : (
         <Badge
           badgeContent={
-            !open && (formData.title !== "" || formData.description !== "")
+            !open &&
+            (formData.title !== "" ||
+              formData.description !== "" ||
+              formData.location !== "")
               ? 1
               : 0
           }
@@ -173,7 +176,15 @@ export function CreateTask({
           {trigger}
         </Badge>
       ),
-    [open, formData.title, sx, trigger, disableBadge, formData.description]
+    [
+      open,
+      formData.title,
+      sx,
+      trigger,
+      disableBadge,
+      formData.description,
+      formData.location,
+    ]
   );
 
   const handleInputChange = useCallback((event) => {
