@@ -18,7 +18,6 @@ import {
 import dayjs from "dayjs";
 import { useParams, useRouter } from "next/navigation";
 import { cloneElement, useRef, useState } from "react";
-import { Puller } from "../../Puller";
 import { CreateTask } from "../Task/Create";
 
 const filter = createFilterOptions();
@@ -40,6 +39,7 @@ export function SearchTasks({
   const { session } = useSession();
   const [query, setQuery] = useState<any[]>(routerQuery);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.user.color, isDark);
@@ -105,6 +105,9 @@ export function SearchTasks({
   const input = (
     <>
       <Autocomplete
+        {...(isMobile && {
+          open: showOptions,
+        })}
         disabled={inputOnly}
         multiple
         id="searchTasks"
@@ -207,6 +210,7 @@ export function SearchTasks({
         filterSelectedOptions
         renderInput={(params) => (
           <TextField
+            inputRef={ref}
             {...params}
             InputProps={{
               ...params.InputProps,
@@ -255,47 +259,6 @@ export function SearchTasks({
           return filtered;
         }}
       />
-      {/* <TextField
-        inputRef={ref}
-        size="small"
-        autoFocus={isMobile}
-        variant="outlined"
-        placeholder="Search tasks..."
-        onKeyDown={(e: any) => e.code === "Enter" && e.target.blur()}
-        onBlur={() => {
-          if (query.trim() !== "") {
-            router.push(`/tasks/search/${encodeURIComponent(query)}`);
-            setLoading(true);
-          }
-        }}
-        value={query}
-        id="searchTasks"
-        sx={{
-          transition: "all .2s",
-          zIndex: 999,
-          cursor: "default",
-          ...(Boolean(query.trim()) && {
-            mr: -6,
-          }),
-        }}
-        onChange={(e) => setQuery(e.target.value)}
-        InputProps={{
-          autoFocus: isMobile,
-          sx: {
-            cursor: "default",
-            borderRadius: 4,
-          },
-          endAdornment: (
-            <InputAdornment position="end">
-              {query.trim() && (
-                <IconButton size="small">
-                  {loading ? <CircularProgress /> : <Icon>east</Icon>}
-                </IconButton>
-              )}
-            </InputAdornment>
-          ),
-        }}
-      /> */}
     </>
   );
 
@@ -324,20 +287,39 @@ export function SearchTasks({
         open={mobileOpen}
         onClick={(e) => e.stopPropagation()}
         onClose={() => setMobileOpen(false)}
-        PaperProps={{ sx: { borderRadius: "0 0 20px 20px" } }}
+        PaperProps={{ sx: { background: "transparent" } }}
       >
         <Box sx={{ p: 2, pt: 3 }}>
-          <Button
-            onClick={() => setMobileOpen(false)}
-            size="small"
-            sx={{ mb: 2 }}
-            variant="contained"
-          >
-            <Icon>close</Icon>Search
-          </Button>
+          <Box sx={{ display: "flex" }}>
+            <Button
+              onClick={() => setMobileOpen(false)}
+              size="small"
+              sx={{ mb: 2 }}
+              variant="contained"
+            >
+              <Icon>close</Icon>Search
+            </Button>
+            <Button
+              onClick={() => {
+                setShowOptions((s) => !s);
+                ref?.current?.focus();
+              }}
+              size="small"
+              sx={{
+                mb: 2,
+                py: 0,
+                ml: "auto",
+                ...(!showOptions && {
+                  border: "2px solid " + palette[3],
+                }),
+              }}
+              variant={showOptions ? "outlined" : "contained"}
+            >
+              <Icon>tune</Icon>Filters
+            </Button>
+          </Box>
           {input}
         </Box>
-        <Puller sx={{ mb: 0 }} />
       </SwipeableDrawer>
       {trigger}
     </>

@@ -197,6 +197,8 @@ export default function Home() {
                         "&:focus-within": {
                           background: palette[3],
                         },
+                        cursor: "pointer",
+                        "& *": { pointerEvents: "none" },
                         "& *::placeholder": {
                           color: palette[10] + "!important",
                         },
