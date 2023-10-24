@@ -24,6 +24,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useHotkeys } from "react-hotkeys-hook";
 import { BoardContext } from ".";
 import IntegrationChip from "./IntegrationChip";
 
@@ -174,7 +175,6 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
     );
 
   const isMobile = useMediaQuery("(max-width: 600px)");
-
   async function registerPeriodicSync() {
     const registration = await navigator.serviceWorker.ready;
     try {
@@ -192,6 +192,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
   useEffect(() => {
     registerPeriodicSync();
   }, []);
+  useHotkeys("esc", () => setHover(false));
 
   return (
     <>
