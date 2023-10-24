@@ -46,7 +46,7 @@ export default function Home() {
     },
   ];
   const { data, mutate } = useSWR(params, fetcher(params, session) as any, {
-    refreshInterval: 10000,
+    refreshInterval: 5000,
   });
 
   const { data: profileData } = useSWR([
@@ -162,9 +162,9 @@ export default function Home() {
               <Box
                 sx={{
                   display: "flex",
-                  width: "100dvw",
                   mx: "auto",
-                  maxWidth: "500px",
+                  width: "100%",
+                  maxWidth: { sm: "500px" },
                   px: 4,
                   flexDirection: "column",
                 }}
