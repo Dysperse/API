@@ -12,7 +12,6 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import Layout from "../layout";
 import { ThemeColorSettings } from "./ThemeColorSettings";
 
 /**
@@ -22,7 +21,7 @@ export default function AppearanceSettings() {
   const { session, setSession } = useSession();
 
   return (
-    <Layout>
+    <>
       <ThemeColorSettings />
       <ListSubheader sx={{ mt: 3 }}>Theme</ListSubheader>
       <RadioGroup name="controlled-radio-buttons-group">
@@ -135,6 +134,6 @@ export default function AppearanceSettings() {
           </ListItemButton>
         </ListItem>
       </RadioGroup>
-    </Layout>
+    </>
   );
 }

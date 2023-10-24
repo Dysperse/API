@@ -20,7 +20,6 @@ import dayjs from "dayjs";
 import React, { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
-import Layout from "../layout";
 
 const Session: any = React.memo(function Session({ mutate, index, data }: any) {
   const { session } = useSession();
@@ -104,7 +103,7 @@ export default function LoginActivity() {
   const ref = useRef();
 
   return (
-    <Layout>
+    <>
       <Box ref={ref}>
         <ConfirmationModal
           title="Log out of all other devices?"
@@ -146,6 +145,6 @@ export default function LoginActivity() {
           />
         )}
       </Box>
-    </Layout>
+    </>
   );
 }

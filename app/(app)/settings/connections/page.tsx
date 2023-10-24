@@ -9,7 +9,6 @@ import Image from "next/legacy/image";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { useColor, useDarkMode } from "../../../../lib/client/useColor";
-import Layout from "../layout";
 
 /**
  * Top-level component for the appearance settings page.
@@ -62,7 +61,7 @@ export default function ConnectionsSettings() {
   });
 
   return (
-    <Layout>
+    <>
       <Box
         sx={{
           width: "100%",
@@ -133,6 +132,6 @@ export default function ConnectionsSettings() {
           </Grid>
         </Grid>
       </Box>
-    </Layout>
+    </>
   );
 }

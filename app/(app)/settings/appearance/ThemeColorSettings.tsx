@@ -103,7 +103,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
             flexDirection: "column",
             overflow: "visible",
             justifyContent: "center",
-            background: previewPalette[9],
+            background: previewPalette[7],
             transition: "all .3s",
           }}
         >
@@ -114,7 +114,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
               backdropFilter: "none",
               border: 0,
               "& *": {
-                color: previewPalette[1] + "!important",
+                color: previewPalette[11] + "!important",
               },
             }}
           >
@@ -237,7 +237,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
                 alignItems: "center",
                 mb: 1,
                 gap: 1,
-                "& .MuiIcon-root": { color: previewPalette[6] + "!important" },
+                "& .MuiIcon-root": { color: previewPalette[11] + "!important" },
                 "& .MuiIconButton-root": {
                   background: "transparent",
                   display: { xs: "none", sm: "flex" },
@@ -252,7 +252,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
                 variant="h3"
                 className="font-heading"
                 sx={{
-                  color: previewPalette[4],
+                  color: previewPalette[12],
                 }}
               >
                 {themes[currentTheme]?.name}
@@ -261,7 +261,7 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
                 <Icon>arrow_forward_ios</Icon>
               </IconButton>
             </Box>
-            <Typography sx={{ mb: 2, color: previewPalette[7] }}>
+            <Typography sx={{ mb: 2, color: previewPalette[11] }}>
               {themes[currentTheme]?.description}
             </Typography>
             <Button
@@ -269,9 +269,9 @@ export function ThemeColorSettings({ children }: { children?: JSX.Element }) {
               sx={{
                 borderWidth: "2px!important",
                 background: "transparent!important",
-                borderColor: previewPalette[6] + "!important",
+                borderColor: previewPalette[9] + "!important",
                 "&:active": { background: `rgba(0,0,0,0.1)!important` },
-                color: previewPalette[6] + "!important",
+                color: previewPalette[11] + "!important",
                 flexShrink: 0,
               }}
               onClick={() => {

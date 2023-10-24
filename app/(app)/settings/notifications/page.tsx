@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import Layout from "../layout";
 import { base64ToUint8Array } from "./base64ToUint8Array";
 
 /**
@@ -153,7 +152,7 @@ export default function Notifications() {
   ];
 
   return (
-    <Layout>
+    <>
       {data ? (
         <Box sx={{ mb: 3 }}>
           <ListItem disableGutters>
@@ -281,6 +280,6 @@ export default function Notifications() {
           <CircularProgress size={30} />
         </Box>
       )}
-    </Layout>
+    </>
   );
 }

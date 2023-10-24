@@ -45,11 +45,16 @@ export default function Layout({ children }: any) {
           }
         >
           <Toolbar>
-            <IconButton onClick={() => handleBack(router)}>
+            <IconButton
+              onClick={() => handleBack(router)}
+              sx={{
+                background: palette[2],
+              }}
+            >
               <Icon sx={{ color: palette[9] }}>arrow_back_ios_new</Icon>
             </IconButton>
             {pathname !== "/settings" && (
-              <Typography sx={{ ml: 1 }}>
+              <Typography sx={{ ml: 2 }}>
                 <b>Settings</b>
               </Typography>
             )}

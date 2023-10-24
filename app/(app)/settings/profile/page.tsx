@@ -24,7 +24,6 @@ import dayjs from "dayjs";
 import { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import Layout from "../layout";
 
 /**
  * Top-level component for the account settings page.
@@ -80,7 +79,7 @@ export default function AppearanceSettings() {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   return (
-    <Layout>
+    <>
       {error && <ErrorHandler error={error.message} />}
       <Box
         sx={{
@@ -273,6 +272,6 @@ export default function AppearanceSettings() {
           </Box>
         </Box>
       </Box>
-    </Layout>
+    </>
   );
 }

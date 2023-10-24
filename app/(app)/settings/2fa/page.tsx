@@ -10,7 +10,6 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import * as twofactor from "node-2fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import Layout from "../layout";
 
 /**
  * Top-level component for the two-factor authentication settings page.
@@ -61,7 +60,7 @@ export default function App() {
   };
 
   return (
-    <Layout>
+    <>
       {session.user.twoFactorSecret &&
       session.user.twoFactorSecret !== "false" ? (
         <Box>
@@ -168,6 +167,6 @@ export default function App() {
           </Box>
         </Box>
       )}
-    </Layout>
+    </>
   );
 }
