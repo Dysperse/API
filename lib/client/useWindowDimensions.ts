@@ -10,7 +10,7 @@ function getWindowDimensions() {
 
 export default function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
+    typeof window !== "undefined" ? getWindowDimensions() : { width: 1080, height: 1920 }
   );
 
   useEffect(() => {
