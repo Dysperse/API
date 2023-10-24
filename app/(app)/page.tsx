@@ -37,7 +37,7 @@ export default function Home() {
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const params: any = [
+  const params: any = typeof window !== "undefined" && [
     "user/profile/friends",
     {
       email: session.user.email,
