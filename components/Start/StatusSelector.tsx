@@ -339,7 +339,7 @@ export function StatusSelector({
                             width={25}
                           />
                         ) : (
-                          <Icon>add_reaction</Icon>
+                          <Icon className="outlined">add_reaction</Icon>
                         )}
                       </IconButton>
                     </EmojiPicker>

@@ -275,7 +275,33 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             }),
         },
       },
+      MuiSelect: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              ".MuiOutlinedInput-notchedOutline": {
+                borderWidth: "2px!important",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderWidth: "2px!important",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderWidth: "2px!important",
+              },
+            }),
+        },
+      },
       MuiTextField: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderWidth: "2px!important",
+                },
+              },
+            }),
+        },
         defaultProps: {
           autoComplete: "off",
           fullWidth: true,
