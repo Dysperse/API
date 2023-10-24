@@ -452,7 +452,6 @@ export default function DrawerContent({
                 borderRadius: 5,
               },
               fontSize: { xs: "50px", sm: "var(--bottom-nav-height)" },
-              textDecoration: "underline",
               color: colors[task.color][isDark ? "A200" : 800],
             },
           }}

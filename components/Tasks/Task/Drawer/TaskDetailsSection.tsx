@@ -163,9 +163,11 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
       <ListItem className="item">
         <ListItemText
           primary={
-            data.image
-              ? isImage && <ImageViewer size="medium" url={data.image} />
-              : "Attachments"
+            data.image ? (
+              isImage && <ImageViewer size="medium" url={data.image} />
+            ) : (
+              <span style={{ opacity: 0.5, fontWeight: 400 }}>Attachments</span>
+            )
           }
         />
         <Box
