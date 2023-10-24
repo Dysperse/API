@@ -49,11 +49,6 @@ export default function Home() {
     refreshInterval: 5000,
   });
 
-  const { data: profileData } = useSWR([
-    "user/profile",
-    { email: session.user.email },
-  ]);
-
   const router = useRouter();
 
   const [emblaRef, emblaApi] = useEmblaCarousel({

@@ -1,9 +1,11 @@
 import { ErrorHandler } from "@/components/Error";
+import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import {
+  Autocomplete,
   Avatar,
   Box,
   Chip,
@@ -20,6 +22,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useDeferredValue, useState } from "react";
@@ -130,6 +133,17 @@ export function ShareBoard({ mutate, board }) {
     }
   };
 
+  const { data: friends } = useSWR([
+    "user/profile/friends",
+    {
+      email: session.user.email,
+      date: dayjs().startOf("day").toISOString(),
+      timezone: session.user.timeZone,
+    },
+  ]);
+
+  const [value, setValue] = useState("");
+
   return (
     <Box sx={{ p: 2 }}>
       <Box
@@ -139,15 +153,84 @@ export function ShareBoard({ mutate, board }) {
           flexDirection: { xs: "column", sm: "row" },
         }}
       >
-        <TextField
+        <Autocomplete
+          value={value}
+          onChange={(_, e: any) => {
+            if (e && typeof e === "object") {
+              const email = (e.following || e.follower).email;
+              // alert(email);
+              setValue(email);
+            } else {
+              setValue(e);
+            }
+          }}
+          disablePortal
+          options={friends?.friends || []}
+          freeSolo
+          filterOptions={(options, state) => {
+            const displayOptions = options.filter((option) =>
+              (option.follower || option.following)?.name
+                ?.toLowerCase()
+                ?.trim()
+                ?.includes(state.inputValue.toLowerCase().trim())
+            );
+
+            return displayOptions;
+          }}
+          slotProps={{
+            paper: {
+              sx: {
+                border: "2px solid",
+                borderRadius: 5,
+                mt: 2,
+                p: 1,
+                background: palette[2],
+                borderColor: palette[3],
+              },
+            },
+          }}
+          blurOnSelect
+          renderOption={(props, option, state, ownerState) => {
+            const user =
+              (ownerState.getOptionLabel(option) as any).follower ||
+              (ownerState.getOptionLabel(option) as any).following;
+
+            return (
+              <Box
+                sx={{
+                  gap: 2,
+                  borderRadius: 5,
+                  [`&.MuiAutocomplete-option`]: {
+                    padding: "8px",
+                  },
+                }}
+                component="li"
+                {...props}
+              >
+                <ProfilePicture size={40} data={user} />
+                <Box>
+                  <Typography sx={{ fontWeight: 900 }}>{user.name}</Typography>
+                  <Typography>
+                    Active {dayjs(user.lastActive).fromNow()}
+                  </Typography>
+                </Box>
+              </Box>
+            );
+          }}
+          sx={{ width: "100%" }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" label="Type an email" />
+          )}
+        />
+        {/* <TextField
           label="Type an email..."
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="hello@dysperse.com"
           fullWidth
           size="small"
-        />
-        <FormControl fullWidth>
+        /> */}
+        <FormControl sx={{ width: 400 }}>
           <InputLabel id="demo-simple-select-label">Permission</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -165,7 +248,7 @@ export function ShareBoard({ mutate, board }) {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl sx={{ width: 400 }}>
           <InputLabel id="demo-simple-select-label">
             Allow access for...
           </InputLabel>
