@@ -162,17 +162,20 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
     navigation.setCurrent((i) => i + 1);
   }, [columnLength, navigation, pathname, router, setUseReverseAnimation]);
 
+  const [alreadyNavigated, setAlreadyNavigated] = useState(false);
   useEffect(() => {
-    if (emblaApi) {
+    if (emblaApi && !alreadyNavigated) {
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
-          document.getElementById("columnPrev")?.click();
+          setAlreadyNavigated(true);
+          handlePrev();
         } else if (e.selectedScrollSnap() === 2) {
-          document.getElementById("columnNext")?.click();
+          setAlreadyNavigated(true);
+          handleNext();
         }
       });
     }
-  }, [emblaApi]);
+  }, [emblaApi, handlePrev, handleNext, alreadyNavigated]);
 
   return (
     <motion.div
