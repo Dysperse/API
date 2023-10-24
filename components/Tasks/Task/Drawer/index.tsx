@@ -1,3 +1,4 @@
+import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -215,41 +216,81 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             transition: "all .2s",
           }}
         >
-          {/* loading && !data && open */}
           {loading && !data && open ? (
-            <Box>
-              <AppBar sx={{ border: 0, px: 0, py: 0.4 }}>
+            <Box sx={{ background: { xs: palette[2], sm: "transparent" } }}>
+              {isMobile && (
+                <Puller
+                  sx={{
+                    mb: 0,
+                    background: "transparent",
+                    "& .puller": {
+                      background: palette[6],
+                    },
+                  }}
+                />
+              )}
+              <AppBar
+                sx={{
+                  border: 0,
+                  px: 0,
+                  py: 0.3,
+                  background: { xs: palette[2], sm: "transparent" },
+                }}
+              >
                 <Toolbar sx={{ px: "12px!important", gap: 2 }}>
                   <Skeleton
                     variant="circular"
                     width={40}
                     height={40}
-                    sx={{ mr: "auto" }}
+                    sx={{ mr: "auto", flexShrink: 0 }}
                   />
-                  <Skeleton variant="circular" width={127.58} height={40} />
-                  <Skeleton variant="circular" width={110.11} height={40} />
-                  <Skeleton variant="circular" width={40} height={40} />
-                  <Skeleton variant="circular" width={40} height={40} />
+                  <Skeleton
+                    variant="circular"
+                    sx={{ maxWidth: "100%" }}
+                    width={115.58}
+                    height={40}
+                  />
+                  <Skeleton
+                    variant="circular"
+                    sx={{ maxWidth: "100%" }}
+                    width={94.11}
+                    height={40}
+                  />
+                  <Skeleton
+                    variant="circular"
+                    sx={{ flexShrink: 0 }}
+                    width={40}
+                    height={40}
+                  />
+                  <Skeleton
+                    variant="circular"
+                    sx={{ flexShrink: 0 }}
+                    width={40}
+                    height={40}
+                  />
                 </Toolbar>
-                <Box sx={{ px: 2 }}>
-                  <Box sx={{ display: "flex", gap: 2, mt: 3.7, mb: 2 }}>
-                    <Skeleton variant="circular" width={54.39} height={32} />
-                    <Skeleton variant="circular" width={160.45} height={32} />
-                  </Box>
-                  <Box
-                    sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-                  >
-                    <Skeleton variant="rectangular" width={436} height={86} />
-                    <Skeleton variant="rectangular" width={436} height={155} />
-                    <Skeleton variant="rectangular" width={436} height={36.5} />
-                    <Skeleton
-                      variant="rectangular"
-                      width={436}
-                      height={222.02}
-                    />
-                  </Box>
-                </Box>
               </AppBar>
+              <Box sx={{ px: 2 }}>
+                <Box sx={{ display: "flex", gap: 2, mt: 4, mb: 2 }}>
+                  <Skeleton variant="circular" width={54.39} height={32} />
+                  <Skeleton variant="circular" width={160.45} height={32} />
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    "& .MuiSkeleton-root": {
+                      maxWidth: "100%",
+                    },
+                  }}
+                >
+                  <Skeleton variant="rectangular" width={436} height={86} />
+                  <Skeleton variant="rectangular" width={436} height={155} />
+                  <Skeleton variant="rectangular" width={436} height={36.5} />
+                  <Skeleton variant="rectangular" width={436} height={222.02} />
+                </Box>
+              </Box>
             </Box>
           ) : (
             data &&
