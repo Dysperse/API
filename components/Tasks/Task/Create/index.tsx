@@ -161,7 +161,11 @@ export function CreateTask({
         trigger
       ) : (
         <Badge
-          badgeContent={!open && formData.title !== "" ? 1 : 0}
+          badgeContent={
+            !open && (formData.title !== "" || formData.description !== "")
+              ? 1
+              : 0
+          }
           color="primary"
           variant="dot"
           sx={sx}
@@ -169,7 +173,7 @@ export function CreateTask({
           {trigger}
         </Badge>
       ),
-    [open, formData.title, sx, trigger, disableBadge]
+    [open, formData.title, sx, trigger, disableBadge, formData.description]
   );
 
   const handleInputChange = useCallback((event) => {
@@ -400,6 +404,9 @@ export function CreateTask({
         sx={styles.button(showedFields.description)}
         onClick={() => {
           setShowedFields((s) => ({ ...s, description: !s.description }));
+          if (showedFields.description) {
+            setFormData((s) => ({ ...s, description: "" }));
+          }
           setTimeout(() => descriptionRef?.current?.focus());
         }}
       >

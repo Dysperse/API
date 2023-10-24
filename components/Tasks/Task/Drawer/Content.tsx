@@ -207,7 +207,7 @@ export default function DrawerContent({
         },
       },
       "& .item:not(:last-child)": {
-        borderBottom: "1px solid",
+        borderBottom: "2px solid",
         borderColor: { xs: palette[4], sm: palette[3] },
       },
     },

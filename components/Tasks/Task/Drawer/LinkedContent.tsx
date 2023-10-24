@@ -84,18 +84,6 @@ export const LinkedContent = React.memo(function LinkedContent({
           <ListItemText primary={`Created by ${task.createdBy?.name}`} />
         </ListItemButton>
       )}
-
-      <ListItemButton className="item" onClick={handleGroupClick}>
-        <Icon className="outlined">{isBoardPublic ? "group" : "lock"}</Icon>
-        <ListItemText
-          primary={isGroupVisible ? groupName : "Only visible to you"}
-          secondary={
-            isGroupVisible
-              ? "Visible to group"
-              : `Not visible to others in "${groupName}"`
-          }
-        />
-      </ListItemButton>
       {task.column && (
         <ListItemButton className="item" onClick={handleBoardClick}>
           <Icon className="outlined">view_kanban</Icon>
@@ -121,6 +109,13 @@ export const LinkedContent = React.memo(function LinkedContent({
           </ConfirmationModal>
         </ListItemButton>
       )}
+      <ListItemButton className="item" onClick={handleGroupClick}>
+        <Icon className="outlined">{isBoardPublic ? "group" : "lock"}</Icon>
+        <ListItemText
+          primary={isGroupVisible ? groupName : "Only visible to you"}
+          secondary={isGroupVisible ? "Visible to group" : undefined}
+        />
+      </ListItemButton>
       <ListItem className="item">
         <Icon className="outlined">access_time</Icon>
         <ListItemText
