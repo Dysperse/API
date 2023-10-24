@@ -23,10 +23,11 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
+import { fetcher } from "./fetcher";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
@@ -36,21 +37,23 @@ export default function Home() {
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const { data, mutate } = useSWR([
+  const params: any = [
     "user/profile/friends",
     {
       email: session.user.email,
       date: dayjs().startOf("day").toISOString(),
       timezone: session.user.timeZone,
     },
-  ]);
+  ];
+  const { data, mutate } = useSWR(params, fetcher(params, session) as any, {
+    refreshInterval: 10000,
+  });
 
   const { data: profileData } = useSWR([
     "user/profile",
     { email: session.user.email },
   ]);
 
-  const scrollerRef = useRef();
   const router = useRouter();
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
