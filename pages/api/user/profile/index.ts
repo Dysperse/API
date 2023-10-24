@@ -14,6 +14,7 @@ export default async function handler(req, res) {
       },
       select: {
         timeZone: true,
+        lastActive: true,
         username: true,
         color: true,
         name: true,

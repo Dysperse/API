@@ -283,6 +283,29 @@ export function FriendPopover({ children, email }) {
           ) : (
             <Skeleton />
           )}
+          {data ? (
+            <Typography
+              sx={{
+                opacity: 0.8,
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                maxWidth: "100%",
+                ...(dayjs(data.lastActive).toISOString() ===
+                  "2023-10-07T17:23:03.871Z" && {
+                  display: "none",
+                }),
+              }}
+            >
+              Active{" "}
+              {dayjs(data.lastActive).isAfter(dayjs()) ||
+              dayjs(data.lastActive).fromNow() == "a few seconds ago"
+                ? "now"
+                : dayjs(data.lastActive).fromNow()}
+            </Typography>
+          ) : (
+            <Skeleton />
+          )}
           <Box
             sx={{
               ...boxStyles,
