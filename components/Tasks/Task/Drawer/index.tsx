@@ -217,7 +217,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           }}
         >
           {loading && !data && open ? (
-            <Box sx={{ background: { xs: palette[2], sm: "transparent" } }}>
+            <Box
+              sx={{
+                background: { xs: palette[2], sm: "transparent" },
+                "& .MuiSkeleton-root": {
+                  background: palette[5],
+                },
+              }}
+            >
               {isMobile && (
                 <Puller
                   sx={{

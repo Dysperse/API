@@ -23,49 +23,21 @@ export function Logo({
     useDarkMode(session?.session?.darkMode || "system")
   );
 
-  const makeid = (length) => {
-    let result = "";
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-  };
-  const id1 = makeid(5);
-  const id2 = makeid(5);
-
   return (
     <svg
-      onClick={onClick}
+      id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
       width={size}
       height={size}
-      style={style}
-      className="logo"
-      version="1"
-      viewBox="0 0 375 375"
+      style={{ ...style, padding: "5px" }}
       fill={palette[intensity]}
+      viewBox={`0 0 1000 1000`}
     >
-      <defs>
-        <clipPath id={id1}>
-          <path d="M37.5 37.5h300.75v300.75H37.5zm0 0"></path>
-        </clipPath>
-        <clipPath id={id2}>
-          <path
-            d="M187.875 37.5c0 83.05 67.324 150.375 150.375 150.375-83.05 0-150.375 67.324-150.375 150.375 0-83.05-67.324-150.375-150.375-150.375 83.05 0 150.375-67.324 150.375-150.375zm0 0"
-            clipRule="evenodd"
-          ></path>
-        </clipPath>
-      </defs>
-      <g clipPath={`url(#${id1})`}>
-        <g clipPath={`url(#${id2})`}>
-          <path d="M338.25 37.5H37.5v300.75h300.75zm0 0"></path>
-        </g>
-      </g>
+      <path
+        className="cls-1"
+        d="m500,978.06q0-373.12,0,0c-57.96-373.12-104.94-420.1-478.06-478.06q373.12,0,0,0c373.12-57.96,420.1-104.94,478.06-478.06q0,373.12,0,0c57.96,373.12,104.94,420.1,478.06,478.06q-373.12,0,0,0c-373.12,57.96-420.1,104.94-478.06,478.06Z"
+      />
     </svg>
   );
 }

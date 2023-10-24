@@ -11,7 +11,7 @@ export const swipeablePageStyles = (palette, direction) => ({
   gap: 2,
   zIndex: -1,
   color: palette[9],
-  [direction === "left" ? "borderRight" : "borderLeft"]: `2px solid`,
+  // [direction === "left" ? "borderRight" : "borderLeft"]: `2px solid`,
   borderColor: palette[3],
   justifyContent: "center",
   "& .MuiIcon-root": {

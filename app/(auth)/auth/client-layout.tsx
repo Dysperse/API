@@ -2,7 +2,9 @@
 
 import { useColor } from "@/lib/client/useColor";
 import { useCustomTheme } from "@/lib/client/useTheme";
+import useWindowDimensions from "@/lib/client/useWindowDimensions";
 import {
+  Box,
   CssBaseline,
   ThemeProvider,
   createTheme,
@@ -10,6 +12,7 @@ import {
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Image from "next/image";
 
 export function AuthClientLayout({ children }) {
   const palette = useColor("violet", true);
@@ -22,11 +25,28 @@ export function AuthClientLayout({ children }) {
     })
   );
 
+  const { width, height } = useWindowDimensions();
+
   return (
     <ThemeProvider theme={userTheme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        {children}
         <CssBaseline />
+        <Box sx={{ zIndex: 99 }}>{children}</Box>
+        <Image
+          alt="background"
+          src={`/auth/background-${isDark ? "dark" : "light"}.png`}
+          width={width}
+          height={height}
+          style={{
+            position: "fixed",
+            pointerEvents: "none",
+            top: 0,
+            left: 0,
+            zIndex: -1,
+            width: "100dvw",
+            height: "100dvh",
+          }}
+        />
       </LocalizationProvider>
     </ThemeProvider>
   );
