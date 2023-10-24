@@ -139,7 +139,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               zIndex: 999,
               background: addHslAlpha(palette[1], 0.9),
               backdropFilter: "blur(10px)",
-              borderBottom: "1px solid",
+              borderBottom: "2px solid",
               borderColor: addHslAlpha(palette[3], 0.9),
               color: palette[12],
             }),
