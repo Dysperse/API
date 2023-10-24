@@ -662,7 +662,6 @@ function EditLayout({ id, data, mutate }) {
 }
 
 const Dashboard = () => {
-  const router = useRouter();
   const params = useParams();
   const { session } = useSession();
   const { id } = params as any;
