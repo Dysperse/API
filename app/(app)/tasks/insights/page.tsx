@@ -20,6 +20,13 @@ import dayjs from "dayjs";
 import GaugeChart from "react-gauge-chart";
 import toast from "react-hot-toast";
 
+import {
+  orangeDark,
+  redDark,
+  rubyDark,
+  tomatoDark,
+  yellowDark,
+} from "@radix-ui/colors";
 import useSWR from "swr";
 import { TaskNavbar } from "../navbar";
 
@@ -33,6 +40,7 @@ export default function Insights() {
   const orangePalette = useColor("orange", isDark);
   const greenPalette = useColor("green", isDark);
   const bluePalette = useColor("blue", isDark);
+  const purplePalette = useColor("purple", isDark);
 
   const { data } = useSWR([
     "property/tasks/insights",
@@ -60,10 +68,13 @@ export default function Insights() {
   ]);
 
   const colors = [
-    ...new Array(2).fill(redPalette[7]),
-    ...new Array(3).fill(orangePalette[7]),
-    ...new Array(3).fill(yellowPalette[7]),
+    ...new Array(1).fill(tomatoDark["tomato7"]),
+    ...new Array(1).fill(redDark["red7"]),
+    ...new Array(1).fill(rubyDark["ruby7"]),
+    ...new Array(3).fill(orangeDark["orange7"]),
+    ...new Array(3).fill(yellowDark["yellow7"]),
     ...new Array(15).fill(greenPalette[7]),
+    ...new Array(1).fill(purplePalette[7]),
     ...new Array(3).fill(bluePalette[7]),
   ];
 
