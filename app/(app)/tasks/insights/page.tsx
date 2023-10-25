@@ -16,7 +16,7 @@ export default function Insights() {
 
   const { data } = useSWR([
     "property/tasks/insights",
-    { email: session.user.email },
+    { email: "manonlyeat@gmail.com" },
   ]);
 
   const tasksCompletedByDate = data
@@ -24,7 +24,7 @@ export default function Insights() {
         const dateCounts = {};
 
         for (const task of data) {
-          if (dayjs(task.completedAt).isValid()) {
+          if (dayjs(task.completedAt).isValid() && task?.completedAt) {
             const date = dayjs(task.completedAt).format("YYYY-MM-DD");
             dateCounts[date] = (dateCounts[date] || 0) + 1;
           }
@@ -162,7 +162,9 @@ export default function Insights() {
                 data: tasksCompletedByDate.map((d, i) => i),
                 // scaleType: "time",
                 valueFormatter: (i) =>
-                  dayjs(tasksCompletedByDate[i].date).format("MMM D"),
+                  tasksCompletedByDate[i]
+                    ? dayjs(tasksCompletedByDate[i].date).format("MMM D")
+                    : "Today",
               },
             ]}
             series={[
