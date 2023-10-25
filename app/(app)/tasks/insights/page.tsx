@@ -176,11 +176,16 @@ export default function Insights() {
               >
                 <Box
                   sx={{
-                    mb: { xs: 3, sm: 0 },
+                    mb: { xs: 2, sm: 0 },
                   }}
                 >
                   <Typography
-                    sx={{ display: "flex", gap: 1.5, alignItems: "center" }}
+                    sx={{
+                      display: "flex",
+                      gap: 1.5,
+                      alignItems: "center",
+                      justifyContent: { xs: "center", sm: "flex-start" },
+                    }}
                   >
                     #dyspersescore
                     <Tooltip title="Your #dyspersescore is calculated on a scale of 275 based on how you complete your tasks.">
@@ -200,6 +205,9 @@ export default function Insights() {
                     ml: { sm: "auto" },
                     mr: { sm: 2 },
                     mt: { xs: 3, sm: 0 },
+                    "& .gaugeChart": {
+                      width: { xs: "100%", sm: "150px" },
+                    },
                   }}
                 >
                   <NoSsr>
@@ -209,8 +217,8 @@ export default function Insights() {
                       hideText
                       style={{
                         marginBottom: "-20px",
-                        width: "150px",
                       }}
+                      className="gaugeChart"
                       nrOfLevels={colors.length}
                       arcPadding={0.04}
                       cornerRadius={999}
