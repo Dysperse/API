@@ -71,6 +71,7 @@
     "react-email": "^1.9.5",
     "react-emoji-render": "^2.0.1",
     "react-file-drop": "^3.1.6",
+    "react-gauge-chart": "^0.4.1",
     "react-hot-toast": "^2.4.1",
     "react-hotkeys-hook": "^4.4.1",
     "react-markdown": "^9.0.0",

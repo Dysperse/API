@@ -3,7 +3,6 @@
 import { Emoji } from "@/components/Emoji";
 import { Box, Button, Icon, Typography } from "@mui/material";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
 import { ErrorModal } from "../(auth)/auth/errorModal";
 
 export default function Error({
@@ -19,11 +18,16 @@ export default function Error({
   }, [error]);
 
   const fix = () => {
-    try {
-      reset();
-    } catch (e) {
-      console.error(e);
-      toast.error("Something went wrong. Please try again later");
+    reset();
+  };
+  const clearCache = async () => {
+    if ("serviceWorker" in navigator) {
+      await caches.keys().then(function (cacheNames) {
+        cacheNames.forEach(async function (cacheName) {
+          await caches.delete(cacheName);
+        });
+      });
+      window.location.reload();
     }
   };
 
@@ -53,6 +57,10 @@ export default function Error({
               Show debug information
             </Button>
           </ErrorModal>
+          <Button onClick={clearCache} variant="outlined">
+            <Icon>clear_all</Icon>
+            Clear cache
+          </Button>
           <Button onClick={fix} variant="contained">
             <Icon>refresh</Icon>
             Try again
