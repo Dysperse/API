@@ -21,11 +21,23 @@ import GaugeChart from "react-gauge-chart";
 import toast from "react-hot-toast";
 
 import {
-  orangeDark,
+  blueDark,
+  crimsonDark,
+  cyanDark,
+  goldDark,
+  grassDark,
+  greenDark,
+  indigoDark,
+  irisDark,
+  jadeDark,
+  limeDark,
+  pinkDark,
+  plumDark,
+  purpleDark,
   redDark,
   rubyDark,
+  tealDark,
   tomatoDark,
-  yellowDark,
 } from "@radix-ui/colors";
 import useSWR from "swr";
 import { TaskNavbar } from "../navbar";
@@ -35,9 +47,6 @@ export default function Insights() {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  const redPalette = useColor("red", isDark);
-  const yellowPalette = useColor("yellow", isDark);
-  const orangePalette = useColor("orange", isDark);
   const greenPalette = useColor("green", isDark);
   const bluePalette = useColor("blue", isDark);
   const purplePalette = useColor("purple", isDark);
@@ -71,11 +80,20 @@ export default function Insights() {
     ...new Array(1).fill(tomatoDark["tomato7"]),
     ...new Array(1).fill(redDark["red7"]),
     ...new Array(1).fill(rubyDark["ruby7"]),
-    ...new Array(3).fill(orangeDark["orange7"]),
-    ...new Array(3).fill(yellowDark["yellow7"]),
-    ...new Array(15).fill(greenPalette[7]),
-    ...new Array(1).fill(purplePalette[7]),
-    ...new Array(3).fill(bluePalette[7]),
+    ...new Array(1).fill(crimsonDark["crimson7"]),
+    ...new Array(1).fill(pinkDark["pink7"]),
+    ...new Array(1).fill(plumDark["plum7"]),
+    ...new Array(1).fill(purpleDark["purple7"]),
+    ...new Array(1).fill(irisDark["iris7"]),
+    ...new Array(1).fill(indigoDark["indigo7"]),
+    ...new Array(1).fill(blueDark["blue7"]),
+    ...new Array(1).fill(cyanDark["cyan7"]),
+    ...new Array(1).fill(tealDark["teal7"]),
+    ...new Array(1).fill(jadeDark["jade7"]),
+    ...new Array(3).fill(greenDark["green7"]),
+    ...new Array(3).fill(grassDark["grass7"]),
+    ...new Array(3).fill(limeDark["lime7"]),
+    ...new Array(2).fill(goldDark["gold9"]),
   ];
 
   const tasksCompletedByDate = data
@@ -112,8 +130,8 @@ export default function Insights() {
 
   const chart = (
     <GaugeChart
-      // needleBaseColor={palette[11]}
-      // needleColor={palette[11]}
+      needleBaseColor={palette[11]}
+      needleColor={palette[11]}
       hideText
       style={{
         marginBottom: "-20px",
