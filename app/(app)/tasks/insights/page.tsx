@@ -90,9 +90,9 @@ export default function Insights() {
     ...new Array(1).fill(cyanDark["cyan7"]),
     ...new Array(1).fill(tealDark["teal7"]),
     ...new Array(1).fill(jadeDark["jade7"]),
-    ...new Array(3).fill(greenDark["green7"]),
-    ...new Array(3).fill(grassDark["grass7"]),
-    ...new Array(3).fill(limeDark["lime7"]),
+    ...new Array(4).fill(greenDark["green7"]),
+    ...new Array(4).fill(grassDark["grass7"]),
+    ...new Array(4).fill(limeDark["lime7"]),
     ...new Array(2).fill(goldDark["gold9"]),
   ];
 
