@@ -7,6 +7,7 @@ import {
   Chip,
   Icon,
   IconButton,
+  NoSsr,
   Skeleton,
   Tooltip,
   Typography,
@@ -110,13 +111,19 @@ export default function Insights() {
         }
       />
       {!data ? (
-        <Box sx={{ p: { xs: 3, sm: 5 }, pt: { xs: 10, sm: 5 } }}>
+        <Box
+          sx={{
+            p: { xs: 3, sm: 5 },
+            pt: { xs: 10, sm: 5 },
+            maxWidth: "100dvw",
+          }}
+        >
           <Box sx={{ mt: 4, mb: 2 }}>
             <Skeleton height={32} width={110.08} variant="circular" />
             <Box />
             <Skeleton
               height={50}
-              sx={{ my: 2, mb: 3 }}
+              sx={{ my: 2, mb: 3, width: { xs: 100, sm: 523 } }}
               width={523}
               variant="rectangular"
             />
@@ -143,7 +150,13 @@ export default function Insights() {
           </Box>
         </Box>
       ) : (
-        <Box sx={{ p: { xs: 3, sm: 5 }, pt: { xs: 10, sm: 5 } }}>
+        <Box
+          sx={{
+            p: { xs: 3, sm: 5 },
+            pt: { xs: 10, sm: 5 },
+            maxWidth: "100dvw",
+          }}
+        >
           <Box sx={{ mt: 4, mb: 2 }}>
             <Chip label="Experimental" sx={{ mb: 0.5, ml: -0.5 }} />
             <Typography variant="h2" className="font-heading">
@@ -152,7 +165,16 @@ export default function Insights() {
           </Box>
           <Grid container spacing={2}>
             <Grid xs={12} sm={7}>
-              <Box sx={{ ...boxStyles, display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  ...boxStyles,
+                  display: "flex",
+                  alignItems: "center",
+                  mb: { xs: 3, sm: 0 },
+                  justifyContent: { xs: "center", sm: "start" },
+                  flexDirection: { xs: "column-reverse", sm: "row" },
+                }}
+              >
                 <Box>
                   <Typography
                     sx={{ display: "flex", gap: 1.5, alignItems: "center" }}
@@ -164,7 +186,7 @@ export default function Insights() {
                   </Typography>
                   <Box
                     className="font-heading"
-                    sx={{ px: 2, fontSize: "50px", mt: 2 }}
+                    sx={{ px: 2, fontSize: { xs: "50px", sm: "50px" }, mt: 2 }}
                   >
                     {~~(275 * 0.01 * (score?.percentage || 0))}
                     <span style={{ opacity: 0.6 }}> out of </span>275
@@ -172,23 +194,26 @@ export default function Insights() {
                 </Box>
                 <Box
                   sx={{
-                    ml: "auto",
-                    mr: 2,
+                    ml: { sm: "auto" },
+                    mr: { sm: 2 },
+                    mt: { xs: 3, sm: 0 },
                   }}
                 >
-                  <GaugeChart
-                    hideText
-                    style={{
-                      marginBottom: "-20px",
-                      width: "150px",
-                    }}
-                    nrOfLevels={colors.length}
-                    arcPadding={0.04}
-                    cornerRadius={999}
-                    colors={colors}
-                    arcWidth={0.3}
-                    percent={score?.percentage / 100}
-                  />
+                  <NoSsr>
+                    <GaugeChart
+                      hideText
+                      style={{
+                        marginBottom: "-20px",
+                        width: "150px",
+                      }}
+                      nrOfLevels={colors.length}
+                      arcPadding={0.04}
+                      cornerRadius={999}
+                      colors={colors}
+                      arcWidth={0.3}
+                      percent={score?.percentage / 100}
+                    />
+                  </NoSsr>
                 </Box>
               </Box>
             </Grid>
