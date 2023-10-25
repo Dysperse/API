@@ -164,7 +164,7 @@ export default function Insights() {
                 valueFormatter: (i) =>
                   tasksCompletedByDate[i]
                     ? dayjs(tasksCompletedByDate[i].date).format("MMM D")
-                    : "Today",
+                    : "Now",
               },
             ]}
             series={[
