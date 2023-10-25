@@ -7,6 +7,7 @@ import {
   Chip,
   Icon,
   IconButton,
+  Skeleton,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -108,7 +109,40 @@ export default function Insights() {
           </IconButton>
         }
       />
-      {data ? (
+      {!data ? (
+        <Box sx={{ p: { xs: 3, sm: 5 }, pt: { xs: 10, sm: 5 } }}>
+          <Box sx={{ mt: 4, mb: 2 }}>
+            <Skeleton height={32} width={110.08} variant="circular" />
+            <Box />
+            <Skeleton
+              height={50}
+              sx={{ my: 2, mb: 3 }}
+              width={523}
+              variant="rectangular"
+            />
+            <Grid container spacing={2}>
+              <Grid xs={12} sm={7}>
+                <Skeleton height={110} width={"100%"} variant="rectangular" />
+              </Grid>
+              <Grid xs={12} sm={5}>
+                <Skeleton height={110} width={"100%"} variant="rectangular" />
+              </Grid>
+              <Grid xs={12} sm={8}>
+                <Skeleton height={386} width={"100%"} variant="rectangular" />
+              </Grid>
+              <Grid xs={12} sm={4}>
+                <Skeleton height={386} width={"100%"} variant="rectangular" />
+              </Grid>
+              <Grid xs={12} sm={4}>
+                <Skeleton height={386} width={"100%"} variant="rectangular" />
+              </Grid>
+              <Grid xs={12} sm={8}>
+                <Skeleton height={386} width={"100%"} variant="rectangular" />
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      ) : (
         <Box sx={{ p: { xs: 3, sm: 5 }, pt: { xs: 10, sm: 5 } }}>
           <Box sx={{ mt: 4, mb: 2 }}>
             <Chip label="Experimental" sx={{ mb: 0.5, ml: -0.5 }} />
@@ -117,7 +151,7 @@ export default function Insights() {
             </Typography>
           </Box>
           <Grid container spacing={2}>
-            <Grid xs={12} sm={8}>
+            <Grid xs={12} sm={7}>
               <Box sx={{ ...boxStyles, display: "flex", alignItems: "center" }}>
                 <Box>
                   <Typography
@@ -158,7 +192,7 @@ export default function Insights() {
                 </Box>
               </Box>
             </Grid>
-            <Grid xs={12} sm={4}>
+            <Grid xs={12} sm={5}>
               <Box sx={{ ...boxStyles, height: "100%" }}>
                 <Typography>Tasks completed</Typography>
                 <Box
@@ -402,8 +436,6 @@ export default function Insights() {
             </Grid>
           </Grid>
         </Box>
-      ) : (
-        "Loading..."
       )}
     </>
   );
