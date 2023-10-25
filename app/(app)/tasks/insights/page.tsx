@@ -109,6 +109,25 @@ export default function Insights() {
       </linearGradient>
     </defs>
   );
+
+  const chart = (
+    <GaugeChart
+      // needleBaseColor={palette[11]}
+      // needleColor={palette[11]}
+      hideText
+      style={{
+        marginBottom: "-20px",
+      }}
+      className="gaugeChart"
+      nrOfLevels={colors.length}
+      arcPadding={0.04}
+      cornerRadius={999}
+      colors={colors}
+      arcWidth={0.3}
+      percent={(score?.percentage || 0) / 100}
+    />
+  );
+
   const chartHeight = 350;
 
   return (
@@ -221,23 +240,7 @@ export default function Insights() {
                     },
                   }}
                 >
-                  <NoSsr>
-                    <GaugeChart
-                      needleBaseColor={palette[11]}
-                      needleColor={palette[11]}
-                      hideText
-                      style={{
-                        marginBottom: "-20px",
-                      }}
-                      className="gaugeChart"
-                      nrOfLevels={colors.length}
-                      arcPadding={0.04}
-                      cornerRadius={999}
-                      colors={colors}
-                      arcWidth={0.3}
-                      percent={score?.percentage / 100}
-                    />
-                  </NoSsr>
+                  <NoSsr>{chart}</NoSsr>
                 </Box>
               </Box>
             </Grid>
