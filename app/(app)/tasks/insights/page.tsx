@@ -93,7 +93,7 @@ export default function Insights() {
     ...new Array(4).fill(greenDark["green7"]),
     ...new Array(4).fill(grassDark["grass7"]),
     ...new Array(4).fill(limeDark["lime7"]),
-    ...new Array(2).fill(goldDark["gold9"]),
+    ...new Array(2).fill(goldDark["gold8"]),
   ];
 
   const tasksCompletedByDate = data
