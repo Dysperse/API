@@ -2,15 +2,24 @@
 
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Chip, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Icon,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import { BarChart } from "@mui/x-charts/BarChart";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { PieChart } from "@mui/x-charts/PieChart";
 import dayjs from "dayjs";
 import GaugeChart from "react-gauge-chart";
+import toast from "react-hot-toast";
 
 import useSWR from "swr";
+import { TaskNavbar } from "../navbar";
 
 export default function Insights() {
   const { session } = useSession();
@@ -89,287 +98,313 @@ export default function Insights() {
   );
   const chartHeight = 350;
 
-  return data ? (
-    <Box sx={{ p: { xs: 3, sm: 5 } }}>
-      <Box sx={{ mt: 4, mb: 2 }}>
-        <Chip label="Experimental" sx={{ mb: 0.5, ml: -0.5 }} />
-        <Typography variant="h2" className="font-heading">
-          Insights
-        </Typography>
-      </Box>
-      <Grid container spacing={2}>
-        <Grid xs={12} sm={8}>
-          <Box sx={{ ...boxStyles, display: "flex", alignItems: "center" }}>
-            <Box>
-              <Typography>Productivity score</Typography>
-              <Box
-                className="font-heading"
-                sx={{ px: 2, fontSize: "50px", mt: 2 }}
-              >
-                {~~(275 * 0.01 * (score?.percentage || 0))}
-                <span style={{ opacity: 0.6 }}> out of </span>275
+  return (
+    <>
+      <TaskNavbar
+        title="Insights"
+        rightContent={
+          <IconButton onClick={() => toast("Coming soon!")}>
+            <Icon>ios_share</Icon>
+          </IconButton>
+        }
+      />
+      {data ? (
+        <Box sx={{ p: { xs: 3, sm: 5 }, pt: { xs: 10, sm: 5 } }}>
+          <Box sx={{ mt: 4, mb: 2 }}>
+            <Chip label="Experimental" sx={{ mb: 0.5, ml: -0.5 }} />
+            <Typography variant="h2" className="font-heading">
+              Insights
+            </Typography>
+          </Box>
+          <Grid container spacing={2}>
+            <Grid xs={12} sm={8}>
+              <Box sx={{ ...boxStyles, display: "flex", alignItems: "center" }}>
+                <Box>
+                  <Typography
+                    sx={{ display: "flex", gap: 1.5, alignItems: "center" }}
+                  >
+                    #dyspersescore
+                    <Tooltip title="Your #dyspersescore is calculated on a scale of 275 based on how you complete your tasks.">
+                      <Icon className="outlined">help</Icon>
+                    </Tooltip>
+                  </Typography>
+                  <Box
+                    className="font-heading"
+                    sx={{ px: 2, fontSize: "50px", mt: 2 }}
+                  >
+                    {~~(275 * 0.01 * (score?.percentage || 0))}
+                    <span style={{ opacity: 0.6 }}> out of </span>275
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    ml: "auto",
+                    mr: 2,
+                  }}
+                >
+                  <GaugeChart
+                    hideText
+                    style={{
+                      marginBottom: "-20px",
+                      width: "150px",
+                    }}
+                    nrOfLevels={colors.length}
+                    arcPadding={0.04}
+                    cornerRadius={999}
+                    colors={colors}
+                    arcWidth={0.3}
+                    percent={score?.percentage / 100}
+                  />
+                </Box>
               </Box>
-            </Box>
-            <Box
-              sx={{
-                ml: "auto",
-                mr: 2,
-              }}
-            >
-              <GaugeChart
-                hideText
-                style={{
-                  marginBottom: "-20px",
-                  width: "150px",
-                }}
-                nrOfLevels={colors.length}
-                arcPadding={0.04}
-                cornerRadius={999}
-                colors={colors}
-                arcWidth={0.3}
-                percent={score?.percentage / 100}
-              />
-            </Box>
-          </Box>
-        </Grid>
-        <Grid xs={12} sm={4}>
-          <Box sx={{ ...boxStyles, height: "100%" }}>
-            <Typography>Tasks completed</Typography>
-            <Box
-              className="font-heading"
-              sx={{ px: 2, fontSize: "50px", mt: 2 }}
-            >
-              {data.length}
-            </Box>
-          </Box>
-        </Grid>
-        <Grid xs={12} sm={8}>
-          <Box sx={boxStyles}>
-            <Typography>By hour</Typography>
-            <BarChart
-              sx={{
-                "& .MuiChartsAxis-directionX .MuiChartsAxis-tickContainer:not(:nth-child(4n))":
-                  {
-                    opacity: 0,
-                  },
-                "& .MuiBarElement-root": {
-                  fill: "url('#gradient')",
-                },
-              }}
-              xAxis={[
-                {
-                  id: "tasks",
-                  data: Array.from({ length: 24 }).map((_, i) => i),
-                  valueFormatter: (i) =>
-                    Array.from({ length: 24 }, (_, index) => {
-                      const hour = index % 12 || 12; // Convert 0 to 12 for 12:00 AM
-                      const period = index < 12 ? "am" : "pm";
-                      return `${hour}${period}`;
-                    })[i],
-                  scaleType: "band",
-                },
-              ]}
-              bottomAxis={{
-                axisId: "tasks",
-                disableTicks: true,
-              }}
-              colors={[palette[8]]}
-              series={[
-                {
-                  data: Array.from(
-                    { length: 24 },
-                    (_, hour) =>
-                      data.filter((d) => dayjs(d.completedAt).hour() === hour)
-                        .length
-                  ),
-                },
-              ]}
-              height={chartHeight}
-            >
-              {gradientDefs}
-            </BarChart>
-          </Box>
-        </Grid>
-        <Grid xs={12} sm={4}>
-          <Box sx={boxStyles}>
-            <Typography>By day</Typography>
-            <BarChart
-              sx={{
-                "& .MuiBarElement-root": {
-                  fill: "url('#gradient')",
-                },
-                "& .MuiChartsAxis-directionX .MuiChartsAxis-tickContainer:not(:nth-child(2n))":
-                  {
-                    opacity: 0,
-                  },
-              }}
-              xAxis={[
-                {
-                  id: "tasks",
-                  data: Array.from({ length: 7 }).map((_, i) => i),
-                  valueFormatter: (i) =>
-                    ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i],
-                  scaleType: "band",
-                },
-              ]}
-              bottomAxis={{
-                axisId: "tasks",
-                disableTicks: true,
-              }}
-              colors={[palette[8]]}
-              series={[
-                {
-                  data: Array.from(
-                    { length: 7 },
-                    (_, hour) =>
-                      data.filter((d) => dayjs(d.completedAt).day() === hour)
-                        .length
-                  ),
-                },
-              ]}
-              height={chartHeight}
-            >
-              {gradientDefs}
-            </BarChart>
-          </Box>
-        </Grid>
-        <Grid xs={12} sm={6}>
-          <Box sx={boxStyles}>
-            <Typography>By month</Typography>
-            <BarChart
-              sx={{
-                "& .MuiChartsAxis-directionX .MuiChartsAxis-tickContainer:not(:nth-child(2n))":
-                  {
-                    opacity: 0,
-                  },
-                "& .MuiBarElement-root": {
-                  fill: "url('#gradient')",
-                },
-              }}
-              xAxis={[
-                {
-                  id: "tasks",
-                  data: Array.from({ length: 12 }).map((_, i) => i),
-                  valueFormatter: (i) =>
-                    [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
-                      "May",
-                      "June",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Dec",
-                    ][i],
-                  scaleType: "band",
-                },
-              ]}
-              bottomAxis={{
-                axisId: "tasks",
-                disableTicks: true,
-              }}
-              colors={[palette[8]]}
-              series={[
-                {
-                  data: Array.from(
-                    { length: 12 },
-                    (_, hour) =>
-                      data.filter((d) => dayjs(d.completedAt).month() === hour)
-                        .length
-                  ),
-                },
-              ]}
-              height={chartHeight}
-            >
-              {gradientDefs}
-            </BarChart>
-          </Box>
-        </Grid>
-        <Grid xs={12} sm={6}>
-          <Box sx={boxStyles}>
-            <Typography>By date</Typography>
-            <LineChart
-              sx={{
-                "& .MuiLineElement-root": {
-                  stroke: "url('#gradient')",
-                  strokeWidth: 4,
-                },
-              }}
-              colors={[palette[8]]}
-              xAxis={[
-                {
-                  data: tasksCompletedByDate.map((d, i) => i),
-                  // scaleType: "time",
-                  valueFormatter: (i) =>
-                    tasksCompletedByDate[i]
-                      ? dayjs(tasksCompletedByDate[i].date).format("MMM D")
-                      : "Now",
-                },
-              ]}
-              series={[
-                {
-                  showMark: false,
-                  curve: "catmullRom",
-                  data: tasksCompletedByDate.map((d) => d.count),
-                },
-              ]}
-              height={chartHeight}
-            >
-              {gradientDefs}
-            </LineChart>
-          </Box>
-        </Grid>
-        <Grid xs={12} sm={6}>
-          <Box sx={boxStyles}>
-            <Typography>By urgency</Typography>
-            <PieChart
-              sx={{
-                mt: 4,
-                mb: 2,
-                "& .MuiPieArc-series-auto-generated-id:first-child": {
-                  fill: "url('#gradient-1')",
-                },
-                "& .MuiPieArc-series-auto-generated-id-0:not(:first-child)": {
-                  fill: "url('#gradient')",
-                },
-              }}
-              colors={[palette[9], palette[11]]}
-              series={[
-                {
-                  data: [
-                    {
-                      id: 0,
-                      value: data?.filter((d) => d.task.pinned).length,
-                      label: "Important",
+            </Grid>
+            <Grid xs={12} sm={4}>
+              <Box sx={{ ...boxStyles, height: "100%" }}>
+                <Typography>Tasks completed</Typography>
+                <Box
+                  className="font-heading"
+                  sx={{ px: 2, fontSize: "50px", mt: 2 }}
+                >
+                  {data.length}
+                </Box>
+              </Box>
+            </Grid>
+            <Grid xs={12} sm={8}>
+              <Box sx={boxStyles}>
+                <Typography>By hour</Typography>
+                <BarChart
+                  sx={{
+                    "& .MuiChartsAxis-directionX .MuiChartsAxis-tickContainer:not(:nth-child(4n))":
+                      {
+                        opacity: 0,
+                      },
+                    "& .MuiBarElement-root": {
+                      fill: "url('#gradient')",
                     },
+                  }}
+                  xAxis={[
                     {
-                      id: 1,
-                      value: data?.filter((d) => !d.task.pinned).length,
-                      label: "Other",
+                      id: "tasks",
+                      data: Array.from({ length: 24 }).map((_, i) => i),
+                      valueFormatter: (i) =>
+                        Array.from({ length: 24 }, (_, index) => {
+                          const hour = index % 12 || 12; // Convert 0 to 12 for 12:00 AM
+                          const period = index < 12 ? "am" : "pm";
+                          return `${hour}${period}`;
+                        })[i],
+                      scaleType: "band",
                     },
-                  ],
-                },
-              ]}
-              width={400}
-              height={200}
-            >
-              {gradientDefs}
-              <defs>
-                <linearGradient id="gradient-1" gradientTransform="rotate(40)">
-                  <stop offset="5%" stopColor={palette[7]} />
-                  <stop offset="95%" stopColor={palette[6]} />
-                </linearGradient>
-              </defs>
-            </PieChart>
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
-  ) : (
-    "Loading..."
+                  ]}
+                  bottomAxis={{
+                    axisId: "tasks",
+                    disableTicks: true,
+                  }}
+                  colors={[palette[8]]}
+                  series={[
+                    {
+                      data: Array.from(
+                        { length: 24 },
+                        (_, hour) =>
+                          data.filter(
+                            (d) => dayjs(d.completedAt).hour() === hour
+                          ).length
+                      ),
+                    },
+                  ]}
+                  height={chartHeight}
+                >
+                  {gradientDefs}
+                </BarChart>
+              </Box>
+            </Grid>
+            <Grid xs={12} sm={4}>
+              <Box sx={boxStyles}>
+                <Typography>By day</Typography>
+                <BarChart
+                  sx={{
+                    "& .MuiBarElement-root": {
+                      fill: "url('#gradient')",
+                    },
+                    "& .MuiChartsAxis-directionX .MuiChartsAxis-tickContainer:not(:nth-child(2n))":
+                      {
+                        opacity: 0,
+                      },
+                  }}
+                  xAxis={[
+                    {
+                      id: "tasks",
+                      data: Array.from({ length: 7 }).map((_, i) => i),
+                      valueFormatter: (i) =>
+                        ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i],
+                      scaleType: "band",
+                    },
+                  ]}
+                  bottomAxis={{
+                    axisId: "tasks",
+                    disableTicks: true,
+                  }}
+                  colors={[palette[8]]}
+                  series={[
+                    {
+                      data: Array.from(
+                        { length: 7 },
+                        (_, hour) =>
+                          data.filter(
+                            (d) => dayjs(d.completedAt).day() === hour
+                          ).length
+                      ),
+                    },
+                  ]}
+                  height={chartHeight}
+                >
+                  {gradientDefs}
+                </BarChart>
+              </Box>
+            </Grid>
+            <Grid xs={12} sm={6}>
+              <Box sx={boxStyles}>
+                <Typography>By month</Typography>
+                <BarChart
+                  sx={{
+                    "& .MuiChartsAxis-directionX .MuiChartsAxis-tickContainer:not(:nth-child(2n))":
+                      {
+                        opacity: 0,
+                      },
+                    "& .MuiBarElement-root": {
+                      fill: "url('#gradient')",
+                    },
+                  }}
+                  xAxis={[
+                    {
+                      id: "tasks",
+                      data: Array.from({ length: 12 }).map((_, i) => i),
+                      valueFormatter: (i) =>
+                        [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "June",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec",
+                        ][i],
+                      scaleType: "band",
+                    },
+                  ]}
+                  bottomAxis={{
+                    axisId: "tasks",
+                    disableTicks: true,
+                  }}
+                  colors={[palette[8]]}
+                  series={[
+                    {
+                      data: Array.from(
+                        { length: 12 },
+                        (_, hour) =>
+                          data.filter(
+                            (d) => dayjs(d.completedAt).month() === hour
+                          ).length
+                      ),
+                    },
+                  ]}
+                  height={chartHeight}
+                >
+                  {gradientDefs}
+                </BarChart>
+              </Box>
+            </Grid>
+            <Grid xs={12} sm={6}>
+              <Box sx={boxStyles}>
+                <Typography>By date</Typography>
+                <LineChart
+                  sx={{
+                    "& .MuiLineElement-root": {
+                      stroke: "url('#gradient')",
+                      strokeWidth: 4,
+                    },
+                  }}
+                  colors={[palette[8]]}
+                  xAxis={[
+                    {
+                      data: tasksCompletedByDate.map((d, i) => i),
+                      // scaleType: "time",
+                      valueFormatter: (i) =>
+                        tasksCompletedByDate[i]
+                          ? dayjs(tasksCompletedByDate[i].date).format("MMM D")
+                          : "Now",
+                    },
+                  ]}
+                  series={[
+                    {
+                      showMark: false,
+                      curve: "catmullRom",
+                      data: tasksCompletedByDate.map((d) => d.count),
+                    },
+                  ]}
+                  height={chartHeight}
+                >
+                  {gradientDefs}
+                </LineChart>
+              </Box>
+            </Grid>
+            <Grid xs={12} sm={6}>
+              <Box sx={boxStyles}>
+                <Typography>By urgency</Typography>
+                <PieChart
+                  sx={{
+                    mt: 4,
+                    mb: 2,
+                    "& .MuiPieArc-series-auto-generated-id:first-child": {
+                      fill: "url('#gradient-1')",
+                    },
+                    "& .MuiPieArc-series-auto-generated-id-0:not(:first-child)":
+                      {
+                        fill: "url('#gradient')",
+                      },
+                  }}
+                  colors={[palette[9], palette[11]]}
+                  series={[
+                    {
+                      data: [
+                        {
+                          id: 0,
+                          value: data?.filter((d) => d.task.pinned).length,
+                          label: "Important",
+                        },
+                        {
+                          id: 1,
+                          value: data?.filter((d) => !d.task.pinned).length,
+                          label: "Other",
+                        },
+                      ],
+                    },
+                  ]}
+                  width={400}
+                  height={200}
+                >
+                  {gradientDefs}
+                  <defs>
+                    <linearGradient
+                      id="gradient-1"
+                      gradientTransform="rotate(40)"
+                    >
+                      <stop offset="5%" stopColor={palette[7]} />
+                      <stop offset="95%" stopColor={palette[6]} />
+                    </linearGradient>
+                  </defs>
+                </PieChart>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      ) : (
+        "Loading..."
+      )}
+    </>
   );
 }
