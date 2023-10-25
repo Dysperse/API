@@ -201,6 +201,9 @@ export default function Insights() {
                 >
                   <NoSsr>
                     <GaugeChart
+                    
+                      needleBaseColor={palette[11]}
+                      needleColor={palette[11]}
                       hideText
                       style={{
                         marginBottom: "-20px",

@@ -96,6 +96,7 @@
   ],
   "description": "A radically different unified productivity platform",
   "devDependencies": {
+    "@types/react-gauge-chart": "^0.4.2",
     "eslint": "^8.49.0",
     "eslint-config-next": "^13.5.2",
     "prisma": "^5.4.2",
