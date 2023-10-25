@@ -16,7 +16,7 @@ export default function Insights() {
 
   const { data } = useSWR([
     "property/tasks/insights",
-    { email: "manonlyeat@gmail.com" },
+    { email: session.user.email },
   ]);
 
   const tasksCompletedByDate = data
@@ -157,6 +157,7 @@ export default function Insights() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <LineChart
+            colors={[palette[8]]}
             xAxis={[
               {
                 data: tasksCompletedByDate.map((d, i) => i),
@@ -180,6 +181,7 @@ export default function Insights() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <PieChart
+            colors={[palette[9], palette[11]]}
             series={[
               {
                 data: [
