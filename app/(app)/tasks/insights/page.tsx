@@ -170,12 +170,15 @@ export default function Insights() {
                   ...boxStyles,
                   display: "flex",
                   alignItems: "center",
-                  mb: { xs: 3, sm: 0 },
                   justifyContent: { xs: "center", sm: "start" },
                   flexDirection: { xs: "column-reverse", sm: "row" },
                 }}
               >
-                <Box>
+                <Box
+                  sx={{
+                    mb: { xs: 3, sm: 0 },
+                  }}
+                >
                   <Typography
                     sx={{ display: "flex", gap: 1.5, alignItems: "center" }}
                   >
@@ -201,7 +204,6 @@ export default function Insights() {
                 >
                   <NoSsr>
                     <GaugeChart
-                    
                       needleBaseColor={palette[11]}
                       needleColor={palette[11]}
                       hideText
