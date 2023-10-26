@@ -435,6 +435,7 @@ export const Task: any = React.memo(function Task({
         id={taskData.id}
         mutateList={mutateList}
         isDisabled={isDisabled}
+        handleSelect={handleSelect}
         {...(selection.values.length > 0 && { onClick: handleSelect })}
       >
         <ListItemButton
@@ -446,7 +447,7 @@ export const Task: any = React.memo(function Task({
           sx={{
             ...(taskData.name === taskData.name.toUpperCase() &&
               !isCompleted && {
-                mb: 0.5,
+                mb: selection.values.length > 0 ? 0 : 0.5,
                 background: palette[2] + "!important",
               }),
             fontWeight: 700,

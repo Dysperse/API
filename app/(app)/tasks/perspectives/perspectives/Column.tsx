@@ -1,8 +1,10 @@
 import { containerRef } from "@/app/(app)/container";
 import { Emoji } from "@/components/Emoji";
+import SelectDateModal from "@/components/Tasks/Task/DatePicker";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Avatar,
@@ -21,11 +23,140 @@ import React, {
   useRef,
   useState,
 } from "react";
+import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { PerspectiveContext, sortedTasks } from ".";
 import { Task } from "../../../../../components/Tasks/Task";
 import { CreateTask } from "../../../../../components/Tasks/Task/Create";
+import { SelectionContext } from "../../selection-context";
 import { Header } from "./Header";
+
+function UnfinishedTasks({ column, completedTasks, data }) {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+  const taskSelection = useContext(SelectionContext);
+
+  const handleOpen = () => {
+    taskSelection.set([
+      -2,
+      ...data
+        .filter((d) => !completedTasks.find((f) => f.id === d.id))
+        .map((e) => e.id),
+    ]);
+  };
+  const isActive = taskSelection.values.includes(-2);
+
+  const handleNext = () => {
+    if (isActive) {
+    }
+  };
+
+  const handleSubmit = async (newDate) => {
+    try {
+      const res = await fetchRawApi(
+        session,
+        "property/boards/column/task/editMany",
+        {
+          selection: JSON.stringify(
+            taskSelection.values.filter((e) => e !== -2)
+          ),
+          due: newDate,
+        }
+      );
+      if (res.errors !== 0) {
+        toast.error(
+          `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`
+        );
+        return;
+      }
+      document.getElementById("taskMutationTrigger")?.click();
+      toast.success(`Updated due date!`);
+      taskSelection.set([]);
+    } catch {
+      toast.error(`Couldn't update due dates! Please try again later`);
+    }
+  };
+
+  return (
+    <>
+      <Box
+        sx={{
+          p: 2,
+          px: 3,
+          pt: 0,
+          pb: 1,
+          mt: -20,
+          transition: "opacity .5s, margin .5s",
+          ...(taskSelection.values.length > 0 &&
+            !taskSelection.values.includes(-2) && {
+              opacity: 0,
+              mt: -10,
+              pointerEvents: "none",
+            }),
+          ...(isActive && {
+            position: { xs: "fixed", sm: "absolute" },
+            mt: 0,
+            top: 0,
+            left: 0,
+            zIndex: 9999,
+            width: "100%",
+            px: 2,
+            py: 2,
+            background: palette[1],
+          }),
+        }}
+      >
+        <Box
+          onClick={handleOpen}
+          sx={{
+            p: 2,
+            borderRadius: 5,
+            background: palette[3],
+            width: "100%",
+            alignItems: "center",
+            display: "flex",
+            "&:active": { opacity: isActive ? 1 : 0.6 },
+          }}
+        >
+          {isActive && (
+            <Avatar
+              sx={{ mr: 2, background: palette[5] }}
+              onClick={(e) => {
+                e.stopPropagation();
+                taskSelection.set([]);
+              }}
+            >
+              <Icon className="outlined">close</Icon>
+            </Avatar>
+          )}
+          <Box>
+            <Typography sx={{ fontWeight: 500 }}>
+              {isActive
+                ? `${taskSelection.values.length - 1} selected`
+                : "Reschedule unfinished tasks?"}
+            </Typography>
+          </Box>
+          <SelectDateModal
+            closeOnSelect
+            date={dayjs(column)}
+            dateOnly
+            setDate={handleSubmit}
+          >
+            <Avatar
+              sx={{ ml: "auto", background: palette[5] }}
+              onClick={handleNext}
+            >
+              <Icon className="outlined">
+                {isActive ? "arrow_forward_ios" : "edit_calendar"}
+              </Icon>
+            </Avatar>
+          </SelectDateModal>
+        </Box>
+      </Box>
+    </>
+  );
+}
 
 function RandomTask({ children, date }) {
   const taskIdeas = [
@@ -249,12 +380,31 @@ const Column = React.memo(function Column({
   useEffect(() => {
     setRerender(true);
   }, []);
+  const taskSelection = useContext(SelectionContext);
+  const isPushingUnfinished = taskSelection.values.includes(-2);
+
+  const completedTasks = data.filter((taskData) => {
+    const isRecurring = taskData.recurrenceRule !== null;
+    const isCompleted = isRecurring
+      ? taskData.completionInstances.find((instance) =>
+          dayjs(instance.iteration)
+            .startOf("day")
+            .isSame(dayjs(taskData.recurrenceDay).startOf("day"))
+        )
+      : taskData.completionInstances?.length > 0;
+
+    return isCompleted;
+  });
+
+  const showEmptyState =
+    data?.length == 0 || completedTasks.length === data?.length;
 
   return (
     <Box
       ref={scrollParentRef}
       {...(isToday && { id: "active" })}
       sx={{
+        position: "relative",
         height: "auto",
         flex: { xs: "0 0 100%", sm: "0 0 320px" },
         width: { xs: "100%", sm: "320px" },
@@ -276,6 +426,10 @@ const Column = React.memo(function Column({
           borderLeft: "2px solid",
         }),
         borderColor: { sm: addHslAlpha(palette[4], 0.5) },
+        ...(isMobile &&
+          taskSelection.values.includes(-2) && {
+            "& .header": { opacity: 0, mt: -15, pointerEvents: "none" },
+          }),
       }}
     >
       <Header
@@ -287,14 +441,15 @@ const Column = React.memo(function Column({
         heading={heading}
         columnEnd={columnEnd}
       />
-      <Box sx={{ px: { sm: 1 } }}>
+      <Box sx={{ px: { sm: 1 } }} className="content">
         <Box
           sx={{
-            display: data?.length == 0 ? "flex" : "none",
+            display: showEmptyState ? "flex" : "none",
             justifyContent: "center",
             mx: "auto",
             py: { sm: 2 },
             px: { xs: 3, sm: 2 },
+            mb: 2,
             alignItems: { xs: "center", sm: "start" },
             textAlign: { xs: "center", sm: "left" },
             flexDirection: "column",
@@ -332,7 +487,12 @@ const Column = React.memo(function Column({
               </Avatar>
               <Typography
                 variant="h5"
-                sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                sx={{
+                  display: "flex",
+                  textAlign: "center",
+                  alignItems: "center",
+                  gap: 2,
+                }}
               >
                 {data.length === 0 ? "No tasks!" : "You finished everything!"}
               </Typography>
@@ -360,6 +520,24 @@ const Column = React.memo(function Column({
             </Box>
           </motion.div>
         </Box>
+        {/* unfinished tasks indicator */}
+        {!isToday &&
+          dayjs(column).isBefore(dayjs()) &&
+          completedTasks.length !== data?.length &&
+          data?.length !== 0 && (
+            <Box
+              sx={{
+                mt: taskSelection.values.length ? 0 : 20,
+                transition: "margin .5s",
+              }}
+            >
+              <UnfinishedTasks
+                data={data}
+                completedTasks={completedTasks}
+                column={column}
+              />
+            </Box>
+          )}
         <Virtuoso
           initialItemCount={data.length < 10 ? data.length : 10}
           useWindowScroll
@@ -367,7 +545,11 @@ const Column = React.memo(function Column({
           customScrollParent={
             isMobile ? containerRef.current : scrollParentRef.current
           }
-          data={data}
+          data={
+            isPushingUnfinished
+              ? data.filter((d) => !completedTasks.find((f) => f.id === d.id))
+              : data
+          }
           itemContent={(_, task) => (
             <Task
               recurringInstance={task.recurrenceDay}

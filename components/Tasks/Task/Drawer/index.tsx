@@ -42,6 +42,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   id,
   mutateList,
   onClick,
+  handleSelect,
   recurringInstance = new Date(),
 }: {
   isDisabled?: boolean;
@@ -49,6 +50,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   id: number;
   mutateList: any;
   onClick?: any;
+  handleSelect?: any;
   recurringInstance?: Date;
 }) {
   const { session } = useSession();
@@ -146,7 +148,11 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   // Attach the `onClick` handler to the trigger
   const trigger = cloneElement(children, {
-    onClick: () => {
+    onClick: (e) => {
+      if (e.shiftKey || e.ctrlKey) {
+        handleSelect();
+        return;
+      }
       clickCount++;
       if (clickCount === 1) {
         handleSingleClick();

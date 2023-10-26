@@ -127,6 +127,7 @@ export const Header = memo(function Header({
 
   return (
     <Box
+      className="header"
       sx={{
         pt: isMobile ? "65px" : 0,
         backdropFilter: { sm: "blur(4px)" },
@@ -137,6 +138,7 @@ export const Header = memo(function Header({
         display: "flex",
         background: { sm: addHslAlpha(palette[1], 0.7) },
         zIndex: 99,
+        transition: "all .5s",
         ...(/\bCrOS\b/.test(navigator.userAgent) && {
           background: palette[1],
           backdropFilter: "none",

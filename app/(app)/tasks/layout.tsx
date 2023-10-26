@@ -201,6 +201,9 @@ export default function TasksLayout({
           background: palette[2],
           maxWidth: { md: "400px" },
           pt: "0!important",
+          ...((taskSelection.find((e) => e == "-2") && {
+            display: "none",
+          }) as any),
         }}
       >
         <Toolbar sx={{ mt: { sm: -0.5 }, pt: "0!important" }}>

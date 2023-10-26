@@ -201,6 +201,10 @@ const SelectDateModal = React.memo(function SelectDateModal({
         anchor="bottom"
         open={open}
         onClose={() => setOpen(false)}
+        sx={{
+          // for moving unfinished tasks
+          zIndex: 9999,
+        }}
         PaperProps={{
           sx: {
             width: { xs: "calc(100dvw - 40px)", sm: "350px" },
