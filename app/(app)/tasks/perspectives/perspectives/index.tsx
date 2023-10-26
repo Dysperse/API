@@ -9,25 +9,18 @@ import {
   Collapse,
   Icon,
   IconButton,
-  Skeleton,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  createContext,
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { WidgetBar } from "../../../../../components/Tasks/Layout/widgets";
 import SelectDateModal from "../../../../../components/Tasks/Task/DatePicker";
 import Column from "./Column";
+import { PerspectivesLoadingScreen } from "./PerspectivesLoadingScreen";
 
 export const PerspectiveContext = createContext<any>(null);
 
@@ -69,7 +62,7 @@ export function PerspectivesInfo({
   const subheading = {
     days: dayjs(start).format("YYYY"),
     weeks: dayjs(start).format("YYYY"),
-    months: "-",
+    months: "",
   }[type];
 
   const handlePrev = () => {
@@ -146,9 +139,11 @@ export function PerspectivesInfo({
             {heading}
           </Typography>
         </SelectDateModal>
-        <Typography variant="h5">
-          <span style={{ fontWeight: 200, opacity: 0.6 }}>{subheading}</span>
-        </Typography>
+        {subheading && (
+          <Typography variant="h5">
+            <span style={{ fontWeight: 200, opacity: 0.6 }}>{subheading}</span>
+          </Typography>
+        )}
         <Box>
           <FocusTrigger
             view={view}
@@ -221,131 +216,6 @@ export const sortedTasks = (tasks, column) =>
       return a.pinned ? -1 : b.pinned ? 1 : 0;
     }
   });
-function PerspectivesLoadingScreen(): any {
-  const { session } = useSession();
-  const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
-  const isMobile = useMediaQuery("(max-width: 600px)");
-
-  const TaskSkeleton = memo(function A() {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          px: 3,
-          pt: 3,
-          alignItems: "center",
-        }}
-      >
-        <Skeleton
-          animation="wave"
-          variant="circular"
-          width={30}
-          height={30}
-          sx={{ flexShrink: 0 }}
-        />
-        <Skeleton
-          animation="wave"
-          variant="rectangular"
-          sx={{
-            width: `${120 - Math.random() * 100}%`,
-            minWidth: "50%",
-            maxWidth: "100%",
-          }}
-        />
-      </Box>
-    );
-  });
-
-  return [...new Array(isMobile ? 1 : Math.round(window.innerWidth / 320))].map(
-    (_, i) => (
-      <Box
-        key={i}
-        sx={{
-          borderLeft: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
-          width: { xs: "100%", sm: "320px" },
-          flex: { xs: "0 0 100%", sm: "0 0 320px" },
-          pt: { xs: "var(--navbar-height)", sm: 0 },
-          overflow: "hidden",
-        }}
-      >
-        <Box
-          sx={{
-            px: 3,
-            py: { xs: 3, sm: 4.3 },
-            borderBottom: { sm: `2px solid ${addHslAlpha(palette[4], 0.5)}` },
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 2,
-          }}
-        >
-          {isMobile && (
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={30}
-              height={30}
-              sx={{
-                flexShrink: 0,
-                mr: "auto",
-              }}
-            />
-          )}
-          <Skeleton
-            animation="wave"
-            variant="circular"
-            width={35}
-            height={35}
-            sx={{
-              borderRadius: 3,
-              flexShrink: 0,
-            }}
-          />
-          <Skeleton
-            animation="wave"
-            variant="rectangular"
-            height={35}
-            width={120}
-          />
-          {isMobile && (
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={30}
-              height={30}
-              sx={{
-                flexShrink: 0,
-                ml: "auto",
-              }}
-            />
-          )}
-        </Box>
-        <Box sx={{ py: 2, px: 3, display: "flex", gap: 2.5, mb: -2 }}>
-          <Skeleton
-            animation="wave"
-            variant="rectangular"
-            height={37}
-            sx={{ flexGrow: 1 }}
-          />
-          <Skeleton
-            animation="wave"
-            variant="rectangular"
-            height={37}
-            width={60}
-            sx={{ flexShrink: 0 }}
-          />
-        </Box>
-        {[...new Array(isMobile ? 15 : ~~(Math.random() * 4) + 4)].map(
-          (_, i) => (
-            <TaskSkeleton key={i} />
-          )
-        )}
-      </Box>
-    )
-  );
-}
 
 function FocusTrigger({ view, setView, scrollIntoView }) {
   const { session } = useSession();
@@ -591,10 +461,6 @@ export function Agenda({ type, date }) {
         }}
       >
         <Box
-          onScroll={(e: any) => {
-            // idk what this does
-            e.target.getBoundingClientRect();
-          }}
           sx={{
             display: "flex",
             flexDirection: "row",
