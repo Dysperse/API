@@ -269,7 +269,9 @@ export const Header = memo(function Header({
                             ...(isPast && { opacity: 0.5 }),
                           }}
                         >
-                          {dayjs(column).utc().format(heading)}
+                          <span style={{ fontWeight: "600" }}>
+                            {dayjs(column).utc().format(heading)}
+                          </span>
                         </Typography>
 
                         <Typography
@@ -282,6 +284,7 @@ export const Header = memo(function Header({
                         >
                           <span
                             style={{
+                              fontWeight: "500",
                               ...(isPast && {
                                 textDecoration: "line-through",
                                 ...(isPast && { opacity: 0.5 }),
