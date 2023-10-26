@@ -1,4 +1,4 @@
-import { Box, Skeleton } from "@mui/material";
+import { Box } from "@mui/material";
 import { PerspectivesLoadingScreen } from "../perspectives/PerspectivesLoadingScreen";
 
 export default function Loading() {
@@ -14,28 +14,6 @@ export default function Loading() {
         height: "100%",
       }}
     >
-      <Box
-        sx={{
-          p: 2,
-          height: "100%",
-          width: "320px",
-          flex: "0 0 320px",
-          position: "sticky",
-          top: 0,
-          left: 0,
-        }}
-      >
-        <Skeleton
-          animation="wave"
-          variant="rectangular"
-          sx={{
-            width: "100%",
-            height: "100%",
-            borderRadius: 5,
-            opacity: 0.7,
-          }}
-        />
-      </Box>
       <PerspectivesLoadingScreen />
     </Box>
   );

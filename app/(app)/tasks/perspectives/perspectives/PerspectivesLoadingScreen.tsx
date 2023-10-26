@@ -42,91 +42,107 @@ export function PerspectivesLoadingScreen(): any {
     );
   });
 
-  return [...new Array(isMobile ? 1 : Math.round(window.innerWidth / 320))].map(
-    (_, i) => (
-      <Box
-        key={i}
+  return (
+    <>
+      <Skeleton
+        animation="wave"
+        variant="rectangular"
         sx={{
-          borderLeft: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
-          width: { xs: "100%", sm: "320px" },
-          flex: { xs: "0 0 100%", sm: "0 0 320px" },
-          pt: { xs: "var(--navbar-height)", sm: 0 },
-          overflow: "hidden",
+          width: "100%",
+          height: "100%",
+          borderRadius: 5,
+          opacity: 0.7,
         }}
-      >
-        <Box
-          sx={{
-            px: 3,
-            py: { xs: 3, sm: 4.3 },
-            borderBottom: { sm: `2px solid ${addHslAlpha(palette[4], 0.5)}` },
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 2,
-          }}
-        >
-          {isMobile && (
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={30}
-              height={30}
-              sx={{
-                flexShrink: 0,
-                mr: "auto",
-              }}
-            />
-          )}
-          <Skeleton
-            animation="wave"
-            variant="circular"
-            width={35}
-            height={35}
+      />
+      {[...new Array(isMobile ? 1 : Math.round(window.innerWidth / 320))].map(
+        (_, i) => (
+          <Box
+            key={i}
             sx={{
-              borderRadius: 3,
-              flexShrink: 0,
+              borderLeft: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
+              width: { xs: "100%", sm: "320px" },
+              flex: { xs: "0 0 100%", sm: "0 0 320px" },
+              pt: { xs: "var(--navbar-height)", sm: 0 },
+              overflow: "hidden",
             }}
-          />
-          <Skeleton
-            animation="wave"
-            variant="rectangular"
-            height={35}
-            width={120}
-          />
-          {isMobile && (
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={30}
-              height={30}
+          >
+            <Box
               sx={{
-                flexShrink: 0,
-                ml: "auto",
+                px: 3,
+                py: { xs: 3, sm: 4.3 },
+                borderBottom: {
+                  sm: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
+                },
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 2,
               }}
-            />
-          )}
-        </Box>
-        <Box sx={{ py: 2, px: 3, display: "flex", gap: 2.5, mb: -2 }}>
-          <Skeleton
-            animation="wave"
-            variant="rectangular"
-            height={37}
-            sx={{ flexGrow: 1 }}
-          />
-          <Skeleton
-            animation="wave"
-            variant="rectangular"
-            height={37}
-            width={60}
-            sx={{ flexShrink: 0 }}
-          />
-        </Box>
-        {[...new Array(isMobile ? 15 : ~~(Math.random() * 4) + 4)].map(
-          (_, i) => (
-            <TaskSkeleton key={i} />
-          )
-        )}
-      </Box>
-    )
+            >
+              {isMobile && (
+                <Skeleton
+                  animation="wave"
+                  variant="circular"
+                  width={30}
+                  height={30}
+                  sx={{
+                    flexShrink: 0,
+                    mr: "auto",
+                  }}
+                />
+              )}
+              <Skeleton
+                animation="wave"
+                variant="circular"
+                width={35}
+                height={35}
+                sx={{
+                  borderRadius: 3,
+                  flexShrink: 0,
+                }}
+              />
+              <Skeleton
+                animation="wave"
+                variant="rectangular"
+                height={35}
+                width={120}
+              />
+              {isMobile && (
+                <Skeleton
+                  animation="wave"
+                  variant="circular"
+                  width={30}
+                  height={30}
+                  sx={{
+                    flexShrink: 0,
+                    ml: "auto",
+                  }}
+                />
+              )}
+            </Box>
+            <Box sx={{ py: 2, px: 3, display: "flex", gap: 2.5, mb: -2 }}>
+              <Skeleton
+                animation="wave"
+                variant="rectangular"
+                height={37}
+                sx={{ flexGrow: 1 }}
+              />
+              <Skeleton
+                animation="wave"
+                variant="rectangular"
+                height={37}
+                width={60}
+                sx={{ flexShrink: 0 }}
+              />
+            </Box>
+            {[...new Array(isMobile ? 15 : ~~(Math.random() * 4) + 4)].map(
+              (_, i) => (
+                <TaskSkeleton key={i} />
+              )
+            )}
+          </Box>
+        )
+      )}
+    </>
   );
 }
