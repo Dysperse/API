@@ -94,7 +94,7 @@ function UnfinishedTasks({ column, completedTasks, data }) {
               mt: -10,
               pointerEvents: "none",
             }),
-            zIndex: 99999,
+          zIndex: 99999,
           ...(isActive && {
             position: { xs: "fixed", sm: "absolute" },
             mt: 0,
@@ -408,7 +408,7 @@ const Column = React.memo(function Column({
         height: "auto",
         flex: { xs: "0 0 100%", sm: "0 0 320px" },
         width: { xs: "100%", sm: "320px" },
-        borderRight: { sm: "2px solid" },
+        borderLeft: { sm: "2px solid" },
         ...(!isMobile && {
           overflowY: "auto",
         }),

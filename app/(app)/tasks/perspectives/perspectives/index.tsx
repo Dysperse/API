@@ -15,7 +15,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
@@ -32,6 +31,172 @@ import SelectDateModal from "../../../../../components/Tasks/Task/DatePicker";
 import Column from "./Column";
 
 export const PerspectiveContext = createContext<any>(null);
+
+const columnMap = (isMobile) => ({
+  days: isMobile ? "day" : "week",
+  weeks: isMobile ? "week" : "month",
+  months: isMobile ? "month" : "year",
+});
+
+export function PerspectivesInfo({
+  type,
+  start,
+  end,
+  date,
+  view,
+  setView,
+  scrollIntoView,
+  agendaContainerRef,
+}) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isToday =
+    pathname ===
+      `/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}` ||
+    pathname === `/tasks/perspectives/${type}`;
+
+  const heading = {
+    days: `${dayjs(start).format("Do")} - ${dayjs(end).format("Do")}`,
+    weeks: dayjs(start).format("MMMM"),
+    months: dayjs(start).format("YYYY"),
+  }[type];
+
+  const subheading = {
+    days: dayjs(start).format("MMMM YYYY"),
+    weeks: dayjs(start).format("YYYY"),
+    months: "-",
+  }[type];
+
+  const handlePrev = () => {
+    const prev = dayjs(date)
+      .subtract(1, columnMap(isMobile)[type])
+      .format("YYYY-MM-DD");
+    router.push(`/tasks/perspectives/${type}/${prev}`);
+  };
+
+  const handleNext = () => {
+    agendaContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+    const next = dayjs(date)
+      .add(1, columnMap(isMobile)[type])
+      .format("YYYY-MM-DD");
+    router.push(`/tasks/perspectives/${type}/${next}`);
+  };
+
+  return (
+    <Box
+      sx={{
+        p: 2,
+        height: "100%",
+        width: "300px",
+        flex: "0 0 300px",
+        position: "sticky",
+        top: 0,
+        left: 0,
+        zIndex: 999,
+      }}
+    >
+      <Box
+        sx={{
+          p: 3,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          width: "100%",
+          height: "100%",
+          borderRadius: 5,
+          background: addHslAlpha(palette[3], 0.6),
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        <SelectDateModal
+          type={
+            type === "days" ? undefined : type === "weeks" ? "month" : "year"
+          }
+          date={start}
+          setDate={(date) => {
+            setTimeout(() => {
+              router.push(
+                `/tasks/perspectives/${type}/${dayjs(date).format(
+                  "YYYY-MM-DD"
+                )}`
+              );
+            }, 900);
+          }}
+          dateOnly
+          closeOnSelect
+        >
+          <Typography
+            variant="h3"
+            className="font-heading"
+            sx={{
+              px: 1,
+              mx: -1,
+              borderRadius: 5,
+              "&:hover": { background: palette[3] },
+              "&:active": { background: palette[4] },
+            }}
+          >
+            {heading}
+          </Typography>
+        </SelectDateModal>
+        <Typography variant="h6">{subheading}</Typography>
+        <FocusTrigger
+          view={view}
+          setView={setView}
+          scrollIntoView={scrollIntoView}
+        />
+        <Box
+          sx={{
+            ml: "auto",
+            background: palette[3],
+            borderRadius: 3,
+            WebkitAppRegion: "no-drag",
+            display: "flex",
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            m: 2,
+            "& .MuiIconButton-root, & .MuiButton-root": {
+              color: "inherit!important",
+              borderRadius: 3,
+              "&:hover": { background: palette[4] + "!important" },
+              "&:active": { background: palette[5] + "!important" },
+            },
+          }}
+          className="priority-hidden"
+        >
+          <IconButton onClick={handlePrev} id="agendaPrev">
+            <Icon className="outlined">arrow_back_ios_new</Icon>
+          </IconButton>
+          {!isToday && (
+            <Button
+              id="agendaToday"
+              onClick={() => {
+                router.push(
+                  `/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}`
+                );
+                scrollIntoView();
+              }}
+              size="large"
+              sx={{
+                px: 0,
+              }}
+            >
+              Today
+            </Button>
+          )}
+          <IconButton onClick={handleNext} id="agendaNext">
+            <Icon className="outlined">arrow_forward_ios</Icon>
+          </IconButton>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
 
 export const sortedTasks = (tasks, column) =>
   tasks.sort((a, b) => {
@@ -91,7 +256,7 @@ function PerspectivesLoadingScreen(): any {
       <Box
         key={i}
         sx={{
-          borderRight: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
+          borderLeft: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
           width: { xs: "100%", sm: "320px" },
           flex: { xs: "0 0 100%", sm: "0 0 320px" },
           pt: { xs: "var(--navbar-height)", sm: 0 },
@@ -266,7 +431,7 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
     <Button
       variant="contained"
       sx={{
-        ml: "auto",
+        mt: 2,
         WebkitAppRegion: "no-drag",
         color: "inherit!important",
         border: `2px solid`,
@@ -329,16 +494,9 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
  * @param {string} date
  */
 export function Agenda({ type, date }) {
-  const router = useRouter();
   const agendaContainerRef = useRef<HTMLDivElement>();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [view, setView] = useState("all");
-
-  const columnMap = {
-    days: isMobile ? "day" : "week",
-    weeks: isMobile ? "week" : "month",
-    months: isMobile ? "month" : "year",
-  };
 
   const columnMap1 = {
     days: "week",
@@ -346,60 +504,10 @@ export function Agenda({ type, date }) {
     months: "year",
   };
 
-  const viewHeadingFormats = {
-    days: "MMMM",
-    weeks: "MMMM",
-    months: "YYYY",
-  };
-
-  const viewSubHeadingFormats = {
-    days: "YYYY",
-    weeks: "YYYY",
-    months: "-",
-  };
-
-  const handleNext = () => {
-    // if (!agendaContainerRef.current) return;
-    // // alert(agendaContainerRef.current?.scrollLeft);
-    // const { scrollLeft, clientWidth, scrollWidth } = agendaContainerRef.current;
-    // const { width } = agendaContainerRef.current.getBoundingClientRect();
-
-    // const canScrollRight = scrollLeft + clientWidth <= scrollWidth - 10;
-
-    // if (canScrollRight && !isMobile) {
-    //   agendaContainerRef.current.scrollTo({
-    //     left: width + scrollLeft - 50,
-    //     behavior: "smooth",
-    //   });
-    // } else {
-    agendaContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
-    const next = dayjs(date).add(1, columnMap[type]).format("YYYY-MM-DD");
-    router.push(`/tasks/perspectives/${type}/${next}`);
-    // }
-  };
-
-  const handlePrev = () => {
-    // if (!agendaContainerRef.current) return;
-    // const { scrollLeft } = agendaContainerRef.current;
-    // const { width } = agendaContainerRef.current.getBoundingClientRect();
-
-    // const canScrollLeft = scrollLeft > 0;
-
-    // if (canScrollLeft && !isMobile) {
-    //   agendaContainerRef.current.scrollTo({
-    //     left: (width + scrollLeft - 50) * -1,
-    //     behavior: "smooth",
-    //   });
-    // } else {
-    const prev = dayjs(date).subtract(1, columnMap[type]).format("YYYY-MM-DD");
-    router.push(`/tasks/perspectives/${type}/${prev}`);
-    // }
-  };
-
   const { session } = useSession();
 
-  const start = dayjs(date).startOf(columnMap[type]);
-  const end = dayjs(start).endOf(columnMap[type]);
+  const start = dayjs(date).startOf(columnMap(isMobile)[type]);
+  const end = dayjs(start).endOf(columnMap(isMobile)[type]);
 
   // Create an array of columns for each [type] in [columnMap]
   const columns = Array.from(
@@ -451,13 +559,6 @@ export function Agenda({ type, date }) {
     }
   });
 
-  const pathname = usePathname();
-
-  const isToday =
-    pathname ===
-      `/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}` ||
-    pathname === `/tasks/perspectives/${type}`;
-
   return (
     <PerspectiveContext.Provider
       value={{
@@ -477,140 +578,6 @@ export function Agenda({ type, date }) {
           minHeight: "100dvh",
         }}
       >
-        <motion.div
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          style={{
-            width: "100%",
-            // zIndex: 999,
-            overflow: "visible",
-          }}
-        >
-          <Box
-            sx={{
-              px: 4,
-              pt: "env(titlebar-area-height, 10px)",
-              pb: "10px",
-              textAlign: "left",
-              display: { xs: "none", sm: "flex" },
-              alignItems: "center",
-              borderBottom: `2px solid ${palette[3]}`,
-              width: "100%",
-              transition: "all .2s",
-              WebkitAppRegion: "drag",
-              gap: 2,
-              ...(view === "priority" && {
-                "& .priority-hidden": {
-                  opacity: 0,
-                  transition: "opacity 0.2s",
-                },
-                "&:hover .priority-hidden": {
-                  opacity: 1,
-                },
-              }),
-            }}
-          >
-            <SelectDateModal
-              type={
-                type === "days"
-                  ? undefined
-                  : type === "weeks"
-                  ? "month"
-                  : "year"
-              }
-              date={start}
-              setDate={(date) => {
-                setTimeout(() => {
-                  router.push(
-                    `/tasks/perspectives/${type}/${dayjs(date).format(
-                      "YYYY-MM-DD"
-                    )}`
-                  );
-                }, 900);
-              }}
-              dateOnly
-              closeOnSelect
-            >
-              <Button
-                variant="contained"
-                sx={{
-                  textAlign: "left",
-                  borderRadius: 3,
-                  WebkitAppRegion: "no-drag",
-                  ml: -1,
-                  color: "inherit!important",
-                }}
-                size="small"
-              >
-                <Icon>today</Icon>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={dayjs(start).format(viewHeadingFormats[type])}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <Typography sx={{ fontWeight: 900 }}>
-                      {dayjs(start).format(viewHeadingFormats[type])}
-                    </Typography>
-                    {viewSubHeadingFormats[type] !== "-" && (
-                      <Typography variant="body2" sx={{ mt: -0.5 }}>
-                        {dayjs(start).format(viewSubHeadingFormats[type])}
-                      </Typography>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </Button>
-            </SelectDateModal>
-            <FocusTrigger
-              view={view}
-              setView={setView}
-              scrollIntoView={scrollIntoView}
-            />
-            <Box
-              sx={{
-                ml: "auto",
-                background: palette[3],
-                borderRadius: 3,
-                WebkitAppRegion: "no-drag",
-                display: "flex",
-                "& .MuiIconButton-root, & .MuiButton-root": {
-                  color: "inherit!important",
-                  borderRadius: 3,
-                  "&:hover": { background: palette[4] + "!important" },
-                  "&:active": { background: palette[5] + "!important" },
-                },
-              }}
-              className="priority-hidden"
-            >
-              <IconButton onClick={handlePrev} id="agendaPrev">
-                <Icon className="outlined">arrow_back_ios_new</Icon>
-              </IconButton>
-              {!isToday && (
-                <Button
-                  id="agendaToday"
-                  onClick={() => {
-                    router.push(
-                      `/tasks/perspectives/${type}/${dayjs().format(
-                        "YYYY-MM-DD"
-                      )}`
-                    );
-                    scrollIntoView();
-                  }}
-                  size="large"
-                  sx={{
-                    px: 0,
-                  }}
-                >
-                  Today
-                </Button>
-              )}
-              <IconButton onClick={handleNext} id="agendaNext">
-                <Icon className="outlined">arrow_forward_ios</Icon>
-              </IconButton>
-            </Box>
-          </Box>
-        </motion.div>
         <Box
           onScroll={(e: any) => {
             // idk what this does
@@ -628,6 +595,18 @@ export function Agenda({ type, date }) {
           }}
           ref={agendaContainerRef}
         >
+          {!isMobile && (
+            <PerspectivesInfo
+              date={date}
+              type={type}
+              start={start}
+              end={end}
+              view={view}
+              setView={setView}
+              scrollIntoView={scrollIntoView}
+              agendaContainerRef={agendaContainerRef}
+            />
+          )}
           {!error && data && columns?.length > 0 ? (
             data.map((column: any) => (
               <Column
