@@ -94,12 +94,12 @@ function UnfinishedTasks({ column, completedTasks, data }) {
               mt: -10,
               pointerEvents: "none",
             }),
+            zIndex: 99999,
           ...(isActive && {
             position: { xs: "fixed", sm: "absolute" },
             mt: 0,
             top: 0,
             left: 0,
-            zIndex: 9999,
             width: "100%",
             px: 2,
             py: 2,
