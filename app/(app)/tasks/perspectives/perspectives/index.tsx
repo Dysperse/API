@@ -1,5 +1,4 @@
 "use client";
-import { ErrorHandler } from "@/components/Error";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -539,6 +538,10 @@ export function Agenda({ type, date }) {
     },
   ]);
 
+  if (error) {
+    throw new Error("Failed to load perspectives");
+  }
+
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
@@ -625,8 +628,6 @@ export function Agenda({ type, date }) {
                 view={view}
               />
             ))
-          ) : error ? (
-            <ErrorHandler callback={mutateList} />
           ) : (
             <PerspectivesLoadingScreen />
           )}
