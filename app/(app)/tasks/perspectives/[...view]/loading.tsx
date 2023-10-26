@@ -5,7 +5,7 @@ export default function Loading() {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: { xs: "none", sm: "flex" },
         flexDirection: "row",
         flexGrow: 1,
         maxWidth: "100dvw",
