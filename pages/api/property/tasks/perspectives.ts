@@ -94,8 +94,6 @@ const handler = async (req, res) => {
           ).replace(/^EXDATE.*$/, "")
       ).between(start.toDate(), end.toDate(), true);
 
-      console.log(rule);
-
       for (const dueDate of rule) {
         const due = dayjs(dueDate)
           .utc()
@@ -124,7 +122,6 @@ const handler = async (req, res) => {
       tasks: tasksByUnit.get(unit),
     }));
 
-    console.log(returned);
     res.json(returned);
   } catch (e: any) {
     console.error(e);

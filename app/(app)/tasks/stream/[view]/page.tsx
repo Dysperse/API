@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useParams } from "next/navigation";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { TaskNavbar } from "../../navbar";
@@ -19,7 +19,6 @@ export default function Page() {
   const params = useParams();
   const { view } = params as any;
 
-  const scrollParentRef = useRef();
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   //   IDFK WHY THIS HAPPENS!?
@@ -58,12 +57,13 @@ export default function Page() {
         <Virtuoso
           useWindowScroll
           customScrollParent={
-            isMobile ? containerRef.current : scrollParentRef.current
+            isMobile
+              ? containerRef.current
+              : document.getElementById("boardContainer")
           }
           data={data}
           itemContent={(_, task) => (
             <Task
-              isAgenda
               isDateDependent={true}
               key={task.id}
               isScrolling={false}
