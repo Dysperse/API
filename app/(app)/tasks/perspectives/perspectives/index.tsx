@@ -431,7 +431,7 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
     <Button
       variant="contained"
       sx={{
-        mt: 2,
+        mt: 1,
         WebkitAppRegion: "no-drag",
         color: "inherit!important",
         border: `2px solid`,
