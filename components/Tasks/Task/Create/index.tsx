@@ -371,9 +371,7 @@ export function CreateTask({
   const emojiTrigger = useMemo(
     () => (
       <EmojiPicker
-        setEmoji={(s) => {
-          setFormData((e) => ({ ...e, title: e.title + s }));
-        }}
+        setEmoji={(s) => setFormData((e) => ({ ...e, title: e.title + s }))}
         useNativeEmoji
       >
         <IconButton
@@ -397,7 +395,7 @@ export function CreateTask({
         id="locationTrigger"
         size="small"
         sx={styles.button(showedFields.location)}
-        onClick={(e) => {
+        onClick={() => {
           setShowedFields((s) => ({ ...s, location: !s.location }));
           if (showedFields.location) {
             setFormData((s) => ({ ...s, location: "" }));

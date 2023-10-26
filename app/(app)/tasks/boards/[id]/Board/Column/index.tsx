@@ -1,5 +1,5 @@
 import { containerRef } from "@/app/(app)/container";
-import { HeaderSkeleton } from "@/app/(app)/tasks/perspectives/perspectives/Header";
+import { HeaderSkeleton } from "@/app/(app)/tasks/perspectives/perspectives/HeaderSkeleton";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";

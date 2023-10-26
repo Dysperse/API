@@ -18,8 +18,9 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import React, {
   cloneElement,
+  useCallback,
   useContext,
-  useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -355,49 +356,72 @@ const Column = React.memo(function Column({
 
   const [isScrolling, setIsScrolling] = useState(false);
 
-  const heading = {
-    days: "DD",
-    weeks: "#W",
-    months: "YYYY",
-  }[type];
-
-  const columnMap = {
-    days: "day",
-    weeks: "week",
-    months: "month",
-  }[type];
-
-  const subheading = {
-    days: "dddd",
-    weeks: "D",
-    months: "MMM",
-  }[type];
-
   const isToday = dayjs(column).isSame(dayjs(), type);
 
-  // stupid virtuoso bug
-  const [_, setRerender] = useState(false);
-  useEffect(() => {
-    setRerender(true);
-  }, []);
   const taskSelection = useContext(SelectionContext);
   const isPushingUnfinished = taskSelection.values.includes(-2);
 
-  const completedTasks = data.filter((taskData) => {
-    const isRecurring = taskData.recurrenceRule !== null;
-    const isCompleted = isRecurring
-      ? taskData.completionInstances.find((instance) =>
-          dayjs(instance.iteration)
-            .startOf("day")
-            .isSame(dayjs(taskData.recurrenceDay).startOf("day"))
-        )
-      : taskData.completionInstances?.length > 0;
+  const completedTasks = useMemo(
+    () =>
+      data.filter((taskData) => {
+        const isRecurring = taskData.recurrenceRule !== null;
+        const isCompleted = isRecurring
+          ? taskData.completionInstances.find((instance) =>
+              dayjs(instance.iteration)
+                .startOf("day")
+                .isSame(dayjs(taskData.recurrenceDay).startOf("day"))
+            )
+          : taskData.completionInstances?.length > 0;
 
-    return isCompleted;
-  });
+        return isCompleted;
+      }),
+    [data]
+  );
 
-  const showEmptyState =
-    data?.length == 0 || completedTasks.length === data?.length;
+  const showEmptyState = useMemo(
+    () => data?.length == 0 || completedTasks.length === data?.length,
+    [data.length, completedTasks.length]
+  );
+
+  const mutateTaskList = useCallback(
+    (updatedTask) => {
+      if (!updatedTask) {
+        return mutateList();
+      }
+      mutateList(
+        (oldDates) => {
+          const index = oldDates.findIndex(({ start, end }) =>
+            dayjs(column).isBetween(
+              start,
+              end,
+              {
+                days: "day",
+                weeks: "week",
+                months: "month",
+              }[type],
+              "[]"
+            )
+          );
+          return oldDates.map((col, colIndex) => {
+            if (colIndex !== index) return col;
+            return {
+              ...col,
+              tasks: sortedTasks(
+                col.tasks.map((d) => {
+                  return d.id === updatedTask.id ? updatedTask : d;
+                }),
+                col
+              ),
+            };
+          });
+        },
+        {
+          revalidate: false,
+        }
+      );
+    },
+    [column, type, mutateList]
+  );
 
   return (
     <Box
@@ -432,11 +456,11 @@ const Column = React.memo(function Column({
           }),
 
         "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-          backgroundColor: palette[2],
+          backgroundColor: palette[3],
         },
         "&:hover::-webkit-scrollbar-thumb, &:hover *::-webkit-scrollbar-thumb":
           {
-            backgroundColor: palette[3],
+            backgroundColor: palette[4],
           },
         "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
           {
@@ -453,16 +477,20 @@ const Column = React.memo(function Column({
         "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
           backgroundColor: "transparent",
         },
+        "& .desktopColumnMenu": {
+          opacity: 0,
+        },
+        "&:hover .desktopColumnMenu": {
+          opacity: 1,
+        },
       }}
     >
       <Header
-        subheading={subheading}
         column={column}
         isToday={isToday}
-        columnMap={columnMap}
         sortedTasks={data}
-        heading={heading}
         columnEnd={columnEnd}
+        type={type}
       />
       <Box sx={{ px: { sm: 1 } }} className="content">
         <Box
@@ -582,42 +610,7 @@ const Column = React.memo(function Column({
               isScrolling={isScrolling}
               board={task.board || false}
               columnId={task.column ? task.column.id : -1}
-              mutateList={(updatedTask) => {
-                if (!updatedTask) {
-                  return mutateList();
-                }
-                mutateList(
-                  (oldDates) => {
-                    const index = oldDates.findIndex(({ start, end }) =>
-                      dayjs(column).isBetween(
-                        start,
-                        end,
-                        {
-                          days: "day",
-                          weeks: "week",
-                          months: "month",
-                        }[type],
-                        "[]"
-                      )
-                    );
-                    return oldDates.map((col, colIndex) => {
-                      if (colIndex !== index) return col;
-                      return {
-                        ...col,
-                        tasks: sortedTasks(
-                          col.tasks.map((d) => {
-                            return d.id === updatedTask.id ? updatedTask : d;
-                          }),
-                          col
-                        ),
-                      };
-                    });
-                  },
-                  {
-                    revalidate: false,
-                  }
-                );
-              }}
+              mutateList={mutateTaskList}
               task={task}
             />
           )}

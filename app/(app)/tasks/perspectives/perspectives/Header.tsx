@@ -7,7 +7,6 @@ import {
   Button,
   Icon,
   IconButton,
-  Skeleton,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -16,84 +15,26 @@ import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { memo, useContext, useEffect } from "react";
+import { memo, useContext, useEffect, useMemo } from "react";
 import { PerspectiveContext } from ".";
 import { CreateTask } from "../../../../../components/Tasks/Task/Create";
 import SelectDateModal from "../../../../../components/Tasks/Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
+import { HeaderSkeleton } from "./HeaderSkeleton";
 
 interface ColumnHeaderProps {
-  subheading: any;
   column: any;
   isToday: any;
   sortedTasks: any;
-  heading: any;
   columnEnd: any;
-  columnMap: any;
-}
-
-export function HeaderSkeleton() {
-  return (
-    <Box
-      sx={{
-        px: 3,
-        mt: 1,
-        mb: -1,
-        py: { xs: 3, sm: 4.3 },
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 2,
-      }}
-    >
-      <Skeleton
-        animation={false}
-        variant="circular"
-        width={30}
-        height={30}
-        sx={{
-          flexShrink: 0,
-          mr: "auto",
-        }}
-      />
-      <Skeleton
-        animation={false}
-        variant="circular"
-        width={35}
-        height={35}
-        sx={{
-          borderRadius: 3,
-          flexShrink: 0,
-        }}
-      />
-      <Skeleton
-        animation={false}
-        variant="rectangular"
-        height={35}
-        width={120}
-      />
-      <Skeleton
-        animation={false}
-        variant="circular"
-        width={30}
-        height={30}
-        sx={{
-          flexShrink: 0,
-          ml: "auto",
-        }}
-      />
-    </Box>
-  );
+  type: string;
 }
 
 export const Header = memo(function Header({
-  subheading,
   column,
   isToday,
   sortedTasks,
-  heading,
   columnEnd,
-  columnMap,
 }: ColumnHeaderProps) {
   const { session } = useSession();
   const router = useRouter();
@@ -108,10 +49,32 @@ export const Header = memo(function Header({
 
   const { mutateList, type } = useContext(PerspectiveContext);
 
-  const isPast = dayjs(column)
-    .utc()
-    .startOf(columnMap)
-    .isBefore(dayjs().startOf(columnMap), type);
+  const heading = {
+    days: "DD",
+    weeks: "#W",
+    months: "YYYY",
+  }[type];
+
+  const columnMap = {
+    days: "day",
+    weeks: "week",
+    months: "month",
+  }[type];
+
+  const subheading = {
+    days: "dddd",
+    weeks: "D",
+    months: "MMM",
+  }[type];
+
+  const isPast = useMemo(
+    () =>
+      dayjs(column)
+        .utc()
+        .startOf(columnMap)
+        .isBefore(dayjs().startOf(columnMap), type),
+    [column, columnMap, type]
+  );
 
   useEffect(() => {
     if (emblaApi) {
@@ -347,11 +310,30 @@ export const Header = memo(function Header({
                 </Button>
               </CreateTask>
             )}
-            <ColumnMenu data={sortedTasks} day={column}>
-              <Button variant="outlined" size="small">
-                <Icon>more_horiz</Icon>
-              </Button>
-            </ColumnMenu>
+            {isMobile ? (
+              <ColumnMenu data={sortedTasks} day={column}>
+                <Button variant="outlined" size="small">
+                  <Icon>more_horiz</Icon>
+                </Button>
+              </ColumnMenu>
+            ) : (
+              <ColumnMenu data={sortedTasks} day={column}>
+                <IconButton
+                  className="desktopColumnMenu"
+                  size="small"
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    transition: "opacity .2s",
+                    m: 2,
+                    background: palette[3],
+                  }}
+                >
+                  <Icon>more_vert</Icon>
+                </IconButton>
+              </ColumnMenu>
+            )}
           </Box>
         )}
       </motion.div>
