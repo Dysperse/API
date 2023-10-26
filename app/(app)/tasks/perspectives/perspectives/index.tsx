@@ -60,13 +60,15 @@ export function PerspectivesInfo({
     pathname === `/tasks/perspectives/${type}`;
 
   const heading = {
-    days: `${dayjs(start).format("Do")} - ${dayjs(end).format("Do")}`,
+    days: `${dayjs(start).format("MMM Do")} - ${dayjs(end).format(
+      dayjs(end).month() !== dayjs(start).month() ? "MMM Do" : "Do"
+    )}`,
     weeks: dayjs(start).format("MMMM"),
     months: dayjs(start).format("YYYY"),
   }[type];
 
   const subheading = {
-    days: dayjs(start).format("MMMM YYYY"),
+    days: dayjs(start).format("YYYY"),
     weeks: dayjs(start).format("YYYY"),
     months: "-",
   }[type];
@@ -91,11 +93,13 @@ export function PerspectivesInfo({
       sx={{
         p: 2,
         height: "100%",
-        width: "300px",
-        flex: "0 0 300px",
+        width: "320px",
+        flex: "0 0 320px",
         position: "sticky",
         top: 0,
-        left: 0,
+        left: -275,
+        transition: "all .4s",
+        "&:hover": { left: 0 },
         zIndex: 999,
       }}
     >
@@ -143,12 +147,16 @@ export function PerspectivesInfo({
             {heading}
           </Typography>
         </SelectDateModal>
-        <Typography variant="h6">{subheading}</Typography>
-        <FocusTrigger
-          view={view}
-          setView={setView}
-          scrollIntoView={scrollIntoView}
-        />
+        <Typography variant="h5">
+          <span style={{ fontWeight: 200, opacity: 0.6 }}>{subheading}</span>
+        </Typography>
+        <Box>
+          <FocusTrigger
+            view={view}
+            setView={setView}
+            scrollIntoView={scrollIntoView}
+          />
+        </Box>
         <Box
           sx={{
             ml: "auto",
@@ -435,6 +443,7 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
         WebkitAppRegion: "no-drag",
         color: "inherit!important",
         border: `2px solid`,
+        px: 3,
         borderRadius: view === "priority" ? 3 : 5,
         transition: "border-radius .5s!important",
         borderColor: view === "priority" ? redPalette[9] : palette[3],
