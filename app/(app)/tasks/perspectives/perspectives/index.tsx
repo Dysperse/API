@@ -97,7 +97,7 @@ export function PerspectivesInfo({
         flex: "0 0 320px",
         position: "sticky",
         top: 0,
-        left: -275,
+        left: -280,
         transition: "all .4s",
         "&:hover": { left: 0 },
         zIndex: 999,

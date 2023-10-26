@@ -430,6 +430,29 @@ const Column = React.memo(function Column({
           taskSelection.values.includes(-2) && {
             "& .header": { opacity: 0, mt: -15, pointerEvents: "none" },
           }),
+
+        "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+          backgroundColor: palette[2],
+        },
+        "&:hover::-webkit-scrollbar-thumb, &:hover *::-webkit-scrollbar-thumb":
+          {
+            backgroundColor: palette[3],
+          },
+        "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
+          {
+            backgroundColor: palette[5],
+          },
+        "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
+          {
+            backgroundColor: palette[5],
+          },
+        "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
+          {
+            backgroundColor: palette[5],
+          },
+        "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+          backgroundColor: "transparent",
+        },
       }}
     >
       <Header
