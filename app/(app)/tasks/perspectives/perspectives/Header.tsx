@@ -52,7 +52,7 @@ export const Header = memo(function Header({
   const heading = {
     days: "DD",
     weeks: "#W",
-    months: "YYYY",
+    months: "MMMM",
   }[type];
 
   const columnMap = {
@@ -64,7 +64,7 @@ export const Header = memo(function Header({
   const subheading = {
     days: "dddd",
     weeks: "D",
-    months: "MMM",
+    months: "-",
   }[type];
 
   const isPast = useMemo(
@@ -237,28 +237,30 @@ export const Header = memo(function Header({
                           </span>
                         </Typography>
 
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontWeight: "500",
-                              ...(isPast && {
-                                textDecoration: "line-through",
-                                ...(isPast && { opacity: 0.5 }),
-                              }),
+                        {subheading !== "-" && (
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
                             }}
                           >
-                            {dayjs(column).utc().format(subheading)}
-                            {type === "weeks" &&
-                              " - " + dayjs(columnEnd).utc().format("DD")}
-                          </span>
-                        </Typography>
+                            <span
+                              style={{
+                                fontWeight: "500",
+                                ...(isPast && {
+                                  textDecoration: "line-through",
+                                  ...(isPast && { opacity: 0.5 }),
+                                }),
+                              }}
+                            >
+                              {dayjs(column).utc().format(subheading)}
+                              {type === "weeks" &&
+                                " - " + dayjs(columnEnd).utc().format("DD")}
+                            </span>
+                          </Typography>
+                        )}
                       </Box>
                     </Tooltip>
                   </SelectDateModal>
