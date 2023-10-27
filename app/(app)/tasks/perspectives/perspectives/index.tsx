@@ -88,7 +88,12 @@ export function PerspectivesInfo({
       }}
     >
       <AppBar
+        onClick={scrollIntoView}
         sx={{
+          WebkitAppRegion: "drag",
+          "& .MuiButton-root, & .MuiIconButton-root": {
+            WebkitAppRegion: "drag",
+          },
           border: 0,
           borderRadius: 5,
           background: palette[2],
@@ -160,6 +165,7 @@ export function PerspectivesInfo({
                 "&:active": { background: palette[4] + "!important" },
               },
             }}
+            onClick={(e) => e.stopPropagation()}
             className="priority-hidden"
           >
             <IconButton onClick={handlePrev} id="agendaPrev">
