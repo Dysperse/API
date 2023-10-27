@@ -2,6 +2,7 @@
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Puller } from "@/components/Puller";
 import { TaskColorPicker } from "@/components/Tasks/Task/Create/TaskColorPicker";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -178,10 +179,6 @@ export default function TasksLayout({
     if (taskSelection.length > 0) vibrate(50);
   }, [taskSelection]);
 
-  useEffect(() => {
-    document.body.classList[isSelecting ? "add" : "remove"]("hideBottomNav");
-  }, [isSelecting]);
-
   return (
     <SelectionContext.Provider
       value={{
@@ -193,12 +190,11 @@ export default function TasksLayout({
         sx={{
           ...taskStyles(palette).appBar,
           ...(!isSelecting && {
-            opacity: 0,
-            transform: "translateX(-50%) scale(.5)",
+            transform: "translate(-50%, -100px)",
             pointerEvents: "none",
           }),
           zIndex: 99999999,
-          background: palette[2],
+          background: addHslAlpha(palette[4], 0.5),
           maxWidth: { md: "400px" },
           pt: "0!important",
           ...((taskSelection.find((e) => e == "-2") && {
@@ -212,6 +208,7 @@ export default function TasksLayout({
             sx={{
               px: 1,
               mr: "auto",
+              background: palette[5] + "!important",
             }}
             onClick={() => setTaskSelection([])}
           >

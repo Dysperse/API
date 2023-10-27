@@ -84,6 +84,7 @@ export function PerspectivesInfo({
     <Box
       sx={{
         p: 2,
+        display: { xs: "none", sm: "unset" },
         width: "100%",
       }}
     >
@@ -459,7 +460,7 @@ export function Agenda({ type, date }) {
           minHeight: "100dvh",
         }}
       >
-        {!isMobile && !error && data && columns?.length > 0 && (
+        {!error && data && columns?.length > 0 && (
           <PerspectivesInfo
             date={date}
             type={type}

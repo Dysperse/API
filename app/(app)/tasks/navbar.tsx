@@ -39,7 +39,7 @@ export function TaskNavbar({
     useDarkMode(session.user.darkMode)
   );
   const selection = useContext(SelectionContext);
-  const isSelecting = selection.length > 0;
+  const isSelecting = selection.values.length > 0;
 
   const isMobile = useMediaQuery("(max-width: 600px)");
 
@@ -53,7 +53,6 @@ export function TaskNavbar({
           ...taskStyles(palette).appBar,
           ...(isSelecting && {
             opacity: 0,
-            transform: "translateX(-50%) scale(.5)",
             pointerEvents: "none",
           }),
           background: addHslAlpha(palette[3], 0.6),

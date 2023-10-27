@@ -57,6 +57,7 @@ export function PerspectivesLoadingScreen(): any {
           animation="wave"
           variant="rectangular"
           sx={{
+            display: { xs: "none", sm: "flex" },
             height: "55px",
             borderRadius: 5,
             opacity: 0.7,
