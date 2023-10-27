@@ -453,7 +453,7 @@ export function Agenda({ type, date }) {
           minHeight: "100dvh",
         }}
       >
-        {!isMobile && (
+        {!isMobile && !error && data && columns?.length > 0 && (
           <PerspectivesInfo
             date={date}
             type={type}
