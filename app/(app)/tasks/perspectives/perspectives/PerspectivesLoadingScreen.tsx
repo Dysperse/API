@@ -47,7 +47,7 @@ export function PerspectivesLoadingScreen(): any {
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: "100dvh",
+        height: { xs: "100%", sm: "100dvh" },
         width: "100%",
         overflow: "hidden",
       }}
