@@ -65,7 +65,7 @@ function RecentlyAccessed() {
         <Box>
           <Typography
             sx={{
-              fontWeight: 700,
+              fontWeight: 600,
               opacity: 0.5,
               fontSize: "13px",
               textTransform: "uppercase",
