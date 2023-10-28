@@ -1,5 +1,5 @@
 "use client";
-import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
+import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";

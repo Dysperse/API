@@ -1,6 +1,6 @@
 "use client";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { OptionsGroup } from "@/components/OptionsGroup";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";

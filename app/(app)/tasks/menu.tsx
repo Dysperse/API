@@ -1,8 +1,8 @@
 "use client";
 
+import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
+import { Tab } from "@/app/(app)/tasks/Layout/Tab";
 import { ErrorHandler } from "@/components/Error";
-import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
-import { Tab } from "@/components/Tasks/Layout/Tab";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";

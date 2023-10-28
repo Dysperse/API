@@ -35,11 +35,15 @@ model User {
   Status               Status?
   Profile              Profile?
   PasswordResetToken   PasswordResetToken[]
-  properties           PropertyInvite[]
-  sessions             Session[]
-  Board                Board[]
-  Integration          Integration[]
-  QrToken              QrToken[]
+
+  selectedProperty   Property?        @relation(fields: [selectedPropertyId], references: [id])
+  selectedPropertyId String?
+  properties         PropertyInvite[]
+
+  sessions    Session[]
+  Board       Board[]
+  Integration Integration[]
+  QrToken     QrToken[]
 
   followers  Follows[]    @relation("following")
   following  Follows[]    @relation("follower")
@@ -175,19 +179,21 @@ model Property {
   Integration         Integration[]
   Task                Task[]
   ShareToken          ShareToken[]
+  User                User[]
 }
 
 // List of invited members to properties with their user permissions
 model PropertyInvite {
-  id          String   @id @unique @default(uuid())
+  id          String  @id @unique @default(uuid())
   userId      String
   propertyId  String
-  selected    Boolean  @default(false)
-  permission  String   @default("read-only")
-  accessToken String   @unique @default(uuid())
-  accepted    Boolean  @default(false)
-  profile     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  selected    Boolean @default(false)
+  permission  String  @default("read-only")
+  accessToken String  @unique @default(uuid())
+  accepted    Boolean @default(false)
+
+  profile Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PropertyLinkInvite {

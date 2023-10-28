@@ -1,8 +1,8 @@
 "use client";
 import { containerRef } from "@/app/(app)/container";
-import { GroupModal } from "@/components/Group/GroupModal";
+import { GroupModal } from "@/app/(app)/spaces/Group/GroupModal";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Logo } from "@/components/Logo";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";

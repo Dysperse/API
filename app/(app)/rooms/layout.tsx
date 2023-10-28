@@ -1,6 +1,6 @@
 "use client";
 import { swipeablePageStyles } from "@/app/(app)/swipeablePageStyles";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {

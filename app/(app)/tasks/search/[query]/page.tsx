@@ -1,8 +1,8 @@
 "use client";
 
 import { containerRef } from "@/app/(app)/container";
-import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
-import { Task } from "@/components/Tasks/Task";
+import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
+import { Task } from "@/app/(app)/tasks/Task";
 import {
   Box,
   CircularProgress,

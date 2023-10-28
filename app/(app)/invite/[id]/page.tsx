@@ -1,6 +1,5 @@
 "use client";
 import { ErrorHandler } from "@/components/Error";
-import { Loading } from "@/components/Layout/Loading";
 import { mutateSession, useSession, useUser } from "@/lib/client/session";
 import { useColor } from "@/lib/client/useColor";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -79,18 +78,6 @@ export default function Onboarding() {
 
   return (
     <NoSsr>
-      <Box
-        sx={{
-          width: "100vw",
-          height: "100dvh",
-          position: "absolute",
-          zIndex: 1,
-          top: 0,
-          left: 0,
-        }}
-      >
-        <Loading />
-      </Box>
       <Box
         sx={{
           position: "fixed",

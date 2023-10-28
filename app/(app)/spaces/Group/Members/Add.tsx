@@ -16,8 +16,8 @@ import {
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { useCallback, useDeferredValue, useState } from "react";
 import toast from "react-hot-toast";
-import { Puller } from "../../Puller";
-import { Prompt } from "../../TwoFactorModal";
+import { Puller } from "../../../../../components/Puller";
+import { Prompt } from "../../../../../components/TwoFactorModal";
 import { isEmail } from "./isEmail";
 
 function LinkToken() {

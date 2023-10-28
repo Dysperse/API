@@ -17,7 +17,7 @@ import {
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
-import { CreateItem } from "../../../components/Inventory/CreateItem";
+import { CreateItem } from "./CreateItem";
 
 export function Panel() {
   const router = useRouter();

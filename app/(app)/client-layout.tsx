@@ -1,11 +1,11 @@
 "use client";
 import { containerRef } from "@/app/(app)/container";
-import { getTotal, max } from "@/components/Group/Storage";
+import { getTotal, max } from "@/app/(app)/spaces/Group/Storage";
 import {
   BottomNav,
   shouldHideNavigation,
 } from "@/components/Layout/Navigation/BottomNavigation";
-import KeyboardShortcutsModal from "@/components/Layout/Navigation/KeyboardShortcutsModal";
+import KeyboardShortcutsModal from "@/components/Layout/Navigation/KeyboardShortcuts";
 import { Sidebar } from "@/components/Layout/Navigation/Sidebar";
 import { UpdateButton } from "@/components/Layout/Navigation/UpdateButton";
 import NotificationsPrompt from "@/components/Layout/NotificationsPrompt";
@@ -78,7 +78,7 @@ export default function ClientLayout({ children, session }) {
   const palette = useColor(session.themeColor, isDark);
 
   const [dismissed, setDismissed] = useState<boolean>(false);
-  const [_session,_setSession] = useState(session)
+  const [_session, _setSession] = useState(session);
 
   const [isReached, setIsReached]: any =
     useState<AccountStorageState>("loading");
@@ -128,7 +128,11 @@ export default function ClientLayout({ children, session }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <SWRConfig value={{ fetcher: (d) => fetcher(d, session) }}>
-        <SessionProvider session={_session} setSession={_setSession} isLoading={false}>
+        <SessionProvider
+          session={_session}
+          setSession={_setSession}
+          isLoading={false}
+        >
           <StorageContext.Provider value={{ isReached, setIsReached }}>
             <ThemeProvider theme={userTheme}>
               <Toaster containerClassName="noDrag" toastOptions={toastStyles} />

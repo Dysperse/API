@@ -18,7 +18,7 @@ import { toArray } from "react-emoji-render";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
-import { ErrorHandler } from "../../../Error";
+import { ErrorHandler } from "../../../../../components/Error";
 import DrawerContent from "./Content";
 import { TaskContext } from "./Context";
 

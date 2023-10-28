@@ -1,7 +1,7 @@
 "use client";
 import { containerRef } from "@/app/(app)/container";
+import { Task } from "@/app/(app)/tasks/Task";
 import { ErrorHandler } from "@/components/Error";
-import { Task } from "@/components/Tasks/Task";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import {
   Box,

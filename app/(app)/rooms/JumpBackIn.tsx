@@ -16,7 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { CreateItem } from "../../../components/Inventory/CreateItem";
+import { CreateItem } from "./CreateItem";
 import { ItemPopup } from "./[room]/item-popup";
 
 export function JumpBackIn() {

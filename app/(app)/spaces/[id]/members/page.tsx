@@ -1,7 +1,7 @@
 "use client";
 
+import { AddPersonModal } from "@/app/(app)/spaces/Group/Members/Add";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
-import { AddPersonModal } from "@/components/Group/Members/Add";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";

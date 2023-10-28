@@ -1,7 +1,7 @@
 import { useSession } from "@/lib/client/session";
 import { CardActionArea } from "@mui/material";
 import * as colors from "@radix-ui/colors";
-import { updateSettings } from "../../lib/client/updateSettings";
+import { updateSettings } from "../../../../lib/client/updateSettings";
 
 /**
  * Color component for house profile
@@ -19,13 +19,17 @@ export function Color({
   s: string;
   color: string;
 }) {
-  const { session,setSession } = useSession();
+  const { session, setSession } = useSession();
   const invertColors = ["lime", "cyan", "green", "teal", "blue"].includes(
     color
   );
 
   const handleClick = async () => {
-    await updateSettings(["color", color], { session,setSession, type: "property" });
+    await updateSettings(["color", color], {
+      session,
+      setSession,
+      type: "property",
+    });
     mutatePropertyData();
   };
 

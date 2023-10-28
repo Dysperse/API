@@ -1,4 +1,4 @@
-import { PropertyButton } from "@/components/Layout/Navigation/PropertyButton";
+import { PropertyButton } from "@/components/Layout/Navigation/SpaceSwitcher";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";

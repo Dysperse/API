@@ -17,8 +17,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
-import { WidgetBar } from "../../../../../components/Tasks/Layout/widgets";
-import SelectDateModal from "../../../../../components/Tasks/Task/DatePicker";
+import { WidgetBar } from "../../Layout/widgets";
+import SelectDateModal from "../../Task/DatePicker";
 import Column from "./Column";
 import { PerspectivesLoadingScreen } from "./PerspectivesLoadingScreen";
 

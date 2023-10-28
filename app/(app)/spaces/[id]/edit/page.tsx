@@ -1,7 +1,7 @@
 "use client";
 
+import { Color } from "@/app/(app)/spaces/Group/Color";
 import { ErrorHandler } from "@/components/Error";
-import { Color } from "@/components/Group/Color";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { mutateSession, useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";

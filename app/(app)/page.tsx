@@ -1,7 +1,7 @@
 "use client";
 
 import { containerRef } from "@/app/(app)/container";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";

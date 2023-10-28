@@ -1,6 +1,6 @@
 "use client";
+import { Task } from "@/app/(app)/tasks/Task";
 import { ErrorHandler } from "@/components/Error";
-import { Task } from "@/components/Tasks/Task";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useDarkMode } from "@/lib/client/useColor";

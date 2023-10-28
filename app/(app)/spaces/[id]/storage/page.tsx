@@ -1,7 +1,7 @@
 "use client";
 
+import { max, multipliers } from "@/app/(app)/spaces/Group/Storage";
 import { ErrorHandler } from "@/components/Error";
-import { max, multipliers } from "@/components/Group/Storage";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {

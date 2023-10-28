@@ -1,8 +1,8 @@
 "use client";
 
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
+import { WorkingHours } from "@/app/(app)/users/[id]/WorkingHours";
 import { ErrorHandler } from "@/components/Error";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
-import { WorkingHours } from "@/components/Profile/WorkingHours";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";

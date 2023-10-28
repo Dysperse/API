@@ -17,8 +17,8 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { memo, useContext, useEffect, useMemo } from "react";
 import { PerspectiveContext } from ".";
-import { CreateTask } from "../../../../../components/Tasks/Task/Create";
-import SelectDateModal from "../../../../../components/Tasks/Task/DatePicker";
+import { CreateTask } from "../../Task/Create";
+import SelectDateModal from "../../Task/DatePicker";
 import { ColumnMenu } from "./ColumnMenu";
 import { HeaderSkeleton } from "./HeaderSkeleton";
 

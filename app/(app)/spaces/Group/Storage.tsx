@@ -3,7 +3,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Avatar, Box, Icon, Skeleton, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import { ErrorHandler } from "../Error";
+import { ErrorHandler } from "../../../../components/Error";
 
 export const max = 500;
 export const multipliers = { items: 1.5, tasks: 0.5 };

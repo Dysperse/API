@@ -1,7 +1,7 @@
 "use client";
 
 import { containerRef } from "@/app/(app)/container";
-import { CreateTask } from "@/components/Tasks/Task/Create";
+import { CreateTask } from "@/app/(app)/tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";

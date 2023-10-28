@@ -1,4 +1,4 @@
-import { isEmail } from "@/components/Group/Members/isEmail";
+import { isEmail } from "@/app/(app)/spaces/Group/Members/isEmail";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {

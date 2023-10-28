@@ -1,7 +1,7 @@
 "use client";
+import { TaskColorPicker } from "@/app/(app)/tasks/Task/Create/TaskColorPicker";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Puller } from "@/components/Puller";
-import { TaskColorPicker } from "@/components/Tasks/Task/Create/TaskColorPicker";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -22,7 +22,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import SelectDateModal from "../../../components/Tasks/Task/DatePicker";
+import SelectDateModal from "./Task/DatePicker";
 import { MenuChildren } from "./menu";
 import { SelectionContext } from "./selection-context";
 import { taskStyles } from "./styles";

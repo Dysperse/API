@@ -27,7 +27,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { updateSettings } from "../../lib/client/updateSettings";
+import { updateSettings } from "../../../../lib/client/updateSettings";
 import { Color } from "./Color";
 
 /**

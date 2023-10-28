@@ -1,6 +1,6 @@
 "use client";
+import { CreateItem } from "@/app/(app)/rooms/CreateItem";
 import { ErrorHandler } from "@/components/Error";
-import { CreateItem } from "@/components/Inventory/CreateItem";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {

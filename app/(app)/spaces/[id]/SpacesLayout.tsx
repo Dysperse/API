@@ -1,8 +1,8 @@
 "use client";
+import { GroupModal } from "@/app/(app)/spaces/Group/GroupModal";
+import Integrations from "@/app/(app)/spaces/Group/Integrations";
+import { Storage } from "@/app/(app)/spaces/Group/Storage";
 import { ErrorHandler } from "@/components/Error";
-import { GroupModal } from "@/components/Group/GroupModal";
-import Integrations from "@/components/Group/Integrations";
-import { Storage } from "@/components/Group/Storage";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";

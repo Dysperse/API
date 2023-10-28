@@ -17,7 +17,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Puller } from "../../../Puller";
+import { Puller } from "../../../../../components/Puller";
 import SelectDateModal from "../DatePicker";
 import { useTaskContext } from "./Context";
 
@@ -146,11 +146,7 @@ export const RescheduleModal = React.memo(function RescheduleModal({
         }}
       >
         <Puller showOnDesktop />
-        <SelectDateModal
-          ref={dateRef}
-          date={task.due}
-          setDate={setDate}
-        >
+        <SelectDateModal ref={dateRef} date={task.due} setDate={setDate}>
           <CardActionArea sx={{ mb: 2, borderRadius: 99 }}>
             <Typography
               variant="h6"

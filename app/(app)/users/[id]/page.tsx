@@ -1,9 +1,9 @@
 "use client";
 
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
+import { UserProfile } from "@/app/(app)/users/[id]/UserProfile";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
-import { UserProfile } from "@/components/Profile//UserProfile";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";

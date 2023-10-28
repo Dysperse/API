@@ -1,9 +1,9 @@
 "use client";
 
 import { containerRef } from "@/app/(app)/container";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";

@@ -1,6 +1,6 @@
 import { containerRef } from "@/app/(app)/container";
+import SelectDateModal from "@/app/(app)/tasks/Task/DatePicker";
 import { Emoji } from "@/components/Emoji";
-import SelectDateModal from "@/components/Tasks/Task/DatePicker";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -27,8 +27,8 @@ import React, {
 import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { PerspectiveContext, sortedTasks } from ".";
-import { Task } from "../../../../../components/Tasks/Task";
-import { CreateTask } from "../../../../../components/Tasks/Task/Create";
+import { Task } from "../../Task";
+import { CreateTask } from "../../Task/Create";
 import { SelectionContext } from "../../selection-context";
 import { Header } from "./Header";
 

@@ -1,10 +1,10 @@
 "use client";
 
+import Integrations from "@/app/(app)/spaces/Group/Integrations";
 import { ShareBoard } from "@/app/(app)/tasks/boards/[id]/Board/Share";
 import { recentlyAccessed } from "@/app/(app)/tasks/recently-accessed";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import EmojiPicker from "@/components/EmojiPicker";
-import Integrations from "@/components/Group/Integrations";
 import { Puller } from "@/components/Puller";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";

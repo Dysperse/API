@@ -1,4 +1,4 @@
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";

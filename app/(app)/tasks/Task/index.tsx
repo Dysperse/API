@@ -1,5 +1,5 @@
 import { SelectionContext } from "@/app/(app)/tasks/selection-context";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";

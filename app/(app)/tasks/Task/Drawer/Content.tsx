@@ -25,7 +25,7 @@ import { Virtuoso } from "react-virtuoso";
 import { RRule } from "rrule";
 import { parseEmojis } from ".";
 import { Task, taskAlgorithm } from "..";
-import { ConfirmationModal } from "../../../ConfirmationModal";
+import { ConfirmationModal } from "../../../../../components/ConfirmationModal";
 import { CreateTask } from "../Create";
 import SelectDateModal from "../DatePicker";
 import { ColorPopover } from "./ColorPopover";

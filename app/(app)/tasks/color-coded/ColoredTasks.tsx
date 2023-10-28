@@ -15,8 +15,8 @@ import Image from "next/legacy/image";
 import { useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
-import { ErrorHandler } from "../Error";
-import { Task } from "./Task";
+import { Task } from "../Task";
+import { ErrorHandler } from "../../../../components/Error";
 
 export function ColoredTasks() {
   const { data, mutate, error } = useSWR([
