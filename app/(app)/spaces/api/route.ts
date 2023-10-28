@@ -3,44 +3,37 @@ import { headers } from "next/headers";
 import { NextRequest } from "next/server";
 
 function handleApiError(error: any) {
+  console.error(error);
   return Response.json({
     error: error?.message,
     status: 500,
   });
 }
 
+function getSessionToken() {
+  const token = headers().get("Authorization")?.replace("Bearer ", "");
+  if (!token) throw new Error("Missing `Authorization` header");
+  return token;
+}
+
 export async function GET(req: NextRequest) {
   try {
-    const sessionToken = headers().get("Authorization");
-    const users = await prisma.user.findMany({
-      include: {
-        properties: {
+    const sessionToken = getSessionToken();
+    const id = req.nextUrl.searchParams.get("id");
+
+    const space = await prisma.session.findFirstOrThrow({
+      where: { id: sessionToken },
+      select: {
+        user: {
           select: {
-            id: true,
-            accepted: true,
+            properties: true,
           },
         },
       },
     });
-    for (const user of users) {
-      const property = user.properties.find((p) => p.accepted);
-      if (property) {
-        await prisma.user.update({
-          data: {
-            selectedProperty: {
-              connect: {
-                id: property.id,
-              },
-            },
-          },
-          where: {
-            id: user.id,
-          },
-        });
-      }
-    }
-    return Response.json({ sessionToken });
+
+    return Response.json(space);
   } catch (e) {
-    handleApiError(e);
+    return handleApiError(e);
   }
 }

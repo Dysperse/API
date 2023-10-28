@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor as getColor } from "@/lib/client/useColor";
 import { getUserData } from "@/lib/server/getUserData";
