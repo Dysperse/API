@@ -3,7 +3,6 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
-  CardActionArea,
   Icon,
   MenuItem,
   SwipeableDrawer,
@@ -147,14 +146,13 @@ export const RescheduleModal = React.memo(function RescheduleModal({
       >
         <Puller showOnDesktop />
         <SelectDateModal ref={dateRef} date={task.due} setDate={setDate}>
-          <CardActionArea sx={{ mb: 2, borderRadius: 99 }}>
-            <Typography
-              variant="h6"
-              sx={{ textAlign: "center", textDecoration: "underline" }}
-            >
-              {dayjs(task.due).format("dddd, MMMM D")}
-            </Typography>
-          </CardActionArea>
+          <Typography
+            variant="h4"
+            className="font-heading"
+            sx={{ textAlign: "center" }}
+          >
+            {dayjs(task.due).format("dddd, MMMM D")}
+          </Typography>
         </SelectDateModal>
         <Box sx={{ display: "flex", gap: 2, px: 1, py: 2 }}>
           <Button

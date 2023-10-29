@@ -116,6 +116,7 @@ export default function Integrations({
           </Button>
         </Box>
       )}
+      {error && <ErrorHandler callback={mutate} />}
       {(!board || !hideNew) && data ? (
         <>
           {data.length === 0 && (
@@ -186,7 +187,7 @@ export default function Integrations({
           </List>
         </>
       ) : (
-        !board && <Skeleton variant="rectangular" height={30} />
+        !board && !error && <Skeleton variant="rectangular" height={100} />
       )}
       {hideNew && board ? (
         integrations.map((integration) => (

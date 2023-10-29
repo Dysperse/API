@@ -1,20 +1,6 @@
+import { getSessionToken, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { headers } from "next/headers";
 import { NextRequest } from "next/server";
-
-function handleApiError(error: any) {
-  console.error(error);
-  return Response.json({
-    error: error?.message,
-    status: 500,
-  });
-}
-
-function getSessionToken() {
-  const token = headers().get("Authorization")?.replace("Bearer ", "");
-  if (!token) throw new Error("Missing `Authorization` header");
-  return token;
-}
 
 export async function GET(req: NextRequest) {
   try {

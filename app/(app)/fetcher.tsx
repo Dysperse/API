@@ -10,7 +10,7 @@ export const fetcher = ([url, params], session) => {
     ...params,
   };
 
-  const _url = `/${url}?${new URLSearchParams(_params)}`;
+  const _url = `/api/${url}?${new URLSearchParams(_params)}`;
   return fetch(_url, {
     headers: new Headers({
       Authorization: `Bearer ${session?.current?.token}`,

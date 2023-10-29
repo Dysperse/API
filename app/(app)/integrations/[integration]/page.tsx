@@ -10,7 +10,6 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   Icon,
   IconButton,
   InputAdornment,
@@ -133,8 +132,16 @@ function Layout() {
           value={((step + 1) / (steps.length + 2)) * 100}
         />
       </AppBar>
-      <Container
-        sx={{ display: "flex", height: "100%", flexDirection: "column" }}
+      <Box
+        sx={{
+          display: "flex",
+          height: "100%",
+          flexDirection: "column",
+          width: "500px!important",
+          maxWidth: "100dvw",
+          px: 3,
+          mx: "auto",
+        }}
       >
         {step == 0 ? (
           <>
@@ -483,7 +490,7 @@ function Layout() {
             </LoadingButton>
           </>
         )}
-      </Container>
+      </Box>
     </Box>
   ) : (
     <Box>Integration not found</Box>

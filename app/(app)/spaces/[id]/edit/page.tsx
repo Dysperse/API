@@ -43,7 +43,7 @@ export default function Page() {
     mutate: mutateData,
     data,
   } = useSWR([
-    "spaces/api",
+    "space",
     {
       propertyId: id,
     },

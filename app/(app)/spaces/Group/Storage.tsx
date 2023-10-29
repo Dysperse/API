@@ -33,13 +33,7 @@ export function Storage({
   const redPalette = useColor("red", isDark);
   const palette = useColor(color, isDark);
 
-  const { data, mutate, error } = useSWR([
-    "property/storage",
-    {
-      property: propertyId,
-      accessToken,
-    },
-  ]);
+  const { data, mutate, error } = useSWR(["space/storage", { propertyId }]);
 
   const used = data
     ? ((data._count.Task * multipliers.tasks +

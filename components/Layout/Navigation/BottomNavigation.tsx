@@ -14,7 +14,7 @@ export const shouldHideNavigation = (path) => {
     { path: "/users", desktop: false },
     { path: "/boards/edit/", desktop: false },
     { path: "/tasks/search", desktop: false },
-    { path: "/integrations", desktop: false },
+    { path: "/integrations", desktop: true },
     { path: "/rooms/", desktop: false },
     { path: "/spaces", desktop: false },
     { path: "/onboarding", desktop: false },

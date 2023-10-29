@@ -37,7 +37,7 @@ export function SpacesLayout({ parentRef, children, title }: any) {
     (property) => property.propertyId == propertyId
   )?.accessToken;
 
-  const { data, error, isLoading } = useSWR(["spaces/api", { propertyId }]);
+  const { data, error, isLoading } = useSWR(["space", { propertyId }]);
 
   const palette = useColor(data?.profile?.color || session.themeColor, isDark);
 

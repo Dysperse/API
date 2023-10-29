@@ -1,6 +1,7 @@
 "use client";
 
 import { containerRef } from "@/app/(app)/container";
+import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
@@ -45,9 +46,13 @@ export default function Home() {
       timezone: session.user.timeZone,
     },
   ];
-  const { data, mutate } = useSWR(params, fetcher(params, session) as any, {
-    refreshInterval: 5000,
-  });
+  const { data, error, mutate } = useSWR(
+    params,
+    fetcher(params, session) as any,
+    {
+      refreshInterval: 5000,
+    }
+  );
 
   const router = useRouter();
 
@@ -205,6 +210,11 @@ export default function Home() {
                         )}
                       />
                     )
+                  ) : error ? (
+                    <ErrorHandler
+                      callback={mutate}
+                      error="Couldn't load your friends. Try again later."
+                    />
                   ) : (
                     <>
                       {[...new Array(5)].map((_, i) => (
