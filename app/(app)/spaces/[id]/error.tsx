@@ -10,6 +10,11 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <ErrorPage error={error} reset={reset} heading="Couldn't load group" />
+    <ErrorPage
+      isFatal={false}
+      error={error}
+      reset={reset}
+      heading="Couldn't load group"
+    />
   );
 }

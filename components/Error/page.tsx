@@ -8,16 +8,19 @@ export default function ErrorPage({
   subheading = "Our team has been notified, and we're working on a fix.",
   error,
   reset,
+  isFatal = true,
 }: {
   heading?: string;
   subheading?: string;
   error: Error & { digest?: string };
   reset: () => void;
+  isFatal?: boolean;
 }) {
   useEffect(() => {
+    if (!isFatal) return;
     // Log the error to an error reporting service
     console.error(error);
-  }, [error]);
+  }, [error, isFatal]);
 
   const fix = () => {
     reset();
