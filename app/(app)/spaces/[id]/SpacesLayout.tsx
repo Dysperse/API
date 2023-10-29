@@ -30,20 +30,14 @@ export function SpacesLayout({ parentRef, children, title }: any) {
   const { session } = useSession();
   const router = useRouter();
   const params = useParams();
-  const { id } = params as any;
+  const { id: propertyId } = params as any;
   const isDark = useDarkMode(session.darkMode);
 
   const accessToken = session.properties.find(
-    (property) => property.propertyId == id
+    (property) => property.propertyId == propertyId
   )?.accessToken;
 
-  const { data, error, isLoading } = useSWR([
-    id ? "property" : null,
-    {
-      id,
-      propertyAccessToken: accessToken,
-    },
-  ]);
+  const { data, error, isLoading } = useSWR(["spaces/api", { propertyId }]);
 
   const palette = useColor(data?.profile?.color || session.themeColor, isDark);
 

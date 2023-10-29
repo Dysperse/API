@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
           select: {
             properties: {
               where: { propertyId },
+              include: { profile: true },
               take: 1,
             },
           },
