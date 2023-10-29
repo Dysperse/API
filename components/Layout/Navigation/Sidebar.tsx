@@ -277,7 +277,7 @@ export function Sidebar() {
         width: "80px",
         ml: shouldHide ? "-90px" : 0,
         ...(shouldHide && { pointerEvents: "none" }),
-        transition: "all .2s",
+        transition: "all var(--transition-defaults)",
         zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",

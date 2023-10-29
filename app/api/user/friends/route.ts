@@ -1,9 +1,10 @@
+import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validateParams } from "@/lib/server/validateParams";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { NextRequest } from "next/server";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -46,13 +47,14 @@ export function shuffle(array) {
   return array;
 }
 
-export default async function handler(req, res) {
+export async function GET(req: NextRequest) {
   try {
-    validateParams(req.query, ["email"]);
+    // const sessionToken = getSessionToken();
+    const email = req.nextUrl.searchParams.get("email");
+    if (!email) throw new Error("Missing parameters");
+
     const user = await prisma.user.findFirstOrThrow({
-      where: {
-        email: req.query.email,
-      },
+      where: { email },
       select: {
         name: true,
         email: true,
@@ -67,13 +69,10 @@ export default async function handler(req, res) {
       where: {
         OR: [
           {
-            AND: [
-              { following: { email: req.query.email } },
-              { accepted: true },
-            ],
+            AND: [{ following: { email } }, { accepted: true }],
           },
           {
-            AND: [{ follower: { email: req.query.email } }, { accepted: true }],
+            AND: [{ follower: { email } }, { accepted: true }],
           },
         ],
       },
@@ -131,9 +130,9 @@ export default async function handler(req, res) {
     });
 
     let unique = removeDuplicateFriends(friends).map((friend) => {
-      if (friend.following.email === req.query.email)
+      if (friend.following.email === email)
         return { ...friend, following: undefined };
-      if (friend.follower.email === req.query.email)
+      if (friend.follower.email === email)
         return { ...friend, follower: undefined };
 
       return friend;
@@ -183,12 +182,11 @@ export default async function handler(req, res) {
           : lastActiveB.diff(lastActiveA);
       })
       .reverse();
-
-    res.json({
+    return Response.json({
       user,
       friends: unique,
     });
   } catch (e: any) {
-    res.status(401).json({ error: e.message });
+    return handleApiError(e);
   }
 }

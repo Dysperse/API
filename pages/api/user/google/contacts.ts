@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
-import { shuffle } from "../profile/friends";
+import { shuffle } from "../../../../app/api/user/friends/route";
 import { googleClient } from "./redirect";
 
 export default async function handler(req, res) {

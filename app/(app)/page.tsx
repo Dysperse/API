@@ -39,12 +39,8 @@ export default function Home() {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const params: any = typeof window !== "undefined" && [
-    "user/profile/friends",
-    {
-      email: session.user.email,
-      date: dayjs().startOf("day").toISOString(),
-      timezone: session.user.timeZone,
-    },
+    "user/friends",
+    { email: session.user.email },
   ];
   const { data, error, mutate } = useSWR(
     params,

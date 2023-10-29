@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
+import { NextRequest } from "next/server";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextRequest) {
   try {
     const { email, userIdentifier } = req.query;
     validateParams(req.query, ["email", "userIdentifier"]);
@@ -12,7 +13,7 @@ export default async function handler(req, res) {
           user: { connect: { email } },
         },
       });
-      res.json(data);
+      return Response.json(data);
       return;
     }
 

@@ -93,7 +93,7 @@ export function PerspectivesInfo({
         sx={{
           WebkitAppRegion: "drag",
           "& .MuiButton-root, & .MuiIconButton-root": {
-            WebkitAppRegion: "drag",
+            WebkitAppRegion: "no-drag",
           },
           border: 0,
           borderRadius: 5,
