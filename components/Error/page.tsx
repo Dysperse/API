@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 export default function ErrorPage({
   heading = "Yikes! Something went wrong.",
-  subheading = "Our team has been notified, and we&apos;re working on a fix.",
+  subheading = "Our team has been notified, and we're working on a fix.",
   error,
   reset,
 }: {
