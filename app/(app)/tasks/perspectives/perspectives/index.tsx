@@ -72,6 +72,11 @@ export function PerspectivesInfo({
     router.push(`/tasks/perspectives/${type}/${prev}`);
   };
 
+  const handleToday = () => {
+    router.push(`/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}`);
+    scrollIntoView();
+  };
+
   const handleNext = () => {
     agendaContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
     const next = dayjs(date)
@@ -169,20 +174,18 @@ export function PerspectivesInfo({
             onClick={(e) => e.stopPropagation()}
             className="priority-hidden"
           >
-            <IconButton onClick={handlePrev} id="agendaPrev">
+            <IconButton
+              onClick={handlePrev}
+              onMouseDown={handlePrev}
+              id="agendaPrev"
+            >
               <Icon className="outlined">arrow_back_ios_new</Icon>
             </IconButton>
             {!isToday && (
               <Button
                 id="agendaToday"
-                onClick={() => {
-                  router.push(
-                    `/tasks/perspectives/${type}/${dayjs().format(
-                      "YYYY-MM-DD"
-                    )}`
-                  );
-                  scrollIntoView();
-                }}
+                onClick={handleToday}
+                onMouseDown={handleToday}
                 size="large"
                 sx={{
                   px: 0,
@@ -192,7 +195,11 @@ export function PerspectivesInfo({
                 Today
               </Button>
             )}
-            <IconButton onClick={handleNext} id="agendaNext">
+            <IconButton
+              onClick={handleNext}
+              onMouseDown={handleNext}
+              id="agendaNext"
+            >
               <Icon className="outlined">arrow_forward_ios</Icon>
             </IconButton>
           </Box>

@@ -63,6 +63,28 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
 
   return (
     <Box sx={styles.section}>
+      {/* Description */}
+      <TextField
+        className="item"
+        onBlur={(e) => task.edit(task.id, "description", e.target.value)}
+        onKeyDown={(e: any) =>
+          e.key === "Enter" && !e.shiftKey && e.target.blur()
+        }
+        multiline
+        placeholder={
+          storage?.isReached === true
+            ? "You've reached your account storage limits and you can't add a description."
+            : "Note"
+        }
+        disabled={shouldDisable}
+        fullWidth
+        defaultValue={parseEmojis(data.description || "")}
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+          sx: { py: 1.5, px: 3 },
+        }}
+      />
       <TextField
         className="item"
         onBlur={(e) => task.edit(data.id, "where", e.target.value)}
@@ -137,29 +159,6 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
           </Box>
         </Box>
       )}
-
-      {/* Description */}
-      <TextField
-        className="item"
-        onBlur={(e) => task.edit(task.id, "description", e.target.value)}
-        onKeyDown={(e: any) =>
-          e.key === "Enter" && !e.shiftKey && e.target.blur()
-        }
-        multiline
-        placeholder={
-          storage?.isReached === true
-            ? "You've reached your account storage limits and you can't add a description."
-            : "Note"
-        }
-        disabled={shouldDisable}
-        fullWidth
-        defaultValue={parseEmojis(data.description || "")}
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-          sx: { py: 1.5, px: 3 },
-        }}
-      />
       <ListItem className="item">
         <ListItemText
           primary={
