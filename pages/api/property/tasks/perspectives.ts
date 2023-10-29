@@ -55,7 +55,7 @@ const handler = async (req, res) => {
           { recurrenceRule: { not: null } },
         ],
       },
-      orderBy: { pinned: "desc" },
+      orderBy: [{ pinned: "desc" }, { name: "ascW" }],
       include: {
         parentTasks: true,
         subTasks: { include: { completionInstances: { take: 1 } } },
