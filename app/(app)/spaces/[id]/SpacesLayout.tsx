@@ -2,7 +2,6 @@
 import { GroupModal } from "@/app/(app)/spaces/Group/GroupModal";
 import Integrations from "@/app/(app)/spaces/Group/Integrations";
 import { Storage } from "@/app/(app)/spaces/Group/Storage";
-import { ErrorHandler } from "@/components/Error";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -91,6 +90,12 @@ export function SpacesLayout({ parentRef, children, title }: any) {
     [data]
   );
 
+  useEffect(() => {
+    if (!isLoading && error) {
+      throw new Error("Couldn't load group");
+    }
+  }, [isLoading, error]);
+
   return (
     <ThemeProvider theme={userTheme}>
       <Box
@@ -108,9 +113,6 @@ export function SpacesLayout({ parentRef, children, title }: any) {
           },
         }}
       >
-        {error && !isLoading && (
-          <ErrorHandler error="Yikes! We couldn't load this group! Please try again later" />
-        )}
         {data ? (
           <>
             <AppBar

@@ -43,10 +43,9 @@ export default function Page() {
     mutate: mutateData,
     data,
   } = useSWR([
-    "property",
+    "spaces/api",
     {
       propertyId: id,
-      propertyAccessToken: accessToken,
     },
   ]);
 

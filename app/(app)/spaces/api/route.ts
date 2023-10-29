@@ -19,20 +19,24 @@ function getSessionToken() {
 export async function GET(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
-    const id = req.nextUrl.searchParams.get("id");
+    const propertyId = req.nextUrl.searchParams.get("propertyId");
+    if (!propertyId) throw new Error("Missing parameters");
 
     const space = await prisma.session.findFirstOrThrow({
       where: { id: sessionToken },
       select: {
         user: {
           select: {
-            properties: true,
+            properties: {
+              where: { propertyId },
+              take: 1,
+            },
           },
         },
       },
     });
 
-    return Response.json(space);
+    return Response.json(space.user.properties[0]);
   } catch (e) {
     return handleApiError(e);
   }
