@@ -139,7 +139,6 @@ async function getSession() {
     );
 
     const info = await getUserData(accessToken);
-    console.log(info);
     return JSON.parse(JSON.stringify(info));
   } catch {
     return redirect("/auth");
