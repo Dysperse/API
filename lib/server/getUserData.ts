@@ -13,7 +13,7 @@ export const getUserData = async (token: string) => {
       user: {
         include: {
           settings: true,
-          NotificationSettings: true,
+          notifications: true,
           Profile: { select: { picture: true } },
           selectedProperty: {
             include: {

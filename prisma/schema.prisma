@@ -25,16 +25,15 @@ model User {
   color          String   @default("lime")
   unlockedColors String[]
 
-  twoFactorSecret          String  @default("")
-  notificationSubscription String? @db.VarChar(900)
-  timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
+  twoFactorSecret String @default("")
+  timeZone        String @default("America/Los_Angeles") @db.VarChar(255)
 
   lastReleaseVersionViewed Int @default(77711209)
 
-  NotificationSettings NotificationSettings?
-  Status               Status?
-  Profile              Profile?
-  PasswordResetToken   PasswordResetToken[]
+  notifications      NotificationSettings?
+  Status             Status?
+  Profile            Profile?
+  PasswordResetToken PasswordResetToken[]
 
   selectedProperty   Property?        @relation(fields: [selectedPropertyId], references: [id])
   selectedPropertyId String?
@@ -92,7 +91,8 @@ model Integration {
 
 // Customizable notification settings (1 row per user)
 model NotificationSettings {
-  id String @id @unique @default(uuid())
+  id               String @id @unique @default(uuid())
+  pushSubscription Json?
 
   todoListUpdates Boolean @default(true)
   followerUpdates Boolean @default(true)
