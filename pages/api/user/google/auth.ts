@@ -1,5 +1,5 @@
+import { sessionData } from "@/app/api/session/route";
 import { prisma } from "@/lib/server/prisma";
-import { sessionData } from "../../session";
 import { googleClient } from "./redirect";
 const url = require("url");
 

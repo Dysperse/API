@@ -91,7 +91,9 @@ export default async function handler(req, res) {
         id: true,
         password: true,
         twoFactorSecret: true,
-        notificationSubscription: true,
+        notifications: {
+          select: { pushSubscription: true },
+        },
       },
     });
 
@@ -113,12 +115,13 @@ export default async function handler(req, res) {
     ) {
       const newToken = twofactor.generateToken(user.twoFactorSecret);
 
-      await DispatchNotification({
-        subscription: user.notificationSubscription as string,
-        title: `${newToken?.token} is your Dysperse login code`,
-        body: "Dysperse employess will NEVER ask for this code. DO NOT share it with ANYONE!",
-        actions: [],
-      });
+      if (user.notifications?.pushSubscription)
+        await DispatchNotification({
+          subscription: user.notifications?.pushSubscription as string,
+          title: `${newToken?.token} is your Dysperse login code`,
+          body: "Dysperse employess will NEVER ask for this code. DO NOT share it with ANYONE!",
+          actions: [],
+        });
 
       return res.json({
         twoFactor: true,
@@ -138,12 +141,14 @@ export default async function handler(req, res) {
       }
     }
 
-    await DispatchNotification({
-      subscription: user.notificationSubscription as string,
-      title: "Account activity alert",
-      body: "Someone (hopefully you) has successfully logged in to your account",
-      actions: [],
-    });
+    if (user.notifications?.pushSubscription)
+      await DispatchNotification({
+        subscription: user.notifications?.pushSubscription as string,
+        title: "Account activity alert",
+        body: "Someone (hopefully you) has successfully logged in to your account",
+        actions: [],
+      });
+
     const ip =
       req.headers["x-forwarded-for"] || req.socket.remoteAddress || "Unknown";
     const encoded = await createSession(user.id, res, ip);

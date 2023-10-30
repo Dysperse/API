@@ -14,7 +14,11 @@ export default async function handler(req, res) {
       where: {
         AND: [{ token: req.query.token }, { expires: { gt: new Date() } }],
       },
-      include: { user: true },
+      include: {
+        user: {
+          include: { notifications: { select: { pushSubscription: true } } },
+        },
+      },
     });
 
     if (!data?.userId || !data.user) {
@@ -22,7 +26,7 @@ export default async function handler(req, res) {
     }
 
     await DispatchNotification({
-      subscription: data.user.notificationSubscription as string,
+      subscription: data.user.notifications?.pushSubscription as string,
       title: "Account activity alert",
       body: "Someone (hopefully you) has successfully logged in via a QR code",
       actions: [],

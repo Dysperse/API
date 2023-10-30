@@ -32,7 +32,10 @@ export const createInboxNotification = async (
       where: { propertyId },
       select: {
         user: {
-          select: { identifier: true, notificationSubscription: true },
+          select: {
+            identifier: true,
+            notifications: { select: { pushSubscription: true } },
+          },
         },
       },
     });
@@ -46,8 +49,8 @@ export const createInboxNotification = async (
 
     // Send a notification to each member
     for (let i = 0; i < members.length; i++) {
-      const { notificationSubscription } = members[i].user;
-      if (notificationSubscription) {
+      const pushSubscription = members[i].user?.notifications?.pushSubscription;
+      if (pushSubscription) {
         webPush.setVapidDetails(
           `mailto:${process.env.WEB_PUSH_EMAIL}`,
           process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
@@ -55,7 +58,7 @@ export const createInboxNotification = async (
         );
 
         webPush.sendNotification(
-          JSON.parse(notificationSubscription) as any,
+          pushSubscription,
           JSON.stringify({
             title: `${who} has edited your group`,
             body: `${who} ${what}`,

@@ -1,5 +1,5 @@
+import { sessionData } from "@/app/api/session/route";
 import { prisma } from "@/lib/server/prisma";
-import { sessionData } from "@/pages/api/session";
 import { googleClient } from "@/pages/api/user/google/redirect";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";

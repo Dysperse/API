@@ -53,33 +53,29 @@ export default async function handler(req, res) {
                 followers: { some: { follower: { email: req.query.email } } },
               },
             },
-            {
-              user: {
-                notificationSubscription: { not: null },
-              },
-            },
           ],
         },
         select: {
           user: {
             select: {
-              notificationSubscription: true,
+              notifications: { select: { pushSubscription: true } },
             },
           },
         },
       });
 
       users.forEach(async ({ user }) => {
-        await DispatchNotification({
-          subscription: user.notificationSubscription as any,
-          title: `${JSON.parse(req.query.profile)?.name.trim()} is ${
-            req.query.status
-          } until ${dayjs(dayjs(until).tz(req.query.timeZone)).format(
-            "h:mm A"
-          )}`,
-          body: "Tap to view status update",
-          icon: JSON.parse(req.query.profile)?.Profile?.picture,
-        });
+        if (user.notifications?.pushSubscription)
+          await DispatchNotification({
+            subscription: user.notifications?.pushSubscription as any,
+            title: `${JSON.parse(req.query.profile)?.name.trim()} is ${
+              req.query.status
+            } until ${dayjs(dayjs(until).tz(req.query.timeZone)).format(
+              "h:mm A"
+            )}`,
+            body: "Tap to view status update",
+            icon: JSON.parse(req.query.profile)?.Profile?.picture,
+          });
       });
     }
 
