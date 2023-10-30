@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
               properties: { some: { permission: { not: "read-only" } } },
             },
           },
-          // id && { id },
+          id && { id },
           {
             OR: [
               {
@@ -47,8 +47,7 @@ export async function GET(req: NextRequest) {
               // },
             ],
           },
-        ],
-        // .filter((e) => e),
+        ].filter((e) => e),
       },
       include: {
         user: { select: { email: true } },

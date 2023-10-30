@@ -1,17 +1,16 @@
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
+import { NextRequest } from "next/server";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
+    const id = getApiParam(req, "id", false);
+    const filter = getApiParam(req, "filter", false);
 
     //  List all tasks for a board from the column
     const data = await prisma.column.findMany({
       where: {
-        board: { id: req.query.id },
+        board: { id },
       },
       orderBy: { order: "asc" },
       include: {
@@ -40,37 +39,35 @@ const handler = async (req, res) => {
             parentTasks: {
               none: {
                 column: {
-                  board: { id: req.query.id },
+                  board: { id },
                 },
               },
             },
           },
           orderBy:
-            req.query.filter === "a-z"
+            filter === "a-z"
               ? { name: "asc" }
-              : req.query.filter === "date"
+              : filter === "date"
               ? { due: "desc" }
-              : req.query.filter === "modification"
+              : filter === "modification"
               ? { lastUpdated: "desc" }
-              : req.query.filter === "color"
+              : filter === "color"
               ? { color: "desc" }
-              : req.query.filter === "attachment"
+              : filter === "attachment"
               ? { image: "desc" }
-              : req.query.filter === "completed-at"
+              : filter === "completed-at"
               ? { completedAt: "desc" }
-              : req.query.filter === "notifications"
+              : filter === "notifications"
               ? { notifications: "desc" }
-              : req.query.filter === "subtasks"
+              : filter === "subtasks"
               ? { subTasks: { _count: "desc" } }
               : { pinned: "desc" },
         },
       },
     });
 
-    res.json(data);
-  } catch (e: any) {
-    res.json({ error: e.message });
+    return Response.json(data);
+  } catch (e) {
+    handleApiError(e);
   }
-};
-
-export default handler;
+}
