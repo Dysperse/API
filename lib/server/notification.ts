@@ -46,7 +46,7 @@ export const DispatchGroupNotification = async (
   options
 ) => {
   try {
-    const members = await prisma.notificationSettings.findMany({
+    let members = await prisma.notificationSettings.findMany({
       where: {
         AND: [
           { boards: true },
@@ -60,24 +60,18 @@ export const DispatchGroupNotification = async (
                     },
                   },
                 },
-                { notificationSubscription: { not: null } },
               ],
             },
           },
         ],
       },
-      include: {
-        user: {
-          select: {
-            notificationSubscription: true,
-          },
-        },
-      },
     });
+
+    members = members.filter((e) => e.pushSubscription);
 
     for (const member of members) {
       await DispatchNotification({
-        subscription: member.user.notificationSubscription,
+        subscription: member.pushSubscription,
         ...options,
       });
     }

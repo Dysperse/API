@@ -25,7 +25,6 @@ const Notification = async (req, res) => {
   let subscriptions = await prisma.notificationSettings.findMany({
     where: {
       AND: [
-        { user: { notificationSubscription: { contains: "{" } } },
         { todoListUpdates: true },
         {
           ...(process.env.NODE_ENV !== "production" && {
@@ -35,9 +34,9 @@ const Notification = async (req, res) => {
       ],
     },
     select: {
+      pushSubscription: true,
       user: {
         select: {
-          notificationSubscription: true,
           id: true,
           Task: {
             select: {
@@ -60,7 +59,7 @@ const Notification = async (req, res) => {
       },
     },
   });
-
+  subscriptions = subscriptions.filter((e) => e.pushSubscription);
   webPush.setVapidDetails(
     `mailto:${process.env.WEB_PUSH_EMAIL}`,
     process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,

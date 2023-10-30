@@ -13,21 +13,20 @@ export default async function handler(req, res) {
         OR: [{ email: followingEmail }, { username: followingEmail }],
       },
       select: {
-        notificationSubscription: true,
-        NotificationSettings: {
-          select: { followerUpdates: true },
+        notifications: {
+          select: { pushSubscription: true, followerUpdates: true },
         },
         email: true,
       },
     });
 
     if (
-      victim.notificationSubscription &&
-      victim.NotificationSettings?.followerUpdates
+      victim.notifications?.pushSubscription &&
+      victim.notifications?.followerUpdates
     ) {
       try {
         await DispatchNotification({
-          subscription: victim.notificationSubscription,
+          subscription: victim.notifications.pushSubscription as any,
           title: "You have a new follower!",
           body: "Tap to view profile",
         });
