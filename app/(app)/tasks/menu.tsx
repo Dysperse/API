@@ -43,7 +43,7 @@ export const MenuChildren = memo(function MenuChildren({
 
   const [showSync, setShowSync] = useState(true);
 
-  const { data, isLoading, mutate, error } = useSWR(["space/boards"]);
+  const { data, isLoading, mutate, error } = useSWR(["space/tasks/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const boards = useMemo(() => {

@@ -234,7 +234,7 @@ export function Board({ mutate, board }) {
     isLoading: loading,
     mutate: mutateTasks,
   } = useSWR([
-    "property/boards/tasks",
+    "space/tasks/boards/tasks",
     {
       id: board?.id,
       filter,

@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { NextRequest } from "next/server";
+import { prisma } from "./prisma";
 
 export const handleApiError = (error: any) => {
   console.error(error);
@@ -19,4 +20,27 @@ export const getApiParam = (req: NextRequest, key, required = false): any => {
   const value = req.nextUrl.searchParams.get(key);
   if (required && !value) throw new Error(`Missing value: \`${key}\``);
   return value ? decodeURIComponent(value) : null;
+};
+
+export const getIdentifiers = async (id) => {
+  const data = await prisma.session.findFirstOrThrow({
+    where: { id },
+    select: {
+      id: true,
+      user: {
+        select: {
+          identifier: true,
+          selectedProperty: {
+            select: { id: true },
+          },
+        },
+      },
+    },
+  });
+
+  return {
+    sessionId: id,
+    userIdentifier: data.user.identifier,
+    spaceId: data.user.selectedProperty?.id,
+  };
 };

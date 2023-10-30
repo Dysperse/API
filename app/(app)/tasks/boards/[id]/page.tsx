@@ -20,10 +20,7 @@ const BoardContainer = ({ id, shareToken }) => {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const { data, mutate, error } = useSWR([
-    "property/boards",
-    { id, shareToken, includeTasks: true },
-  ]);
+  const { data, mutate, error } = useSWR(["space/tasks/boards", { id }]);
 
   return (
     <>
@@ -48,7 +45,10 @@ const BoardContainer = ({ id, shareToken }) => {
       />
 
       {error && (
-        <ErrorHandler error="An error occured while trying to get this board's information" />
+        <ErrorHandler
+          callback={mutate}
+          error="An error occured while trying to get this board's information"
+        />
       )}
       {data ? (
         <Board mutate={mutate} board={data[0]} />
