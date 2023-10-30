@@ -244,7 +244,7 @@ export function Board({ mutate, board }) {
   const isShared =
     data &&
     data?.[0]?.propertyId &&
-    data?.[0]?.propertyId !== session.property.propertyId;
+    data?.[0]?.propertyId !== session.space.info.id;
 
   const readOnly =
     board?.shareTokens?.find((s) => s.user.email === session.user.email)

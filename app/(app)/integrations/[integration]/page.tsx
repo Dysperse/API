@@ -76,7 +76,7 @@ function Layout() {
     board.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
+  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.space.info.id}&timeZone=${session.user.timeZone}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,7 +100,7 @@ function Layout() {
       });
       return;
     } else {
-      router.push(`/spaces/${session.property.propertyId}`);
+      router.push(`/spaces/${session.space.info.id}`);
     }
 
     setLoading(false);

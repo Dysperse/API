@@ -57,7 +57,7 @@ export default function Page() {
     },
   };
 
-  const groupPalette = useColor(session.property.profile.color, isDark);
+  const groupPalette = useColor(session.space.info.color, isDark);
 
   const clearCache = async () => {
     if ("serviceWorker" in navigator) {
@@ -98,9 +98,9 @@ export default function Page() {
     ],
     [
       {
-        text: session.property.profile.name,
+        text: session.space.info.name,
         secondary: "My space",
-        path: "/spaces/" + session.property.propertyId,
+        path: "/spaces/" + session.space.info.id,
         icon: (
           <Avatar
             sx={{
@@ -111,11 +111,11 @@ export default function Page() {
             }}
           >
             <Icon>
-              {session.property.profile.type === "home"
+              {session.space.info.type === "home"
                 ? "home"
-                : session.property.profile.type === "apartment"
+                : session.space.info.type === "apartment"
                 ? "apartment"
-                : session.property.profile.type === "dorm"
+                : session.space.info.type === "dorm"
                 ? "cottage"
                 : "school"}
             </Icon>

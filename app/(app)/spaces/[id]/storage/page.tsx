@@ -25,7 +25,7 @@ export default function Page() {
   const { id } = params as any;
 
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.property.profile.color, isDark);
+  const palette = useColor(session.space.info.color, isDark);
 
   const accessToken = session.properties.find(
     (property) => property.propertyId == id

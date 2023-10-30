@@ -85,7 +85,7 @@ export default function Integrations({
 }) {
   const { data, mutate, error } = useSWR(["property/integrations"]);
   const { session } = useSession();
-  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.property.propertyId}&timeZone=${session.user.timeZone}`;
+  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.space.info.id}&timeZone=${session.user.timeZone}`;
 
   const [open, setOpen] = useState(false);
   const palette = useColor(

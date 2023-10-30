@@ -284,7 +284,7 @@ export function SpacesLayout({ parentRef, children, title }: any) {
               )}
               {!children &&
                 data &&
-                data.profile.id === session.property.propertyId && (
+                data.profile.id === session.space.info.id && (
                   <Integrations
                     hideNew
                     board={""}

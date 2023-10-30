@@ -115,16 +115,6 @@ export default function ClientLayout({ children, session }) {
     }
   }, [error, hasReachedLimit, storage]);
 
-  if (session.properties.length === 0) {
-    return (
-      <Box>
-        Hmmm.... You find yourself in a strange place. You don&apos;t have
-        access to any groups, or there are none in your account. Please contact
-        support if this problem persists.
-      </Box>
-    );
-  }
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <SWRConfig value={{ fetcher: (d) => fetcher(d, session) }}>
@@ -170,7 +160,7 @@ export default function ClientLayout({ children, session }) {
                     </Button>
                     <Button
                       onClick={() =>
-                        router.push(`/spaces/${session.property.propertyId}`)
+                        router.push(`/spaces/${session.space.info.id}`)
                       }
                       color="inherit"
                       size="small"

@@ -28,7 +28,7 @@ function SidebarMenu({ styles }) {
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const groupPalette = useColor(
-    session.property.profile.color,
+    session.space.info.color,
     useDarkMode(session.darkMode)
   );
 
@@ -101,7 +101,7 @@ function SidebarMenu({ styles }) {
         <MenuItem
           onClick={() => {
             handleClose();
-            router.push(`/spaces/${session.property.propertyId}`);
+            router.push(`/spaces/${session.space.info.id}`);
           }}
         >
           <Avatar
@@ -113,18 +113,16 @@ function SidebarMenu({ styles }) {
             }}
           >
             <Icon>
-              {session.property.profile.type === "home"
+              {session.space.info.type === "home"
                 ? "home"
-                : session.property.profile.type === "apartment"
+                : session.space.info.type === "apartment"
                 ? "apartment"
-                : session.property.profile.type === "dorm"
+                : session.space.info.type === "dorm"
                 ? "cottage"
                 : "school"}
             </Icon>
           </Avatar>
-          <span style={{ marginRight: "15px" }}>
-            {session.property.profile.name}
-          </span>
+          <span style={{ marginRight: "15px" }}>{session.space.info.name}</span>
           <GroupModal useRightClick={false}>
             <Avatar
               sx={{
@@ -171,7 +169,7 @@ export function Sidebar() {
 
   useHotkeys("ctrl+g", (e) => {
     e.preventDefault();
-    router.push(`/spaces/${session.property.propertyId}`);
+    router.push(`/spaces/${session.space.info.id}`);
   });
 
   useHotkeys("ctrl+u", (e) => {

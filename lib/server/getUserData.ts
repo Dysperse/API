@@ -15,14 +15,9 @@ export const getUserData = async (token: string) => {
           settings: true,
           NotificationSettings: true,
           Profile: { select: { picture: true } },
-          properties: {
-            select: {
-              propertyId: true,
-              accessToken: true,
-              selected: true,
-              accepted: true,
-              permission: true,
-              profile: true,
+          selectedProperty: {
+            include: {
+              members: true,
             },
           },
         },
@@ -48,23 +43,26 @@ export const getUserData = async (token: string) => {
   const { ip, timestamp, user, ...restSession } = session;
 
   const updatedSession = {
+    ...restSession,
     current: {
       token,
       ip,
       timestamp,
     },
-    properties: session.user.properties,
-    ...restSession,
     userId: undefined,
     id: undefined,
     ip: undefined,
     timestamp: undefined,
+    space: {
+      access: user.selectedProperty?.members.find((d) => d.userId === user.id),
+      info: { ...user.selectedProperty, members: undefined },
+    },
     user: {
       ...user,
-      properties: undefined,
       lastActive: undefined,
       password: undefined,
       id: undefined,
+      selectedProperty: undefined,
     },
   };
 

@@ -63,7 +63,7 @@ export function PropertyButton({
         handleClose && handleClose();
         setTimeout(() => router.push(`/spaces/${group.propertyId}`), 500);
       }}
-      {...(group.propertyId === session.property.propertyId && {
+      {...(group.propertyId === session.space.info.id && {
         id: "activeProperty",
       })}
       sx={{
@@ -82,7 +82,7 @@ export function PropertyButton({
         "&:hover": {
           background: { sm: palette[2] + "!important" },
         },
-        ...(group.propertyId === session.property.propertyId && {
+        ...(group.propertyId === session.space.info.id && {
           background: handleClose ? palette[2] : { sm: palette[2] },
           "&:hover": {
             background: { sm: palette[3] + "!important" },

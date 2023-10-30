@@ -22,18 +22,11 @@ export default async function RootLayout({
 }) {
   const data = await getSession();
 
-  const selectedProperty =
-    data?.properties &&
-    (data.properties.find((property: any) => property.selected) ||
-      data.properties[0]);
-
   const themeColor = data?.user?.color || "violet";
   const palette = getColor(themeColor, data.user.darkMode);
 
-  const s = data?.properties && {
+  const s = {
     ...data,
-    property: selectedProperty,
-    permission: selectedProperty.permission,
     themeColor,
     darkMode: data.user.darkMode,
   };
@@ -146,6 +139,7 @@ async function getSession() {
     );
 
     const info = await getUserData(accessToken);
+    console.log(info);
     return JSON.parse(JSON.stringify(info));
   } catch {
     return redirect("/auth");

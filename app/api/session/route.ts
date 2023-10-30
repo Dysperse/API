@@ -1,5 +1,7 @@
+import { getUserData } from "@/lib/server/getUserData";
 import jwt from "jsonwebtoken";
-import { getUserData } from "../../lib/server/getUserData";
+import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
 /**
  * Get session data from the auth cookie
@@ -24,19 +26,19 @@ export const sessionData = async (providedToken) => {
  * @param {any} res
  * @returns {any}
  */
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token");
+
   console.time("🧑 Session data request took");
-  if (req.cookies.token) {
-    const info = await sessionData(req.cookies.token);
+  if (token?.value) {
+    const info = await sessionData(token?.value);
     console.timeEnd("🧑 Session data request took");
     if (info.user === false) {
-      res.status(401).json({ error: true });
-      return;
+      return Response.json({ error: true });
     }
-    res.json(info);
+    return Response.json(info);
   } else {
-    res.status(401).json({ error: true });
+    return Response.json({ error: true });
   }
-};
-
-export default handler;
+}

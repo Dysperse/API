@@ -149,7 +149,7 @@ export function AddPersonModal({
         setLoading(true);
         await fetchRawApi(session, "property/members/add", {
           inviterName: session.user.name,
-          name: session.property.profile.name,
+          name: session.space.info.name,
           timestamp: new Date().toISOString(),
           permission: permission,
           email: deferredEmail,

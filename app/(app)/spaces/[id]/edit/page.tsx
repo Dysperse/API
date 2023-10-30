@@ -49,9 +49,7 @@ export default function Page() {
     },
   ]);
 
-  const [name, setName] = useState(
-    session.property.profile.name || "Untitled space"
-  );
+  const [name, setName] = useState(session.space.info.name || "Untitled space");
   const [vanishingTasks, setVanishingTasks] = useState(
     Boolean(data?.profile?.vanishingTasks)
   );
@@ -107,7 +105,7 @@ export default function Page() {
                 e.key === "Enter" && e.target.blur();
               }}
               InputProps={{
-                endAdornment: session.property.profile.name !== name &&
+                endAdornment: session.space.info.name !== name &&
                   name.trim() !== "" && (
                     <InputAdornment position="end">
                       <IconButton onClick={handleUpdateName}>

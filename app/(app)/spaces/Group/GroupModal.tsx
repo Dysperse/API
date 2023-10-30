@@ -184,11 +184,11 @@ export function GroupModal({
     <>
       <Chip
         sx={{ mt: 1 }}
-        label={session.property.profile.name}
+        label={session.space.info.name}
         onDelete={() => setShowMore(true)}
         onClick={(e) => {
           e.stopPropagation();
-          router.push(`/groups/${session.property.propertyId}`);
+          router.push(`/groups/${session.space.info.id}`);
         }}
         avatar={
           <Box

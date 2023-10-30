@@ -27,7 +27,7 @@ const IntegrationChip = ({ integration, boardId, session }) => {
               boardId: boardId,
               offset: dayjs().utcOffset(),
               timeZone: session.user.timeZone,
-              vanishingTasks: session.property.profile.vanishingTasks
+              vanishingTasks: session.space.info.vanishingTasks
                 ? "true"
                 : "false",
             }

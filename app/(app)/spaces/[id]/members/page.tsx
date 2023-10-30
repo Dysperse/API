@@ -74,14 +74,14 @@ export default function Page() {
             />
             <Chip
               label={capitalizeFirstLetter(
-                session.property.permission == "owner" &&
+                session.space.access.permission == "owner" &&
                   member.permission === "owner"
                   ? "You"
                   : member.permission
               )}
               sx={{ flexShrink: 0 }}
             />
-            {session.property.permission !== "owner" ||
+            {session.space.access.permission !== "owner" ||
             member.permission === "owner" ? null : (
               <ConfirmationModal
                 title="Remove person from space?"
