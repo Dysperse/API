@@ -1,41 +1,54 @@
+import {
+  getApiParam,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
+import { NextRequest } from "next/server";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
+  const sessionToken = getSessionToken();
+  const id = getApiParam(req, "id", false);
+  const allTasks = getApiParam(req, "allTasks", false);
+
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
-
-    //  List all boards with columns, but not items
     const data = await prisma.board.findMany({
       where: {
         AND: [
-          req.query.id && { id: req.query.id },
+          {
+            user: {
+              properties: { some: { permission: { not: "read-only" } } },
+            },
+          },
+          // id && { id },
           {
             OR: [
               {
                 shareTokens: {
                   some: {
-                    user: { identifier: req.query.userIdentifier },
+                    user: { sessions: { some: { id: sessionToken } } },
                   },
                 },
               },
               {
                 public: true,
-                AND: { property: { id: req.query.property } },
+                AND: {
+                  property: {
+                    members: {
+                      some: {
+                        user: { sessions: { some: { id: sessionToken } } },
+                      },
+                    },
+                  },
+                },
               },
-              {
-                AND: [
-                  { public: false },
-                  { userId: req.query.userIdentifier },
-                  { property: { id: req.query.property } },
-                ],
-              },
+              // {
+              //   AND: [{ public: false }],
+              // },
             ],
           },
-        ].filter((e) => e),
+        ],
+        // .filter((e) => e),
       },
       include: {
         user: { select: { email: true } },
@@ -75,7 +88,7 @@ const handler = async (req, res) => {
         columns: {
           orderBy: { order: "asc" },
           include: {
-            _count: req.query.allTasks
+            _count: allTasks
               ? true
               : {
                   select: {
@@ -92,11 +105,8 @@ const handler = async (req, res) => {
       },
       orderBy: { pinned: "desc" },
     });
-    res.json(data);
-  } catch (e: any) {
-    console.error(e.message);
-    res.status(500).json({ error: e.message });
+    return Response.json(data);
+  } catch (e) {
+    handleApiError(e);
   }
-};
-
-export default handler;
+}

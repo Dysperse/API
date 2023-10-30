@@ -43,21 +43,21 @@ export const MenuChildren = memo(function MenuChildren({
 
   const [showSync, setShowSync] = useState(true);
 
-  const { data, isLoading, mutate, error } = useSWR(["property/boards"]);
+  const { data, isLoading, mutate, error } = useSWR(["space/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const boards = useMemo(() => {
     if (!data) return { active: [], archived: [], shared: [] };
 
     const active = data.filter(
-      (x) => !x.archived && x.propertyId === session?.property?.propertyId
+      (x) => !x.archived && x.propertyId === session?.space?.info?.id
     );
 
     const archived = data.filter((x) => x.archived);
 
     const shared = data.filter(
       (x) =>
-        x.propertyId !== session?.property?.propertyId ||
+        x.propertyId !== session?.space?.info?.id ||
         x.shareTokens?.[0]?.user?.email === session.user.email
     );
 
