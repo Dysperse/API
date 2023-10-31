@@ -24,10 +24,10 @@ export async function GET(req: NextRequest) {
     const sessionToken = getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
 
-    const type = getApiParam(req, "type", true);
-    const _start = getApiParam(req, "start", true);
-    const utcOffset = getApiParam(req, "utcOffset", true);
-    const _end = getApiParam(req, "end", true);
+    const type = await getApiParam(req, "type", true);
+    const _start = await getApiParam(req, "start", true);
+    const utcOffset = await getApiParam(req, "utcOffset", true);
+    const _end = await getApiParam(req, "end", true);
 
     const map = {
       week: "day",

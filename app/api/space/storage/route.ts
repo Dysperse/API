@@ -9,7 +9,7 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
-    const propertyId = getApiParam(req, "propertyId", true);
+    const propertyId = await getApiParam(req, "propertyId", true);
 
     const space = await prisma.session.findFirstOrThrow({
       where: { id: sessionToken },

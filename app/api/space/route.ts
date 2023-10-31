@@ -39,14 +39,14 @@ export async function PUT(req: NextRequest) {
   try {
     const sessionId = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionId);
-    const userName = getApiParam(req, "userName", true);
-    const changedKey = getApiParam(req, "changedKey", true);
-    const changedValue = getApiParam(req, "changedValue", true);
-    const timestamp = getApiParam(req, "timestamp", true);
-    const type = getApiParam(req, "type", false);
-    const name = getApiParam(req, "name", false);
-    const color = getApiParam(req, "color", false);
-    const vanishingTasks = getApiParam(req, "vanishingTasks", false);
+    const userName = await getApiParam(req, "userName", true);
+    const changedKey = await getApiParam(req, "changedKey", true);
+    const changedValue = await getApiParam(req, "changedValue", true);
+    const timestamp = await getApiParam(req, "timestamp", true);
+    const type = await getApiParam(req, "type", false);
+    const name = await getApiParam(req, "name", false);
+    const color = await getApiParam(req, "color", false);
+    const vanishingTasks = await getApiParam(req, "vanishingTasks", false);
 
     await createInboxNotification(
       userName,

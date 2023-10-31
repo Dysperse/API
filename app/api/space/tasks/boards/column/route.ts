@@ -12,9 +12,9 @@ export async function PUT(req: NextRequest) {
   try {
     const sessionToken = await getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
-    const id = getApiParam(req, "id", true);
-    const name = getApiParam(req, "name", false);
-    const emoji = getApiParam(req, "emoji", false);
+    const id = await getApiParam(req, "id", true);
+    const name = await getApiParam(req, "name", false);
+    const emoji = await getApiParam(req, "emoji", false);
 
     const data = await prisma.column.updateMany({
       where: {
@@ -47,11 +47,11 @@ export async function POST(req: NextRequest) {
   try {
     const sessionToken = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
-    const id = getApiParam(req, "id", true);
-    const boardName = getApiParam(req, "boardName", false);
-    const who = getApiParam(req, "who", false);
-    const emoji = getApiParam(req, "emoji", false);
-    const title = getApiParam(req, "title", false);
+    const id = await getApiParam(req, "id", true);
+    const boardName = await getApiParam(req, "boardName", false);
+    const who = await getApiParam(req, "who", false);
+    const emoji = await getApiParam(req, "emoji", false);
+    const title = await getApiParam(req, "title", false);
 
     await DispatchGroupNotification(spaceId, {
       title: `${boardName}`,
@@ -80,11 +80,11 @@ export async function DELETE(req: NextRequest) {
   try {
     const sessionToken = await getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
-    const id = getApiParam(req, "id", true);
-    const boardName = getApiParam(req, "boardName", false);
-    const who = getApiParam(req, "who", false);
-    const emoji = getApiParam(req, "emoji", false);
-    const columnName = getApiParam(req, "columnName", false);
+    const id = await getApiParam(req, "id", true);
+    const boardName = await getApiParam(req, "boardName", false);
+    const who = await getApiParam(req, "who", false);
+    const emoji = await getApiParam(req, "emoji", false);
+    const columnName = await getApiParam(req, "columnName", false);
 
     await DispatchGroupNotification(spaceId, {
       title: boardName,

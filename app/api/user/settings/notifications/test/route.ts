@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 
 export default async function handler(req: NextRequest) {
   try {
-    const subscription = getApiParam(req, "subscription", true);
+    const subscription = await getApiParam(req, "subscription", true);
     await DispatchNotification({
       subscription,
       title: "Swoosh!",

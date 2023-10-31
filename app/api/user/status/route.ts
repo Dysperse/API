@@ -47,15 +47,15 @@ export async function POST(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
-    const _until = getApiParam(req, "until", false);
-    const start = getApiParam(req, "start", true);
-    const timeZone = getApiParam(req, "timeZone", false);
-    const text = getApiParam(req, "text", false);
-    const email = getApiParam(req, "email", false);
-    const profile = getApiParam(req, "profile", false);
-    const emoji = getApiParam(req, "emoji", false);
-    const _status = getApiParam(req, "status", true);
-    const notifyFriendsForStatusUpdates = getApiParam(
+    const _until = await getApiParam(req, "until", false);
+    const start = await getApiParam(req, "start", true);
+    const timeZone = await getApiParam(req, "timeZone", false);
+    const text = await getApiParam(req, "text", false);
+    const email = await getApiParam(req, "email", false);
+    const profile = await getApiParam(req, "profile", false);
+    const emoji = await getApiParam(req, "emoji", false);
+    const _status = await getApiParam(req, "status", true);
+    const notifyFriendsForStatusUpdates = await getApiParam(
       req,
       "notifyFriendsForStatusUpdates",
       false

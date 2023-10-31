@@ -28,10 +28,10 @@ export async function POST(req: NextRequest) {
     const sessionId = await getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionId);
 
-    const name = getApiParam(req, "name", true);
-    const inputParams = getApiParam(req, "inputParams", true);
-    const outputType = getApiParam(req, "outputType", true);
-    const boardId = getApiParam(req, "boardId", false);
+    const name = await getApiParam(req, "name", true);
+    const inputParams = await getApiParam(req, "inputParams", true);
+    const outputType = await getApiParam(req, "outputType", true);
+    const boardId = await getApiParam(req, "boardId", false);
 
     const data = await prisma.integration.create({
       data: {
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const id = getApiParam(req, "id", true);
+    const id = await getApiParam(req, "id", true);
     const data = await prisma.integration.delete({
       where: { id },
     });

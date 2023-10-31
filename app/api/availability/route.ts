@@ -48,14 +48,14 @@ export async function PUT(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
-    const id = getApiParam(req, "id", true);
+    const id = await getApiParam(req, "id", true);
 
-    const name = getApiParam(req, "name", false);
-    const description = getApiParam(req, "description", false);
-    const startDate = getApiParam(req, "startDate", false);
-    const endDate = getApiParam(req, "endDate", false);
-    const excludingDates = getApiParam(req, "excludingDates", false);
-    const location = getApiParam(req, "location", false);
+    const name = await getApiParam(req, "name", false);
+    const description = await getApiParam(req, "description", false);
+    const startDate = await getApiParam(req, "startDate", false);
+    const endDate = await getApiParam(req, "endDate", false);
+    const excludingDates = await getApiParam(req, "excludingDates", false);
+    const location = await getApiParam(req, "location", false);
 
     const event = await prisma.event.findFirstOrThrow({
       where: {
@@ -86,7 +86,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
-    const id = getApiParam(req, "id", true);
+    const id = await getApiParam(req, "id", true);
 
     const { id: _id } = await prisma.event.findFirstOrThrow({
       where: {
@@ -112,14 +112,14 @@ export async function POST(req: NextRequest) {
     const sessionToken = getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
 
-    const name = getApiParam(req, "name", false);
-    const description = getApiParam(req, "description", false);
-    const startDate = getApiParam(req, "startDate", false);
-    const endDate = getApiParam(req, "endDate", false);
-    const excludingDates = getApiParam(req, "excludingDates", false);
-    const excludingHours = getApiParam(req, "excludingHours", false);
-    const timeZone = getApiParam(req, "timeZone", false);
-    const location = getApiParam(req, "location", false);
+    const name = await getApiParam(req, "name", false);
+    const description = await getApiParam(req, "description", false);
+    const startDate = await getApiParam(req, "startDate", false);
+    const endDate = await getApiParam(req, "endDate", false);
+    const excludingDates = await getApiParam(req, "excludingDates", false);
+    const excludingHours = await getApiParam(req, "excludingHours", false);
+    const timeZone = await getApiParam(req, "timeZone", false);
+    const location = await getApiParam(req, "location", false);
 
     const data = await prisma.event.create({
       data: {

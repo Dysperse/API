@@ -11,17 +11,17 @@ export async function PUT(req: NextRequest) {
   const sessionToken = getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
 
-  const name = getApiParam(req, "name", false);
-  const username = getApiParam(req, "username", false);
-  const lastReleaseVersionViewed = getApiParam(
+  const name = await getApiParam(req, "name", false);
+  const username = await getApiParam(req, "username", false);
+  const lastReleaseVersionViewed = await getApiParam(
     req,
     "lastReleaseVersionViewed",
     false
   );
-  const twoFactorSecret = getApiParam(req, "twoFactorSecret", false);
-  const darkMode = getApiParam(req, "darkMode", false);
-  const agreeTos = getApiParam(req, "agreeTos", false);
-  const color = getApiParam(req, "color", false);
+  const twoFactorSecret = await getApiParam(req, "twoFactorSecret", false);
+  const darkMode = await getApiParam(req, "darkMode", false);
+  const agreeTos = await getApiParam(req, "agreeTos", false);
+  const color = await getApiParam(req, "color", false);
 
   const user = await prisma.user.update({
     where: {

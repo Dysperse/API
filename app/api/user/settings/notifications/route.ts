@@ -28,8 +28,8 @@ export async function PUT(req: NextRequest) {
   const sessionToken = getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
 
-  const name = getApiParam(req, "name", true);
-  const value = getApiParam(req, "name", true);
+  const name = await getApiParam(req, "name", true);
+  const value = await getApiParam(req, "name", true);
 
   const user = await prisma.notificationSettings.upsert({
     where: {

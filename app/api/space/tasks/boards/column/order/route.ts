@@ -11,7 +11,7 @@ export async function PUT(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
-    const order = getApiParam(req, "order", true);
+    const order = await getApiParam(req, "order", true);
 
     const orderObj = JSON.parse(order);
 

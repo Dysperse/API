@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
-    const timeZone = getApiParam(req, "timeZone", true);
+    const timeZone = await getApiParam(req, "timeZone", true);
 
     await prisma.user.update({
       where: {

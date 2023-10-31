@@ -9,7 +9,7 @@ export async function GET() {
     const token = cookieStore.get("token")?.value;
     const session = await sessionData(token);
 
-    // const code = getApiParam(req, "code", true);
+    // const code = await getApiParam(req, "code", true);
     const client_id = process.env.SPOTIFY_CLIENT_ID;
     const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 

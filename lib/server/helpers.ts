@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { NextRequest } from "next/server";
 import { prisma } from "./prisma";
 
-export const handleApiError = (error: any) => {
+export const handleApiError = async (error: any) => {
   console.error(error);
   return Response.json({
     error: error?.message,
@@ -10,13 +10,17 @@ export const handleApiError = (error: any) => {
   });
 };
 
-export const getSessionToken = () => {
+export const getSessionToken = async () => {
   const token = headers().get("Authorization")?.replace("Bearer ", "");
   if (!token) throw new Error("Missing `Authorization` header");
   return token;
 };
 
-export const getApiParam = (req: NextRequest, key, required = false): any => {
+export const getApiParam = async (
+  req: NextRequest,
+  key,
+  required = false
+): Promise<any> => {
   const value = req.nextUrl.searchParams.get(key);
   if (required && (value === null || value === "" || !value))
     throw new Error(`Missing value: \`${key}\``);

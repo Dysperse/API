@@ -24,9 +24,9 @@ export async function GET(req: NextRequest) {
     const sessionId = await getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionId);
 
-    const boardId = getApiParam(req, "boardId", false);
-    const timeZone = getApiParam(req, "timeZone", false);
-    const vanishingTasks = getApiParam(req, "vanishingTasks", false);
+    const boardId = await getApiParam(req, "boardId", false);
+    const timeZone = await getApiParam(req, "timeZone", false);
+    const vanishingTasks = await getApiParam(req, "vanishingTasks", false);
 
     let data = await prisma.integration.findFirstOrThrow({
       where: {

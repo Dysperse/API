@@ -30,7 +30,7 @@ export async function GET() {
 }
 
 export async function DELETE(req: NextRequest) {
-  const id = getApiParam(req, "id", false);
+  const id = await getApiParam(req, "id", false);
   const sessionId = await getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionId);
 

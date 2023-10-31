@@ -12,8 +12,8 @@ export async function POST(req: NextRequest) {
   const sessionToken = getSessionToken();
   const { spaceId } = await getIdentifiers(sessionToken);
 
-  const inviterName = getApiParam(req, "inviterName", true);
-  const timestamp = getApiParam(req, "timestamp", true);
+  const inviterName = await getApiParam(req, "inviterName", true);
+  const timestamp = await getApiParam(req, "timestamp", true);
 
   try {
     await createInboxNotification(
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const token = getApiParam(req, "token", true);
+    const token = await getApiParam(req, "token", true);
     const data = await prisma.propertyLinkInvite.findFirstOrThrow({
       where: {
         token,

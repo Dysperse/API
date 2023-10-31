@@ -11,8 +11,8 @@ import { googleClient } from "../redirect/route";
 export async function GET(req: NextRequest) {
   const oauth2Client = googleClient(req);
 
-  let tokenObj = getApiParam(req, "tokenObj", true);
-  let email = getApiParam(req, "email", true);
+  let tokenObj = await getApiParam(req, "tokenObj", true);
+  let email = await getApiParam(req, "email", true);
   const sessionToken = getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
 

@@ -4,8 +4,8 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const id = getApiParam(req, "id", false);
-    const filter = getApiParam(req, "filter", false);
+    const id = await getApiParam(req, "id", false);
+    const filter = await getApiParam(req, "filter", false);
 
     //  List all tasks for a board from the column
     const data = await prisma.column.findMany({

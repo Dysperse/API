@@ -11,8 +11,8 @@ export async function GET(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
-    const view = getApiParam(req, "view", true);
-    const time = getApiParam(req, "time", false);
+    const view = await getApiParam(req, "view", true);
+    const time = await getApiParam(req, "time", false);
 
     const data = await prisma.task.findMany({
       where: {

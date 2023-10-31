@@ -11,8 +11,8 @@ export async function GET(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
-    const id = getApiParam(req, "id", true);
-    const items = getApiParam(req, "items", false);
+    const id = await getApiParam(req, "id", true);
+    const items = await getApiParam(req, "items", false);
 
     const data = await prisma.room.findFirstOrThrow({
       where: {

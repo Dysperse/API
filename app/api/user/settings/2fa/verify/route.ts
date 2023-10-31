@@ -6,7 +6,7 @@ import * as twofactor from "node-2fa";
 
 export async function GET(req: NextRequest) {
   const sessionToken = getSessionToken();
-  const code = getApiParam(req, "code", true);
+  const code = await getApiParam(req, "code", true);
 
   // Get user info from sessions table using accessToken
   const session = await prisma.session.findUnique({

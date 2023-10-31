@@ -17,9 +17,9 @@ export async function GET(req: NextRequest) {
   const sessionId = await getSessionToken();
   const { spaceId, userIdentifier } = await getIdentifiers(sessionId);
 
-  const boardId = getApiParam(req, "boardId", false);
-  const timeZone = getApiParam(req, "timeZone", true);
-  const offset = getApiParam(req, "offset", true);
+  const boardId = await getApiParam(req, "boardId", false);
+  const timeZone = await getApiParam(req, "timeZone", true);
+  const offset = await getApiParam(req, "offset", true);
   let integration = await prisma.integration.findFirstOrThrow({
     where: {
       AND: [{ name: "Google Calendar" }, { propertyId: spaceId }, { boardId }],

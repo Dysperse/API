@@ -51,9 +51,9 @@ export async function getCurrentlyListening(
 
 export async function GET(req: NextRequest) {
   try {
-    const access_token = getApiParam(req, "access_token", true);
-    const refresh_token = getApiParam(req, "refresh_token", true);
-    const email = getApiParam(req, "email", true);
+    const access_token = await getApiParam(req, "access_token", true);
+    const refresh_token = await getApiParam(req, "refresh_token", true);
+    const email = await getApiParam(req, "email", true);
 
     const response = await getCurrentlyListening(
       email,

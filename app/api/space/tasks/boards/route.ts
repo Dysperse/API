@@ -11,14 +11,14 @@ export async function PUT(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
-    const id = getApiParam(req, "id", true);
+    const id = await getApiParam(req, "id", true);
 
-    const pinned = getApiParam(req, "pinned", false);
-    const name = getApiParam(req, "name", false);
-    const description = getApiParam(req, "description", false);
-    const wallpaper = getApiParam(req, "wallpaper", false);
-    const _public = getApiParam(req, "public", false);
-    const archived = getApiParam(req, "archived", false);
+    const pinned = await getApiParam(req, "pinned", false);
+    const name = await getApiParam(req, "name", false);
+    const description = await getApiParam(req, "description", false);
+    const wallpaper = await getApiParam(req, "wallpaper", false);
+    const _public = await getApiParam(req, "public", false);
+    const archived = await getApiParam(req, "archived", false);
 
     if (pinned) {
       await prisma.board.updateMany({
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
-    const _board = getApiParam(req, "board", true);
+    const _board = await getApiParam(req, "board", true);
 
     const board = JSON.parse(_board);
 
@@ -101,7 +101,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
-    const id = getApiParam(req, "id", true);
+    const id = await getApiParam(req, "id", true);
 
     await prisma.board.deleteMany({
       where: {
@@ -122,8 +122,8 @@ export async function DELETE(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const sessionToken = getSessionToken();
-  const id = getApiParam(req, "id", false);
-  const allTasks = getApiParam(req, "allTasks", false);
+  const id = await getApiParam(req, "id", false);
+  const allTasks = await getApiParam(req, "allTasks", false);
   const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
 
   try {

@@ -4,8 +4,8 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const email = getApiParam(req, "email", false);
-    const basic = getApiParam(req, "basic", false);
+    const email = await getApiParam(req, "email", false);
+    const basic = await getApiParam(req, "basic", false);
 
     const data = await prisma.follows.findMany({
       where: {

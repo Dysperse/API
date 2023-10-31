@@ -8,8 +8,8 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const email = getApiParam(req, "email", false);
-    const username = getApiParam(req, "username", false);
+    const email = await getApiParam(req, "email", false);
+    const username = await getApiParam(req, "username", false);
 
     let data: any = await prisma.user.findFirstOrThrow({
       where: {
@@ -51,13 +51,13 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const id = getSessionToken();
-    const bio = getApiParam(req, "bio", false);
-    const hobbies = getApiParam(req, "hobbies", false);
-    const workingHours = getApiParam(req, "workingHours", false);
-    const picture = getApiParam(req, "picture", false);
-    const birthday = getApiParam(req, "birthday", false);
-    const google = getApiParam(req, "google", false);
-    const spotify = getApiParam(req, "spotify", false);
+    const bio = await getApiParam(req, "bio", false);
+    const hobbies = await getApiParam(req, "hobbies", false);
+    const workingHours = await getApiParam(req, "workingHours", false);
+    const picture = await getApiParam(req, "picture", false);
+    const birthday = await getApiParam(req, "birthday", false);
+    const google = await getApiParam(req, "google", false);
+    const spotify = await getApiParam(req, "spotify", false);
 
     const data = await prisma.profile.updateMany({
       where: {

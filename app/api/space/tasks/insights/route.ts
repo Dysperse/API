@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const email = getApiParam(req, "email", true);
+    const email = await getApiParam(req, "email", true);
     const data = await prisma.completionInstance.findMany({
       where: {
         task: {

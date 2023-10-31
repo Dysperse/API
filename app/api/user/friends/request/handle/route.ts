@@ -11,9 +11,9 @@ export async function GET(req: NextRequest) {
   try {
     const sessionId = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionId);
-    const action = getApiParam(req, "action", false);
-    const email = getApiParam(req, "email", false);
-    const userEmail = getApiParam(req, "userEmail", false);
+    const action = await getApiParam(req, "action", false);
+    const email = await getApiParam(req, "email", false);
+    const userEmail = await getApiParam(req, "userEmail", false);
 
     await prisma.user.findFirstOrThrow({
       where: {

@@ -13,8 +13,8 @@ export async function GET(req: NextRequest) {
     const sessionId = getSessionToken();
     const { spaceId } = await getIdentifiers(sessionId);
 
-    const startTime = getApiParam(req, "startTime", true);
-    const endTime = getApiParam(req, "endTime", true);
+    const startTime = await getApiParam(req, "startTime", true);
+    const endTime = await getApiParam(req, "endTime", true);
 
     const where: Prisma.TaskWhereInput = {
       AND: [

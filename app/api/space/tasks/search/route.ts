@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   try {
     const sessionId = getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionId);
-    const _query = getApiParam(req, "query", true);
+    const _query = await getApiParam(req, "query", true);
     const query = JSON.parse(_query)
       .map((i) => {
         if (typeof i === "string") {

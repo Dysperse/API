@@ -4,9 +4,9 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const email = getApiParam(req, "email", true);
-    const token = getApiParam(req, "token", true);
-    const property = getApiParam(req, "property", true);
+    const email = await getApiParam(req, "email", true);
+    const token = await getApiParam(req, "token", true);
+    const property = await getApiParam(req, "property", true);
 
     // Find email from `user` table
     const user = await prisma.user.findUnique({

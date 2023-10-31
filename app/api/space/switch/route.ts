@@ -4,8 +4,8 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const email = getApiParam(req, "email", true);
-    const accessToken1 = getApiParam(req, "accessToken1", true);
+    const email = await getApiParam(req, "email", true);
+    const accessToken1 = await getApiParam(req, "accessToken1", true);
     await prisma.propertyInvite.updateMany({
       where: {
         AND: [{ user: { email } }, { selected: { equals: true } }],

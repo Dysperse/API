@@ -39,11 +39,11 @@ export async function DELETE(req: NextRequest) {
   try {
     const sessionId = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionId);
-    const removerName = getApiParam(req, "removerName", true);
-    const removeeName = getApiParam(req, "removeeName", true);
-    const timestamp = getApiParam(req, "timestamp", true);
-    const permission = getApiParam(req, "permission", true);
-    const id = getApiParam(req, "id", true);
+    const removerName = await getApiParam(req, "removerName", true);
+    const removeeName = await getApiParam(req, "removeeName", true);
+    const timestamp = await getApiParam(req, "timestamp", true);
+    const permission = await getApiParam(req, "permission", true);
+    const id = await getApiParam(req, "id", true);
 
     await createInboxNotification(
       removerName,
@@ -67,11 +67,11 @@ export async function POST(req: NextRequest) {
     const sessionId = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionId);
 
-    const email = getApiParam(req, "email", true);
-    const name = getApiParam(req, "name", true);
-    const inviterName = getApiParam(req, "inviterName", true);
-    const permission = getApiParam(req, "permission", true);
-    const timestamp = getApiParam(req, "timestamp", true);
+    const email = await getApiParam(req, "email", true);
+    const name = await getApiParam(req, "name", true);
+    const inviterName = await getApiParam(req, "inviterName", true);
+    const permission = await getApiParam(req, "permission", true);
+    const timestamp = await getApiParam(req, "timestamp", true);
 
     // Find email from `user` table
     const user = await prisma.user.findUnique({
@@ -119,11 +119,11 @@ export async function PUT(req: NextRequest) {
     const sessionId = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionId);
 
-    const changerName = getApiParam(req, "changerName", true);
-    const affectedName = getApiParam(req, "affectedName", true);
-    const permission = getApiParam(req, "permission", true);
-    const timestamp = getApiParam(req, "timestamp", true);
-    const id = getApiParam(req, "id", true);
+    const changerName = await getApiParam(req, "changerName", true);
+    const affectedName = await getApiParam(req, "affectedName", true);
+    const permission = await getApiParam(req, "permission", true);
+    const timestamp = await getApiParam(req, "timestamp", true);
+    const id = await getApiParam(req, "id", true);
 
     await createInboxNotification(
       changerName,

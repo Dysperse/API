@@ -31,10 +31,10 @@ export async function POST(req: NextRequest) {
   const sessionToken = getSessionToken();
   const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
 
-  const name = getApiParam(req, "name", true);
-  const emoji = getApiParam(req, "emoji", true);
-  const note = getApiParam(req, "note", false);
-  const _private = getApiParam(req, "private", false);
+  const name = await getApiParam(req, "name", true);
+  const emoji = await getApiParam(req, "emoji", true);
+  const note = await getApiParam(req, "note", false);
+  const _private = await getApiParam(req, "private", false);
 
   try {
     const data = await prisma.room.create({

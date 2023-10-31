@@ -5,7 +5,7 @@ import { calculateOverlappingAvailability } from "./calculateOverlappingAvailabi
 
 export async function GET(req: NextRequest) {
   try {
-    const id = getApiParam(req, "id", true);
+    const id = await getApiParam(req, "id", true);
 
     let data: any = await prisma.event.findFirstOrThrow({
       where: { id },

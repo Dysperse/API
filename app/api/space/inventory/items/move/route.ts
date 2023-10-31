@@ -4,8 +4,8 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const id = getApiParam(req, "id", true);
-    const room = getApiParam(req, "room", true);
+    const id = await getApiParam(req, "id", true);
+    const room = await getApiParam(req, "room", true);
 
     //   Update the note on an item
     const data = await prisma.item.update({

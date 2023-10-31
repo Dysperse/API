@@ -4,10 +4,10 @@ import { NextRequest } from "next/server";
 
 export async function PUT(req: NextRequest) {
   try {
-    const email = getApiParam(req, "email", true);
-    const eventId = getApiParam(req, "eventId", true);
-    const availability = getApiParam(req, "availability", true);
-    const userData = getApiParam(req, "userData", false);
+    const email = await getApiParam(req, "email", true);
+    const eventId = await getApiParam(req, "eventId", true);
+    const availability = await getApiParam(req, "availability", true);
+    const userData = await getApiParam(req, "userData", false);
 
     let user: any = {};
     if (email) {

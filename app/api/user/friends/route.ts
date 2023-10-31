@@ -194,8 +194,8 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const followerEmail = getApiParam(req, "followerEmail", true);
-    const followingEmail = getApiParam(req, "followingEmail", true);
+    const followerEmail = await getApiParam(req, "followerEmail", true);
+    const followingEmail = await getApiParam(req, "followingEmail", true);
 
     try {
       await prisma.follows.delete({
@@ -225,8 +225,8 @@ export async function DELETE(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const followerEmail = getApiParam(req, "followerEmail", true);
-    const followingEmail = getApiParam(req, "followingEmail", true);
+    const followerEmail = await getApiParam(req, "followerEmail", true);
+    const followingEmail = await getApiParam(req, "followingEmail", true);
 
     const victim = await prisma.user.findFirstOrThrow({
       where: {

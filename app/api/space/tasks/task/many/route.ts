@@ -11,9 +11,9 @@ export async function PUT(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
-    const _selection = getApiParam(req, "selection", false);
-    const color = getApiParam(req, "color", false);
-    const due = getApiParam(req, "due", false);
+    const _selection = await getApiParam(req, "selection", false);
+    const color = await getApiParam(req, "color", false);
+    const due = await getApiParam(req, "due", false);
 
     const selection = JSON.parse(_selection);
     let errors = 0;
@@ -44,7 +44,7 @@ export async function DELETE(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
-    const _selection = getApiParam(req, "selection", false);
+    const _selection = await getApiParam(req, "selection", false);
 
     const selection = JSON.parse(_selection);
     let errors = 0;
