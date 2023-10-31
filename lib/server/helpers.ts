@@ -18,7 +18,8 @@ export const getSessionToken = () => {
 
 export const getApiParam = (req: NextRequest, key, required = false): any => {
   const value = req.nextUrl.searchParams.get(key);
-  if (required && !value) throw new Error(`Missing value: \`${key}\``);
+  if (required && (value === null || value === "" || !value))
+    throw new Error(`Missing value: \`${key}\``);
   return value ? decodeURIComponent(value) : null;
 };
 
@@ -39,8 +40,8 @@ export const getIdentifiers = async (id) => {
   });
 
   return {
-    sessionId: id,
-    userIdentifier: data.user.identifier,
-    spaceId: data.user.selectedProperty?.id,
+    sessionId: id || "-1",
+    userIdentifier: data.user.identifier || "-1",
+    spaceId: data.user.selectedProperty?.id || "-1",
   };
 };

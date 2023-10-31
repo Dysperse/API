@@ -260,22 +260,25 @@ export function CreateTask({
         if (formData.title.trim() === "") return;
         setLoading(true);
         vibrate(50);
-        fetchRawApi(session, "property/boards/column/task/create", {
-          ...formData,
-          ...(formData.image && { image: JSON.parse(formData.image).url }),
-          pinned: formData.pinned ? "true" : "false",
-          due: formData.date ? formData.date.toISOString() : "false",
-          columnId: -1,
-          notifications: JSON.stringify(
-            formData.notifications.sort().reverse()
-          ),
-          recurrenceRule: "",
-          ...((formData.recurrenceRule && {
-            recurrenceRule: (formData.recurrenceRule as any)?.toString(),
-          }) as any),
-          ...(boardData && { ...boardData }),
-          ...(parentId && { parent: parentId }),
-          createdBy: session.user.email,
+        fetchRawApi(session, "space/tasks/task", {
+          method: "POST",
+          params: {
+            ...formData,
+            ...(formData.image && { image: JSON.parse(formData.image).url }),
+            pinned: formData.pinned ? "true" : "false",
+            due: formData.date ? formData.date.toISOString() : "false",
+            columnId: -1,
+            notifications: JSON.stringify(
+              formData.notifications.sort().reverse()
+            ),
+            recurrenceRule: "",
+            ...((formData.recurrenceRule && {
+              recurrenceRule: (formData.recurrenceRule as any)?.toString(),
+            }) as any),
+            ...(boardData && { ...boardData }),
+            ...(parentId && { parent: parentId }),
+            createdBy: session.user.email,
+          },
         }).then(() => onSuccess && onSuccess());
         toast.dismiss();
         toast.success("Created task!");

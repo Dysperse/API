@@ -1,8 +1,14 @@
+import {
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
 import dayjs, { Dayjs } from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import utc from "dayjs/plugin/utc";
+import { NextRequest } from "next/server";
 import { RRule } from "rrule";
 dayjs.extend(utc);
 dayjs.extend(isBetween);
@@ -13,12 +19,15 @@ interface PerspectiveUnit {
   tasks: any[];
 }
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
+    const sessionToken = getSessionToken();
+    const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
+
+    const type = getApiParam(req, "type", true);
+    const _start = getApiParam(req, "start", true);
+    const utcOffset = getApiParam(req, "utcOffset", true);
+    const _end = getApiParam(req, "end", true);
 
     const map = {
       week: "day",
@@ -26,11 +35,10 @@ const handler = async (req, res) => {
       year: "month",
     };
 
-    const { type } = req.query; // Removed unnecessary 'timezone' variable
-    if (!map[type]) return res.json({ error: "Invalid `type`" });
+    if (!map[type]) return Response.json({ error: "Invalid `type`" });
 
-    const start = dayjs(req.query.start);
-    const end = dayjs(req.query.end);
+    const start = dayjs(_start);
+    const end = dayjs(_end);
 
     // Create an array of dates as Dayjs objects for each perspective unit
     const units: PerspectiveUnit[] = Array.from(
@@ -45,8 +53,8 @@ const handler = async (req, res) => {
     // Retrieve tasks in a single query
     const tasks = await prisma.task.findMany({
       where: {
-        parentTasks: { none: { property: { id: req.query.property } } },
-        property: { id: req.query.property },
+        parentTasks: { none: { property: { id: spaceId } } },
+        property: { id: spaceId },
         OR: [
           {
             recurrenceRule: null,
@@ -97,7 +105,7 @@ const handler = async (req, res) => {
       for (const dueDate of rule) {
         const due = dayjs(dueDate)
           .utc()
-          .utcOffset(parseInt(req.query.utcOffset) / 60);
+          .utcOffset(parseInt(utcOffset) / 60);
         const unit = units.find(({ start, end }) =>
           due.isBetween(start, end, map[type], "[]")
         );
@@ -109,7 +117,7 @@ const handler = async (req, res) => {
     for (const task of tasks.filter((task) => task.recurrenceRule === null)) {
       const due = dayjs(task.due)
         .utc()
-        .utcOffset(parseInt(req.query.utcOffset) / 60);
+        .utcOffset(parseInt(utcOffset) / 60);
       const unit = units.find(({ start, end }) =>
         due.isBetween(start, end, map[type], "[]")
       );
@@ -122,11 +130,8 @@ const handler = async (req, res) => {
       tasks: tasksByUnit.get(unit),
     }));
 
-    res.json(returned);
-  } catch (e: any) {
-    console.error(e);
-    res.status(500).json({ error: e.message });
+    return Response.json(returned);
+  } catch (e) {
+    return handleApiError(e);
   }
-};
-
-export default handler;
+}

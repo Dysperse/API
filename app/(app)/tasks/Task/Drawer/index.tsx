@@ -65,14 +65,17 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     isLoading: loading,
     mutate: mutateTask,
     error,
-  } = useSWR([!open ? null : "property/boards/column/task", { id }]);
+  } = useSWR([!open ? null : "space/tasks/task", { id }]);
 
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
       try {
         setOpen(false);
-        await fetchRawApi(session, "property/boards/column/task/delete", {
-          id: taskId,
+        await fetchRawApi(session, "space/tasks/task", {
+          method: "DELETE",
+          params: {
+            id: taskId,
+          },
         });
         mutateList();
         mutateTask();
@@ -115,10 +118,13 @@ export const TaskDrawer = React.memo(function TaskDrawer({
       });
 
       return await fetchRawApi(session, "property/boards/column/task/edit", {
-        id,
-        date: dayjs().toISOString(),
-        [key]: String(value),
-        createdBy: session.user.email,
+        method: "PUT",
+        params: {
+          id,
+          date: dayjs().toISOString(),
+          [key]: String(value),
+          createdBy: session.user.email,
+        },
       }).then(() => mutateList());
     },
     [session, data, mutateTask, mutateList]

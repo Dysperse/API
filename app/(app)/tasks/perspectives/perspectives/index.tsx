@@ -405,7 +405,7 @@ export function Agenda({ type, date }) {
     mutate: mutateList,
     error,
   } = useSWR([
-    "property/tasks/perspectives",
+    "space/tasks/perspectives",
     {
       timezone: session.user.timeZone,
       utcOffset: dayjs().utcOffset(),
