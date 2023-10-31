@@ -1,25 +1,20 @@
-import { handleApiError } from "@/lib/server/helpers";
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validateParams } from "@/lib/server/validateParams";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    validateParams(req.query, ["email"]);
-
-    //   Set selected to false for all other properties of the user email
+    const email = getApiParam(req, "email", true);
+    const accessToken1 = getApiParam(req, "accessToken1", true);
     await prisma.propertyInvite.updateMany({
       where: {
-        AND: [
-          { user: { email: { equals: req.query.email } } },
-          { selected: { equals: true } },
-        ],
+        AND: [{ user: { email } }, { selected: { equals: true } }],
       },
       data: { selected: false },
     });
 
     const data = await prisma.propertyInvite.update({
-      where: { accessToken: req.query.accessToken1 },
+      where: { accessToken: accessToken1 },
       data: { selected: true, accepted: true },
       include: {
         profile: { select: { name: true } },

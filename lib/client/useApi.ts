@@ -51,7 +51,7 @@ export interface ApiResponse {
 
 export interface ApiParams {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-  params: {
+  params?: {
     [key: string | number]: string | number | boolean;
   };
 }
@@ -68,7 +68,9 @@ export async function fetchRawApi(
   path: string,
   options: ApiParams
 ) {
-  const url = `/api/${path}?${new URLSearchParams(options.params as any)}`;
+  const url = `/api/${path}?${new URLSearchParams(
+    (options.params || {}) as any
+  )}`;
   const res = await fetch(url, {
     keepalive: true,
     method: options.method || "GET",

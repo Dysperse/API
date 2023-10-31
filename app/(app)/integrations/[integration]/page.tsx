@@ -92,7 +92,7 @@ function Layout() {
         inputParams: JSON.stringify(params),
         outputType: integration.type,
         ...(integration.type === "board" && { boardId }),
-      },
+      } as any,
     });
 
     toast.success("Added integration!");
