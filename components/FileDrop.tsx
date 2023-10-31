@@ -31,7 +31,7 @@ export function FileDropInput({ children, onUploadStart, onSuccess, onError }) {
           { method: "POST", body: form }
         ).then((res) => res.json());
         onSuccess(res);
-      } catch (e) {
+      } catch (e: any) {
         onError(e.message);
         toast.error(
           "Yikes! An error occured while trying to upload your image. Please try again later"

@@ -1,10 +1,10 @@
+import { googleClient } from "@/app/api/user/google/redirect";
 import {
   getApiParam,
   getIdentifiers,
   getSessionToken,
 } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { googleClient } from "@/pages/api/user/google/redirect";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";

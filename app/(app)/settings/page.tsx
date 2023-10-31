@@ -159,7 +159,7 @@ export default function Page() {
           title: "Log out?",
           question: "You'll have to sign back in later",
           success: () =>
-            fetchRawApi(session, "auth/logout").then(() =>
+            fetchRawApi(session, "auth/logout", {}).then(() =>
               router.push("/auth")
             ),
         },

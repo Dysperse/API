@@ -79,14 +79,17 @@ function EditEvent({ children, mutate, event }: any) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const data = await fetchRawApi(session, "availability/edit", {
-        id: event.id,
-        name,
-        description,
-        location,
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
-        excludingDates: JSON.stringify(excludingDates),
+      await fetchRawApi(session, "availability", {
+        method: "PUT",
+        params: {
+          id: event.id,
+          name,
+          description,
+          location,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          excludingDates: JSON.stringify(excludingDates),
+        },
       });
       await mutate();
       setOpen(false);
@@ -323,7 +326,10 @@ function EventOptions({ mutate, event }) {
         <ConfirmationModal
           callback={async () => {
             await fetchRawApi(session, "availability/delete", {
-              id: event.id,
+              method: "DELETE",
+              params: {
+                id: event.id,
+              },
             });
             await mutate();
           }}
@@ -904,14 +910,17 @@ function CreateAvailability({ mutate, setShowMargin }) {
       }
 
       await fetchRawApi(session, "availability/create", {
-        name,
-        description,
-        location,
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
-        excludingDates: JSON.stringify(excludingDates),
-        excludingHours: JSON.stringify(excludingHours),
-        timeZone: session.user.timeZone,
+        method: "POST",
+        params: {
+          name,
+          description,
+          location,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          excludingDates: JSON.stringify(excludingDates),
+          excludingHours: JSON.stringify(excludingHours),
+          timeZone: session.user.timeZone,
+        },
       });
       await mutate();
       setShowCloseAnimation(false);

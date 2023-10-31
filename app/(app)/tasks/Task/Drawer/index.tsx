@@ -79,7 +79,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         });
         mutateList();
         mutateTask();
-      } catch (e) {
+      } catch (e: any) {
         toast.error(e.message);
       }
     },

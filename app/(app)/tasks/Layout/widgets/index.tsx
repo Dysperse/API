@@ -301,15 +301,18 @@ export function WidgetBar({ view, setView }) {
     );
     window.onbeforeunload = () => {
       fetchRawApi(session, "user/status/set", {
-        status: "focusing",
-        start: dayjs().utc().toISOString(),
-        until: 0,
-        timeZone: session.user.timeZone,
-        profile: JSON.stringify(session.user.profile),
-        email: session.user.email,
-        emoji: "",
-        text: "",
-        notifyFriendsForStatusUpdates: "false",
+        method: "POST",
+        params: {
+          status: "focusing",
+          start: dayjs().utc().toISOString(),
+          until: 0,
+          timeZone: session.user.timeZone,
+          profile: JSON.stringify(session.user.profile),
+          email: session.user.email,
+          emoji: "",
+          text: "",
+          notifyFriendsForStatusUpdates: "false",
+        },
       });
       if (view === "priority") return "Exit focus mode?";
       else return null;

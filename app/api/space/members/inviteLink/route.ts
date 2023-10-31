@@ -1,19 +1,26 @@
 import { createInboxNotification } from "@/app/api/space/inbox/createInboxNotification";
-import { getApiParam, handleApiError } from "@/lib/server/helpers";
+import {
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
+  const sessionToken = getSessionToken();
+  const { spaceId } = await getIdentifiers(sessionToken);
+
   const inviterName = getApiParam(req, "inviterName", true);
   const timestamp = getApiParam(req, "timestamp", true);
-  const property = getApiParam(req, "property", true);
 
   try {
     await createInboxNotification(
       inviterName,
       `created an invite link for this group`,
       new Date(timestamp),
-      property
+      spaceId
     );
 
     // Get user id
@@ -21,7 +28,7 @@ export async function POST(req: NextRequest) {
       data: {
         property: {
           connect: {
-            id: property,
+            id: spaceId,
           },
         },
       },

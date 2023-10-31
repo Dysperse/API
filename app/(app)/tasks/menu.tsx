@@ -162,8 +162,11 @@ export const MenuChildren = memo(function MenuChildren({
 
       setHiddenPerspectives(updatedHiddenPerspectives);
 
-      await fetchRawApi(session, "user/settings/set", {
-        hiddenPerspectives: JSON.stringify(updatedHiddenPerspectives),
+      await fetchRawApi(session, "user/settings", {
+        method: "PUT",
+        params: {
+          hiddenPerspectives: JSON.stringify(updatedHiddenPerspectives),
+        },
       });
     },
     [hiddenPerspectives, session, setHiddenPerspectives]

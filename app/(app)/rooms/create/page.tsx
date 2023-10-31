@@ -51,10 +51,13 @@ const Page = memo(function Page() {
     try {
       setLoading(true);
       const res = await fetchRawApi(session, "space/inventory/rooms/create", {
-        name,
-        note,
-        emoji,
-        private: isPrivate ? "true" : "false",
+        method: "POST",
+        params: {
+          name,
+          note,
+          emoji,
+          private: isPrivate ? "true" : "false",
+        },
       });
       setLoading(false);
       toast.success("Created room!");

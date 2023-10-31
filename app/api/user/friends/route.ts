@@ -1,4 +1,5 @@
-import { handleApiError } from "@/lib/server/helpers";
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
+import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -186,6 +187,88 @@ export async function GET(req: NextRequest) {
       user,
       friends: unique,
     });
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const followerEmail = getApiParam(req, "followerEmail", true);
+    const followingEmail = getApiParam(req, "followingEmail", true);
+
+    try {
+      await prisma.follows.delete({
+        where: {
+          followerId_followingId: {
+            followerId: followerEmail,
+            followingId: followingEmail,
+          },
+        },
+      });
+    } catch (e) {}
+    try {
+      await prisma.follows.delete({
+        where: {
+          followerId_followingId: {
+            followerId: followingEmail,
+            followingId: followerEmail,
+          },
+        },
+      });
+    } catch (e) {}
+    return Response.json({ success: true });
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const followerEmail = getApiParam(req, "followerEmail", true);
+    const followingEmail = getApiParam(req, "followingEmail", true);
+
+    const victim = await prisma.user.findFirstOrThrow({
+      where: {
+        OR: [{ email: followingEmail }, { username: followingEmail }],
+      },
+      select: {
+        notifications: {
+          select: { pushSubscription: true, followerUpdates: true },
+        },
+        email: true,
+      },
+    });
+
+    if (
+      victim.notifications?.pushSubscription &&
+      victim.notifications?.followerUpdates
+    ) {
+      try {
+        await DispatchNotification({
+          subscription: victim.notifications.pushSubscription as any,
+          title: "You have a new follower!",
+          body: "Tap to view profile",
+        });
+      } catch {}
+    }
+
+    await prisma.follows.upsert({
+      where: {
+        followerId_followingId: {
+          followerId: followerEmail,
+          followingId: victim.email,
+        },
+      },
+      update: {
+        accepted: false,
+      },
+      create: {
+        follower: { connect: { email: followerEmail } },
+        following: { connect: { email: victim.email } },
+      },
+    });
+    return Response.json({ success: true });
   } catch (e) {
     return handleApiError(e);
   }

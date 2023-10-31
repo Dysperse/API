@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function UPDATE(req: NextRequest) {
+export async function PUT(req: NextRequest) {
   try {
     const id = getSessionToken();
     const bio = getApiParam(req, "bio", false);

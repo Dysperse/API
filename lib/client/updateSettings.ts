@@ -1,12 +1,11 @@
 import toast from "react-hot-toast";
-import { mutate } from "swr";
-import { fetchRawApi } from "./useApi";
 import { mutateSession } from "./session";
+import { fetchRawApi } from "./useApi";
 
 type SettingsUpdateParams = [key: string, value: string | boolean];
 interface SettingsUpdateConfig {
   session: any;
-  setSession:any,
+  setSession: any;
   type?: "user" | "property";
 }
 
@@ -15,22 +14,25 @@ export async function updateSettings(
   config: SettingsUpdateConfig
 ) {
   try {
-    const { session,setSession } = config;
+    const { session, setSession } = config;
     let type = config.type || "user";
 
-    const endpoint = type === "user" ? "user/settings/edit" : "property/edit";
+    const endpoint = type === "user" ? "user/settings" : "space";
     const params = {
-      [key]: String(value),
-      token: session.current.token,
-      timestamp: new Date().toISOString(),
+      method: "PUT",
+      params: {
+        [key]: String(value),
+        token: session.current.token,
+        timestamp: new Date().toISOString(),
 
-      // Used for editing property settings
-      userName: session.user.name,
-      changedKey: key,
-      changedValue: value,
+        // Used for editing property settings
+        userName: session.user.name,
+        changedKey: key,
+        changedValue: value,
+      },
     };
 
-    const res = await fetchRawApi(session, endpoint, params);
+    const res = await fetchRawApi(session, endpoint, params as any);
     await mutateSession(setSession);
     return res;
   } catch (e) {

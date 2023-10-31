@@ -40,7 +40,7 @@ export function ConfirmationModal({
       await callback();
       setLoading(false);
       setOpen(false);
-    } catch (e) {
+    } catch (e: any) {
       setLoading(false);
       toast.error(`An error occured: ${e.message}`);
     }

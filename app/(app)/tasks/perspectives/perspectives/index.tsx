@@ -255,32 +255,38 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
 
   const handleSubmit = useCallback(async () => {
     await fetchRawApi(session, "user/status/set", {
-      status: "focusing",
-      start: dayjs().utc().toISOString(),
-      until: "",
-      timeZone: session.user.timeZone,
-      profile: JSON.stringify(session.user.profile),
-      email: session.user.email,
-      emoji: "",
-      text: "",
-      notifyFriendsForStatusUpdates: session.NotificationSettings
-        ?.notifyFriendsForStatusUpdates
-        ? "true"
-        : "false",
+      method: "POST",
+      params: {
+        status: "focusing",
+        start: dayjs().utc().toISOString(),
+        until: "",
+        timeZone: session.user.timeZone,
+        profile: JSON.stringify(session.user.profile),
+        email: session.user.email,
+        emoji: "",
+        text: "",
+        notifyFriendsForStatusUpdates: session.NotificationSettings
+          ?.notifyFriendsForStatusUpdates
+          ? "true"
+          : "false",
+      },
     });
   }, [session]);
 
   const clearStatus = useCallback(async () => {
     await fetchRawApi(session, "user/status/set", {
-      status: "focusing",
-      start: dayjs().utc().toISOString(),
-      until: 0,
-      timeZone: session.user.timeZone,
-      profile: JSON.stringify(session.user.profile),
-      email: session.user.email,
-      emoji: "",
-      text: "",
-      notifyFriendsForStatusUpdates: "false",
+      method: "POST",
+      params: {
+        status: "focusing",
+        start: dayjs().utc().toISOString(),
+        until: 0,
+        timeZone: session.user.timeZone,
+        profile: JSON.stringify(session.user.profile),
+        email: session.user.email,
+        emoji: "",
+        text: "",
+        notifyFriendsForStatusUpdates: "false",
+      },
     });
   }, [session]);
 

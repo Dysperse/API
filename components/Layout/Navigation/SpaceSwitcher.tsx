@@ -41,9 +41,11 @@ export function PropertyButton({
           try {
             setLoading(true);
             handleClose();
-            const res = await fetchRawApi(session, "property/switch", {
-              email: session.user.email,
-              accessToken1: group.accessToken,
+            const res = await fetchRawApi(session, "space/switch", {
+              params: {
+                email: session.user.email,
+                accessToken1: group.accessToken,
+              },
             });
             await mutate("/api/session");
             toast.success(

@@ -109,11 +109,14 @@ export default function Page() {
 
   const handleSubmit = async () => {
     try {
-      fetchRawApi(session, "space/inventory/items/create", {
-        name: titleRef.current.value,
-        room: room.id,
+      fetchRawApi(session, "space/inventory/items", {
+        method: "POST",
+        params: {
+          name: titleRef.current.value,
+          room: room.id,
+        },
       });
-    } catch (e) {
+    } catch (e:any) {
       toast.error(e.message);
     }
     setSubmitted(true);

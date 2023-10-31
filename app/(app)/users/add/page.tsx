@@ -41,9 +41,12 @@ export default function AddFriend() {
   const addFriend = async () => {
     try {
       setLoading("1");
-      const data = await fetchRawApi(session, "user/followers/follow", {
-        followerEmail: session.user.email,
-        followingEmail: query,
+      const data = await fetchRawApi(session, "user/friends", {
+        method: "POST",
+        params: {
+          followerEmail: session.user.email,
+          followingEmail: query,
+        },
       });
       if (!data?.success) throw new Error();
       toast.success("Friend request sent!");
@@ -79,10 +82,12 @@ export default function AddFriend() {
 
   const handleRequest = async (email, action) => {
     setLoading(email);
-    await fetchRawApi(session, "user/followers/handle-request", {
-      email,
-      userEmail: session.user.email,
-      action: String(action),
+    await fetchRawApi(session, "user/friends/request/handle", {
+      params: {
+        email,
+        userEmail: session.user.email,
+        action: String(action),
+      },
     });
     await mutate();
     setLoading("");
@@ -90,9 +95,8 @@ export default function AddFriend() {
 
   const handleCancel = async (email) => {
     setLoading(email);
-    await fetchRawApi(session, "user/followers/cancel-request", {
-      email,
-      userEmail: session.user.email,
+    await fetchRawApi(session, "user/friends/request/cancel", {
+      params: { email, userEmail: session.user.email },
     });
     await mutate();
     setLoading("");
