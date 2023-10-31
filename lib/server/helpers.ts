@@ -4,14 +4,19 @@ import { prisma } from "./prisma";
 
 export const handleApiError = async (error: any) => {
   console.error(error);
-  return Response.json({
-    error: error?.message,
-    status: 500,
-  });
+  return Response.json(
+    {
+      error: error?.message,
+      status: 500,
+    },
+    {
+      status: 500,
+    }
+  );
 };
 
 export const getSessionToken = async () => {
-  const token =  headers().get("Authorization")?.replace("Bearer ", "");
+  const token = headers().get("Authorization")?.replace("Bearer ", "");
   if (!token) throw new Error("Missing `Authorization` header");
   return token;
 };
