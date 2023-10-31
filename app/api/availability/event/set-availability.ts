@@ -1,25 +1,28 @@
-import { handleApiError } from "@/lib/server/helpers";
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
+import { NextRequest } from "next/server";
 
-export default async function handler(req, res) {
+export async function PUT(req: NextRequest) {
   try {
+    const email = getApiParam(req, "email", true);
+    const eventId = getApiParam(req, "eventId", true);
+    const availability = getApiParam(req, "availability", true);
+    const userData = getApiParam(req, "userData", false);
+
     let user: any = {};
-    if (req.query.email) {
+    if (email) {
       user = await prisma.eventParticipant.findFirst({
         where: {
-          AND: [
-            { user: { email: req.query.email } },
-            { event: { id: req.query.eventId } },
-          ],
+          AND: [{ user: { email } }, { event: { id: eventId } }],
         },
       });
     } else {
       const users = await prisma.eventParticipant.findMany({
-        where: { event: { id: req.query.eventId } },
+        where: { event: { id: eventId } },
       });
 
       user = users.find(
-        (u: any) => u.userData?.email === JSON.parse(req.query.userData).email
+        (u: any) => u.userData?.email === JSON.parse(userData).email
       );
     }
 
@@ -29,25 +32,23 @@ export default async function handler(req, res) {
           id: user?.id,
         },
         data: {
-          userData: req.query.userData
-            ? JSON.parse(req.query.userData)
-            : undefined,
-          availability: JSON.parse(req.query.availability),
+          userData: userData ? JSON.parse(userData) : undefined,
+          availability: JSON.parse(availability),
         },
       });
       return Response.json(d);
     } else {
       const d = await prisma.eventParticipant.create({
         data: {
-          availability: JSON.parse(req.query.availability),
-          ...(req.query.email
+          availability: JSON.parse(availability),
+          ...(email
             ? {
-                user: { connect: { email: req.query.email } },
+                user: { connect: { email } },
               }
-            : { userData: JSON.parse(req.query.userData) }),
+            : { userData: JSON.parse(userData) }),
           event: {
             connect: {
-              id: req.query.eventId,
+              id: eventId,
             },
           },
         },

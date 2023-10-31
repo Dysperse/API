@@ -1,4 +1,6 @@
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
+import { NextRequest } from "next/server";
 
 function calculateOverlappingAvailability(participants) {
   // Create a map to store the availability count for each date and hour
@@ -42,10 +44,12 @@ function calculateOverlappingAvailability(participants) {
   return overlappingAvailability;
 }
 
-export default async function handler(req, res) {
+export async function GET(req: NextRequest) {
   try {
+    const id = getApiParam(req, "id", true);
+
     let data: any = await prisma.event.findFirstOrThrow({
-      where: { id: req.query.id },
+      where: { id },
       select: {
         startDate: true,
         endDate: true,
@@ -88,6 +92,6 @@ export default async function handler(req, res) {
       data,
     });
   } catch (e) {
-    res.status(400).json({ error: true, message: e.message });
+    handleApiError(e);
   }
 }
