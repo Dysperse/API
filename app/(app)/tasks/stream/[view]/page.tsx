@@ -24,10 +24,7 @@ export default function Page() {
   //   IDFK WHY THIS HAPPENS!?
   const key = useMemo(() => {
     if (view) {
-      return [
-        "property/tasks/stream",
-        { view, time: new Date().toISOString() },
-      ];
+      return ["space/tasks/stream", { view, time: new Date().toISOString() }];
     }
     return null;
   }, [view]);
