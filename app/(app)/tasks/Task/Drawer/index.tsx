@@ -117,7 +117,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         revalidate: false,
       });
 
-      return await fetchRawApi(session, "space/tasks/task/edit", {
+      return await fetchRawApi(session, "space/tasks/task", {
         method: "PUT",
         params: {
           id,

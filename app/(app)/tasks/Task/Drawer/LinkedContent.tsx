@@ -50,7 +50,7 @@ export const LinkedContent = React.memo(function LinkedContent({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          fetchRawApi(session, "space/tasks/task/edit", {
+          fetchRawApi(session, "space/tasks/task", {
             method: "PUT",
             params: {
               id: task.id,

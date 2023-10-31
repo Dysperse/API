@@ -188,17 +188,13 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
               <FileDropInput
                 onError={() => toast.error("Couldn't upload")}
                 onSuccess={async (res) => {
-                  await fetchRawApi(
-                    session,
-                    "property/boards/column/task/edit",
-                    {
-                      method: "PUT",
-                      params: {
-                        image: res.data.url,
-                        id: task.id,
-                      },
-                    }
-                  );
+                  await fetchRawApi(session, "space/tasks/task", {
+                    method: "PUT",
+                    params: {
+                      image: res.data.url,
+                      id: task.id,
+                    },
+                  });
                   await task.mutate();
                 }}
                 onUploadStart={() => {}}
