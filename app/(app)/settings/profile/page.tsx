@@ -1,8 +1,8 @@
 "use client";
 
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
+import { WorkingHours } from "@/app/(app)/users/[id]/WorkingHours";
 import { ErrorHandler } from "@/components/Error";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
-import { WorkingHours } from "@/components/Profile/WorkingHours";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
@@ -48,11 +48,14 @@ export default function AppearanceSettings() {
     if (name.trim() !== "")
       updateSettings(["name", name], { session, setSession });
 
-    await fetchRawApi(session, "user/profile/update", {
-      email: session.user.email,
-      birthday: birthday.add(1, "day").toISOString(),
-      hobbies: JSON.stringify(hobbies),
-      bio,
+    await fetchRawApi(session, "user/profile", {
+      method: "PUT",
+      params: {
+        email: session.user.email,
+        birthday: birthday.add(1, "day").toISOString(),
+        hobbies: JSON.stringify(hobbies),
+        bio,
+      },
     });
     toast.success("Saved!");
   };
@@ -121,9 +124,12 @@ export default function AppearanceSettings() {
                     reject("Duplicate");
                     return;
                   }
-                  await fetchRawApi(session, "user/profile/update", {
-                    email: session.user.email,
+                  await fetchRawApi(session, "user/profile", {
+                    method:"PUT",
+                    params: {
+                      email: session.user.email,
                     picture: res.image.url,
+                    }
                   });
                   await mutate();
                   resolve(res);

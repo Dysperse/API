@@ -1,7 +1,7 @@
 "use client";
 
 import { containerRef } from "@/app/(app)/container";
-import { CreateTask } from "@/components/Tasks/Task/Create";
+import { CreateTask } from "@/app/(app)/tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -14,7 +14,7 @@ export const shouldHideNavigation = (path) => {
     { path: "/users", desktop: false },
     { path: "/boards/edit/", desktop: false },
     { path: "/tasks/search", desktop: false },
-    { path: "/integrations", desktop: false },
+    { path: "/integrations", desktop: true },
     { path: "/rooms/", desktop: false },
     { path: "/spaces", desktop: false },
     { path: "/onboarding", desktop: false },
@@ -109,7 +109,7 @@ export function BottomNav() {
         mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
         visibility: shouldHide ? "hidden" : "visible",
         left: 0,
-        transition: "margin-bottom .4s cubic-bezier(.17,.67,.08,1.4)",
+        transition: "margin-bottom .25s var(--transition-defaults)",
         overflowX: "hidden",
         display: {
           xs: "flex",

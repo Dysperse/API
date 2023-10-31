@@ -49,6 +49,13 @@ export interface ApiResponse {
   error: null | any;
 }
 
+export interface ApiParams {
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  params?: {
+    [key: string | number]: string | number | boolean;
+  };
+}
+
 /**
  * Use the raw API without the SWR library
  * @param path - The path of the API request
@@ -57,19 +64,19 @@ export interface ApiResponse {
  * @returns Promise<ApiResponse>
  */
 export async function fetchRawApi(
-  session,
-  path,
-  initialParams = {},
-  removeDefaultParams = false
+  session: any,
+  path: string,
+  options: ApiParams
 ) {
-  const { url } = getInfo(
-    path,
-    initialParams,
-    session.property,
-    session?.user,
-    removeDefaultParams,
-    session?.current
-  );
-  const res = await fetch("/api/" + url, { keepalive: true });
+  const url = `/api/${path}?${new URLSearchParams(
+    (options.params || {}) as any
+  )}`;
+  const res = await fetch(url, {
+    keepalive: true,
+    method: options.method || "GET",
+    headers: new Headers({
+      Authorization: `Bearer ${session.current.token}`,
+    }),
+  });
   return await res.json();
 }

@@ -95,7 +95,9 @@ export default function NotificationsPrompt() {
         setSession,
       });
       await fetchRawApi(session, "/user/settings/notifications/test", {
-        subscription: session.user.notificationSubscription,
+        params: {
+          subscription: session.user.notificationSubscription,
+        },
       });
       setLoading(false);
       setOpen(false);

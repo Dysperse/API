@@ -1,8 +1,8 @@
 "use client";
 
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Emoji } from "@/components/Emoji";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -57,7 +57,7 @@ export default function Page() {
     },
   };
 
-  const groupPalette = useColor(session.property.profile.color, isDark);
+  const groupPalette = useColor(session.space.info.color, isDark);
 
   const clearCache = async () => {
     if ("serviceWorker" in navigator) {
@@ -98,9 +98,9 @@ export default function Page() {
     ],
     [
       {
-        text: session.property.profile.name,
+        text: session.space.info.name,
         secondary: "My space",
-        path: "/spaces/" + session.property.propertyId,
+        path: "/spaces/" + session.space.info.id,
         icon: (
           <Avatar
             sx={{
@@ -111,11 +111,11 @@ export default function Page() {
             }}
           >
             <Icon>
-              {session.property.profile.type === "home"
+              {session.space.info.type === "home"
                 ? "home"
-                : session.property.profile.type === "apartment"
+                : session.space.info.type === "apartment"
                 ? "apartment"
-                : session.property.profile.type === "dorm"
+                : session.space.info.type === "dorm"
                 ? "cottage"
                 : "school"}
             </Icon>
@@ -159,7 +159,7 @@ export default function Page() {
           title: "Log out?",
           question: "You'll have to sign back in later",
           success: () =>
-            fetchRawApi(session, "auth/logout").then(() =>
+            fetchRawApi(session, "auth/logout", {}).then(() =>
               router.push("/auth")
             ),
         },

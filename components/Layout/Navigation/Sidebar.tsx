@@ -1,8 +1,8 @@
 "use client";
 import { containerRef } from "@/app/(app)/container";
-import { GroupModal } from "@/components/Group/GroupModal";
+import { GroupModal } from "@/app/(app)/spaces/Group/GroupModal";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Logo } from "@/components/Logo";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { StatusSelector } from "@/components/Start/StatusSelector";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -28,7 +28,7 @@ function SidebarMenu({ styles }) {
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const groupPalette = useColor(
-    session.property.profile.color,
+    session.space.info.color,
     useDarkMode(session.darkMode)
   );
 
@@ -101,7 +101,7 @@ function SidebarMenu({ styles }) {
         <MenuItem
           onClick={() => {
             handleClose();
-            router.push(`/spaces/${session.property.propertyId}`);
+            router.push(`/spaces/${session.space.info.id}`);
           }}
         >
           <Avatar
@@ -113,18 +113,16 @@ function SidebarMenu({ styles }) {
             }}
           >
             <Icon>
-              {session.property.profile.type === "home"
+              {session.space.info.type === "home"
                 ? "home"
-                : session.property.profile.type === "apartment"
+                : session.space.info.type === "apartment"
                 ? "apartment"
-                : session.property.profile.type === "dorm"
+                : session.space.info.type === "dorm"
                 ? "cottage"
                 : "school"}
             </Icon>
           </Avatar>
-          <span style={{ marginRight: "15px" }}>
-            {session.property.profile.name}
-          </span>
+          <span style={{ marginRight: "15px" }}>{session.space.info.name}</span>
           <GroupModal useRightClick={false}>
             <Avatar
               sx={{
@@ -171,7 +169,7 @@ export function Sidebar() {
 
   useHotkeys("ctrl+g", (e) => {
     e.preventDefault();
-    router.push(`/spaces/${session.property.propertyId}`);
+    router.push(`/spaces/${session.space.info.id}`);
   });
 
   useHotkeys("ctrl+u", (e) => {
@@ -277,7 +275,7 @@ export function Sidebar() {
         width: "80px",
         ml: shouldHide ? "-90px" : 0,
         ...(shouldHide && { pointerEvents: "none" }),
-        transition: "all .2s",
+        transition: "all var(--transition-defaults)",
         zIndex: "99!important",
         filter: "none!important",
         overflowX: "hidden",

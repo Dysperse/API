@@ -17,7 +17,7 @@ import {
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
-import { CreateItem } from "../../../components/Inventory/CreateItem";
+import { CreateItem } from "./CreateItem";
 
 export function Panel() {
   const router = useRouter();
@@ -43,7 +43,7 @@ export function Panel() {
 
   const buttonText = view === "room" ? "Rooms" : "Categories";
 
-  const { data, mutate, error } = useSWR(["property/inventory/rooms"]);
+  const { data, mutate, error } = useSWR(["space/inventory/rooms"]);
 
   return (
     <Box

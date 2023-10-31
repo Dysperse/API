@@ -25,8 +25,11 @@ export default function ConnectionsSettings() {
 
   const handleIntegrationDelete = async (name) => {
     await fetchRawApi(session, "user/profile/update", {
-      [name]: "null",
-      email: session.user.email,
+      method: "PUT",
+      params: {
+        [name]: "null",
+        email: session.user.email,
+      },
     });
     await mutate();
     toast.success(`Disconnected ${name}!`);

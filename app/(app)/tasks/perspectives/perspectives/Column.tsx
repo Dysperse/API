@@ -1,6 +1,6 @@
 import { containerRef } from "@/app/(app)/container";
+import SelectDateModal from "@/app/(app)/tasks/Task/DatePicker";
 import { Emoji } from "@/components/Emoji";
-import SelectDateModal from "@/components/Tasks/Task/DatePicker";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -27,8 +27,8 @@ import React, {
 import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { PerspectiveContext, sortedTasks } from ".";
-import { Task } from "../../../../../components/Tasks/Task";
-import { CreateTask } from "../../../../../components/Tasks/Task/Create";
+import { Task } from "../../Task";
+import { CreateTask } from "../../Task/Create";
 import { SelectionContext } from "../../selection-context";
 import { Header } from "./Header";
 
@@ -55,16 +55,15 @@ function UnfinishedTasks({ column, completedTasks, data }) {
 
   const handleSubmit = async (newDate) => {
     try {
-      const res = await fetchRawApi(
-        session,
-        "property/boards/column/task/editMany",
-        {
+      const res = await fetchRawApi(session, "space/tasks/task/many", {
+        method: "PUT",
+        params: {
           selection: JSON.stringify(
             taskSelection.values.filter((e) => e !== -2)
           ),
           due: newDate,
-        }
-      );
+        },
+      });
       if (res.errors !== 0) {
         toast.error(
           `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`

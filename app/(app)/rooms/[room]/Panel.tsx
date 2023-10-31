@@ -1,6 +1,6 @@
 "use client";
+import { CreateItem } from "@/app/(app)/rooms/CreateItem";
 import { ErrorHandler } from "@/components/Error";
-import { CreateItem } from "@/components/Inventory/CreateItem";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -43,7 +43,7 @@ export function Panel() {
 
   const buttonText = view === "room" ? "Rooms" : "Categories";
 
-  const { data, mutate, error } = useSWR(["property/inventory/rooms"]);
+  const { data, mutate, error } = useSWR(["space/inventory/rooms"]);
 
   return (
     <Box

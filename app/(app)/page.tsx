@@ -1,7 +1,8 @@
 "use client";
 
 import { containerRef } from "@/app/(app)/container";
-import { Navbar } from "@/components/Navbar";
+import { ErrorHandler } from "@/components/Error";
+import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
@@ -38,16 +39,16 @@ export default function Home() {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const params: any = typeof window !== "undefined" && [
-    "user/profile/friends",
-    {
-      email: session.user.email,
-      date: dayjs().startOf("day").toISOString(),
-      timezone: session.user.timeZone,
-    },
+    "user/friends",
+    { email: session.user.email },
   ];
-  const { data, mutate } = useSWR(params, fetcher(params, session) as any, {
-    refreshInterval: 5000,
-  });
+  const { data, error, mutate } = useSWR(
+    params,
+    fetcher(params, session) as any,
+    {
+      refreshInterval: 5000,
+    }
+  );
 
   const router = useRouter();
 
@@ -205,6 +206,11 @@ export default function Home() {
                         )}
                       />
                     )
+                  ) : error ? (
+                    <ErrorHandler
+                      callback={mutate}
+                      error="Couldn't load your friends. Try again later."
+                    />
                   ) : (
                     <>
                       {[...new Array(5)].map((_, i) => (

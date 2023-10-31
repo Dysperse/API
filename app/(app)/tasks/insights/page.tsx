@@ -71,7 +71,7 @@ export default function Insights() {
     },
   };
 
-  const { data: score, error: scoreError } = useSWR([
+  const { data: score, error } = useSWR([
     "property/tasks/score",
     { email: session.user.email },
   ]);

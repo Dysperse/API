@@ -1,11 +1,10 @@
 "use client";
 import themes from "@/app/(app)/settings/themes.json";
+import { isEmail } from "@/app/(app)/spaces/Group/Members/isEmail";
 import { templates } from "@/app/(app)/tasks/boards/[id]/Board/Create";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Emoji } from "@/components/Emoji";
-import { isEmail } from "@/components/Group/Members/isEmail";
 import { Logo } from "@/components/Logo";
-import { Intro } from "@/components/Onboarding/Intro";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -51,6 +50,7 @@ import Image from "next/legacy/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { VirtuosoGrid } from "react-virtuoso";
+import { Intro } from "./Intro";
 const utc = require("dayjs/plugin/utc");
 const timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
 

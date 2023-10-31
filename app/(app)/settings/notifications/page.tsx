@@ -51,7 +51,7 @@ export default function Notifications() {
       setSession,
     }).then(() => {
       fetchRawApi(session, "/user/settings/notifications/test", {
-        subscription: JSON.stringify(sub),
+        params: { subscription: JSON.stringify(sub) },
       });
     });
   };
@@ -68,16 +68,21 @@ export default function Notifications() {
   const sendNotificationButtonOnClick = async (event) => {
     event.preventDefault();
     fetchRawApi(session, "/user/settings/notifications/test", {
-      subscription: session.user.notificationSubscription,
+      params: {
+        subscription: session.user.notificationSubscription,
+      },
     });
   };
 
   const handleNotificationChange = async (name, value) => {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        await fetchRawApi(session, "user/settings/notifications/edit", {
-          name: name,
-          value: value,
+        await fetchRawApi(session, "user/settings/notifications", {
+          method: "PUT",
+          params: {
+            name: name,
+            value: value,
+          },
         });
         await mutate();
         resolve("");

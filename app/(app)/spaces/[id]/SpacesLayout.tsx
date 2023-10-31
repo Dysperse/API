@@ -1,8 +1,7 @@
 "use client";
-import { ErrorHandler } from "@/components/Error";
-import { GroupModal } from "@/components/Group/GroupModal";
-import Integrations from "@/components/Group/Integrations";
-import { Storage } from "@/components/Group/Storage";
+import { GroupModal } from "@/app/(app)/spaces/Group/GroupModal";
+import Integrations from "@/app/(app)/spaces/Group/Integrations";
+import { Storage } from "@/app/(app)/spaces/Group/Storage";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -31,20 +30,14 @@ export function SpacesLayout({ parentRef, children, title }: any) {
   const { session } = useSession();
   const router = useRouter();
   const params = useParams();
-  const { id } = params as any;
+  const { id: propertyId } = params as any;
   const isDark = useDarkMode(session.darkMode);
 
   const accessToken = session.properties.find(
-    (property) => property.propertyId == id
+    (property) => property.propertyId == propertyId
   )?.accessToken;
 
-  const { data, error, isLoading } = useSWR([
-    id ? "property" : null,
-    {
-      id,
-      propertyAccessToken: accessToken,
-    },
-  ]);
+  const { data, error, isLoading } = useSWR(["space", { propertyId }]);
 
   const palette = useColor(data?.profile?.color || session.themeColor, isDark);
 
@@ -91,6 +84,12 @@ export function SpacesLayout({ parentRef, children, title }: any) {
     [data]
   );
 
+  useEffect(() => {
+    if (!isLoading && error) {
+      throw new Error("Couldn't load group");
+    }
+  }, [isLoading, error]);
+
   return (
     <ThemeProvider theme={userTheme}>
       <Box
@@ -108,9 +107,6 @@ export function SpacesLayout({ parentRef, children, title }: any) {
           },
         }}
       >
-        {error && !isLoading && (
-          <ErrorHandler error="Yikes! We couldn't load this group! Please try again later" />
-        )}
         {data ? (
           <>
             <AppBar
@@ -288,7 +284,7 @@ export function SpacesLayout({ parentRef, children, title }: any) {
               )}
               {!children &&
                 data &&
-                data.profile.id === session.property.propertyId && (
+                data.profile.id === session.space.info.id && (
                   <Integrations
                     hideNew
                     board={""}

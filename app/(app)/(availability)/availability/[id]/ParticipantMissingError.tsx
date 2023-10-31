@@ -17,7 +17,7 @@ export function ParticipantMissingError({ userData, id, mutate }) {
     try {
       setLoading(true);
       await fetch(
-        "/api/availability/event/add-participant?" +
+        "/api/availability/event?" +
           new URLSearchParams({
             isAuthenticated: String(!!session),
             ...(session
@@ -28,7 +28,10 @@ export function ParticipantMissingError({ userData, id, mutate }) {
                   userData: JSON.stringify(userData),
                 }),
             eventId: id,
-          })
+          }),
+        {
+          method: "POST",
+        }
       );
       await mutate();
     } catch (e) {

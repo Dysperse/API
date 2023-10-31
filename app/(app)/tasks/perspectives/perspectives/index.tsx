@@ -17,8 +17,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
-import { WidgetBar } from "../../../../../components/Tasks/Layout/widgets";
-import SelectDateModal from "../../../../../components/Tasks/Task/DatePicker";
+import { WidgetBar } from "../../Layout/widgets";
+import SelectDateModal from "../../Task/DatePicker";
 import Column from "./Column";
 import { PerspectivesLoadingScreen } from "./PerspectivesLoadingScreen";
 
@@ -72,6 +72,11 @@ export function PerspectivesInfo({
     router.push(`/tasks/perspectives/${type}/${prev}`);
   };
 
+  const handleToday = () => {
+    router.push(`/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}`);
+    scrollIntoView();
+  };
+
   const handleNext = () => {
     agendaContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
     const next = dayjs(date)
@@ -93,7 +98,7 @@ export function PerspectivesInfo({
         sx={{
           WebkitAppRegion: "drag",
           "& .MuiButton-root, & .MuiIconButton-root": {
-            WebkitAppRegion: "drag",
+            WebkitAppRegion: "no-drag",
           },
           border: 0,
           borderRadius: 5,
@@ -169,20 +174,18 @@ export function PerspectivesInfo({
             onClick={(e) => e.stopPropagation()}
             className="priority-hidden"
           >
-            <IconButton onClick={handlePrev} id="agendaPrev">
+            <IconButton
+              onClick={handlePrev}
+              onMouseDown={handlePrev}
+              id="agendaPrev"
+            >
               <Icon className="outlined">arrow_back_ios_new</Icon>
             </IconButton>
             {!isToday && (
               <Button
                 id="agendaToday"
-                onClick={() => {
-                  router.push(
-                    `/tasks/perspectives/${type}/${dayjs().format(
-                      "YYYY-MM-DD"
-                    )}`
-                  );
-                  scrollIntoView();
-                }}
+                onClick={handleToday}
+                onMouseDown={handleToday}
                 size="large"
                 sx={{
                   px: 0,
@@ -192,7 +195,11 @@ export function PerspectivesInfo({
                 Today
               </Button>
             )}
-            <IconButton onClick={handleNext} id="agendaNext">
+            <IconButton
+              onClick={handleNext}
+              onMouseDown={handleNext}
+              id="agendaNext"
+            >
               <Icon className="outlined">arrow_forward_ios</Icon>
             </IconButton>
           </Box>
@@ -248,32 +255,38 @@ function FocusTrigger({ view, setView, scrollIntoView }) {
 
   const handleSubmit = useCallback(async () => {
     await fetchRawApi(session, "user/status/set", {
-      status: "focusing",
-      start: dayjs().utc().toISOString(),
-      until: "",
-      timeZone: session.user.timeZone,
-      profile: JSON.stringify(session.user.profile),
-      email: session.user.email,
-      emoji: "",
-      text: "",
-      notifyFriendsForStatusUpdates: session.NotificationSettings
-        ?.notifyFriendsForStatusUpdates
-        ? "true"
-        : "false",
+      method: "POST",
+      params: {
+        status: "focusing",
+        start: dayjs().utc().toISOString(),
+        until: "",
+        timeZone: session.user.timeZone,
+        profile: JSON.stringify(session.user.profile),
+        email: session.user.email,
+        emoji: "",
+        text: "",
+        notifyFriendsForStatusUpdates: session.NotificationSettings
+          ?.notifyFriendsForStatusUpdates
+          ? "true"
+          : "false",
+      },
     });
   }, [session]);
 
   const clearStatus = useCallback(async () => {
     await fetchRawApi(session, "user/status/set", {
-      status: "focusing",
-      start: dayjs().utc().toISOString(),
-      until: 0,
-      timeZone: session.user.timeZone,
-      profile: JSON.stringify(session.user.profile),
-      email: session.user.email,
-      emoji: "",
-      text: "",
-      notifyFriendsForStatusUpdates: "false",
+      method: "POST",
+      params: {
+        status: "focusing",
+        start: dayjs().utc().toISOString(),
+        until: 0,
+        timeZone: session.user.timeZone,
+        profile: JSON.stringify(session.user.profile),
+        email: session.user.email,
+        emoji: "",
+        text: "",
+        notifyFriendsForStatusUpdates: "false",
+      },
     });
   }, [session]);
 
@@ -398,7 +411,7 @@ export function Agenda({ type, date }) {
     mutate: mutateList,
     error,
   } = useSWR([
-    "property/tasks/perspectives",
+    "space/tasks/perspectives",
     {
       timezone: session.user.timeZone,
       utcOffset: dayjs().utcOffset(),

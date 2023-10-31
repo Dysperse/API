@@ -1,5 +1,5 @@
 "use client";
-import { isEmail } from "@/components/Group/Members/isEmail";
+import { isEmail } from "@/app/(app)/spaces/Group/Members/isEmail";
 import { useColor } from "@/lib/client/useColor";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";

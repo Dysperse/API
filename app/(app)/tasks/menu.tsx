@@ -1,8 +1,8 @@
 "use client";
 
+import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
+import { Tab } from "@/app/(app)/tasks/Layout/Tab";
 import { ErrorHandler } from "@/components/Error";
-import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
-import { Tab } from "@/components/Tasks/Layout/Tab";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useAccountStorage } from "@/lib/client/useAccountStorage";
@@ -43,21 +43,21 @@ export const MenuChildren = memo(function MenuChildren({
 
   const [showSync, setShowSync] = useState(true);
 
-  const { data, isLoading, mutate, error } = useSWR(["property/boards"]);
+  const { data, isLoading, mutate, error } = useSWR(["space/tasks/boards"]);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const boards = useMemo(() => {
     if (!data) return { active: [], archived: [], shared: [] };
 
     const active = data.filter(
-      (x) => !x.archived && x.propertyId === session?.property?.propertyId
+      (x) => !x.archived && x.propertyId === session?.space?.info?.id
     );
 
     const archived = data.filter((x) => x.archived);
 
     const shared = data.filter(
       (x) =>
-        x.propertyId !== session?.property?.propertyId ||
+        x.propertyId !== session?.space?.info?.id ||
         x.shareTokens?.[0]?.user?.email === session.user.email
     );
 
@@ -162,8 +162,11 @@ export const MenuChildren = memo(function MenuChildren({
 
       setHiddenPerspectives(updatedHiddenPerspectives);
 
-      await fetchRawApi(session, "user/settings/set", {
-        hiddenPerspectives: JSON.stringify(updatedHiddenPerspectives),
+      await fetchRawApi(session, "user/settings", {
+        method: "PUT",
+        params: {
+          hiddenPerspectives: JSON.stringify(updatedHiddenPerspectives),
+        },
       });
     },
     [hiddenPerspectives, session, setHiddenPerspectives]
@@ -454,7 +457,7 @@ export const MenuChildren = memo(function MenuChildren({
                   onClick={async () => {
                     toast.success("Tasks resynced - Now up to date.");
                     setShowSync(false);
-                    await fetch("/api/property/integrations/resync");
+                    await fetch("/api/space/integrations/resync");
                   }}
                   disabled={
                     Boolean(storage?.isReached) ||

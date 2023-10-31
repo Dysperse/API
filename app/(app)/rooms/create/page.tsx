@@ -50,16 +50,15 @@ const Page = memo(function Page() {
   const handleSubmit = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetchRawApi(
-        session,
-        "property/inventory/rooms/create",
-        {
+      const res = await fetchRawApi(session, "space/inventory/rooms/create", {
+        method: "POST",
+        params: {
           name,
           note,
           emoji,
           private: isPrivate ? "true" : "false",
-        }
-      );
+        },
+      });
       setLoading(false);
       toast.success("Created room!");
       router.push(`/rooms/${res.id}`);

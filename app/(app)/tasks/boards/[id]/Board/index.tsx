@@ -166,7 +166,7 @@ function RenderBoard({ tasks }) {
               }),
             }}
             onClick={() => {
-              router.push("/tasks/boards/edit/" + board.id + "#columns");
+              router.push("/tasks/boards/" + board.id + "/edit#columns");
             }}
           >
             <Icon
@@ -206,7 +206,7 @@ function RenderBoard({ tasks }) {
           ) : (
             <Button
               onClick={() => {
-                router.push("/tasks/boards/edit/" + board.id + "#columns");
+                router.push("/tasks/boards/" + board.id + "/edit#columns");
               }}
               variant="contained"
               size="large"
@@ -234,7 +234,7 @@ export function Board({ mutate, board }) {
     isLoading: loading,
     mutate: mutateTasks,
   } = useSWR([
-    "property/boards/tasks",
+    "space/tasks/boards/tasks",
     {
       id: board?.id,
       filter,
@@ -244,7 +244,7 @@ export function Board({ mutate, board }) {
   const isShared =
     data &&
     data?.[0]?.propertyId &&
-    data?.[0]?.propertyId !== session.property.propertyId;
+    data?.[0]?.propertyId !== session.space.info.id;
 
   const readOnly =
     board?.shareTokens?.find((s) => s.user.email === session.user.email)

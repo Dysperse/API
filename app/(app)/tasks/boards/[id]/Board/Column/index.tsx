@@ -30,8 +30,8 @@ import { toast } from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import { BoardContext, ColumnContext } from "..";
 import EmojiPicker from "../../../../../../../components/EmojiPicker";
-import { Task } from "../../../../../../../components/Tasks/Task";
-import { CreateTask } from "../../../../../../../components/Tasks/Task/Create";
+import { Task } from "../../../../Task";
+import { CreateTask } from "../../../../Task/Create";
 import { ColumnSettings } from "./Settings";
 
 function SpecialHeaderSkeleton({ icon, label }) {
@@ -254,10 +254,13 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
             size="large"
             onClick={async () => {
               toast.promise(
-                fetchRawApi(session, "property/boards/column/edit", {
-                  id: column.id,
-                  name: title,
-                  emoji: emoji,
+                fetchRawApi(session, "space/tasks/boards/column", {
+                  method: "PUT",
+                  params: {
+                    id: column.id,
+                    name: title,
+                    emoji: emoji,
+                  },
                 }).then(mutateData),
                 {
                   loading: "Saving...",

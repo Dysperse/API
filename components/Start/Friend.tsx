@@ -1,4 +1,4 @@
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -107,20 +107,16 @@ export function FriendPopover({ children, email }) {
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          if (isFriend) {
-            fetchRawApi(session, "user/followers/unfollow", {
+          fetchRawApi(session, "user/friends", {
+            method: isFriend ? "DELETE" : "POST",
+            params: {
               followerEmail: session.user.email,
               followingEmail: data.email,
-            });
-          } else {
-            fetchRawApi(session, "user/followers/follow", {
-              followerEmail: session.user.email,
-              followingEmail: data.email,
-            });
-          }
+            },
+          });
           await mutate();
           resolve(true);
-        } catch (e) {
+        } catch {
           reject(true);
         }
       }),

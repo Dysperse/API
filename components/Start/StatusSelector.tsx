@@ -97,17 +97,20 @@ export function StatusSelector({
 
   const handleSubmit = useCallback(async () => {
     setLoading(true);
-    await fetchRawApi(session, "user/status/set", {
-      status,
-      start: new Date().toISOString(),
-      until: time,
-      timeZone: session.user.timeZone,
-      profile: JSON.stringify(profile),
-      email: session.user.email,
-      emoji,
-      text: textRef?.current?.value,
-      notifyFriendsForStatusUpdates:
-        notificationData.notifyFriendsForStatusUpdates ? "true" : "false",
+    await fetchRawApi(session, "user/status", {
+      method: "POST",
+      params: {
+        status,
+        start: new Date().toISOString(),
+        until: time,
+        timeZone: session.user.timeZone,
+        profile: JSON.stringify(profile),
+        email: session.user.email,
+        emoji,
+        text: textRef?.current?.value,
+        notifyFriendsForStatusUpdates:
+          notificationData.notifyFriendsForStatusUpdates ? "true" : "false",
+      },
     });
     setOpen(false);
     toast.success(

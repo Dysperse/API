@@ -43,11 +43,14 @@ export default function CreateColumn({
       return;
     }
     fetchRawApi(session, "property/boards/column/create", {
-      who: session.user.name,
-      boardName: name,
-      title: ref?.current?.value,
-      emoji,
-      id: id,
+      method: "POST",
+      params: {
+        who: session.user.name,
+        boardName: name,
+        title: ref?.current?.value,
+        emoji,
+        id: id,
+      },
     })
       .then(async () => {
         toast.success("Created column!");

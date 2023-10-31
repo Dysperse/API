@@ -1,6 +1,6 @@
 "use client";
+import { Task } from "@/app/(app)/tasks/Task";
 import { ErrorHandler } from "@/components/Error";
-import { Task } from "@/components/Tasks/Task";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useDarkMode } from "@/lib/client/useColor";
@@ -20,9 +20,11 @@ import { TaskNavbar } from "../navbar";
 
 export default function ColoredTasks() {
   const { data, mutate, error } = useSWR([
-    "property/tasks/color-coded",
+    "space/tasks/color-coded",
     {
-      date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+      params: {
+        date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+      },
     },
   ]);
   const [color, setColor] = useState("all");

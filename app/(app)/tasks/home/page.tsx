@@ -1,9 +1,9 @@
 "use client";
 
 import { swipeablePageStyles } from "@/app/(app)/swipeablePageStyles";
-import { Navbar } from "@/components/Navbar";
-import { SearchTasks } from "@/components/Tasks/Layout/SearchTasks";
-import { CreateTask } from "@/components/Tasks/Task/Create";
+import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
+import { CreateTask } from "@/app/(app)/tasks/Task/Create";
+import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {

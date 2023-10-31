@@ -1,9 +1,9 @@
 "use client";
 
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
+import { UserProfile } from "@/app/(app)/users/[id]/UserProfile";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
-import { UserProfile } from "@/components/Profile//UserProfile";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
@@ -212,19 +212,14 @@ function Page() {
 
   const handleFollowButtonClick = async () => {
     setLoading(true);
-    if (isFriend) {
-      await fetchRawApi(session, "user/followers/unfollow", {
+    await fetchRawApi(session, "user/friends", {
+      method: isFriend ? "DELETE" : "POST",
+      params: {
         followerEmail: session.user.email,
         followingEmail: data?.email,
-      });
-      await mutate();
-    } else {
-      await fetchRawApi(session, "user/followers/follow", {
-        followerEmail: session.user.email,
-        followingEmail: data?.email,
-      });
-      await mutate();
-    }
+      },
+    });
+    await mutate();
     setLoading(false);
   };
 
@@ -232,8 +227,11 @@ function Page() {
     try {
       setLoading(true);
       await fetchRawApi(session, "user/profile/update", {
-        create: "true",
-        email: session.user.email,
+        method: "PUT",
+        params: {
+          create: "true",
+          email: session.user.email,
+        },
       });
       await mutate();
       setLoading(false);

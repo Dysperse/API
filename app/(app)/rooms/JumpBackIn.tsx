@@ -16,7 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { CreateItem } from "../../../components/Inventory/CreateItem";
+import { CreateItem } from "./CreateItem";
 import { ItemPopup } from "./[room]/item-popup";
 
 export function JumpBackIn() {
@@ -24,7 +24,7 @@ export function JumpBackIn() {
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
-  const { data, mutate, error } = useSWR(["property/inventory/recent"]);
+  const { data, mutate, error } = useSWR(["space/inventory/recent"]);
 
   return (
     <>

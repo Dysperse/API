@@ -30,10 +30,11 @@ export default function Page() {
   )?.accessToken;
 
   const { error, data } = useSWR([
-    "property/inbox",
+    "space/inbox",
     {
-      propertyId: id,
-      propertyAccessToken: accessToken,
+      params: {
+        propertyId: id,
+      },
     },
   ]);
 

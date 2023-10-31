@@ -1,7 +1,7 @@
 "use client";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { ErrorHandler } from "@/components/Error";
 import { Logo } from "@/components/Logo";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {

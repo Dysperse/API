@@ -15,7 +15,7 @@ async function getEventData(id) {
     });
     console.log(data);
     return data;
-  } catch (e: any) {
+  } catch (e) {
     return e;
   }
 }

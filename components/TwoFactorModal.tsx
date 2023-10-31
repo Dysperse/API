@@ -46,14 +46,6 @@ export function Prompt({
         }).toString()}`
       );
       const data = await res.json();
-      if (data.success) {
-        callback();
-        setOpen(false);
-      } else {
-        toast.error("Invalid code!");
-        setCode("");
-      }
-      setButtonLoading(false);
     } catch (error) {
       toast.error(
         "An error occured while verifying your code. Please try again later."

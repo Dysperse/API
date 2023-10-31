@@ -1,8 +1,8 @@
 "use client";
 
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -40,13 +40,15 @@ function MoveItem({ children, item, mutate, setParentOpen }) {
     data,
     mutate: mutateRooms,
     error,
-  } = useSWR(open ? ["property/inventory/rooms"] : null);
+  } = useSWR(open ? ["space/inventory/rooms"] : null);
 
   const handleMove = async (roomId) => {
-    await fetchRawApi(session, "property/inventory/items/move", {
-      id: item.id,
-      updatedAt: dayjs().toISOString(),
-      room: roomId,
+    await fetchRawApi(session, "space/inventory/items/move", {
+      params: {
+        id: item.id,
+        updatedAt: dayjs().toISOString(),
+        room: roomId,
+      },
     });
     const newData = {
       ...item,
@@ -124,8 +126,11 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
 
   const handleDelete = async () => {
-    await fetchRawApi(session, "property/inventory/items/delete", {
-      id: item.id,
+    await fetchRawApi(session, "space/inventory/items/delete", {
+      method: "DELETE",
+      params: {
+        id: item.id,
+      },
     });
     mutate("deleted", {
       populateCache: "deleted",
@@ -146,11 +151,14 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
       revalidate: false,
     });
 
-    return await fetchRawApi(session, "property/inventory/items/edit", {
-      id: item.id,
-      updatedAt: dayjs().toISOString(),
-      [key]: String(value),
-      createdBy: session.user.email,
+    return await fetchRawApi(session, "space/inventory/items/edit", {
+      method: "PUT",
+      params: {
+        id: item.id,
+        updatedAt: dayjs().toISOString(),
+        [key]: String(value),
+        createdBy: session.user.email,
+      },
     });
   };
 
@@ -385,7 +393,7 @@ export function ItemPopup({
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const { data, isLoading, mutate, error } = useSWR(
-    open ? ["property/inventory/items", { id: item.id }] : null
+    open ? ["space/inventory/items", { id: item.id }] : null
   );
 
   useEffect(() => {

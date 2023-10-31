@@ -1,5 +1,5 @@
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { ErrorHandler } from "@/components/Error";
-import { ProfilePicture } from "@/components/Profile/ProfilePicture";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -33,9 +33,11 @@ export function ShareBoard({ mutate, board }) {
   const { session } = useSession();
 
   const { data, error } = useSWR([
-    "property/shareTokens",
+    "space/shareTokens",
     {
-      board: board.id,
+      params: {
+        board: board.id,
+      },
     },
   ]);
 
@@ -74,13 +76,16 @@ export function ShareBoard({ mutate, board }) {
         return;
       }
       try {
-        const res = await fetchRawApi(session, "property/shareTokens/create", {
-          board: board.id,
-          readOnly: permissions,
-          email: deferredEmail,
-          boardProperty: board.property.id,
-          name: session.user.name,
-          expiresAt: dayjs().add(parseInt(expiration), "day").toISOString(),
+        const res = await fetchRawApi(session, "space/shareTokens", {
+          method: "POST",
+          params: {
+            board: board.id,
+            readOnly: permissions,
+            email: deferredEmail,
+            boardProperty: board.property.id,
+            name: session.user.name,
+            expiresAt: dayjs().add(parseInt(expiration), "day").toISOString(),
+          },
         });
         if (res.error) {
           throw new Error(res.error);
@@ -102,8 +107,9 @@ export function ShareBoard({ mutate, board }) {
   };
 
   const handleRevoke = async (token) => {
-    await fetchRawApi(session, "property/shareTokens/revoke", {
-      token,
+    await fetchRawApi(session, "space/shareTokens/revoke", {
+      method: "DELETE",
+      params: { token },
     });
     await mutate();
   };
@@ -119,9 +125,9 @@ export function ShareBoard({ mutate, board }) {
   const toggleGroupVisibility = async () => {
     try {
       setLoadingGroupVisibility(true);
-      await fetchRawApi(session, "property/boards/edit", {
-        id: board.id,
-        public: !board.public,
+      await fetchRawApi(session, "space/boards", {
+        method: "PUT",
+        params: { id: board.id, public: !board.public },
       });
       await mutate();
       setLoadingGroupVisibility(false);

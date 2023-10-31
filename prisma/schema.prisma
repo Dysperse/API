@@ -25,21 +25,24 @@ model User {
   color          String   @default("lime")
   unlockedColors String[]
 
-  twoFactorSecret          String  @default("")
-  notificationSubscription String? @db.VarChar(900)
-  timeZone                 String  @default("America/Los_Angeles") @db.VarChar(255)
+  twoFactorSecret String @default("")
+  timeZone        String @default("America/Los_Angeles") @db.VarChar(255)
 
   lastReleaseVersionViewed Int @default(77711209)
 
-  NotificationSettings NotificationSettings?
-  Status               Status?
-  Profile              Profile?
-  PasswordResetToken   PasswordResetToken[]
-  properties           PropertyInvite[]
-  sessions             Session[]
-  Board                Board[]
-  Integration          Integration[]
-  QrToken              QrToken[]
+  notifications      NotificationSettings?
+  Status             Status?
+  Profile            Profile?
+  PasswordResetToken PasswordResetToken[]
+
+  selectedProperty   Property?        @relation(fields: [selectedPropertyId], references: [id])
+  selectedPropertyId String?
+  properties         PropertyInvite[]
+
+  sessions    Session[]
+  Board       Board[]
+  Integration Integration[]
+  QrToken     QrToken[]
 
   followers  Follows[]    @relation("following")
   following  Follows[]    @relation("follower")
@@ -88,7 +91,8 @@ model Integration {
 
 // Customizable notification settings (1 row per user)
 model NotificationSettings {
-  id String @id @unique @default(uuid())
+  id               String @id @unique @default(uuid())
+  pushSubscription Json?
 
   todoListUpdates Boolean @default(true)
   followerUpdates Boolean @default(true)
@@ -175,19 +179,21 @@ model Property {
   Integration         Integration[]
   Task                Task[]
   ShareToken          ShareToken[]
+  User                User[]
 }
 
 // List of invited members to properties with their user permissions
 model PropertyInvite {
-  id          String   @id @unique @default(uuid())
+  id          String  @id @unique @default(uuid())
   userId      String
   propertyId  String
-  selected    Boolean  @default(false)
-  permission  String   @default("read-only")
-  accessToken String   @unique @default(uuid())
-  accepted    Boolean  @default(false)
-  profile     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  selected    Boolean @default(false)
+  permission  String  @default("read-only")
+  accessToken String  @unique @default(uuid())
+  accepted    Boolean @default(false)
+
+  profile Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PropertyLinkInvite {

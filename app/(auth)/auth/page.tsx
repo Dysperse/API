@@ -272,7 +272,7 @@ export default function Prompt() {
         const res = await fetch("/api/auth/login", {
           method: "POST",
           headers: { Credentials: "same-origin" },
-          body: new URLSearchParams({
+          body: JSON.stringify({
             appId: window.location.pathname.split("oauth/")[1],
             email,
             password,

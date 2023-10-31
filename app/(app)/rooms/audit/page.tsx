@@ -59,7 +59,7 @@ export default function Page() {
     setTaken(true);
     setLoading(true);
     const imageUrl = await webcamRef.current.getScreenshot();
-    const res = await fetch(`/api/property/inventory/items/scan`, {
+    const res = await fetch(`/api/space/inventory/items/scan`, {
       method: "POST",
       body: JSON.stringify({
         imageUrl,
@@ -109,11 +109,14 @@ export default function Page() {
 
   const handleSubmit = async () => {
     try {
-      fetchRawApi(session, "property/inventory/items/create", {
-        name: titleRef.current.value,
-        room: room.id,
+      fetchRawApi(session, "space/inventory/items", {
+        method: "POST",
+        params: {
+          name: titleRef.current.value,
+          room: room.id,
+        },
       });
-    } catch (e: any) {
+    } catch (e:any) {
       toast.error(e.message);
     }
     setSubmitted(true);

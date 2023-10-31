@@ -14,7 +14,7 @@ import useSWR from "swr";
 
 export function RoomPicker({ room, setRoom, children }) {
   const [open, setOpen] = useState(false);
-  const { data, error } = useSWR(["property/inventory/rooms"]);
+  const { data, error } = useSWR(["space/inventory/rooms"]);
 
   const { session } = useSession();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));

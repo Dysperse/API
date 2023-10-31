@@ -32,7 +32,7 @@ export default function Page() {
 
   const { data, isLoading, mutate, error } = useSWR(
     params?.room
-      ? ["property/inventory/rooms/items", { id: params?.room, items: false }]
+      ? ["space/inventory/rooms/items", { id: params?.room, items: false }]
       : null
   );
 
@@ -59,11 +59,14 @@ export default function Page() {
   const handleSubmit = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetchRawApi(session, "property/inventory/rooms/edit", {
-        name,
-        note,
-        emoji,
-        private: isPrivate ? "true" : "false",
+      const res = await fetchRawApi(session, "space/inventory/rooms", {
+        method: "PUT",
+        params: {
+          name,
+          note,
+          emoji,
+          private: isPrivate ? "true" : "false",
+        },
       });
       setLoading(false);
       toast.success("Saved!");

@@ -108,9 +108,7 @@ const EmojiPicker = function EmojiPicker({
         }}
       >
         <Puller showOnDesktop />
-        {error && (
-          <ErrorHandler  />
-        )}
+        {error && <ErrorHandler />}
         {isLoading ? (
           <Box
             sx={{

@@ -1,11 +1,11 @@
 "use client";
 import { containerRef } from "@/app/(app)/container";
-import { getTotal, max } from "@/components/Group/Storage";
+import { getTotal, max } from "@/app/(app)/spaces/Group/Storage";
 import {
   BottomNav,
   shouldHideNavigation,
 } from "@/components/Layout/Navigation/BottomNavigation";
-import KeyboardShortcutsModal from "@/components/Layout/Navigation/KeyboardShortcutsModal";
+import KeyboardShortcutsModal from "@/components/Layout/Navigation/KeyboardShortcuts";
 import { Sidebar } from "@/components/Layout/Navigation/Sidebar";
 import { UpdateButton } from "@/components/Layout/Navigation/UpdateButton";
 import NotificationsPrompt from "@/components/Layout/NotificationsPrompt";
@@ -78,7 +78,7 @@ export default function ClientLayout({ children, session }) {
   const palette = useColor(session.themeColor, isDark);
 
   const [dismissed, setDismissed] = useState<boolean>(false);
-  const [_session,_setSession] = useState(session)
+  const [_session, _setSession] = useState(session);
 
   const [isReached, setIsReached]: any =
     useState<AccountStorageState>("loading");
@@ -102,7 +102,7 @@ export default function ClientLayout({ children, session }) {
     }
   }, [pathname]);
 
-  const { data, error } = useSWR(["property/storage"]);
+  const { data, error } = useSWR(["space/storage"]);
 
   const storage = useAccountStorage();
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;
@@ -115,20 +115,14 @@ export default function ClientLayout({ children, session }) {
     }
   }, [error, hasReachedLimit, storage]);
 
-  if (session.properties.length === 0) {
-    return (
-      <Box>
-        Hmmm.... You find yourself in a strange place. You don&apos;t have
-        access to any groups, or there are none in your account. Please contact
-        support if this problem persists.
-      </Box>
-    );
-  }
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <SWRConfig value={{ fetcher: (d) => fetcher(d, session) }}>
-        <SessionProvider session={_session} setSession={_setSession} isLoading={false}>
+        <SessionProvider
+          session={_session}
+          setSession={_setSession}
+          isLoading={false}
+        >
           <StorageContext.Provider value={{ isReached, setIsReached }}>
             <ThemeProvider theme={userTheme}>
               <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
@@ -166,7 +160,7 @@ export default function ClientLayout({ children, session }) {
                     </Button>
                     <Button
                       onClick={() =>
-                        router.push(`/spaces/${session.property.propertyId}`)
+                        router.push(`/spaces/${session.space.info.id}`)
                       }
                       color="inherit"
                       size="small"

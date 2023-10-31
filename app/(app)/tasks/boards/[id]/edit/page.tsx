@@ -1,10 +1,10 @@
 "use client";
 
+import Integrations from "@/app/(app)/spaces/Group/Integrations";
 import { ShareBoard } from "@/app/(app)/tasks/boards/[id]/Board/Share";
 import { recentlyAccessed } from "@/app/(app)/tasks/recently-accessed";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import EmojiPicker from "@/components/EmojiPicker";
-import Integrations from "@/components/Group/Integrations";
 import { Puller } from "@/components/Puller";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -40,6 +40,7 @@ import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 
+import { ErrorHandler } from "@/components/Error";
 import { FileDropInput } from "@/components/FileDrop";
 import { StrictModeDroppable } from "./StrictModeDroppable";
 
@@ -132,12 +133,15 @@ function BoardColumnSettings({ data, styles, mutate }) {
       setLoading(false);
       return;
     }
-    fetchRawApi(session, "property/boards/column/create", {
-      who: session.user.name,
-      boardName: name,
-      title: name,
-      emoji,
-      id: data.id,
+    fetchRawApi(session, "space/tasks/boards/column", {
+      method: "POST",
+      params: {
+        who: session.user.name,
+        boardName: name,
+        title: name,
+        emoji,
+        id: data.id,
+      },
     })
       .then(async () => {
         setName("");
@@ -174,8 +178,11 @@ function BoardColumnSettings({ data, styles, mutate }) {
       };
     });
 
-    fetchRawApi(session, "property/boards/column/setOrder", {
-      order: JSON.stringify(orderObj),
+    fetchRawApi(session, "property/boards/column/order", {
+      method: "PUT",
+      params: {
+        order: JSON.stringify(orderObj),
+      },
     });
     setItems(updatedItems);
   };
@@ -218,13 +225,16 @@ function BoardColumnSettings({ data, styles, mutate }) {
                             recentlyAccessed.clear();
                             await fetchRawApi(
                               session,
-                              "property/boards/column/delete",
+                              "space/tasks/boards/column",
                               {
-                                id: column.id,
-                                who: session.user.name,
-                                boardName: data.name,
-                                boardEmoji: data.emoji,
-                                columnName: column.name,
+                                method: "DELETE",
+                                params: {
+                                  id: column.id,
+                                  who: session.user.name,
+                                  boardName: data.name,
+                                  boardEmoji: data.emoji,
+                                  columnName: column.name,
+                                },
                               }
                             );
                             await mutate();
@@ -311,15 +321,19 @@ function BoardColumnSettings({ data, styles, mutate }) {
     </>
   );
 }
+
 function BoardAppearanceSettings({ data, styles, mutate }) {
   const { session } = useSession();
   const router = useRouter();
 
   const handleEdit = async (key, value, callback = () => {}) => {
     setLoading(true);
-    return await fetchRawApi(session, "property/boards/edit", {
-      id: data.id,
-      [key]: value,
+    return await fetchRawApi(session, "space/tasks/boards", {
+      method: "PUT",
+      params: {
+        id: data.id,
+        [key]: value,
+      },
     })
       .then(async () => {
         callback();
@@ -494,8 +508,11 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
-            await fetchRawApi(session, "property/boards/delete", {
-              id: data.id,
+            await fetchRawApi(session, "space/tasks/boards", {
+              method: "DELETE",
+              params: {
+                id: data.id,
+              },
             });
             router.push("/tasks/perspectives/weeks");
           }}
@@ -666,8 +683,8 @@ const Dashboard = () => {
   const { session } = useSession();
   const { id } = params as any;
 
-  const { data, mutate } = useSWR([
-    "property/boards",
+  const { data, error, mutate } = useSWR([
+    "space/tasks/boards",
     {
       id,
       shareToken: "",
@@ -691,6 +708,7 @@ const Dashboard = () => {
   }
   return (
     <>
+      {error && <ErrorHandler />}
       {data && data[0] && id ? (
         <EditLayout mutate={mutate} id={id} data={data[0]} />
       ) : (

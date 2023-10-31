@@ -21,7 +21,7 @@ const DrawerTransition = React.forwardRef(function Transition(
       ref={ref}
       {...props}
       timeout={250}
-      easing="cubic-bezier(0.4, 0, 0.2, 1)"
+      easing="cubic-bezier(0.1, 0.76, 0.55, 0.9)"
     />
   );
 });

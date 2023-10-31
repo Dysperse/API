@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useColor as getColor } from "@/lib/client/useColor";
 import { getUserData } from "@/lib/server/getUserData";
@@ -21,18 +22,11 @@ export default async function RootLayout({
 }) {
   const data = await getSession();
 
-  const selectedProperty =
-    data?.properties &&
-    (data.properties.find((property: any) => property.selected) ||
-      data.properties[0]);
-
   const themeColor = data?.user?.color || "violet";
   const palette = getColor(themeColor, data.user.darkMode);
 
-  const s = data?.properties && {
+  const s = {
     ...data,
-    property: selectedProperty,
-    permission: selectedProperty.permission,
     themeColor,
     darkMode: data.user.darkMode,
   };
@@ -51,12 +45,6 @@ export default async function RootLayout({
         />
 
         {/* Preload */}
-        <link
-          rel="preload"
-          href="/api/session"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
         <link
           rel="preload"
           as="style"

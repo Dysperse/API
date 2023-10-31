@@ -1,7 +1,7 @@
 "use client";
 
+import { max, multipliers } from "@/app/(app)/spaces/Group/Storage";
 import { ErrorHandler } from "@/components/Error";
-import { max, multipliers } from "@/components/Group/Storage";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -25,18 +25,15 @@ export default function Page() {
   const { id } = params as any;
 
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.property.profile.color, isDark);
+  const palette = useColor(session.space.info.color, isDark);
 
   const accessToken = session.properties.find(
     (property) => property.propertyId == id
   )?.accessToken;
 
   const { error, data } = useSWR([
-    "property/storage",
-    {
-      propertyId: id,
-      propertyAccessToken: accessToken,
-    },
+    "space/storage",
+    {propertyId: id,},
   ]);
 
   const parentRef = useRef();

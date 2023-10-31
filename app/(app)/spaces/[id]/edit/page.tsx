@@ -1,7 +1,7 @@
 "use client";
 
+import { Color } from "@/app/(app)/spaces/Group/Color";
 import { ErrorHandler } from "@/components/Error";
-import { Color } from "@/components/Group/Color";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { mutateSession, useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
@@ -43,16 +43,13 @@ export default function Page() {
     mutate: mutateData,
     data,
   } = useSWR([
-    "property",
+    "space",
     {
       propertyId: id,
-      propertyAccessToken: accessToken,
     },
   ]);
 
-  const [name, setName] = useState(
-    session.property.profile.name || "Untitled space"
-  );
+  const [name, setName] = useState(session.space.info.name || "Untitled space");
   const [vanishingTasks, setVanishingTasks] = useState(
     Boolean(data?.profile?.vanishingTasks)
   );
@@ -108,7 +105,7 @@ export default function Page() {
                 e.key === "Enter" && e.target.blur();
               }}
               InputProps={{
-                endAdornment: session.property.profile.name !== name &&
+                endAdornment: session.space.info.name !== name &&
                   name.trim() !== "" && (
                     <InputAdornment position="end">
                       <IconButton onClick={handleUpdateName}>

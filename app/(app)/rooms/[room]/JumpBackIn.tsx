@@ -1,6 +1,6 @@
 "use client";
+import { CreateItem } from "@/app/(app)/rooms/CreateItem";
 import { ErrorHandler } from "@/components/Error";
-import { CreateItem } from "@/components/Inventory/CreateItem";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -24,7 +24,7 @@ export function JumpBackIn() {
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
-  const { data, mutate, error } = useSWR(["property/inventory/recent"]);
+  const { data, mutate, error } = useSWR(["space/inventory/recent"]);
 
   return (
     <>
