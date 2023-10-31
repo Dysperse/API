@@ -3,6 +3,8 @@ import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 import { calculateOverlappingAvailability } from "./calculateOverlappingAvailability";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const id = await getApiParam(req, "id", true);
