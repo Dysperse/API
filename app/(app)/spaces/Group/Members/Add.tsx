@@ -147,12 +147,15 @@ export function AddPersonModal({
       }
       if (isEmail(deferredEmail)) {
         setLoading(true);
-        await fetchRawApi(session, "property/members/add", {
-          inviterName: session.user.name,
-          name: session.space.info.name,
-          timestamp: new Date().toISOString(),
-          permission: permission,
-          email: deferredEmail,
+        await fetchRawApi(session, "space/members", {
+          method: "POST",
+          params: {
+            inviterName: session.user.name,
+            name: session.space.info.name,
+            timestamp: new Date().toISOString(),
+            permission: permission,
+            email: deferredEmail,
+          },
         });
         toast.success("Invited!");
         setOpen(false);
@@ -161,7 +164,7 @@ export function AddPersonModal({
       } else {
         throw new Error("Please enter a valid email address");
       }
-    } catch (e) {
+    } catch (e: any) {
       toast.error(e.message);
     }
   };

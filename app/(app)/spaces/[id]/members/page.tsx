@@ -31,13 +31,7 @@ export default function Page() {
     (property) => property.propertyId == id
   )?.accessToken;
 
-  const { error, mutate, data } = useSWR([
-    "property/members",
-    {
-      propertyId: id,
-      propertyAccessToken: accessToken,
-    },
-  ]);
+  const { error, mutate, data } = useSWR(["space/members", { propertyId: id }]);
 
   const members = useMemo(
     () => [...new Map(data?.map((item) => [item.user.email, item])).values()],
@@ -87,11 +81,14 @@ export default function Page() {
                 title="Remove person from space?"
                 question="This person will no longer have access to anything inside this space. You can always add them back later"
                 callback={async () => {
-                  fetchRawApi(session, "property/members/remove", {
-                    id: member.id,
-                    removerName: session.user.name,
-                    removeeName: member.user.name,
-                    timestamp: new Date().toISOString(),
+                  fetchRawApi(session, "space/members", {
+                    method: "DELETE",
+                    params: {
+                      id: member.id,
+                      removerName: session.user.name,
+                      removeeName: member.user.name,
+                      timestamp: new Date().toISOString(),
+                    },
                   }).then(async () => {
                     await mutate();
                     toast.success("Removed person from your home");
