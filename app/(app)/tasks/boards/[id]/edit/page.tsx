@@ -133,11 +133,14 @@ function BoardColumnSettings({ data, styles, mutate }) {
       return;
     }
     fetchRawApi(session, "property/boards/column/create", {
-      who: session.user.name,
-      boardName: name,
-      title: name,
-      emoji,
-      id: data.id,
+      method: "POST",
+      params: {
+        who: session.user.name,
+        boardName: name,
+        title: name,
+        emoji,
+        id: data.id,
+      },
     })
       .then(async () => {
         setName("");
