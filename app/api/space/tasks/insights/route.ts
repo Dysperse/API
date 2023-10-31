@@ -1,15 +1,14 @@
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validateParams } from "@/lib/server/validateParams";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    validateParams(req.query, ["email"]);
+    const email = getApiParam(req, "email", true);
     const data = await prisma.completionInstance.findMany({
       where: {
         task: {
-          createdBy: {
-            email: req.query.email,
-          },
+          createdBy: { email },
         },
       },
       include: {

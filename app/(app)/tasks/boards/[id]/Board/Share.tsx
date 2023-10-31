@@ -33,7 +33,7 @@ export function ShareBoard({ mutate, board }) {
   const { session } = useSession();
 
   const { data, error } = useSWR([
-    "property/shareTokens",
+    "space/shareTokens",
     {
       params: {
         board: board.id,
@@ -76,7 +76,7 @@ export function ShareBoard({ mutate, board }) {
         return;
       }
       try {
-        const res = await fetchRawApi(session, "property/shareTokens", {
+        const res = await fetchRawApi(session, "space/shareTokens", {
           method: "POST",
           params: {
             board: board.id,
@@ -107,7 +107,7 @@ export function ShareBoard({ mutate, board }) {
   };
 
   const handleRevoke = async (token) => {
-    await fetchRawApi(session, "property/shareTokens/revoke", {
+    await fetchRawApi(session, "space/shareTokens/revoke", {
       method: "DELETE",
       params: { token },
     });

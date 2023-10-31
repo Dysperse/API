@@ -1,24 +1,31 @@
+import {
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
 import { Prisma } from "@prisma/client";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
+    const sessionId = getSessionToken();
+    const { spaceId } = await getIdentifiers(sessionId);
+
+    const startTime = getApiParam(req, "startTime", true);
+    const endTime = getApiParam(req, "endTime", true);
 
     const where: Prisma.TaskWhereInput = {
       AND: [
         { recurrenceRule: null },
         // Prevent selecting subtasks
-        { parentTasks: { none: { property: { id: req.query.property } } } },
+        { parentTasks: { none: { property: { id: spaceId } } } },
         // Make sure that the tasks falls within these dates
-        { due: { gte: new Date(req.query.startTime) } },
-        { due: { lte: new Date(req.query.endTime) } },
+        { due: { gte: new Date(startTime) } },
+        { due: { lte: new Date(endTime) } },
 
-        { property: { id: req.query.property } },
+        { property: { id: spaceId } },
       ],
     };
 

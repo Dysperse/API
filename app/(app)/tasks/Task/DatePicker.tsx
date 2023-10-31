@@ -76,13 +76,15 @@ function fetchDateData(
 ) {
   return new Promise<{ daysToHighlight: { date: number; count: number }[] }>(
     async (resolve, reject) => {
-      const data = await fetchRawApi(session, "property/tasks/count", {
-        startTime: dayjs(date).isValid()
-          ? dayjs(date).startOf("month").toISOString()
-          : dayjs().startOf("month").toISOString(),
-        endTime: dayjs(date).isValid()
-          ? dayjs(date).endOf("month").toISOString()
-          : dayjs().startOf("month").toISOString(),
+      const data = await fetchRawApi(session, "space/tasks/count", {
+        params: {
+          startTime: dayjs(date).isValid()
+            ? dayjs(date).startOf("month").toISOString()
+            : dayjs().startOf("month").toISOString(),
+          endTime: dayjs(date).isValid()
+            ? dayjs(date).endOf("month").toISOString()
+            : dayjs().startOf("month").toISOString(),
+        },
       });
 
       const daysToHighlight = data.map(({ due }) => {
