@@ -10,18 +10,19 @@ export default function Page() {
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
-        height: "100dvh",
+        minHeight: "100dvh",
+        pt: "var(--navbar-height)",
         width: "100%",
       }}
     >
       <TaskNavbar title="Plan" />
       <Box sx={{ maxWidth: "500px" }}>
-        <Avatar sx={{ width: 70, height: 70, borderRadius: 5, mb: 2 }}>
+        <Avatar sx={{ width: 70, height: 70, borderRadius: 5, mb: 1 }}>
           <Icon className="outlined" sx={{ fontSize: "50px!important" }}>
             emoji_objects
           </Icon>
         </Avatar>
-        <Typography className="font-heading" variant="h3">
+        <Typography className="font-heading" variant="h2">
           Plan my day
         </Typography>
         <Typography variant="h6" sx={{ opacity: 0.6 }}>
