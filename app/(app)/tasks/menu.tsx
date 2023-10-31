@@ -187,6 +187,33 @@ export const MenuChildren = memo(function MenuChildren({
         }}
       >
         {!isMobile && <SearchTasks />}
+        <Link
+          href="/tasks/plan"
+          style={{
+            cursor: "default",
+            alignItems: "center",
+          }}
+          legacyBehavior
+        >
+          <Button
+            size="large"
+            sx={buttonStyles(
+              palette,
+              Boolean(pathname?.includes(`/tasks/plan`))
+            )}
+          >
+            <Icon
+              className={pathname?.includes(`/tasks/plan`) ? "" : "outlined"}
+            >
+              emoji_objects
+            </Icon>
+            Plan
+            {isMobile && (
+              <Icon sx={{ ml: "auto", mr: -1 }}>arrow_forward_ios</Icon>
+            )}
+          </Button>
+        </Link>
+        <Divider sx={taskStyles(palette).divider} />
         {!(isMobile && hiddenPerspectives.length == 6) && (
           <Typography
             sx={{ ...taskStyles(palette).subheading, display: "flex" }}
