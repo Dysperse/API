@@ -38,7 +38,9 @@ function QrLogin({ handleRedirect }) {
 
   const generate = async () => {
     try {
-      const d = await fetch("/api/auth/qr/generate").then((res) => res.json());
+      const d = await fetch("/api/auth/qr/generate").then((res) =>
+        Response.json()
+      );
       setData(d);
     } catch {
       setError(true);

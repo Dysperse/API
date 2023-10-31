@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     const data = await fetch(url, { method: "POST", body: form }).then((res) =>
       res.json()
     );
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
     res.status(500).json({ error: "Couldn't upload image" });
   }

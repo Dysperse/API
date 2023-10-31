@@ -1,8 +1,9 @@
+import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 import ical from "ical-generator";
 
-export default async function handler(req, res) {
+export default async function handler(req) {
   try {
     await validateParams(req.query, ["id"]);
 
@@ -39,9 +40,8 @@ export default async function handler(req, res) {
       });
     }
 
-    // res.send(calendar.toString());
-    calendar.serve(res);
+    return Response.json(calendar.toString());
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    return handleApiError(e);
   }
 }

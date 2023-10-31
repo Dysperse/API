@@ -76,7 +76,7 @@ function Layout() {
     board.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.space.info.id}&timeZone=${session.user.timeZone}`;
+  const icalUrl = `https://${window.location.hostname}/api/space/integrations/ical?id=${session.space.info.id}&timeZone=${session.user.timeZone}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,11 +85,14 @@ function Layout() {
       return;
     }
     setLoading(true);
-    await fetchRawApi(session, "property/integrations/create", {
-      name: integration.name,
-      inputParams: JSON.stringify(params),
-      outputType: integration.type,
-      ...(integration.type === "board" && { boardId }),
+    await fetchRawApi(session, "space/integrations", {
+      method: "POST",
+      params: {
+        name: integration.name,
+        inputParams: JSON.stringify(params),
+        outputType: integration.type,
+        ...(integration.type === "board" && { boardId }),
+      },
     });
 
     toast.success("Added integration!");

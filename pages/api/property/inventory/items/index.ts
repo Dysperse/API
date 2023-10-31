@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
     await validatePermissions({
       minimum: "read-only",
@@ -30,10 +30,8 @@ const handler = async (req, res) => {
       },
     });
 
-    res.json(item);
+    return Response.json(item);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-};
-
-export default handler;
+}

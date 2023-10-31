@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
     validateParams(req.query, ["email"]);
     const data = await prisma.completionInstance.findMany({
@@ -20,10 +20,8 @@ const handler = async (req, res) => {
         },
       },
     });
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
-};
-
-export default handler;
+}

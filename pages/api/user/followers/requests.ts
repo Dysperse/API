@@ -23,7 +23,7 @@ export default async function handler(req, res) {
             },
       },
     });
-    res.json(data);
+    return Response.json(data);
   } catch ({ message: error }: any) {
     res.status(401).json({ error });
   }

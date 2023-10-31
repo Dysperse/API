@@ -83,7 +83,7 @@ export default async function handler(req, res) {
       return b.overlappingParticipants - a.overlappingParticipants;
     });
 
-    res.json({
+    return Response.json({
       overlappingAvailability,
       data,
     });

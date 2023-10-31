@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/server/prisma";
 import { validatePermissions } from "@/lib/server/validatePermissions";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
     await validatePermissions({
       minimum: "read-only",
@@ -97,21 +97,19 @@ const handler = async (req, res) => {
     });
 
     if (query.completed) {
-      return res.json({
+      return Response.json({
         query,
         data: results.filter((e) => e.completionInstances.length > 0),
       });
     } else if (query.completed === false) {
-      return res.json({
+      return Response.json({
         query,
         data: results.filter((e) => e.completionInstances.length === 0),
       });
     }
-    res.json({ query, data: results });
+    return Response.json({ query, data: results });
   } catch (e) {
     console.log(e);
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
-};
-
-export default handler;
+}

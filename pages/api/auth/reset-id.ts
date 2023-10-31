@@ -50,5 +50,5 @@ export default async function handler(req, res) {
     subject: "Forgot your password?",
     react: ForgotPasswordEmail({ name, email, link: url }),
   });
-  res.json({ success: true });
+  return Response.json({ success: true });
 }

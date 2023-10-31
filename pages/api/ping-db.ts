@@ -8,5 +8,5 @@ import { prisma } from "@/lib/server/prisma";
  */
 export default async function handler(req, res) {
   await prisma.user.findFirst({ select: { id: true } });
-  res.json({ success: true });
+  return Response.json({ success: true });
 }

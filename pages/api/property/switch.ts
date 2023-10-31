@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 import cacheData from "memory-cache";
+import { NextRequest } from "next/server";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
     validateParams(req.query, ["email"]);
 
@@ -27,9 +28,8 @@ const handler = async (req, res) => {
 
     // Clear the cache
     cacheData.clear();
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
-};
-export default handler;
+}

@@ -23,8 +23,8 @@ export default async function handler(req, res) {
       req.query.accessToken
     );
 
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
 }

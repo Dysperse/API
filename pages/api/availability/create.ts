@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         user: { connect: { identifier: req.query.userIdentifier } },
       },
     });
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
     res.status(400).json({ error: true, message: e.message });
   }

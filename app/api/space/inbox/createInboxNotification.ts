@@ -1,22 +1,14 @@
+import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
 const webPush = require("web-push");
 
 export const createInboxNotification = async (
   who: string,
   what: string,
   when: Date,
-  propertyId: string,
-  accessToken: string,
-  req,
-  res
+  propertyId: string
 ) => {
   try {
-    await validatePermissions({
-      minimum: "member",
-      credentials: [req.query.property, req.query.accessToken],
-    });
-
     const data = await prisma.inboxItem.create({
       data: {
         who: who,
@@ -70,12 +62,6 @@ export const createInboxNotification = async (
 
     return data;
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
 };
-
-export default function handler(req, res) {
-  res.status(403).json({
-    message: "Forbidden",
-  });
-}

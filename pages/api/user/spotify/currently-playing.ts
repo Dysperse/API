@@ -59,7 +59,7 @@ export default async function handler(req, res) {
       refresh_token
     );
 
-    res.json(response);
+    return Response.json(response);
   } catch (e) {
     res.status(401).json({ error: e.message });
   }

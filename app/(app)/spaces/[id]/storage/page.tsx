@@ -32,11 +32,8 @@ export default function Page() {
   )?.accessToken;
 
   const { error, data } = useSWR([
-    "property/storage",
-    {
-      propertyId: id,
-      propertyAccessToken: accessToken,
-    },
+    "space/storage",
+    {propertyId: id,},
   ]);
 
   const parentRef = useRef();

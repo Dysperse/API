@@ -35,7 +35,9 @@ export function ShareBoard({ mutate, board }) {
   const { data, error } = useSWR([
     "property/shareTokens",
     {
-      board: board.id,
+      params: {
+        board: board.id,
+      },
     },
   ]);
 
@@ -74,13 +76,16 @@ export function ShareBoard({ mutate, board }) {
         return;
       }
       try {
-        const res = await fetchRawApi(session, "property/shareTokens/create", {
-          board: board.id,
-          readOnly: permissions,
-          email: deferredEmail,
-          boardProperty: board.property.id,
-          name: session.user.name,
-          expiresAt: dayjs().add(parseInt(expiration), "day").toISOString(),
+        const res = await fetchRawApi(session, "property/shareTokens", {
+          method: "POST",
+          params: {
+            board: board.id,
+            readOnly: permissions,
+            email: deferredEmail,
+            boardProperty: board.property.id,
+            name: session.user.name,
+            expiresAt: dayjs().add(parseInt(expiration), "day").toISOString(),
+          },
         });
         if (res.error) {
           throw new Error(res.error);
@@ -103,7 +108,8 @@ export function ShareBoard({ mutate, board }) {
 
   const handleRevoke = async (token) => {
     await fetchRawApi(session, "property/shareTokens/revoke", {
-      token,
+      method: "DELETE",
+      params: { token },
     });
     await mutate();
   };
@@ -119,9 +125,9 @@ export function ShareBoard({ mutate, board }) {
   const toggleGroupVisibility = async () => {
     try {
       setLoadingGroupVisibility(true);
-      await fetchRawApi(session, "property/boards/edit", {
-        id: board.id,
-        public: !board.public,
+      await fetchRawApi(session, "space/boards", {
+        method: "PUT",
+        params: { id: board.id, public: !board.public },
       });
       await mutate();
       setLoadingGroupVisibility(false);

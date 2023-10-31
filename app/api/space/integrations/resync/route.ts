@@ -1,9 +1,15 @@
 import { sessionData } from "@/app/api/session/route";
+import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
+import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
-export default async function handler(req, res) {
+export async function GET(req: NextRequest) {
   try {
-    const session = await sessionData(req.cookies.token);
+    const cookieStore = cookies();
+    const token = cookieStore.get("token");
+
+    const session = await sessionData(token?.value);
 
     const data = await prisma.integration.findMany({
       where: {
@@ -19,7 +25,7 @@ export default async function handler(req, res) {
 
       // Return the fetch promise so that we can await all of them later.
       return fetch(
-        `https://my.dysperse.com/api/property/integrations/run/${path}?${new URLSearchParams(
+        `https://my.dysperse.com/api/space/integrations/run/${path}?${new URLSearchParams(
           {
             property: integration.propertyId.toString(),
             boardId: (integration.boardId || "").toString(),
@@ -36,9 +42,8 @@ export default async function handler(req, res) {
     // Use Promise.all to await all the fetch requests in parallel.
     await Promise.all(fetchPromises);
 
-    res.json({});
+    return Response.json({});
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: e.message });
+    return handleApiError(e);
   }
 }

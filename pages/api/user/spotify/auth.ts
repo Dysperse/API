@@ -31,6 +31,6 @@ export default async function handler(req, res) {
 
     res.redirect(`/users/${session.user.username || session.user.email}`);
   } catch (e) {
-    res.json({ success: false, error: e.message });
+    return Response.json({ success: false, error: e.message });
   }
 }

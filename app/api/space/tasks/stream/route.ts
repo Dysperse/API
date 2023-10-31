@@ -1,33 +1,39 @@
+import {
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
+import { NextRequest } from "next/server";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
+    const sessionToken = getSessionToken();
+    const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
+    const view = getApiParam(req, "view", true);
+    const time = getApiParam(req, "time", false);
 
     const data = await prisma.task.findMany({
       where: {
         AND: [
           // Prevent selecting subtasks
-          { parentTasks: { none: { property: { id: req.query.property } } } },
+          { parentTasks: { none: { property: { id: spaceId } } } },
           // Make sure that the task is in the property
-          { property: { id: req.query.property } },
+          { property: { id: spaceId } },
 
           // Backlog
-          ...(req.query.view === "backlog"
-            ? [{ due: { lte: new Date(req.query.time) }, completed: false }]
+          ...(view === "backlog"
+            ? [{ due: { lte: new Date(time) }, completed: false }]
             : []),
 
           // Upcoming
-          ...(req.query.view === "upcoming"
-            ? [{ due: { gte: new Date(req.query.time) }, completed: false }]
+          ...(view === "upcoming"
+            ? [{ due: { gte: new Date(time) }, completed: false }]
             : []),
 
           // Unscheduled
-          ...(req.query.view === "unscheduled" ? [{ due: null }] : []),
+          ...(view === "unscheduled" ? [{ due: null }] : []),
 
           {
             OR: [
@@ -35,17 +41,14 @@ const handler = async (req, res) => {
               {
                 column: {
                   board: {
-                    AND: [
-                      { public: false },
-                      { userId: req.query.userIdentifer },
-                    ],
+                    AND: [{ public: false }, { userId: userIdentifier }],
                   },
                 },
               },
               {
                 column: {
                   board: {
-                    AND: [{ public: true }, { propertyId: req.query.property }],
+                    AND: [{ public: true }, { propertyId: spaceId }],
                   },
                 },
               },
@@ -75,17 +78,17 @@ const handler = async (req, res) => {
       },
     });
 
-    if (req.query.view === "completed") {
-      return res.json(data.filter((e) => e.completionInstances.length > 0));
+    if (view === "completed") {
+      return Response.json(
+        data.filter((e) => e.completionInstances.length > 0)
+      );
     }
-    res.json(
+    return Response.json(
       data.filter(
         (e) => e.recurrenceRule === null && e.completionInstances.length === 0
       )
     );
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
-};
-
-export default handler;
+}

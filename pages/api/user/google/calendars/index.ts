@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     // Refresh the access token
     oauth2Client.refreshAccessToken(async function (err, newAccessToken) {
       if (err) {
-        res.json(err);
+        return Response.json(err);
         return;
       } else {
         await prisma.profile.update({
@@ -47,5 +47,5 @@ export default async function handler(req, res) {
     }
   ).then((res) => res.json());
 
-  res.json(calendars);
+  return Response.json(calendars);
 }

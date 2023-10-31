@@ -79,7 +79,7 @@ export default async function handler(req, res) {
       });
     }
 
-    res.json({ success: true });
+    return Response.json({ success: true });
   } catch (e) {
     res.status(401).json({ error: e.message });
   }

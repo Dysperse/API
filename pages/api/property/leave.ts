@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
+import { NextRequest } from "next/server";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
     //   Set selected to false for all other properties of the user email
     const f = await prisma.propertyInvite.findFirst({
@@ -28,9 +29,8 @@ const handler = async (req, res) => {
 
     // Clear the cache
     cacheData.clear();
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
-};
-export default handler;
+}

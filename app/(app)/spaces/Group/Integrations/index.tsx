@@ -83,9 +83,9 @@ export default function Integrations({
   hideNew?: boolean;
   defaultPalette?: string;
 }) {
-  const { data, mutate, error } = useSWR(["property/integrations"]);
+  const { data, mutate, error } = useSWR(["space/integrations"]);
   const { session } = useSession();
-  const icalUrl = `https://${window.location.hostname}/api/property/integrations/ical?id=${session.space.info.id}&timeZone=${session.user.timeZone}`;
+  const icalUrl = `https://${window.location.hostname}/api/space/integrations/ical?id=${session.space.info.id}&timeZone=${session.user.timeZone}`;
 
   const [open, setOpen] = useState(false);
   const palette = useColor(
@@ -167,13 +167,12 @@ export default function Integrations({
                         buttonText="Remove"
                         question="Existing tasks won't be affected, but new ones won't sync anymore. Continue?"
                         callback={async () => {
-                          await fetchRawApi(
-                            session,
-                            "property/integrations/delete",
-                            {
+                          await fetchRawApi(session, "space/integrations", {
+                            method: "DELETE",
+                            params: {
                               id: integration.id,
-                            }
-                          );
+                            },
+                          });
                           mutate();
                         }}
                       >

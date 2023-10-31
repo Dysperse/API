@@ -36,5 +36,3 @@ const handler = {
     return new Response("\u{1F389} Push server is running!");
   },
 };
-
-export default handler;

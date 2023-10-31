@@ -39,5 +39,5 @@ export default async function handler(req, res) {
     },
   });
 
-  res.json({ success: true });
+  return Response.json({ success: true });
 }

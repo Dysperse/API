@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/server/prisma";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
     const data = await prisma.propertyLinkInvite.findUnique({
       where: {
@@ -11,9 +11,8 @@ const handler = async (req, res) => {
       },
     });
 
-    res.json(data ? data : { error: "Invalid token" });
+    return Response.json(data ? data : { error: "Invalid token" });
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
-};
-export default handler;
+}

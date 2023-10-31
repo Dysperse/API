@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
     // Find email from `user` table
     const user = await prisma.user.findUnique({
@@ -46,9 +46,8 @@ const handler = async (req, res) => {
       include: { profile: true },
     });
 
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
-};
-export default handler;
+}

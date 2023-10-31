@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         emoji: true,
       },
     });
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
     res.status(401).json({ error: e.message });
   }

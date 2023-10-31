@@ -29,8 +29,8 @@ export default async function handler(req: any, res: any) {
 
     const response = await query(imageUrl);
 
-    res.json(response);
+    return Response.json(response);
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
 }

@@ -5,21 +5,22 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { headers } from "next/headers";
+import { NextRequest } from "next/server";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
 
-const Notification = async (req, res) => {
+export async function GET(req: NextRequest) {
   if (
-    req.headers.authorization !== `Bearer ${process.env.CRON_API_KEY}` &&
+    headers().get("Authorization") !== `Bearer ${process.env.CRON_API_KEY}` &&
     process.env.NODE_ENV === "production"
   ) {
-    res.status(401).json({
-      currentHeaders: req.headers.authorization,
+    return Response.json({
+      currentHeaders: headers().get("Authorization"),
       error: "Unauthorized",
     });
-    return;
   }
   // Select user's push notification subscription URL, also asking one of their incompleted goals.
   let subscriptions = await prisma.notificationSettings.findMany({
@@ -113,7 +114,7 @@ const Notification = async (req, res) => {
       }
     }
   }
-  res.json({ success: true });
-};
+  return Response.json({ success: true });
+}
 
 export default Notification;

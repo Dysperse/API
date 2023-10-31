@@ -2,20 +2,21 @@ import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { headers } from "next/headers";
+import { NextRequest } from "next/server";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const Notification = async (req, res) => {
+export async function GET(req: NextRequest) {
   if (
-    req.headers.authorization !== `Bearer ${process.env.CRON_API_KEY}` &&
+    headers().get("Authorization") !== `Bearer ${process.env.CRON_API_KEY}` &&
     process.env.NODE_ENV === "production"
   ) {
-    res.status(401).json({
-      currentHeaders: req.headers.authorization,
+    return Response.json({
+      currentHeaders: headers().get("Authorization"),
       error: "Unauthorized",
     });
-    return;
   }
 
   let twoWeeksAgo = new Date(new Date().getTime() - 14 * 24 * 60 * 60 * 1000);
@@ -30,9 +31,7 @@ const Notification = async (req, res) => {
     },
   });
 
-  res.json({
+  return Response.json({
     message: "Successfully deleted tasks with vanish mode turned on!",
   });
-};
-
-export default Notification;
+}

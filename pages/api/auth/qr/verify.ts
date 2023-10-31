@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     const encoded = await createSession(data.user.id, res, ip);
 
     await prisma.qrToken.delete({ where: { token: req.query.token } });
-    res.json({ success: true, key: encoded });
+    return Response.json({ success: true, key: encoded });
   } catch (e) {
     res.status(401).json({ error: e.message });
   }

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/server/prisma";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   const session = await prisma.session.findMany({
     where: {
       user: {
@@ -12,6 +12,5 @@ const handler = async (req, res) => {
     },
   });
 
-  res.json(session);
-};
-export default handler;
+  return Response.json(session);
+}

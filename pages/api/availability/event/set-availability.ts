@@ -34,7 +34,7 @@ export default async function handler(req, res) {
           availability: JSON.parse(req.query.availability),
         },
       });
-      res.json(d);
+      return Response.json(d);
     } else {
       const d = await prisma.eventParticipant.create({
         data: {
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
           },
         },
       });
-      res.json(d);
+      return Response.json(d);
     }
   } catch (e) {
     res.status(400).json({ error: true, message: e.message });

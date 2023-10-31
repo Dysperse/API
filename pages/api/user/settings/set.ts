@@ -4,7 +4,7 @@
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   validateParams(req.query, ["sessionId"]);
 
   const session = await prisma.session.findFirstOrThrow({
@@ -39,6 +39,5 @@ const handler = async (req, res) => {
     update: temp,
   });
 
-  res.json(user);
-};
-export default handler;
+  return Response.json(user);
+}

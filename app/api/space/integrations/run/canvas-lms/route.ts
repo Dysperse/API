@@ -1,8 +1,15 @@
+import {
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import ical from "ical";
+import { NextRequest } from "next/server";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -12,22 +19,25 @@ function extractTextInBrackets(text: string): string {
   return match ? match[1] : "";
 }
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
+    const sessionId = await getSessionToken();
+    const { spaceId, userIdentifier } = await getIdentifiers(sessionId);
+
+    const boardId = getApiParam(req, "boardId", false);
+    const timeZone = getApiParam(req, "timeZone", false);
+    const vanishingTasks = getApiParam(req, "vanishingTasks", false);
+
     let data = await prisma.integration.findFirstOrThrow({
       where: {
-        AND: [
-          { name: "Canvas LMS" },
-          { propertyId: req.query.property },
-          { boardId: req.query.boardId },
-        ],
+        AND: [{ name: "Canvas LMS" }, { propertyId: spaceId }, { boardId }],
       },
       take: 1,
     });
 
     await prisma.integration.update({
       where: { id: data.id },
-      data: { lastSynced: dayjs().tz(req.query.timeZone).toDate() },
+      data: { lastSynced: dayjs().tz(timeZone).toDate() },
     });
 
     const inputParams = JSON.parse(data.inputParams);
@@ -67,17 +77,17 @@ const handler = async (req, res) => {
 
         if (item.start.dateOnly) {
           due = dayjs(due)
-            .tz(req.query.timeZone)
+            .tz(timeZone)
             .set("hour", 23)
             .set("minute", 59)
             .add(1, "day")
             .toISOString();
         }
 
-        if (req.query.vanishingTasks === "true") {
+        if (vanishingTasks === "true") {
           try {
-            const currentTimeInTimeZone = dayjs().tz(req.query.timeZone);
-            const dueDateInTimeZone = dayjs(due).tz(req.query.timeZone);
+            const currentTimeInTimeZone = dayjs().tz(timeZone);
+            const dueDateInTimeZone = dayjs(due).tz(timeZone);
             const diff = currentTimeInTimeZone.diff(dueDateInTimeZone, "day");
 
             if (diff >= 14) {
@@ -119,18 +129,18 @@ const handler = async (req, res) => {
               ...(due && { due }),
               createdBy: {
                 connect: {
-                  identifier: req.query.user,
+                  identifier: userIdentifier,
                 },
               },
             },
             create: {
               createdBy: {
                 connect: {
-                  identifier: req.query.user,
+                  identifier: userIdentifier,
                 },
               },
               property: {
-                connect: { id: req.query.property },
+                connect: { id: spaceId },
               },
               notifications: [10],
               id: taskId,
@@ -162,9 +172,8 @@ const handler = async (req, res) => {
       }
     }
 
-    res.json(data);
+    return Response.json(data);
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
-};
-export default handler;
+}

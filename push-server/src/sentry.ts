@@ -33,10 +33,10 @@ export const SentryFinish = async (id: string) => {
     },
     body: JSON.stringify({ status: "ok", duration: 3000 }),
   })
-    .then((response) => {
+    .then((response: any) => {
       return response.json();
     })
-    .catch((err) => {
+    .catch((err: any) => {
       console.error(err);
     });
 };

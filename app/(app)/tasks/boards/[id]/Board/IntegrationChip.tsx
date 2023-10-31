@@ -21,15 +21,17 @@ const IntegrationChip = ({ integration, boardId, session }) => {
 
           const response = await fetchRawApi(
             session,
-            `property/integrations/run/${integrationType}`,
+            `space/integrations/run/${integrationType}`,
             {
-              user: session.user.identifier,
-              boardId: boardId,
-              offset: dayjs().utcOffset(),
-              timeZone: session.user.timeZone,
-              vanishingTasks: session.space.info.vanishingTasks
-                ? "true"
-                : "false",
+              params: {
+                user: session.user.identifier,
+                boardId: boardId,
+                offset: dayjs().utcOffset(),
+                timeZone: session.user.timeZone,
+                vanishingTasks: session.space.info.vanishingTasks
+                  ? "true"
+                  : "false",
+              },
             }
           );
           await mutateData();

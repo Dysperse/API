@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   if (!req.query.id) {
     const sessions = await prisma.session.findMany({
       where: {
@@ -47,6 +47,5 @@ const handler = async (req, res) => {
     cacheData.del(req.query.id);
   }
   cacheData.clear();
-  res.json(session);
-};
-export default handler;
+  return Response.json(session);
+}

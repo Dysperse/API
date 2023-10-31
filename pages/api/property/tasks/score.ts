@@ -2,7 +2,7 @@ import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
 import dayjs from "dayjs";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   try {
     validateParams(req.query, ["email"]);
     const data = await prisma.completionInstance.findMany({
@@ -38,10 +38,8 @@ const handler = async (req, res) => {
 
       if (late) score -= pinned ? 0.9 : 0.5;
     }
-    res.json({ percentage: (score / data.length) * 100, score });
-  } catch (e:any) {
-    res.json({ error: e.message });
+    return Response.json({ percentage: (score / data.length) * 100, score });
+  } catch (e: any) {
+    return handleApiError(e);
   }
-};
-
-export default handler;
+}

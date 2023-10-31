@@ -3,7 +3,7 @@ import { prisma } from "@/lib/server/prisma";
 import cacheData from "memory-cache";
 import * as twofactor from "node-2fa";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   // Get user info from sessions table using accessToken
   const session = await prisma.session.findUnique({
     where: {
@@ -41,6 +41,5 @@ const handler = async (req, res) => {
   });
   cacheData.clear();
 
-  res.json(user);
-};
-export default handler;
+  return Response.json(user);
+}

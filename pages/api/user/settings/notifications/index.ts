@@ -10,8 +10,8 @@ export default async function handler(req, res) {
     const mine = await prisma.notificationSettings.findUnique({
       where: { userId: req.query.userIdentifier },
     });
-    res.json(data || {});
+    return Response.json(data || {});
   } catch (e) {
-    res.json({ error: e.message });
+    return handleApiError(e);
   }
 }

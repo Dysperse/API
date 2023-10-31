@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
 
-const handler = async () => {
+export async function GET() {
   await prisma.qrToken.deleteMany({
     where: {
       expires: {
@@ -9,6 +9,5 @@ const handler = async () => {
       },
     },
   });
-};
-
-export default handler;
+  return Response.json({ success: true });
+}

@@ -1,7 +1,7 @@
 // Update user settings
 import { prisma } from "@/lib/server/prisma";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   const session = await prisma.session.findUnique({
     where: {
       id: req.query.token,
@@ -45,6 +45,5 @@ const handler = async (req, res) => {
       color: req.query.color || undefined,
     },
   });
-  res.json(user);
-};
-export default handler;
+  return Response.json(user);
+}

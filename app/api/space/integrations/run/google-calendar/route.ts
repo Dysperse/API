@@ -1,23 +1,28 @@
-import { sessionData } from "@/app/api/session/route";
+import {
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { googleClient } from "@/pages/api/user/google/redirect";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { NextRequest } from "next/server";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export default async function handler(req, res) {
-  const session = await sessionData(req.cookies.token);
+export async function GET(req: NextRequest) {
+  const sessionId = await getSessionToken();
+  const { spaceId, userIdentifier } = await getIdentifiers(sessionId);
 
+  const boardId = getApiParam(req, "boardId", false);
+  const timeZone = getApiParam(req, "timeZone", true);
+  const offset = getApiParam(req, "offset", true);
   let integration = await prisma.integration.findFirstOrThrow({
     where: {
-      AND: [
-        { name: "Google Calendar" },
-        { propertyId: req.query.property },
-        { boardId: req.query.boardId },
-      ],
+      AND: [{ name: "Google Calendar" }, { propertyId: spaceId }, { boardId }],
     },
     select: {
       id: true,
@@ -29,7 +34,7 @@ export default async function handler(req, res) {
 
   const data = await prisma.profile.findFirstOrThrow({
     where: {
-      user: { identifier: session.user.identifier },
+      user: { identifier: userIdentifier },
     },
     select: { google: true },
   });
@@ -41,7 +46,7 @@ export default async function handler(req, res) {
 
   await prisma.integration.update({
     where: { id: integration.id },
-    data: { lastSynced: dayjs().tz(req.query.timeZone).toDate() },
+    data: { lastSynced: dayjs().tz(timeZone).toDate() },
   });
 
   const taskTemplate = (event, columnId, reminders) => ({
@@ -51,15 +56,15 @@ export default async function handler(req, res) {
     where: event.hangoutLink || event.location || event.htmlLink,
     lastUpdated: dayjs(event.updated)
       .utc()
-      .utcOffset(parseInt(req.query.offset) / 60)
+      .utcOffset(parseInt(offset) / 60)
       .toDate(),
     due: dayjs(event.start?.dateTime)
       .utc()
-      .utcOffset(parseInt(req.query.offset) / 60)
+      .utcOffset(parseInt(offset) / 60)
       .toDate(),
-    property: { connect: { id: req.query.property } },
+    property: { connect: { id: spaceId } },
     createdBy: {
-      connect: { identifier: req.query.userIdentifier },
+      connect: { identifier: userIdentifier },
     },
     column: { connect: { id: columnId } },
     ...(event?.recurrence?.[0] && {
@@ -77,25 +82,6 @@ export default async function handler(req, res) {
     ],
   });
   if (!tokenObj) throw new Error("Token not found");
-  if (tokenObj.expiry_date < Date.now()) {
-    // Refresh the access token
-    oauth2Client.refreshAccessToken(async function (err, newAccessToken) {
-      if (err) {
-        res.json(err);
-        return;
-      } else {
-        await prisma.profile.update({
-          where: {
-            userId: req.query.userIdentifier,
-          },
-          data: {
-            google: newAccessToken,
-          },
-        });
-        oauth2Client.setCredentials(newAccessToken);
-      }
-    });
-  }
 
   const calendars = await fetch(
     "https://www.googleapis.com/calendar/v3/users/me/calendarList",
@@ -130,13 +116,13 @@ export default async function handler(req, res) {
           id: columnId,
         },
         update: {
-          board: { connect: { id: req.query.boardId } },
+          board: { connect: { id: boardId } },
         },
         create: {
           id: columnId,
           emoji: "1f3af",
           name: calendar.summary,
-          board: { connect: { id: req.query.boardId } },
+          board: { connect: { id: boardId } },
         },
       });
 
@@ -155,5 +141,5 @@ export default async function handler(req, res) {
     } catch (e) {}
   }
 
-  res.json({ success: true });
+  return Response.json({ success: true });
 }

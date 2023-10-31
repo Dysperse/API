@@ -454,7 +454,7 @@ export const MenuChildren = memo(function MenuChildren({
                   onClick={async () => {
                     toast.success("Tasks resynced - Now up to date.");
                     setShowSync(false);
-                    await fetch("/api/property/integrations/resync");
+                    await fetch("/api/space/integrations/resync");
                   }}
                   disabled={
                     Boolean(storage?.isReached) ||

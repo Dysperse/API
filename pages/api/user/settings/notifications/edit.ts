@@ -1,7 +1,7 @@
 // Update user settings
 import { prisma } from "@/lib/server/prisma";
 
-const handler = async (req, res) => {
+export async function GET(req: NextRequest) {
   const user = await prisma.notificationSettings.upsert({
     where: {
       userId: req.query.userIdentifier,
@@ -19,6 +19,5 @@ const handler = async (req, res) => {
       [req.query.name]: req.query.value === "true",
     },
   });
-  res.json(user);
-};
-export default handler;
+  return Response.json(user);
+}
