@@ -9,7 +9,7 @@ import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const { spaceId } = await getIdentifiers(sessionToken);
 
   const inviterName = await getApiParam(req, "inviterName", true);

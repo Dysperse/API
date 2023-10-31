@@ -9,7 +9,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
     const id = await getApiParam(req, "id", true);
 
@@ -92,7 +92,7 @@ export async function DELETE(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
 
     const name = await getApiParam(req, "name", false);

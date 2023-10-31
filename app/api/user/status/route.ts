@@ -21,7 +21,7 @@ dayjs.extend(timezone);
  * @returns {any}
  */
 export async function GET() {
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
   try {
     const data = await prisma.status.findFirst({
@@ -45,7 +45,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
     const _until = await getApiParam(req, "until", false);
     const start = await getApiParam(req, "start", true);

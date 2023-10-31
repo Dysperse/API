@@ -50,7 +50,7 @@ export function shuffle(array) {
 
 export async function GET(req: NextRequest) {
   try {
-    // const sessionToken = getSessionToken();
+    // const sessionToken = await getSessionToken();
     const email = req.nextUrl.searchParams.get("email");
     if (!email) throw new Error("Missing parameters");
 

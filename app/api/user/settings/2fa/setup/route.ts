@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 import * as twofactor from "node-2fa";
 
 export async function GET(req: NextRequest) {
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const secret = await getApiParam(req, "secret", false);
   const code = await getApiParam(req, "code", true);
 

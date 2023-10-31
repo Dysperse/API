@@ -9,7 +9,7 @@ import { NextRequest } from "next/server";
 
 export async function PUT(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
     const _selection = await getApiParam(req, "selection", false);
     const color = await getApiParam(req, "color", false);
@@ -42,7 +42,7 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
     const _selection = await getApiParam(req, "selection", false);
 

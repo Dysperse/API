@@ -10,7 +10,7 @@ import { createInboxNotification } from "./inbox/createInboxNotification";
 
 export async function GET(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const propertyId = req.nextUrl.searchParams.get("propertyId");
     if (!propertyId) throw new Error("Missing parameters");
 

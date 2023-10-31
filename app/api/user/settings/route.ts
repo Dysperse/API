@@ -8,7 +8,7 @@ import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
 export async function PUT(req: NextRequest) {
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
 
   const name = await getApiParam(req, "name", false);

@@ -9,7 +9,7 @@ import { NextRequest } from "next/server";
 
 export async function GET() {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
 
     const data = await prisma.notificationSettings.findUnique({
@@ -25,7 +25,7 @@ export async function GET() {
 }
 
 export async function PUT(req: NextRequest) {
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
 
   const name = await getApiParam(req, "name", true);

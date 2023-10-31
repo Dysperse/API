@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const { spaceId } = await getIdentifiers(sessionToken);
 
   const resend = new Resend(process.env.RESEND_API_KEY);

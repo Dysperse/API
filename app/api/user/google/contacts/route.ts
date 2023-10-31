@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   let tokenObj = await getApiParam(req, "tokenObj", true);
   let email = await getApiParam(req, "email", true);
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
 
   tokenObj = JSON.parse(tokenObj);

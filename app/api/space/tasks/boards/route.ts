@@ -9,7 +9,7 @@ import { NextRequest } from "next/server";
 
 export async function PUT(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
     const id = await getApiParam(req, "id", true);
 
@@ -67,7 +67,7 @@ export async function PUT(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
     const _board = await getApiParam(req, "board", true);
 
@@ -99,7 +99,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
     const id = await getApiParam(req, "id", true);
 
@@ -121,7 +121,7 @@ export async function DELETE(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const id = await getApiParam(req, "id", false);
   const allTasks = await getApiParam(req, "allTasks", false);
   const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);

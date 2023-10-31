@@ -9,7 +9,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
 
     const data = await prisma.event.findMany({
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
     const id = await getApiParam(req, "id", true);
 
@@ -84,7 +84,7 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
     const id = await getApiParam(req, "id", true);
 
@@ -109,7 +109,7 @@ export async function DELETE(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
 
     const name = await getApiParam(req, "name", false);

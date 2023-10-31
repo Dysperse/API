@@ -21,7 +21,7 @@ interface PerspectiveUnit {
 
 export async function GET(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
 
     const type = await getApiParam(req, "type", true);

@@ -8,7 +8,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
 
     //   Set selected to false for all other properties of the user email

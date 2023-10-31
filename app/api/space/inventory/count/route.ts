@@ -1,4 +1,8 @@
-import { getIdentifiers, getSessionToken, handleApiError } from "@/lib/server/helpers";
+import {
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
@@ -13,7 +17,7 @@ export const getItemCount = async (property) => {
 
 export async function GET(req: NextRequest) {
   try {
-    const sessionToken = getSessionToken();
+    const sessionToken = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionToken);
     const data = await getItemCount(spaceId);
 

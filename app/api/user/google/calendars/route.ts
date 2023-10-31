@@ -9,7 +9,7 @@ export default async function GET(req: NextRequest) {
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
   const session = await sessionData(token);
-  const sessionToken = getSessionToken();
+  const sessionToken = await getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
 
   const data = await prisma.profile.findFirstOrThrow({
