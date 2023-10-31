@@ -138,12 +138,15 @@ export function ColumnSettings({
         title="Delete column?"
         question="Are you sure you want to delete this column? This action annot be undone."
         callback={async () => {
-          await fetchRawApi(session, "property/boards/column/delete", {
-            id: column.id,
-            who: session.user.name,
-            boardName: board.name,
-            boardEmoji: board.emoji,
-            columnName: column.name,
+          await fetchRawApi(session, "space/tasks/board/column", {
+            method: "DELETE",
+            params: {
+              id: column.id,
+              who: session.user.name,
+              boardName: board.name,
+              boardEmoji: board.emoji,
+              columnName: column.name,
+            },
           });
           await mutateData();
           handleClose();

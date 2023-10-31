@@ -50,7 +50,7 @@ export interface ApiResponse {
 }
 
 export interface ApiParams {
-  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   params: {
     [key: string | number]: string | number | boolean;
   };
@@ -71,7 +71,7 @@ export async function fetchRawApi(
   const url = `/api/${path}?${new URLSearchParams(options.params as any)}`;
   const res = await fetch(url, {
     keepalive: true,
-    method: options.method,
+    method: options.method || "GET",
     headers: new Headers({
       Authorization: `Bearer ${session.current.token}`,
     }),

@@ -40,11 +40,7 @@ export const DispatchNotification = async ({
   }
 };
 
-export const DispatchGroupNotification = async (
-  propertyId,
-  accessToken,
-  options
-) => {
+export const DispatchGroupNotification = async (propertyId, options) => {
   try {
     let members = await prisma.notificationSettings.findMany({
       where: {
@@ -55,9 +51,7 @@ export const DispatchGroupNotification = async (
               AND: [
                 {
                   properties: {
-                    some: {
-                      AND: [{ propertyId }, { accessToken }],
-                    },
+                    some: { propertyId },
                   },
                 },
               ],
