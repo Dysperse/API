@@ -40,6 +40,7 @@ import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 
+import { ErrorHandler } from "@/components/Error";
 import { FileDropInput } from "@/components/FileDrop";
 import { StrictModeDroppable } from "./StrictModeDroppable";
 
@@ -132,7 +133,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
       setLoading(false);
       return;
     }
-    fetchRawApi(session, "property/boards/column/create", {
+    fetchRawApi(session, "space/tasks/boards/column", {
       method: "POST",
       params: {
         who: session.user.name,
@@ -324,8 +325,11 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
   const handleEdit = async (key, value, callback = () => {}) => {
     setLoading(true);
     return await fetchRawApi(session, "property/boards/edit", {
-      id: data.id,
-      [key]: value,
+      method: "POST",
+      params: {
+        id: data.id,
+        [key]: value,
+      },
     })
       .then(async () => {
         callback();
@@ -672,8 +676,8 @@ const Dashboard = () => {
   const { session } = useSession();
   const { id } = params as any;
 
-  const { data, mutate } = useSWR([
-    "property/boards",
+  const { data, error, mutate } = useSWR([
+    "space/tasks/boards",
     {
       id,
       shareToken: "",
@@ -697,6 +701,7 @@ const Dashboard = () => {
   }
   return (
     <>
+      {error && <ErrorHandler />}
       {data && data[0] && id ? (
         <EditLayout mutate={mutate} id={id} data={data[0]} />
       ) : (
