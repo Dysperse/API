@@ -1,3 +1,6 @@
+import { handleApiError } from "@/lib/server/helpers";
+import { NextRequest } from "next/server";
+
 export const config = {
   api: {
     bodyParser: {
@@ -23,9 +26,10 @@ async function query(url) {
   return result;
 }
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: NextRequest) {
   try {
-    const { imageUrl } = JSON.parse(req.body);
+    const body = await req.json();
+    const imageUrl = JSON.parse(body.imageUrl);
 
     const response = await query(imageUrl);
 

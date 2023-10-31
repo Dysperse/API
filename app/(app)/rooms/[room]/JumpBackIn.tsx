@@ -24,7 +24,7 @@ export function JumpBackIn() {
   const router = useRouter();
   const palette = useColor(session.user.color, useDarkMode(session.darkMode));
 
-  const { data, mutate, error } = useSWR(["property/inventory/recent"]);
+  const { data, mutate, error } = useSWR(["space/inventory/recent"]);
 
   return (
     <>

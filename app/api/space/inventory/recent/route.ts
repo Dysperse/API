@@ -1,16 +1,15 @@
+import { getIdentifiers, getSessionToken, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
+    const sessionId = getSessionToken();
+    const { spaceId } = await getIdentifiers(sessionId);
 
     const data = await prisma.item.findMany({
       where: {
-        AND: [{ propertyId: req.query.property }, { id: req.query.id }],
+        AND: [{ propertyId: spaceId }],
       },
       take: 10,
       orderBy: { updatedAt: "desc" },

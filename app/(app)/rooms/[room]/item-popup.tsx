@@ -40,10 +40,10 @@ function MoveItem({ children, item, mutate, setParentOpen }) {
     data,
     mutate: mutateRooms,
     error,
-  } = useSWR(open ? ["property/inventory/rooms"] : null);
+  } = useSWR(open ? ["space/inventory/rooms"] : null);
 
   const handleMove = async (roomId) => {
-    await fetchRawApi(session, "property/inventory/items/move", {
+    await fetchRawApi(session, "space/inventory/items/move", {
       id: item.id,
       updatedAt: dayjs().toISOString(),
       room: roomId,
@@ -124,7 +124,7 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
   const orangePalette = useColor("orange", useDarkMode(session.darkMode));
 
   const handleDelete = async () => {
-    await fetchRawApi(session, "property/inventory/items/delete", {
+    await fetchRawApi(session, "space/inventory/items/delete", {
       id: item.id,
     });
     mutate("deleted", {
@@ -146,7 +146,7 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
       revalidate: false,
     });
 
-    return await fetchRawApi(session, "property/inventory/items/edit", {
+    return await fetchRawApi(session, "space/inventory/items/edit", {
       id: item.id,
       updatedAt: dayjs().toISOString(),
       [key]: String(value),
@@ -385,7 +385,7 @@ export function ItemPopup({
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const { data, isLoading, mutate, error } = useSWR(
-    open ? ["property/inventory/items", { id: item.id }] : null
+    open ? ["space/inventory/items", { id: item.id }] : null
   );
 
   useEffect(() => {

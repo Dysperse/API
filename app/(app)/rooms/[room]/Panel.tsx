@@ -43,7 +43,7 @@ export function Panel() {
 
   const buttonText = view === "room" ? "Rooms" : "Categories";
 
-  const { data, mutate, error } = useSWR(["property/inventory/rooms"]);
+  const { data, mutate, error } = useSWR(["space/inventory/rooms"]);
 
   return (
     <Box

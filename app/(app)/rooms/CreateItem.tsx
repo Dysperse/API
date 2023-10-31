@@ -99,11 +99,14 @@ export function CreateItem({
   };
 
   const handleSubmit = () => {
-    fetchRawApi(session, "property/inventory/items/create", {
-      room: defaultRoom?.id,
-      ...Object.fromEntries(
-        Object.entries(fields).map(([key, value]) => [key, String(value)])
-      ),
+    fetchRawApi(session, "space/inventory/items", {
+      method: "POST",
+      params: {
+        room: defaultRoom?.id,
+        ...Object.fromEntries(
+          Object.entries(fields).map(([key, value]) => [key, String(value)])
+        ),
+      },
     });
     toast.success("Created item!");
   };

@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
@@ -18,7 +18,6 @@ import { TaskNavbar } from "../../navbar";
 
 export default function Page() {
   const scrollParentRef = useRef();
-  const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const params = useParams();
   const { query: _query } = params as any;
