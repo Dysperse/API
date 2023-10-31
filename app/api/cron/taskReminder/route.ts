@@ -6,13 +6,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { headers } from "next/headers";
-import { NextRequest } from "next/server";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   if (
     headers().get("Authorization") !== `Bearer ${process.env.CRON_API_KEY}` &&
     process.env.NODE_ENV === "production"
@@ -116,5 +115,3 @@ export async function GET(req: NextRequest) {
   }
   return Response.json({ success: true });
 }
-
-export default Notification;
