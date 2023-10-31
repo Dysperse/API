@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const id = getSessionToken();
+    const id = await getSessionToken();
     const bio = await getApiParam(req, "bio", false);
     const hobbies = await getApiParam(req, "hobbies", false);
     const workingHours = await getApiParam(req, "workingHours", false);
