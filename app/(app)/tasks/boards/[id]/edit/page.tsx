@@ -178,8 +178,11 @@ function BoardColumnSettings({ data, styles, mutate }) {
       };
     });
 
-    fetchRawApi(session, "property/boards/column/setOrder", {
-      order: JSON.stringify(orderObj),
+    fetchRawApi(session, "property/boards/column/order", {
+      method: "PUT",
+      params: {
+        order: JSON.stringify(orderObj),
+      },
     });
     setItems(updatedItems);
   };
