@@ -3,6 +3,7 @@
 import { containerRef } from "@/app/(app)/container";
 import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
 import { Task } from "@/app/(app)/tasks/Task";
+import { ErrorHandler } from "@/components/Error";
 import {
   Box,
   CircularProgress,
@@ -26,7 +27,7 @@ export default function Page() {
     : null;
 
   const { data, error, mutate } = useSWR([
-    "property/tasks/search",
+    "space/tasks/search",
     { query: JSON.stringify(query) },
   ]);
 
@@ -52,6 +53,7 @@ export default function Page() {
               {data?.data?.length || 0} items
             </Typography>
           </Box>
+          {error && <ErrorHandler />}
           {data ? (
             <Virtuoso
               useWindowScroll

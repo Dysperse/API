@@ -1,13 +1,18 @@
+import {
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
-    const query = JSON.parse(req.query.query)
+    const sessionId = getSessionToken();
+    const { spaceId, userIdentifier } = await getIdentifiers(sessionId);
+    const _query = getApiParam(req, "query", true);
+    const query = JSON.parse(_query)
       .map((i) => {
         if (typeof i === "string") {
           return {
@@ -38,26 +43,23 @@ export async function GET(req: NextRequest) {
           query.name && { name: { contains: query.name, mode: "insensitive" } },
           // PERMISSIONS ----------------------
           // Prevent selecting subtasks
-          { parentTasks: { none: { property: { id: req.query.property } } } },
+          { parentTasks: { none: { property: { id: spaceId } } } },
           // Make sure that the task is in the property
-          { property: { id: req.query.property } },
+          { property: { id: spaceId } },
           {
             OR: [
               { column: null },
               {
                 column: {
                   board: {
-                    AND: [
-                      { public: false },
-                      { userId: req.query.userIdentifer },
-                    ],
+                    AND: [{ public: false }, { userId: userIdentifier }],
                   },
                 },
               },
               {
                 column: {
                   board: {
-                    AND: [{ public: true }, { propertyId: req.query.property }],
+                    AND: [{ public: true }, { propertyId: spaceId }],
                   },
                 },
               },

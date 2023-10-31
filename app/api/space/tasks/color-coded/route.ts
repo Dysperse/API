@@ -1,12 +1,15 @@
+import {
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validatePermissions } from "@/lib/server/validatePermissions";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    await validatePermissions({
-      minimum: "read-only",
-      credentials: [req.query.property, req.query.accessToken],
-    });
+    const sessionId = getSessionToken();
+    const { spaceId, userIdentifier } = await getIdentifiers(sessionId);
 
     const data = await prisma.task.findMany({
       where: {
@@ -19,7 +22,7 @@ export async function GET(req: NextRequest) {
           },
           {
             property: {
-              id: req.query.property,
+              id: spaceId,
             },
           },
           // If it's private, match up the task's user id with the provided identifier.
@@ -32,17 +35,14 @@ export async function GET(req: NextRequest) {
               {
                 column: {
                   board: {
-                    AND: [
-                      { public: false },
-                      { userId: req.query.userIdentifer },
-                    ],
+                    AND: [{ public: false }, { userId: userIdentifier }],
                   },
                 },
               },
               {
                 column: {
                   board: {
-                    AND: [{ public: true }, { propertyId: req.query.property }],
+                    AND: [{ public: true }, { propertyId: spaceId }],
                   },
                 },
               },

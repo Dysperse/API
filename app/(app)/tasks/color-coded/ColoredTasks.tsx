@@ -20,9 +20,11 @@ import { Task } from "../Task";
 
 export function ColoredTasks() {
   const { data, mutate, error } = useSWR([
-    "property/tasks/color-coded",
+    "space/tasks/color-coded",
     {
-      date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+      params: {
+        date: dayjs().startOf("day").subtract(1, "day").toISOString(),
+      },
     },
   ]);
 
