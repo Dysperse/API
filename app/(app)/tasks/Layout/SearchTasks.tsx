@@ -104,7 +104,7 @@ export function SearchTasks({
   ];
 
   const input = (
-    <>
+    <Box onClick={(e) => e.stopPropagation()} sx={{ flexGrow: 1 }}>
       <Autocomplete
         {...(isMobile && {
           open: showOptions,
@@ -264,7 +264,7 @@ export function SearchTasks({
           return filtered;
         }}
       />
-    </>
+    </Box>
   );
 
   const CreateTaskWrapper = ({ children }) => (
@@ -333,6 +333,11 @@ export function SearchTasks({
     </>
   ) : (
     <Box
+      onClick={() => {
+        document
+          .getElementById("tasksMenuContainer")
+          ?.scrollTo({ top: 0, behavior: "smooth" });
+      }}
       sx={{
         display: "flex",
         gap: 1,
@@ -353,6 +358,7 @@ export function SearchTasks({
 
       {session.permission !== "read-only" && (
         <Tooltip
+          onClick={(e) => e.stopPropagation()}
           placement="right"
           title={
             <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>

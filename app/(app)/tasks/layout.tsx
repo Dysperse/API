@@ -316,6 +316,7 @@ export default function TasksLayout({
       </AppBar>
       <Box sx={{ display: "flex", background: { sm: palette[2] } }}>
         <Box
+          id="tasksMenuContainer"
           sx={{
             width: { xs: "100%", sm: 300 },
             flex: { xs: "100%", sm: "0 0 250px" },
